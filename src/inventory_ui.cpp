@@ -768,6 +768,7 @@ void inventory_column::add_entry( const inventory_entry &entry )
     if( !has_loc ) {
         entries.insert( iter.base(), entry );
     }
+    entries_unfiltered.clear();
     entries_cell_cache.clear();
     expand_to_fit( entry );
     paging_is_valid = false;
@@ -878,6 +879,7 @@ void inventory_column::prepare_paging( const std::string &filter )
 void inventory_column::clear()
 {
     entries.clear();
+    entries_unfiltered.clear();
     entries_cell_cache.clear();
     paging_is_valid = false;
 }
@@ -1139,6 +1141,7 @@ void selection_column::on_change( const inventory_entry &entry )
             return; // Not interested.
         }
         add_entry( my_entry );
+        prepare_paging();
         last_changed = my_entry;
     } else if( iter->chosen_count != my_entry.chosen_count ) {
         if( my_entry.chosen_count > 0 ) {
@@ -1147,8 +1150,9 @@ void selection_column::on_change( const inventory_entry &entry )
         } else {
             iter = entries.erase( iter );
         }
+        entries_unfiltered.clear();
         paging_is_valid = false;
-
+        prepare_paging();
         if( iter != entries.end() ) {
             last_changed = *iter;
         }
