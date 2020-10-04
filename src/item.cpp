@@ -1840,7 +1840,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                           satiety_bar( player_character.compute_calories_per_effective_volume( *food_item, &min_nutr ) ),
                                           iteminfo::no_newline
                                         ) );
-                info.push_back( iteminfo( "FOOD", _( "-" ),
+                info.push_back( iteminfo( "FOOD", _( " - " ),
                                           satiety_bar( player_character.compute_calories_per_effective_volume( *food_item, &max_nutr ) ) ) );
             }
         }
