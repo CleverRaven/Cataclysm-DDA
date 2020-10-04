@@ -5344,6 +5344,16 @@ bool item::has_fault( const fault_id &fault ) const
     return faults.count( fault );
 }
 
+bool item::has_fault_flag( const std::string &searched_flag ) const
+{
+    for( const fault_id &fault : faults ) {
+        if( fault->has_flag( searched_flag ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool item::has_flag( const std::string &f ) const
 {
     bool ret = false;

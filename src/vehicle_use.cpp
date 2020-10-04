@@ -78,10 +78,6 @@ static const itype_id itype_welder( "welder" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_tied( "tied" );
 
-static const fault_id fault_engine_pump_diesel( "fault_engine_pump_diesel" );
-static const fault_id fault_engine_glow_plug( "fault_engine_glow_plug" );
-static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
-static const fault_id fault_engine_pump_fuel( "fault_engine_pump_fuel" );
 static const fault_id fault_engine_starter( "fault_engine_starter" );
 
 static const skill_id skill_mechanics( "mechanics" );
@@ -894,7 +890,7 @@ double vehicle::engine_cold_factor( const int e ) const
     }
 
     int eff_temp = get_weather().get_temperature( get_player_character().pos() );
-    if( !parts[ engines[ e ] ].faults().count( fault_engine_glow_plug ) ) {
+    if( !parts[ engines[ e ] ].has_fault_flag( "BAD_COLD_START" ) ) {
         eff_temp = std::min( eff_temp, 20 );
     }
 
@@ -976,7 +972,7 @@ bool vehicle::start_engine( const int e )
     }
 
     // Immobilizers need removing before the vehicle can be started
-    if( eng.faults().count( fault_engine_immobiliser ) ) {
+    if( eng.has_fault_flag( "IMMOBILIZER" ) ) {
         sounds::sound( pos, 5, sounds::sound_t::alarm,
                        string_format( _( "the %s making a long beep" ), eng.name() ), true, "vehicle",
                        "fault_immobiliser_beep" );
@@ -985,7 +981,7 @@ bool vehicle::start_engine( const int e )
 
     // Engine with starter motors can fail on both battery and starter motor
     if( eng.faults_potential().count( fault_engine_starter ) ) {
-        if( eng.faults().count( fault_engine_starter ) ) {
+        if( eng.has_fault_flag( "BAD_STARTER" ) ) {
             sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::alarm,
                            string_format( _( "the %s clicking once" ), eng.name() ), true, "vehicle",
                            "engine_single_click_fail" );
@@ -1004,8 +1000,7 @@ bool vehicle::start_engine( const int e )
     }
 
     // Engines always fail to start with faulty fuel pumps
-    if( eng.faults().count( fault_engine_pump_fuel ) ||
-        eng.faults().count( fault_engine_pump_diesel ) ) {
+    if( eng.has_fault_flag( "BAD_FUEL_PUMP" ) ) {
         sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
                        string_format( _( "the %s quickly stuttering out." ), eng.name() ), true, "vehicle",
                        "engine_stutter_fail" );

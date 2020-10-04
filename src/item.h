@@ -1460,6 +1460,9 @@ class item : public visitable<item>
         /**Does this item have the specified fault*/
         bool has_fault( const fault_id &fault ) const;
 
+        /** Does this item part have a fault with this flag */
+        bool has_fault_flag( const std::string &searched_flag ) const;
+
         /**
          * @name Item properties
          *

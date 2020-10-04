@@ -27,14 +27,11 @@
     - [Flags](#flags-3)
   - [Guns](#guns)
     - [Firing modes](#firing-modes)
-    - [Faults](#faults)
-      - [Flags](#flags-4)
-      - [Parameters](#parameters)
   - [Magazines](#magazines)
   - [MAP SPECIALS](#map-specials)
   - [Material Phases](#material-phases)
   - [Melee](#melee)
-    - [Flags](#flags-5)
+    - [Flags](#flags-4)
   - [Monster Groups](#monster-groups)
     - [Seasons](#seasons)
     - [Time of day](#time-of-day)
@@ -42,35 +39,36 @@
     - [Anger, Fear and Placation Triggers](#anger-fear-and-placation-triggers)
     - [Categories](#categories)
     - [Death Functions](#death-functions)
-    - [Flags](#flags-6)
+    - [Flags](#flags-5)
     - [Monster Defense and Attacks](#monster-defense-and-attacks)
     - [Sizes](#sizes)
     - [Special attacks](#special-attacks)
   - [Mutations](#mutations)
-      - [Flags](#flags-7)
+      - [Flags](#flags-6)
     - [Categories](#categories-1)
   - [Overmap](#overmap)
     - [Overmap connections](#overmap-connections)
     - [Overmap specials](#overmap-specials)
-      - [Flags](#flags-8)
+      - [Flags](#flags-7)
     - [Overmap terrains](#overmap-terrains)
-      - [Flags](#flags-9)
+      - [Flags](#flags-8)
   - [Recipes](#recipes)
     - [Categories](#categories-2)
-    - [Flags](#flags-10)
+    - [Flags](#flags-9)
   - [Scenarios](#scenarios)
-    - [Flags](#flags-11)
+    - [Flags](#flags-10)
       - [Season Flags](#season-flags)
   - [Skills](#skills)
     - [Tags](#tags)
   - [Techniques](#techniques)
   - [Tools](#tools)
-    - [Flags](#flags-12)
+    - [Flags](#flags-11)
     - [Flags that apply to items](#flags-that-apply-to-items)
   - [Vehicle Parts](#vehicle-parts)
-    - [Flags](#flags-13)
+    - [Flags](#flags-12)
     - [Fuel types](#fuel-types)
-
+  - [Faults](#faults)
+    - [Flags](#flags-13)
 
 ## Notes
 
@@ -750,17 +748,6 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```MELEE``` Melee attack using properties of the gun or auxiliary gunmod
 - ```NPC_AVOID``` NPC's will not attempt to use this mode
 - ```SIMULTANEOUS``` All rounds fired concurrently (not sequentially) with recoil added only once (at the end)
-
-### Faults
-
-#### Flags
-
-- ```SILENT``` Makes the "faulty " text NOT appear next to item on general UI. Otherwise the fault works the same.
-
-#### Parameters
-
-- ```turns_into``` Causes this fault to apply to the item just mended.
-- ```also_mends``` Causes this fault to be mended (in addition to fault selected) once that fault is mended.
 
 
 ## Magazines
@@ -1502,3 +1489,24 @@ The requirement for other vehicle parts is defined for a json flag by setting ``
 - ```plutonium``` 1.21 Gigawatts!
 - ```water``` Clean.
 - ```wind``` Wind powered.
+
+### Faults
+
+#### Flags
+
+- ```SILENT``` Makes the "faulty " text NOT appear next to item on general UI. Otherwise the fault works the same.
+- ```NO_ALTERNATOR_CHARGE``` The alternator connected to this engine does not work.
+- ```BAD_COLD_START``` The engine starts as if the themperature was 20 F colder. Does not stack with multiples of itself.
+- ```IMMOBILIZER``` Prevents engine from starting and makes it beeb.
+- ```BAD_FUEL_PUMP``` Prevents engine from starting and makes it stutter.
+- ```BAD_STARTER``` Prevents engine from starting and makes click noise.
+- ```DOUBLE_FUEL_CONSUMPTION``` Doubles fuel consumption of the engine. Does not stack with multiples of itself.
+- ```EXTRA_EXHAUST``` Makes the engine emit more exhaust smoke. Does not stack with multiples of itself.
+- ```REDUCE_ENG_POWER``` Multiplies engine power by 0.6. Does not stack with multiples of itself.
+- ```ENG_BACKFIRE``` Causes the engine to backfire as if it had zero hp.
+
+
+#### Parameters
+
+- ```turns_into``` Causes this fault to apply to the item just mended.
+- ```also_mends``` Causes this fault to be mended (in addition to fault selected) once that fault is mended.
