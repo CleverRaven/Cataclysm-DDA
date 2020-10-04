@@ -675,24 +675,54 @@ void inventory_column::on_input( const inventory_input &input )
     }
 }
 
+void inventory_column::order_by_category()
+{
+    std::vector<inventory_entry> cat_entries;
+    std::set<std::string> categories;
+
+    for( const inventory_entry &entry : entries ) {
+        if( entry.is_item() ) {
+            categories.insert( entry.any_item()->get_category_of_contents().name() );
+        }
+    }
+    for( std::string cat : categories ) {
+        for( const inventory_entry &entry : entries ) {
+            if( entry.is_item() && entry.any_item()->get_category_of_contents().name() == cat ) {
+                // Sort the wielded weapon to the top of the list.
+                if( entry.get_category_ptr()->get_id().str() == "WEAPON_HELD" ) {
+                    cat_entries.insert( cat_entries.begin(), entry );
+                } else {
+                    cat_entries.push_back( entry );
+                }
+            }
+        }
+    }
+    entries = cat_entries;
+}
+
 void inventory_column::order_by_parent()
 {
     std::vector<inventory_entry> base_entries;
     std::vector<inventory_entry> child_entries;
+
     for( const inventory_entry &entry : entries ) {
-        if( entry.is_item() && entry.locations.front().where() ==
-            item_location::type::container ) {
+        if( entry.is_item() && !entry.locations.front()->has_pockets() ) {
             child_entries.push_back( entry );
-        } else {
+        } else if( entry.is_item() ) {
             base_entries.push_back( entry );
         }
     }
+    std::sort( base_entries.begin(), base_entries.end(),
+    []( const inventory_entry & a, const inventory_entry & b ) {
+        return a.any_item()->tname() < b.any_item()->tname();
+    } );
 
     int tries = 0;
     const int max_tries = entries.size() * 2;
     while( !child_entries.empty() ) {
         const inventory_entry &possible = child_entries.back();
-        const item_location parent = possible.locations.front().parent_item();
+        const item_location parent = possible.locations.front().has_parent() ?
+                                     possible.locations.front().parent_item() : item_location::nowhere;
         bool found = false;
         for( auto base_entry_iter = base_entries.begin(); base_entry_iter != base_entries.end(); ) {
             if( base_entry_iter->is_item() ) {
@@ -836,6 +866,8 @@ void inventory_column::prepare_paging( const std::string &filter )
             from = to;
         }
     }
+    order_by_parent();
+    order_by_category();
     // Recover categories
     const item_category *current_category = nullptr;
     for( auto iter = entries.begin(); iter != entries.end(); ++iter ) {
@@ -2053,6 +2085,7 @@ void inventory_selector::toggle_categorize_contained()
             }
         }
         own_gear_column.order_by_parent();
+        own_gear_column.order_by_category();
         own_inv_column.clear();
     }
 
@@ -2119,6 +2152,7 @@ std::string inventory_selector::action_bound_to_key( char key ) const
 item_location inventory_pick_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    ui_manager::redraw(); // Needed for highlight to display before any key is pressed.
     while( true ) {
         if( get_option<std::string>( "INVENTORY_HIGHLIGHT" ) != "disable" ) {
             highlight();

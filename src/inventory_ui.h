@@ -309,6 +309,11 @@ class inventory_column
         // orders the child entries in this column to be under their parent
         void order_by_parent();
 
+        /**
+        * Orders the entries in this column by category.
+        */
+        void order_by_category();
+
         inventory_entry *find_by_invlet( int invlet ) const;
 
         void draw( const catacurses::window &win, const point &p,
