@@ -390,8 +390,10 @@ VisitResponse item_contents::visit_contents( const std::function<VisitResponse( 
         &func, item *parent )
 {
     for( item_pocket &pocket : contents ) {
-        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) &&
+            !pocket.is_type( item_pocket::pocket_type::SOFTWARE ) ) {
             // anything that is not CONTAINER is accessible only via its specific accessor
+            // but missions need to check softwares in usb drives.
             return VisitResponse::NEXT;
         }
         switch( pocket.visit_contents( func, parent ) ) {
