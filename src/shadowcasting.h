@@ -99,6 +99,27 @@ inline bool sight_check( const float &transparency, const float &/*intensity*/ )
 {
     return transparency > LIGHT_TRANSPARENCY_SOLID;
 }
+inline float accumulate_transparency( const float &cumulative_transparency,
+                                      const float &current_transparency, const int &distance )
+{
+    return ( ( distance - 1 ) * cumulative_transparency + current_transparency ) / distance;
+}
+
+inline int_least8_t sight_calc( const int_least8_t &numerator, const int_least8_t &transparency,
+                                const int &distance )
+{
+    return numerator - transparency * distance;
+}
+inline bool sight_check( const int_least8_t &transparency, const int_least8_t &/*intensity*/ )
+{
+    return transparency > 0;
+}
+inline int_least8_t accumulate_transparency( const int_least8_t &/*cumulative_transparency*/,
+        const int_least8_t &/*current_transparency*/, const int &/*distance*/ )
+{
+    return 1;
+}
+
 inline void update_light( float &update, const float &new_value, quadrant )
 {
     update = std::max( update, new_value );
@@ -106,11 +127,6 @@ inline void update_light( float &update, const float &new_value, quadrant )
 inline void update_light_quadrants( four_quadrants &update, const float &new_value, quadrant q )
 {
     update[q] = std::max( update[q], new_value );
-}
-inline float accumulate_transparency( const float &cumulative_transparency,
-                                      const float &current_transparency, const int &distance )
-{
-    return ( ( distance - 1 ) * cumulative_transparency + current_transparency ) / distance;
 }
 
 template<typename T, typename Out, T( *calc )( const T &, const T &, const int & ),

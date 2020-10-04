@@ -168,7 +168,7 @@ void cast_horizontal_zlight_segment(
     cata::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
-            LIGHT_TRANSPARENCY_OPEN_AIR
+            1
         }
     };
     // At each "depth", a.k.a. distance from the origin, we iterate once over the list of spans,
@@ -350,7 +350,7 @@ void cast_vertical_zlight_segment(
     cata::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
-            LIGHT_TRANSPARENCY_OPEN_AIR
+            1
         }
     };
     // At each "depth", a.k.a. distance from the origin, we iterate once over the list of spans,
@@ -628,6 +628,13 @@ template void cast_zlight<float, sight_calc, sight_check, accumulate_transparenc
     const std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
     const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
     const tripoint &origin, const int offset_distance, const float numerator,
+    vertical_direction dir );
+
+template void cast_zlight<int_least8_t, sight_calc, sight_check, accumulate_transparency>(
+    const std::array<int_least8_t ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
+    const std::array<const int_least8_t ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
+    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const tripoint &origin, const int offset_distance, const int_least8_t numerator,
     vertical_direction dir );
 
 template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
