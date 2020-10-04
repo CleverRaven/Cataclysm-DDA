@@ -2781,9 +2781,8 @@ item &Character::i_add( item it, bool /* should_stack */, const item *avoid, con
                     remaining_charges -= used_charges;
                 }
             }
-            item &copy = item( it.type );
+            static item copy = it;
             if( remaining_charges == 0 ) {
-                copy.charges = it.charges;
                 flag_encumbrance();
                 invalidate_weight_carried_cache();
                 return copy;
