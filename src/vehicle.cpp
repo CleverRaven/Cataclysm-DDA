@@ -6518,7 +6518,32 @@ int vehicle::break_off( int p, int dmg )
         add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
 
         scatter_parts( parts[p] );
+        const point position = parts[p].mount;
         remove_part( p );
+
+        // remove parts for which required flags are not present anymore
+        if( !part_info( p ).get_flags().empty() ) {
+            const std::vector<int> parts_here = parts_at_relative( position, false );
+            for( auto &part : parts_here ) {
+                bool remove = false;
+                for( const std::string &flag : part_info( part ).get_flags() ) {
+                    if( !json_flag::get( flag ).requires_flag().empty() ) {
+                        remove = true;
+                        for( const auto &elem : parts_here ) {
+                            if( part_info( elem ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
+                                remove = false;
+                                continue;
+                            }
+                        }
+                    }
+                }
+                if( remove ) {
+                    item part_as_item = parts[part].properties_to_item();
+                    here.add_item_or_charges( pos, part_as_item );
+                    remove_part( part );
+                }
+            }
+        }
     }
 
     return dmg;
