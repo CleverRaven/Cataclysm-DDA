@@ -2246,17 +2246,10 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
             slot.default_nutrition.vitamins[ vit ] = pair.get_int( 1 );
         }
 
-    } else {
-        if( relative.has_int( "vitamins" ) ) {
-            // allows easy specification of 'fortified' comestibles
-            for( const auto &v : vitamin::all() ) {
-                slot.default_nutrition.vitamins[ v.first ] += relative.get_int( "vitamins" );
-            }
-        } else if( relative.has_array( "vitamins" ) ) {
-            for( JsonArray pair : relative.get_array( "vitamins" ) ) {
-                vitamin_id vit( pair.get_string( 0 ) );
-                slot.default_nutrition.vitamins[ vit ] += pair.get_int( 1 );
-            }
+    } else if( relative.has_array( "vitamins" ) ) {
+        for( JsonArray pair : relative.get_array( "vitamins" ) ) {
+            vitamin_id vit( pair.get_string( 0 ) );
+            slot.default_nutrition.vitamins[ vit ] += pair.get_int( 1 );
         }
     }
 
