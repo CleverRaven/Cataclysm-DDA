@@ -876,10 +876,14 @@ def extract_field_type(item):
 
 def extract_ter_furn_transform_messages(item):
     outfile = get_outfile("ter_furn_transform_messages")
-    writestr(outfile, item.get("fail_message"))
+    if "fail_message" in item:
+        writestr(outfile, item.get("fail_message"))
     if "terrain" in item:
         for terrain in item.get("terrain"):
             writestr(outfile, terrain.get("message"))
+    if "furniture" in item:
+        for furniture in item.get("furniture"):
+            writestr(outfile, furniture.get("message"))
 
 
 def extract_skill_display_type(item):
