@@ -406,7 +406,6 @@
       "bio_climate",
       "bio_taste_blocker"
     ],
-    "proficiencies": [ "prof_lockpicking" ],
     "skills": [
       { "level": 4, "name": "survival" },
       { "level": 3, "name": "fabrication" },
@@ -420,7 +419,7 @@
       { "level": 2, "name": "cutting" },
       { "level": 1, "name": "bashing" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_leatherworking" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_leatherworking", "prof_lockpicking" ],
     "items": {
       "both": {
         "items": [
@@ -635,7 +634,6 @@
       { "level": 1, "name": "unarmed" },
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "barter" },
-      { "level": 1, "name": "traps" }
       { "level": 1, "name": "speech" },
       { "level": 1, "name": "traps" }
     ],
