@@ -2496,8 +2496,7 @@ void panel_manager::show_adm()
         }
 
         const size_t num_rows = current_col == 0 ? row_indices.size() : layouts.size();
-        current_row = static_cast<size_t>( clamp( static_cast<int>( current_row ), 0,
-                                           static_cast<int>( num_rows - 1 ) ) );
+        current_row = clamp<size_t>( current_row, 0, num_rows - 1 );
 
         ui_manager::redraw();
 

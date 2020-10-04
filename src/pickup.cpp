@@ -578,7 +578,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             const int minleftover = itemsH + pickupBorderRows;
             const int maxmaxitems = TERMY - minleftover;
             const int minmaxitems = 9;
-            maxitems = clamp( static_cast<int>( stacked_here.size() ), minmaxitems, maxmaxitems );
+            maxitems = clamp<int>( stacked_here.size(), minmaxitems, maxmaxitems );
 
             start = selected - selected % maxitems;
 

@@ -17,6 +17,7 @@
 
 #include "cata_assert.h"
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "input.h"
@@ -37,7 +38,6 @@ class string_input_popup;
 class ui_adaptor;
 struct point;
 struct tripoint;
-template <typename Point> struct inclusive_rectangle;
 
 enum class navigation_mode : int {
     ITEM = 0,
