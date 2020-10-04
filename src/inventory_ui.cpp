@@ -877,6 +877,7 @@ void inventory_column::prepare_paging( const std::string &filter )
 void inventory_column::clear()
 {
     entries.clear();
+    entries_unfiltered.clear();
     entries_cell_cache.clear();
     paging_is_valid = false;
 }
