@@ -517,6 +517,7 @@
     "category": "container",
     "name": { "str": "bucket" },
     "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, French fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
+	"ascii_picture": "bucket",
     "weight": "725 g",
     "volume": "5 L",
     "price": 300,
