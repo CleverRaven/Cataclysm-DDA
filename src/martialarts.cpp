@@ -511,7 +511,10 @@ std::string ma_requirements::get_description( bool buff ) const
         dump += enumerate_as_string( min_skill.begin(),
         min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
             Character &u = get_player_character();
-            const int player_skill = u.get_skill_level( skill_id( pr.first ) );
+            int player_skill = u.get_skill_level( skill_id( pr.first ) );
+            if( u.has_active_bionic( bio_cqb ) ) {
+                player_skill = BIO_CQB_LEVEL;
+            }
             return string_format( "%s: <stat>%d</stat>/<stat>%d</stat>", pr.first->name(), pr.second,
                                   player_skill );
         }, enumeration_conjunction::none ) + "\n";
@@ -1454,6 +1457,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 ) {
             Character &u = get_player_character();
             int unarmed_skill =  u.get_skill_level( skill_unarmed );
+            if( u.has_active_bionic( bio_cqb ) ) {
+                unarmed_skill = BIO_CQB_LEVEL;
+            }
             if( ma.arm_block_with_bio_armor_arms ) {
                 buffer += _( "You can <info>arm block</info> by installing the <info>Arms Alloy Plating CBM</info>" );
                 buffer += "\n";
