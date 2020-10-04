@@ -632,7 +632,7 @@
       { "level": 1, "name": "stabbing" },
       { "level": 1, "name": "unarmed" },
       { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "barter" },
+      { "level": 1, "name": "speech" },
       { "level": 1, "name": "lockpick" }
     ],
     "items": {
@@ -1415,7 +1415,7 @@
     "name": "Used Car Salesman",
     "description": "They said you'd sell your own mother for a dollar.  How dare they!  You've been around the block a few times, and you'd charge way more than a dollar - and get it, too!",
     "points": 0,
-    "skills": [ { "level": 4, "name": "barter" } ],
+    "skills": [ { "level": 4, "name": "speech" } ],
     "items": {
       "both": {
         "items": [ "suit", "knit_scarf", "socks", "dress_shoes", "wristwatch" ],
@@ -1960,7 +1960,7 @@
     "description": "You were employed by a major international corporation as a representative and technical advisor, utilizing the incredible power of your cybernetically augmented mind.",
     "points": 4,
     "CBMs": [ "bio_int_enhancer", "bio_face_mask", "bio_watch", "bio_memory", "bio_batteries", "bio_power_storage_mkII" ],
-    "skills": [ { "level": 2, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "skills": [ { "level": 2, "name": "speech" } ],
     "no_bonus": "teleumbrella",
     "items": {
       "both": {
@@ -2484,7 +2484,7 @@
     "name": "Embezzler",
     "description": "You had a genius plan to skim fractions of cents out of your company's accounts.  This plan immediately failed and got you arrested.  They said you were too soft for prison, but guess what?  They're dead, and you're not.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "barter" }, { "level": 2, "name": "computer" } ],
+    "skills": [ { "level": 2, "name": "speech" }, { "level": 2, "name": "computer" } ],
     "items": {
       "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "rock_sock" ],
       "male": [ "briefs" ],
@@ -2668,7 +2668,7 @@
     "name": "Lawyer",
     "description": "The jury were in the palm of your hand, but after the defendant tried to eat your brain, you were forced to flee the courtroom in disgrace.  Now nobody seems to care about your objections.",
     "points": 1,
-    "skills": [ { "level": 1, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "skills": [ { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
         "items": [
@@ -2728,7 +2728,7 @@
     "description": "You spent much of your time prior to the apocalypse at the local mosque, studying the words of the Prophet and the Quran and guiding your community in prayer.  Back then they came from far and wide to listen to you; now they come to eat your brains.",
     "points": 0,
     "//": "No knife, fire, or decent storage/armor.  Skill points are countered.",
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "barter" } ],
+    "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
         "items": [ "pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran" ],
@@ -2872,7 +2872,7 @@
     "name": { "male": "Pizza Delivery Boy", "female": "Pizza Delivery Girl" },
     "description": "You were delivering the last pizza of the night to the local cryogenics lab when hungry zombies attempted to make a meal out of you.  Fleeing for safety, you find yourself with only your wits and some leftover pizza.  And they didn't even leave a tip!",
     "points": 1,
-    "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "barter" }, { "level": 1, "name": "speech" } ],
+    "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "speech" } ],
     "items": {
       "both": {
         "items": [
@@ -3950,7 +3950,7 @@
     "name": "Career Politician",
     "description": "You've spent your life appealing to the people, persuading many and promising much throughout your time in office.  Now that your voting base wants to eat you alive, winning hearts and minds just got that much harder.",
     "points": 5,
-    "skills": [ { "level": 4, "name": "barter" }, { "level": 6, "name": "speech" } ],
+    "skills": [ { "level": 6, "name": "speech" } ],
     "traits": [ "LIAR" ],
     "items": {
       "both": {
@@ -4017,7 +4017,7 @@
     "name": "Musician",
     "description": "You nailed your solo, but the audience erupted into screams instead of applause.  You weren't able to grab much during the panic, but at least you have your loaded six string on your back.",
     "points": -1,
-    "skills": [ { "level": 1, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "skills": [ { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
         "ammo": 100,

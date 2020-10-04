@@ -77,7 +77,7 @@
     "points": 0,
     "flags": [ "SCEN_ONLY" ],
     "//": "No knife, fire, or decent storage/armor.  Skill points are countered.",
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "barter" } ],
+    "skills": [ { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
         "items": [ "pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran", "priest_beginner", "mbag" ],
