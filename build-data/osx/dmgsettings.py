@@ -6,12 +6,13 @@ import os.path
 
 # defines is provided by dmgbuild, but pretend to define it here for the
 # beneit of linting tools.
-defines = defines # noqa: F821
+defines = defines  # noqa: F821
 
-# .. Useful stuff ..............................................................
+# .. Useful stuff .............................................................
 
 application = defines.get('app', 'Cataclysm.app')
 appname = os.path.basename(application)
+
 
 def icon_from_app(app_path):
     plist_path = os.path.join(app_path, 'Contents', 'Info.plist')
@@ -23,7 +24,8 @@ def icon_from_app(app_path):
     icon_name = icon_root + icon_ext
     return os.path.join(app_path, 'Contents', 'Resources', icon_name)
 
-# .. Basics ....................................................................
+
+# .. Basics ...................................................................
 
 # Uncomment to override the output filename
 # filename = 'test.dmg'
@@ -45,20 +47,20 @@ symlinks = {'Applications': '/Applications'}
 
 # Volume icon
 #
-# You can either define icon, in which case that icon file will be copied to the
-# image, *or* you can define badge_icon, in which case the icon file you specify
-# will be used to badge the system's Removable Disk icon
+# You can either define icon, in which case that icon file will be copied to
+# the image, *or* you can define badge_icon, in which case the icon file you
+# specify will be used to badge the system's Removable Disk icon
 #
 #icon = '/path/to/icon.icns'
 badge_icon = icon_from_app(application)
 
 # Where to put the icons
 icon_locations = {
-    appname:        (240, 400),
+    appname: (240, 400),
     'Applications': (430, 400)
 }
 
-# .. Window configuration ......................................................
+# .. Window configuration .....................................................
 
 # Background
 #
@@ -109,17 +111,17 @@ show_icon_preview = False
 include_icon_view_settings = 'auto'
 include_list_view_settings = 'auto'
 
-# .. Icon view configuration ...................................................
+# .. Icon view configuration ..................................................
 
 arrange_by = None
 grid_offset = (0, 0)
 grid_spacing = 100
 scroll_position = (0, 0)
-label_pos = 'bottom' # or 'right'
+label_pos = 'bottom'  # or 'right'
 text_size = 16
 icon_size = 64
 
-# .. List view configuration ...................................................
+# .. List view configuration ..................................................
 
 # Column names are as follows:
 #

@@ -1098,19 +1098,27 @@ void draw(
 
 void create_note( const tripoint_abs_omt &curs )
 {
-    std::string color_notes = _( "Color codes: " );
-    for( const std::pair<std::string, std::string> &color_pair : get_note_color_names() ) {
+    std::string color_notes = string_format( "%s\n\n\n",
+                              _( "Add a note to the map.  "
+                                 "For a custom GLYPH or COLOR follow the examples below.  "
+                                 "Default GLYPH and COLOR looks like this: "
+                                 "<color_yellow>N</color>" ) );
+
+    color_notes += _( "Color codes: " );
+    for( const std::pair<const std::string, note_color> &color_pair : get_note_color_names() ) {
         // The color index is not translatable, but the name is.
-        color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
-                                      _( color_pair.second ), string_replace( color_pair.second, " ", "_" ) );
+        //~ %1$s: note color abbreviation, %2$s: note color name
+        color_notes += string_format( pgettext( "note color", "%1$s:%2$s, " ), color_pair.first,
+                                      colorize( color_pair.second.name, color_pair.second.color ) );
     }
 
-    std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",
-                              _( "Type GLYPH:TEXT to set a custom glyph." ),
-                              _( "Type COLOR;TEXT to set a custom color." ),
+    std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n\n",
+                              _( "Type GLYPH<color_yellow>:</color>TEXT to set a custom glyph." ),
+                              _( "Type COLOR<color_yellow>;</color>TEXT to set a custom color." ),
                               // NOLINTNEXTLINE(cata-text-style): literal exclaimation mark
                               _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
-    color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), helper_text );
+    color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(),
+                                       helper_text );
     std::string title = _( "Note:" );
 
     const std::string old_note = overmap_buffer.note( curs );

@@ -43,76 +43,76 @@ static const item_category_id item_category_food( "food" );
 zone_manager::zone_manager()
 {
     types.emplace( zone_type_id( "NO_AUTO_PICKUP" ),
-                   zone_type( translate_marker( "No Auto Pickup" ),
-                              translate_marker( "You won't auto-pickup items inside the zone." ) ) );
+                   zone_type( to_translation( "No Auto Pickup" ),
+                              to_translation( "You won't auto-pickup items inside the zone." ) ) );
     types.emplace( zone_type_id( "NO_NPC_PICKUP" ),
-                   zone_type( translate_marker( "No NPC Pickup" ),
-                              translate_marker( "Friendly NPCs don't pickup items inside the zone." ) ) );
+                   zone_type( to_translation( "No NPC Pickup" ),
+                              to_translation( "Friendly NPCs don't pickup items inside the zone." ) ) );
     types.emplace( zone_type_id( "NPC_RETREAT" ),
-                   zone_type( translate_marker( "NPC Retreat" ),
-                              translate_marker( "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles." ) ) );
+                   zone_type( to_translation( "NPC Retreat" ),
+                              to_translation( "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles." ) ) );
     types.emplace( zone_type_id( "NPC_NO_INVESTIGATE" ),
-                   zone_type( translate_marker( "NPC Ignore Sounds" ),
-                              translate_marker( "Friendly NPCs won't investigate unseen sounds coming from this zone." ) ) );
+                   zone_type( to_translation( "NPC Ignore Sounds" ),
+                              to_translation( "Friendly NPCs won't investigate unseen sounds coming from this zone." ) ) );
     types.emplace( zone_type_id( "NPC_INVESTIGATE_ONLY" ),
-                   zone_type( translate_marker( "NPC Investigation Area" ),
-                              translate_marker( "Friendly NPCs will investigate unseen sounds only if they come from inside this area." ) ) );
+                   zone_type( to_translation( "NPC Investigation Area" ),
+                              to_translation( "Friendly NPCs will investigate unseen sounds only if they come from inside this area." ) ) );
 
     for( const zone_type &zone : zone_type::get_all() ) {
         types.emplace( zone.id, zone );
     }
 
     types.emplace( zone_type_id( "SOURCE_FIREWOOD" ),
-                   zone_type( translate_marker( "Source: Firewood" ),
-                              translate_marker( "Source for firewood or other flammable materials in this zone may be used to automatically refuel fires.  "
+                   zone_type( to_translation( "Source: Firewood" ),
+                              to_translation( "Source for firewood or other flammable materials in this zone may be used to automatically refuel fires.  "
                                       "This will be done to maintain light during long-running tasks such as crafting, reading or waiting." ) ) );
     types.emplace( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
-                   zone_type( translate_marker( "Construction: Blueprint" ),
-                              translate_marker( "Designate a blueprint zone for construction." ) ) );
+                   zone_type( to_translation( "Construction: Blueprint" ),
+                              to_translation( "Designate a blueprint zone for construction." ) ) );
     types.emplace( zone_type_id( "FARM_PLOT" ),
-                   zone_type( translate_marker( "Farm: Plot" ),
-                              translate_marker( "Designate a farm plot for tilling and planting." ) ) );
+                   zone_type( to_translation( "Farm: Plot" ),
+                              to_translation( "Designate a farm plot for tilling and planting." ) ) );
     types.emplace( zone_type_id( "CHOP_TREES" ),
-                   zone_type( translate_marker( "Chop Trees" ),
-                              translate_marker( "Designate an area to chop down trees." ) ) );
+                   zone_type( to_translation( "Chop Trees" ),
+                              to_translation( "Designate an area to chop down trees." ) ) );
     types.emplace( zone_type_id( "FISHING_SPOT" ),
-                   zone_type( translate_marker( "Fishing Spot" ),
-                              translate_marker( "Designate an area to fish from." ) ) );
+                   zone_type( to_translation( "Fishing Spot" ),
+                              to_translation( "Designate an area to fish from." ) ) );
     types.emplace( zone_type_id( "MINING" ),
-                   zone_type( translate_marker( "Mine Terrain" ),
-                              translate_marker( "Designate an area to mine." ) ) );
+                   zone_type( to_translation( "Mine Terrain" ),
+                              to_translation( "Designate an area to mine." ) ) );
     types.emplace( zone_type_id( "VEHICLE_DECONSTRUCT" ),
-                   zone_type( translate_marker( "Vehicle Deconstruct Zone" ),
-                              translate_marker( "Any vehicles in this area are marked for deconstruction." ) ) );
+                   zone_type( to_translation( "Vehicle Deconstruct Zone" ),
+                              to_translation( "Any vehicles in this area are marked for deconstruction." ) ) );
     types.emplace( zone_type_id( "VEHICLE_REPAIR" ),
-                   zone_type( translate_marker( "Vehicle Repair Zone" ),
-                              translate_marker( "Any vehicles in this area are marked for repair work." ) ) );
+                   zone_type( to_translation( "Vehicle Repair Zone" ),
+                              to_translation( "Any vehicles in this area are marked for repair work." ) ) );
     types.emplace( zone_type_id( "VEHICLE_PATROL" ),
-                   zone_type( translate_marker( "Vehicle Patrol Zone" ),
-                              translate_marker( "Vehicles with an autopilot will patrol in this zone." ) ) );
+                   zone_type( to_translation( "Vehicle Patrol Zone" ),
+                              to_translation( "Vehicles with an autopilot will patrol in this zone." ) ) );
     types.emplace( zone_type_id( "CAMP_STORAGE" ),
-                   zone_type( translate_marker( "Basecamp: Storage" ),
-                              translate_marker( "Items in this zone will be added to a basecamp's inventory for use by it's workers." ) ) );
+                   zone_type( to_translation( "Basecamp: Storage" ),
+                              to_translation( "Items in this zone will be added to a basecamp's inventory for use by it's workers." ) ) );
     types.emplace( zone_type_id( "CAMP_FOOD" ),
-                   zone_type( translate_marker( "Basecamp: Food" ),
-                              translate_marker( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
+                   zone_type( to_translation( "Basecamp: Food" ),
+                              to_translation( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
     types.emplace( zone_type_id( "AUTO_EAT" ),
-                   zone_type( translate_marker( "Auto Eat" ),
-                              translate_marker( "Items in this zone will be automatically eaten during a long activity if you get hungry." ) ) );
+                   zone_type( to_translation( "Auto Eat" ),
+                              to_translation( "Items in this zone will be automatically eaten during a long activity if you get hungry." ) ) );
     types.emplace( zone_type_id( "AUTO_DRINK" ),
-                   zone_type( translate_marker( "Auto Drink" ),
-                              translate_marker( "Items in this zone will be automatically consumed during a long activity if you get thirsty." ) ) );
+                   zone_type( to_translation( "Auto Drink" ),
+                              to_translation( "Items in this zone will be automatically consumed during a long activity if you get thirsty." ) ) );
 
 }
 
 std::string zone_type::name() const
 {
-    return _( name_ );
+    return name_.translated();
 }
 
 std::string zone_type::desc() const
 {
-    return _( desc_ );
+    return desc_.translated();
 }
 
 namespace
@@ -146,7 +146,7 @@ void zone_type::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "id", id );
-    optional( jo, was_loaded, "description", desc_, "" );
+    optional( jo, was_loaded, "description", desc_, translation() );
 }
 
 shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
@@ -499,7 +499,7 @@ bool zone_data::set_type()
 {
     const auto maybe_type = zone_manager::get_manager().query_type();
     if( maybe_type.has_value() && maybe_type.value() != type ) {
-        auto new_options = zone_options::create( maybe_type.value() );
+        shared_ptr_fast<zone_options> new_options = zone_options::create( maybe_type.value() );
         if( new_options->query_at_creation() ) {
             zone_manager::get_manager().zone_edited( *this );
             type = maybe_type.value();
@@ -508,6 +508,8 @@ bool zone_data::set_type()
             return true;
         }
     }
+    // False positive from memory leak detection on shared_ptr_fast
+    // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
     return false;
 }
 

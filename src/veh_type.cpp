@@ -30,6 +30,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
+#include "wcwidth.h"
 
 class npc;
 
@@ -103,6 +104,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "REACTOR", VPFLAG_REACTOR },
     { "RAIL", VPFLAG_RAIL },
     { "TURRET_CONTROLS", VPFLAG_TURRET_CONTROLS },
+    { "ROOF", VPFLAG_ROOF },
 };
 
 static const std::vector<std::pair<std::string, veh_ter_mod>> standard_terrain_mod = {{
@@ -438,6 +440,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         def.sym = jo.get_string( "symbol" )[ 0 ];
     }
     if( jo.has_bool( "standard_symbols" ) && jo.get_bool( "standard_symbols" ) ) {
+        // Fallback symbol for unknown variant
+        def.sym = '=';
         for( const auto &variant : vpart_variants_standard ) {
             def.symbols[ variant.first ] = variant.second;
         }
@@ -648,11 +652,24 @@ void vpart_info::check()
             debugmsg( "Vehicle part %s breaks into non-existent item group %s.",
                       part.id.c_str(), part.breaks_into_group.c_str() );
         }
-        if( part.sym == 0 && part.symbols.empty() ) {
+        // Default symbol is always needed in case an unknown variant is encountered
+        if( part.sym == 0 ) {
             debugmsg( "vehicle part %s does not define a symbol", part.id.c_str() );
+        } else if( mk_wcwidth( part.sym ) != 1 ) {
+            debugmsg( "vehicle part %s defined a symbol that is not 1 console cell wide.",
+                      part.id.str() );
         }
         if( part.sym_broken == 0 ) {
             debugmsg( "vehicle part %s does not define a broken symbol", part.id.c_str() );
+        } else if( mk_wcwidth( part.sym_broken ) != 1 ) {
+            debugmsg( "vehicle part %s defined a broken symbol that is not 1 console cell wide.",
+                      part.id.str() );
+        }
+        for( const std::pair<const std::string, int> &sym : part.symbols ) {
+            if( mk_wcwidth( sym.second ) != 1 ) {
+                debugmsg( "vehicle part %s defined a variant symbol that is not 1 console cell wide.",
+                          part.id.str() );
+            }
         }
         if( part.durability <= 0 ) {
             debugmsg( "vehicle part %s has zero or negative durability", part.id.c_str() );
@@ -792,16 +809,16 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             if( !long_descrip.empty() ) {
                 long_descrip += "  ";
             }
-            long_descrip += _( flag.info() );
+            long_descrip += flag.info();
         }
     }
     if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && !has_flag( "BELTABLE" ) ) {
         json_flag nobelt = json_flag::get( "NONBELTABLE" );
-        long_descrip += "  " + _( nobelt.info() );
+        long_descrip += "  " + nobelt.info();
     }
     if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
         json_flag door = json_flag::get( "DOOR" );
-        long_descrip += "  " + _( door.info() );
+        long_descrip += "  " + door.info();
     }
     if( has_flag( "TURRET" ) ) {
         class::item base( item );
@@ -821,11 +838,11 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     }
     if( has_flag( "ENABLED_DRAINS_EPOWER" ) ) {
         json_flag drains = json_flag::get( "ENABLED_DRAINS_EPOWER" );
-        long_descrip += "  " + string_format( _( drains.info() ), std::to_string( -epower ) );
+        long_descrip += "  " + string_format( drains.info(), std::to_string( -epower ) );
     }
     if( has_flag( "SOLAR_PANEL" ) ) {
         json_flag solar_panel = json_flag::get( "SOLAR_PANEL" );
-        long_descrip += "  " + string_format( _( solar_panel.info() ), std::to_string( epower ) );
+        long_descrip += "  " + string_format( solar_panel.info(), std::to_string( epower ) );
     }
 
     if( !long_descrip.empty() ) {
@@ -999,12 +1016,7 @@ const vehicle_prototype &string_id<vehicle_prototype>::obj() const
     const auto iter = vtypes.find( *this );
     if( iter == vtypes.end() ) {
         debugmsg( "invalid vehicle prototype id %s", c_str() );
-        static const vehicle_prototype dummy = {
-            "",
-            std::vector<vehicle_prototype::part_def>{},
-            std::vector<vehicle_item_spawn>{},
-            nullptr
-        };
+        static const vehicle_prototype dummy;
         return dummy;
     }
     return iter->second;
@@ -1018,16 +1030,6 @@ bool string_id<vehicle_prototype>::is_valid() const
 }
 
 vehicle_prototype::vehicle_prototype() = default;
-
-vehicle_prototype::vehicle_prototype( const std::string &name,
-                                      const std::vector<part_def> &parts,
-                                      const std::vector<vehicle_item_spawn> &item_spawns,
-                                      std::unique_ptr<vehicle> &&blueprint )
-    : name( name ), parts( parts ), item_spawns( item_spawns ),
-      blueprint( std::move( blueprint ) )
-{
-}
-
 vehicle_prototype::vehicle_prototype( vehicle_prototype && ) = default;
 vehicle_prototype::~vehicle_prototype() = default;
 
@@ -1049,7 +1051,7 @@ void vehicle_prototype::load( const JsonObject &jo )
         vproto = vehicle_prototype();
     }
     if( vproto.parts.empty() ) {
-        vproto.name = jo.get_string( "name" );
+        jo.get_member( "name" ).read( vproto.name );
     }
 
     vgroups[ vgroup_id( vid.str() ) ].add_vehicle( vid, 100 );
@@ -1075,6 +1077,11 @@ void vehicle_prototype::load( const JsonObject &jo )
 
         vproto.parts.push_back( pt );
     };
+
+    if( jo.has_member( "blueprint" ) ) {
+        // currently unused, read to suppress unvisited members warning
+        jo.get_array( "blueprint" );
+    }
 
     for( JsonObject part : jo.get_array( "parts" ) ) {
         point pos = point( part.get_int( "x" ), part.get_int( "y" ) );
@@ -1151,7 +1158,7 @@ void vehicle_prototype::finalize()
         proto.blueprint = std::make_unique<vehicle>();
         vehicle &blueprint = *proto.blueprint;
         blueprint.type = id;
-        blueprint.name = _( proto.name );
+        blueprint.name = proto.name.translated();
 
         blueprint.suspend_refresh();
         for( part_def &pt : proto.parts ) {

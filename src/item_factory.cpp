@@ -97,7 +97,9 @@ static void assign( const JsonObject &jo, const std::string &name,
     }
     mods.clear();
     for( JsonArray curr : jo.get_array( name ) ) {
-        mods.emplace( gun_mode_id( curr.get_string( 0 ) ), gun_modifier_data( curr.get_string( 1 ),
+        translation text;
+        curr.read( 1, text );
+        mods.emplace( gun_mode_id( curr.get_string( 0 ) ), gun_modifier_data( text,
                       curr.get_int( 2 ), curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>() ) );
     }
 }
@@ -349,11 +351,11 @@ void Item_factory::finalize_pre( itype &obj )
         // TODO: add explicit action field to gun definitions
         const auto defmode_name = [&]() {
             if( obj.gun->clip == 1 ) {
-                return translate_marker( "manual" ); // break-type actions
+                return to_translation( "manual" ); // break-type actions
             } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
-                return translate_marker( "revolver" );
+                return to_translation( "revolver" );
             } else {
-                return translate_marker( "semi-auto" );
+                return to_translation( "semi-auto" );
             }
         };
 
@@ -364,13 +366,13 @@ void Item_factory::finalize_pre( itype &obj )
         // If a "gun" has a reach attack, give it an additional melee mode.
         if( obj.item_tags.count( "REACH_ATTACK" ) ) {
             obj.gun->modes.emplace( gun_mode_id( "MELEE" ),
-                                    gun_modifier_data( translate_marker( "melee" ), 1,
+                                    gun_modifier_data( to_translation( "melee" ), 1,
             { "MELEE" } ) );
         }
         if( obj.gun->burst > 1 ) {
             // handle legacy JSON format
             obj.gun->modes.emplace( gun_mode_id( "AUTO" ),
-                                    gun_modifier_data( translate_marker( "auto" ), obj.gun->burst,
+                                    gun_modifier_data( to_translation( "auto" ), obj.gun->burst,
                                             std::set<std::string>() ) );
         }
 
@@ -384,8 +386,6 @@ void Item_factory::finalize_pre( itype &obj )
                 obj.gun->handling = 10;
             }
         }
-
-        obj.gun->reload_noise = _( obj.gun->reload_noise );
 
         // TODO: Move to jsons?
         if( obj.gun->skill_used == skill_id( "archery" ) ||
@@ -754,14 +754,14 @@ class iuse_function_wrapper : public iuse_actor
 class iuse_function_wrapper_with_info : public iuse_function_wrapper
 {
     private:
-        std::string info_string; // Untranslated
+        translation info_string;
     public:
         iuse_function_wrapper_with_info(
-            const std::string &type, const use_function_pointer f, const std::string &info )
+            const std::string &type, const use_function_pointer f, const translation &info )
             : iuse_function_wrapper( type, f ), info_string( info ) { }
 
         void info( const item &, std::vector<iteminfo> &info ) const override {
-            info.emplace_back( "DESCRIPTION", _( info_string ) );
+            info.emplace_back( "DESCRIPTION", info_string.translated() );
         }
         std::unique_ptr<iuse_actor> clone() const override {
             return std::make_unique<iuse_function_wrapper_with_info>( *this );
@@ -777,7 +777,7 @@ void Item_factory::add_iuse( const std::string &type, const use_function_pointer
 }
 
 void Item_factory::add_iuse( const std::string &type, const use_function_pointer f,
-                             const std::string &info )
+                             const translation &info )
 {
     iuse_function_list[ type ] =
         use_function( std::make_unique<iuse_function_wrapper_with_info>( type, f, info ) );
@@ -886,11 +886,11 @@ void Item_factory::init()
     add_iuse( "FOODPERSON", &iuse::foodperson );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
     add_iuse( "GASMASK", &iuse::gasmask,
-              translate_marker( "Can be activated to <good>increase environmental "
-                                "protection</good>.  Will consume charges when active, "
-                                "but <info>only when environmental hazards are "
-                                "present</info>."
-                              ) );
+              to_translation( "Can be activated to <good>increase environmental "
+                              "protection</good>.  Will consume charges when active, "
+                              "but <info>only when environmental hazards are "
+                              "present</info>."
+                            ) );
     add_iuse( "GEIGER", &iuse::geiger );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
@@ -1129,9 +1129,11 @@ void Item_factory::check_definitions() const
         if( type->volume < 0_ml ) {
             msg += "negative volume\n";
         }
-        if( type->count_by_charges() || type->phase == phase_id::LIQUID ) {
-            if( type->stack_size <= 0 ) {
+        if( type->stack_size <= 0 ) {
+            if( type->count_by_charges() ) {
                 msg += string_format( "invalid stack_size %d on type using charges\n", type->stack_size );
+            } else if( type->phase == phase_id::LIQUID ) {
+                msg += string_format( "invalid stack_size %d on liquid type\n", type->stack_size );
             }
         }
         if( type->price < 0_cent ) {
@@ -1313,6 +1315,12 @@ void Item_factory::check_definitions() const
             }
             if( ( type->gunmod->sight_dispersion < 0 ) != ( type->gunmod->aim_speed < 0 ) ) {
                 msg += "gunmod must have both sight_dispersion and aim_speed set or neither of them set\n";
+            }
+            if( type->gunmod->usable.empty() ) {
+                msg += "gunmod does not specify mod targets\n";
+            }
+            if( type->gunmod->install_time < 0 ) {
+                msg += "gunmod does not specify install time\n";
             }
         }
         if( type->mod ) {
@@ -2238,17 +2246,10 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
             slot.default_nutrition.vitamins[ vit ] = pair.get_int( 1 );
         }
 
-    } else {
-        if( relative.has_int( "vitamins" ) ) {
-            // allows easy specification of 'fortified' comestibles
-            for( const auto &v : vitamin::all() ) {
-                slot.default_nutrition.vitamins[ v.first ] += relative.get_int( "vitamins" );
-            }
-        } else if( relative.has_array( "vitamins" ) ) {
-            for( JsonArray pair : relative.get_array( "vitamins" ) ) {
-                vitamin_id vit( pair.get_string( 0 ) );
-                slot.default_nutrition.vitamins[ vit ] += pair.get_int( 1 );
-            }
+    } else if( relative.has_array( "vitamins" ) ) {
+        for( JsonArray pair : relative.get_array( "vitamins" ) ) {
+            vitamin_id vit( pair.get_string( 0 ) );
+            slot.default_nutrition.vitamins[ vit ] += pair.get_int( 1 );
         }
     }
 

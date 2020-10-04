@@ -424,6 +424,11 @@ const std::set<fault_id> &vehicle_part::faults() const
     return base.faults;
 }
 
+bool vehicle_part::has_fault_flag( const std::string &searched_flag ) const
+{
+    return base.has_fault_flag( searched_flag );
+}
+
 std::set<fault_id> vehicle_part::faults_potential() const
 {
     return base.faults_potential();

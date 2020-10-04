@@ -15,7 +15,6 @@
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
@@ -32,6 +31,7 @@
 #include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "help.h"
 #include "input.h"
 #include "item.h"
@@ -805,6 +805,13 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return string_format(
                    _( "&You are deaf and can't talk.  When you don't respond, %s becomes angry!" ),
                    beta->disp_name() );
+    } else if( topic == "TALK_MUTE" ) {
+        return _( "&You are mute and can't talk." );
+
+    } else if( topic == "TALK_MUTE_ANGRY" ) {
+        return string_format(
+                   _( "&You are mute and can't talk.  When you don't respond, %s becomes angry!" ),
+                   beta->disp_name() );
     }
     avatar &player_character = get_avatar();
     if( topic == "TALK_SEDATED" ) {
@@ -873,8 +880,11 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         alpha->shout();
         if( alpha->is_deaf() ) {
             return _( "&You yell, but can't hear yourself." );
-        } else {
-            return _( "&You yell." );
+            if( alpha->is_mute() ) {
+                return _( "&You yell, but can't form words." );
+            } else {
+                return _( "&You yell." );
+            }
         }
     } else if( topic == "TALK_SIZE_UP" ) {
         return beta->evaluation_by( *alpha );
@@ -1667,7 +1677,8 @@ void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::strin
     };
 }
 
-void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member );
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
@@ -2023,7 +2034,8 @@ void talk_effect_fun_t::set_npc_first_topic( const std::string &chat_topic )
     };
 }
 
-void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
+void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
+        dialogue_consequence con )
 {
     effects.push_back( fun );
     guaranteed_consequence = std::max( guaranteed_consequence, con );
@@ -2544,7 +2556,8 @@ static std::string translate_gendered_line(
     return gettext_gendered( gender_map, line );
 }
 
-dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo, const std::string &member_name )
+dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo,
+        const std::string &member_name )
 {
     if( jo.has_array( member_name ) ) {
         return dynamic_line_t( jo.get_array( member_name ) );
@@ -2601,12 +2614,8 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
             return tmp;
         };
     } else if( jo.has_string( "gendered_line" ) ) {
-        const std::string line = jo.get_string( "gendered_line" );
-        if( test_mode ) {
-            // HACK: check text style by reading it as a translation object
-            translation dummy;
-            jo.read( "gendered_line", dummy );
-        }
+        std::string line;
+        mandatory( jo, false, "gendered_line", line, text_style_check_reader() );
         if( !jo.has_array( "relevant_genders" ) ) {
             jo.throw_error(
                 R"(dynamic line with "gendered_line" must also have "relevant_genders")" );
@@ -2680,7 +2689,8 @@ dynamic_line_t::dynamic_line_t( const JsonArray &ja )
     };
 }
 
-json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo, const std::string &id )
+json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo,
+        const std::string &id )
 {
     std::function<bool( const dialogue & )> tmp_condition;
     read_condition<dialogue>( jo, "condition", tmp_condition, true );

@@ -184,6 +184,10 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 return lcmatch( remove_color_tags( result.info( true ) ), txt );
             }
 
+            case search_type::proficiency:
+                return lcmatch( r->required_proficiencies_string( nullptr ), txt ) ||
+                       lcmatch( r->used_proficiencies_string( nullptr ), txt );
+
             default:
                 return false;
         }
@@ -429,7 +433,7 @@ void recipe_dictionary::finalize()
             const itype *booktype = item::find_type( bk.first );
             int req = bk.second.skill_req > 0 ? bk.second.skill_req : std::max( booktype->book->req,
                       r.difficulty );
-            islot_book::recipe_with_description_t desc{ &r, req, bk.second.alt_name.has_value() ? bk.second.alt_name.value().translated() : r.result_name(), bk.second.hidden };
+            islot_book::recipe_with_description_t desc{ &r, req, bk.second.alt_name, bk.second.hidden };
             const_cast<islot_book &>( *booktype->book ).recipes.insert( desc );
         }
 

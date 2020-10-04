@@ -648,9 +648,7 @@ ifeq ($(TILES), 1)
       endif
     endif
   else # not osx
-    CXXFLAGS += $(shell $(PKG_CONFIG) sdl2 --cflags)
-    CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_image --cflags)
-    CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --cflags)
+    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2 SDL2_image SDL2_ttf)
 
     ifeq ($(STATIC), 1)
       LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --static --libs)
@@ -672,8 +670,7 @@ ifeq ($(TILES), 1)
       # These differ depending on what SDL2 is configured to use.
       ifneq (,$(findstring mingw32,$(CROSS)))
         # We use pkg-config to find out which libs are needed with MXE
-        LDFLAGS += $(shell $(PKG_CONFIG) SDL2_image --libs)
-        LDFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --libs)
+        LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_image SDL2_ttf)
       else
         ifeq ($(MSYS2),1)
           LDFLAGS += -Wl,--start-group -lharfbuzz -lfreetype -Wl,--end-group -lgraphite2 -lpng -lz -ltiff -lbz2 -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid

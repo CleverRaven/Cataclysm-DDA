@@ -54,7 +54,7 @@
       [ "holy_symbol", 20 ],
       [ "soldering_iron", 60 ],
       [ "solder_wire", 60 ],
-      [ "inhaler", 14 ],
+      { "item": "inhaler", "prob": 5, "charges-min": 10, "charges-max": 100 },
       [ "codeine", 15 ],
       [ "oxycodone", 4 ],
       [ "morphine", 4 ],

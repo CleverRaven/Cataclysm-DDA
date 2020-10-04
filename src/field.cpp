@@ -146,7 +146,7 @@ time_duration field_entry::set_field_age( const time_duration &new_age )
 }
 
 field::field()
-    : _displayed_field_type( fd_null )
+    : _displayed_field_type( fd_null.id_or( INVALID_FIELD_TYPE_ID ) )
 {
 }
 

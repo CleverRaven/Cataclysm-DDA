@@ -147,6 +147,7 @@
     "description": "A wide girdle that fits around your waist, you can sheath or holster any weapon into it in the blink of an eye, and it seemingly stores them somewhere else.",
     "coverage": 10,
     "encumbrance": 3,
+    "max_encumbrance": 3,
     "pocket_data": [
       {
         "holster": true,

@@ -1,0 +1,76 @@
+[
+  {
+    "id": "force_blade",
+    "type": "SPELL",
+    "name": "Force Blade",
+    "description": "You shoot a blade of concentrated force in a straight line, cutting everything in its path.",
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "flags": [ "SOMATIC", "NO_LEGS" ],
+    "effect": "line_attack",
+    "spell_class": "FORCE_MAGE",
+    "energy_source": "MANA",
+    "base_casting_time": 250,
+    "base_energy_cost": 350,
+    "difficulty": 4,
+    "max_level": 35,
+    "min_damage": 60,
+    "max_damage": 410,
+    "damage_increment": 10,
+    "damage_type": "cut",
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "min_range": 5,
+    "max_range": 15,
+    "range_increment": 1
+  },
+  {
+    "id": "force_magical_armor",
+    "type": "ARMOR",
+    "name": { "str_sp": "Force Shield" },
+    "description": "A shield of pure force that protects you from most types of physical damage.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "to_hit": -10,
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
+    "coverage": 100,
+    "encumbrance": 0,
+    "environmental_protection": 2,
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "ARMOR_BASH", "multiply": -0.3 },
+            { "value": "ARMOR_CUT", "multiply": -0.3 },
+            { "value": "ARMOR_STAB", "multiply": -0.3 },
+            { "value": "ARMOR_BULLET", "multiply": -0.3 }
+          ]
+        }
+      ]
+    },
+    "flags": [ "WATERPROOF", "TRADER_AVOID", "SEMITANGIBLE", "ONLY_ONE", "OVERSIZE", "AURA" ]
+  },
+  {
+    "id": "force_magical_armor",
+    "type": "SPELL",
+    "name": "Force Shield",
+    "description": "Adds a shield of pure force that protects your body and your clothing from attacks.",
+    "valid_targets": [ "none" ],
+    "flags": [ "VERBAL", "CONCENTRATE" ],
+    "effect": "spawn_item",
+    "effect_str": "force_magical_armor",
+    "spell_class": "FORCE_MAGE",
+    "energy_source": "MANA",
+    "base_casting_time": 500,
+    "base_energy_cost": 500,
+    "max_level": 35,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 360000,
+    "max_duration": 1440000,
+    "duration_increment": 40115
+  }
+]

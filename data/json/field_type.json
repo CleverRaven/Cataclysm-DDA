@@ -218,9 +218,22 @@
     "type": "field_type",
     "legacy_enum_id": 9,
     "intensity_levels": [
-      { "name": "thin sludge trail", "sym": "5", "color": "light_gray", "dangerous": true },
-      { "name": "sludge trail", "color": "dark_gray" },
-      { "name": "thick sludge trail" }
+      {
+        "name": "thin sludge trail",
+        "sym": "5",
+        "color": "light_gray",
+        "dangerous": true,
+        "effects": [ { "effect_id": "sludged", "intensity": 1, "immune_in_vehicle": true, "is_environmental": false } ]
+      },
+      {
+        "name": "sludge trail",
+        "color": "dark_gray",
+        "effects": [ { "effect_id": "sludged", "intensity": 2, "immune_in_vehicle": true, "is_environmental": false } ]
+      },
+      {
+        "name": "thick sludge trail",
+        "effects": [ { "effect_id": "sludged", "intensity": 3, "immune_in_vehicle": true, "is_environmental": false } ]
+      }
     ],
     "description_affix": "covered_in",
     "is_splattering": true,

@@ -5006,6 +5006,15 @@
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "thread", 25 ] ] ]
   },
   {
+    "result": "string_36",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "time": "30 s",
+    "components": [ [ [ "string_6", 6 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "plunger_toilet",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",

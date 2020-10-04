@@ -578,10 +578,12 @@ void memorial_logger::notify( const cata::event &e )
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
                 const effect_type &type = e.get<efftype_id>( "effect" ).obj();
-                const std::string message = type.get_apply_memorial_log();
-                if( !message.empty() ) {
-                    add( pgettext( "memorial_male", message.c_str() ),
-                         pgettext( "memorial_female", message.c_str() ) );
+                const std::string male_message = type.get_apply_memorial_log(
+                                                     effect_type::memorial_gender::male );
+                const std::string female_message = type.get_apply_memorial_log(
+                                                       effect_type::memorial_gender::female );
+                if( !male_message.empty() || !female_message.empty() ) {
+                    add( male_message, female_message );
                 }
             }
             break;
@@ -641,10 +643,12 @@ void memorial_logger::notify( const cata::event &e )
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
                 const effect_type &type = e.get<efftype_id>( "effect" ).obj();
-                const std::string message = type.get_remove_memorial_log();
-                if( !message.empty() ) {
-                    add( pgettext( "memorial_male", message.c_str() ),
-                         pgettext( "memorial_female", message.c_str() ) );
+                const std::string male_message = type.get_remove_memorial_log(
+                                                     effect_type::memorial_gender::male );
+                const std::string female_message = type.get_remove_memorial_log(
+                                                       effect_type::memorial_gender::female );
+                if( !male_message.empty() || !female_message.empty() ) {
+                    add( male_message, female_message );
                 }
             }
             break;

@@ -1,0 +1,82 @@
+[
+  {
+    "type": "recipe",
+    "result": "bot_laserturret_xray",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 8 ], [ "computer", 5 ] ],
+    "difficulty": 8,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 9,
+    "book_learn": [ [ "recipe_lab_elec", 8 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "laser_cannon_xray", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ],
+      [ [ "xray_laser_barrel", 3 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "abstract": "bot_utilibot_base",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 4 ], [ "computer", 5 ] ],
+    "difficulty": 6,
+    "time": 25000,
+    "reversible": false,
+    "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
+    "tools": [ [ [ "electrohack", 20 ] ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ]
+  },
+  {
+    "result": "bot_utilibot_beehive",
+    "type": "recipe",
+    "id_suffix": "from_parts",
+    "copy-from": "bot_utilibot_base",
+    "components": [
+      [ [ "broken_utilibot", 1 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "metal_tank_little", 4 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "afs_circuitry_2", 2 ] ],
+      [ [ "afs_circuitry_3", 1 ] ],
+      [ [ "afs_circuitry_1", 4 ] ],
+      [ [ "afs_energy_storage_3", 1 ] ],
+      [ [ "afs_material_1", 2 ] ]
+    ]
+  },
+  {
+    "result": "bot_utilibot_beehive",
+    "type": "recipe",
+    "id_suffix": "repair",
+    "copy-from": "bot_utilibot_base",
+    "components": [
+      [ [ "broken_utilibot_beehive", 1 ] ],
+      [ [ "afs_circuitry_1", 4 ] ],
+      [ [ "afs_energy_storage_3", 1 ] ],
+      [ [ "afs_material_1", 6 ] ],
+      [ [ "robot_controls", 1 ] ]
+    ]
+  }
+]

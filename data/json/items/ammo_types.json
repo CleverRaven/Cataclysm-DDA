@@ -682,5 +682,11 @@
     "id": "123ln",
     "name": "12.3ln cartridge",
     "default": "123ln"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "glowstick_juice",
+    "name": "glowstick juice",
+    "default": "glowstick_juice"
   }
 ]

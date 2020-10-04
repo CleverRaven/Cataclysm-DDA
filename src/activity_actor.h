@@ -608,7 +608,7 @@ class consume_activity_actor : public activity_actor
         consume_activity_actor( const item_location &consume_location ) :
             consume_location( consume_location ), consume_menu_selections( std::vector<int>() ) {}
 
-        consume_activity_actor( item consume_item ) :
+        consume_activity_actor( const item &consume_item ) :
             consume_item( consume_item ), consume_menu_selections( std::vector<int>() ) {}
 
         activity_id get_type() const override {

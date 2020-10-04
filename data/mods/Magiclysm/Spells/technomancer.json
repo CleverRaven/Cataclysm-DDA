@@ -367,6 +367,28 @@
     "duration_increment": 200
   },
   {
+    "id": "summon_magic_motorcycle",
+    "type": "SPELL",
+    "name": "Summon Mojocycle",
+    "description": "You're not a cowboy, but on a steel horse you ride regardless.",
+    "valid_targets": [ "ground" ],
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
+    "effect": "summon_vehicle",
+    "spell_class": "TECHNOMANCER",
+    "energy_source": "MANA",
+    "effect_str": "magic_motorcycle",
+    "difficulty": 5,
+    "max_level": 20,
+    "base_casting_time": 120,
+    "base_energy_cost": 500,
+    "min_range": 1,
+    "max_range": 10,
+    "range_increment": 1,
+    "min_duration": 400000,
+    "max_duration": 9600000,
+    "duration_increment": 200
+  },
+  {
     "id": "overcharge_burn",
     "type": "SPELL",
     "name": "Overcharge Burn",

@@ -25,6 +25,7 @@
     "description": "This is a lumbering tool moonlighting as weapon of opportunity.  If loaded with gas, using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon.",
     "weight": "6577 g",
     "volume": "2500 ml",
+    "longest_side": "82 cm",
     "price": 8000,
     "price_postapoc": 500,
     "to_hit": -3,

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "void_claws",
+    "type": "SPELL",
+    "name": "Void Claws",
+    "description": "This is a spell that causes a DoT effect whenever you hit.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT" ],
+    "effect": "target_attack",
+    "min_dot": 8,
+    "max_dot": 8,
+    "min_damage": 3,
+    "max_damage": 3,
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": 300,
+    "max_duration": 300,
+    "damage_type": "biological"
+  },
+  {
+    "type": "enchantment",
+    "id": "VOID_MAGE",
+    "condition": "ALWAYS",
+    "hit_you_effect": [ { "id": "void_claws" } ]
+  }
+]

@@ -64,8 +64,7 @@ std::string enum_to_string<spell_target>( spell_target data )
         case spell_target::ground: return "ground";
         case spell_target::none: return "none";
         case spell_target::item: return "item";
-        case spell_target::fire: return "fd_fire";
-        case spell_target::blood: return "fd_blood";
+        case spell_target::field: return "field";
         case spell_target::num_spell_targets: break;
     }
     debugmsg( "Invalid valid_target" );
@@ -94,6 +93,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
         case spell_flag::RANDOM_DURATION: return "RANDOM_DURATION";
         case spell_flag::RANDOM_TARGET: return "RANDOM_TARGET";
+        case spell_flag::RANDOM_CRITTER: return "RANDOM_CRITTER";
         case spell_flag::MUTATE_TRAIT: return "MUTATE_TRAIT";
         case spell_flag::PAIN_NORESIST: return "PAIN_NORESIST";
         case spell_flag::WITH_CONTAINER: return "WITH_CONTAINER";
@@ -161,7 +161,7 @@ const int spell_type::min_dot_default = 0;
 const float spell_type::dot_increment_default = 0.0f;
 const int spell_type::max_dot_default = 0;
 const int spell_type::min_duration_default = 0;
-const float spell_type::duration_increment_default = 0.0f;
+const int spell_type::duration_increment_default = 0;
 const int spell_type::max_duration_default = 0;
 const int spell_type::min_pierce_default = 0;
 const float spell_type::pierce_increment_default = 0.0f;
@@ -241,6 +241,8 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         { "charm_monster", spell_effect::charm_monster },
         { "mutate", spell_effect::mutate },
         { "bash", spell_effect::bash },
+        { "dash", spell_effect::dash },
+        { "banishment", spell_effect::banishment },
         { "none", spell_effect::none }
     };
 
@@ -264,9 +266,6 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         effect = found_effect->second;
     }
 
-    const auto effect_targets_reader = enum_flags_reader<spell_target> { "effect_targets" };
-    optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
-
     const auto targeted_monster_ids_reader = auto_flags_reader<mtype_id> {};
     optional( jo, was_loaded, "targeted_monster_ids", targeted_monster_ids,
               targeted_monster_ids_reader );
@@ -274,13 +273,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     const auto trigger_reader = enum_flags_reader<spell_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
-    if( jo.has_array( "extra_effects" ) ) {
-        for( JsonObject fake_spell_obj : jo.get_array( "extra_effects" ) ) {
-            fake_spell temp;
-            temp.load( fake_spell_obj );
-            additional_spells.emplace_back( temp );
-        }
-    }
+    optional( jo, was_loaded, "extra_effects", additional_spells );
 
     optional( jo, was_loaded, "affected_body_parts", affected_bps );
     const auto flag_reader = enum_flags_reader<spell_flag> { "flags" };
@@ -343,6 +336,88 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     for( const JsonMember member : jo.get_object( "learn_spells" ) ) {
         learn_spells.insert( std::pair<std::string, int>( member.name(), member.get_int() ) );
     }
+}
+
+void spell_type::serialize( JsonOut &json ) const
+{
+    json.start_object();
+
+    json.member( "type", "SPELL" );
+    json.member( "id", id );
+    json.member( "name", name.translated() );
+    json.member( "description", description.translated() );
+    json.member( "effect", effect_name );
+    json.member( "valid_targets", valid_targets, enum_bitset<spell_target> {} );
+    json.member( "effect_str", effect_str, effect_str_default );
+    json.member( "skill", skill, skill_default );
+    json.member( "components", spell_components, spell_components_default );
+    json.member( "message", message.translated(), message_default.translated() );
+    json.member( "sound_description", sound_description.translated(),
+                 sound_description_default.translated() );
+    json.member( "sound_type", io::enum_to_string( sound_type ),
+                 io::enum_to_string( sound_type_default ) );
+    json.member( "sound_ambient", sound_ambient, sound_ambient_default );
+    json.member( "sound_id", sound_id, sound_id_default );
+    json.member( "sound_variant", sound_variant, sound_variant_default );
+    json.member( "targeted_monster_ids", targeted_monster_ids, std::set<mtype_id> {} );
+    json.member( "extra_effects", additional_spells, std::vector<fake_spell> {} );
+    if( !affected_bps.none() ) {
+        json.member( "affected_body_parts", affected_bps );
+    }
+    json.member( "flags", spell_tags, enum_bitset<spell_flag> {} );
+    if( field ) {
+        json.member( "field_id", field->id().str() );
+        json.member( "field_chance", field_chance, field_chance_default );
+        json.member( "max_field_intensity", max_field_intensity, max_field_intensity_default );
+        json.member( "min_field_intensity", min_field_intensity, min_field_intensity_default );
+        json.member( "field_intensity_increment", field_intensity_increment,
+                     field_intensity_increment_default );
+        json.member( "field_intensity_variance", field_intensity_variance,
+                     field_intensity_variance_default );
+    }
+    json.member( "min_damage", min_damage, min_damage_default );
+    json.member( "max_damage", max_damage, max_damage_default );
+    json.member( "damage_increment", damage_increment, damage_increment_default );
+    json.member( "min_range", min_range, min_range_default );
+    json.member( "max_range", max_range, min_range_default );
+    json.member( "range_increment", range_increment, range_increment_default );
+    json.member( "min_aoe", min_aoe, min_aoe_default );
+    json.member( "max_aoe", max_aoe, max_aoe_default );
+    json.member( "aoe_increment", aoe_increment, aoe_increment_default );
+    json.member( "min_dot", min_dot, min_dot_default );
+    json.member( "max_dot", max_dot, max_dot_default );
+    json.member( "dot_increment", dot_increment, dot_increment_default );
+    json.member( "min_duration", min_duration, min_duration_default );
+    json.member( "max_duration", max_duration, max_duration_default );
+    json.member( "duration_increment", duration_increment, duration_increment_default );
+    json.member( "min_pierce", min_pierce, min_pierce_default );
+    json.member( "max_pierce", max_pierce, max_pierce_default );
+    json.member( "pierce_increment", pierce_increment, pierce_increment_default );
+    json.member( "base_energy_cost", base_energy_cost, base_energy_cost_default );
+    json.member( "final_energy_cost", final_energy_cost, base_energy_cost );
+    json.member( "energy_increment", energy_increment, energy_increment_default );
+    json.member( "spell_class", spell_class, spell_class_default );
+    json.member( "energy_source", io::enum_to_string( energy_source ),
+                 io::enum_to_string( energy_source_default ) );
+    json.member( "damage_type", io::enum_to_string( dmg_type ),
+                 io::enum_to_string( dmg_type_default ) );
+    json.member( "difficulty", difficulty, difficulty_default );
+    json.member( "max_level", max_level, max_level_default );
+    json.member( "base_casting_time", base_casting_time, base_casting_time_default );
+    json.member( "final_casting_time", final_casting_time, base_casting_time );
+    json.member( "casting_time_increment", casting_time_increment, casting_time_increment_default );
+    if( !learn_spells.empty() ) {
+        json.member( "learn_spells" );
+        json.start_object();
+
+        for( const std::pair<const std::string, int> &sp : learn_spells ) {
+            json.member( sp.first, sp.second );
+        }
+
+        json.end_object();
+    }
+
+    json.end_object();
 }
 
 static bool spell_infinite_loop_check( std::set<spell_id> spell_effects, const spell_id &sp )
@@ -701,6 +776,10 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( Character &guy ) const
 {
+    if( guy.has_trait_flag( "NO_SPELLCASTING" ) ) {
+        return false;
+    }
+
     if( !type->spell_components.is_empty() &&
         !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos(), 0 ),
                 return_true<item> ) ) {
@@ -1038,11 +1117,6 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
     return valid;
 }
 
-bool spell::is_valid_effect_target( spell_target t ) const
-{
-    return type->effect_targets[t];
-}
-
 bool spell::target_by_monster_id( const tripoint &p ) const
 {
     if( type->targeted_monster_ids.empty() ) {
@@ -1302,10 +1376,12 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
 cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
         const tripoint &caster_pos ) const
 {
+    const bool ignore_ground = has_flag( spell_flag::RANDOM_CRITTER );
     std::set<tripoint> valid_area;
     for( const tripoint &target : spell_effect::spell_effect_blast( *this, caster_pos, caster_pos,
             range(), false ) ) {
-        if( is_valid_target( caster, target ) ) {
+        if( target != caster_pos && is_valid_target( caster, target ) &&
+            ( !ignore_ground || g->critter_at<Creature>( target ) ) ) {
             valid_area.emplace( target );
         }
     }
@@ -1502,17 +1578,20 @@ void known_magic::mod_mana( const Character &guy, int add_mana )
 int known_magic::max_mana( const Character &guy ) const
 {
     const float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
+    const int bionic_penalty = std::round( std::max( 0.0f,
+                                           units::to_kilojoule( guy.get_power_level() ) *
+                                           guy.mutation_value( "bionic_mana_penalty" ) ) );
     const float unaugmented_mana = std::max( 0.0f,
                                    ( ( mana_base + int_bonus ) * guy.mutation_value( "mana_multiplier" ) ) +
-                                   guy.mutation_value( "mana_modifier" ) - units::to_kilojoule( guy.get_power_level() ) );
+                                   guy.mutation_value( "mana_modifier" ) - bionic_penalty );
     return guy.calculate_by_enchantment( unaugmented_mana, enchant_vals::mod::MAX_MANA, true );
 }
 
 void known_magic::update_mana( const Character &guy, float turns )
 {
     // mana should replenish in 8 hours.
-    const float full_replenish = to_turns<float>( 8_hours );
-    const float ratio = turns / full_replenish;
+    const double full_replenish = to_turns<double>( 8_hours );
+    const double ratio = turns / full_replenish;
     mod_mana( guy, std::floor( ratio * guy.calculate_by_enchantment( max_mana( guy ) *
                                guy.mutation_value( "mana_regen_multiplier" ), enchant_vals::mod::REGEN_MANA ) ) );
 }
@@ -1830,7 +1909,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         } else {
             monster_name = monster( mtype_id( sp.effect_data() ) ).get_name( );
         }
-        damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(), _( monster_name ) );
+        damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(), monster_name );
         aoe_string = string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
     } else if( fx == "targeted_polymorph" ) {
         std::string monster_name = sp.effect_data();
@@ -1850,6 +1929,13 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                                        monster_name );
     } else if( fx == "ter_transform" ) {
         aoe_string = string_format( "%s: %s", _( "Spell Radius" ), sp.aoe_string() );
+    } else if( fx == "banishment" ) {
+        damage_string = string_format( "%s: %s %s", _( "Damage" ), sp.damage_string(),
+                                       sp.damage_type_string() );
+        if( sp.aoe() > 0 ) {
+            ;
+            aoe_string = string_format( _( "Spell Radius: %d" ), sp.aoe() );
+        }
     }
 
     range_string = string_format( "%s: %s", _( "Range" ),

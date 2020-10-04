@@ -1834,6 +1834,10 @@ it is present to help catch errors.
     [ "hand_l", 50 ],
     [ "hand_r", 50 ]
 ],
+"encumbrance_multiplier_always": { // if the bodypart has encumbrance caused by a mutation, multiplies that encumbrance penalty by this multiplier.
+  "arm_l": 0.75,                   // DOES NOT AFFECT CLOTHING ENCUMBRANCE
+  "arm_r": 0.75
+},
 "armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
     [
         [ "head" ],
@@ -2168,8 +2172,8 @@ These values apply to crafting tasks performed at the WORKBENCH.
   "y" : 8,   // The y placement. Can be a single value or a range of possibilities. Not needed if placement is specified.
   "facing" : [90,270], // The facing of the vehicle. Can be a single value or an array of possible values. Not needed if placement is specified.
   "number" : 1, // The number of vehicles to spawn.
-  "fuel" : -1, // The fuel of the new vehicles.
-  "status" : 1  // The status of the new vehicles.
+  "fuel" : -1, // The fuel of the new vehicles. Defined in percentage. 0 is empty, 100 is full tank, -1 is random from 7% to 35% (default).
+  "status" : 1  // The status of the new vehicles. -1 = light damage (default), 0 = undamaged, 1 = disabled, destroyed tires OR engine.
 } } ]
 ```
 
@@ -2620,8 +2624,8 @@ Gun mods can be defined like this:
 // Only GUNMOD type items may define the following fields:
 "location": "stock",           // Mandatory. Where is this gunmod is installed?
 "mod_targets": [ "crossbow" ], // Mandatory. What kind of weapons can this gunmod be used with?
+"install_time": "30 s",        // Mandatory. How long does installation take? An integer will be read as moves or a time string can be used.
 "acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
-"install_time": "30 s",        // Optional time installation takes. Installation is instantaneous if unspecified. An integer will be read as moves or a time string can be used.
 "ammo_modifier": [ "57" ],     // Optional field which if specified modifies parent gun to use these ammo types
 "magazine_adaptor": [ [ "223", [ "stanag30" ] ] ], // Optional field which changes the types of magazines the parent gun accepts
 "burst_modifier": 3,           // Optional field increasing or decreasing base gun burst size

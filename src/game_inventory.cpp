@@ -487,6 +487,7 @@ item_location game_menus::inv::disassemble( Character &p )
                          _( "You don't have any items you could disassemble." ) );
 }
 
+
 class comestible_inventory_preset : public inventory_selector_preset
 {
     public:
@@ -533,6 +534,33 @@ class comestible_inventory_preset : public inventory_selector_preset
                 //~ Eat menu Volume: <num><unit>
                 return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
             }, _( "VOLUME" ) );
+
+            // Title of this cell. Defined here in order to preserve proper padding and alignment of values in the lambda.
+            const std::string this_cell_title = _( "SATIETY" );
+            append_cell( [&p, this_cell_title]( const item_location & loc ) {
+                const item &it = *loc;
+                // Quit prematurely if the item is not food.
+                if( !it.type->comestible ) {
+                    return std::string();
+                }
+                const int calories_per_effective_volume = p.compute_calories_per_effective_volume( it );
+                // Show empty cell instead of 0.
+                if( calories_per_effective_volume == 0 ) {
+                    return std::string();
+                }
+                /* This is for screen readers. I will make a PR to discuss what these prerequisites could be -
+                bio_digestion, selfaware, high cooking skill etc*/
+                constexpr bool ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE = false;
+                if( ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE ) {
+                    return string_format( "%d", calories_per_effective_volume );
+                }
+                std::string result = satiety_bar( calories_per_effective_volume );
+                // if this_cell_title is larger than 5 characters, pad to match its length, preserving alignment.
+                if( utf8_width( this_cell_title ) > 5 ) {
+                    result += std::string( utf8_width( this_cell_title ) - 5, ' ' );
+                }
+                return result;
+            }, _( this_cell_title ) );
 
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
@@ -1265,7 +1293,7 @@ drop_locations game_menus::inv::holster( player &p, const item_location &holster
 
     const std::string title = ( actor ? actor->holster_prompt.empty() : true )
                               ? string_format( _( "Put item into %s" ), holster->tname() )
-                              : _( actor->holster_prompt );
+                              : actor->holster_prompt.translated();
     const std::string hint = string_format( _( "Choose an item to put into your %s" ),
                                             holster_name );
 
@@ -1286,27 +1314,33 @@ drop_locations game_menus::inv::holster( player &p, const item_location &holster
 void game_menus::inv::insert_items( avatar &you, item_location &holster )
 {
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
+    bool all_pockets_rigid = holster->contents.all_pockets_rigid();
     for( drop_location holstered_item : holstered_list ) {
         if( !holstered_item.first ) {
             continue;
         }
         item &it = *holstered_item.first;
         bool success = false;
-        if( !it.count_by_charges() || it.count() == holstered_item.second ) {
-            if( holster.parents_can_contain_recursive( &it ) ) {
+        if( !it.count_by_charges() ) {
+            if( all_pockets_rigid || holster.parents_can_contain_recursive( &it ) ) {
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER ).success();
                 if( success ) {
                     holstered_item.first.remove_item();
                 }
             }
         } else {
-            item item_copy( it );
-            item_copy.charges = holstered_item.second;
+            int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,
+                          holster.max_charges_by_parent_recursive( it ) );
 
-            if( holster.parents_can_contain_recursive( &item_copy ) ) {
-                success = holster->put_in( item_copy, item_pocket::pocket_type::CONTAINER ).success();
+            if( charges > 0 ) {
+                int result = holster->fill_with( it, charges );
+                success = result > 0;
+
                 if( success ) {
-                    it.charges -= holstered_item.second;
+                    it.charges -= result;
+                    if( it.charges == 0 ) {
+                        holstered_item.first.remove_item();
+                    }
                 }
             }
         }

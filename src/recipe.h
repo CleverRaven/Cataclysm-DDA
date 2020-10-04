@@ -166,7 +166,8 @@ class recipe
         std::string required_skills_string( const Character *, bool include_primary_skill,
                                             bool print_skill_level ) const;
         // Format the proficiencies string.
-        std::string required_proficiencies_string( const Character &c ) const;
+        std::string required_proficiencies_string( const Character *c ) const;
+        std::string used_proficiencies_string( const Character *c ) const;
         // Required proficiencies
         std::set<proficiency_id> required_proficiencies() const;
         //

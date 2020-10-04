@@ -493,7 +493,7 @@
         "Z": { "item": "coat_rack", "chance": 70 }
       },
       "place_item": [ { "item": "beartrap", "x": 15, "y": [ 40, 42 ], "chance": 100, "repeat": 3 } ],
-      "signs": { "s": { "signage": "St. John Dairy. 555-0199 Daily Farm Tours" } },
+      "signs": { "s": { "signage": "St. John Dairy.  555-0199 Daily Farm Tours" } },
       "traps": { "q": "tr_beartrap" },
       "monster": {
         "q": { "monster": "mon_zombie", "name": "Danny" },
