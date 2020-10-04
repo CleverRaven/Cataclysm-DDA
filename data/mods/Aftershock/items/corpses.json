@@ -242,5 +242,43 @@
     "color": "light_blue",
     "name": "broken advanced robot",
     "description": "A broken advanced robot.  This one is armed with an integrated EMP projector.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_milbot_disarmed",
+    "symbol": ",",
+    "color": "green",
+    "looks_like": "broken_secubot",
+    "name": "broken disarmed military bot",
+    "category": "other",
+    "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_defbot_disarmed",
+    "symbol": ",",
+    "color": "light_gray",
+    "looks_like": "broken_riotbot",
+    "name": "broken disarmed defense bot",
+    "category": "other",
+    "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
   }
 ]
