@@ -6933,6 +6933,19 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         return true;
     }
 
+    if( is_watertight_container() && !contents.empty() ) {
+        if( contents.num_item_stacks() != 1 ) {
+            return false;
+        } else if( contents.only_item().typeId() == ammo ) {
+            return true;
+        }
+    }
+
+    if( is_watertight_container() && contents.empty() &&
+        ammo.obj().phase == phase_id::LIQUID ) {
+        return true;
+    }
+
     if( magazine_integral() ) {
         if( ammo_data() ) {
             if( ammo_current() != ammo ) {
@@ -8054,7 +8067,12 @@ void item::reload_option::qty( int val )
     }
 
     bool ammo_by_charges = ammo_obj.is_ammo() || ammo_in_liquid_container;
-    int available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.ammo_remaining();
+    int available_ammo;
+    if( ammo->has_flag( flag_SPEEDLOADER ) ) {
+        available_ammo = ammo_obj.ammo_remaining();
+    } else {
+        available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.count();
+    }
     // constrain by available ammo, target capacity and other external factors (max_qty)
     // @ref max_qty is currently set when reloading ammo belts and limits to available linkages
     qty_ = std::min( { val, available_ammo, remaining_capacity, max_qty } );
@@ -8168,6 +8186,10 @@ bool item::reload( Character &u, item_location ammo, int qty )
         }
         item contents( ammo->type );
         fill_with( contents, qty );
+        if( ammo.has_parent() ) {
+            ammo.parent_item()->contained_where( *ammo.get_item() )->on_contents_changed();
+        }
+        ammo->charges -= qty;
     } else {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
@@ -10055,6 +10077,15 @@ bool item::is_reloadable() const
 
     } else if( is_magazine() || contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
         return true;
+
+    } else if( !is_container_full() && is_watertight_container() ) {
+        if( is_container_empty() ) {
+            return true;
+        }
+        if( contents.num_item_stacks() == 1 &&
+            contents.only_item().made_of_from_type( phase_id::LIQUID ) ) {
+            return true;
+        }
     }
 
     return false;
