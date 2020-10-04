@@ -9,7 +9,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "GUN_DISPERSION_DIVIDER",
-    "info": "Value that divides total weapon dispersion. 15 means that weapons became 15 times more accurate than default.",
+    "info": "Value that divides total weapon dispersion.  15 means that weapons became 15 times more accurate than default.",
     "stype": "float",
     "value": 18
   },
@@ -23,7 +23,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_BASE_STAMINA_REGEN_RATE",
-    "info": "Sets base stamina regeneration per turn of the player. May be used as an offset in stamina draining effects.",
+    "info": "Sets base stamina regeneration per turn of the player.  May be used as an offset in stamina draining effects.",
     "stype": "float",
     "value": 20
   },
@@ -37,35 +37,35 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_HUNGER_RATE",
-    "info": "Set base hunger rate per 5 minutes. Default: 1.0",
+    "info": "Set base hunger rate per 5 minutes.  Default: 1.0",
     "stype": "float",
     "value": 1.0
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_THIRST_RATE",
-    "info": "Set base thirst rate per 5 minutes. Default: 1.0",
+    "info": "Set base thirst rate per 5 minutes.  Default: 1.0",
     "stype": "float",
     "value": 1.0
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_FATIGUE_RATE",
-    "info": "Set base fatigue rate per 5 minutes. Default: 1.0",
+    "info": "Set base fatigue rate per 5 minutes.  Default: 1.0",
     "stype": "float",
     "value": 1.0
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_HEALING_RATE",
-    "info": "Set base player healing rate per turn. Default: 0.0001",
+    "info": "Set base player healing rate per turn.  Default: 0.0001",
     "stype": "float",
     "value": 0.0001
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "NPC_HEALING_RATE",
-    "info": "Set base NPC healing rate per turn. Default: 0.0001",
+    "info": "Set base NPC healing rate per turn.  Default: 0.0001",
     "stype": "float",
     "value": 0.0001
   },
@@ -79,7 +79,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "NO_NPC_FOOD",
-    "info": "Disables tracking food, thirst and ( partially ) fatigue for NPCs. If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties.",
+    "info": "Disables tracking food, thirst and ( partially ) fatigue for NPCs.  If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties.",
     "stype": "bool",
     "value": false
   },
@@ -93,7 +93,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "CBM_SLOTS_ENABLED",
-    "info": "Enables CBM slots mechanics. If true CBM slots are enabled.",
+    "info": "Enables CBM slots mechanics.  If true CBM slots are enabled.",
     "stype": "bool",
     "value": false
   },

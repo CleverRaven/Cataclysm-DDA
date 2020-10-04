@@ -44,7 +44,7 @@
     "type": "GUN",
     "symbol": "/",
     "color": "red",
-    "name": { "str": "fake riotgun" },
+    "name": { "str": "fake gasgun" },
     "ranged_damage": { "damage_type": "bash", "amount": 1 },
     "description": "Shoots pacification gas.  If you're seeing this, it's a bug.",
     "skill": "launcher",

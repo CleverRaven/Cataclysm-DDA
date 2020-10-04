@@ -565,11 +565,12 @@ void character_edit_menu()
     }
 
     enum {
-        D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_DESC, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA
     };
-    nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
+    nmenu.addentry( D_DESC, true, 'D', "%s",
+                    _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
     nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
@@ -587,7 +588,7 @@ void character_edit_menu()
                     hotkey_for_action( ACTION_PL_INFO, /*maximum_modifier_count=*/1 ),
                     "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
-    nmenu.addentry( D_ADD_EFFECT, true, 't', "%s", _( "Add an effec[t]" ) );
+    nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an [E]ffect" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
@@ -795,16 +796,74 @@ void character_edit_menu()
             }
         }
         break;
-        case D_NAME: {
-            std::string filterstring = p.name;
-            string_input_popup popup;
-            popup
-            .title( _( "Rename:" ) )
-            .width( 85 )
-            .description( string_format( _( "NPC:\n%s\n" ), p.name ) )
-            .edit( filterstring );
-            if( popup.confirmed() ) {
-                p.name = filterstring;
+        case D_DESC: {
+            uilist smenu;
+            std::string current_bloodt = io::enum_to_string( p.my_blood_type ) + ( p.blood_rh_factor ? "+" :
+                                         "-" );
+            smenu.text = _( "Select a value and press enter to change it." );
+            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current name" ), p.get_name() );
+            smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), p.base_age() );
+            smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), p.base_height() );
+            smenu.addentry( 3, true, 'b', "%s: %s", _( "Current blood type:" ), current_bloodt );
+            smenu.query();
+            switch( smenu.ret ) {
+                case 0: {
+                    std::string filterstring = p.name;
+                    string_input_popup popup;
+                    popup
+                    .title( _( "Rename:" ) )
+                    .width( 85 )
+                    .edit( filterstring );
+                    if( popup.confirmed() ) {
+                        p.name = filterstring;
+                    }
+                }
+                break;
+                case 1: {
+                    string_input_popup popup;
+                    popup.title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
+                    .text( string_format( "%d", p.base_age() ) )
+                    .only_digits( true );
+                    const int result = popup.query_int();
+                    if( result != 0 ) {
+                        p.set_base_age( clamp( result, 16, 55 ) );
+                    }
+                }
+                break;
+                case 2: {
+                    string_input_popup popup;
+                    popup.title( _( "Enter height in centimeters.  Minimum 145, maximum 200" ) )
+                    .text( string_format( "%d", p.base_height() ) )
+                    .only_digits( true );
+                    const int result = popup.query_int();
+                    if( result != 0 ) {
+                        p.set_base_height( clamp( result, 145, 200 ) );
+                    }
+                }
+                break;
+                case 3: {
+                    uilist btype;
+                    btype.text = _( "Select blood type" );
+                    btype.addentry( static_cast<int>( blood_type::blood_O ), true, '1', "O" );
+                    btype.addentry( static_cast<int>( blood_type::blood_A ), true, '2', "A" );
+                    btype.addentry( static_cast<int>( blood_type::blood_B ), true, '3', "B" );
+                    btype.addentry( static_cast<int>( blood_type::blood_AB ), true, '4', "AB" );
+                    btype.query();
+                    if( btype.ret < 0 ) {
+                        break;
+                    }
+                    uilist bfac;
+                    bfac.text = _( "Select Rh factor" );
+                    bfac.addentry( 0, true, '-', _( "negative" ) );
+                    bfac.addentry( 1, true, '+', _( "positive" ) );
+                    bfac.query();
+                    if( bfac.ret < 0 ) {
+                        break;
+                    }
+                    p.my_blood_type = static_cast<blood_type>( btype.ret );
+                    p.blood_rh_factor = static_cast<bool>( bfac.ret );
+                    break;
+                }
             }
         }
         break;
@@ -1412,7 +1471,7 @@ void debug()
                     if( elem == vproto_id( "custom" ) ) {
                         continue;
                     }
-                    veh_strings.emplace_back( _( elem->name ), elem );
+                    veh_strings.emplace_back( elem->name.translated(), elem );
                 }
                 std::sort( veh_strings.begin(), veh_strings.end(), localized_compare );
                 uilist veh_menu;

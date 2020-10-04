@@ -1585,9 +1585,10 @@ static void cycle_action( item &weap, const tripoint &pos )
         const itype_id casing = *weap.ammo_data()->ammo->casing;
         if( weap.has_flag( "RELOAD_EJECT" ) ) {
             weap.put_in( item( casing ).set_flag( "CASING" ), item_pocket::pocket_type::CONTAINER );
-        } else if( !( brass_catcher && brass_catcher->put_in( item( casing ),
-                      item_pocket::pocket_type::CONTAINER ).success() ) ) {
-            if( cargo.empty() ) {
+        } else {
+            if( brass_catcher && brass_catcher->can_contain( casing.obj() ) ) {
+                brass_catcher->put_in( item( casing ), item_pocket::pocket_type::CONTAINER );
+            } else if( cargo.empty() ) {
                 here.add_item_or_charges( eject, item( casing ) );
             } else {
                 vp->vehicle().add_item( *cargo.front(), item( casing ) );

@@ -149,6 +149,7 @@ static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_voice( "bio_voice" );
 static const bionic_id bio_emp( "bio_emp" );
 static const bionic_id bio_evap( "bio_evap" );
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
@@ -770,7 +771,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
         if( pnt && here.is_flammable( *pnt ) ) {
             add_msg_activate();
-            here.add_field( *pnt, field_type_id( "fd_fire" ), 1 );
+            here.add_field( *pnt, fd_fire, 1 );
             mod_moves( -100 );
         } else {
             refund_power();

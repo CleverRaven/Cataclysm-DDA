@@ -145,12 +145,12 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
 void ma_technique::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", name );
-    optional( jo, was_loaded, "description", description, "" );
+    optional( jo, was_loaded, "description", description, translation() );
 
     if( jo.has_member( "messages" ) ) {
         JsonArray jsarr = jo.get_array( "messages" );
-        avatar_message = jsarr.get_string( 0 );
-        npc_message = jsarr.get_string( 1 );
+        jsarr.read( 0, avatar_message );
+        jsarr.read( 1, npc_message );
     }
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
@@ -864,12 +864,12 @@ bool martialart::weapon_valid( const item &it ) const
 
 std::string martialart::get_initiate_avatar_message() const
 {
-    return initiate[0];
+    return initiate[0].translated();
 }
 
 std::string martialart::get_initiate_npc_message() const
 {
-    return initiate[1];
+    return initiate[1].translated();
 }
 // Player stuff
 
@@ -1254,7 +1254,7 @@ void character_martial_arts::martialart_use_message( const Character &owner ) co
 {
     martialart ma = style_selected.obj();
     if( ma.force_unarmed || ma.weapon_valid( owner.weapon ) ) {
-        owner.add_msg_if_player( m_info, _( ma.get_initiate_avatar_message() ) );
+        owner.add_msg_if_player( m_info, "%s", ma.get_initiate_avatar_message() );
     } else if( ma.strictly_melee && !owner.is_armed() ) {
         owner.add_msg_if_player( m_bad, _( "%s cannot be used unarmed." ), ma.name );
     } else if( ma.strictly_unarmed && owner.is_armed() ) {
@@ -1495,7 +1495,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         for( const auto &tech : ma.techniques ) {
             buffer += string_format( _( "<header>Technique:</header> <bold>%s</bold>   " ),
-                                     _( tech.obj().name ) ) + "\n";
+                                     tech.obj().name ) + "\n";
             buffer += tech.obj().get_description() + "--\n";
         }
 

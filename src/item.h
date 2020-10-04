@@ -567,6 +567,12 @@ class item : public visitable<item>
         /** Volume check for corpses, helper for base_volume(). */
         units::volume corpse_volume( const mtype *corpse ) const;
 
+        /**
+         * Volume to subtract when the item is collapsed or folded.
+         * @result positive value when the item increases in volume when wielded and 0 if no change.
+         */
+        units::volume collapsed_volume_delta() const;
+
         /** Required strength to be able to successfully lift the item unaided by equipment */
         int lift_strength() const;
 
@@ -1453,6 +1459,9 @@ class item : public visitable<item>
 
         /**Does this item have the specified fault*/
         bool has_fault( const fault_id &fault ) const;
+
+        /** Does this item part have a fault with this flag */
+        bool has_fault_flag( const std::string &searched_flag ) const;
 
         /**
          * @name Item properties

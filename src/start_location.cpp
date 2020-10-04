@@ -376,7 +376,7 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
     }
     std::shuffle( valid.begin(), valid.end(), rng_get_engine() );
     for( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
-        m.add_field( valid[i], field_type_id( "fd_fire" ), 3 );
+        m.add_field( valid[i], fd_fire, 3 );
     }
     m.save();
 }

@@ -744,7 +744,7 @@ void avatar::do_read( item &book )
             if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
                 continue;
             }
-            recipe_list.push_back( elem.name );
+            recipe_list.push_back( elem.name() );
         }
         if( !recipe_list.empty() ) {
             std::string recipe_line =

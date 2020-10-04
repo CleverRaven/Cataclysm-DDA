@@ -265,7 +265,11 @@
     "time": "3 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 2 }
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },

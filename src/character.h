@@ -967,6 +967,7 @@ class Character : public Creature, public visitable<Character>
         void forced_dismount();
 
         bool is_deaf() const;
+        bool is_mute() const;
         /** Returns true if the player has two functioning arms */
         bool has_two_arms() const;
         /** Returns the number of functioning arms */
@@ -2255,6 +2256,10 @@ class Character : public Creature, public visitable<Character>
         void modify_addiction( const islot_comestible &comest );
         /** Used to apply health modifications from food and medication **/
         void modify_health( const islot_comestible &comest );
+        /** Used to compute how filling a food is.*/
+        double compute_effective_food_volume_ratio( const item &food ) const;
+        /** Used to to display how filling a food is. */
+        int compute_calories_per_effective_volume( const item &food ) const;
         /** Handles the effects of consuming an item */
         bool consume_effects( item &food );
         /** Check character's capability of consumption overall */
@@ -2296,7 +2301,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both,
          *  and zero if on neither */
         int shoe_type_count( const itype_id &it ) const;
-        /** Returns 1 if the player is wearing something on both feet, .5 if on one,
+        /** Returns 1 if the player is wearing footwear on both feet, .5 if on one,
          *  and 0 if on neither */
         double footwear_factor() const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */

@@ -168,6 +168,15 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
             add_topics.push_back( "TALK_DEAF" );
         }
     }
+    if( player_character.is_mute() ) {
+        if( add_topics.back() == "TALK_MUG" ||
+            add_topics.back() == "TALK_STRANGER_AGGRESSIVE" ) {
+            me_npc->make_angry();
+            add_topics.push_back( "TALK_MUTE_ANGRY" );
+        } else {
+            add_topics.push_back( "TALK_MUTE" );
+        }
+    }
 
     if( me_npc->has_trait( trait_PROF_FOODP ) &&
         !( me_npc->is_wearing( itype_id( "foodperson_mask_on" ) ) ||

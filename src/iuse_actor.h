@@ -147,13 +147,13 @@ class countdown_actor : public iuse_actor
         countdown_actor( const std::string &type = "countdown" ) : iuse_actor( type ) {}
 
         /** if specified overrides default action name */
-        std::string name;
+        translation name;
 
         /** turns before countdown action (defaults to @ref itype::countdown_interval) */
         int interval = 0;
 
         /** message if player sees activation with %s replaced by item name */
-        std::string message;
+        translation message;
 
         ~countdown_actor() override = default;
         void load( const JsonObject &obj ) override;
@@ -194,10 +194,10 @@ class explosion_iuse : public iuse_actor
         int scrambler_blast_radius = -1;
         /** Volume of sound each turn, -1 means no sound at all */
         int sound_volume = -1;
-        std::string sound_msg;
+        translation sound_msg;
         /** Message shown when the player tries to deactivate the item,
          * which is not allowed. */
-        std::string no_deactivate_msg;
+        translation no_deactivate_msg;
 
         explosion_iuse( const std::string &type = "explosion" ) : iuse_actor( type ) {}
 
@@ -218,7 +218,7 @@ class unfold_vehicle_iuse : public iuse_actor
          * created when unfolding the item. */
         vproto_id vehicle_id;
         /** Message shown after successfully unfolding the item. */
-        std::string unfold_msg;
+        translation unfold_msg;
         /** Creature::moves it takes to unfold. */
         int moves = 0;
         std::map<itype_id, int> tools_needed;
@@ -249,7 +249,7 @@ class consume_drug_iuse : public iuse_actor
 {
     public:
         /** Message to display when drug is consumed. **/
-        std::string activation_message;
+        translation activation_message;
         /** Fields to produce when you take the drug, mostly intended for various kinds of smoke. **/
         std::map<std::string, int> fields_produced;
         /** Tool charges needed to take the drug, e.g. fire. **/
@@ -299,7 +299,7 @@ class delayed_transform_iuse : public iuse_transform
          * Message to display when the user activates the item before the
          * age has been reached.
          */
-        std::string not_ready_msg;
+        translation not_ready_msg;
 
         /** How much longer (in turns) until the transformation can be done, can be negative. */
         int time_to_do( const item &it ) const;
@@ -328,9 +328,9 @@ class place_monster_iuse : public iuse_actor
         /** Difficulty of programming the monster (to be friendly). */
         int difficulty = 0;
         /** Shown when programming the monster succeeded and it's friendly. Can be empty. */
-        std::string friendly_msg;
+        translation friendly_msg;
         /** Shown when programming the monster failed and it's hostile. Can be empty. */
-        std::string hostile_msg;
+        translation hostile_msg;
         /** Skills used to make the monster not hostile when activated. **/
         std::set<skill_id> skills;
         /** The monster will be spawned in as a pet. False by default. Can be empty. */
@@ -381,7 +381,7 @@ class place_npc_iuse : public iuse_actor
         bool place_randomly = false;
         int radius = 1;
         int moves = 100;
-        std::string summon_msg;
+        translation summon_msg;
 
         place_npc_iuse() : iuse_actor( "place_npc" ) { }
         ~place_npc_iuse() override = default;
@@ -431,7 +431,7 @@ class reveal_map_actor : public iuse_actor
         /**
          * The message displayed after revealing.
          */
-        std::string message;
+        translation message;
 
         void reveal_targets(
             const tripoint_abs_omt &center, const std::pair<std::string, ot_match_type> &target,
@@ -595,9 +595,9 @@ class fireweapon_off_actor : public iuse_actor
 {
     public:
         itype_id target_id;
-        std::string success_message;
-        std::string lacks_fuel_message;
-        std::string failure_message; // Due to bad roll
+        translation success_message = to_translation( "hsss" );
+        translation lacks_fuel_message;
+        translation failure_message = to_translation( "hsss" ); // Due to bad roll
         int noise = 0; // If > 0 success message is a success sound instead
         int moves = 0;
         // Lower is better: rng(0, 10) - item.damage_level( 4 ) > this variable
@@ -618,11 +618,11 @@ class fireweapon_off_actor : public iuse_actor
 class fireweapon_on_actor : public iuse_actor
 {
     public:
-        std::string noise_message; // If noise is 0, message content instead
-        std::string voluntary_extinguish_message;
-        std::string charges_extinguish_message;
-        std::string water_extinguish_message;
-        std::string auto_extinguish_message;
+        translation noise_message = to_translation( "hsss" ); // If noise is 0, message content instead
+        translation voluntary_extinguish_message;
+        translation charges_extinguish_message;
+        translation water_extinguish_message;
+        translation auto_extinguish_message;
         int noise = 0; // If 0, it produces a message instead of noise
         int noise_chance = 1; // one_in(this variable)
         int auto_extinguish_chance = 0; // one_in(this) per turn to fail
@@ -641,9 +641,9 @@ class fireweapon_on_actor : public iuse_actor
 class manualnoise_actor : public iuse_actor
 {
     public:
-        std::string no_charges_message;
-        std::string use_message;
-        std::string noise_message;
+        translation no_charges_message;
+        translation use_message;
+        translation noise_message = to_translation( "hsss" );
         std::string noise_id;
         std::string noise_variant;
         int noise = 0; // Should work even with no volume, even if it seems impossible
@@ -683,11 +683,11 @@ class musical_instrument_actor : public iuse_actor
         /**
         * List of sound descriptions for players
         */
-        std::vector< std::string > player_descriptions;
+        std::vector<translation> player_descriptions;
         /**
         * List of sound descriptions for NPCs
         */
-        std::vector< std::string > npc_descriptions;
+        std::vector<translation> npc_descriptions;
         /**
          * Display description once per this duration (@ref calendar::once_every).
          */
@@ -752,9 +752,9 @@ class holster_actor : public iuse_actor
 {
     public:
         /** Prompt to use when selecting an item */
-        std::string holster_prompt;
+        translation holster_prompt;
         /** Message to show when holstering an item */
-        std::string holster_msg;
+        translation holster_msg;
 
         /** Check if obj could be stored in the holster */
         bool can_holster( const item &holster, const item &obj ) const;
@@ -936,7 +936,7 @@ class place_trap_actor : public iuse_actor
             data();
             trap_str_id trap;
             /** The message shown when the trap has been set. */
-            std::string done_message;
+            translation done_message;
             /** Amount of practice of the "trap" skill. */
             int practice = 0;
             /** Move points that are used when placing the trap. */
@@ -959,7 +959,7 @@ class place_trap_actor : public iuse_actor
         /**
          * Contains the question asked when the player can bury the trap. Something like "Bury the trap?"
          */
-        std::string bury_question;
+        translation bury_question;
         /** Data that applies to buried traps. */
         data buried_data;
         /**

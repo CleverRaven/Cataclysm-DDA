@@ -103,7 +103,7 @@
       { "item": "smoxygen_tank", "prob": 5 },
       { "item": "eyedrops", "prob": 35 },
       { "item": "nic_gum", "prob": 25 },
-      { "item": "inhaler", "prob": 20 },
+      { "item": "inhaler", "prob": 20, "charges-min": 10, "charges-max": 100 },
       { "item": "codeine", "prob": 25 },
       { "item": "oxycodone", "prob": 20 },
       { "item": "tramadol", "prob": 20 },

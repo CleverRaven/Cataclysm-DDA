@@ -1,0 +1,17 @@
+[
+  {
+    "type": "SPELL",
+    "id": "dks_cameraflash",
+    "name": "camera",
+    "description": "an attack that blinds the target for a few turns",
+    "valid_targets": [ "hostile" ],
+    "effect": "target_attack",
+    "effect_str": "blind",
+    "message": "",
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": 425,
+    "max_duration": 425,
+    "flags": [ "SILENT" ]
+  }
+]

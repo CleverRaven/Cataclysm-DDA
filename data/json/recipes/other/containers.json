@@ -100,6 +100,10 @@
     "time": "164 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 52 ], [ "steel_standard", 13 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 }
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -154,6 +158,7 @@
     "using": [ [ "adhesive", 1 ], [ "waterproofing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_W", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 2 } ],
     "components": [
       [ [ "2x4", 2 ] ],
       [ [ "wire", 1 ], [ "scrap", 2 ], [ "copper_scrap_equivalent", 1, "LIST" ] ],
@@ -168,9 +173,13 @@
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": 90000,
+    "time": "2 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 }
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
   },
   {

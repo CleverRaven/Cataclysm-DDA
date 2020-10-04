@@ -59,6 +59,7 @@ enum class spell_flag : int {
     RANDOM_DAMAGE, // picks random number between min+increment*level and max instead of normal behavior
     RANDOM_DURATION, // picks random number between min+increment*level and max instead of normal behavior
     RANDOM_TARGET, // picks a random valid target within your range instead of normal behavior.
+    RANDOM_CRITTER, // same as RANDOM_TARGET but ignores ground
     MUTATE_TRAIT, // overrides the mutate spell_effect to use a specific trait_id instead of a category
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
@@ -86,8 +87,7 @@ enum class spell_target : int {
     ground,
     none,
     item,
-    fire,
-    blood,
+    field,
     num_spell_targets
 };
 
@@ -287,9 +287,6 @@ class spell_type
         magic_energy_type energy_source = magic_energy_type::none;
 
         damage_type dmg_type = damage_type::NONE;
-
-        // list of valid targets to be affected by the area of effect.
-        enum_bitset<spell_target> effect_targets;
 
         // list of valid targets enum
         enum_bitset<spell_target> valid_targets;
@@ -517,7 +514,6 @@ class spell
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( spell_target t ) const;
-        bool is_valid_effect_target( spell_target t ) const;
         bool target_by_monster_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area
@@ -638,6 +634,7 @@ void charm_monster( const spell &sp, Creature &caster, const tripoint &target );
 void mutate( const spell &sp, Creature &caster, const tripoint &target );
 void bash( const spell &sp, Creature &caster, const tripoint &target );
 void dash( const spell &sp, Creature &caster, const tripoint &target );
+void banishment( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 } // namespace spell_effect
 

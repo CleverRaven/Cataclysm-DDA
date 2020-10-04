@@ -1,0 +1,269 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "house_technomancer_1", "house_technomancer_2" ] ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "???????????????????????????????????p________????",
+        "?.......%!!!!%....................?!________...?",
+        "?..[....#::::#..[...!!!.....[.....?!________&[.?",
+        "?.....^##yffy#####..!````````````%##========##.?",
+        "?.....!#T    y|<>#%%%`!.......!!`!#'''''''''&#.?",
+        "?.....!: hfh  |  *````!..[....#o*##'ŦŦŦŦŦŦŦŦ'#.?",
+        "?.....!: hfh     *````!.......#'''+'±±±±±±±±'#??",
+        "?.....!: hfh x|L #%%%%%....[..#'''#+#::::::###.?",
+        "?.[...!#y    y|i #######......#>'<#''''''''''o.?",
+        "?.....!#|+|||||i  RRaRR::.....#####''''''''''#.?",
+        "?......#6,|~~+         y::.......^#|+||''z''N#^?",
+        "?...[..#6,|tS|     EsE  y::......%#W'U|''z'AN#.?",
+        "?......#|+|||| ||        y:..}...%#Z'U|z''''N#.?",
+        "?......#3,,00,,Y|  HHl   y:.......######*#####.?",
+        "?.....!#O,,JJ,,J|x   H  y::...........```G`....?",
+        "?...[.!o7,,,,,,J|x   H  ::............`````....?",
+        "?.....!#12354F,,|T    y::..............`.......?",
+        "?......####o##+###:::###...............`.......?",
+        "?..[......!!!````.!!!^.................`.......?",
+        "?.......[....`GK`......................`.......?",
+        "?...[........````......................`.......?",
+        "?..............`````````````````````````.......?",
+        "????????????????????????????????????????????????",
+        "................................................"
+      ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 0 ],
+            [ "roof_6x6_garden_4", 25 ],
+            [ "roof_6x6_garden_1", 25 ],
+            [ "greenhouse_6x6_herbal", 25 ],
+            [ "greenhouse_6x6_vegetable", 15 ],
+            [ "firepit_5x5_1", 10 ],
+            [ "firepit_5x5_2", 10 ],
+            [ "pond_6x6", 25 ]
+          ],
+          "x": 28,
+          "y": 15
+        }
+      ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "!": "t_region_groundcover_urban",
+        "#": "t_brick_wall",
+        "|": "t_wall_g",
+        "_": "t_pavement",
+        "'": "t_thconc_floor",
+        "z": "t_thconc_floor",
+        "N": "t_thconc_floor",
+        "U": "t_thconc_floor",
+        "A": "t_thconc_floor",
+        "Z": "t_thconc_floor",
+        "W": "t_thconc_floor",
+        "`": "t_concrete",
+        "K": "t_concrete",
+        "G": "t_concrete",
+        "~": "t_linoleum_gray",
+        ",": "t_linoleum_white",
+        "O": "t_linoleum_white",
+        "F": "t_linoleum_white",
+        "1": "t_linoleum_white",
+        "2": "t_linoleum_white",
+        "3": "t_linoleum_white",
+        "4": "t_linoleum_white",
+        "5": "t_linoleum_white",
+        "6": "t_linoleum_white",
+        "7": "t_linoleum_white",
+        "0": "t_linoleum_white",
+        "n": "t_linoleum_white",
+        "Y": "t_linoleum_white",
+        "J": "t_linoleum_white",
+        "=": "t_door_metal_locked",
+        "}": "t_grass",
+        "&": "t_gates_control_brick",
+        "?": "t_drystone_wall",
+        "Ŧ": "t_ramp_down_high",
+        "±": "t_ramp_down_low"
+      },
+      "furniture": { "!": "f_region_flower", "0": "f_stool", "}": "f_huge_mana_crystal" },
+      "items": { "R": [ { "item": "technomancer_items", "chance": 30 } ] },
+      "place_loot": [
+        { "item": "television", "x": 17, "y": 15, "chance": 100 },
+        { "item": "stereo", "x": 17, "y": 14, "chance": 100 },
+        { "item": "hose", "x": 39, "y": 14, "chance": 100 },
+        { "item": "lawnmower", "x": 31, "y": 6, "chance": 100 },
+        { "item": "stepladder", "x": 31, "y": 7, "chance": 100 },
+        { "item": "basket_laundry", "x": 37, "y": 12, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "house_technomancer_3", "house_technomancer_4" ] ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~#::::#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~##THHy#####~~~~~~~~~~~~~~~~###o####o###~~",
+        "~~~~~~^#Y    R|> #~~~~~~~~~~~~~~~~#2O5746 yxx#~~",
+        "~~~~~~~:I    ∞| y:~~~~~~~~~~~~#&&&#1,,,JA    #~~",
+        "~~~~~~~:@@    + y:~~~~~~~~~~~~&yyy#F,,JJA  lHo~~",
+        "~~~~~~~:@@    |  #~~~~~~~~~~~~&i  *       HHH#~~",
+        "~~~~~~~#I  dbd| ########~~~~~~&i >#|||  R#####~~",
+        "~~~~~~~#|+||||| %!!!#!!::~~~~~#&&&#9w|   TIIP#~~",
+        "~~~~~~~#i |VRRV %!!!!!!!::~~~~~~~~#8,|     h #~~",
+        "~~~~~~~#DD|H    %!!!!!!!!::~~~~~~^#S,+    @@ #~~",
+        "~~~~~~~#|||H   E%!!!!!!!!!:~~~~~~~#8t|Dd  @@I#~~",
+        "~~~~~~~#8S||El  %!!!!!!!!!:~~~~~~~######o#####~~",
+        "~~~~~~~#,,w|    %!!!!!!!!::~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~:,,,+ h  %!!!!!!!::~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~#BBt|0}}Y%!!!!!!::~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~######::#########~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+      ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen", "standard_domestic_lino_bathroom" ],
+      "terrain": {
+        "~": "t_open_air",
+        "|": "t_wall_y",
+        "!": "t_open_air_rooved",
+        "&": "t_screened_porch_wall",
+        ",": "t_linoleum_gray",
+        "A": "t_linoleum_gray",
+        "%": "t_railing"
+      },
+      "furniture": { "}": "f_magic_bench", "0": "f_alembic" },
+      "place_loot": [ { "item": "television", "x": 43, "y": 4, "chance": 100 } ],
+      "items": {
+        "R": [ { "item": "technomancer_items", "chance": 30 } ],
+        "}": [ { "item": "alchemy_items", "chance": 80, "repeat": [ 1, 3 ] } ],
+        "V": [ { "item": "magic_shop_potions", "chance": 70, "repeat": [ 1, 3 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "house_technomancer_5", "house_technomancer_6" ] ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                                                ",
+        "                                                ",
+        "        |22223                                  ",
+        "       ||....32223                |22222222223  ",
+        "       5.........3                |..........3  ",
+        "       |......=..3            |222|..........3  ",
+        "       |.........3            |.......=......3  ",
+        "       |.........3            |..............3  ",
+        "       |...&.....3222223      |..............3  ",
+        "       |............~..33     |---|..........3  ",
+        "       |................33        |......N...3  ",
+        "       |.....X.....oooo..33       5..:.......3  ",
+        "       |...........ooooo..3       |..........3  ",
+        "       |...........oooo...3       |----------3  ",
+        "       |.................33                     ",
+        "       |................33                      ",
+        "       |......N........33                       ",
+        "       |--------------53                        ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "house_technomancer_7", "house_technomancer_8" ] ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                                                ",
+        "                                                ",
+        "        ||||||                                  ",
+        "       ||RHHV|||||                ||||||||||||  ",
+        "       |q....gF|<|                |..........|  ",
+        "       |NA.......|            |||||.ɅɅɅɅɅɅɅɅ.|  ",
+        "       |N.......q|            |UUU|.ΔΔΔΔΔΔΔΔ.|  ",
+        " |||||||%%%%%+%%%||||||||||||||...|..........|  ",
+        " |............................|<..|..........|  ",
+        " |............................|||.|..........|  ",
+        " |...........................................|  ",
+        " |...........................................|  ",
+        " |...........................................|  ",
+        " |...........................................|  ",
+        " |...........................................|  ",
+        " |...........................................|  ",
+        " |...........................................|  ",
+        " |...........................................|  ",
+        " |...........................................|  ",
+        " |...........................................|  ",
+        " |...........................................|  ",
+        " |...........................................|  ",
+        " |||||||||||||||||||||||||||||||||||||||||||||  ",
+        "                                                "
+      ],
+      "palettes": [ "basement_empty" ],
+      "terrain": { "Δ": "t_ramp_up_low", "Ʌ": "t_ramp_up_high" },
+      "furniture": {
+        "q": "f_rack",
+        "A": "f_stool",
+        "N": "f_workbench",
+        "s": "f_table",
+        "H": "f_sofa",
+        "V": "f_glass_cabinet",
+        "R": "f_bookcase"
+      },
+      "items": {
+        "N": [
+          { "item": "tools_common", "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "hardware", "chance": 30 },
+          { "item": "mechanics", "chance": 30, "repeat": [ 1, 2 ] }
+        ],
+        "q": [
+          { "item": "tools_home", "chance": 60 },
+          { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "mechanics", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "camping", "chance": 10 },
+          { "item": "tools_survival", "chance": 5, "repeat": [ 1, 2 ] }
+        ],
+        "s": [
+          { "item": "consumer_electronics", "chance": 10, "repeat": [ 1, 3 ] },
+          { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }
+        ],
+        "R": [ { "item": "technomancer_items", "chance": 70, "repeat": [ 1, 3 ] } ],
+        "V": [ { "item": "magic_shop_potions", "chance": 70, "repeat": [ 1, 3 ] } ]
+      },
+      "place_loot": [
+        { "item": "mbelt_technomancer_toolbelt", "x": 8, "y": 6, "chance": 10 },
+        { "item": "spell_scroll_summon_magic_motorcycle", "x": 8, "y": 6, "chance": 100 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "suburban_home", "x": 39, "y": 15, "chance": 70, "status": 0, "rotation": 270 },
+        { "vehicle": "car_chassis", "x": 11, "y": 14, "chance": 100, "status": 0, "rotation": 0 },
+        { "chance": 100, "fuel": 0, "rotation": 0, "status": 0, "vehicle": "back_alley", "x": 20, "y": 9 },
+        { "chance": 70, "fuel": 0, "rotation": 0, "status": -1, "vehicle": "engine_crane", "x": 29, "y": 8 },
+        { "chance": 70, "fuel": 30, "rotation": 180, "status": -1, "vehicle": "welding_cart", "x": 27, "y": 8 }
+      ]
+    }
+  }
+]

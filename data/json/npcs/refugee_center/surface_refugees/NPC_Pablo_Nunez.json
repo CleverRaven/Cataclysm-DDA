@@ -30,7 +30,6 @@
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -5 ] } ] } ] } },
       { "skill": "computer", "bonus": { "rng": [ 1, 2 ] } },
       { "skill": "speech", "bonus": { "rng": [ 1, 2 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 0, 1 ] } },
       { "skill": "cooking", "bonus": { "rng": [ 0, 2 ] } }
     ]
   },

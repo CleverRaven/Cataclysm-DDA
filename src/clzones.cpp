@@ -499,7 +499,7 @@ bool zone_data::set_type()
 {
     const auto maybe_type = zone_manager::get_manager().query_type();
     if( maybe_type.has_value() && maybe_type.value() != type ) {
-        auto new_options = zone_options::create( maybe_type.value() );
+        shared_ptr_fast<zone_options> new_options = zone_options::create( maybe_type.value() );
         if( new_options->query_at_creation() ) {
             zone_manager::get_manager().zone_edited( *this );
             type = maybe_type.value();
@@ -508,6 +508,8 @@ bool zone_data::set_type()
             return true;
         }
     }
+    // False positive from memory leak detection on shared_ptr_fast
+    // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
     return false;
 }
 

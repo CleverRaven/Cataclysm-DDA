@@ -2,7 +2,6 @@
   {
     "type": "mod_tileset",
     "compatibility": [ "HitButton_iso" ],
-    "tile_info": [ { "height": 16, "width": 20, "pixelscale": 2 } ],
     "tiles-new": [
       { "file": "sees_player_hitbutton_green.png", "tiles": [ { "id": "overlay_friendly_sees_player", "fg": 0 } ] },
       { "file": "sees_player_hitbutton_yellow.png", "tiles": [ { "id": "overlay_neutral_sees_player", "fg": 1 } ] },
