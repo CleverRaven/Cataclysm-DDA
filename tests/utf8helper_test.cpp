@@ -136,32 +136,32 @@ TEST_CASE( "utf8 convert", "[utf8helper]" )
     // Don't type Russian Ё from Mac keyboard!
     std::string Cyrillic_Yo = "Ё";
     std::string Cyrillic_yo = "ё";
-    REQUIRE(Cyrillic_Yo != Yo);
-    REQUIRE(Cyrillic_yo != yo);
+    REQUIRE( Cyrillic_Yo != Yo );
+    REQUIRE( Cyrillic_yo != yo );
     SECTION( "to_lower_case" ) {
-        CHECK( utf8.to_lower_case(A) == a);
-        CHECK( utf8.to_lower_case(Cyrillic_A) == Cyrillic_a);
-        CHECK( utf8.to_lower_case(A_) == a_);
-        CHECK( utf8.to_lower_case(Yo) == yo);
-        CHECK( utf8.to_lower_case(Cyrillic_Yo) == Cyrillic_yo);
+        CHECK( utf8.to_lower_case( A ) == a );
+        CHECK( utf8.to_lower_case( Cyrillic_A ) == Cyrillic_a );
+        CHECK( utf8.to_lower_case( A_ ) == a_ );
+        CHECK( utf8.to_lower_case( Yo ) == yo );
+        CHECK( utf8.to_lower_case( Cyrillic_Yo ) == Cyrillic_yo );
     }
     SECTION( "to_upper_case" ) {
-        CHECK( utf8.to_upper_case(a) == A);
-        CHECK( utf8.to_upper_case(Cyrillic_a) == Cyrillic_A);
-        CHECK( utf8.to_upper_case(a_) == A_);
-        CHECK( utf8.to_upper_case(yo) == Yo);
-        CHECK( utf8.to_upper_case(Cyrillic_yo) == Cyrillic_Yo);
+        CHECK( utf8.to_upper_case( a ) == A );
+        CHECK( utf8.to_upper_case( Cyrillic_a ) == Cyrillic_A );
+        CHECK( utf8.to_upper_case( a_ ) == A_ );
+        CHECK( utf8.to_upper_case( yo ) == Yo );
+        CHECK( utf8.to_upper_case( Cyrillic_yo ) == Cyrillic_Yo );
     }
     SECTION( "for_search" ) {
         std::string Cyrillic_E = "Е";
         std::string Cyrillic_e = "е";
-        CHECK( utf8.for_search(A) == a);
-        CHECK( utf8.for_search(Cyrillic_A) == Cyrillic_a);
-        CHECK( utf8.for_search(A_) == a_);
-        CHECK( utf8.for_search(Yo) == yo);
-        CHECK( utf8.for_search(Cyrillic_E) == Cyrillic_e);
-        CHECK( utf8.for_search(Cyrillic_e) == Cyrillic_e);
-        CHECK( utf8.for_search(Cyrillic_Yo) == Cyrillic_e);
-        CHECK( utf8.for_search(Cyrillic_yo) == Cyrillic_e);
+        CHECK( utf8.for_search( A ) == a );
+        CHECK( utf8.for_search( Cyrillic_A ) == Cyrillic_a );
+        CHECK( utf8.for_search( A_ ) == a_ );
+        CHECK( utf8.for_search( Yo ) == yo );
+        CHECK( utf8.for_search( Cyrillic_E ) == Cyrillic_e );
+        CHECK( utf8.for_search( Cyrillic_e ) == Cyrillic_e );
+        CHECK( utf8.for_search( Cyrillic_Yo ) == Cyrillic_e );
+        CHECK( utf8.for_search( Cyrillic_yo ) == Cyrillic_e );
     }
 }
