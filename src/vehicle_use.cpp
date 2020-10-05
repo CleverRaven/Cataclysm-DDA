@@ -916,6 +916,27 @@ int vehicle::engine_start_time( const int e ) const
     return part_vpower_w( engines[ e ], true ) / watts_per_time + 100 * dmg + cold;
 }
 
+bool vehicle::auto_select_fuel( int e )
+{
+    vehicle_part &vp_engine = parts[ engines[ e ] ];
+    const vpart_info &vp_engine_info = part_info( engines[e] );
+    if( !vp_engine.is_available() ) {
+        return false;
+    }
+    if( vp_engine_info.fuel_type == fuel_type_none ||
+        vp_engine_info.has_flag( "PERPETUAL" ) ||
+        engine_fuel_left( e ) > 0 ) {
+        return true;
+    }
+    for( const itype_id &fuel_id : vp_engine_info.engine_fuel_opts() ) {
+        if( fuel_left( fuel_id ) > 0 ) {
+            vp_engine.fuel_set( fuel_id );
+            return true;
+        }
+    }
+    return false; // not a single fuel type left for this engine
+}
+
 bool vehicle::start_engine( const int e )
 {
     if( !is_engine_on( e ) ) {
@@ -925,16 +946,7 @@ bool vehicle::start_engine( const int e )
     const vpart_info &einfo = part_info( engines[e] );
     vehicle_part &eng = parts[ engines[ e ] ];
 
-    bool out_of_fuel = false;
-    if( einfo.fuel_type != fuel_type_none && engine_fuel_left( e ) <= 0 ) {
-        for( const itype_id &fuel_id : einfo.engine_fuel_opts() ) {
-            if( fuel_left( fuel_id ) > 0 ) {
-                eng.fuel_set( fuel_id );
-                break;
-            }
-        }
-        out_of_fuel = true;
-    }
+    bool out_of_fuel = !auto_select_fuel( e );
 
     Character &player_character = get_player_character();
     if( out_of_fuel ) {
