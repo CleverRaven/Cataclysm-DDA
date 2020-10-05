@@ -97,6 +97,7 @@ void wishitem( player *p, const tripoint & );
 void wishmonster( const cata::optional<tripoint> &p );
 void wishmutate( player *p );
 void wishskill( player *p );
+void wishproficiency( player *p );
 void mutation_wish();
 void draw_benchmark( int max_difference );
 

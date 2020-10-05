@@ -7,6 +7,8 @@
 #include "debug.h"
 #include "generic_factory.h"
 
+std::vector<proficiency_id> all_profs_id;
+
 namespace
 {
 generic_factory<proficiency> proficiency_factory( "proficiency" );
@@ -42,6 +44,11 @@ void proficiency::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "time_to_learn", _time_to_learn );
     optional( jo, was_loaded, "required_proficiencies", _required );
+
+    // No duplicates
+    if( std::find( all_profs_id.begin(), all_profs_id.end(), id ) == all_profs_id.end() ) {
+        all_profs_id.emplace_back( id );
+    }
 }
 
 bool proficiency::can_learn() const
@@ -216,6 +223,30 @@ void proficiency_set::remove( const proficiency_id &lost )
     for( const proficiency_id &gone : to_remove ) {
         known.erase( gone );
     }
+}
+
+void proficiency_set::direct_learn( const proficiency_id &learned )
+{
+    // Player might be learning proficiency
+    for( std::vector<learning_proficiency>::iterator it = learning.begin(); it != learning.end(); ) {
+        if( it->id == learned ) {
+            it = learning.erase( it );
+        } else {
+            ++it;
+        }
+    }
+
+    known.insert( learned );
+}
+
+void proficiency_set::direct_remove( const proficiency_id &lost )
+{
+    // No unintended side effects
+    if( !known.count( lost ) ) {
+        return;
+    }
+
+    known.erase( lost );
 }
 
 bool proficiency_set::has_learned( const proficiency_id &query ) const
