@@ -2242,15 +2242,9 @@
       { "item": "mess_kit", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
       [ "popcan_stove", 5 ],
-<<<<<<< HEAD
       { "item": "denat_alcohol", "prob": 10, "charges-min": 250 },
-      [ "water_purifier", 5 ],
-      [ "radio", 20 ],
-=======
-      [ "denat_alcohol", 5 ],
       { "item": "water_purifier", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
->>>>>>> 53be9e412a... More randomized amounts in itemgroups
       [ "rollmat", 40 ],
       [ "tent_kit", 17 ],
       [ "large_tent_kit", 17 ],
