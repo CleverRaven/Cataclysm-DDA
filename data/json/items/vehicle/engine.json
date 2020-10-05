@@ -57,7 +57,7 @@
     "type": "ENGINE",
     "name": { "str": "base steam engine" },
     "looks_like": "v12_diesel",
-    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_starter" ]
+    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_starter" ],
     "damage_faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_starter" ]
   },
   {
