@@ -455,7 +455,7 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "jeans", "longshirt", "socks", "coat_winter", "boots_winter", "knit_scarf", "pockknife", "water_clean", "wristwatch" ],
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "mbag", "pockknife", "water_clean", "wristwatch" ],
         "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_matches" } ]
       },
       "male": [ "boxer_shorts" ],
