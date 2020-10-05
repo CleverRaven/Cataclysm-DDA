@@ -67,7 +67,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_autodoc",
+    "id": "f_autodoc_super",
     "name": "chirurgic suite",
     "symbol": "&",
     "color": "light_cyan",
@@ -109,7 +109,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_autodoc_average",
+    "id": "f_autodoc",
     "name": "Autodoc Mk. XVI",
     "symbol": "&",
     "color": "light_red",
