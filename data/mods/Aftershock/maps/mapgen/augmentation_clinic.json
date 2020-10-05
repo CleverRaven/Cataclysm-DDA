@@ -91,14 +91,7 @@
       ],
       "palettes": [ "aug_clinic" ],
       "terrain": { " ": "t_open_air" },
-      "furniture": {
-        "?": "f_autodoc",
-        "/": "f_autodoc_couch",
-        "o": "f_sofa",
-        "T": "f_table",
-        "Á": "f_armchair",
-        "n": "f_trashcan"
-      },
+      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "o": "f_sofa", "T": "f_table", "Á": "f_armchair", "n": "f_trashcan" },
       "computers": {
         "5": {
           "name": "Secure Bionic Storage Access",
