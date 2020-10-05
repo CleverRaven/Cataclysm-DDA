@@ -43,7 +43,7 @@
       "A": { "item": "SUS_bushcraft_bookcase", "chance": 75 },
       "Q": { "item": "SUS_fiction_bookcase", "chance": 70 },
       "d": { "item": "SUS_office_desk", "chance": 70 },
-      "L": { "item": "SUS_janitors_closet", "chance": 80 }
+      "L": { "item": "SUS_janitors_closet", "chance": 100 }
     }
   }
 ]

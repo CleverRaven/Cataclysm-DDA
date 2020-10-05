@@ -1344,8 +1344,8 @@
   {
     "id": "SUS_fridge_full_partial_or_empty",
     "type": "item_group",
-    "//": "70% chance for a full-stocked fridge, 15% chance for a partially-emptied fridge, 15% chance for an empty fridge",
+    "//": "80% chance for a full-stocked fridge, 20% chance for a partially-emptied fridge",
     "subtype": "distribution",
-    "items": [ { "group": "SUS_fridge", "prob": 70 }, { "group": "SUS_fridge_partial_empty", "prob": 15 }, [ "null", 15 ] ]
+    "items": [ { "group": "SUS_fridge", "prob": 70 }, { "group": "SUS_fridge_partial_empty", "prob": 20 } ]
   }
 ]
