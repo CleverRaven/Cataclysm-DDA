@@ -685,7 +685,7 @@ void inventory_column::order_by_category()
             categories.insert( entry.any_item()->get_category_of_contents().name() );
         }
     }
-    for( std::string cat : categories ) {
+    for( const std::string cat : categories ) {
         for( const inventory_entry &entry : entries ) {
             if( entry.is_item() && entry.any_item()->get_category_of_contents().name() == cat ) {
                 // Sort the wielded weapon to the top of the list.
@@ -714,7 +714,7 @@ void inventory_column::order_by_parent()
     }
     std::sort( base_entries.begin(), base_entries.end(),
     []( const inventory_entry & a, const inventory_entry & b ) {
-        return a.any_item()->tname() < b.any_item()->tname();
+        return localized_compare( a.any_item()->tname(), b.any_item()->tname() );
     } );
 
     int tries = 0;
