@@ -18,7 +18,7 @@
     "charges": 5,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "15 hours", "results": [ "wine_mycus", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "wine_mycus", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -39,7 +39,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "12 hours", "results": [ "wash_whiskey", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "wash_whiskey", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -85,7 +85,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "24 hours", "results": [ "gin_mash" ] }
+    "brewable": { "time": "7 days", "results": [ "gin_mash" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -131,7 +131,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "6 hours", "results": [ "wash_vodka", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "wash_vodka", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -177,7 +177,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "12 hours", "results": [ "wash_rum", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "wash_rum", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -224,7 +224,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "12 hours", "results": [ "fruit_wine", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "fruit_wine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -247,7 +247,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "5 days", "results": [ "mead", "yeast" ] }
+    "brewable": { "time": "14 days", "results": [ "mead", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -268,7 +268,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "1 day 12 hours 40 minutes", "results": [ "dandelion_wine", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "dandelion_wine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -289,7 +289,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "1 day 12 hours 40 minutes", "results": [ "burdock_wine", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "burdock_wine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -310,7 +310,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "1 day 16 hours 50 minutes", "results": [ "pine_wine", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "pine_wine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -330,7 +330,7 @@
     "price_postapoc": 10,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "9 hours", "results": [ "hb_beer", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "hb_beer", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -351,7 +351,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "6 hours", "results": [ "wash_moonshine", "yeast" ] }
+    "brewable": { "time": "5 days", "results": [ "wash_moonshine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -419,7 +419,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "7 hours", "results": [ "vinegar" ] }
+    "brewable": { "time": "14 days", "results": [ "vinegar" ] }
   },
   {
     "type": "COMESTIBLE",
