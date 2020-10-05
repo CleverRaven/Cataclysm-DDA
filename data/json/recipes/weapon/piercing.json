@@ -878,7 +878,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "fencing_sabre_sharpened", 1 ] ]
+      [ [ "fencing_sabre_sharpened", 1 ] ],
       [ [ "fur", 1 ], [ "leather", 1 ] ],
       [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
       [ [ "tazer", 1 ] ],
