@@ -559,8 +559,7 @@
     "id": "SUS_fridge_stocked",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for a well-stocked refrigerator.",
-    "//3": "In the future could make several fridge lists, eg SUS_fridge_vegetarian or SUS_fridge_bachelor, and have this be a distribution to randomly choose them",
+    "//2": "This group is for a well-stocked refrigerator with a variety of things.",
     "subtype": "collection",
     "entries": [
       { "group": "fresh_produce", "count": [ 1, 8 ], "prob": 50 },
