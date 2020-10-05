@@ -50,7 +50,7 @@
     "type": "TOOL",
     "category": "weapons",
     "description": "This is a short-bladed knife with a sharp blade, made for fine controlled cuts to vegetables without using a cutting board.",
-	"ascii_picture": "knife_paring",
+    "ascii_picture": "knife_paring",
     "copy-from": "base_kitchen_knife",
     "looks_like": "knife_steak",
     "weight": "50 g",

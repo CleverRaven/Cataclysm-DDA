@@ -93,7 +93,7 @@
     "type": "TOOL",
     "name": { "str": "candle" },
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  You'll need a lighter or matches to light it.",
-	"ascii_picture": "candle",
+    "ascii_picture": "candle",
     "weight": "225 g",
     "volume": "250 ml",
     "price": 100,
