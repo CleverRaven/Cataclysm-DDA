@@ -10,9 +10,8 @@
     "time": "420 m",
     "book_learn": [ [ "textbook_weapwest", 7 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
     ],
     "using": [ [ "forging_standard", 2 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
@@ -30,8 +29,8 @@
     "time": 55000,
     "book_learn": [ [ "textbook_armschina", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_redsmithing", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [
@@ -70,8 +69,8 @@
     "time": 45000,
     "book_learn": [ [ "textbook_weapwest", 4 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_redsmithing", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [
@@ -98,8 +97,8 @@
     "time": 55000,
     "book_learn": [ [ "textbook_weapwest", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_redsmithing", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [
