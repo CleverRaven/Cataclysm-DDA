@@ -642,6 +642,7 @@ void targeted_polymorph( const spell &sp, Creature &caster, const tripoint &targ
 
 void area_pull( const spell &sp, Creature &caster, const tripoint &center );
 void area_push( const spell &sp, Creature &caster, const tripoint &center );
+void directed_push( const spell &sp, Creature &caster, const tripoint &target );
 
 std::set<tripoint> spell_effect_blast( const override_parameters &params, const tripoint &,
                                        const tripoint &target );
