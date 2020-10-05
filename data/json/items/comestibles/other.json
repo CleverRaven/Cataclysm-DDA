@@ -82,7 +82,8 @@
     "price_postapoc": 400,
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "fun": -5
+    "fun": -5,
+    "use_action": { "type": "mutagen", "mutation_category": "INSECT", "is_strong": true }
   },
   {
     "type": "COMESTIBLE",
