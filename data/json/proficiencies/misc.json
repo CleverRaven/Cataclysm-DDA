@@ -67,8 +67,8 @@
   {
     "type": "proficiency",
     "id": "prof_carving",
-    "name": { "str": "Woodcarving" },
-    "description": "Shaping wood with a cutting implement.",
+    "name": { "str": "Carving" },
+    "description": "Shaping wood, bone, and similar materials with a cutting implement.",
     "can_learn": true,
     "time_to_learn": "10 h"
   },

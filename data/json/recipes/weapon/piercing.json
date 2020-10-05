@@ -11,6 +11,18 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 },
+      {
+        "proficiency": "prof_carving",
+        "required": false,
+        "time_multiplier": 1.2,
+        "fail_multiplier": 1.2,
+        "learning_time_multiplier": 0.2
+      }
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
@@ -27,6 +39,18 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 },
+      {
+        "proficiency": "prof_carving",
+        "required": false,
+        "time_multiplier": 1.2,
+        "fail_multiplier": 1.2,
+        "learning_time_multiplier": 0.2
+      }
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
@@ -43,6 +67,18 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 },
+      {
+        "proficiency": "prof_carving",
+        "required": false,
+        "time_multiplier": 1.2,
+        "fail_multiplier": 1.2,
+        "learning_time_multiplier": 0.2
+      }
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "sheet_metal_small", 1 ] ] ]
@@ -58,8 +94,9 @@
     "time": "3 h",
     "book_learn": [ [ "textbook_weapeast", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 }
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -76,8 +113,16 @@
     "time": "10 h",
     "book_learn": [ [ "textbook_weapeast", 9 ] ],
     "proficiencies": [
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 },
+      {
+        "proficiency": "prof_carving",
+        "required": false,
+        "time_multiplier": 1.2,
+        "fail_multiplier": 1.2,
+        "learning_time_multiplier": 0.2
+      }
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -95,6 +140,12 @@
     "time": "3 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 }
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "stick_long", 1 ] ] ]
@@ -110,8 +161,16 @@
     "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 8 ] ],
     "proficiencies": [
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 },
+      {
+        "proficiency": "prof_carving",
+        "required": false,
+        "time_multiplier": 1.2,
+        "fail_multiplier": 1.2,
+        "learning_time_multiplier": 0.2
+      }
     ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -126,13 +185,15 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "60 m",
+    "time": "4 h",
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
-    ],
     "using": [ [ "forging_standard", 1 ], [ "steel_standard", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 }
+    ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
@@ -150,13 +211,18 @@
     "skill_used": "survival",
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 6,
-    "time": "30 m",
+    "time": "3 h",
     "autolearn": true,
     "qualities": [
       { "id": "PUNCH", "level": 1 },
       { "id": "CHISEL_WOOD", "level": 1 },
       { "id": "HAMMER_SOFT", "level": 1 },
       { "id": "HAMMER", "level": 1 }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_knapping", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_knapping_speed", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 }
     ],
     "components": [
       [ [ "stick_long", 1 ] ],
@@ -176,6 +242,10 @@
     "time": "60 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 }
+    ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ] ]
   },
@@ -187,9 +257,13 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": 60000,
+    "time": "30 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 }
+    ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "spike", 1 ] ] ]
   },
@@ -201,11 +275,12 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": 50000,
+    "time": "3 h",
     "book_learn": [ [ "textbook_armschina", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_redsmithing", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 }
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -223,11 +298,12 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": 30000,
+    "time": "3 h",
     "book_learn": [ [ "textbook_weapwest", 4 ] ],
     "proficiencies": [
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_redsmithing", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 }
     ],
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],

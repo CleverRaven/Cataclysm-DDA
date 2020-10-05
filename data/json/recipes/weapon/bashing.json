@@ -10,6 +10,10 @@
     "time": "40 m",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_carving", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_carpentry_basic", "required": false, "time_multiplier": 2 }
+    ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 5 ] ] ]
   },
@@ -25,6 +29,7 @@
     "time": "360 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "char_smoker", 100 ] ] ],
     "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "edible_lard", 4, "LIST" ] ] ]
   },
@@ -40,6 +45,7 @@
     "autolearn": true,
     "qualities": [ { "id": "DRILL", "level": 1 } ],
     "using": [ [ "forging_standard", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "shillelagh", 1 ] ], [ [ "weights", 15, "LIST" ] ] ]
   },
@@ -56,6 +62,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "sewing_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 } ],
     "components": [ [ [ "leather", 5 ] ], [ [ "spring", 1 ] ], [ [ "weights", 10, "LIST" ] ] ]
   },
   {
@@ -69,6 +76,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "sewing_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 } ],
     "components": [ [ [ "leather", 2 ] ], [ [ "steel_tiny", 1, "LIST" ], [ "weights", 8, "LIST" ] ] ]
   }
 ]
