@@ -2079,14 +2079,14 @@ TEST_CASE( "tool info", "[iteminfo][tool]" )
         candle.ammo_set( itype_id( "candle_wax" ) );
         REQUIRE( candle.ammo_remaining() > 0 );
 
-        CHECK( item_info_str( candle, burnout ) ==
-               "--\n"
-               "<color_c_white>Fuel</color>: It's new, and ready to burn.\n" );
+        size_t pos = item_info_str( candle, burnout ).find("--\n"
+               "<color_c_white>Fuel</color>: It's new, and ready to burn.\n");
+        CHECK ( pos != std::string::npos );
 
         candle.ammo_set( itype_id( "candle_wax" ), ( candle.type->maximum_charges() / 2 ) - 1 );
-        CHECK( item_info_str( candle, burnout ) ==
-               "--\n"
-               "<color_c_white>Fuel</color>: More than half has burned away.\n" );
+        pos = item_info_str( candle, burnout ).find("--\n"
+               "<color_c_white>Fuel</color>: More than half has burned away.\n");
+        CHECK ( pos != std::string::npos );
     }
 
     SECTION( "UPS charged tool" ) {
