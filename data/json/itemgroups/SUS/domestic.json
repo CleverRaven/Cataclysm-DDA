@@ -614,113 +614,113 @@
             "distribution": [
               {
                 "collection": [
-                  { "item": "water_clean", "charges": 1, "container-item": "bottle_plastic", "prob": 50 },
-                  { "item": "water_clean", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "water_clean", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "water_clean", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 90
               },
               {
                 "collection": [
-                  { "item": "water_mineral", "container-item": "bottle_plastic", "charges": 1, "prob": 50 },
-                  { "item": "water_mineral", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "water_mineral", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "water_mineral", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 70
               },
               {
                 "collection": [
-                  { "item": "oj", "container-item": "bottle_plastic", "charges": 1, "prob": 50 },
-                  { "item": "oj", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "oj", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "oj", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 50
               },
               {
                 "collection": [
-                  { "item": "cranberry_juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50 },
-                  { "item": "cranberry_juice", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "cranberry_juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "cranberry_juice", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 50
               },
               {
                 "collection": [
-                  { "item": "juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50 },
-                  { "item": "juice", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "juice", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 50
               },
               {
                 "collection": [
-                  { "item": "sports_drink", "container-item": "bottle_plastic", "charges": 1, "prob": 50 },
-                  { "item": "sports_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "sports_drink", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "sports_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 30
               },
               {
                 "collection": [
-                  { "item": "lemonade", "container-item": "bottle_plastic", "charges": 1, "prob": 50 },
-                  { "item": "lemonade", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "lemonade", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "lemonade", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 50
               },
               {
                 "collection": [
-                  { "item": "cola", "container-item": "bottle_plastic", "charges": 1, "prob": 50 },
-                  { "item": "cola", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "cola", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "cola", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 70
               },
               {
                 "collection": [
-                  { "item": "choc_drink", "container-item": "bottle_plastic", "charges": 1, "prob": 50 },
-                  { "item": "choc_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "choc_drink", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "choc_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 30
               },
               {
                 "collection": [
-                  { "item": "rootbeer", "container-item": "bottle_plastic", "charges": 1, "prob": 50 },
-                  { "item": "rootbeer", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "rootbeer", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "rootbeer", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 65
               },
               {
                 "collection": [
-                  { "item": "purple_drink", "container-item": "bottle_plastic", "charges": 1, "prob": 50 },
-                  { "item": "purple_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "purple_drink", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "purple_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 35
               },
               {
                 "collection": [
-                  { "item": "creamsoda", "container-item": "bottle_plastic", "charges": 1, "prob": 50 },
-                  { "item": "creamsoda", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "creamsoda", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "creamsoda", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 35
               },
               {
                 "collection": [
-                  { "item": "lemonlime", "charges": 1, "container-item": "bottle_plastic", "prob": 50 },
-                  { "item": "lemonlime", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "lemonlime", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "lemonlime", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 35
               },
               {
                 "collection": [
-                  { "item": "orangesoda", "charges": 1, "container-item": "bottle_plastic", "prob": 50 },
-                  { "item": "orangesoda", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "orangesoda", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "orangesoda", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 20
               },
               {
                 "collection": [
-                  { "item": "crispycran", "charges": 1, "container-item": "bottle_plastic", "prob": 50 },
-                  { "item": "crispycran", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "crispycran", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "crispycran", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 20
               },
               {
                 "collection": [
-                  { "item": "colamdew", "charges": 1, "container-item": "bottle_plastic", "prob": 50 },
-                  { "item": "colamdew", "container-item": "bottle_plastic", "count": [ 1, 6 ] }
+                  { "item": "colamdew", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "colamdew", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 35
               }
