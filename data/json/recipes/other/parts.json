@@ -167,5 +167,18 @@
       { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
     ],
     "components": [ [ [ "material_aluminium_ingot", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "ugl_buttstock",
+    "category": "CC_WEAPON",
+    "skill_used": "fabrication",
+    "skills_required": [ "launcher", 3 ],
+    "difficulty": 3,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ], [ [ "scrap", 1 ] ] ]
   }
 ]
