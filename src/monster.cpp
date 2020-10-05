@@ -88,6 +88,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_worked_on( "worked_on" );
 
 static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_milk( "milk" );
@@ -1769,6 +1770,9 @@ bool monster::move_effects( bool )
                 add_msg( _( "The %s frees itself from the rubble!" ), name() );
             }
         }
+        return false;
+    }
+    if( has_effect( effect_worked_on ) ) {
         return false;
     }
 

@@ -902,5 +902,13 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": { "ctxt": "training", "str": "working out" },
     "based_on": "time"
+  },
+  {
+    "id": "ACT_DISABLE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "disabling",
+    "suspendable": false,
+    "based_on": "speed"
   }
 ]
