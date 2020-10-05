@@ -256,7 +256,7 @@
     "id": "supplies_reagents_lab",
     "//": "General laboratory reagents and expendibles.  This list contains most conceivable chemicals in the game.  More specific lists for each type of lab would be reasonable eventually.",
     "items": [
-      { "item": "water_clean", "prob": 90, "charges-min": 1 },
+      { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
       { "item": "salt_water", "prob": 20, "charges-min": 1 },
       [ "detergent", 10 ],
       { "item": "bleach", "prob": 10, "charges-min": 10 },

@@ -7,7 +7,7 @@
     "items": [
       { "group": "tools_science", "prob": 50 },
       { "item": "ether", "prob": 5, "charges-min": 100 },
-      { "item": "water_clean", "prob": 90, "charges-min": 1 },
+      { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
       { "item": "bleach", "prob": 20, "charges-min": 1 },
       { "item": "ammonia", "prob": 24, "charges-min": 1 },
       [ "mutagen", 8 ],
@@ -181,7 +181,7 @@
       [ "recipe_animal", 4 ],
       [ "recipe_maiar", 4 ],
       [ "recipe_labchem", 6 ],
-      { "item": "water_clean", "prob": 90, "charges-min": 1 },
+      { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
       { "item": "salt_water", "prob": 20, "charges-min": 1 },
       { "item": "bleach", "prob": 20, "charges-min": 1 },
       { "item": "ammonia", "prob": 24, "charges-min": 10 },

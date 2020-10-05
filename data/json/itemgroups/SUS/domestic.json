@@ -554,9 +554,9 @@
       { "group": "fresh_produce", "count": [ 1, 8 ], "prob": 50 },
       {
         "distribution": [
-          { "item": "milk", "charges-min": 1, "prob": 94 },
-          { "item": "almond_milk", "charges-min": 1, "prob": 3 },
-          { "item": "soy_milk", "charges-min": 1, "prob": 3 }
+          { "item": "milk", "charges-min": 1, "prob": 94, "container-item": "jug_plastic", "sealed": false },
+          { "item": "almond_milk", "charges-min": 1, "prob": 3, "container-item": "jug_plastic", "sealed": false },
+          { "item": "soy_milk", "charges-min": 1, "prob": 3, "container-item": "jug_plastic", "sealed": false }
         ],
         "prob": 95
       },
@@ -774,7 +774,7 @@
       },
       {
         "distribution": [
-          { "item": "apple_cider", "charges-min": 1, "prob": 20 },
+          { "item": "apple_cider", "charges-min": 1, "prob": 20, "container-item": "bottle_plastic", "sealed": false },
           { "item": "fruit_wine", "charges-min": 1, "prob": 15 },
           { "item": "beer", "charges-min": 1, "prob": 35 },
           { "item": "european_pilsner", "charges-min": 1, "prob": 25 },
