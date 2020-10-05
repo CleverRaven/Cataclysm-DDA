@@ -97,7 +97,13 @@
     "items": [
       { "item": "tea", "prob": 60 },
       { "item": "bee_balm_tea", "prob": 20 },
-      { "item": "dandelionburdock_tea", "prob": 20, "charges-max": 2, "container-item": "bottle_plastic", "sealed": false },
+      {
+        "item": "dandelionburdock_tea",
+        "prob": 20,
+        "charges-max": 2,
+        "container-item": "bottle_plastic",
+        "sealed": false
+      },
       { "item": "dandelion_tea", "prob": 10, "charges-max": 2, "container-item": "bottle_plastic", "sealed": false },
       { "item": "pine_tea", "prob": 10, "charges-max": 2, "container-item": "bottle_plastic", "sealed": false },
       { "item": "herbal_tea", "prob": 50 },

@@ -636,7 +636,12 @@
               {
                 "collection": [
                   { "item": "cranberry_juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
-                  { "item": "cranberry_juice", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                  {
+                    "item": "cranberry_juice",
+                    "container-item": "bottle_plastic",
+                    "count": [ 1, 6 ],
+                    "sealed": false
+                  }
                 ],
                 "prob": 50
               },

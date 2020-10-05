@@ -72,7 +72,14 @@
     "type": "item_group",
     "id": "oa_ig_sb_rare",
     "items": [
-      { "item": "gasoline", "prob": 5, "charges-min": 450, "charges-max": 2000, "container-item": "jug_plastic", "sealed": false },
+      {
+        "item": "gasoline",
+        "prob": 5,
+        "charges-min": 450,
+        "charges-max": 2000,
+        "container-item": "jug_plastic",
+        "sealed": false
+      },
       { "item": "gasoline", "prob": 5, "charges-min": 450, "charges-max": 4000, "container-item": "jerrycan" },
       { "item": "gasoline", "prob": 5, "charges-min": 450, "charges-max": 10000, "container-item": "jerrycan_big" },
       [ "gasoline_lantern", 15 ],
