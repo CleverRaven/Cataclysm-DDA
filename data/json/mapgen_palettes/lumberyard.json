@@ -63,8 +63,8 @@
     },
     "toilets": { "t": {  } },
     "items": {
-      "F": { "item": "vending_food", "chance": 100 },
-      "D": { "item": "vending_drink", "chance": 100 },
+      "F": { "item": "vending_food", "chance": 80 },
+      "D": { "item": "vending_drink", "chance": 80 },
       "x": { "item": "lumberyard", "chance": 90, "repeat": [ 3, 5 ] },
       "&": { "item": "trash", "chance": 75, "repeat": [ 2, 3 ] },
       "d": { "item": "office", "chance": 45, "repeat": [ 1, 2 ] },
