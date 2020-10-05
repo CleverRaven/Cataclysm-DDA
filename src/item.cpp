@@ -6297,6 +6297,20 @@ bool item::mod_damage( int qty, damage_type dt )
         destroy |= damage_ + qty > max_damage();
 
         damage_ = std::max( std::min( damage_ + qty, max_damage() ), min_damage() );
+
+        //damage_faults
+        if( !destroy && !damage_faults_potential().empty() ) {
+            float chance_1 = 1.33 * damage_ / max_damage() - 0.25;
+            float chance_2 = 3.0 * qty / max_damage();
+            float fault_chance = chance_1 * chance_2;
+
+            if( rng_float( 0, 1 ) < fault_chance ) {
+                fault_id fault = random_entry( damage_faults_potential() );
+                if( !faults.count( fault ) ) {
+                    faults.insert( fault );
+                }
+            }
+        }
     }
 
     return destroy;
@@ -6873,6 +6887,13 @@ std::set<fault_id> item::faults_potential() const
 {
     std::set<fault_id> res;
     res.insert( type->faults.begin(), type->faults.end() );
+    return res;
+}
+
+std::set<fault_id> item::damage_faults_potential() const
+{
+    std::set<fault_id> res;
+    res.insert( type->damage_faults.begin(), type->damage_faults.end() );
     return res;
 }
 

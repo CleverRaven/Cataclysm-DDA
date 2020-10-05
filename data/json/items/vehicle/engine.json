@@ -21,6 +21,13 @@
       "fault_engine_immobiliser",
       "fault_engine_pump_diesel",
       "fault_engine_starter"
+    ],
+    "damage_faults": [
+      "fault_engine_belt_drive",
+      "fault_engine_filter_air",
+      "fault_engine_filter_fuel",
+      "fault_engine_pump_fuel",
+      "fault_engine_starter"
     ]
   },
   {
@@ -35,6 +42,13 @@
       "fault_engine_immobiliser",
       "fault_engine_pump_fuel",
       "fault_engine_starter"
+    ],
+    "damage_faults": [
+      "fault_engine_belt_drive",
+      "fault_engine_filter_air",
+      "fault_engine_filter_fuel",
+      "fault_engine_pump_fuel",
+      "fault_engine_starter"
     ]
   },
   {
@@ -44,6 +58,7 @@
     "name": { "str": "base steam engine" },
     "looks_like": "v12_diesel",
     "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_starter" ]
+    "damage_faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_starter" ]
   },
   {
     "id": "1cyl_combustion",
@@ -56,7 +71,8 @@
     "price": 10000,
     "price_postapoc": 1000,
     "displacement": 40,
-    "faults": [ "fault_engine_starter" ]
+    "faults": [ "fault_engine_starter" ],
+    "damage_faults": [ "fault_engine_starter" ]
   },
   {
     "id": "1cyl_combustion_large",
@@ -69,7 +85,8 @@
     "price": 10000,
     "price_postapoc": 1250,
     "displacement": 55,
-    "faults": [ "fault_engine_starter" ]
+    "faults": [ "fault_engine_starter" ],
+    "damage_faults": [ "fault_engine_starter" ]
   },
   {
     "id": "1cyl_combustion_small",

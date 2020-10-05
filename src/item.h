@@ -1232,6 +1232,9 @@ class item : public visitable<item>
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
 
+        /** What faults can potentially occur when this item is damaged? */
+        std::set<fault_id> damage_faults_potential() const;
+
         /** Returns the total area of this wheel or 0 if it isn't one. */
         int wheel_area() const;
 
