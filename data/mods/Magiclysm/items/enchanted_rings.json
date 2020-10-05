@@ -298,7 +298,12 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_CUT", "add": -2 }, { "value": "ARMOR_BASH", "add": -2 }, { "value": "ARMOR_STAB", "add": -2 } ]
+          "values": [
+            { "value": "ARMOR_CUT", "add": -2 },
+            { "value": "ARMOR_BASH", "add": -2 },
+            { "value": "ARMOR_STAB", "add": -2 },
+            { "value": "ARMOR_BULLET", "add": -1 }
+          ]
         }
       ]
     }
@@ -314,7 +319,12 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_CUT", "add": -4 }, { "value": "ARMOR_BASH", "add": -4 }, { "value": "ARMOR_STAB", "add": -4 } ]
+          "values": [
+            { "value": "ARMOR_CUT", "add": -4 },
+            { "value": "ARMOR_BASH", "add": -4 },
+            { "value": "ARMOR_STAB", "add": -4 },
+            { "value": "ARMOR_BULLET", "add": -2 }
+          ]
         }
       ]
     }
@@ -330,7 +340,12 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_CUT", "add": -6 }, { "value": "ARMOR_BASH", "add": -6 }, { "value": "ARMOR_STAB", "add": -6 } ]
+          "values": [
+            { "value": "ARMOR_CUT", "add": -6 },
+            { "value": "ARMOR_BASH", "add": -6 },
+            { "value": "ARMOR_STAB", "add": -6 },
+            { "value": "ARMOR_BULLET", "add": -3 }
+          ]
         }
       ]
     }
@@ -346,7 +361,12 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_CUT", "add": -8 }, { "value": "ARMOR_BASH", "add": -8 }, { "value": "ARMOR_STAB", "add": -8 } ]
+          "values": [
+            { "value": "ARMOR_CUT", "add": -8 },
+            { "value": "ARMOR_BASH", "add": -8 },
+            { "value": "ARMOR_STAB", "add": -8 },
+            { "value": "ARMOR_BULLET", "add": -4 }
+          ]
         }
       ]
     }
