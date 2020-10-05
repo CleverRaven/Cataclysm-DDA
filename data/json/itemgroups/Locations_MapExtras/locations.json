@@ -854,7 +854,7 @@
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "laptop", "prob": 20, "charges": [ 0, 500 ] },
       [ "atomic_light", 1 ],
-      { "item": "eink_tablet_pc", "prob": 1, "chance": [ 0, 100 ] },
+      { "item": "eink_tablet_pc", "prob": 1, "charges": [ 0, 100 ] },
       [ "mobile_memory_card", 5 ],
       { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 30, "charges-min": 0 },
