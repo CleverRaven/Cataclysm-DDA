@@ -14,6 +14,7 @@
     "book_learn": [ [ "alchemy_basic", 3 ], [ "necro_basic", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5 } ],
     "using": [ [ "hard_liquor", 7 ] ]
   },
   {
@@ -31,6 +32,7 @@
     "book_learn": [ [ "alchemy_basic", 3 ], [ "necro_basic", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 2 } ],
     "components": [ [ [ "chem_ethanol", 7 ] ], [ [ "alumentum", 1 ] ] ]
   },
   {
@@ -45,6 +47,7 @@
     "skill_used": "chemistry",
     "difficulty": 3,
     "skills_required": [ "spellcraft", 3 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 2 } ],
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "autolearn": true
@@ -61,6 +64,7 @@
     "skill_used": "chemistry",
     "difficulty": 4,
     "skills_required": [ "spellcraft", 4 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 2 } ],
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "autolearn": true
@@ -77,6 +81,7 @@
     "skill_used": "chemistry",
     "difficulty": 5,
     "skills_required": [ "spellcraft", 5 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 2 } ],
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "autolearn": true
@@ -90,6 +95,7 @@
     "skill_used": "chemistry",
     "difficulty": 4,
     "skills_required": [ "spellcraft", 6 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 2 } ],
     "time": "4 h",
     "batch_time_factors": [ 80, 5 ],
     "category": "CC_ENCHANTED",
@@ -110,6 +116,7 @@
     "book_learn": [ [ "alchemy_basic", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ], [ "rune_magus", -1 ], [ "rune_magus_weapon", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 2 } ],
     "components": [
       [ [ "potion_starter", 5 ] ],
       [ [ "hairball", 2 ] ],
@@ -137,6 +144,7 @@
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "skill_used": "chemistry",
     "skills_required": [ "spellcraft", 5 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 2 } ],
     "difficulty": 5,
     "time": "60 m",
     "batch_time_factors": [ 50, 4 ],
@@ -153,6 +161,7 @@
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "skill_used": "chemistry",
     "skills_required": [ "spellcraft", 5 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 2 } ],
     "difficulty": 5,
     "time": "60 m",
     "batch_time_factors": [ 50, 4 ],
@@ -197,6 +206,7 @@
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "skill_used": "chemistry",
     "skills_required": [ "spellcraft", 5 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 2 } ],
     "difficulty": 5,
     "time": "60 m",
     "batch_time_factors": [ 50, 4 ],
@@ -224,6 +234,7 @@
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "skill_used": "chemistry",
     "skills_required": [ "spellcraft", 4 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 2 } ],
     "difficulty": 4,
     "time": "60 m",
     "result_mult": 5,
@@ -244,6 +255,7 @@
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "skill_used": "chemistry",
     "skills_required": [ "spellcraft", 6 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 2 } ],
     "difficulty": 6,
     "time": "60 m",
     "result_mult": 5,
