@@ -361,6 +361,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                         }
                     }
                     newit.charges -= remaining_charges;
+                    newit.on_pickup( player_character );
                     if( newit.charges != 0 ) {
                         auto &entry = mapPickup[newit.tname()];
                         entry.second += newit.charges;
