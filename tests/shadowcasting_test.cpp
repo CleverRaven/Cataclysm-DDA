@@ -221,9 +221,9 @@ void print_grid_comparison( const point &offset,
 
 static void shadowcasting_runoff( const int iterations, const bool test_bresenham = false )
 {
-    float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
-    float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
-    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
+    float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
 
     randomly_fill_transparency( transparency_cache );
 
@@ -290,9 +290,9 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
 static void shadowcasting_float_quad(
     const int iterations, const unsigned int denominator = DENOMINATOR )
 {
-    float lit_squares_float[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
-    four_quadrants lit_squares_quad[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{}};
-    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
+    float lit_squares_float[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    four_quadrants lit_squares_quad[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
 
     randomly_fill_transparency( transparency_cache, denominator );
 
@@ -344,8 +344,8 @@ static void do_3d_benchmark(
     std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &transparency_caches,
     const int iterations )
 {
-    float seen_squares[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {{{0}}};
-    bool floor_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {{{false}}};
+    float seen_squares[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    bool floor_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
 
     const tripoint origin( 65, 65, 0 );
     std::array<float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> seen_caches;
@@ -413,10 +413,10 @@ static void shadowcasting_3d_benchmark( const int iterations )
 
 static void shadowcasting_3d_2d( const int iterations )
 {
-    float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
-    float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
-    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
-    bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{false}};
+    float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
 
     randomly_fill_transparency( transparency_cache );
 
