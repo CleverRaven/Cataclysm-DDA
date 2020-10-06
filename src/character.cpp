@@ -10211,7 +10211,7 @@ std::vector<item *> Character::inv_dump()
     if( is_armed() && can_drop( weapon ).success() ) {
         ret.push_back( &weapon );
     }
-    for( auto &i : worn ) {
+    for( item &i : worn ) {
         ret.push_back( &i );
     }
     inv->dump( ret );
