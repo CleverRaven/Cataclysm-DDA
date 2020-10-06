@@ -4237,10 +4237,7 @@ bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
 
             item liq_d( item_it->type, calendar::turn, units );
 
-            const auto backup_pump = here.ter( dst );
-            here.ter_set( dst, ter_str_id::NULL_ID() );
             here.add_item_or_charges( dst, liq_d );
-            here.ter_set( dst, backup_pump );
 
             if( item_it->charges < 1 ) {
                 items.erase( item_it );
