@@ -84,13 +84,13 @@ static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
-float fragment_mass = 0.0001f;
+static float fragment_mass = 0.0001f;
 // Cross-sectional area in cm^2
-float fragment_area = 0.00001f;
+static float fragment_area = 0.00001f;
 // Minimum velocity resulting in skin perforation according to https://www.ncbi.nlg->m.nih.gov/pubmed/7304523
-constexpr float MIN_EFFECTIVE_VELOCITY = 70.0f;
+static constexpr float MIN_EFFECTIVE_VELOCITY = 70.0f;
 // Pretty arbitrary minimum density.  1/1,000 change of a fragment passing through the given square.
-constexpr float MIN_FRAGMENT_DENSITY = 0.0001f;
+static constexpr float MIN_FRAGMENT_DENSITY = 0.0001f;
 
 explosion_data load_explosion_data( const JsonObject &jo )
 {
@@ -105,7 +105,7 @@ explosion_data load_explosion_data( const JsonObject &jo )
         ret.shrapnel.recovery = 0;
         ret.shrapnel.drop = fuel_type_none;
     } else if( jo.has_object( "shrapnel" ) ) {
-        auto shr = jo.get_object( "shrapnel" );
+        JsonObject shr = jo.get_object( "shrapnel" );
         ret.shrapnel = load_shrapnel_data( shr );
     }
 
@@ -298,12 +298,13 @@ static void do_blast( const tripoint &p, const float power,
                 intensity++;
             }
 
-            here.add_field( pt, fd_fire, intensity );
+            here.add_field( pt, field_type_id( "fd_fire" ), intensity );
         }
 
         if( const optional_vpart_position vp = here.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
-            vp->vehicle().damage( vp->part_index(), force, fire ? DT_HEAT : DT_BASH, false );
+            vp->vehicle().damage( vp->part_index(), force, fire ? damage_type::HEAT : damage_type::BASH,
+                                  false );
         }
 
         Creature *critter = g->critter_at( pt, true );
@@ -349,8 +350,9 @@ static void do_blast( const tripoint &p, const float power,
         for( const auto &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
             const std::string hit_part_name = body_part_name_accusative( blp.bp );
-            const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, blp.armor_mul );
-            const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
+            const damage_instance dmg_instance = damage_instance( damage_type::BASH, part_dam, 0,
+                                                 blp.armor_mul );
+            const dealt_damage_instance result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
 
             add_msg_debug( "%s for %d raw, %d actual", hit_part_name, part_dam, res_dmg );
@@ -802,24 +804,24 @@ void resonance_cascade( const tripoint &p )
                 case 5:
                     for( int k = i - 1; k <= i + 1; k++ ) {
                         for( int l = j - 1; l <= j + 1; l++ ) {
-                            field_type_id type = fd_null;
+                            field_type_id type = field_type_id( "fd_null" );
                             switch( rng( 1, 7 ) ) {
                                 case 1:
-                                    type = fd_blood;
+                                    type = field_type_id( "fd_blood" );
                                     break;
                                 case 2:
-                                    type = fd_bile;
+                                    type = field_type_id( "fd_bile" );
                                     break;
                                 case 3:
                                 case 4:
-                                    type = fd_slime;
+                                    type = field_type_id( "fd_slime" );
                                     break;
                                 case 5:
-                                    type = fd_fire;
+                                    type = field_type_id( "fd_fire" );
                                     break;
                                 case 6:
                                 case 7:
-                                    type = fd_nuke_gas;
+                                    type = field_type_id( "fd_nuke_gas" );
                                     break;
                             }
                             if( !one_in( 3 ) ) {

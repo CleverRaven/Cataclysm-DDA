@@ -2,6 +2,7 @@
   {
     "result": "cavalry_sabre",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
@@ -20,6 +21,7 @@
   {
     "result": "dao",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
@@ -47,6 +49,7 @@
   {
     "result": "sword_xiphos",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
@@ -74,6 +77,7 @@
   {
     "result": "khopesh",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",

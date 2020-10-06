@@ -308,16 +308,6 @@ struct maptile {
             return sm->get_field( pos() ).find_field( field_to_find );
         }
 
-        bool add_field( const field_type_id &field_to_add, const int new_intensity,
-                        const time_duration &new_age ) {
-            const bool ret = sm->get_field( pos() ).add_field( field_to_add, new_intensity, new_age );
-            if( ret ) {
-                sm->field_count++;
-            }
-
-            return ret;
-        }
-
         int get_radiation() const {
             return sm->get_radiation( pos() );
         }

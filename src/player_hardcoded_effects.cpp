@@ -132,7 +132,7 @@ static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 static void eff_fun_onfire( player &u, effect &it )
 {
     const int intense = it.get_intensity();
-    u.deal_damage( nullptr, it.get_bp(), damage_instance( DT_HEAT, rng( intense,
+    u.deal_damage( nullptr, it.get_bp(), damage_instance( damage_type::HEAT, rng( intense,
                    intense * 2 ) ) );
 }
 static void eff_fun_spores( player &u, effect &it )
@@ -249,10 +249,10 @@ static void eff_fun_rat( player &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( "RAT" );
+            u.mutate_category( mutation_category_id( "RAT" ) );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( "TROGLOBITE" );
+            u.mutate_category( mutation_category_id( "TROGLOBITE" ) );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -649,7 +649,7 @@ void player::hardcoded_effects( effect &it )
         add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
         for( const tripoint &dest : here.points_in_radius( pos(), 6 ) ) {
             if( here.is_cornerfloor( dest ) ) {
-                here.add_field( dest, fd_tindalos_rift, 3 );
+                here.add_field( dest, field_type_id( "fd_tindalos_rift" ), 3 );
                 add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
                 //Remove the effect, since it's done all it needs to do to the target.
                 remove_effect( effect_tindrift );
@@ -953,13 +953,13 @@ void player::hardcoded_effects( effect &it )
                 } else if( intense == 2 ) {
                     warning = _( "Your pale skin is sweating, your heart beats fast and you feel restless.  Maybe you lost too much blood?" );
                 } else if( intense == 3 ) {
-                    warning = _( "You're unsettlingly white, but your fingetips are bluish.  You are agitated and your heart is racing.  Your blood loss must be serious." );
+                    warning = _( "You're unsettlingly white, but your fingertips are bluish.  You are agitated and your heart is racing.  Your blood loss must be serious." );
                 } else { //intense == 4
-                    warning = _( "You are pale as a ghost, dripping wet from the sweat, and sluggish despite your heart racing like a train.  You are on a brink of colapse from effects of a bood loss." );
+                    warning = _( "You are pale as a ghost, dripping wet from the sweat, and sluggish despite your heart racing like a train.  You are on a brink of collapse from effects of a blood loss." );
                 }
                 add_msg_if_player( m_bad, warning );
             } else {
-                // effect dice, with progresion of effects, 3 possible effects per tier
+                // effect dice, with progression of effects, 3 possible effects per tier
                 int dice_roll = rng( 0, 2 ) + intense;
                 switch( dice_roll ) {
                     case 1:
@@ -971,7 +971,7 @@ void player::hardcoded_effects( effect &it )
                         mod_fatigue( 3 * intense );
                         break;
                     case 3:
-                        warning = _( "You are anxcious and cannot collect your thoughts." );
+                        warning = _( "You are anxious and cannot collect your thoughts." );
                         focus_pool -= rng( 1, focus_pool * intense / it.get_max_intensity() );
                         break;
                     case 4:
@@ -1036,7 +1036,7 @@ void player::hardcoded_effects( effect &it )
                     mod_part_temp_conv( bodypart_id( "hand_r" ), -2000 );
                     break;
                 case 2:
-                    add_msg_if_player( m_bad, _( "Your feet feel unusualy cold." ) );
+                    add_msg_if_player( m_bad, _( "Your feet feel unusually cold." ) );
                     mod_part_temp_conv( bodypart_id( "foot_l" ), -2000 );
                     mod_part_temp_conv( bodypart_id( "foot_r" ), -2000 );
                     break;
@@ -1082,7 +1082,7 @@ void player::hardcoded_effects( effect &it )
                         add_msg_if_player( m_bad, _( "Your whole mouth is sore, and your tongue is swollen." ) );
                         break;
                     case 6:
-                        add_msg_if_player( m_bad, _( "You feel lightheaded.  And a migrane follows." ) );
+                        add_msg_if_player( m_bad, _( "You feel lightheaded.  And a migraine follows." ) );
                         mod_pain( intense * 9 );
                         break;
                     case 7: // 7-9 empty for variability, as messages stack on higher intensity
@@ -1346,7 +1346,7 @@ void player::hardcoded_effects( effect &it )
         }
 
         // Check mutation category strengths to see if we're mutated enough to get a dream
-        std::string highcat = get_highest_category();
+        mutation_category_id highcat = get_highest_category();
         int highest = mutation_category_level[highcat];
 
         // Determine the strength of effects or dreams based upon category strength
@@ -1373,7 +1373,7 @@ void player::hardcoded_effects( effect &it )
                 // Mycus folks upgrade in their sleep.
                 if( has_trait( trait_THRESH_MYCUS ) ) {
                     if( one_in( 8 ) ) {
-                        mutate_category( "MYCUS" );
+                        mutate_category( mutation_category_id( "MYCUS" ) );
                         mod_stored_nutr( 10 );
                         mod_thirst( 10 );
                         mod_fatigue( 5 );

@@ -75,7 +75,8 @@ enum class magic_energy_type : int {
     stamina,
     bionic,
     fatigue,
-    none
+    none,
+    last
 };
 
 enum class spell_target : int {
@@ -91,26 +92,39 @@ enum class spell_target : int {
 };
 
 template<>
+struct enum_traits<magic_energy_type> {
+    static constexpr magic_energy_type last = magic_energy_type::last;
+};
+
+template<>
 struct enum_traits<spell_target> {
-    static constexpr auto last = spell_target::num_spell_targets;
+    static constexpr spell_target last = spell_target::num_spell_targets;
 };
 
 template<>
 struct enum_traits<spell_flag> {
-    static constexpr auto last = spell_flag::LAST;
+    static constexpr spell_flag last = spell_flag::LAST;
 };
 
 struct fake_spell {
     spell_id id;
+
+    static const cata::optional<int> max_level_default;
     // max level this spell can be
     // if null pointer, spell can be up to its own max level
     cata::optional<int> max_level;
+
+    static const int level_default;
     // level for things that need it
-    int level = 0;
+    int level = level_default;
+
+    static const bool self_default;
     // target tripoint is source (true) or target (false)
-    bool self = false;
+    bool self = self_default;
+
+    static const int trigger_once_in_default;
     // a chance to trigger the enchantment spells
-    int trigger_once_in = 1;
+    int trigger_once_in = trigger_once_in_default;
     // a message when the enchantment is triggered
     translation trigger_message;
     // a message when the enchantment is triggered and is on npc
@@ -120,6 +134,16 @@ struct fake_spell {
     fake_spell( const spell_id &sp_id, bool hit_self = false,
                 const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
+
+    bool operator==( const fake_spell &rhs ) const {
+        return id == rhs.id &&
+               max_level == rhs.max_level &&
+               level == rhs.level &&
+               self == rhs.self &&
+               trigger_once_in == rhs.trigger_once_in &&
+               trigger_message == rhs.trigger_message &&
+               npc_trigger_message == rhs.npc_trigger_message;
+    }
 
     // gets the spell with an additional override for minimum level (default 0)
     spell get_spell( int min_level_override = 0 ) const;
@@ -169,7 +193,7 @@ class spell_type
         std::vector<fake_spell> additional_spells;
 
         // if the spell has a field name defined, this is where it is
-        cata::optional<field_type_id> field;
+        cata::optional<field_type_id> field = cata::nullopt;
         // the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell
         int field_chance = 0;
         // field intensity at spell level 0
@@ -251,8 +275,6 @@ class spell_type
 
         // base amount of time to cast the spell in moves
         int base_casting_time = 0;
-        // If spell is to summon a vehicle, the vproto_id of the vehicle
-        std::string vehicle_id;
         // increment of casting time per level
         float casting_time_increment = 0.0f;
         // max or min casting time
@@ -264,7 +286,7 @@ class spell_type
         // what energy do you use to cast this spell
         magic_energy_type energy_source = magic_energy_type::none;
 
-        damage_type dmg_type = damage_type::DT_NONE;
+        damage_type dmg_type = damage_type::NONE;
 
         // list of valid targets to be affected by the area of effect.
         enum_bitset<spell_target> effect_targets;
@@ -281,6 +303,7 @@ class spell_type
 
         static void load_spell( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & );
+        void serialize( JsonOut &json ) const;
         /**
          * All spells in the game.
          */
@@ -288,6 +311,51 @@ class spell_type
         static void check_consistency();
         static void reset_all();
         bool is_valid() const;
+    private:
+        // default values
+
+        static const skill_id skill_default;
+        static const requirement_id spell_components_default;
+        static const translation message_default;
+        static const translation sound_description_default;
+        static const sounds::sound_t sound_type_default;
+        static const bool sound_ambient_default;
+        static const std::string sound_id_default;
+        static const std::string sound_variant_default;
+        static const std::string effect_str_default;
+        static const cata::optional<field_type_id> field_default;
+        static const int field_chance_default;
+        static const int min_field_intensity_default;
+        static const int max_field_intensity_default;
+        static const float field_intensity_increment_default;
+        static const float field_intensity_variance_default;
+        static const int min_damage_default;
+        static const float damage_increment_default;
+        static const int max_damage_default;
+        static const int min_range_default;
+        static const float range_increment_default;
+        static const int max_range_default;
+        static const int min_aoe_default;
+        static const float aoe_increment_default;
+        static const int max_aoe_default;
+        static const int min_dot_default;
+        static const float dot_increment_default;
+        static const int max_dot_default;
+        static const int min_duration_default;
+        static const int duration_increment_default;
+        static const int max_duration_default;
+        static const int min_pierce_default;
+        static const float pierce_increment_default;
+        static const int max_pierce_default;
+        static const int base_energy_cost_default;
+        static const float energy_increment_default;
+        static const trait_id spell_class_default;
+        static const magic_energy_type energy_source_default;
+        static const damage_type dmg_type_default;
+        static const int difficulty_default;
+        static const int max_level_default;
+        static const int base_casting_time_default;
+        static const float casting_time_increment_default;
 };
 
 class spell
@@ -569,6 +637,7 @@ void morale( const spell &sp, Creature &caster, const tripoint &target );
 void charm_monster( const spell &sp, Creature &caster, const tripoint &target );
 void mutate( const spell &sp, Creature &caster, const tripoint &target );
 void bash( const spell &sp, Creature &caster, const tripoint &target );
+void dash( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 } // namespace spell_effect
 

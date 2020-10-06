@@ -59,7 +59,7 @@
     "id": "mon_gallimimus",
     "name": { "str_sp": "Gallimimus" },
     "species": "DINOSAUR",
-    "default_faction": "gallimimus",
+    "default_faction": "herbivore_dino",
     "symbol": "D",
     "color": "light_green_yellow",
     "volume": "440 L",
@@ -84,6 +84,7 @@
     "reproduction": { "baby_egg": "egg_gallimimus", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -106,7 +107,7 @@
     "id": "mon_pachycephalosaurus",
     "name": { "str_sp": "Pachycephalosaurus" },
     "species": "DINOSAUR",
-    "default_faction": "pachycephalosaurus",
+    "default_faction": "herbivore_dino",
     "symbol": "D",
     "color": "light_green_yellow",
     "volume": "450 L",
@@ -130,6 +131,7 @@
     "reproduction": { "baby_egg": "egg_pachycephalosaurus", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -144,7 +146,8 @@
       "ATTACKMON"
     ],
     "harvest": "dino_feather_leather",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FIRE" ],
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -157,7 +160,7 @@
     "color": "red_white",
     "volume": "1000 L",
     "weight": "16000 kg",
-    "bodytype": "ostrich",
+    "bodytype": "bear",
     "material": [ "flesh" ],
     "aggression": 100,
     "morale": 90,
@@ -256,6 +259,52 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_pachyrhinosaurus",
+    "name": { "str_sp": "Pachyrhinosaurus" },
+    "copy-from": "mon_triceratops",
+    "weight": "4000 kg",
+    "melee_skill": 8,
+    "hp": 400,
+    "zombify_into": "mon_zachyrhinosaurus",
+    "description": "A massive rhino-like dinosaur with a bony crest from which two curved horns and a broad bony nose emerge.",
+    "reproduction": { "baby_egg": "egg_pachyrhinosaurus", "baby_count": 20, "baby_timer": 24 },
+    "special_attacks": [
+      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "SMASH", 30 ],
+      [ "EAT_CROP", 20 ]
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_pentaceratops",
+    "name": { "str_sp": "Pentaceratops" },
+    "copy-from": "mon_triceratops",
+    "weight": "5000 kg",
+    "melee_skill": 8,
+    "armor_cut": 8,
+    "armor_bash": 6,
+    "hp": 500,
+    "zombify_into": "mon_zentaceratops",
+    "description": "A massive rhino-like dinosaur with a tall bony crest from which four long horns and a short nose horn emerge.",
+    "reproduction": { "baby_egg": "egg_pentaceratops", "baby_count": 20, "baby_timer": 24 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_torosaurus",
+    "name": { "str_sp": "Torosaurus" },
+    "copy-from": "mon_triceratops",
+    "weight": "5000 kg",
+    "melee_skill": 8,
+    "armor_cut": 6,
+    "armor_bash": 6,
+    "hp": 500,
+    "zombify_into": "mon_zorosaurus",
+    "description": "A massive rhino-like dinosaur with a tall bony crest from which two long wicked horns emerge.",
+    "reproduction": { "baby_egg": "egg_torosaurus", "baby_count": 20, "baby_timer": 24 },
+    "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" }, [ "STRETCH_ATTACK", 5 ] ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_triceratops",
     "name": { "str_sp": "Triceratops" },
     "species": "DINOSAUR",
@@ -275,15 +324,16 @@
     "melee_dice_sides": 8,
     "melee_cut": 15,
     "armor_bash": 4,
-    "armor_cut": 2,
+    "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 600,
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zriceratops",
     "description": "A massive rhino-like dinosaur with a bony crest from which three large horns emerge.",
-    "reproduction": { "baby_egg": "egg_triceratops", "baby_count": 3, "baby_timer": 24 },
+    "reproduction": { "baby_egg": "egg_triceratops", "baby_count": 20, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" } ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -298,8 +348,27 @@
       "ATTACKMON"
     ],
     "harvest": "mammal_large_leather",
-    "anger_triggers": [ "HURT" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_scutellosaurus",
+    "name": { "str_sp": "Scutellosaurus" },
+    "copy-from": "mon_stegosaurus",
+    "weight": "10 kg",
+    "bodytype": "bear",
+    "morale": -10,
+    "hp": 40,
+    "speed": 80,
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "melee_cut": 2,
+    "special_attacks": [ [ "EAT_CROP", 20 ] ],
+    "description": "Small, four-legged dinosaur with five rows of protective plates running down its back.",
+    "reproduction": { "baby_egg": "egg_scutellosaurus", "baby_count": 3, "baby_timer": 24 },
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON", "CATTLEFODDER" ]
   },
   {
     "type": "MONSTER",
@@ -322,14 +391,15 @@
     "melee_cut": 10,
     "dodge": 2,
     "armor_bash": 3,
-    "armor_cut": 3,
+    "armor_cut": 10,
     "armor_bullet": 1,
     "hp": 300,
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_ztegosaurus",
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      [ "SMASH", 30 ],
+      [ "EAT_CROP", 20 ]
     ],
     "description": "A large slow quadruped dinosaur with plates on its back, and a spiked tail.",
     "reproduction": { "baby_egg": "egg_stegosaurus", "baby_count": 3, "baby_timer": 24 },
@@ -337,7 +407,7 @@
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "ATTACKMON" ],
     "harvest": "mammal_large_leather",
-    "anger_triggers": [ "HURT" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -368,7 +438,8 @@
     "zombify_into": "mon_zankylosaurus",
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      [ "SMASH", 30 ],
+      [ "EAT_CROP", 40 ]
     ],
     "description": "This dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a massive spiked club of bone.",
     "reproduction": { "baby_egg": "egg_ankylosaurus", "baby_count": 3, "baby_timer": 24 },
@@ -376,7 +447,7 @@
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "ATTACKMON" ],
     "harvest": "mammal_large_leather",
-    "anger_triggers": [ "HURT" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -427,12 +498,14 @@
     "armor_bash": 6,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "vision_day": 100,
     "hp": 1000,
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zapatosaurus",
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      [ "SMASH", 30 ],
+      [ "EAT_CROP", 5 ]
     ],
     "description": "Massive, long-necked, four-legged dinosaur with a long, whip-like tail.  The head is upright and the neck looks like it would make a good strong club.",
     "reproduction": { "baby_egg": "egg_apatosaurus", "baby_count": 3, "baby_timer": 24 },
@@ -440,7 +513,7 @@
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "ATTACKMON" ],
     "harvest": "mammal_large_leather",
-    "anger_triggers": [ "HURT" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "FIRE" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -459,7 +532,7 @@
     "aggression": 80,
     "morale": 80,
     "speed": 110,
-    "melee_skill": 10,
+    "melee_skill": 9,
     "melee_dice": 3,
     "melee_dice_sides": 4,
     "melee_cut": 6,
@@ -482,49 +555,35 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_eoraptor",
-    "name": { "str": "Eoraptor" },
-    "species": [ "DINOSAUR" ],
-    "default_faction": "eoraptor",
-    "symbol": "D",
-    "color": "dark_gray_yellow",
-    "volume": "10 L",
-    "weight": "10 kg",
-    "bodytype": "ostrich",
-    "material": [ "flesh" ],
-    "aggression": -60,
-    "morale": -60,
-    "speed": 100,
-    "melee_skill": 1,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 1,
-    "dodge": 4,
-    "armor_bash": 1,
-    "hp": 10,
-    "death_function": [ "NORMAL" ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "science", 100 ], [ "mut_lab", 10 ] ] },
-    "description": "A bipedal dinosaur about the size of a chicken.  It darts around quickly and has long arms for grabbing what it desires.  It's holding something.",
-    "reproduction": { "baby_egg": "egg_eoraptor", "baby_count": 3, "baby_timer": 12 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "GOODHEARING",
-      "HIT_AND_RUN",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CLIMBS",
-      "ATTACKMON"
-    ],
-    "harvest": "mammal_tiny",
-    "vision_night": 5,
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
-    "categories": [ "DINOSAUR" ]
+    "id": "mon_acrocanthosaurus",
+    "name": { "str_sp": "Acrocanthosaurus" },
+    "copy-from": "mon_allosaurus",
+    "default_faction": "acrocanthosaurus",
+    "weight": "6000 kg",
+    "speed": 75,
+    "melee_cut": 8,
+    "armor_bash": 10,
+    "hp": 960,
+    "zombify_into": "mon_zacrocanthosaurus",
+    "special_attacks": [ [ "GRAB", 10 ], [ "LUNGE", 20 ] ],
+    "description": "Huge predatory bipedal dinosaur with a tall ridge running the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
+    "reproduction": { "baby_egg": "egg_acrocanthosaurus", "baby_count": 3, "baby_timer": 24 },
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "ATTACKMON", "WARM", "KEENNOSE" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_siats",
+    "name": { "str_sp": "Siats" },
+    "copy-from": "mon_allosaurus",
+    "default_faction": "siats",
+    "weight": "5000 kg",
+    "speed": 75,
+    "hp": 800,
+    "zombify_into": "mon_ziats",
+    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
+    "description": "Huge predatory bipedal dinosaur with long claws and strong arms for grappling.",
+    "reproduction": { "baby_egg": "egg_siats", "baby_count": 3, "baby_timer": 24 },
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "ATTACKMON", "WARM", "KEENNOSE" ]
   },
   {
     "type": "MONSTER",
@@ -655,7 +714,7 @@
     "name": { "str_sp": "Camptosaurus" },
     "looks_like": "mon_parasaurolophus",
     "species": "DINOSAUR",
-    "default_faction": "camptosaurus",
+    "default_faction": "herbivore_dino",
     "symbol": "D",
     "color": "light_green_yellow",
     "volume": "850 L",
@@ -677,9 +736,10 @@
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zamptosaurus",
     "description": "A large feathered bipedal dinosaur with strong legs, broad shoulders and a pointed beak.  It moves slowly but with enormous strength.",
-    "reproduction": { "baby_egg": "egg_camptosaurus", "baby_count": 3, "baby_timer": 12 },
+    "reproduction": { "baby_egg": "egg_camptosaurus", "baby_count": 30, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "special_attacks": [ [ "EAT_CROP", 30 ] ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -698,6 +758,17 @@
     "harvest": "mammal_large_leather",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FIRE" ],
     "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_maiasaura",
+    "name": { "str_sp": "Maiasaura" },
+    "copy-from": "mon_parasaurolophus",
+    "weight": "2500 kg",
+    "hp": 250,
+    "zombify_into": "mon_zaiasaura",
+    "description": "A huge scaly dinosaur with hooves and heavy tail.  Has a flat beak, thick nose, and small spiky head crest.",
+    "reproduction": { "baby_egg": "egg_maiasaura", "baby_count": 30, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
@@ -725,12 +796,12 @@
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zarasaurolophus",
     "description": "A huge mottled dinosaur with a blunt head crest.",
-    "reproduction": { "baby_egg": "egg_parasaurolophus", "baby_count": 3, "baby_timer": 24 },
+    "reproduction": { "baby_egg": "egg_parasaurolophus", "baby_count": 30, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "special_attacks": [ [ "EAT_CROP", 10 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "ATTACKMON" ],
     "harvest": "mammal_large_leather",
-    "anger_triggers": [ "HURT" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -744,8 +815,8 @@
     "hp": 300,
     "zombify_into": "mon_zorythosaurus",
     "description": "A huge scaly dinosaur with a thick neck and tail and hooves.  Has a short beak and a tall head crest.",
-    "reproduction": { "baby_egg": "egg_corythosaurus", "baby_count": 3, "baby_timer": 24 },
-    "special_attacks": [ [ "SHRIEK", 10 ] ]
+    "reproduction": { "baby_egg": "egg_corythosaurus", "baby_count": 30, "baby_timer": 24 },
+    "special_attacks": [ [ "SHRIEK", 10 ], [ "EAT_CROP", 30 ] ]
   },
   {
     "type": "MONSTER",
@@ -758,7 +829,7 @@
     "armor_cut": 6,
     "zombify_into": "mon_zedmontosaurus",
     "description": "A huge scaly dinosaur with a broad toothless beak.",
-    "reproduction": { "baby_egg": "egg_edmontosaurus", "baby_count": 3, "baby_timer": 24 }
+    "reproduction": { "baby_egg": "egg_edmontosaurus", "baby_count": 30, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
@@ -800,13 +871,130 @@
     "id": "mon_pteranodon",
     "name": { "str_sp": "Pteranodon" },
     "copy-from": "mon_dimorphodon",
+    "default_faction": "pteranodon",
     "volume": "38 L",
     "weight": "50 kg",
     "hp": 40,
+    "aggression": 20,
+    "morale": 50,
     "speed": 200,
     "zombify_into": "mon_zteranodon",
     "description": "A large feathered flying reptile, with a long pointed toothless beak and a long pointy head crest.",
-    "reproduction": { "baby_egg": "egg_pteranodon", "baby_count": 3, "baby_timer": 24 }
+    "reproduction": { "baby_egg": "egg_pteranodon", "baby_count": 3, "baby_timer": 24 },
+    "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
+    "harvest": "dino_feather_leather"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_quetzalcoatlus",
+    "name": { "str_sp": "Quetzalcoatlus" },
+    "copy-from": "mon_dimorphodon",
+    "default_faction": "quetzalcoatlus",
+    "volume": "190 L",
+    "weight": "250 kg",
+    "hp": 200,
+    "aggression": 50,
+    "morale": 80,
+    "speed": 150,
+    "zombify_into": "mon_zuetzalcoatlus",
+    "description": "A huge feathered flying reptile, with a long pointed toothless beak and a long stiff neck.",
+    "reproduction": { "baby_egg": "egg_quetzalcoatlus", "baby_count": 3, "baby_timer": 24 },
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "FLIES",
+      "HIT_AND_RUN",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "CATFOOD",
+      "ATTACKMON",
+      "PET_MOUNTABLE"
+    ],
+    "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
+    "harvest": "dino_feather_leather"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_eoraptor",
+    "name": { "str": "Eoraptor" },
+    "species": [ "DINOSAUR" ],
+    "default_faction": "eoraptor",
+    "symbol": "D",
+    "color": "dark_gray_yellow",
+    "volume": "10 L",
+    "weight": "10 kg",
+    "bodytype": "ostrich",
+    "material": [ "flesh" ],
+    "aggression": -60,
+    "morale": -60,
+    "speed": 100,
+    "melee_skill": 1,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_cut": 1,
+    "dodge": 4,
+    "armor_bash": 1,
+    "hp": 10,
+    "death_function": [ "NORMAL" ],
+    "death_drops": { "subtype": "collection", "groups": [ [ "science", 100 ], [ "mut_lab", 10 ] ] },
+    "description": "A bipedal dinosaur about the size of a chicken.  It darts around quickly and has long arms for grabbing what it desires.  It's holding something.",
+    "reproduction": { "baby_egg": "egg_eoraptor", "baby_count": 3, "baby_timer": 12 },
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "special_attacks": [ [ "EAT_FOOD", 20 ] ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "HIT_AND_RUN",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CLIMBS",
+      "ATTACKMON"
+    ],
+    "harvest": "mammal_tiny",
+    "vision_night": 5,
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_coelophysis",
+    "name": { "str_sp": "Coelophysis" },
+    "copy-from": "mon_eoraptor",
+    "default_faction": "coelophysis",
+    "weight": "20 kg",
+    "aggression": 10,
+    "morale": 40,
+    "speed": 100,
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "melee_cut": 2,
+    "dodge": 2,
+    "hp": 20,
+    "description": "Small, thin predatory bipedal dinosaur with a long head and sharp teeth and long grasping claws.",
+    "reproduction": { "baby_egg": "egg_coelophysis", "baby_count": 3, "baby_timer": 24 },
+    "special_attacks": [ [ "GRAB", 10 ] ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "HIT_AND_RUN",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CLIMBS",
+      "ATTACKMON",
+      "SWARMS",
+      "GROUP_MORALE"
+    ],
+    "vision_day": 80,
+    "harvest": "dino_feather_leather"
   },
   {
     "type": "MONSTER",
@@ -837,6 +1025,7 @@
     "reproduction": { "baby_egg": "egg_dilophosaurus", "baby_count": 3, "baby_timer": 18 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "special_attacks": [ [ "LUNGE", 10 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "ATTACKMON" ],
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
@@ -873,6 +1062,7 @@
     "reproduction": { "baby_egg": "egg_ceratosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "special_attacks": [ [ "GRAB", 10 ], [ "LUNGE", 10 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "ATTACKMON", "WARM", "SWIMS" ],
     "harvest": "dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
@@ -913,209 +1103,5 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
-  },
-  {
-    "id": "mon_compsognathus_hatchling",
-    "type": "MONSTER",
-    "name": "greenish yellow hatchling",
-    "description": "A tiny dinosaur hatchling with huge shiny eyes, it could be from a number of different species.",
-    "default_faction": "compsognathus",
-    "categories": [ "DINOSAUR" ],
-    "species": [ "DINOSAUR" ],
-    "diff": 10,
-    "volume": "2 L",
-    "weight": "2 kg",
-    "hp": 2,
-    "speed": 60,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "green_yellow",
-    "looks_like": "mon_compsognathus",
-    "aggression": -99,
-    "morale": -8,
-    "melee_skill": 1,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 1,
-    "dodge": 1,
-    "death_function": [ "NORMAL" ],
-    "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "GUILT", "STUMBLES", "NO_BREED" ],
-    "harvest": "mammal_tiny"
-  },
-  {
-    "id": "mon_gallimimus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "light green and yellow hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_gallimimus" }
-  },
-  {
-    "id": "mon_pachycephalosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "light green and yellow hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_pachycephalosaurus" }
-  },
-  {
-    "id": "mon_spinosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "red and white hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_spinosaurus" }
-  },
-  {
-    "id": "mon_tyrannosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "light red and white hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_tyrannosaurus" }
-  },
-  {
-    "id": "mon_albertosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "light red and white hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_albertosaurus" }
-  },
-  {
-    "id": "mon_triceratops_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "light green and magenta hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_triceratops" }
-  },
-  {
-    "id": "mon_stegosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "green and magenta hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_stegosaurus" }
-  },
-  {
-    "id": "mon_ankylosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "brown and magenta hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_ankylosaurus" }
-  },
-  {
-    "id": "mon_diplodocus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "brown and magenta hatchling",
-    "upgrades": { "age_grow": 40, "into": "mon_diplodocus" }
-  },
-  {
-    "id": "mon_camarasaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "brown and magenta hatchling",
-    "upgrades": { "age_grow": 50, "into": "mon_camarasaurus" }
-  },
-  {
-    "id": "mon_apatosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "brown and magenta hatchling",
-    "upgrades": { "age_grow": 50, "into": "mon_apatosaurus" }
-  },
-  {
-    "id": "mon_allosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "brown and white hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_allosaurus" }
-  },
-  {
-    "id": "mon_eoraptor_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "dark gray and yellow hatchling",
-    "upgrades": { "age_grow": 10, "into": "mon_eoraptor" }
-  },
-  {
-    "id": "mon_velociraptor_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "dark gray and yellow hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_velociraptor" }
-  },
-  {
-    "id": "mon_deinonychus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "red and green hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_deinonychus" }
-  },
-  {
-    "id": "mon_utahraptor_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "dark gray and white hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_utahraptor" }
-  },
-  {
-    "id": "mon_camptosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "light green and yellow hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_camptosaurus" }
-  },
-  {
-    "id": "mon_parasaurolophus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "dark gray and magenta hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_parasaurolophus" }
-  },
-  {
-    "id": "mon_corythosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "dark gray and magenta hatchling",
-    "upgrades": { "age_grow": 40, "into": "mon_corythosaurus" }
-  },
-  {
-    "id": "mon_edmontosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "dark gray and magenta hatchling",
-    "upgrades": { "age_grow": 50, "into": "mon_edmontosaurus" }
-  },
-  {
-    "id": "mon_dimorphodon_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "light gray and yellow hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_dimorphodon" }
-  },
-  {
-    "id": "mon_pteranodon_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "light gray and yellow hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_pteranodon" }
-  },
-  {
-    "id": "mon_dilophosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "magenta and green hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_dilophosaurus" }
-  },
-  {
-    "id": "mon_ceratosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "brown and white hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_ceratosaurus" }
-  },
-  {
-    "id": "mon_mosasaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "red and white hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_mosasaurus" }
   }
 ]

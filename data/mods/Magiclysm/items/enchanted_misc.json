@@ -181,7 +181,6 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "thread" ],
-    "flags": [ "NO_UNLOAD" ],
     "initial_charges": 500,
     "max_charges": 1000,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },

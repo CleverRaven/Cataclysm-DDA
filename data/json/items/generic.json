@@ -143,6 +143,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "monitoring_equipment_doc",
+    "copy-from": "log_immersion27",
+    "name": { "str": "XEDRA document" },
+    "snippet_category": "monitoring_equipment"
+  },
+  {
+    "type": "GENERIC",
+    "id": "artifact_scp_doc",
+    "copy-from": "log_immersion27",
+    "name": { "str": "ANOMALOUS ARTIFACT REPORT" },
+    "snippet_category": "artifact_scp"
+  },
+  {
+    "type": "GENERIC",
     "id": "fp_loyalty_card",
     "category": "other",
     "symbol": "-",
@@ -968,21 +982,6 @@
     "material": [ "steel", "plastic" ],
     "weight": "11339 g",
     "volume": "9 L"
-  },
-  {
-    "type": "GENERIC",
-    "id": "laptop",
-    "symbol": ",",
-    "color": "dark_gray",
-    "name": { "str": "laptop computer" },
-    "category": "other",
-    "description": "A broken laptop, basically a paperweight now.",
-    "price": 1000,
-    "price_postapoc": 10,
-    "material": [ "plastic", "aluminum" ],
-    "weight": "2721 g",
-    "volume": "750 ml",
-    "bashing": 6
   },
   {
     "type": "GENERIC",
@@ -3140,5 +3139,150 @@
     "symbol": ".",
     "color": "white",
     "flags": [ "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "alder_bark",
+    "symbol": ",",
+    "color": "brown",
+    "name": { "str_sp": "alder bark" },
+    "description": "A strip of bark pulled from an alder tree.  Used in the production of topical hemostatics.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "wood" ],
+    "weight": "323 g",
+    "volume": "250 ml",
+    "bashing": 4,
+    "to_hit": 1
+  },
+  {
+    "id": "wallet",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "wallet" },
+    "looks_like": "bag_plastic",
+    "description": "A small, flat case used to carry items such as currency, identification documents, and laminated cards.",
+    "volume": "250 ml",
+    "weight": "60 g",
+    "price": 1,
+    "price_postapoc": 10,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "//": "Folded Sleeve",
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_weight": "60 g",
+        "max_contains_volume": "150 ml",
+        "moves": 100,
+        "item_restriction": [ "FMCNote", "signed_chit", "family_photo" ]
+      },
+      {
+        "//": "Card Sleeves",
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_weight": "60 g",
+        "max_contains_volume": "150 ml",
+        "moves": 100,
+        "item_restriction": [
+          "cash_card",
+          "gasdiscount_silver",
+          "gasdiscount_gold",
+          "gasdiscount_platinum",
+          "id_science",
+          "id_military",
+          "id_industrial",
+          "fp_loyalty_card",
+          "robofac_test_data",
+          "icon"
+        ]
+      },
+      {
+        "//": "Coin Purse",
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_weight": "600 g",
+        "max_contains_volume": "150 ml",
+        "moves": 200,
+        "item_restriction": [ "FMCNote", "RobofacCoin", "FlatCoin", "coin_quarter" ]
+      }
+    ]
+  },
+  {
+    "id": "wallet_duct_tape",
+    "type": "GENERIC",
+    "copy-from": "wallet",
+    "name": { "str": "duct tape wallet" },
+    "description": "This wallet is made entirely out of duct tape.",
+    "material": [ "plastic" ]
+  },
+  {
+    "id": "wallet_leather",
+    "type": "GENERIC",
+    "copy-from": "wallet",
+    "name": { "str": "leather wallet" },
+    "description": "This wallet is made from leather.",
+    "material": [ "leather" ]
+  },
+  {
+    "id": "wallet_large",
+    "type": "GENERIC",
+    "copy-from": "wallet",
+    "name": { "str": "large wallet" },
+    "description": "A flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
+    "material": [ "leather" ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "wallet_stylish",
+    "type": "GENERIC",
+    "copy-from": "wallet",
+    "name": { "str": "stylish wallet" },
+    "description": "A stylish flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
+    "material": [ "leather" ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "wallet_travel",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": { "str": "travel wallet" },
+    "description": "A flat case with neck strap used to carry items such as currency, identification documents, laminated cards, and other small items.",
+    "price": 15000,
+    "price_postapoc": 250,
+    "material": [ "plastic", "leather" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS" ],
+    "weight": "708 g",
+    "volume": "500 ml",
+    "bashing": 1,
+    "to_hit": -1,
+    "covers": [ "torso" ],
+    "encumbrance": 2,
+    "coverage": 10,
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_weight": "600 g",
+        "max_contains_volume": "500 ml",
+        "moves": 400,
+        "item_restriction": [
+          "cash_card",
+          "gasdiscount_silver",
+          "gasdiscount_gold",
+          "gasdiscount_platinum",
+          "id_science",
+          "id_military",
+          "id_industrial",
+          "fp_loyalty_card",
+          "robofac_test_data"
+        ]
+      }
+    ]
   }
 ]

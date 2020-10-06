@@ -90,7 +90,6 @@ static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
 static const efftype_id effect_incorporeal( "incorporeal" );
-static const efftype_id effect_pet( "pet" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
@@ -139,9 +138,8 @@ static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_POWERED( "POWERED" );
 static const std::string flag_TREE( "TREE" );
 
-void cancel_aim_processing();
 //Generic activity: maximum search distance for zones, constructions, etc.
-const int ACTIVITY_SEARCH_DISTANCE = 60;
+static const int ACTIVITY_SEARCH_DISTANCE = 60;
 
 /** Activity-associated item */
 struct act_item {
@@ -169,6 +167,29 @@ static bool same_type( const std::list<item> &items )
     } );
 }
 
+// See also handle_contents_changed_helper and Character::handle_contents_changed
+// for contents handling of item_location.
+static bool handle_spillable_contents( Character &c, item &it, map &m )
+{
+    if( it.is_bucket_nonempty() ) {
+        it.contents.spill_open_pockets( c, /*avoid=*/&it );
+
+        // If bucket is still not empty then player opted not to handle the
+        // rest of the contents
+        if( !it.contents.empty() ) {
+            c.add_msg_player_or_npc(
+                _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
+                _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
+                it.display_name(), m.name( c.pos() )
+            );
+            m.add_item_or_charges( c.pos(), it );
+            return true;
+        }
+    }
+
+    return false;
+}
+
 static void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
                               vehicle &veh, int part )
 {
@@ -184,7 +205,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
 
     // can't use constant reference here because of the spill_contents()
     for( item it : items ) {
-        if( Pickup::handle_spillable_contents( c, it, here ) ) {
+        if( handle_spillable_contents( c, it, here ) ) {
             continue;
         }
         if( veh.add_item( part, it ) ) {
@@ -283,41 +304,6 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     }
 }
 
-static void pass_to_ownership_handling( item obj, Character &c )
-{
-    obj.handle_pickup_ownership( c );
-}
-
-static void pass_to_ownership_handling( item obj, player *p )
-{
-    obj.handle_pickup_ownership( *p );
-}
-
-static void stash_on_pet( const std::list<item> &items, monster &pet, player *p )
-{
-    units::volume remaining_volume = pet.storage_item->get_total_capacity() - pet.get_carried_volume();
-    units::mass remaining_weight = pet.weight_capacity() - pet.get_carried_weight();
-    map &here = get_map();
-
-    for( const item &it : items ) {
-        if( it.volume() > remaining_volume ) {
-            add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ), it.display_name(),
-                     here.name( pet.pos() ) );
-            here.add_item_or_charges( pet.pos(), it );
-        } else if( it.weight() > remaining_weight ) {
-            add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ), it.display_name(),
-                     here.name( pet.pos() ) );
-            here.add_item_or_charges( pet.pos(), it );
-        } else {
-            pet.add_item( it );
-            remaining_volume -= it.volume();
-            remaining_weight -= it.weight();
-        }
-        // TODO: if NPCs can have pets or move items onto pets
-        pass_to_ownership_handling( it, p );
-    }
-}
-
 void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &items,
                   const tripoint &where )
 {
@@ -402,7 +388,7 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
     }
     for( const item &it : items ) {
         here.add_item_or_charges( where, it );
-        pass_to_ownership_handling( it, c );
+        item( it ).handle_pickup_ownership( c );
     }
 }
 
@@ -440,92 +426,6 @@ static std::list<act_item> convert_to_act_item( const player_activity &act, Char
         res.emplace_back( act.targets[i], act.values[i], act.targets[i].obtain_cost( guy, act.values[i] ) );
     }
     return res;
-}
-
-// TODO: Display costs in the multidrop menu
-static void debug_drop_list( const std::list<act_item> &list )
-{
-    if( !debug_mode ) {
-        return;
-    }
-
-    std::string res( "Items ordered to drop:\n" );
-    for( const act_item &ait : list ) {
-        res += string_format( "Drop %d %s for %d moves\n",
-                              ait.count, ait.loc->display_name( ait.count ), ait.consumed_moves );
-    }
-    popup( res, PF_GET_KEY );
-}
-
-// Return a list of items to be dropped by the given item-dropping activity in the current turn.
-static std::list<item> obtain_activity_items( player_activity &act, player &p )
-{
-    std::list<item> res;
-
-    std::list<act_item> items = convert_to_act_item( act, p );
-    debug_drop_list( items );
-
-    // As long as the player has enough moves in this turn, drop items from the activity item list
-    while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
-        act_item &ait = items.front();
-
-        cata_assert( ait.loc );
-        cata_assert( ait.loc.get_item() );
-
-        p.mod_moves( -ait.consumed_moves );
-
-        // If item is inside another (container/pocket), unseal it, and update encumbrance
-        if( ait.loc.has_parent() ) {
-            item_pocket *const parent_pocket = ait.loc.parent_item()->contained_where( *ait.loc );
-            if( parent_pocket ) {
-                parent_pocket->unseal();
-            }
-            // Update encumbrance on the parent item
-            ait.loc.parent_item()->on_contents_changed();
-        }
-        // Take off the item or remove it from the player's inventory
-        if( p.is_worn( *ait.loc ) ) {
-            p.takeoff( *ait.loc, &res );
-        } else if( ait.loc->count_by_charges() ) {
-            res.push_back( p.reduce_charges( const_cast<item *>( &*ait.loc ), ait.count ) );
-        } else {
-            res.push_back( p.i_rem( &*ait.loc ) );
-        }
-
-        items.pop_front();
-    }
-
-    // Load anything that remains (if any) into the activity
-    act.targets.clear();
-    act.values.clear();
-    for( const act_item &ait : items ) {
-        act.targets.push_back( ait.loc );
-        act.values.push_back( ait.count );
-    }
-    // And cancel if its empty. If its not, we modified in place and we will continue
-    // to resolve the drop next turn. This is different from the pickup logic which
-    // creates a brand new activity every turn and cancels the old activity
-    if( act.values.empty() ) {
-        p.cancel_activity();
-    }
-
-    return res;
-}
-
-void activity_handlers::drop_do_turn( player_activity *act, player *p )
-{
-    const tripoint pos = act->placement + p->pos();
-
-    bool force_ground = false;
-    for( const std::string &it : act->str_values ) {
-        if( it == "force_ground" ) {
-            force_ground = true;
-            break;
-        }
-    }
-    p->invalidate_weight_carried_cache();
-    put_into_vehicle_or_drop( *p, item_drop_reason::deliberate, obtain_activity_items( *act, *p ),
-                              pos, force_ground );
 }
 
 void activity_on_turn_wear( player_activity &act, player &p )
@@ -626,19 +526,6 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     p->invalidate_crafting_inventory();
 
     act->set_to_null();
-}
-
-void activity_handlers::stash_do_turn( player_activity *act, player *p )
-{
-    const tripoint pos = act->placement + p->pos();
-
-    monster *pet = g->critter_at<monster>( pos );
-    if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-        stash_on_pet( obtain_activity_items( *act, *p ), *pet, p );
-    } else {
-        p->add_msg_if_player( _( "The pet has moved somewhere else." ) );
-        p->cancel_activity();
-    }
 }
 
 static double get_capacity_fraction( int capacity, int volume )
@@ -2027,7 +1914,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             // (to prevent taking out wood off the lit brazier)
             // and inaccessible furniture, like filled charcoal kiln
             if( mgr.has( zone_type_LOOT_IGNORE, src ) ||
-                here.get_field( src_loc, fd_fire ) != nullptr ||
+                here.get_field( src_loc, field_type_id( "fd_fire" ) ) != nullptr ||
                 !here.can_put_items_ter_furn( src_loc ) ) {
                 continue;
             }
@@ -2890,7 +2777,7 @@ static cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &fro
     time_duration best_fire_age = 1_days;
     map &here = get_map();
     for( const tripoint &pt : from ) {
-        field_entry *fire = here.get_field( pt, fd_fire );
+        field_entry *fire = here.get_field( pt, field_type_id( "fd_fire" ) );
         if( fire == nullptr || fire->get_field_intensity() > 1 ||
             !here.clear_path( center, pt, PICKUP_RANGE, 1, 100 ) ) {
             continue;
@@ -3052,7 +2939,7 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
     // Special case: fire containers allow burning logs, so use them as fuel if fire is contained
     bool contained = here.has_flag_furn( TFLAG_FIRE_CONTAINER, *best_fire );
     fire_data fd( 1, contained );
-    time_duration fire_age = here.get_field_age( *best_fire, fd_fire );
+    time_duration fire_age = here.get_field_age( *best_fire, field_type_id( "fd_fire" ) );
 
     // Maybe TODO: - refueling in the rain could use more fuel
     // First, simulate expected burn per turn, to see if we need more fuel

@@ -125,7 +125,7 @@ void user_interface::show()
         rule_list &cur_rules = tabs[iTab].new_rules;
         int locx = 17;
         for( size_t i = 0; i < tabs.size(); i++ ) {
-            const auto color = iTab == i ? hilite( c_white ) : c_white;
+            const nc_color color = iTab == i ? hilite( c_white ) : c_white;
             locx += shortcut_print( w_header, point( locx, 2 ), c_white, color, tabs[i].title ) + 1;
         }
 

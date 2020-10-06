@@ -87,11 +87,11 @@ void text_style_check( Iter beg, Iter end,
     // *INDENT-ON*
 
     const size_t text_length = std::distance( beg, end );
-    for( auto it = beg; it < end; ) {
-        auto itpunc = it;
+    for( Iter it = beg; it < end; ) {
+        Iter itpunc = it;
         auto punc = punctuations.begin();
         for( ; punc < punctuations.end(); ++punc ) {
-            auto itpuncend = it;
+            Iter itpuncend = it;
             bool matches = true;
             for( auto isym = punc->symbol.begin(); isym < punc->symbol.end(); ++isym, ++itpuncend ) {
                 if( itpuncend >= end || *isym != *itpuncend ) {
@@ -123,7 +123,7 @@ void text_style_check( Iter beg, Iter end,
         }
         if( punc->spaces.check && text_length >= punc->spaces.min_string_length ) {
             size_t spacesbefore = 0;
-            auto itspacebefore = itpunc;
+            Iter itspacebefore = itpunc;
             for( ; itspacebefore > beg; --itspacebefore, ++spacesbefore ) {
                 const uint32_t ch = *( itspacebefore - 1 );
                 if( ch != U' ' ) {
@@ -136,7 +136,7 @@ void text_style_check( Iter beg, Iter end,
                              beg, end, itpunc, itspacebefore, itpunc, {} );
             }
             size_t wordlen = 0;
-            for( auto itword = itpunc; itword > beg; --itword, ++wordlen ) {
+            for( Iter itword = itpunc; itword > beg; --itword, ++wordlen ) {
                 const uint32_t ch = *( itword - 1 );
                 if( ( ch < U'a' || ch > U'z' ) && ( ch < U'A' || ch > U'Z' ) &&
                     ( ch < U'0' || ch > U'9' ) && ch != U'-' ) {
@@ -144,7 +144,7 @@ void text_style_check( Iter beg, Iter end,
                 }
             }
             bool after_word = wordlen >= punc->spaces.min_word_length;
-            auto itspaceend = it;
+            Iter itspaceend = it;
             size_t spacelen = 0;
             for( ; itspaceend < end && *itspaceend == U' '; ++itspaceend, ++spacelen ) {
             }

@@ -98,7 +98,7 @@ void mod_manager::load_replacement_mods( const std::string &path )
     read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
         jsin.start_array();
         while( !jsin.end_array() ) {
-            auto arr = jsin.get_array();
+            JsonArray arr = jsin.get_array();
             mod_replacements.emplace( mod_id( arr.get_string( 0 ) ),
                                       mod_id( arr.size() > 1 ? arr.get_string( 1 ) : "" ) );
         }
@@ -434,7 +434,7 @@ const mod_manager::t_mod_list &mod_manager::get_default_mods() const
     return default_mods;
 }
 
-inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
+static inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
         const MOD_INFORMATION *const b )
 {
     return localized_compare( std::make_pair( a->category, a->name() ),

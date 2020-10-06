@@ -65,7 +65,7 @@ static std::unordered_map<int, mission> world_missions;
 
 mission *mission::reserve_new( const mission_type_id &type, const character_id &npc_id )
 {
-    const auto tmp = mission_type::get( type )->create( npc_id );
+    const mission tmp = mission_type::get( type )->create( npc_id );
     // TODO: Warn about overwrite?
     mission &miss = world_missions[tmp.uid] = tmp;
     return &miss;
@@ -164,7 +164,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
         // Technically, the active missions could be moved to the failed mission section.
         return;
     }
-    const auto dead_guys_id = p->getID();
+    const character_id dead_guys_id = p->getID();
     for( auto &e : world_missions ) {
         mission &i = e.second;
         if( !i.in_progress() ) {

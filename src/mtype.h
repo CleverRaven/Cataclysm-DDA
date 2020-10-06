@@ -56,7 +56,7 @@ enum class mon_trigger : int {
 
 template<>
 struct enum_traits<mon_trigger> {
-    static constexpr auto last = mon_trigger::_LAST;
+    static constexpr mon_trigger last = mon_trigger::_LAST;
 };
 
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!

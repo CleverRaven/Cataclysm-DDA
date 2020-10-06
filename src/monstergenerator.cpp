@@ -5,6 +5,7 @@
 
 #include "assign.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "creature.h"
@@ -790,7 +791,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     int bonus_cut = 0;
     if( jo.has_int( "melee_cut" ) ) {
         bonus_cut = jo.get_int( "melee_cut" );
-        melee_damage.add_damage( DT_CUT, bonus_cut );
+        melee_damage.add_damage( damage_type::CUT, bonus_cut );
     }
 
     if( jo.has_member( "death_drops" ) ) {
@@ -923,7 +924,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
 
     if( jo.has_member( "path_settings" ) ) {
-        auto jop = jo.get_object( "path_settings" );
+        JsonObject jop = jo.get_object( "path_settings" );
         // Here rather than in pathfinding.cpp because we want monster-specific defaults and was_loaded
         optional( jop, was_loaded, "max_dist", path_settings.max_dist, 0 );
         optional( jop, was_loaded, "max_length", path_settings.max_length, -1 );
@@ -1119,7 +1120,7 @@ void mtype::add_special_attack( JsonArray inner, const std::string & )
                       id.c_str(), name );
         }
     }
-    auto new_attack = mtype_special_attack( iter->second );
+    mtype_special_attack new_attack = mtype_special_attack( iter->second );
     new_attack.actor->cooldown = inner.get_int( 1 );
     special_attacks.emplace( name, new_attack );
     special_attacks_names.push_back( name );
@@ -1203,6 +1204,9 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
                       mon.mech_battery.c_str() );
         }
+        if( !mon.harvest.is_valid() ) {
+            debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );
+        }
         for( const scenttype_id &s_id : mon.scents_tracked ) {
             if( !s_id.is_empty() && !s_id.is_valid() ) {
                 debugmsg( "monster %s has unknown scents_tracked %s", mon.id.c_str(), s_id.c_str() );
@@ -1213,7 +1217,7 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "monster %s has unknown scents_ignored %s", mon.id.c_str(), s_id.c_str() );
             }
         }
-        for( const auto &s : mon.starting_ammo ) {
+        for( const std::pair<const itype_id, int> &s : mon.starting_ammo ) {
             if( !item::type_is_defined( s.first ) ) {
                 debugmsg( "starting ammo %s of monster %s is unknown", s.first.c_str(), mon.id.c_str() );
             }

@@ -36,12 +36,6 @@ struct partial_con {
     construction_id id = construction_id( -1 );
 };
 
-struct build_reqs {
-    std::map<skill_id, int> skills;
-    std::map<requirement_id, int> reqs;
-    int time = 0;
-};
-
 template <>
 const construction &construction_id::obj() const;
 template <>
@@ -126,7 +120,4 @@ bool player_can_see_to_build( player &p, const std::string &desc );
 void check_constructions();
 void finalize_constructions();
 
-void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
-                                      std::map<furn_id, int>> &changed_ids,
-                                      build_reqs &total_reqs );
 #endif // CATA_SRC_CONSTRUCTION_H

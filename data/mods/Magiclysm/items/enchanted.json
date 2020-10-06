@@ -91,5 +91,21 @@
     "material_thickness": 3,
     "flags": [ "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
+  },
+  {
+    "id": "wolfshead_cufflinks",
+    "copy-from": "ruby_silver_cufflinks",
+    "type": "ARMOR",
+    "weight": "20 g",
+    "price_postapoc": "1200 USD",
+    "name": { "str": "pair of wolfshead cufflinks", "str_pl": "pairs of wolfshead cufflinks" },
+    "description": "A pair of silver cufflinks with a wolf's head engraved into them.  Each cufflink has a bright ruby eye and pearl teeth.  They appear to be growling.  There is an inscription, 'When the moon shines.  I become alive.'",
+    "relic_data": {
+      "charge_info": { "recharge_type": "periodic", "time": "144 h", "regenerate_ammo": true },
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
+    },
+    "use_action": { "type": "cast_spell", "spell_id": "lupercalia", "no_fail": true, "level": 1, "need_worn": true },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 1 } } ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   }
 ]

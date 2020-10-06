@@ -34,7 +34,7 @@
       ],
       "palettes": [ "aug_clinic" ],
       "terrain": { "'": "t_door_glass_o", ".": "t_strconc_floor", ",": "t_sidewalk", "E": "t_machinery_electronic" },
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "T": "f_table", "n": "f_trashcan", "B": "f_monomolecularsaw" },
+      "furniture": { "?": "f_autodoc_average", "/": "f_autodoc_couch", "T": "f_table", "n": "f_trashcan", "B": "f_monomolecularsaw" },
       "items": {
         "c": { "item": "dissection", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "office", "chance": 60 },
@@ -91,7 +91,14 @@
       ],
       "palettes": [ "aug_clinic" ],
       "terrain": { " ": "t_open_air" },
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "o": "f_sofa", "T": "f_table", "Á": "f_armchair", "n": "f_trashcan" },
+      "furniture": {
+        "?": "f_autodoc_average",
+        "/": "f_autodoc_couch",
+        "o": "f_sofa",
+        "T": "f_table",
+        "Á": "f_armchair",
+        "n": "f_trashcan"
+      },
       "computers": {
         "5": {
           "name": "Secure Bionic Storage Access",

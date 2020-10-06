@@ -193,7 +193,8 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "POOLWATER",                TERCONN_POOLWATER },
         { "PAVEMENT",                 TERCONN_PAVEMENT },
         { "RAIL",                     TERCONN_RAIL },
-        { "COUNTER",                     TERCONN_COUNTER },
+        { "COUNTER",                  TERCONN_COUNTER },
+        { "CANVAS_WALL",              TERCONN_CANVAS_WALL },
     }
 };
 
@@ -370,7 +371,7 @@ void load_season_array( const JsonObject &jo, const std::string &key, C &contain
         container.fill( load_func( jo.get_string( key ) ) );
 
     } else if( jo.has_array( key ) ) {
-        auto arr = jo.get_array( key );
+        JsonArray arr = jo.get_array( key );
         if( arr.size() == 1 ) {
             container.fill( load_func( arr.get_string( 0 ) ) );
 
@@ -530,7 +531,6 @@ ter_id t_null,
        t_reinforced_door_glass_o, t_reinforced_door_glass_c,
        t_bars,
        t_reb_cage,
-       t_wall_r, t_wall_w, t_wall_b, t_wall_g, t_wall_p, t_wall_y,
        t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep, t_rdoor_c, t_rdoor_b,
        t_rdoor_o, t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm,
        t_door_frame,
@@ -588,7 +588,6 @@ ter_id t_null,
        t_vat,
        t_rootcellar,
        t_cvdbody, t_cvdmachine,
-       t_nanofab, t_nanofab_body,
        t_water_pump,
        t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
        t_improvised_shelter,
@@ -613,6 +612,9 @@ ter_id t_null,
        t_railroad_track_d2,
        t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie,
        t_railroad_track_d_on_tie;
+
+static ter_id t_nanofab, t_nanofab_body, t_wall_b, t_wall_g, t_wall_p, t_wall_r, t_wall_w,
+       t_wall_y;
 
 // TODO: Put this crap into an inclusion, which should be generated automatically using JSON data
 
@@ -681,7 +683,7 @@ void set_ter_ids()
     t_reinforced_glass_shutter = ter_id( "t_reinforced_glass_shutter" );
     t_reinforced_glass_shutter_open = ter_id( "t_reinforced_glass_shutter_open" );
     t_laminated_glass = ter_id( "t_laminated_glass" );
-    t_ballistic_glass = ter_id( "t_ballistic_glass" ),
+    t_ballistic_glass = ter_id( "t_ballistic_glass" );
     t_reinforced_door_glass_c = ter_id( "t_reinforced_door_glass_c" );
     t_reinforced_door_glass_o = ter_id( "t_reinforced_door_glass_o" );
     t_bars = ter_id( "t_bars" );
@@ -941,11 +943,11 @@ furn_id f_null,
         f_rubble, f_rubble_rock, f_wreckage, f_ash,
         f_barricade_road, f_sandbag_half, f_sandbag_wall,
         f_bulletin,
-        f_indoor_plant, f_indoor_plant_y,
+        f_indoor_plant,
         f_bed, f_toilet, f_makeshift_bed, f_straw_bed,
         f_sink, f_oven, f_woodstove, f_fireplace, f_bathtub,
         f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
-        f_ball_mach, f_bench, f_lane, f_table, f_pool_table,
+        f_bench, f_table, f_pool_table,
         f_counter,
         f_fridge, f_glass_fridge, f_dresser, f_locker,
         f_rack, f_bookcase,
@@ -957,16 +959,15 @@ furn_id f_null,
         f_fema_groundsheet, f_large_groundsheet,
         f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door,
         f_skin_door_o, f_skin_groundsheet,
-        f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump, f_dahlia, f_datura, f_dandelion,
-        f_cattails, f_bluebell, f_lotus, f_lilypad,
+        f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
+        f_cattails, f_lotus, f_lilypad,
         f_safe_c, f_safe_l, f_safe_o,
         f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
         f_fvat_empty, f_fvat_full,
         f_wood_keg,
         f_standing_tank,
-        f_statue, f_egg_sackbw, f_egg_sackcs, f_egg_sackws, f_egg_sacke,
+        f_egg_sackbw, f_egg_sackcs, f_egg_sackws, f_egg_sacke,
         f_flower_marloss,
-        f_floor_canvas,
         f_tatami,
         f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
         f_arcfurnace_empty, f_arcfurnace_full,
@@ -979,6 +980,9 @@ furn_id f_null,
         f_tourist_table,
         f_camp_chair,
         f_sign;
+
+static furn_id f_ball_mach, f_bluebell, f_dahlia, f_dandelion, f_datura, f_floor_canvas,
+       f_indoor_plant_y, f_lane, f_statue;
 
 void set_furn_ids()
 {
@@ -1161,6 +1165,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     }
 
     mandatory( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "curtain_transform", curtain_transform );
 }
 
 void ter_t::load( const JsonObject &jo, const std::string &src )

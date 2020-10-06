@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
@@ -189,12 +190,10 @@ std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoi
     return targets;
 }
 
-std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripoint &source,
-        const tripoint &target, const int aoe_radius, const bool ignore_walls )
+static std::set<tripoint> spell_effect_cone_range_override( const tripoint &source,
+        const tripoint &target, const int aoe_radius, const bool ignore_walls, const int range )
 {
     std::set<tripoint> targets;
-    // cones go all the way to end (if they don't hit an obstacle)
-    const int range = sp.range() + 1;
     const int initial_angle = coord_to_angle( source, target );
     std::set<tripoint> end_points;
     for( int angle = initial_angle - std::floor( aoe_radius / 2.0 );
@@ -216,6 +215,14 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
     // we don't want to hit ourselves in the blast!
     targets.erase( source );
     return targets;
+}
+
+std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripoint &source,
+        const tripoint &target, const int aoe_radius, const bool ignore_walls )
+{
+    // cones go all the way to end (if they don't hit an obstacle)
+    const int range = sp.range() + 1;
+    return spell_effect_cone_range_override( source, target, aoe_radius, ignore_walls, range );
 }
 
 static bool test_always_true( const tripoint & )
@@ -432,7 +439,7 @@ static void damage_targets( const spell &sp, Creature &caster,
         sp.make_sound( target );
         sp.create_field( target );
         if( sp.has_flag( spell_flag::IGNITE_FLAMMABLE ) && here.is_flammable( target ) ) {
-            here.add_field( target, fd_fire, 1, 10_minutes );
+            here.add_field( target, field_type_id( "fd_fire" ), 1, 10_minutes );
         }
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
@@ -712,9 +719,9 @@ static void spell_move( const spell &sp, const Creature &caster,
         }
     };
     // Moving fields.
-    move_field( spell_target::fire, fd_fire );
-    move_field( spell_target::blood, fd_blood );
-    move_field( spell_target::blood, fd_gibs_flesh );
+    move_field( spell_target::fire, field_type_id( "fd_fire" ) );
+    move_field( spell_target::blood, field_type_id( "fd_blood" ) );
+    move_field( spell_target::blood, field_type_id( "fd_gibs_flesh" ) );
 }
 
 void spell_effect::area_pull( const spell &sp, Creature &caster, const tripoint &center )
@@ -756,9 +763,10 @@ void spell_effect::area_push( const spell &sp, Creature &caster, const tripoint 
 void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const tripoint & )
 {
     item granted( sp.effect_data(), calendar::turn );
+    // Comestibles are never ethereal. Other spawned items are ethereal unless permanent and max level.
     if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) ) {
         granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
-        granted.set_flag( "ETHEREAL_ITEM" );
+        granted.ethereal = true;
     }
     if( granted.count_by_charges() && sp.damage() > 0 ) {
         granted.charges = sp.damage();
@@ -1083,7 +1091,7 @@ void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &ta
             if( sp.has_flag( spell_flag::MUTATE_TRAIT ) ) {
                 guy->mutate_towards( trait_id( sp.effect_data() ) );
             } else {
-                guy->mutate_category( sp.effect_data() );
+                guy->mutate_category( mutation_category_id( sp.effect_data() ) );
             }
         }
         sp.make_sound( potential_target );
@@ -1101,4 +1109,48 @@ void spell_effect::bash( const spell &sp, Creature &caster, const tripoint &targ
         // the bash already makes noise, so no need for spell::make_sound()
         here.bash( potential_target, sp.damage(), sp.has_flag( spell_flag::SILENT ) );
     }
+}
+
+void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const tripoint &source = caster.pos();
+    const std::vector<tripoint> trajectory_local = line_to( source, target );
+    ::map &here = get_map();
+    // uses abs() coordinates
+    std::vector<tripoint> trajectory;
+    for( const tripoint &local_point : trajectory_local ) {
+        trajectory.push_back( here.getabs( local_point ) );
+    }
+    avatar *caster_you = caster.as_avatar();
+    auto walk_point = trajectory.begin();
+    if( *walk_point == source ) {
+        ++walk_point;
+    }
+    // save the amount of moves the caster has so we can restore them after the dash
+    const int cur_moves = caster.moves;
+    while( walk_point != trajectory.end() ) {
+        if( caster_you != nullptr ) {
+            if( g->critter_at( here.getlocal( *walk_point ) ) ||
+                !g->walk_move( here.getlocal( *walk_point ), false ) ) {
+                --walk_point;
+                break;
+            } else {
+                sp.create_field( here.getlocal( *( walk_point - 1 ) ) );
+                g->draw_ter();
+            }
+        }
+        ++walk_point;
+    }
+    if( walk_point == trajectory.end() ) {
+        // we want the last tripoint in the actually reached trajectory
+        --walk_point;
+    }
+    caster.moves = cur_moves;
+
+    tripoint far_target;
+    calc_ray_end( coord_to_angle( source, target ), sp.aoe(), here.getlocal( *walk_point ),
+                  far_target );
+    const std::set<tripoint> hit_area = spell_effect_cone_range_override(
+                                            source, far_target, 45, sp.has_flag( spell_flag::IGNORE_WALLS ), sp.aoe() );
+    damage_targets( sp, caster, hit_area );
 }

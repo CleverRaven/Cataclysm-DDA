@@ -70,8 +70,9 @@ clean:
 #Unconditionally create object directory on invocation.
 $(shell mkdir -p $(ODIR))
 
+# Adding ../tests/ so that the directory appears in __FILE__ for log messages
 $(ODIR)/%.o: %.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
 
 .PHONY: clean check tests precompile_header
 

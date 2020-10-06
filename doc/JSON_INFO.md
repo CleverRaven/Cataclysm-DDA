@@ -33,6 +33,7 @@ Use the `Home` key to return to the top.
       - [Monster definition](#monster-definition)
     + [Monster Factions](#monster-factions)
     + [Monsters](#monsters)
+    + [Mutation Categories](#mutation-categories)
     + [Names](#names)
     + [Profession item substitution](#profession-item-substitution)
       - [`description`](#-description-)
@@ -172,7 +173,7 @@ Use the `Home` key to return to the top.
 - [Field types](#-field-types-)
 
 # Introduction
-This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
+This document describes the contents of the json files used in Cataclysm: Dark Days Ahead. You are probably reading this if you want to add or change content of Catacysm: Dark Days Ahead and need to learn more about what to find where and what each file and property does.
 
 ## Overall structure
 The game data is distributed amongst many JSON files in `data`.  Most of the
@@ -579,6 +580,8 @@ For information about tools with option to export ASCII art in format ready to b
 | stat_hp_mods      | (_optional_) Values modifiying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodifed value of the X stat and get_healthy() being the hidden health stat of the character.
 | bionic_slots      | (_optional_) How many bionic slots does this part have.
 | is_limb           | (_optional_) Is this bodypart a limb. (default: `false`)
+| smash_message      | (_optional_) The message displayed when using that part to smash something.
+| smash_efficiency  | (_optional_) Modifier applyed to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
 
 ```C++
   {
@@ -604,6 +607,7 @@ For information about tools with option to export ASCII art in format ready to b
     "base_hp": 60,
     "drench_capacity": 40,
     "stat_hp_mods": { "int_mod": 4.0, "dex_mod": 1.0, "str_mod": 1.0, "per_mod": 1.0, "health_mod": 1.0 },
+    "smash_message": "You smash the %s with a powerful shoulder-check.",
     "bionic_slots": 80
   }
 ```
@@ -903,11 +907,47 @@ Note that the above example gives floats, not integers, for the vitamins values.
 
 See MONSTERS.md
 
+### Mutation Categories
+
+A Mutation Category identifies a set of interrelated mutations that as a whole establish an entirely new identity for a mutant character. Categories can and usually do have their own "flavor" of mutagen, the properties of which are defined in the category definition itself. A second kind of mutagen, called a "mutagen serum" or "IV mutagen" is necessary to trigger "threshold mutations" which cause irrevocable changes to the character.
+
+| Identifier         | Description
+|---                 |---
+| `id`               | Unique ID. Must be one continuous word, use underscores when necessary.
+| `name`             | Human readable name for the category of mutations.
+| `threshold_mut`    | A special mutation that marks the point at which the identity of the character is changed by the extent of mutation they have experienced.
+| `mutagen_message`  | A message displayed to the player when they take a mutagen of the matching type.
+| `mutagen_hunger`   | The amount of hunger (per mutation triggered) caused by taking the matching mutagen.
+| `mutagen_thirst`   | The amount of thirst (per mutation triggered) caused by taking the matching mutagen.
+| `mutagen_pain`     | The amount of pain caused (per mutation triggered) by taking the matching mutagen.
+| `mutagen_fatigue`  | The amount of fatigue caused (per mutation triggered) by taking the matching mutagen.
+| `mutagen_morale`   | The amount of morale increase caused by taking the matching mutagen for mutagen junkies.
+| `iv_message`       | A message displayed to the player when they take a mutagen serum of the matching type.
+| `iv_min_mutations` | The minimum number of mutations to trigger when taking the mutagen serum.
+| `iv_additional_mutations`  | The minimum number of mutations to trigger when taking the mutagen serum.
+| `iv_additional_mutations_chance`  | The probability of acquiring additional mutations, the formula is one in "additional_mutations_chance" per "additional_mutation".
+| `iv_hunger`        | The amount of hunger (per mutation triggered) caused by taking the matching mutagen serum.
+| `iv_thirst`        | The amount of thirst (per mutation triggered) caused by taking the matching mutagen serum.
+| `iv_pain`          | The amount of pain (per mutation triggered) caused by taking the matching mutagen serum.
+| `iv_fatigue`       | The amount of fatigue caused (per mutation triggered) by taking the matching mutagen serum.
+| `iv_morale`        | The minimum amount of morale caused by taking the matching mutagen serum.
+| `iv_morale_max`    | The maximum amount of morale caused by taking the matching mutagen serum.
+| `iv_sound`         | A flag indicating that taking the matching mutagen serum causes the character to make noise.
+| `iv_sound_message` | The message describing the noise made by the character when taking the mutagen serum.
+| `iv_sound_id`      | The id of a sound clip to play depicting the noise made by the character.
+| `iv_sound_variant` | The id of a variant clip to play depicting the noise made by the character.
+| `iv_noise`         | The volume of the noise the character makes.
+| `iv_sleep`         | A flag indicating that the player will involuntarally sleep after taking the matching mutation serum.
+| `iv_sleep_message` | The message to display notifying the player that their character has fallen sleep.
+| `iv_sleep_dur`     | The duration of the involuntary sleep in seconds.
+| `memorial_message` | The memorial message to display when a character crosses the associated mutation threshold.
+| `junkie_message`   | The message to display if the character is addicted to the associated mutagen and takes some.
+| `wip`              | A flag indicating that a mutation category is unfinished and shouldn't have consistency tests run on it. See tests/mutation_test.cpp.
+
 ### Names
 
 ```C++
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
-// NOTE: Please refrain from adding name PR's in order to maintain kickstarter exclusivity
 ```
 
 ### Profession item substitution
@@ -1182,6 +1222,7 @@ Crafting recipes are defined as a JSON object with the following fields:
     [ "survival", 1 ],
     [ "fabrication", 2 ]
 ],
+"activity_level": "LIGHT_EXERCISE", // Options are NO_EXERCISE, LIGHT_EXERCISE, MODERATE_EXERCISE, BRISK_EXERCISE, ACTIVE_EXERCISE, EXTRA_EXERCISE. How energy intensive of an activity this craft is. E.g. making an anvil is much more exercise than cooking a fish.
 "proficiencies" : [ // The proficiencies related to this recipe
     {
       "proficiency": "prof_knapping", // The id of a proficiency
@@ -1856,7 +1897,12 @@ it is present to help catch errors.
       "msg_off": { "text": "Your glow fades." } // message displayed when the trigger deactivates the trait
     }
   ]
-]
+],
+"enchantments": [ "ench_id_1" ],   // List of IDs of enchantments granted by this mutation
+"temperature_speed_modifier": 0.5, // If nonzero, become slower when cold, and faster when hot
+                                   // 1.0 gives +/-1% speed for each degree above or below 65F
+"mana_modifier": 100               // Positive or negative change to total mana pool
+
 ```
 	**Triggers:**
 		| trigger_type  | Description
@@ -2003,7 +2049,7 @@ Otherwise, variants can use any of the following suffices:
 "horizontal_rear", "horizontal_rear_edge",
 "horizontal_2", "horizontal_2_front", "horizontal_2_rear",
 "vertical", "vertical_right", "vertical_left", "vertical_T_right", "vertical_T_left",
-"vertical_2", "vertical_2_right", "vertical_2_left", 
+"vertical_2", "vertical_2_right", "vertical_2_left",
 "ne", "nw", "se", "sw", "ne_edge", "nw_edge", "se_edge", "sw_edge"
 ```
 
@@ -2178,7 +2224,7 @@ See also VEHICLE_JSON.md
 "rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
-"price_post": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"price_postapoc": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
 "material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
@@ -2221,8 +2267,8 @@ For additional clarity, an item's `to_hit` bonus can be encoded as string of 4 f
 ```C++
 "to_hit": {
     "grip": "weapon",      // one of "bad", "none", "solid", or "weapon"
-    "length": "hand",      // one of "hand", "short", or "long" 
-    "surface": "any",      // one of "point", "line", "any", or "every" 
+    "length": "hand",      // one of "hand", "short", or "long"
+    "surface": "any",      // one of "point", "line", "any", or "every"
     "balance": "neutral"   // one of "clumsy", "uneven", "neutral", or "good"
 }
 ```
@@ -2252,7 +2298,7 @@ See `GAME_BALANCE.md`'s `MELEE_WEAPONS` section for the criteria for selecting e
 ```C++
 "type": "MAGAZINE",              // Defines this as a MAGAZINE
 ...                              // same entries as above for the generic item.
-                                 // additional some magazine specific entries:
+// Only MAGAZINE type items may define the following fields:
 "ammo_type": [ "40", "357sig" ], // What types of ammo this magazine can be loaded with
 "capacity" : 15,                 // Capacity of magazine (in equivalent units to ammo charges)
 "count" : 0,                     // Default amount of ammo contained by a magazine (set this for ammo belts)
@@ -2260,6 +2306,7 @@ See `GAME_BALANCE.md`'s `MELEE_WEAPONS` section for the criteria for selecting e
 "reload_time" : 100,             // How long it takes to load each unit of ammo into the magazine
 "linkage" : "ammolink"           // If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
 ```
+
 
 ### Armor
 
@@ -2439,7 +2486,7 @@ CBMs can be defined like this:
 ```C++
 "type" : "COMESTIBLE",      // Defines this as a COMESTIBLE
 ...                         // same entries as above for the generic item.
-                            // additional some comestible specific entries:
+// Only COMESTIBLE type items may define the following fields:
 "addiction_type" : "crack", // Addiction type
 "spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
 "use_action" : [ "CRACK" ],     // What effects a comestible has when used, see special definitions below
@@ -2448,7 +2495,7 @@ CBMs can be defined like this:
 "radiation": 8,             // How much radiation you get from this comestible.
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting
 "quench" : 0,               // Thirst quenched
-"heal" : -2,                // Health effects (used for sickness chances)
+"healthy" : -2,             // Health effects (used for sickness chances)
 "addiction_potential" : 80, // Ability to cause addictions
 "monotony_penalty" : 0,     // (Optional, default: 2) Fun is reduced by this number for each one you've consumed in the last 48 hours.
                             // Can't drop fun below 0, unless the comestible also has the "NEGATIVE_MONOTONY_OK" flag.
@@ -2463,7 +2510,13 @@ CBMs can be defined like this:
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
 "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  An integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitA, vitB, vitC, mutant_toxin, bad_food, blood, and redcells.  Note that vitB is B12.
+"material": [ "flesh", "wheat" ], // All materials (IDs) this food is made of
+"primary_material": "meat",       // What the primary material ID is. Materials determine specific heat.
+"rot_spawn": "MONSTERGROUP_NAME", // Monster group that spawns when food becomes rotten (used for egg hatching)
+"rot_spawn_chance": 10,           // Percent chance of monstergroup spawn when food rots. Max 100.
+"smoking_result": "dry_meat",     // Food that results from drying this food in a smoker
 ```
+
 
 ### Containers
 
@@ -2488,7 +2541,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "holster": false,                 // Default false. If true, only one stack of items can be placed inside this pocket, or one item if that item is not count_by_charges.
     "open_container": false,          // Default false. If true, the contents of this pocket will spill if this item is placed into another item.
     "fire_protection": false,         // Default false. If true, the pocket protects the contained items from exploding if tossed into a fire.
-    "ammo_restriction": { "ammotype": count }, // Restrict pocket to a given ammo type and count.  This overrides mandatory volume and weight to use the given ammo type instead.  A pocket can contain any number of unique ammotypes each with different counts, and the container will only hold one type (as of now).  If this is left out, it will be empty.
+    "ammo_restriction": { "ammotype": count }, // Restrict pocket to a given ammo type and count.  This overrides mandatory volume, weight, watertight and airtight to use the given ammo type instead.  A pocket can contain any number of unique ammo types each with different counts, and the container will only hold one type (as of now).  If this is left out, it will be empty.
     "flag_restriction": [ "FLAG1", "FLAG2" ],  // Items can only be placed into this pocket if they have a flag that matches one of these flags.
     "item_restriction": [ "item_id" ],         // Only these item IDs can be placed into this pocket. Overrides ammo and flag restrictions.
 
@@ -2532,7 +2585,6 @@ Guns can be defined like this:
 // sight to use for each aim action, which is the fastest sight with a dispersion under the current
 // aim threshold.
 "sight_dispersion": 10,    // Inaccuracy of gun derived from the sight mechanism, also in quarter-degrees
-"aim_speed": 3,            // A measure of how quickly the player can aim, in moves per point of dispersion.
 "recoil": 0,               // Recoil caused when firing, in quarter-degrees of dispersion.
 "durability": 8,           // Resistance to damage/rusting, also determines misfire chance
 "blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
@@ -2565,6 +2617,7 @@ Gun mods can be defined like this:
 "type": "GUNMOD",              // Defines this as a GUNMOD
 ...                            // Same entries as above for the generic item.
                                // Additionally some gunmod specific entries:
+// Only GUNMOD type items may define the following fields:
 "location": "stock",           // Mandatory. Where is this gunmod is installed?
 "mod_targets": [ "crossbow" ], // Mandatory. What kind of weapons can this gunmod be used with?
 "acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
@@ -2581,7 +2634,14 @@ Gun mods can be defined like this:
 "ups_charges_multiplier": 2.5, // Optional field increasing or decreasing base gun UPS consumption (per shot) by multiplying by given value
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
 "min_str_required_mod": 14,    // Optional field increasing or decreasing minimum strength required to use gun
+"aim_speed": 3,                // A measure of how quickly the player can aim, in moves per point of dispersion.
+"ammo_effects": [ "BEANBAG" ], // List of IDs of ammo_effect types
+"consume_chance": 5000,        // Odds against CONSUMABLE mod being destroyed when gun is fired (default 1 in 10000)
+"consume_divisor": 10,         // Divide damage against mod by this amount (default 1)
+"handling_modifier": 4,        // Improve gun handling. For example a forward grip might have 6, a bipod 18
+"mode_modifier": [ [ "AUTO", "auto", 4 ] ], // Modify firing modes of the gun, to give AUTO or REACH for example
 ```
+
 Alternately, every item (book, tool, armor, even food) can be used as a gunmod if it has gunmod_data:
 ```
 "type": "TOOL",       // Or any other item type
@@ -2592,6 +2652,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
     ...
 }
 ```
+
 
 ### Batteries
 ```C++
@@ -2619,18 +2680,20 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "bashing": 12,        // Bashing damage caused by using it as a melee weapon
 "cutting": 0,         // Cutting damage caused by using it as a melee weapon
 "to_hit": 3,          // To-hit bonus if using it as a melee weapon
-"max_charges": 75,    // Maximum charges tool can hold
-"initial_charges": 75, // Charges when spawned
-"rand_charges: [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
-"sub": "hotplate",    // optional; this tool has the same functions as another tool
-"charge_factor": 5,   // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool
-"charges_per_use": 1, // Charges consumed per tool use
 "turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
-"power_draw": 50,       // Energy consumption rate in mW
-"ammo": [ "NULL" ],       // Ammo types used for reloading
-"revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": [ "firestarter" ] // Action performed when tool is used, see special definition below
+// Only TOOL type items may define the following fields:
+"ammo": [ "NULL" ],        // Ammo types used for reloading
+"charge_factor": 5,        // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool
+"charges_per_use": 1,      // Charges consumed per tool use
+"initial_charges": 75,     // Charges when spawned
+"max_charges": 75,         // Maximum charges tool can hold
+"rand_charges: [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
+"power_draw": 50,          // Energy consumption rate in mW
+"revert_to": "torch_done", // Transforms into item when charges are expended
+"sub": "hotplate",         // optional; this tool has the same functions as another tool
 ```
+
 
 ### Seed Data
 
@@ -2890,7 +2953,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "effects" : { "high": 15 }, // Effects and their duration.
     "damage_over_time": [
         {
-          "damage_type": "true", // Type of damage
+          "damage_type": "pure", // Type of damage
           "duration": "1 m", // For how long this damage will be applied
           "amount": -10, // Amount of damage applied every turn, negative damage heals
           "bodyparts": [ "torso", "head", "arm_l", "leg_l", "arm_r", "leg_r" ] // Body parts hit by the damage
@@ -3124,6 +3187,7 @@ The format also support snippet ids like above.
 {
     "id": "jabberwock",
     "type": "harvest",
+    "leftovers": "ruined_candy",
     "message": "You messily hack apart the colossal mass of fused, rancid flesh, taking note of anything that stands out.",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
@@ -3206,6 +3270,10 @@ For every `type` other then `bionic` and `bionic_group` following entries scale 
 
 For `type`s: `bionic` and `bionic_group` following enrties can scale the results:
     `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function
+
+### leftovers
+
+itype_id of the item dropped as leftovers after butchery or when the monster is gibbed.  Default as "ruined_chunks".
 
 ### Furniture
 

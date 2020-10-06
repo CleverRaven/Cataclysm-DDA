@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bowl_clay",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -9,11 +10,16 @@
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_pottery", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_pottery_glazing", "required": false, "time_multiplier": 2 }
+    ],
     "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ], [ "earthenware_firing", 40 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ], [ [ "leather", 2 ], [ "fur", 2 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "clay_canister",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -22,11 +28,16 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_pottery", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_pottery_glazing", "required": false, "time_multiplier": 2 }
+    ],
     "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ], [ "earthenware_firing", 60 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 2 ] ], [ [ "leather", 2 ], [ "fur", 2 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "clay_hydria",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -35,11 +46,16 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_pottery", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_pottery_glazing", "required": false, "time_multiplier": 2 }
+    ],
     "using": [ [ "cordage_short", 2 ], [ "glazing", 2 ], [ "earthenware_firing", 120 ] ],
     "components": [ [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "clay_lump", 10 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "clay_watercont",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -48,11 +64,16 @@
     "difficulty": 2,
     "time": "80 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_pottery", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_pottery_glazing", "required": false, "time_multiplier": 2 }
+    ],
     "using": [ [ "cordage_short", 2 ], [ "glazing", 3 ], [ "earthenware_firing", 160 ] ],
     "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "clay_lump", 20 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "jug_clay",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -61,12 +82,17 @@
     "difficulty": 2,
     "time": "25 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_pottery", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_pottery_glazing", "required": false, "time_multiplier": 2 }
+    ],
     "using": [ [ "cordage_short", 2 ], [ "glazing", 1 ], [ "earthenware_firing", 50 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 6 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
     "result": "keg_steel",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
@@ -79,6 +105,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "stomach_sealed",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -97,6 +124,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "large_stomach_sealed",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -115,6 +143,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "canteen_wood",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -133,6 +162,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bottle_metal",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -145,6 +175,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "box_medium",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",

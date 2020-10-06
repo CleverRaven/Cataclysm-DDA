@@ -8,8 +8,6 @@
 #include "character.h"
 #include "coordinates.h"
 #include "debug.h"
-#include "enum_conversions.h"
-#include "field_type.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "int_id.h"
@@ -38,6 +36,13 @@ template<>
 const start_location &string_id<start_location>::obj() const
 {
     return all_start_locations.obj( *this );
+}
+
+/** @relates int_id */
+template<>
+int_id<start_location> string_id<start_location>::id() const
+{
+    return all_start_locations.convert( *this, int_id<start_location>( -1 ) );
 }
 
 /** @relates string_id */
@@ -371,7 +376,7 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
     }
     std::shuffle( valid.begin(), valid.end(), rng_get_engine() );
     for( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
-        m.add_field( valid[i], fd_fire, 3 );
+        m.add_field( valid[i], field_type_id( "fd_fire" ), 3 );
     }
     m.save();
 }

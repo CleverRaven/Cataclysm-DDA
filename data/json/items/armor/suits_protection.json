@@ -110,9 +110,11 @@
     "name": { "str": "biosilicified chitin armor" },
     "description": "Leg and body armor crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
     "material": [ "acidchitin" ],
+    "material_thickness": 5,
+    "environmental_protection": 2,
     "price_postapoc": 3500,
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 1, "material_thickness": 1, "environmental_protection": 2 }
+    "relative": { "bashing": 1 }
   },
   {
     "id": "armor_farmor",
@@ -384,7 +386,8 @@
     "color": "green",
     "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "coverage": 100,
-    "encumbrance": 30,
+    "encumbrance": 15,
+    "max_encumbrance": 30,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "8 L", "max_contains_weight": "16 kg", "moves": 150 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 100 },
@@ -764,7 +767,7 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "dark_gray",
-    "covers": [ "TORSO", "ARMS", "LEGS", "FEET" ],
+    "covers": [ "feet_l", "feet_r", "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
     "coverage": 95,
     "encumbrance": 18,
     "warmth": 15,

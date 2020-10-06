@@ -47,7 +47,7 @@ class time_duration;
 struct point;
 struct tripoint;
 
-enum damage_type : int;
+enum class damage_type : int;
 enum m_flag : int;
 struct damage_instance;
 struct damage_unit;

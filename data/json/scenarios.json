@@ -41,7 +41,7 @@
       "sloc_cemetery"
     ],
     "start_name": "In Town",
-    "flags": [ "CITY_START" ]
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -474,6 +474,19 @@
     "start_name": "A Stop On The Road",
     "allowed_locs": [ "sloc_gas_station" ],
     "missions": [ "MISSION_LAST_DELIVERY" ],
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "last_flight",
+    "name": "Last Flight",
+    "points": 2,
+    "description": "Once it became clear that the world was ending you took to the skies, hoping that your flying skills could lead you to safety.  You found no standing safe zones, and when your fuel ran out, were forced to land over an empty bridge.",
+    "start_name": "Emergency Landing Site",
+    "allowed_locs": [ "sloc_bridge" ],
+    "vehicle": "2seater2_scenario",
+    "missions": [ "MISSION_HELICOPTER_REFUEL" ],
+    "professions": [ "heli_pilot" ],
     "flags": [ "LONE_START" ]
   },
   {

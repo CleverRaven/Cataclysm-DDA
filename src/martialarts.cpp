@@ -394,7 +394,7 @@ class ma_buff_effect_type : public effect_type
             int_decay_step = -1;
             int_decay_tick = 1;
             int_dur_factor = 0_turns;
-            name.push_back( to_translation( buff.name ) );
+            name.push_back( buff.name );
             desc.push_back( buff.description );
             rating = e_good;
         }
@@ -531,7 +531,7 @@ std::string ma_requirements::get_description( bool buff ) const
         dump += _( "<bold>Requires:</bold> " );
 
         dump += enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
-            return _( bid->name );
+            return bid->name.translated();
         }, enumeration_conjunction::none ) + "\n";
     }
 
@@ -700,7 +700,7 @@ bool ma_buff::can_melee() const
 std::string ma_buff::get_description( bool passive ) const
 {
     std::string dump;
-    dump += string_format( _( "<bold>Buff technique:</bold> %s" ), _( name ) ) + "\n";
+    dump += string_format( _( "<bold>Buff technique:</bold> %s" ), name ) + "\n";
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
@@ -934,7 +934,7 @@ ma_technique character_martial_arts::get_grab_break_tec( const item &weap ) cons
     return tec;
 }
 
-bool player::can_grab_break( const item &weap ) const
+bool Character::can_grab_break( const item &weap ) const
 {
     if( !has_grab_break_tec() ) {
         return false;
@@ -1193,14 +1193,14 @@ bool Character::is_quiet() const
         return b.is_quiet();
     } );
 }
-bool player::is_stealthy() const
+bool Character::is_stealthy() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_stealthy();
     } );
 }
 
-bool player::can_melee() const
+bool Character::can_melee() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.can_melee();
@@ -1232,7 +1232,7 @@ void character_martial_arts::add_martialart( const matype_id &ma_id )
     ma_styles.emplace_back( ma_id );
 }
 
-bool player::can_autolearn( const matype_id &ma_id ) const
+bool Character::can_autolearn( const matype_id &ma_id ) const
 {
     if( ma_id.obj().autolearn_skills.empty() ) {
         return false;

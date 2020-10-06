@@ -107,9 +107,6 @@ static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
 
-extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
-        nested_mapgen;
-
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #endif
@@ -158,6 +155,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::OM_EDITOR: return "OM_EDITOR";
         case debug_menu::debug_menu_index::BENCHMARK: return "BENCHMARK";
         case debug_menu::debug_menu_index::OM_TELEPORT: return "OM_TELEPORT";
+        case debug_menu::debug_menu_index::OM_TELEPORT_COORDINATES: return "OM_TELEPORT_COORDINATES";
         case debug_menu::debug_menu_index::TRAIT_GROUP: return "TRAIT_GROUP";
         case debug_menu::debug_menu_index::ENABLE_ACHIEVEMENTS: return "ENABLE_ACHIEVEMENTS";
         case debug_menu::debug_menu_index::SHOW_MSG: return "SHOW_MSG";
@@ -176,6 +174,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_VEHICLE_AI: return "DISPLAY_VEHICLE_AI";
         case debug_menu::debug_menu_index::DISPLAY_VISIBILITY: return "DISPLAY_VISIBILITY";
         case debug_menu::debug_menu_index::DISPLAY_LIGHTING: return "DISPLAY_LIGHTING";
+        case debug_menu::debug_menu_index::DISPLAY_TRANSPARENCY: return "DISPLAY_TRANSPARENCY";
         case debug_menu::debug_menu_index::DISPLAY_RADIATION: return "DISPLAY_RADIATION";
         case debug_menu::debug_menu_index::LEARN_SPELLS: return "LEARN_SPELLS";
         case debug_menu::debug_menu_index::LEVEL_SPELLS: return "LEVEL_SPELLS";
@@ -252,6 +251,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::DISPLAY_VEHICLE_AI, true, 'V', _( "Toggle display vehicle autopilot overlay" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
+            { uilist_entry( debug_menu_index::DISPLAY_TRANSPARENCY, true, 'p', _( "Toggle display transparency" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( debug_menu_index::SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( debug_menu_index::BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
@@ -296,6 +296,7 @@ static int teleport_uilist()
         { uilist_entry( debug_menu_index::SHORT_TELEPORT, true, 's', _( "Teleport - short range" ) ) },
         { uilist_entry( debug_menu_index::LONG_TELEPORT, true, 'l', _( "Teleport - long range" ) ) },
         { uilist_entry( debug_menu_index::OM_TELEPORT, true, 'o', _( "Teleport - adjacent overmap" ) ) },
+        { uilist_entry( debug_menu_index::OM_TELEPORT_COORDINATES, true, 'p', _( "Teleport - specific overmap coordinates" ) ) },
     };
 
     return uilist( _( "Teleport…" ), uilist_initializer );
@@ -428,17 +429,32 @@ void teleport_long()
     add_msg( _( "You teleport to submap (%s)." ), where.to_string() );
 }
 
-void teleport_overmap()
+void teleport_overmap( bool specific_coordinates )
 {
-    const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
-    if( !dir_ ) {
-        return;
-    }
-
     Character &player_character = get_player_character();
-    const tripoint offset( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
-    const tripoint_abs_omt where = player_character.global_omt_location() + offset;
-
+    tripoint_abs_omt where;
+    if( specific_coordinates ) {
+        const std::string text = string_input_popup()
+                                 .title( "Teleport where?" )
+                                 .width( 20 )
+                                 .query_string();
+        if( text.empty() ) {
+            return;
+        }
+        const std::vector<std::string> coord_strings = string_split( text, ',' );
+        tripoint coord;
+        coord.x = !coord_strings.empty() ? std::atoi( coord_strings[0].c_str() ) : 0;
+        coord.y = coord_strings.size() >= 2 ? std::atoi( coord_strings[1].c_str() ) : 0;
+        coord.z = coord_strings.size() >= 3 ? std::atoi( coord_strings[2].c_str() ) : 0;
+        where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
+    } else {
+        const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
+        if( !dir_ ) {
+            return;
+        }
+        const tripoint offset = tripoint( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
+        where = player_character.global_omt_location() + offset;
+    }
     g->place_player_overmap( where );
 
     const tripoint_abs_om new_pos =
@@ -567,7 +583,9 @@ void character_edit_menu()
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
     nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set [n]eeds" ) );
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
-    nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
+    nmenu.addentry( D_STATUS, true,
+                    hotkey_for_action( ACTION_PL_INFO, /*maximum_modifier_count=*/1 ),
+                    "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
     nmenu.addentry( D_ADD_EFFECT, true, 't', "%s", _( "Add an effec[t]" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
@@ -1213,7 +1231,8 @@ void draw_benchmark( const int max_difference )
 
 void debug()
 {
-    bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
+    bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
+                                 /*maximum_modifier_count=*/ -1, false ).has_value();
     cata::optional<debug_menu_index> action = debug_menu_uilist( debug_menu_has_hotkey );
 
     // For the "cheaty" options, disable achievements when used
@@ -1696,6 +1715,9 @@ void debug()
         case debug_menu_index::DISPLAY_RADIATION:
             g->display_toggle_overlay( ACTION_DISPLAY_RADIATION );
             break;
+        case debug_menu_index::DISPLAY_TRANSPARENCY:
+            g->display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
+            break;
         case debug_menu_index::CHANGE_TIME: {
             auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {
                 const auto text = string_input_popup()
@@ -1797,6 +1819,9 @@ void debug()
 
         case debug_menu_index::OM_TELEPORT:
             debug_menu::teleport_overmap();
+            break;
+        case debug_menu_index::OM_TELEPORT_COORDINATES:
+            debug_menu::teleport_overmap( true );
             break;
         case debug_menu_index::TRAIT_GROUP:
             trait_group::debug_spawn();

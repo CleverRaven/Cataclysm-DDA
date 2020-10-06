@@ -85,7 +85,7 @@
       {
         "id": "mma_buff_diamond_mind_ondodge",
         "name": "Pearl of Black Doubt",
-        "description": "With every miss, your opponents become more uncertain, their doubt growing like an irritating pearl in the mouth of a helpless oyster.\n\n+1 Dodge attempt\nLasts 1 turn. Stacks 2 times",
+        "description": "With every miss, your opponents become more uncertain, their doubt growing like an irritating pearl in the mouth of a helpless oyster.\n\n+1 Dodge attempt\nLasts 1 turn.  Stacks 2 times",
         "melee_allowed": true,
         "buff_duration": 1,
         "max_stacks": 2,
@@ -96,7 +96,7 @@
       {
         "id": "mma_buff_diamond_mind_ongethit",
         "name": "Mind over Body",
-        "description": "Your training and mental toughness allow you to use your focus to overcome physical threats.\n\n+1 Accuracy.\nLasts 1 turn. Stacks 2 times",
+        "description": "Your training and mental toughness allow you to use your focus to overcome physical threats.\n\n+1 Accuracy.\nLasts 1 turn.  Stacks 2 times",
         "skill_requirements": [ { "name": "melee", "level": 2 } ],
         "melee_allowed": true,
         "buff_duration": 1,
@@ -531,7 +531,7 @@
       {
         "id": "mma_buff_stone_dragon_onhit",
         "name": "Stone Bones",
-        "description": "You focus your energy to enhance your defenses, drawing on the power of your weapon's impact with a foe to toughen yourself against a counterattack.\n\n+1 bash, cut, and stab armor.\nLasts 1 turn. Stacks 5 times.",
+        "description": "You focus your energy to enhance your defenses, drawing on the power of your weapon's impact with a foe to toughen yourself against a counterattack.\n\n+1 bash, cut, and stab armor.\nLasts 1 turn.  Stacks 5 times.",
         "skill_requirements": [ { "name": "melee", "level": 2 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
@@ -609,7 +609,7 @@
       {
         "id": "mma_buff_tiger_claw_oncrit",
         "name": "Blood In The Water",
-        "description": "The smell of blood drives you into a fury.  You want more. NOW!\n\n+1 Accuracy, +15% damage.\nLasts 1 turn.  Stacks 2 times.",
+        "description": "The smell of blood drives you into a fury.  You want more.  NOW!\n\n+1 Accuracy, +15% damage.\nLasts 1 turn.  Stacks 2 times.",
         "skill_requirements": [ { "name": "melee", "level": 4 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,

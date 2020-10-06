@@ -220,7 +220,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             if( i >= start_pos &&
                 i < start_pos + std::min( content_height, static_cast<int>( current_tab.size() ) ) ) {
 
-                auto rule = current_tab[i];
+                safemode::rules_class rule = current_tab[i];
 
                 nc_color line_color = ( rule.active ) ? c_white : c_light_gray;
 
@@ -417,7 +417,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                     current_tab[line].proximity = get_option<int>( "SAFEMODEPROXIMITY" );
                 } else {
                     //Let the options class handle the validity of the new value
-                    auto temp_option = get_options().get_option( "SAFEMODEPROXIMITY" );
+                    options_manager::cOpt temp_option = get_options().get_option( "SAFEMODEPROXIMITY" );
                     temp_option.setValue( text );
                     current_tab[line].proximity = atoi( temp_option.getValue().c_str() );
                 }

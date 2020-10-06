@@ -812,7 +812,7 @@ enum condition_type {
 
 template<>
 struct enum_traits<condition_type> {
-    static constexpr auto last = condition_type::num_condition_types;
+    static constexpr condition_type last = condition_type::num_condition_types;
 };
 
 // A name that is applied under certain conditions.
@@ -963,7 +963,7 @@ struct itype {
         units::money price_post = -1_cent;
 
         /** Damage output in melee for zero or more damage types */
-        std::array<int, NUM_DT> melee;
+        std::array<int, static_cast<int>( damage_type::NUM )> melee;
         /** Base damage output when thrown */
         damage_instance thrown_damage;
 
@@ -1124,5 +1124,7 @@ struct itype {
 
         virtual ~itype() = default;
 };
+
+void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
 
 #endif // CATA_SRC_ITYPE_H

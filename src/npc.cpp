@@ -127,8 +127,8 @@ static const std::string flag_NPC_SAFE( "NPC_SAFE" );
 
 class monfaction;
 
-void starting_clothes( npc &who, const npc_class_id &type, bool male );
-void starting_inv( npc &who, const npc_class_id &type );
+static void starting_clothes( npc &who, const npc_class_id &type, bool male );
+static void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
     : restock( calendar::turn_zero )
@@ -508,7 +508,7 @@ faction *npc::get_faction() const
 static item random_item_from( const npc_class_id &type, const std::string &what,
                               const std::string &fallback )
 {
-    auto result = item_group::item_from( type.str() + "_" + what, calendar::turn );
+    item result = item_group::item_from( type.str() + "_" + what, calendar::turn );
     if( result.is_null() ) {
         result = item_group::item_from( fallback, calendar::turn );
     }
@@ -834,9 +834,7 @@ void npc::starting_weapon( const npc_class_id &type )
 
     if( weapon.is_gun() ) {
         if( !weapon.magazine_default().is_null() ) {
-            item mag( weapon.magazine_default() );
-            mag.ammo_set( mag.ammo_default() );
-            weapon.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            weapon.ammo_set( weapon.magazine_default()->magazine->default_ammo );
         } else if( !weapon.ammo_default().is_null() ) {
             weapon.ammo_set( weapon.ammo_default() );
         } else {
@@ -1024,7 +1022,7 @@ void npc::do_npc_read()
     if( !pl ) {
         return;
     }
-    auto loc = game_menus::inv::read( *pl );
+    item_location loc = game_menus::inv::read( *pl );
 
     if( loc ) {
         std::vector<std::string> fail_reasons;
@@ -1070,7 +1068,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
     }
 
     while( !worn.empty() ) {
-        auto size_before = worn.size();
+        size_t size_before = worn.size();
         // Strip until we can put the new item on
         // This is one of the reasons this command is not used by the AI
         if( can_wear( it ).success() ) {
@@ -2181,7 +2179,7 @@ int npc::smash_ability() const
 {
     if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
         ///\EFFECT_STR_NPC increases smash ability
-        return str_cur + weapon.damage_melee( DT_BASH );
+        return str_cur + weapon.damage_melee( damage_type::BASH );
     }
 
     // Not allowed to bash

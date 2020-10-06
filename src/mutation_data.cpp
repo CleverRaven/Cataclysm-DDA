@@ -23,8 +23,8 @@ using TraitGroupMap =
 using TraitSet = std::set<trait_id>;
 using trait_reader = auto_flags_reader<trait_id>;
 
-TraitSet trait_blacklist;
-TraitGroupMap trait_groups;
+static TraitSet trait_blacklist;
+static TraitGroupMap trait_groups;
 
 namespace
 {
@@ -32,8 +32,8 @@ generic_factory<mutation_branch> trait_factory( "trait" );
 } // namespace
 
 std::vector<dream> dreams;
-std::map<std::string, std::vector<trait_id> > mutations_category;
-std::map<std::string, mutation_category_trait> mutation_category_traits;
+std::map<mutation_category_id, std::vector<trait_id> > mutations_category;
+static std::map<mutation_category_id, mutation_category_trait> mutation_category_traits;
 
 template<>
 const mutation_branch &string_id<mutation_branch>::obj() const
@@ -84,7 +84,7 @@ static void load_mutation_mods(
 void mutation_category_trait::load( const JsonObject &jsobj )
 {
     mutation_category_trait new_category;
-    new_category.id = jsobj.get_string( "id" );
+    jsobj.read( "id", new_category.id, true );
     new_category.raw_name = jsobj.get_string( "name" );
     new_category.threshold_mut = trait_id( jsobj.get_string( "threshold_mut" ) );
 
@@ -104,6 +104,7 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     new_category.iv_fatigue  = jsobj.get_int( "iv_fatigue", 5 );
     new_category.iv_morale   = jsobj.get_int( "iv_morale", 0 );
     new_category.iv_morale_max   = jsobj.get_int( "iv_morale_max", 0 );
+    new_category.wip = jsobj.get_bool( "wip", false );
     new_category.iv_sound = jsobj.get_bool( "iv_sound", false );
     new_category.raw_iv_sound_message = jsobj.get_string( "iv_sound_message",
                                         translate_marker( "You inject yoursel-arRGH!" ) );
@@ -174,13 +175,13 @@ std::string mutation_category_trait::memorial_message_female() const
     return pgettext( "memorial_female", raw_memorial_message.c_str() );
 }
 
-const std::map<std::string, mutation_category_trait> &mutation_category_trait::get_all()
+const std::map<mutation_category_id, mutation_category_trait> &mutation_category_trait::get_all()
 {
     return mutation_category_traits;
 }
 
-const mutation_category_trait &mutation_category_trait::get_category( const std::string
-        &category_id )
+const mutation_category_trait &mutation_category_trait::get_category(
+    const mutation_category_id &category_id )
 {
     return mutation_category_traits.find( category_id )->second;
 }
@@ -352,12 +353,12 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "purifiable", purifiable, true );
 
     if( jo.has_object( "spawn_item" ) ) {
-        auto si = jo.get_object( "spawn_item" );
+        JsonObject si = jo.get_object( "spawn_item" );
         optional( si, was_loaded, "type", spawn_item );
         optional( si, was_loaded, "message", raw_spawn_item_message );
     }
     if( jo.has_object( "ranged_mutation" ) ) {
-        auto si = jo.get_object( "ranged_mutation" );
+        JsonObject si = jo.get_object( "ranged_mutation" );
         optional( si, was_loaded, "type", ranged_mutation );
         optional( si, was_loaded, "message", raw_ranged_mutation_message );
     }
@@ -371,7 +372,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
 
     if( jo.has_array( "bodytemp_modifiers" ) ) {
-        auto bodytemp_array = jo.get_array( "bodytemp_modifiers" );
+        JsonArray bodytemp_array = jo.get_array( "bodytemp_modifiers" );
         bodytemp_min = bodytemp_array.get_int( 0 );
         bodytemp_max = bodytemp_array.get_int( 1 );
     }
@@ -427,6 +428,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, cata::nullopt );
     optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, cata::nullopt );
     optional( jo, was_loaded, "obtain_cost_multiplier", obtain_cost_multiplier, cata::nullopt );
+    optional( jo, was_loaded, "stomach_size_multiplier", stomach_size_multiplier, cata::nullopt );
+    optional( jo, was_loaded, "vomit_multiplier", vomit_multiplier, cata::nullopt );
     optional( jo, was_loaded, "overmap_sight", overmap_sight, cata::nullopt );
     optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, cata::nullopt );
     optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier,
@@ -454,6 +457,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "mana_modifier", mana_modifier, cata::nullopt );
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, cata::nullopt );
     optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, cata::nullopt );
+    optional( jo, was_loaded, "bionic_mana_penalty", bionic_mana_penalty, cata::nullopt );
 
     if( jo.has_object( "rand_cut_bonus" ) ) {
         JsonObject sm = jo.get_object( "rand_cut_bonus" );
@@ -490,7 +494,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         no_cbm_on_bp.emplace( bodypart_str_id( s ) );
     }
 
-    optional( jo, was_loaded, "category", category, string_reader{} );
+    optional( jo, was_loaded, "category", category, string_id_reader<mutation_category_trait> {} );
 
     for( JsonArray ja : jo.get_array( "spells_learned" ) ) {
         const spell_id sp( ja.next_string() );
@@ -549,6 +553,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         }
     }
 
+    for( JsonMember member : jo.get_object( "bionic_slot_bonuses" ) ) {
+        bionic_slot_bonuses[bodypart_str_id( member.name() )] = member.get_int();
+    }
+
     if( jo.has_array( "attacks" ) ) {
         for( JsonObject ao : jo.get_array( "attacks" ) ) {
             attacks_granted.emplace_back( load_mutation_attack( ao ) );
@@ -556,6 +564,16 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     } else if( jo.has_object( "attacks" ) ) {
         JsonObject attack = jo.get_object( "attacks" );
         attacks_granted.emplace_back( load_mutation_attack( attack ) );
+    }
+}
+
+int mutation_branch::bionic_slot_bonus( const bodypart_str_id &part ) const
+{
+    const auto iter = bionic_slot_bonuses.find( part );
+    if( iter == bionic_slot_bonuses.end() ) {
+        return 0;
+    } else {
+        return iter->second;
     }
 }
 
@@ -679,7 +697,7 @@ void dream::load( const JsonObject &jsobj )
     dream newdream;
 
     newdream.strength = jsobj.get_int( "strength" );
-    newdream.category = jsobj.get_string( "category" );
+    jsobj.read( "category", newdream.category, true );
 
     for( const std::string line : jsobj.get_array( "messages" ) ) {
         newdream.raw_messages.push_back( line );
@@ -715,7 +733,7 @@ bool mutation_branch::trait_is_blacklisted( const trait_id &tid )
 void mutation_branch::finalize()
 {
     for( const mutation_branch &branch : get_all() ) {
-        for( const std::string &cat : branch.category ) {
+        for( const mutation_category_id &cat : branch.category ) {
             mutations_category[cat].push_back( trait_id( branch.id ) );
         }
     }
@@ -888,7 +906,13 @@ std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()
     return rval;
 }
 
-bool mutation_category_is_valid( const std::string &cat )
+bool mutation_category_is_valid( const mutation_category_id &cat )
 {
     return mutation_category_traits.count( cat );
+}
+
+template<>
+bool string_id<mutation_category_trait>::is_valid() const
+{
+    return mutation_category_traits.count( *this );
 }

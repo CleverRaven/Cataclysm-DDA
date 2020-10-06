@@ -735,7 +735,7 @@ bool basecamp_action_components::choose_components()
     // this may consume pseudo-resources from fake items
     for( const auto &it : req->get_tools() ) {
         comp_selection<tool_comp> ts =
-            player_character.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
+            player_character.select_tool_component( it, batch_size_, base_._inv, true,
                     !base_.by_radio );
         if( ts.use_from == usage_from::cancel ) {
             return false;

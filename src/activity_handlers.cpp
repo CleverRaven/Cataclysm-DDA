@@ -127,7 +127,6 @@ static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
-static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
@@ -177,7 +176,6 @@ static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
-static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
@@ -212,7 +210,6 @@ static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_pipe( "pipe" );
-static const itype_id itype_ruined_chunks( "ruined_chunks" );
 static const itype_id itype_scrap( "scrap" );
 static const itype_id itype_sheet_metal( "sheet_metal" );
 static const itype_id itype_spike( "spike" );
@@ -283,8 +280,6 @@ activity_handlers::do_turn_functions = {
     { ACT_BURROW, burrow_do_turn },
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
     { ACT_PICKAXE, pickaxe_do_turn },
-    { ACT_DROP, drop_do_turn },
-    { ACT_STASH, stash_do_turn },
     { ACT_PULP, pulp_do_turn },
     { ACT_GAME, game_do_turn },
     { ACT_GENERIC_GAME, generic_game_do_turn },
@@ -1134,10 +1129,11 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 monster_weight_remaining -= monster_weight * 0.15;
             }
         }
+        const itype_id &leftover_id = mt.harvest->leftovers;
         const int item_charges = monster_weight_remaining / to_gram( (
-                                     item::find_type( itype_ruined_chunks ) )->weight );
+                                     item::find_type( leftover_id ) )->weight );
         if( item_charges > 0 ) {
-            item ruined_parts( itype_ruined_chunks, calendar::turn, item_charges );
+            item ruined_parts( leftover_id, calendar::turn, item_charges );
             ruined_parts.set_mtype( &mt );
             ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
@@ -1923,13 +1919,13 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     const tripoint &pos = here.getlocal( act->placement );
 
     // Stabbing weapons are a lot less effective at pulping
-    const int cut_power = std::max( p->weapon.damage_melee( DT_CUT ),
-                                    p->weapon.damage_melee( DT_STAB ) / 2 );
+    const int cut_power = std::max( p->weapon.damage_melee( damage_type::CUT ),
+                                    p->weapon.damage_melee( damage_type::STAB ) / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( p->str_cur + p->weapon.damage_melee( DT_BASH ) ) *
+    float pulp_power = std::sqrt( ( p->str_cur + p->weapon.damage_melee( damage_type::BASH ) ) *
                                   ( cut_power + 1.0f ) );
-    float pulp_effort = p->str_cur + p->weapon.damage_melee( DT_BASH );
+    float pulp_effort = p->str_cur + p->weapon.damage_melee( damage_type::BASH );
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
 
@@ -1951,7 +1947,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
         while( corpse.damage() < corpse.max_damage() ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
             if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
-                corpse.inc_damage( DT_BASH );
+                corpse.inc_damage( damage_type::BASH );
                 if( corpse.damage() == corpse.max_damage() ) {
                     num_corpses++;
                 }
@@ -1976,7 +1972,8 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
             }
 
             float stamina_ratio = static_cast<float>( p->get_stamina() ) / p->get_stamina_max();
-            moves += 100 / std::max( 0.25f, stamina_ratio );
+            moves += 100 / std::max( 0.25f,
+                                     stamina_ratio ) * p->exertion_adjusted_move_multiplier( act->exertion_level() );
             if( stamina_ratio < 0.33 || p->is_npc() ) {
                 p->moves = std::min( 0, p->moves - moves );
                 return;
@@ -2264,7 +2261,10 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
     // time-based instead of speed based because it's a sustained activity
     item &hand_crank_item = *act->targets.front();
 
-    if( calendar::once_every( 144_seconds ) ) {
+    int time_to_crank = to_seconds<int>( 144_seconds );
+    // Modify for weariness
+    time_to_crank /= p->exertion_adjusted_move_multiplier( act->exertion_level() );
+    if( calendar::once_every( time_duration::from_seconds( time_to_crank ) ) ) {
         p->mod_fatigue( 1 );
         if( hand_crank_item.ammo_capacity( ammotype( "battery" ) ) > hand_crank_item.ammo_remaining() ) {
             hand_crank_item.ammo_set( itype_id( "battery" ), hand_crank_item.ammo_remaining() + 1 );
@@ -2462,7 +2462,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         here.furn_set( pos, f_safe_o );
         // 50% of starting a fire.
         if( here.flammable_items_at( pos ) && rng( 1, 100 ) < 50 ) {
-            here.add_field( pos, fd_fire, 1, 10_minutes );
+            here.add_field( pos, field_type_id( "fd_fire" ), 1, 10_minutes );
         }
     }
 }
@@ -3150,7 +3150,8 @@ void activity_handlers::cracking_do_turn( player_activity *act, player *p )
 void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
 {
     // Moves are decremented based on a combination of speed and good vision (not in the dark, farsighted, etc)
-    const int effective_moves = p->moves / p->fine_detail_vision_mod();
+    const float exertion_mult = p->exertion_adjusted_move_multiplier( act->exertion_level() );
+    const int effective_moves = p->moves / ( p->fine_detail_vision_mod() * exertion_mult );
     if( effective_moves <= act->moves_left ) {
         act->moves_left -= effective_moves;
         p->moves = 0;

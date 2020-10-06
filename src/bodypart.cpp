@@ -212,6 +212,9 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     }
     mandatory( jo, was_loaded, "opposite_part", opposite_part );
 
+    optional( jo, was_loaded, "smash_message", smash_message );
+    optional( jo, was_loaded, "smash_efficiency", smash_efficiency, 0.5f );
+
     optional( jo, was_loaded, "hot_morale_mod", hot_morale_mod, 0.0 );
     optional( jo, was_loaded, "cold_morale_mod", cold_morale_mod, 0.0 );
 
@@ -314,13 +317,12 @@ std::string body_part_name_as_heading( const bodypart_id &bp, int number )
 
 std::string body_part_hp_bar_ui_text( const bodypart_id &bp )
 {
-    return _( bp->hp_bar_ui_text );
+    return bp->hp_bar_ui_text.translated();
 }
 
 std::string encumb_text( const bodypart_id &bp )
 {
-    const std::string &txt = bp->encumb_text;
-    return !txt.empty() ? _( txt ) : txt;
+    return bp->encumb_text.translated();
 }
 
 body_part_set body_part_set::unify_set( const body_part_set &rhs )

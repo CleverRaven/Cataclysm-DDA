@@ -32,5 +32,6 @@ jobs:
             gettext
     - name: prepare
       run: bash ./build-scripts/requirements.sh
+    - uses: ammaraskar/gcc-problem-matcher@master
     - name: run clang-tidy
       run: bash ./build-scripts/build.sh

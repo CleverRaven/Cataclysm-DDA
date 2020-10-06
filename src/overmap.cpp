@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "assign.h"
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -72,13 +73,13 @@ using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
 ////////////////
-oter_id  ot_null,
-         ot_crater,
-         ot_field,
-         ot_forest,
-         ot_forest_thick,
-         ot_forest_water,
-         ot_river_center;
+static oter_id  ot_null,
+       ot_crater,
+       ot_field,
+       ot_forest,
+       ot_forest_thick,
+       ot_forest_water,
+       ot_river_center;
 
 const oter_type_t oter_type_t::null_type{};
 
@@ -2791,7 +2792,7 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
     connect_closest_points( road_points, 0, *local_road );
 }
 
-void overmap::place_river( point_om_omt pa, point_om_omt pb )
+void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb )
 {
     const oter_id river_center( "river_center" );
     int river_chance = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
@@ -2945,8 +2946,8 @@ void overmap::place_cities()
             tmp.size = size;
             cities.push_back( tmp );
 
-            const auto start_dir = om_direction::random();
-            auto cur_dir = start_dir;
+            const om_direction::type start_dir = om_direction::random();
+            om_direction::type cur_dir = start_dir;
 
             do {
                 build_city_street( local_road, tmp.pos, size, cur_dir, tmp );
@@ -3067,7 +3068,7 @@ void overmap::build_city_street(
 
     if( cs >= 2 && c == 0 ) {
         const auto &last_node = street_path.nodes.back();
-        const auto rnd_dir = om_direction::turn_random( dir );
+        const om_direction::type rnd_dir = om_direction::turn_random( dir );
         build_city_street( connection, last_node.pos, cs, rnd_dir, town );
         if( one_in( 5 ) ) {
             build_city_street( connection, last_node.pos, cs, om_direction::opposite( rnd_dir ),
@@ -3326,7 +3327,7 @@ void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type 
     const tripoint_om_omt next =
         s != 1 ? p + om_direction::displace( dir ) : tripoint_om_omt( -1, -1, -1 );
 
-    for( auto r : valid ) {
+    for( om_direction::type r : valid ) {
         const tripoint_om_omt cand = p + om_direction::displace( r );
         if( !inbounds( cand ) ) {
             continue;
@@ -3846,7 +3847,7 @@ point om_direction::displace( type dir, int dist )
     return rotate( { 0, -dist }, dir );
 }
 
-inline om_direction::type rotate_internal( om_direction::type dir, int step )
+static inline om_direction::type rotate_internal( om_direction::type dir, int step )
 {
     if( dir == om_direction::type::invalid ) {
         debugmsg( "Can't rotate an invalid overmap rotation." );
@@ -4075,7 +4076,7 @@ bool overmap::place_special_attempt(
             continue;
         }
         // See if we can actually place the special there.
-        const auto rotation = random_special_rotation( special, p, must_be_unexplored );
+        const om_direction::type rotation = random_special_rotation( special, p, must_be_unexplored );
         if( rotation == om_direction::type::invalid ) {
             continue;
         }

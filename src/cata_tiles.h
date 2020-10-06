@@ -104,11 +104,11 @@ class tileset
     private:
         std::string tileset_id;
 
-        int tile_width;
-        int tile_height;
+        int tile_width = 0;
+        int tile_height = 0;
 
         // multiplier for pixel-doubling tilesets
-        float tile_pixelscale;
+        float tile_pixelscale = 1.0f;
 
         std::vector<texture> tile_values;
         std::vector<texture> shadow_tile_values;

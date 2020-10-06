@@ -148,7 +148,14 @@
     "coverage": 10,
     "encumbrance": 3,
     "pocket_data": [
-      { "holster": true, "moves": 5, "max_contains_volume": "4 L", "max_contains_weight": "2500 g", "weight_multiplier": 0.0 },
+      {
+        "holster": true,
+        "moves": 5,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "125 cm",
+        "weight_multiplier": 0.0
+      },
       {
         "holster": true,
         "moves": 5,

@@ -21,6 +21,7 @@
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "json.h"
@@ -38,8 +39,6 @@
 
 std::string getOSXSystemLang();
 #endif
-
-extern bool test_mode;
 
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
@@ -454,12 +453,16 @@ void translation::deserialize( JsonIn &jsin )
             const int origin = jsin.tell();
             check_style = true;
             log_error = [&jsin, origin]( const std::string & msg, const int offset ) {
+                const int previous_pos = jsin.tell();
                 try {
                     jsin.seek( origin );
-                    jsin.error( msg, offset );
+                    jsin.string_error( msg, offset );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
+                // seek to previous pos (end of string) so subsequent json input
+                // can continue.
+                jsin.seek( previous_pos );
             };
         }
 #endif
@@ -489,7 +492,7 @@ void translation::deserialize( JsonIn &jsin )
                 try {
                     jsobj.throw_error( "str_sp not supported here", "str_sp" );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             }
         } else {
@@ -506,7 +509,7 @@ void translation::deserialize( JsonIn &jsin )
                 try {
                     jsobj.throw_error( "str_pl not supported here", "str_pl" );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             }
         }
@@ -518,12 +521,12 @@ void translation::deserialize( JsonIn &jsin )
             log_error = [jsobj]( const std::string & msg, const int offset ) {
                 try {
                     if( jsobj.has_member( "str" ) ) {
-                        jsobj.get_raw( "str" )->error( msg, offset );
+                        jsobj.get_raw( "str" )->string_error( msg, offset );
                     } else {
-                        jsobj.get_raw( "str_sp" )->error( msg, offset );
+                        jsobj.get_raw( "str_sp" )->string_error( msg, offset );
                     }
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             };
         }
@@ -535,12 +538,12 @@ void translation::deserialize( JsonIn &jsin )
         if( raw_pl && !auto_plural && raw_pl.value() == raw + "s" ) {
             log_error( "\"str_pl\" is not necessary here since the "
                        "plural form can be automatically generated.",
-                       1 + raw.length() );
+                       0 );
         }
         if( !is_str_sp && raw_pl && !auto_plural && raw == raw_pl.value() ) {
             log_error( "Please use \"str_sp\" instead of \"str\" and \"str_pl\" "
                        "for text with identical singular and plural forms",
-                       1 + raw.length() );
+                       0 );
         }
         if( !raw_pl ) {
             // Check for punctuation and spacing. Strings with plural forms are
@@ -572,11 +575,7 @@ void translation::deserialize( JsonIn &jsin )
                               + "    At the following position (marked with caret)";
                         break;
                 }
-                const std::string str_before = utf32_to_utf8( std::u32string( beg, to ) );
-                // +1 for the starting quotation mark
-                // TODO: properly handle escape sequences inside strings, instead
-                // of using `length()` here.
-                log_error( err, 1 + str_before.length() );
+                log_error( err, std::distance( beg, to ) );
             };
 
             const std::u32string raw32 = utf8_to_utf32( raw );

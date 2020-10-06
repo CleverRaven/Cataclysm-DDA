@@ -248,7 +248,7 @@ turret_data::status turret_data::query() const
         }
     }
 
-    auto ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
+    int ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
     if( ups > veh->fuel_left( fuel_type_battery ) ) {
         return status::no_power;
     }
@@ -267,7 +267,7 @@ void turret_data::prepare_fire( player &p )
 
     // set fuel tank fluid as ammo, if appropriate
     if( part->info().has_flag( "USE_TANKS" ) ) {
-        auto mode = base()->gun_current_mode();
+        gun_mode mode = base()->gun_current_mode();
         int qty  = mode->ammo_required();
         int fuel_left = veh->fuel_left( ammo_current() );
         mode->ammo_set( ammo_current(), std::min( qty * mode.qty, fuel_left ) );
@@ -280,7 +280,7 @@ void turret_data::post_fire( player &p, int shots )
     p.remove_effect( effect_on_roof );
     p.recoil = cached_recoil;
 
-    auto mode = base()->gun_current_mode();
+    gun_mode mode = base()->gun_current_mode();
 
     // handle draining of vehicle tanks and UPS charges, if applicable
     if( part->info().has_flag( "USE_TANKS" ) ) {
@@ -297,7 +297,7 @@ int turret_data::fire( Character &c, const tripoint &target )
         return 0;
     }
     int shots = 0;
-    auto mode = base()->gun_current_mode();
+    gun_mode mode = base()->gun_current_mode();
     player *player_character = c.as_player();
     if( player_character == nullptr ) {
         return 0;

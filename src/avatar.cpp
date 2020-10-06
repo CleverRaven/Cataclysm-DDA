@@ -1218,7 +1218,7 @@ void avatar::reset_stats()
 
     // Pain
     if( get_perceived_pain() > 0 ) {
-        const auto ppen = get_pain_penalty();
+        const stat_mod ppen = get_pain_penalty();
         mod_str_bonus( -ppen.strength );
         mod_dex_bonus( -ppen.dexterity );
         mod_int_bonus( -ppen.intelligence );
@@ -1463,6 +1463,9 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
     if( can_switch_to( new_mode ) ) {
         add_msg( new_mode->change_message( true, steed ) );
         move_mode = new_mode;
+        // crouching affects visibility
+        get_map().set_seen_cache_dirty( pos().z );
+
         if( new_mode->stop_hauling() ) {
             stop_hauling();
         }
@@ -1524,6 +1527,11 @@ bool avatar::wield( item &target, const int obtain_cost )
 {
     if( is_wielding( target ) ) {
         return true;
+    }
+
+    if( weapon.has_item( target ) ) {
+        add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
+        return false;
     }
 
     if( !can_wield( target ).success() ) {
@@ -1699,28 +1707,52 @@ void avatar::daily_calories::read_activity( JsonObject &data )
 
 std::string avatar::total_daily_calories_string() const
 {
-    std::string ret =
-        " E: Extra exercise\n A: Active exercise\n"
-        " B: Brisk Exercise\n M: Moderate exercise\n"
-        " L: Light exercise\n N: No exercise\n"
-        " Each number refers to 5 minutes\n"
-        "     gained     spent      total\n";
-    int num_day = 1;
+    const std::string header_string =
+        colorize( "       Minutes at each exercise level            Calories per day", c_white ) + "\n" +
+        colorize( "  Day  None Light Moderate Brisk Active Extra    Gained  Spent  Total",
+                  c_yellow ) + "\n";
+    const std::string format_string =
+        " %4d  %4d  %4d     %4d  %4d   %4d  %4d    %6d %6d";
+
+    std::string ret = header_string;
+
+    // Start with today in the first row, day number from start of cataclysm
+    int today = day_of_season<int>( calendar::turn ) + 1;
+    int day_offset = 0;
     for( const daily_calories &day : calorie_diary ) {
-        // Each row is 32 columns long - for the first row, it's
-        // 5 for the day and the offset from it,
-        // 18 for the numbers, and 9 for the spacing between them
-        // For the second, 5 offset + 6 labels + 5 spacing leaves 16 for the levels
-        std::string activity_str = string_format( "%3dE %3dA %3dB %3dM %3dL %3dN",
-                                   day.activity_levels.at( EXTRA_EXERCISE ), day.activity_levels.at( ACTIVE_EXERCISE ),
-                                   day.activity_levels.at( BRISK_EXERCISE ),
-                                   day.activity_levels.at( MODERATE_EXERCISE ), day.activity_levels.at( LIGHT_EXERCISE ),
-                                   day.activity_levels.at( NO_EXERCISE ) );
-        std::string act_stats = string_format( " %1s %s", colorize( ">", c_light_gray ),
-                                               colorize( activity_str, c_yellow ) );
-        std::string calorie_stats = string_format( "%2d   %6d    %6d     %6d", num_day++, day.gained,
-                                    day.spent, day.total() );
-        ret += string_format( "%s\n%s\n", calorie_stats, act_stats );
+        std::string row_data = string_format( format_string, today + day_offset--,
+                                              5 * day.activity_levels.at( NO_EXERCISE ),
+                                              5 * day.activity_levels.at( LIGHT_EXERCISE ),
+                                              5 * day.activity_levels.at( MODERATE_EXERCISE ),
+                                              5 * day.activity_levels.at( BRISK_EXERCISE ),
+                                              5 * day.activity_levels.at( ACTIVE_EXERCISE ),
+                                              5 * day.activity_levels.at( EXTRA_EXERCISE ),
+                                              day.gained, day.spent );
+        // Alternate gray and white text for row data
+        if( day_offset % 2 == 0 ) {
+            ret += colorize( row_data, c_white );
+        } else {
+            ret += colorize( row_data, c_light_gray );
+        }
+
+        // Color-code each day's net calories
+        std::string total_kcals = string_format( " %6d", day.total() );
+        if( day.total() > 4000 ) {
+            ret += colorize( total_kcals, c_light_cyan );
+        } else if( day.total() > 2000 ) {
+            ret += colorize( total_kcals, c_cyan );
+        } else if( day.total() > 250 ) {
+            ret += colorize( total_kcals, c_light_blue );
+        } else if( day.total() < -4000 ) {
+            ret += colorize( total_kcals, c_pink );
+        } else if( day.total() < -2000 ) {
+            ret += colorize( total_kcals, c_red );
+        } else if( day.total() < -250 ) {
+            ret += colorize( total_kcals, c_light_red );
+        } else {
+            ret += colorize( total_kcals, c_light_gray );
+        }
+        ret += "\n";
     }
     return ret;
 }

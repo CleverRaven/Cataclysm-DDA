@@ -17,26 +17,11 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "church_steeple",
+    "id": [ "church_steeple", "church_steeple_end", "church_steeple_roof" ],
     "copy-from": "generic_city_building",
     "name": "church steeple",
     "sym": "C",
-    "color": "light_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "church_steeple_end",
-    "copy-from": "generic_city_building",
-    "name": "church steeple",
-    "sym": "C",
-    "color": "light_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "church_steeple_roof",
-    "copy-from": "generic_city_building",
-    "name": "church steeple",
-    "sym": "C",
+    "extras": "none",
     "color": "light_red"
   },
   {

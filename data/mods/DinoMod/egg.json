@@ -65,10 +65,38 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_pachyrhinosaurus",
+    "name": "pachyrhinosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_pachyrhinosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pentaceratops",
+    "name": "pentaceratops egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_pentaceratops"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_torosaurus",
+    "name": "torosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_torosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_triceratops",
     "name": "triceratops egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_triceratops"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_scutellosaurus",
+    "name": "scutellosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_scutellosaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -114,10 +142,17 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_eoraptor",
-    "name": "eoraptor egg",
+    "id": "egg_acrocanthosaurus",
+    "name": "acrocanthosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": "GROUP_EGG_eoraptor"
+    "rot_spawn": "GROUP_EGG_acrocanthosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_siats",
+    "name": "siats egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_siats"
   },
   {
     "type": "COMESTIBLE",
@@ -146,6 +181,13 @@
     "name": "camptosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_camptosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_maiasaura",
+    "name": "maiasaura egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_maiasaura"
   },
   {
     "type": "COMESTIBLE",
@@ -181,6 +223,27 @@
     "name": "pteranodon egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_pteranodon"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_quetzalcoatlus",
+    "name": "quetzalcoatlus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_quetzalcoatlus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_eoraptor",
+    "name": "eoraptor egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_eoraptor"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_coelophysis",
+    "name": "coelophysis egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_coelophysis"
   },
   {
     "type": "COMESTIBLE",

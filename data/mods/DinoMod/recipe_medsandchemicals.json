@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_raptor",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",

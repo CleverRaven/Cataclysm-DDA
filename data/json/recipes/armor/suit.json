@@ -2,6 +2,7 @@
   {
     "result": "aep_suit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
@@ -21,6 +22,7 @@
   {
     "result": "anbc_suit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
@@ -40,6 +42,7 @@
   {
     "result": "armor_blarmor",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "chemistry",
@@ -69,6 +72,7 @@
   {
     "result": "armor_chitin",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -82,6 +86,7 @@
   {
     "result": "armor_acidchitin",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -96,6 +101,7 @@
   {
     "result": "armor_farmor",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -108,6 +114,7 @@
   {
     "result": "armor_larmor",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "//": "Whilst the trenchcoat needs 6 skill this'll need at least 4.",
@@ -121,6 +128,7 @@
   {
     "result": "armor_lightplate",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
@@ -135,6 +143,7 @@
   {
     "result": "armor_lightplate",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "assembly",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -148,6 +157,7 @@
   {
     "result": "armor_lorica",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "fabrication",
@@ -162,6 +172,7 @@
   {
     "result": "armor_nomad",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -181,6 +192,7 @@
   {
     "result": "armor_nomad_light",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -200,6 +212,7 @@
   {
     "result": "armor_plarmor",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
@@ -213,6 +226,7 @@
   {
     "result": "armor_plate",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
@@ -227,6 +241,7 @@
   {
     "result": "armor_samurai",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
@@ -241,6 +256,7 @@
   {
     "result": "armor_scavenger",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -261,6 +277,7 @@
   {
     "result": "armor_scrapsuit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
@@ -276,6 +293,7 @@
   {
     "result": "armor_scrapsuit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
@@ -290,6 +308,7 @@
   {
     "result": "chainmail_hauberk",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -303,6 +322,7 @@
   {
     "result": "chainmail_suit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -322,6 +342,7 @@
   {
     "result": "chainmail_suit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "id_suffix": "hauberk",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -336,6 +357,7 @@
   {
     "result": "chainmail_suit_faraday",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
@@ -359,6 +381,7 @@
   {
     "result": "cloak",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -372,6 +395,7 @@
   {
     "result": "cloak_fur",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -387,6 +411,7 @@
   {
     "result": "cloak_leather",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -400,6 +425,7 @@
   {
     "result": "cloak_wool",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -413,6 +439,7 @@
   {
     "result": "entry_suit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
@@ -432,6 +459,7 @@
   {
     "result": "fsurvivor_suit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -464,6 +492,7 @@
   {
     "result": "gambeson",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -477,6 +506,7 @@
   {
     "result": "h20survivor_suit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -507,6 +537,7 @@
   {
     "result": "hsurvivor_suit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -539,6 +570,7 @@
   {
     "result": "jumpsuit",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -551,6 +583,7 @@
   {
     "result": "jumpsuit_xl",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -563,6 +596,7 @@
   {
     "result": "jumpsuit_xl",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_jumpsuit",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -576,6 +610,7 @@
   {
     "result": "kimono",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -588,6 +623,7 @@
   {
     "result": "lsurvivor_suit",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -618,6 +654,7 @@
   {
     "result": "nomex_suit",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -630,6 +667,7 @@
   {
     "result": "shark_suit_faraday",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "electronics",
@@ -643,6 +681,7 @@
   {
     "result": "survivor_suit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -674,6 +713,7 @@
   {
     "result": "thermal_outfit",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "electronics",
@@ -687,6 +727,7 @@
   {
     "result": "thermal_outfit",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "thermal_outfit_from_bits",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -707,6 +748,7 @@
   {
     "result": "thermal_suit",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "electronics",
@@ -720,6 +762,7 @@
   {
     "result": "tunic_rag",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -732,6 +775,7 @@
   {
     "result": "union_suit",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "//": "OK, I sewed the shirt and pants together, and added laces to the top, so I can put the thing on.",
@@ -748,6 +792,7 @@
   {
     "result": "wetsuit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -761,6 +806,7 @@
   {
     "result": "wetsuit_spring",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -774,6 +820,7 @@
   {
     "result": "wool_suit",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -786,6 +833,7 @@
   {
     "result": "wsurvivor_suit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -818,6 +866,7 @@
   {
     "result": "xlhsurvivor_suit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -850,6 +899,7 @@
   {
     "result": "xlsurvivor_suit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -882,6 +932,7 @@
   {
     "result": "yukata",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
@@ -894,6 +945,7 @@
   {
     "result": "zentai",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",

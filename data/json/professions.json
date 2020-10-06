@@ -20,6 +20,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "charged_laptop",
+    "entries": [ { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "laptop" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "charged_smart_phone",
     "entries": [ { "item": "smart_phone", "ammo-item": "battery", "charges": 120 } ]
   },
@@ -455,6 +461,7 @@
     "name": "Sheltered Survivor",
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  You've spent the past months eating canned food, reading books, and tinkering with stuff in the bunker.  Now it is winter - time to face the world above.",
     "points": 4,
+    "proficiencies": [ "prof_fibers", "prof_knitting" ],
     "skills": [
       { "level": 2, "name": "tailor" },
       { "level": 2, "name": "computer" },
@@ -484,20 +491,12 @@
     "skills": [ { "level": 2, "name": "gun" }, { "level": 1, "name": "rifle" }, { "level": 1, "name": "pistol" } ],
     "items": {
       "both": {
-        "items": [
-          "winter_pants_army",
-          "undershirt",
-          "socks",
-          "sweatshirt",
-          "boots_hiking",
-          "knife_folding",
-          "water_clean",
-          "wristwatch"
-        ],
+        "items": [ "winter_pants_army", "undershirt", "socks", "sweatshirt", "boots_hiking", "knife_folding", "wristwatch" ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "charged_matches" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "m1911", "ammo-item": "45_acp", "charges": 7, "container-item": "holster" },
           { "item": "45_acp", "charges": 23 },
           { "item": "garand", "ammo-item": "3006", "charges": 8, "contents-item": "shoulder_strap" },
@@ -518,6 +517,7 @@
     "points": 2,
     "//": "Tailoring kit makes an already decent class for careful folks much more powerful.",
     "skills": [ { "level": 4, "name": "tailor" } ],
+    "proficiencies": [ "prof_fibers", "prof_leatherworking", "prof_closures", "prof_closures_waterproofing" ],
     "items": {
       "both": {
         "items": [ "polo_shirt", "blazer", "pants", "socks", "dress_shoes", "knit_scarf", "scissors", "wristwatch" ],
@@ -556,6 +556,7 @@
       },
       "female": [ "chestwrap" ]
     },
+    "proficiencies": [ "prof_fibers" ],
     "skills": [
       { "level": 1, "name": "melee" },
       { "level": 1, "name": "throw" },
@@ -876,7 +877,7 @@
         "items": [ "armor_farmor", "socks", "boots_fur", "hat_fur", "gloves_fur", "vest", "wristwatch" ],
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "556", "charges": 30, "container-item": "back_holster" },
+          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": "shoulder_strap" },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 }
@@ -955,10 +956,11 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [ "pants", "socks", "boots_combat", "longshirt", "jacket_light", "baton", "knife_folding", "hat_ball", "wristwatch" ],
+        "items": [ "pants", "socks", "boots_combat", "longshirt", "jacket_light", "knife_folding", "hat_ball", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
+          { "item": "baton", "custom-flags": [ "auto_wield" ] },
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           { "item": "m9mag", "ammo-item": "9mm", "charges": 15 },
           { "item": "m9mag", "ammo-item": "9mm", "charges": 15 }
@@ -1029,6 +1031,7 @@
       { "level": 2, "name": "swimming" },
       { "level": 1, "name": "lockpick" }
     ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_leatherworking" ],
     "items": {
       "both": {
         "items": [
@@ -1170,6 +1173,7 @@
     "description": "Everyone is dead?  Oh well, it doesn't matter; it's not like you got along with people much anyway.  Your beloved cats are all the friends you need!",
     "points": 5,
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "cooking" }, { "level": 1, "name": "tailor" } ],
+    "proficiencies": [ "prof_knitting", "prof_knitting_speed" ],
     "pets": [
       { "name": "mon_cat", "amount": 5 },
       { "name": "mon_cat_tabby", "amount": 4 },
@@ -1348,7 +1352,7 @@
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "762_51", "charges": 20 },
-          { "item": "M24", "ammo-item": "762_51", "charges": 20, "container-item": "back_holster" }
+          { "item": "M24", "ammo-item": "762_51", "charges": 5, "contents-item": "shoulder_strap" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1615,10 +1619,11 @@
     "skills": [ { "level": 4, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "laptop", "caffeine" ],
+        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "caffeine" ],
         "entries": [
           { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "charged_laptop" }
         ]
       },
       "male": [ "briefs" ],
@@ -2123,7 +2128,7 @@
     "skills": [ { "level": 3, "name": "dodge" } ],
     "items": {
       "both": {
-        "items": [ "dress_shoes", "dress_shirt", "knit_scarf", "wristwatch", "blazer", "wristwatch" ],
+        "items": [ "dress_shoes", "dress_shirt", "knit_scarf", "wristwatch", "blazer" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs", "socks", "pants" ],
@@ -2225,6 +2230,7 @@
     "description": "You spent most of your life trapping with your father.  Both of you made a decent living selling your catches and running trapping tutorials.  Hopefully, your skills will come in useful against less conventional game.",
     "points": 2,
     "skills": [ { "level": 4, "name": "traps" }, { "level": 2, "name": "survival" } ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope" ],
     "items": {
       "both": {
         "items": [
@@ -2289,6 +2295,7 @@
     "description": "In the rush to safety, you were separated from your master by cruel fate.  Now you are on your own, with nothing to your name but a suit of really kinky black leather.  Unfortunately, there are no safewords in the apocalypse.",
     "points": -1,
     "flags": [ "NO_BONUS_ITEMS" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope" ],
     "items": {
       "both": { "items": [ "bondage_suit", "bondage_mask", "boots", "leather_belt" ], "entries": [ { "group": "charged_matches" } ] }
     }
@@ -2298,6 +2305,7 @@
     "id": "senior",
     "name": "Senior Citizen",
     "description": "You haven't seen this much blood since the war.  The whole world's gone crazy!  They ate your grandkids!  But dagnabbit, you'll make them all pay for what they've done.",
+    "proficiencies": [ "prof_knitting" ],
     "points": 0,
     "items": {
       "both": {
@@ -2315,6 +2323,7 @@
     "description": "After many late nights with friends watching anime and eating snacks, you decided to make the trip to the premier anime convention in the Northeast.  Now zombies are eating everyone, and even worse, the convention is cancelled!  At least you were ready in case your costume tore.",
     "points": 1,
     "skills": [ { "level": 1, "name": "tailor" } ],
+    "proficiencies": [ "prof_closures", "prof_leatherworking" ],
     "items": {
       "both": {
         "items": [
@@ -2322,7 +2331,6 @@
           "socks",
           "sneakers",
           "tank_top",
-          "sewing_kit",
           "mbag",
           "fur_cat_ears",
           "fur_cat_tail",
@@ -2331,7 +2339,7 @@
           "mag_animecon",
           "cheeseburger"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "sewing_kit", "charges": 200 } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -2776,20 +2784,8 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 1, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [
-          "dress_shirt",
-          "pants",
-          "socks",
-          "dress_shoes",
-          "wristwatch",
-          "backpack",
-          "laptop",
-          "flyer",
-          "flyer",
-          "flyer",
-          "holy_symbol"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "items": [ "dress_shirt", "pants", "socks", "dress_shoes", "wristwatch", "backpack", "flyer", "flyer", "flyer", "holy_symbol" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_laptop" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -3039,6 +3035,7 @@
     "name": "Hardened Scavenger",
     "description": "One of the lucky few who escaped the Cataclysm, you made a life for yourself amidst the ruins of civilization.  Whether through force, guile, or luck, you've obtained the best gear you could find.",
     "points": 8,
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knitting", "prof_closures" ],
     "skills": [
       { "level": 5, "name": "melee" },
       { "level": 5, "name": "gun" },
@@ -3125,8 +3122,13 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "pants", "socks", "boots", "longshirt", "jacket_light", "baton", "pockknife", "wristwatch" ],
-        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" }, { "group": "charged_tazer" } ]
+        "items": [ "pants", "socks", "boots", "longshirt", "jacket_light", "holster", "pockknife", "wristwatch" ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "charged_flashlight" },
+          { "group": "charged_tazer" },
+          { "item": "baton", "custom-flags": [ "auto_wield" ] }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -3150,7 +3152,7 @@
       { "level": 2, "name": "chemistry" },
       { "level": 3, "name": "cooking" }
     ],
-    "proficiencies": [ "prof_knapping" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping", "prof_leatherworking" ],
     "items": {
       "both": {
         "items": [
@@ -3186,6 +3188,7 @@
     "description": "You spent most of your days fishing in the swamp, getting by quietly on your catch.  You found the buzzing of insects enjoyable, but recently they've gotten bigger and meaner.  Now their horrible noises have you spooked - you just hope the fish aren't as nasty.",
     "points": 2,
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "survival" } ],
+    "proficiencies": [ "prof_fibers" ],
     "items": {
       "both": {
         "items": [
@@ -3409,6 +3412,7 @@
       { "level": 1, "name": "firstaid" },
       { "level": 1, "name": "lockpick" }
     ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope" ],
     "items": {
       "both": {
         "items": [
@@ -3530,19 +3534,8 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [
-          "dress_shirt",
-          "blazer",
-          "pants",
-          "socks",
-          "dress_shoes",
-          "tie_skinny",
-          "tieclip",
-          "poetry_book",
-          "permanent_marker",
-          "wristwatch"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "items": [ "dress_shirt", "blazer", "pants", "socks", "dress_shoes", "tie_skinny", "tieclip", "poetry_book", "wristwatch" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "permanent_marker", "charges": 500 } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -3616,7 +3609,7 @@
           { "group": "charged_cell_phone" },
           { "group": "charged_ref_lighter" },
           { "item": "gasoline_lantern", "charges": 500 },
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" }
         ]
       },
@@ -4082,9 +4075,14 @@
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "bandolier_pistol", "contents-group": "bandolier_ww_gunslinger" },
           { "item": "whiskey", "container-item": "bottle_glass" },
-          { "item": "colt_saa", "ammo-item": "45colt_jhp", "charges": 6, "container-item": "holster" }
+          {
+            "item": "colt_saa",
+            "ammo-item": "45colt_jhp",
+            "charges": 6,
+            "container-item": "western_holster",
+            "contents-group": "bandolier_ww_gunslinger"
+          }
         ]
       }
     }
