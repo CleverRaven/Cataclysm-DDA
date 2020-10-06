@@ -250,7 +250,7 @@
       [ "silver_necklace", 20 ],
       [ "silver_bracelet", 20 ],
       [ "silver_locket", 20 ],
-      { "item": "radio", "prob":20, "charges": [ 0, 100 ] },
+      { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       [ "aspirin", 80 ],
       { "item": "inhaler", "prob": 30, "charges-min": 10, "charges-max": 100 },
       [ "beer", 80 ],
