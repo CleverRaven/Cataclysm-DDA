@@ -144,7 +144,7 @@
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1 }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -192,7 +192,7 @@
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 2, "fail_multiplier": 1 }
+      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1 }
     ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
@@ -222,7 +222,7 @@
     "proficiencies": [
       { "proficiency": "prof_knapping", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_knapping_speed", "required": false, "time_multiplier": 5 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_carving", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
     ],
     "components": [
       [ [ "stick_long", 1 ] ],
