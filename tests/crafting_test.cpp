@@ -578,7 +578,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
                 CHECK( actual_turns_taken == expected_turns_taken );
 
                 AND_THEN( "the finished item should be in the inventory" ) {
-                    verify_inventory( { "razor_shaving" }, { "razor_blade" }, { "plastic_chunk" } );
+                    verify_inventory( { "razor_shaving" }, { "razor_blade" } );
                 }
             }
         }
