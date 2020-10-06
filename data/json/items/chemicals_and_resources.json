@@ -1479,5 +1479,35 @@
     "explode_in_fire": true,
     "explosion": { "power": 20, "shrapnel": 0 },
     "flags": [ "NO_DROP", "IRREMOVABLE" ]
+  },
+  {
+	"abstract": "venom_gland",
+	"type": "COMESTIBLE",
+	"name": { "str": "venom gland" },
+	"category": "chems",
+	"comestible_type": "FOOD",
+	"spoils_in": "4 hours",
+	"weight": "130 g",
+	"volume": "110 ml",
+	"symbol": "o",
+	"looks_like": "mutant_bug_hydrogen_sacs"
+  },	
+  {
+    "id": "venom_wasp",
+	"type": "COMESTIBLE",
+	"copy-from": "venom_gland",
+	"name": { "str": "wasp venom gland" },
+	"description": "A fragile, slightly quivering organ for the production and storage of venom. You removed this one from a mutated wasp and it's filled with a potent mixture of catecholamines and protein toxins. You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
+	"color": "light_green",
+	"use_action": [ "POISON" ]
+  },
+  {
+    "id": "venom_bee",
+	"type": "COMESTIBLE",
+	"copy-from": "venom_gland",
+	"name": { "str": "bee venom gland" },
+	"description": "A fragile, slightly quivering organ for the production and storage of venom. You removed this one from a mutated honeybee and it's filled with a potent mixture of catecholamines and protein toxins. You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
+	"color": "yellow",
+	"use_action": [ "POISON" ]
   }
 ]
