@@ -1946,8 +1946,10 @@ void vehicle::use_bike_rack( int part )
 }
 
 // Handles interactions with a vehicle in the examine menu.
-void vehicle::interact_with( const tripoint &pos, int interact_part )
+void vehicle::interact_with( const vpart_position &vp )
 {
+    const tripoint &pos = vp.pos();
+    const int interact_part = vp.part_index();
     std::vector<std::string> menu_items;
     std::vector<uilist_entry> options_message;
     map &here = get_map();

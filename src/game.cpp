@@ -5893,16 +5893,13 @@ void game::examine( const tripoint &examp )
     }
 
     const optional_vpart_position vp = m.veh_at( examp );
-    if( vp && u.is_mounted() ) {
-        if( !u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-            add_msg( m_warning, _( "You cannot interact with a vehicle while mounted." ) );
-        } else {
-            vp->vehicle().interact_with( examp, vp->part_index() );
+    if( vp ) {
+        if( !u.is_mounted() || u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+            vp->vehicle().interact_with( *vp );
             return;
+        } else {
+            add_msg( m_warning, _( "You cannot interact with a vehicle while mounted." ) );
         }
-    } else if( vp && !u.is_mounted() ) {
-        vp->vehicle().interact_with( examp, vp->part_index() );
-        return;
     }
 
     if( m.has_flag( "CONSOLE", examp ) && !u.is_mounted() ) {
