@@ -1624,6 +1624,7 @@ class Character : public Creature, public visitable<Character>
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
+        bool can_pickWeight_partial( const item &it, bool safe = true ) const;
         /**
          * Checks if character stats and skills meet minimum requirements for the item.
          * Prints an appropriate message if requirements not met.

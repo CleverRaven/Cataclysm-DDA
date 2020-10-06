@@ -3550,6 +3550,16 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
     }
 }
 
+bool Character::can_pickWeight_partial( const item &it, bool safe ) const
+{
+    item copy = it;
+    if( it.count_by_charges() ) {
+        copy.charges = 1;
+    }
+
+    return can_pickWeight( copy, safe );
+}
+
 bool Character::can_use( const item &it, const item &context ) const
 {
     if( has_effect( effect_incorporeal ) ) {

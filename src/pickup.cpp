@@ -265,7 +265,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         }
     } else if( newit.made_of_from_type( phase_id::LIQUID ) && !newit.is_frozen_liquid() ) {
         got_water = true;
-    } else if( !player_character.can_pickWeight( newit, false ) ) {
+    } else if( !player_character.can_pickWeight_partial( newit, false ) ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "The %s is too heavy!" ),
                                          newit.display_name() );
