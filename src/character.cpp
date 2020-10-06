@@ -1010,6 +1010,16 @@ bool Character::can_stash( const item &it )
     return best_pocket( it, nullptr ).second != nullptr;
 }
 
+bool Character::can_stash_partial( const item &it )
+{
+    item copy = it;
+    if( it.count_by_charges() ) {
+        copy.charges = 1;
+    }
+
+    return can_stash( copy );
+}
+
 void Character::cancel_stashed_activity()
 {
     stashed_outbounds_activity = player_activity();
