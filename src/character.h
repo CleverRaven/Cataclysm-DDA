@@ -322,6 +322,8 @@ struct weariness_tracker {
     int tick_counter = 0;
 
     void clear();
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
