@@ -22,7 +22,7 @@ class map_item_stack
 
                 //only expected to be used for things like lists and vectors
                 item_group();
-                item_group( const tripoint &p, const int arg_count, const item *itm );
+                item_group( const tripoint &p, int arg_count, const item *itm );
         };
     public:
         const item *example; //an example item for showing stats, etc.
