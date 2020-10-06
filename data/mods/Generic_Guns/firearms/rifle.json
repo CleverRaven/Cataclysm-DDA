@@ -39,7 +39,7 @@
     "type": "GUN",
     "name": "sniper rifle",
     "ammo": [ "ammo_rifle" ],
-    "description": "Sniper rifles fill military, police and civilian needs for precise, accurate fire.  Modern examples feature detachable magazines and various mounting interfaces for optics and supports.  With care and practice, all should be quite capable of eliminating bipedal threats from very safe ranges. ",
+    "description": "Sniper rifles fill military, police and civilian needs for precise, accurate fire.  Modern examples feature detachable magazines and various mounting interfaces for optics and supports.  With care and practice, all should be quite capable of eliminating bipedal threats from very safe ranges.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

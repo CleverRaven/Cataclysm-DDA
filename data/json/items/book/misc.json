@@ -390,7 +390,7 @@
     "id": "paperback_romance_grue",
     "type": "BOOK",
     "name": { "str": "Tall, Dark, and Gruesome", "str_pl": "copies of Tall, Dark, and Gruesome" },
-    "description": "Fatima's obsession with the dead threatens to consume her when she falls in love with a restless ghost.  In this provocative romp celebrated author Kea Dekker gently lifts the thin veil separating cold bodies from warm. ",
+    "description": "Fatima's obsession with the dead threatens to consume her when she falls in love with a restless ghost.  In this provocative romp celebrated author Kea Dekker gently lifts the thin veil separating cold bodies from warm.",
     "copy-from": "paperback_romance_lnl"
   },
   {
