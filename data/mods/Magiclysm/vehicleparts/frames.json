@@ -34,6 +34,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "MOUNTABLE" ],
+    "categories": [ "Other" ],
     "damage_reduction": { "all": 78 }
   },
   {
