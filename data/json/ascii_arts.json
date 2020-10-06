@@ -35,7 +35,7 @@
       "      ▐▓█☻☻☻☻▲▀▀        "
     ]
   },
-    {
+  {
     "type": "ascii_art",
     "id": "hk_mp5sd",
     "picture": [
@@ -71,7 +71,7 @@
       "     ▀▀▀▀▀▀▀█/          "
     ]
   },
-    {
+  {
     "type": "ascii_art",
     "id": "hk_mp5-pdw",
     "picture": [
@@ -1779,7 +1779,7 @@
       "  </color><color_light_gray>▀</color><color_dark_gray>▀▀▀▀</color><color_light_gray>▀`"
     ]
   },
-    {
+  {
     "type": "ascii_art",
     "id": "glock_40mos",
     "picture": [
@@ -1798,7 +1798,7 @@
       "   </color><color_dark_gray>▀▀▀▀▀</color><color_light_gray>▀                             "
     ]
   },
-   {
+  {
     "type": "ascii_art",
     "id": "glock_20",
     "picture": [
@@ -1819,7 +1819,7 @@
       "   </color><color_dark_gray>▀▀▀▀▀</color><color_light_gray>▀                        "
     ]
   },
- {
+  {
     "type": "ascii_art",
     "id": "glock_19",
     "picture": [
@@ -1878,7 +1878,6 @@
       "   </color><color_dark_gray>▀▀▀▀▀</color><color_light_gray>▀"
     ]
   },
-
   {
     "type": "ascii_art",
     "id": "flaregunb",
@@ -1894,7 +1893,7 @@
       "     </color><color_brown>▀</color><color_light_red>█</color><color_red>☻♥"
     ]
   },
-    {
+  {
     "type": "ascii_art",
     "id": "coilgun",
     "picture": [
