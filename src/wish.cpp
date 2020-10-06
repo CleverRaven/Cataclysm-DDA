@@ -781,7 +781,7 @@ void debug_menu::wishproficiency( player *p )
     uilist prmenu;
     prmenu.text = _( "Select proficiency to toggle" );
     prmenu.allow_anykey = true;
-    prmenu.addentry( 0, true, '1', _( "Toggle all proficiency" ) );
+    prmenu.addentry( 0, true, '1', _( "Toggle all proficiencies" ) );
 
     const std::vector<proficiency_id> &known_profs = p->known_proficiencies();
     std::vector<std::pair<proficiency_id, bool>> sorted_profs;
