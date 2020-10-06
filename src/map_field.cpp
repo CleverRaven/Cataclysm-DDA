@@ -318,7 +318,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     const maptile remove_tile3 = std::get<2>( maptiles );
     if( !spread.empty() && ( !zlevels || one_in( spread.size() ) ) ) {
         // Construct the destination from offset and p
-        if( g->is_sheltered( p ) || windpower < 5 ) {
+        if( sheltered || windpower < 5 ) {
             std::pair<tripoint, maptile> &n = neighs[ random_entry( spread ) ];
             gas_spread_to( cur, n.second, n.first );
         } else {
@@ -866,13 +866,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
 
-                cur.set_field_age( cur.get_field_age() + 1_turns );
-                const auto &fdata = *cur.get_field_type();
-                if( fdata.half_life > 0_turns && cur.get_field_age() > 0_turns &&
-                    dice( 2, to_turns<int>( cur.get_field_age() ) ) > to_turns<int>( fdata.half_life ) ) {
-                    cur.set_field_age( 0_turns );
-                    cur.set_field_intensity( cur.get_field_intensity() - 1 );
-                }
+                cur.do_decay();
                 if( !cur.is_field_alive() ) {
                     --current_submap->field_count;
                     curfield.remove_field( it++ );
