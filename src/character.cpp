@@ -10208,10 +10208,10 @@ int Character::shoe_type_count( const itype_id &it ) const
 std::vector<item *> Character::inv_dump()
 {
     std::vector<item *> ret;
-    if( is_armed() && !weapon.has_flag( "NO_UNWIELD" ) ) {
+    if( is_armed() && can_drop( weapon ).success() ) {
         ret.push_back( &weapon );
     }
-    for( item &i : worn ) {
+    for( auto &i : worn ) {
         ret.push_back( &i );
     }
     inv->dump( ret );
