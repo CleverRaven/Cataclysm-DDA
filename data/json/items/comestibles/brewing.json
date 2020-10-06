@@ -242,7 +242,7 @@
     "healthy": -2,
     "addiction_potential": 3,
     "calories": 49,
-    "description": "Cheap booze made from fermented fruit juice.  Tastes just like it sounds.",
+    "description": "Cheap booze made from fermented fruit juice.  Tastes just like it sounds. Leaving this for a few more days will allow it to clear.",
     "price": 550,
     "price_postapoc": 100,
     "material": [ "alcohol", "water" ],
@@ -251,9 +251,9 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
-    "fun": 2,
+    "fun": -1,
     "freezing_point": 20,
-    "brewable": { "time": "3 days", "results": [ "fruit_wine", "yeast" ] }
+    "brewable": { "time": "3 days", "results": [ "fruit_wine" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -276,7 +276,35 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "14 days", "results": [ "mead", "yeast" ] }
+    "brewable": { "time": "14 days", "results": [ "mead_cloudy", "yeast" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mead_cloudy",
+    "name": { "str_sp": "cloudy spiced mead" },
+    "weight": "36 g",
+    "color": "yellow",
+    "addiction_type": "alcohol",
+    "use_action": [ "ALCOHOL" ],
+    "stim": -4,
+    "container": "bottle_glass",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 14,
+    "addiction_potential": 2,
+    "calories": 53,
+    "description": "Well-aged honey wine, spiced with a hint of hops.  Goes down bittersweet. Leaving this for a few more days will allow it to clear.",
+    "price": 1100,
+    "price_postapoc": 150,
+    "material": [ "alcohol", "honey" ],
+    "primary_material": "alcohol",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "charges": 7,
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": 23,
+    "fun": 10,
+    "brewable": { "time": "3 days", "results": [ "mead" ] }
   },
   {
     "type": "COMESTIBLE",

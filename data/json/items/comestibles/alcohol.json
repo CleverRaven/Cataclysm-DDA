@@ -486,7 +486,7 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
-    "fun": 5,
+    "fun": 2,
     "freezing_point": 20
   },
   {

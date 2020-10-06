@@ -202,11 +202,11 @@
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": "80 m",
+    "time": "2 m",
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "brewing_cookbook", 2 ], [ "winemaking_beginner", 2 ] ],
     "components": [
-      [ [ "water", 3 ], [ "water_clean", 3 ] ],
+      [ [ "water_clean", 3 ] ],
       [ [ "honey_bottled", 10 ], [ "honeycomb", 2 ], [ "honey_glassed", 10 ] ],
       [ [ "yeast", 1 ] ]
     ]
