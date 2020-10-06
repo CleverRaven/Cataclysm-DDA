@@ -99,7 +99,6 @@ static const trait_id trait_NAILS( "NAILS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
-static const trait_id trait_THORNS( "THORNS" );
 
 static const efftype_id effect_amigara( "amigara" );
 
@@ -1013,7 +1012,7 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
 void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average*/,
                                   const item &weap ) const
 {
-    float cut_dam = mabuff_damage_bonus( DT_STAB ) + weap.damage_melee( DT_STAB );
+    float stab_dam = mabuff_damage_bonus( DT_STAB ) + weap.damage_melee( DT_STAB );
 
     int unarmed_skill = get_skill_level( skill_unarmed );
     int stabbing_skill = get_skill_level( skill_stabbing );
@@ -1030,26 +1029,28 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
             float per_hand = 0.0f;
 
             for( const trait_id &mut : get_mutations() ) {
-                per_hand += mut->pierce_dmg_bonus;
-
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
-                    per_hand += std::min( unarmed_skill / 2, 4 );
+                int stab_bonus = mut->pierce_dmg_bonus;
+                int unarmed_bonus = 0;
+                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && stab_bonus > 0 ) {
+                    unarmed_bonus = std::min( unarmed_skill / 2, 4 );
                 }
+
+                per_hand += stab_bonus + unarmed_bonus;
             }
 
             if( has_bionic( bionic_id( "bio_razors" ) ) ) {
                 per_hand += 2;
             }
 
-            cut_dam += per_hand; // First hand
+            stab_dam += per_hand; // First hand
             if( left_empty && right_empty ) {
                 // Second hand
-                cut_dam += per_hand;
+                stab_dam += per_hand;
             }
         }
     }
 
-    if( cut_dam <= 0 ) {
+    if( stab_dam <= 0 ) {
         return; // No negative stabbing!
     }
 
@@ -1072,7 +1073,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
         armor_mult = 0.66f;
     }
 
-    di.add_damage( DT_STAB, cut_dam, 0, armor_mult, stab_mul );
+    di.add_damage( DT_STAB, stab_dam, 0, armor_mult, stab_mul );
 }
 
 matec_id Character::pick_technique( Creature &t, const item &weap,

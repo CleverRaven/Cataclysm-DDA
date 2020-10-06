@@ -1653,40 +1653,34 @@ void Character::recalc_sight_limits()
         sight_max = 10;
     }
 
-    // Debug-only NV, by vache's request
+    // Debug-only NV
     if( has_trait( trait_DEBUG_NIGHTVISION ) ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
     }
+
+    float best_bonus_nv = 0.0f;
+    for( const mutation_branch *mut : cached_mutations ) {
+        best_bonus_nv = std::max( best_bonus_nv, mut->night_vision_range );
+    }
+    if( is_wearing( "rm13_armor_on" ) ||
+        ( is_mounted() && mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
+        best_bonus_nv = std::max( best_bonus_nv, 10.0f );
+    }
     if( has_nv() ) {
         vision_mode_cache.set( NV_GOGGLES );
-    }
-    if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( "rm13_armor_on" ) ||
-        ( is_mounted() && mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
-        vision_mode_cache.set( NIGHTVISION_3 );
-    }
-    if( has_active_mutation( trait_ELFA_FNV ) ) {
-        vision_mode_cache.set( FULL_ELFA_VISION );
-    }
-    if( has_active_mutation( trait_CEPH_VISION ) ) {
-        vision_mode_cache.set( CEPH_VISION );
-    }
-    if( has_active_mutation( trait_ELFA_NV ) ) {
-        vision_mode_cache.set( ELFA_VISION );
-    }
-    if( has_active_mutation( trait_NIGHTVISION2 ) ) {
-        vision_mode_cache.set( NIGHTVISION_2 );
-    }
-    if( has_active_mutation( trait_FEL_NV ) ) {
-        vision_mode_cache.set( FELINE_VISION );
-    }
-    if( has_active_mutation( trait_URSINE_EYE ) ) {
-        vision_mode_cache.set( URSINE_VISION );
-    }
-    if( has_active_mutation( trait_NIGHTVISION ) ) {
-        vision_mode_cache.set( NIGHTVISION_1 );
+        best_bonus_nv = std::max( best_bonus_nv, 10.0f );
     }
     if( has_trait( trait_BIRD_EYE ) ) {
         vision_mode_cache.set( BIRD_EYE );
+    }
+    if( has_trait( trait_URSINE_EYE ) ) {
+        vision_mode_cache.set( URSINE_VISION );
+    }
+
+    nv_range = get_per() / 3.0f - encumb( bp_eyes ) / 10.0f;
+    nv_range += best_bonus_nv;
+    if( vision_mode_cache[BIRD_EYE] ) {
+        nv_range++;
     }
 
     // Not exactly a sight limit thing, but related enough
@@ -1730,27 +1724,12 @@ float Character::get_vision_threshold( float light_level ) const
                                      LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
-    float range = get_per() / 3.0f - encumb( bp_eyes ) / 10.0f;
-    if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
-        vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
-        range += 10;
-    } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[FELINE_VISION] ||
-               vision_mode_cache[URSINE_VISION] || vision_mode_cache[ELFA_VISION] ) {
-        range += 4.5;
-    } else if( vision_mode_cache[NIGHTVISION_1] ) {
-        range += 2;
-    }
-
-    if( vision_mode_cache[BIRD_EYE] ) {
-        range++;
-    }
-
     // This guarantees at least 1 tile of range
     static const float threshold_cap = threshold_for_range( 1 ) * LIGHT_AMBIENT_LOW /
                                        LIGHT_AMBIENT_MINIMAL;
 
     return std::min( {static_cast<float>( LIGHT_AMBIENT_LOW ),
-                      threshold_for_range( range ) * dimming_from_light,
+                      threshold_for_range( nv_range ) * dimming_from_light,
                       threshold_cap} );
 }
 
@@ -6530,6 +6509,7 @@ mutation_value_map = {
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "overmap_sight", calc_mutation_value_multiplicative<&mutation_branch::overmap_sight> },
     { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },
+    { "night_vision_range", calc_mutation_value<&mutation_branch::night_vision_range> },
     { "map_memory_capacity_multiplier", calc_mutation_value_multiplicative<&mutation_branch::map_memory_capacity_multiplier> },
     { "reading_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::reading_speed_multiplier> },
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> }

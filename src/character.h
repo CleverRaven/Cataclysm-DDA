@@ -84,13 +84,6 @@ using drop_locations = std::list<drop_location>;
 enum vision_modes {
     DEBUG_NIGHTVISION,
     NV_GOGGLES,
-    NIGHTVISION_1,
-    NIGHTVISION_2,
-    NIGHTVISION_3,
-    FULL_ELFA_VISION,
-    ELFA_VISION,
-    CEPH_VISION,
-    FELINE_VISION,
     BIRD_EYE,
     URSINE_VISION,
     BOOMERED,
@@ -2172,6 +2165,8 @@ class Character : public Creature, public visitable<Character>
 
         // Cached vision values.
         std::bitset<NUM_VISION_MODES> vision_mode_cache;
+        // "Raw" night vision range - just stats+mutations+items
+        float nv_range = 0;
         int sight_max;
 
         // turn the character expired, if calendar::before_time_starts it has not been set yet.
