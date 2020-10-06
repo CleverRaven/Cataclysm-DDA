@@ -743,52 +743,6 @@
   },
   {
     "type": "ascii_art",
-    "id": "candle",
-    "picture": [
-      "                                         ",
-      "                                         ",
-      "                                         ",
-      "    <color_light_gray>▄▄</color><color_dark_gray>▌</color><color_light_gray>▄▄▄                               ",
-      "  ██▄▄▄▄▄▄██                             ",
-      " █  ██████  █                            ",
-      " █          █                            ",
-      " █          █                            ",
-      " █          █                            ",
-      " █          █                            ",
-      " █          █                            ",
-      " █          █                            ",
-      " █          █                            ",
-      " █          █                            ",
-      " █          █                            ",
-      "  ██████████                             ",
-      "                                         "
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "candle_lit",
-    "picture": [
-      "                                         ",
-      "      <color_white>▲                                  ",
-      "     </color><color_yellow>▐▓▄                                 ",
-      "    </color><color_light_gray>▄</color><color_red>▀▓▌</color><color_light_gray>▄▄                               ",
-      "  ██▄▄▄▄▄▄██                             ",
-      " █</color><color_dark_gray>██</color><color_light_gray>██████</color><color_dark_gray>██</color><color_light_gray>█                            ",
-      " █</color><color_dark_gray>░█▀██▀▀█ ▐</color><color_light_gray>█                            ",
-      " █</color><color_dark_gray>░▌░░█░ █  </color><color_light_gray>█                            ",
-      " █</color><color_dark_gray>░░░░▐░ ▐  </color><color_light_gray>█                            ",
-      " █</color><color_dark_gray>░░░░░░ ▐  </color><color_light_gray>█                            ",
-      " █</color><color_dark_gray>░░░░░░    </color><color_light_gray>█                            ",
-      " █</color><color_dark_gray>░░░░░     </color><color_light_gray>█                            ",
-      " █</color><color_dark_gray>░░░░░     </color><color_light_gray>█                            ",
-      " █</color><color_dark_gray>░░░░░     </color><color_light_gray>█                            ",
-      " █</color><color_dark_gray>░░░░░     </color><color_light_gray>█                            ",
-      "  ██████████                             ",
-      "                                         "
-    ]
-  },
-  {
-    "type": "ascii_art",
     "id": "crude_picklock",
     "picture": [
       "                                         ",
