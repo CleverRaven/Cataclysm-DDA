@@ -1082,9 +1082,9 @@ bool veh_interact::move_in_list( int &pos, const std::string &action, const int 
                                  const int header ) const
 {
     int lines_per_page = page_size - header;
-    if( action == "PREV_TAB" || action == "LEFT" ) {
+    if( action == "PREV_TAB" || action == "LEFT" || action == "PAGE_UP" ) {
         pos -= lines_per_page;
-    } else if( action == "NEXT_TAB" || action == "RIGHT" ) {
+    } else if( action == "NEXT_TAB" || action == "RIGHT" || action == "PAGE_DOWN" ) {
         pos += lines_per_page;
     } else if( action == "UP" ) {
         pos--;
