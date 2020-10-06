@@ -14,5 +14,13 @@
     "description": "A practical working knowledge of electromagnetic fields and their creation and application.",
     "can_learn": true,
     "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_shock_weapons",
+    "name": { "str": "Electroshock Weapons" },
+    "description": "An understanding of how to use high voltage, low-current devices to cause debilitating muscle spasms.",
+    "can_learn": true,
+    "time_to_learn": "10 h"
   }
 ]
