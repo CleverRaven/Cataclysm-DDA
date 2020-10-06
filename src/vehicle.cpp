@@ -2644,24 +2644,23 @@ int vehicle::part_with_feature( const point &pt, const std::string &flag, bool u
     return -1;
 }
 
-int vehicle::avail_part_with_feature( int part, vpart_bitflags const flag, bool unbroken ) const
+int vehicle::avail_part_with_feature( int part, vpart_bitflags const flag ) const
 {
-    int part_a = part_with_feature( part, flag, unbroken );
+    int part_a = part_with_feature( part, flag, true );
     if( ( part_a >= 0 ) && parts[ part_a ].is_available() ) {
         return part_a;
     }
     return -1;
 }
 
-int vehicle::avail_part_with_feature( int part, const std::string &flag, bool unbroken ) const
+int vehicle::avail_part_with_feature( int part, const std::string &flag ) const
 {
-    return avail_part_with_feature( parts[ part ].mount, flag, unbroken );
+    return avail_part_with_feature( parts[ part ].mount, flag );
 }
 
-int vehicle::avail_part_with_feature( const point &pt, const std::string &flag,
-                                      bool unbroken ) const
+int vehicle::avail_part_with_feature( const point &pt, const std::string &flag ) const
 {
-    int part_a = part_with_feature( pt, flag, unbroken );
+    int part_a = part_with_feature( pt, flag, true );
     if( ( part_a >= 0 ) && parts[ part_a ].is_available() ) {
         return part_a;
     }
@@ -3322,7 +3321,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
 
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
         if( vp && &vp->vehicle() == this && player_controlling ) {
-            const int p = avail_part_with_feature( vp->part_index(), VPFLAG_ENGINE, true );
+            const int p = avail_part_with_feature( vp->part_index(), VPFLAG_ENGINE );
             if( p >= 0 && is_part_on( p ) && part_info( p ).fuel_type == fuel_type_muscle ) {
                 //Broken limbs prevent muscle engines from working
                 if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) &&

@@ -1957,43 +1957,42 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
 
     turret_data turret = turret_query( pos );
 
-    const int curtain_part = avail_part_with_feature( interact_part, "CURTAIN", true );
+    const int curtain_part = avail_part_with_feature( interact_part, "CURTAIN" );
     const bool curtain_closed = ( curtain_part == -1 ) ? false : !parts[curtain_part].open;
-    const bool has_kitchen = avail_part_with_feature( interact_part, "KITCHEN", true ) >= 0;
-    const bool has_faucet = avail_part_with_feature( interact_part, "FAUCET", true ) >= 0;
-    const bool has_towel = avail_part_with_feature( interact_part, "TOWEL", true ) >= 0;
-    const bool has_weldrig = avail_part_with_feature( interact_part, "WELDRIG", true ) >= 0;
-    const bool has_chemlab = avail_part_with_feature( interact_part, "CHEMLAB", true ) >= 0;
-    const bool has_purify = avail_part_with_feature( interact_part, "WATER_PURIFIER", true ) >= 0;
-    const bool has_controls = avail_part_with_feature( interact_part, "CONTROLS", true ) >= 0;
-    const bool has_electronics = avail_part_with_feature( interact_part, "CTRL_ELECTRONIC", true ) >= 0;
+    const bool has_kitchen = avail_part_with_feature( interact_part, "KITCHEN" ) >= 0;
+    const bool has_faucet = avail_part_with_feature( interact_part, "FAUCET" ) >= 0;
+    const bool has_towel = avail_part_with_feature( interact_part, "TOWEL" ) >= 0;
+    const bool has_weldrig = avail_part_with_feature( interact_part, "WELDRIG" ) >= 0;
+    const bool has_chemlab = avail_part_with_feature( interact_part, "CHEMLAB" ) >= 0;
+    const bool has_purify = avail_part_with_feature( interact_part, "WATER_PURIFIER" ) >= 0;
+    const bool has_controls = avail_part_with_feature( interact_part, "CONTROLS" ) >= 0;
+    const bool has_electronics = avail_part_with_feature( interact_part, "CTRL_ELECTRONIC" ) >= 0;
     const int cargo_part = part_with_feature( interact_part, "CARGO", false );
     const bool from_vehicle = cargo_part >= 0 && !get_items( cargo_part ).empty();
     const bool can_be_folded = is_foldable();
     const bool is_convertible = tags.count( "convertible" ) > 0;
     const bool remotely_controlled = g->remoteveh() == this;
-    const int autoclave_part = avail_part_with_feature( interact_part, "AUTOCLAVE", true );
+    const int autoclave_part = avail_part_with_feature( interact_part, "AUTOCLAVE" );
     const bool has_autoclave = autoclave_part >= 0;
     bool autoclave_on = ( autoclave_part == -1 ) ? false :
                         parts[autoclave_part].enabled;
-    const int washing_machine_part = avail_part_with_feature( interact_part, "WASHING_MACHINE", true );
+    const int washing_machine_part = avail_part_with_feature( interact_part, "WASHING_MACHINE" );
     const bool has_washmachine = washing_machine_part >= 0;
     bool washing_machine_on = ( washing_machine_part == -1 ) ? false :
                               parts[washing_machine_part].enabled;
-    const int dishwasher_part = avail_part_with_feature( interact_part, "DISHWASHER", true );
+    const int dishwasher_part = avail_part_with_feature( interact_part, "DISHWASHER" );
     const bool has_dishwasher = dishwasher_part >= 0;
     bool dishwasher_on = ( dishwasher_part == -1 ) ? false :
                          parts[dishwasher_part].enabled;
-    const int monster_capture_part = avail_part_with_feature( interact_part, "CAPTURE_MONSTER_VEH",
-                                     true );
+    const int monster_capture_part = avail_part_with_feature( interact_part, "CAPTURE_MONSTER_VEH" );
     const bool has_monster_capture = monster_capture_part >= 0;
-    const int bike_rack_part = avail_part_with_feature( interact_part, "BIKE_RACK_VEH", true );
-    const int harness_part = avail_part_with_feature( interact_part, "ANIMAL_CTRL", true );
+    const int bike_rack_part = avail_part_with_feature( interact_part, "BIKE_RACK_VEH" );
+    const int harness_part = avail_part_with_feature( interact_part, "ANIMAL_CTRL" );
     const bool has_harness = harness_part >= 0;
     const bool has_bike_rack = bike_rack_part >= 0;
-    const bool has_planter = avail_part_with_feature( interact_part, "PLANTER", true ) >= 0 ||
-                             avail_part_with_feature( interact_part, "ADVANCED_PLANTER", true ) >= 0;
-    const int workbench_part = avail_part_with_feature( interact_part, "WORKBENCH", true );
+    const bool has_planter = avail_part_with_feature( interact_part, "PLANTER" ) >= 0 ||
+                             avail_part_with_feature( interact_part, "ADVANCED_PLANTER" ) >= 0;
+    const int workbench_part = avail_part_with_feature( interact_part, "WORKBENCH" );
     const bool has_workbench = workbench_part >= 0;
 
     enum {
