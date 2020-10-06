@@ -989,6 +989,10 @@ void monster::move()
                 if( !can_bash ) {
                     continue;
                 }
+                // Don't bash if we're just tracking a noise.
+                if( wander() && destination == wander_pos ) {
+                    continue;
+                }
                 const int estimate = here.bash_rating( bash_estimate(), candidate );
                 if( estimate <= 0 ) {
                     continue;
