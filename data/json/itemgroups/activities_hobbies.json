@@ -284,7 +284,7 @@
       [ "wetsuit_booties", 20 ],
       [ "wetsuit_hood", 10 ],
       { "item": "scuba_tank", "prob": 20, "charges": [ 0, 60 ] },
-      { "item": "small_scuba_tank", "prob": 10, "charges": { 0, 20 ] },
+      { "item": "small_scuba_tank", "prob": 10, "charges": [ 0, 20 ] },
       [ "dive_bag", 10 ],
       [ "rebreather", 3 ],
       [ "rebreather_filter", 2 ],

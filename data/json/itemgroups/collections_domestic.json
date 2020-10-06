@@ -142,7 +142,7 @@
       { "item": "duct_tape", "prob": 100 },
       { "item": "lawnmower", "prob": 25 },
       { "item": "lawn_dart", "prob": 10 },
-      { "item": "dehydrator", "prob": 15, "charges-min": 0 },
+      { "item": "dehydrator", "prob": 15, "charges": [ 0, 500 ] },
       { "item": "jar_glass_sealed", "prob": 25, "count": [ 1, 12 ] },
       { "item": "jar_glass_sealed", "prob": 50 },
       { "item": "jar_3l_glass_sealed", "prob": 40 },
@@ -158,7 +158,7 @@
       { "item": "thermometer", "prob": 3 },
       { "item": "hygrometer", "prob": 3 },
       { "item": "barometer", "prob": 3 },
-      { "item": "smart_lamp", "prob": 3 },
+      { "item": "smart_lamp", "prob": 3, "charges": [ 0, 100 ] },
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 30 },
       {
         "collection": [ { "item": "denat_alcohol", "prob": 70 }, { "item": "popcan_stove", "prob": 100 } ],
