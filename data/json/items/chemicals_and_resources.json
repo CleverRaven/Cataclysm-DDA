@@ -1498,7 +1498,7 @@
 	"type": "COMESTIBLE",
 	"copy-from": "venom_gland",
 	"name": { "str": "wasp venom gland" },
-	"description": "A fragile, slightly quivering organ for the production and storage of venom. You removed this one from a mutated wasp and it's filled with a potent mixture of catecholamines and protein toxins. You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
+	"description": "A fragile, slightly quivering organ for the production and storage of wasp venom.  You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
 	"color": "light_green",
 	"use_action": [ "POISON" ]
   },
@@ -1507,7 +1507,7 @@
 	"type": "COMESTIBLE",
 	"copy-from": "venom_gland",
 	"name": { "str": "bee venom gland" },
-	"description": "A fragile, slightly quivering organ for the production and storage of venom. You removed this one from a mutated honeybee and it's filled with a potent mixture of catecholamines and protein toxins. You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
+	"description": "A fragile, slightly quivering organ for the production and storage of honeybee venom. You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
 	"color": "yellow",
 	"use_action": [ "POISON" ]
   },
@@ -1516,7 +1516,7 @@
 	"type": "AMMO",
 	"category": "chems",
 	"name": { "str_sp": "concentrated venom" },
-	"description": "A transparent, lightly greenish liquid, containing the bioactive chemicals found in the venom of mutated bees and wasps. It is now relatively stable, but will require further separation to be useful for anything other than killing you.",
+	"description": "A transparent, lightly greenish liquid, refined from the venom of bees and wasps. Active ingredients include catecholamines, histamine and protein toxins. It is now relatively stable, but will require further separation to be useful for anything other than killing you.",
 	"phase": "liquid",
 	"weight": "10 g",
 	"volume": "10 ml",

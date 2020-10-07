@@ -372,24 +372,20 @@
     "subcategory": "CSC_CHEM_DRUGS",
     "skill_used": "chemistry",
     "difficulty": 6,
+	"skills_required": [ [ "firstaid", 6 ] ],
     "time": "30 m",
     "book_learn": [
       [ "textbook_chemistry", 8 ],
-      [ "adv_chemistry", 7 ],
-      [ "pocket_survival", 8 ],
-      [ "atomic_survival", 8 ],
-      [ "textbook_survival", 8 ],
-      [ "survival_book", 8 ],
-      [ "recipe_labchem", 7 ]
+      [ "textbook_toxicology", 7 ],
+      [ "recipe_labchem", 8 ]
     ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, {"id": "ANALYSIS", "level": 1}, {"id": "SEPARATE", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "syringe", 1 ] ],
-      [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
-      [ [ "datura_seed", 8 ] ],
-      [ [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "bleach", 1 ], [ "oxy_powder", 100 ] ]
+      [ [ "chem_ethanol", 1 ] ],
+      [ [ "conc_venom", 2 ] ],
+      [ [ "salt_water", 1 ], [ "saline", 5 ] ]
     ]
   },
   {
@@ -1589,7 +1585,7 @@
 	"subcategory": "CSC_CHEM_OTHER",
 	"skill_used": "chemistry",
 	"difficulty": 7,
-	"skills_required": [ [ "firstaid", 7 ] ],
+	"skills_required": [ [ "firstaid", 6 ] ],
 	"time": "60 m",
 	"batch_time_factors": [ 50, 3 ],
 	"autolearn": false,
