@@ -1074,7 +1074,7 @@ class JsonArray
 
         // get_tags returns empty set if none found
         template<typename T = std::string, typename Res = std::set<T>>
-        Res get_tags( const size_t index ) const;
+        Res get_tags( size_t index ) const;
 
         class const_iterator;
 
