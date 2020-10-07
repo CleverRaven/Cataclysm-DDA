@@ -11,7 +11,7 @@
     "mission": 7,
     "mission_offered": "MISSION_Warrener_LOG_1",
     "chat": "TALK_WARRENER",
-    "faction": "no_faction"
+    "faction": "lapin"
   },
   {
     "type": "npc_class",
