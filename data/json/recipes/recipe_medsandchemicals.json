@@ -1590,7 +1590,7 @@
 	"batch_time_factors": [ 50, 3 ],
 	"autolearn": false,
 	"qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
-	"tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+	"tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 30, "LIST" ] ] ],
 	"components": [ [ [ "venom_wasp", 4 ],  [ "venom_bee", 4 ] ] ],
 	"book_learn": { "textbook_toxicology": { "skill_level": 6 } }
   }
