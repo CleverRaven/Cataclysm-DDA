@@ -139,6 +139,7 @@ automatically_convertible = {
     "BOOK",
     "COMESTIBLE",
     "construction_category",
+    "construction_group",
     "dream",
     "ENGINE",
     "event_statistic",
@@ -254,7 +255,6 @@ def extract_clothing_mod(item):
 
 def extract_construction(item):
     outfile = get_outfile("construction")
-    writestr(outfile, item["description"])
     if "pre_note" in item:
         writestr(outfile, item["pre_note"])
 
