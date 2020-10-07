@@ -1,0 +1,90 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_asian_food",
+    "name": { "str": "Cooking Asian Food" },
+    "description": "Mainichi misoshiruya gohanwo taberu.",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_asian_food",
+    "name": { "str": "Cooking European Food" },
+    "description": "Ja, ich mag Bratwurst.",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_baking_basic",
+    "name": { "str": "Simple Baking" },
+    "description": "You know enough about baking to make basic adjustments to a recipe without problems.",
+    "can_learn": true,
+    "time_to_learn": "4 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_baking_bread",
+    "name": { "str": "Bread Baking" },
+    "description": "You're a master of breadmaking, and getting a rise out of people.",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_cooking_meat",
+    "name": { "str": "Basic Carnivore Cuisine" },
+    "description": "You're good at preparing and cooking parts of dead animals that taste nice.",
+    "can_learn": true,
+    "time_to_learn": "4 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_cooking_veggie",
+    "name": { "str": "Basic Vegetarian Cuisine" },
+    "description": "You're good at preparing and cooking plants, beans, and tofu in a way that tastes good.",
+    "can_learn": true,
+    "time_to_learn": "4 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_baking_desserts",
+    "name": { "str": "Dessert Baking" },
+    "description": "The skills necessary for making tasty baked desserts that hold together.",
+    "can_learn": true,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_deep_frying",
+    "name": { "str": "Deep Frying" },
+    "description": "You know how to manage deep fried food perfectly without modern amenities.",
+    "can_learn": true,
+    "time_to_learn": "4 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_knifeskills",
+    "name": { "str": "Knife Skills" },
+    "description": "You're particularly gifted at preparing food using kitchen knives.",
+    "can_learn": true,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_rendering",
+    "name": { "str": "Fat and Oil Preparation" },
+    "description": "You've got the skills to rapidly and cleanly render and press fats and oils from various sources.",
+    "can_learn": true,
+    "time_to_learn": "4 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_smoking",
+    "name": { "str": "Food Smoking" },
+    "description": "Cold and hot smoking various comestibles, extending their shelf life and enhancing their flavor.",
+    "can_learn": true,
+    "time_to_learn": "4 h"
+  },
+]

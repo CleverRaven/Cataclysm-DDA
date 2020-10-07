@@ -13,6 +13,10 @@
     "book_learn": [ [ "family_cookbook", 1 ], [ "baking_book", 1 ], [ "cookbook", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_baking_dessert", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 }
+    ],
     "components": [
       [ [ "flour", 40 ] ],
       [ [ "yeast", 2 ] ],
