@@ -390,7 +390,7 @@
       { "item": "reference_fabrication1", "prob": 6 },
       { "item": "reference_firstaid1", "prob": 2 },
       { "item": "reference_firstaid2", "prob": 1 },
-	  { "item": "textbook_toxicology", "prob": 2 }
+      { "item": "textbook_toxicology", "prob": 2 }
     ]
   },
   {
@@ -466,7 +466,7 @@
       { "item": "textbook_extraction", "prob": 10 },
       { "item": "brewing_cookbook", "prob": 3 },
       { "item": "textbook_firstaid", "prob": 8 },
-	  { "item": "textbook_toxicology", "prob": 5 },
+      { "item": "textbook_toxicology", "prob": 5 },
       { "item": "pocket_firstaid", "prob": 4 },
       { "item": "textbook_computer", "prob": 4 },
       { "item": "computer_science", "prob": 8 },
@@ -632,7 +632,7 @@
       { "item": "recipe_labchem", "prob": 100 },
       { "item": "recipe_augs", "prob": 100 },
       { "item": "reference_firstaid1", "prob": 15 },
-	  { "item": "textbook_toxicology", "prob": 15 }
+      { "item": "textbook_toxicology", "prob": 15 }
     ]
   },
   {
