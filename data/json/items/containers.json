@@ -1473,8 +1473,10 @@
     "id": "wrapper_pr",
     "type": "GENERIC",
     "name": { "str": "wrapper" },
-    "//desc": "Daizu is Japanese for soy, hence DaiZoom",
-    "description": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper.",
+    "description": {
+      "//~": "Daizu is Japanese for soy, hence DaiZoom",
+      "str": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper."
+    },
     "copy-from": "wrapper",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ]
   },

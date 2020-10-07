@@ -3663,7 +3663,7 @@
     "type": "profession",
     "id": "demolition_expert",
     "name": "Demolition Expert",
-    "description": "Before this all began, you were having the time of your life at your dream job: blowing stuff up.  The Cataclysm means you're finally allowed to do it full time. ",
+    "description": "Before this all began, you were having the time of your life at your dream job: blowing stuff up.  The Cataclysm means you're finally allowed to do it full time.",
     "skills": [ { "level": 2, "name": "fabrication" } ],
     "points": 3,
     "items": {

@@ -971,7 +971,8 @@ static void wait()
         }
     }
 
-    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ),
+    // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+    as_m.text = ( has_watch ) ? string_format( _( "It's %s now.  " ),
                 to_string_time_of_day( calendar::turn ) ) : "";
     as_m.text += setting_alarm ? _( "Set alarm for when?" ) : _( "Wait for how long?" );
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
