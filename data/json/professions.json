@@ -4166,6 +4166,7 @@
       { "level": 1, "name": "electronics" },
       { "level": 3, "name": "firstaid" }
     ],
+    "traits": [ "PROF_MED" ],
     "vehicle": "ambulance",
     "items": {
       "both": {
@@ -4183,6 +4184,7 @@
     "description": "You were separated from your partner while out on a call.  You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
     "points": 3,
     "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 5, "name": "firstaid" } ],
+    "traits": [ "PROF_MED" ],
     "items": {
       "both": {
         "items": [
@@ -4221,6 +4223,7 @@
       { "level": 1, "name": "dodge" },
       { "level": 4, "name": "firstaid" }
     ],
+    "traits": [ "PROF_MED" ],
     "items": {
       "both": {
         "items": [
@@ -4314,13 +4317,10 @@
           "socks",
           "motorbike_boots",
           "gloves_leather",
-          "wristwatch",
-          "motorbike_armor"
+          "wristwatch"
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boy_shorts" ]
+      }
     }
   },
   {
