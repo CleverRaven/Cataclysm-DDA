@@ -1487,6 +1487,7 @@
 	"category": "chems",
 	"comestible_type": "FOOD",
 	"spoils_in": "4 hours",
+	"//": "100 ml venom",
 	"weight": "130 g",
 	"volume": "110 ml",
 	"symbol": "o",
@@ -1509,5 +1510,20 @@
 	"description": "A fragile, slightly quivering organ for the production and storage of venom. You removed this one from a mutated honeybee and it's filled with a potent mixture of catecholamines and protein toxins. You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
 	"color": "yellow",
 	"use_action": [ "POISON" ]
+  },
+  {
+	"id": "conc_venom",
+	"type": "AMMO",
+	"category": "chems",
+	"name": { "str_sp": "concentrated venom" },
+	"description": "A transparent, lightly greenish liquid, containing the bioactive chemicals found in the venom of mutated bees and wasps. It is now relatively stable, but will require further separation to be useful for anything other than killing you.",
+	"phase": "liquid",
+	"weight": "10 g",
+	"volume": "10 ml",
+	"count": 10,
+	"ammo_type": "components",
+	"container": "test_tube",
+	"symbol": ";",
+	"color": "light_green"	
   }
 ]
