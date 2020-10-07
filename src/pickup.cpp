@@ -150,7 +150,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
 
     offered_swap = true;
     // TODO: Gray out if not enough hands
-    if( u.is_armed() && !it.stacks_with( u.weapon, true ) ) {
+    if( u.has_wield_conflicts( it ) ) {
         amenu.addentry( WIELD, u.can_unwield( u.weapon ).success(), 'w',
                         _( "Dispose of %s and wield %s" ), u.weapon.display_name(),
                         it.display_name() );
