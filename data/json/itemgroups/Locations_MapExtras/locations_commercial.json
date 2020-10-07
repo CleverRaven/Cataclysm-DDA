@@ -1354,7 +1354,14 @@
     "id": "oa_ig_cd_fuel",
     "//": "for cs_car_dealership",
     "items": [
-      { "item": "gasoline", "prob": 20, "charges-min": 450, "charges-max": 2000, "container-item": "jug_plastic" },
+      {
+        "item": "gasoline",
+        "prob": 20,
+        "charges-min": 450,
+        "charges-max": 2000,
+        "container-item": "jug_plastic",
+        "sealed": false
+      },
       { "item": "gasoline", "prob": 30, "charges-min": 450, "charges-max": 4000, "container-item": "jerrycan" },
       { "item": "gasoline", "prob": 10, "charges-min": 2650, "charges-max": 10000, "container-item": "jerrycan_big" }
     ]

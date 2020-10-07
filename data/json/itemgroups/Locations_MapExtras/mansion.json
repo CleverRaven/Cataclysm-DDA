@@ -721,7 +721,7 @@
       [ "boxer_shorts", 30 ],
       [ "mag_porn", 30 ],
       [ "briefs", 30 ],
-      { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
       { "group": "stash_drugs", "prob": 20 },
       [ "bikini_top_leather", 20 ],
       [ "skirt_leather", 20 ],
