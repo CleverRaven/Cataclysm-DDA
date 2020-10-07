@@ -1049,7 +1049,7 @@ class item : public visitable<item>
          * here mostly for back-compatibility. It should not be used when
          * doing continuous math with the damage value: use damage() instead.
          *
-         * For example, for max = 4, min_damage = -1000, max_damage = 4000
+         * For example, for min_damage = -1000, max_damage = 4000
          *   damage       level
          *   -1000 ~   -1    -1
          *              0     0
@@ -1057,10 +1057,8 @@ class item : public visitable<item>
          *    1334 ~ 2666     2
          *    2667 ~ 3999     3
          *           4000     4
-         *
-         * @param max Maximum number of levels
          */
-        int damage_level( int max ) const;
+        int damage_level() const;
 
         /** Minimum amount of damage to an item (state of maximum repair) */
         int min_damage() const;

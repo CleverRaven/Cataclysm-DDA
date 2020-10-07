@@ -9406,7 +9406,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
                               material.cut_dmg_verb();
 
     const std::string pre_damage_name = armor.tname();
-    const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level( 4 ) );
+    const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level() );
 
     // add "further" if the damage adjective and verb are the same
     std::string format_string = ( pre_damage_adj == damage_verb ) ?
