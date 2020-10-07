@@ -8124,6 +8124,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
         return false;
     }
 
+    bool ammo_from_map = !ammo.held_by( u );
     item_location container;
     if( ammo->has_flag( flag_SPEEDLOADER ) ) {
         container = ammo;
@@ -8215,6 +8216,9 @@ bool item::reload( Character &u, item_location ammo, int qty )
 
         put_in( *ammo, item_pocket::pocket_type::MAGAZINE_WELL );
         ammo.remove_item();
+        if( ammo_from_map ) {
+            u.invalidate_weight_carried_cache();
+        }
         return true;
     }
 
@@ -8223,6 +8227,9 @@ bool item::reload( Character &u, item_location ammo, int qty )
         if( container ) {
             u.inv->restack( u ); // emptied containers do not stack with non-empty ones
         }
+    }
+    if( ammo_from_map ) {
+        u.invalidate_weight_carried_cache();
     }
     return true;
 }
@@ -8721,6 +8728,8 @@ int item::fill_with( const item &contained, const int amount )
         debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
                   contained_item.typeId().str(), typeId().str() );
     }
+    on_contents_changed();
+    get_avatar().invalidate_weight_carried_cache();
     return num_contained;
 }
 

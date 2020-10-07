@@ -2433,6 +2433,7 @@ bool player::unload( item_location &loc, bool bypass_activity )
 
         if( changed ) {
             it.on_contents_changed();
+            invalidate_weight_carried_cache();
         }
         return true;
     }
