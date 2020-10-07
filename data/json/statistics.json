@@ -492,7 +492,7 @@
     "id": "avatar_consumes_allergen_eggs",
     "type": "event_transformation",
     "event_transformation": "avatar_consumes_item_flag",
-    "value_constraints": { "flag": { "equals": [ "string", "ALLERGEN_EGGS" ] } },
+    "value_constraints": { "flag": { "equals": [ "string", "ALLERGEN_EGG" ] } },
     "drop_fields": [ "flag" ]
   },
   {
