@@ -899,7 +899,7 @@ void veh_interact::do_install()
     std::vector<std::string> &tab_list = install_info->tab_list = {};
     tab_list.push_back( pgettext( "Vehicle Parts|", "All" ) );
     for( const std::string &cat : vpart_info::categories_all() ) {
-        tab_list.push_back( pgettext( "category", cat.c_str() ) );
+        tab_list.push_back( pgettext( "Vehicle Parts|", cat.c_str() ) );
     }
     tab_list.push_back( pgettext( "Vehicle Parts|", "Filter" ) );
 

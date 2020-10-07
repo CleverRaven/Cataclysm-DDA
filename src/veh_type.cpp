@@ -510,10 +510,6 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         vpart_info_all[def.id] = def;
     }
 
-    if( def.categories.empty() ) {
-        def.categories.insert( "Other" );
-    }
-
     for( const std::string &cat : def.categories ) {
         vpart_categories_all.insert( cat );
     }
