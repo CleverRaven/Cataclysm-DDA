@@ -812,14 +812,6 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             long_descrip += flag.info();
         }
     }
-    if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && !has_flag( "BELTABLE" ) ) {
-        json_flag nobelt = json_flag::get( "NONBELTABLE" );
-        long_descrip += "  " + nobelt.info();
-    }
-    if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
-        json_flag door = json_flag::get( "DOOR" );
-        long_descrip += "  " + door.info();
-    }
     if( has_flag( "TURRET" ) ) {
         class::item base( item );
         if( base.ammo_required() && !base.ammo_remaining() ) {
