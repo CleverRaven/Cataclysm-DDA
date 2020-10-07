@@ -1144,7 +1144,8 @@ bool npc::wield( item &it )
 
     invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
-    if( is_armed() ) {
+    bool combine_stacks = it.stacks_with( weapon, true );
+    if( is_armed() && !combine_stacks ) {
         stow_item( weapon );
     }
 
@@ -1156,9 +1157,18 @@ bool npc::wield( item &it )
 
     moves -= 15;
     if( has_item( it ) ) {
-        weapon = remove_item( it );
+        item removed = remove_item( it );
+        if( combine_stacks ) {
+            weapon.combine( removed );
+        } else {
+            weapon = removed;
+        }
     } else {
-        weapon = it;
+        if( combine_stacks ) {
+            weapon.combine( it );
+        } else {
+            weapon = it;
+        }
     }
 
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );

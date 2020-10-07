@@ -2934,7 +2934,8 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid )
         if( drop ) {
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
         } else if( add ) {
-            i_add( it, true, avoid, /*allow_drop=*/true, /*allow_wield=*/!is_armed() );
+            i_add( it, true, avoid, /*allow_drop=*/true, /*allow_wield=*/!is_armed() ||
+                   it.stacks_with( weapon, true ) );
         }
     }
 
@@ -10641,7 +10642,7 @@ void Character::migrate_items_to_storage( bool disintegrate )
             }
         } else {
             item &added = i_add( *it, true, /*avoid=*/nullptr,
-                                 /*allow_drop=*/false, /*allow_wield=*/!is_armed() );
+                                 /*allow_drop=*/false, /*allow_wield=*/!is_armed() || it->stacks_with( weapon, true ) );
             if( added.is_null() ) {
                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { *it } );
             }

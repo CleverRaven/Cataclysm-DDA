@@ -275,6 +275,7 @@ void test_scenario::run()
     const itype_id test_watertight_open_sealed_multipocket_container_2x1L( "test_watertight_open_sealed_multipocket_container_2x1L" );
     const itype_id test_liquid_1ml( "test_liquid_1ml" );
     const itype_id test_solid_1ml( "test_solid_1ml" );
+    const itype_id test_rag("test_rag");
     const itype_id test_restricted_container_holder( "test_restricted_container_holder" );
     // *INDENT-ON*
 
@@ -439,8 +440,8 @@ void test_scenario::run()
     }
     if( guy.weapon.is_null() ) {
         // so the guy does not wield spilled solid items
-        item solid( test_solid_1ml );
-        REQUIRE( guy.wield( solid ) );
+        item rag( test_rag );
+        REQUIRE( guy.wield( rag ) );
     }
 
     std::string player_action_str;
@@ -848,7 +849,7 @@ void test_scenario::run()
     if( cur_container_loc != container_location::wielded ) {
         REQUIRE( !wielded_results.has_value() );
         wielded_results = final_result {
-            test_solid_1ml,
+            test_rag,
             false,
             false,
             {}

@@ -264,7 +264,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
                 continue;
             }
 
-            if( comp.typeId() == big_comp && !is_armed() ) {
+            if( comp.typeId() == big_comp && ( !is_armed() || comp.stacks_with( weapon, true ) ) ) {
                 wield( comp );
             } else {
                 get_map().add_item_or_charges( pos(), comp );

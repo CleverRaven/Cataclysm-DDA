@@ -150,7 +150,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
 
     offered_swap = true;
     // TODO: Gray out if not enough hands
-    if( u.is_armed() ) {
+    if( u.is_armed() && !it.stacks_with( u.weapon, true ) ) {
         amenu.addentry( WIELD, u.can_unwield( u.weapon ).success(), 'w',
                         _( "Dispose of %s and wield %s" ), u.weapon.display_name(),
                         it.display_name() );
@@ -307,13 +307,9 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             picked_up = !!player_character.wear_item( newit );
             break;
         case WIELD: {
-            const auto wield_check = player_character.can_wield( it );
+            const auto wield_check = player_character.can_wield( newit );
             if( wield_check.success() ) {
-                //using original item, possibly modifying it
-                picked_up = player_character.wield( it );
-                if( picked_up ) {
-                    player_character.weapon.charges = newit.charges;
-                }
+                picked_up = player_character.wield( newit );
                 if( player_character.weapon.invlet ) {
                     add_msg( m_info, _( "Wielding %c - %s" ), player_character.weapon.invlet,
                              player_character.weapon.display_name() );

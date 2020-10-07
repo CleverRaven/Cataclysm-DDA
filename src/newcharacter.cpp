@@ -387,7 +387,7 @@ void avatar::add_profession_items()
             inv->push_back( it );
         } else if( it.has_flag( "auto_wield" ) ) {
             it.unset_flag( "auto_wield" );
-            if( !is_armed() ) {
+            if( !is_armed() || it.stacks_with( weapon, true ) ) {
                 wield( it );
             } else {
                 inv->push_back( it );
