@@ -5,7 +5,7 @@
     "name": "MSX Pawns",
     "authors": [ "Mshock777", "Xotto" ],
     "maintainers": [ "Fris0uman" ],
-    "description": "Uses Character, and Monster sprites from MSX.",
+    "description": "Uses Character, and Monster sprites from MSX with the UlticaShell tileset.",
     "category": "graphical",
     "dependencies": [ "dda" ]
   }
