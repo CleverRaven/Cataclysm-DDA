@@ -3,6 +3,7 @@
 #define CATA_SRC_ITEM_CATEGORY_H
 
 #include <algorithm>
+#include <set>
 #include <string>
 #include <vector>
 
