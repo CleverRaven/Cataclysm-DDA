@@ -3286,6 +3286,16 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 return VisitResponse::SKIP;
             }
 
+            // Solid ammo gets skipped earlier than non-solid because it does not need a container.
+            if( !nested && parent != nullptr && parent->is_container() &&
+                !node->made_of_from_type( phase_id::LIQUID ) && !node->made_of( phase_id::GAS ) ) {
+                return VisitResponse::SKIP;
+            }
+
+            if( !nested && node->is_container() && parent != nullptr && parent->is_container() ) {
+                return VisitResponse::SKIP;
+            }
+
             for( const ammotype &at : ammo ) {
                 if( node->ammo_type() == at ) {
                     out = item_location( src, node );
@@ -3296,7 +3306,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                     out = item_location( src, node );
                 }
             }
-            return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+            return VisitResponse::NEXT;
         } );
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
