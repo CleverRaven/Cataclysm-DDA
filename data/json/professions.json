@@ -4321,8 +4321,9 @@
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
       }
-    },
-    {
+    }
+  },
+  {
     "type": "profession",
     "id": "mili_burner",
     "name": "Military Corpse Disposal",
