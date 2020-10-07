@@ -1323,7 +1323,7 @@
   {
     "type": "item_group",
     "id": "hive_center",
-    "items": [ [ "honeycomb", 10 ], [ "royal_jelly", 8 ] ]
+    "items": [ [ "honeycomb", 200 ], [ "royal_jelly_mutant", 40 ] ]
   },
   {
     "type": "item_group",

@@ -284,7 +284,7 @@
     "//": "Beekeeper gear, as spawned on beekeeper zombie",
     "subtype": "distribution",
     "entries": [
-      { "item": "honeycomb", "prob": 10 },
+      { "item": "honeycomb", "prob": 200 },
       { "item": "honey_scraper", "prob": 2 },
       { "item": "beekeeping_hood", "prob": 5 },
       { "item": "beekeeping_suit", "prob": 5 },
