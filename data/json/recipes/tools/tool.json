@@ -1,6 +1,61 @@
 [
   {
     "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "chainsaw_off",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": "5 h",
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "book_icef", 3 ], [ "textbook_mechanics", 3 ], [ "textbook_carpentry", 3 ] ],
+    "using": [ [ "welding_standard", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "1cyl_combustion_small", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "mold_plastic",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "20 m",
+    "book_learn": [ [ "plastics_book", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 4 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "bowl_plastic", 4 ], [ "plastic_chunk", 12 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "scissors",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 },
+      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 1.5 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 1.5 }
+    ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "jackhammer",
     "category": "CC_OTHER",
@@ -152,38 +207,6 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "steel_lump", 1 ] ] ]
-  },
-  {
-    "result": "elec_shears",
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "3 h",
-    "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 },
-      {
-        "proficiency": "prof_toolsmithing",
-        "required": false,
-        "time_multiplier": 1.5,
-        "learning_time_multiplier": 0.5
-      },
-      {
-        "proficiency": "prof_plasticworking",
-        "required": false,
-        "time_multiplier": 1.25,
-        "learning_time_multiplier": 0.1
-      }
-    ],
-    "using": [ [ "forging_standard", 4 ], [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "steel_lump", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
   },
   {
     "result": "steel_pan",
@@ -397,27 +420,6 @@
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ] ], [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ] ]
-  },
-  {
-    "result": "food_processor",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "electronics",
-    "difficulty": 3,
-    "time": "20 m",
-    "reversible": true,
-    "autolearn": true,
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 }, { "id": "HAMMER", "level": 3, "amount": 1 } ],
-    "components": [
-      [ [ "scrap", 4 ] ],
-      [ [ "cable", 2 ] ],
-      [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
-      [ [ "motor_micro", 1 ] ],
-      [ [ "e_scrap", 1 ] ]
-    ]
   },
   {
     "result": "can_sealer",
