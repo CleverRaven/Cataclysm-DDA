@@ -5,7 +5,7 @@
 #include "magic.h"
 
 #include <QtWidgets/qcombobox.h>
-#include <QtWidgets/qlineedit.h>
+#include <QtWidgets/qlabel.h>
 #include <QtWidgets/qlistwidget.h>
 #include <QtWidgets/qpushbutton.h>
 
@@ -37,7 +37,7 @@ class fake_spell_listbox : public QListWidget
     private:
         std::vector<fake_spell_window *> windows;
 
-        QLineEdit id_label;
+        QLabel id_label;
 
         QComboBox fake_spell_list_box;
 

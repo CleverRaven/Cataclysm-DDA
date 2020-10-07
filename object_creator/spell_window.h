@@ -34,69 +34,69 @@ class spell_window : public QMainWindow
 
         void write_json();
 
-        QLineEdit id_label;
+        QLabel id_label;
         QLineEdit id_box;
 
-        QLineEdit name_label;
+        QLabel name_label;
         QLineEdit name_box;
 
-        QLineEdit description_label;
+        QLabel description_label;
         QPlainTextEdit description_box;
 
-        QLineEdit valid_targets_label;
+        QLabel valid_targets_label;
         QListWidget valid_targets_box;
 
-        QLineEdit energy_cost_label;
+        QLabel energy_cost_label;
         QSpinBox base_energy_cost_box;
         QDoubleSpinBox energy_increment_box;
         QSpinBox final_energy_cost_box;
 
-        QLineEdit damage_label;
+        QLabel damage_label;
         QSpinBox min_damage_box;
         QDoubleSpinBox damage_increment_box;
         QSpinBox max_damage_box;
 
-        QLineEdit range_label;
+        QLabel range_label;
         QSpinBox min_range_box;
         QDoubleSpinBox range_increment_box;
         QSpinBox max_range_box;
 
-        QLineEdit aoe_label;
+        QLabel aoe_label;
         QSpinBox min_aoe_box;
         QDoubleSpinBox aoe_increment_box;
         QSpinBox max_aoe_box;
 
-        QLineEdit dot_label;
+        QLabel dot_label;
         QSpinBox min_dot_box;
         QDoubleSpinBox dot_increment_box;
         QSpinBox max_dot_box;
 
-        QLineEdit pierce_label;
+        QLabel pierce_label;
         QSpinBox min_pierce_box;
         QDoubleSpinBox pierce_increment_box;
         QSpinBox max_pierce_box;
 
-        QLineEdit casting_time_label;
+        QLabel casting_time_label;
         QSpinBox base_casting_time_box;
         QDoubleSpinBox casting_time_increment_box;
         QSpinBox final_casting_time_box;
 
-        QLineEdit spell_flags_label;
+        QLabel spell_flags_label;
         QListWidget spell_flags_box;
 
-        QLineEdit energy_source_label;
+        QLabel energy_source_label;
         QComboBox energy_source_box;
 
-        QLineEdit dmg_type_label;
+        QLabel dmg_type_label;
         QComboBox dmg_type_box;
 
-        QLineEdit affected_bps_label;
+        QLabel affected_bps_label;
         QListWidget affected_bps_box;
 
-        QLineEdit effect_label;
+        QLabel effect_label;
         QComboBox effect_box;
 
-        QLineEdit effect_str_label;
+        QLabel effect_str_label;
         QLineEdit effect_str_box;
 
         fake_spell_listbox additional_spells_box;

@@ -4,6 +4,7 @@
 #include "magic.h"
 
 #include <QtWidgets/qcombobox.h>
+#include <QtWidgets/qlabel.h>
 #include <QtWidgets/qlineedit.h>
 #include <QtWidgets/qlistwidget.h>
 #include <QtWidgets/qmainwindow.h>
@@ -49,10 +50,10 @@ class fake_spell_window : public QMainWindow
 
         QLineEdit error_window;
 
-        QLineEdit id_label;
-        QLineEdit max_level_label;
-        QLineEdit min_level_label;
-        QLineEdit once_in_label;
+        QLabel id_label;
+        QLabel max_level_label;
+        QLabel min_level_label;
+        QLabel once_in_label;
 
         QLineEdit id_box;
         QSpinBox max_level_box;
