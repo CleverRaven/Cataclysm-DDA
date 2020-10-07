@@ -786,11 +786,11 @@ void debug_menu::wishproficiency( player *p )
     const std::vector<proficiency_id> &known_profs = p->known_proficiencies();
     std::vector<std::pair<proficiency_id, bool>> sorted_profs;
 
-    for( const proficiency_id &cur : all_profs_id ) {
+    for( const proficiency &cur : proficiency::get_all() ) {
 
         const auto iterator = std::find_if( known_profs.begin(), known_profs.end(),
         [&cur]( proficiency_id prof_id ) {
-            return cur == prof_id;
+            return cur.prof_id() == prof_id;
         } );
 
         const bool player_know = iterator != known_profs.end();
@@ -800,7 +800,7 @@ void debug_menu::wishproficiency( player *p )
             know_all = player_know;
         }
 
-        sorted_profs.push_back( { cur, player_know } );
+        sorted_profs.push_back( { cur.prof_id(), player_know } );
     }
 
     std::sort( sorted_profs.begin(), sorted_profs.end(), localized_compare );

@@ -7,8 +7,6 @@
 #include "debug.h"
 #include "generic_factory.h"
 
-std::vector<proficiency_id> all_profs_id;
-
 namespace
 {
 generic_factory<proficiency> proficiency_factory( "proficiency" );
@@ -44,16 +42,21 @@ void proficiency::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "time_to_learn", _time_to_learn );
     optional( jo, was_loaded, "required_proficiencies", _required );
+}
 
-    // No duplicates
-    if( std::find( all_profs_id.begin(), all_profs_id.end(), id ) == all_profs_id.end() ) {
-        all_profs_id.emplace_back( id );
-    }
+const std::vector<proficiency> &proficiency::get_all()
+{
+    return proficiency_factory.get_all();
 }
 
 bool proficiency::can_learn() const
 {
     return _can_learn;
+}
+
+proficiency_id proficiency::prof_id() const
+{
+    return id;
 }
 
 std::string proficiency::name() const

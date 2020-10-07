@@ -20,8 +20,6 @@ struct learning_proficiency;
 template<typename T>
 class generic_factory;
 
-extern std::vector<proficiency_id> all_profs_id;
-
 class proficiency
 {
         friend class generic_factory<proficiency>;
@@ -41,8 +39,10 @@ class proficiency
         static void load_proficiencies( const JsonObject &jo, const std::string &src );
         static void reset();
         void load( const JsonObject &jo, const std::string &src );
+        static const std::vector<proficiency> &get_all();
 
         bool can_learn() const;
+        proficiency_id prof_id() const;
         std::string name() const;
         std::string description() const;
         time_duration time_to_learn() const;
