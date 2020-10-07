@@ -82,6 +82,10 @@ static const fault_id fault_engine_starter( "fault_engine_starter" );
 
 static const skill_id skill_mechanics( "mechanics" );
 
+static const flag_str_id flag_FILTHY( "FILTHY" );
+static const flag_str_id flag_NO_PACKED( "NO_PACKED" );
+static const flag_str_id flag_DETERGENT( "DETERGENT" );
+
 enum change_types : int {
     OPENCURTAINS = 0,
     OPENBOTH,
@@ -1543,14 +1547,12 @@ void vehicle::open_or_close( const int part_index, const bool opening )
 void vehicle::use_autoclave( int p )
 {
     vehicle_stack items = get_items( p );
-    static const std::string filthy( "FILTHY" );
-    static const std::string no_packed( "NO_PACKED" );
     bool filthy_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( filthy );
+        return i.has_flag( flag_FILTHY );
     } );
 
     bool unpacked_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( no_packed );
+        return i.has_flag( flag_NO_PACKED );
     } );
 
     bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1596,13 +1598,12 @@ void vehicle::use_washing_machine( int p )
     // Get all the items that can be used as detergent
     const inventory &inv = player_character.crafting_inventory();
     std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
-        return it.has_flag( "DETERGENT" ) && inv.has_charges( it.typeId(), 5 );
+        return it.has_flag( flag_DETERGENT ) && inv.has_charges( it.typeId(), 5 );
     } );
 
     vehicle_stack items = get_items( p );
-    static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( filthy );
+        return i.has_flag( flag_FILTHY );
     } );
 
     bool cbms = std::any_of( items.begin(), items.end(), []( const item & i ) {
@@ -1681,9 +1682,8 @@ void vehicle::use_dishwasher( int p )
     avatar &player_character = get_avatar();
     bool detergent_is_enough = player_character.crafting_inventory().has_charges( itype_detergent, 5 );
     vehicle_stack items = get_items( p );
-    static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( filthy );
+        return i.has_flag( flag_FILTHY );
     } );
 
     std::string buffer;

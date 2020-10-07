@@ -40,6 +40,7 @@
 #include "event_bus.h"
 #include "fault.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -249,30 +250,11 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
-static const std::string flag_AUTODOC( "AUTODOC" );
-static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
-static const std::string flag_EATEN_COLD( "EATEN_COLD" );
-static const std::string flag_FIELD_DRESS( "FIELD_DRESS" );
-static const std::string flag_FIELD_DRESS_FAILED( "FIELD_DRESS_FAILED" );
-static const std::string flag_FISH_GOOD( "FISH_GOOD" );
-static const std::string flag_FISH_POOR( "FISH_POOR" );
-static const std::string flag_FORAGE_HALLU( "FORAGE_HALLU" );
-static const std::string flag_FORAGE_POISON( "FORAGE_POISON" );
-static const std::string flag_GIBBED( "GIBBED" );
-static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
-static const std::string flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_MESSY( "MESSY" );
-static const std::string flag_PLANTABLE( "PLANTABLE" );
-static const std::string flag_PULPED( "PULPED" );
-static const std::string flag_QUARTERED( "QUARTERED" );
-static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
-static const std::string flag_REQUIRES_TINDER( "REQUIRES_TINDER" );
-static const std::string flag_SAFECRACK( "SAFECRACK" );
-static const std::string flag_SKINNED( "SKINNED" );
-static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
-static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
-static const std::string flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
+// not to confuse with item flags (json_flag)
+static const std::string tf_flag_AUTODOC( "AUTODOC" );
+static const std::string tf_flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+static const std::string tf_flag_PLANTABLE( "PLANTABLE" );
+static const std::string tf_flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 
 using namespace activity_handlers;
 
@@ -454,7 +436,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
     map &here = get_map();
-    if( here.is_bashable( pos ) && here.has_flag( flag_SUPPORTS_ROOF, pos ) &&
+    if( here.is_bashable( pos ) && here.has_flag( tf_flag_SUPPORTS_ROOF, pos ) &&
         here.ter( pos ) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Not quite as bad as the pickaxe, though
@@ -488,7 +470,7 @@ static bool check_butcher_cbm( const int roll )
 }
 
 static void butcher_cbm_item( const itype_id &what, const tripoint &pos,
-                              const time_point &age, const int roll, const std::vector<std::string> &flags,
+                              const time_point &age, const int roll, const std::vector<flag_str_id> &flags,
                               const std::vector<fault_id> &faults )
 {
     if( roll < 0 ) {
@@ -497,7 +479,7 @@ static void butcher_cbm_item( const itype_id &what, const tripoint &pos,
     map &here = get_map();
     if( item::find_type( what )->bionic ) {
         item cbm( check_butcher_cbm( roll ) ? what : itype_burnt_out_bionic, age );
-        for( const std::string &flg : flags ) {
+        for( const flag_str_id &flg : flags ) {
             cbm.set_flag( flg );
         }
         for( const fault_id &flt : faults ) {
@@ -507,7 +489,7 @@ static void butcher_cbm_item( const itype_id &what, const tripoint &pos,
         here.add_item( pos, cbm );
     } else if( check_butcher_cbm( roll ) ) {
         item something( what, age );
-        for( const std::string &flg : flags ) {
+        for( const flag_str_id &flg : flags ) {
             something.set_flag( flg );
         }
         for( const fault_id &flt : faults ) {
@@ -521,7 +503,7 @@ static void butcher_cbm_item( const itype_id &what, const tripoint &pos,
 }
 
 static void butcher_cbm_group( const std::string &group, const tripoint &pos,
-                               const time_point &age, const int roll, const std::vector<std::string> &flags,
+                               const time_point &age, const int roll, const std::vector<flag_str_id> &flags,
                                const std::vector<fault_id> &faults )
 {
     if( roll < 0 ) {
@@ -534,7 +516,7 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
         //The CBM works
         const std::vector<item *> spawned = here.put_items_from_loc( group, pos, age );
         for( item *it : spawned ) {
-            for( const std::string &flg : flags ) {
+            for( const flag_str_id &flg : flags ) {
                 it->set_flag( flg );
             }
             for( const fault_id &flt : faults ) {
@@ -545,7 +527,7 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
     } else {
         //There is a burnt out CBM
         item cbm( itype_burnt_out_bionic, age );
-        for( const std::string &flg : flags ) {
+        for( const flag_str_id &flg : flags ) {
             cbm.set_flag( flg );
         }
         for( const fault_id &flt : faults ) {
@@ -1052,7 +1034,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                         obj.set_rot( corpse_item->get_rot() );
                     }
                 }
-                for( const std::string &flg : entry.flags ) {
+                for( const flag_id &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
@@ -1072,7 +1054,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                         obj.set_rot( corpse_item->get_rot() );
                     }
                 }
-                for( const std::string &flg : entry.flags ) {
+                for( const flag_id &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
@@ -1091,7 +1073,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                         obj.set_rot( corpse_item->get_rot() );
                     }
                 }
-                for( const std::string &flg : entry.flags ) {
+                for( const flag_str_id &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
@@ -1349,7 +1331,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                                               _( "You did something wrong and hacked the corpse badly.  Maybe it's still recoverable." ) );
                         break;
                 }
-                corpse_item.set_flag( "FIELD_DRESS_FAILED" );
+                corpse_item.set_flag( flag_FIELD_DRESS_FAILED );
 
                 here.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
                 here.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
@@ -1878,7 +1860,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     act->set_to_null();
     if( p->is_avatar() ) {
         const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-        if( here.is_bashable( pos ) && here.has_flag( flag_SUPPORTS_ROOF, pos ) &&
+        if( here.is_bashable( pos ) && here.has_flag( tf_flag_SUPPORTS_ROOF, pos ) &&
             here.ter( pos ) != t_tree ) {
             // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
             // Betcha wish you'd opted for the J-Hammer ;P
@@ -2044,7 +2026,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     }
 
     if( ammo_is_filthy ) {
-        reloadable.set_flag( "FILTHY" );
+        reloadable.set_flag( flag_FILTHY );
     }
 
     if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
@@ -2714,7 +2696,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         }
 
         int ammo_remaining = used_tool->ammo_remaining();
-        if( used_tool->has_flag( "USE_UPS" ) ) {
+        if( used_tool->has_flag( flag_USE_UPS ) ) {
             ammo_remaining = p->charges_of( itype_UPS );
         }
 
@@ -2773,7 +2755,7 @@ void activity_handlers::heat_item_finish( player_activity *act, player *p )
         return;
     }
     item &target = *food;
-    if( target.item_tags.count( "FROZEN" ) ) {
+    if( target.has_own_flag( flag_FROZEN ) ) {
         target.apply_freezerburn();
         if( target.has_flag( flag_EATEN_COLD ) ) {
             target.cold_up();
@@ -2910,7 +2892,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     item &mod = *act->targets[1];
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname(), tool.tname() );
-    mod.item_tags.insert( "IRREMOVABLE" );
+    mod.set_flag( flag_IRREMOVABLE );
     tool.put_in( mod, item_pocket::pocket_type::MOD );
     act->targets[1].remove_item();
 }
@@ -3345,9 +3327,9 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     map &here = get_map();
     if( autodoc && here.inbounds( p->pos() ) ) {
         const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
-                                             flag_AUTODOC );
+                                             tf_flag_AUTODOC );
 
-        if( !here.has_flag_furn( flag_AUTODOC_COUCH, p->pos() ) || autodocs.empty() ) {
+        if( !here.has_flag_furn( tf_flag_AUTODOC_COUCH, p->pos() ) || autodocs.empty() ) {
             p->remove_effect( effect_under_operation );
             act->set_to_null();
 
@@ -3472,7 +3454,7 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
             add_msg( m_good,
                      _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
             const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
-                                                 flag_AUTODOC );
+                                                 tf_flag_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a short upbeat jingle: \"Operation successful\"" ), true,
                            "Autodoc",
@@ -3481,7 +3463,7 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
             add_msg( m_bad,
                      _( "The Autodoc jerks back to its resting position after failing the operation." ) );
             const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
-                                                 flag_AUTODOC );
+                                                 tf_flag_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a sad beeping noise: \"Operation failed\"" ), true,
                            "Autodoc",
@@ -3529,7 +3511,7 @@ void activity_handlers::plant_seed_finish( player_activity *act, player *p )
         }
         used_seed.front().set_flag( flag_HIDDEN_ITEM );
         here.add_item_or_charges( examp, used_seed.front() );
-        if( here.has_flag_furn( flag_PLANTABLE, examp ) ) {
+        if( here.has_flag_furn( tf_flag_PLANTABLE, examp ) ) {
             here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
         } else {
             here.set( examp, t_dirt, f_plant_seed );

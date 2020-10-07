@@ -9,6 +9,9 @@
 template<typename T>
 class string_id;
 
+template<typename T>
+class generic_factory;
+
 /**
  * Just like the @ref string_id, this is a wrapper for int based identifiers.
  * The template parameter T specifies what kind of object it identifies (e.g. a trap type, monster
@@ -81,7 +84,7 @@ class int_id
          * have any information as what type of object it refers to (the T template parameter of
          * the class).
          */
-        int to_i() const {
+        inline int to_i() const {
             return _id;
         }
         /**
@@ -115,6 +118,8 @@ class int_id
 
     private:
         int _id;
+
+        friend class generic_factory<T>;
 };
 
 // Support hashing of int based ids by forwarding the hash of the int.

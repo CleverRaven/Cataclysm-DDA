@@ -804,20 +804,20 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             || flagid == "SOLAR_PANEL" ) {
             continue;
         }
-        json_flag flag = json_flag::get( flagid );
-        if( !flag.info().empty() ) {
+        const flag_str_id flag( flagid );
+        if( flag.is_valid() && !flag->info().empty() ) {
             if( !long_descrip.empty() ) {
                 long_descrip += "  ";
             }
-            long_descrip += flag.info();
+            long_descrip += flag->info();
         }
     }
     if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && !has_flag( "BELTABLE" ) ) {
-        json_flag nobelt = json_flag::get( "NONBELTABLE" );
+        const json_flag &nobelt = *flag_str_id( "NONBELTABLE" );
         long_descrip += "  " + nobelt.info();
     }
     if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
-        json_flag door = json_flag::get( "DOOR" );
+        const json_flag &door = *flag_str_id( "DOOR" );
         long_descrip += "  " + door.info();
     }
     if( has_flag( "TURRET" ) ) {
@@ -837,11 +837,11 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
                                        base.gun_damage().total_damage() );
     }
     if( has_flag( "ENABLED_DRAINS_EPOWER" ) ) {
-        json_flag drains = json_flag::get( "ENABLED_DRAINS_EPOWER" );
+        const json_flag &drains = *flag_str_id( "ENABLED_DRAINS_EPOWER" );
         long_descrip += "  " + string_format( drains.info(), std::to_string( -epower ) );
     }
     if( has_flag( "SOLAR_PANEL" ) ) {
-        json_flag solar_panel = json_flag::get( "SOLAR_PANEL" );
+        const json_flag &solar_panel = *flag_str_id( "SOLAR_PANEL" );
         long_descrip += "  " + string_format( solar_panel.info(), std::to_string( epower ) );
     }
 

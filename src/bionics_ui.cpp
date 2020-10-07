@@ -10,6 +10,7 @@
 #include "color.h"
 #include "compatibility.h"
 #include "enums.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "input.h"
@@ -26,8 +27,6 @@
 #include "uistate.h"
 #include "units.h"
 #include "units_fwd.h"
-
-static const std::string flag_PERPETUAL( "PERPETUAL" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
 static const invlet_wrapper

@@ -1,7 +1,6 @@
 #include "item_factory.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <cstdlib>
 #include <iterator>
@@ -41,8 +40,6 @@
 #include "recipe_dictionary.h"
 #include "relic.h"
 #include "requirements.h"
-#include "ret_val.h"
-#include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "text_snippets.h"
@@ -53,6 +50,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vitamin.h"
+#include "flag.h"
 
 class player;
 struct tripoint;
@@ -80,9 +78,7 @@ bool string_id<itype>::is_valid() const
 }
 
 static item_category_id calc_category( const itype &obj );
-static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
-static void npc_implied_flags( itype &item_template );
 
 bool item_is_blacklisted( const itype_id &id )
 {
@@ -126,26 +122,27 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
     }
 }
 
-static bool is_physical( const itype &type )
+bool Item_factory::is_physical( const itype &type )
 {
-    return !type.item_tags.count( "AURA" ) &&
-           !type.item_tags.count( "CORPSE" ) &&
-           !type.item_tags.count( "IRREMOVABLE" ) &&
-           !type.item_tags.count( "NO_DROP" ) &&
-           !type.item_tags.count( "NO_UNWIELD" ) &&
-           !type.item_tags.count( "PERSONAL" ) &&
-           !type.item_tags.count( "PSEUDO" ) &&
-           !type.item_tags.count( "ZERO_WEIGHT" );
+    return !type.has_flag( flag_AURA ) &&
+           !type.has_flag( flag_CORPSE ) &&
+           !type.has_flag( flag_IRREMOVABLE ) &&
+           !type.has_flag( flag_NO_DROP ) &&
+           !type.has_flag( flag_NO_UNWIELD ) &&
+           !type.has_flag( flag_PERSONAL ) &&
+           !type.has_flag( flag_PSEUDO ) &&
+           !type.has_flag( flag_ZERO_WEIGHT );
 }
 
 void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
     if( obj.damage_max() == obj.damage_min() ) {
-        obj.item_tags.insert( "NO_REPAIR" );
+        obj.item_tags_str_tmp.insert( flag_NO_REPAIR );
     }
 
-    if( obj.item_tags.count( "STAB" ) || obj.item_tags.count( "SPEAR" ) ) {
+    // can't use has_tag here as int flags may not be ready yet
+    if( obj.has_flag( flag_STAB ) || obj.has_flag( flag_SPEAR ) ) {
         std::swap( obj.melee[static_cast<int>( damage_type::CUT )],
                    obj.melee[static_cast<int>( damage_type::STAB )] );
     }
@@ -210,11 +207,18 @@ void Item_factory::finalize_pre( itype &obj )
         }
         obj.volume = units::from_milliliter( 1 );
     }
-    for( const auto &tag : obj.item_tags ) {
-        if( tag.size() > 6 && tag.substr( 0, 6 ) == "LIGHT_" ) {
-            obj.light_emission = std::max( atoi( tag.substr( 6 ).c_str() ), 0 );
+
+    // set light_emission based on LIGHT_[X] flag
+    for( const auto &f : obj.item_tags_str_tmp ) {
+        int ll;
+        if( sscanf( f.c_str(), "LIGHT_%i", &ll ) == 1 && ll > 0 ) {
+            obj.light_emission = ll;
         }
     }
+    // remove LIGHT_[X] flags
+    erase_if( obj.item_tags_str_tmp, []( const flag_str_id & f ) {
+        return f.str().find( "LIGHT_" ) == 0;
+    } );
 
     // for ammo not specifying loudness (or an explicit zero) derive value from other properties
     if( obj.ammo ) {
@@ -352,7 +356,7 @@ void Item_factory::finalize_pre( itype &obj )
         const auto defmode_name = [&]() {
             if( obj.gun->clip == 1 ) {
                 return to_translation( "manual" ); // break-type actions
-            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
+            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.has_flag( flag_RELOAD_ONE ) ) {
                 return to_translation( "revolver" );
             } else {
                 return to_translation( "semi-auto" );
@@ -364,7 +368,7 @@ void Item_factory::finalize_pre( itype &obj )
                                 gun_modifier_data( defmode_name(), 1, std::set<std::string>() ) );
 
         // If a "gun" has a reach attack, give it an additional melee mode.
-        if( obj.item_tags.count( "REACH_ATTACK" ) ) {
+        if( obj.has_flag( flag_REACH_ATTACK ) ) {
             obj.gun->modes.emplace( gun_mode_id( "MELEE" ),
                                     gun_modifier_data( to_translation( "melee" ), 1,
             { "MELEE" } ) );
@@ -390,8 +394,8 @@ void Item_factory::finalize_pre( itype &obj )
         // TODO: Move to jsons?
         if( obj.gun->skill_used == skill_id( "archery" ) ||
             obj.gun->skill_used == skill_id( "throw" ) ) {
-            obj.item_tags.insert( "WATERPROOF_GUN" );
-            obj.item_tags.insert( "NEVER_JAMS" );
+            obj.item_tags_str_tmp.insert( flag_WATERPROOF_GUN );
+            obj.item_tags_str_tmp.insert( flag_NEVER_JAMS );
             obj.gun->ammo_effects.insert( "NEVER_MISFIRES" );
         }
     }
@@ -444,17 +448,17 @@ void Item_factory::finalize_pre( itype &obj )
         obj.drop_action.get_actor_ptr()->finalize( obj.id );
     }
 
-    if( obj.item_tags.count( "PERSONAL" ) ) {
+    if( obj.has_flag( flag_PERSONAL ) ) {
         obj.layer = layer_level::PERSONAL;
-    } else if( obj.item_tags.count( "SKINTIGHT" ) ) {
+    } else if( obj.has_flag( flag_SKINTIGHT ) ) {
         obj.layer = layer_level::UNDERWEAR;
-    } else if( obj.item_tags.count( "WAIST" ) ) {
+    } else if( obj.has_flag( flag_WAIST ) ) {
         obj.layer = layer_level::WAIST;
-    } else if( obj.item_tags.count( "OUTER" ) ) {
+    } else if( obj.has_flag( flag_OUTER ) ) {
         obj.layer = layer_level::OUTER;
-    } else if( obj.item_tags.count( "BELTED" ) ) {
+    } else if( obj.has_flag( flag_BELTED ) ) {
         obj.layer = layer_level::BELTED;
-    } else if( obj.item_tags.count( "AURA" ) ) {
+    } else if( obj.has_flag( flag_AURA ) ) {
         obj.layer = layer_level::AURA;
     } else {
         obj.layer = layer_level::REGULAR;
@@ -491,8 +495,21 @@ void Item_factory::register_cached_uses( const itype &obj )
 
 void Item_factory::finalize_post( itype &obj )
 {
+    // copy string flags into int flags
+    obj.item_tags.clear();
+    for( const flag_str_id &f : obj.item_tags_str_tmp ) {
+        if( !f.is_valid() ) {
+            debugmsg( "itype '%s' uses undefined flag '%s'. Please add corresponding 'json_flag' entry to json.",
+                      obj.id.str(), f.str() );
+        } else {
+            obj.item_tags.insert( f );
+        }
+    }
+    // now `has_flags` will use `item_tags` for all lookups
+    obj.item_tags_str_tmp.clear();
+
     // handle complex firearms as a special case
-    if( obj.gun && !obj.item_tags.count( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    if( obj.gun && !obj.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
         std::copy( gun_tools.begin(), gun_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
         return;
     }
@@ -1064,7 +1081,7 @@ void Item_factory::check_definitions() const
         std::string msg;
         const itype *type = &elem.second;
 
-        if( !type->item_tags.count( "TARDIS" ) ) {
+        if( !type->has_flag( flag_TARDIS ) ) {
             bool is_container = false;
             for( const pocket_data &pocket : type->pockets ) {
                 if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
@@ -1275,12 +1292,12 @@ void Item_factory::check_definitions() const
                     msg += "cannot specify clip_size or magazine without ammo type\n";
                 }
 
-                if( type->item_tags.count( "RELOAD_AND_SHOOT" ) ) {
+                if( type->has_flag( flag_RELOAD_AND_SHOOT ) ) {
                     msg += "RELOAD_AND_SHOOT requires an ammo type to be specified\n";
                 }
 
             } else {
-                if( type->item_tags.count( "RELOAD_AND_SHOOT" ) && !type->magazines.empty() ) {
+                if( type->has_flag( flag_RELOAD_AND_SHOOT ) && !type->magazines.empty() ) {
                     msg += "RELOAD_AND_SHOOT cannot be used with magazines\n";
                 }
                 for( const ammotype &at : type->gun->ammo ) {
@@ -1388,7 +1405,7 @@ void Item_factory::check_definitions() const
                 } else if( !mag_ptr->magazine->type.count( ammo_variety.first ) ) {
                     msg += string_format( "magazine \"%s\" does not take compatible ammo\n",
                                           magazine.str() );
-                } else if( mag_ptr->item_tags.count( "SPEEDLOADER" ) &&
+                } else if( mag_ptr->has_flag( flag_SPEEDLOADER ) &&
                            mag_ptr->magazine->capacity != type->gun->clip ) {
                     msg += string_format(
                                "speedloader %s capacity (%d) does not match gun capacity (%d).\n",
@@ -1418,8 +1435,8 @@ void Item_factory::check_definitions() const
             }
         }
 
-        for( const auto &elem : type->use_methods ) {
-            const iuse_actor *actor = elem.second.get_actor_ptr();
+        for( const auto &um : type->use_methods ) {
+            const iuse_actor *actor = um.second.get_actor_ptr();
 
             cata_assert( actor );
             if( !actor->is_valid() ) {
@@ -2438,44 +2455,44 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 
 // Adds allergy flags to items with allergenic materials
 // Set for all items (not just food and clothing) to avoid edge cases
-static void set_allergy_flags( itype &item_template )
+void Item_factory::set_allergy_flags( itype &item_template )
 {
-    using material_allergy_pair = std::pair<material_id, std::string>;
+    using material_allergy_pair = std::pair<material_id, flag_str_id>;
     static const std::vector<material_allergy_pair> all_pairs = {{
             // First allergens:
             // An item is an allergen even if it has trace amounts of allergenic material
-            std::make_pair( material_id( "hflesh" ), "CANNIBALISM" ),
+            std::make_pair( material_id( "hflesh" ), flag_CANNIBALISM ),
 
-            std::make_pair( material_id( "hflesh" ), "ALLERGEN_MEAT" ),
-            std::make_pair( material_id( "iflesh" ), "ALLERGEN_MEAT" ),
-            std::make_pair( material_id( "flesh" ), "ALLERGEN_MEAT" ),
-            std::make_pair( material_id( "wheat" ), "ALLERGEN_WHEAT" ),
-            std::make_pair( material_id( "fruit" ), "ALLERGEN_FRUIT" ),
-            std::make_pair( material_id( "veggy" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "bean" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "tomato" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "garlic" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "nut" ), "ALLERGEN_NUT" ),
-            std::make_pair( material_id( "mushroom" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "milk" ), "ALLERGEN_MILK" ),
-            std::make_pair( material_id( "egg" ), "ALLERGEN_EGG" ),
-            std::make_pair( material_id( "junk" ), "ALLERGEN_JUNK" ),
+            std::make_pair( material_id( "hflesh" ), flag_ALLERGEN_MEAT ),
+            std::make_pair( material_id( "iflesh" ), flag_ALLERGEN_MEAT ),
+            std::make_pair( material_id( "flesh" ), flag_ALLERGEN_MEAT ),
+            std::make_pair( material_id( "wheat" ), flag_ALLERGEN_WHEAT ),
+            std::make_pair( material_id( "fruit" ), flag_ALLERGEN_FRUIT ),
+            std::make_pair( material_id( "veggy" ), flag_ALLERGEN_VEGGY ),
+            std::make_pair( material_id( "bean" ), flag_ALLERGEN_VEGGY ),
+            std::make_pair( material_id( "tomato" ), flag_ALLERGEN_VEGGY ),
+            std::make_pair( material_id( "garlic" ), flag_ALLERGEN_VEGGY ),
+            std::make_pair( material_id( "nut" ), flag_ALLERGEN_NUT ),
+            std::make_pair( material_id( "mushroom" ), flag_ALLERGEN_VEGGY ),
+            std::make_pair( material_id( "milk" ), flag_ALLERGEN_MILK ),
+            std::make_pair( material_id( "egg" ), flag_ALLERGEN_EGG ),
+            std::make_pair( material_id( "junk" ), flag_ALLERGEN_JUNK ),
             // Not food, but we can keep it here
-            std::make_pair( material_id( "wool" ), "ALLERGEN_WOOL" ),
+            std::make_pair( material_id( "wool" ), flag_ALLERGEN_WOOL ),
             // Now "made of". Those flags should not be passed
-            std::make_pair( material_id( "flesh" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "hflesh" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "iflesh" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "milk" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "egg" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "honey" ), "URSINE_HONEY" ),
+            std::make_pair( material_id( "flesh" ), flag_CARNIVORE_OK ),
+            std::make_pair( material_id( "hflesh" ), flag_CARNIVORE_OK ),
+            std::make_pair( material_id( "iflesh" ), flag_CARNIVORE_OK ),
+            std::make_pair( material_id( "milk" ), flag_CARNIVORE_OK ),
+            std::make_pair( material_id( "egg" ), flag_CARNIVORE_OK ),
+            std::make_pair( material_id( "honey" ), flag_URSINE_HONEY ),
         }
     };
 
     const auto &mats = item_template.materials;
     for( const auto &pr : all_pairs ) {
         if( std::find( mats.begin(), mats.end(), std::get<0>( pr ) ) != mats.end() ) {
-            item_template.item_tags.insert( std::get<1>( pr ) );
+            item_template.item_tags_str_tmp.insert( std::get<1>( pr ) );
         }
     }
 }
@@ -2494,32 +2511,32 @@ void hflesh_to_flesh( itype &item_template )
     }
 }
 
-void npc_implied_flags( itype &item_template )
+void Item_factory::npc_implied_flags( itype &item_template )
 {
     if( item_template.use_methods.count( "explosion" ) > 0 ) {
-        item_template.item_tags.insert( "DANGEROUS" );
+        item_template.item_tags_str_tmp.insert( flag_DANGEROUS );
     }
 
-    if( item_template.item_tags.count( "DANGEROUS" ) > 0 ) {
-        item_template.item_tags.insert( "NPC_THROW_NOW" );
+    if( item_template.has_flag( flag_DANGEROUS ) > 0 ) {
+        item_template.item_tags_str_tmp.insert( flag_NPC_THROW_NOW );
     }
 
-    if( item_template.item_tags.count( "BOMB" ) > 0 ) {
-        item_template.item_tags.insert( "NPC_ACTIVATE" );
+    if( item_template.has_flag( flag_BOMB ) > 0 ) {
+        item_template.item_tags_str_tmp.insert( flag_NPC_ACTIVATE );
     }
 
-    if( item_template.item_tags.count( "NPC_THROW_NOW" ) > 0 ) {
-        item_template.item_tags.insert( "NPC_THROWN" );
+    if( item_template.has_flag( flag_NPC_THROW_NOW ) > 0 ) {
+        item_template.item_tags_str_tmp.insert( flag_NPC_THROWN );
     }
 
-    if( item_template.item_tags.count( "NPC_ACTIVATE" ) > 0 ||
-        item_template.item_tags.count( "NPC_THROWN" ) > 0 ) {
-        item_template.item_tags.insert( "NPC_ALT_ATTACK" );
+    if( item_template.has_flag( flag_NPC_ACTIVATE ) > 0 ||
+        item_template.has_flag( flag_NPC_THROWN ) > 0 ) {
+        item_template.item_tags_str_tmp.insert( flag_NPC_ALT_ATTACK );
     }
 
-    if( item_template.item_tags.count( "DANGEROUS" ) > 0 ||
-        item_template.item_tags.count( "PSEUDO" ) > 0 ) {
-        item_template.item_tags.insert( "TRADER_AVOID" );
+    if( item_template.has_flag( flag_DANGEROUS ) > 0 ||
+        item_template.has_flag( flag_PSEUDO ) > 0 ) {
+        item_template.item_tags_str_tmp.insert( flag_TRADER_AVOID );
     }
 }
 
@@ -2883,7 +2900,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.explosion = load_explosion_data( je );
     }
 
-    assign( jo, "flags", def.item_tags );
+    assign( jo, "flags", def.item_tags_str_tmp );
     assign( jo, "faults", def.faults );
 
     if( jo.has_member( "qualities" ) ) {
@@ -3047,8 +3064,9 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
 {
     auto iter = migrations.find( id );
     if( iter != migrations.end() ) {
-        std::copy( iter->second.flags.begin(), iter->second.flags.end(), std::inserter( obj.item_tags,
-                   obj.item_tags.begin() ) );
+        for( const std::string &f : iter->second.flags ) {
+            obj.set_flag( flag_id( f ) );
+        }
         if( iter->second.charges > 0 ) {
             obj.charges = iter->second.charges;
         }
@@ -3328,7 +3346,13 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
         modifier.sealed = obj.get_bool( "sealed" );
         use_modifier = true;
     }
-    use_modifier |= load_string( modifier.custom_flags, obj, "custom-flags" );
+    std::vector<std::string> custom_flags;
+    use_modifier |= load_string( custom_flags, obj, "custom-flags" );
+    modifier.custom_flags.clear();
+    for( const auto &cf : custom_flags ) {
+        modifier.custom_flags.emplace_back( cf );
+    }
+
     if( use_modifier ) {
         sptr->modifier.emplace( std::move( modifier ) );
     }

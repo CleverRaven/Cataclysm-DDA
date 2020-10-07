@@ -29,6 +29,7 @@
 #include "enums.h"
 #include "faction.h"
 #include "fault.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -1498,7 +1499,7 @@ void veh_interact::calc_overview()
                 // but item::display_name tags use a space so this prevents
                 // needing *second* translation for the same thing with a
                 // space in front of it
-                if( it.item_tags.count( "FROZEN" ) ) {
+                if( it.has_own_flag( flag_FROZEN ) ) {
                     specials += _( " (frozen)" );
                 } else if( it.rotten() ) {
                     specials += _( " (rotten)" );

@@ -155,15 +155,17 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
                    func->get_actor_ptr()->can_use( p, *actual_item, false, p.pos() ).success() ) ) {
                 continue;
             }
+            const static flag_str_id flag_USE_UPS( "USE_UPS" );
             if( !actual_item->ammo_sufficient() &&
-                ( !actual_item->has_flag( "USE_UPS" ) ||
+                ( !actual_item->has_flag( flag_USE_UPS ) ||
                   p.charges_of( itype_UPS ) < actual_item->ammo_required() ) ) {
                 continue;
             }
 
             // Don't try to remove 'irremovable' toolmods
-            if( actual_item->is_toolmod() && use == item_action_id( "TOOLMOD_ATTACH" ) &&
-                actual_item->has_flag( "IRREMOVABLE" ) ) {
+            const static flag_str_id flag_IRREMOVABLE( "IRREMOVABLE" );
+            if( actual_item->is_toolmod() && actual_item->has_flag( flag_IRREMOVABLE ) &&
+                use == item_action_id( "TOOLMOD_ATTACH" ) ) {
                 continue;
             }
 

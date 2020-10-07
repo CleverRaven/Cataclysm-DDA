@@ -36,8 +36,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-static const std::string flag_FIREWOOD( "FIREWOOD" );
-
 static const item_category_id item_category_food( "food" );
 
 zone_manager::zone_manager()
@@ -819,6 +817,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_type_id( "LOOT_CUSTOM" );
         }
     }
+    static const flag_str_id flag_FIREWOOD( "FIREWOOD" );
     if( it.has_flag( flag_FIREWOOD ) ) {
         if( has_near( zone_type_id( "LOOT_WOOD" ), where, range ) ) {
             return zone_type_id( "LOOT_WOOD" );

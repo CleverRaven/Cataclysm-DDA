@@ -102,8 +102,8 @@ static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_purifier( "water_purifier" );
 
-static const std::string flag_PERPETUAL( "PERPETUAL" );
-static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
+static const std::string vp_flag_E_COMBUSTION( "E_COMBUSTION" );
+static const std::string vp_flag_PERPETUAL( "PERPETUAL" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
@@ -1168,13 +1168,13 @@ bool vehicle::is_engine_type( const int e, const itype_id  &ft ) const
 
 bool vehicle::is_combustion_engine_type( const int e ) const
 {
-    return parts[engines[e]].info().has_flag( flag_E_COMBUSTION );
+    return parts[engines[e]].info().has_flag( vp_flag_E_COMBUSTION );
 }
 
 bool vehicle::is_perpetual_type( const int e ) const
 {
     const itype_id  &ft = part_info( engines[e] ).fuel_type;
-    return item( ft ).has_flag( "PERPETUAL" );
+    return item( ft ).has_flag( flag_PERPETUAL );
 }
 
 bool vehicle::is_engine_on( const int e ) const
@@ -1432,16 +1432,12 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     // Check all the flags of the part to see if they require other flags
     // If other flags are required check if those flags are present
     for( const std::string &flag : part.get_flags() ) {
-        if( !json_flag::get( flag ).requires_flag().empty() ) {
-            bool anchor_found = false;
-            for( const int &elem : parts_in_square ) {
-                if( part_info( elem ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
-                    anchor_found = true;
-                }
-            }
-            if( !anchor_found ) {
-                return false;
-            }
+        flag_str_id f_id( flag );
+        if( f_id.is_valid() && f_id->requires_flag() &&
+        !std::any_of( parts_in_square.begin(), parts_in_square.end(), [&]( const int &elem ) {
+        return part_info( elem ).has_flag( f_id->requires_flag()->str() );
+        } ) ) {
+            return false;
         }
     }
 
@@ -1494,7 +1490,9 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
 
     for( const int &elem : parts_here ) {
         for( const std::string &flag : part_info( elem ).get_flags() ) {
-            if( part_info( p ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
+            const flag_str_id f_id( flag );
+            if( f_id.is_valid() && f_id->requires_flag() &&
+                part_info( p ).has_flag( f_id->requires_flag()->str() ) ) {
                 reason = string_format( _( "Remove the attached %s first." ), part_info( elem ).name() );
                 return false;
             }
@@ -3318,7 +3316,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
             }
         }
         // As do any other engine flagged as perpetual
-    } else if( item( ftype ).has_flag( "PERPETUAL" ) ) {
+    } else if( item( ftype ).has_flag( flag_PERPETUAL ) ) {
         fl += 10;
     }
 
@@ -3437,7 +3435,7 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
 int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) const
 {
     item fuel = item( ftype );
-    if( fuel_rate_w == 0 || fuel.has_flag( "PERPETUAL" ) || !engine_on ) {
+    if( fuel_rate_w == 0 || fuel.has_flag( flag_PERPETUAL ) || !engine_on ) {
         return 0;
     }
     // consume this fuel type's share of alternator load for 3600 seconds
@@ -4859,7 +4857,7 @@ void vehicle::power_parts()
             const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
             if( parts[ elem ].is_unavailable() ) {
                 continue;
-            } else if( parts[ elem ].info().has_flag( flag_PERPETUAL ) ) {
+            } else if( parts[ elem ].info().has_flag( vp_flag_PERPETUAL ) ) {
                 reactor_working = true;
                 delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
             } else if( parts[elem].ammo_remaining() > 0 ) {
@@ -6524,10 +6522,11 @@ int vehicle::break_off( int p, int dmg )
             for( auto &part : parts_here ) {
                 bool remove = false;
                 for( const std::string &flag : part_info( part ).get_flags() ) {
-                    if( !json_flag::get( flag ).requires_flag().empty() ) {
+                    const flag_str_id f_id( flag );
+                    if( f_id.is_valid() && f_id->requires_flag() ) {
                         remove = true;
                         for( const auto &elem : parts_here ) {
-                            if( part_info( elem ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
+                            if( part_info( elem ).has_flag( f_id->requires_flag()->str() ) ) {
                                 remove = false;
                                 continue;
                             }

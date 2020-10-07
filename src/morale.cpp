@@ -917,9 +917,13 @@ void player_morale::on_effect_int_change( const efftype_id &eid, int intensity,
 
 void player_morale::set_worn( const item &it, bool worn )
 {
-    const bool fancy = it.has_flag( "FANCY" );
-    const bool super_fancy = it.has_flag( "SUPER_FANCY" );
-    const bool filthy_gear = it.has_flag( "FILTHY" );
+    const flag_str_id flag_FANCY( "FANCY" );
+    const flag_str_id flag_SUPER_FANCY( "SUPER_FANCY" );
+    const flag_str_id flag_FILTHY( "FILTHY" );
+
+    const bool fancy = it.has_flag( flag_FANCY );
+    const bool super_fancy = it.has_flag( flag_SUPER_FANCY );
+    const bool filthy_gear = it.has_flag( flag_FILTHY );
     const int sign = ( worn ) ? 1 : -1;
 
     const auto update_body_part = [&]( body_part_data & bp_data ) {

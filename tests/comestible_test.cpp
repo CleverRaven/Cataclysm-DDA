@@ -2,13 +2,11 @@
 
 #include <algorithm>
 #include <cstdio>
-#include <memory>
 #include <utility>
 #include <vector>
 
 #include "character.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "output.h"
 #include "recipe.h"
@@ -114,6 +112,7 @@ static item food_or_food_container( const item &it )
 
 TEST_CASE( "recipe_permutations", "[recipe]" )
 {
+    static const flag_str_id flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
     // Are these tests failing? Here's how to fix that:
     // If the average is over the upper bound, you need to increase the calories for the item
     // that is causing the test to fail (or decrease the total calories of the ingredients)
@@ -126,7 +125,7 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
         const recipe &recipe_obj = recipe_pair.first.obj();
         item res_it = food_or_food_container( recipe_obj.create_result() );
         const bool is_food = res_it.is_food();
-        const bool has_override = res_it.has_flag( "NUTRIENT_OVERRIDE" );
+        const bool has_override = res_it.has_flag( flag_NUTRIENT_OVERRIDE );
         if( is_food && !has_override ) {
             // Collection of kcal values of all ingredient permutations
             all_stats mystats = run_stats(

@@ -106,7 +106,8 @@ class effect_type
         int int_decay_tick = 0 ;
         time_duration int_dur_factor = 0_turns;
 
-        std::set<std::string> flags;
+        std::set<flag_str_id> flags;
+        mutable cata::flat_set<flag_id> int_flags;
 
         bool main_parts_only = false;
 
@@ -153,6 +154,8 @@ class effect_type
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <
         std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash > mod_data;
+
+        bool has_flag( const flag_id &flag ) const;
 };
 
 class effect
@@ -269,7 +272,7 @@ class effect
                         bool reduced = false, double mod = 1 ) const;
 
         /** Check if the effect has the specified flag */
-        bool has_flag( const std::string &flag ) const;
+        bool has_flag( const flag_id &flag ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod( const std::string &arg, int addict_level ) const;

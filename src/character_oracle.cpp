@@ -1,17 +1,12 @@
 #include <memory>
-#include <vector>
 
 #include "behavior.h"
 #include "character.h"
 #include "character_oracle.h"
 #include "item.h"
 #include "itype.h"
-#include "ret_val.h"
 #include "type_id.h"
-#include "value_ptr.h"
 #include "weather.h"
-
-static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 
 namespace behavior
 {
@@ -61,6 +56,7 @@ status_t character_oracle_t::can_wear_warmer_clothes( const std::string & ) cons
 
 status_t character_oracle_t::can_make_fire( const std::string & ) const
 {
+    static const flag_str_id flag_FIRESTARTER( "FIRESTARTER" );
     // Check inventory for firemaking tools and fuel
     bool tool = false;
     bool fuel = false;

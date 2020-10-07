@@ -441,13 +441,12 @@ class wish_item_callback: public uilist_callback
 {
     public:
         bool incontainer;
-        bool has_flag;
         bool spawn_everything;
         std::string msg;
-        std::string flag;
+        cata::optional<flag_str_id> flag;
         const std::vector<const itype *> &standard_itype_ids;
         wish_item_callback( const std::vector<const itype *> &ids ) :
-            incontainer( false ), has_flag( false ), spawn_everything( false ), standard_itype_ids( ids ) {
+            incontainer( false ), spawn_everything( false ), flag( cata::nullopt ), standard_itype_ids( ids ) {
         }
 
         void select( uilist *menu ) override {
@@ -470,11 +469,11 @@ class wish_item_callback: public uilist_callback
                 return true;
             }
             if( action == "FLAG" ) {
-                flag = string_input_popup()
-                       .title( _( "Add which flag?  Use UPPERCASE letters without quotes" ) )
-                       .query_string();
-                if( !flag.empty() ) {
-                    has_flag = true;
+                const flag_str_id tmp_flag( string_input_popup()
+                                            .title( _( "Add which flag?  Use UPPERCASE letters without quotes" ) )
+                                            .query_string() );
+                if( tmp_flag.is_valid() ) {
+                    flag = tmp_flag;
                 }
                 return true;
             }
@@ -499,7 +498,7 @@ class wish_item_callback: public uilist_callback
                 const std::string header = string_format( "#%d: %s%s%s", entnum,
                                            standard_itype_ids[entnum]->get_id().c_str(),
                                            incontainer ? _( " (contained)" ) : "",
-                                           has_flag ? _( " (flagged)" ) : "" );
+                                           flag ? _( " (flagged)" ) : "" );
                 mvwprintz( menu->window, point( startx + ( menu->pad_right - 1 - utf8_width( header ) ) / 2, 1 ),
                            c_cyan, header );
 
@@ -580,8 +579,8 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
             if( cb.incontainer ) {
                 granted = granted.in_its_container();
             }
-            if( cb.has_flag ) {
-                granted.item_tags.insert( cb.flag );
+            if( cb.flag ) {
+                granted.set_flag( *cb.flag );
             }
             // If the item has an ammunition, this loads it to capacity, including magazines.
             if( !granted.ammo_default().is_null() ) {

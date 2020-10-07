@@ -57,6 +57,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -2304,12 +2305,17 @@ void item::io( Archive &archive )
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
+    // remove any invalid tags:
+    // on loading invalid tag, debugmsg was generated and invalid int_id was added to the list
+    erase_if( item_tags, []( const flag_id & f ) {
+        return !f.is_valid();
+    } );
+
     archive.io( "components", components, io::empty_default_tag() );
     archive.io( "specific_energy", specific_energy, -10 );
     archive.io( "temperature", temperature, 0 );
     archive.io( "recipe_charges", recipe_charges, 1 );
     // Legacy: remove flag check/unset after 0.F
-    const std::string flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
     archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
     unset_flag( flag_ETHEREAL_ITEM );
     archive.template io<const itype>( "curammo", curammo, load_curammo,
@@ -2358,10 +2364,6 @@ void item::io( Archive &archive )
         std::swap( irradiation, poison );
     }
 
-    // Items may have acquired the ENCUMBRANCE_UPDATE flag, but are not armor and will never be worn and will never loose it.
-    // This removes the flag unconditionally. It is a temporary flag, which is removed during the game nearly immediately after setting.
-    item_tags.erase( "ENCUMBRANCE_UPDATE" );
-
     if( note_read ) {
         snip_id = SNIPPET.migrate_hash_to_id( note );
     } else {
@@ -2380,9 +2382,8 @@ void item::io( Archive &archive )
     if( is_food() ) {
         active = true;
     }
-    if( !active &&
-        ( item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 ||
-          item_tags.count( "WET" ) > 0 ) ) {
+    if( !active && ( has_own_flag( flag_HOT ) || has_own_flag( flag_COLD ) ||
+                     has_own_flag( flag_WET ) ) ) {
         // Some hot/cold items from legacy saves may be inactive
         active = true;
     }
@@ -2410,7 +2411,7 @@ void item::io( Archive &archive )
 
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save
-    if( item_tags.count( "FROZEN" ) && current_phase == phase_id::LIQUID ) {
+    if( has_own_flag( flag_FROZEN ) && current_phase == phase_id::LIQUID ) {
         current_phase = phase_id::SOLID;
     }
 

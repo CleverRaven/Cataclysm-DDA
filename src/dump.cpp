@@ -5,14 +5,12 @@
 #include <set>
 #include <utility>
 
-#include "bodypart.h"
 #include "character.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "damage.h"
 #include "flat_set.h"
 #include "game.h" // IWYU pragma: associated
 #include "init.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_pocket.h"
@@ -22,18 +20,12 @@
 #include "output.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
-#include "ret_val.h"
 #include "skill.h"
-#include "stomach.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
-#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
-
-static const std::string flag_VARSIZE( "VARSIZE" );
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -123,12 +115,14 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             rows.push_back( r );
         };
 
+        static const flag_str_id flag_FIT( "FIT" );
+        static const flag_str_id flag_VARSIZE( "VARSIZE" );
         for( const itype *e : item_controller->all() ) {
             if( e->armor ) {
                 item obj( e );
                 if( bp == bp_null || obj.covers( bp ) ) {
                     if( obj.has_flag( flag_VARSIZE ) ) {
-                        obj.item_tags.insert( "FIT" );
+                        obj.set_flag( flag_FIT );
                     }
                     dump( obj );
                 }

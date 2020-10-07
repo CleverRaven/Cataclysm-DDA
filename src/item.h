@@ -175,6 +175,8 @@ inline bool is_crafting_component( const item &component );
 class item : public visitable<item>
 {
     public:
+        using FlagsSetType = std::set<flag_id>;
+
         item();
 
         item( item && );
@@ -1432,7 +1434,8 @@ class item : public visitable<item>
         /**
          * @name Item flags
          *
-         * If you use any new flags, add a comment to doc/JSON_FLAGS.md and make sure your new
+         * If you use any new flags, add them to `flags.json`,
+         * add a comment to doc/JSON_FLAGS.md and make sure your new
          * flag does not conflict with any existing flag.
          *
          * Item flags are taken from the item type (@ref itype::item_tags), but also from the
@@ -1441,17 +1444,33 @@ class item : public visitable<item>
          * Gun mods that are attached to guns also contribute their flags to the gun item.
          */
         /*@{*/
-        bool has_flag( const std::string &flag ) const;
-        bool has_any_flag( const std::vector<std::string> &flags ) const;
+        bool has_flag( const flag_id &flag ) const;
+
+        template<typename Iter, typename T = std::decay_t<decltype( *begin( std::declval<Iter>() ) )>>
+        bool has_any_flag( const Iter &flags ) const {
+            return std::any_of( flags.begin(), flags.end(), [&]( const T & flag ) {
+                return has_flag( flag );
+            } );
+        }
+
+        /**
+         * Checks whether item itself has given flag (doesn't check item type or gunmods).
+         * Essentially get_flags().count(f).
+         * Works faster than `has_flag`
+        */
+        bool has_own_flag( const flag_id &f ) const;
+
+        /** returs read-only set of flags of this item (not including flags from item type or gunmods) */
+        const FlagsSetType &get_flags() const;
 
         /** Idempotent filter setting an item specific flag. */
-        item &set_flag( const std::string &flag );
+        item &set_flag( const flag_id &flag );
 
         /** Idempotent filter removing an item specific flag */
-        item &unset_flag( const std::string &flag );
+        item &unset_flag( const flag_id &flag );
 
         /** Idempotent filter recursively setting an item specific flag on this item and its components. */
-        item &set_flag_recursive( const std::string &flag );
+        item &set_flag_recursive( const flag_id &flag );
 
         /** Removes all item specific flags. */
         void unset_flags();
@@ -1858,7 +1877,7 @@ class item : public visitable<item>
         item *gunmod_find( const itype_id &mod );
         const item *gunmod_find( const itype_id &mod ) const;
         /** Get first attached gunmod with flag or nullptr if no such mod or item is not a gun */
-        item *gunmod_find_by_flag( const std::string &flag );
+        item *gunmod_find_by_flag( const flag_id &flag );
 
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
@@ -2226,9 +2245,9 @@ class item : public visitable<item>
         std::list<item> components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
-        cata::flat_set<std::string> item_tags; // generic item specific flags
 
     private:
+        FlagsSetType item_tags; // generic item specific flags
         safe_reference_anchor anchor;
         const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;

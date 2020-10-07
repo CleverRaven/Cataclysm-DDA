@@ -13,6 +13,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "iexamine.h"
@@ -43,11 +44,6 @@ static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
 static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_water( "water" );
-
-static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
-static const std::string flag_LEAK_DAM( "LEAK_DAM" );
-static const std::string flag_WATERPROOF( "WATERPROOF" );
-static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 
 struct itype;
 
@@ -453,7 +449,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         // a temporary hack while trees are terrain
         if( m.ter( p )->has_flag( "TREE" ) ) {
             item tree_pseudo( "butchery_tree_pseudo" );
-            tree_pseudo.item_tags.insert( "PSEUDO" );
+            tree_pseudo.set_flag( flag_PSEUDO );
             add_item( tree_pseudo );
         }
         if( m.has_furn( p ) ) {
@@ -467,7 +463,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                     item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
                     furn_item.put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
                 }
-                furn_item.item_tags.insert( "PSEUDO" );
+                furn_item.set_flag( flag_PSEUDO );
                 add_item( furn_item );
             }
         }
@@ -561,7 +557,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             item it_batt( it.magazine_default() );
             it_batt.ammo_set( it_batt.ammo_default(), qty );
             it.put_in( it_batt, item_pocket::pocket_type::MAGAZINE_WELL );
-            it.item_tags.insert( "PSEUDO" );
+            it.set_flag( flag_PSEUDO );
             return it;
         };
         int veh_battery = veh->fuel_left( itype_id( "battery" ), true );
@@ -570,10 +566,10 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             add_item( hotplate );
 
             item pot( "pot", 0 );
-            pot.item_tags.insert( "PSEUDO" );
+            pot.set_flag( flag_PSEUDO );
             add_item( pot );
             item pan( "pan", 0 );
-            pan.item_tags.insert( "PSEUDO" );
+            pan.set_flag( flag_PSEUDO );
             add_item( pan );
         }
         if( weldpart ) {
@@ -593,7 +589,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             add_item( food_processor );
 
             item press = item( "press" );
-            press.item_tags.insert( "PSEUDO" );
+            press.set_flag( flag_PSEUDO );
             add_item( press );
         }
         if( forgepart ) {
@@ -814,7 +810,7 @@ bool inventory::has_charges( const itype_id &it, int quantity,
     return ( charges_of( it, INT_MAX, filter ) >= quantity );
 }
 
-int inventory::leak_level( const std::string &flag ) const
+int inventory::leak_level( const flag_id &flag ) const
 {
     int ret = 0;
 

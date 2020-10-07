@@ -91,20 +91,12 @@ static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 
-static const std::string flag_BLIND_EASY( "BLIND_EASY" );
-static const std::string flag_BLIND_HARD( "BLIND_HARD" );
-static const std::string flag_BYPRODUCT( "BYPRODUCT" );
-static const std::string flag_COOKED( "COOKED" );
-static const std::string flag_FIT( "FIT" );
-static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
-static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_NO_RESIZE( "NO_RESIZE" );
-static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
-static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
-static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
-static const std::string flag_UNCRAFT_SINGLE_CHARGE( "UNCRAFT_SINGLE_CHARGE" );
-static const std::string flag_VARSIZE( "VARSIZE" );
+static const std::string rcp_flag_BLIND_EASY( "BLIND_EASY" );
+static const std::string rcp_flag_BLIND_HARD( "BLIND_HARD" );
+static const std::string rcp_flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
+static const std::string rcp_flag_NO_RESIZE( "NO_RESIZE" );
+static const std::string rcp_flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
+static const std::string rcp_flag_UNCRAFT_SINGLE_CHARGE( "UNCRAFT_SINGLE_CHARGE" );
 
 class basecamp;
 
@@ -134,18 +126,18 @@ float Character::lighting_craft_speed_multiplier( const recipe &rec ) const
     if( darkness <= 0.0f ) {
         return 1.0f; // it's bright, go for it
     }
-    bool rec_blind = rec.has_flag( flag_BLIND_HARD ) || rec.has_flag( flag_BLIND_EASY );
+    bool rec_blind = rec.has_flag( rcp_flag_BLIND_HARD ) || rec.has_flag( rcp_flag_BLIND_EASY );
     if( darkness > 0 && !rec_blind ) {
         return 0.0f; // it's dark and this recipe can't be crafted in the dark
     }
-    if( rec.has_flag( flag_BLIND_EASY ) ) {
+    if( rec.has_flag( rcp_flag_BLIND_EASY ) ) {
         // 100% speed in well lit area at skill+0
         // 25% speed in pitch black at skill+0
         // skill+2 removes speed penalty
         return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
                 2 - exceeds_recipe_requirements( rec ) ) / 2.0f;
     }
-    if( rec.has_flag( flag_BLIND_HARD ) && exceeds_recipe_requirements( rec ) >= 2 ) {
+    if( rec.has_flag( rcp_flag_BLIND_HARD ) && exceeds_recipe_requirements( rec ) >= 2 ) {
         // 100% speed in well lit area at skill+2
         // 25% speed in pitch black at skill+2
         // skill+8 removes speed penalty
@@ -1121,23 +1113,23 @@ requirement_data item::get_continue_reqs() const
 void item::inherit_flags( const item &parent, const recipe &making )
 {
     // default behavior is to resize the clothing, which happens elsewhere
-    if( making.has_flag( flag_NO_RESIZE ) ) {
+    if( making.has_flag( rcp_flag_NO_RESIZE ) ) {
         //If item is crafted from poor-fit components, the result is poorly fitted too
         if( parent.has_flag( flag_VARSIZE ) ) {
             unset_flag( flag_FIT );
         }
         //If item is crafted from perfect-fit components, the result is perfectly fitted too
         if( parent.has_flag( flag_FIT ) ) {
-            item_tags.insert( flag_FIT );
+            set_flag( flag_FIT );
         }
     }
-    for( const std::string &f : parent.item_tags ) {
-        if( json_flag::get( f ).craft_inherit() ) {
+    for( const flag_id &f : parent.get_flags() ) {
+        if( f->craft_inherit() ) {
             set_flag( f );
         }
     }
-    for( const std::string &f : parent.type->item_tags ) {
-        if( json_flag::get( f ).craft_inherit() ) {
+    for( const flag_id &f : parent.type->get_flags() ) {
+        if( f->craft_inherit() ) {
             set_flag( f );
         }
     }
@@ -1209,11 +1201,11 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
 
         //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
         if( newit.has_flag( flag_VARSIZE ) ) {
-            newit.item_tags.insert( flag_FIT );
+            newit.set_flag( flag_FIT );
         }
         food_contained.inherit_flags( used, making );
 
-        for( const std::string &flag : making.flags_to_delete ) {
+        for( const flag_str_id &flag : making.flags_to_delete ) {
             food_contained.unset_flag( flag );
         }
 
@@ -2001,7 +1993,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const inventory &inv 
     }
 
     if( !obj.is_ammo() ) { //we get ammo quantity to disassemble later on
-        if( obj.count_by_charges() && !r.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
+        if( obj.count_by_charges() && !r.has_flag( rcp_flag_UNCRAFT_SINGLE_CHARGE ) ) {
             // Create a new item to get the default charges
             int qty = r.create_result().charges;
             if( obj.charges < qty ) {
@@ -2289,7 +2281,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     // If the components are empty, item is the default kind and made of default components
     if( components.empty() ) {
-        const bool uncraft_liquids_contained = dis.has_flag( flag_UNCRAFT_LIQUIDS_CONTAINED );
+        const bool uncraft_liquids_contained = dis.has_flag( rcp_flag_UNCRAFT_LIQUIDS_CONTAINED );
         for( const auto &altercomps : dis_requirements.get_components() ) {
             const item_comp &comp = altercomps.front();
             int compcount = comp.count;
@@ -2297,7 +2289,8 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             //If ammo, overwrite component count with selected quantity of ammo
             if( dis_item.is_ammo() ) {
                 compcount *= activity.position;
-            } else if( dis_item.count_by_charges() && dis.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
+            } else if( dis_item.count_by_charges() && dis.has_flag( rcp_flag_UNCRAFT_SINGLE_CHARGE ) ) {
+
                 // Counted-by-charge items that can be disassembled individually
                 // have their component count multiplied by the number of charges.
                 compcount *= std::min( dis_item.charges, dis.create_result().charges );
@@ -2324,7 +2317,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             }
 
             // If the recipe has a `FULL_MAGAZINE` flag, spawn any magazines full of ammo
-            if( newit.is_magazine() && dis.has_flag( flag_FULL_MAGAZINE ) ) {
+            if( newit.is_magazine() && dis.has_flag( rcp_flag_FULL_MAGAZINE ) ) {
                 newit.ammo_set( newit.ammo_default(),
                                 newit.ammo_capacity( item::find_type( newit.ammo_default() )->ammo->type ) );
             }
@@ -2361,11 +2354,11 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
         // Refitted clothing disassembles into refitted components (when applicable)
         if( dis_item.has_flag( flag_FIT ) && act_item.has_flag( flag_VARSIZE ) ) {
-            act_item.item_tags.insert( flag_FIT );
+            act_item.set_flag( flag_FIT );
         }
 
         if( filthy ) {
-            act_item.item_tags.insert( "FILTHY" );
+            act_item.set_flag( flag_FILTHY );
         }
 
         for( std::list<item>::iterator a = dis_item.components.begin(); a != dis_item.components.end();

@@ -205,32 +205,13 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 
-static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
-static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
-static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
-static const std::string flag_COOKED( "COOKED" );
-static const std::string flag_DIAMOND( "DIAMOND" );
-static const std::string flag_FERTILIZER( "FERTILIZER" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_FIRE( "FIRE" );
-static const std::string flag_FIRESTARTER( "FIRESTARTER" );
-static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
-static const std::string flag_IN_CBM( "IN_CBM" );
-static const std::string flag_NO_CVD( "NO_CVD" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
-static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
-static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
-static const std::string flag_PICKABLE( "PICKABLE" );
-static const std::string flag_PROCESSING( "PROCESSING" );
-static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
-static const std::string flag_SAFECRACK( "SAFECRACK" );
-static const std::string flag_SMOKABLE( "SMOKABLE" );
-static const std::string flag_SMOKED( "SMOKED" );
-static const std::string flag_SPLINT( "SPLINT" );
-static const std::string flag_VARSIZE( "VARSIZE" );
-static const std::string flag_WALL( "WALL" );
-static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
+static const std::string tf_flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+static const std::string tf_flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
+static const std::string tf_flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
+static const std::string tf_flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
+static const std::string tf_flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
+static const std::string tf_flag_PICKABLE( "PICKABLE" );
+static const std::string tf_flag_WALL( "WALL" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -279,7 +260,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     p.invalidate_crafting_inventory();
 
     // Apply flag to item
-    loc->item_tags.insert( "DIAMOND" );
+    loc->set_flag( flag_DIAMOND );
     add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name() );
     p.mod_moves( -to_turns<int>( 10_seconds ) );
 }
@@ -332,7 +313,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     p.invalidate_crafting_inventory();
 
     if( new_item.is_armor() && new_item.has_flag( flag_VARSIZE ) ) {
-        new_item.item_tags.insert( "FIT" );
+        new_item.set_flag( flag_FIT );
     }
 
     here.add_item_or_charges( spawn_point, new_item );
@@ -1148,10 +1129,10 @@ void iexamine::chainfence( player &p, const tripoint &examp )
     }
 
     map &here = get_map();
-    if( here.has_flag( flag_CLIMB_SIMPLE, examp ) && p.has_trait( trait_PARKOUR ) ) {
+    if( here.has_flag( tf_flag_CLIMB_SIMPLE, examp ) && p.has_trait( trait_PARKOUR ) ) {
         add_msg( _( "You vault over the obstacle with ease." ) );
         p.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
-    } else if( here.has_flag( flag_CLIMB_SIMPLE, examp ) ) {
+    } else if( here.has_flag( tf_flag_CLIMB_SIMPLE, examp ) ) {
         add_msg( _( "You vault over the obstacle." ) );
         p.moves -= 300; // Most common move cost for barricades pre-change.
     } else if( p.has_trait( trait_ARACHNID_ARMS_OK ) &&
@@ -1465,7 +1446,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     map &here = get_map();
     if( prying_items.empty() ) {
-        if( here.has_flag( flag_PICKABLE, examp ) ) {
+        if( here.has_flag( tf_flag_PICKABLE, examp ) ) {
             add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
                      here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
             locked_object_pickable( p, examp );
@@ -1637,7 +1618,7 @@ void iexamine::door_peephole( player &p, const tripoint &examp )
     map &here = get_map();
     if( here.is_outside( p.pos() ) ) {
         // if door is a locked type attempt to open
-        if( here.has_flag( flag_OPENCLOSE_INSIDE, examp ) ) {
+        if( here.has_flag( tf_flag_OPENCLOSE_INSIDE, examp ) ) {
             locked_object( p, examp );
         } else {
             p.add_msg_if_player( _( "You cannot look through the peephole from the outside." ) );
@@ -2453,10 +2434,10 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
 
     const std::string pname = seed->get_plant_name();
 
-    if( here.has_flag_furn( flag_GROWTH_HARVEST, examp ) &&
+    if( here.has_flag_furn( tf_flag_GROWTH_HARVEST, examp ) &&
         query_yn( _( "Harvest the %s?" ), pname ) ) {
         harvest_plant( p, examp );
-    } else if( !here.has_flag_furn( flag_GROWTH_HARVEST, examp ) ) {
+    } else if( !here.has_flag_furn( tf_flag_GROWTH_HARVEST, examp ) ) {
         if( here.i_at( examp ).size() > 1 ) {
             add_msg( m_info, _( "This %s has already been fertilized." ), pname );
             return;
@@ -3979,8 +3960,9 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
 void iexamine::curtains( player &p, const tripoint &examp )
 {
     map &here = get_map();
-    const bool closed_window_with_curtains = here.has_flag( flag_BARRICADABLE_WINDOW_CURTAINS, examp );
-    if( here.is_outside( p.pos() ) && ( here.has_flag( flag_WALL, examp ) ||
+    const bool closed_window_with_curtains = here.has_flag( tf_flag_BARRICADABLE_WINDOW_CURTAINS,
+            examp );
+    if( here.is_outside( p.pos() ) && ( here.has_flag( tf_flag_WALL, examp ) ||
                                         closed_window_with_curtains ) ) {
         locked_object( p, examp );
         return;
@@ -4135,15 +4117,12 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
 
 static int getGasDiscountCardQuality( const item &it )
 {
-    std::set<std::string> tags = it.type->item_tags;
-
-    for( const std::string &tag : tags ) {
-
-        if( tag.size() > 15 && tag.substr( 0, 15 ) == "DISCOUNT_VALUE_" ) {
-            return atoi( tag.substr( 15 ).c_str() );
+    for( const flag_id &tag : it.type->get_flags() ) {
+        int discount_value;
+        if( sscanf( tag->id.c_str(), "DISCOUNT_VALUE_%i", &discount_value ) == 1 ) {
+            return discount_value;
         }
     }
-
     return 0;
 }
 
@@ -4154,7 +4133,7 @@ static int findBestGasDiscount( player &p )
     for( size_t i = 0; i < p.inv->size(); i++ ) {
         item &it = p.inv->find_item( i );
 
-        if( it.has_flag( "GAS_DISCOUNT" ) ) {
+        if( it.has_flag( flag_GAS_DISCOUNT ) ) {
 
             int q = getGasDiscountCardQuality( it );
             if( q > discount ) {
@@ -4600,7 +4579,7 @@ static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &
 {
     map &here = get_map();
     for( const auto &couch_loc : here.points_in_radius( autodoc_loc, 1 ) ) {
-        if( here.has_flag_furn( flag_AUTODOC_COUCH, couch_loc ) ) {
+        if( here.has_flag_furn( tf_flag_AUTODOC_COUCH, couch_loc ) ) {
             adjacent_couch = true;
             couch_pos = couch_loc;
             if( p.pos() == couch_loc ) {
@@ -4621,7 +4600,7 @@ static Character &operator_present( Character &p, const tripoint &autodoc_loc,
 {
     map &here = get_map();
     for( const auto &loc : here.points_in_radius( autodoc_loc, 1 ) ) {
-        if( !here.has_flag_furn( flag_AUTODOC_COUCH, loc ) ) {
+        if( !here.has_flag_furn( tf_flag_AUTODOC_COUCH, loc ) ) {
             if( p.pos() == loc ) {
                 return p;
             }
@@ -5045,9 +5024,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.add_effect( effect_pblue, 1_hours );
                 }
             }
-            if( patient.leak_level( "RADIOACTIVE" ) ) {
+            if( patient.leak_level( flag_RADIOACTIVE ) ) {
                 popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's posession.  Urgent decontamination procedures highly recommended." ),
-                       patient.leak_level( "RADIOACTIVE" ) );
+                       patient.leak_level( flag_RADIOACTIVE ) );
             }
             break;
         }
@@ -5280,8 +5259,8 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
                          ( it.count_by_charges() ? it.charges : 1 ) * mdata.conversion_rate_ );
             result.components.push_back( it );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-            for( const std::string &f : it.type->item_tags ) {
-                if( json_flag::get( f ).craft_inherit() ) {
+            for( const flag_id &f : it.type->get_flags() ) {
+                if( f->craft_inherit() ) {
                     result.set_flag( f );
                 }
             }

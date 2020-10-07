@@ -4,22 +4,20 @@
 #include <cmath>
 #include <iterator>
 #include <map>
-#include <memory>
 
 #include "addiction.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "debug.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
 #include "magic.h"
 #include "options.h"
-#include "pimpl.h"
 #include "player.h"
 #include "pldata.h"
 #include "translations.h"
@@ -422,8 +420,8 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
             clear_faults( *it );
             return VisitResponse::NEXT;
         } );
-        if( it.has_flag( "VARSIZE" ) ) {
-            it.item_tags.insert( "FIT" );
+        if( it.has_flag( flag_VARSIZE ) ) {
+            it.set_flag( flag_FIT );
         }
     }
 

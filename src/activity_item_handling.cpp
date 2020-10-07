@@ -24,6 +24,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "fire.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -126,17 +127,13 @@ static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
-static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
-static const std::string flag_DIG_TOOL( "DIG_TOOL" );
-static const std::string flag_FISHABLE( "FISHABLE" );
-static const std::string flag_FISH_GOOD( "FISH_GOOD" );
-static const std::string flag_FISH_POOR( "FISH_POOR" );
-static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
-static const std::string flag_PLANT( "PLANT" );
-static const std::string flag_PLANTABLE( "PLANTABLE" );
-static const std::string flag_PLOWABLE( "PLOWABLE" );
-static const std::string flag_POWERED( "POWERED" );
-static const std::string flag_TREE( "TREE" );
+static const std::string tf_flag_BUTCHER_EQ( "BUTCHER_EQ" );
+static const std::string tf_flag_FISHABLE( "FISHABLE" );
+static const std::string tf_flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
+static const std::string tf_flag_PLANT( "PLANT" );
+static const std::string tf_flag_PLANTABLE( "PLANTABLE" );
+static const std::string tf_flag_PLOWABLE( "PLOWABLE" );
+static const std::string tf_flag_TREE( "TREE" );
 
 //Generic activity: maximum search distance for zones, constructions, etc.
 static const int ACTIVITY_SEARCH_DISTANCE = 60;
@@ -506,7 +503,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     for( const act_item &ait : items ) {
         item *filthy_item = const_cast<item *>( &*ait.loc );
-        filthy_item->item_tags.erase( "FILTHY" );
+        filthy_item->unset_flag( flag_FILTHY );
         p->on_worn_item_washed( *filthy_item );
     }
 
@@ -970,11 +967,11 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 if( weldpart ) {
                     item welder( itype_welder, 0 );
                     welder.charges = veh.fuel_left( itype_battery, true );
-                    welder.item_tags.insert( "PSEUDO" );
+                    welder.set_flag( flag_PSEUDO );
                     temp_inv.add_item( welder );
                     item soldering_iron( itype_soldering_iron, 0 );
                     soldering_iron.charges = veh.fuel_left( itype_battery, true );
-                    soldering_iron.item_tags.insert( "PSEUDO" );
+                    soldering_iron.set_flag( flag_PSEUDO );
                     temp_inv.add_item( soldering_iron );
                 }
             }
@@ -1142,7 +1139,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         }
     }
     if( act == ACT_MULTIPLE_FISH ) {
-        if( !here.has_flag( flag_FISHABLE, src_loc ) ) {
+        if( !here.has_flag( tf_flag_FISHABLE, src_loc ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         std::vector<item *> rod_inv = p.items_with( []( const item & itm ) {
@@ -1155,7 +1152,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         }
     }
     if( act == ACT_MULTIPLE_CHOP_TREES ) {
-        if( here.has_flag( flag_TREE, src_loc ) || here.ter( src_loc ) == t_trunk ||
+        if( here.has_flag( tf_flag_TREE, src_loc ) || here.ter( src_loc ) == t_trunk ||
             here.ter( src_loc ) == t_stump ) {
             if( p.has_quality( qual_AXE ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_TREE_CHOPPING );
@@ -1184,7 +1181,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         }
         bool b_rack_present = false;
         for( const tripoint &pt : here.points_in_radius( src_loc, 2 ) ) {
-            if( here.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
+            if( here.has_flag_furn( tf_flag_BUTCHER_EQ, pt ) ) {
                 b_rack_present = true;
             }
         }
@@ -1260,10 +1257,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         zones = mgr.get_zones( zone_type_FARM_PLOT,
                                here.getabs( src_loc ) );
         for( const zone_data &zone : zones ) {
-            if( here.has_flag_furn( flag_GROWTH_HARVEST, src_loc ) ) {
+            if( here.has_flag_furn( tf_flag_GROWTH_HARVEST, src_loc ) ) {
                 // simple work, pulling up plants, nothing else required.
                 return activity_reason_info::ok( do_activity_reason::NEEDS_HARVESTING );
-            } else if( here.has_flag( flag_PLOWABLE, src_loc ) && !here.has_furn( src_loc ) ) {
+            } else if( here.has_flag( tf_flag_PLOWABLE, src_loc ) && !here.has_furn( src_loc ) ) {
                 if( p.has_quality( qual_DIG, 1 ) ) {
                     // we have a shovel/hoe already, great
                     return activity_reason_info::ok( do_activity_reason::NEEDS_TILLING );
@@ -1271,7 +1268,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     // we need a shovel/hoe
                     return activity_reason_info::fail( do_activity_reason::NEEDS_TILLING );
                 }
-            } else if( here.has_flag_ter_or_furn( flag_PLANTABLE, src_loc ) &&
+            } else if( here.has_flag_ter_or_furn( tf_flag_PLANTABLE, src_loc ) &&
                        warm_enough_to_plant( src_loc ) ) {
                 if( here.has_items( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
@@ -2161,7 +2158,7 @@ static bool chop_tree_activity( player &p, const tripoint &src_loc )
     }
     map &here = get_map();
     const ter_id ter = here.ter( src_loc );
-    if( here.has_flag( flag_TREE, src_loc ) ) {
+    if( here.has_flag( tf_flag_TREE, src_loc ) ) {
         p.assign_activity( ACT_CHOP_TREE, moves, -1, p.get_item_position( best_qual ) );
         p.activity.placement = here.getabs( src_loc );
         return true;
@@ -2263,7 +2260,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
             for( const item &stack_elem : here.i_at( elem ) ) {
                 if( stack_elem.has_var( "activity_var" ) && stack_elem.get_var( "activity_var", "" ) == p.name ) {
                     const furn_t &f = here.furn( elem ).obj();
-                    if( !f.has_flag( flag_PLANT ) ) {
+                    if( !f.has_flag( tf_flag_PLANT ) ) {
                         src_set.insert( here.getabs( elem ) );
                         found_one_point = true;
                         // only check for a valid path, as that is all that is needed to tidy something up.
@@ -2558,16 +2555,17 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     // something needs to be done, now we are there.
     // it was here earlier, in the space of one turn, maybe it got harvested by someone else.
     if( reason == do_activity_reason::NEEDS_HARVESTING &&
-        here.has_flag_furn( flag_GROWTH_HARVEST, src_loc ) ) {
+        here.has_flag_furn( tf_flag_GROWTH_HARVEST, src_loc ) ) {
         iexamine::harvest_plant( p, src_loc, true );
-    } else if( reason == do_activity_reason::NEEDS_TILLING && here.has_flag( flag_PLOWABLE, src_loc ) &&
+    } else if( reason == do_activity_reason::NEEDS_TILLING &&
+               here.has_flag( tf_flag_PLOWABLE, src_loc ) &&
                p.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
         p.assign_activity( ACT_CHURN, 18000, -1 );
         p.backlog.push_front( act_id );
         p.activity.placement = src;
         return false;
     } else if( reason == do_activity_reason::NEEDS_PLANTING &&
-               here.has_flag_ter_or_furn( flag_PLANTABLE, src_loc ) ) {
+               here.has_flag_ter_or_furn( tf_flag_PLANTABLE, src_loc ) ) {
         std::vector<zone_data> zones = mgr.get_zones( zone_type_FARM_PLOT,
                                        here.getabs( src_loc ) );
         for( const zone_data &zone : zones ) {

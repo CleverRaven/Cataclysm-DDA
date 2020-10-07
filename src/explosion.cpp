@@ -3,14 +3,11 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstddef>
 #include <limits>
 #include <map>
-#include <memory>
 #include <queue>
 #include <random>
 #include <set>
-#include <string>
 #include <utility>
 #include <vector>
 
@@ -24,11 +21,10 @@
 #include "debug.h"
 #include "enums.h"
 #include "field_type.h"
-#include "flat_set.h"
+#include "flag.h"
 #include "fragment_cloud.h" // IWYU pragma: associated
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -61,9 +57,6 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teleglow( "teleglow" );
-
-static const std::string flag_BLIND( "BLIND" );
-static const std::string flag_FLASH_PROTECTION( "FLASH_PROTECTION" );
 
 static const itype_id fuel_type_none( "null" );
 
@@ -761,7 +754,7 @@ void emp_blast( const tripoint &p )
         // TODO: More effects?
         //e-handcuffs effects
         if( player_character.weapon.typeId() == itype_e_handcuffs && player_character.weapon.charges > 0 ) {
-            player_character.weapon.item_tags.erase( "NO_UNWIELD" );
+            player_character.weapon.unset_flag( flag_NO_UNWIELD );
             player_character.weapon.charges = 0;
             player_character.weapon.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),

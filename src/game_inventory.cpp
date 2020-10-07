@@ -23,6 +23,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
@@ -71,14 +72,6 @@ static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
-
-static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_IN_CBM( "IN_CBM" );
-static const std::string flag_MUSHY( "MUSHY" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
-static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;

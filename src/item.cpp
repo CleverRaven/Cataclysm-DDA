@@ -157,114 +157,15 @@ static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
-static const std::string flag_ALWAYS_TWOHAND( "ALWAYS_TWOHAND" );
-static const std::string flag_AURA( "AURA" );
-static const std::string flag_BELTED( "BELTED" );
-static const std::string flag_BIPOD( "BIPOD" );
-static const std::string flag_BYPRODUCT( "BYPRODUCT" );
-static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
-static const std::string flag_CANNIBALISM( "CANNIBALISM" );
-static const std::string flag_CHARGEDIM( "CHARGEDIM" );
-static const std::string flag_COLD( "COLD" );
-static const std::string flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
-static const std::string flag_CONDUCTIVE( "CONDUCTIVE" );
-static const std::string flag_CONSUMABLE( "CONSUMABLE" );
-static const std::string flag_CORPSE( "CORPSE" );
-static const std::string flag_DANGEROUS( "DANGEROUS" );
-static const std::string flag_DEEP_WATER( "DEEP_WATER" );
-static const std::string flag_DIAMOND( "DIAMOND" );
-static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
-static const std::string flag_FAKE_MILL( "FAKE_MILL" );
-static const std::string flag_FAKE_SMOKE( "FAKE_SMOKE" );
-static const std::string flag_FIELD_DRESS( "FIELD_DRESS" );
-static const std::string flag_FIELD_DRESS_FAILED( "FIELD_DRESS_FAILED" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_FIRE_100( "FIRE_100" );
-static const std::string flag_FIRE_20( "FIRE_20" );
-static const std::string flag_FIRE_50( "FIRE_50" );
-static const std::string flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
-static const std::string flag_FIT( "FIT" );
-static const std::string flag_FLAMMABLE( "FLAMMABLE" );
-static const std::string flag_FLAMMABLE_ASH( "FLAMMABLE_ASH" );
-static const std::string flag_FREEZERBURN( "FREEZERBURN" );
-static const std::string flag_FROZEN( "FROZEN" );
-static const std::string flag_GIBBED( "GIBBED" );
-static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
-static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_HOT( "HOT" );
-static const std::string flag_IRREMOVABLE( "IRREMOVABLE" );
-static const std::string flag_BURNOUT( "BURNOUT" );
-static const std::string flag_IS_ARMOR( "IS_ARMOR" );
-static const std::string flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
-static const std::string flag_IS_UPS( "IS_UPS" );
-static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
-static const std::string flag_LEAK_DAM( "LEAK_DAM" );
-static const std::string flag_LIQUID( "LIQUID" );
-static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-static const std::string flag_LITCIG( "LITCIG" );
-static const std::string flag_MAG_BELT( "MAG_BELT" );
-static const std::string flag_MELTS( "MELTS" );
-static const std::string flag_MUSHY( "MUSHY" );
-static const std::string flag_NANOFAB_TEMPLATE( "NANOFAB_TEMPLATE" );
-static const std::string flag_NEEDS_UNFOLD( "NEEDS_UNFOLD" );
-static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
-static const std::string flag_NONCONDUCTIVE( "NONCONDUCTIVE" );
-static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
-static const std::string flag_NO_DROP( "NO_DROP" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_PARASITES( "NO_PARASITES" );
-static const std::string flag_NO_RELOAD( "NO_RELOAD" );
-static const std::string flag_NO_REPAIR( "NO_REPAIR" );
-static const std::string flag_NO_SALVAGE( "NO_SALVAGE" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
-static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
-static const std::string flag_OUTER( "OUTER" );
-static const std::string flag_OVERSIZE( "OVERSIZE" );
-static const std::string flag_PERSONAL( "PERSONAL" );
-static const std::string flag_PROCESSING( "PROCESSING" );
-static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
-static const std::string flag_PULPED( "PULPED" );
-static const std::string flag_PUMP_ACTION( "PUMP_ACTION" );
-static const std::string flag_PUMP_RAIL_COMPATIBLE( "PUMP_RAIL_COMPATIBLE" );
-static const std::string flag_QUARTERED( "QUARTERED" );
-static const std::string flag_RADIOACTIVE( "RADIOACTIVE" );
-static const std::string flag_RADIOSIGNAL_1( "RADIOSIGNAL_1" );
-static const std::string flag_RADIOSIGNAL_2( "RADIOSIGNAL_2" );
-static const std::string flag_RADIOSIGNAL_3( "RADIOSIGNAL_3" );
-static const std::string flag_RADIO_ACTIVATION( "RADIO_ACTIVATION" );
-static const std::string flag_RADIO_INVOKE_PROC( "RADIO_INVOKE_PROC" );
-static const std::string flag_RADIO_MOD( "RADIO_MOD" );
-static const std::string flag_RAIN_PROTECT( "RAIN_PROTECT" );
-static const std::string flag_REACH3( "REACH3" );
-static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
-static const std::string flag_RECHARGE( "RECHARGE" );
-static const std::string flag_REDUCED_BASHING( "REDUCED_BASHING" );
-static const std::string flag_REDUCED_WEIGHT( "REDUCED_WEIGHT" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
-static const std::string flag_RELOAD_EJECT( "RELOAD_EJECT" );
-static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
-static const std::string flag_REVIVE_SPECIAL( "REVIVE_SPECIAL" );
-static const std::string flag_SILENT( "SILENT" );
-static const std::string flag_SKINNED( "SKINNED" );
-static const std::string flag_SKINTIGHT( "SKINTIGHT" );
-static const std::string flag_SLOW_WIELD( "SLOW_WIELD" );
-static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
-static const std::string flag_SPLINT( "SPLINT" );
-static const std::string flag_TOURNIQUET( "TOURNIQUET" );
-static const std::string flag_STR_DRAW( "STR_DRAW" );
-static const std::string flag_TOBACCO( "TOBACCO" );
-static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
-static const std::string flag_UNDERSIZE( "UNDERSIZE" );
-static const std::string flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
-static const std::string flag_USE_UPS( "USE_UPS" );
-static const std::string flag_VARSIZE( "VARSIZE" );
-static const std::string flag_VEHICLE( "VEHICLE" );
-static const std::string flag_WAIST( "WAIST" );
-static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
-static const std::string flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
-static const std::string flag_WET( "WET" );
-static const std::string flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
+static const std::string vitamin_flag_NO_DISPLAY( "NO_DISPLAY" );
+
+static const std::string fault_flag_SILENT( "SILENT" );
+
+static const std::string tf_flag_FLAMMABLE( "FLAMMABLE" );
+static const std::string tf_flag_FLAMMABLE_ASH( "FLAMMABLE_ASH" );
+static const std::string tf_flag_DEEP_WATER( "DEEP_WATER" );
+static const std::string tf_flag_LIQUID( "LIQUID" );
+static const std::string tf_flag_LIQUIDCONT( "LIQUIDCONT" );
 
 static const matec_id RAPID( "RAPID" );
 
@@ -380,7 +281,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     if( type->gun ) {
         for( const itype_id &mod : type->gun->built_in_mods ) {
             item it( mod, turn, qty );
-            it.item_tags.insert( "IRREMOVABLE" );
+            it.set_flag( flag_IRREMOVABLE );
             put_in( it, item_pocket::pocket_type::MOD );
         }
         for( const itype_id &mod : type->gun->default_mods ) {
@@ -473,13 +374,13 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
     }
 
     for( item &component : components ) {
-        for( const std::string &f : component.item_tags ) {
-            if( json_flag::get( f ).craft_inherit() ) {
+        for( const flag_id &f : component.get_flags() ) {
+            if( f->craft_inherit() ) {
                 set_flag( f );
             }
         }
-        for( const std::string &f : component.type->item_tags ) {
-            if( json_flag::get( f ).craft_inherit() ) {
+        for( const flag_id &f : component.type->get_flags() ) {
+            if( f->craft_inherit() ) {
                 set_flag( f );
             }
         }
@@ -506,7 +407,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 
     if( result.corpse->has_flag( MF_REVIVES ) ) {
         if( one_in( 20 ) ) {
-            result.item_tags.insert( "REVIVE_SPECIAL" );
+            result.set_flag( flag_REVIVE_SPECIAL );
         }
         result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
     }
@@ -653,8 +554,8 @@ item &item::ammo_set( const itype_id &ammo, int qty )
         ammo_unset();
         item set_ammo( ammo, calendar::turn, std::min( qty, ammo_capacity( ammo_type ) ) );
         if( has_flag( flag_NO_UNLOAD ) ) {
-            set_ammo.item_tags.insert( "NO_DROP" );
-            set_ammo.item_tags.insert( "IRREMOVABLE" );
+            set_ammo.set_flag( flag_NO_DROP );
+            set_ammo.set_flag( flag_IRREMOVABLE );
         }
         put_in( set_ammo, item_pocket::pocket_type::MAGAZINE );
 
@@ -1635,7 +1536,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( idescription != item_vars.end() ) {
             info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
         } else {
-            if( has_flag( "MAGIC_FOCUS" ) ) {
+            if( has_flag( flag_MAGIC_FOCUS ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "This item is a <info>magical focus</info>.  "
                                              "You can cast spells with it in your hand." ) ) );
@@ -1707,7 +1608,10 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                       active ) );
             info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                       burnt ) );
-            const std::string tags_listed = enumerate_as_string( item_tags, enumeration_conjunction::none );
+            const std::string tags_listed = enumerate_as_string( item_tags, []( const flag_id & f ) {
+                return f.id().str();
+            }, enumeration_conjunction::none );
+
             info.push_back( iteminfo( "BASE", string_format( _( "tags: %s" ), tags_listed ) ) );
             for( auto const &imap : item_vars ) {
                 info.push_back( iteminfo( "BASE",
@@ -1855,7 +1759,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         const bool is_vitamin = v.first->type() == vitamin_type::VITAMIN;
         // only display vitamins that we actually require
         if( player_character.vitamin_rate( v.first ) == 0_turns || v.second == 0 ||
-            display_vitamins != is_vitamin || v.first->has_flag( flag_NO_DISPLAY ) ) {
+            display_vitamins != is_vitamin || v.first->has_flag( vitamin_flag_NO_DISPLAY ) ) {
             return std::string();
         }
         const double multiplier = player_character.vitamin_rate( v.first ) / 1_days * 100;
@@ -3775,7 +3679,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     avatar &player_character = get_avatar();
     if( parts->test( iteminfo_parts::DESCRIPTION_ALLERGEN ) ) {
         if( is_armor() && player_character.has_trait( trait_WOOLALLERGY ) &&
-            ( made_of( material_id( "wool" ) ) || item_tags.count( "wooled" ) ) ) {
+            ( made_of( material_id( "wool" ) ) || has_own_flag( flag_wooled ) ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This clothing will give you an <bad>allergic "
                                          "reaction</bad>." ) ) );
@@ -3784,14 +3688,14 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
         // concatenate base and acquired flags...
-        std::vector<std::string> flags;
-        std::set_union( type->item_tags.begin(), type->item_tags.end(),
+        std::vector<flag_id> flags;
+        std::set_union( type->get_flags().begin(), type->get_flags().end(),
                         item_tags.begin(), item_tags.end(),
                         std::back_inserter( flags ) );
 
         // ...and display those which have an info description
-        for( const std::string &e : flags ) {
-            const json_flag &f = json_flag::get( e );
+        for( const flag_id &e : flags ) {
+            const json_flag &f = e.obj();
             if( !f.info().empty() ) {
                 info.emplace_back( "DESCRIPTION", string_format( "* %s", f.info() ) );
             }
@@ -4198,9 +4102,9 @@ nc_color item::color_in_inventory() const
     } else if( has_flag( flag_LITCIG ) ) {
         ret = c_red;
     } else if( is_armor() && player_character.has_trait( trait_WOOLALLERGY ) &&
-               ( made_of( material_id( "wool" ) ) || item_tags.count( "wooled" ) ) ) {
+               ( made_of( material_id( "wool" ) ) || has_own_flag( flag_wooled ) ) ) {
         ret = c_red;
-    } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
+    } else if( is_filthy() || has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
     } else if( is_bionic() ) {
         if( !player_character.has_bionic( type->bionic->id ) ) {
@@ -4558,7 +4462,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( !faults.empty() ) {
         bool silent = true;
         for( const auto &fault : faults ) {
-            if( !fault->has_flag( flag_SILENT ) ) {
+            if( !fault->has_flag( fault_flag_SILENT ) ) {
                 silent = false;
                 break;
             }
@@ -4646,7 +4550,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( ethereal ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
-        if( item_tags.count( "DIRTY" ) ) {
+        if( has_own_flag( flag_DIRTY ) ) {
             tagtext += _( " (dirty)" );
         } else if( rotten() ) {
             tagtext += _( " (rotten)" );
@@ -5354,11 +5258,21 @@ bool item::has_fault_flag( const std::string &searched_flag ) const
     return false;
 }
 
-bool item::has_flag( const std::string &f ) const
+bool item::has_own_flag( const flag_id &f ) const
 {
+    return item_tags.count( f );
+}
+
+bool item::has_flag( const flag_id &f ) const
+{
+    if( !f.is_valid() ) {
+        debugmsg( "Attempted to check invalid flag_id %d", f.to_i() );
+        return false;
+    }
+
     bool ret = false;
 
-    if( json_flag::get( f ).inherit() ) {
+    if( f -> inherit() ) {
         for( const item *e : is_gun() ? gunmods() : toolmods() ) {
             // gunmods fired separately do not contribute to base gun flags
             if( !e->is_gun() && e->has_flag( f ) ) {
@@ -5368,46 +5282,44 @@ bool item::has_flag( const std::string &f ) const
     }
 
     // other item type flags
-    ret = type->item_tags.count( f );
+    ret = type->has_flag( f );
     if( ret ) {
         return ret;
     }
 
     // now check for item specific flags
-    ret = item_tags.count( f );
+    ret = has_own_flag( f );
     return ret;
 }
 
-bool item::has_any_flag( const std::vector<std::string> &flags ) const
+item &item::set_flag( const flag_id &flag )
 {
-    for( const std::string &flag : flags ) {
-        if( has_flag( flag ) ) {
-            return true;
-        }
+    if( flag.is_valid() ) {
+        item_tags.insert( flag );
+    } else {
+        debugmsg( "Attempted to store invalid flag_id %d", flag.to_i() );
     }
-
-    return false;
-}
-
-item &item::set_flag( const std::string &flag )
-{
-    item_tags.insert( flag );
     return *this;
 }
 
-item &item::unset_flag( const std::string &flag )
+item &item::unset_flag( const flag_id &flag )
 {
     item_tags.erase( flag );
     return *this;
 }
 
-item &item::set_flag_recursive( const std::string &flag )
+item &item::set_flag_recursive( const flag_id &flag )
 {
     set_flag( flag );
     for( item &comp : components ) {
         comp.set_flag_recursive( flag );
     }
     return *this;
+}
+
+const item::FlagsSetType &item::get_flags() const
+{
+    return item_tags;
 }
 
 bool item::has_property( const std::string &prop ) const
@@ -5524,11 +5436,11 @@ int item::get_comestible_fun() const
         return 0;
     }
     int fun = get_comestible()->fun;
-    for( const std::string &flag : item_tags ) {
-        fun += json_flag::get( flag ).taste_mod();
+    for( const flag_id &flag : item_tags ) {
+        fun += flag->taste_mod();
     }
-    for( const std::string &flag : type->item_tags ) {
-        fun += json_flag::get( flag ).taste_mod();
+    for( const flag_id &flag : type->get_flags() ) {
+        fun += flag->taste_mod();
     }
 
     if( has_flag( flag_MUSHY ) ) {
@@ -5707,7 +5619,7 @@ void item::calc_rot( int temp, const float spoil_modifier,
         return;
     }
 
-    if( item_tags.count( "FROZEN" ) ) {
+    if( has_own_flag( flag_FROZEN ) ) {
         return;
     }
 
@@ -5716,11 +5628,11 @@ void item::calc_rot( int temp, const float spoil_modifier,
     if( is_corpse() && has_flag( flag_FIELD_DRESS ) ) {
         factor *= 0.75;
     }
-    if( item_tags.count( "MUSHY" ) ) {
+    if( has_own_flag( flag_MUSHY ) ) {
         factor *= 3.0;
     }
 
-    if( item_tags.count( "COLD" ) ) {
+    if( has_own_flag( flag_COLD ) ) {
         temp = std::min( temperatures::fridge, temp );
     }
 
@@ -5738,7 +5650,7 @@ void item::calc_rot( int temp, const float spoil_modifier,
 
 void item::calc_rot_while_processing( time_duration processing_duration )
 {
-    if( !item_tags.count( "PROCESSING" ) ) {
+    if( !has_own_flag( flag_PROCESSING ) ) {
         debugmsg( "calc_rot_while_processing called on non smoking item: %s", tname() );
         return;
     }
@@ -6581,8 +6493,7 @@ bool item::is_gun() const
 
 bool item::is_firearm() const
 {
-    static const std::string primitive_flag( "PRIMITIVE_RANGED_WEAPON" );
-    return is_gun() && !has_flag( primitive_flag );
+    return is_gun() && !has_flag( flag_PRIMITIVE_RANGED_WEAPON );
 }
 
 int item::get_reload_time() const
@@ -7621,7 +7532,7 @@ itype_id item::ammo_current() const
     const itype *ammo = ammo_data();
     if( ammo ) {
         return ammo->get_id();
-    } else if( has_flag( "USE_UPS" ) ) {
+    } else if( has_flag( flag_USE_UPS ) ) {
         return itype_battery;
     }
 
@@ -7657,7 +7568,7 @@ itype_id item::ammo_default( bool conversion ) const
         if( !res.is_empty() ) {
             return res;
         }
-    } else if( has_flag( "USE_UPS" ) ) {
+    } else if( has_flag( flag_USE_UPS ) ) {
         return itype_battery;
     }
 
@@ -7771,7 +7682,7 @@ const item *item::gunmod_find( const itype_id &mod ) const
     return const_cast<item *>( this )->gunmod_find( mod );
 }
 
-item *item::gunmod_find_by_flag( const std::string &flag )
+item *item::gunmod_find_by_flag( const flag_id &flag )
 {
     std::vector<item *> mods = gunmods();
     auto it = std::find_if( mods.begin(), mods.end(), [&flag]( item * e ) {
@@ -8567,31 +8478,29 @@ void item::set_item_specific_energy( const float new_specific_energy )
     // Warm = over temperatures::warm
     // Cold = below temperatures::cold
     // Frozen = Over 50% frozen
-    if( item_tags.count( "FROZEN" ) ) {
-        item_tags.erase( "FROZEN" );
+    if( has_own_flag( flag_FROZEN ) ) {
+        unset_flag( flag_FROZEN );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
             current_phase = type->phase;
             apply_freezerburn();
         }
-    } else if( item_tags.count( "COLD" ) ) {
-        item_tags.erase( "COLD" );
-    } else if( item_tags.count( "HOT" ) ) {
-        item_tags.erase( "HOT" );
+    } else if( has_own_flag( flag_COLD ) ) {
+        unset_flag( flag_COLD );
+    } else if( has_own_flag( flag_HOT ) ) {
+        unset_flag( flag_HOT );
     }
     if( new_item_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        item_tags.insert( "HOT" );
+        set_flag( flag_HOT );
     } else if( freeze_percentage > 0.5 ) {
-        item_tags.insert( "FROZEN" );
+        set_flag( flag_FROZEN );
         current_phase = phase_id::SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            if( !( item_tags.count( "NO_PARASITES" ) ) ) {
-                item_tags.insert( "NO_PARASITES" );
-            }
+            set_flag( flag_NO_PARASITES );
         }
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        item_tags.insert( "COLD" );
+        set_flag( flag_COLD );
     }
     temperature = std::lround( 100000 * new_item_temperature );
     specific_energy = std::lround( 100000 * new_specific_energy );
@@ -8644,31 +8553,29 @@ void item::set_item_temperature( float new_temperature )
         freeze_percentage = ( completely_liquid_specific_energy - new_specific_energy ) /
                             ( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
-    if( item_tags.count( "FROZEN" ) ) {
-        item_tags.erase( "FROZEN" );
+    if( has_own_flag( flag_FROZEN ) ) {
+        unset_flag( flag_FROZEN );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
             current_phase = type->phase;
             apply_freezerburn();
         }
-    } else if( item_tags.count( "COLD" ) ) {
-        item_tags.erase( "COLD" );
-    } else if( item_tags.count( "HOT" ) ) {
-        item_tags.erase( "HOT" );
+    } else if( has_own_flag( flag_COLD ) ) {
+        unset_flag( flag_COLD );
+    } else if( has_own_flag( flag_HOT ) ) {
+        unset_flag( flag_HOT );
     }
     if( new_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        item_tags.insert( "HOT" );
+        set_flag( flag_HOT );
     } else if( freeze_percentage > 0.5 ) {
-        item_tags.insert( "FROZEN" );
+        set_flag( flag_FROZEN );
         current_phase = phase_id::SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            if( !( item_tags.count( "NO_PARASITES" ) ) ) {
-                item_tags.insert( "NO_PARASITES" );
-            }
+            set_flag( flag_NO_PARASITES );
         }
     } else if( new_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        item_tags.insert( "COLD" );
+        set_flag( flag_COLD );
     }
     reset_temp_check();
 }
@@ -9068,9 +8975,7 @@ void item::apply_freezerburn()
     if( !has_flag( flag_FREEZERBURN ) ) {
         return;
     }
-    if( !item_tags.count( "MUSHY" ) ) {
-        item_tags.insert( "MUSHY" );
-    }
+    set_flag( flag_MUSHY );
 }
 
 bool item::process_temperature_rot( float insulation, const tripoint &pos,
@@ -9362,31 +9267,31 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // Warm = over temperatures::warm
     // Cold = below temperatures::cold
     // Frozen = Over 50% frozen
-    if( item_tags.count( "FROZEN" ) ) {
-        item_tags.erase( "FROZEN" );
+    if( has_own_flag( flag_FROZEN ) ) {
+        unset_flag( flag_FROZEN );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
             current_phase = type->phase;
             apply_freezerburn();
         }
-    } else if( item_tags.count( "COLD" ) ) {
-        item_tags.erase( "COLD" );
-    } else if( item_tags.count( "HOT" ) ) {
-        item_tags.erase( "HOT" );
+    } else if( has_own_flag( flag_COLD ) ) {
+        unset_flag( flag_COLD );
+    } else if( has_own_flag( flag_HOT ) ) {
+        unset_flag( flag_HOT );
     }
     if( new_item_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        item_tags.insert( "HOT" );
+        set_flag( flag_HOT );
     } else if( freeze_percentage > 0.5 ) {
-        item_tags.insert( "FROZEN" );
+        set_flag( flag_FROZEN );
         current_phase = phase_id::SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            if( !( item_tags.count( "NO_PARASITES" ) ) ) {
-                item_tags.insert( "NO_PARASITES" );
+            if( !( has_own_flag( flag_NO_PARASITES ) ) ) {
+                set_flag( flag_NO_PARASITES );
             }
         }
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        item_tags.insert( "COLD" );
+        set_flag( flag_COLD );
     }
     temperature = std::lround( 100000 * new_item_temperature );
     specific_energy = std::lround( 100000 * new_specific_energy );
@@ -9401,9 +9306,9 @@ float item::get_item_thermal_energy() const
 
 void item::heat_up()
 {
-    item_tags.erase( "COLD" );
-    item_tags.erase( "FROZEN" );
-    item_tags.insert( "HOT" );
+    unset_flag( flag_COLD );
+    unset_flag( flag_FROZEN );
+    set_flag( flag_HOT );
     current_phase = type->phase;
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
@@ -9415,9 +9320,9 @@ void item::heat_up()
 
 void item::cold_up()
 {
-    item_tags.erase( "HOT" );
-    item_tags.erase( "FROZEN" );
-    item_tags.insert( "COLD" );
+    unset_flag( flag_HOT );
+    unset_flag( flag_FROZEN );
+    set_flag( flag_COLD );
     current_phase = type->phase;
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
@@ -9610,8 +9515,8 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         if( item_counter % 5 == 0 ) {
             // lit cigarette can start fires
             if( here.flammable_items_at( pos ) ||
-                here.has_flag( flag_FLAMMABLE, pos ) ||
-                here.has_flag( flag_FLAMMABLE_ASH, pos ) ) {
+                here.has_flag( tf_flag_FLAMMABLE, pos ) ||
+                here.has_flag( tf_flag_FLAMMABLE_ASH, pos ) ) {
                 here.add_field( pos, fd_fire, 1 );
             }
         }
@@ -9664,11 +9569,11 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
             break;
     }
     map &here = get_map();
-    if( in_inv && here.has_flag( flag_DEEP_WATER, pos ) ) {
+    if( in_inv && here.has_flag( tf_flag_DEEP_WATER, pos ) ) {
         extinguish = true;
         submerged = true;
     }
-    if( ( !in_inv && here.has_flag( flag_LIQUID, pos ) ) ||
+    if( ( !in_inv && here.has_flag( tf_flag_LIQUID, pos ) ) ||
         ( precipitation && !g->is_sheltered( pos ) ) ) {
         extinguish = true;
     }
@@ -9744,7 +9649,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     }
     std::string state = get_var( "state" );
     if( state == "solar_pack_link" || state == "solar_pack" ) {
-        if( !carrier->has_item( *this ) || !carrier->worn_with_flag( "SOLARPACK_ON" ) ) {
+        if( !carrier->has_item( *this ) || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
             reset_cable( carrier );
             return false;
@@ -9834,7 +9739,7 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
         if( is_tool() && type->tool->revert_to ) {
             convert( *type->tool->revert_to );
         }
-        item_tags.erase( "WET" );
+        unset_flag( flag_WET );
         active = false;
     }
     // Always return true so our caller will bail out instead of processing us as a tool.
@@ -10133,11 +10038,12 @@ std::string item::type_name( unsigned int quantity ) const
             return false;
         };
         switch( cname.type ) {
-            case condition_type::FLAG:
-                if( has_flag( cname.condition ) ) {
+            case condition_type::FLAG: {
+                if( has_flag( flag_str_id( cname.condition ) ) ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
-                break;
+            }
+            break;
             case condition_type::COMPONENT_ID:
                 if( component_id_contains( components ) ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
@@ -10257,9 +10163,9 @@ bool item::on_drop( const tripoint &pos, map &m )
 {
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty
-    if( made_of_from_type( phase_id::LIQUID ) && !m.has_flag( flag_LIQUIDCONT, pos ) &&
-        !item_tags.count( "DIRTY" ) ) {
-        item_tags.insert( "DIRTY" );
+    if( made_of_from_type( phase_id::LIQUID ) && !m.has_flag( tf_flag_LIQUIDCONT, pos ) &&
+        !has_own_flag( flag_DIRTY ) ) {
+        set_flag( flag_DIRTY );
     }
 
     avatar &player_character = get_avatar();
@@ -10380,7 +10286,7 @@ const cata::value_ptr<islot_comestible> &item::get_comestible() const
 bool item::has_clothing_mod() const
 {
     for( const clothing_mod &cm : clothing_mods::get_all() ) {
-        if( item_tags.count( cm.flag ) > 0 ) {
+        if( has_own_flag( cm.flag ) > 0 ) {
             return true;
         }
     }
@@ -10401,7 +10307,7 @@ void item::update_clothing_mod_val()
                                     type );
         float tmp = 0.0f;
         for( const clothing_mod &cm : clothing_mods::get_all_with( type ) ) {
-            if( item_tags.count( cm.flag ) > 0 ) {
+            if( has_own_flag( cm.flag ) ) {
                 tmp += cm.get_mod_val( type, *this );
             }
         }

@@ -4,7 +4,6 @@
 #include <climits>
 #include <istream>
 #include <iterator>
-#include <memory>
 #include <utility>
 
 #include "avatar.h"
@@ -13,6 +12,7 @@
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
+#include "flag.h"
 #include "game.h"
 #include "iexamine.h"
 #include "input.h"
@@ -28,7 +28,6 @@
 #include "path_info.h"
 #include "point.h"
 #include "popup.h"
-#include "ret_val.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -39,12 +38,11 @@
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
-static const std::string flag_CONSOLE( "CONSOLE" );
-static const std::string flag_FLOTATION( "FLOTATION" );
-static const std::string flag_GOES_DOWN( "GOES_DOWN" );
-static const std::string flag_GOES_UP( "GOES_UP" );
-static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
-static const std::string flag_SWIMMABLE( "SWIMMABLE" );
+static const std::string tf_flag_CONSOLE( "CONSOLE" );
+static const std::string tf_flag_SWIMMABLE( "SWIMMABLE" );
+
+static const std::string tf_flag_GOES_DOWN( "GOES_DOWN" );
+static const std::string tf_flag_GOES_UP( "GOES_UP" );
 
 class inventory;
 
@@ -618,7 +616,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     Character &player_character = get_player_character();
     map &here = get_map();
     // TODO: unify this with game::move_vertical
-    if( here.has_flag( flag_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( here.has_flag( tf_flag_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
             return !player_character.is_underwater() && !player_character.worn_with_flag( flag_FLOTATION );
         } else {
@@ -628,9 +626,9 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     }
 
     if( movez == -1 ) {
-        return here.has_flag( flag_GOES_DOWN, p );
+        return here.has_flag( tf_flag_GOES_DOWN, p );
     } else {
-        return here.has_flag( flag_GOES_UP, p );
+        return here.has_flag( tf_flag_GOES_UP, p );
     }
 }
 
@@ -640,7 +638,7 @@ bool can_examine_at( const tripoint &p )
     if( here.veh_at( p ) ) {
         return true;
     }
-    if( here.has_flag( flag_CONSOLE, p ) ) {
+    if( here.has_flag( tf_flag_CONSOLE, p ) ) {
         return true;
     }
     if( here.has_items( p ) ) {

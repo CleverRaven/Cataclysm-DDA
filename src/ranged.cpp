@@ -30,6 +30,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gun_mode.h"
@@ -108,17 +109,7 @@ static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_targeting( "bio_targeting" );
 static const bionic_id bio_ups( "bio_ups" );
 
-static const std::string flag_CONSUMABLE( "CONSUMABLE" );
-static const std::string flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
-static const std::string flag_MOUNTABLE( "MOUNTABLE" );
-static const std::string flag_MOUNTED_GUN( "MOUNTED_GUN" );
-static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
-static const std::string flag_NON_FOULING( "NON-FOULING" );
-static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
-static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
-static const std::string flag_UNDERWATER_GUN( "UNDERWATER_GUN" );
-static const std::string flag_VEHICLE( "VEHICLE" );
+static const std::string tf_flag_MOUNTABLE( "MOUNTABLE" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
@@ -574,7 +565,7 @@ bool player::handle_gun_damage( item &it )
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
     int effective_durability = firing.durability;
-    if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( effective_durability ) ) {
+    if( is_underwater() && !it.has_flag( flag_WATERPROOF_GUN ) && one_in( effective_durability ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a wet click!" ),
                                _( "<npcname>'s %s misfires with a wet click!" ),
                                it.tname() );
@@ -1022,7 +1013,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
                    static_cast<double>( MAX_SKILL ) ) * 0.85 + 0.15;
     impact.add_damage( damage_type::BASH, std::min( weight / 100.0_gram, stats_mod ) );
 
-    if( thrown.has_flag( "ACT_ON_RANGED_HIT" ) ) {
+    if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
         proj_effects.insert( "ACT_ON_RANGED_HIT" );
         thrown.active = true;
     }
@@ -1076,7 +1067,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         du.res_pen += skill_level / 2.0f;
     }
     // handling for tangling thrown items
-    if( thrown.has_flag( "TANGLE" ) ) {
+    if( thrown.has_flag( flag_TANGLE ) ) {
         proj_effects.insert( "TANGLE" );
     }
 
@@ -1087,7 +1078,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Put the item into the projectile
     proj.set_drop( std::move( thrown ) );
-    if( thrown_type->item_tags.count( "CUSTOM_EXPLOSION" ) ) {
+    if( thrown_type->has_flag( flag_CUSTOM_EXPLOSION ) ) {
         proj.set_custom_explosion( thrown_type->explosion );
     }
 
@@ -1576,15 +1567,15 @@ static void cycle_action( item &weap, const tripoint &pos )
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
     const optional_vpart_position vp = here.veh_at( pos );
     std::vector<vehicle_part *> cargo;
-    if( vp && weap.has_flag( "VEHICLE" ) ) {
+    if( vp && weap.has_flag( flag_VEHICLE ) ) {
         cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
     }
 
-    item *brass_catcher = weap.gunmod_find_by_flag( "BRASS_CATCHER" );
+    item *brass_catcher = weap.gunmod_find_by_flag( flag_BRASS_CATCHER );
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
-        if( weap.has_flag( "RELOAD_EJECT" ) ) {
-            weap.put_in( item( casing ).set_flag( "CASING" ), item_pocket::pocket_type::CONTAINER );
+        if( weap.has_flag( flag_RELOAD_EJECT ) ) {
+            weap.put_in( item( casing ).set_flag( flag_CASING ), item_pocket::pocket_type::CONTAINER );
         } else {
             if( brass_catcher && brass_catcher->can_contain( casing.obj() ) ) {
                 brass_catcher->put_in( item( casing ), item_pocket::pocket_type::CONTAINER );
@@ -3020,9 +3011,11 @@ void target_ui::draw_controls_list( int text_y )
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
         lines.push_back( {5, colored( col_enabled, string_format( _( "[%s] to switch firing modes." ),
-                                      bound_key( "SWITCH_MODE" ).short_description() ) )} );
+                                      bound_key( "SWITCH_MODE" ).short_description() ) )
+                         } );
         lines.push_back( {6, colored( col_enabled, string_format( _( "[%s] to reload/switch ammo." ),
-                                      bound_key( "SWITCH_AMMO" ).short_description() ) )} );
+                                      bound_key( "SWITCH_AMMO" ).short_description() ) )
+                         } );
     }
     if( mode == TargetMode::Turrets ) {
         const std::string label = draw_turret_lines
@@ -3349,7 +3342,7 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
     if( gmode->has_flag( flag_MOUNTED_GUN ) ) {
         const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
                                  true ) );
-        bool t_mountable = m.has_flag_ter_or_furn( flag_MOUNTABLE, you.pos() );
+        bool t_mountable = m.has_flag_ter_or_furn( tf_flag_MOUNTABLE, you.pos() );
         if( !t_mountable && !v_mountable ) {
             messages.push_back( string_format(
                                     _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),

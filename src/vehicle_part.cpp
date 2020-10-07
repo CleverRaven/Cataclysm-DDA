@@ -8,21 +8,18 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
-#include "flat_set.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
 #include "messages.h"
 #include "npc.h"
-#include "ret_val.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
@@ -45,7 +42,7 @@ vehicle_part::vehicle_part( const vpart_id &vp, const std::string &variant_id, c
     : mount( dp ), id( vp ), variant( variant_id ), base( std::move( obj ) )
 {
     // Mark base item as being installed as a vehicle part
-    base.item_tags.insert( "VEHICLE" );
+    base.set_flag( flag_VEHICLE );
 
     if( base.typeId() != vp->item ) {
         debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
@@ -71,16 +68,16 @@ void vehicle_part::set_base( const item &new_base )
 item vehicle_part::properties_to_item() const
 {
     item tmp = base;
-    tmp.item_tags.erase( "VEHICLE" );
+    tmp.unset_flag( flag_VEHICLE );
 
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
-    if( tmp.has_flag( "CABLE_SPOOL" ) && !tmp.has_flag( "TOW_CABLE" ) ) {
+    if( tmp.has_flag( flag_CABLE_SPOOL ) && !tmp.has_flag( flag_TOW_CABLE ) ) {
         map &here = get_map();
         const tripoint local_pos = here.getlocal( target.first );
         if( !here.veh_at( local_pos ) ) {
             // That vehicle ain't there no more.
-            tmp.item_tags.insert( "NO_DROP" );
+            tmp.set_flag( flag_NO_DROP );
         }
 
         tmp.set_var( "source_x", target.first.x );

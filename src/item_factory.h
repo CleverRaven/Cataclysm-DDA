@@ -349,6 +349,11 @@ class Item_factory
         void delete_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );
         void set_properties_from_json( const JsonObject &jo, const std::string &member, itype &def );
 
+        // declared here to have friendship status with itype
+        static void npc_implied_flags( itype &item_template );
+        static void set_allergy_flags( itype &item_template );
+        static bool is_physical( const itype &type );
+
         void clear();
         void init();
 

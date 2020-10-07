@@ -119,7 +119,8 @@ static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 
-static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
+static const flag_str_id flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
+static const flag_str_id flag_OVERSIZE( "OVERSIZE" );
 
 avatar::avatar()
 {
@@ -1194,7 +1195,7 @@ void avatar::reset_stats()
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bodypart_str_id( "torso" ) ) ) {
+        } else if( !exclusive_flag_coverage( flag_OVERSIZE ).test( bodypart_str_id( "torso" ) ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }

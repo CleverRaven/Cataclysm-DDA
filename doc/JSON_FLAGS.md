@@ -72,6 +72,7 @@
 
 ## Notes
 
+- Some flags (items, effects, vehicle parts) have to be defined in `flags.json` or `vp_flags.json` (with type: `json_flag`) to work correctly. 
 - Many of the flags intended for one category or item type, can be used in other categories or item types. Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
 
@@ -1292,7 +1293,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
 - ```HAS_RECIPE``` Used by the E-Ink tablet to indicates it's currently showing a recipe.
 - ```IS_UPS``` Item is Unified Power Supply. Used in active item processing
-- ```LIGHT_[X]``` Illuminates the area with light intensity `[X]` where `[X]` is an intensity value. (e.x. `LIGHT_4` or `LIGHT_100`).
+- ```LIGHT_[X]``` Illuminates the area with light intensity `[X]` where `[X]` is an intensity value. (e.x. `LIGHT_4` or `LIGHT_100`). Note: this flags sets `itype::light_emission` field and then is removed (can't be found using `has_flag`); 
 - ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
 - ```NO_DROP``` Item should never exist on map tile as a discrete item (must be contained by another item)
 - ```NO_UNLOAD``` Cannot be unloaded.

@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "json.h"
 #include "messages.h"
 #include "output.h"
@@ -1347,14 +1346,25 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
-    new_etype.flags = jo.get_tags( "flags" );
+    new_etype.flags = jo.get_tags<flag_str_id>( "flags" );
 
     effect_types[new_etype.id] = new_etype;
 }
 
-bool effect::has_flag( const std::string &flag ) const
+bool effect::has_flag( const flag_id &flag ) const
 {
-    return eff_type->flags.count( flag ) > 0;
+    return eff_type->has_flag( flag );
+}
+
+bool effect_type::has_flag( const flag_id &flag ) const
+{
+    // initialize int_flags cache on first usage
+    if( flags.size() > int_flags.size() ) {
+        for( const flag_str_id &f : flags ) {
+            int_flags.insert( f );
+        }
+    }
+    return int_flags.count( flag );
 }
 
 void reset_effect_types()

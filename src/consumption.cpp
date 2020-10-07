@@ -17,8 +17,8 @@
 #include "enums.h"
 #include "event_bus.h"
 #include "flat_set.h"
+#include "flag.h"
 #include "game.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
@@ -35,7 +35,6 @@
 #include "npc.h"
 #include "options.h"
 #include "pickup.h"
-#include "pimpl.h"
 #include "player.h" // IWYU pragma: associated
 #include "pldata.h"
 #include "recipe.h"
@@ -44,11 +43,9 @@
 #include "rng.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "units_fwd.h"
-#include "value_ptr.h"
 #include "visitable.h"
 #include "vitamin.h"
 
@@ -131,54 +128,22 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
-static const std::string flag_EATEN_COLD( "EATEN_COLD" );
-static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
-static const std::string flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
-static const std::string flag_ALLERGEN_FRUIT( "ALLERGEN_FRUIT" );
-static const std::string flag_ALLERGEN_JUNK( "ALLERGEN_JUNK" );
-static const std::string flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
-static const std::string flag_ALLERGEN_MILK( "ALLERGEN_MILK" );
-static const std::string flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
-static const std::string flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
-static const std::string flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
-static const std::string flag_BIRD( "BIRD" );
-static const std::string flag_BYPRODUCT( "BYPRODUCT" );
-static const std::string flag_CANNIBALISM( "CANNIBALISM" );
-static const std::string flag_STRICT_HUMANITARIANISM( "STRICT_HUMANITARIANISM" );
-static const std::string flag_CARNIVORE_OK( "CARNIVORE_OK" );
-static const std::string flag_CATTLE( "CATTLE" );
-static const std::string flag_COLD( "COLD" );
-static const std::string flag_COOKED( "COOKED" );
-static const std::string flag_CORPSE( "CORPSE" );
-static const std::string flag_EATEN_HOT( "EATEN_HOT" );
-static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
-static const std::string flag_FELINE( "FELINE" );
-static const std::string flag_FERTILIZER( "FERTILIZER" );
-static const std::string flag_FROZEN( "FROZEN" );
-static const std::string flag_FUNGAL_VECTOR( "FUNGAL_VECTOR" );
-static const std::string flag_HOT( "HOT" );
-static const std::string flag_INEDIBLE( "INEDIBLE" );
-static const std::string flag_LUPINE( "LUPINE" );
-static const std::string flag_MELTS( "MELTS" );
-static const std::string flag_MUSHY( "MUSHY" );
-static const std::string flag_MYCUS_OK( "MYCUS_OK" );
-static const std::string flag_NEGATIVE_MONOTONY_OK( "NEGATIVE_MONOTONY_OK" );
-static const std::string flag_NO_PARASITES( "NO_PARASITES" );
-static const std::string flag_NO_RELOAD( "NO_RELOAD" );
-static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
-static const std::string flag_RADIOACTIVE( "RADIOACTIVE" );
-static const std::string flag_RAW( "RAW" );
-static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
-static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
+// wrapped in methods to ensure proper initialization
+static const std::vector<flag_str_id> &get_carnivore_blacklist()
+{
+    static const std::vector<flag_str_id> carnivore_blacklist {
+        flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT
+    };
+    return carnivore_blacklist;
+}
 
-static const std::vector<std::string> carnivore_blacklist {{
-        flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT,
-    }
-};
-// This ugly temp array is here because otherwise it goes
-// std::vector(char*, char*)->vector(InputIterator,InputIterator) or some such
-static const std::array<std::string, 2> temparray {{flag_ALLERGEN_MEAT, flag_ALLERGEN_EGG}};
-static const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
+static const std::vector<flag_str_id> &get_herbivore_blacklist()
+{
+    static const std::vector<flag_str_id> herbivore_blacklist {
+        flag_ALLERGEN_MEAT, flag_ALLERGEN_EGG
+    };
+    return herbivore_blacklist;
+}
 
 // Defines the maximum volume that a internal furnace can consume
 static const units::volume furnace_max_volume( 3_liter );
@@ -209,7 +174,7 @@ int Character::stomach_capacity() const
 
 // TODO: Move pizza scraping here.
 static int compute_default_effective_kcal( const item &comest, const Character &you,
-        const cata::flat_set<std::string> &extra_flags = {} )
+        const cata::flat_set<flag_id> &extra_flags = {} )
 {
     if( !comest.get_comestible() ) {
         return 0;
@@ -229,7 +194,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     }
 
     if( you.has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
-        comest.has_any_flag( carnivore_blacklist ) ) {
+        comest.has_any_flag( get_carnivore_blacklist() ) ) {
         // TODO: Comment pizza scrapping
         kcal *= 0.5f;
     }
@@ -293,7 +258,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
 // Calculate the effective nutrients for a given item, taking
 // into account character traits but not item components.
 static nutrients compute_default_effective_nutrients( const item &comest,
-        const Character &you, const cata::flat_set<std::string> &extra_flags = {} )
+        const Character &you, const cata::flat_set<flag_id> &extra_flags = {} )
 {
     return { compute_default_effective_kcal( comest, you, extra_flags ),
              compute_default_effective_vitamins( comest, you ) };
@@ -331,7 +296,7 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
 // the given recipe
 std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     const item &comest, const recipe_id &recipe_i,
-    const cata::flat_set<std::string> &extra_flags ) const
+    const cata::flat_set<flag_id> &extra_flags ) const
 {
     if( !comest.is_comestible() ) {
         return {};
@@ -348,7 +313,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
 
     const recipe &rec = *recipe_i;
 
-    cata::flat_set<std::string> our_extra_flags = extra_flags;
+    cata::flat_set<flag_id> our_extra_flags = extra_flags;
 
     if( rec.hot_result() ) {
         our_extra_flags.insert( flag_COOKED );
@@ -394,7 +359,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
 // Calculate the range of nturients possible for a given item across all
 // possible recipes
 std::pair<nutrients, nutrients> Character::compute_nutrient_range(
-    const itype_id &comest_id, const cata::flat_set<std::string> &extra_flags ) const
+    const itype_id &comest_id, const cata::flat_set<flag_id> &extra_flags ) const
 {
     const itype *comest = item::find_type( comest_id );
     if( !comest->comestible ) {
@@ -405,7 +370,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     // The default nutrients are always a possibility
     nutrients min_nutr = compute_default_effective_nutrients( comest_it, *this, extra_flags );
 
-    if( comest->item_tags.count( flag_NUTRIENT_OVERRIDE ) ||
+    if( comest->has_flag( flag_NUTRIENT_OVERRIDE ) ||
         recipe_dict.is_item_on_loop( comest->get_id() ) ) {
         return { min_nutr, min_nutr };
     }
@@ -634,7 +599,7 @@ float Character::metabolic_rate() const
 
 morale_type Character::allergy_type( const item &food ) const
 {
-    using allergy_tuple = std::tuple<trait_id, std::string, morale_type>;
+    using allergy_tuple = std::tuple<trait_id, flag_str_id, morale_type>;
     static const std::array<allergy_tuple, 8> allergy_tuples = {{
             std::make_tuple( trait_VEGETARIAN, flag_ALLERGEN_MEAT, MORALE_VEGETARIAN ),
             std::make_tuple( trait_MEATARIAN, flag_ALLERGEN_VEGGY, MORALE_MEATARIAN ),
@@ -692,7 +657,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
     }
 
-    if( food.item_tags.count( "DIRTY" ) ) {
+    if( food.has_flag( flag_DIRTY ) ) {
         return ret_val<edible_rating>::make_failure(
                    _( "This is full of dirt after being on the ground." ) );
     }
@@ -714,7 +679,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
             }
         }
     }
-    if( food.item_tags.count( flag_FROZEN ) && !food.has_flag( flag_EDIBLE_FROZEN ) &&
+    if( food.has_flag( flag_FROZEN ) && !food.has_flag( flag_EDIBLE_FROZEN ) &&
         !food.has_flag( flag_MELTS ) ) {
         if( edible ) {
             return ret_val<edible_rating>::make_failure(
@@ -747,13 +712,13 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     if( has_trait( trait_CARNIVORE ) && nutrition_for( food ) > 0 &&
-        food.has_any_flag( carnivore_blacklist ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
+        food.has_any_flag( get_carnivore_blacklist() ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "Eww.  Inedible plant stuff!" ) );
     }
 
     if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
-        food.has_any_flag( herbivore_blacklist ) ) {
+        food.has_any_flag( get_herbivore_blacklist() ) ) {
         // Like non-cannibal, but more strict!
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "The thought of eating that makes you feel sick." ) );
@@ -1139,7 +1104,7 @@ void Character::modify_morale( item &food, const int nutr )
     // Morale bonus for eating unspoiled food with chair/table nearby
     // Does not apply to non-ingested consumables like bandages or drugs,
     // nor to drinks.
-    if( !food.has_flag( "NO_INGEST" ) &&
+    if( !food.has_flag( flag_NO_INGEST ) &&
         food.get_comestible()->comesttype != "MED" &&
         food.get_comestible()->comesttype != comesttype_DRINK ) {
         map &here = get_map();
@@ -1208,7 +1173,7 @@ void Character::modify_morale( item &food, const int nutr )
     }
 
     // Allergy check for food that is ingested (not gum)
-    if( !food.has_flag( "NO_INGEST" ) ) {
+    if( !food.has_flag( flag_NO_INGEST ) ) {
         const auto allergy = allergy_type( food );
         if( allergy != MORALE_NULL ) {
             add_msg_if_player( m_bad, _( "Yuck!  How can anybody eat this stuff?" ) );
@@ -1306,7 +1271,7 @@ bool Character::consume_effects( item &food )
         return false;
     }
     if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
-        food.has_any_flag( herbivore_blacklist ) ) {
+        food.has_any_flag( get_herbivore_blacklist() ) ) {
         // No good can come of this.
         return false;
     }
@@ -1848,7 +1813,7 @@ static bool consume_med( item &target, player &you )
 
     // TODO: Get the target it was used on
     // Otherwise injecting someone will give us addictions etc.
-    if( target.has_flag( "NO_INGEST" ) ) {
+    if( target.has_flag( flag_NO_INGEST ) ) {
         const auto &comest = *target.get_comestible();
         // Assume that parenteral meds don't spoil, so don't apply rot
         you.modify_health( comest );

@@ -1,8 +1,6 @@
 #include "catch/catch.hpp"
 
-#include <cmath>
 #include <cstdlib>
-#include <memory>
 #include <string>
 
 #include "avatar.h"
@@ -11,9 +9,8 @@
 #include "itype.h"
 #include "morale_types.h"
 #include "type_id.h"
-#include "value_ptr.h"
 
-static const std::string flag_WET( "WET" );
+static const flag_str_id flag_WET( "WET" );
 
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {

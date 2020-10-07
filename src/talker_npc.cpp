@@ -493,8 +493,11 @@ std::string talker_npc::give_item_to( const bool to_use )
     }
     item &given = *loc;
 
-    if( ( &given == &player_character.weapon && given.has_flag( "NO_UNWIELD" ) ) ||
-        ( player_character.is_worn( given ) && given.has_flag( "NO_TAKEOFF" ) ) ) {
+    static const flag_str_id flag_NO_UNWIELD( "NO_UNWIELD" );
+    static const flag_str_id flag_NO_TAKEOFF( "NO_TAKEOFF" );
+
+    if( ( &given == &player_character.weapon && given.has_flag( flag_NO_UNWIELD ) ) ||
+        ( player_character.is_worn( given ) && given.has_flag( flag_NO_TAKEOFF ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }

@@ -1,5 +1,8 @@
+#include <unordered_set>
 #include "catch/catch.hpp"
 
+#include "colony_list_test_helpers.h"
+#include "flag.h"
 #include "generic_factory.h"
 
 namespace
@@ -243,4 +246,136 @@ TEST_CASE( "string_id_compare_benchmark", "[.][generic_factory][string_id][bench
     BENCHMARK( "ids are not equal, valid version" ) {
         return id_200 == id_300;
     };
+}
+
+// compares the lookup performance of different flag container implementations
+TEST_CASE( "flags_benchmark", "[.][generic_factory][int_id][string_id][benchmark]" )
+{
+    constexpr int bit_flags_size = 100;
+    constexpr int bloom_size = 64;
+
+    INFO( "bloom_size must be a power of two" );
+    REQUIRE( __builtin_popcount( bloom_size ) == 1 );
+
+    const unsigned int flags_in_item = GENERATE( 2, 8, 32, 128 );
+
+    struct fake_item {
+        int dummy;
+        std::bitset<bit_flags_size> bit_flags;
+        cata::flat_set<flag_str_id> std_set_string_ids;
+        cata::flat_set<flag_str_id> flat_set_string_ids;
+        std::bitset<bloom_size> bloom;
+        std::set<flag_id> std_set_int_ids;
+        std::unordered_set<flag_id> std_uo_set_int_ids;
+        std::set<std::string> std_set_std_strings;
+        cata::flat_set<std::string> flat_set_std_strings;
+        cata::flat_set<flag_id> flat_set_int_ids;
+        std::vector<flag_id> vector_int_ids;
+
+        void set_flag( const flag_str_id &flag ) {
+            const auto int_id = flag.id();
+            const int i = int_id.to_i();
+            bit_flags[i % bit_flags_size] = true;
+            bloom[i % bloom_size] = true;
+            flat_set_string_ids.insert( flag );
+            std_set_string_ids.insert( flag );
+            std_set_std_strings.emplace( flag.str() );
+            flat_set_std_strings.insert( flag.str() );
+            flat_set_int_ids.insert( int_id );
+            std_set_int_ids.emplace( int_id );
+            std_uo_set_int_ids.emplace( int_id );
+            // do not add duplicates
+            if( std_uo_set_int_ids.size() > vector_int_ids.size() ) {
+                vector_int_ids.push_back( flag );
+            }
+        }
+    } item;
+
+    const auto &all_flags = json_flag::get_all();
+    const int all_flags_n = static_cast<int>( all_flags.size() );
+    REQUIRE( all_flags_n >= 10 );
+
+    for( const auto &f : all_flags ) {
+        if( xor_rand() % all_flags_n <= flags_in_item ) {
+            item.set_flag( f.id );
+        }
+    }
+    while( item.std_set_string_ids.size() < flags_in_item ) {
+        item.set_flag( all_flags[xor_rand() % all_flags_n].id );
+    }
+
+    std::vector<flag_str_id> test_flags;
+    bool hits = GENERATE( false, true );
+    if( hits ) {
+        // populate only with flags that exist in the item
+        for( const auto &f : item.std_set_string_ids ) {
+            test_flags.push_back( f );
+        }
+    } else {
+        // populate with random flags
+        for( int i = 0; i < 20; i++ ) {
+            test_flags.push_back( all_flags[xor_rand() % all_flags_n].id );
+        }
+    }
+    const int test_flags_size = test_flags.size();
+
+    DYNAMIC_SECTION( "flags_in_item: " << flags_in_item << "; only_hits: " << hits ) {
+    }
+
+    int i = 0;
+
+    BENCHMARK( "baseline: flag access" ) {
+        return test_flags[( i++ ) % test_flags_size].str().size();
+    };
+
+    BENCHMARK( "baseline: int id" ) {
+        return test_flags[0].id().to_i();
+    };
+
+    BENCHMARK( "\"enum\" bitset" ) {
+        return !!item.bit_flags[( i++ ) % bit_flags_size];
+    };
+
+    BENCHMARK( "flag_id bitset" ) {
+        return !!item.bit_flags[test_flags[( i++ ) % test_flags_size].id().to_i() % bit_flags_size];
+    };
+
+    BENCHMARK( "std::set<std::string>" ) {
+        return item.std_set_std_strings.count( test_flags[( i++ ) % test_flags_size].str() );
+    };
+
+    BENCHMARK( "flat_set<std::string>" ) {
+        return item.flat_set_std_strings.count( test_flags[( i++ ) % test_flags_size].str() );
+    };
+
+    BENCHMARK( "flat_set<flag_str_id>" ) {
+        return item.flat_set_string_ids.count( test_flags[( i++ ) % test_flags_size] );
+    };
+
+    BENCHMARK( "std::set<flag_str_id>" ) {
+        return item.std_set_string_ids.count( test_flags[( i++ ) % test_flags_size] );
+    };
+
+    BENCHMARK( "flat_set<flag_id>" ) {
+        return item.flat_set_int_ids.count( test_flags[( i++ ) % test_flags_size] );
+    };
+
+    BENCHMARK( "std::set<flag_id>" ) {
+        return item.std_set_int_ids.count( test_flags[( i++ ) % test_flags_size] );
+    };
+
+    BENCHMARK( "bloom + std::set<flag_id>" ) {
+        const flag_id &id = test_flags[( i++ ) % test_flags_size].id();
+        return item.bloom[id.to_i() % bloom_size] && item.std_set_int_ids.count( id );
+    };
+
+    BENCHMARK( "std::unordered_set<flag_id>" ) {
+        return item.std_uo_set_int_ids.count( test_flags[( i++ ) % test_flags_size] );
+    };
+
+    BENCHMARK( "std::vector<flag_id>" ) {
+        const std::vector<flag_id> &v = item.vector_int_ids;
+        return std::find( v.begin(), v.end(), test_flags[( i++ ) % test_flags_size] ) != v.end();
+    };
+
 }

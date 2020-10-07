@@ -21,7 +21,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
     const ammotype &gun_ammo_type = item::find_type( gun.ammo_default() )->ammo->type;
     item &ammo = dummy.i_add( item( "38_special", 0, gun.ammo_capacity( gun_ammo_type ) ) );
     item_location ammo_location( dummy, &ammo );
-    REQUIRE( gun.has_flag( "RELOAD_ONE" ) );
+    REQUIRE( gun.has_flag( flag_id( "RELOAD_ONE" ) ) );
     REQUIRE( gun.ammo_remaining() == 0 );
 
     const item::reload_option gun_option( &dummy, &gun, &gun, ammo_location );

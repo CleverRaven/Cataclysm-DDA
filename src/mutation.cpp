@@ -75,6 +75,9 @@ static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
+static const flag_str_id flag_CANT_HEAL_EVERYONE( "CANT_HEAL_EVERYONE" );
+static const flag_str_id flag_OVERSIZE( "OVERSIZE" );
+
 namespace io
 {
 
@@ -419,8 +422,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     }
 
     remove_worn_items_with( [&]( item & armor ) {
-        static const std::string mutation_safe = "OVERSIZE";
-        if( armor.has_flag( mutation_safe ) ) {
+        if( armor.has_flag( flag_OVERSIZE ) ) {
             return false;
         }
         if( !branch.conflicts_with_item( armor ) ) {
@@ -567,7 +569,7 @@ bool Character::can_use_heal_item( const item &med ) const
         }
     }
     if( !got_restriction ) {
-        can_use = !med.has_flag( "CANT_HEAL_EVERYONE" );
+        can_use = !med.has_flag( flag_CANT_HEAL_EVERYONE );
     }
 
     if( !can_use ) {

@@ -2364,11 +2364,13 @@ void monster::drop_items_on_death()
     // This block removes some items, according to item spawn scaling factor
     const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
     if( spawn_rate < 1 ) {
+        static const flag_str_id flag_MISSION_ITEM( "MISSION_ITEM" );
+
         // Temporary vector, to remember which items will be dropped
         std::vector<item> remaining;
         for( const item &it : items ) {
             // Mission items are not affected by item spawn rate
-            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( "MISSION_ITEM" ) ) {
+            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( flag_MISSION_ITEM ) ) {
                 remaining.push_back( it );
             }
         }
@@ -2385,7 +2387,8 @@ void monster::drop_items_on_death()
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
-                it->item_tags.insert( "FILTHY" );
+                static const flag_str_id flag_FILTHY( "FILTHY" );
+                it->set_flag( flag_FILTHY );
             }
         }
     }

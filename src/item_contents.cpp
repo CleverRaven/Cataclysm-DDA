@@ -644,9 +644,12 @@ int item_contents::ammo_consume( int qty, const tripoint &pos )
             item &mag = pocket.front();
             const int res = mag.ammo_consume( qty, pos );
             if( res && mag.ammo_remaining() == 0 ) {
-                if( mag.has_flag( "MAG_DESTROY" ) ) {
+                const static flag_str_id flag_MAG_DESTROY( "MAG_DESTROY" );
+                const static flag_str_id flag_MAG_EJECT( "MAG_EJECT" );
+
+                if( mag.has_flag( flag_MAG_DESTROY ) ) {
                     pocket.remove_item( mag );
-                } else if( mag.has_flag( "MAG_EJECT" ) ) {
+                } else if( mag.has_flag( flag_MAG_EJECT ) ) {
                     get_map().add_item( pos, mag );
                     pocket.remove_item( mag );
                 }

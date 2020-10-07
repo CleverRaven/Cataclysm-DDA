@@ -1,10 +1,10 @@
 #include "catch/catch.hpp"
 
-#include <map>
 #include <string>
 #include <vector>
 
 #include "enums.h"
+#include "flag.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -395,7 +395,7 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
 
 // Flag restriction
 // ----------------
-// The "flag_restriction" list from pocket data JSON gives compatible item flag(s) for this pocket.
+// The "get_flag_restrictions" list from pocket data JSON gives compatible item flag(s) for this pocket.
 // An item with any one of those tags may be inserted into the pocket.
 //
 // Related JSON fields:
@@ -441,14 +441,14 @@ TEST_CASE( "pocket with item flag restriction", "[pocket][flag_restriction]" )
     // items with any of those flags can be inserted in the pocket.
 
     GIVEN( "pocket with BELT_CLIP flag restriction" ) {
-        data_belt.flag_restriction.push_back( "BELT_CLIP" );
+        data_belt.add_flag_restriction( flag_BELT_CLIP );
         item_pocket pocket_belt( &data_belt );
 
         GIVEN( "item has BELT_CLIP flag" ) {
-            REQUIRE( screwdriver.has_flag( "BELT_CLIP" ) );
-            REQUIRE( sonic.has_flag( "BELT_CLIP" ) );
-            REQUIRE( halligan.has_flag( "BELT_CLIP" ) );
-            REQUIRE( axe.has_flag( "BELT_CLIP" ) );
+            REQUIRE( screwdriver.has_flag( flag_BELT_CLIP ) );
+            REQUIRE( sonic.has_flag( flag_BELT_CLIP ) );
+            REQUIRE( halligan.has_flag( flag_BELT_CLIP ) );
+            REQUIRE( axe.has_flag( flag_BELT_CLIP ) );
 
             WHEN( "item volume is less than min_item_volume" ) {
                 REQUIRE( screwdriver.volume() < data_belt.min_item_volume );
@@ -504,8 +504,8 @@ TEST_CASE( "pocket with item flag restriction", "[pocket][flag_restriction]" )
         }
 
         GIVEN( "item without BELT_CLIP flag" ) {
-            REQUIRE_FALSE( rag.has_flag( "BELT_CLIP" ) );
-            REQUIRE_FALSE( rock.has_flag( "BELT_CLIP" ) );
+            REQUIRE_FALSE( rag.has_flag( flag_BELT_CLIP ) );
+            REQUIRE_FALSE( rock.has_flag( flag_BELT_CLIP ) );
             // Ensure they are not too large otherwise
             REQUIRE_FALSE( rag.volume() > data_belt.max_contains_volume() );
             REQUIRE_FALSE( rock.volume() > data_belt.max_contains_volume() );

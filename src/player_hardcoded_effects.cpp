@@ -127,7 +127,7 @@ static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
-static const std::string flag_TOURNIQUET( "TOURNIQUET" );
+static const flag_str_id flag_TOURNIQUET( "TOURNIQUET" );
 
 static void eff_fun_onfire( player &u, effect &it )
 {

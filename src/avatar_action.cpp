@@ -22,6 +22,7 @@
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -79,11 +80,8 @@ static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
-static const std::string flag_DIG_TOOL( "DIG_TOOL" );
-static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
-static const std::string flag_RAMP_END( "RAMP_END" );
-static const std::string flag_SWIMMABLE( "SWIMMABLE" );
+static const std::string tf_flag_RAMP_END( "RAMP_END" );
+static const std::string tf_flag_SWIMMABLE( "SWIMMABLE" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -337,9 +335,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             return false;
         }
     }
-    bool toSwimmable = m.has_flag( flag_SWIMMABLE, dest_loc );
+    bool toSwimmable = m.has_flag( tf_flag_SWIMMABLE, dest_loc );
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
-    bool fromSwimmable = m.has_flag( flag_SWIMMABLE, you.pos() );
+    bool fromSwimmable = m.has_flag( tf_flag_SWIMMABLE, you.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, you.pos() );
     bool fromBoat = veh0 != nullptr && veh0->is_in_water();
     bool toBoat = veh1 != nullptr && veh1->is_in_water();
@@ -472,7 +470,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
     // Basically, finish walking on the stairs instead of pulling self up by hand
     bool aligned_ramps = false;
     for( const tripoint &pt : m.points_in_radius( you.pos(), 1 ) ) {
-        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( flag_RAMP_END, pt ) ) {
+        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( tf_flag_RAMP_END, pt ) ) {
             aligned_ramps = true;
             break;
         }
@@ -497,7 +495,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 
 void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 {
-    if( !m.has_flag( flag_SWIMMABLE, p ) ) {
+    if( !m.has_flag( tf_flag_SWIMMABLE, p ) ) {
         dbg( D_ERROR ) << "game:plswim: Tried to swim in "
                        << m.tername( p ) << "!";
         debugmsg( "Tried to swim in %s!", m.tername( p ) );

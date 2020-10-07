@@ -143,9 +143,9 @@ class generic_factory
         // TEMPORARY until 0.G: Remove "ident" support
         const std::string legacy_id_member_name = "ident";
 
-        bool find_id( const string_id<T> &id, int_id<T> &result ) const {
+        inline bool find_id( const string_id<T> &id, int_id<T> &result ) const {
             if( id._version == version ) {
-                result = int_id<T>( id._cid );
+                result._id = id._cid;
                 return is_valid( result );
             }
             const auto iter = map.find( id );
@@ -501,7 +501,7 @@ class generic_factory
         }
 
         // checks whether given version is the same as current version of this generic_factory
-        bool is_valid( const Version &v ) {
+        inline bool is_valid( const Version &v ) {
             return v.version == version;
         }
 };

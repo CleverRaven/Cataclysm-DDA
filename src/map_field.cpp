@@ -84,7 +84,8 @@ static const efftype_id effect_teargas( "teargas" );
 static const efftype_id effect_webbed( "webbed" );
 
 static const std::string flag_FUNGUS( "FUNGUS" );
-static const std::string flag_GAS_PROOF( "GAS_PROOF" );
+
+static const flag_str_id flag_GAS_PROOF( "GAS_PROOF" );
 
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );

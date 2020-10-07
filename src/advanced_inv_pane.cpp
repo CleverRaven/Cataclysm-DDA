@@ -56,7 +56,7 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     filter = save_state->filter;
 }
 
-static const std::string flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
+static const flag_str_id flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
 
 bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) const
 {
