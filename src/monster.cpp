@@ -2863,7 +2863,7 @@ float monster::get_mountable_weight_ratio() const
     return type->mountable_weight_ratio;
 }
 
-void monster::hear_sound( const tripoint &source, const int vol, const int dist )
+void monster::hear_sound( const tripoint &source, const int vol, const int dist, bool provocative )
 {
     if( !can_hear() ) {
         return;
@@ -2893,6 +2893,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
 
     int wander_turns = volume * ( goodhearing ? 6 : 1 );
     process_trigger( mon_trigger::SOUND, volume );
+    provocative_sound = provocative || volume >= 30;
     if( morale >= 0 && anger >= 10 ) {
         // TODO: Add a proper check for fleeing attitude
         // but cache it nicely, because this part is called a lot
