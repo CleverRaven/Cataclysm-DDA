@@ -1,7 +1,6 @@
 {
   "type": "mod_tileset",
   "compatibility": [
-    "UltimateCataclysm",
     "UlticaShell"
   ],
   "tile_info": [
