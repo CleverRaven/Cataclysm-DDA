@@ -832,6 +832,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "dandelion tea bag" },
     "copy-from": "tea_bag",
+    "calories": 26,
     "description": "A paper sachet with dried dandelion roots inside.  Put it into boiling water to make a cup of dandelion tea."
   },
   {
