@@ -578,11 +578,17 @@ Item_spawn_data::ItemList Item_group::create( const time_point &birthday, Recurs
     }
     if( container_item ) {
         item ctr( *container_item, birthday );
+        ItemList spilled;
         for( const item &it : result ) {
-            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
-            ctr.put_in( it, pk_type );
+            if( ctr.can_contain( it ) ) {
+                const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
+                ctr.put_in( it, pk_type );
+            } else {
+                spilled.push_back( it );
+            }
         }
-        result = ItemList{ ctr };
+        result.swap( spilled );
+        result.push_back( ctr );
     }
 
     return result;
