@@ -699,6 +699,7 @@
     "valid": false,
     "description": "",
     "prereqs": [ "STORMSHAPER", "EARTHSHAPER" ],
+    "spells_learned": [ [ "railgun", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
