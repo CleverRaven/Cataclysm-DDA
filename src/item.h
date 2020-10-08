@@ -175,7 +175,7 @@ inline bool is_crafting_component( const item &component );
 class item : public visitable<item>
 {
     public:
-        using FlagsSetType = std::set<std::string>;
+        using FlagsSetType = cata::flat_set<std::string>;
 
         item();
 
@@ -1446,8 +1446,8 @@ class item : public visitable<item>
         /*@{*/
         bool has_flag( const std::string &flag ) const;
 
-        template<typename Iter, typename T = std::decay_t<decltype( *begin( std::declval<Iter>() ) )>>
-        bool has_any_flag( const Iter &flags ) const {
+        template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
+        bool has_any_flag( const Container &flags ) const {
             return std::any_of( flags.begin(), flags.end(), [&]( const T & flag ) {
                 return has_flag( flag );
             } );
