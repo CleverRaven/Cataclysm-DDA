@@ -133,6 +133,7 @@ static const std::vector<std::pair<std::string, veh_ter_mod>> rail_terrain_mod =
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
+static std::set<std::string> vpart_categories_all;
 
 static std::map<vpart_id, vpart_info> abstract_parts;
 
@@ -349,11 +350,13 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         if( base != vpart_info_all.end() ) {
             def = base->second;
             def.looks_like = base->second.id.str();
+            def.categories = base->second.categories;
         } else if( ab != abstract_parts.end() ) {
             def = ab->second;
             if( def.looks_like.empty() ) {
                 def.looks_like = ab->second.id.str();
             }
+            def.categories = ab->second.categories;
         } else {
             deferred.emplace_back( jo.str(), src );
             return;
@@ -392,6 +395,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
     assign( jo, "cargo_weight_modifier", def.cargo_weight_modifier );
+    assign( jo, "categories", def.categories );
     assign( jo, "flags", def.flags );
     assign( jo, "description", def.description );
 
@@ -504,6 +508,10 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         abstract_parts[def.id] = def;
     } else {
         vpart_info_all[def.id] = def;
+    }
+
+    for( const std::string &cat : def.categories ) {
+        vpart_categories_all.insert( cat );
     }
 }
 
@@ -769,12 +777,18 @@ void vpart_info::check()
 void vpart_info::reset()
 {
     vpart_info_all.clear();
+    vpart_categories_all.clear();
     abstract_parts.clear();
 }
 
 const std::map<vpart_id, vpart_info> &vpart_info::all()
 {
     return vpart_info_all;
+}
+
+const std::set<std::string> &vpart_info::categories_all()
+{
+    return vpart_categories_all;
 }
 
 std::string vpart_info::name() const
@@ -960,6 +974,11 @@ std::vector<std::string> vpart_info::engine_excludes() const
 std::vector<itype_id> vpart_info::engine_fuel_opts() const
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->fuel_opts : std::vector<itype_id>();
+}
+
+bool vpart_info::has_category( const std::string &category ) const
+{
+    return this->categories.find( category ) != this->categories.end();
 }
 
 /**
