@@ -8426,7 +8426,7 @@ static void add_disassemblables( uilist &menu,
                                              it.tname(), stack.second );
             menu.addentry_col( menu_index++, true, hotkey, msg,
                                to_string_clipped( recipe_dictionary::get_uncraft(
-                                       it.typeId() ).time_to_craft( get_player_character() ) ) );
+                                       it.typeId() ).time_to_craft( get_player_character(), recipe_time_flag::ignore_proficiencies ) ) );
             hotkey = cata::nullopt;
         }
     }
@@ -8738,7 +8738,7 @@ void game::butcher()
             int time_to_disassemble_recursive = 0;
             for( const auto &stack : disassembly_stacks ) {
                 const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time_to_craft_moves(
-                                     get_player_character() );
+                                     get_player_character(), recipe_time_flag::ignore_proficiencies );
                 time_to_disassemble_once += time * stack.second;
                 time_to_disassemble_recursive += stack.first->get_recursive_disassemble_moves(
                                                      get_player_character() ) * stack.second;
