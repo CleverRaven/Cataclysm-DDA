@@ -1,0 +1,188 @@
+[
+  {
+    "type": "effect_type",
+    "id": "u_met_sadie"
+  },
+  {
+    "type": "effect_type",
+    "id": "sadie_injection",
+    "name": [ "Sadie's injection" ],
+    "desc": [ "" ],
+    "blood_analysis_description": "Several hundred lines of text list a series of complex biological molecules with unknown interactions.  Many appear to be associated with healing and immune response.  Only a few are known to be poisonous and many are known carcinogens.  Several have psychological and hormonal effects.",
+    "duration": 2000,
+    "rating": "mixed",
+    "apply_message": "A wave of cold runs through your body and you feel dizzy",
+    "remove_message": "The effects of Sadie's injection appear to be wearing off now",
+    "removes_effects": [ "bite", "flu" ],
+    "blocks_effects": [ "bite", "cold", "flu" ],
+    "base_mods": { "str_mod": [ 1 ], "sleep_chance": [ -1003 ], "sleep_min": [ 2500 ], "sleep_max": [ 3500 ] }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Sadie_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_sadie",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [
+        "Are we meeting again or did we already do that part?",
+        "You remind me of my friend Billy.",
+        "What an amazing world to be alive in, more or less.",
+        "My head always beats when I see you.  Or is that my heart?  I should check that.",
+        "It's always so nice to be seen."
+      ],
+      "no": "Hello Billy.  Back again to try and kill me?  It won't work, you should just give up."
+    },
+    "responses": [
+      {
+        "text": "What, who is Billy?",
+        "effect": { "u_add_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_sadie_firstmeet"
+      },
+      {
+        "text": "Die foul creature!",
+        "effect": [ { "u_add_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" }, "insult_combat" ],
+        "condition": { "not": { "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "What did you just inject me with?",
+        "condition": { "u_has_var": "sadie_injection", "type": "general", "context": "injection", "value": "yes" },
+        "topic": "TALK_sadie_ask_injection"
+      },
+      {
+        "text": "Can you inject me with whatever that was again?",
+        "condition": { "u_has_var": "sadie_nuts", "type": "general", "context": "nuts", "value": "yes" },
+        "topic": "TALK_sadie_ask_injection2"
+      },
+      {
+        "text": "How did you get here?",
+        "condition": { "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_sadie_ask_past"
+      },
+      {
+        "text": "How are things here?",
+        "condition": { "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_sadie_ask_mood"
+      },
+      {
+        "text": "Can I do anything for you?",
+        "condition": { "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_firstmeet",
+    "dynamic_line": "Oh.  I see now.  You have different sexual traits than Billy, likely due to a mutation or cybernetic enhancement, useful in mating rituals, the act of reproduction, and establishing social hierarchies.  Very good, I accept that you are either not Billy or have changed enough that we can establish a new relationship beyond violence, for example based around the gathering of food, mating, or shared hobbies such as badminton or photography.  How do you wish to proceed with our relationship not-Billy?",
+    "responses": [
+      { "text": "I'd like to understand more about you first.  Are you human, more or less?", "topic": "TALK_sadie_what" },
+      { "text": "You are aware of the Cataclysm?", "topic": "TALK_sadie_cataclysm" },
+      { "text": "I am your new friend and I'm here to help you.", "topic": "TALK_sadie_1" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_what",
+    "dynamic_line": "Yes, much of what you see is human I think.  I don't have the proper equipment to be entirely sure and I have some strange memories.  My beacon has already told you that I am Sadie.  Beyond that I don't know much to tell you.  I know a great deal about medicine.  I have some strange responses to physical stimula that I don't completely understand.  I think I must be a medical experiment of some kind.  I am hungry.",
+    "responses": [ { "text": "Can I help you?", "topic": "TALK_MISSION_LIST" }, { "text": "I should go.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_ask_past",
+    "dynamic_line": "I have so many memories, but they feel like they belong to other people?  And animals too I think?  It makes me dizzy and I have to sit down.",
+    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_sadie_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_cataclysm",
+    "dynamic_line": "I don't know her.",
+    "responses": [ { "text": "Yes.  Let's talk about something else.", "topic": "TALK_sadie_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_ask_mood",
+    "dynamic_line": "Things stay pretty much the same here.  Sometimes I feel bad, and that feels good, and sometimes I feel good, and that feels good too.  Overall things are better than you might expect, but this may be a common experience, in which case things are exactly as you might expect.  Does that make sense?",
+    "responses": [ { "text": "Perfect sense.", "topic": "TALK_sadie_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_injection",
+    "dynamic_line": "I hope you like it, it's one of my favorite things in the world, actually a lot of them all blended together.  It should feel really good.  Or really bad, I guess I don't know much about your body chemistry.  You're still alive, that's a really good sign!",
+    "responses": [
+      {
+        "text": "Wonderful.  Please don't inject me with anything else unless I ask for it in the future.",
+        "effect": [
+          { "u_lose_var": "sadie_injection", "type": "general", "context": "injection", "value": "yes" },
+          { "u_add_var": "sadie_nuts", "type": "general", "context": "nuts", "value": "yes" }
+        ],
+        "topic": "TALK_sadie_1"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_injection2",
+    "dynamic_line": "I'm so glad you liked it.  It really means a lot to me that we have similar body chemistry.  That's so important for all kinds of biological and emotional compatibility for example organ transplants and the reproductive act.  This shows how I feel about you, I think.",
+    "responses": [
+      {
+        "text": "I'm glad we get along so well Sadie.",
+        "effect": [ { "u_add_effect": "give_aid" }, { "u_add_effect": "morale_chat" }, { "u_add_effect": "sadie_injection" } ],
+        "topic": "TALK_sadie_1"
+      }
+    ]
+  },
+  {
+    "id": "MISSION_sadie_nuts",
+    "type": "mission_definition",
+    "name": "Nuts for Sadie",
+    "description": "Find nuts",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": [
+      "hickory_nut",
+      "peanut",
+      "hazelnut",
+      "chestnut",
+      "walnut",
+      "pine_nuts",
+      "peanut_unshelled",
+      "beech_nuts",
+      "walnut_unshelled",
+      "walnut_roasted",
+      "chestnut_unshelled",
+      "chestnut_roasted",
+      "hazelnut_unshelled",
+      "soy_nuts",
+      "hazelnut_roasted",
+      "hickory_nut_unshelled",
+      "hickory_nut_roasted"
+    ],
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Can you get me some nuts?",
+      "offer": "I miss nuts, I remember that I liked to eat them.  Can you get me some nuts?",
+      "accepted": "Hurray!  I love nuts.",
+      "rejected": "This makes me sad.  Which makes me happy.  So thanks?  Let me know if you change your mind.",
+      "advice": "Nuts can be found growing on certain trees, in stores and in homes, as well as hidden in bushes to be enjoyed later.  I know all about nuts.",
+      "inquire": "Do you have some nuts for me?",
+      "success": "Hurray!  I love nuts.  Here, let me inject you with this.",
+      "success_lie": "Aw, nuts.",
+      "failure": "This is nuts.  Is it really so hard to find nuts out there?  Thank you for trying though, your failure gives me pleasure.  What else are you bad at?"
+    },
+    "end": {
+      "effect": [
+        { "u_add_effect": "give_aid" },
+        { "u_add_effect": "morale_chat" },
+        { "u_add_effect": "sadie_injection" },
+        { "u_add_var": "sadie_injection", "type": "general", "context": "injection", "value": "yes" }
+      ]
+    }
+  }
+]
