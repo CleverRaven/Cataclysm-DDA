@@ -719,7 +719,7 @@
     "weight": "1245 g",
     "volume": "159 ml",
     "longest_side": "80 cm",
-    "bashing": 12,
+    "bashing": 10,
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ]
   },
