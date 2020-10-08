@@ -259,7 +259,7 @@
       { "item": "funnel", "prob": 50 },
       { "item": "bearing", "prob": 1 },
       { "item": "jack", "prob": 10 },
-      { "item": "permanent_marker", "prob": 20 },
+      { "item": "permanent_marker", "prob": 20, "charges": [ 0, 500 ] },
       { "item": "forge", "prob": 1 },
       { "item": "char_forge", "prob": 1 },
       { "item": "char_kiln", "prob": 1 },
