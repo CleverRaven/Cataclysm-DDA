@@ -88,7 +88,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_sadie_what",
-    "dynamic_line": "Yes, much of what you see is human I think.  I don't have the proper equipment to be entirely sure and I have some strange memories.  My beacon has already told you that I am Sadie.  Beyond that I don't know much to tell you.  I know a great deal about medicine.  I have some strange responses to physical stimula that I don't completely understand.  I think I must be a medical experiment of some kind.  I am hungry.",
+    "dynamic_line": "Yes, much of what you see is human I think.  I don't have the proper equipment to be entirely sure and I have some strange memories.  My beacon has already told you that I am Sadie.  Beyond that I don't know much to tell you.  I know a great deal about medicine.  I have some strange responses to physical stimuli that I don't completely understand.  I think I must be a medical experiment of some kind.  I am hungry.",
     "responses": [ { "text": "Can I help you?", "topic": "TALK_MISSION_LIST" }, { "text": "I should go.", "topic": "TALK_DONE" } ]
   },
   {
