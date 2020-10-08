@@ -1502,6 +1502,7 @@
     "stack_size": 100,
     "phase": "liquid",
     "explode_in_fire": true,
-    "explosion": { "power": 5, "shrapnel": 0 }
+    "explosion": { "power": 5, "shrapnel": 0 },
+    "looks_like": "ether"
   }
 ]
