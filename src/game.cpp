@@ -4285,7 +4285,7 @@ void game::mon_info_update( )
     for( auto &m : unique_mons ) {
         m.clear();
     }
-    std::fill( dangerous, dangerous + 8, false );
+    std::fill_n( dangerous, 8, false );
 
     const tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
