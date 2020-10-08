@@ -870,6 +870,8 @@ class vehicle
         // Fold up the vehicle
         bool fold_up();
 
+        // Try select any fuel for engine, returns true if some fuel is available
+        bool auto_select_fuel( int e );
         // Attempt to start an engine
         bool start_engine( int e );
         // stop all engines
