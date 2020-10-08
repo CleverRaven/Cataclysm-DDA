@@ -396,12 +396,14 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
                                  ignore_walls );
 
     // Draw the explosion
-    std::map<tripoint, nc_color> explosion_colors;
-    for( const tripoint &pt : targets ) {
-        explosion_colors[pt] = sp.damage_type_color();
-    }
+    if( !sp.has_flag( spell_flag::INVISIBLE ) ) {
+        std::map<tripoint, nc_color> explosion_colors;
+        for( const tripoint &pt : targets ) {
+            explosion_colors[pt] = sp.damage_type_color();
+        }
 
-    explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors );
+        explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors );
+    }
     return targets;
 }
 
