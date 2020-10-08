@@ -1216,12 +1216,19 @@ void npc::form_opinion( const player &u )
         op_of_u.fear -= 1;
     }
 
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+    // is your health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {
         const int hp_max = elem.second.get_hp_max();
         const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear--;
         }
+    }
+
+    // is my health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const int hp_max = elem.second.get_hp_max();
+        const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear++;
         }
@@ -1289,7 +1296,7 @@ void npc::form_opinion( const player &u )
         }
     }
     decide_needs();
-    for( auto &i : needs ) {
+    for( const npc_need &i : needs ) {
         if( i == need_food || i == need_drink ) {
             op_of_u.value += 2;
         }

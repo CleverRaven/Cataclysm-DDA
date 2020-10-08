@@ -315,7 +315,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is undamaged" ) {
             shirt.set_damage( 0 );
             REQUIRE( shirt.damage() == 0 );
-            REQUIRE( shirt.damage_level( 4 ) == 0 );
+            REQUIRE( shirt.damage_level() == 0 );
 
             // green `||`
             THEN( "it appears undamaged" ) {
@@ -326,7 +326,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "is is one-quarter damaged" ) {
             shirt.set_damage( dam25 );
             REQUIRE( shirt.damage() == dam25 );
-            REQUIRE( shirt.damage_level( 4 ) == 1 );
+            REQUIRE( shirt.damage_level() == 1 );
 
             // yellow `|\`
             THEN( "it appears slightly damaged" ) {
@@ -337,7 +337,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is half damaged" ) {
             shirt.set_damage( dam25 * 2 );
             REQUIRE( shirt.damage() == dam25 * 2 );
-            REQUIRE( shirt.damage_level( 4 ) == 2 );
+            REQUIRE( shirt.damage_level() == 2 );
 
             // magenta `|.`
             THEN( "it appears moderately damaged" ) {
@@ -348,7 +348,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is three-quarters damaged" ) {
             shirt.set_damage( dam25 * 3 );
             REQUIRE( shirt.damage() == dam25 * 3 );
-            REQUIRE( shirt.damage_level( 4 ) == 3 );
+            REQUIRE( shirt.damage_level() == 3 );
 
             // red `\.`
             THEN( "it appears heavily damaged" ) {
@@ -359,7 +359,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is totally damaged" ) {
             shirt.set_damage( dam25 * 4 );
             REQUIRE( shirt.damage() == dam25 * 4 );
-            REQUIRE( shirt.damage_level( 4 ) == 4 );
+            REQUIRE( shirt.damage_level() == 4 );
 
             // dark gray `XX`
             THEN( "it appears almost destroyed" ) {

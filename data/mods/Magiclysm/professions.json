@@ -243,7 +243,7 @@
     "type": "profession",
     "id": "ranger",
     "name": "Introspectionist",
-    "description": "You segregated yourself from society because you wanted to concentrate on improving yourself.  It was you and your best friend, but now the apocalypse won't leave you alone. ",
+    "description": "You segregated yourself from society because you wanted to concentrate on improving yourself.  It was you and your best friend, but now the apocalypse won't leave you alone.",
     "spells": [ { "id": "magic_missile", "level": 4 } ],
     "points": 4,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" } ],

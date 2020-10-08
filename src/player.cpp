@@ -2433,6 +2433,7 @@ bool player::unload( item_location &loc, bool bypass_activity )
 
         if( changed ) {
             it.on_contents_changed();
+            invalidate_weight_carried_cache();
         }
         return true;
     }
@@ -2715,7 +2716,7 @@ std::pair<int, int> player::gunmod_installation_odds( const item &gun, const ite
     roll += ( get_dex() - 12 ) * 2;
     roll += ( get_int() - 12 ) * 2;
     // each level of damage to the base gun reduces success by 10%
-    roll -= std::max( gun.damage_level( 4 ), 0 ) * 10;
+    roll -= std::max( gun.damage_level(), 0 ) * 10;
     roll = std::min( std::max( roll, 0 ), 100 );
 
     // risk of causing damage on failure increases with less durable guns

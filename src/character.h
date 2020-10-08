@@ -2259,7 +2259,8 @@ class Character : public Creature, public visitable<Character>
         /** Used to compute how filling a food is.*/
         double compute_effective_food_volume_ratio( const item &food ) const;
         /** Used to to display how filling a food is. */
-        int compute_calories_per_effective_volume( const item &food ) const;
+        int compute_calories_per_effective_volume( const item &food,
+                const nutrients *nutrient = nullptr ) const;
         /** Handles the effects of consuming an item */
         bool consume_effects( item &food );
         /** Check character's capability of consumption overall */

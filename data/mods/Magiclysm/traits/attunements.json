@@ -576,6 +576,8 @@
     "valid": false,
     "description": "The Technomancer specializes in augmenting humans without actually modifying them; and the Overclocker takes the heat aptitude of a Kelvinist and puts that to work.  You are able to think significantly faster, and are able to align your leylines for spellcasting faster as a result.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
+    "passive_mods": { "int_mod": 5 },
+    "casting_time_multiplier": 0.75,
     "spells_learned": [ [ "overaccelerate", 5 ] ],
     "cancels": [
       "ARTIFICER",
@@ -656,7 +658,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Through the fine manipulation of light, an Illusionist might craft deceptively convincing and dangerous illusions.  An Illusionist excels at avoiding direct confrontation, instead relying on decoys and traps to slip by undetected. ",
+    "description": "Through the fine manipulation of light, an Illusionist might craft deceptively convincing and dangerous illusions.  An Illusionist excels at avoiding direct confrontation, instead relying on decoys and traps to slip by undetected.",
     "spells_learned": [ [ "spear_of_light", 5 ] ],
     "prereqs": [ "MAGUS", "TECHNOMANCER" ],
     "cancels": [
@@ -697,6 +699,7 @@
     "valid": false,
     "description": "",
     "prereqs": [ "STORMSHAPER", "EARTHSHAPER" ],
+    "spells_learned": [ [ "railgun", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -777,7 +780,7 @@
     "valid": false,
     "description": "The Radiation mage was discovered as an attunement in the 20th century, closely guarded as a military secret in close relation to the Manhatten Project.  It was declassified in 1989 as a part of the attunement awareness movement, but it is still poorly understood even by the very few researchers that wrote books on attunements.",
     "prereqs": [ "STORMSHAPER", "ANIMIST" ],
-    "spells_learned": [ [ "shortwave", 5 ] ],
+    "spells_learned": [ [ "shortwave", 5 ], [ "gamma_burst", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
