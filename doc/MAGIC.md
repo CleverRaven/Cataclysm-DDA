@@ -154,6 +154,7 @@ Spells may have any number of flags, for example:
 | `WITH_CONTAINER` | items spawned with container
 | `UNSAFE_TELEPORT` | teleport spell risks killing the caster or others
 | `SPAWN_GROUP` | spawn or summon from an item or monster group, instead of individual item/monster ID
+| `INVISIBLE` | spell won't draw explosion effect when cast
 
 
 ### Damage Types
