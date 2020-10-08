@@ -224,7 +224,7 @@ class vpart_info
         void set_flag( const std::string &flag );
 
         /** Gets whether part is in a category for display */
-        bool has_category( std::string category ) const;
+        bool has_category( const std::string &category ) const;
 
         /** Format the description for display */
         int format_description( std::string &msg, const nc_color &format_color, int width ) const;

@@ -47,11 +47,13 @@ TEST_CASE( "vehicle_parts_boardable_openable_parts_have_door_flag", "[vehicle][v
 TEST_CASE( "vehicle_parts_have_at_least_one_category", "[vehicle][vehicle_parts]" )
 {
     // check parts have at least one category
-    for( const auto &e : vpart_info::all() ) {
+    const std::set<std::string> categories = vpart_info::categories_all();
+
+    for( const std::pair<vpart_id, vpart_info> &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
 
         bool part_has_category = false;
-        for( const std::string &cat : vpart_info::categories_all() ) {
+        for( const std::string &cat : categories ) {
             if( vp.has_category( cat ) ) {
                 part_has_category = true;
                 break;

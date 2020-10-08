@@ -976,7 +976,7 @@ std::vector<itype_id> vpart_info::engine_fuel_opts() const
     return has_flag( VPFLAG_ENGINE ) ? engine_info->fuel_opts : std::vector<itype_id>();
 }
 
-bool vpart_info::has_category( std::string category ) const
+bool vpart_info::has_category( const std::string &category ) const
 {
     return this->categories.find( category ) != this->categories.end();
 }

@@ -903,12 +903,11 @@ void veh_interact::do_install()
     }
     tab_list.push_back( pgettext( "Vehicle Parts|", "Filter" ) );
 
-    // filter for each tab, last one
     std::vector <std::function<bool( const vpart_info * )>> tab_filters;
     tab_filters.push_back( [&]( const vpart_info * ) {
         return true;
     } );
-    for( const auto &cat : vpart_info::categories_all() ) {
+    for( const std::string &cat : vpart_info::categories_all() ) {
         tab_filters.push_back( [&]( const vpart_info * p ) {
             return p->has_category( cat );
         } );
