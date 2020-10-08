@@ -345,7 +345,7 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
             name = string_format( "%-22s%2.0f%%", trim_by_length( cur.id->name(), width - 2 ),
                                   cur.practice * 100 );
         } else {
-            name = cur.id->name();
+            name = trim_by_length( cur.id->name(), width );
         }
         const nc_color col = focused && i == line ? hilite( cur.color ) : cur.color;
         y += fold_and_print( win, point( 0, y ), width, col, name );
