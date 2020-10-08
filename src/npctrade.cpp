@@ -72,7 +72,9 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
                 giver.use_charges( gift.typeId(), charges );
             } else if( ip.count > 0 ) {
                 for( int i = 0; i < count; i++ ) {
-                    giver.use_amount( gift.typeId(), 1 );
+                    giver.use_amount( gift.typeId(), 1 ); // <<< This concusming item by type so it is taking first container
+                    //giver.i_rem(&gift); //How to delete from inventory quntity items?
+                    //ip.loc.remove_item();
                 }
             }
         } else {
