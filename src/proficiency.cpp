@@ -244,11 +244,6 @@ void proficiency_set::direct_learn( const proficiency_id &learned )
 
 void proficiency_set::direct_remove( const proficiency_id &lost )
 {
-    // No unintended side effects
-    if( !known.count( lost ) ) {
-        return;
-    }
-
     known.erase( lost );
 }
 
