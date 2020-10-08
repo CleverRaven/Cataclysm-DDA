@@ -125,9 +125,13 @@
     "default": "mon_null",
     "monsters": [
       { "monster": "mon_gallimimus_juvenile", "freq": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_eoraptor_juvenile", "freq": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_scutellosaurus_juvenile", "freq": 5, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_camptosaurus_juvenile", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_stegosaurus_juvenile", "freq": 5, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ankylosaurus_juvenile", "freq": 5, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_camptosaurus_juvenile", "freq": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_maiasaura_juvenile", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_parasaurolophus_juvenile", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_corythosaurus_juvenile", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_edmontosaurus_juvenile", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_pachycephalosaurus_juvenile", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
     ]
   },
@@ -136,11 +140,10 @@
     "name": "GROUP_DINOSAUR_DANGEROUS_JUVENILE",
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_coelophysis_juvenile", "freq": 4, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dilophosaurus_juvenile", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ceratosaurus_juvenile", "freq": 1, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_spinosaurus_juvenile", "freq": 1, "cost_multiplier": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_allosaurus_juvenile", "freq": 8, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_velociraptor_juvenile", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_deinonychus_juvenile", "freq": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
       { "monster": "mon_utahraptor_juvenile", "freq": 5, "cost_multiplier": 30 }
     ]
