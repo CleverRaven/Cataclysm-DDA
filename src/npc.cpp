@@ -1216,7 +1216,7 @@ void npc::form_opinion( const player &u )
         op_of_u.fear -= 1;
     }
 
-    // is your health high
+    // is your health low
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {
         const int hp_max = elem.second.get_hp_max();
         const int hp_cur = elem.second.get_hp_cur();
@@ -1225,7 +1225,7 @@ void npc::form_opinion( const player &u )
         }
     }
 
-    //is my health high
+    // is my health low
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         const int hp_max = elem.second.get_hp_max();
         const int hp_cur = elem.second.get_hp_cur();
