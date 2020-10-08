@@ -179,7 +179,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FIND_CYRUS",
     "dialogue": {
-      "describe": "Parts, parts, parts.  Bring me some hearts. ",
+      "describe": "Parts, parts, parts.  Bring me some hearts.",
       "offer": "The Whately's are known in these parts for gathering body parts.  Ha!  That's just rumors and hearsay.  But I do need two humming hearts.",
       "accepted": "I have some relatives you should meet, if you don't mind hard work for the advancement of science.",
       "rejected": "Even I understand this is dangerous.",

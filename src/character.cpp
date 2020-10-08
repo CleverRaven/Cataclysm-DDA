@@ -7784,6 +7784,7 @@ mutation_value_map = {
     { "mana_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_multiplier> },
     { "mana_regen_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_regen_multiplier> },
     { "bionic_mana_penalty", calc_mutation_value_multiplicative<&mutation_branch::bionic_mana_penalty> },
+    { "casting_time_multiplier", calc_mutation_value_multiplicative<&mutation_branch::casting_time_multiplier> },
     { "speed_modifier", calc_mutation_value_multiplicative<&mutation_branch::speed_modifier> },
     { "movecost_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier> },
     { "movecost_flatground_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier> },
@@ -9406,7 +9407,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
                               material.cut_dmg_verb();
 
     const std::string pre_damage_name = armor.tname();
-    const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level( 4 ) );
+    const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level() );
 
     // add "further" if the damage adjective and verb are the same
     std::string format_string = ( pre_damage_adj == damage_verb ) ?
@@ -10208,10 +10209,10 @@ int Character::shoe_type_count( const itype_id &it ) const
 std::vector<item *> Character::inv_dump()
 {
     std::vector<item *> ret;
-    if( is_armed() && can_unwield( weapon ).success() ) {
+    if( is_armed() && can_drop( weapon ).success() ) {
         ret.push_back( &weapon );
     }
-    for( auto &i : worn ) {
+    for( item &i : worn ) {
         ret.push_back( &i );
     }
     inv->dump( ret );

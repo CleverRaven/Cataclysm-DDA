@@ -544,7 +544,7 @@ TEST_CASE( "spell effect - target_attack", "[magic][spell][effect][target_attack
 
     // Ensure the spell has the needed attributes
     const spell_type &pew_type = pew_id.obj();
-    REQUIRE( pew_type.effect_name == "target_attack" );
+    REQUIRE( pew_type.effect_name == "attack" );
     REQUIRE( pew_type.min_damage > 0 );
     REQUIRE( pew_type.min_range >= 2 );
 

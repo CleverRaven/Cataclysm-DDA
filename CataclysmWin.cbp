@@ -65,7 +65,7 @@
 					<Add option="-Os" />
 					<Add option="-O2" />
 					<Add option="-DTILES=1" />
-					<Add option="-DSOUND=1" />
+					<Add option="-DSDL_SOUND=1" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/SDL2" />
@@ -113,7 +113,7 @@
 					<Add option="-O2" />
 					<Add option="-DLOCALIZE=1" />
 					<Add option="-DTILES=1" />
-					<Add option="-DSOUND=1" />
+					<Add option="-DSDL_SOUND=1" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/SDL2" />
@@ -191,7 +191,7 @@
 					<Add option="-pg" />
 					<Add option="-g" />
 					<Add option="-DTILES=1" />
-					<Add option="-DSOUND=1" />
+					<Add option="-DSDL_SOUND=1" />
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
@@ -241,7 +241,7 @@
 					<Add option="-g" />
 					<Add option="-DLOCALIZE=1" />
 					<Add option="-DTILES=1" />
-					<Add option="-DSOUND=1" />
+					<Add option="-DSDL_SOUND=1" />
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>

@@ -114,7 +114,8 @@ void game::serialize( std::ostream &fout )
 
 std::string scent_map::serialize( bool is_type ) const
 {
-    std::stringstream rle_out;
+    std::ostringstream rle_out;
+    rle_out.imbue( std::locale::classic() );
     if( is_type ) {
         rle_out << typescent.str();
     } else {
@@ -247,6 +248,7 @@ void game::unserialize( std::istream &fin )
 void scent_map::deserialize( const std::string &data, bool is_type )
 {
     std::istringstream buffer( data );
+    buffer.imbue( std::locale::classic() );
     if( is_type ) {
         std::string str;
         buffer >> str;

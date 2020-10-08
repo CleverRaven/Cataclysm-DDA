@@ -91,7 +91,7 @@
     "followup": "MISSION_RANCH_FOREMAN_2",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Our first project is to enclose the barn so that new refugees have a safe place to sleep.  Before we can begin serious improvements we need lumber to work with.  Enclosing the four barn entrances will take nearly 400 2x4's… if you could provide half of that we should be able to take care of the other half and construction.  If you don't have a truck, I'd make finding one your first priority.  ",
+      "offer": "Our first project is to enclose the barn so that new refugees have a safe place to sleep.  Before we can begin serious improvements we need lumber to work with.  Enclosing the four barn entrances will take nearly 400 2x4's… if you could provide half of that we should be able to take care of the other half and construction.  If you don't have a truck, I'd make finding one your first priority.",
       "accepted": "The more men we can bring to the camp the quicker improvements can be made.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Avoid destroying the furniture, we'll be needing it.",
@@ -269,7 +269,7 @@
     "dialogue": {
       "describe": "We need help…",
       "offer": "I'm sure you've noticed the new workers that have started trickling in.  The Free Merchant counsel is demanding that we immediately begin projects to become self-sufficient due to limited supplies.  We are going to need to rapidly setup an agricultural industry before winter and starvation catches us unprepared and unsupported.  In order to get a half dozen shovels and a couple of bags of seeds, we are going to have to trade for it.  I've already got the deal lined up but the only thing they are willing to trade it for is salt.  I negotiated them down from 500 units to 300… we were hoping you might have access to a source.",
-      "accepted": "Salt is key to preserving meat and other perishables… without any excess food it wouldn't do us much good now but I imagine we'll need to send you out to get more in the future.  ",
+      "accepted": "Salt is key to preserving meat and other perishables… without any excess food it wouldn't do us much good now but I imagine we'll need to send you out to get more in the future.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "If you can find a source of salt water you should be able to boil it down.",
       "inquire": "Do you have the salt?",
@@ -332,7 +332,7 @@
     "followup": "MISSION_RANCH_FOREMAN_6",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Well, our first crop will be planted shortly but I'm starting to suspect that our profit margin is going to be much smaller than we expect.  With limited seed for our original crop our next course of action is to increase the soil's fertility.  Is there any way you could find or produce a basic liquid fertilizer for us?  We'd need at least 30 units to make a significant improvement in our output. ",
+      "offer": "Well, our first crop will be planted shortly but I'm starting to suspect that our profit margin is going to be much smaller than we expect.  With limited seed for our original crop our next course of action is to increase the soil's fertility.  Is there any way you could find or produce a basic liquid fertilizer for us?  We'd need at least 30 units to make a significant improvement in our output.",
       "accepted": "I don't know the exact recipe but I'm sure you could make it from a commercial fertilizer or produce it from bonemeal.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "I'd look through a few basic chemistry books to find a simple recipe.",
@@ -377,7 +377,7 @@
     "followup": "MISSION_RANCH_FOREMAN_7",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Our current assessment for survivability has increased significantly thanks to your efforts.  The next priority issue is securing a cleaner water source.  Drinking from the pond on the back end of the ranch has led to an outbreak of dysentery.  As quickly as possible we need to improve the sanitary conditions in the camp.  To do so the first step is to dig a well and construct stone fireplaces in the barn for the migrants to boil water.  We are going to need at least 75 rocks from you if we hope to accomplish the task before we all get sick.  After we have them installed you will have free access to them, guaranteed. ",
+      "offer": "Our current assessment for survivability has increased significantly thanks to your efforts.  The next priority issue is securing a cleaner water source.  Drinking from the pond on the back end of the ranch has led to an outbreak of dysentery.  As quickly as possible we need to improve the sanitary conditions in the camp.  To do so the first step is to dig a well and construct stone fireplaces in the barn for the migrants to boil water.  We are going to need at least 75 rocks from you if we hope to accomplish the task before we all get sick.  After we have them installed you will have free access to them, guaranteed.",
       "accepted": "If you take a shovel to a pile of rubble you should be able to pull out structural grade stone.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Mining would always be an option if you had the resources.",
@@ -475,7 +475,7 @@
     "dialogue": {
       "describe": "We need help…",
       "offer": "With the well's completion we are rapidly closing the sustainability gap.  In order to expand from here we will need massive quantities of lumber to construct fortifications and new buildings.  We have already begun work on a manually operated sawmill but we will need two motors to control the actual blades.  We were hoping you might be able to secure the motors for us.",
-      "accepted": "Power for the motors will be provided by a salvaged truck battery, you need not bring additional mechanical components.  ",
+      "accepted": "Power for the motors will be provided by a salvaged truck battery, you need not bring additional mechanical components.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Mining would always be an option if you had the resources.",
       "inquire": "Do you have the motors?",

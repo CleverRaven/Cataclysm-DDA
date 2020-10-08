@@ -1684,8 +1684,7 @@
     "type": "keybinding",
     "name": "Toggle Map Memory",
     "category": "DEFAULTMODE",
-    "id": "toggle_map_memory",
-    "bindings": [ { "input_method": "keyboard_char", "key": "{" }, { "input_method": "keyboard_code", "key": "[", "mod": [ "shift" ] } ]
+    "id": "toggle_map_memory"
   },
   {
     "type": "keybinding",

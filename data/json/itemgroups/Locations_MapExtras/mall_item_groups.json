@@ -55,14 +55,23 @@
   {
     "id": "flower_shop",
     "type": "item_group",
-    "items": [ [ "trimmer_off", 30 ], [ "fertilizer_liquid", 50 ], [ "dahlia_root", 30 ], [ "fertilizer_commercial", 25 ] ]
+    "items": [
+      { "item": "trimmer_off", "prob": 30, "charges": [ 50, 100 ] },
+      [ "fertilizer_liquid", 50 ],
+      [ "dahlia_root", 30 ],
+      [ "fertilizer_commercial", 25 ]
+    ]
   },
   {
     "id": "music_shop",
     "type": "item_group",
     "ammo": 75,
     "magazine": 100,
-    "items": [ { "group": "ammo_any_batteries_full", "prob": 50 }, [ "radio", 30 ], [ "mp3", 30 ] ]
+    "items": [
+      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "item": "radio", "prob": 30, "charges": 100 },
+      { "item": "mp3", "prob": 30, "charges": 100 }
+    ]
   },
   {
     "id": "vitamin_shop",
@@ -91,7 +100,7 @@
     "magazine": 100,
     "items": [
       [ "bat_nerf", 100 ],
-      [ "portable_game", 60 ],
+      { "item": "portable_game", "prob": 60, "charges": 100 },
       [ "bat", 60 ],
       [ "backpack", 40 ],
       [ "pockknife", 5 ],
@@ -106,16 +115,16 @@
       [ "folding_bicycle", 5 ],
       [ "sunglasses", 25 ],
       [ "cowboy_hat", 25 ],
-      [ "mp3", 40 ],
+      { "item": "mp3", "prob": 40, "charges": 100 },
       [ "wolfsuit", 5 ],
       [ "dinosuit", 5 ],
       [ "gum", 10 ],
       [ "baseball", 40 ],
       [ "football", 40 ],
       [ "basketball", 50 ],
-      [ "talking_doll", 50 ],
+      { "item": "talking_doll", "prob": 50, "charges": 100 },
       [ "marble", 60 ],
-      [ "creepy_doll", 1 ],
+      { "item": "creepy_doll", "prob": 1, "charges": 100 },
       [ "jedi_cloak", 5 ],
       [ "clown_suit", 5 ],
       [ "clownshoes", 5 ],
@@ -225,7 +234,7 @@
       [ "xacto", 10 ],
       { "item": "flashlight", "prob": 40, "charges": 300 },
       [ "crowbar", 30 ],
-      [ "carver_off", 25 ],
+      { "item": "carver_off", "prob": 25, "charges": 500 },
       [ "press", 40 ],
       [ "puller", 20 ],
       [ "boltcutters", 35 ],
@@ -286,12 +295,12 @@
       [ "long_knit_scarf", 5 ],
       [ "barrette", 5 ],
       [ "eyedrops", 35 ],
-      [ "candle", 50 ],
+      { "item": "candle", "prob": 50, "charges": 100 },
       [ "scissors", 30 ],
       [ "soap", 45 ],
       { "item": "tailors_kit", "prob": 25, "charges": 400 },
-      [ "shavingkit", 20 ],
-      [ "elec_hairtrimmer", 20 ],
+      { "item": "shavingkit", "prob": 20, "charges": 10 },
+      { "item": "elec_hairtrimmer", "prob": 20, "charges": 50 },
       [ "razor_shaving", 20 ],
       [ "curler_hair", 30 ],
       [ "hair_dryer", 40 ],

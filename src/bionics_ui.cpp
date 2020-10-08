@@ -721,7 +721,7 @@ void avatar::power_bionics()
         ::sorted_bionics *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
         max_scroll_position = std::max( 0, static_cast<int>( current_bionic_list->size() ) - LIST_HEIGHT );
         scroll_position = clamp( scroll_position, 0, max_scroll_position );
-        cursor = clamp( cursor, 0, static_cast<int>( current_bionic_list->size() ) );
+        cursor = clamp<int>( cursor, 0, current_bionic_list->size() );
 
 #if defined(__ANDROID__)
         ctxt.get_registered_manual_keys().clear();

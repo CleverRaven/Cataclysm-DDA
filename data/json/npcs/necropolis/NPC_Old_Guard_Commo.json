@@ -113,7 +113,7 @@
     "followup": "MISSION_OLD_GUARD_NEC_COMMO_3",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "I guess I could use your skills once again.  There are small transmitters located in the nearby evacuation shelters; if we don't separate them from the power grid their power systems will rapidly deteriorate over the next few weeks.  The task is rather simple but the shelters offer us a place to redirect refugees until this vault can be secured. ",
+      "offer": "I guess I could use your skills once again.  There are small transmitters located in the nearby evacuation shelters; if we don't separate them from the power grid their power systems will rapidly deteriorate over the next few weeks.  The task is rather simple but the shelters offer us a place to redirect refugees until this vault can be secured.",
       "accepted": "Thanks, I should be ready for you to install the radio repeater mods by the time you get back.",
       "rejected": "I don't know why you would bother wasting your time down here if you can't handle a few small tasks…",
       "advice": "Try searching on the outskirts of towns.",

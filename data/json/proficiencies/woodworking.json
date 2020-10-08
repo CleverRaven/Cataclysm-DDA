@@ -1,0 +1,10 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_carpentry_basic",
+    "name": { "str": "Basic Carpentry" },
+    "description": "Simple projects involving holding planks and panels of wood together with nails or similar fasteners.",
+    "can_learn": true,
+    "time_to_learn": "4 h"
+  }
+]

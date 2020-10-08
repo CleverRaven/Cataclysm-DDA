@@ -1781,7 +1781,8 @@ void map::creature_in_field( Creature &critter )
                 effect_added = critter.add_env_effect( fe.id, fe.bp.id(), fe.intensity,  fe.get_duration() );
             } else {
                 effect_added = true;
-                critter.add_effect( field_fx );
+                critter.add_effect( field_fx.get_id(), field_fx.get_duration(), field_fx.get_bp(),
+                                    field_fx.is_permanent(), field_fx.get_intensity() );
             }
             if( effect_added ) {
                 critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
