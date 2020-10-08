@@ -130,7 +130,7 @@ const schedule &tasklist::next_task()
     return *tasks[cursor].first;
 }
 
-void tasklist::advance( const time_duration how_long )
+void tasklist::advance( const time_duration &how_long )
 {
     advanced += how_long;
     if( advanced > tasks[cursor].second ) {
@@ -146,7 +146,7 @@ void tasklist::advance( const time_duration how_long )
     }
 }
 
-void tasklist::enschedule( const schedule &added, const time_duration how_long )
+void tasklist::enschedule( const schedule &added, const time_duration &how_long )
 {
     tasks.insert( tasks.end(), { &added, how_long } );
 }
@@ -167,7 +167,7 @@ time_duration tasklist::duration()
     return ret;
 }
 
-void weariness_events::log( const int old_level, const int new_level, const time_duration when )
+void weariness_events::log( const int old_level, const int new_level, const time_duration &when )
 {
     weary_transition added;
     added.from = old_level;
@@ -178,7 +178,7 @@ void weariness_events::log( const int old_level, const int new_level, const time
 }
 
 int weariness_events::transition_minutes( const int from, const int to,
-        const time_duration around ) const
+        const time_duration &around ) const
 {
     int around_mins = to_minutes<int>( around );
     // first = change.minutes, second = difference from around_mins

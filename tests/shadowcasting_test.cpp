@@ -494,7 +494,7 @@ struct grid_overlay {
         this->offset = ORIGIN - origin_offset;
         this->default_value = default_value;
     }
-    grid_overlay( const tripoint origin_offset, const float default_value ) {
+    grid_overlay( const tripoint &origin_offset, const float default_value ) {
         this->offset = ORIGIN - origin_offset;
         this->default_value = default_value;
     }
