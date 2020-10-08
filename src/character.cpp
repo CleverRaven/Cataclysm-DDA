@@ -6209,7 +6209,7 @@ void Character::update_bodytemp()
     double total_windpower = get_local_windpower( g->weather.windspeed + vehwindspeed, cur_om_ter,
                              pos(),
                              g->weather.winddirection, sheltered );
-    // Let's cache this not to check it num_bp times
+    // Let's cache this not to check it for every bodyparts
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
