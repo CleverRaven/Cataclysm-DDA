@@ -480,7 +480,7 @@ class wish_item_callback: public uilist_callback
             }
 
             // grab default flags for the itype
-            flags = debug_menu::iterable_to_string( standard_itype_ids[menu->selected]->item_tags, "" );
+            flags = debug_menu::iterable_to_string( standard_itype_ids[menu->selected]->get_flags(), "" );
         }
 
         bool key( const input_context &ctxt, const input_event &event, int /*entnum*/,
