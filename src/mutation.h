@@ -210,9 +210,6 @@ struct mutation_branch {
         // Multiplier for sight range, defaulting to 1.
         float overmap_multiplier = 1.0f;
 
-        // Multiplier for map memory capacity, defaulting to 1.
-        float map_memory_capacity_multiplier = 1.0f;
-
         // Multiplier for reading speed, defaulting to 1.
         float reading_speed_multiplier = 1.0f;
 

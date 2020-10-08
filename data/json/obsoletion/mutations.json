@@ -79,7 +79,6 @@
     "points": -3,
     "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
     "social_modifiers": { "lie": -5 },
-    "map_memory_capacity_multiplier": 0.5,
     "skill_rust_multiplier": 0.66,
     "valid": false,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT" ],
