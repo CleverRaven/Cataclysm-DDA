@@ -279,7 +279,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     p.invalidate_crafting_inventory();
 
     // Apply flag to item
-    loc->item_tags.insert( "DIAMOND" );
+    loc->set_flag( "DIAMOND" );
     add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name() );
     p.mod_moves( -to_turns<int>( 10_seconds ) );
 }
@@ -332,7 +332,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     p.invalidate_crafting_inventory();
 
     if( new_item.is_armor() && new_item.has_flag( flag_VARSIZE ) ) {
-        new_item.item_tags.insert( "FIT" );
+        new_item.set_flag( "FIT" );
     }
 
     here.add_item_or_charges( spawn_point, new_item );
@@ -4135,7 +4135,7 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
 
 static int getGasDiscountCardQuality( const item &it )
 {
-    std::set<std::string> tags = it.type->item_tags;
+    const auto &tags = it.type->get_flags();
 
     for( const std::string &tag : tags ) {
 
@@ -5280,7 +5280,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
                          ( it.count_by_charges() ? it.charges : 1 ) * mdata.conversion_rate_ );
             result.components.push_back( it );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-            for( const std::string &f : it.type->item_tags ) {
+            for( const std::string &f : it.type->get_flags() ) {
                 if( json_flag::get( f ).craft_inherit() ) {
                     result.set_flag( f );
                 }

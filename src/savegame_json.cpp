@@ -2381,8 +2381,8 @@ void item::io( Archive &archive )
         active = true;
     }
     if( !active &&
-        ( item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 ||
-          item_tags.count( "WET" ) > 0 ) ) {
+        ( has_own_flag( "HOT" ) > 0 || has_own_flag( "COLD" ) > 0 ||
+          has_own_flag( "WET" ) > 0 ) ) {
         // Some hot/cold items from legacy saves may be inactive
         active = true;
     }
@@ -2410,7 +2410,7 @@ void item::io( Archive &archive )
 
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save
-    if( item_tags.count( "FROZEN" ) && current_phase == phase_id::LIQUID ) {
+    if( has_own_flag( "FROZEN" ) && current_phase == phase_id::LIQUID ) {
         current_phase = phase_id::SOLID;
     }
 

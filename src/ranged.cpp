@@ -1087,7 +1087,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Put the item into the projectile
     proj.set_drop( std::move( thrown ) );
-    if( thrown_type->item_tags.count( "CUSTOM_EXPLOSION" ) ) {
+    if( thrown_type->has_flag( "CUSTOM_EXPLOSION" ) ) {
         proj.set_custom_explosion( thrown_type->explosion );
     }
 
@@ -3020,9 +3020,11 @@ void target_ui::draw_controls_list( int text_y )
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
         lines.push_back( {5, colored( col_enabled, string_format( _( "[%s] to switch firing modes." ),
-                                      bound_key( "SWITCH_MODE" ).short_description() ) )} );
+                                      bound_key( "SWITCH_MODE" ).short_description() ) )
+                         } );
         lines.push_back( {6, colored( col_enabled, string_format( _( "[%s] to reload/switch ammo." ),
-                                      bound_key( "SWITCH_AMMO" ).short_description() ) )} );
+                                      bound_key( "SWITCH_AMMO" ).short_description() ) )
+                         } );
     }
     if( mode == TargetMode::Turrets ) {
         const std::string label = draw_turret_lines
