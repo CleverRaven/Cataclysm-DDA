@@ -3443,7 +3443,7 @@ void overmap::place_ravines()
                 for( int j = 1 - settings.overmap_ravine.ravine_width; j < settings.overmap_ravine.ravine_width;
                      j++ ) {
                     const point_om_omt n = p + point( j, i );
-                    if( inbounds( n ), 1 ) {
+                    if( inbounds( n, 1 ) ) {
                         rift_points.emplace( n );
                     }
                 }
