@@ -441,9 +441,9 @@ static item wishitem_produce( const itype &type, std::string &flags, bool incont
 {
     item granted( &type, calendar::turn );
 
-    granted.item_tags.clear();
+    granted.unset_flags();
     for( const auto &tag : debug_menu::string_to_iterable<std::vector<std::string>>( flags, " " ) ) {
-        granted.item_tags.insert( tag );
+        granted.set_flag( tag );
     }
 
     if( incontainer ) {
