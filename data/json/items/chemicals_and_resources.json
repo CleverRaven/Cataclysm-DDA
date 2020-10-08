@@ -1507,7 +1507,7 @@
     "type": "COMESTIBLE",
     "copy-from": "venom_gland",
     "name": { "str": "bee venom gland" },
-    "description": "A fragile, slightly quivering organ for the production and storage of honeybee venom. You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
+    "description": "A fragile, slightly quivering organ for the production and storage of honeybee venom.  You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
     "color": "yellow",
     "use_action": [ "POISON" ]
   },
@@ -1516,7 +1516,7 @@
     "type": "AMMO",
     "category": "chems",
     "name": { "str_sp": "concentrated venom" },
-    "description": "A transparent, lightly greenish liquid, refined from the venom of bees and wasps. Active ingredients include (nor-)adrenaline, dopamine, histamine and protein toxins. It is now relatively stable, but will require further separation to be useful for anything other than killing you.",
+    "description": "A transparent, lightly greenish liquid, refined from the venom of bees and wasps.  Active ingredients include (nor-)adrenaline, dopamine, histamine and protein toxins.  It is now relatively stable, but will require further separation to be useful for anything other than killing you.",
     "phase": "liquid",
     "weight": "5 g",
     "volume": "5 ml",
