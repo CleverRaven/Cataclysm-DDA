@@ -14,6 +14,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"valid_targets": [ "hostile", "ground", "self", "ally" ], // if a valid target is not included, you cannot cast the spell on that target.
 	"effect": "shallow_pit",                                  // effects are coded in C++. A list will be provided below of possible effects that have been coded.
 	"effect_str": "template",                                 // special. see below
+  "shape": "blast",                                         // the "shape" of the spell's area of effect. uses the aoe stat
 	"extra_effects": [ { "id": "fireball", "hit_self": false, "max_level": 3 } ],	// this allows you to cast multiple spells with only one spell
 	"affected_body_parts": [ "head", "torso", "mouth", "eyes", "arm_l", "arm_r", "hand_r", "hand_l", "leg_l", "foot_l", "foot_r" ], // body parts affected by effects
 	"flags": [ "SILENT", "LOUD", "SOMATIC", "VERBAL", "NO_HANDS", "NO_LEGS", "SPAWN_GROUP" ], // see "Spell Flags" below
@@ -76,7 +77,7 @@ The value of the `"effect"` string in the spell's JSON data says what effect the
 ```json
 {
   "id": "magic_missile",
-  "effect": "target_attack",
+  "effect": "attack",
   "min_damage": 1
 }
 ```
@@ -97,10 +98,7 @@ Below is a table of currently implemented effects, along with special rules for 
 |---                       |---
 | `pain_split` | makes all of your limbs' damage even out
 | `move_earth` | "digs" at the target location. some terrain is not diggable this way.
-| `target_attack` | deals damage to a target (ignores walls).  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in affected_body_parts. Any aoe will manifest as a circular area centered on the target, and will only deal damage to valid_targets. (aoe does not ignore walls)
-| `projectile_attack` | similar to target_attack, except the projectile you shoot will stop short at impassable terrain.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in affected_body_parts.
-| `cone_attack` | fires a cone toward the target up to your range.  The arc of the cone in degrees is aoe.  Stops at walls.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in affected_body_parts.
-| `line_attack` | fires a line with width aoe toward the target, being blocked by walls on the way.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in affected_body_parts.
+| `attack` | "causes damage to targets in its aoe, and applies an effect to the targets named by `effect_str`
 | `spawn_item` | spawns an item that will disappear at the end of its duration.  Default duration is 0.
 | `summon` | summons a monster ID or group ID from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
 | `teleport_random` | teleports the player randomly range spaces with aoe variation
@@ -116,6 +114,15 @@ Below is a table of currently implemented effects, along with special rules for 
 | `charm_monster` | charms a monster that has less hp than damage() for approximately duration()
 | `mutate` | mutates the target(s). if effect_str is defined, mutates toward that category instead of picking at random. the "MUTATE_TRAIT" flag allows effect_str to be a specific trait instead of a category. damage() / 100 is the percent chance the mutation will be successful (a value of 10000 represents 100.00%)
 | `bash` | bashes the terrain at the target. uses damage() as the strength of the bash.
+
+Another mandatory member is spell "shape". This dictates how the area of effect works.
+
+| Shape | Description
+| --    | --
+| `blast` | a standard circular blast that goes outward from the impact position. aoe value is the radius.
+| `line` | fires a line with a width equal to the aoe
+| `cone` | fires a cone with an arc equal to aoe in degrees
+
 
 ### Spell Flags
 
@@ -154,6 +161,7 @@ Spells may have any number of flags, for example:
 | `WITH_CONTAINER` | items spawned with container
 | `UNSAFE_TELEPORT` | teleport spell risks killing the caster or others
 | `SPAWN_GROUP` | spawn or summon from an item or monster group, instead of individual item/monster ID
+| `NO_PROJECTILE` | the "projectile" portion of the spell phases through walls. the epicenter of the spell effect is exactly where you target it with no regards to obstacles
 
 
 ### Damage Types

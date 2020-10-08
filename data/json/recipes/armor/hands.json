@@ -294,7 +294,8 @@
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ], [ "clasps", 2 ], [ "strap_small", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 3 },
       {
         "proficiency": "prof_closures",

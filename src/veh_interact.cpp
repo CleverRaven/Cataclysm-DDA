@@ -1194,7 +1194,7 @@ void veh_interact::do_repair()
 
     if( reason == task_reason::INVALID_TARGET ) {
         vehicle_part *most_repairable = get_most_repariable_part();
-        if( most_repairable ) {
+        if( most_repairable && most_repairable->damage_percent() ) {
             move_cursor( ( most_repairable->mount + dd ).rotate( 3 ) );
             return;
         }
@@ -1265,7 +1265,7 @@ void veh_interact::do_repair()
                     ok = false;
                 }
             } else {
-                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
+                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level(), vp.repair_skills,
                                   vp.repair_time( player_character ) * pt.base.damage() / pt.base.max_damage() );
             }
         }
@@ -1536,13 +1536,12 @@ void veh_interact::calc_overview()
                                             round_up( vol_L, 1 ) ) );
             }
         };
-        if( vpr.part().is_tank() && vpr.part().is_available() ) {
-            overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
-                                        tank_details );
-        } else if( vpr.part().is_fuel_store() && !( vpr.part().is_battery() ||
-                   vpr.part().is_reactor() ) && !vpr.part().is_broken() ) {
-            overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
-                                        no_tank_details );
+
+        vehicle_part &vp = vpr.part();
+        if( vp.is_tank() && vp.is_available() ) {
+            overview_opts.emplace_back( "TANK", &vp, next_hotkey( vp, hotkey ), tank_details );
+        } else if( vp.is_fuel_store() && !( vp.is_turret() || vp.is_battery() || vp.is_reactor() ) ) {
+            overview_opts.emplace_back( "TANK", &vp, next_hotkey( vp, hotkey ), no_tank_details );
         }
     }
 

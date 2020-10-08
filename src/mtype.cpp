@@ -156,42 +156,42 @@ field_type_id mtype::bloodType() const
     if( has_flag( MF_ACID_BLOOD ) )
         //A monster that has the death effect "ACID" does not need to have acid blood.
     {
-        return field_type_id( "fd_acid" );
+        return fd_acid;
     }
     if( has_flag( MF_BILE_BLOOD ) ) {
-        return field_type_id( "fd_bile" );
+        return fd_bile;
     }
     if( has_flag( MF_LARVA ) || has_flag( MF_ARTHROPOD_BLOOD ) ) {
-        return field_type_id( "fd_blood_invertebrate" );
+        return fd_blood_invertebrate;
     }
     if( made_of( material_id( "veggy" ) ) ) {
-        return field_type_id( "fd_blood_veggy" );
+        return fd_blood_veggy;
     }
     if( made_of( material_id( "iflesh" ) ) ) {
-        return field_type_id( "fd_blood_insect" );
+        return fd_blood_insect;
     }
     if( has_flag( MF_WARM ) && made_of( material_id( "flesh" ) ) ) {
-        return field_type_id( "fd_blood" );
+        return fd_blood;
     }
-    return field_type_id( "fd_null" );
+    return fd_null;
 }
 
 field_type_id mtype::gibType() const
 {
     if( has_flag( MF_LARVA ) || in_species( species_MOLLUSK ) ) {
-        return field_type_id( "fd_gibs_invertebrate" );
+        return fd_gibs_invertebrate;
     }
     if( made_of( material_id( "veggy" ) ) ) {
-        return field_type_id( "fd_gibs_veggy" );
+        return fd_gibs_veggy;
     }
     if( made_of( material_id( "iflesh" ) ) ) {
-        return field_type_id( "fd_gibs_insect" );
+        return fd_gibs_insect;
     }
     if( made_of( material_id( "flesh" ) ) ) {
-        return field_type_id( "fd_gibs_flesh" );
+        return fd_gibs_flesh;
     }
     // There are other materials not listed here like steel, protoplasmic, powder, null, stone, bone
-    return field_type_id( "fd_null" );
+    return fd_null;
 }
 
 itype_id mtype::get_meat_itype() const

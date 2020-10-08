@@ -26,6 +26,7 @@
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
+#include "construction_group.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "craft_command.h"
@@ -2921,8 +2922,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
             return;
         }
         case 2: {
-            if( !here.get_field( examp, field_type_id( "fd_fire" ) ) &&
-                here.add_field( examp, field_type_id( "fd_fire" ), 1 ) ) {
+            if( !here.get_field( examp, fd_fire ) && here.add_field( examp, fd_fire, 1 ) ) {
                 p.mod_power_level( -bio_lighter->power_activate );
                 p.mod_moves( -to_moves<int>( 1_seconds ) );
             } else {
@@ -2944,7 +2944,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
             return;
         }
         case 4: {
-            here.remove_field( examp, field_type_id( "fd_fire" ) );
+            here.remove_field( examp, fd_fire );
             p.mod_moves( -200 );
             p.add_msg_if_player( m_info, _( "With a few determined moves you put out the fire in the %s." ),
                                  here.furnname( examp ) );
@@ -3785,7 +3785,7 @@ void trap::examine( const tripoint &examp ) const
         }
         const construction &built = pc->id.obj();
         if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
-                       built.description, pc->counter / 100000 ) ) {
+                       built.group->name(), pc->counter / 100000 ) ) {
             if( query_yn( _( "Cancel construction?" ) ) ) {
                 on_disarmed( here, examp );
                 for( const item &it : pc->components ) {

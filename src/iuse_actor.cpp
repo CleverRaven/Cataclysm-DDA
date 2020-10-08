@@ -1180,7 +1180,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
         return false;
     }
     map &here = get_map();
-    if( here.get_field( pos, field_type_id( "fd_fire" ) ) ) {
+    if( here.get_field( pos, fd_fire ) ) {
         // check if there's already a fire
         p.add_msg_if_player( m_info, _( "There is already a fire." ) );
         return false;
@@ -1215,7 +1215,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
 {
-    if( get_map().add_field( pos, field_type_id( "fd_fire" ), 1, 10_minutes ) ) {
+    if( get_map().add_field( pos, fd_fire, 1, 10_minutes ) ) {
         if( !p.has_trait( trait_PYROMANIA ) ) {
             p.add_msg_if_player( _( "You successfully light a fire." ) );
         } else {
@@ -1480,7 +1480,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // chance of losing more components if the item is damaged.
     // If the item being cut is not damaged, no additional losses will be incurred.
     if( count > 0 && cut.get_item()->damage() > 0 ) {
-        float component_success_chance = std::min( std::pow( 0.8, cut.get_item()->damage_level( 4 ) ),
+        float component_success_chance = std::min( std::pow( 0.8, cut.get_item()->damage_level() ),
                                          1.0 );
         for( int i = count; i > 0; i-- ) {
             if( component_success_chance < rng_float( 0, 1 ) ) {
@@ -1837,7 +1837,7 @@ int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) c
     }
 
     p.moves -= moves;
-    if( rng( 0, 10 ) - it.damage_level( 4 ) > success_chance && !p.is_underwater() ) {
+    if( rng( 0, 10 ) - it.damage_level() > success_chance && !p.is_underwater() ) {
         if( noise > 0 ) {
             sounds::sound( p.pos(), noise, sounds::sound_t::combat, success_message );
         } else {
@@ -2771,7 +2771,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
     int action_difficulty = 0;
     switch( action_type ) {
         case RT_REPAIR:
-            action_difficulty = fix.damage_level( 4 );
+            action_difficulty = fix.damage_level();
             break;
         case RT_REFIT:
             // Let's make refitting as hard as recovering an almost-wrecked item

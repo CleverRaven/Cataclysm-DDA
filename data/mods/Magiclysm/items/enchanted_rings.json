@@ -68,6 +68,38 @@
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
   },
   {
+    "copy-from": "mring_copper",
+    "type": "TOOL_ARMOR",
+    "id": "mring_wizardry_minor",
+    "name": { "str": "minor ring of wizardry", "str_pl": "minor rings of wizardry" },
+    "description": "A thin copper band ring, engraved with a single sealed scroll.  Increases mana capacity slightly.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 200 } ] } ] }
+  },
+  {
+    "copy-from": "mring_silver",
+    "type": "TOOL_ARMOR",
+    "id": "mring_wizardry_lesser",
+    "name": { "str": "lesser ring of wizardry", "str_pl": "lesser rings of wizardry" },
+    "description": "A thin silver band ring, engraved with two sealed scrolls.  Increases mana capacity somewhat.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 400 } ] } ] }
+  },
+  {
+    "copy-from": "mring_gold",
+    "type": "TOOL_ARMOR",
+    "id": "mring_wizardry_moderate",
+    "name": { "str": "ring of wizardry", "str_pl": "rings of wizardry" },
+    "description": "A thin gold band ring, engraved with a bound book.  Increases mana capacity moderately.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 800 } ] } ] }
+  },
+  {
+    "copy-from": "mring_platinum",
+    "type": "TOOL_ARMOR",
+    "id": "mring_wizardry_greater",
+    "name": { "str": "greater ring of wizardry", "str_pl": "greater rings of wizardry" },
+    "description": "A thin platinum band ring, engraved with two bound books.  Increases mana capacity greatly.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 1200 } ] } ] }
+  },
+  {
     "copy-from": "mring_silver",
     "type": "TOOL_ARMOR",
     "id": "mring_blades_lesser",
@@ -266,7 +298,12 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_CUT", "add": -2 }, { "value": "ARMOR_BASH", "add": -2 }, { "value": "ARMOR_STAB", "add": -2 } ]
+          "values": [
+            { "value": "ARMOR_CUT", "add": -2 },
+            { "value": "ARMOR_BASH", "add": -2 },
+            { "value": "ARMOR_STAB", "add": -2 },
+            { "value": "ARMOR_BULLET", "add": -1 }
+          ]
         }
       ]
     }
@@ -282,7 +319,12 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_CUT", "add": -4 }, { "value": "ARMOR_BASH", "add": -4 }, { "value": "ARMOR_STAB", "add": -4 } ]
+          "values": [
+            { "value": "ARMOR_CUT", "add": -4 },
+            { "value": "ARMOR_BASH", "add": -4 },
+            { "value": "ARMOR_STAB", "add": -4 },
+            { "value": "ARMOR_BULLET", "add": -2 }
+          ]
         }
       ]
     }
@@ -298,7 +340,12 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_CUT", "add": -6 }, { "value": "ARMOR_BASH", "add": -6 }, { "value": "ARMOR_STAB", "add": -6 } ]
+          "values": [
+            { "value": "ARMOR_CUT", "add": -6 },
+            { "value": "ARMOR_BASH", "add": -6 },
+            { "value": "ARMOR_STAB", "add": -6 },
+            { "value": "ARMOR_BULLET", "add": -3 }
+          ]
         }
       ]
     }
@@ -314,7 +361,12 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_CUT", "add": -8 }, { "value": "ARMOR_BASH", "add": -8 }, { "value": "ARMOR_STAB", "add": -8 } ]
+          "values": [
+            { "value": "ARMOR_CUT", "add": -8 },
+            { "value": "ARMOR_BASH", "add": -8 },
+            { "value": "ARMOR_STAB", "add": -8 },
+            { "value": "ARMOR_BULLET", "add": -4 }
+          ]
         }
       ]
     }

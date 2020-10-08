@@ -185,7 +185,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "BED", "BOARDABLE", "CARGO", "MOUNTABLE" ],
+    "flags": [ "BED", "BOARDABLE", "CARGO", "MOUNTABLE", "NONBELTABLE" ],
     "breaks_into": "ig_vp_seat",
     "damage_reduction": { "all": 3 }
   },
@@ -259,6 +259,7 @@
     "type": "vehicle_part",
     "id": "aisle",
     "name": { "str": "aisle" },
+    "symbol": "H",
     "symbols": { "horizontal": "H", "vertical": "=" },
     "looks_like": "t_metal_floor",
     "color": "white",
@@ -281,6 +282,7 @@
     "type": "vehicle_part",
     "id": "wooden_aisle",
     "name": { "str": "wooden aisle" },
+    "symbol": "H",
     "symbols": { "horizontal": "H", "vertical": "=" },
     "looks_like": "t_floor",
     "color": "brown",
@@ -388,6 +390,7 @@
     "type": "vehicle_part",
     "id": "blade",
     "name": { "str": "blade" },
+    "symbol": "-",
     "symbols": { "horizontal": "-", "vertical": "|" },
     "color": "white",
     "broken_symbol": "x",
@@ -1920,7 +1923,17 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED", "WINDOW", "SIMPLE_PART" ],
+    "flags": [
+      "OBSTACLE",
+      "OPENABLE",
+      "MULTISQUARE",
+      "BOARDABLE",
+      "LOW_FINAL_AIR_DRAG",
+      "NO_ROOF_NEEDED",
+      "WINDOW",
+      "SIMPLE_PART",
+      "DOOR"
+    ],
     "breaks_into": "ig_vp_frame",
     "damage_reduction": { "all": 25 }
   },
@@ -1943,7 +1956,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "WINDOW", "SIMPLE_PART" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "WINDOW", "SIMPLE_PART", "DOOR" ],
     "breaks_into": "ig_vp_hdframe",
     "damage_reduction": { "all": 78 }
   },
@@ -1966,7 +1979,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART" ],
+    "flags": [ "OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART", "DOOR" ],
     "breaks_into": "ig_vp_sheet_metal",
     "damage_reduction": { "all": 24 }
   },
@@ -1989,7 +2002,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART", "DOOR" ],
     "breaks_into": "ig_vp_frame",
     "damage_reduction": { "all": 26 }
   },
@@ -2315,7 +2328,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "SIMPLE_PART" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "SIMPLE_PART", "DOOR" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "damage_reduction": { "all": 8 }
   },
@@ -2338,7 +2351,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "OPAQUE", "SIMPLE_PART" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "OPAQUE", "SIMPLE_PART", "DOOR" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "damage_reduction": { "all": 12 }
   },

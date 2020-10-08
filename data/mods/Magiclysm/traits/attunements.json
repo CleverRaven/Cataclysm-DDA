@@ -576,6 +576,7 @@
     "valid": false,
     "description": "The Technomancer specializes in augmenting humans without actually modifying them; and the Overclocker takes the heat aptitude of a Kelvinist and puts that to work.  You are able to think significantly faster, and are able to align your leylines for spellcasting faster as a result.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
+    "spells_learned": [ [ "overaccelerate", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -615,6 +616,7 @@
     "valid": false,
     "description": "Through your power in Biomancy, you have changed your body towards your Kelvinist affinity for ice.  Extreme cold has less effect on you, and your superchilled skin causes frostbite when touching others.  You're also starting to research more magic that focuses on your body's inherent ice affinity.",
     "enchantments": [ "ICE_ELEMENTAL" ],
+    "spells_learned": [ [ "summon_subzero_talons", 5 ] ],
     "prereqs": [ "BIOMANCER", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -654,7 +656,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Through the fine manipulation of light, an Illusionist might craft deceptively convincing and dangerous illusions.  An Illusionist excels at avoiding direct confrontation, instead relying on decoys and traps to slip by undetected. ",
+    "description": "Through the fine manipulation of light, an Illusionist might craft deceptively convincing and dangerous illusions.  An Illusionist excels at avoiding direct confrontation, instead relying on decoys and traps to slip by undetected.",
     "spells_learned": [ [ "spear_of_light", 5 ] ],
     "prereqs": [ "MAGUS", "TECHNOMANCER" ],
     "cancels": [

@@ -461,7 +461,7 @@
     "name": { "str": "Rigid Table Manners" },
     "points": -1,
     "consume_time_modifier": 1.5,
-    "description": "You've been taught proper table manners from your early childhood on.  Now you can't even think about eating without a table or not taking your time.  Eating without it frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
+    "description": "You've been taught proper table manners from your early childhood on.  Now you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
     "starting_trait": true,
     "valid": false
   },
@@ -6816,9 +6816,7 @@
     "name": { "str": "mute" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
-    "player_display": false,
-    "threshold": true
+    "description": "Trait that makes it impossible to say anything."
   },
   {
     "type": "mutation",

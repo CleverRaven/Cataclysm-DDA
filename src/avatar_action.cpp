@@ -758,6 +758,12 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
 
 void avatar_action::mend( avatar &you, item_location loc )
 {
+
+    if( you.fine_detail_vision_mod() > 4 ) {
+        add_msg( m_bad, _( "It's too dark to work on mending this." ) );
+        return;
+    }
+
     if( !loc ) {
         if( you.is_armed() ) {
             loc = item_location( you, &you.weapon );

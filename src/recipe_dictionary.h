@@ -134,7 +134,8 @@ class recipe_subset
             tool,
             quality,
             quality_result,
-            description_result
+            description_result,
+            proficiency,
         };
 
         /** Find marked favorite recipes */

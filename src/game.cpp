@@ -50,6 +50,7 @@
 #include "color.h"
 #include "computer_session.h"
 #include "construction.h"
+#include "construction_group.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
@@ -1829,7 +1830,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
 
         maptile mt = here.maptile_at( dest );
 
-        int ffire = maptile_field_intensity( mt, field_type_id( "fd_fire" ) );
+        int ffire = maptile_field_intensity( mt, fd_fire );
         if( ffire > 0 ) {
             heat_intensity = ffire;
         } else if( here.tr_at( dest ) == tr_lava ) {
@@ -1865,8 +1866,7 @@ int get_convection_temperature( const tripoint &location )
     int temp_mod = 0;
     map &here = get_map();
     // Directly on lava tiles
-    int lava_mod = here.tr_at( location ) == tr_lava ?
-                   field_type_id( "fd_fire" )->get_convection_temperature_mod() : 0;
+    int lava_mod = here.tr_at( location ) == tr_lava ? fd_fire->get_convection_temperature_mod() : 0;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
@@ -5330,7 +5330,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
 void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer )
 {
     int damage = cyborg->damage();
-    int dmg_lvl = cyborg->damage_level( 4 );
+    int dmg_lvl = cyborg->damage_level();
     int difficulty = 12;
 
     if( damage != 0 ) {
@@ -5796,7 +5796,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
 {
     map &here = get_map();
     if( here.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
-        field_entry *fire = here.get_field( examp, field_type_id( "fd_fire" ) );
+        field_entry *fire = here.get_field( examp, fd_fire );
         if( fire ) {
             std::string ss;
             ss += _( "There is a fire here." );
@@ -6332,7 +6332,7 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
         std::string tr_name;
         if( pc && tr == tr_unfinished_construction ) {
             const construction &built = pc->id.obj();
-            tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.description,
+            tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.group->name(),
                                      pc->counter / 100000 );
         } else {
             tr_name = tr.name();
@@ -9283,48 +9283,80 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 
 std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) const
 {
-    std::vector<std::string> harmful_stuff;
-    const field fields_here = m.field_at( u.pos() );
-    for( const auto &e : m.field_at( dest_loc ) ) {
-        // warn before moving into a dangerous field except when already standing within a similar field
-        if( u.is_dangerous_field( e.second ) && fields_here.find_field( e.first ) == nullptr ) {
-            harmful_stuff.push_back( e.second.name() );
-        }
+    if( u.is_blind() ) {
+        return {}; // blinded players don't see dangerous tiles
     }
 
-    if( !u.is_blind() ) {
-        const trap &tr = m.tr_at( dest_loc );
-        const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( "BOARDABLE",
-                               true ) );
-        // HACK: Hack for now, later ledge should stop being a trap
-        // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
-        if( tr == tr_ledge && m.has_zlevels() ) {
-            if( !boardable ) {
-                harmful_stuff.emplace_back( tr.name() );
+    std::vector<std::string> harmful_stuff;
+    const field fields_here = m.field_at( u.pos() );
+    const auto veh_here = m.veh_at( u.pos() ).part_with_feature( "BOARDABLE", true );
+    const auto veh_dest = m.veh_at( dest_loc ).part_with_feature( "BOARDABLE", true );
+    const bool exiting_vehicle = veh_here && !veh_dest;
+    const bool entering_veh = !veh_here && veh_dest;
+    const bool entering_veh_inside = entering_veh && veh_dest->is_inside();
+
+    for( const std::pair<const field_type_id, field_entry> &e : m.field_at( dest_loc ) ) {
+        if( !u.is_dangerous_field( e.second ) ) {
+            continue;
+        }
+
+        // if the field is dangerous but has no effects apparently this
+        // means effects are hardcoded in map_field.cpp so we should...
+        bool warn = e.second.field_effects().empty(); // ... warn if effects are empty
+        for( const field_effect &fe : e.second.field_effects() ) {
+            if( entering_veh && fe.immune_in_vehicle ) {
+                continue;
             }
-        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !boardable ) {
+            if( entering_veh_inside && fe.immune_inside_vehicle ) {
+                continue;
+            }
+            if( !entering_veh_inside && fe.immune_outside_vehicle ) {
+                continue;
+            }
+            warn = true;
+            break;
+        }
+
+        if( !warn ) {
+            continue;
+        }
+
+        // if not exiting a vehicle don't warn if already within similar field
+        if( !exiting_vehicle && fields_here.find_field( e.first ) != nullptr ) {
+            continue;
+        }
+
+        harmful_stuff.push_back( e.second.name() );
+    }
+
+    const trap &tr = m.tr_at( dest_loc );
+    // HACK: Hack for now, later ledge should stop being a trap
+    // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
+    if( tr == tr_ledge && m.has_zlevels() ) {
+        if( !veh_dest ) {
             harmful_stuff.emplace_back( tr.name() );
         }
+    } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !veh_dest ) {
+        harmful_stuff.emplace_back( tr.name() );
+    }
 
-        static const std::set< bodypart_id > sharp_bps = {
-            bodypart_id( "eyes" ), bodypart_id( "mouth" ), bodypart_id( "head" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" ), bodypart_id( "foot_l" ), bodypart_id( "foot_r" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
-            bodypart_id( "hand_l" ), bodypart_id( "hand_r" ), bodypart_id( "torso" )
-        };
+    static const std::set< bodypart_id > sharp_bps = {
+        bodypart_id( "eyes" ), bodypart_id( "mouth" ), bodypart_id( "head" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" ), bodypart_id( "foot_l" ), bodypart_id( "foot_r" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
+        bodypart_id( "hand_l" ), bodypart_id( "hand_r" ), bodypart_id( "torso" )
+    };
 
-        const auto sharp_bp_check = [this]( bodypart_id bp ) {
-            return u.immune_to( bp, { damage_type::CUT, 10 } );
-        };
+    const auto sharp_bp_check = [this]( bodypart_id bp ) {
+        return u.immune_to( bp, { damage_type::CUT, 10 } );
+    };
 
-        if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
-            ( u.get_armor_bash( bodypart_id( "foot_l" ) ) < 5 ||
-              u.get_armor_bash( bodypart_id( "foot_r" ) ) < 5 ) ) {
-            harmful_stuff.emplace_back( m.name( dest_loc ) );
-        } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !( u.in_vehicle ||
-                   m.veh_at( dest_loc ) ) &&
-                   u.dex_cur < 78 && !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
-            harmful_stuff.emplace_back( m.name( dest_loc ) );
-        }
-
+    if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !veh_dest &&
+        ( u.get_armor_bash( bodypart_id( "foot_l" ) ) < 5 ||
+          u.get_armor_bash( bodypart_id( "foot_r" ) ) < 5 ) ) {
+        harmful_stuff.emplace_back( m.name( dest_loc ) );
+    } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !( u.in_vehicle ||
+               m.veh_at( dest_loc ) ) &&
+               u.dex_cur < 78 && !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
+        harmful_stuff.emplace_back( m.name( dest_loc ) );
     }
 
     return harmful_stuff;
@@ -9628,11 +9660,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
     if( pulling ) {
         const tripoint shifted_furn_pos = furn_pos - ms_shift;
         const tripoint shifted_furn_dest = furn_dest - ms_shift;
-        const time_duration fire_age = m.get_field_age( shifted_furn_pos, field_type_id( "fd_fire" ) );
-        const int fire_intensity = m.get_field_intensity( shifted_furn_pos, field_type_id( "fd_fire" ) );
-        m.remove_field( shifted_furn_pos, field_type_id( "fd_fire" ) );
-        m.set_field_intensity( shifted_furn_dest, field_type_id( "fd_fire" ), fire_intensity );
-        m.set_field_age( shifted_furn_dest, field_type_id( "fd_fire" ), fire_age );
+        const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
+        const int fire_intensity = m.get_field_intensity( shifted_furn_pos, fd_fire );
+        m.remove_field( shifted_furn_pos, fd_fire );
+        m.set_field_intensity( shifted_furn_dest, fd_fire, fire_intensity );
+        m.set_field_age( shifted_furn_dest, fd_fire, fire_age );
     }
 
     if( u.is_hauling() ) {
@@ -10142,8 +10174,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
                              m.furn( fpos ).obj().has_flag( "FIRE_CONTAINER" ) ||
                              m.furn( fpos ).obj().has_flag( "SEALED" );
 
-    const int fire_intensity = m.get_field_intensity( fpos, field_type_id( "fd_fire" ) );
-    time_duration fire_age = m.get_field_age( fpos, field_type_id( "fd_fire" ) );
+    const int fire_intensity = m.get_field_intensity( fpos, fd_fire );
+    time_duration fire_age = m.get_field_age( fpos, fd_fire );
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
@@ -10212,9 +10244,9 @@ bool game::grabbed_furn_move( const tripoint &dp )
     m.furn_set( fpos, f_null );
 
     if( fire_intensity == 1 && !pulling_furniture ) {
-        m.remove_field( fpos, field_type_id( "fd_fire" ) );
-        m.set_field_intensity( fdest, field_type_id( "fd_fire" ), fire_intensity );
-        m.set_field_age( fdest, field_type_id( "fd_fire" ), fire_age );
+        m.remove_field( fpos, fd_fire );
+        m.set_field_intensity( fdest, fd_fire, fire_intensity );
+        m.set_field_age( fdest, fd_fire, fire_age );
     }
 
     // Is there is only liquids on the ground, remove them after moving furniture.

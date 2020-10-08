@@ -267,7 +267,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ]
   },
   {
     "type": "ARMOR",

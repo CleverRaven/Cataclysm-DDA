@@ -1,0 +1,73 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_metalworking",
+    "name": { "str": "Principles of Metalworking" },
+    "description": "A basic understanding of the properties of metal as a material, and the concepts behind smithing, die casting, and other metalworking techniques.",
+    "can_learn": true,
+    "time_to_learn": "2 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_welding_basic",
+    "name": { "str": "Principles of Welding" },
+    "description": "A basic understanding of the different types of welding, welding tools and fuels, how to weld different materials, and more.",
+    "can_learn": true,
+    "time_to_learn": "6 h",
+    "required_proficiencies": [ "prof_metalworking" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_welding",
+    "name": { "str": "Welding" },
+    "description": "You are an experienced welder.",
+    "can_learn": true,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_welding_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_blacksmithing",
+    "name": { "str": "Blacksmithing" },
+    "description": "The craft of working metal into tools and other items of use.",
+    "can_learn": true,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_metalworking" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_redsmithing",
+    "name": { "str": "Redsmithing" },
+    "description": "Working copper and bronze shares a lot of techniques with blacksmithing, but the more ductile copper-containing metals have a trick all their own.",
+    "can_learn": true,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_metalworking" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_armorsmithing",
+    "name": { "str": "Armorsmithing" },
+    "description": "How to make articulated armor from pieces of metal.",
+    "can_learn": true,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_blacksmithing", "prof_articulation" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_bladesmith",
+    "name": { "str": "Bladesmithing" },
+    "description": "How to fabricate sharp and reliable blades from scratch.",
+    "can_learn": true,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_blacksmithing" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_toolsmithing",
+    "name": { "str": "Manual Tooling" },
+    "description": "How to make high-quality tools and parts by hand.  Includes techniques like threading, durable articulation points, and using appropriate metals for appropriate tasks.",
+    "can_learn": true,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_blacksmithing" ]
+  }
+]

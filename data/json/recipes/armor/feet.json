@@ -213,7 +213,8 @@
     "proficiencies": [
       { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
     ],
@@ -236,8 +237,7 @@
     "proficiencies": [
       { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
     ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
@@ -686,6 +686,7 @@
       { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 }
     ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -704,6 +705,7 @@
     "using": [ [ "blacksmithing_standard", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 }
     ],
     "tools": [ [ [ "swage", -1 ] ] ],

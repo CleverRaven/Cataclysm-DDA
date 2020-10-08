@@ -171,7 +171,7 @@ static options_manager::cOpt::COPT_VALUE_TYPE get_value_type( const std::string 
 //add hidden external option with value
 void options_manager::add_external( const std::string &sNameIn, const std::string &sPageIn,
                                     const std::string &sType,
-                                    const std::string &sMenuTextIn, const std::string &sTooltipIn )
+                                    const translation &sMenuTextIn, const translation &sTooltipIn )
 {
     cOpt thisOpt;
 
@@ -215,7 +215,7 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
 
 //add string select option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
-                           const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                           const translation &sMenuTextIn, const translation &sTooltipIn,
                            const std::vector<id_and_option> &sItemsIn, std::string sDefaultIn,
                            copt_hide_t opt_hide )
 {
@@ -245,7 +245,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 
 //add string input option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
-                           const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                           const translation &sMenuTextIn, const translation &sTooltipIn,
                            const std::string &sDefaultIn, const int iMaxLengthIn,
                            copt_hide_t opt_hide )
 {
@@ -271,7 +271,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 
 //add bool option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
-                           const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                           const translation &sMenuTextIn, const translation &sTooltipIn,
                            const bool bDefaultIn, copt_hide_t opt_hide )
 {
     cOpt thisOpt;
@@ -295,7 +295,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 
 //add int option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
-                           const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                           const translation &sMenuTextIn, const translation &sTooltipIn,
                            const int iMinIn, int iMaxIn, int iDefaultIn,
                            copt_hide_t opt_hide, const std::string &format )
 {
@@ -333,8 +333,8 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 
 //add int map option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
-                           const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                           const std::vector< std::tuple<int, std::string> > &mIntValuesIn,
+                           const translation &sMenuTextIn, const translation &sTooltipIn,
+                           const std::vector<int_and_option> &mIntValuesIn,
                            int iInitialIn, int iDefaultIn, copt_hide_t opt_hide, const bool verbose )
 {
     cOpt thisOpt;
@@ -355,12 +355,12 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 
     auto item = thisOpt.findInt( iInitialIn );
     if( !item ) {
-        iInitialIn = std::get<0>( mIntValuesIn[0] );
+        iInitialIn = mIntValuesIn[0].first;
     }
 
     item = thisOpt.findInt( iDefaultIn );
     if( !item ) {
-        iDefaultIn = std::get<0>( mIntValuesIn[0] );
+        iDefaultIn = mIntValuesIn[0].first;
     }
 
     thisOpt.iDefault = iDefaultIn;
@@ -373,7 +373,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 
 //add float option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
-                           const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                           const translation &sMenuTextIn, const translation &sTooltipIn,
                            const float fMinIn, float fMaxIn, float fDefaultIn,
                            float fStepIn, copt_hide_t opt_hide, const std::string &format )
 {
@@ -519,12 +519,12 @@ std::string options_manager::cOpt::getPage() const
 
 std::string options_manager::cOpt::getMenuText() const
 {
-    return _( sMenuText );
+    return sMenuText.translated();
 }
 
 std::string options_manager::cOpt::getTooltip() const
 {
-    return _( sTooltip );
+    return sTooltip.translated();
 }
 
 std::string options_manager::cOpt::getType() const
@@ -626,11 +626,13 @@ std::string options_manager::cOpt::getValueName() const
         return bSet ? _( "True" ) : _( "False" );
 
     } else if( sType == "int_map" ) {
-        const std::string name = std::get<1>( *findInt( iSet ) );
-        if( verbose ) {
-            return string_format( _( "%d: %s" ), iSet, name );
-        } else {
-            return string_format( _( "%s" ), name );
+        const cata::optional<int_and_option> opt = findInt( iSet );
+        if( opt ) {
+            if( verbose ) {
+                return string_format( _( "%d: %s" ), iSet, opt->second );
+            } else {
+                return opt->second.translated();
+            }
         }
     }
 
@@ -662,11 +664,13 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         return string_format( _( "Default: %d - Min: %d, Max: %d" ), iDefault, iMin, iMax );
 
     } else if( sType == "int_map" ) {
-        const std::string name = std::get<1>( *findInt( iDefault ) );
-        if( verbose ) {
-            return string_format( _( "Default: %d: %s" ), iDefault, name );
-        } else {
-            return string_format( _( "Default: %s" ), name );
+        const cata::optional<int_and_option> opt = findInt( iDefault );
+        if( opt ) {
+            if( verbose ) {
+                return string_format( _( "Default: %d: %s" ), iDefault, opt->second );
+            } else {
+                return string_format( _( "Default: %s" ), opt->second );
+            }
         }
 
     } else if( sType == "float" ) {
@@ -698,7 +702,7 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
 {
     if( sType == "int_map" ) {
         for( size_t i = 0; i < mIntValues.size(); i++ ) {
-            if( std::get<0>( mIntValues[i] ) == iSearch ) {
+            if( mIntValues[i].first == iSearch ) {
                 return i;
             }
         }
@@ -707,7 +711,7 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
     return -1;
 }
 
-cata::optional< std::tuple<int, std::string> > options_manager::cOpt::findInt(
+cata::optional<options_manager::int_and_option> options_manager::cOpt::findInt(
     const int iSearch ) const
 {
     int i = static_cast<int>( getIntPos( iSearch ) );
@@ -738,10 +742,10 @@ void options_manager::cOpt::setNext()
         sSet = vItems[iNext].first;
 
     } else if( sType == "string_input" ) {
-        int iMenuTextLength = utf8_width( _( sMenuText ) );
+        int iMenuTextLength = utf8_width( sMenuText.translated() );
         string_input_popup()
         .width( iMaxLength > 80 ? 80 : iMaxLength < iMenuTextLength ? iMenuTextLength : iMaxLength + 1 )
-        .description( _( sMenuText ) )
+        .description( sMenuText.translated() )
         .max_length( iMaxLength )
         .edit( sSet );
 
@@ -759,7 +763,7 @@ void options_manager::cOpt::setNext()
         if( iNext >= mIntValues.size() ) {
             iNext = 0;
         }
-        iSet = std::get<0>( mIntValues[iNext] );
+        iSet = mIntValues[iNext].first;
 
     } else if( sType == "float" ) {
         fSet += fStep;
@@ -797,7 +801,7 @@ void options_manager::cOpt::setPrev()
         if( iPrev < 0 ) {
             iPrev = mIntValues.size() - 1;
         }
-        iSet = std::get<0>( mIntValues[iPrev] );
+        iSet = mIntValues[iPrev].first;
 
     } else if( sType == "float" ) {
         fSet -= fStep;
@@ -1006,7 +1010,7 @@ std::unordered_set<std::string> options_manager::get_langs_with_translation_file
 std::vector<options_manager::id_and_option> options_manager::get_lang_options()
 {
     std::vector<id_and_option> lang_options = {
-        { "", translate_marker( "System language" ) },
+        { "", to_translation( "System language" ) },
         // Note: language names are in their own language and are *not* translated at all.
         // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
         // http://en.wikipedia.org/wiki/List_of_language_names
@@ -1100,49 +1104,49 @@ void options_manager::add_options_general()
         general_page_.items_.emplace_back();
     };
 
-    add( "DEF_CHAR_NAME", "general", translate_marker( "Default character name" ),
-         translate_marker( "Set a default character name that will be used instead of a random name on character creation." ),
+    add( "DEF_CHAR_NAME", "general", to_translation( "Default character name" ),
+         to_translation( "Set a default character name that will be used instead of a random name on character creation." ),
          "", 30
        );
 
     add_empty_line();
 
-    add( "AUTO_PICKUP", "general", translate_marker( "Auto pickup enabled" ),
-         translate_marker( "Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager." ),
+    add( "AUTO_PICKUP", "general", to_translation( "Auto pickup enabled" ),
+         to_translation( "Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager." ),
          false
        );
 
-    add( "AUTO_PICKUP_ADJACENT", "general", translate_marker( "Auto pickup adjacent" ),
-         translate_marker( "If true, will enable to pickup items one tile around to the player.  You can assign No Auto Pickup zones with the Zones Manager 'Y' key for e.g.  your homebase." ),
+    add( "AUTO_PICKUP_ADJACENT", "general", to_translation( "Auto pickup adjacent" ),
+         to_translation( "If true, will enable to pickup items one tile around to the player.  You can assign No Auto Pickup zones with the Zones Manager 'Y' key for e.g.  your homebase." ),
          false
        );
 
     get_option( "AUTO_PICKUP_ADJACENT" ).setPrerequisite( "AUTO_PICKUP" );
 
-    add( "AUTO_PICKUP_WEIGHT_LIMIT", "general", translate_marker( "Auto pickup weight limit" ),
-         translate_marker( "Auto pickup items with weight less than or equal to [option] * 50 grams.  You must also set the small items option.  '0' disables this option" ),
+    add( "AUTO_PICKUP_WEIGHT_LIMIT", "general", to_translation( "Auto pickup weight limit" ),
+         to_translation( "Auto pickup items with weight less than or equal to [option] * 50 grams.  You must also set the small items option.  '0' disables this option" ),
          0, 20, 0
        );
 
     get_option( "AUTO_PICKUP_WEIGHT_LIMIT" ).setPrerequisite( "AUTO_PICKUP" );
 
-    add( "AUTO_PICKUP_VOL_LIMIT", "general", translate_marker( "Auto pickup volume limit" ),
-         translate_marker( "Auto pickup items with volume less than or equal to [option] * 50 milliliters.  You must also set the light items option.  '0' disables this option" ),
+    add( "AUTO_PICKUP_VOL_LIMIT", "general", to_translation( "Auto pickup volume limit" ),
+         to_translation( "Auto pickup items with volume less than or equal to [option] * 50 milliliters.  You must also set the light items option.  '0' disables this option" ),
          0, 20, 0
        );
 
     get_option( "AUTO_PICKUP_VOL_LIMIT" ).setPrerequisite( "AUTO_PICKUP" );
 
-    add( "AUTO_PICKUP_SAFEMODE", "general", translate_marker( "Auto pickup safe mode" ),
-         translate_marker( "Auto pickup is disabled as long as you can see monsters nearby.  This is affected by 'Safe Mode proximity distance'." ),
+    add( "AUTO_PICKUP_SAFEMODE", "general", to_translation( "Auto pickup safe mode" ),
+         to_translation( "Auto pickup is disabled as long as you can see monsters nearby.  This is affected by 'Safe Mode proximity distance'." ),
          false
        );
 
     get_option( "AUTO_PICKUP_SAFEMODE" ).setPrerequisite( "AUTO_PICKUP" );
 
     add( "NO_AUTO_PICKUP_ZONES_LIST_ITEMS", "general",
-         translate_marker( "List items within no auto pickup zones" ),
-         translate_marker( "If false, you will not see messages about items, you step on, within no auto pickup zones." ),
+         to_translation( "List items within no auto pickup zones" ),
+         to_translation( "If false, you will not see messages about items, you step on, within no auto pickup zones." ),
          true
        );
 
@@ -1150,29 +1154,29 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
-    add( "AUTO_FEATURES", "general", translate_marker( "Additional auto features" ),
-         translate_marker( "If true, enables configured auto features below.  Disabled as long as any enemy monster is seen." ),
+    add( "AUTO_FEATURES", "general", to_translation( "Additional auto features" ),
+         to_translation( "If true, enables configured auto features below.  Disabled as long as any enemy monster is seen." ),
          false
        );
 
-    add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
-         translate_marker( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
-    { { "off", to_translation( "options", "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_zombie_only", translate_marker( "Pulp Zombies Only" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "pulp_adjacent_zombie_only", translate_marker( "Pulp Adjacent Zombie Only" ) }, { "butcher", translate_marker( "Butcher" ) } },
+    add( "AUTO_PULP_BUTCHER", "general", to_translation( "Auto pulp or butcher" ),
+         to_translation( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
+    { { "off", to_translation( "options", "Disabled" ) }, { "pulp", to_translation( "Pulp" ) }, { "pulp_zombie_only", to_translation( "Pulp Zombies Only" ) }, { "pulp_adjacent", to_translation( "Pulp Adjacent" ) }, { "pulp_adjacent_zombie_only", to_translation( "Pulp Adjacent Zombie Only" ) }, { "butcher", to_translation( "Butcher" ) } },
     "off"
        );
 
     get_option( "AUTO_PULP_BUTCHER" ).setPrerequisite( "AUTO_FEATURES" );
 
-    add( "AUTO_MINING", "general", translate_marker( "Auto mining" ),
-         translate_marker( "If true, enables automatic use of wielded pickaxes and jackhammers whenever trying to move into mineable terrain." ),
+    add( "AUTO_MINING", "general", to_translation( "Auto mining" ),
+         to_translation( "If true, enables automatic use of wielded pickaxes and jackhammers whenever trying to move into mineable terrain." ),
          false
        );
 
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
 
-    add( "AUTO_FORAGING", "general", translate_marker( "Auto foraging" ),
-         translate_marker( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Everything: Forage bushes, trees, and everything else including flowers, cattails etc." ),
-    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Everything" ) } },
+    add( "AUTO_FORAGING", "general", to_translation( "Auto foraging" ),
+         to_translation( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Everything: Forage bushes, trees, and everything else including flowers, cattails etc." ),
+    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", to_translation( "Bushes" ) }, { "trees", to_translation( "Trees" ) }, { "both", to_translation( "Everything" ) } },
     "off"
        );
 
@@ -1180,73 +1184,73 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
-    add( "DANGEROUS_PICKUPS", "general", translate_marker( "Dangerous pickups" ),
-         translate_marker( "If false, will cause player to drop new items that cause them to exceed the weight limit." ),
+    add( "DANGEROUS_PICKUPS", "general", to_translation( "Dangerous pickups" ),
+         to_translation( "If false, will cause player to drop new items that cause them to exceed the weight limit." ),
          false
        );
 
     add( "DANGEROUS_TERRAIN_WARNING_PROMPT", "general",
-         translate_marker( "Dangerous terrain warning prompt" ),
-         translate_marker( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted." ),
-    { { "ALWAYS", to_translation( "Always" ) }, { "RUNNING", translate_marker( "Running" ) }, { "CROUCHING", translate_marker( "Crouching" ) }, { "NEVER", translate_marker( "Never" ) } },
+         to_translation( "Dangerous terrain warning prompt" ),
+         to_translation( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted." ),
+    { { "ALWAYS", to_translation( "Always" ) }, { "RUNNING", to_translation( "Running" ) }, { "CROUCHING", to_translation( "Crouching" ) }, { "NEVER", to_translation( "Never" ) } },
     "ALWAYS"
        );
 
     add_empty_line();
 
-    add( "SAFEMODE", "general", translate_marker( "Safe mode" ),
-         translate_marker( "If true, will hold the game and display a warning if a hostile monster/npc is approaching." ),
+    add( "SAFEMODE", "general", to_translation( "Safe mode" ),
+         to_translation( "If true, will hold the game and display a warning if a hostile monster/npc is approaching." ),
          true
        );
 
-    add( "SAFEMODEPROXIMITY", "general", translate_marker( "Safe mode proximity distance" ),
-         translate_marker( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player view distance.  This option only has effect when no safe mode rule is specified.  Otherwise, edit the default rule in Safe Mode Manager instead of this value." ),
+    add( "SAFEMODEPROXIMITY", "general", to_translation( "Safe mode proximity distance" ),
+         to_translation( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player view distance.  This option only has effect when no safe mode rule is specified.  Otherwise, edit the default rule in Safe Mode Manager instead of this value." ),
          0, MAX_VIEW_DISTANCE, 0
        );
 
-    add( "SAFEMODEVEH", "general", translate_marker( "Safe mode when driving" ),
-         translate_marker( "When true, safe mode will alert you of hostiles while you are driving a vehicle." ),
+    add( "SAFEMODEVEH", "general", to_translation( "Safe mode when driving" ),
+         to_translation( "When true, safe mode will alert you of hostiles while you are driving a vehicle." ),
          false
        );
 
-    add( "AUTOSAFEMODE", "general", translate_marker( "Auto reactivate safe mode" ),
-         translate_marker( "If true, safe mode will automatically reactivate after a certain number of turns.  See option 'Turns to auto reactivate safe mode.'" ),
+    add( "AUTOSAFEMODE", "general", to_translation( "Auto reactivate safe mode" ),
+         to_translation( "If true, safe mode will automatically reactivate after a certain number of turns.  See option 'Turns to auto reactivate safe mode.'" ),
          false
        );
 
-    add( "AUTOSAFEMODETURNS", "general", translate_marker( "Turns to auto reactivate safe mode" ),
-         translate_marker( "Number of turns after which safe mode is reactivated.  Will only reactivate if no hostiles are in 'Safe mode proximity distance.'" ),
+    add( "AUTOSAFEMODETURNS", "general", to_translation( "Turns to auto reactivate safe mode" ),
+         to_translation( "Number of turns after which safe mode is reactivated.  Will only reactivate if no hostiles are in 'Safe mode proximity distance.'" ),
          1, 600, 50
        );
 
-    add( "SAFEMODEIGNORETURNS", "general", translate_marker( "Turns to remember ignored monsters" ),
-         translate_marker( "Number of turns an ignored monster stays ignored after it is no longer seen.  0 disables this option and monsters are permanently ignored." ),
+    add( "SAFEMODEIGNORETURNS", "general", to_translation( "Turns to remember ignored monsters" ),
+         to_translation( "Number of turns an ignored monster stays ignored after it is no longer seen.  0 disables this option and monsters are permanently ignored." ),
          0, 3600, 200
        );
 
     add_empty_line();
 
-    add( "TURN_DURATION", "general", translate_marker( "Realtime turn progression" ),
-         translate_marker( "If enabled, monsters will take periodic gameplay turns.  This value is the delay between each turn, in seconds.  Works best with Safe Mode disabled.  0 = disabled." ),
+    add( "TURN_DURATION", "general", to_translation( "Realtime turn progression" ),
+         to_translation( "If enabled, monsters will take periodic gameplay turns.  This value is the delay between each turn, in seconds.  Works best with Safe Mode disabled.  0 = disabled." ),
          0.0, 10.0, 0.0, 0.05
        );
 
     add_empty_line();
 
-    add( "AUTOSAVE", "general", translate_marker( "Autosave" ),
-         translate_marker( "If true, game will periodically save the map.  Autosaves occur based on in-game turns or real-time minutes, whichever is larger." ),
+    add( "AUTOSAVE", "general", to_translation( "Autosave" ),
+         to_translation( "If true, game will periodically save the map.  Autosaves occur based on in-game turns or real-time minutes, whichever is larger." ),
          true
        );
 
-    add( "AUTOSAVE_TURNS", "general", translate_marker( "Game turns between autosaves" ),
-         translate_marker( "Number of game turns between autosaves" ),
+    add( "AUTOSAVE_TURNS", "general", to_translation( "Game turns between autosaves" ),
+         to_translation( "Number of game turns between autosaves" ),
          10, 1000, 50
        );
 
     get_option( "AUTOSAVE_TURNS" ).setPrerequisite( "AUTOSAVE" );
 
-    add( "AUTOSAVE_MINUTES", "general", translate_marker( "Real minutes between autosaves" ),
-         translate_marker( "Number of real time minutes between autosaves" ),
+    add( "AUTOSAVE_MINUTES", "general", to_translation( "Real minutes between autosaves" ),
+         to_translation( "Number of real time minutes between autosaves" ),
          0, 127, 5
        );
 
@@ -1254,20 +1258,20 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
-    add( "AUTO_NOTES", "general", translate_marker( "Auto notes" ),
-         translate_marker( "If true, automatically sets notes" ),
+    add( "AUTO_NOTES", "general", to_translation( "Auto notes" ),
+         to_translation( "If true, automatically sets notes" ),
          false
        );
 
-    add( "AUTO_NOTES_STAIRS", "general", translate_marker( "Auto notes (stairs)" ),
-         translate_marker( "If true, automatically sets notes on places that have stairs that go up or down" ),
+    add( "AUTO_NOTES_STAIRS", "general", to_translation( "Auto notes (stairs)" ),
+         to_translation( "If true, automatically sets notes on places that have stairs that go up or down" ),
          false
        );
 
     get_option( "AUTO_NOTES_STAIRS" ).setPrerequisite( "AUTO_NOTES" );
 
-    add( "AUTO_NOTES_MAP_EXTRAS", "general", translate_marker( "Auto notes (map extras)" ),
-         translate_marker( "If true, automatically sets notes on places that contain various map extras" ),
+    add( "AUTO_NOTES_MAP_EXTRAS", "general", to_translation( "Auto notes (map extras)" ),
+         to_translation( "If true, automatically sets notes on places that contain various map extras" ),
          false
        );
 
@@ -1275,53 +1279,53 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
-    add( "CIRCLEDIST", "general", translate_marker( "Circular distances" ),
-         translate_marker( "If true, the game will calculate range in a realistic way: light sources will be circles, diagonal movement will cover more ground and take longer.  If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall." ),
+    add( "CIRCLEDIST", "general", to_translation( "Circular distances" ),
+         to_translation( "If true, the game will calculate range in a realistic way: light sources will be circles, diagonal movement will cover more ground and take longer.  If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall." ),
          true
        );
 
-    add( "DROP_EMPTY", "general", translate_marker( "Drop empty containers" ),
-         translate_marker( "Set to drop empty containers after use.  No: Don't drop any.  - Watertight: All except watertight containers.  - All: Drop all containers." ),
-    { { "no", translate_marker( "No" ) }, { "watertight", translate_marker( "Watertight" ) }, { "all", translate_marker( "All" ) } },
+    add( "DROP_EMPTY", "general", to_translation( "Drop empty containers" ),
+         to_translation( "Set to drop empty containers after use.  No: Don't drop any.  - Watertight: All except watertight containers.  - All: Drop all containers." ),
+    { { "no", to_translation( "No" ) }, { "watertight", to_translation( "Watertight" ) }, { "all", to_translation( "All" ) } },
     "no"
        );
 
-    add( "DEATHCAM", "general", translate_marker( "DeathCam" ),
-         translate_marker( "Always: Always start deathcam.  Ask: Query upon death.  Never: Never show deathcam." ),
-    { { "always", translate_marker( "Always" ) }, { "ask", translate_marker( "Ask" ) }, { "never", translate_marker( "Never" ) } },
+    add( "DEATHCAM", "general", to_translation( "DeathCam" ),
+         to_translation( "Always: Always start deathcam.  Ask: Query upon death.  Never: Never show deathcam." ),
+    { { "always", to_translation( "Always" ) }, { "ask", to_translation( "Ask" ) }, { "never", to_translation( "Never" ) } },
     "ask"
        );
 
     add_empty_line();
 
-    add( "SOUND_ENABLED", "general", translate_marker( "Sound Enabled" ),
-         translate_marker( "If true, music and sound are enabled." ),
+    add( "SOUND_ENABLED", "general", to_translation( "Sound Enabled" ),
+         to_translation( "If true, music and sound are enabled." ),
          true, COPT_NO_SOUND_HIDE
        );
 
-    add( "SOUNDPACKS", "general", translate_marker( "Choose soundpack" ),
-         translate_marker( "Choose the soundpack you want to use.  Requires restart." ),
+    add( "SOUNDPACKS", "general", to_translation( "Choose soundpack" ),
+         to_translation( "Choose the soundpack you want to use.  Requires restart." ),
          build_soundpacks_list(), "basic", COPT_NO_SOUND_HIDE
        ); // populate the options dynamically
 
     get_option( "SOUNDPACKS" ).setPrerequisite( "SOUND_ENABLED" );
 
-    add( "MUSIC_VOLUME", "general", translate_marker( "Music volume" ),
-         translate_marker( "Adjust the volume of the music being played in the background." ),
+    add( "MUSIC_VOLUME", "general", to_translation( "Music volume" ),
+         to_translation( "Adjust the volume of the music being played in the background." ),
          0, 128, 100, COPT_NO_SOUND_HIDE
        );
 
     get_option( "MUSIC_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
 
-    add( "SOUND_EFFECT_VOLUME", "general", translate_marker( "Sound effect volume" ),
-         translate_marker( "Adjust the volume of sound effects being played by the game." ),
+    add( "SOUND_EFFECT_VOLUME", "general", to_translation( "Sound effect volume" ),
+         to_translation( "Adjust the volume of sound effects being played by the game." ),
          0, 128, 100, COPT_NO_SOUND_HIDE
        );
 
     get_option( "SOUND_EFFECT_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
 
-    add( "AMBIENT_SOUND_VOLUME", "general", translate_marker( "Ambient sound volume" ),
-         translate_marker( "Adjust the volume of ambient sounds being played by the game." ),
+    add( "AMBIENT_SOUND_VOLUME", "general", to_translation( "Ambient sound volume" ),
+         to_translation( "Adjust the volume of ambient sounds being played by the game." ),
          0, 128, 100, COPT_NO_SOUND_HIDE
        );
 
@@ -1334,111 +1338,112 @@ void options_manager::add_options_interface()
         interface_page_.items_.emplace_back();
     };
 
-    add( "USE_LANG", "interface", translate_marker( "Language" ),
-         translate_marker( "Switch Language." ), options_manager::get_lang_options(), "" );
+    add( "USE_LANG", "interface", to_translation( "Language" ),
+         to_translation( "Switch Language." ), options_manager::get_lang_options(), "" );
 
     add_empty_line();
 
-    add( "USE_CELSIUS", "interface", translate_marker( "Temperature units" ),
-         translate_marker( "Switch between Celsius, Fahrenheit and Kelvin." ),
-    { { "fahrenheit", translate_marker( "Fahrenheit" ) }, { "celsius", translate_marker( "Celsius" ) }, { "kelvin", translate_marker( "Kelvin" ) } },
+    add( "USE_CELSIUS", "interface", to_translation( "Temperature units" ),
+         to_translation( "Switch between Celsius, Fahrenheit and Kelvin." ),
+    { { "fahrenheit", to_translation( "Fahrenheit" ) }, { "celsius", to_translation( "Celsius" ) }, { "kelvin", to_translation( "Kelvin" ) } },
     "fahrenheit"
        );
 
-    add( "USE_METRIC_SPEEDS", "interface", translate_marker( "Speed units" ),
-         translate_marker( "Switch between mph, km/h and tiles/turn." ),
-    { { "mph", translate_marker( "mph" ) }, { "km/h", translate_marker( "km/h" ) }, { "t/t", translate_marker( "tiles/turn" ) } },
+    add( "USE_METRIC_SPEEDS", "interface", to_translation( "Speed units" ),
+         to_translation( "Switch between mph, km/h and tiles/turn." ),
+    { { "mph", to_translation( "mph" ) }, { "km/h", to_translation( "km/h" ) }, { "t/t", to_translation( "tiles/turn" ) } },
     "mph"
        );
 
-    add( "USE_METRIC_WEIGHTS", "interface", translate_marker( "Mass units" ),
-         translate_marker( "Switch between kg and lbs." ),
-    { { "lbs", translate_marker( "lbs" ) }, { "kg", translate_marker( "kg" ) } }, "lbs"
+    add( "USE_METRIC_WEIGHTS", "interface", to_translation( "Mass units" ),
+         to_translation( "Switch between kg and lbs." ),
+    { { "lbs", to_translation( "lbs" ) }, { "kg", to_translation( "kg" ) } }, "lbs"
        );
 
-    add( "VOLUME_UNITS", "interface", translate_marker( "Volume units" ),
-         translate_marker( "Switch between the Cup ( c ), Liter ( L ) or Quart ( qt )." ),
-    { { "c", translate_marker( "Cup" ) }, { "l", translate_marker( "Liter" ) }, { "qt", translate_marker( "Quart" ) } },
+    add( "VOLUME_UNITS", "interface", to_translation( "Volume units" ),
+         to_translation( "Switch between the Cup ( c ), Liter ( L ) or Quart ( qt )." ),
+    { { "c", to_translation( "Cup" ) }, { "l", to_translation( "Liter" ) }, { "qt", to_translation( "Quart" ) } },
     "l"
        );
-    add( "DISTANCE_UNITS", "interface", translate_marker( "Distance units" ),
-         translate_marker( "Metric or Imperial" ),
-    { { "metric", translate_marker( "Metric" ) }, { "imperial", translate_marker( "Imperial" ) } },
+    add( "DISTANCE_UNITS", "interface", to_translation( "Distance units" ),
+         to_translation( "Metric or Imperial" ),
+    { { "metric", to_translation( "Metric" ) }, { "imperial", to_translation( "Imperial" ) } },
     "imperial" );
 
-    add( "24_HOUR", "interface", translate_marker( "Time format" ),
-         translate_marker( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
+    add( "24_HOUR", "interface", to_translation( "Time format" ),
+         to_translation( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
          //~ 12h time, e.g.  11:59pm
-    {   { "12h", translate_marker( "12h" ) },
+    {   { "12h", to_translation( "12h" ) },
         //~ Military time, e.g.  2359
-        { "military", translate_marker( "Military" ) },
+        { "military", to_translation( "Military" ) },
         //~ 24h time, e.g.  23:59
-        { "24h", translate_marker( "24h" ) }
+        { "24h", to_translation( "24h" ) }
     },
     "12h" );
 
     add_empty_line();
 
-    add( "SDL_KEYBOARD_MODE", "interface", translate_marker( "Use key code input mode" ),
-         translate_marker( "Use key code or symbol input on SDL.  "
-                           "Symbol is recommended for non-qwerty layouts since currently "
-                           "the default keybindings for key code mode only supports qwerty.  "
-                           "Key code is currently WIP and bypasses IMEs, caps lock, and num lock." ),
-    { { "keychar", translate_marker( "Symbol" ) }, { "keycode", translate_marker( "Key code" ) } },
+    add( "SDL_KEYBOARD_MODE", "interface", to_translation( "Use key code input mode" ),
+         to_translation( "Use key code or symbol input on SDL.  "
+                         "Symbol is recommended for non-qwerty layouts since currently "
+                         "the default keybindings for key code mode only supports qwerty.  "
+                         "Key code is currently WIP and bypasses IMEs, caps lock, and num lock." ),
+    { { "keychar", to_translation( "Symbol" ) }, { "keycode", to_translation( "Key code" ) } },
     "keychar", COPT_CURSES_HIDE );
 
     add( "FORCE_CAPITAL_YN", "interface",
-         translate_marker( "Force capital/modified letters in prompts" ),
-         translate_marker( "If true, prompts such as Y/N queries only accepts capital or modified letters, while "
-                           "lower case and unmodified letters only snap the cursor to the corresponding option." ),
+         to_translation( "Force capital/modified letters in prompts" ),
+         to_translation( "If true, prompts such as Y/N queries only accepts capital or modified letters, while "
+                         "lower case and unmodified letters only snap the cursor to the corresponding option." ),
          true
        );
 
-    add( "SNAP_TO_TARGET", "interface", translate_marker( "Snap to target" ),
-         translate_marker( "If true, automatically follow the crosshair when firing/throwing." ),
+    add( "SNAP_TO_TARGET", "interface", to_translation( "Snap to target" ),
+         to_translation( "If true, automatically follow the crosshair when firing/throwing." ),
          false
        );
 
-    add( "QUERY_DISASSEMBLE", "interface", translate_marker( "Query on disassembly while butchering" ),
-         translate_marker( "If true, will query before disassembling items while butchering." ),
+    add( "QUERY_DISASSEMBLE", "interface", to_translation( "Query on disassembly while butchering" ),
+         to_translation( "If true, will query before disassembling items while butchering." ),
          true
        );
 
-    add( "QUERY_KEYBIND_REMOVAL", "interface", translate_marker( "Query on keybinding removal" ),
-         translate_marker( "If true, will query before removing a keybinding from a hotkey." ),
+    add( "QUERY_KEYBIND_REMOVAL", "interface", to_translation( "Query on keybinding removal" ),
+         to_translation( "If true, will query before removing a keybinding from a hotkey." ),
          true
        );
 
-    add( "CLOSE_ADV_INV", "interface", translate_marker( "Close advanced inventory on move all" ),
-         translate_marker( "If true, will close the advanced inventory when the move all items command is used." ),
+    add( "CLOSE_ADV_INV", "interface", to_translation( "Close advanced inventory on move all" ),
+         to_translation( "If true, will close the advanced inventory when the move all items command is used." ),
          false
        );
 
     add( "OPEN_DEFAULT_ADV_INV", "interface",
-         translate_marker( "Open default advanced inventory layout" ),
-         translate_marker( "Open default advanced inventory layout instead of last opened layout" ),
+         to_translation( "Open default advanced inventory layout" ),
+         to_translation( "Open default advanced inventory layout instead of last opened layout" ),
          false
        );
 
-    add( "INV_USE_ACTION_NAMES", "interface", translate_marker( "Display actions in Use Item menu" ),
-         translate_marker( "If true, actions ( like \"Read\", \"Smoke\", \"Wrap tighter\" ) will be displayed next to the corresponding items." ),
+    add( "INV_USE_ACTION_NAMES", "interface", to_translation( "Display actions in Use Item menu" ),
+         to_translation(
+             R"(If true, actions ( like "Read", "Smoke", "Wrap tighter" ) will be displayed next to the corresponding items.)" ),
          true
        );
 
     add( "AUTOSELECT_SINGLE_VALID_TARGET", "interface",
-         translate_marker( "Autoselect if exactly one valid target" ),
-         translate_marker( "If true, directional actions ( like \"Examine\", \"Open\", \"Pickup\" ) "
-                           "will autoselect an adjacent tile if there is exactly one valid target." ),
+         to_translation( "Autoselect if exactly one valid target" ),
+         to_translation( "If true, directional actions ( like \"Examine\", \"Open\", \"Pickup\" ) "
+                         "will autoselect an adjacent tile if there is exactly one valid target." ),
          true
        );
 
     add( "INVENTORY_HIGHLIGHT", "interface",
-         translate_marker( "Inventory highlight mode" ),
-         translate_marker( "Highlight selected item's contents and parent container in inventory screen.  "
+         to_translation( "Inventory highlight mode" ),
+         to_translation( "Highlight selected item's contents and parent container in inventory screen.  "
     "\"Symbol\" shows a highlighted caret and \"Highlight\" uses font highlighting." ), {
-        { "symbol", translate_marker( "Symbol" ) },
-        { "highlight", translate_marker( "Highlight" ) },
-        { "disable", translate_marker( "Disable" ) }
+        { "symbol", to_translation( "Symbol" ) },
+        { "highlight", to_translation( "Highlight" ) },
+        { "disable", to_translation( "Disable" ) }
     },
     "symbol"
        );
@@ -1446,7 +1451,7 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
-         translate_marker( "Diagonal movement with cursor keys and modifiers" ),
+         to_translation( "Diagonal movement with cursor keys and modifiers" ),
          /*
          Possible modes:
 
@@ -1482,183 +1487,183 @@ void options_manager::add_options_interface()
          * `Ctrl` + `Cursor Right` -> `1` = `Move Southwest`.
 
          */
-    translate_marker( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", translate_marker( "None" ) }, { "mode1", translate_marker( "Mode 1: Numpad Emulation" ) }, { "mode2", translate_marker( "Mode 2: CW/CCW" ) }, { "mode3", translate_marker( "Mode 3: L/R Tilt" ) } },
+    to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) } },
     "none", COPT_CURSES_HIDE );
 
     add_empty_line();
 
-    add( "VEHICLE_ARMOR_COLOR", "interface", translate_marker( "Vehicle plating changes part color" ),
-         translate_marker( "If true, vehicle parts will change color if they are armor plated" ),
+    add( "VEHICLE_ARMOR_COLOR", "interface", to_translation( "Vehicle plating changes part color" ),
+         to_translation( "If true, vehicle parts will change color if they are armor plated" ),
          true
        );
 
-    add( "DRIVING_VIEW_OFFSET", "interface", translate_marker( "Auto-shift the view while driving" ),
-         translate_marker( "If true, view will automatically shift towards the driving direction" ),
+    add( "DRIVING_VIEW_OFFSET", "interface", to_translation( "Auto-shift the view while driving" ),
+         to_translation( "If true, view will automatically shift towards the driving direction" ),
          true
        );
 
-    add( "VEHICLE_DIR_INDICATOR", "interface", translate_marker( "Draw vehicle facing indicator" ),
-         translate_marker( "If true, when controlling a vehicle, a white 'X' ( in curses version ) or a crosshair ( in tiles version ) at distance 10 from the center will display its current facing." ),
+    add( "VEHICLE_DIR_INDICATOR", "interface", to_translation( "Draw vehicle facing indicator" ),
+         to_translation( "If true, when controlling a vehicle, a white 'X' ( in curses version ) or a crosshair ( in tiles version ) at distance 10 from the center will display its current facing." ),
          true
        );
 
-    add( "REVERSE_STEERING", "interface", translate_marker( "Reverse steering direction in reverse" ),
-         translate_marker( "If true, when driving a vehicle in reverse, steering should also reverse like real life." ),
+    add( "REVERSE_STEERING", "interface", to_translation( "Reverse steering direction in reverse" ),
+         to_translation( "If true, when driving a vehicle in reverse, steering should also reverse like real life." ),
          false
        );
 
     add_empty_line();
 
-    add( "SIDEBAR_POSITION", "interface", translate_marker( "Sidebar position" ),
-         translate_marker( "Switch between sidebar on the left or on the right side.  Requires restart." ),
+    add( "SIDEBAR_POSITION", "interface", to_translation( "Sidebar position" ),
+         to_translation( "Switch between sidebar on the left or on the right side.  Requires restart." ),
          //~ sidebar position
-    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } }, "right"
+    { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) } }, "right"
        );
 
-    add( "SIDEBAR_SPACERS", "interface", translate_marker( "Draw sidebar spacers" ),
-         translate_marker( "If true, adds an extra space between sidebar panels." ),
+    add( "SIDEBAR_SPACERS", "interface", to_translation( "Draw sidebar spacers" ),
+         to_translation( "If true, adds an extra space between sidebar panels." ),
          false
        );
 
-    add( "LOG_FLOW", "interface", translate_marker( "Message log flow" ),
-         translate_marker( "Where new log messages should show." ),
+    add( "LOG_FLOW", "interface", to_translation( "Message log flow" ),
+         to_translation( "Where new log messages should show." ),
          //~ sidebar/message log flow direction
-    { { "new_top", translate_marker( "Top" ) }, { "new_bottom", translate_marker( "Bottom" ) } },
+    { { "new_top", to_translation( "Top" ) }, { "new_bottom", to_translation( "Bottom" ) } },
     "new_bottom"
        );
 
-    add( "MESSAGE_TTL", "interface", translate_marker( "Sidebar log message display duration" ),
-         translate_marker( "Number of turns after which a message will be removed from the sidebar log.  '0' disables this option." ),
+    add( "MESSAGE_TTL", "interface", to_translation( "Sidebar log message display duration" ),
+         to_translation( "Number of turns after which a message will be removed from the sidebar log.  '0' disables this option." ),
          0, 1000, 0
        );
 
-    add( "MESSAGE_COOLDOWN", "interface", translate_marker( "Message cooldown" ),
-         translate_marker( "Number of turns during which similar messages are hidden.  '0' disables this option." ),
+    add( "MESSAGE_COOLDOWN", "interface", to_translation( "Message cooldown" ),
+         to_translation( "Number of turns during which similar messages are hidden.  '0' disables this option." ),
          0, 1000, 0
        );
 
-    add( "MESSAGE_LIMIT", "interface", translate_marker( "Limit message history" ),
-         translate_marker( "Number of messages to preserve in the history, and when saving." ),
+    add( "MESSAGE_LIMIT", "interface", to_translation( "Limit message history" ),
+         to_translation( "Number of messages to preserve in the history, and when saving." ),
          1, 10000, 255
        );
 
     add( "NO_UNKNOWN_COMMAND_MSG", "interface",
-         translate_marker( "Suppress \"unknown command\" messages" ),
-         translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
+         to_translation( "Suppress \"unknown command\" messages" ),
+         to_translation( "If true, pressing a key with no set function will not display a notice in the chat log." ),
          false
        );
 
     add( "ACHIEVEMENT_COMPLETED_POPUP", "interface",
-         translate_marker( "Popup window when achievmement completed" ),
-         translate_marker( "Whether to trigger a popup window when completing an achievement.  "
-                           "First: when completing an achievement that has not been completed in "
+         to_translation( "Popup window when achievmement completed" ),
+         to_translation( "Whether to trigger a popup window when completing an achievement.  "
+                         "First: when completing an achievement that has not been completed in "
     "a previous game." ), {
-        { "never", translate_marker( "Never" ) },
-        { "always", translate_marker( "Always" ) },
-        { "first", translate_marker( "First" ) }
+        { "never", to_translation( "Never" ) },
+        { "always", to_translation( "Always" ) },
+        { "first", to_translation( "First" ) }
     },
     "first" );
 
-    add( "LOOKAROUND_POSITION", "interface", translate_marker( "Look around position" ),
-         translate_marker( "Switch between look around panel being left or right." ),
-    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } },
+    add( "LOOKAROUND_POSITION", "interface", to_translation( "Look around position" ),
+         to_translation( "Switch between look around panel being left or right." ),
+    { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) } },
     "right"
        );
 
-    add( "PICKUP_POSITION", "interface", translate_marker( "Pickup position" ),
-         translate_marker( "Switch between pickup panel being left, right, or overlapping the sidebar." ),
-    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) }, { "overlapping", translate_marker( "Overlapping" ) } },
+    add( "PICKUP_POSITION", "interface", to_translation( "Pickup position" ),
+         to_translation( "Switch between pickup panel being left, right, or overlapping the sidebar." ),
+    { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) }, { "overlapping", to_translation( "Overlapping" ) } },
     "left"
        );
 
-    add( "ACCURACY_DISPLAY", "interface", translate_marker( "Aim window display style" ),
-         translate_marker( "How should confidence and steadiness be communicated to the player." ),
+    add( "ACCURACY_DISPLAY", "interface", to_translation( "Aim window display style" ),
+         to_translation( "How should confidence and steadiness be communicated to the player." ),
          //~ aim bar style - bars or numbers
-    { { "numbers", translate_marker( "Numbers" ) }, { "bars", translate_marker( "Bars" ) } }, "bars"
+    { { "numbers", to_translation( "Numbers" ) }, { "bars", to_translation( "Bars" ) } }, "bars"
        );
 
-    add( "MORALE_STYLE", "interface", translate_marker( "Morale style" ),
-         translate_marker( "Morale display style in sidebar." ),
-    { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } },
+    add( "MORALE_STYLE", "interface", to_translation( "Morale style" ),
+         to_translation( "Morale display style in sidebar." ),
+    { { "vertical", to_translation( "Vertical" ) }, { "horizontal", to_translation( "Horizontal" ) } },
     "Vertical"
        );
 
-    add( "AIM_WIDTH", "interface", translate_marker( "Full screen Advanced Inventory Manager" ),
-         translate_marker( "If true, Advanced Inventory Manager menu will fit full screen, otherwise it will leave sidebar visible." ),
+    add( "AIM_WIDTH", "interface", to_translation( "Full screen Advanced Inventory Manager" ),
+         to_translation( "If true, Advanced Inventory Manager menu will fit full screen, otherwise it will leave sidebar visible." ),
          false
        );
 
     add_empty_line();
 
-    add( "MOVE_VIEW_OFFSET", "interface", translate_marker( "Move view offset" ),
-         translate_marker( "Move view by how many squares per keypress." ),
+    add( "MOVE_VIEW_OFFSET", "interface", to_translation( "Move view offset" ),
+         to_translation( "Move view by how many squares per keypress." ),
          1, 50, 1
        );
 
-    add( "FAST_SCROLL_OFFSET", "interface", translate_marker( "Overmap fast scroll offset" ),
-         translate_marker( "With Fast Scroll option enabled, shift view on the overmap and while looking around by this many squares per keypress." ),
+    add( "FAST_SCROLL_OFFSET", "interface", to_translation( "Overmap fast scroll offset" ),
+         to_translation( "With Fast Scroll option enabled, shift view on the overmap and while looking around by this many squares per keypress." ),
          1, 50, 5
        );
 
-    add( "MENU_SCROLL", "interface", translate_marker( "Centered menu scrolling" ),
-         translate_marker( "If true, menus will start scrolling in the center of the list, and keep the list centered." ),
+    add( "MENU_SCROLL", "interface", to_translation( "Centered menu scrolling" ),
+         to_translation( "If true, menus will start scrolling in the center of the list, and keep the list centered." ),
          true
        );
 
-    add( "SHIFT_LIST_ITEM_VIEW", "interface", translate_marker( "Shift list item view" ),
-         translate_marker( "Centered or to edge, shift the view toward the selected item if it is outside of your current viewport." ),
-    { { "false", translate_marker( "False" ) }, { "centered", translate_marker( "Centered" ) }, { "edge", translate_marker( "To edge" ) } },
+    add( "SHIFT_LIST_ITEM_VIEW", "interface", to_translation( "Shift list item view" ),
+         to_translation( "Centered or to edge, shift the view toward the selected item if it is outside of your current viewport." ),
+    { { "false", to_translation( "False" ) }, { "centered", to_translation( "Centered" ) }, { "edge", to_translation( "To edge" ) } },
     "centered"
        );
 
-    add( "AUTO_INV_ASSIGN", "interface", translate_marker( "Auto inventory letters" ),
-         translate_marker( "Enabled: automatically assign letters to any carried items that lack them.  Disabled: do not auto-assign letters.  "
+    add( "AUTO_INV_ASSIGN", "interface", to_translation( "Auto inventory letters" ),
+         to_translation( "Enabled: automatically assign letters to any carried items that lack them.  Disabled: do not auto-assign letters.  "
     "Favorites: only auto-assign letters to favorited items." ), {
-        { "disabled", translate_marker( "Disabled" ) },
-        { "enabled", translate_marker( "Enabled" ) },
-        { "favorites", translate_marker( "Favorites" ) }
+        { "disabled", to_translation( "options", "Disabled" ) },
+        { "enabled", to_translation( "Enabled" ) },
+        { "favorites", to_translation( "Favorites" ) }
     },
     "favorites" );
 
-    add( "ITEM_HEALTH_BAR", "interface", translate_marker( "Show item health bars" ),
+    add( "ITEM_HEALTH_BAR", "interface", to_translation( "Show item health bars" ),
          // NOLINTNEXTLINE(cata-text-style): one space after "etc."
-         translate_marker( "If true, show item health bars instead of reinforced, scratched etc. text." ),
+         to_translation( "If true, show item health bars instead of reinforced, scratched etc. text." ),
          true
        );
 
-    add( "ITEM_SYMBOLS", "interface", translate_marker( "Show item symbols" ),
-         translate_marker( "If true, show item symbols in inventory and pick up menu." ),
+    add( "ITEM_SYMBOLS", "interface", to_translation( "Show item symbols" ),
+         to_translation( "If true, show item symbols in inventory and pick up menu." ),
          false
        );
-    add( "AMMO_IN_NAMES", "interface", translate_marker( "Add ammo to weapon/magazine names" ),
-         translate_marker( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
+    add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
+         to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
          true
        );
 
     add_empty_line();
 
-    add( "ENABLE_JOYSTICK", "interface", translate_marker( "Enable joystick" ),
-         translate_marker( "Enable input from joystick." ),
+    add( "ENABLE_JOYSTICK", "interface", to_translation( "Enable joystick" ),
+         to_translation( "Enable input from joystick." ),
          true, COPT_CURSES_HIDE
        );
 
-    add( "HIDE_CURSOR", "interface", translate_marker( "Hide mouse cursor" ),
-         translate_marker( "Show: Cursor is always shown.  Hide: Cursor is hidden.  HideKB: Cursor is hidden on keyboard input and unhidden on mouse movement." ),
+    add( "HIDE_CURSOR", "interface", to_translation( "Hide mouse cursor" ),
+         to_translation( "Show: Cursor is always shown.  Hide: Cursor is hidden.  HideKB: Cursor is hidden on keyboard input and unhidden on mouse movement." ),
          //~ show mouse cursor
-    {   { "show", translate_marker( "Show" ) },
+    {   { "show", to_translation( "Show" ) },
         //~ hide mouse cursor
-        { "hide", translate_marker( "Hide" ) },
+        { "hide", to_translation( "Hide" ) },
         //~ hide mouse cursor when keyboard is used
-        { "hidekb", translate_marker( "HideKB" ) }
+        { "hidekb", to_translation( "HideKB" ) }
     },
     "show", COPT_CURSES_HIDE );
 
-    add( "EDGE_SCROLL", "interface", translate_marker( "Edge scrolling" ),
-    translate_marker( "Edge scrolling with the mouse." ), {
-        std::make_tuple( -1, translate_marker( "Disabled" ) ),
-        std::make_tuple( 100, translate_marker( "Slow" ) ),
-        std::make_tuple( 30, translate_marker( "Normal" ) ),
-        std::make_tuple( 10, translate_marker( "Fast" ) )
+    add( "EDGE_SCROLL", "interface", to_translation( "Edge scrolling" ),
+    to_translation( "Edge scrolling with the mouse." ), {
+        { -1, to_translation( "options", "Disabled" ) },
+        { 100, to_translation( "Slow" ) },
+        { 30, to_translation( "Normal" ) },
+        { 10, to_translation( "Fast" ) },
     },
     30, 30, COPT_CURSES_HIDE );
 
@@ -1670,135 +1675,135 @@ void options_manager::add_options_graphics()
         graphics_page_.items_.emplace_back();
     };
 
-    add( "ANIMATIONS", "graphics", translate_marker( "Animations" ),
-         translate_marker( "If true, will display enabled animations." ),
+    add( "ANIMATIONS", "graphics", to_translation( "Animations" ),
+         to_translation( "If true, will display enabled animations." ),
          true
        );
 
-    add( "ANIMATION_RAIN", "graphics", translate_marker( "Rain animation" ),
-         translate_marker( "If true, will display weather animations." ),
+    add( "ANIMATION_RAIN", "graphics", to_translation( "Rain animation" ),
+         to_translation( "If true, will display weather animations." ),
          true
        );
 
     get_option( "ANIMATION_RAIN" ).setPrerequisite( "ANIMATIONS" );
 
-    add( "ANIMATION_PROJECTILES", "graphics", translate_marker( "Projectile animation" ),
-         translate_marker( "If true, will display animations for projectiles like bullets, arrows, and thrown items." ),
+    add( "ANIMATION_PROJECTILES", "graphics", to_translation( "Projectile animation" ),
+         to_translation( "If true, will display animations for projectiles like bullets, arrows, and thrown items." ),
          true
        );
 
     get_option( "ANIMATION_PROJECTILES" ).setPrerequisite( "ANIMATIONS" );
 
-    add( "ANIMATION_SCT", "graphics", translate_marker( "SCT animation" ),
-         translate_marker( "If true, will display scrolling combat text animations." ),
+    add( "ANIMATION_SCT", "graphics", to_translation( "SCT animation" ),
+         to_translation( "If true, will display scrolling combat text animations." ),
          true
        );
 
     get_option( "ANIMATION_SCT" ).setPrerequisite( "ANIMATIONS" );
 
-    add( "ANIMATION_SCT_USE_FONT", "graphics", translate_marker( "SCT with Unicode font" ),
-         translate_marker( "If true, will display scrolling combat text with Unicode font." ),
+    add( "ANIMATION_SCT_USE_FONT", "graphics", to_translation( "SCT with Unicode font" ),
+         to_translation( "If true, will display scrolling combat text with Unicode font." ),
          true
        );
 
     get_option( "ANIMATION_SCT_USE_FONT" ).setPrerequisite( "ANIMATION_SCT" );
 
-    add( "ANIMATION_DELAY", "graphics", translate_marker( "Animation delay" ),
-         translate_marker( "The amount of time to pause between animation frames in ms." ),
+    add( "ANIMATION_DELAY", "graphics", to_translation( "Animation delay" ),
+         to_translation( "The amount of time to pause between animation frames in ms." ),
          0, 100, 10
        );
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
 
-    add( "FORCE_REDRAW", "graphics", translate_marker( "Force redraw" ),
-         translate_marker( "If true, forces the game to redraw at least once per turn." ),
+    add( "FORCE_REDRAW", "graphics", to_translation( "Force redraw" ),
+         to_translation( "If true, forces the game to redraw at least once per turn." ),
          true
        );
 
     add_empty_line();
 
-    add( "TERMINAL_X", "graphics", translate_marker( "Terminal width" ),
-         translate_marker( "Set the size of the terminal along the X axis." ),
+    add( "TERMINAL_X", "graphics", to_translation( "Terminal width" ),
+         to_translation( "Set the size of the terminal along the X axis." ),
          80, 960, 80, COPT_POSIX_CURSES_HIDE
        );
 
-    add( "TERMINAL_Y", "graphics", translate_marker( "Terminal height" ),
-         translate_marker( "Set the size of the terminal along the Y axis." ),
+    add( "TERMINAL_Y", "graphics", to_translation( "Terminal height" ),
+         to_translation( "Set the size of the terminal along the Y axis." ),
          24, 270, 24, COPT_POSIX_CURSES_HIDE
        );
 
     add_empty_line();
 
-    add( "FONT_BLENDING", "graphics", translate_marker( "Font blending" ),
-         translate_marker( "If true, fonts will look better." ),
+    add( "FONT_BLENDING", "graphics", to_translation( "Font blending" ),
+         to_translation( "If true, fonts will look better." ),
          false, COPT_CURSES_HIDE
        );
 
-    add( "FONT_WIDTH", "graphics", translate_marker( "Font width" ),
-         translate_marker( "Set the font width.  Requires restart." ),
+    add( "FONT_WIDTH", "graphics", to_translation( "Font width" ),
+         to_translation( "Set the font width.  Requires restart." ),
          8, 100, 8, COPT_CURSES_HIDE
        );
 
-    add( "FONT_HEIGHT", "graphics", translate_marker( "Font height" ),
-         translate_marker( "Set the font height.  Requires restart." ),
+    add( "FONT_HEIGHT", "graphics", to_translation( "Font height" ),
+         to_translation( "Set the font height.  Requires restart." ),
          8, 100, 16, COPT_CURSES_HIDE
        );
 
-    add( "FONT_SIZE", "graphics", translate_marker( "Font size" ),
-         translate_marker( "Set the font size.  Requires restart." ),
+    add( "FONT_SIZE", "graphics", to_translation( "Font size" ),
+         to_translation( "Set the font size.  Requires restart." ),
          8, 100, 16, COPT_CURSES_HIDE
        );
 
-    add( "MAP_FONT_WIDTH", "graphics", translate_marker( "Map font width" ),
-         translate_marker( "Set the map font width.  Requires restart." ),
+    add( "MAP_FONT_WIDTH", "graphics", to_translation( "Map font width" ),
+         to_translation( "Set the map font width.  Requires restart." ),
          8, 100, 16, COPT_CURSES_HIDE
        );
 
-    add( "MAP_FONT_HEIGHT", "graphics", translate_marker( "Map font height" ),
-         translate_marker( "Set the map font height.  Requires restart." ),
+    add( "MAP_FONT_HEIGHT", "graphics", to_translation( "Map font height" ),
+         to_translation( "Set the map font height.  Requires restart." ),
          8, 100, 16, COPT_CURSES_HIDE
        );
 
-    add( "MAP_FONT_SIZE", "graphics", translate_marker( "Map font size" ),
-         translate_marker( "Set the map font size.  Requires restart." ),
+    add( "MAP_FONT_SIZE", "graphics", to_translation( "Map font size" ),
+         to_translation( "Set the map font size.  Requires restart." ),
          8, 100, 16, COPT_CURSES_HIDE
        );
 
-    add( "OVERMAP_FONT_WIDTH", "graphics", translate_marker( "Overmap font width" ),
-         translate_marker( "Set the overmap font width.  Requires restart." ),
+    add( "OVERMAP_FONT_WIDTH", "graphics", to_translation( "Overmap font width" ),
+         to_translation( "Set the overmap font width.  Requires restart." ),
          8, 100, 16, COPT_CURSES_HIDE
        );
 
-    add( "OVERMAP_FONT_HEIGHT", "graphics", translate_marker( "Overmap font height" ),
-         translate_marker( "Set the overmap font height.  Requires restart." ),
+    add( "OVERMAP_FONT_HEIGHT", "graphics", to_translation( "Overmap font height" ),
+         to_translation( "Set the overmap font height.  Requires restart." ),
          8, 100, 16, COPT_CURSES_HIDE
        );
 
-    add( "OVERMAP_FONT_SIZE", "graphics", translate_marker( "Overmap font size" ),
-         translate_marker( "Set the overmap font size.  Requires restart." ),
+    add( "OVERMAP_FONT_SIZE", "graphics", to_translation( "Overmap font size" ),
+         to_translation( "Set the overmap font size.  Requires restart." ),
          8, 100, 16, COPT_CURSES_HIDE
        );
 
-    add( "USE_DRAW_ASCII_LINES_ROUTINE", "graphics", translate_marker( "SDL ASCII lines" ),
-         translate_marker( "Use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
+    add( "USE_DRAW_ASCII_LINES_ROUTINE", "graphics", to_translation( "SDL ASCII lines" ),
+         to_translation( "Use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
          true, COPT_CURSES_HIDE
        );
 
     add( "ENABLE_ASCII_ART_ITEM", "graphics",
-         translate_marker( "Enable ASCII art in item descriptions" ),
-         translate_marker( "When available item description will show a picture of the item in ascii art." ),
+         to_translation( "Enable ASCII art in item descriptions" ),
+         to_translation( "When available item description will show a picture of the item in ascii art." ),
          true, COPT_NO_HIDE
        );
 
     add_empty_line();
 
-    add( "USE_TILES", "graphics", translate_marker( "Use tiles" ),
-         translate_marker( "If true, replaces some TTF rendered text with tiles." ),
+    add( "USE_TILES", "graphics", to_translation( "Use tiles" ),
+         to_translation( "If true, replaces some TTF rendered text with tiles." ),
          true, COPT_CURSES_HIDE
        );
 
-    add( "TILES", "graphics", translate_marker( "Choose tileset" ),
-         translate_marker( "Choose the tileset you want to use." ),
+    add( "TILES", "graphics", to_translation( "Choose tileset" ),
+         to_translation( "Choose the tileset you want to use." ),
          build_tilesets_list(), "UltimateCataclysm", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
@@ -1806,117 +1811,117 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
-    add( "MEMORY_MAP_MODE", "graphics", translate_marker( "Memory map overlay preset" ),
-    translate_marker( "Specified the overlay in which the memory map is drawn.  Requires restart.  For custom overlay define gamma and RGB values for dark and light colors." ), {
-        { "color_pixel_darken", translate_marker( "Darkened" ) },
-        { "color_pixel_sepia_light", translate_marker( "Sepia" ) },
-        { "color_pixel_sepia_dark", translate_marker( "Sepia Dark" ) },
-        { "color_pixel_blue_dark", translate_marker( "Blue Dark" ) },
-        { "color_pixel_custom", translate_marker( "Custom" ) },
+    add( "MEMORY_MAP_MODE", "graphics", to_translation( "Memory map overlay preset" ),
+    to_translation( "Specified the overlay in which the memory map is drawn.  Requires restart.  For custom overlay define gamma and RGB values for dark and light colors." ), {
+        { "color_pixel_darken", to_translation( "Darkened" ) },
+        { "color_pixel_sepia_light", to_translation( "Sepia" ) },
+        { "color_pixel_sepia_dark", to_translation( "Sepia Dark" ) },
+        { "color_pixel_blue_dark", to_translation( "Blue Dark" ) },
+        { "color_pixel_custom", to_translation( "Custom" ) },
     }, "color_pixel_sepia_light", COPT_CURSES_HIDE
        );
 
-    add( "MEMORY_RGB_DARK_RED", "graphics", translate_marker( "Custom dark color RGB overlay - RED" ),
-         translate_marker( "Specify RGB value for color RED for dark color overlay." ),
+    add( "MEMORY_RGB_DARK_RED", "graphics", to_translation( "Custom dark color RGB overlay - RED" ),
+         to_translation( "Specify RGB value for color RED for dark color overlay." ),
          0, 255, 39, COPT_CURSES_HIDE );
 
     get_option( "MEMORY_RGB_DARK_RED" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
 
     add( "MEMORY_RGB_DARK_GREEN", "graphics",
-         translate_marker( "Custom dark color RGB overlay - GREEN" ),
-         translate_marker( "Specify RGB value for color GREEN for dark color overlay." ),
+         to_translation( "Custom dark color RGB overlay - GREEN" ),
+         to_translation( "Specify RGB value for color GREEN for dark color overlay." ),
          0, 255, 23, COPT_CURSES_HIDE );
 
     get_option( "MEMORY_RGB_DARK_GREEN" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
 
-    add( "MEMORY_RGB_DARK_BLUE", "graphics", translate_marker( "Custom dark color RGB overlay - BLUE" ),
-         translate_marker( "Specify RGB value for color BLUE for dark color overlay." ),
+    add( "MEMORY_RGB_DARK_BLUE", "graphics", to_translation( "Custom dark color RGB overlay - BLUE" ),
+         to_translation( "Specify RGB value for color BLUE for dark color overlay." ),
          0, 255, 19, COPT_CURSES_HIDE );
 
     get_option( "MEMORY_RGB_DARK_BLUE" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
 
     add( "MEMORY_RGB_BRIGHT_RED", "graphics",
-         translate_marker( "Custom bright color RGB overlay - RED" ),
-         translate_marker( "Specify RGB value for color RED for bright color overlay." ),
+         to_translation( "Custom bright color RGB overlay - RED" ),
+         to_translation( "Specify RGB value for color RED for bright color overlay." ),
          0, 255, 241, COPT_CURSES_HIDE );
 
     get_option( "MEMORY_RGB_BRIGHT_RED" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
 
     add( "MEMORY_RGB_BRIGHT_GREEN", "graphics",
-         translate_marker( "Custom bright color RGB overlay - GREEN" ),
-         translate_marker( "Specify RGB value for color GREEN for bright color overlay." ),
+         to_translation( "Custom bright color RGB overlay - GREEN" ),
+         to_translation( "Specify RGB value for color GREEN for bright color overlay." ),
          0, 255, 220, COPT_CURSES_HIDE );
 
     get_option( "MEMORY_RGB_BRIGHT_GREEN" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
 
     add( "MEMORY_RGB_BRIGHT_BLUE", "graphics",
-         translate_marker( "Custom bright color RGB overlay - BLUE" ),
-         translate_marker( "Specify RGB value for color BLUE for bright color overlay." ),
+         to_translation( "Custom bright color RGB overlay - BLUE" ),
+         to_translation( "Specify RGB value for color BLUE for bright color overlay." ),
          0, 255, 163, COPT_CURSES_HIDE );
 
     get_option( "MEMORY_RGB_BRIGHT_BLUE" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
 
-    add( "MEMORY_GAMMA", "graphics", translate_marker( "Custom gamma for overlay" ),
-         translate_marker( "Specify gamma value for overlay." ),
+    add( "MEMORY_GAMMA", "graphics", to_translation( "Custom gamma for overlay" ),
+         to_translation( "Specify gamma value for overlay." ),
          1.0f, 3.0f, 1.6f, 0.1f, COPT_CURSES_HIDE );
 
     get_option( "MEMORY_GAMMA" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
 
     add_empty_line();
 
-    add( "PIXEL_MINIMAP", "graphics", translate_marker( "Pixel minimap" ),
-         translate_marker( "If true, shows the pixel-detail minimap in game after the save is loaded.  Use the 'Toggle Pixel Minimap' action key to change its visibility during gameplay." ),
+    add( "PIXEL_MINIMAP", "graphics", to_translation( "Pixel minimap" ),
+         to_translation( "If true, shows the pixel-detail minimap in game after the save is loaded.  Use the 'Toggle Pixel Minimap' action key to change its visibility during gameplay." ),
          true, COPT_CURSES_HIDE
        );
 
-    add( "PIXEL_MINIMAP_MODE", "graphics", translate_marker( "Pixel minimap drawing mode" ),
-    translate_marker( "Specified the mode in which the minimap drawn." ), {
-        { "solid", translate_marker( "Solid" ) },
-        { "squares", translate_marker( "Squares" ) },
-        { "dots", translate_marker( "Dots" ) }
+    add( "PIXEL_MINIMAP_MODE", "graphics", to_translation( "Pixel minimap drawing mode" ),
+    to_translation( "Specified the mode in which the minimap drawn." ), {
+        { "solid", to_translation( "Solid" ) },
+        { "squares", to_translation( "Squares" ) },
+        { "dots", to_translation( "Dots" ) }
     }, "dots", COPT_CURSES_HIDE
        );
 
     get_option( "PIXEL_MINIMAP_MODE" ).setPrerequisite( "PIXEL_MINIMAP" );
 
-    add( "PIXEL_MINIMAP_BRIGHTNESS", "graphics", translate_marker( "Pixel minimap brightness" ),
-         translate_marker( "Overall brightness of pixel-detail minimap." ),
+    add( "PIXEL_MINIMAP_BRIGHTNESS", "graphics", to_translation( "Pixel minimap brightness" ),
+         to_translation( "Overall brightness of pixel-detail minimap." ),
          10, 300, 100, COPT_CURSES_HIDE
        );
 
     get_option( "PIXEL_MINIMAP_BRIGHTNESS" ).setPrerequisite( "PIXEL_MINIMAP" );
 
-    add( "PIXEL_MINIMAP_HEIGHT", "graphics", translate_marker( "Pixel minimap height" ),
-         translate_marker( "Height of pixel-detail minimap, measured in terminal rows.  Set to 0 for default spacing." ),
+    add( "PIXEL_MINIMAP_HEIGHT", "graphics", to_translation( "Pixel minimap height" ),
+         to_translation( "Height of pixel-detail minimap, measured in terminal rows.  Set to 0 for default spacing." ),
          0, 100, 0, COPT_CURSES_HIDE
        );
 
     get_option( "PIXEL_MINIMAP_HEIGHT" ).setPrerequisite( "PIXEL_MINIMAP" );
 
-    add( "PIXEL_MINIMAP_SCALE_TO_FIT", "graphics", translate_marker( "Scale pixel minimap" ),
-         translate_marker( "Scale pixel minimap to fit its surroundings.  May produce crappy results, especially in modes other than \"Solid\"." ),
+    add( "PIXEL_MINIMAP_SCALE_TO_FIT", "graphics", to_translation( "Scale pixel minimap" ),
+         to_translation( "Scale pixel minimap to fit its surroundings.  May produce crappy results, especially in modes other than \"Solid\"." ),
          false, COPT_CURSES_HIDE
        );
 
     get_option( "PIXEL_MINIMAP_SCALE_TO_FIT" ).setPrerequisite( "PIXEL_MINIMAP" );
 
-    add( "PIXEL_MINIMAP_RATIO", "graphics", translate_marker( "Maintain pixel minimap aspect ratio" ),
-         translate_marker( "Preserves the square shape of tiles shown on the pixel minimap." ),
+    add( "PIXEL_MINIMAP_RATIO", "graphics", to_translation( "Maintain pixel minimap aspect ratio" ),
+         to_translation( "Preserves the square shape of tiles shown on the pixel minimap." ),
          true, COPT_CURSES_HIDE
        );
 
     get_option( "PIXEL_MINIMAP_RATIO" ).setPrerequisite( "PIXEL_MINIMAP" );
 
     add( "PIXEL_MINIMAP_BEACON_SIZE", "graphics",
-         translate_marker( "Creature beacon size" ),
-         translate_marker( "Controls how big the creature beacons are.  Value is in minimap tiles." ),
+         to_translation( "Creature beacon size" ),
+         to_translation( "Controls how big the creature beacons are.  Value is in minimap tiles." ),
          1, 4, 2, COPT_CURSES_HIDE
        );
 
     get_option( "PIXEL_MINIMAP_BEACON_SIZE" ).setPrerequisite( "PIXEL_MINIMAP" );
 
-    add( "PIXEL_MINIMAP_BLINK", "graphics", translate_marker( "Hostile creature beacon blink speed" ),
-         translate_marker( "Controls how fast the hostile creature beacons blink on the pixel minimap.  Value is multiplied by 200 ms.  Set to 0 to disable." ),
+    add( "PIXEL_MINIMAP_BLINK", "graphics", to_translation( "Hostile creature beacon blink speed" ),
+         to_translation( "Controls how fast the hostile creature beacons blink on the pixel minimap.  Value is multiplied by 200 ms.  Set to 0 to disable." ),
          0, 50, 10, COPT_CURSES_HIDE
        );
 
@@ -1926,16 +1931,16 @@ void options_manager::add_options_graphics()
 
 #if defined(TILES)
     std::vector<options_manager::id_and_option> display_list = cata_tiles::build_display_list();
-    add( "DISPLAY", "graphics", translate_marker( "Display" ),
-         translate_marker( "Sets which video display will be used to show the game.  Requires restart." ),
+    add( "DISPLAY", "graphics", to_translation( "Display" ),
+         to_translation( "Sets which video display will be used to show the game.  Requires restart." ),
          display_list,
          display_list.front().first, COPT_CURSES_HIDE );
 #endif
 
 #if !defined(__ANDROID__) // Android is always fullscreen
-    add( "FULLSCREEN", "graphics", translate_marker( "Fullscreen" ),
-         translate_marker( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
-    { { "no", translate_marker( "No" ) }, { "maximized", translate_marker( "Maximized" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
+    add( "FULLSCREEN", "graphics", to_translation( "Fullscreen" ),
+         to_translation( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
+    { { "no", to_translation( "No" ) }, { "maximized", to_translation( "Maximized" ) }, { "fullscreen", to_translation( "Fullscreen" ) }, { "windowedbl", to_translation( "Windowed borderless" ) } },
     "windowedbl", COPT_CURSES_HIDE
        );
 #endif
@@ -1943,19 +1948,19 @@ void options_manager::add_options_graphics()
 #if !defined(__ANDROID__)
 #   if !defined(TILES)
     // No renderer selection in non-TILES mode
-    add( "RENDERER", "graphics", translate_marker( "Renderer" ),
-    translate_marker( "Set which renderer to use.  Requires restart." ),   {   { "software", translate_marker( "software" ) } },
+    add( "RENDERER", "graphics", to_translation( "Renderer" ),
+    to_translation( "Set which renderer to use.  Requires restart." ), { { "software", to_translation( "software" ) } },
     "software", COPT_CURSES_HIDE );
 #   else
     std::vector<options_manager::id_and_option> renderer_list = cata_tiles::build_renderer_list();
-    add( "RENDERER", "graphics", translate_marker( "Renderer" ),
-         translate_marker( "Set which renderer to use.  Requires restart." ), renderer_list,
+    add( "RENDERER", "graphics", to_translation( "Renderer" ),
+         to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
          renderer_list.front().first, COPT_CURSES_HIDE );
 #   endif
 
 #else
-    add( "SOFTWARE_RENDERING", "graphics", translate_marker( "Software rendering" ),
-         translate_marker( "Use software renderer instead of graphics card acceleration.  Requires restart." ),
+    add( "SOFTWARE_RENDERING", "graphics", to_translation( "Software rendering" ),
+         to_translation( "Use software renderer instead of graphics card acceleration.  Requires restart." ),
          // take default setting from pre-game settings screen - important as both software + hardware rendering have issues with specific devices
          android_get_default_setting( "Software rendering", false ),
          COPT_CURSES_HIDE
@@ -1963,13 +1968,13 @@ void options_manager::add_options_graphics()
 #endif
 
 #if defined(SDL_HINT_RENDER_BATCHING)
-    add( "RENDER_BATCHING", "graphics", translate_marker( "Allow render batching" ),
-         translate_marker( "Use render batching for 2D render API to make it more efficient.  Requires restart." ),
+    add( "RENDER_BATCHING", "graphics", to_translation( "Allow render batching" ),
+         to_translation( "Use render batching for 2D render API to make it more efficient.  Requires restart." ),
          true, COPT_CURSES_HIDE
        );
 #endif
-    add( "FRAMEBUFFER_ACCEL", "graphics", translate_marker( "Software framebuffer acceleration" ),
-         translate_marker( "Use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
+    add( "FRAMEBUFFER_ACCEL", "graphics", to_translation( "Software framebuffer acceleration" ),
+         to_translation( "Use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
          false, COPT_CURSES_HIDE
        );
 
@@ -1979,28 +1984,28 @@ void options_manager::add_options_graphics()
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "RENDERER", "software" );
 #endif
 
-    add( "USE_COLOR_MODULATED_TEXTURES", "graphics", translate_marker( "Use color modulated textures" ),
-         translate_marker( "If true, tries to use color modulated textures to speed-up ASCII drawing.  Requires restart." ),
+    add( "USE_COLOR_MODULATED_TEXTURES", "graphics", to_translation( "Use color modulated textures" ),
+         to_translation( "If true, tries to use color modulated textures to speed-up ASCII drawing.  Requires restart." ),
          false, COPT_CURSES_HIDE
        );
 
-    add( "SCALING_MODE", "graphics", translate_marker( "Scaling mode" ),
-         translate_marker( "Sets the scaling mode, 'none' ( default ) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling." ),
+    add( "SCALING_MODE", "graphics", to_translation( "Scaling mode" ),
+         to_translation( "Sets the scaling mode, 'none' ( default ) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling." ),
          //~ Do not scale the game image to the window size.
-    {   { "none", translate_marker( "No scaling" ) },
+    {   { "none", to_translation( "No scaling" ) },
         //~ An algorithm for image scaling.
-        { "nearest", translate_marker( "Nearest neighbor" ) },
+        { "nearest", to_translation( "Nearest neighbor" ) },
         //~ An algorithm for image scaling.
-        { "linear", translate_marker( "Linear filtering" ) }
+        { "linear", to_translation( "Linear filtering" ) }
     },
     "none", COPT_CURSES_HIDE );
 
 #if !defined(__ANDROID__)
-    add( "SCALING_FACTOR", "graphics", translate_marker( "Scaling factor" ),
-    translate_marker( "Factor by which to scale the display.  Requires restart." ), {
-        { "1", translate_marker( "1x" ) },
-        { "2", translate_marker( "2x" )},
-        { "4", translate_marker( "4x" )}
+    add( "SCALING_FACTOR", "graphics", to_translation( "Scaling factor" ),
+    to_translation( "Factor by which to scale the display.  Requires restart." ), {
+        { "1", to_translation( "1x" ) },
+        { "2", to_translation( "2x" )},
+        { "4", to_translation( "4x" )}
     },
     "1", COPT_CURSES_HIDE );
 #endif
@@ -2013,133 +2018,133 @@ void options_manager::add_options_world_default()
         world_default_page_.items_.emplace_back();
     };
 
-    add( "CORE_VERSION", "world_default", translate_marker( "Core version data" ),
-         translate_marker( "Controls what migrations are applied for legacy worlds" ),
+    add( "CORE_VERSION", "world_default", to_translation( "Core version data" ),
+         to_translation( "Controls what migrations are applied for legacy worlds" ),
          1, core_version, core_version, COPT_ALWAYS_HIDE
        );
 
     add_empty_line();
 
-    add( "WORLD_END", "world_default", translate_marker( "World end handling" ),
-    translate_marker( "Handling of game world when last character dies." ), {
-        { "reset", translate_marker( "Reset" ) }, { "delete", translate_marker( "Delete" ) },
-        { "query", translate_marker( "Query" ) }, { "keep", translate_marker( "Keep" ) }
+    add( "WORLD_END", "world_default", to_translation( "World end handling" ),
+    to_translation( "Handling of game world when last character dies." ), {
+        { "reset", to_translation( "Reset" ) }, { "delete", to_translation( "Delete" ) },
+        { "query", to_translation( "Query" ) }, { "keep", to_translation( "Keep" ) }
     }, "reset"
        );
 
     add_empty_line();
 
-    add( "CITY_SIZE", "world_default", translate_marker( "Size of cities" ),
-         translate_marker( "A number determining how large cities are.  A higher number means larger cities.  0 disables cities, roads and any scenario requiring a city start." ),
+    add( "CITY_SIZE", "world_default", to_translation( "Size of cities" ),
+         to_translation( "A number determining how large cities are.  A higher number means larger cities.  0 disables cities, roads and any scenario requiring a city start." ),
          0, 16, 8
        );
 
-    add( "CITY_SPACING", "world_default", translate_marker( "City spacing" ),
-         translate_marker( "A number determining how far apart cities are.  A higher number means cities are further apart.  Warning, small numbers lead to very slow mapgen." ),
+    add( "CITY_SPACING", "world_default", to_translation( "City spacing" ),
+         to_translation( "A number determining how far apart cities are.  A higher number means cities are further apart.  Warning, small numbers lead to very slow mapgen." ),
          0, 8, 4
        );
 
-    add( "SPAWN_DENSITY", "world_default", translate_marker( "Spawn rate scaling factor" ),
-         translate_marker( "A scaling factor that determines density of monster spawns.  A higher number means more monsters." ),
+    add( "SPAWN_DENSITY", "world_default", to_translation( "Spawn rate scaling factor" ),
+         to_translation( "A scaling factor that determines density of monster spawns.  A higher number means more monsters." ),
          0.0, 50.0, 1.0, 0.1
        );
 
-    add( "CARRION_SPAWNRATE", "world_default", translate_marker( "Carrion spawn rate scaling factor" ),
-         translate_marker( "A scaling factor that determines how often creatures spawn from rotting material.  A higher number means more carrion spawned." ),
+    add( "CARRION_SPAWNRATE", "world_default", to_translation( "Carrion spawn rate scaling factor" ),
+         to_translation( "A scaling factor that determines how often creatures spawn from rotting material.  A higher number means more carrion spawned." ),
          0.0, 10.0, 1.0, 0.01, COPT_NO_HIDE
        );
 
-    add( "ITEM_SPAWNRATE", "world_default", translate_marker( "Item spawn scaling factor" ),
-         translate_marker( "A scaling factor that determines density of item spawns.  A higher number means more items." ),
+    add( "ITEM_SPAWNRATE", "world_default", to_translation( "Item spawn scaling factor" ),
+         to_translation( "A scaling factor that determines density of item spawns.  A higher number means more items." ),
          0.01, 10.0, 1.0, 0.01
        );
 
-    add( "NPC_SPAWNTIME", "world_default", translate_marker( "Random NPC spawn time" ),
-         translate_marker( "Baseline average number of days between random NPC spawns.  Average duration goes up with the number of NPCs already spawned.  A higher number means fewer NPCs.  Set to 0 days to disable random NPCs." ),
+    add( "NPC_SPAWNTIME", "world_default", to_translation( "Random NPC spawn time" ),
+         to_translation( "Baseline average number of days between random NPC spawns.  Average duration goes up with the number of NPCs already spawned.  A higher number means fewer NPCs.  Set to 0 days to disable random NPCs." ),
          0.0, 100.0, 4.0, 0.01
        );
 
     add( "MONSTER_UPGRADE_FACTOR", "world_default",
-         translate_marker( "Monster evolution scaling factor" ),
-         translate_marker( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
+         to_translation( "Monster evolution scaling factor" ),
+         to_translation( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
          0.0, 100, 4.0, 0.01
        );
 
     add_empty_line();
 
-    add( "MONSTER_SPEED", "world_default", translate_marker( "Monster speed" ),
-         translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
+    add( "MONSTER_SPEED", "world_default", to_translation( "Monster speed" ),
+         to_translation( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
-    add( "MONSTER_RESILIENCE", "world_default", translate_marker( "Monster resilience" ),
-         translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
+    add( "MONSTER_RESILIENCE", "world_default", to_translation( "Monster resilience" ),
+         to_translation( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
     add_empty_line();
 
-    add( "DEFAULT_REGION", "world_default", translate_marker( "Default region type" ),
-         translate_marker( "( WIP feature ) Determines terrain, shops, plants, and more." ),
-    { { "default", "default" } }, "default"
+    add( "DEFAULT_REGION", "world_default", to_translation( "Default region type" ),
+         to_translation( "( WIP feature ) Determines terrain, shops, plants, and more." ),
+    { { "default", to_translation( "default" ) } }, "default"
        );
 
     add_empty_line();
 
-    add( "INITIAL_TIME", "world_default", translate_marker( "Initial time" ),
-         translate_marker( "Initial starting time of day on character generation." ),
+    add( "INITIAL_TIME", "world_default", to_translation( "Initial time" ),
+         to_translation( "Initial starting time of day on character generation." ),
          0, 23, 8
        );
 
-    add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
-         translate_marker( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
+    add( "INITIAL_DAY", "world_default", to_translation( "Initial day" ),
+         to_translation( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
          -1, 999, 60
        );
 
-    add( "SPAWN_DELAY", "world_default", translate_marker( "Spawn delay" ),
-         translate_marker( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
+    add( "SPAWN_DELAY", "world_default", to_translation( "Spawn delay" ),
+         to_translation( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
          0, 9999, 0
        );
 
-    add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),
-         translate_marker( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
+    add( "SEASON_LENGTH", "world_default", to_translation( "Season length" ),
+         to_translation( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
          14, 127, 91
        );
 
-    add( "CONSTRUCTION_SCALING", "world_default", translate_marker( "Construction scaling" ),
-         translate_marker( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length." ),
+    add( "CONSTRUCTION_SCALING", "world_default", to_translation( "Construction scaling" ),
+         to_translation( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length." ),
          0, 1000, 100
        );
 
-    add( "ETERNAL_SEASON", "world_default", translate_marker( "Eternal season" ),
-         translate_marker( "Keep the initial season for ever." ),
+    add( "ETERNAL_SEASON", "world_default", to_translation( "Eternal season" ),
+         to_translation( "Keep the initial season for ever." ),
          false
        );
 
     add_empty_line();
 
-    add( "WANDER_SPAWNS", "world_default", translate_marker( "Wandering hordes" ),
-         translate_marker( "Emulation of zombie hordes.  Zombies can group together into hordes, which can wander around cities and will sometimes move towards noise.  Note: the current implementation does not properly respect obstacles, so hordes can appear to walk through walls under some circumstances.  Must reset world directory after changing for it to take effect." ),
+    add( "WANDER_SPAWNS", "world_default", to_translation( "Wandering hordes" ),
+         to_translation( "Emulation of zombie hordes.  Zombies can group together into hordes, which can wander around cities and will sometimes move towards noise.  Note: the current implementation does not properly respect obstacles, so hordes can appear to walk through walls under some circumstances.  Must reset world directory after changing for it to take effect." ),
          false
        );
 
-    add( "BLACK_ROAD", "world_default", translate_marker( "Surrounded start" ),
-         translate_marker( "If true, spawn zombies at shelters.  Makes the starting game a lot harder." ),
+    add( "BLACK_ROAD", "world_default", to_translation( "Surrounded start" ),
+         to_translation( "If true, spawn zombies at shelters.  Makes the starting game a lot harder." ),
          false
        );
 
     add_empty_line();
 
-    add( "RAD_MUTATION", "world_default", translate_marker( "Mutations by radiation" ),
-         translate_marker( "If true, radiation causes the player to mutate." ),
+    add( "RAD_MUTATION", "world_default", to_translation( "Mutations by radiation" ),
+         to_translation( "If true, radiation causes the player to mutate." ),
          true
        );
 
     add_empty_line();
 
-    add( "CHARACTER_POINT_POOLS", "world_default", translate_marker( "Character point pools" ),
-         translate_marker( "Allowed point pools for character generation." ),
-    { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } },
+    add( "CHARACTER_POINT_POOLS", "world_default", to_translation( "Character point pools" ),
+         to_translation( "Allowed point pools for character generation." ),
+    { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Multi-pool only" ) }, { "no_freeform", to_translation( "No freeform" ) } },
     "any"
        );
 }
@@ -2150,72 +2155,72 @@ void options_manager::add_options_debug()
         debug_page_.items_.emplace_back();
     };
 
-    add( "DISTANCE_INITIAL_VISIBILITY", "debug", translate_marker( "Distance initial visibility" ),
-         translate_marker( "Determines the scope, which is known in the beginning of the game." ),
+    add( "DISTANCE_INITIAL_VISIBILITY", "debug", to_translation( "Distance initial visibility" ),
+         to_translation( "Determines the scope, which is known in the beginning of the game." ),
          3, 20, 15
        );
 
     add_empty_line();
 
-    add( "INITIAL_STAT_POINTS", "debug", translate_marker( "Initial stat points" ),
-         translate_marker( "Initial points available to spend on stats on character generation." ),
+    add( "INITIAL_STAT_POINTS", "debug", to_translation( "Initial stat points" ),
+         to_translation( "Initial points available to spend on stats on character generation." ),
          0, 1000, 6
        );
 
-    add( "INITIAL_TRAIT_POINTS", "debug", translate_marker( "Initial trait points" ),
-         translate_marker( "Initial points available to spend on traits on character generation." ),
+    add( "INITIAL_TRAIT_POINTS", "debug", to_translation( "Initial trait points" ),
+         to_translation( "Initial points available to spend on traits on character generation." ),
          0, 1000, 0
        );
 
-    add( "INITIAL_SKILL_POINTS", "debug", translate_marker( "Initial skill points" ),
-         translate_marker( "Initial points available to spend on skills on character generation." ),
+    add( "INITIAL_SKILL_POINTS", "debug", to_translation( "Initial skill points" ),
+         to_translation( "Initial points available to spend on skills on character generation." ),
          0, 1000, 2
        );
 
-    add( "MAX_TRAIT_POINTS", "debug", translate_marker( "Maximum trait points" ),
-         translate_marker( "Maximum trait points available for character generation." ),
+    add( "MAX_TRAIT_POINTS", "debug", to_translation( "Maximum trait points" ),
+         to_translation( "Maximum trait points available for character generation." ),
          0, 1000, 12
        );
 
     add_empty_line();
 
-    add( "SKILL_TRAINING_SPEED", "debug", translate_marker( "Skill training speed" ),
-         translate_marker( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
+    add( "SKILL_TRAINING_SPEED", "debug", to_translation( "Skill training speed" ),
+         to_translation( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
          0.0, 100.0, 1.0, 0.1
        );
 
     add_empty_line();
 
-    add( "SKILL_RUST", "debug", translate_marker( "Skill rust" ),
-         translate_marker( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
+    add( "SKILL_RUST", "debug", to_translation( "Skill rust" ),
+         to_translation( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
          //~ plain, default, normal
-    {   { "vanilla", translate_marker( "Vanilla" ) },
+    {   { "vanilla", to_translation( "Vanilla" ) },
         //~ capped at a value
-        { "capped", translate_marker( "Capped" ) },
+        { "capped", to_translation( "Capped" ) },
         //~ based on intelligence
-        { "int", translate_marker( "Int" ) },
+        { "int", to_translation( "Int" ) },
         //~ based on intelligence and capped
-        { "intcap", translate_marker( "IntCap" ) },
-        { "off", translate_marker( "Off" ) }
+        { "intcap", to_translation( "IntCap" ) },
+        { "off", to_translation( "Off" ) }
     },
     "off" );
 
     add_empty_line();
 
-    add( "FOV_3D", "debug", translate_marker( "Experimental 3D field of vision" ),
-         translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
+    add( "FOV_3D", "debug", to_translation( "Experimental 3D field of vision" ),
+         to_translation( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
          false
        );
 
-    add( "FOV_3D_Z_RANGE", "debug", translate_marker( "Vertical range of 3D field of vision" ),
-         translate_marker( "How many levels up and down the experimental 3D field of vision reaches.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
+    add( "FOV_3D_Z_RANGE", "debug", to_translation( "Vertical range of 3D field of vision" ),
+         to_translation( "How many levels up and down the experimental 3D field of vision reaches.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
          0, OVERMAP_LAYERS, 4
        );
 
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
 
-    add( "ENCODING_CONV", "debug", translate_marker( "Experimental path name encoding conversion" ),
-         translate_marker( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
+    add( "ENCODING_CONV", "debug", to_translation( "Experimental path name encoding conversion" ),
+         to_translation( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
          true
        );
 }
@@ -2227,248 +2232,248 @@ void options_manager::add_options_android()
         android_page_.items_.emplace_back();
     };
 
-    add( "ANDROID_QUICKSAVE", "android", translate_marker( "Quicksave on app lose focus" ),
-         translate_marker( "If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.) WARNING: Experimental. This may result in corrupt save games." ),
+    add( "ANDROID_QUICKSAVE", "android", to_translation( "Quicksave on app lose focus" ),
+         to_translation( "If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.) WARNING: Experimental. This may result in corrupt save games." ),
          false
        );
 
     add_empty_line();
 
-    add( "ANDROID_TRAP_BACK_BUTTON", "android", translate_marker( "Trap Back button" ),
-         translate_marker( "If true, the back button will NOT back out of the app and will be passed to the application as SDL_SCANCODE_AC_BACK.  Requires restart." ),
+    add( "ANDROID_TRAP_BACK_BUTTON", "android", to_translation( "Trap Back button" ),
+         to_translation( "If true, the back button will NOT back out of the app and will be passed to the application as SDL_SCANCODE_AC_BACK.  Requires restart." ),
          // take default setting from pre-game settings screen - important as there are issues with Back button on Android 9 with specific devices
          android_get_default_setting( "Trap Back button", true )
        );
 
-    add( "ANDROID_AUTO_KEYBOARD", "android", translate_marker( "Auto-manage virtual keyboard" ),
-         translate_marker( "If true, automatically show/hide the virtual keyboard when necessary based on context. If false, virtual keyboard must be toggled manually." ),
+    add( "ANDROID_AUTO_KEYBOARD", "android", to_translation( "Auto-manage virtual keyboard" ),
+         to_translation( "If true, automatically show/hide the virtual keyboard when necessary based on context. If false, virtual keyboard must be toggled manually." ),
          true
        );
 
     add( "ANDROID_KEYBOARD_SCREEN_SCALE", "android",
-         translate_marker( "Virtual keyboard screen scale" ),
-         translate_marker( "When the virtual keyboard is visible, scale the screen to prevent overlapping. Useful for text entry so you can see what you're typing." ),
+         to_translation( "Virtual keyboard screen scale" ),
+         to_translation( "When the virtual keyboard is visible, scale the screen to prevent overlapping. Useful for text entry so you can see what you're typing." ),
          true
        );
 
     add_empty_line();
 
-    add( "ANDROID_VIBRATION", "android", translate_marker( "Vibration duration" ),
-         translate_marker( "If non-zero, vibrate the device for this long on input, in milliseconds. Ignored if hardware keyboard connected." ),
+    add( "ANDROID_VIBRATION", "android", to_translation( "Vibration duration" ),
+         to_translation( "If non-zero, vibrate the device for this long on input, in milliseconds. Ignored if hardware keyboard connected." ),
          0, 200, 10
        );
 
     add_empty_line();
 
-    add( "ANDROID_SHOW_VIRTUAL_JOYSTICK", "android", translate_marker( "Show virtual joystick" ),
-         translate_marker( "If true, show the virtual joystick when touching and holding the screen. Gives a visual indicator of deadzone and stick deflection." ),
+    add( "ANDROID_SHOW_VIRTUAL_JOYSTICK", "android", to_translation( "Show virtual joystick" ),
+         to_translation( "If true, show the virtual joystick when touching and holding the screen. Gives a visual indicator of deadzone and stick deflection." ),
          true
        );
 
-    add( "ANDROID_VIRTUAL_JOYSTICK_OPACITY", "android", translate_marker( "Virtual joystick opacity" ),
-         translate_marker( "The opacity of the on-screen virtual joystick, as a percentage." ),
+    add( "ANDROID_VIRTUAL_JOYSTICK_OPACITY", "android", to_translation( "Virtual joystick opacity" ),
+         to_translation( "The opacity of the on-screen virtual joystick, as a percentage." ),
          0, 100, 20
        );
 
-    add( "ANDROID_DEADZONE_RANGE", "android", translate_marker( "Virtual joystick deadzone size" ),
-         translate_marker( "While using the virtual joystick, deflecting the stick beyond this distance will trigger directional input. Specified as a percentage of longest screen edge." ),
+    add( "ANDROID_DEADZONE_RANGE", "android", to_translation( "Virtual joystick deadzone size" ),
+         to_translation( "While using the virtual joystick, deflecting the stick beyond this distance will trigger directional input. Specified as a percentage of longest screen edge." ),
          0.01f, 0.2f, 0.03f, 0.001f, COPT_NO_HIDE, "%.3f"
        );
 
-    add( "ANDROID_REPEAT_DELAY_RANGE", "android", translate_marker( "Virtual joystick size" ),
-         translate_marker( "While using the virtual joystick, deflecting the stick by this much will repeat input at the deflected rate (see below). Specified as a percentage of longest screen edge." ),
+    add( "ANDROID_REPEAT_DELAY_RANGE", "android", to_translation( "Virtual joystick size" ),
+         to_translation( "While using the virtual joystick, deflecting the stick by this much will repeat input at the deflected rate (see below). Specified as a percentage of longest screen edge." ),
          0.05f, 0.5f, 0.10f, 0.001f, COPT_NO_HIDE, "%.3f"
        );
 
     add( "ANDROID_VIRTUAL_JOYSTICK_FOLLOW", "android",
-         translate_marker( "Virtual joystick follows finger" ),
-         translate_marker( "If true, the virtual joystick will follow when sliding beyond its range." ),
+         to_translation( "Virtual joystick follows finger" ),
+         to_translation( "If true, the virtual joystick will follow when sliding beyond its range." ),
          false
        );
 
     add( "ANDROID_REPEAT_DELAY_MAX", "android",
-         translate_marker( "Virtual joystick repeat rate (centered)" ),
-         translate_marker( "When the virtual joystick is centered, how fast should input events repeat, in milliseconds." ),
+         to_translation( "Virtual joystick repeat rate (centered)" ),
+         to_translation( "When the virtual joystick is centered, how fast should input events repeat, in milliseconds." ),
          50, 1000, 500
        );
 
     add( "ANDROID_REPEAT_DELAY_MIN", "android",
-         translate_marker( "Virtual joystick repeat rate (deflected)" ),
-         translate_marker( "When the virtual joystick is fully deflected, how fast should input events repeat, in milliseconds." ),
+         to_translation( "Virtual joystick repeat rate (deflected)" ),
+         to_translation( "When the virtual joystick is fully deflected, how fast should input events repeat, in milliseconds." ),
          50, 1000, 100
        );
 
     add( "ANDROID_SENSITIVITY_POWER", "android",
-         translate_marker( "Virtual joystick repeat rate sensitivity" ),
-         translate_marker( "As the virtual joystick moves from centered to fully deflected, this value is an exponent that controls the blend between the two repeat rates defined above. 1.0 = linear." ),
+         to_translation( "Virtual joystick repeat rate sensitivity" ),
+         to_translation( "As the virtual joystick moves from centered to fully deflected, this value is an exponent that controls the blend between the two repeat rates defined above. 1.0 = linear." ),
          0.1f, 5.0f, 0.75f, 0.05f, COPT_NO_HIDE, "%.2f"
        );
 
-    add( "ANDROID_INITIAL_DELAY", "android", translate_marker( "Input repeat delay" ),
-         translate_marker( "While touching the screen, wait this long before showing the virtual joystick and repeating input, in milliseconds. Also used to determine tap/double-tap detection, flick detection and toggling quick shortcuts." ),
+    add( "ANDROID_INITIAL_DELAY", "android", to_translation( "Input repeat delay" ),
+         to_translation( "While touching the screen, wait this long before showing the virtual joystick and repeating input, in milliseconds. Also used to determine tap/double-tap detection, flick detection and toggling quick shortcuts." ),
          150, 1000, 300
        );
 
-    add( "ANDROID_HIDE_HOLDS", "android", translate_marker( "Virtual joystick hides shortcuts" ),
-         translate_marker( "If true, hides on-screen keyboard shortcuts while using the virtual joystick. Helps keep the view uncluttered while traveling long distances and navigating menus." ),
+    add( "ANDROID_HIDE_HOLDS", "android", to_translation( "Virtual joystick hides shortcuts" ),
+         to_translation( "If true, hides on-screen keyboard shortcuts while using the virtual joystick. Helps keep the view uncluttered while traveling long distances and navigating menus." ),
          true
        );
 
     add_empty_line();
 
-    add( "ANDROID_SHORTCUT_DEFAULTS", "android", translate_marker( "Default gameplay shortcuts" ),
-         translate_marker( "The default set of gameplay shortcuts to show. Used on starting a new game and whenever all gameplay shortcuts are removed." ),
+    add( "ANDROID_SHORTCUT_DEFAULTS", "android", to_translation( "Default gameplay shortcuts" ),
+         to_translation( "The default set of gameplay shortcuts to show. Used on starting a new game and whenever all gameplay shortcuts are removed." ),
          "0mi", 30
        );
 
     add( "ANDROID_ACTIONMENU_AUTOADD", "android",
-         translate_marker( "Add shortcuts for action menu selections" ),
-         translate_marker( "If true, automatically add a shortcut for actions selected via the in-game action menu." ),
+         to_translation( "Add shortcuts for action menu selections" ),
+         to_translation( "If true, automatically add a shortcut for actions selected via the in-game action menu." ),
          true
        );
 
     add( "ANDROID_INVENTORY_AUTOADD", "android",
-         translate_marker( "Add shortcuts for inventory selections" ),
-         translate_marker( "If true, automatically add a shortcut for items selected via the inventory." ),
+         to_translation( "Add shortcuts for inventory selections" ),
+         to_translation( "If true, automatically add a shortcut for items selected via the inventory." ),
          true
        );
 
     add_empty_line();
 
-    add( "ANDROID_TAP_KEY", "android", translate_marker( "Tap key (in-game)" ),
-         translate_marker( "The key to press when tapping during gameplay." ),
+    add( "ANDROID_TAP_KEY", "android", to_translation( "Tap key (in-game)" ),
+         to_translation( "The key to press when tapping during gameplay." ),
          ".", 1
        );
 
-    add( "ANDROID_2_TAP_KEY", "android", translate_marker( "Two-finger tap key (in-game)" ),
-         translate_marker( "The key to press when tapping with two fingers during gameplay." ),
+    add( "ANDROID_2_TAP_KEY", "android", to_translation( "Two-finger tap key (in-game)" ),
+         to_translation( "The key to press when tapping with two fingers during gameplay." ),
          "i", 1
        );
 
-    add( "ANDROID_2_SWIPE_UP_KEY", "android", translate_marker( "Two-finger swipe up key (in-game)" ),
-         translate_marker( "The key to press when swiping up with two fingers during gameplay." ),
+    add( "ANDROID_2_SWIPE_UP_KEY", "android", to_translation( "Two-finger swipe up key (in-game)" ),
+         to_translation( "The key to press when swiping up with two fingers during gameplay." ),
          "K", 1
        );
 
     add( "ANDROID_2_SWIPE_DOWN_KEY", "android",
-         translate_marker( "Two-finger swipe down key (in-game)" ),
-         translate_marker( "The key to press when swiping down with two fingers during gameplay." ),
+         to_translation( "Two-finger swipe down key (in-game)" ),
+         to_translation( "The key to press when swiping down with two fingers during gameplay." ),
          "J", 1
        );
 
     add( "ANDROID_2_SWIPE_LEFT_KEY", "android",
-         translate_marker( "Two-finger swipe left key (in-game)" ),
-         translate_marker( "The key to press when swiping left with two fingers during gameplay." ),
+         to_translation( "Two-finger swipe left key (in-game)" ),
+         to_translation( "The key to press when swiping left with two fingers during gameplay." ),
          "L", 1
        );
 
     add( "ANDROID_2_SWIPE_RIGHT_KEY", "android",
-         translate_marker( "Two-finger swipe right key (in-game)" ),
-         translate_marker( "The key to press when swiping right with two fingers during gameplay." ),
+         to_translation( "Two-finger swipe right key (in-game)" ),
+         to_translation( "The key to press when swiping right with two fingers during gameplay." ),
          "H", 1
        );
 
-    add( "ANDROID_PINCH_IN_KEY", "android", translate_marker( "Pinch in key (in-game)" ),
-         translate_marker( "The key to press when pinching in during gameplay." ),
+    add( "ANDROID_PINCH_IN_KEY", "android", to_translation( "Pinch in key (in-game)" ),
+         to_translation( "The key to press when pinching in during gameplay." ),
          "Z", 1
        );
 
-    add( "ANDROID_PINCH_OUT_KEY", "android", translate_marker( "Pinch out key (in-game)" ),
-         translate_marker( "The key to press when pinching out during gameplay." ),
+    add( "ANDROID_PINCH_OUT_KEY", "android", to_translation( "Pinch out key (in-game)" ),
+         to_translation( "The key to press when pinching out during gameplay." ),
          "z", 1
        );
 
     add_empty_line();
 
     add( "ANDROID_SHORTCUT_AUTOADD", "android",
-         translate_marker( "Auto-manage contextual gameplay shortcuts" ),
-         translate_marker( "If true, contextual in-game shortcuts are added and removed automatically as needed: examine, close, butcher, move up/down, control vehicle, pickup, toggle enemy + safe mode, sleep." ),
+         to_translation( "Auto-manage contextual gameplay shortcuts" ),
+         to_translation( "If true, contextual in-game shortcuts are added and removed automatically as needed: examine, close, butcher, move up/down, control vehicle, pickup, toggle enemy + safe mode, sleep." ),
          true
        );
 
     add( "ANDROID_SHORTCUT_AUTOADD_FRONT", "android",
-         translate_marker( "Move contextual gameplay shortcuts to front" ),
-         translate_marker( "If the above option is enabled, specifies whether contextual in-game shortcuts will be added to the front or back of the shortcuts list. True makes them easier to reach, False reduces shuffling of shortcut positions." ),
+         to_translation( "Move contextual gameplay shortcuts to front" ),
+         to_translation( "If the above option is enabled, specifies whether contextual in-game shortcuts will be added to the front or back of the shortcuts list. True makes them easier to reach, False reduces shuffling of shortcut positions." ),
          false
        );
 
-    add( "ANDROID_SHORTCUT_MOVE_FRONT", "android", translate_marker( "Move used shortcuts to front" ),
-         translate_marker( "If true, using an existing shortcut will always move it to the front of the shortcuts list. If false, only shortcuts typed via keyboard will move to the front." ),
+    add( "ANDROID_SHORTCUT_MOVE_FRONT", "android", to_translation( "Move used shortcuts to front" ),
+         to_translation( "If true, using an existing shortcut will always move it to the front of the shortcuts list. If false, only shortcuts typed via keyboard will move to the front." ),
          false
        );
 
     add( "ANDROID_SHORTCUT_ZONE", "android",
-         translate_marker( "Separate shortcuts for No Auto Pickup zones" ),
-         translate_marker( "If true, separate gameplay shortcuts will be used within No Auto Pickup zones. Useful for keeping home base actions separate from exploring actions." ),
+         to_translation( "Separate shortcuts for No Auto Pickup zones" ),
+         to_translation( "If true, separate gameplay shortcuts will be used within No Auto Pickup zones. Useful for keeping home base actions separate from exploring actions." ),
          true
        );
 
     add( "ANDROID_SHORTCUT_REMOVE_TURNS", "android",
-         translate_marker( "Turns to remove unused gameplay shortcuts" ),
-         translate_marker( "If non-zero, unused gameplay shortcuts will be removed after this many turns (as in discrete player actions, not world calendar turns)." ),
+         to_translation( "Turns to remove unused gameplay shortcuts" ),
+         to_translation( "If non-zero, unused gameplay shortcuts will be removed after this many turns (as in discrete player actions, not world calendar turns)." ),
          0, 1000, 0
        );
 
-    add( "ANDROID_SHORTCUT_PERSISTENCE", "android", translate_marker( "Shortcuts persistence" ),
-         translate_marker( "If true, shortcuts are saved/restored with each save game. If false, shortcuts reset between sessions." ),
+    add( "ANDROID_SHORTCUT_PERSISTENCE", "android", to_translation( "Shortcuts persistence" ),
+         to_translation( "If true, shortcuts are saved/restored with each save game. If false, shortcuts reset between sessions." ),
          true
        );
 
     add_empty_line();
 
-    add( "ANDROID_SHORTCUT_POSITION", "android", translate_marker( "Shortcuts position" ),
-         translate_marker( "Switch between shortcuts on the left or on the right side of the screen." ),
-    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } }, "left"
+    add( "ANDROID_SHORTCUT_POSITION", "android", to_translation( "Shortcuts position" ),
+         to_translation( "Switch between shortcuts on the left or on the right side of the screen." ),
+    { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) } }, "left"
        );
 
     add( "ANDROID_SHORTCUT_SCREEN_PERCENTAGE", "android",
-         translate_marker( "Shortcuts screen percentage" ),
-         translate_marker( "How much of the screen can shortcuts occupy, as a percentage of total screen width." ),
+         to_translation( "Shortcuts screen percentage" ),
+         to_translation( "How much of the screen can shortcuts occupy, as a percentage of total screen width." ),
          10, 100, 100
        );
 
-    add( "ANDROID_SHORTCUT_OVERLAP", "android", translate_marker( "Shortcuts overlap screen" ),
-         translate_marker( "If true, shortcuts will be drawn transparently overlapping the game screen. If false, the game screen size will be reduced to fit the shortcuts below." ),
+    add( "ANDROID_SHORTCUT_OVERLAP", "android", to_translation( "Shortcuts overlap screen" ),
+         to_translation( "If true, shortcuts will be drawn transparently overlapping the game screen. If false, the game screen size will be reduced to fit the shortcuts below." ),
          true
        );
 
-    add( "ANDROID_SHORTCUT_OPACITY_BG", "android", translate_marker( "Shortcut opacity (background)" ),
-         translate_marker( "The background opacity of on-screen keyboard shortcuts, as a percentage." ),
+    add( "ANDROID_SHORTCUT_OPACITY_BG", "android", to_translation( "Shortcut opacity (background)" ),
+         to_translation( "The background opacity of on-screen keyboard shortcuts, as a percentage." ),
          0, 100, 75
        );
 
-    add( "ANDROID_SHORTCUT_OPACITY_SHADOW", "android", translate_marker( "Shortcut opacity (shadow)" ),
-         translate_marker( "The shadow opacity of on-screen keyboard shortcuts, as a percentage." ),
+    add( "ANDROID_SHORTCUT_OPACITY_SHADOW", "android", to_translation( "Shortcut opacity (shadow)" ),
+         to_translation( "The shadow opacity of on-screen keyboard shortcuts, as a percentage." ),
          0, 100, 100
        );
 
-    add( "ANDROID_SHORTCUT_OPACITY_FG", "android", translate_marker( "Shortcut opacity (text)" ),
-         translate_marker( "The foreground opacity of on-screen keyboard shortcuts, as a percentage." ),
+    add( "ANDROID_SHORTCUT_OPACITY_FG", "android", to_translation( "Shortcut opacity (text)" ),
+         to_translation( "The foreground opacity of on-screen keyboard shortcuts, as a percentage." ),
          0, 100, 100
        );
 
-    add( "ANDROID_SHORTCUT_COLOR", "android", translate_marker( "Shortcut color" ),
-         translate_marker( "The color of on-screen keyboard shortcuts." ),
+    add( "ANDROID_SHORTCUT_COLOR", "android", to_translation( "Shortcut color" ),
+         to_translation( "The color of on-screen keyboard shortcuts." ),
          0, 15, 15
        );
 
-    add( "ANDROID_SHORTCUT_BORDER", "android", translate_marker( "Shortcut border" ),
-         translate_marker( "The border of each on-screen keyboard shortcut in pixels. ." ),
+    add( "ANDROID_SHORTCUT_BORDER", "android", to_translation( "Shortcut border" ),
+         to_translation( "The border of each on-screen keyboard shortcut in pixels. ." ),
          0, 16, 0
        );
 
-    add( "ANDROID_SHORTCUT_WIDTH_MIN", "android", translate_marker( "Shortcut width (min)" ),
-         translate_marker( "The minimum width of each on-screen keyboard shortcut in pixels. Only relevant when lots of shortcuts are visible at once." ),
+    add( "ANDROID_SHORTCUT_WIDTH_MIN", "android", to_translation( "Shortcut width (min)" ),
+         to_translation( "The minimum width of each on-screen keyboard shortcut in pixels. Only relevant when lots of shortcuts are visible at once." ),
          20, 1000, 50
        );
 
-    add( "ANDROID_SHORTCUT_WIDTH_MAX", "android", translate_marker( "Shortcut width (max)" ),
-         translate_marker( "The maximum width of each on-screen keyboard shortcut in pixels." ),
+    add( "ANDROID_SHORTCUT_WIDTH_MAX", "android", to_translation( "Shortcut width (max)" ),
+         to_translation( "The maximum width of each on-screen keyboard shortcut in pixels." ),
          50, 1000, 160
        );
 
-    add( "ANDROID_SHORTCUT_HEIGHT", "android", translate_marker( "Shortcut height" ),
-         translate_marker( "The height of each on-screen keyboard shortcut in pixels." ),
+    add( "ANDROID_SHORTCUT_HEIGHT", "android", to_translation( "Shortcut height" ),
+         to_translation( "The height of each on-screen keyboard shortcut in pixels." ),
          50, 1000, 130
        );
 

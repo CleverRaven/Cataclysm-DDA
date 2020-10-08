@@ -1,18 +1,11 @@
 [
   {
     "type": "skill",
-    "id": "barter",
-    "name": { "str": "bartering" },
-    "description": "Your skill in bargaining, haggling, and trading with others.  Higher levels increase the odds of getting the better end of a deal, and might even see you convincing others to give you free stuff.",
-    "display_category": "display_social"
-  },
-  {
-    "type": "skill",
     "id": "speech",
-    "name": { "str": "speaking" },
-    "description": "Your skill in speaking to other people.  Covers ability in boasting, flattery, threats, persuasion, lies, and other facets of interpersonal communication.  Works best in conjunction with a high level of intelligence.",
+    "name": { "str": "social" },
+    "description": "Your skill in speaking to other people.  Covers ability in boasting, flattery, threats, persuasion, lies, bartering, and other facets of interpersonal communication.  Works best in conjunction with a high level of intelligence.",
     "companion_survival_rank_factor": 1,
-    "display_category": "display_social",
+    "display_category": "display_interaction",
     "companion_skill_practice": [ { "skill": "recruiting", "weight": 15 }, { "skill": "recruiting", "weight": 70 } ]
   },
   {
@@ -25,8 +18,8 @@
   {
     "type": "skill",
     "id": "firstaid",
-    "name": { "str": "first aid" },
-    "description": "Your skill in effecting emergency medical treatment.  Higher levels allow better use of medicines and items like bandages and first aid kits, and reduce the failure and complication rates of medical procedures.",
+    "name": { "str": "health care" },
+    "description": "Your skill in effecting medical treatment.  Higher levels allow better use of medicines and items like bandages and first aid kits, and reduce the failure and complication rates of medical procedures.",
     "companion_survival_rank_factor": 1,
     "companion_industry_rank_factor": 1,
     "display_category": "display_interaction",
@@ -53,15 +46,15 @@
   {
     "type": "skill",
     "id": "driving",
-    "name": { "str": "driving" },
-    "description": "Your skill in operating and steering a vehicle in motion.  A higher level allows greater control over vehicles at higher speeds, and reduces the penalty of shooting while driving.",
+    "name": { "str": "vehicles" },
+    "description": "Your skill in operating and steering a vehicle in motion, from cars and boats to helicopters and hot air balloons.  A higher level allows greater control over vehicles at higher speeds, and reduces the penalty of shooting while driving.",
     "display_category": "display_interaction"
   },
   {
     "type": "skill",
     "id": "swimming",
-    "name": { "str": "swimming" },
-    "description": "Your ability to stay afloat and move around in bodies of water.  This skill keeps you from drowning, affects your combat effectiveness and speed in deep water, and determines the detriment of swimming with heavier gear.",
+    "name": { "str": "athletics" },
+    "description": "Your ability to swim.  Affects swimming endurance and ability to swim with weight.  note: presently this skill only affects swimming.",
     "display_category": "display_interaction",
     "companion_skill_practice": [ { "skill": "", "weight": 5 }, { "skill": "gathering", "weight": 5 }, { "skill": "trapping", "weight": 5 } ]
   },
@@ -83,8 +76,8 @@
   {
     "type": "skill",
     "id": "cooking",
-    "name": { "str": "cooking" },
-    "description": "Your skill in combining food ingredients to make other, tastier food items.",
+    "name": { "str": "food handling" },
+    "description": "Your skill in combining food ingredients to make other, tastier food items.  Also includes food preservation and safety, brewing, butchery, and more.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
     "companion_skill_practice": [ { "skill": "menial", "weight": 15 } ]
@@ -287,8 +280,8 @@
   {
     "type": "skill",
     "id": "chemistry",
-    "name": { "str": "chemistry" },
-    "description": "Your skill in creating certain mixtures, solutions and compounds from various chemical ingredients.",
+    "name": { "str": "applied science" },
+    "description": "Your skill in general 'bench science', applying any of a wide range of precision techniques based on your overall understanding of scientific principles.  This is not a research skill, but about using the results of others' research.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
     "companion_skill_practice": [ { "skill": "menial", "weight": 15 } ]

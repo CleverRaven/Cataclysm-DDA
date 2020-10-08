@@ -7,6 +7,7 @@
 #include "enums.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "itype.h"
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -988,5 +989,197 @@ TEST_CASE( "sealed containers", "[pocket][seal]" )
             CHECK_FALSE( pocket.sealed() );
         }
     }
+}
+
+// Better pockets
+// --------------
+// Pockets are ranked according to item_pocket::better_pocket, which considers player-defined
+// favorites, ammo restrictions, spoilage, watertightness, available volume and other factors.
+//
+// Functions:
+// item_pocket::better_pocket
+//
+TEST_CASE( "when one pocket is better than another", "[pocket][better]" )
+{
+    // TODO:
+    // settings.is_better_favorite() is top priority
+    // settings.priority() takes next priority
+    // has_item_stacks_with(it) is better than one that doesn't stack
+    // pockets restricted by ammo should try to get filled first
+    // pockets restricted by flag should try to get filled first
+    // if remaining volume is equal, lower obtain_cost is better
+
+    // A and B: Two generic sets of pocket data for comparison
+    pocket_data data_a( item_pocket::pocket_type::CONTAINER );
+    pocket_data data_b( item_pocket::pocket_type::CONTAINER );
+
+    // Candidate items to compare pockets with
+    item liquid( "test_liquid" );
+    item apple( "test_apple" );
+    item rock( "test_rock" );
+
+    SECTION( "for perishable food, lower spoil_multiplier is better" ) {
+        REQUIRE( apple.is_comestible() );
+        REQUIRE( apple.get_comestible()->spoils != 0_seconds );
+        data_a.spoil_multiplier = 1.0;
+        data_b.spoil_multiplier = 0.5;
+        CHECK( item_pocket( &data_a ).better_pocket( item_pocket( &data_b ), apple ) );
+    }
+
+    SECTION( "for solid item, non-watertight pocket is better" ) {
+        REQUIRE( rock.made_of( phase_id::SOLID ) );
+        data_a.watertight = true;
+        data_b.watertight = false;
+        CHECK( item_pocket( &data_a ).better_pocket( item_pocket( &data_b ), rock ) );
+    }
+
+    SECTION( "rigid pockets are preferable to non-rigid ones" ) {
+        data_a.rigid = false;
+        data_b.rigid = true;
+        CHECK( item_pocket( &data_a ).better_pocket( item_pocket( &data_b ), rock ) );
+    }
+
+    SECTION( "pocket with less remaining volume is better" ) {
+        data_a.volume_capacity = 2_liter;
+        data_b.volume_capacity = 1_liter;
+        CHECK( item_pocket( &data_a ).better_pocket( item_pocket( &data_b ), rock ) );
+    }
+}
+
+// Best pocket
+// -----------
+// The "best pocket" for an item is the most appropriate pocket for containing it. Only CONTAINER
+// type pockets are eligible; other pocket types such as MAGAZINE or MOD cannot be "best".
+//
+// Functions:
+// item::best_pocket
+// item_contents::best_pocket
+//
+static bool has_best_pocket( item &container, const item &thing )
+{
+    item_location loc;
+    return container.best_pocket( thing, loc ).second != nullptr;
+}
+
+TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
+{
+    item_location loc;
+
+    // Waterskins can be best pockets for liquids
+    SECTION( "item with one watertight pocket has best_pocket for liquid" ) {
+        // Must have a CONTAINER pocket, first and foremost
+        item skin( "test_waterskin" );
+        REQUIRE( skin.has_pockets() );
+        REQUIRE( skin.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
+        // Prerequisite: It can contain water
+        item liquid( "test_liquid" );
+        REQUIRE( skin.can_contain( liquid ) );
+
+        // Has a best pocket for liquid
+        CHECK( has_best_pocket( skin, liquid ) );
+    }
+
+    // Test utility belt has pockets best for holding small and large tools, liquids and gases
+    SECTION( "item with many different pockets can have best_pocket for different items" ) {
+        // Utility belt has CONTAINER pockets
+        item util_belt( "test_utility_belt" );
+        REQUIRE( util_belt.has_pockets() );
+        REQUIRE( util_belt.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
+        // It can contain small and large tools
+        item screwdriver( "test_screwdriver" );
+        item halligan( "test_halligan" );
+        REQUIRE( util_belt.can_contain( screwdriver ) );
+        REQUIRE( util_belt.can_contain( halligan ) );
+        // It can contain liquid and gas
+        item liquid( "test_liquid" );
+        item gas( "test_gas", 0, item::default_charges_tag{} );
+        REQUIRE( util_belt.can_contain( liquid ) );
+        REQUIRE( util_belt.can_contain( gas ) );
+
+        // Utility belt has best_pocket for all these things
+        CHECK( has_best_pocket( util_belt, screwdriver ) );
+        CHECK( has_best_pocket( util_belt, halligan ) );
+        CHECK( has_best_pocket( util_belt, liquid ) );
+        CHECK( has_best_pocket( util_belt, gas ) );
+    }
+
+    // Because best_pocket only works for CONTAINER pockets, a gun item with a MAGAZINE_WELL pocket
+    // is not best_pocket for a compatible magazine, and a mag item with a MAGAZINE pocket is not
+    // best_pocket for compatible ammos.
+    SECTION( "non-container pockets cannot be best_pocket" ) {
+        // Gun that accepts magazines
+        item glock( "test_glock" );
+        REQUIRE( glock.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+        // Empty magazine
+        item glockmag( "test_glockmag", calendar::turn, 0 );
+        REQUIRE( glockmag.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) );
+        REQUIRE( glockmag.ammo_remaining() == 0 );
+        // A single 9mm bullet
+        item glockammo( "9mm", calendar::turn, 1 );
+        REQUIRE( glockammo.is_ammo() );
+        REQUIRE( glockammo.charges == 1 );
+
+        // Although gun can contain magazine, and magazine can contain bullet...
+        REQUIRE( glock.can_contain( glockmag ) );
+        REQUIRE( glockmag.can_contain( glockammo ) );
+        // Gun is not best_pocket for magazine, and magazine is not best_pocket for bullet.
+        CHECK_FALSE( has_best_pocket( glock, glockmag ) );
+        CHECK_FALSE( has_best_pocket( glockmag, glockammo ) );
+    }
+
+    // sealable pockets may be filled and sealed, to spawn with a "factory seal" in-game.
+    // While sealed, they clearly cannot be the best pocket for storing anything.
+    SECTION( "sealed pockets cannot be best_pocket" ) {
+        // Regular aluminum beverage can and something to fill it with
+        item can( "test_can_drink" );
+        REQUIRE( can.has_pockets() );
+        REQUIRE( can.contents.has_pocket_type( item_pocket::pocket_type::CONTAINER ) );
+        item liquid( "test_liquid" );
+        REQUIRE( can.can_contain( liquid ) );
+
+        // Before being sealed, it can be best pocket for liquid
+        CHECK( has_best_pocket( can, liquid ) );
+        // Fill with liquid, seal it, and ensure success
+        can.put_in( liquid, item_pocket::pocket_type::CONTAINER );
+        REQUIRE( can.seal() ); // This must succeed, or next assertion is meaningless
+        // Now sealed, the can cannot be best_pocket for liquid
+        CHECK_FALSE( has_best_pocket( can, liquid ) );
+    }
+}
+
+// Character::best_pocket
+// - See if wielded item can hold it - start with this as default
+// - For each worn item, see if best_pocket is better; if so, use it
+// + Return the item_location of the item that has the best pocket
+//
+// What is the best pocket to put @it into? the pockets in @avoid do not count
+// Character::best_pocket( it, avoid )
+// NOTE: different syntax than item_contents::best_pocket
+// (Second argument is `avoid` item pointer, not parent item location)
+TEST_CASE( "character best pocket", "[pocket][character][best]" )
+{
+    // TODO:
+    // Includes wielded item
+    // Includes worn items
+    // Uses best of multiple worn items
+    // Skips avoided items
+}
+
+TEST_CASE( "guns and gunmods", "[pocket][gunmod]" )
+{
+    item m4a1( "m4a1" );
+    item strap( "shoulder_strap" );
+    // Guns cannot "contain" gunmods, but gunmods can be inserted into guns
+    CHECK_FALSE( m4a1.contents.can_contain( strap ).success() );
+    CHECK( m4a1.contents.insert_item( strap, item_pocket::pocket_type::MOD ).success() );
+}
+
+TEST_CASE( "usb drives and software", "[pocket][software]" )
+{
+    item usb( "usb_drive" );
+    item software( "software_math" );
+    // USB drives aren't containers, and cannot "contain" software, but software can be inserted
+    CHECK_FALSE( usb.contents.can_contain( software ).success() );
+    CHECK( usb.contents.insert_item( software, item_pocket::pocket_type::SOFTWARE ).success() );
 }
 

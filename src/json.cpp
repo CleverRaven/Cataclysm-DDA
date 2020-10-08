@@ -113,8 +113,7 @@ void JsonObject::report_unvisited() const
         reported_unvisited_members = true;
         for( const std::pair<const std::string, int> &p : positions ) {
             const std::string &name = p.first;
-            if( !visited_members.count( name ) && !string_starts_with( name, "//" ) &&
-                name != "blueprint" ) {
+            if( !visited_members.count( name ) && !string_starts_with( name, "//" ) ) {
                 try {
                     throw_error( string_format( "Failed to visit member %s in JsonObject", name ), name );
                 } catch( const JsonError &e ) {
@@ -201,6 +200,7 @@ std::string JsonObject::str() const
 
 void JsonObject::throw_error( const std::string &err, const std::string &name ) const
 {
+    mark_visited( name );
     if( !jsin ) {
         throw JsonError( err );
     }

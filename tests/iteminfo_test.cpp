@@ -1426,7 +1426,7 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
         CHECK( item_info_str( glock, allowed_mags ) ==
                "--\n"
                "<color_c_white>Compatible magazines</color>:"
-               " Glock extended magazine and Glock magazine\n" );
+               " Test Glock extended magazine and Test Glock magazine\n" );
 
         // Rag does not have integral or compatible magazines
         REQUIRE_FALSE( rag.magazine_integral() );

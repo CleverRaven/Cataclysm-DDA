@@ -973,5 +973,13 @@
     "name": { "str": "Scroll of Knifeshot", "str_pl": "Scrolls of Knifeshot" },
     "description": "Emulate a railgun, launching a knife at high speed.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_knifeshot" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_magic_motorcycle",
+    "name": { "str": "MICE(R) blueprint" },
+    "description": "Manafied Infernal Combustion Engine (Rideable)\nDetailed schematics for a motorcycle, that are somehow simultaneously obviously impossible and yet intriguingly intuitive.\nIn one margin, the word 'Mojocycle' has been scrawled in a flowing hand.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_magic_motorcycle" ] }
   }
 ]

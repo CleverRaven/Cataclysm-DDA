@@ -184,6 +184,10 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 return lcmatch( remove_color_tags( result.info( true ) ), txt );
             }
 
+            case search_type::proficiency:
+                return lcmatch( r->required_proficiencies_string( nullptr ), txt ) ||
+                       lcmatch( r->used_proficiencies_string( nullptr ), txt );
+
             default:
                 return false;
         }
