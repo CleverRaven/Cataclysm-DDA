@@ -2473,13 +2473,15 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     ctxt.register_action( "SAVE_TEMPLATE" );
     ctxt.register_action( "RANDOMIZE_CHAR_NAME" );
     ctxt.register_action( "RANDOMIZE_CHAR_DESCRIPTION" );
+    if( !MAP_SHARING::isSharing() && allow_reroll ) {
+        ctxt.register_action( "REROLL_CHARACTER" );
+        ctxt.register_action( "REROLL_CHARACTER_WITH_SCENARIO" );
+    }
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CHOOSE_LOCATION" );
-    ctxt.register_action( "REROLL_CHARACTER" );
-    ctxt.register_action( "REROLL_CHARACTER_WITH_SCENARIO" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
 
