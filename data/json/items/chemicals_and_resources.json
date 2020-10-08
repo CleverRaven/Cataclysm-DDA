@@ -1504,5 +1504,20 @@
     "explode_in_fire": true,
     "explosion": { "power": 5, "shrapnel": 0 },
     "looks_like": "ether"
+  },
+  {
+    "id": "latex",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "latex" },
+    "description": "A liquid precursor to rubber found in some plants.",
+    "weight": "500 mg",
+    "volume": "50 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "symbol": "=",
+    "color": "white",
+    "stack_size": 100,
+    "phase": "liquid",
+    "looks_like": "milk"
   }
 ]
