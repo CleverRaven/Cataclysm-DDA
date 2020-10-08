@@ -27,7 +27,6 @@
     "price_postapoc": 3000,
     "material": [ "plastic" ],
     "ascii_picture": "1st_aid",
-    "looks_like": "1st_aid",
     "symbol": "!",
     "color": "red",
     "use_action": [ "DISASSEMBLE" ],
@@ -309,7 +308,7 @@
     "charges": 20,
     "stack_size": 60,
     "symbol": "*",
-    "color": "green",f
+    "color": "green",
     "container": "wrapper",
     "quench": 1,
     "stim": 2,
