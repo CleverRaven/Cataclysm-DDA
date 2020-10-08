@@ -511,7 +511,7 @@
         { "item": "multitool", "x": 46, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "heatpack", "x": 45, "y": 59, "chance": 75, "repeat": [ 150, 300 ] },
         { "item": "pockknife", "x": 44, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "ref_lighter", "x": 44, "y": 59, "chance": 75, "repeat": [ 50, 150 ], "charges": [ 0, 50 ] },
+        { "item": "ref_lighter", "x": 44, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "two_way_radio", "x": 43, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "rope_30", "x": 42, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
         { "item": "sleeping_bag_roll", "x": 41, "y": 59, "chance": 75, "repeat": [ 150, 300 ] },
