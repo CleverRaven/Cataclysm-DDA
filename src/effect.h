@@ -207,7 +207,7 @@ class effect
         /** Returns the turn the effect was applied. */
         time_point get_start_time() const;
 
-        /** Returns the targeted body_part of the effect. This is num_bp for untargeted effects. */
+        /** Returns the targeted body_part of the effect. This is bp_null for untargeted effects. */
         bodypart_id get_bp() const;
         /** Sets the targeted body_part of an effect. */
         void set_bp( const bodypart_str_id &part );

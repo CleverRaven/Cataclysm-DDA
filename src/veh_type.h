@@ -203,6 +203,7 @@ class vpart_info
         static void reset();
 
         static const std::map<vpart_id, vpart_info> &all();
+        static const std::set<std::string> &categories_all();
 
         /** Translated name of a part */
         std::string name() const;
@@ -221,6 +222,9 @@ class vpart_info
             return bitflags.test( flag );
         }
         void set_flag( const std::string &flag );
+
+        /** Gets whether part is in a category for display */
+        bool has_category( const std::string &category ) const;
 
         /** Format the description for display */
         int format_description( std::string &msg, const nc_color &format_color, int width ) const;
@@ -276,6 +280,8 @@ class vpart_info
 
     private:
         std::set<std::string> flags;
+        // category list for installation ui breakdown
+        std::set<std::string> categories;
         // flags checked so often that things slow down due to string cmp
         std::bitset<NUM_VPFLAGS> bitflags;
 

@@ -31,8 +31,6 @@ static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    // Blind the player to avoid needless drawing-related overhead
-    //player_character.add_effect( effect_blind, 1_turns, num_bp, true );
 
     map &here = get_map();
     build_test_map( ter_id( "t_pavement" ) );

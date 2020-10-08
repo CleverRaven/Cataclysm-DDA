@@ -344,8 +344,7 @@ struct veh_interact::install_info_t {
     int pos = 0;
     size_t tab = 0;
     std::vector<const vpart_info *> tab_vparts;
-    std::array<std::string, 8> tab_list;
-    std::array<std::string, 8> tab_list_short;
+    std::vector<std::string> tab_list;
 };
 
 shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
@@ -897,130 +896,45 @@ void veh_interact::do_install()
                 install_info ) );
     install_info = std::make_unique<install_info_t>();
 
-    std::array<std::string, 8> &tab_list = install_info->tab_list = { {
-            pgettext( "Vehicle Parts|", "All" ),
-            pgettext( "Vehicle Parts|", "Cargo" ),
-            pgettext( "Vehicle Parts|", "Light" ),
-            pgettext( "Vehicle Parts|", "Util" ),
-            pgettext( "Vehicle Parts|", "Hull" ),
-            pgettext( "Vehicle Parts|", "Internal" ),
-            pgettext( "Vehicle Parts|", "Other" ),
-            pgettext( "Vehicle Parts|", "Filter" )
-        }
-    };
+    std::vector<std::string> &tab_list = install_info->tab_list = {};
+    tab_list.push_back( pgettext( "Vehicle Parts|", "All" ) );
+    for( const std::string &cat : vpart_info::categories_all() ) {
+        tab_list.push_back( pgettext( "Vehicle Parts|", cat.c_str() ) );
+    }
+    tab_list.push_back( pgettext( "Vehicle Parts|", "Filter" ) );
 
-    install_info->tab_list_short = { {
-            pgettext( "Vehicle Parts|", "A" ),
-            pgettext( "Vehicle Parts|", "C" ),
-            pgettext( "Vehicle Parts|", "L" ),
-            pgettext( "Vehicle Parts|", "U" ),
-            pgettext( "Vehicle Parts|", "H" ),
-            pgettext( "Vehicle Parts|", "I" ),
-            pgettext( "Vehicle Parts|", "O" ),
-            pgettext( "Vehicle Parts|", "F" )
-        }
-    };
-
-    std::array <std::function<bool( const vpart_info * )>, 8>
-    tab_filters; // filter for each tab, last one
-    tab_filters[0] = [&]( const vpart_info * ) {
+    std::vector <std::function<bool( const vpart_info * )>> tab_filters;
+    tab_filters.push_back( [&]( const vpart_info * ) {
         return true;
-    }; // All
-    tab_filters[1] = [&]( const vpart_info * p ) {
-        const auto &part = *p;
-        return part.has_flag( VPFLAG_CARGO ) && // Cargo
-               !part.has_flag( "TURRET" );
-    };
-    tab_filters[2] = [&]( const vpart_info * p ) {
-        const auto &part = *p;
-        return part.has_flag( VPFLAG_LIGHT ) || // Light
-               part.has_flag( VPFLAG_CONE_LIGHT ) ||
-               part.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
-               part.has_flag( VPFLAG_CIRCLE_LIGHT ) ||
-               part.has_flag( VPFLAG_DOME_LIGHT ) ||
-               part.has_flag( VPFLAG_AISLE_LIGHT ) ||
-               part.has_flag( VPFLAG_ATOMIC_LIGHT );
-    };
-    tab_filters[3] = [&]( const vpart_info * p ) {
-        const auto &part = *p;
-        return part.has_flag( "TRACK" ) || //Util
-               part.has_flag( VPFLAG_FRIDGE ) ||
-               part.has_flag( VPFLAG_FREEZER ) ||
-               part.has_flag( "KITCHEN" ) ||
-               part.has_flag( "WELDRIG" ) ||
-               part.has_flag( "CRAFTRIG" ) ||
-               part.has_flag( "CHEMLAB" ) ||
-               part.has_flag( "FORGE" ) ||
-               part.has_flag( "HORN" ) ||
-               part.has_flag( "BEEPER" ) ||
-               part.has_flag( "AUTOPILOT" ) ||
-               part.has_flag( "WATCH" ) ||
-               part.has_flag( "ALARMCLOCK" ) ||
-               part.has_flag( VPFLAG_RECHARGE ) ||
-               part.has_flag( "VISION" ) ||
-               part.has_flag( "POWER_TRANSFER" ) ||
-               part.has_flag( "FAUCET" ) ||
-               part.has_flag( "STEREO" ) ||
-               part.has_flag( "CHIMES" ) ||
-               part.has_flag( "MUFFLER" ) ||
-               part.has_flag( "REMOTE_CONTROLS" ) ||
-               part.has_flag( "CURTAIN" ) ||
-               part.has_flag( "SEATBELT" ) ||
-               part.has_flag( "SECURITY" ) ||
-               part.has_flag( "SEAT" ) ||
-               part.has_flag( "BED" ) ||
-               part.has_flag( "SPACE_HEATER" ) ||
-               part.has_flag( "COOLER" ) ||
-               part.has_flag( "DOOR_MOTOR" ) ||
-               part.has_flag( "WATER_PURIFIER" ) ||
-               part.has_flag( "WORKBENCH" );
-    };
-    tab_filters[4] = [&]( const vpart_info * p ) {
-        const auto &part = *p;
-        return( part.has_flag( VPFLAG_OBSTACLE ) || // Hull
-                part.has_flag( "ROOF" ) ||
-                part.has_flag( VPFLAG_ARMOR ) ) &&
-              !part.has_flag( "WHEEL" ) &&
-              !tab_filters[3]( p );
-    };
-    tab_filters[5] = [&]( const vpart_info * p ) {
-        const auto &part = *p;
-        return part.has_flag( VPFLAG_ENGINE ) || // Internals
-               part.has_flag( VPFLAG_ALTERNATOR ) ||
-               part.has_flag( VPFLAG_CONTROLS ) ||
-               part.location == "fuel_source" ||
-               part.location == "on_battery_mount" ||
-               ( part.location.empty() && part.has_flag( "FUEL_TANK" ) );
-    };
-
-    // Other: everything that's not in the other filters
-    tab_filters[tab_filters.size() - 2] = [&]( const vpart_info * part ) {
-        for( size_t i = 1; i < tab_filters.size() - 2; i++ ) {
-            if( tab_filters[i]( part ) ) {
-                return false;
-            }
-        }
-        return true;
-    };
+    } );
+    for( const std::string &cat : vpart_info::categories_all() ) {
+        tab_filters.push_back( [&]( const vpart_info * p ) {
+            return p->has_category( cat );
+        } );
+    }
 
     std::string filter; // The user specified filter
-    tab_filters[7] = [&]( const vpart_info * p ) {
-        return lcmatch( p->name(), filter );
-    };
-
-    // full list of mountable parts, to be filtered according to tab
-    std::vector<const vpart_info *> &tab_vparts = install_info->tab_vparts = can_mount;
+    tab_filters.push_back( [&]( const vpart_info * p ) {
+        return !filter.empty() && lcmatch( p->name(), filter );
+    } );
 
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
     int &pos = install_info->pos = 0;
     size_t &tab = install_info->tab = 0;
 
+    std::vector<const vpart_info *> &tab_vparts = install_info->tab_vparts;
+    auto refresh_parts_list = [&]( std::vector<const vpart_info *> parts ) {
+        std::copy_if( parts.begin(), parts.end(), std::back_inserter( tab_vparts ), tab_filters[tab] );
+        std::sort( tab_vparts.begin(), tab_vparts.end(), []( const vpart_info * a, const vpart_info * b ) {
+            return localized_compare( a->name(), b->name() );
+        } );
+    };
+    refresh_parts_list( can_mount );
+
     while( true ) {
         // filtered list can be empty
         sel_vpart_info = tab_vparts.empty() ? nullptr : tab_vparts[pos];
-
-        bool can_install = can_install_part();
 
         ui_manager::redraw();
 
@@ -1033,14 +947,14 @@ void veh_interact::do_install()
             .description( _( "Filter" ) )
             .max_length( 100 )
             .edit( filter );
-            tab = 7; // Move to the user filter tab.
+            tab = tab_filters.size() - 1; // Move to the user filter tab.
         }
         if( action == "REPAIR" ) {
             filter.clear();
             tab = 0;
         }
         if( action == "INSTALL" || action == "CONFIRM" ) {
-            if( can_install ) {
+            if( can_install_part() ) {
                 switch( reason ) {
                     case task_reason::LOW_MORALE:
                         msg = _( "Your morale is too low to construct…" );
@@ -1156,8 +1070,7 @@ void veh_interact::do_install()
                 tab = ( tab < tab_list.size() - 1 ) ? tab + 1 : 0;
             }
 
-            copy_if( can_mount.begin(), can_mount.end(), back_inserter( tab_vparts ),
-                     tab_filters[tab] );
+            refresh_parts_list( can_mount );
         } else {
             move_in_list( pos, action, tab_vparts.size(), 2 );
         }
@@ -1168,9 +1081,9 @@ bool veh_interact::move_in_list( int &pos, const std::string &action, const int 
                                  const int header ) const
 {
     int lines_per_page = page_size - header;
-    if( action == "PREV_TAB" || action == "LEFT" ) {
+    if( action == "PREV_TAB" || action == "LEFT" || action == "PAGE_UP" ) {
         pos -= lines_per_page;
-    } else if( action == "NEXT_TAB" || action == "RIGHT" ) {
+    } else if( action == "NEXT_TAB" || action == "RIGHT" || action == "PAGE_DOWN" ) {
         pos += lines_per_page;
     } else if( action == "UP" ) {
         pos--;
@@ -1265,7 +1178,7 @@ void veh_interact::do_repair()
                     ok = false;
                 }
             } else {
-                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
+                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level(), vp.repair_skills,
                                   vp.repair_time( player_character ) * pt.base.damage() / pt.base.max_damage() );
             }
         }
@@ -2675,16 +2588,16 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
 
     if( install_info ) {
         auto &tab_list = install_info->tab_list;
-        auto &tab_list_short = install_info->tab_list_short;
         auto &tab = install_info->tab;
         // draw tab menu
         int tab_x = 0;
         for( size_t i = 0; i < tab_list.size(); i++ ) {
-            std::string tab_name = ( tab == i ) ? tab_list[i] : tab_list_short[i]; // full name for selected tab
-            tab_x += ( tab == i ); // add a space before selected tab
-            draw_subtab( w_list, tab_x, tab_name, tab == i, false );
-            tab_x += ( 1 + utf8_width( tab_name ) + ( tab ==
-                       i ) ); // one space padding and add a space after selected tab
+            bool active = tab == i; // current tab is active
+            std::string tab_name = active ? tab_list[i] : utf8_truncate( tab_list[i], 1 );
+            tab_x += active; // add a space before selected tab
+            draw_subtab( w_list, tab_x, tab_name, active, false );
+            // one space padding and add a space after selected tab
+            tab_x += 1 + utf8_width( tab_name ) + active;
         }
     }
     wnoutrefresh( w_list );

@@ -723,16 +723,16 @@ int item::damage() const
     return damage_;
 }
 
-int item::damage_level( int max ) const
+int item::damage_level() const
 {
-    if( damage_ == 0 || max <= 0 ) {
+    if( damage_ == 0 ) {
         return 0;
     } else if( max_damage() <= 1 ) {
-        return damage_ > 0 ? max : damage_;
+        return damage_ > 0 ? 4 : damage_;
     } else if( damage_ < 0 ) {
-        return -( ( max - 1 ) * ( -damage_ - 1 ) / ( max_damage() - 1 ) + 1 );
+        return -( 3 * ( -damage_ - 1 ) / ( max_damage() - 1 ) + 1 );
     } else {
-        return ( max - 1 ) * ( damage_ - 1 ) / ( max_damage() - 1 ) + 1;
+        return 3 * ( damage_ - 1 ) / ( max_damage() - 1 ) + 1;
     }
 }
 
@@ -1829,6 +1829,20 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
             const std::string space = "  ";
             info.push_back( iteminfo( "FOOD", space + _( "Quench: " ),
                                       food_item->get_comestible()->quench ) );
+        }
+        if( parts->test( iteminfo_parts::FOOD_SATIATION ) ) {
+
+            if( max_nutr.kcal == min_nutr.kcal ) {
+                info.push_back( iteminfo( "FOOD", _( "<bold>Satiety: </bold>" ),
+                                          satiety_bar( player_character.compute_calories_per_effective_volume( *food_item ) ) ) );
+            } else {
+                info.push_back( iteminfo( "FOOD", _( "<bold>Satiety: </bold>" ),
+                                          satiety_bar( player_character.compute_calories_per_effective_volume( *food_item, &min_nutr ) ),
+                                          iteminfo::no_newline
+                                        ) );
+                info.push_back( iteminfo( "FOOD", _( " - " ),
+                                          satiety_bar( player_character.compute_calories_per_effective_volume( *food_item, &max_nutr ) ) ) );
+            }
         }
     }
 
@@ -4939,7 +4953,7 @@ int item::price( bool practical ) const
         int child = units::to_cent( practical ? e->type->price_post : e->type->price );
         if( e->damage() > 0 ) {
             // maximal damage level is 4, maximal reduction is 40% of the value.
-            child -= child * static_cast<double>( e->damage_level( 4 ) ) / 10;
+            child -= child * static_cast<double>( e->damage_level() ) / 10;
         }
 
         if( e->count_by_charges() || e->made_of( phase_id::LIQUID ) ) {
@@ -5235,7 +5249,7 @@ int item::damage_melee( damage_type dt ) const
 
     // effectiveness is reduced by 10% per damage level
     int res = type->melee[ static_cast<int>( dt )];
-    res -= res * damage_level( 4 ) * 0.1;
+    res -= res * damage_level() * 0.1;
 
     // apply type specific flags
     switch( dt ) {
@@ -6022,8 +6036,8 @@ bool item::ready_to_revive( const tripoint &pos ) const
     }
     int age_in_hours = to_hours<int>( age() );
     age_in_hours -= static_cast<int>( static_cast<float>( burnt ) / ( volume() / 250_ml ) );
-    if( damage_level( 4 ) > 0 ) {
-        age_in_hours /= ( damage_level( 4 ) + 1 );
+    if( damage_level() > 0 ) {
+        age_in_hours /= ( damage_level() + 1 );
     }
     int rez_factor = 48 - age_in_hours;
     if( age_in_hours > 6 && ( rez_factor <= 0 || one_in( rez_factor ) ) ) {
@@ -6098,7 +6112,7 @@ int item::bash_resist( bool to_self ) const
 
     // base resistance
     // Don't give reinforced items +armor, just more resistance to ripping
-    const int dmg = damage_level( 4 );
+    const int dmg = damage_level();
     const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
     const int eff_thickness = std::max( 1, get_thickness() - eff_damage );
 
@@ -6126,7 +6140,7 @@ int item::cut_resist( bool to_self ) const
 
     // base resistance
     // Don't give reinforced items +armor, just more resistance to ripping
-    const int dmg = damage_level( 4 );
+    const int dmg = damage_level();
     const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
     const int eff_thickness = std::max( 1, base_thickness - eff_damage );
 
@@ -6164,7 +6178,7 @@ int item::bullet_resist( bool to_self ) const
 
     // base resistance
     // Don't give reinforced items +armor, just more resistance to ripping
-    const int dmg = damage_level( 4 );
+    const int dmg = damage_level();
     const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
     const int eff_thickness = std::max( 1, base_thickness - eff_damage );
 
@@ -6319,7 +6333,7 @@ bool item::inc_damage()
 nc_color item::damage_color() const
 {
     // TODO: unify with veh_interact::countDurability
-    switch( damage_level( 4 ) ) {
+    switch( damage_level() ) {
         default:
             // reinforced
             if( damage() <= min_damage() ) {
@@ -6347,7 +6361,7 @@ nc_color item::damage_color() const
 
 std::string item::damage_symbol() const
 {
-    switch( damage_level( 4 ) ) {
+    switch( damage_level() ) {
         default:
             // reinforced
             return _( R"(++)" );
@@ -6383,7 +6397,7 @@ std::string item::durability_indicator( bool include_intact ) const
         }
     } else if( has_flag( flag_CORPSE ) ) {
         if( damage() > 0 ) {
-            switch( damage_level( 4 ) ) {
+            switch( damage_level() ) {
                 case 1:
                     outputstring = pgettext( "damage adjective", "bruised " );
                     break;
@@ -6401,7 +6415,7 @@ std::string item::durability_indicator( bool include_intact ) const
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
         outputstring = colorize( damage_symbol() + "\u00A0", damage_color() );
     } else {
-        outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ) );
+        outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level() ) );
         if( include_intact && outputstring == " " ) {
             outputstring = _( "fully intact " );
         }
@@ -7310,7 +7324,7 @@ int item::gun_dispersion( bool with_ammo, bool with_scaling ) const
         dispersion_sum += mod->type->gunmod->dispersion;
     }
     int dispPerDamage = get_option< int >( "DISPERSION_PER_GUN_DAMAGE" );
-    dispersion_sum += damage_level( 4 ) * dispPerDamage;
+    dispersion_sum += damage_level() * dispPerDamage;
     dispersion_sum = std::max( dispersion_sum, 0 );
     if( with_ammo && ammo_data() ) {
         dispersion_sum += ammo_data()->ammo->dispersion;
@@ -7362,7 +7376,7 @@ damage_instance item::gun_damage( bool with_ammo ) const
         ret.add( ammo_data()->ammo->damage );
     }
 
-    int item_damage = damage_level( 4 );
+    int item_damage = damage_level();
     if( item_damage > 0 ) {
         // TODO: This isn't a good solution for multi-damage guns/ammos
         for( damage_unit &du : ret ) {
@@ -8123,6 +8137,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
         return false;
     }
 
+    bool ammo_from_map = !ammo.held_by( u );
     item_location container;
     if( ammo->has_flag( flag_SPEEDLOADER ) ) {
         container = ammo;
@@ -8214,6 +8229,9 @@ bool item::reload( Character &u, item_location ammo, int qty )
 
         put_in( *ammo, item_pocket::pocket_type::MAGAZINE_WELL );
         ammo.remove_item();
+        if( ammo_from_map ) {
+            u.invalidate_weight_carried_cache();
+        }
         return true;
     }
 
@@ -8222,6 +8240,9 @@ bool item::reload( Character &u, item_location ammo, int qty )
         if( container ) {
             u.inv->restack( u ); // emptied containers do not stack with non-empty ones
         }
+    }
+    if( ammo_from_map ) {
+        u.invalidate_weight_carried_cache();
     }
     return true;
 }
@@ -8716,6 +8737,8 @@ int item::fill_with( const item &contained, const int amount )
         debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
                   contained_item.typeId().str(), typeId().str() );
     }
+    on_contents_changed();
+    get_avatar().invalidate_weight_carried_cache();
     return num_contained;
 }
 

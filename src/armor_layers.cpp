@@ -443,7 +443,7 @@ void player::sort_armor()
     * + 3 - horizontal lines;
     * + 1 - caption line;
     * + 2 - innermost/outermost string lines;
-    * + num_bp - sub-categories (torso, head, eyes, etc.);
+    * + num_of_parts - sub-categories (torso, head, eyes, etc.);
     * + 1 - gap;
     * number of lines required for displaying all items is calculated dynamically,
     * because some items can have multiple entries (i.e. cover a few parts of body).
@@ -843,7 +843,7 @@ void player::sort_armor()
                     wear( *loc.obtain( *this ) );
                 if( new_equip_it ) {
                     const bodypart_id &bp = armor_cat[ tabindex ];
-                    if( tabindex == num_bp || ( **new_equip_it ).covers( bp ) ) {
+                    if( tabindex == num_of_parts || ( **new_equip_it ).covers( bp ) ) {
                         // Set ourselves up to be pointing at the new item
                         // TODO: This doesn't work yet because we don't save our
                         // state through other activities, but that's a thing
@@ -851,7 +851,7 @@ void player::sort_armor()
                         leftListIndex =
                             std::count_if( worn.begin(), *new_equip_it,
                         [&]( const item & i ) {
-                            return tabindex == num_bp || i.covers( bp );
+                            return tabindex == num_of_parts || i.covers( bp );
                         } );
                     }
                 } else if( is_npc() ) {

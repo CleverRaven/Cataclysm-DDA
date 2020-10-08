@@ -672,6 +672,10 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
     }
 
+    for( size_t i = 0; i < engines.size(); i++ ) {
+        auto_select_fuel( i );
+    }
+
     invalidate_mass();
 }
 

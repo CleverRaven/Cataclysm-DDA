@@ -16,6 +16,7 @@
   },
   {
     "id": "engine_electric_tiny",
+    "categories": [ "Internal" ],
     "copy-from": "engine_motor",
     "type": "vehicle_part",
     "name": { "str": "tiny electric motor" },
@@ -36,6 +37,7 @@
   },
   {
     "id": "engine_electric_small",
+    "categories": [ "Internal" ],
     "copy-from": "engine_motor",
     "type": "vehicle_part",
     "name": { "str": "small electric motor" },
@@ -60,6 +62,7 @@
   },
   {
     "id": "engine_electric",
+    "categories": [ "Internal" ],
     "copy-from": "engine_motor",
     "type": "vehicle_part",
     "name": { "str": "electric motor" },
@@ -86,6 +89,7 @@
   },
   {
     "id": "engine_electric_large",
+    "categories": [ "Internal" ],
     "copy-from": "engine_motor",
     "type": "vehicle_part",
     "name": { "str": "large electric motor" },
@@ -111,6 +115,7 @@
   },
   {
     "id": "engine_electric_enhanced",
+    "categories": [ "Internal" ],
     "copy-from": "engine_motor",
     "type": "vehicle_part",
     "name": { "str": "enhanced electric motor" },
@@ -136,6 +141,7 @@
   },
   {
     "id": "engine_electric_super",
+    "categories": [ "Internal" ],
     "copy-from": "engine_motor",
     "type": "vehicle_part",
     "name": { "str": "super electric motor" },

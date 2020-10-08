@@ -71,11 +71,24 @@ std::string enum_to_string<spell_target>( spell_target data )
     abort();
 }
 template<>
+std::string enum_to_string<spell_shape>( spell_shape data )
+{
+    switch( data ) {
+        case spell_shape::blast: return "blast";
+        case spell_shape::cone: return "cone";
+        case spell_shape::line: return "line";
+        case spell_shape::num_shapes: break;
+    }
+    debugmsg( "Invalid spell_shape" );
+    abort();
+}
+template<>
 std::string enum_to_string<spell_flag>( spell_flag data )
 {
     switch( data ) {
         case spell_flag::PERMANENT: return "PERMANENT";
         case spell_flag::IGNORE_WALLS: return "IGNORE_WALLS";
+        case spell_flag::NO_PROJECTILE: return "NO_PROJECTILE";
         case spell_flag::HOSTILE_SUMMON: return "HOSTILE_SUMMON";
         case spell_flag::HOSTILE_50: return "HOSTILE_50";
         case spell_flag::FRIENDLY_POLY: return "FRIENDLY_POLY";
@@ -216,11 +229,8 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
     effect_map{
         { "pain_split", spell_effect::pain_split },
-        { "target_attack", spell_effect::target_attack },
+        { "attack", spell_effect::attack },
         { "targeted_polymorph", spell_effect::targeted_polymorph },
-        { "projectile_attack", spell_effect::projectile_attack },
-        { "cone_attack", spell_effect::cone_attack },
-        { "line_attack", spell_effect::line_attack },
         { "teleport_random", spell_effect::teleport_random },
         { "spawn_item", spell_effect::spawn_ethereal_item },
         { "recover_energy", spell_effect::recover_energy },
@@ -229,6 +239,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         { "translocate", spell_effect::translocate },
         { "area_pull", spell_effect::area_pull },
         { "area_push", spell_effect::area_push },
+        { "directed_push", spell_effect::directed_push },
         { "timed_event", spell_effect::timed_event },
         { "ter_transform", spell_effect::transform_blast },
         { "noise", spell_effect::noise },
@@ -265,6 +276,8 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     } else {
         effect = found_effect->second;
     }
+    mandatory( jo, was_loaded, "shape", spell_area );
+    spell_area_function = spell_effect::shape_map.at( spell_area );
 
     const auto targeted_monster_ids_reader = auto_flags_reader<mtype_id> {};
     optional( jo, was_loaded, "targeted_monster_ids", targeted_monster_ids,
@@ -347,6 +360,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "name", name.translated() );
     json.member( "description", description.translated() );
     json.member( "effect", effect_name );
+    json.member( "shape", io::enum_to_string( spell_area ) );
     json.member( "valid_targets", valid_targets, enum_bitset<spell_target> {} );
     json.member( "effect_str", effect_str, effect_str_default );
     json.member( "skill", skill, skill_default );
@@ -633,6 +647,17 @@ int spell::aoe() const
     }
 }
 
+std::set<tripoint> spell::effect_area( const spell_effect::override_parameters &params,
+                                       const tripoint &source, const tripoint &target ) const
+{
+    return type->spell_area_function( params, source, target );
+}
+
+std::set<tripoint> spell::effect_area( const tripoint &source, const tripoint &target ) const
+{
+    return effect_area( spell_effect::override_parameters( *this ), source, target );
+}
+
 bool spell::in_aoe( const tripoint &source, const tripoint &target ) const
 {
     if( has_flag( spell_flag::RANDOM_AOE ) ) {
@@ -845,6 +870,9 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
     } else {
         casting_time = type->base_casting_time;
     }
+
+    casting_time *= guy.mutation_value( "casting_time_multiplier" );
+
     if( !ignore_encumb ) {
         if( !has_flag( spell_flag::NO_LEGS ) ) {
             // the first 20 points of encumbrance combined is ignored
@@ -947,6 +975,11 @@ std::string spell::colorized_fail_percent( const Character &guy ) const
         color = c_light_green;
     }
     return colorize( fail_str, color );
+}
+
+spell_shape spell::shape() const
+{
+    return type->spell_area;
 }
 
 int spell::xp() const
@@ -1378,8 +1411,8 @@ cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
 {
     const bool ignore_ground = has_flag( spell_flag::RANDOM_CRITTER );
     std::set<tripoint> valid_area;
-    for( const tripoint &target : spell_effect::spell_effect_blast( *this, caster_pos, caster_pos,
-            range(), false ) ) {
+    for( const tripoint &target : spell_effect::spell_effect_blast(
+             spell_effect::override_parameters( *this ), caster_pos, caster_pos ) ) {
         if( target != caster_pos && is_valid_target( caster, target ) &&
             ( !ignore_ground || g->critter_at<Creature>( target ) ) ) {
             valid_area.emplace( target );

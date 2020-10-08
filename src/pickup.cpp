@@ -369,6 +369,8 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             loc.remove_item();
         }
         player_character.moves -= moves_taken;
+        player_character.flag_encumbrance();
+        player_character.invalidate_weight_carried_cache();
     }
 
     return picked_up || !did_prompt;
