@@ -9,7 +9,7 @@
   },
   {
     "type": "proficiency",
-    "id": "prof_asian_food",
+    "id": "prof_european_food",
     "name": { "str": "Cooking European Food" },
     "description": "Ja, ich mag Bratwurst.",
     "can_learn": true,
@@ -33,6 +33,14 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_baking_desserts",
+    "name": { "str": "Dessert Baking" },
+    "description": "The skills necessary for making tasty baked desserts that hold together.",
+    "can_learn": true,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_cooking_meat",
     "name": { "str": "Basic Carnivore Cuisine" },
     "description": "You're good at preparing and cooking parts of dead animals that taste nice.",
@@ -46,14 +54,6 @@
     "description": "You're good at preparing and cooking plants, beans, and tofu in a way that tastes good.",
     "can_learn": true,
     "time_to_learn": "4 h"
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_baking_desserts",
-    "name": { "str": "Dessert Baking" },
-    "description": "The skills necessary for making tasty baked desserts that hold together.",
-    "can_learn": true,
-    "time_to_learn": "8 h"
   },
   {
     "type": "proficiency",
@@ -86,5 +86,5 @@
     "description": "Cold and hot smoking various comestibles, extending their shelf life and enhancing their flavor.",
     "can_learn": true,
     "time_to_learn": "4 h"
-  },
+  }
 ]
