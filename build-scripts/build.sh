@@ -163,10 +163,17 @@ then
     # content rather than the size+mtime (which is ccache's default behavior).
     export CCACHE_COMPILERCHECK=content
 
+    if [ "$ANDROID32" == 1 ]
+    then
+        ANDROID_ABI="-Pabi_arm_32=true -Pabi_arm_64=false"
+    else
+        ANDROID_ABI="-Pabi_arm_32=false -Pabi_arm_64=true"
+    fi
+
     cd android
     # Specify dumb terminal to suppress gradle's constant output of time spent building, which
     # fills the log with nonsense.
-    TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Poverride_version=${TRAVIS_BUILD_NUMBER} \
+    TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false $ANDROID_ABI -Poverride_version=${TRAVIS_BUILD_NUMBER} \
         -Pdeps="${HOME}/build/${TRAVIS_REPO_SLUG}/android/app/deps.zip"
 else
     if [ "$DEPLOY" == 1 -a "$NATIVE" == "osx" ]

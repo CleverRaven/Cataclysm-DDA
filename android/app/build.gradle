@@ -199,10 +199,10 @@ android {
         versionCode Integer.valueOf(System.env.UPSTREAM_BUILD_NUMBER ?: 1)
         versionName new File("$version_header_path").text.split('\"')[1]
         if (buildAsApplication) {
-            applicationId "com.cleverraven.cataclysmdda"
-            setProperty("archivesBaseName", "cataclysmdda-" + versionName)
+            applicationId "com.cleverraven.cataclysmbn"
+            setProperty("archivesBaseName", "cataclysmbn-" + versionName)
         }
-        resValue "string", "app_name", "Cataclysm DDA"
+        resValue "string", "app_name", "Cataclysm BN"
 
         splits {
             // Configures multiple APKs based on ABI.
@@ -242,12 +242,12 @@ android {
     productFlavors {
         stable {
             dimension "version"
-            resValue "string", "app_name", "Cataclysm DDA"
+            resValue "string", "app_name", "Cataclysm BN"
         }
         experimental {
             dimension "version"
             applicationIdSuffix ".experimental"
-            resValue "string", "app_name", "Cataclysm DDA (experimental)"
+            resValue "string", "app_name", "Cataclysm BN (experimental)"
         }
     }
 
