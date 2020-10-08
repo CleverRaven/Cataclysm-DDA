@@ -377,7 +377,7 @@
     "book_learn": [ [ "textbook_chemistry", 8 ], [ "textbook_toxicology", 7 ], [ "recipe_labchem", 8 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "ANALYSIS", "level": 1 }, { "id": "SEPARATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "syringe", 1 ] ], [ [ "chem_ethanol", 1 ] ], [ [ "conc_venom", 2 ] ], [ [ "salt_water", 1 ], [ "saline", 5 ] ] ]
+    "components": [ [ [ "syringe", 1 ] ], [ [ "chem_ethanol", 1 ] ], [ [ "conc_venom", 4 ] ], [ [ "salt_water", 1 ], [ "saline", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1582,7 +1582,7 @@
     "autolearn": false,
     "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 30, "LIST" ] ] ],
-    "components": [ [ [ "venom_wasp", 2 ], [ "venom_bee", 2 ] ] ],
+    "components": [ [ [ "venom_wasp", 1 ], [ "venom_bee", 1 ] ] ],
     "book_learn": { "textbook_toxicology": { "skill_level": 6 } }
   }
 ]
