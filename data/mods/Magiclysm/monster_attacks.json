@@ -41,7 +41,8 @@
     "min_range": 8,
     "max_range": 12,
     "range_increment": 0.1,
-    "effect": "line_attack",
+    "effect": "attack",
+    "shape": "line",
     "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS" ]
   }
 ]

@@ -4235,7 +4235,6 @@
     "components": [
       [ [ "medical_tape", 20 ] ],
       [ [ "tourniquet_upper", 1 ] ],
-      [ [ "disinfectant", 5 ] ],
       [ [ "quikclot", 5 ] ],
       [ [ "bandages", 9 ] ],
       [ [ "medical_gauze", 3 ] ],
@@ -4244,7 +4243,7 @@
       [ [ "gloves_medical", 1 ] ],
       [ [ "scissors", 1 ] ]
     ],
-    "flags": [ "BLIND_EASY", "UNCRAFT_LIQUIDS_CONTAINED" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "survival_kit",

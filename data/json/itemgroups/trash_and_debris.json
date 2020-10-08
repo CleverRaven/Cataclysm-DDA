@@ -152,6 +152,7 @@
       [ "balloon", 5 ],
       [ "box_medium", 15 ],
       [ "thermos", 30 ],
+      { "item": "inhaler", "prob": 8, "charges-min": 0, "charges-max": 10 },
       { "group": "tinware", "prob": 15 }
     ]
   },

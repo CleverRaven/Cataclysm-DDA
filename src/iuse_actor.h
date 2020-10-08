@@ -600,7 +600,7 @@ class fireweapon_off_actor : public iuse_actor
         translation failure_message = to_translation( "hsss" ); // Due to bad roll
         int noise = 0; // If > 0 success message is a success sound instead
         int moves = 0;
-        // Lower is better: rng(0, 10) - item.damage_level( 4 ) > this variable
+        // Lower is better: rng(0, 10) - item.damage_level() > this variable
         int success_chance = INT_MIN;
 
         fireweapon_off_actor() : iuse_actor( "fireweapon_off" ) {}

@@ -139,6 +139,7 @@ automatically_convertible = {
     "BOOK",
     "COMESTIBLE",
     "construction_category",
+    "construction_group",
     "dream",
     "ENGINE",
     "event_statistic",
@@ -254,7 +255,6 @@ def extract_clothing_mod(item):
 
 def extract_construction(item):
     outfile = get_outfile("construction")
-    writestr(outfile, item["description"])
     if "pre_note" in item:
         writestr(outfile, item["pre_note"])
 
@@ -876,9 +876,14 @@ def extract_field_type(item):
 
 def extract_ter_furn_transform_messages(item):
     outfile = get_outfile("ter_furn_transform_messages")
-    writestr(outfile, item.get("fail_message"))
-    for terrain in item.get("terrain"):
-        writestr(outfile, terrain.get("message"))
+    if "fail_message" in item:
+        writestr(outfile, item.get("fail_message"))
+    if "terrain" in item:
+        for terrain in item.get("terrain"):
+            writestr(outfile, terrain.get("message"))
+    if "furniture" in item:
+        for furniture in item.get("furniture"):
+            writestr(outfile, furniture.get("message"))
 
 
 def extract_skill_display_type(item):
@@ -1026,7 +1031,11 @@ def writestr(filename, string, context=None, format_strings=False,
                 comment = string["//~"]
             else:
                 comment = "{}\n{}".format(comment, string["//~"])
-        context = string.get("ctxt")
+        if context is None:
+            context = string.get("ctxt")
+        elif "ctxt" in string:
+            raise WrongJSONItem("ERROR: 'ctxt' found in json when `context` "
+                                "parameter is specified", string)
         str_pl = None
         if pl_fmt:
             if "str_pl" in string:

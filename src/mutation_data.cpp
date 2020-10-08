@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "assign.h"
-#include "cached_options.h"
 #include "color.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -124,13 +123,8 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     new_category.iv_sleep_dur = jsobj.get_int( "iv_sleep_dur", 0 );
     static_cast<void>( translate_marker_context( "memorial_male", "Crossed a threshold" ) );
     static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold" ) );
-    new_category.raw_memorial_message = jsobj.get_string( "memorial_message",
-                                        "Crossed a threshold" );
-    // HACK: read using class translation for text style check
-    if( test_mode ) {
-        translation dummy;
-        jsobj.read( "memorial_message", dummy );
-    }
+    optional( jsobj, false, "memorial_message", new_category.raw_memorial_message,
+              text_style_check_reader(), "Crossed a threshold" );
     if( jsobj.has_member( "junkie_message" ) ) {
         jsobj.read( "junkie_message", new_category.raw_junkie_message );
     } else {
@@ -473,6 +467,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, cata::nullopt );
     optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, cata::nullopt );
     optional( jo, was_loaded, "bionic_mana_penalty", bionic_mana_penalty, cata::nullopt );
+    optional( jo, was_loaded, "casting_time_multiplier", casting_time_multiplier, cata::nullopt );
 
     if( jo.has_object( "rand_cut_bonus" ) ) {
         JsonObject sm = jo.get_object( "rand_cut_bonus" );

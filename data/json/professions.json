@@ -50,6 +50,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "charged_powered_earmuffs",
+    "entries": [ { "item": "light_minus_battery_cell", "ammo-item": "battery", "charges": 50, "container-item": "powered_earmuffs" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "charged_tazer",
     "entries": [ { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "tazer" } ]
   },
@@ -449,7 +455,7 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "jeans", "longshirt", "socks", "coat_winter", "boots_winter", "knit_scarf", "pockknife", "water_clean", "wristwatch" ],
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "mbag", "pockknife", "water_clean", "wristwatch" ],
         "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_matches" } ]
       },
       "male": [ "boxer_shorts" ],
@@ -598,6 +604,7 @@
     "id": "mechanic",
     "name": "Home Mechanic",
     "description": "You've always loved cars, and there's nothing like getting under the hood and fixing it yourself.  You've kept hold of some handy tools for the job, and at least now you'll never want for parts.",
+    "proficiencies": [ "prof_metalworking", "prof_welding_basic" ],
     "points": 2,
     "skills": [ { "level": 3, "name": "mechanics" }, { "level": 1, "name": "driving" } ],
     "items": {
@@ -625,7 +632,7 @@
       { "level": 1, "name": "stabbing" },
       { "level": 1, "name": "unarmed" },
       { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "barter" },
+      { "level": 1, "name": "speech" },
       { "level": 1, "name": "lockpick" }
     ],
     "items": {
@@ -1345,11 +1352,11 @@
           "hat_ball",
           "badge_deputy",
           "wristwatch",
-          "powered_earmuffs",
           "tacvest"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "charged_powered_earmuffs" },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "762_51", "charges": 20 },
@@ -1408,7 +1415,7 @@
     "name": "Used Car Salesman",
     "description": "They said you'd sell your own mother for a dollar.  How dare they!  You've been around the block a few times, and you'd charge way more than a dollar - and get it, too!",
     "points": 0,
-    "skills": [ { "level": 4, "name": "barter" } ],
+    "skills": [ { "level": 4, "name": "speech" } ],
     "items": {
       "both": {
         "items": [ "suit", "knit_scarf", "socks", "dress_shoes", "wristwatch" ],
@@ -1519,6 +1526,7 @@
     "name": { "male": "Handy Man", "female": "Handy Woman" },
     "description": "You used to work at a local hardware store, and you did plenty of home renovations yourself.  Now you look out at the horizon of a ruined world, and wonder - are your meager skills, and the few supplies you grabbed on the way out, sufficient to help rebuild?",
     "points": 1,
+    "proficiencies": [ "prof_plumbing" ],
     "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "lockpick" } ],
     "items": {
       "both": {
@@ -1952,7 +1960,7 @@
     "description": "You were employed by a major international corporation as a representative and technical advisor, utilizing the incredible power of your cybernetically augmented mind.",
     "points": 4,
     "CBMs": [ "bio_int_enhancer", "bio_face_mask", "bio_watch", "bio_memory", "bio_batteries", "bio_power_storage_mkII" ],
-    "skills": [ { "level": 2, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "skills": [ { "level": 2, "name": "speech" } ],
     "no_bonus": "teleumbrella",
     "items": {
       "both": {
@@ -2264,7 +2272,7 @@
     "description": "You ran into trouble coming out of class at your community college's metalsmithing program, but despite the havoc you've managed to keep ahold of some of the equipment you were carrying.",
     "points": 1,
     "skills": [ { "level": 4, "name": "fabrication" } ],
-    "proficiencies": [ "prof_blacksmithing" ],
+    "proficiencies": [ "prof_metalworking", "prof_blacksmithing" ],
     "items": {
       "both": {
         "items": [ "jeans", "socks", "boots", "tank_top", "apron_leather", "fire_gauntlets", "wristwatch", "hammer" ],
@@ -2476,7 +2484,7 @@
     "name": "Embezzler",
     "description": "You had a genius plan to skim fractions of cents out of your company's accounts.  This plan immediately failed and got you arrested.  They said you were too soft for prison, but guess what?  They're dead, and you're not.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "barter" }, { "level": 2, "name": "computer" } ],
+    "skills": [ { "level": 2, "name": "speech" }, { "level": 2, "name": "computer" } ],
     "items": {
       "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "rock_sock" ],
       "male": [ "briefs" ],
@@ -2660,7 +2668,7 @@
     "name": "Lawyer",
     "description": "The jury were in the palm of your hand, but after the defendant tried to eat your brain, you were forced to flee the courtroom in disgrace.  Now nobody seems to care about your objections.",
     "points": 1,
-    "skills": [ { "level": 1, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "skills": [ { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
         "items": [
@@ -2720,7 +2728,7 @@
     "description": "You spent much of your time prior to the apocalypse at the local mosque, studying the words of the Prophet and the Quran and guiding your community in prayer.  Back then they came from far and wide to listen to you; now they come to eat your brains.",
     "points": 0,
     "//": "No knife, fire, or decent storage/armor.  Skill points are countered.",
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "barter" } ],
+    "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
         "items": [ "pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran" ],
@@ -2864,7 +2872,7 @@
     "name": { "male": "Pizza Delivery Boy", "female": "Pizza Delivery Girl" },
     "description": "You were delivering the last pizza of the night to the local cryogenics lab when hungry zombies attempted to make a meal out of you.  Fleeing for safety, you find yourself with only your wits and some leftover pizza.  And they didn't even leave a tip!",
     "points": 1,
-    "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "barter" }, { "level": 1, "name": "speech" } ],
+    "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "speech" } ],
     "items": {
       "both": {
         "items": [
@@ -3655,7 +3663,7 @@
     "type": "profession",
     "id": "demolition_expert",
     "name": "Demolition Expert",
-    "description": "Before this all began, you were having the time of your life at your dream job: blowing stuff up.  The Cataclysm means you're finally allowed to do it full time. ",
+    "description": "Before this all began, you were having the time of your life at your dream job: blowing stuff up.  The Cataclysm means you're finally allowed to do it full time.",
     "skills": [ { "level": 2, "name": "fabrication" } ],
     "points": 3,
     "items": {
@@ -3942,7 +3950,7 @@
     "name": "Career Politician",
     "description": "You've spent your life appealing to the people, persuading many and promising much throughout your time in office.  Now that your voting base wants to eat you alive, winning hearts and minds just got that much harder.",
     "points": 5,
-    "skills": [ { "level": 4, "name": "barter" }, { "level": 6, "name": "speech" } ],
+    "skills": [ { "level": 6, "name": "speech" } ],
     "traits": [ "LIAR" ],
     "items": {
       "both": {
@@ -4009,7 +4017,7 @@
     "name": "Musician",
     "description": "You nailed your solo, but the audience erupted into screams instead of applause.  You weren't able to grab much during the panic, but at least you have your loaded six string on your back.",
     "points": -1,
-    "skills": [ { "level": 1, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "skills": [ { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
         "ammo": 100,
@@ -4158,6 +4166,7 @@
       { "level": 1, "name": "electronics" },
       { "level": 3, "name": "firstaid" }
     ],
+    "traits": [ "PROF_MED" ],
     "vehicle": "ambulance",
     "items": {
       "both": {
@@ -4175,6 +4184,7 @@
     "description": "You were separated from your partner while out on a call.  You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
     "points": 3,
     "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 5, "name": "firstaid" } ],
+    "traits": [ "PROF_MED" ],
     "items": {
       "both": {
         "items": [
@@ -4213,6 +4223,7 @@
       { "level": 1, "name": "dodge" },
       { "level": 4, "name": "firstaid" }
     ],
+    "traits": [ "PROF_MED" ],
     "items": {
       "both": {
         "items": [
@@ -4306,13 +4317,10 @@
           "socks",
           "motorbike_boots",
           "gloves_leather",
-          "wristwatch",
-          "motorbike_armor"
+          "wristwatch"
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boy_shorts" ]
+      }
     }
   },
   {

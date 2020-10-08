@@ -7,16 +7,17 @@
 #include <unordered_set>
 
 #include "bodypart.h"
-#include "cached_options.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "generic_factory.h"
 #include "int_id.h"
 #include "json.h"
 #include "messages.h"
 #include "output.h"
 #include "player.h"
 #include "rng.h"
+#include "text_snippets.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "units.h"
@@ -74,58 +75,58 @@ void weed_msg( player &p )
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0:
-                // Freakazoid
-                p.add_msg_if_player(
-                    _( "The scariest thing in the world would be… if all the air in the world turned to WOOD!" ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Freakazoid_1" ).value_or(
+                                         translation() ) );
                 return;
             case 1:
-                // Simpsons
-                p.add_msg_if_player(
-                    _( "Could Jesus microwave a burrito so hot, that he himself couldn't eat it?" ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Simpsons_1" ).value_or(
+                                         translation() ) );
                 p.mod_hunger( 2 );
                 return;
             case 2:
                 if( smarts > 8 ) {
-                    // Timothy Leary
-                    p.add_msg_if_player( _( "Science is all metaphor." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Timothy_Leary" ).value_or(
+                                             translation() ) );
                 } else if( smarts < 3 ) {
-                    // It's Always Sunny in Philadelphia
-                    p.add_msg_if_player( _( "Science is a liar sometimes." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_IASIF" ).value_or( translation() ) );
                 } else {
-                    // Durr
-                    p.add_msg_if_player( _( "Science is… wait, what was I talking about again?" ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Durr" ).value_or( translation() ) );
                 }
                 return;
             case 3:
-                // Dazed and Confused
-                p.add_msg_if_player(
-                    _( "Behind every good man there is a woman, and that woman was Martha Washington, man." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Dazed_and_Confused_1" ).value_or(
+                                         translation() ) );
                 if( one_in( 2 ) ) {
-                    p.add_msg_if_player(
-                        _( "Every day, George would come home, and she would have a big fat bowl waiting for him when he came in the door, man." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Dazed_and_Confused_2" ).value_or(
+                                             translation() ) );
                     if( one_in( 2 ) ) {
-                        p.add_msg_if_player( _( "She was a hip, hip, hip lady, man." ) );
+                        p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Dazed_and_Confused_3" ).value_or(
+                                                 translation() ) );
                     }
                 }
                 return;
             case 4:
                 if( p.has_amount( itype_money_bundle, 1 ) ) { // Half Baked
-                    p.add_msg_if_player( _( "You ever see the back of a twenty dollar bill… on weed?" ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Half_Baked_1" ).value_or(
+                                             translation() ) );
                     if( one_in( 2 ) ) {
-                        p.add_msg_if_player(
-                            _( "Oh, there's some crazy shit, man.  There's a dude in the bushes.  Has he got a gun?  I dunno!" ) );
+                        p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Half_Baked_2" ).value_or(
+                                                 translation() ) );
                         if( one_in( 3 ) ) {
-                            p.add_msg_if_player( _( "RED TEAM GO, RED TEAM GO!" ) );
+                            p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Half_Baked_3" ).value_or(
+                                                     translation() ) );
                         }
                     }
                 } else if( p.has_amount( itype_holybook_bible, 1 ) ) {
-                    p.add_msg_if_player( _( "You have a sudden urge to flip your bible open to Genesis 1:29…" ) );
-                } else { // Big Lebowski
-                    p.add_msg_if_player( _( "That rug really tied the room together…" ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Bible" ).value_or( translation() ) );
+                } else {
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Big_Lebowski" ).value_or(
+                                             translation() ) );
                 }
                 return;
             case 5:
-                p.add_msg_if_player( _( "I used to do drugs…  I still do, but I used to, too." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Mitch_Hedberg" ).value_or(
+                                         translation() ) );
             default:
                 return;
         }
@@ -133,45 +134,47 @@ void weed_msg( player &p )
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0:
-                // Bob Marley
-                p.add_msg_if_player( _( "The herb reveals you to yourself." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Bob_Marley" ).value_or(
+                                         translation() ) );
                 return;
             case 1:
-                // Freakazoid
-                p.add_msg_if_player(
-                    _( "Okay, like, the scariest thing in the world would be… if like you went to grab something and it wasn't there!" ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Freakazoid_2" ).value_or(
+                                         translation() ) );
                 return;
             case 2:
-                // Simpsons
-                p.add_msg_if_player( _( "They call them fingers, but I never see them fing." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Simpsons_2" ).value_or(
+                                         translation() ) );
                 if( smarts > 2 && one_in( 2 ) ) {
-                    p.add_msg_if_player( _( "…oh, there they go." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Simpsons_3" ).value_or(
+                                             translation() ) );
                 }
                 return;
             case 3:
-                // Bill Hicks
-                p.add_msg_if_player(
-                    _( "You suddenly realize that all matter is merely energy condensed to a slow vibration, and we are all one consciousness experiencing itself subjectively." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Bill_Hicks" ).value_or(
+                                         translation() ) );
                 return;
             case 4:
-                // Steve Martin
-                p.add_msg_if_player( _( "I usually only smoke in the late evening." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Steve_Martin_1" ).value_or(
+                                         translation() ) );
                 if( one_in( 4 ) ) {
-                    p.add_msg_if_player(
-                        _( "Oh, occasionally the early evening, but usually the late evening, or the mid-evening." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Steve_Martin_2" ).value_or(
+                                             translation() ) );
                 }
                 if( one_in( 4 ) ) {
-                    p.add_msg_if_player( _( "Just the early evening, mid-evening and late evening." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Steve_Martin_3" ).value_or(
+                                             translation() ) );
                 }
                 if( one_in( 4 ) ) {
-                    p.add_msg_if_player(
-                        _( "Occasionally, early afternoon, early mid-afternoon, or perhaps the late mid-afternoon." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Steve_Martin_4" ).value_or(
+                                             translation() ) );
                 }
                 if( one_in( 4 ) ) {
-                    p.add_msg_if_player( _( "Oh, sometimes the early-mid-late-early-morning." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Steve_Martin_5" ).value_or(
+                                             translation() ) );
                 }
                 if( smarts > 2 ) {
-                    p.add_msg_if_player( _( "…But never at dusk." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Steve_Martin_6" ).value_or(
+                                             translation() ) );
                 }
                 return;
             case 5:
@@ -182,26 +185,28 @@ void weed_msg( player &p )
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0:
-                // Cheech and Chong
-                p.add_msg_if_player( _( "Dave's not here, man." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Cheech_and_Chong" ).value_or(
+                                         translation() ) );
                 return;
             case 1:
-                // Real Life
-                p.add_msg_if_player( _( "Man, a cheeseburger sounds SO awesome right now." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Real_Life_1" ).value_or(
+                                         translation() ) );
                 p.mod_hunger( 4 );
                 if( p.has_trait( trait_VEGETARIAN ) ) {
-                    p.add_msg_if_player( _( "Eh… maybe not." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Real_Life_2" ).value_or(
+                                             translation() ) );
                 } else if( p.has_trait( trait_LACTOSE ) ) {
-                    p.add_msg_if_player( _( "I guess, maybe, without the cheese… yeah." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Real_Life_3" ).value_or(
+                                             translation() ) );
                 }
                 return;
             case 2:
-                // Dazed and Confused
-                p.add_msg_if_player( _( "Walkin' down the hall, by myself, smokin' a j with fifty elves." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Dazed_and_Confused_4" ).value_or(
+                                         translation() ) );
                 return;
             case 3:
-                // Half Baked
-                p.add_msg_if_player( _( "That weed was the shiz-nittlebam snip-snap-sack." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Half_Baked_4" ).value_or(
+                                         translation() ) );
                 return;
             case 4:
                 // re-roll
@@ -1283,14 +1288,10 @@ void load_effect_type( const JsonObject &jo )
     }
     jo.read( "apply_message", new_etype.apply_message );
     jo.read( "remove_message", new_etype.remove_message );
-    jo.read( "apply_memorial_log", new_etype.apply_memorial_log );
-    jo.read( "remove_memorial_log", new_etype.remove_memorial_log );
-    if( test_mode ) {
-        // HACK: read again using class translation to check text style
-        translation dummy;
-        jo.read( "apply_memorial_log", dummy );
-        jo.read( "remove_memorial_log", dummy );
-    }
+    optional( jo, false, "apply_memorial_log", new_etype.apply_memorial_log,
+              text_style_check_reader() );
+    optional( jo, false, "remove_memorial_log", new_etype.remove_memorial_log,
+              text_style_check_reader() );
 
     jo.read( "blood_analysis_description", new_etype.blood_analysis_description );
 

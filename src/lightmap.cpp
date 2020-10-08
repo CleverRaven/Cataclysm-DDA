@@ -693,7 +693,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     } else {
         // This is the simple case, for a non-opaque tile light from all
         // directions is equivalent
-        apparent_light = vis * map_cache.lm[p.x][p.y][quadrant::default_];
+        apparent_light = vis * map_cache.lm[p.x][p.y].max();
     }
     return { obstructed, apparent_light };
 }
@@ -986,6 +986,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         array_of_grids_of<const float> transparency_caches;
         array_of_grids_of<float> seen_caches;
         array_of_grids_of<const bool> floor_caches;
+        vertical_direction directions_to_cast = vertical_direction::BOTH;
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             auto &cur_cache = get_cache( z );
             transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
@@ -994,12 +995,15 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             std::uninitialized_fill_n(
                 &cur_cache.seen_cache[0][0], map_dimensions, light_transparency_solid );
             cur_cache.seen_cache_dirty = false;
+            if( origin.z == z && cur_cache.no_floor_gaps ) {
+                directions_to_cast = vertical_direction::UP;
+            }
         }
         if( origin.z == target_z ) {
             get_cache( origin.z ).seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
         }
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-            seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
+            seen_caches, transparency_caches, floor_caches, origin, 0, 1.0, directions_to_cast );
     }
 
     const optional_vpart_position vp = veh_at( origin );

@@ -21,7 +21,7 @@
     "bonus_str": { "rng": [ 8, 10 ] },
     "bonus_int": { "rng": [ 1, 2 ] },
     "bonus_per": { "rng": [ 1, 2 ] },
-    "skills": [ { "skill": "barter", "level": { "dice": [ 2, 2 ] } } ],
+    "skills": [ { "skill": "speech", "level": { "dice": [ 2, 2 ] } } ],
     "shopkeeper_item_group": "NC_ROBOFAC_INTERCOM_trade",
     "carry_override": "NC_ROBOFAC_INTERCOM_trade",
     "worn_override": "NC_ROBOFAC_INTERCOM_worn"

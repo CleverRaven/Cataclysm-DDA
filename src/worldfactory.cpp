@@ -1518,7 +1518,8 @@ void load_external_option( const JsonObject &jo )
     auto stype = jo.get_string( "stype" );
     options_manager &opts = get_options();
     if( !opts.has_option( name ) ) {
-        auto sinfo = jo.get_string( "info" );
+        translation sinfo;
+        jo.get_member( "info" ).read( sinfo );
         opts.add_external( name, "external_options", stype, sinfo, sinfo );
     }
     options_manager::cOpt &opt = opts.get_option( name );

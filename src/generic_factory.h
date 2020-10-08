@@ -17,7 +17,6 @@
 #include "json.h"
 #include "output.h"
 #include "string_id.h"
-#include "translations.h"
 #include "units.h"
 #include "wcwidth.h"
 
@@ -473,6 +472,38 @@ class generic_factory
             return obj( id ).id;
         }
         /**@}*/
+
+        /**
+         * Wrapper around generic_factory::version.
+         * Allows to have local caches that invalidate when corresponding generic factory invalidates.
+         * Note: when created using it's default constructor, Version is guaranteed to be invalid.
+        */
+        class Version
+        {
+                friend generic_factory<T>;
+            public:
+                Version() = default;
+            private:
+                Version( int64_t version ) : version( version ) {}
+                int64_t  version = -1;
+            public:
+                bool operator==( const Version &rhs ) const {
+                    return version == rhs.version;
+                }
+                bool operator!=( const Version &rhs ) const {
+                    return !( rhs == *this );
+                }
+        };
+
+        // current version of this generic_factory
+        Version get_version() {
+            return Version( version );
+        }
+
+        // checks whether given version is the same as current version of this generic_factory
+        bool is_valid( const Version &v ) {
+            return v.version == version;
+        }
 };
 
 /**
@@ -1047,5 +1078,25 @@ inline bool legacy_volume_reader( const JsonObject &jo, const std::string &membe
     value = legacy_value * units::legacy_volume_factor;
     return true;
 }
+
+/**
+ * Only for external use in legacy code where migrating to `class translation`
+ * is impractical. For new code load with `class translation` instead.
+ */
+class text_style_check_reader : public generic_typed_reader<text_style_check_reader>
+{
+    public:
+        enum class allow_object : int {
+            no,
+            yes,
+        };
+
+        text_style_check_reader( allow_object object_allowed = allow_object::yes );
+
+        std::string get_next( JsonIn &jsin ) const;
+
+    private:
+        allow_object object_allowed;
+};
 
 #endif // CATA_SRC_GENERIC_FACTORY_H

@@ -134,6 +134,7 @@ static const efftype_id effect_cough_suppress( "cough_suppress" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_mute( "mute" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_disrupted_sleep( "disrupted_sleep" );
 static const efftype_id effect_downed( "downed" );
@@ -254,6 +255,7 @@ static const bionic_id bio_blindfold( "bio_blindfold" );
 static const bionic_id bio_climate( "bio_climate" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_voice( "bio_voice" );
 static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_flashlight( "bio_flashlight" );
 static const bionic_id bio_gills( "bio_gills" );
@@ -290,6 +292,7 @@ static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
 static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEAF( "DEAF" );
+static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
@@ -370,6 +373,7 @@ static const std::string flag_AURA( "AURA" );
 static const std::string flag_BELTED( "BELTED" );
 static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_DEAF( "DEAF" );
+static const std::string flag_MUTE( "MUTE" );
 static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
 static const std::string flag_EFFECT_IMPEDING( "EFFECT_IMPEDING" );
 static const std::string flag_EFFECT_INVISIBLE( "EFFECT_INVISIBLE" );
@@ -379,6 +383,7 @@ static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_GNV_EFFECT( "GNV_EFFECT" );
 static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
 static const std::string flag_IR_EFFECT( "IR_EFFECT" );
+static const std::string flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 static const std::string flag_ONLY_ONE( "ONLY_ONE" );
 static const std::string flag_OUTER( "OUTER" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
@@ -676,8 +681,17 @@ double Character::aim_speed_encumbrance_modifier() const
 
 double Character::aim_cap_from_volume( const item &gun ) const
 {
+    const std::string flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
+
     skill_id gun_skill = gun.gun_skill();
-    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( gun.volume() / 75_ml ) );
+
+    units::volume wielded_volume = gun.volume();
+    if( gun.has_flag( flag_COLLAPSIBLE_STOCK ) ) {
+        // use the unfolded volume
+        wielded_volume += gun.collapsed_volume_delta();
+    }
+
+    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( wielded_volume / 75_ml ) );
     // TODO: also scale with skill level.
     if( gun_skill == skill_smg ) {
         aim_cap = std::max( 12.0, aim_cap );
@@ -3169,38 +3183,65 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             itype_id contents_id = obj.contents.legacy_front().typeId();
 
             // Look for containers with the same type of liquid as that already in our container
-            src.visit_items( [&src, &nested, &out, &contents_id, &obj]( item * node, item * parent ) {
+            src.visit_items( [&src, &nested, &out, &obj]( item * node, item * parent ) {
                 if( node == &obj ) {
                     // This stops containers and magazines counting *themselves* as ammo sources
                     return VisitResponse::SKIP;
                 }
-                // prevents reloading with items frozen in watertight containers.
-                if( node->is_frozen_liquid() && parent->is_watertight_container() ) {
+                // Prevents reloading with items frozen in watertight containers.
+                if( parent != nullptr && parent->is_watertight_container() && node->is_frozen_liquid() ) {
                     return VisitResponse::SKIP;
                 }
 
-                if( node->is_container() && !node->is_container_empty() ) {
-                    return VisitResponse::NEXT;
+                // Liquids not in a watertight container are skipped.
+                if( parent != nullptr && !parent->is_watertight_container() &&
+                    node->made_of( phase_id::LIQUID ) ) {
+                    return VisitResponse::SKIP;
                 }
 
-                if( node->typeId() == contents_id ) {
-                    out = item_location( src, node );
-                    return VisitResponse::ABORT;
+                // Spills have no parent.
+                if( parent == nullptr && node->made_of_from_type( phase_id::LIQUID ) ) {
+                    return VisitResponse::SKIP;
                 }
 
-                return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+                if( !nested && node->is_container() && parent != nullptr && parent->is_container() ) {
+                    return VisitResponse::SKIP;
+                }
+
+                if( node->made_of_from_type( phase_id::LIQUID ) ) {
+                    out = item_location( item_location( src, parent ), node );
+                }
+
+                return VisitResponse::NEXT;
             } );
         } else {
             // Look for containers with any liquid and loose frozen liquids
             src.visit_items( [&src, &nested, &out]( item * node, item * parent ) {
-                if( parent->is_watertight_container() && node->is_frozen_liquid() ) {
+                // Prevents reloading with items frozen in watertight containers.
+                if( parent != nullptr && parent->is_watertight_container() && node->is_frozen_liquid() ) {
                     return VisitResponse::SKIP;
                 }
 
-                if( ( parent->is_container() && node->made_of( phase_id::LIQUID ) ) || node->is_frozen_liquid() ) {
-                    out = item_location( src, node );
+                // Liquids not in a watertight container are skipped.
+                if( parent != nullptr && !parent->is_watertight_container() &&
+                    node->made_of( phase_id::LIQUID ) ) {
+                    return VisitResponse::SKIP;
                 }
-                return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+
+                // Spills have no parent.
+                if( parent == nullptr && node->made_of_from_type( phase_id::LIQUID ) ) {
+                    return VisitResponse::SKIP;
+                }
+
+                if( !nested && node->is_container() && parent != nullptr && parent->is_container() ) {
+                    return VisitResponse::SKIP;
+                }
+
+                if( node->made_of_from_type( phase_id::LIQUID ) ) {
+                    out = item_location( item_location( src, parent ), node );
+                }
+
+                return VisitResponse::NEXT;
             } );
         }
     }
@@ -5111,6 +5152,13 @@ bool Character::is_deaf() const
              && in_sleep_state() );
 }
 
+bool Character::is_mute() const
+{
+    return get_effect_int( effect_mute ) || worn_with_flag( flag_MUTE ) ||
+           ( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
+                   is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) ||
+           has_trait( trait_MUTE );
+}
 void Character::on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp )
 {
     // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
@@ -7176,6 +7224,8 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
         return worn_with_flag( flag_DEAF ) || worn_with_flag( flag_PARTIAL_DEAF ) ||
                has_bionic( bio_ears ) ||
                is_wearing( itype_rm13_armor_on );
+    } else if( eff == effect_mute ) {
+        return has_bionic( bio_voice );
     } else if( eff == effect_corroding ) {
         return is_immune_damage( damage_type::ACID ) || has_trait( trait_SLIMY ) ||
                has_trait( trait_VISCOUS );
@@ -7734,6 +7784,7 @@ mutation_value_map = {
     { "mana_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_multiplier> },
     { "mana_regen_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_regen_multiplier> },
     { "bionic_mana_penalty", calc_mutation_value_multiplicative<&mutation_branch::bionic_mana_penalty> },
+    { "casting_time_multiplier", calc_mutation_value_multiplicative<&mutation_branch::casting_time_multiplier> },
     { "speed_modifier", calc_mutation_value_multiplicative<&mutation_branch::speed_modifier> },
     { "movecost_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier> },
     { "movecost_flatground_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier> },
@@ -9356,7 +9407,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
                               material.cut_dmg_verb();
 
     const std::string pre_damage_name = armor.tname();
-    const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level( 4 ) );
+    const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level() );
 
     // add "further" if the damage adjective and verb are the same
     std::string format_string = ( pre_damage_adj == damage_verb ) ?
@@ -10023,7 +10074,7 @@ void Character::update_vitamins( const vitamin_id &vit )
 
 void Character::rooted_message() const
 {
-    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
+    bool wearing_shoes = footwear_factor() == 1.0;
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         get_map().has_flag( flag_PLOWABLE, pos() ) &&
         !wearing_shoes ) {
@@ -10128,11 +10179,17 @@ double Character::armwear_factor() const
 double Character::footwear_factor() const
 {
     double ret = 0;
-    if( wearing_something_on( bodypart_id( "foot_l" ) ) ) {
-        ret += .5;
+    for( const item &i : worn ) {
+        if( i.covers( bodypart_id( "foot_l" ) ) && !i.has_flag( flag_NOT_FOOTWEAR ) ) {
+            ret += 0.5f;
+            break;
+        }
     }
-    if( wearing_something_on( bodypart_id( "foot_r" ) ) ) {
-        ret += .5;
+    for( const item &i : worn ) {
+        if( i.covers( bodypart_id( "foot_r" ) ) && !i.has_flag( flag_NOT_FOOTWEAR ) ) {
+            ret += 0.5f;
+            break;
+        }
     }
     return ret;
 }
@@ -10152,10 +10209,10 @@ int Character::shoe_type_count( const itype_id &it ) const
 std::vector<item *> Character::inv_dump()
 {
     std::vector<item *> ret;
-    if( is_armed() && can_unwield( weapon ).success() ) {
+    if( is_armed() && can_drop( weapon ).success() ) {
         ret.push_back( &weapon );
     }
-    for( auto &i : worn ) {
+    for( item &i : worn ) {
         ret.push_back( &i );
     }
     inv->dump( ret );
