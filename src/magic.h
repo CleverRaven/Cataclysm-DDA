@@ -211,7 +211,7 @@ class spell_type
         std::function<std::set<tripoint>( const spell_effect::override_parameters &params,
                                           const tripoint &source, const tripoint &target )> spell_area_function;
         // the spell shape found in the json
-        spell_shape spell_area;
+        spell_shape spell_area = spell_shape::line;
         // extra information about spell effect. allows for combinations for effects
         std::string effect_str;
         // list of additional "spell effects"

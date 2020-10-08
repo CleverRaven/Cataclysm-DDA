@@ -115,7 +115,7 @@ struct enum_traits<trigger_type> {
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    trigger_type trigger;
+    trigger_type trigger = trigger_type::TIME;
 
     /**Activates above that threshold and deactivates below it*/
     int threshold_low = INT_MIN;
