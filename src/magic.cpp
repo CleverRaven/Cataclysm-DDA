@@ -869,6 +869,9 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
     } else {
         casting_time = type->base_casting_time;
     }
+
+    casting_time *= guy.mutation_value( "casting_time_multiplier" );
+
     if( !ignore_encumb ) {
         if( !has_flag( spell_flag::NO_LEGS ) ) {
             // the first 20 points of encumbrance combined is ignored
