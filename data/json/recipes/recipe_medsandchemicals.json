@@ -377,7 +377,7 @@
     "book_learn": [ [ "textbook_chemistry", 8 ], [ "textbook_toxicology", 7 ], [ "recipe_labchem", 8 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "ANALYSIS", "level": 1 }, { "id": "SEPARATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "syringe", 1 ] ], [ [ "chem_ethanol", 1 ] ], [ [ "conc_venom", 4 ] ], [ [ "salt_water", 1 ], [ "saline", 5 ] ] ]
+    "components": [ [ [ "syringe", 1 ] ], [ [ "chem_ethanol", 100 ] ], [ [ "conc_venom", 4 ] ], [ [ "salt_water", 1 ], [ "saline", 5 ] ] ]
   },
   {
     "type": "recipe",
