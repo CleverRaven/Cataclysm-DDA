@@ -5341,7 +5341,7 @@ bool mattack::bio_op_disarm( monster *z )
     player *foe = dynamic_cast< player * >( target );
 
     // disarm doesn't work on creatures or unarmed targets
-    if( foe == nullptr || ( foe != nullptr && !foe->is_armed() ) ) {
+    if( foe == nullptr || !foe->is_armed() ) {
         return false;
     }
 

@@ -5960,7 +5960,7 @@ bool vehicle::is_external_part( const tripoint &part_pt ) const
         if( !vp ) {
             return true;
         }
-        if( vp && &vp->vehicle() != this ) {
+        if( &vp->vehicle() != this ) {
             return true;
         }
     }
