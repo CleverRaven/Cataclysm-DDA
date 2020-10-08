@@ -50,6 +50,7 @@ class vehicle;
 class vehicle_cursor;
 class vehicle_part_range;
 class vpart_info;
+class vpart_position;
 class zone_data;
 struct itype;
 struct uilist_entry;
@@ -1624,6 +1625,16 @@ class vehicle
 
         // Update the set of occupied points and return a reference to it
         std::set<tripoint> &get_points( bool force_refresh = false );
+
+        /**
+        * Consumes specified charges (or fewer) from the vehicle part
+        * @param what specific type of charge required, e.g. 'battery'
+        * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
+        * @param filter Must return true for use to occur.
+        * @return items that provide consumed charges
+        */
+        std::list<item> use_charges( const vpart_position &vp, const itype_id &type, int &quantity,
+                                     const std::function<bool( const item & )> &filter );
 
         // opens/closes doors or multipart doors
         void open( int part_index );
