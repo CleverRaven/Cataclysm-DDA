@@ -8719,10 +8719,19 @@ int item::fill_with( const item &contained, const int amount )
             break;
         }
         if( count_by_charges ) {
-            contained_item.charges = std::min( { amount - num_contained,
-                                                 contained_item.charges_per_volume( pocket->remaining_volume() ),
-                                                 contained_item.charges_per_weight( pocket->remaining_weight() )
-                                               } );
+            ammotype ammo = contained.ammo_type();
+            if( pocket->ammo_capacity( ammo ) ) {
+                contained_item.charges = std::min( amount - num_contained,
+                                                   pocket->remaining_ammo_capacity( ammo ) );
+            } else {
+                contained_item.charges = std::min( { amount - num_contained,
+                                                     contained_item.charges_per_volume( pocket->remaining_volume() ),
+                                                     contained_item.charges_per_weight( pocket->remaining_weight() )
+                                                   } );
+            }
+        }
+        if( contained_item.charges == 0 ) {
+            break;
         }
         if( !pocket->insert_item( contained_item ).success() ) {
             if( count_by_charges ) {
