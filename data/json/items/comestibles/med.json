@@ -309,7 +309,7 @@
     "charges": 20,
     "stack_size": 60,
     "symbol": "*",
-    "color": "green",f
+    "color": "green",
     "container": "wrapper",
     "quench": 1,
     "stim": 2,
