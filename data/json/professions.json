@@ -422,17 +422,7 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [
-          "jeans",
-          "longshirt",
-          "socks",
-          "sneakers",
-          "mbag",
-          "pockknife",
-          "water_clean",
-          "matches",
-          "wristwatch"
-        ],
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "mbag", "pockknife", "water_clean", "matches", "wristwatch" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "boxer_shorts" ],
