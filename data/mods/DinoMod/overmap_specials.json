@@ -4,7 +4,7 @@
     "id": "dinosaur exhibit",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "dinoexhibit_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "dinoexhibit_roof_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "dinoexhibit_roof" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "locations": [ "wilderness" ],
