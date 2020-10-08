@@ -1515,7 +1515,7 @@
     "id": "conc_venom",
     "type": "AMMO",
     "category": "chems",
-    "name": { "str_sp": "concentrated venom" },
+    "name":  { "str_sp": "concentrated venom" },
     "description": "A transparent, lightly greenish liquid, refined from the venom of bees and wasps. Active ingredients include (nor-)adrenaline, dopamine, histamine and protein toxins. It is now relatively stable, but will require further separation to be useful for anything other than killing you.",
     "phase": "liquid",
     "weight": "5 g",
@@ -1524,7 +1524,7 @@
     "stack_size": 1,
     "ammo_type": "components",
     "container": "test_tube",
-    "symbol": ";",
+    "symbol":  ";" ,
     "color": "light_green"
   }
 ]
