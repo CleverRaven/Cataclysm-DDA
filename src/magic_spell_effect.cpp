@@ -809,7 +809,6 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
         calc_ray_end( angle, push_distance, push_point, push_dest );
         const std::vector<tripoint> push_vec = line_to( push_point, push_dest );
 
-        avatar &you = get_avatar();
         const Creature *critter = g->critter_at<Creature>( push_point );
         if( critter != nullptr ) {
             const Creature::Attitude attitude_to_target =
