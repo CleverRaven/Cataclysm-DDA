@@ -1222,8 +1222,6 @@ void npc::form_opinion( const player &u )
         const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear--;
-        } else {
-            op_of_u.fear++;
         }
     }
 
@@ -1233,8 +1231,6 @@ void npc::form_opinion( const player &u )
         const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear++;
-        } else {
-            op_of_u.fear--;
         }
     }
 
