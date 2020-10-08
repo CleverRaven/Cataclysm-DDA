@@ -2289,7 +2289,7 @@ bool player::can_lift( const T &obj ) const
     // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
     int str = get_str();
     if( mounted_creature ) {
-        auto mons = mounted_creature.get();
+        const auto mons = mounted_creature.get();
         str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
     }
     const int npc_str = get_lift_assist();

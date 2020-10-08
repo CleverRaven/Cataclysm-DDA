@@ -6525,7 +6525,7 @@ int vehicle::break_off( int p, int dmg )
         // remove parts for which required flags are not present anymore
         if( !part_info( p ).get_flags().empty() ) {
             const std::vector<int> parts_here = parts_at_relative( position, false );
-            for( auto &part : parts_here ) {
+            for( const auto &part : parts_here ) {
                 bool remove = false;
                 for( const std::string &flag : part_info( part ).get_flags() ) {
                     if( !json_flag::get( flag ).requires_flag().empty() ) {
