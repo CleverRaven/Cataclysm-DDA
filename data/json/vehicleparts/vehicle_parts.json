@@ -1618,7 +1618,6 @@
     "copy-from": "solar_panel",
     "looks_like": "solar_panel",
     "name": { "str": "reinforced solar panel" },
-    "categories": [ "Other" ],
     "color": "light_blue",
     "broken_color": "light_gray",
     "proportional": { "epower": 0.9 },
@@ -1644,7 +1643,6 @@
   {
     "type": "vehicle_part",
     "id": "solar_panel_v2",
-    "categories": [ "Other" ],
     "copy-from": "solar_panel",
     "name": { "str": "upgraded solar panel" },
     "looks_like": "solar_panel",
@@ -1673,7 +1671,6 @@
     "copy-from": "solar_panel_v2",
     "looks_like": "reinforced_solar_panel",
     "name": { "str": "upgraded reinforced solar panel" },
-    "categories": [ "Other" ],
     "color": "light_blue",
     "broken_color": "light_gray",
     "proportional": { "epower": 0.9 },
@@ -2142,7 +2139,6 @@
   {
     "type": "vehicle_part",
     "id": "animal_compartment",
-    "categories": [ "Cargo", "Hull" ],
     "copy-from": "livestock_stall",
     "looks_like": "livestock_stall",
     "name": { "str": "animal compartment" },
@@ -2151,6 +2147,7 @@
     "size": 200,
     "item": "animal_locker",
     "flags": [ "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "OBSTACLE" ],
+    "extend": { "categories": [ "Cargo", "Hull" ] },
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 4 ] } ]
   },
   {
@@ -2202,7 +2199,6 @@
     "delete": { "flags": [ "ENABLED_DRAINS_EPOWER" ] },
     "folded_volume": "250 ml",
     "breaks_into": "ig_vp_device",
-    "categories": [ "Util" ],
     "copy-from": "recharge_station"
   },
   {
@@ -2495,7 +2491,6 @@
   {
     "type": "vehicle_part",
     "id": "plating_acidchitin",
-    "categories": [ "Hull" ],
     "copy-from": "plating_chitin",
     "name": { "str": "biosilicified chitin plating" },
     "proportional": { "durability": 1.5 },

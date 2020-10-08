@@ -6,11 +6,11 @@
     "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
+    "categories": [ "Internal" ],
     "flags": [ "ALTERNATOR" ]
   },
   {
     "id": "alternator_bicycle",
-    "categories": [ "Internal" ],
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
     "name": { "str": "bicycle alternator" },
@@ -37,7 +37,6 @@
   },
   {
     "id": "alternator_motorbike",
-    "categories": [ "Internal" ],
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
     "name": { "str": "motorbike alternator" },
@@ -63,7 +62,6 @@
   },
   {
     "id": "alternator_car",
-    "categories": [ "Internal" ],
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
     "name": { "str": "car alternator" },
@@ -87,7 +85,6 @@
   },
   {
     "id": "alternator_truck",
-    "categories": [ "Internal" ],
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
     "name": { "str": "truck alternator" },
@@ -111,7 +108,6 @@
   },
   {
     "id": "generator_7500w",
-    "categories": [ "Internal" ],
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
     "name": { "str": "7.5kW generator" },
