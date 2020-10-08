@@ -567,6 +567,12 @@ class item : public visitable<item>
         /** Volume check for corpses, helper for base_volume(). */
         units::volume corpse_volume( const mtype *corpse ) const;
 
+        /**
+         * Volume to subtract when the item is collapsed or folded.
+         * @result positive value when the item increases in volume when wielded and 0 if no change.
+         */
+        units::volume collapsed_volume_delta() const;
+
         /** Required strength to be able to successfully lift the item unaided by equipment */
         int lift_strength() const;
 
@@ -1043,7 +1049,7 @@ class item : public visitable<item>
          * here mostly for back-compatibility. It should not be used when
          * doing continuous math with the damage value: use damage() instead.
          *
-         * For example, for max = 4, min_damage = -1000, max_damage = 4000
+         * For example, for min_damage = -1000, max_damage = 4000
          *   damage       level
          *   -1000 ~   -1    -1
          *              0     0
@@ -1051,10 +1057,8 @@ class item : public visitable<item>
          *    1334 ~ 2666     2
          *    2667 ~ 3999     3
          *           4000     4
-         *
-         * @param max Maximum number of levels
          */
-        int damage_level( int max ) const;
+        int damage_level() const;
 
         /** Minimum amount of damage to an item (state of maximum repair) */
         int min_damage() const;
@@ -1453,6 +1457,9 @@ class item : public visitable<item>
 
         /**Does this item have the specified fault*/
         bool has_fault( const fault_id &fault ) const;
+
+        /** Does this item part have a fault with this flag */
+        bool has_fault_flag( const std::string &searched_flag ) const;
 
         /**
          * @name Item properties

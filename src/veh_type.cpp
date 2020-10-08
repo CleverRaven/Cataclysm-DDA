@@ -104,6 +104,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "REACTOR", VPFLAG_REACTOR },
     { "RAIL", VPFLAG_RAIL },
     { "TURRET_CONTROLS", VPFLAG_TURRET_CONTROLS },
+    { "ROOF", VPFLAG_ROOF },
 };
 
 static const std::vector<std::pair<std::string, veh_ter_mod>> standard_terrain_mod = {{
@@ -811,14 +812,6 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             long_descrip += flag.info();
         }
     }
-    if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && !has_flag( "BELTABLE" ) ) {
-        json_flag nobelt = json_flag::get( "NONBELTABLE" );
-        long_descrip += "  " + nobelt.info();
-    }
-    if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
-        json_flag door = json_flag::get( "DOOR" );
-        long_descrip += "  " + door.info();
-    }
     if( has_flag( "TURRET" ) ) {
         class::item base( item );
         if( base.ammo_required() && !base.ammo_remaining() ) {
@@ -1076,6 +1069,11 @@ void vehicle_prototype::load( const JsonObject &jo )
 
         vproto.parts.push_back( pt );
     };
+
+    if( jo.has_member( "blueprint" ) ) {
+        // currently unused, read to suppress unvisited members warning
+        jo.get_array( "blueprint" );
+    }
 
     for( JsonObject part : jo.get_array( "parts" ) ) {
         point pos = point( part.get_int( "x" ), part.get_int( "y" ) );

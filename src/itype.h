@@ -615,7 +615,7 @@ struct islot_gunmod : common_ranged_data {
     int loudness = 0;
 
     /** How many moves does this gunmod take to install? */
-    int install_time = 0;
+    int install_time = -1;
 
     /** Increases base gun UPS consumption by this many times per shot */
     float ups_charges_multiplier = 1.0f;

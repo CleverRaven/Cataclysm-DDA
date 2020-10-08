@@ -2,10 +2,19 @@
   {
     "type": "proficiency",
     "id": "prof_knapping",
-    "name": { "str": "Knapping" },
-    "description": "The art of turning stones into more useful tools.",
+    "name": { "str": "Basic Knapping" },
+    "description": "You know the basic principles of turning stones into more useful tools.",
     "can_learn": true,
-    "time_to_learn": "10 h"
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_knapping_speed",
+    "name": { "str": "Knapping" },
+    "description": "You've banged rocks together so much and for so long, you've become extremely fast at it.",
+    "can_learn": true,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_knapping" ]
   },
   {
     "type": "proficiency",
@@ -17,11 +26,35 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_plumbing",
+    "name": { "str": "Plumbing" },
+    "description": "Working with pipes and pipe fittings to transport fluids without leakage.",
+    "can_learn": true,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_pottery",
     "name": { "str": "Pottery" },
     "description": "Basic pottery, from shaping to working with slip to fuse pieces.",
     "can_learn": true,
     "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_bowyery",
+    "name": { "str": "Bowyery" },
+    "description": "The ability to make durable, effective bows.",
+    "can_learn": true,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_fletching",
+    "name": { "str": "Fletching" },
+    "description": "The skill involved in making arrows that fly true.",
+    "can_learn": true,
+    "time_to_learn": "8 h"
   },
   {
     "type": "proficiency",
@@ -50,44 +83,10 @@
   {
     "type": "proficiency",
     "id": "prof_carving",
-    "name": { "str": "Woodcarving" },
-    "description": "Shaping wood with a cutting implement.",
+    "name": { "str": "Carving" },
+    "description": "Shaping wood, bone, and similar materials with a cutting implement.",
     "can_learn": true,
     "time_to_learn": "10 h"
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_blacksmithing",
-    "name": { "str": "Blacksmithing" },
-    "description": "The craft of working metal into tools and other items of use.",
-    "can_learn": true,
-    "time_to_learn": "10 h"
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_redsmithing",
-    "name": { "str": "Redsmithing" },
-    "description": "Working copper and bronze shares a lot of techniques with blacksmithing, but the more ductile copper-containing metals have a trick all their own.",
-    "can_learn": true,
-    "time_to_learn": "10 h"
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_armorsmithing",
-    "name": { "str": "Armorsmithing" },
-    "description": "How to make articulated armor from pieces of metal.",
-    "can_learn": true,
-    "time_to_learn": "12 h",
-    "required_proficiencies": [ "prof_blacksmithing", "prof_articulation" ]
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_bladesmith",
-    "name": { "str": "Bladesmithing" },
-    "description": "How to fabricate sharp and reliable blades from scratch.",
-    "can_learn": true,
-    "time_to_learn": "12 h",
-    "required_proficiencies": [ "prof_blacksmithing" ]
   },
   {
     "type": "proficiency",

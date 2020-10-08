@@ -493,10 +493,14 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             // that needs to be something a player explicitly does
             continue;
         }
-        if( ( ret.second == nullptr && pocket.can_contain( it ).success() ) ||
-            ( pocket.can_contain( it ).success() && ret.second->better_pocket( pocket, it ) ) ) {
+        if( !pocket.can_contain( it ).success() ) {
+            continue;
+        }
+        if( ret.second == nullptr || ret.second->better_pocket( pocket, it ) ) {
+            // this pocket is the new candidate for "best"
             ret.first = parent;
             ret.second = &pocket;
+            // check all pockets within to see if they are better
             for( item *contained : all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                 std::pair<item_location, item_pocket *> internal_pocket =
                     contained->contents.best_pocket( it, parent, true );

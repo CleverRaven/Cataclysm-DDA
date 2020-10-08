@@ -976,7 +976,7 @@ void Character::suffer_from_other_mutations()
                        "insect_wings" );
     }
 
-    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
+    bool wearing_shoes = footwear_factor() == 1.0;
     int root_vitamins = 0;
     int root_water = 0;
     if( has_trait( trait_ROOTS3 ) && here.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {

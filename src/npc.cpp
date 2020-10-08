@@ -97,13 +97,13 @@ static const efftype_id effect_riding( "riding" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
 static const skill_id skill_archery( "archery" );
-static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
 static const skill_id skill_smg( "smg" );
+static const skill_id skill_speech( "speech" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
 
@@ -415,7 +415,7 @@ void npc::randomize( const npc_class_id &type )
     //A universal barter boost to keep NPCs competitive with players
     //The int boost from trade wasn't active... now that it is, most
     //players will vastly outclass npcs in trade without a little help.
-    mod_skill_level( skill_barter, rng( 2, 4 ) );
+    mod_skill_level( skill_speech, rng( 2, 4 ) );
 
     set_body();
     recalc_hp();
@@ -1560,6 +1560,10 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
     std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
     if( player_character.is_deaf() ) {
         add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't hear it!" ), name );
+    }
+    if( player_character.is_mute() ) {
+        add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't reply to it!" ),
+                                name );
     }
     // Hallucinations don't make noise when they speak
     if( is_hallucination() ) {

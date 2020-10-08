@@ -92,7 +92,7 @@ item vehicle_part::properties_to_item() const
 
     // force rationalization of damage values to the middle value of each damage level so
     // that parts will stack nicely
-    tmp.set_damage( tmp.damage_level( 4 ) * itype::damage_scale );
+    tmp.set_damage( tmp.damage_level() * itype::damage_scale );
     return tmp;
 }
 
@@ -145,9 +145,9 @@ int vehicle_part::max_damage() const
     return base.max_damage();
 }
 
-int vehicle_part::damage_level( int max ) const
+int vehicle_part::damage_level() const
 {
-    return base.damage_level( max );
+    return base.damage_level();
 }
 
 double vehicle_part::health_percent() const
@@ -422,6 +422,11 @@ bool vehicle_part::fill_with( item &liquid, int qty )
 const std::set<fault_id> &vehicle_part::faults() const
 {
     return base.faults;
+}
+
+bool vehicle_part::has_fault_flag( const std::string &searched_flag ) const
+{
+    return base.has_fault_flag( searched_flag );
 }
 
 std::set<fault_id> vehicle_part::faults_potential() const

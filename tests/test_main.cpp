@@ -359,5 +359,7 @@ int main( int argc, const char *argv[] )
         return 1;
     }
 
+    printf( "\n" );
+
     return result;
 }

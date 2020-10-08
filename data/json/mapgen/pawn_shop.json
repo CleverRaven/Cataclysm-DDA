@@ -554,7 +554,7 @@
       [ "boxer_shorts", 30 ],
       [ "mag_porn", 20 ],
       [ "briefs", 30 ],
-      { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
       [ "bikini_top_leather", 25 ],
       [ "skirt_leather", 25 ],
       [ "honey_bottled", 20 ],

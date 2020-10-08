@@ -1,12 +1,11 @@
 #include "shadowcasting.h"
 
-#include <list>
-
 #include "cached_options.h"
 #include "cuboid_rectangle.h"
 #include "enums.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "line.h"
+#include "list.h"
 
 struct slope {
     slope( int_least8_t rise, int_least8_t run ) {
@@ -60,7 +59,8 @@ struct span {
  * cast_vertical_zlight_segment to avoid as much code duplication as possible
  */
 template<typename T, bool( *is_transparent )( const T &, const T & ), T( *accumulate )( const T &, const T &, const int & )>
-static void split_span( std::list<span<T>> &spans, typename std::list<span<T>>::iterator &this_span,
+static void split_span( cata::list<span<T>> &spans,
+                        typename cata::list<span<T>>::iterator &this_span,
                         T &current_transparency, const T &new_transparency, const T &last_intensity,
                         const int distance, slope &new_start_minor,
                         const slope &trailing_edge_major, const slope &leading_edge_major,
@@ -165,7 +165,7 @@ void cast_horizontal_zlight_segment(
     // we are interested in.  Then as changes in transparency are encountered, we truncate
     // that initial span and insert new spans before/after it in the list, removing any that
     // are no longer needed as we go.
-    std::list<span<T>> spans = { {
+    cata::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
             LIGHT_TRANSPARENCY_OPEN_AIR
@@ -347,7 +347,7 @@ void cast_vertical_zlight_segment(
     // we are interested in.  Then as changes in transparency are encountered, we truncate
     // that initial span and insert new spans before/after it in the list, removing any that
     // are no longer needed as we go.
-    std::list<span<T>> spans = { {
+    cata::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
             LIGHT_TRANSPARENCY_OPEN_AIR
@@ -494,131 +494,131 @@ void cast_zlight(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &origin, const int offset_distance, const T numerator )
+    const tripoint &origin, const int offset_distance, const T numerator, vertical_direction dir )
 {
-    // Down lateral
+    if( dir == vertical_direction::DOWN || dir == vertical_direction::BOTH ) {
+        // Down lateral
+        // @..
+        //  ..
+        //   .
+        cast_horizontal_zlight_segment < 0, 1, 1, 0, -1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // @
+        // ..
+        // ...
+        cast_horizontal_zlight_segment < 1, 0, 0, 1, -1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        //   .
+        //  ..
+        // @..
+        cast_horizontal_zlight_segment < 0, -1, 1, 0, -1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // ...
+        // ..
+        // @
+        cast_horizontal_zlight_segment < -1, 0, 0, 1, -1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // ..@
+        // ..
+        // .
+        cast_horizontal_zlight_segment < 0, 1, -1, 0, -1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        //   @
+        //  ..
+        // ...
+        cast_horizontal_zlight_segment < 1, 0, 0, -1, -1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // .
+        // ..
+        // ..@
+        cast_horizontal_zlight_segment < 0, -1, -1, 0, -1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // ...
+        //  ..
+        //   @
+        cast_horizontal_zlight_segment < -1, 0, 0, -1, -1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-    // @..
-    //  ..
-    //   .
-    cast_horizontal_zlight_segment < 0, 1, 1, 0, -1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // @
-    // ..
-    // ...
-    cast_horizontal_zlight_segment < 1, 0, 0, 1, -1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    //   .
-    //  ..
-    // @..
-    cast_horizontal_zlight_segment < 0, -1, 1, 0, -1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ...
-    // ..
-    // @
-    cast_horizontal_zlight_segment < -1, 0, 0, 1, -1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ..@
-    // ..
-    // .
-    cast_horizontal_zlight_segment < 0, 1, -1, 0, -1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    //   @
-    //  ..
-    // ...
-    cast_horizontal_zlight_segment < 1, 0, 0, -1, -1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // .
-    // ..
-    // ..@
-    cast_horizontal_zlight_segment < 0, -1, -1, 0, -1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ...
-    //  ..
-    //   @
-    cast_horizontal_zlight_segment < -1, 0, 0, -1, -1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // Straight down
+        // @.
+        // ..
+        cast_vertical_zlight_segment < 1, 1, -1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // ..
+        // @.
+        cast_vertical_zlight_segment < 1, -1, -1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // .@
+        // ..
+        cast_vertical_zlight_segment < -1, 1, -1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // ..
+        // .@
+        cast_vertical_zlight_segment < -1, -1, -1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    }
 
-    // Up lateral
+    if( dir == vertical_direction::UP || dir == vertical_direction::BOTH ) {
+        // Up lateral
+        // @..
+        //  ..
+        //   .
+        cast_horizontal_zlight_segment < 0, 1, 1, 0, 1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // @
+        // ..
+        // ...
+        cast_horizontal_zlight_segment < 1, 0, 0, 1, 1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // ..@
+        // ..
+        // .
+        cast_horizontal_zlight_segment < 0, -1, 1, 0, 1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        //   @
+        //  ..
+        // ...
+        cast_horizontal_zlight_segment < -1, 0, 0, 1, 1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        //   .
+        //  ..
+        // @..
+        cast_horizontal_zlight_segment < 0, 1, -1, 0, 1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // ...
+        // ..
+        // @
+        cast_horizontal_zlight_segment < 1, 0, 0, -1, 1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // .
+        // ..
+        // ..@
+        cast_horizontal_zlight_segment < 0, -1, -1, 0, 1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // ...
+        //  ..
+        //   @
+        cast_horizontal_zlight_segment < -1, 0, 0, -1, 1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-    // @..
-    //  ..
-    //   .
-    cast_horizontal_zlight_segment < 0, 1, 1, 0, 1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // @
-    // ..
-    // ...
-    cast_horizontal_zlight_segment < 1, 0, 0, 1, 1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ..@
-    // ..
-    // .
-    cast_horizontal_zlight_segment < 0, -1, 1, 0, 1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    //   @
-    //  ..
-    // ...
-    cast_horizontal_zlight_segment < -1, 0, 0, 1, 1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    //   .
-    //  ..
-    // @..
-    cast_horizontal_zlight_segment < 0, 1, -1, 0, 1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ...
-    // ..
-    // @
-    cast_horizontal_zlight_segment < 1, 0, 0, -1, 1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // .
-    // ..
-    // ..@
-    cast_horizontal_zlight_segment < 0, -1, -1, 0, 1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ...
-    //  ..
-    //   @
-    cast_horizontal_zlight_segment < -1, 0, 0, -1, 1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-
-    // Straight up
-
-    // @.
-    // ..
-    cast_vertical_zlight_segment < 1, 1, 1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ..
-    // @.
-    cast_vertical_zlight_segment < 1, -1, 1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // .@
-    // ..
-    cast_vertical_zlight_segment < -1, 1, 1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ..
-    // .@
-    cast_vertical_zlight_segment < -1, -1, 1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-
-    // Straight down
-
-    // @.
-    // ..
-    cast_vertical_zlight_segment < 1, 1, -1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ..
-    // @.
-    cast_vertical_zlight_segment < 1, -1, -1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // .@
-    // ..
-    cast_vertical_zlight_segment < -1, 1, -1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // ..
-    // .@
-    cast_vertical_zlight_segment < -1, -1, -1, T, calc, is_transparent, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // Straight up
+        // @.
+        // ..
+        cast_vertical_zlight_segment < 1, 1, 1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // ..
+        // @.
+        cast_vertical_zlight_segment < 1, -1, 1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // .@
+        // ..
+        cast_vertical_zlight_segment < -1, 1, 1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+        // ..
+        // .@
+        cast_vertical_zlight_segment < -1, -1, 1, T, calc, is_transparent, accumulate > (
+            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    }
 }
 
 // I can't figure out how to make implicit instantiation work when the parameters of
@@ -627,11 +627,13 @@ template void cast_zlight<float, sight_calc, sight_check, accumulate_transparenc
     const std::array<float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
     const std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
     const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &origin, const int offset_distance, const float numerator );
+    const tripoint &origin, const int offset_distance, const float numerator,
+    vertical_direction dir );
 
 template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
     const std::array<fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
     const std::array<const fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS>
     &input_arrays,
     const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &origin, const int offset_distance, const fragment_cloud numerator );
+    const tripoint &origin, const int offset_distance, const fragment_cloud numerator,
+    vertical_direction dir );

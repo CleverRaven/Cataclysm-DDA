@@ -639,7 +639,7 @@
     "symbol": "/",
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]
   },
   {
     "id": "spear_stone",

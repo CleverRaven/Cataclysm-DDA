@@ -11,6 +11,7 @@
     "max_damage": -225,
     "damage_increment": -50.0,
     "max_level": 10,
+    "shape": "blast",
     "effect": "recover_energy",
     "effect_str": "PAIN"
   },
@@ -26,6 +27,7 @@
     "max_damage": -10000,
     "damage_increment": -2000.0,
     "max_level": 10,
+    "shape": "blast",
     "effect": "recover_energy",
     "effect_str": "STAMINA"
   },
@@ -41,6 +43,7 @@
     "max_damage": -5500,
     "damage_increment": -500.0,
     "max_level": 10,
+    "shape": "blast",
     "effect": "recover_energy",
     "effect_str": "STAMINA"
   },
@@ -56,6 +59,7 @@
     "max_damage": -148,
     "damage_increment": -14.0,
     "max_level": 10,
+    "shape": "blast",
     "effect": "recover_energy",
     "effect_str": "PAIN"
   },
@@ -65,7 +69,8 @@
     "name": { "str": "mi-go slaver beam" },
     "description": "Mi-go slaver beams cause pain, lower stamina, and give a short-lasting daze effect.  Starts very short range, increases rapidly with level.",
     "valid_targets": [ "hostile" ],
-    "effect": "projectile_attack",
+    "shape": "blast",
+    "effect": "attack",
     "effect_str": "dazed",
     "extra_effects": [ { "id": "pain_damage_mi-go_slaver_beam" }, { "id": "stamina_damage_mi-go_slaver_beam" } ],
     "base_casting_time": 100,
@@ -92,6 +97,7 @@
     "min_aoe": 3,
     "max_aoe": 3,
     "base_casting_time": 3,
+    "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_zombie_gasbag_crawler"
   },
@@ -111,6 +117,7 @@
     "min_aoe": 3,
     "max_aoe": 3,
     "base_casting_time": 3,
+    "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_zombie_gasbag_impaler"
   },
@@ -131,6 +138,7 @@
     "min_duration": 1000,
     "max_duration": 2500,
     "extra_effects": [ { "id": "frog_mother_hurt_self", "hit_self": true } ],
+    "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_tadpole_grabber"
   },
@@ -139,12 +147,13 @@
     "id": "frog_mother_hurt_self",
     "name": { "str": "Frog Mother Hurt Self" },
     "description": "Hurts yourself",
-    "flags": [ "LOUD", "RANDOM_DAMAGE" ],
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_PROJECTILE" ],
     "min_damage": 10,
     "max_damage": 20,
     "damage_type": "cut",
     "valid_targets": [ "hostile", "ally", "self", "ground" ],
-    "effect": "target_attack"
+    "shape": "blast",
+    "effect": "attack"
   },
   {
     "type": "SPELL",
@@ -159,6 +168,7 @@
     "max_aoe": 2,
     "base_casting_time": 500,
     "extra_effects": [ { "id": "spawning_zombie_die", "hit_self": true } ],
+    "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_spawn_raptor"
   },
@@ -175,6 +185,7 @@
     "max_aoe": 4,
     "base_casting_time": 500,
     "extra_effects": [ { "id": "spawning_zombie_die", "hit_self": true } ],
+    "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_spawn_raptor"
   },
@@ -183,11 +194,12 @@
     "id": "spawning_zombie_die",
     "name": { "str": "Spawning Zombie Die" },
     "description": "For zombies that are spawning something and die in the process.",
-    "flags": [ "LOUD", "RANDOM_DAMAGE" ],
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_PROJECTILE" ],
     "min_damage": 250,
     "max_damage": 250,
     "damage_type": "cut",
     "valid_targets": [ "hostile", "ally", "self", "ground" ],
-    "effect": "target_attack"
+    "shape": "blast",
+    "effect": "attack"
   }
 ]

@@ -155,6 +155,93 @@
     "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
   },
   {
+    "id": "test_utility_belt",
+    "type": "ARMOR",
+    "name": { "str": "utility belt" },
+    "description": "Holy pockets, Batman!  This belt has all kinds of pockets for testing.",
+    "weight": "3 kg",
+    "volume": "4 L",
+    "price": 25000,
+    "price_postapoc": 9900,
+    "bashing": 5,
+    "material": [ "kevlar" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "yellow",
+    "covers": [ "TORSO" ],
+    "coverage": 30,
+    "encumbrance": 5,
+    "material_thickness": 4,
+    "pocket_data": [
+      {
+        "//": "Small pouch for a pocket knife, screwdriver, or multi-tool.  Just long enough for a test screwdriver, but not long enough for a sonic screwdriver.",
+        "holster": true,
+        "rigid": true,
+        "min_item_volume": "10 ml",
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "15 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "//": "Large holster for an axe or Halligan bar",
+        "holster": true,
+        "rigid": false,
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "4000 g",
+        "max_item_length": "80 cm",
+        "moves": 200,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "//": "Flexible water pouch for drinks or other liquid.  Integrated straw for fast access.",
+        "watertight": true,
+        "rigid": false,
+        "max_item_volume": "1 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "moves": 10
+      },
+      {
+        "//": "Pressure-tight canister for emergency oxygen supply or other gas.",
+        "airtight": true,
+        "rigid": true,
+        "max_item_volume": "1 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1 kg",
+        "moves": 100
+      },
+      {
+        "//": "Fire-proof pouch for thermite or other combustible materials.",
+        "rigid": false,
+        "fire_protection": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 150
+      },
+      {
+        "//": "Micro cooler to preserve snacks for long stakeouts.",
+        "rigid": true,
+        "spoil_multiplier": 0.5,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 150
+      },
+      {
+        "//": "Cryo-chamber to deep-freeze organic samples.  Small, but prevents spoiling indefinitely.",
+        "rigid": true,
+        "spoil_multiplier": 0.0,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "100 g",
+        "moves": 1000
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+  },
+  {
     "type": "GENERIC",
     "id": "test_sheet_metal",
     "name": "TEST sheet metal",
@@ -657,6 +744,31 @@
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 14 ], [ "iron", 1 ] ]
   },
   {
+    "id": "test_egg",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "category": "food",
+    "name": { "str": "test egg" },
+    "description": "Test egg, very much like a bird egg, but a little too perfect.  Does not need to be cooked.",
+    "volume": "50 ml",
+    "weight": "40 g",
+    "color": "brown",
+    "spoils_in": "7 days",
+    "symbol": "o",
+    "quench": 4,
+    "healthy": 1,
+    "calories": 80,
+    "price": 44,
+    "price_postapoc": 50,
+    "material": [ "egg" ],
+    "fun": -8,
+    "//": "Omitting the RAW flag so calories will be taken at face value.",
+    "flags": [ "FREEZERBURN" ],
+    "rot_spawn": "GROUP_EGG_BIRD_WILD",
+    "vitamins": [ [ "vitA", 9 ], [ "calcium", 3 ], [ "iron", 4 ], [ "vitB", 21 ] ],
+    "rot_spawn_chance": 50
+  },
+  {
     "id": "test_jug_plastic",
     "type": "GENERIC",
     "category": "container",
@@ -958,9 +1070,46 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "glockmag", "glockbigmag" ]
+        "item_restriction": [ "test_glockmag", "test_glockbigmag" ]
       }
     ]
+  },
+  {
+    "id": "test_glockmag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Test Glock magazine" },
+    "description": "Magazine exclusively designed for Test Glocks.",
+    "weight": "105 g",
+    "volume": "250 ml",
+    "price": 2900,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "9mm" ],
+    "capacity": 15,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+  },
+  {
+    "id": "test_glockbigmag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Test Glock extended magazine" },
+    "description": "30-round magazine exclusively for use with the Test Glock.",
+    "weight": "210 g",
+    "volume": "500 ml",
+    "price": 4700,
+    "price_postapoc": 500,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "9mm" ],
+    "capacity": 30,
+    "reload_time": 140,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ]
   },
   {
     "id": "test_9mm_ammo",
@@ -1102,6 +1251,7 @@
     "volume": "750 ml",
     "price": 480,
     "price_postapoc": 250,
+    "install_time": "30 s",
     "to_hit": 1,
     "bashing": 3,
     "material": [ "steel" ],

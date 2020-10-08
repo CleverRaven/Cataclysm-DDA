@@ -51,7 +51,7 @@
       [ "umbrella", 10 ],
       [ "teleumbrella", 3 ],
       [ "sunglasses", 12 ],
-      [ "inhaler", 5 ],
+      { "item": "inhaler", "prob": 5, "charges-min": 10, "charges-max": 100 },
       [ "knife_swissarmy", 5 ],
       [ "roadmap", 1 ],
       [ "trailmap", 1 ],

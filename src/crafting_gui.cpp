@@ -522,7 +522,10 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         current[line]->required_skills_string( &player_character, false, false ) );
 
                 ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Required: %s" ),
-                                        current[line]->required_proficiencies_string( get_player_character() ) );
+                                        current[line]->required_proficiencies_string( &get_player_character() ) );
+
+                ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Used: %s" ),
+                                        current[line]->used_proficiencies_string( &get_player_character() ) );
 
                 const int expected_turns = player_character.expected_time_to_craft( *current[line],
                                            count ) / to_moves<int>( 1_turns );
@@ -725,6 +728,11 @@ const recipe *select_crafting_recipe( int &batch_size )
                                     break;
                                 }
 
+                                case 'P':
+                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                                       recipe_subset::search_type::proficiency );
+                                    break;
+
                                 default:
                                     current.clear();
                             }
@@ -866,8 +874,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 std::string description;
             };
             std::vector<SearchPrefix> prefixes = {
-                { 'q', _( "metal sawing" ), _( "<color_cyan>quality</color> of resulting item" ) },
                 //~ Example result description search term
+                { 'q', _( "metal sawing" ), _( "<color_cyan>quality</color> of resulting item" ) },
                 { 'd', _( "reach attack" ), _( "<color_cyan>full description</color> of resulting item (slow)" ) },
                 { 'c', _( "two by four" ), _( "<color_cyan>component</color> required to craft" ) },
                 { 'p', _( "tailoring" ), _( "<color_cyan>primary skill</color> used to craft" ) },
@@ -875,6 +883,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 { 'Q', _( "fine bolt turning" ), _( "<color_cyan>quality</color> required to craft" ) },
                 { 't', _( "soldering iron" ), _( "<color_cyan>tool</color> required to craft" ) },
                 { 'm', _( "yes" ), _( "recipes which are <color_cyan>memorized</color> or not" ) },
+                { 'P', _( "Blacksmithing" ), _( "<color_cyan>proficiency</color> used to craft" ) },
             };
             int max_example_length = 0;
             for( const auto &prefix : prefixes ) {

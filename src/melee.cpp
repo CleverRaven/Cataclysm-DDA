@@ -1221,14 +1221,23 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
-        // skip dodge counter techniques
-        if( dodge_counter != tec.dodge_counter ) {
-            continue;
-        }
+        if( tec.block_counter || tec.dodge_counter ) {
+            // skip dodge counter techniques
+            if( dodge_counter != tec.dodge_counter ) {
+                continue;
+            }
+            // skip block counter techniques
+            if( block_counter != tec.block_counter ) {
+                continue;
+            }
+            int move_cost = attack_speed( used_weapon() );
+            move_cost *= tec.move_cost_multiplier( *this );
+            move_cost += tec.move_cost_penalty( *this );
 
-        // skip block counter techniques
-        if( block_counter != tec.block_counter ) {
-            continue;
+            // Don't counter if it would exhaust moves.
+            if( get_moves() + get_speed() - move_cost < 0 ) {
+                continue;
+            }
         }
 
         // if critical then select only from critical tecs
