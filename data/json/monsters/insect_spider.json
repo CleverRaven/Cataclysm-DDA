@@ -530,14 +530,14 @@
   {
     "id": "mon_dragonfly_mega",
     "type": "MONSTER",
-    "name": { "str": "great wyrmfly", "str_pl": "great wyrmflies" },
-    "description": "An enormous mutant dragonfly with long, glittering wings and a ferocious fanged mouth.",
+    "name": { "str_sp": "fused dragonflies" },
+    "description": "What appears to be a single, enormous insect with a swollen abdomen is actually the amalgamation of two dragonflies of enormous size, still locked into a telltale heart shape.  The remains of their wings and abdomens form an egg sac they sluggishly pull behind them, periodically dropping a handful of glistening eggs, without concern if they land in water.",
     "copy-from": "mon_dragonfly_giant",
-    "proportional": { "hp": 20, "speed": 0.25, "vision_day": 2 },
+    "proportional": { "hp": 10, "speed": 0.25 },
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
-    "dodge": 2,
+	"melee_cut": 6,
     "special_attacks": [
       {
         "type": "bite",
@@ -546,7 +546,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.3 } ]
       }
     ],
-    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
+    "flags": [ "SEES", "SMELLS", "STUMBLES", "SWIMS", "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "id": "mon_fly_small",
