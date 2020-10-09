@@ -68,19 +68,16 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         }
 
         if( ip.loc.where() == item_location::type::character ) {
+            const auto filter = [&]( const item & item ) //Tto make sure that we are removing proper item
+            ->bool {
+                return item.display_name() == gift.display_name();
+            };
             if( ip.charges > 0 ) {
-                giver.use_charges( gift.typeId(), charges );
+                giver.use_charges( gift.typeId(), charges, filter );
             } else if( ip.count > 0 ) {
                 for( int i = 0; i < count; i++ ) {
-                    //gift.nname
-                    const auto filter = [&](const item& item)
-                    ->bool {
-                        return item.display_name() == gift.display_name();
-                    };
 
-                    giver.use_amount( gift.typeId(), 1, filter); // <<< This concusming item by type so it is taking first container
-                    //giver.i_rem(&gift); //How to delete from inventory quntity items?
-                    //ip.loc.remove_item();
+                    giver.use_amount( gift.typeId(), 1, filter );
                 }
             }
         } else {
