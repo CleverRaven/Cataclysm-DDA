@@ -29,8 +29,7 @@ class spell_window : public QMainWindow
         }
     private:
         spell_type editable_spell;
-        QLineEdit spell_json;
-        QLineEdit error_window;
+        QLabel spell_json;
 
         void write_json();
 
