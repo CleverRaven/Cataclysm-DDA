@@ -31,7 +31,7 @@ class spell_window : public QMainWindow
         }
     private:
         spell_type editable_spell;
-        QLabel spell_json;
+        QTextEdit spell_json;
 
         void write_json();
 

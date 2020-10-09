@@ -36,6 +36,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     int max_col = 0;
 
     spell_json.resize( QSize( 800, 600 ) );
+    spell_json.setReadOnly( true );
 
     id_label.setParent( this );
     id_label.setText( QString( "id" ) );
@@ -878,7 +879,7 @@ void creator::spell_window::write_json()
 
     std::ostringstream stream;
     JsonOut jo( stream );
-    jo.write( editable_spell );
+    jo.write( std::vector<spell_type> { editable_spell } );
 
     std::istringstream in_stream( stream.str() );
     JsonIn jsin( in_stream );
