@@ -2876,6 +2876,12 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist,
         return;
     }
 
+    int tmp_provocative = provocative || volume >= normal_roll( 30, 10 );
+    // already following a more interesting sound
+    if( provocative_sound && !tmp_provocative && wandf > 0 ) {
+        return;
+    }
+
     int max_error = 0;
     if( volume < 2 ) {
         max_error = 10;
@@ -2892,8 +2898,12 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist,
     // target_z will require some special check due to soil muffling sounds
 
     int wander_turns = volume * ( goodhearing ? 6 : 1 );
+    // again, already following a more interesting sound
+    if( wander_turns < wandf ) {
+        return;
+    }
     process_trigger( mon_trigger::SOUND, volume );
-    provocative_sound = provocative || volume >= 30;
+    provocative_sound = tmp_provocative;
     if( morale >= 0 && anger >= 10 ) {
         // TODO: Add a proper check for fleeing attitude
         // but cache it nicely, because this part is called a lot

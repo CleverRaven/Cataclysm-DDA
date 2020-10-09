@@ -186,7 +186,7 @@ static bool is_provocative( sounds::sound_t category )
         case sounds::sound_t::_LAST:
             break;
     }
-    debugmsg( "Invalid valid_target" );
+    debugmsg( "Invalid sound_t category" );
     abort();
 }
 
