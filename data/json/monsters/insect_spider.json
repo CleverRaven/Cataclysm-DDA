@@ -469,7 +469,7 @@
 	"color": "light_gray",
 	"default_faction": "aquatic_predator",
 	"agression": 50,
-	"morale": 90,
+	"morale": 25,
 	"melee_skill": 6,
 	"melee_dice": 1,
 	"melee_dice_sides": 5,
@@ -485,17 +485,17 @@
 	"placate_triggers": [ "MEAT" ],
 	"death_function": [ "NORMAL" ],
 	"flags": [ "AQUATIC", "ARTHROPOD_BLOOD", "NO_BREATHE", "SEES", "SWIMS" ],
-	"upgrades": { "half_life": 14, "into": "mon_dragonfly_giant" }
+	"upgrades": { "half_life": 24, "into": "mon_dragonfly_giant" }
   },
   {
     "id": "mon_dragonfly_giant",
     "type": "MONSTER",
     "name": { "str": "giant dragonfly", "str_pl": "giant dragonflies" },
-    "description": "A ferocious mutant dragonfly as big as a dog, darting through the air with a cluster of fangs for a mouth.",
+    "description": "A ferocious, bright green dragonfly, still lightning-fast despite growing to the size of a schoolchild.  Its head is little more than a basketball-sized pair of rainbow compound eyes, and its legs - already specialized for grasping prey - end in curved talons.",
     "default_faction": "dragonfly",
     "bodytype": "flying insect",
     "species": [ "INSECT" ],
-    "volume": "30 L",
+    "volume": "40 L",
     "weight": "40750 g",
     "hp": 70,
     "speed": 150,
@@ -503,19 +503,28 @@
     "symbol": "y",
     "color": "light_green",
     "aggression": 20,
-    "morale": 100,
+    "morale": 30,
     "melee_skill": 6,
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "melee_cut": 6,
+	"special_attacks": [ 
+		[ "GRAB", 25 ],
+		{
+         "type": "bite",
+         "cooldown": 4,
+         "accuracy": 5,
+         "damage_max_instance": [ { "damage_type": "stab", "amount": 4, "armor_multiplier": 0.3 } ]
+      }
+    ],
     "dodge": 8,
-    "vision_day": 30,
+    "vision_day": 40,
     "vision_night": 5,
     "harvest": "arachnid",
-    "anger_triggers": [ "PLAYER_WEAK" ],
-    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
+    "fear_triggers": [ "HURT" ],
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 21, "into": "mon_dragonfly_mega" },
+    "upgrades": { "half_life": 28, "into": "mon_dragonfly_mega" },
     "flags": [ "SWARMS", "SEES", "SMELLS", "FLIES", "PATH_AVOID_FIRE" ]
   },
   {
