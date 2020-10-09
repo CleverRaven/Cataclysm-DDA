@@ -1687,8 +1687,8 @@ class map
          * (p) must be a valid coordinate, check with @ref inbounds.
          */
         inline submap* unsafe_get_submap_at(const tripoint& p) const {
-            assert(inbounds(p));
-            return get_submap_at_grid({ p.x / SEEX, p.y / SEEY, p.z });
+            assert( inbounds( p ) );
+            return get_submap_at_grid( { p.x / SEEX, p.y / SEEY, p.z } );
         }
         submap *get_submap_at( const tripoint &p ) const;
         submap *get_submap_at( const point &p ) const {
@@ -1702,12 +1702,12 @@ class map
         submap *unsafe_get_submap_at( const tripoint &p, point &offset_p ) const {
             offset_p.x = p.x % SEEX;
             offset_p.y = p.y % SEEY;
-            return unsafe_get_submap_at(p);
+            return unsafe_get_submap_at( p );
         }
         submap *get_submap_at( const tripoint &p, point &offset_p ) const {
             offset_p.x = p.x % SEEX;
             offset_p.y = p.y % SEEY;
-            return get_submap_at(p);
+            return get_submap_at( p );
         }
         submap *get_submap_at( const point &p, point &offset_p ) const {
             return get_submap_at( { p, abs_sub.z }, offset_p );
