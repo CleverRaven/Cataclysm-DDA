@@ -106,6 +106,9 @@ class spell_window : public QMainWindow
         QLabel components_label;
         QComboBox components_box;
 
+        QLabel skill_label;
+        QComboBox skill_box;
+
         QLabel affected_bps_label;
         QListWidget affected_bps_box;
 

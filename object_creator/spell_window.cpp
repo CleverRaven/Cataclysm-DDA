@@ -5,6 +5,7 @@
 #include "json.h"
 #include "magic.h"
 #include "mutation.h"
+#include "skill.h"
 
 #include <sstream>
 
@@ -311,6 +312,12 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     components_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     components_label.show();
 
+    skill_label.setParent( this );
+    skill_label.setText( QString( "spell skill" ) );
+    skill_label.resize( default_text_box_size );
+    skill_label.move( QPoint( col * default_text_box_width, row++ *default_text_box_height ) );
+    skill_label.show();
+
     // =========================================================================================
     // fourth column of boxes
     max_row = std::max( max_row, row );
@@ -551,13 +558,31 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     components_box.show();
     QStringList all_requirements;
     for( const requirement_data &req : requirement_data::get_all() ) {
-        all_traits.append( QString( req.id().c_str() ) );
+        all_requirements.append( QString( req.id().c_str() ) );
     }
     QObject::connect( &components_box, &QComboBox::currentTextChanged,
     [&]() {
         editable_spell.spell_components = requirement_id( components_box.currentText().toStdString() );
         write_json();
     } );
+
+    skill_box.setParent( this );
+    skill_box.resize( default_text_box_size );
+    skill_box.move( QPoint( col * default_text_box_width,
+                            row++ *default_text_box_height ) );
+    skill_box.setToolTip( QString(
+                              _( "Uses this skill to calculate spell failure chance." ) ) );
+    skill_box.show();
+    QStringList all_skills;
+    for( const Skill &sk : Skill::skills ) {
+        all_skills.append( QString( sk.ident().c_str() ) );
+    }
+    QObject::connect( &skill_box, &QComboBox::currentTextChanged,
+    [&]() {
+        editable_spell.skill = skill_id( skill_box.currentText().toStdString() );
+        write_json();
+    } );
+    skill_box.setCurrentText( QString( editable_spell.skill.c_str() ) );
 
     // =========================================================================================
     // fifth column of boxes
