@@ -1812,8 +1812,11 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
 {
     // To save all of the bound checks and submaps fetching, we extract it
     // here instead of using furn(), field_at() and ter().
+    if( !inbounds( p ) ) {
+        return 0;
+    }
     point l;
-    submap *const current_submap = get_submap_at( p, l );
+    submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
         return 0;
     }
