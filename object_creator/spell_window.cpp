@@ -580,6 +580,37 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     } );
     row += 4;
 
+    sound_description_label.setParent( this );
+    sound_description_label.setText( QString( "Sound Description" ) );
+    sound_description_label.resize( default_text_box_size );
+    sound_description_label.move( QPoint( col * default_text_box_width,
+                                          row++ *default_text_box_height ) );
+    sound_description_label.show();
+
+    sound_type_label.setParent( this );
+    sound_type_label.setText( QString( "Sound Type" ) );
+    sound_type_label.resize( default_text_box_size );
+    sound_type_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    sound_type_label.show();
+
+    sound_id_label.setParent( this );
+    sound_id_label.setText( QString( "Sound ID" ) );
+    sound_id_label.resize( default_text_box_size );
+    sound_id_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    sound_id_label.show();
+
+    sound_variant_label.setParent( this );
+    sound_variant_label.setText( QString( "Sound Variant" ) );
+    sound_variant_label.resize( default_text_box_size );
+    sound_variant_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    sound_variant_label.show();
+
+    sound_ambient_label.setParent( this );
+    sound_ambient_label.setText( QString( "Sound Ambient" ) );
+    sound_ambient_label.resize( default_text_box_size );
+    sound_ambient_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    sound_ambient_label.show();
+
     // =========================================================================================
     // sixth column of boxes
     max_row = std::max( max_row, row );
@@ -733,7 +764,69 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         editable_spell.affected_bps = temp;
         write_json();
     } );
-    row += 4;
+    row += 8;
+
+    sound_description_box.setParent( this );
+    sound_description_box.resize( default_text_box_size );
+    sound_description_box.move( QPoint( col * default_text_box_width,
+                                        row++ * default_text_box_height ) );
+    sound_description_box.show();
+    sound_description_box.setText( QString( editable_spell.sound_description.translated().c_str() ) );
+    QObject::connect( &sound_description_box, &QLineEdit::textChanged,
+    [&]() {
+        editable_spell.sound_description = to_translation( sound_description_box.text().toStdString() );
+        write_json();
+    } );
+
+    sound_type_box.setParent( this );
+    sound_type_box.resize( default_text_box_size );
+    sound_type_box.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    sound_type_box.show();
+    QStringList sound_types;
+    for( int i = 0; i < static_cast<int>( sounds::sound_t::_LAST ); i++ ) {
+        sound_types.append( QString( io::enum_to_string( static_cast<sounds::sound_t>( i ) ).c_str() ) );
+    }
+    sound_type_box.addItems( sound_types );
+    sound_type_box.setCurrentIndex( static_cast<int>( sounds::sound_t::combat ) );
+    QObject::connect( &sound_type_box, &QComboBox::currentTextChanged,
+    [&]() {
+        const sounds::sound_t tp = static_cast<sounds::sound_t>( sound_type_box.currentIndex() );
+        editable_spell.sound_type = tp;
+        write_json();
+    } );
+
+    sound_id_box.setParent( this );
+    sound_id_box.resize( default_text_box_size );
+    sound_id_box.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    sound_id_box.show();
+    sound_id_box.setText( QString( editable_spell.sound_id.c_str() ) );
+    QObject::connect( &sound_id_box, &QLineEdit::textChanged,
+    [&]() {
+        editable_spell.sound_id = sound_id_box.text().toStdString();
+        write_json();
+    } );
+
+    sound_variant_box.setParent( this );
+    sound_variant_box.resize( default_text_box_size );
+    sound_variant_box.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    sound_variant_box.show();
+    sound_variant_box.setText( QString( editable_spell.sound_variant.c_str() ) );
+    QObject::connect( &sound_variant_box, &QLineEdit::textChanged,
+    [&]() {
+        editable_spell.sound_variant = sound_variant_box.text().toStdString();
+        write_json();
+    } );
+
+    sound_ambient_box.setParent( this );
+    sound_ambient_box.resize( default_text_box_size );
+    sound_ambient_box.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    sound_ambient_box.show();
+    sound_ambient_box.setChecked( editable_spell.sound_ambient );
+    QObject::connect( &sound_ambient_box, &QCheckBox::stateChanged,
+    [&]() {
+        editable_spell.sound_ambient = sound_ambient_box.checkState();
+        write_json();
+    } );
 
     max_row = std::max( max_row, row );
     max_col = std::max( max_col, col );

@@ -4,7 +4,9 @@
 #include "fake_spell_listbox.h"
 #include "magic.h"
 
+#include <QtWidgets/qcheckbox.h>
 #include <QtWidgets/qcombobox.h>
+#include <QtWidgets/qgridlayout.h>
 #include <QtWidgets/qlineedit.h>
 #include <QtWidgets/qlistwidget.h>
 #include <QtWidgets/qmainwindow.h>
@@ -100,6 +102,21 @@ class spell_window : public QMainWindow
 
         QLabel shape_label;
         QComboBox shape_box;
+
+        QLabel sound_description_label;
+        QLineEdit sound_description_box;
+
+        QLabel sound_type_label;
+        QComboBox sound_type_box;
+
+        QLabel sound_id_label;
+        QLineEdit sound_id_box;
+
+        QLabel sound_variant_label;
+        QLineEdit sound_variant_box;
+
+        QLabel sound_ambient_label;
+        QCheckBox sound_ambient_box;
 
         fake_spell_listbox additional_spells_box;
 };
