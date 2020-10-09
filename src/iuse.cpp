@@ -307,7 +307,7 @@ static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_lockpick( "lockpick" );
+static const skill_id skill_traps( "traps" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
@@ -3435,7 +3435,7 @@ int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
     } else {
         duration = std::max( to_moves<int>( 10_seconds ),
                              to_moves<int>( 10_minutes - time_duration::from_minutes( qual ) ) - ( you.dex_cur +
-                                     you.get_skill_level( skill_lockpick ) ) * 2300 );
+                                     you.get_skill_level( skill_traps ) ) * 2300 );
     }
 
     you.assign_activity( lockpick_activity_actor::use_item( duration, item_location( you, it ),
