@@ -4,6 +4,7 @@
 #include "format.h"
 #include "json.h"
 #include "magic.h"
+#include "mutation.h"
 
 #include <sstream>
 
@@ -280,6 +281,36 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     dmg_type_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     dmg_type_label.show();
 
+    spell_class_label.setParent( this );
+    spell_class_label.setText( QString( "spell class" ) );
+    spell_class_label.resize( default_text_box_size );
+    spell_class_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    spell_class_label.show();
+
+    difficulty_label.setParent( this );
+    difficulty_label.setText( QString( "difficulty" ) );
+    difficulty_label.resize( default_text_box_size );
+    difficulty_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    difficulty_label.show();
+
+    max_level_label.setParent( this );
+    max_level_label.setText( QString( "max level" ) );
+    max_level_label.resize( default_text_box_size );
+    max_level_label.move( QPoint( col * default_text_box_width, row++ *default_text_box_height ) );
+    max_level_label.show();
+
+    spell_message_label.setParent( this );
+    spell_message_label.setText( QString( "spell message" ) );
+    spell_message_label.resize( default_text_box_size );
+    spell_message_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    spell_message_label.show();
+
+    components_label.setParent( this );
+    components_label.setText( QString( "spell components" ) );
+    components_label.resize( default_text_box_size );
+    components_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    components_label.show();
+
     // =========================================================================================
     // fourth column of boxes
     max_row = std::max( max_row, row );
@@ -450,6 +481,81 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     [&]() {
         const damage_type tp = static_cast<damage_type>( dmg_type_box.currentIndex() );
         editable_spell.dmg_type = tp;
+        write_json();
+    } );
+
+    spell_class_box.setParent( this );
+    spell_class_box.resize( default_text_box_size );
+    spell_class_box.move( QPoint( col * default_text_box_width,
+                                  row++ * default_text_box_height ) );
+    spell_class_box.setToolTip( QString(
+                                    _( "The trait required to learn this spell; if the player has a conflicting trait you cannot learn the spell. You gain the trait when you learn the spell." ) ) );
+    spell_class_box.show();
+    QStringList all_traits;
+    for( const mutation_branch &trait : mutation_branch::get_all() ) {
+        all_traits.append( QString( trait.id.c_str() ) );
+    }
+    QObject::connect( &spell_class_box, &QComboBox::currentTextChanged,
+    [&]() {
+        editable_spell.spell_class = trait_id( spell_class_box.currentText().toStdString() );
+        write_json();
+    } );
+
+    difficulty_box.setParent( this );
+    difficulty_box.resize( default_text_box_size );
+    difficulty_box.move( QPoint( col * default_text_box_width, row++ *default_text_box_height ) );
+    difficulty_box.setToolTip( QString(
+                                   _( "The difficulty of the spell. This affects spell failure chance." ) ) );
+    difficulty_box.setMaximum( INT_MAX );
+    difficulty_box.setMinimum( 0 );
+    difficulty_box.show();
+    QObject::connect( &difficulty_box, &QSpinBox::textChanged,
+    [&]() {
+        editable_spell.difficulty = difficulty_box.value();
+        write_json();
+    } );
+
+    max_level_box.setParent( this );
+    max_level_box.resize( default_text_box_size );
+    max_level_box.move( QPoint( col * default_text_box_width, row++ *default_text_box_height ) );
+    max_level_box.setToolTip( QString(
+                                  _( "The max level of the spell. Spell level affects a large variety of things, including spell failure chance, damage, etc." ) ) );
+    max_level_box.setMaximum( 80 );
+    max_level_box.setMinimum( 0 );
+    max_level_box.show();
+    QObject::connect( &max_level_box, &QSpinBox::textChanged,
+    [&]() {
+        editable_spell.max_level = max_level_box.value();
+        write_json();
+    } );
+
+    spell_message_box.setParent( this );
+    spell_message_box.resize( default_text_box_size );
+    spell_message_box.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    spell_message_box.setToolTip( QString(
+                                      _( "The message that displays in the sidebar when the spell is cast. You can use %s to stand in for the name of the spell." ) ) );
+    spell_message_box.setText( QString( editable_spell.message.translated().c_str() ) );
+    spell_message_box.show();
+    QObject::connect( &spell_message_box, &QLineEdit::textChanged,
+    [&]() {
+        editable_spell.message = to_translation( spell_message_box.text().toStdString() );
+        write_json();
+    } );
+
+    components_box.setParent( this );
+    components_box.resize( default_text_box_size );
+    components_box.move( QPoint( col * default_text_box_width,
+                                 row++ *default_text_box_height ) );
+    components_box.setToolTip( QString(
+                                   _( "The components required in order to cast the spell. Leave empty for no components." ) ) );
+    components_box.show();
+    QStringList all_requirements;
+    for( const requirement_data &req : requirement_data::get_all() ) {
+        all_traits.append( QString( req.id().c_str() ) );
+    }
+    QObject::connect( &components_box, &QComboBox::currentTextChanged,
+    [&]() {
+        editable_spell.spell_components = requirement_id( components_box.currentText().toStdString() );
         write_json();
     } );
 

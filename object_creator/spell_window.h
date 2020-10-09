@@ -91,6 +91,21 @@ class spell_window : public QMainWindow
         QLabel dmg_type_label;
         QComboBox dmg_type_box;
 
+        QLabel spell_class_label;
+        QComboBox spell_class_box;
+
+        QLabel difficulty_label;
+        QSpinBox difficulty_box;
+
+        QLabel max_level_label;
+        QSpinBox max_level_box;
+
+        QLabel spell_message_label;
+        QLineEdit spell_message_box;
+
+        QLabel components_label;
+        QComboBox components_box;
+
         QLabel affected_bps_label;
         QListWidget affected_bps_box;
 
