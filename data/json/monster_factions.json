@@ -156,7 +156,9 @@
   {
     "type": "MONSTER_FACTION",
     "name": "dragonfly",
-    "base_faction": "insect"
+    "base_faction": "insect",
+	"by_mood": [ "dragonfly", "centipede", "spider" ],
+	"hate": [ "insect" ]
   },
   {
     "type": "MONSTER_FACTION",
