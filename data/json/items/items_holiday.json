@@ -78,7 +78,7 @@
     "material": [ "plastic" ],
     "symbol": "P",
     "color": "light_red",
-    "charges_per_use": 100,
+    "charges_per_use": 100
   },
   {
     "id": "inflatable_dragon",
