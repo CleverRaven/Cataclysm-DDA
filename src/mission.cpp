@@ -674,7 +674,7 @@ std::string mission::name()
 mission_type_id mission::mission_id()
 {
     if( type == nullptr ) {
-        return mission_type_id( "NULL" );
+        return mission_type_id( "MISSION_NULL" );
     }
     return type->id;
 }
