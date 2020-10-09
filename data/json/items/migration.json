@@ -1282,6 +1282,6 @@
   {
     "id": "four_winds_shotgun",
     "type": "MIGRATION",
-    "replace": "four_winds_shotgun"
+    "replace": "slamfire_shotgun"
   }
 ]
