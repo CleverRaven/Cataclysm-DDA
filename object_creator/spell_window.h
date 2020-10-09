@@ -99,6 +99,9 @@ class spell_window : public QMainWindow
         QLabel effect_str_label;
         QLineEdit effect_str_box;
 
+        QLabel shape_label;
+        QComboBox shape_box;
+
         fake_spell_listbox additional_spells_box;
 };
 }

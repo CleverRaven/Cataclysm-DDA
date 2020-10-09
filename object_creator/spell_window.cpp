@@ -45,7 +45,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     id_label.setParent( this );
     id_label.setText( QString( "id" ) );
     id_label.resize( default_text_box_size );
-    id_label.setDisabled( true );
     id_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     id_label.show();
 
@@ -53,14 +52,12 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     name_label.setText( QString( "name" ) );
     name_label.resize( default_text_box_size );
     name_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    name_label.setDisabled( true );
     name_label.show();
 
     description_label.setParent( this );
     description_label.setText( QString( "description" ) );
     description_label.resize( default_text_box_size );
     description_label.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
-    description_label.setDisabled( true );
     description_label.show();
     row += 3;
 
@@ -68,21 +65,24 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     effect_label.setText( QString( "spell effect" ) );
     effect_label.resize( default_text_box_size );
     effect_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    effect_label.setDisabled( true );
     effect_label.show();
 
     effect_str_label.setParent( this );
     effect_str_label.setText( QString( "effect string" ) );
     effect_str_label.resize( default_text_box_size );
     effect_str_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    effect_str_label.setDisabled( true );
     effect_str_label.show();
+
+    shape_label.setParent( this );
+    shape_label.setText( QString( "spell shape" ) );
+    shape_label.resize( default_text_box_size );
+    shape_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    shape_label.show();
 
     valid_targets_label.setParent( this );
     valid_targets_label.setText( QString( "valid_targets" ) );
     valid_targets_label.resize( default_text_box_size );
     valid_targets_label.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
-    valid_targets_label.setDisabled( true );
     valid_targets_label.show();
     row += static_cast<int>( spell_target::num_spell_targets );
 
@@ -178,6 +178,29 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         write_json();
     } );
 
+    shape_box.setParent( this );
+    shape_box.resize( default_text_box_size );
+    shape_box.move( QPoint( col * default_text_box_width,
+                            row++ * default_text_box_height ) );
+    QStringList spell_shapes;
+    for( const auto spell_shape_pair : spell_effect::shape_map ) {
+        spell_shapes.append( QString( io::enum_to_string<spell_shape>( spell_shape_pair.first ).c_str() ) );
+    }
+    shape_box.addItems( spell_shapes );
+    QObject::connect( &shape_box, &QComboBox::currentTextChanged,
+    [&]() {
+        // no need to look up the actual functor, we aren't going to be using that here.
+        const std::string shape_string = shape_box.currentText().toStdString();
+        for( int i = 0; i < static_cast<int>( spell_shape::num_shapes ); i++ ) {
+            const spell_shape cur_shape = static_cast<spell_shape>( i );
+            if( io::enum_to_string<spell_shape>( cur_shape ) == shape_string ) {
+                editable_spell.spell_area = cur_shape;
+                break;
+            }
+        }
+        write_json();
+    } );
+
     valid_targets_box.setParent( this );
     valid_targets_box.resize( QSize( default_text_box_width, default_text_box_height *
                                      static_cast<int>( spell_target::num_spell_targets ) ) );
@@ -210,63 +233,54 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     energy_cost_label.setParent( this );
     energy_cost_label.setText( QString( "energy cost" ) );
     energy_cost_label.resize( default_text_box_size );
-    energy_cost_label.setDisabled( true );
     energy_cost_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     energy_cost_label.show();
 
     damage_label.setParent( this );
     damage_label.setText( QString( "damage" ) );
     damage_label.resize( default_text_box_size );
-    damage_label.setDisabled( true );
     damage_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     damage_label.show();
 
     range_label.setParent( this );
     range_label.setText( QString( "range" ) );
     range_label.resize( default_text_box_size );
-    range_label.setDisabled( true );
     range_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     range_label.show();
 
     aoe_label.setParent( this );
     aoe_label.setText( QString( "aoe" ) );
     aoe_label.resize( default_text_box_size );
-    aoe_label.setDisabled( true );
     aoe_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     aoe_label.show();
 
     dot_label.setParent( this );
     dot_label.setText( QString( "dot" ) );
     dot_label.resize( default_text_box_size );
-    dot_label.setDisabled( true );
     dot_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     dot_label.show();
 
     pierce_label.setParent( this );
     pierce_label.setText( QString( "pierce" ) );
     pierce_label.resize( default_text_box_size );
-    pierce_label.setDisabled( true );
     pierce_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     pierce_label.show();
 
     casting_time_label.setParent( this );
     casting_time_label.setText( QString( "casting time" ) );
     casting_time_label.resize( default_text_box_size );
-    casting_time_label.setDisabled( true );
     casting_time_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     casting_time_label.show();
 
     energy_source_label.setParent( this );
     energy_source_label.setText( QString( "energy source" ) );
     energy_source_label.resize( default_text_box_size );
-    energy_source_label.setDisabled( true );
     energy_source_label.move( QPoint( col * default_text_box_width, row++ *default_text_box_height ) );
     energy_source_label.show();
 
     dmg_type_label.setParent( this );
     dmg_type_label.setText( QString( "damage type" ) );
     dmg_type_label.resize( default_text_box_size );
-    dmg_type_label.setDisabled( true );
     dmg_type_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     dmg_type_label.show();
 
@@ -556,7 +570,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     affected_bps_label.setParent( this );
     affected_bps_label.setText( QString( "affected body parts" ) );
     affected_bps_label.resize( default_text_box_size );
-    affected_bps_label.setDisabled( true );
     affected_bps_label.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
     affected_bps_label.show();
     row += 4;
