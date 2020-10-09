@@ -17,7 +17,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
-#include "handle_action.h"
 #include "iexamine.h"
 #include "input.h"
 #include "int_id.h"
@@ -143,6 +142,32 @@ void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
         }
         refresh();
     } );
+}
+
+void handbrake()
+{
+    Character &player_character = get_player_character();
+    const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
+    if( !vp ) {
+        return;
+    }
+    vehicle *const veh = &vp->vehicle();
+    add_msg( _( "You pull a handbrake." ) );
+    veh->cruise_velocity = 0;
+    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
+        veh->skidding = true;
+        add_msg( m_warning, _( "You lose control of %s." ), veh->name );
+        veh->turn( veh->last_turn > 0 ? 60 : -60 );
+    } else {
+        int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
+        if( std::abs( veh->velocity ) < braking_power ) {
+            veh->stop();
+        } else {
+            int sgn = veh->velocity > 0 ? 1 : -1;
+            veh->velocity = sgn * ( std::abs( veh->velocity ) - braking_power );
+        }
+    }
+    player_character.moves = 0;
 }
 
 void vehicle::control_doors()
