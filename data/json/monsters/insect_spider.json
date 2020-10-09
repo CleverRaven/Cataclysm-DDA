@@ -460,6 +460,7 @@
     "description": "The predatory, aquatic larva of a dragonfly, normally barely a centimeter long and feeding on small fishes, grown to the size of a catfish.   Its hidden jaw can shoot out at a blinding speed to bring prey to its mandibles.",
     "species": [ "INSECT" ],
 	"bodytype": "insect",
+	"material": [ "iflesh" ],
 	"volume": "10 L",
     "weight": "15 kg",
     "hp": 40,
@@ -515,7 +516,7 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_dragonfly_mega" },
-    "flags": [ "SEES", "SMELLS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
+    "flags": [ "SWARMS", "SEES", "SMELLS", "FLIES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_dragonfly_mega",
