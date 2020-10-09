@@ -17,6 +17,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
+#include "handle_action.h"
 #include "iexamine.h"
 #include "input.h"
 #include "int_id.h"
@@ -55,7 +56,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
-#include "handle_action.cpp"
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
