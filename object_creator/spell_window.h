@@ -109,6 +109,24 @@ class spell_window : public QMainWindow
         QLabel skill_label;
         QComboBox skill_box;
 
+        QLabel field_id_label;
+        QComboBox field_id_box;
+
+        QLabel field_chance_label;
+        QSpinBox field_chance_box;
+
+        QLabel min_field_intensity_label;
+        QSpinBox min_field_intensity_box;
+
+        QLabel field_intensity_increment_label;
+        QDoubleSpinBox field_intensity_increment_box;
+
+        QLabel max_field_intensity_label;
+        QSpinBox max_field_intensity_box;
+
+        QLabel field_intensity_variance_label;
+        QSpinBox field_intensity_variance_box;
+
         QLabel affected_bps_label;
         QListWidget affected_bps_box;
 

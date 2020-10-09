@@ -1,6 +1,7 @@
 #include "spell_window.h"
 
 #include "bodypart.h"
+#include "field_type.h"
 #include "format.h"
 #include "json.h"
 #include "magic.h"
@@ -166,7 +167,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     effect_str_box.setParent( this );
     effect_str_box.resize( default_text_box_size );
-    effect_str_box.move( QPoint( col * default_text_box_width, row++ *default_text_box_height ) );
+    effect_str_box.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     effect_str_box.setToolTip( QString(
                                    _( "Additional data related to the spell effect.  See MAGIC.md for details." ) ) );
     effect_str_box.show();
@@ -273,7 +274,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     energy_source_label.setParent( this );
     energy_source_label.setText( QString( "energy source" ) );
     energy_source_label.resize( default_text_box_size );
-    energy_source_label.move( QPoint( col * default_text_box_width, row++ *default_text_box_height ) );
+    energy_source_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     energy_source_label.show();
 
     dmg_type_label.setParent( this );
@@ -297,7 +298,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     max_level_label.setParent( this );
     max_level_label.setText( QString( "max level" ) );
     max_level_label.resize( default_text_box_size );
-    max_level_label.move( QPoint( col * default_text_box_width, row++ *default_text_box_height ) );
+    max_level_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     max_level_label.show();
 
     spell_message_label.setParent( this );
@@ -315,8 +316,48 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     skill_label.setParent( this );
     skill_label.setText( QString( "spell skill" ) );
     skill_label.resize( default_text_box_size );
-    skill_label.move( QPoint( col * default_text_box_width, row++ *default_text_box_height ) );
+    skill_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     skill_label.show();
+
+    field_id_label.setParent( this );
+    field_id_label.setText( QString( "field id" ) );
+    field_id_label.resize( default_text_box_size );
+    field_id_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    field_id_label.show();
+
+    field_chance_label.setParent( this );
+    field_chance_label.setText( QString( "field chance" ) );
+    field_chance_label.resize( default_text_box_size );
+    field_chance_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    field_chance_label.show();
+
+    min_field_intensity_label.setParent( this );
+    min_field_intensity_label.setText( QString( "min field intensity" ) );
+    min_field_intensity_label.resize( default_text_box_size );
+    min_field_intensity_label.move( QPoint( col * default_text_box_width,
+                                            row++ * default_text_box_height ) );
+    min_field_intensity_label.show();
+
+    field_intensity_increment_label.setParent( this );
+    field_intensity_increment_label.setText( QString( "intensity increment" ) );
+    field_intensity_increment_label.resize( default_text_box_size );
+    field_intensity_increment_label.move( QPoint( col * default_text_box_width,
+                                          row++ * default_text_box_height ) );
+    field_intensity_increment_label.show();
+
+    max_field_intensity_label.setParent( this );
+    max_field_intensity_label.setText( QString( "max field intensity" ) );
+    max_field_intensity_label.resize( default_text_box_size );
+    max_field_intensity_label.move( QPoint( col * default_text_box_width,
+                                            row++ * default_text_box_height ) );
+    max_field_intensity_label.show();
+
+    field_intensity_variance_label.setParent( this );
+    field_intensity_variance_label.setText( QString( "intensity variance" ) );
+    field_intensity_variance_label.resize( default_text_box_size );
+    field_intensity_variance_label.move( QPoint( col * default_text_box_width,
+                                         row++ * default_text_box_height ) );
+    field_intensity_variance_label.show();
 
     // =========================================================================================
     // fourth column of boxes
@@ -475,7 +516,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     dmg_type_box.setParent( this );
     dmg_type_box.resize( default_text_box_size );
     dmg_type_box.move( QPoint( col * default_text_box_width,
-                               row++ *default_text_box_height ) );
+                               row++ * default_text_box_height ) );
     dmg_type_box.setToolTip( QString( _( "The casting time of the spell at level 0" ) ) );
     dmg_type_box.show();
     QStringList damage_types;
@@ -510,7 +551,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     difficulty_box.setParent( this );
     difficulty_box.resize( default_text_box_size );
-    difficulty_box.move( QPoint( col * default_text_box_width, row++ *default_text_box_height ) );
+    difficulty_box.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     difficulty_box.setToolTip( QString(
                                    _( "The difficulty of the spell. This affects spell failure chance." ) ) );
     difficulty_box.setMaximum( INT_MAX );
@@ -524,7 +565,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     max_level_box.setParent( this );
     max_level_box.resize( default_text_box_size );
-    max_level_box.move( QPoint( col * default_text_box_width, row++ *default_text_box_height ) );
+    max_level_box.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     max_level_box.setToolTip( QString(
                                   _( "The max level of the spell. Spell level affects a large variety of things, including spell failure chance, damage, etc." ) ) );
     max_level_box.setMaximum( 80 );
@@ -552,7 +593,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     components_box.setParent( this );
     components_box.resize( default_text_box_size );
     components_box.move( QPoint( col * default_text_box_width,
-                                 row++ *default_text_box_height ) );
+                                 row++ * default_text_box_height ) );
     components_box.setToolTip( QString(
                                    _( "The components required in order to cast the spell. Leave empty for no components." ) ) );
     components_box.show();
@@ -569,7 +610,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     skill_box.setParent( this );
     skill_box.resize( default_text_box_size );
     skill_box.move( QPoint( col * default_text_box_width,
-                            row++ *default_text_box_height ) );
+                            row++ * default_text_box_height ) );
     skill_box.setToolTip( QString(
                               _( "Uses this skill to calculate spell failure chance." ) ) );
     skill_box.show();
@@ -583,6 +624,89 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         write_json();
     } );
     skill_box.setCurrentText( QString( editable_spell.skill.c_str() ) );
+
+    field_id_box.setParent( this );
+    field_id_box.resize( default_text_box_size );
+    field_id_box.move( QPoint( col * default_text_box_width,
+                               row++ *default_text_box_height ) );
+    field_id_box.show();
+    QStringList all_field_types;
+    for( const field_type &fd_type : field_types::get_all() ) {
+
+    }
+    QObject::connect( &field_id_box, &QComboBox::currentTextChanged,
+    [&]() {
+        editable_spell.field = field_type_id( field_id_box.currentText().toStdString() );
+        write_json();
+    } );
+
+    field_chance_box.setParent( this );
+    field_chance_box.resize( default_text_box_size );
+    field_chance_box.move( QPoint( col * default_text_box_width,
+                                   row++ *default_text_box_height ) );
+    field_chance_box.show();
+    field_chance_box.setToolTip( QString(
+                                     _( "the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell. 0 and 1 are 100% chance" ) ) );
+    QObject::connect( &field_chance_box, &QSpinBox::textChanged,
+    [&]() {
+        editable_spell.field_chance = field_chance_box.value();
+        write_json();
+    } );
+
+    min_field_intensity_box.setParent( this );
+    min_field_intensity_box.resize( default_text_box_size );
+    min_field_intensity_box.move( QPoint( col * default_text_box_width,
+                                          row++ * default_text_box_height ) );
+    min_field_intensity_box.show();
+    QObject::connect( &min_field_intensity_box, &QSpinBox::textChanged,
+    [&]() {
+        editable_spell.min_field_intensity = min_field_intensity_box.value();
+        max_field_intensity_box.setValue( std::max( max_field_intensity_box.value(),
+                                          editable_spell.min_field_intensity ) );
+        editable_spell.max_field_intensity = max_field_intensity_box.value();
+        write_json();
+    } );
+
+    field_intensity_increment_box.setParent( this );
+    field_intensity_increment_box.resize( default_text_box_size );
+    field_intensity_increment_box.move( QPoint( col * default_text_box_width,
+                                        row++ *default_text_box_height ) );
+    field_intensity_increment_box.show();
+    field_intensity_increment_box.setMinimum( INT_MIN );
+    field_intensity_increment_box.setMaximum( INT_MAX );
+    field_intensity_increment_box.setSingleStep( 0.1 );
+    QObject::connect( &field_intensity_increment_box, &QDoubleSpinBox::textChanged,
+    [&]() {
+        editable_spell.field_intensity_increment = field_intensity_increment_box.value();
+        write_json();
+    } );
+
+    max_field_intensity_box.setParent( this );
+    max_field_intensity_box.resize( default_text_box_size );
+    max_field_intensity_box.move( QPoint( col * default_text_box_width,
+                                          row++ *default_text_box_height ) );
+    max_field_intensity_box.show();
+    QObject::connect( &max_field_intensity_box, &QSpinBox::textChanged,
+    [&]() {
+        editable_spell.max_field_intensity = max_field_intensity_box.value();
+        min_field_intensity_box.setValue( std::min( min_field_intensity_box.value(),
+                                          max_field_intensity_box.value() ) );
+        editable_spell.min_field_intensity = min_field_intensity_box.value();
+        write_json();
+    } );
+
+    field_intensity_variance_box.setParent( this );
+    field_intensity_variance_box.resize( default_text_box_size );
+    field_intensity_variance_box.move( QPoint( col * default_text_box_width,
+                                       row++ * default_text_box_height ) );
+    field_intensity_variance_box.show();
+    field_intensity_variance_box.setToolTip( QString(
+                _( "field intensity added to the map is +- ( 1 + field_intensity_variance ) * field_intensity" ) ) );
+    QObject::connect( &field_intensity_variance_box, &QSpinBox::textChanged,
+    [&]() {
+        editable_spell.field_intensity_variance = field_intensity_variance_box.value();
+        write_json();
+    } );
 
     // =========================================================================================
     // fifth column of boxes
@@ -716,7 +840,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     sound_description_label.setText( QString( "Sound Description" ) );
     sound_description_label.resize( default_text_box_size );
     sound_description_label.move( QPoint( col * default_text_box_width,
-                                          row++ *default_text_box_height ) );
+                                          row++ * default_text_box_height ) );
     sound_description_label.show();
 
     sound_type_label.setParent( this );
