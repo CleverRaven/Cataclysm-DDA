@@ -25,6 +25,7 @@
     "name": "orichalcum frame",
     "item": "orichalcum_frame",
     "location": "structure",
+    "symbol": "c",
     "durability": 2000,
     "description": "An expensive magical metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "orichalcum_frame_break",
