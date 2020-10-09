@@ -37,7 +37,6 @@
 #include "gamemode.h"
 #include "gates.h"
 #include "gun_mode.h"
-#include "handle_action.h"
 #include "help.h"
 #include "input.h"
 #include "int_id.h"
