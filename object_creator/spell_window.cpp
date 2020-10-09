@@ -791,11 +791,11 @@ void creator::spell_window::write_json()
     JsonIn jsin( in_stream );
 
     std::ostringstream window_out;
-    JsonOut window_jo( window_out );
+    JsonOut window_jo( window_out, true );
 
     formatter::format( jsin, window_jo );
 
-    QString output_json{ stream.str().c_str() };
+    QString output_json{ window_out.str().c_str() };
 
     spell_json.setText( output_json );
 }
