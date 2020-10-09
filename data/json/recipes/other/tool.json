@@ -394,7 +394,11 @@
     "time": "5 h",
     "using": [ [ "blacksmithing_standard", 7 ], [ "steel_standard", 7 ] ],
     "book_learn": [ [ "manual_shotgun", 2 ], [ "manual_rifle", 2 ], [ "manual_smg", 2 ], [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 },
+      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 2 }
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
