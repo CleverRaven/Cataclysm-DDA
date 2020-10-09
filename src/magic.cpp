@@ -225,38 +225,6 @@ static std::string moves_to_string( const int moves )
 
 void spell_type::load( const JsonObject &jo, const std::string & )
 {
-    static const
-    std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
-    effect_map{
-        { "pain_split", spell_effect::pain_split },
-        { "attack", spell_effect::attack },
-        { "targeted_polymorph", spell_effect::targeted_polymorph },
-        { "teleport_random", spell_effect::teleport_random },
-        { "spawn_item", spell_effect::spawn_ethereal_item },
-        { "recover_energy", spell_effect::recover_energy },
-        { "summon", spell_effect::spawn_summoned_monster },
-        { "summon_vehicle", spell_effect::spawn_summoned_vehicle },
-        { "translocate", spell_effect::translocate },
-        { "area_pull", spell_effect::area_pull },
-        { "area_push", spell_effect::area_push },
-        { "directed_push", spell_effect::directed_push },
-        { "timed_event", spell_effect::timed_event },
-        { "ter_transform", spell_effect::transform_blast },
-        { "noise", spell_effect::noise },
-        { "vomit", spell_effect::vomit },
-        { "explosion", spell_effect::explosion },
-        { "flashbang", spell_effect::flashbang },
-        { "mod_moves", spell_effect::mod_moves },
-        { "map", spell_effect::map },
-        { "morale", spell_effect::morale },
-        { "charm_monster", spell_effect::charm_monster },
-        { "mutate", spell_effect::mutate },
-        { "bash", spell_effect::bash },
-        { "dash", spell_effect::dash },
-        { "banishment", spell_effect::banishment },
-        { "none", spell_effect::none }
-    };
-
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -269,8 +237,8 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "sound_id", sound_id, sound_id_default );
     optional( jo, was_loaded, "sound_variant", sound_variant, sound_variant_default );
     mandatory( jo, was_loaded, "effect", effect_name );
-    const auto found_effect = effect_map.find( effect_name );
-    if( found_effect == effect_map.cend() ) {
+    const auto found_effect = spell_effect::effect_map.find( effect_name );
+    if( found_effect == spell_effect::effect_map.cend() ) {
         effect = spell_effect::none;
         debugmsg( "ERROR: spell %s has invalid effect %s", id.c_str(), effect_name );
     } else {
