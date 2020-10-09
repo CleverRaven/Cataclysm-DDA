@@ -441,7 +441,6 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         } else {
             def.symbols[ variant_id ] = symbol;
         }
-        def.sym = jo.get_string( "symbol" )[ 0 ];
     }
     if( jo.has_bool( "standard_symbols" ) && jo.get_bool( "standard_symbols" ) ) {
         // Fallback symbol for unknown variant

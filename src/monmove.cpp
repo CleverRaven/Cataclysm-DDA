@@ -454,7 +454,7 @@ void monster::plan()
                 continue;
             }
 
-            for( auto &fac : fac_list.second ) {
+            for( const auto &fac : fac_list.second ) {
                 if( !seen_levels.test( fac.first + OVERMAP_DEPTH ) ) {
                     continue;
                 }
@@ -504,7 +504,7 @@ void monster::plan()
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( auto &fac : myfaction_iter->second ) {
+        for( const auto &fac : myfaction_iter->second ) {
             if( !seen_levels.test( fac.first + OVERMAP_DEPTH ) ) {
                 continue;
             }

@@ -2947,7 +2947,7 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
     {
         public:
             item_loc_with_depth( const item_location &_loc )
-                : _loc( _loc ), _depth( 0 ) {
+                : _loc( _loc ) {
                 item_location ancestor = _loc;
                 while( ancestor.has_parent() ) {
                     ++_depth;
@@ -5484,7 +5484,6 @@ void Character::try_reduce_weariness( const float exertion )
             weary.low_activity_ticks++;
         }
     }
-
 
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
 

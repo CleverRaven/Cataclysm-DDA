@@ -494,7 +494,7 @@ struct grid_overlay {
         this->offset = ORIGIN - origin_offset;
         this->default_value = default_value;
     }
-    grid_overlay( const tripoint origin_offset, const float default_value ) {
+    grid_overlay( const tripoint &origin_offset, const float default_value ) {
         this->offset = ORIGIN - origin_offset;
         this->default_value = default_value;
     }
@@ -901,7 +901,6 @@ TEST_CASE( "shadowcasting_transparent_floors", "[shadowcasting]" )
 //
 // O T  T O  O O  O O
 // O O  O O  O T  T O
-
 
 TEST_CASE( "shadowcasting_floating_wall", "[shadowcasting]" )
 {

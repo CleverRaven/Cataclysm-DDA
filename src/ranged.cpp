@@ -84,7 +84,6 @@ static const itype_id itype_84x246mm( "84x246mm" );
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_arrow( "arrow" );
 static const itype_id itype_bolt( "bolt" );
-static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_flammable( "flammable" );
 static const itype_id itype_m235( "m235" );
 static const itype_id itype_metal_rail( "metal_rail" );
