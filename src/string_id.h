@@ -14,6 +14,38 @@ class int_id;
 template<typename T>
 class generic_factory;
 
+namespace Hash {
+    namespace CompileTime {
+        constexpr uint64_t fnv1a_64(const char* byte_data, size_t length)
+        {
+            return length ? (fnv1a_64(byte_data, length - 1) * 1099511628211ull) ^ byte_data[length - 1]
+                : 14695981039346656037ull;
+        }
+    }
+
+    namespace RunTime {
+        // MSVC doesn't optimize compile time fnv1a_64 well, so have a runtime variation as well:
+        inline uint64_t fnv1a_64(const void* data, size_t length)
+        {
+            auto byte_data = reinterpret_cast<const char*>(data);
+            uint64_t hash = 14695981039346656037ull;
+            for (int i = 0; i < length; i++) {
+                hash *= 1099511628211ull;
+                hash ^= byte_data[i];
+            }
+            return hash;
+        }
+    }
+}
+
+constexpr uint64_t operator"" _id(const char* data, size_t count)
+{
+    // This allows us to compute the hash of all compiled IDs in compile time.
+    // However, since constexpr doesn't allow us to create a collection of all precompiled strings
+    // we have to save both the string and its hash, so cached_strings will have a copy of the correct string.
+    return Hash::CompileTime::fnv1a_64(data, count);
+}
+
 /**
  * This represents an identifier (implemented as std::string) of some object.
  * It can be used for all type of objects, one just needs to specify a type as
@@ -68,170 +100,212 @@ class generic_factory;
 template<typename T>
 class string_id
 {
-    public:
-        using This = string_id<T>;
+public:
+    template<class U>
+    friend class string_id;
+    using This = string_id<T>;
 
-        /**
-         * Forwarding constructor, forwards any parameter to the std::string
-         * constructor to create the id string. This allows plain C-strings,
-         * and std::strings to be used.
-         */
-        // Beautiful C++11: enable_if makes sure that S is always something that can be used to constructor
-        // a std::string, otherwise a "no matching function to call..." error is generated.
-        template<typename S, class = typename
-                 std::enable_if< std::is_convertible<S, std::string >::value>::type >
-        explicit string_id( S &&
-                            id ) : _id( std::forward<S>( id ) ), _cid( INVALID_CID ), _version( INVALID_VERSION ) {}
-        /**
-         * Default constructor constructs an empty id string.
-         * Note that this id class does not enforce empty id strings (or any specific string at all)
-         * to be special. Every string (including the empty one) may be a valid id.
-         */
-        string_id() : _cid( INVALID_CID ), _version( INVALID_VERSION ) {}
-        /**
-         * Comparison, only useful when the id is used in std::map or std::set as key. Compares
-         * the string id as with the strings comparison.
-         */
-        bool operator<( const This &rhs ) const {
-            return _id < rhs._id;
-        }
-        /**
-         * The usual comparator, compares the string id as usual.
-         */
-        bool operator==( const This &rhs ) const {
-            bool can_compare_cid = ( _cid != INVALID_CID || rhs._cid != INVALID_CID ) &&
-                                   _version == rhs._version && _version != INVALID_VERSION;
-            return ( can_compare_cid && _cid == rhs._cid ) ||
-                   ( !can_compare_cid && _id == rhs._id );
-            // else returns false, when:
-            //      can_compare_cid && _cid != rhs._cid
-            //  OR  !can_compare_cid && _id != rhs._id
-        }
-        /**
-         * The usual comparator, compares the string id as usual.
-         */
-        bool operator!=( const This &rhs ) const {
-            return ! operator==( rhs );
-        }
-        /**
-         * Interface to the plain C-string of the id. This function mimics the std::string
-         * object. Ids are often used in debug messages, where they are forwarded as C-strings
-         * to be included in the format string, e.g. debugmsg("invalid id: %s", id.c_str())
-         */
-        const char *c_str() const {
-            return _id.c_str();
-        }
-        /**
-         * Returns the identifier as plain std::string. Use with care, the plain string does not
-         * have any information as what type of object it refers to (the T template parameter of
-         * the class).
-         */
-        const std::string &str() const {
-            return _id;
-        }
+    explicit constexpr string_id(const char *str) : _hash(Hash::CompileTime::fnv1a_64(str, strlen(str))), _is_char_ptr(true), _char_ptr(str) {}
 
-        explicit operator std::string() const {
-            return _id;
-        }
+    template<typename U>
+    string_id(const string_id<U>& other) : _hash(other.hash()), _char_ptr(other._char_ptr), _is_char_ptr(other._is_char_ptr) {}
 
-        // Those are optional, you need to implement them on your own if you want to use them.
-        // If you don't implement them, but use them, you'll get a linker error.
-        /**
-         * Translate the string based it to the matching integer based id.
-         * This may issue a debug message if the string is not a valid id.
-         */
-        int_id<T> id() const;
-        /**
-         * Translate the string based it to the matching integer based id.
-         * If this string_id is not valid, returns `fallback`.
-         * Does not produce debug message.
-         */
-        int_id<T> id_or( const int_id<T> &fallback ) const;
-        /**
-         * Returns the actual object this id refers to. May show a debug message if the id is invalid.
-         */
-        const T &obj() const;
+    template<typename S, class = typename
+        std::enable_if_t< std::is_convertible_v< S, std::string > >
+    >
+    explicit string_id(S&& id) {
+        auto str = std::make_unique<std::string>(std::forward<S>(id));
+        uint64_t hash = Hash::RunTime::fnv1a_64(str->c_str(), str->size());
+        _hash = hash;
 
-        const T &operator*() const {
-            return obj();
+        auto insertion = cached_strings().try_emplace(hash, std::move(str));
+        auto cached_string = insertion.first->second.get();
 
-        }
-        const T *operator->() const {
-            return &obj();
-        }
+        // Verify we don't have hash collisions
+        //assert(insertion.second || *cached_string == id);
 
-        /**
-         * Returns whether this id is valid, that means whether it refers to an existing object.
-         */
-        bool is_valid() const;
-        /**
-         * Returns whether this id is empty. An empty id can still be valid,
-         * and emptiness does not mean that it's null. Named is_empty() to
-         * keep consistency with the rest is_.. functions
-         */
-        bool is_empty() const {
-            return _id.empty();
-        }
-        /**
-         * Returns a null id whose `string_id<T>::is_null()` must always return true. See @ref is_null.
-         * Specializations are defined in string_id_null_ids.cpp to avoid instantiation ordering issues.
-         */
-        static const string_id<T> &NULL_ID();
-        /**
-         * Returns whether this represents the id of the null-object (in which case it's the null-id).
-         * Note that not all types assigned to T may have a null-object. As such, there won't be a
-         * definition of @ref NULL_ID and if you use any of the related functions, you'll get
-         * errors during the linking.
-         *
-         * Example: "mon_null" is the id of the null-object of monster type.
-         *
-         * Note: per definition the null-id shall be valid. This allows to use it in places
-         * that require a (valid) id, but it can still represent a "don't use it" value.
-         */
-        bool is_null() const {
-            return operator==( NULL_ID() );
-        }
-        /**
-         * Same as `!is_null`, basically one can use it to check for the id referring to an actual
-         * object. This avoids explicitly comparing it with NULL_ID. The id may still be invalid,
-         * but that should have been checked when the world data was loaded.
-         * \code
-         * string_id<X> id = ...;
-         * if( id ) {
-         *     apply_id( id );
-         * } else {
-         *     // was the null-id, ignore it.
-         * }
-         * \endcode
-         */
-        explicit operator bool() const {
-            return !is_null();
-        }
+        _string = cached_string;
+    }
 
-    private:
-        std::string _id;
-        // cached int_id counterpart of this string_id
-        mutable int _cid;
-        // generic_factory version that corresponds to the _cid
-        mutable int64_t _version;
-
-        inline void set_cid_version( int cid, int64_t version ) const {
-            _cid = cid;
-            _version = version;
+     /**
+      * Default constructor constructs an empty id string.
+      * Note that this id class does not enforce empty id strings (or any specific string at all)
+      * to be special. Every string (including the empty one) may be a valid id.
+      */
+    constexpr string_id() : string_id("") {};
+    /**
+     * Comparison, only useful when the id is used in std::map or std::set as key. Compares
+     * the string id as with the strings comparison.
+     */
+    bool operator<(const This& rhs) const {
+        // Not str() compares to prevent needless tier ups to std::string
+        return strcmp(c_str(), rhs.c_str()) < 0;
+    }
+    /**
+     * The usual comparator, compares the string id as usual.
+     */
+    bool operator==(const This& rhs) const {
+        return _hash == rhs._hash;
+    }
+    /**
+     * Allows to quickly compare hashes, when caching the hash would be faster
+     */
+    bool operator==(uint64_t hash) const {
+        return _hash == hash;
+    }
+    /**
+     * The usual comparator, compares the string id as usual.
+     */
+    bool operator!=(const This& rhs) const {
+        return !operator==(rhs);
+    }
+    /**
+     * Interface to the plain C-string of the id. This function mimics the std::string
+     * object. Ids are often used in debug messages, where they are forwarded as C-strings
+     * to be included in the format string, e.g. debugmsg("invalid id: %s", id.c_str())
+     */
+    const char* c_str() const {
+        return _is_char_ptr ? _char_ptr : _string->c_str();
+    }
+    /**
+     * Returns the identifier as plain std::string. Use with care, the plain string does not
+     * have any information as what type of object it refers to (the T template parameter of
+     * the class).
+     * Note: The function is declared with safebuffers as MSVC insert a cookie check here
+     * for some reason, and it takes up 25% of str()'s runtime.
+     */
+    __declspec(safebuffers)
+    const std::string& str() const {
+        if (_is_char_ptr) {
+            // We don't want to break the constness of str(), and this change is 100% internal with
+            // observable side effects, therefore we break the constness of this to cache the string.
+            auto wthis = const_cast<This*>(this);
+            auto string = std::make_unique<std::string>(_char_ptr);
+            wthis->_string = cached_strings().try_emplace(_hash, std::move(string)).first->second.get();
+            wthis->_is_char_ptr = false;
         }
+        return *_string;
+    }
 
-        friend class generic_factory<T>;
+    explicit operator std::string() const {
+        return str();
+    }
+
+    // Those are optional, you need to implement them on your own if you want to use them.
+    // If you don't implement them, but use them, you'll get a linker error.
+    /**
+     * Translate the string based it to the matching integer based id.
+     * This may issue a debug message if the string is not a valid id.
+     */
+    int_id<T> id() const;
+    /**
+     * Translate the string based it to the matching integer based id.
+     * If this string_id is not valid, returns `fallback`.
+     * Does not produce debug message.
+     */
+    int_id<T> id_or(const int_id<T>& fallback) const;
+    /**
+     * Returns the actual object this id refers to. May show a debug message if the id is invalid.
+     */
+    const T& obj() const;
+
+    const T& operator*() const {
+        return obj();
+
+    }
+    const T* operator->() const {
+        return &obj();
+    }
+
+    /**
+     * Returns whether this id is valid, that means whether it refers to an existing object.
+     */
+    bool is_valid() const;
+    /**
+     * Returns whether this id is empty. An empty id can still be valid,
+     * and emptiness does not mean that it's null. Named is_empty() to
+     * keep consistency with the rest is_.. functions
+     */
+    bool is_empty() const {
+        return _hash == ""_id;
+    }
+    /**
+     * Returns a null id whose `string_id<T>::is_null()` must always return true. See @ref is_null.
+     * Specializations are defined in string_id_null_ids.cpp to avoid instantiation ordering issues.
+     */
+    static const string_id<T>& NULL_ID();
+    /**
+     * Returns whether this represents the id of the null-object (in which case it's the null-id).
+     * Note that not all types assigned to T may have a null-object. As such, there won't be a
+     * definition of @ref NULL_ID and if you use any of the related functions, you'll get
+     * errors during the linking.
+     *
+     * Example: "mon_null" is the id of the null-object of monster type.
+     *
+     * Note: per definition the null-id shall be valid. This allows to use it in places
+     * that require a (valid) id, but it can still represent a "don't use it" value.
+     */
+    bool is_null() const {
+        return operator==(NULL_ID());
+    }
+    /**
+     * Same as `!is_null`, basically one can use it to check for the id referring to an actual
+     * object. This avoids explicitly comparing it with NULL_ID. The id may still be invalid,
+     * but that should have been checked when the world data was loaded.
+     * \code
+     * string_id<X> id = ...;
+     * if( id ) {
+     *     apply_id( id );
+     * } else {
+     *     // was the null-id, ignore it.
+     * }
+     * \endcode
+     */
+    explicit operator bool() const {
+        return !is_null();
+    }
+
+    uint64_t hash() const {
+        return _hash;
+    }
+
+private:
+    std::map < uint64_t, std::unique_ptr< std::string > >& cached_strings() const {
+        static std::map < uint64_t, std::unique_ptr< std::string > > cached_strings_{};
+        return cached_strings_;
+    }
+
+    uint64_t _hash = ""_id;
+
+    union {
+        std::string* _string;
+        const char* _char_ptr;
+    };
+
+    // cached int_id counterpart of this string_id
+    mutable int _cid = INVALID_CID;
+    // generic_factory version that corresponds to the _cid
+    mutable int _version = INVALID_VERSION;
+    // To save these extra 8 bytes, move the bool into the MSb of _string
+    bool _is_char_ptr = false;
+
+    inline void set_cid_version(int cid, int version) const {
+        _cid = cid;
+        _version = version;
+    }
+
+    friend class generic_factory<T>;
 };
 
 // Support hashing of string based ids by forwarding the hash of the string.
 namespace std
 {
-template<typename T>
-struct hash< string_id<T> > {
-    std::size_t operator()( const string_id<T> &v ) const noexcept {
-        return hash<std::string>()( v.str() );
-    }
-};
+    template<typename T>
+    struct hash< string_id<T> > {
+        std::size_t operator()(const string_id<T>& v) const noexcept {
+            return static_cast<size_t>(v.hash());
+        }
+    };
 } // namespace std
 
 #endif // CATA_SRC_STRING_ID_H
