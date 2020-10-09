@@ -66,5 +66,36 @@
     "color": "green",
     "looks_like": "steel_plate",
     "use_action": { "type": "deploy_furn", "furn_type": "f_winter_wreath" }
+  },
+  {
+    "abstract": "inflatable_decoration",
+    "type": "TOOL",
+    "name": { "str": "inflatable" },
+    "description": "A generic inflatable abstract to use for specific items.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "price": 5000,
+    "material": [ "plastic" ],
+    "symbol": "P",
+    "color": "light_red",
+    "charges_per_use": 100,
+  },
+  {
+    "id": "inflatable_dragon",
+    "type": "TOOL",
+    "copy-from": "inflatable_decoration",
+    "name": { "str": "inflatable dragon" },
+    "description": "A battery powered inflatable dragon from the Halloween before the end.  It might be fun to display it somewhere.",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 500 } } ],
+    "use_action": { "type": "cast_spell", "spell_id": "dragon_inflatable", "no_fail": true, "level": 1 }
+  },
+  {
+    "id": "inflatable_ghost",
+    "type": "TOOL",
+    "copy-from": "inflatable_decoration",
+    "name": { "str": "inflatable ghost" },
+    "description": "A battery powered inflatable ghost from the Halloween before the end.  It might be fun to display it somewhere.",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 500 } } ],
+    "use_action": { "type": "cast_spell", "spell_id": "ghost_inflatable", "no_fail": true, "level": 1 }
   }
 ]
