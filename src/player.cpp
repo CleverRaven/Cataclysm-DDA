@@ -1126,7 +1126,7 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
     }
 }
 
-void player::add_pain_msg( int val, const bodypart_id &bp ) const
+void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
 {
     if( has_trait( trait_NOPAIN ) ) {
         return;
@@ -1163,7 +1163,7 @@ void player::add_pain_msg( int val, const bodypart_id &bp ) const
     }
 }
 
-void player::process_one_effect( effect &it, bool is_new )
+void Character::process_one_effect( effect &it, bool is_new )
 {
     bool reduced = resists_effect( it );
     double mod = 1;
@@ -1372,7 +1372,7 @@ void player::process_one_effect( effect &it, bool is_new )
     // Speed and stats are handled in recalc_speed_bonus and reset_stats respectively
 }
 
-void player::process_effects()
+void Character::process_effects()
 {
     //Special Removals
     if( has_effect( effect_darkness ) && g->is_in_sunlight( pos() ) ) {
@@ -1422,7 +1422,7 @@ void player::process_effects()
     Creature::process_effects();
 }
 
-double player::vomit_mod()
+double Character::vomit_mod()
 {
     double mod = mutation_value( "vomit_multiplier" );
     if( has_effect( effect_weed_high ) ) {
@@ -3005,7 +3005,7 @@ void player::try_to_sleep( const time_duration &dur )
     assign_activity( player_activity( try_sleep_activity_actor( dur ) ) );
 }
 
-int player::sleep_spot( const tripoint &p ) const
+int Character::sleep_spot( const tripoint &p ) const
 {
     const int current_stim = get_stim();
     const comfort_response_t comfort_info = base_comfort_value( p );
@@ -3055,7 +3055,7 @@ int player::sleep_spot( const tripoint &p ) const
     return sleepy;
 }
 
-bool player::can_sleep()
+bool Character::can_sleep()
 {
     if( has_effect( effect_meth ) ) {
         // Sleep ain't happening until that meth wears off completely.

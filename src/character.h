@@ -2577,6 +2577,18 @@ class Character : public Creature, public visitable<Character>
         void try_reduce_weariness( float exertion );
         float maximum_exertion_level() const;
         std::string debug_weary_info() const;
+        // returns empty because this is avatar specific
+        void add_pain_msg( int, const bodypart_id & ) const {}
+        /** Returns the modifier value used for vomiting effects. */
+        double vomit_mod();
+        /** Checked each turn during "lying_down", returns true if the player falls asleep */
+        bool can_sleep();
+        /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
+        int sleep_spot( const tripoint &p ) const;
+        /** Processes human-specific effects of effects before calling Creature::process_effects(). */
+        void process_effects() override;
+        /** Handles the still hard-coded effects. */
+        void hardcoded_effects( effect &it );
 
     protected:
         Character();
@@ -2690,6 +2702,8 @@ class Character : public Creature, public visitable<Character>
         std::map<vitamin_id, int> vitamin_levels;
 
         pimpl<player_morale> morale;
+        /** Processes human-specific effects of an effect. */
+        void process_one_effect( effect &it, bool is_new ) override;
 
     public:
         /**
