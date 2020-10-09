@@ -283,11 +283,6 @@ void monster::setpos( const tripoint &p )
     }
 }
 
-const tripoint &monster::pos() const
-{
-    return position;
-}
-
 void monster::poly( const mtype_id &id )
 {
     double hp_percentage = static_cast<double>( hp ) / static_cast<double>( type->hp );

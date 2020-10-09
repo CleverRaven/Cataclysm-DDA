@@ -242,8 +242,8 @@ std::string mtype::get_description() const
 
 std::string mtype::get_footsteps() const
 {
-    for( const species_id &s : species ) {
-        return s.obj().get_footsteps();
+    if( species.size() ) {
+        return species.begin()->obj().get_footsteps();
     }
     return _( "footsteps." );
 }
