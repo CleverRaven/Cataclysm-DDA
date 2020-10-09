@@ -2163,6 +2163,14 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         if( !default_ammo.is_null() ) {
             tmp.ammo_set( default_ammo );
         } else if( !tmp.magazine_default().is_null() ) {
+            // clear out empty magazines so put_in below doesn't error
+            for( item *i : tmp.contents.all_items_top() ) {
+                if( i->is_magazine() ) {
+                    tmp.remove_item( *i );
+                    tmp.on_contents_changed();
+                }
+            }
+
             item tmp_mag( tmp.magazine_default() );
             tmp_mag.ammo_set( tmp_mag.ammo_default() );
             tmp.put_in( tmp_mag, item_pocket::pocket_type::MAGAZINE_WELL );
