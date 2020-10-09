@@ -562,7 +562,7 @@ static void close()
     }
 }
 
-static void handbrake()
+void handbrake()
 {
     Character &player_character = get_player_character();
     const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
