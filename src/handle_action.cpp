@@ -137,8 +137,6 @@ extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
 extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
 #endif
 
-void handbrake();
-
 class user_turn
 {
 
