@@ -214,5 +214,11 @@
     "type": "MONSTER_FACTION",
     "name": "triffid",
     "base_faction": "plant"
+  },
+  {
+	"type": "MONSTER_FACTION",
+	"name": "aquatic_predator",
+	"neutral": "bot",
+	"hate": "fish"
   }
 ]
