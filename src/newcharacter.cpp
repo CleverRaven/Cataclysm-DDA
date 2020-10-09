@@ -2351,7 +2351,6 @@ enum description_selector {
     LOCATION
 };
 
-
 static void draw_gender( const catacurses::window &w_gender, const avatar &you,
                          const bool highlight )
 {

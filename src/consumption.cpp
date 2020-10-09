@@ -1258,7 +1258,6 @@ void Character::modify_morale( item &food, const int nutr )
     }
 }
 
-
 // Used when determining stomach fullness from eating.
 double Character::compute_effective_food_volume_ratio( const item &food ) const
 {
@@ -1298,7 +1297,6 @@ int Character::compute_calories_per_effective_volume( const item &food,
     const double effective_volume = converted_volume * energy_density_ratio;
     return std::round( kcalories / effective_volume );
 }
-
 
 bool Character::consume_effects( item &food )
 {
