@@ -1186,7 +1186,7 @@ bool Creature::remove_effect( const efftype_id &eff_id )
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
     // bp_null means anything targeted or not
-    if( bp == bodypart_str_id( "bp_null" ) ) {
+    if( bp.is_null() ) {
         return effects->find( eff_id ) != effects->end();
     } else {
         auto got_outer = effects->find( eff_id );
@@ -1202,7 +1202,7 @@ bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
 
 bool Creature::has_effect( const efftype_id &eff_id ) const
 {
-    return has_effect( eff_id, bodypart_str_id( "bp_null" ) );
+    return has_effect( eff_id, bodypart_str_id::NULL_ID() );
 }
 
 bool Creature::has_effect_with_flag( const std::string &flag, const bodypart_id &bp ) const

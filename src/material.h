@@ -35,7 +35,7 @@ class material_type
     private:
         translation _name;
         cata::optional<itype_id> _salvaged_into; // this material turns into this item when salvaged
-        itype_id _repaired_with = itype_id( "null" ); // this material can be repaired with this item
+        itype_id _repaired_with = itype_id::NULL_ID(); // this material can be repaired with this item
         int _bash_resist = 0;                         // negative integers means susceptibility
         int _cut_resist = 0;
         int _acid_resist = 0;

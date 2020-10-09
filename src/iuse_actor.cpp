@@ -3105,7 +3105,7 @@ int heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
 
     player &patient = get_patient( p, pos );
     const bodypart_str_id hpp = use_healing_item( p, patient, it, false ).id();
-    if( hpp == bodypart_str_id( "bp_null" ) ) {
+    if( hpp == bodypart_str_id::NULL_ID() ) {
         return 0;
     }
 

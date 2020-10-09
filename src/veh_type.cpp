@@ -265,7 +265,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
         for( const std::string line : fuel_opts ) {
             e_info.fuel_opts.push_back( itype_id( line ) );
         }
-    } else if( e_info.fuel_opts.empty() && fuel_type != itype_id( "null" ) ) {
+    } else if( e_info.fuel_opts.empty() && !fuel_type.is_null() ) {
         e_info.fuel_opts.push_back( fuel_type );
     }
     eptr = e_info;

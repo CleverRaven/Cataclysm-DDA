@@ -159,7 +159,7 @@ class effect_type
 class effect
 {
     public:
-        effect() : eff_type( nullptr ), duration( 0_turns ), bp( bodypart_str_id( "bp_null" ) ),
+        effect() : eff_type( nullptr ), duration( 0_turns ), bp( bodypart_str_id::NULL_ID() ),
             permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ),
             source( effect_source::empty() ) {
         }

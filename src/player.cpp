@@ -230,10 +230,10 @@ player::player()
     grab_point = tripoint_zero;
     hauling = false;
     focus_pool = 100;
-    last_item = itype_id( "null" );
+    last_item = itype_id::NULL_ID();
     sight_max = 9999;
     last_batch = 0;
-    lastconsumed = itype_id( "null" );
+    lastconsumed = itype_id::NULL_ID();
     death_drops = true;
 
     nv_cached = false;
@@ -280,7 +280,7 @@ void player::process_turn()
     }
     process_items();
     // Didn't just pick something up
-    last_item = itype_id( "null" );
+    last_item = itype_id::NULL_ID();
 
     if( !is_npc() && has_trait( trait_DEBUG_BIONIC_POWER ) ) {
         mod_power_level( get_max_power_level() );
