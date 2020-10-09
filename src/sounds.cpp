@@ -300,6 +300,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, mon
                                            static_cast<float>( sound_event_pair.second.volume ) );
         // Set the centroid weight to the sum of the weights.
         found_centroid->weight = volume_sum;
+        // Set and keep provocative if any sound in the centroid is provocative
         found_centroid->provocative |= sound_event_pair.second.provocative;
     }
     return sound_clusters;
