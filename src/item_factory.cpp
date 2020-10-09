@@ -1599,7 +1599,7 @@ void islot_ammo::load( const JsonObject &jo )
     optional( jo, was_loaded, "recoil", recoil, 0 );
     optional( jo, was_loaded, "count", def_charges, 1 );
     optional( jo, was_loaded, "loudness", loudness, -1 );
-    optional( jo, was_loaded, "effects", ammo_effects );
+    assign( jo, "effects", ammo_effects );
     optional( jo, was_loaded, "critical_multiplier", critical_multiplier, 2.0 );
     optional( jo, was_loaded, "show_stats", force_stat_display, cata::nullopt );
 }
