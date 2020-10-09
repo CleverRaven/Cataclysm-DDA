@@ -16,6 +16,8 @@ static spell_type default_spell_type()
     ret.message = to_translation( "You cast %s!" );
     ret.skill = skill_id( "spellcraft" );
     ret.spell_class = trait_id( "NONE" );
+    ret.effect_name = "area_pull";
+    ret.spell_area = spell_shape::blast;
     return ret;
 }
 
