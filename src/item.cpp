@@ -970,7 +970,7 @@ bool item::display_stacked_with( const item &rhs, bool check_components ) const
     return !count_by_charges() && stacks_with( rhs, check_components );
 }
 
-bool item::combine( const item &rhs )
+bool item::can_combine( const item &rhs ) const
 {
     if( !contents.empty() || !rhs.contents.empty() ) {
         return false;
@@ -978,7 +978,18 @@ bool item::combine( const item &rhs )
     if( !count_by_charges() ) {
         return false;
     }
-    if( has_temperature() && typeId() == rhs.typeId() ) {
+    if( !stacks_with( rhs, true, true ) ) {
+        return false;
+    }
+    return true;
+}
+
+bool item::combine( const item &rhs )
+{
+    if( !can_combine( rhs ) ) {
+        return false;
+    }
+    if( has_temperature() ) {
         if( goes_bad() ) {
             //use maximum rot between the two
             set_relative_rot( std::max( get_relative_rot(),
@@ -992,14 +1003,12 @@ bool item::combine( const item &rhs )
             set_item_specific_energy( combined_specific_energy );
         }
 
-    } else if( !stacks_with( rhs, true ) ) {
-        return false;
     }
     charges += rhs.charges;
     return true;
 }
 
-bool item::stacks_with( const item &rhs, bool check_components ) const
+bool item::stacks_with( const item &rhs, bool check_components, bool combine_liquid ) const
 {
     if( type != rhs.type ) {
         return false;
@@ -1025,8 +1034,29 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( active != rhs.active ) {
         return false;
     }
-    if( item_tags != rhs.item_tags ) {
-        return false;
+    if( combine_liquid && has_temperature() && made_of_from_type( phase_id::LIQUID ) ) {
+        //we can combine liquids of same type and different temperatures
+        //compare ranges between "COLD", "FROZEN", "HOT".
+        if( !std::equal( rhs.item_tags.begin(), rhs.item_tags.lower_bound( flag_COLD ),
+                         item_tags.begin(), item_tags.lower_bound( flag_COLD ) ) ) {
+            return false;
+        }
+        if( !std::equal( rhs.item_tags.upper_bound( flag_COLD ), rhs.item_tags.lower_bound( flag_FROZEN ),
+                         item_tags.upper_bound( flag_COLD ), item_tags.lower_bound( flag_FROZEN ) ) ) {
+            return false;
+        }
+        if( !std::equal( rhs.item_tags.upper_bound( flag_FROZEN ), rhs.item_tags.lower_bound( flag_HOT ),
+                         item_tags.upper_bound( flag_FROZEN ), item_tags.lower_bound( flag_HOT ) ) ) {
+            return false;
+        }
+        if( !std::equal( rhs.item_tags.upper_bound( flag_HOT ), rhs.item_tags.end(),
+                         item_tags.upper_bound( flag_HOT ), item_tags.end() ) ) {
+            return false;
+        }
+    } else {
+        if( item_tags != rhs.item_tags ) {
+            return false;
+        }
     }
     if( faults != rhs.faults ) {
         return false;
