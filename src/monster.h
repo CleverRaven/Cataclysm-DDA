@@ -19,6 +19,7 @@
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "item.h"
 #include "mtype.h"
@@ -317,8 +318,8 @@ class monster : public Creature
         void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
                                      bool print_messages = true ) override;
-        void deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
-                                      int &pain ) override;
+        void deal_damage_handle_type( const effect_source &source, const damage_unit &du, bodypart_id bp,
+                                      int &damage, int &pain ) override;
         void apply_damage( Creature *source, bodypart_id bp, int dam,
                            bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.

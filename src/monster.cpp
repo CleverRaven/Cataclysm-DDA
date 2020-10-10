@@ -1554,8 +1554,8 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     }
 }
 
-void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
-                                       int &pain )
+void monster::deal_damage_handle_type( const effect_source &source, const damage_unit &du,
+                                       bodypart_id bp, int &damage, int &pain )
 {
     switch( du.type ) {
         case damage_type::ELECTRIC:
@@ -1595,7 +1595,7 @@ void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, in
             break;
     }
 
-    Creature::deal_damage_handle_type( du,  bp, damage, pain );
+    Creature::deal_damage_handle_type( source, du,  bp, damage, pain );
 }
 
 int monster::heal( const int delta_hp, bool overheal )
@@ -2412,7 +2412,7 @@ void monster::process_one_effect( effect &it, bool is_new )
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, 1 ) ) {
-            apply_damage( nullptr, bodypart_id( "torso" ), val );
+            apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), val );
         }
     }
 
@@ -2430,7 +2430,7 @@ void monster::process_one_effect( effect &it, bool is_new )
 
         dam -= get_armor_type( damage_type::HEAT, bodypart_id( "torso" ) );
         if( dam > 0 ) {
-            apply_damage( nullptr, bodypart_id( "torso" ), dam );
+            apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), dam );
         } else {
             it.set_duration( 0_turns );
         }
@@ -2440,7 +2440,7 @@ void monster::process_one_effect( effect &it, bool is_new )
         effect_cache[VISION_IMPAIRED] = true;
     } else if( id == effect_bleed && x_in_y( it.get_intensity(), it.get_max_intensity() ) ) {
         // monsters are simplified so they just take damage from bleeding
-        apply_damage( nullptr, bodypart_id( "torso" ), 1 );
+        apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), 1 );
         // this is for balance only
         it.mod_duration( -rng( 1_turns, it.get_int_dur_factor() / 2 ) );
         bleed();
