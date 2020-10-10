@@ -1331,7 +1331,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
             int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,
                           holster.max_charges_by_parent_recursive( it ) );
 
-            if( charges > 0 ) {
+            if( charges > 0 && holster->can_contain_partial( it ) ) {
                 int result = holster->fill_with( it, charges );
                 success = result > 0;
 

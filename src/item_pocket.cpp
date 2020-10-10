@@ -566,6 +566,25 @@ int item_pocket::ammo_capacity( const ammotype &ammo ) const
     }
 }
 
+int item_pocket::remaining_ammo_capacity( const ammotype &ammo ) const
+{
+    int total_capacity = ammo_capacity( ammo );
+    if( total_capacity == 0 ) {
+        return 0;
+    }
+    int ammo_count = 0;
+    if( !contents.empty() ) {
+        if( ammo != contents.front().ammo_type() ) {
+            return 0;
+        } else {
+            for( const item &it : contents ) {
+                ammo_count += it.count();
+            }
+        }
+    }
+    return total_capacity - ammo_count;
+}
+
 std::set<ammotype> item_pocket::ammo_types() const
 {
     std::set<ammotype> ret;
@@ -987,26 +1006,15 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         }
 
         const ammotype it_ammo = it.ammo_type();
-        const auto ammo_restriction_iter = data->ammo_restriction.find( it_ammo );
+        const auto ammo_restriction_iter = data->ammo_restriction.find( it.ammo_type() );
 
-        if( ammo_restriction_iter == data->ammo_restriction.end() ) {
+        if( ammo_restriction_iter == data->ammo_restriction.end() || ( !contents.empty() &&
+                it_ammo != contents.front().ammo_type() ) ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_AMMO, _( "item is not the correct ammo type" ) );
         }
 
-        // how much ammo is inside the pocket
-        int internal_count = 0;
-        // the ammo must match what's inside
-        if( !contents.empty() ) {
-            if( it_ammo != contents.front().ammo_type() ) {
-                return ret_val<item_pocket::contain_code>::make_failure(
-                           contain_code::ERR_AMMO, _( "item is not the correct ammo type" ) );
-            } else {
-                internal_count = contents.front().count();
-            }
-        }
-
-        if( it.count() + internal_count > ammo_restriction_iter->second ) {
+        if( it.count() > remaining_ammo_capacity( it_ammo ) ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_NO_SPACE, _( "tried to put too many charges of ammo in item" ) );
         }

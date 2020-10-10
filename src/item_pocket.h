@@ -190,6 +190,7 @@ class item_pocket
         // returns all allowable ammotypes
         std::set<ammotype> ammo_types() const;
         int ammo_capacity( const ammotype &ammo ) const;
+        int remaining_ammo_capacity( const ammotype &ammo ) const;
         void casings_handle( const std::function<bool( item & )> &func );
         bool use_amount( const itype_id &it, int &quantity, std::list<item> &used );
         bool will_explode_in_a_fire() const;
