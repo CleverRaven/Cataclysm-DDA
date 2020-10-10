@@ -131,7 +131,11 @@
     "responses": [
       {
         "text": "I'm glad we get along so well Sadie.",
-        "effect": [ { "u_add_effect": "give_aid" }, { "u_add_effect": "morale_chat" }, { "u_add_effect": "sadie_injection" } ],
+        "effect": [
+          { "u_add_effect": "give_aid", "duration": 2000 },
+          { "u_add_effect": "morale_chat", "duration": 2000 },
+          { "u_add_effect": "sadie_injection", "duration": 2000 }
+        ],
         "topic": "TALK_sadie_1"
       }
     ]
