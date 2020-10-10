@@ -727,12 +727,12 @@ void sfx::do_vehicle_engine_sfx()
     }
 
     if( current_gear > previous_gear ) {
-        play_variant_sound( "vehicle", "gear_shift", get_heard_volume( player_character.pos() ), 0, 0.8,
-                            0.8 );
+        play_variant_sound( "vehicle", "gear_shift", get_heard_volume( player_character.pos() ),
+                            0_degrees, 0.8, 0.8 );
         add_msg_debug( "GEAR UP" );
     } else if( current_gear < previous_gear ) {
-        play_variant_sound( "vehicle", "gear_shift", get_heard_volume( player_character.pos() ), 0, 1.2,
-                            1.2 );
+        play_variant_sound( "vehicle", "gear_shift", get_heard_volume( player_character.pos() ),
+                            0_degrees, 1.2, 1.2 );
         add_msg_debug( "GEAR DOWN" );
     }
     if( ( safe_speed != 0 ) ) {
@@ -822,7 +822,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
 
     if( is_channel_playing( ch ) ) {
         if( engine_external_id_and_variant == id_and_variant ) {
-            Mix_SetPosition( ch_int, get_heard_angle( veh->global_pos3() ), 0 );
+            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
             set_channel_volume( ch, vol );
             add_msg_debug( "PLAYING exterior_engine_sound, vol: ex:%d true:%d", vol, Mix_Volume( ch_int,
                            -1 ) );
@@ -831,7 +831,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
             Mix_HaltChannel( ch_int );
             add_msg_debug( "STOP exterior_engine_sound, change id/var" );
             play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, 128, ch, 0 );
-            Mix_SetPosition( ch_int, get_heard_angle( veh->global_pos3() ), 0 );
+            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
             set_channel_volume( ch, vol );
             add_msg_debug( "START exterior_engine_sound %s %s vol: %d", id_and_variant.first,
                            id_and_variant.second,
@@ -840,7 +840,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
     } else {
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, 128, ch, 0 );
         add_msg_debug( "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
-        Mix_SetPosition( ch_int, get_heard_angle( veh->global_pos3() ), 0 );
+        Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
         add_msg_debug( "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
         set_channel_volume( ch, vol );
         add_msg_debug( "START exterior_engine_sound NEW %s %s vol: ex:%d true:%d", id_and_variant.first,
@@ -972,7 +972,7 @@ void sfx::generate_gun_sound( const player &source_arg, const item &firing )
     }
 
     itype_id weapon_id = firing.typeId();
-    int angle = 0;
+    units::angle angle = 0_degrees;
     int distance = 0;
     std::string selected_sound;
     const Character &player_character = get_player_character();
@@ -1015,10 +1015,10 @@ struct sound_thread {
     skill_id weapon_skill;
     int weapon_volume;
     // volume and angle for calls to play_variant_sound
-    int ang_src;
+    units::angle ang_src;
     int vol_src;
     int vol_targ;
-    int ang_targ;
+    units::angle ang_targ;
 
     // Operator overload required for thread API.
     void operator()() const;
@@ -1060,7 +1060,7 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
                       dynamic_cast<player &>( get_player_character() );
     if( !p.is_npc() ) {
         // sound comes from the same place as the player is, calculation of angle wouldn't work
-        ang_src = 0;
+        ang_src = 0_degrees;
         vol_src = heard_volume;
         vol_targ = heard_volume;
     } else {
@@ -1126,7 +1126,7 @@ void sfx::sound_thread::operator()() const
 void sfx::do_projectile_hit( const Creature &target )
 {
     const int heard_volume = sfx::get_heard_volume( target.pos() );
-    const int angle = get_heard_angle( target.pos() );
+    const units::angle angle = get_heard_angle( target.pos() );
     if( target.is_monster() ) {
         const monster &mon = dynamic_cast<const monster &>( target );
         static const std::set<material_id> fleshy = {
@@ -1399,35 +1399,35 @@ void sfx::do_footstep()
             ter_str_id( "t_chainfence" ),
         };
         if( !player_character.wearing_something_on( bodypart_id( "foot_l" ) ) ) {
-            play_variant_sound( "plmove", "walk_barefoot", heard_volume, 0, 0.8, 1.2 );
+            play_variant_sound( "plmove", "walk_barefoot", heard_volume, 0_degrees, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
             return;
         } else if( sfx::has_variant_sound( "plmove", terrain.str() ) ) {
-            play_variant_sound( "plmove", terrain.str(), heard_volume, 0, 0.8, 1.2 );
+            play_variant_sound( "plmove", terrain.str(), heard_volume, 0_degrees, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
             return;
         } else if( grass.count( terrain ) > 0 ) {
-            play_variant_sound( "plmove", "walk_grass", heard_volume, 0, 0.8, 1.2 );
+            play_variant_sound( "plmove", "walk_grass", heard_volume, 0_degrees, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
             return;
         } else if( dirt.count( terrain ) > 0 ) {
-            play_variant_sound( "plmove", "walk_dirt", heard_volume, 0, 0.8, 1.2 );
+            play_variant_sound( "plmove", "walk_dirt", heard_volume, 0_degrees, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
             return;
         } else if( metal.count( terrain ) > 0 ) {
-            play_variant_sound( "plmove", "walk_metal", heard_volume, 0, 0.8, 1.2 );
+            play_variant_sound( "plmove", "walk_metal", heard_volume, 0_degrees, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
             return;
         } else if( terrain->has_flag( TFLAG_DEEP_WATER ) || terrain->has_flag( TFLAG_SHALLOW_WATER ) ) {
-            play_variant_sound( "plmove", "walk_water", heard_volume, 0, 0.8, 1.2 );
+            play_variant_sound( "plmove", "walk_water", heard_volume, 0_degrees, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
             return;
         } else if( chain_fence.count( terrain ) > 0 ) {
-            play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0, 0.8, 1.2 );
+            play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0_degrees, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
             return;
         } else {
-            play_variant_sound( "plmove", "walk_tarmac", heard_volume, 0, 0.8, 1.2 );
+            play_variant_sound( "plmove", "walk_tarmac", heard_volume, 0_degrees, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
             return;
         }
@@ -1438,13 +1438,13 @@ void sfx::do_obstacle( const std::string &obst )
 {
     int heard_volume = sfx::get_heard_volume( get_player_character().pos() );
     if( sfx::has_variant_sound( "plmove", obst ) ) {
-        play_variant_sound( "plmove", obst, heard_volume, 0, 0.8, 1.2 );
+        play_variant_sound( "plmove", obst, heard_volume, 0_degrees, 0.8, 1.2 );
     } else if( ter_str_id( obst ).is_valid() &&
                ( ter_id( obst )->has_flag( TFLAG_SHALLOW_WATER ) ||
                  ter_id( obst )->has_flag( TFLAG_DEEP_WATER ) ) ) {
-        play_variant_sound( "plmove", "walk_water", heard_volume, 0, 0.8, 1.2 );
+        play_variant_sound( "plmove", "walk_water", heard_volume, 0_degrees, 0.8, 1.2 );
     } else {
-        play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0, 0.8, 1.2 );
+        play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0_degrees, 0.8, 1.2 );
     }
 }
 
@@ -1470,7 +1470,8 @@ void sfx::end_activity_sounds()
 void sfx::load_sound_effects( const JsonObject & ) { }
 void sfx::load_sound_effect_preload( const JsonObject & ) { }
 void sfx::load_playlist( const JsonObject & ) { }
-void sfx::play_variant_sound( const std::string &, const std::string &, int, int, double, double ) { }
+void sfx::play_variant_sound( const std::string &, const std::string &, int, units::angle, double,
+                              double ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }
 void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, channel, int,
                                       double, int ) { }
@@ -1526,10 +1527,10 @@ int sfx::get_heard_volume( const tripoint &source )
     return ( heard_volume );
 }
 
-int sfx::get_heard_angle( const tripoint &source )
+units::angle sfx::get_heard_angle( const tripoint &source )
 {
-    int angle = coord_to_angle( get_player_character().pos(), source ) + 90;
+    units::angle angle = coord_to_angle( get_player_character().pos(), source ) + 90_degrees;
     //add_msg(m_warning, "angle: %i", angle);
-    return ( angle );
+    return angle;
 }
 /*@}*/

@@ -5595,7 +5595,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     map &here = get_map();
-    vehicle *veh = here.add_vehicle( vproto_id( "none" ), p->pos(), 0, 0, 0, false );
+    vehicle *veh = here.add_vehicle( vproto_id( "none" ), p->pos(), 0_degrees, 0, 0, false );
     if( veh == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return 0;

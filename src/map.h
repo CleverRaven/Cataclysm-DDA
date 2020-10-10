@@ -667,7 +667,7 @@ class map
                                          const std::vector<veh_collision> &collisions );
         // Throws vehicle passengers about the vehicle, possibly out of it
         // Returns change in vehicle orientation due to lost control
-        int shake_vehicle( vehicle &veh, int velocity_before, int direction );
+        units::angle shake_vehicle( vehicle &veh, int velocity_before, units::angle direction );
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions
@@ -1448,16 +1448,16 @@ class map
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
                                    fragment_cloud( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
 
-        vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, int dir,
+        vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vgroup_id &type, const point &p, int dir,
+        vehicle *add_vehicle( const vgroup_id &type, const point &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vproto_id &type, const tripoint &p, int dir,
+        vehicle *add_vehicle( const vproto_id &type, const tripoint &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vproto_id &type, const point &p, int dir,
+        vehicle *add_vehicle( const vproto_id &type, const point &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
         // Light/transparency
@@ -1775,7 +1775,8 @@ class map
         void add_light_source( const tripoint &p, float luminance );
         // Handle just cardinal directions and 45 deg angles.
         void apply_directional_light( const tripoint &p, int direction, float luminance );
-        void apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle = 30 );
+        void apply_light_arc( const tripoint &p, units::angle, float luminance,
+                              units::angle wideangle = 30_degrees );
         void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint &p, const item_stack::iterator &begin,

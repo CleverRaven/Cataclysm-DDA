@@ -40,6 +40,12 @@ class length_in_millimeter_tag
 
 using length = quantity<int, length_in_millimeter_tag>;
 
+class angle_in_radians_tag
+{
+};
+
+using angle = quantity<double, angle_in_radians_tag>;
+
 } // namespace units
 
 #endif // CATA_SRC_UNITS_FWD_H

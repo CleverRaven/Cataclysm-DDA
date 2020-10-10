@@ -155,10 +155,10 @@ void handbrake()
     vehicle *const veh = &vp->vehicle();
     add_msg( _( "You pull a handbrake." ) );
     veh->cruise_velocity = 0;
-    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
+    if( veh->last_turn != 0_degrees && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
         veh->skidding = true;
         add_msg( m_warning, _( "You lose control of %s." ), veh->name );
-        veh->turn( veh->last_turn > 0 ? 60 : -60 );
+        veh->turn( veh->last_turn > 0_degrees ? 60_degrees : -60_degrees );
     } else {
         int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
         if( std::abs( veh->velocity ) < braking_power ) {

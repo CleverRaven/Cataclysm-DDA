@@ -65,10 +65,10 @@ void map::add_light_from_items( const tripoint &p, const item_stack::iterator &b
 {
     for( auto itm_it = begin; itm_it != end; ++itm_it ) {
         float ilum = 0.0f; // brightness
-        int iwidth = 0; // 0-360 degrees. 0 is a circular light_source
-        int idir = 0;   // otherwise, it's a light_arc pointed in this direction
+        units::angle iwidth = 0_degrees; // 0-360 degrees. 0 is a circular light_source
+        units::angle idir = 0_degrees;   // otherwise, it's a light_arc pointed in this direction
         if( itm_it->getlight( ilum, iwidth, idir ) ) {
-            if( iwidth > 0 ) {
+            if( iwidth > 0_degrees ) {
                 apply_light_arc( p, idir, ilum, iwidth );
             } else {
                 add_light_source( p, ilum );
@@ -527,18 +527,20 @@ void map::generate_lightmap( const int zlev )
             if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
                 if( veh_luminance > lit_level::LIT ) {
                     add_light_source( src, M_SQRT2 ); // Add a little surrounding light
-                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 45 );
+                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance,
+                                     45_degrees );
                 }
 
             } else if( vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
                 if( veh_luminance > lit_level::LIT ) {
                     add_light_source( src, M_SQRT2 ); // Add a little surrounding light
-                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 90 );
+                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance,
+                                     90_degrees );
                 }
 
             } else if( vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
                 add_light_source( src, M_SQRT2 ); // Add a little surrounding light
-                apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180 );
+                apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 const bool odd_turn = calendar::once_every( 2_turns );
@@ -1214,7 +1216,8 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
     }
 }
 
-void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle )
+void map::apply_light_arc( const tripoint &p, units::angle angle, float luminance,
+                           units::angle wideangle )
 {
     if( luminance <= LIGHT_SOURCE_LOCAL ) {
         return;
@@ -1225,12 +1228,11 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     apply_light_source( p, LIGHT_SOURCE_LOCAL );
 
     // Normalize (should work with negative values too)
-    const double wangle = wideangle / 2.0;
+    const units::angle wangle = wideangle / 2.0;
 
-    int nangle = angle % 360;
+    units::angle nangle = fmod( angle, 360_degrees );
 
     tripoint end;
-    double rad = M_PI * static_cast<double>( nangle ) / 180;
     int range = LIGHT_RANGE( luminance );
     calc_ray_end( nangle, range, p, end );
     apply_light_ray( lit, p, end, luminance );
@@ -1244,23 +1246,22 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     }
 
     // attempt to determine beam intensity required to cover all squares
-    const double wstep = ( wangle / ( wdist * M_SQRT2 ) );
+    const units::angle wstep = ( wangle / ( wdist * M_SQRT2 ) );
 
     // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
-    for( double ao = wstep; ao <= wangle; ao += wstep ) {
+    for( units::angle ao = wstep; ao <= wangle; ao += wstep ) {
         if( trigdist ) {
             double fdist = ( ao * M_PI_2 ) / wangle;
-            double orad = ( M_PI * ao / 180.0 );
-            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * std::cos(
-                                          rad + orad ) );
-            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * std::sin(
-                                          rad + orad ) );
+            end.x = static_cast<int>(
+                        p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( nangle + ao ) );
+            end.y = static_cast<int>(
+                        p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( nangle + ao ) );
             apply_light_ray( lit, p, end, luminance );
 
-            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * std::cos(
-                                          rad - orad ) );
-            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * std::sin(
-                                          rad - orad ) );
+            end.x = static_cast<int>(
+                        p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( nangle - ao ) );
+            end.y = static_cast<int>(
+                        p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( nangle - ao ) );
             apply_light_ray( lit, p, end, luminance );
         } else {
             calc_ray_end( nangle + ao, range, p, end );

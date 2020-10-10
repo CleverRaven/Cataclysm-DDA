@@ -2646,7 +2646,9 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "mount_dx", mount.x );
     data.read( "mount_dy", mount.y );
     data.read( "open", open );
-    data.read( "direction", direction );
+    int direction_int;
+    data.read( "direction", direction_int );
+    direction = units::from_degrees( direction_int );
     data.read( "blood", blood );
     data.read( "enabled", enabled );
     data.read( "flags", flags );
@@ -2701,7 +2703,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "mount_dx", mount.x );
     json.member( "mount_dy", mount.y );
     json.member( "open", open );
-    json.member( "direction", direction );
+    json.member( "direction", std::lround( to_degrees( direction ) ) );
     json.member( "blood", blood );
     json.member( "enabled", enabled );
     json.member( "flags", flags );
@@ -2786,7 +2788,9 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "om_id", om_id );
     data.read( "faceDir", fdir );
     data.read( "moveDir", mdir );
-    data.read( "turn_dir", turn_dir );
+    int turn_dir_int;
+    data.read( "turn_dir", turn_dir_int );
+    turn_dir = units::from_degrees( turn_dir_int );
     data.read( "velocity", velocity );
     data.read( "falling", is_falling );
     data.read( "floating", is_floating );
@@ -2805,8 +2809,9 @@ void vehicle::deserialize( JsonIn &jsin )
         last_update = calendar::turn;
     }
 
-    face.init( fdir );
-    move.init( mdir );
+    units::angle fdir_angle = units::from_degrees( fdir );
+    face.init( fdir_angle );
+    move.init( units::from_degrees( mdir ) );
     data.read( "name", name );
     std::string temp_id;
     std::string temp_old_id;
@@ -2833,7 +2838,7 @@ void vehicle::deserialize( JsonIn &jsin )
     // is what they're expecting.
     data.read( "pivot", pivot_anchor[0] );
     pivot_anchor[1] = pivot_anchor[0];
-    pivot_rotation[1] = pivot_rotation[0] = fdir;
+    pivot_rotation[1] = pivot_rotation[0] = fdir_angle;
     data.read( "is_following", is_following );
     data.read( "is_patrolling", is_patrolling );
     data.read( "autodrive_local_target", autodrive_local_target );
@@ -2947,9 +2952,9 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "posx", pos.x );
     json.member( "posy", pos.y );
     json.member( "om_id", om_id );
-    json.member( "faceDir", face.dir() );
-    json.member( "moveDir", move.dir() );
-    json.member( "turn_dir", turn_dir );
+    json.member( "faceDir", std::lround( to_degrees( face.dir() ) ) );
+    json.member( "moveDir", std::lround( to_degrees( move.dir() ) ) );
+    json.member( "turn_dir", std::lround( to_degrees( turn_dir ) ) );
     json.member( "velocity", velocity );
     json.member( "falling", is_falling );
     json.member( "floating", is_floating );
