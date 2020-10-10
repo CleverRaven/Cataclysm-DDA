@@ -72,13 +72,14 @@
     "type": "TOOL",
     "name": { "str": "inflatable" },
     "description": "A generic inflatable abstract to use for specific items.",
-    "weight": "100 g",
-    "volume": "250 ml",
+    "weight": "3 kg",
+    "volume": "5 L",
     "price": 5000,
     "material": [ "plastic" ],
     "symbol": "P",
     "color": "light_red",
-    "charges_per_use": 100
+    "charges_per_use": 100,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "inflatable_dragon",
@@ -97,5 +98,14 @@
     "description": "A battery powered inflatable ghost from the Halloween before the end.  It might be fun to display it somewhere.",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 500 } } ],
     "use_action": { "type": "cast_spell", "spell_id": "ghost_inflatable", "no_fail": true, "level": 1 }
+  },
+  {
+    "id": "fog_machine",
+    "type": "TOOL",
+    "copy-from": "inflatable_decoration",
+    "name": { "str": "fog machine" },
+    "description": "A battery powered fog machine.  It would be great for setting ambience.",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 500 } } ],
+    "use_action": { "type": "cast_spell", "spell_id": "fog_machine", "no_fail": true, "level": 1 }
   }
 ]

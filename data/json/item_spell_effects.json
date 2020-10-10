@@ -38,5 +38,28 @@
     "min_aoe": 1,
     "max_aoe": 1,
     "min_duration": 40000
+  },
+  {
+    "id": "fog_machine",
+    "type": "SPELL",
+    "name": "fog ex machina",
+    "description": "You see fog bubbling out of the device.",
+    "effect": "attack",
+    "shape": "cone",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "flags": [ "SILENT" ],
+    "max_level": 1,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 30,
+    "max_aoe": 60,
+    "aoe_increment": 1.4,
+    "min_range": 6,
+    "max_range": 6,
+    "field_id": "fd_fog",
+    "min_field_intensity": 0,
+    "max_field_intensity": 4,
+    "field_intensity_increment": 0.5,
+    "damage_type": "cold"
   }
 ]
