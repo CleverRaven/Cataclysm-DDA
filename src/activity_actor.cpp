@@ -78,8 +78,6 @@ static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
-
 aim_activity_actor::aim_activity_actor()
 {
     initial_view_offset = get_avatar().view_offset;
@@ -1317,14 +1315,15 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     if( act.id() == activity_id( "ACT_CONSUME" ) ) {
         act.set_to_null();
     }
+
     if( !temp_selections.empty() || !temp_selected_items.empty() || !temp_filter.empty() ) {
         if( act.is_null() ) {
-            player_character.assign_activity( ACT_EAT_MENU );
+            player_character.assign_activity( type );
             player_character.activity.values = temp_selections;
             player_character.activity.targets = temp_selected_items;
             player_character.activity.str_values = { temp_filter };
         } else {
-            player_activity eat_menu( ACT_EAT_MENU );
+            player_activity eat_menu( type );
             eat_menu.values = temp_selections;
             eat_menu.targets = temp_selected_items;
             eat_menu.str_values = { temp_filter };

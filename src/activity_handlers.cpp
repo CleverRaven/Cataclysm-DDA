@@ -2942,7 +2942,8 @@ void activity_handlers::wear_do_turn( player_activity *act, player *p )
 // This activity opens the menu (it's not meant to queue consumption of items)
 void activity_handlers::eat_menu_do_turn( player_activity *, player * )
 {
-    avatar_action::eat( get_avatar() );
+    avatar &player_character = get_avatar();
+    avatar_action::eat( player_character, game_menus::inv::consume( player_character ) );
 }
 
 void activity_handlers::consume_food_menu_do_turn( player_activity *, player * )
