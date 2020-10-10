@@ -157,9 +157,9 @@
     "type": "MONSTER_FACTION",
     "name": "dragonfly",
     "base_faction": "insect",
-	"by_mood": [ "centipede", "spider" ],
-	"hate": [ "insect", "small_animal", "bird" ],
-	"neutral": [ "dragonfly" ]
+    "by_mood": [ "centipede", "spider" ],
+    "hate": [ "insect", "small_animal", "bird" ],
+    "neutral": [ "dragonfly" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -219,9 +219,9 @@
     "base_faction": "plant"
   },
   {
-	"type": "MONSTER_FACTION",
-	"name": "aquatic_predator",
-	"neutral": "bot",
-	"hate": "fish"
+    "type": "MONSTER_FACTION",
+    "name": "aquatic_predator",
+    "neutral": "bot",
+    "hate": "fish"
   }
 ]

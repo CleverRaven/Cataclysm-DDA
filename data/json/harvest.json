@@ -478,10 +478,10 @@
     ]
   },
   {
-	"id": "arachnid_flying",
-	"type": "harvest",
-	"message": "The chitin of this aerial insect is much thinner than that of the terrestrial species you encountered till now.  Much of its insides are filled with bundles of small vesicles that almost seem to float.",
-	"entries": [
+    "id": "arachnid_flying",
+    "type": "harvest",
+    "message": "The chitin of this aerial insect is much thinner than that of the terrestrial species you encountered till now.  Much of its insides are filled with bundles of small vesicles that almost seem to float.",
+    "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.23 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "endochitin", "type": "bone", "mass_ratio": 0.05 },
@@ -489,7 +489,7 @@
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.05 }
-	]
+    ]
   },
   {
     "id": "acidant_queen",
@@ -544,10 +544,10 @@
     ]
   },
   {
-	"id": "arachnid_dragonfly_mega",
-	"type": "harvest",
-	"message": "As you hack away at the chitinous abomination you can't help but follow the tunnel the (upper? male?) dragonfly bore into the flesh of its mate, ending up at a formless amalgamation of eyes, jaws and ganglia deep within. Love truly knows no bounds.",
-	"entries": [
+    "id": "arachnid_dragonfly_mega",
+    "type": "harvest",
+    "message": "As you hack away at the chitinous abomination you can't help but follow the tunnel the (upper? male?) dragonfly bore into the flesh of its mate, ending up at a formless amalgamation of eyes, jaws and ganglia deep within. Love truly knows no bounds.",
+    "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
@@ -555,10 +555,10 @@
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 },
-	  { "drop": "egg_dragonfly", "type": "offal", "base_num": [ 5 , 35 ], "scale_num": [ 0.3 , 0.5 ] }
-    ] 
-	},
-	{
+      { "drop": "egg_dragonfly", "type": "offal", "base_num": [ 5, 35 ], "scale_num": [ 0.3, 0.5 ] }
+    ]
+  },
+  {
     "id": "arachnid_wasp",
     "type": "harvest",
     "message": "There's a faintly hairy, skin-like membrane, covered in blood vessels, beneath the chitin of this creature.  Inside it is a bundle of bubble-like tissue sacs that appear to be floating, which doesn't fit with what you know about real wasps.",
