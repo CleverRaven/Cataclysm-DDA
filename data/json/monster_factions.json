@@ -158,7 +158,7 @@
     "name": "dragonfly",
     "base_faction": "insect",
 	"by_mood": [ "centipede", "spider" ],
-	"hate": [ "insect", "small_animal" ],
+	"hate": [ "insect", "small_animal", "bird" ],
 	"neutral": [ "dragonfly" ]
   },
   {
