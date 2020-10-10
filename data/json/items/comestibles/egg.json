@@ -198,6 +198,16 @@
     "rot_spawn": "GROUP_EGG_LOCUST"
   },
   {
+	"type": "COMESTIBLE",
+	"id": "egg_dragonfly",
+	"name": "dragonfly egg",
+	"copy-from": "spider_egg",
+	"color": "light_green",
+	"symbol": "o",
+	"spoils_in": "2 days",
+	"rot_spawn": "GROUP_EGG_DRAGONFLY"
+  },
+  {
     "type": "COMESTIBLE",
     "id": "razorclaw_roe",
     "name": "razorclaw roe",
