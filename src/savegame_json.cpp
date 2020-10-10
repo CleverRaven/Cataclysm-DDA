@@ -1243,6 +1243,8 @@ void avatar::store( JsonOut &json ) const
     inv->json_save_invcache( json );
 
     json.member( "calorie_diary", calorie_diary );
+
+    json.member( "preferred_aiming_mode", preferred_aiming_mode );
 }
 
 void avatar::deserialize( JsonIn &jsin )
@@ -1371,6 +1373,8 @@ void avatar::load( const JsonObject &data )
     }
 
     data.read( "calorie_diary", calorie_diary );
+
+    data.read( "preferred_aiming_mode", preferred_aiming_mode );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
