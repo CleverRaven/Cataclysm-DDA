@@ -2712,44 +2712,50 @@ void target_ui::action_switch_mode()
     menu.settext( _( "Select preferences" ) );
     const std::pair<int, int> aim_modes_range = std::make_pair( 0, 100 );
     const std::pair<int, int> firing_modes_range = std::make_pair( 100, 200 );
-    menu.addentry( -1, false, 0, "  " + std::string( _( "Default aiming mode" ) ) );
-    menu.entries.back().force_color = true;
-    menu.entries.back().text_color = c_cyan;
 
-    for( auto it = aim_types.begin(); it != aim_types.end(); ++it ) {
-        const bool is_active_aim_mode = aim_mode == it;
-        const std::string text = ( it->name.empty() ? _( "Immediate" ) : it->name ) +
-                                 ( is_active_aim_mode ? _( " (active)" ) : "" );
-        menu.addentry( aim_modes_range.first + std::distance( aim_types.begin(), it ),
-                       true, MENU_AUTOASSIGN, text );
-        if( is_active_aim_mode ) {
-            menu.entries.back().text_color = c_light_green;
+    if( !aim_types.empty() ) {
+        menu.addentry( -1, false, 0, "  " + std::string( _( "Default aiming mode" ) ) );
+        menu.entries.back().force_color = true;
+        menu.entries.back().text_color = c_cyan;
+
+        for( auto it = aim_types.begin(); it != aim_types.end(); ++it ) {
+            const bool is_active_aim_mode = aim_mode == it;
+            const std::string text = ( it->name.empty() ? _( "Immediate" ) : it->name ) +
+                                     ( is_active_aim_mode ? _( " (active)" ) : "" );
+            menu.addentry( aim_modes_range.first + std::distance( aim_types.begin(), it ),
+                           true, MENU_AUTOASSIGN, text );
+            if( is_active_aim_mode ) {
+                menu.entries.back().text_color = c_light_green;
+            }
         }
     }
 
-    menu.addentry( -1, false, 0, "  " + std::string( _( "Firing mode" ) ) );
-    menu.entries.back().force_color = true;
-    menu.entries.back().text_color = c_cyan;
     const std::map<gun_mode_id, gun_mode> gun_modes = relevant->gun_all_modes();
-    for( auto it = gun_modes.begin(); it != gun_modes.end(); ++it ) {
-        if( it->second.flags.count( "REACH_ATTACK" ) ) {
-            continue;
-        }
-        const bool active_gun_mode = relevant->gun_get_mode_id() == it->first;
+    if( !gun_modes.empty() ) {
+        menu.addentry( -1, false, 0, "  " + std::string( _( "Firing mode" ) ) );
+        menu.entries.back().force_color = true;
+        menu.entries.back().text_color = c_cyan;
 
-        // If gun mode is from a gunmod use gunmod's name, pay attention to the "->" on tname
-        std::string text = ( it->second.target == relevant )
-                           ? it->second.tname()
-                           : it->second->tname() + " (" + std::to_string( it->second.qty ) + ")";
+        for( auto it = gun_modes.begin(); it != gun_modes.end(); ++it ) {
+            if( it->second.flags.count( "REACH_ATTACK" ) ) {
+                continue;
+            }
+            const bool active_gun_mode = relevant->gun_get_mode_id() == it->first;
 
-        text += ( active_gun_mode ? _( " (active)" ) : "" );
+            // If gun mode is from a gunmod use gunmod's name, pay attention to the "->" on tname
+            std::string text = ( it->second.target == relevant )
+                               ? it->second.tname()
+                               : it->second->tname() + " (" + std::to_string( it->second.qty ) + ")";
 
-        menu.entries.emplace_back( firing_modes_range.first + std::distance( gun_modes.begin(), it ),
-                                   true, MENU_AUTOASSIGN, text );
-        if( active_gun_mode ) {
-            menu.entries.back().text_color = c_light_green;
-            if( menu.selected == 0 ) {
-                menu.selected = menu.entries.size() - 1;
+            text += ( active_gun_mode ? _( " (active)" ) : "" );
+
+            menu.entries.emplace_back( firing_modes_range.first + std::distance( gun_modes.begin(), it ),
+                                       true, MENU_AUTOASSIGN, text );
+            if( active_gun_mode ) {
+                menu.entries.back().text_color = c_light_green;
+                if( menu.selected == 0 ) {
+                    menu.selected = menu.entries.size() - 1;
+                }
             }
         }
     }
