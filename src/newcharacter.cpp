@@ -1259,7 +1259,7 @@ tab_direction set_traits( avatar &u, points_left &points )
                 iCurrentLine[iCurWorkingPage] = 0;
             }
         } else if( action == "PAGE_DOWN" ) {
-            if( iCurrentLine[iCurWorkingPage] == traits_size[iCurWorkingPage] - 1 ) {
+            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) == traits_size[iCurWorkingPage] - 1 ) {
                 iCurrentLine[iCurWorkingPage] = 0;
             } else if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] + 10 ) >=
                        traits_size[iCurWorkingPage] ) {
