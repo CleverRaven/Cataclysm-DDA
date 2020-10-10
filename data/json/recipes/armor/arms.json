@@ -31,11 +31,9 @@
     "result": "xl_arm_warmers",
     "type": "recipe",
     "copy-from": "arm_warmers",
-    "difficulty": 2,
     "time": "120 m",
     "byproducts": [ [ "scrap_cotton", 109 ] ],
-    "using": [ [ "tailoring_cotton_patchwork", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_oversized", "required": true } ]
+    "using": [ [ "tailoring_cotton_patchwork", 2 ] ]
   },
   {
     "result": "armguard_chitin",
@@ -60,15 +58,7 @@
     "result": "xl_armguard_chitin",
     "type": "recipe",
     "copy-from": "armguard_chitin",
-    "difficulty": 6,
-    "skills_required": [ [ "tailor", 4 ] ],
     "byproducts": [ [ "scrap_leather", 100 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_oversized", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
-    ],
     "using": [ [ "armor_chitin", 4 ], [ "tailoring_leather_small", 3 ] ]
   },
   {
@@ -94,15 +84,7 @@
     "result": "xl_armguard_acidchitin",
     "type": "recipe",
     "copy-from": "armguard_acidchitin",
-    "difficulty": 7,
-    "skills_required": [ [ "tailor", 5 ] ],
     "byproducts": [ [ "scrap_leather", 100 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_oversized", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
-    ],
     "using": [ [ "armor_acidchitin", 4 ], [ "tailoring_leather_small", 3 ] ]
   },
   {
@@ -127,16 +109,10 @@
     "result": "xl_armguard_hard",
     "type": "recipe",
     "copy-from": "armguard_hard",
-    "difficulty": 5,
-    "skills_required": [ [ "tailor", 3 ] ],
     "time": "260 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
     "byproducts": [ [ "scrap_neoprene", 67 ] ],
     "using": [ [ "plastic_molding", 3 ], [ "tailoring_neoprene_patchwork", 3 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_oversized", "required": true }
     ]
   },
   {
@@ -157,14 +133,9 @@
     "result": "xl_armguard_larmor",
     "type": "recipe",
     "copy-from": "armguard_larmor",
-    "difficulty": 3,
     "time": "820 m",
-    "autolearn": true,
     "byproducts": [ [ "leather", 12 ], [ "scrap_leather", 36 ] ],
-    "using": [ [ "tailoring_leather", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 },
-                        { "proficiency": "prof_oversized", "required": false, "time_multiplier": 2 }
-                      ]
+    "using": [ [ "tailoring_leather", 4 ] ]
   },
   {
     "result": "armguard_lightplate",
@@ -189,6 +160,14 @@
         "learning_time_multiplier": 0.5
       }
     ]
+  },
+  {
+    "result": "xl_armguard_lightplate",
+    "type": "recipe",
+    "copy-from": "armguard_lightplate",
+    "time": "1100 m",
+    "using": [ [ "blacksmithing_standard", 28 ], [ "steel_standard", 3 ], [ "tailoring_leather", 3 ] ],
+    "using": [ [ "tailoring_leather", 4 ] ]
   },
   {
     "result": "armguard_metal",
