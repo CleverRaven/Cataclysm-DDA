@@ -131,6 +131,31 @@ void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
     } );
 }
 
+void handbrake()
+{
+    const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
+    if( !vp ) {
+        return;
+    }
+    vehicle *const veh = &vp->vehicle();
+    add_msg( _( "You pull a handbrake." ) );
+    veh->cruise_velocity = 0;
+    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
+        veh->skidding = true;
+        add_msg( m_warning, _( "You lose control of %s." ), veh->name );
+        veh->turn( veh->last_turn > 0 ? 60 : -60 );
+    } else {
+        int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
+        if( std::abs( veh->velocity ) < braking_power ) {
+            veh->stop();
+        } else {
+            int sgn = veh->velocity > 0 ? 1 : -1;
+            veh->velocity = sgn * ( std::abs( veh->velocity ) - braking_power );
+        }
+    }
+    g->u.moves = 0;
+}
+
 void vehicle::control_doors()
 {
     const auto door_motors = get_avail_parts( "DOOR_MOTOR" );
@@ -1912,15 +1937,16 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
                              avail_part_with_feature( interact_part, "ADVANCED_PLANTER", true ) >= 0;
 
     enum {
-        EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
-        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE, USE_DISHWASHER,
-        USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, USE_TOWEL, PEEK_CURTAIN,
+        EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,
+        RELOAD_TURRET, USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE,
+        USE_DISHWASHER, USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, USE_TOWEL, PEEK_CURTAIN,
     };
     uilist selectmenu;
 
     selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
     selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
     if( has_controls ) {
+        selectmenu.addentry( HANDBRAKE, true, 'h', _( "Pull handbrake" ) );
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
     }
     if( has_electronics ) {
@@ -2128,6 +2154,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case FOLD_VEHICLE: {
             fold_up();
+            return;
+        }
+        case HANDBRAKE: {
+            handbrake();
             return;
         }
         case CONTROL: {
