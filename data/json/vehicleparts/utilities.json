@@ -180,36 +180,42 @@
     "type": "vehicle_part"
   },
   {
+    "categories": [ "Cargo", "Util" ],
     "copy-from": "kitchen_unit_abstract",
     "id": "kitchen_unit",
     "symbol": "&",
     "type": "vehicle_part"
   },
   {
+    "categories": [ "Cargo", "Util" ],
     "copy-from": "welding_rig_abstract",
     "id": "welding_rig",
     "symbol": "&",
     "type": "vehicle_part"
   },
   {
+    "categories": [ "Cargo", "Util" ],
     "copy-from": "craft_rig_abstract",
     "id": "craft_rig",
     "symbol": "&",
     "type": "vehicle_part"
   },
   {
+    "categories": [ "Cargo", "Util" ],
     "copy-from": "chemlab_abstract",
     "id": "chemlab",
     "symbol": "&",
     "type": "vehicle_part"
   },
   {
+    "categories": [ "Cargo", "Util" ],
     "copy-from": "veh_forge_abstract",
     "id": "veh_forge",
     "symbol": "&",
     "type": "vehicle_part"
   },
   {
+    "categories": [ "Cargo", "Hull" ],
     "copy-from": "veh_kiln_abstract",
     "id": "veh_kiln",
     "symbol": "&",

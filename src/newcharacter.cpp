@@ -1113,6 +1113,8 @@ tab_direction set_traits( avatar &u, points_left &points )
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
 
@@ -1255,6 +1257,17 @@ tab_direction set_traits( avatar &u, points_left &points )
             iCurrentLine[iCurWorkingPage]++;
             if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= traits_size[iCurWorkingPage] ) {
                 iCurrentLine[iCurWorkingPage] = 0;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            iCurrentLine[iCurWorkingPage] += + 10;
+            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= traits_size[iCurWorkingPage] ) {
+                iCurrentLine[iCurWorkingPage] = 0;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( iCurrentLine[iCurWorkingPage] == 0 ) {
+                iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            } else {
+                iCurrentLine[iCurWorkingPage] += -10;
             }
         } else if( action == "CONFIRM" ) {
             int inc_type = 0;
@@ -2350,7 +2363,6 @@ enum description_selector {
     BLOOD,
     LOCATION
 };
-
 
 static void draw_gender( const catacurses::window &w_gender, const avatar &you,
                          const bool highlight )

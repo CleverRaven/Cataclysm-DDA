@@ -2041,13 +2041,6 @@ void monster::load( const JsonObject &data )
     data.read( "hallucination", hallucination );
     data.read( "stairscount", staircount ); // really?
     data.read( "fish_population", fish_population );
-    // Load legacy plans.
-    std::vector<tripoint> plans;
-    data.read( "plans", plans );
-    if( !plans.empty() ) {
-        goal = plans.back();
-    }
-
     data.read( "summon_time_limit", summon_time_limit );
 
     // This is relative to the monster so it isn't invalidated by map shifting.

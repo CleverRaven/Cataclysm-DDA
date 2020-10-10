@@ -672,6 +672,10 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
     }
 
+    for( size_t i = 0; i < engines.size(); i++ ) {
+        auto_select_fuel( i );
+    }
+
     invalidate_mass();
 }
 
@@ -5956,7 +5960,7 @@ bool vehicle::is_external_part( const tripoint &part_pt ) const
         if( !vp ) {
             return true;
         }
-        if( vp && &vp->vehicle() != this ) {
+        if( &vp->vehicle() != this ) {
             return true;
         }
     }
@@ -6521,7 +6525,7 @@ int vehicle::break_off( int p, int dmg )
         // remove parts for which required flags are not present anymore
         if( !part_info( p ).get_flags().empty() ) {
             const std::vector<int> parts_here = parts_at_relative( position, false );
-            for( auto &part : parts_here ) {
+            for( const auto &part : parts_here ) {
                 bool remove = false;
                 for( const std::string &flag : part_info( part ).get_flags() ) {
                     if( !json_flag::get( flag ).requires_flag().empty() ) {

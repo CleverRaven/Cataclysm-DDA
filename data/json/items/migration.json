@@ -1288,5 +1288,15 @@
     "type": "MIGRATION",
     "replace": "rag",
     "flags": [ "FILTHY" ]
+  },
+  {
+    "id": "bottle_plastic_sealed",
+    "type": "MIGRATION",
+    "replace": "bottle_plastic"
+  },
+  {
+    "id": "jug_plastic_sealed",
+    "type": "MIGRATION",
+    "replace": "jug_plastic"
   }
 ]

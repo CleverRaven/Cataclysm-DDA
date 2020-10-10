@@ -172,6 +172,7 @@
     "max_damage": 0,
     "effect": "spawn_item",
     "effect_str": "stormglove",
+    "shape": "blast",
     "energy_source": "MANA",
     "difficulty": 2,
     "max_level": 20,

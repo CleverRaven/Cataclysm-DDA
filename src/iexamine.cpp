@@ -26,6 +26,7 @@
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
+#include "construction_group.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "craft_command.h"
@@ -3784,7 +3785,7 @@ void trap::examine( const tripoint &examp ) const
         }
         const construction &built = pc->id.obj();
         if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
-                       built.description, pc->counter / 100000 ) ) {
+                       built.group->name(), pc->counter / 100000 ) ) {
             if( query_yn( _( "Cancel construction?" ) ) ) {
                 on_disarmed( here, examp );
                 for( const item &it : pc->components ) {
@@ -4237,10 +4238,7 @@ bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
 
             item liq_d( item_it->type, calendar::turn, units );
 
-            const auto backup_pump = here.ter( dst );
-            here.ter_set( dst, ter_str_id::NULL_ID() );
             here.add_item_or_charges( dst, liq_d );
-            here.ter_set( dst, backup_pump );
 
             if( item_it->charges < 1 ) {
                 items.erase( item_it );

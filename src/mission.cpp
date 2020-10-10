@@ -21,6 +21,7 @@
 #include "item_contents.h"
 #include "item_group.h"
 #include "kill_tracker.h"
+#include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -30,6 +31,8 @@
 #include "requirements.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -393,10 +396,39 @@ bool mission::is_complete( const character_id &_npc_id ) const
                 return false;
             }
             item item_sought( type->item_id );
-            if( item_sought.count_by_charges() ) {
-                return player_character.charges_of( type->item_id ) >= item_count;
+            map &here = get_map();
+            int found_quantity = 0;
+            bool charges = item_sought.count_by_charges();
+            auto count_items = [this, &found_quantity, &player_character, charges]( item_stack && items ) {
+                for( const item &i : items ) {
+                    if( !i.is_owned_by( player_character, true ) ) {
+                        continue;
+                    }
+                    if( charges ) {
+                        found_quantity += i.charges_of( type->item_id, item_count - found_quantity );
+                    } else {
+                        found_quantity += i.amount_of( type->item_id, item_count - found_quantity );
+                    }
+                }
+            };
+            for( const tripoint &p : here.points_in_radius( player_character.pos(), 5 ) ) {
+                if( player_character.sees( p ) ) {
+                    if( here.has_items( p ) && here.accessible_items( p ) ) {
+                        count_items( here.i_at( p ) );
+                    }
+                    if( const cata::optional<vpart_reference> vp =
+                            here.veh_at( p ).part_with_feature( "CARGO", true ) ) {
+                        count_items( vp->vehicle().get_items( vp->part_index() ) );
+                    }
+                    if( found_quantity >= item_count ) {
+                        break;
+                    }
+                }
+            }
+            if( charges ) {
+                return player_character.charges_of( type->item_id ) + found_quantity >= item_count;
             } else {
-                return player_character.has_amount( type->item_id, item_count );
+                return player_character.amount_of( type->item_id ) + found_quantity >= item_count;
             }
         }
         return true;
