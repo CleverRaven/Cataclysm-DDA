@@ -1394,6 +1394,8 @@ tab_direction set_profession( avatar &u, points_left &points,
 
     input_context ctxt( "NEW_CHAR_PROFESSIONS" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "PREV_TAB" );
@@ -1695,6 +1697,18 @@ tab_direction set_profession( avatar &u, points_left &points,
             desc_offset = 0;
         } else if( action == "UP" ) {
             cur_id--;
+            if( cur_id < 0 ) {
+                cur_id = profs_length - 1;
+            }
+            desc_offset = 0;
+        } else if( action == "PAGE_DOWN" ) {
+            cur_id += iContentHeight - 1;
+            if( cur_id > static_cast<int>( profs_length ) - 1 ) {
+                cur_id = 0;
+            }
+            desc_offset = 0;
+        } else if( action == "PAGE_UP" ) {
+            cur_id -= iContentHeight - 1;
             if( cur_id < 0 ) {
                 cur_id = profs_length - 1;
             }
