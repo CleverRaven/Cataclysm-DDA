@@ -9,7 +9,6 @@
     "name": [ "Sadie's injection" ],
     "desc": [ "" ],
     "blood_analysis_description": "Several hundred lines of text list a series of complex biological molecules with unknown interactions.  Many appear to be associated with healing and immune response.  Only a few are known to be poisonous and many are known carcinogens.  Several have psychological and hormonal effects.",
-    "duration": 2000,
     "rating": "mixed",
     "apply_message": "A wave of cold runs through your body and you feel dizzy",
     "remove_message": "The effects of Sadie's injection appear to be wearing off now",
@@ -21,18 +20,53 @@
     "type": "talk_topic",
     "id": "TALK_Sadie_1",
     "dynamic_line": {
-      "u_has_var": "u_met_sadie",
-      "type": "general",
-      "context": "meeting",
+      "npc_at_om_location": "hospital",
       "value": "yes",
-      "yes": [
-        "Are we meeting again or did we already do that part?",
-        "You remind me of my friend Billy.",
-        "What an amazing world to be alive in, more or less.",
-        "My head always beats when I see you.  Or is that my heart?  I should check that.",
-        "It's always so nice to be seen."
-      ],
-      "no": "Hello Billy.  Back again to try and kill me?  It won't work, you should just give up."
+      "yes": "Places like this are so romantic.  I used to come to places like this all the time.  Or lots of different parts of me came here just a few times.  Anyway it feels nice and I'm so glad you brought me here.",
+      "no": {
+        "npc_at_om_location": "butcher",
+        "value": "yes",
+        "yes": "Such a nice smell here.  And all the pretty pointy things to touch.  Do you mind if we stay here a while?  I'd like to play butcher with you.",
+        "no": {
+          "npc_at_om_location": "cathedral",
+          "value": "yes",
+          "yes": "Something is wrong here.  The air is too thin, my skin is too thin, this place is too thin.  We should leave and never come back.",
+          "no": {
+            "npc_at_om_location": "cs_sex_shop",
+            "value": "yes",
+            "yes": "This is all a little bit basic but I like the direction we're going in here.  How do you feel about bonesaws and heavy voltage?",
+            "no": {
+              "npc_at_om_location": "mansion",
+              "value": "yes",
+              "yes": "Ooh, it's like a murder mystery here.  Are we the murderers, the murdered, or the mystery?",
+              "no": {
+                "npc_at_om_location": "mortuary",
+                "value": "yes",
+                "yes": "This seems so familiar.  I think I was naked here with a strange man who put makeup on me and a pretty dress and there were flowers and music and everyone was crying.  Or was that prom?",
+                "no": {
+                  "npc_at_om_location": "refugee_center",
+                  "value": "yes",
+                  "yes": "I think you would make a very nice refugee.  I think they should let us stay here and beg for catfood with the rest.  Should we become cat mutants?  I would be such a good apocalyptic cat mutant.  I would run and fetch and play dead and eat feces and all of it.  That's all cat stuff I think.",
+                  "no": {
+                    "u_has_var": "u_met_sadie",
+                    "type": "general",
+                    "context": "meeting",
+                    "value": "yes",
+                    "yes": [
+                      "Are we meeting again or did we already do that part?",
+                      "You remind me of my friend Billy.",
+                      "What an amazing world to be alive in, more or less.",
+                      "My head always beats when I see you.  Or is that my heart?  I should check that.",
+                      "It's always so nice to be seen."
+                    ],
+                    "no": "Hello Billy.  Back again to try and kill me?  It won't work, you should just give up."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "responses": [
       {
@@ -88,7 +122,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_sadie_what",
-    "dynamic_line": "Yes, much of what you see is human I think.  I don't have the proper equipment to be entirely sure and I have some strange memories.  My beacon has already told you that I am Sadie.  Beyond that I don't know much to tell you.  I know a great deal about medicine.  I have some strange responses to physical stimuli that I don't completely understand.  I think I must be a medical experiment of some kind.  I am hungry.",
+    "dynamic_line": "Yes, much of what you see is human I think.  I don't have the proper equipment to be entirely sure and I have some strange memories.  My beacon has already told you that I am Sadie.  Beyond that I don't know much to tell you.  I know a great deal about medicine.  I have some strange responses to physical stimuli that I don't completely understand.  I think I must be a medical experiment of some kind.  My chest hurts in a really yummy way.",
     "responses": [ { "text": "Can I help you?", "topic": "TALK_MISSION_LIST" }, { "text": "I should go.", "topic": "TALK_DONE" } ]
   },
   {
@@ -141,44 +175,30 @@
     ]
   },
   {
-    "id": "MISSION_sadie_nuts",
+    "id": "MISSION_sadie_heart",
     "type": "mission_definition",
-    "name": "Nuts for Sadie",
-    "description": "Find nuts",
+    "name": "Heart for Sadie",
+    "description": "Find a special organ",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 1,
+    "difficulty": 5,
     "value": 0,
-    "item": [
-      "hickory_nut",
-      "peanut",
-      "hazelnut",
-      "chestnut",
-      "walnut",
-      "pine_nuts",
-      "peanut_unshelled",
-      "beech_nuts",
-      "walnut_unshelled",
-      "walnut_roasted",
-      "chestnut_unshelled",
-      "chestnut_roasted",
-      "hazelnut_unshelled",
-      "soy_nuts",
-      "hazelnut_roasted",
-      "hickory_nut_unshelled",
-      "hickory_nut_roasted"
-    ],
+    "item": "flesh_golem_heart",
     "count": 1,
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 18, "min_distance": 5, "z": 0 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_flesh_golem", "x": 11, "y": 11, "target": true, "name": "Billy" } ] }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "Can you get me some nuts?",
-      "offer": "I miss nuts, I remember that I liked to eat them.  Can you get me some nuts?",
-      "accepted": "Hurray!  I love nuts.",
-      "rejected": "This makes me sad.  Which makes me happy.  So thanks?  Let me know if you change your mind.",
-      "advice": "Nuts can be found growing on certain trees, in stores and in homes, as well as hidden in bushes to be enjoyed later.  I know all about nuts.",
-      "inquire": "Do you have some nuts for me?",
-      "success": "Hurray!  I love nuts.  Here, let me inject you with this.",
-      "success_lie": "Aw, nuts.",
-      "failure": "This is nuts.  Is it really so hard to find nuts out there?  Thank you for trying though, your failure gives me pleasure.  What else are you bad at?"
+      "describe": "I want your organ.",
+      "offer": "I've been feeling really yummy since the last time Billy came to work on me, and I think it's because my heart is gone.  Like literally gone.  I checked.  Billy did a really good job taking it out, but I want to leave this storage unit with you and if I'm going to do that I need a working heart.  My first idea was to take yours, but you probably need it even more.  You know who has a nice big juicy heart?  Billy does.  And I bet I know where Billy is.",
+      "accepted": "Aw, I heart that you're going to help me get that big organ.",
+      "rejected": "This makes me sad.  Which makes me happy.  So thanks?  Let me know if you change your mind.  I probably shouldn't go without a heart for too too long but I'm kind of enjoying it.  It's like always being on the edge of something horrible, but in a nice way.",
+      "advice": "Please be careful cutting that heart out.  If you ruin it I don't know about another good one nearby.",
+      "inquire": "Do you have my heart?",
+      "success": "Ooh, Billy had a really good heart.  Can you turn away please?  I just need to do some quick open chest surgery here.  Just a quick cut here *ooh* and I need to break this and this *SNAP* *oh!* and just sew some little things together here quickly.  Not as much blood as you'd think.  I should probably look into that later, there should be more blood in there.  Ah, good enough, I can do a better job closing up later.  Kind of tingly, feeling everything moving again in there.  See, heart surgery isn't hard if you have the right attitude.  Well now, you need a good reward for everything you've done for me.  Here, let me inject you with this.",
+      "success_lie": "I don't know why, but I feel better.  Also worse.  Maybe I'm good without it.",
+      "failure": "Oh no, my heart.  Thank you for trying though, your failure gives me pleasure.  What else are you bad at?"
     },
     "end": {
       "effect": [
