@@ -1948,31 +1948,31 @@ void vehicle::use_bike_rack( int part )
 // Handles interactions with a vehicle in the examine menu.
 void vehicle::interact_with( const vpart_position &vp )
 {
-    std::vector<std::string> menu_items;
-    std::vector<uilist_entry> options_message;
     map &here = get_map();
     avatar &player_character = get_avatar();
     const bool has_items_on_ground = here.sees_some_items( vp.pos(), player_character );
     const bool items_are_sealed = here.has_flag( "SEALED", vp.pos() );
     const turret_data turret = turret_query( vp.pos() );
-    // next batch of autos are typed cata::optional<vpart_reference>
-    const auto vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
-    const auto vp_kitchen = vp.avail_part_with_feature( "KITCHEN" );
-    const auto vp_faucet = vp.avail_part_with_feature( "FAUCET" );
-    const auto vp_towel = vp.avail_part_with_feature( "TOWEL" );
-    const auto vp_weldrig = vp.avail_part_with_feature( "WELDRIG" );
-    const auto vp_chemlab = vp.avail_part_with_feature( "CHEMLAB" );
-    const auto vp_purify = vp.avail_part_with_feature( "WATER_PURIFIER" );
-    const auto vp_controls = vp.avail_part_with_feature( "CONTROLS" );
-    const auto vp_electronics = vp.avail_part_with_feature( "CTRL_ELECTRONIC" );
-    const auto vp_autoclave = vp.avail_part_with_feature( "AUTOCLAVE" );
-    const auto vp_washing_machine = vp.avail_part_with_feature( "WASHING_MACHINE" );
-    const auto vp_dishwasher = vp.avail_part_with_feature( "DISHWASHER" );
-    const auto vp_monster_capture = vp.avail_part_with_feature( "CAPTURE_MONSTER_VEH" );
-    const auto vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );
-    const auto vp_harness = vp.avail_part_with_feature( "ANIMAL_CTRL" );
-    const auto vp_workbench = vp.avail_part_with_feature( "WORKBENCH" );
-    const auto vp_cargo = vp.part_with_feature( "CARGO", false );
+    const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
+    const cata::optional<vpart_reference> vp_kitchen = vp.avail_part_with_feature( "KITCHEN" );
+    const cata::optional<vpart_reference> vp_faucet = vp.avail_part_with_feature( "FAUCET" );
+    const cata::optional<vpart_reference> vp_towel = vp.avail_part_with_feature( "TOWEL" );
+    const cata::optional<vpart_reference> vp_weldrig = vp.avail_part_with_feature( "WELDRIG" );
+    const cata::optional<vpart_reference> vp_chemlab = vp.avail_part_with_feature( "CHEMLAB" );
+    const cata::optional<vpart_reference> vp_purify = vp.avail_part_with_feature( "WATER_PURIFIER" );
+    const cata::optional<vpart_reference> vp_controls = vp.avail_part_with_feature( "CONTROLS" );
+    const cata::optional<vpart_reference> vp_electronics =
+        vp.avail_part_with_feature( "CTRL_ELECTRONIC" );
+    const cata::optional<vpart_reference> vp_autoclave = vp.avail_part_with_feature( "AUTOCLAVE" );
+    const cata::optional<vpart_reference> vp_washing_machine =
+        vp.avail_part_with_feature( "WASHING_MACHINE" );
+    const cata::optional<vpart_reference> vp_dishwasher = vp.avail_part_with_feature( "DISHWASHER" );
+    const cata::optional<vpart_reference> vp_monster_capture =
+        vp.avail_part_with_feature( "CAPTURE_MONSTER_VEH" );
+    const cata::optional<vpart_reference> vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );
+    const cata::optional<vpart_reference> vp_harness = vp.avail_part_with_feature( "ANIMAL_CTRL" );
+    const cata::optional<vpart_reference> vp_workbench = vp.avail_part_with_feature( "WORKBENCH" );
+    const cata::optional<vpart_reference> vp_cargo = vp.part_with_feature( "CARGO", false );
     const bool has_cargo = vp_cargo && !get_items( vp_cargo->part_index() ).empty();
     const bool has_planter = vp.avail_part_with_feature( "PLANTER" ) ||
                              vp.avail_part_with_feature( "ADVANCED_PLANTER" );
