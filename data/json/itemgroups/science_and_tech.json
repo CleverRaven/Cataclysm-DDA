@@ -387,7 +387,7 @@
       [ "gloves_rubber", 20 ],
       [ "mask_filter", 30 ],
       [ "glasses_safety", 40 ],
-      [ "lighter", 60 ],
+      { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
       [ "boots_rubber", 20 ],
       [ "recipe_medicalmut", 2 ],
       [ "canister_goo", 8 ],

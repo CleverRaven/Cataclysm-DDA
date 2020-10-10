@@ -128,6 +128,49 @@
     ]
   },
   {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "crude_picklock",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "traps",
+    "time": "10 m",
+    "autolearn": true,
+    "proficiencies": [
+      {
+        "proficiency": "prof_lockpicking",
+        "required": false,
+        "time_multiplier": 2,
+        "fail_multiplier": 5,
+        "learning_time_multiplier": 0
+      }
+    ],
+    "qualities": [ [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ], { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "crude_picklock",
+    "id_suffix": "from wire",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "traps",
+    "time": "5 m",
+    "autolearn": true,
+    "proficiencies": [
+      {
+        "proficiency": "prof_lockpicking",
+        "required": false,
+        "time_multiplier": 2,
+        "fail_multiplier": 5,
+        "learning_time_multiplier": 0
+      }
+    ],
+    "qualities": [ [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "wire", 2 ] ] ]
+  },
+  {
     "result": "shears",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",

@@ -415,11 +415,11 @@
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "rifle" },
       { "level": 2, "name": "melee" },
-      { "level": 2, "name": "lockpick" },
+      { "level": 2, "name": "traps" },
       { "level": 2, "name": "cutting" },
       { "level": 1, "name": "bashing" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_leatherworking" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_leatherworking", "prof_lockpicking" ],
     "items": {
       "both": {
         "items": [
@@ -627,13 +627,15 @@
     "name": "Scoundrel",
     "description": "Your flexible outlook on the law, the scuffles you've been in (and avoided) at the bar, and your impressive ability to weasel your way out of the consequences of your actions - all these skills have helped ensure your survival.  How much longer will they hold out?",
     "points": 2,
+    "proficiencies": [ "prof_lockpicking" ],
     "skills": [
       { "level": 1, "name": "melee" },
       { "level": 1, "name": "stabbing" },
       { "level": 1, "name": "unarmed" },
       { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "barter" },
       { "level": 1, "name": "speech" },
-      { "level": 1, "name": "lockpick" }
+      { "level": 1, "name": "traps" }
     ],
     "items": {
       "both": {
@@ -803,13 +805,14 @@
     "name": "Special Operator",
     "description": "You were the best of the best, the military's finest.  That's why you're still alive, even after all your comrades fell to the undead.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 5,
+    "proficiencies": [ "prof_traps", "prof_disarming" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "smg" },
       { "level": 2, "name": "cutting" },
       { "level": 2, "name": "melee" },
       { "level": 2, "name": "dodge" },
-      { "level": 2, "name": "lockpick" },
+      { "level": 2, "name": "traps" },
       { "level": 1, "name": "firstaid" },
       { "level": 1, "name": "swimming" },
       { "level": 1, "name": "survival" }
@@ -1036,10 +1039,9 @@
       { "level": 2, "name": "cooking" },
       { "level": 2, "name": "chemistry" },
       { "level": 2, "name": "firstaid" },
-      { "level": 2, "name": "swimming" },
-      { "level": 1, "name": "lockpick" }
+      { "level": 2, "name": "swimming" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_leatherworking" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_leatherworking", "prof_lockpicking" ],
     "items": {
       "both": {
         "items": [
@@ -1526,8 +1528,8 @@
     "name": { "male": "Handy Man", "female": "Handy Woman" },
     "description": "You used to work at a local hardware store, and you did plenty of home renovations yourself.  Now you look out at the horizon of a ruined world, and wonder - are your meager skills, and the few supplies you grabbed on the way out, sufficient to help rebuild?",
     "points": 1,
-    "proficiencies": [ "prof_plumbing" ],
-    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "lockpick" } ],
+    "proficiencies": [ "prof_lockpicking", "prof_plumbing" ],
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "traps" } ],
     "items": {
       "both": {
         "items": [ "tank_top", "socks", "boots_steel", "pants", "multitool", "wristwatch" ],
@@ -1711,8 +1713,9 @@
     "name": "Bionic Thief",
     "description": "Impeccable style and a few bionic tricks up your sleeve have seen you pull off a string of daring, high-profile heists.  The cops would love to get their hands on you, but seem otherwise occupied.",
     "points": 4,
+    "proficiencies": [ "prof_lockpicking" ],
     "CBMs": [ "bio_batteries", "bio_lockpick", "bio_fingerhack", "bio_power_storage_mkII" ],
-    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "smg" }, { "level": 3, "name": "lockpick" } ],
+    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "smg" }, { "level": 3, "name": "traps" } ],
     "items": {
       "both": {
         "items": [ "waistcoat", "pants", "dress_shirt", "socks", "dress_shoes", "knit_scarf", "gold_watch" ],
@@ -2239,7 +2242,7 @@
     "description": "You spent most of your life trapping with your father.  Both of you made a decent living selling your catches and running trapping tutorials.  Hopefully, your skills will come in useful against less conventional game.",
     "points": 2,
     "skills": [ { "level": 4, "name": "traps" }, { "level": 2, "name": "survival" } ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_traps", "prof_trapsetting" ],
     "items": {
       "both": {
         "items": [
@@ -2457,7 +2460,8 @@
     "name": "Convict",
     "description": "Your trial was contentious, but inevitably you found yourself behind bars.  The Cataclysm has offered you a chance to escape, but freedom may come with a steep price.",
     "points": 0,
-    "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "lockpick" } ],
+    "proficiencies": [ "prof_lockpicking" ],
+    "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "traps" } ],
     "items": {
       "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
       "male": [ "briefs" ],
@@ -2548,7 +2552,8 @@
     "name": "Burglar",
     "description": "This could be your lucky break.  Plenty of loot to be pilfered, and no cops to be seen.  Does it count as breaking and entering if everyone in town is undead?",
     "points": 3,
-    "skills": [ { "level": 4, "name": "lockpick" } ],
+    "proficiencies": [ "prof_lockpicking" ],
+    "skills": [ { "level": 4, "name": "traps" } ],
     "//": "A ski mask would fit the stereotype better, but wool allergy breaks this.",
     "items": {
       "both": [
@@ -3419,9 +3424,9 @@
       { "level": 1, "name": "survival" },
       { "level": 1, "name": "fabrication" },
       { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "lockpick" }
+      { "level": 1, "name": "traps" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_lockpicking" ],
     "items": {
       "both": {
         "items": [

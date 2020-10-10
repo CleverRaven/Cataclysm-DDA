@@ -3443,7 +3443,7 @@ void overmap::place_ravines()
                 for( int j = 1 - settings.overmap_ravine.ravine_width; j < settings.overmap_ravine.ravine_width;
                      j++ ) {
                     const point_om_omt n = p + point( j, i );
-                    if( inbounds( n ), 1 ) {
+                    if( inbounds( n, 1 ) ) {
                         rift_points.emplace( n );
                     }
                 }
@@ -3454,7 +3454,7 @@ void overmap::place_ravines()
     // ravine, if at least one of them isn't, the location is part of the ravine's edge. Whathever the
     // case, the chosen ravine terrain is then propagated downwards until the ravine_depth specified
     // by the region settings.
-    for( auto &p : rift_points ) {
+    for( const point_om_omt &p : rift_points ) {
         bool edge = false;
         for( int ni = -1; ni <= 1 && !edge; ni++ ) {
             for( int nj = -1; nj <= 1 && !edge; nj++ ) {

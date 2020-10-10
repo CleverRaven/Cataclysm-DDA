@@ -115,7 +115,7 @@ struct enum_traits<trigger_type> {
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    trigger_type trigger;
+    trigger_type trigger = trigger_type::TIME;
 
     /**Activates above that threshold and deactivates below it*/
     int threshold_low = INT_MIN;
@@ -304,6 +304,7 @@ struct mutation_branch {
         cata::optional<float> mana_regen_multiplier = cata::nullopt;
         // for every point of bionic power, reduces max mana pool by 1 * bionic_mana_penalty
         cata::optional<float> bionic_mana_penalty = cata::nullopt;
+        cata::optional<float> casting_time_multiplier = cata::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         /** mutation enchantments */
