@@ -28,6 +28,16 @@
     "using": [ [ "tailoring_cotton_patchwork", 1 ] ]
   },
   {
+    "result": "xl_arm_warmers",
+    "type": "recipe",
+    "copy-from": "arm_warmers",
+    "difficulty": 2,
+    "time": "120 m",
+    "byproducts": [ [ "scrap_cotton", 109 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_oversized", "required": true } ]
+  },
+  {
     "result": "armguard_chitin",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -114,6 +124,22 @@
     ]
   },
   {
+    "result": "xl_armguard_hard",
+    "type": "recipe",
+    "copy-from": "armguard_hard",
+    "difficulty": 5,
+    "skills_required": [ [ "tailor", 3 ] ],
+    "time": "260 m",
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
+    "byproducts": [ [ "scrap_neoprene", 67 ] ],
+    "using": [ [ "plastic_molding", 3 ], [ "tailoring_neoprene_patchwork", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_oversized", "required": true }
+    ]
+  },
+  {
     "result": "armguard_larmor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -126,6 +152,19 @@
     "byproducts": [ [ "leather", 9 ], [ "scrap_leather", 29 ] ],
     "using": [ [ "tailoring_leather", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 } ]
+  },
+  {
+    "result": "xl_armguard_larmor",
+    "type": "recipe",
+    "copy-from": "armguard_larmor",
+    "difficulty": 3,
+    "time": "820 m",
+    "autolearn": true,
+    "byproducts": [ [ "leather", 12 ], [ "scrap_leather", 36 ] ],
+    "using": [ [ "tailoring_leather", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 },
+                        { "proficiency": "prof_oversized", "required": false, "time_multiplier": 2 }
+                      ]
   },
   {
     "result": "armguard_lightplate",
