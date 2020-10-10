@@ -921,3 +921,20 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
     effects.apply( d );
     CHECK( talker_npc.myclass == npc_class_id( "NC_NONE" ) );
 }
+
+TEST_CASE( "npc_talk_effect_change_first_topic", "[npc_talk]" )
+{
+    dialogue d;
+    npc &talker_npc = prep_test( d );
+
+    d.add_topic( "TALK_TEST_CHANGE_FIRST_TOPIC_1" );
+    gen_response_lines( d, 2 );
+    talk_effect_t &effect_1 = d.responses[1].success;
+    effect_1.apply( d );
+    CHECK( talker_npc.chatbin.first_topic == "TALK_TEST_CHANGE_FIRST_TOPIC_2" );
+    d.add_topic( "TALK_TEST_CHANGE_FIRST_TOPIC_2" );
+    gen_response_lines( d, 2 );
+    talk_effect_t &effect_2 = d.responses[1].success;
+    effect_2.apply( d );
+    CHECK( talker_npc.chatbin.first_topic == "TALK_TEST_CHANGE_FIRST_TOPIC_1" );
+}
