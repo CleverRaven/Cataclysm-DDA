@@ -21,31 +21,24 @@
     "id": "TALK_Sadie_1",
     "dynamic_line": {
       "npc_at_om_location": "hospital",
-      "value": "yes",
       "yes": "Places like this are so romantic.  I used to come to places like this all the time.  Or lots of different parts of me came here just a few times.  Anyway it feels nice and I'm so glad you brought me here.",
       "no": {
         "npc_at_om_location": "butcher",
-        "value": "yes",
         "yes": "Such a nice smell here.  And all the pretty pointy things to touch.  Do you mind if we stay here a while?  I'd like to play butcher with you.",
         "no": {
           "npc_at_om_location": "cathedral",
-          "value": "yes",
           "yes": "Something is wrong here.  The air is too thin, my skin is too thin, this place is too thin.  We should leave and never come back.",
           "no": {
             "npc_at_om_location": "cs_sex_shop",
-            "value": "yes",
             "yes": "This is all a little bit basic but I like the direction we're going in here.  How do you feel about bonesaws and heavy voltage?",
             "no": {
               "npc_at_om_location": "mansion",
-              "value": "yes",
               "yes": "Ooh, it's like a murder mystery here.  Are we the murderers, the murdered, or the mystery?",
               "no": {
                 "npc_at_om_location": "mortuary",
-                "value": "yes",
                 "yes": "This seems so familiar.  I think I was naked here with a strange man who put makeup on me and a pretty dress and there were flowers and music and everyone was crying.  Or was that prom?",
                 "no": {
                   "npc_at_om_location": "refugee_center",
-                  "value": "yes",
                   "yes": "I think you would make a very nice refugee.  I think they should let us stay here and beg for catfood with the rest.  Should we become cat mutants?  I would be such a good apocalyptic cat mutant.  I would run and fetch and play dead and eat feces and all of it.  That's all cat stuff I think.",
                   "no": {
                     "u_has_var": "u_met_sadie",
@@ -152,7 +145,7 @@
         "text": "Wonderful.  Please don't inject me with anything else unless I ask for it in the future.",
         "effect": [
           { "u_lose_var": "sadie_injection", "type": "general", "context": "injection" },
-          { "u_add_var": "sadie_nuts", "type": "general", "context": "nuts", "value": "yes" }
+          { "u_add_var": "sadie_heart", "type": "general", "context": "heart", "value": "yes" }
         ],
         "topic": "TALK_sadie_1"
       }
