@@ -499,7 +499,7 @@ void Item_factory::finalize_post( itype &obj )
 {
     // erase all invalid flags (not defined in flags.json), display warning about invalid flags
     erase_if( obj.item_tags, [&]( const std::string & f ) {
-        if( json_flag::get( f ).id().empty() ) {
+        if( !json_flag::get( f ).id.is_valid() ) {
             debugmsg( "itype '%s' uses undefined flag '%s'. Please add corresponding 'json_flag' entry to json.",
                       obj.id.str(), f );
             return true;
