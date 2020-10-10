@@ -2712,9 +2712,6 @@ void target_ui::action_switch_mode()
     menu.settext( _( "Select preferences" ) );
     const std::pair<int, int> aim_modes_range = std::make_pair( 0, 100 );
     const std::pair<int, int> firing_modes_range = std::make_pair( 100, 200 );
-
-
-    // list aiming modes
     menu.addentry( -1, false, 0, "  " + std::string( _( "Default aiming mode" ) ) );
     menu.entries.back().force_color = true;
     menu.entries.back().text_color = c_cyan;
@@ -2733,28 +2730,26 @@ void target_ui::action_switch_mode()
     menu.addentry( -1, false, 0, "  " + std::string( _( "Firing mode" ) ) );
     menu.entries.back().force_color = true;
     menu.entries.back().text_color = c_cyan;
-    if( relevant->is_gun() || relevant->is_gunmod() ) {
-        const std::map<gun_mode_id, gun_mode> gun_modes = relevant->gun_all_modes();
-        for( auto it = gun_modes.begin(); it != gun_modes.end(); ++it ) {
-            if( it->second.flags.count( "REACH_ATTACK" ) ) {
-                continue;
-            }
-            const bool active_gun_mode = relevant->gun_get_mode_id() == it->first;
+    const std::map<gun_mode_id, gun_mode> gun_modes = relevant->gun_all_modes();
+    for( auto it = gun_modes.begin(); it != gun_modes.end(); ++it ) {
+        if( it->second.flags.count( "REACH_ATTACK" ) ) {
+            continue;
+        }
+        const bool active_gun_mode = relevant->gun_get_mode_id() == it->first;
 
-            // If gun mode is from a gunmod use gunmod's name, pay attention to the "->" on tname
-            std::string text = ( it->second.target == relevant )
-                               ? it->second.tname()
-                               : it->second->tname() + " (" + std::to_string( it->second.qty ) + ")";
+        // If gun mode is from a gunmod use gunmod's name, pay attention to the "->" on tname
+        std::string text = ( it->second.target == relevant )
+                           ? it->second.tname()
+                           : it->second->tname() + " (" + std::to_string( it->second.qty ) + ")";
 
-            text += ( active_gun_mode ? _( " (active)" ) : "" );
+        text += ( active_gun_mode ? _( " (active)" ) : "" );
 
-            menu.entries.emplace_back( firing_modes_range.first + std::distance( gun_modes.begin(), it ),
-                                       true, MENU_AUTOASSIGN, text );
-            if( active_gun_mode ) {
-                menu.entries.back().text_color = c_light_green;
-                if( menu.selected == 0 ) {
-                    menu.selected = menu.entries.size() - 1;
-                }
+        menu.entries.emplace_back( firing_modes_range.first + std::distance( gun_modes.begin(), it ),
+                                   true, MENU_AUTOASSIGN, text );
+        if( active_gun_mode ) {
+            menu.entries.back().text_color = c_light_green;
+            if( menu.selected == 0 ) {
+                menu.selected = menu.entries.size() - 1;
             }
         }
     }
@@ -2764,12 +2759,12 @@ void target_ui::action_switch_mode()
         // gun mode select
         const std::map<gun_mode_id, gun_mode> all_gun_modes = relevant->gun_all_modes();
         int skip = menu.ret - firing_modes_range.first;
-        for( auto it = all_gun_modes.begin(); it != all_gun_modes.end(); ++it ) {
-            if( it->second.flags.count( "REACH_ATTACK" ) ) {
+        for( std::pair<gun_mode_id, gun_mode> it : all_gun_modes ) {
+            if( it.second.flags.count( "REACH_ATTACK" ) ) {
                 continue;
             }
             if( skip-- == 0 ) {
-                relevant->gun_set_mode( it->first );
+                relevant->gun_set_mode( it.first );
                 break;
             }
         }
