@@ -68,11 +68,16 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         }
 
         if( ip.loc.where() == item_location::type::character ) {
+            const auto filter = [&]( const item & item ) //To make sure that we are removing proper item
+            ->bool {
+                return item.stacks_with( gift, true );
+            };
             if( ip.charges > 0 ) {
-                giver.use_charges( gift.typeId(), charges );
+                giver.use_charges( gift.typeId(), charges, filter );
             } else if( ip.count > 0 ) {
                 for( int i = 0; i < count; i++ ) {
-                    giver.use_amount( gift.typeId(), 1 );
+
+                    giver.use_amount( gift.typeId(), 1, filter );
                 }
             }
         } else {
