@@ -614,8 +614,7 @@ ter_id t_null,
        t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie,
        t_railroad_track_d_on_tie;
 
-static ter_id t_nanofab, t_nanofab_body, t_wall_b, t_wall_g, t_wall_p, t_wall_r, t_wall_w,
-       t_wall_y;
+static ter_id t_nanofab, t_nanofab_body, t_wall_b, t_wall_g, t_wall_p, t_wall_r, t_wall_w;
 
 // TODO: Put this crap into an inclusion, which should be generated automatically using JSON data
 

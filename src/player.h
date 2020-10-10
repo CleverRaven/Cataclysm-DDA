@@ -124,13 +124,6 @@ class player : public Character
             return this;
         }
 
-        /** Processes human-specific effects of effects before calling Creature::process_effects(). */
-        void process_effects() override;
-        /** Handles the still hard-coded effects. */
-        void hardcoded_effects( effect &it );
-        /** Returns the modifier value used for vomiting effects. */
-        double vomit_mod();
-
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
@@ -224,8 +217,6 @@ class player : public Character
         void set_pain( int npain ) override;
         /** Returns perceived pain (reduced with painkillers)*/
         int get_perceived_pain() const override;
-
-        void add_pain_msg( int val, const bodypart_id &bp ) const;
 
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
@@ -370,10 +361,6 @@ class player : public Character
 
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur );
-        /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
-        int sleep_spot( const tripoint &p ) const;
-        /** Checked each turn during "lying_down", returns true if the player falls asleep */
-        bool can_sleep();
 
         //returns true if the warning is now beyond final and results in hostility.
         bool add_faction_warning( const faction_id &id );
@@ -476,9 +463,6 @@ class player : public Character
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
-
-        /** Processes human-specific effects of an effect. */
-        void process_one_effect( effect &it, bool is_new ) override;
 
     private:
 

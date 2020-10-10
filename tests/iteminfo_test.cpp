@@ -240,7 +240,7 @@ TEST_CASE( "item requirements", "[iteminfo][requirements]" )
     CHECK( item_info_str( sonic, reqs ) ==
            "--\n"
            "<color_c_white>Minimum requirements</color>:\n"
-           "intelligence 9, perception 5, electronics 3, and lock picking 2\n" );
+           "intelligence 9, perception 5, electronics 3, and devices 2\n" );
 }
 
 // Functions:

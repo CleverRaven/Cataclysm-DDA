@@ -13,3 +13,54 @@ TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )
     const vpart_info &vp = vpart_id( "halfboard_horizontal" ).obj();
     CHECK( vp.damage_reduction[static_cast<int>( damage_type::BASH )] != 0 );
 }
+
+TEST_CASE( "vehicle_parts_seats_and_beds_have_beltable_flags", "[vehicle][vehicle_parts]" )
+{
+    // this checks all seats and beds either BELTABLE or NONBELTABLE but not both
+
+    for( const auto &e : vpart_info::all() ) {
+        const auto &vp = e.second;
+
+        if( !vp.has_flag( "BED" ) && !vp.has_flag( "SEAT" ) ) {
+            continue;
+        }
+        CAPTURE( vp.get_id().c_str() );
+        CHECK( ( vp.has_flag( "BELTABLE" ) ^ vp.has_flag( "NONBELTABLE" ) ) );
+    }
+}
+
+TEST_CASE( "vehicle_parts_boardable_openable_parts_have_door_flag", "[vehicle][vehicle_parts]" )
+{
+    // this checks all BOARDABLE and OPENABLE parts have DOOR flag
+
+    for( const auto &e : vpart_info::all() ) {
+        const auto &vp = e.second;
+
+        if( !vp.has_flag( "BOARDABLE" ) || !vp.has_flag( "OPENABLE" ) ) {
+            continue;
+        }
+        CAPTURE( vp.get_id().c_str() );
+        CHECK( vp.has_flag( "DOOR" ) );
+    }
+}
+
+TEST_CASE( "vehicle_parts_have_at_least_one_category", "[vehicle][vehicle_parts]" )
+{
+    // check parts have at least one category
+    const std::set<std::string> categories = vpart_info::categories_all();
+
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+
+        bool part_has_category = false;
+        for( const std::string &cat : categories ) {
+            if( vp.has_category( cat ) ) {
+                part_has_category = true;
+                break;
+            }
+        }
+        CAPTURE( vp.get_id().c_str() );
+        CHECK( part_has_category );
+    }
+}
+

@@ -322,6 +322,8 @@ struct weariness_tracker {
     int tick_counter = 0;
 
     void clear();
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
@@ -947,9 +949,9 @@ class Character : public Creature, public visitable<Character>
 
         bool can_power_mutation( const trait_id &mut );
         /** Generates and handles the UI for player interaction with installed bionics */
-        virtual void power_bionics() {};
+        virtual void power_bionics() {}
         // TODO: Implement NPCs activating mutations
-        virtual void power_mutations() {};
+        virtual void power_mutations() {}
 
         /**Trigger reflex activation if the mutation has one*/
         void mutation_reflex_trigger( const trait_id &mut );
@@ -1758,9 +1760,8 @@ class Character : public Creature, public visitable<Character>
         // magic mod
         pimpl<known_magic> magic;
 
-        void make_bleed( const bodypart_id &bp, time_duration duration, int intensity = 1,
-                         bool permanent = false,
-                         bool force = false, bool defferred = false );
+        void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
+                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
 
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
@@ -2259,7 +2260,8 @@ class Character : public Creature, public visitable<Character>
         /** Used to compute how filling a food is.*/
         double compute_effective_food_volume_ratio( const item &food ) const;
         /** Used to to display how filling a food is. */
-        int compute_calories_per_effective_volume( const item &food ) const;
+        int compute_calories_per_effective_volume( const item &food,
+                const nutrients *nutrient = nullptr ) const;
         /** Handles the effects of consuming an item */
         bool consume_effects( item &food );
         /** Check character's capability of consumption overall */
@@ -2576,6 +2578,18 @@ class Character : public Creature, public visitable<Character>
         void try_reduce_weariness( float exertion );
         float maximum_exertion_level() const;
         std::string debug_weary_info() const;
+        // returns empty because this is avatar specific
+        void add_pain_msg( int, const bodypart_id & ) const {}
+        /** Returns the modifier value used for vomiting effects. */
+        double vomit_mod();
+        /** Checked each turn during "lying_down", returns true if the player falls asleep */
+        bool can_sleep();
+        /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
+        int sleep_spot( const tripoint &p ) const;
+        /** Processes human-specific effects of effects before calling Creature::process_effects(). */
+        void process_effects() override;
+        /** Handles the still hard-coded effects. */
+        void hardcoded_effects( effect &it );
 
     protected:
         Character();
@@ -2689,6 +2703,8 @@ class Character : public Creature, public visitable<Character>
         std::map<vitamin_id, int> vitamin_levels;
 
         pimpl<player_morale> morale;
+        /** Processes human-specific effects of an effect. */
+        void process_one_effect( effect &it, bool is_new ) override;
 
     public:
         /**

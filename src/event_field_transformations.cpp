@@ -12,7 +12,7 @@
 
 static std::vector<cata_variant> flags_of_itype( const cata_variant &v )
 {
-    const std::set<std::string> &flags = v.get<itype_id>()->item_tags;
+    const std::set<std::string> &flags = v.get<itype_id>()->get_flags();
     std::vector<cata_variant> result;
     result.reserve( flags.size() );
     for( const std::string &s : flags ) {

@@ -1,6 +1,7 @@
 #include "character.h"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <climits>
 #include <cmath>
@@ -10,6 +11,7 @@
 #include <memory>
 #include <numeric>
 #include <ostream>
+#include <tuple>
 #include <type_traits>
 
 #include "action.h"
@@ -112,6 +114,7 @@ static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_watch( "bio_watch" );
 
@@ -123,7 +126,9 @@ static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_blisters( "blisters" );
+static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_common_cold( "common_cold" );
@@ -134,6 +139,7 @@ static const efftype_id effect_cough_suppress( "cough_suppress" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_mute( "mute" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_disrupted_sleep( "disrupted_sleep" );
@@ -144,6 +150,7 @@ static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_frostbite( "frostbite" );
 static const efftype_id effect_frostbite_recovery( "frostbite_recovery" );
+static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_got_checked( "got_checked" );
@@ -174,25 +181,30 @@ static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_melatonin( "melatonin" );
 static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_nightmares( "nightmares" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_pkill1( "pkill1" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_recently_coughed( "recently_coughed" );
+static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_weed_high( "weed_high" );
 static const efftype_id effect_winded( "winded" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
@@ -235,11 +247,18 @@ static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DEFT( "DEFT" );
+static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
+static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
+static const trait_id trait_EATHEALTH( "EATHEALTH" );
+static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
 static const trait_id trait_FUR( "FUR" );
+static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
+static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_SAVANT( "SAVANT" );
@@ -2947,7 +2966,7 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
     {
         public:
             item_loc_with_depth( const item_location &_loc )
-                : _loc( _loc ), _depth( 0 ) {
+                : _loc( _loc ) {
                 item_location ancestor = _loc;
                 while( ancestor.has_parent() ) {
                     ++_depth;
@@ -3580,7 +3599,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     }
 
     if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) ||
-                                            it.item_tags.count( "wooled" ) ) ) {
+                                            it.has_own_flag( "wooled" ) ) ) {
         return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
     }
 
@@ -4042,8 +4061,8 @@ bool Character::meets_requirements( const item &it, const item &context ) const
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
-void Character::make_bleed( const bodypart_id &bp, time_duration duration, int intensity,
-                            bool permanent, bool force, bool defferred )
+void Character::make_bleed( const effect_source &source, const bodypart_id &bp,
+                            time_duration duration, int intensity, bool permanent, bool force, bool defferred )
 {
     int b_resist = 0;
     for( const trait_id &mut : get_mutations() ) {
@@ -4054,7 +4073,7 @@ void Character::make_bleed( const bodypart_id &bp, time_duration duration, int i
         return;
     }
 
-    add_effect( effect_bleed, duration, bp, permanent, intensity, force, defferred );
+    add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
 }
 
 void Character::normalize()
@@ -5029,20 +5048,26 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
 
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
-    std::map<efftype_id, std::pair<std::string, nc_color> > hunger_states = {
-        { effect_hunger_engorged, std::make_pair( translate_marker( "Engorged" ), c_red ) },
-        { effect_hunger_full, std::make_pair( translate_marker( "Full" ), c_yellow ) },
-        { effect_hunger_satisfied, std::make_pair( translate_marker( "Satisfied" ), c_green ) },
-        { effect_hunger_blank, std::make_pair( "", c_white ) },
-        { effect_hunger_hungry, std::make_pair( translate_marker( "Hungry" ), c_yellow ) },
-        { effect_hunger_very_hungry, std::make_pair( translate_marker( "Very Hungry" ), c_yellow ) },
-        { effect_hunger_near_starving, std::make_pair( translate_marker( "Near starving" ), c_red ) },
-        { effect_hunger_starving, std::make_pair( translate_marker( "Starving!" ), c_red ) },
-        { effect_hunger_famished, std::make_pair( translate_marker( "Famished" ), c_light_red ) }
+    // clang 3.8 has some sort of issue where if the initializer list contains const arguments,
+    // like all of the effect_* string_id variables which are const string_id, then it fails to
+    // initialize the array with tuples successfully complaining that
+    // "chosen constructor is explicit in copy-initialization". Using std::forward_as_tuple
+    // returns a tuple consisting of correctly implcitly copyable types.
+    static const std::array<std::tuple<const efftype_id &, const char *, nc_color>, 9> hunger_states{ {
+            std::forward_as_tuple( effect_hunger_engorged, translate_marker( "Engorged" ), c_red ),
+            std::forward_as_tuple( effect_hunger_full, translate_marker( "Full" ), c_yellow ),
+            std::forward_as_tuple( effect_hunger_satisfied, translate_marker( "Satisfied" ), c_green ),
+            std::forward_as_tuple( effect_hunger_blank, "", c_white ),
+            std::forward_as_tuple( effect_hunger_hungry, translate_marker( "Hungry" ), c_yellow ),
+            std::forward_as_tuple( effect_hunger_very_hungry, translate_marker( "Very Hungry" ), c_yellow ),
+            std::forward_as_tuple( effect_hunger_near_starving, translate_marker( "Near starving" ), c_red ),
+            std::forward_as_tuple( effect_hunger_starving, translate_marker( "Starving!" ), c_red ),
+            std::forward_as_tuple( effect_hunger_famished, translate_marker( "Famished" ), c_light_red )
+        }
     };
     for( auto &hunger_state : hunger_states ) {
-        if( has_effect( hunger_state.first ) ) {
-            return std::make_pair( _( hunger_state.second.first ), hunger_state.second.second );
+        if( has_effect( std::get<0>( hunger_state ) ) ) {
+            return std::make_pair( _( std::get<1>( hunger_state ) ), std::get<2>( hunger_state ) );
         }
     }
     return std::make_pair( _( "ERROR!" ), c_light_red );
@@ -5484,7 +5509,6 @@ void Character::try_reduce_weariness( const float exertion )
             weary.low_activity_ticks++;
         }
     }
-
 
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
 
@@ -6209,7 +6233,7 @@ void Character::update_bodytemp()
     double total_windpower = get_local_windpower( g->weather.windspeed + vehwindspeed, cur_om_ter,
                              pos(),
                              g->weather.winddirection, sheltered );
-    // Let's cache this not to check it num_bp times
+    // Let's cache this not to check it for every bodyparts
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
@@ -7784,6 +7808,7 @@ mutation_value_map = {
     { "mana_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_multiplier> },
     { "mana_regen_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_regen_multiplier> },
     { "bionic_mana_penalty", calc_mutation_value_multiplicative<&mutation_branch::bionic_mana_penalty> },
+    { "casting_time_multiplier", calc_mutation_value_multiplicative<&mutation_branch::casting_time_multiplier> },
     { "speed_modifier", calc_mutation_value_multiplicative<&mutation_branch::speed_modifier> },
     { "movecost_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier> },
     { "movecost_flatground_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier> },
@@ -8925,8 +8950,8 @@ void Character::vomit()
     }
 
     if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea
-        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, bodypart_str_id( "bp_null" ), false, 1,
-                                   calendar::turn );
+        const effect dummy_nausea( effect_source( this ), &effect_nausea.obj(), 0_turns,
+                                   bodypart_str_id( "bp_null" ), false, 1, calendar::turn );
         add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * units::to_milliliter(
                 stomach.contains() ) / 21, dummy_nausea.get_int_dur_factor() ) );
     }
@@ -9406,7 +9431,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
                               material.cut_dmg_verb();
 
     const std::string pre_damage_name = armor.tname();
-    const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level( 4 ) );
+    const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level() );
 
     // add "further" if the damage adjective and verb are the same
     std::string format_string = ( pre_damage_adj == damage_verb ) ?
@@ -11760,6 +11785,367 @@ std::vector<std::string> Character::short_description_parts() const
 std::string Character::short_description() const
 {
     return join( short_description_parts(), ";   " );
+}
+
+void Character::process_one_effect( effect &it, bool is_new )
+{
+    bool reduced = resists_effect( it );
+    double mod = 1;
+    const bodypart_id &bp = it.get_bp();
+    int val = 0;
+
+    // Still hardcoded stuff, do this first since some modify their other traits
+    hardcoded_effects( it );
+
+    const auto get_effect = [&it, is_new]( const std::string & arg, bool reduced ) {
+        if( is_new ) {
+            return it.get_amount( arg, reduced );
+        }
+        return it.get_mod( arg, reduced );
+    };
+
+    // Handle miss messages
+    const std::vector<std::pair<translation, int>> &msgs = it.get_miss_msgs();
+    if( !msgs.empty() ) {
+        for( const auto &i : msgs ) {
+            add_miss_reason( i.first.translated(), static_cast<unsigned>( i.second ) );
+        }
+    }
+
+    // Handle health mod
+    val = get_effect( "H_MOD", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "H_MOD", val, reduced, mod ) ) {
+            int bounded = bound_mod_to_vals(
+                              get_healthy_mod(), val, it.get_max_val( "H_MOD", reduced ),
+                              it.get_min_val( "H_MOD", reduced ) );
+            // This already applies bounds, so we pass them through.
+            mod_healthy_mod( bounded, get_healthy_mod() + bounded );
+        }
+    }
+
+    // Handle health
+    val = get_effect( "HEALTH", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "HEALTH", val, reduced, mod ) ) {
+            mod_healthy( bound_mod_to_vals( get_healthy(), val,
+                                            it.get_max_val( "HEALTH", reduced ), it.get_min_val( "HEALTH", reduced ) ) );
+        }
+    }
+
+    // Handle stim
+    val = get_effect( "STIM", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "STIM", val, reduced, mod ) ) {
+            mod_stim( bound_mod_to_vals( get_stim(), val, it.get_max_val( "STIM", reduced ),
+                                         it.get_min_val( "STIM", reduced ) ) );
+        }
+    }
+
+    // Handle hunger
+    val = get_effect( "HUNGER", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "HUNGER", val, reduced, mod ) ) {
+            mod_hunger( bound_mod_to_vals( get_hunger(), val, it.get_max_val( "HUNGER", reduced ),
+                                           it.get_min_val( "HUNGER", reduced ) ) );
+        }
+    }
+
+    // Handle thirst
+    val = get_effect( "THIRST", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "THIRST", val, reduced, mod ) ) {
+            mod_thirst( bound_mod_to_vals( get_thirst(), val, it.get_max_val( "THIRST", reduced ),
+                                           it.get_min_val( "THIRST", reduced ) ) );
+        }
+    }
+
+    // Handle fatigue
+    val = get_effect( "FATIGUE", reduced );
+    // Prevent ongoing fatigue effects while asleep.
+    // These are meant to change how fast you get tired, not how long you sleep.
+    if( val != 0 && !in_sleep_state() ) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "FATIGUE", val, reduced, mod ) ) {
+            mod_fatigue( bound_mod_to_vals( get_fatigue(), val, it.get_max_val( "FATIGUE", reduced ),
+                                            it.get_min_val( "FATIGUE", reduced ) ) );
+        }
+    }
+
+    // Handle Radiation
+    val = get_effect( "RAD", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "RAD", val, reduced, mod ) ) {
+            mod_rad( bound_mod_to_vals( get_rad(), val, it.get_max_val( "RAD", reduced ), 0 ) );
+            // Radiation can't go negative
+            if( get_rad() < 0 ) {
+                set_rad( 0 );
+            }
+        }
+    }
+
+    // Handle Pain
+    val = get_effect( "PAIN", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( it.get_sizing( "PAIN" ) ) {
+            if( has_trait( trait_FAT ) ) {
+                mod *= 1.5;
+            }
+            if( get_size() == creature_size::large ) {
+                mod *= 2;
+            }
+            if( get_size() == creature_size::huge ) {
+                mod *= 3;
+            }
+        }
+        if( is_new || it.activated( calendar::turn, "PAIN", val, reduced, mod ) ) {
+            int pain_inc = bound_mod_to_vals( get_pain(), val, it.get_max_val( "PAIN", reduced ), 0 );
+            mod_pain( pain_inc );
+            if( pain_inc > 0 ) {
+                add_pain_msg( val, bp );
+            }
+        }
+    }
+
+    // Handle Damage
+    val = get_effect( "HURT", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( it.get_sizing( "HURT" ) ) {
+            if( has_trait( trait_FAT ) ) {
+                mod *= 1.5;
+            }
+            if( get_size() == creature_size::large ) {
+                mod *= 2;
+            }
+            if( get_size() == creature_size::huge ) {
+                mod *= 3;
+            }
+        }
+        if( is_new || it.activated( calendar::turn, "HURT", val, reduced, mod ) ) {
+            if( bp == bodypart_id( "bp_null" ) ) {
+                if( val > 5 ) {
+                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bodypart_id( "torso" ) ) );
+                } else {
+                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bodypart_id( "torso" ) ) );
+                }
+                apply_damage( nullptr, bodypart_id( "torso" ), val, true );
+            } else {
+                if( val > 5 ) {
+                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
+                } else {
+                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
+                }
+                apply_damage( nullptr, bp, val, true );
+            }
+        }
+    }
+
+    // Handle Sleep
+    val = get_effect( "SLEEP", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( ( is_new || it.activated( calendar::turn, "SLEEP", val, reduced, mod ) ) &&
+            !has_effect( efftype_id( "sleep" ) ) ) {
+            add_msg_if_player( _( "You pass out!" ) );
+            fall_asleep( time_duration::from_turns( val ) );
+        }
+    }
+
+    // Handle painkillers
+    val = get_effect( "PKILL", reduced );
+    if( val != 0 ) {
+        mod = it.get_addict_mod( "PKILL", addiction_level( add_type::PKILLER ) );
+        if( is_new || it.activated( calendar::turn, "PKILL", val, reduced, mod ) ) {
+            mod_painkiller( bound_mod_to_vals( get_painkiller(), val, it.get_max_val( "PKILL", reduced ), 0 ) );
+        }
+    }
+
+    // Handle coughing
+    mod = 1;
+    val = 0;
+    if( it.activated( calendar::turn, "COUGH", val, reduced, mod ) ) {
+        cough( it.get_harmful_cough() );
+    }
+
+    // Handle vomiting
+    mod = vomit_mod();
+    val = 0;
+    if( it.activated( calendar::turn, "VOMIT", val, reduced, mod ) ) {
+        vomit();
+    }
+
+    // Handle stamina
+    val = get_effect( "STAMINA", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "STAMINA", val, reduced, mod ) ) {
+            mod_stamina( bound_mod_to_vals( get_stamina(), val,
+                                            it.get_max_val( "STAMINA", reduced ),
+                                            it.get_min_val( "STAMINA", reduced ) ) );
+        }
+    }
+
+    // Speed and stats are handled in recalc_speed_bonus and reset_stats respectively
+}
+
+void Character::process_effects()
+{
+    //Special Removals
+    if( has_effect( effect_darkness ) && g->is_in_sunlight( pos() ) ) {
+        remove_effect( effect_darkness );
+    }
+    if( has_trait( trait_M_IMMUNE ) && has_effect( effect_fungus ) ) {
+        vomit();
+        remove_effect( effect_fungus );
+        add_msg_if_player( m_bad, _( "We have mistakenly colonized a local guide!  Purging now." ) );
+    }
+    if( has_trait( trait_PARAIMMUNE ) && ( has_effect( effect_dermatik ) ||
+                                           has_effect( effect_tapeworm ) ||
+                                           has_effect( effect_bloodworms ) || has_effect( effect_brainworms ) ||
+                                           has_effect( effect_paincysts ) ) ) {
+        remove_effect( effect_dermatik );
+        remove_effect( effect_tapeworm );
+        remove_effect( effect_bloodworms );
+        remove_effect( effect_brainworms );
+        remove_effect( effect_paincysts );
+        add_msg_if_player( m_good, _( "Something writhes and inside of you as it dies." ) );
+    }
+    if( has_trait( trait_ACIDBLOOD ) && ( has_effect( effect_dermatik ) ||
+                                          has_effect( effect_bloodworms ) ||
+                                          has_effect( effect_brainworms ) ) ) {
+        remove_effect( effect_dermatik );
+        remove_effect( effect_bloodworms );
+        remove_effect( effect_brainworms );
+    }
+    if( has_trait( trait_EATHEALTH ) && has_effect( effect_tapeworm ) ) {
+        remove_effect( effect_tapeworm );
+        add_msg_if_player( m_good, _( "Your bowels gurgle as something inside them dies." ) );
+    }
+    if( has_trait( trait_INFIMMUNE ) && ( has_effect( effect_bite ) || has_effect( effect_infected ) ||
+                                          has_effect( effect_recover ) ) ) {
+        remove_effect( effect_bite );
+        remove_effect( effect_infected );
+        remove_effect( effect_recover );
+    }
+
+    //Human only effects
+    for( auto &elem : *effects ) {
+        for( auto &_effect_it : elem.second ) {
+            process_one_effect( _effect_it.second, false );
+        }
+    }
+
+    Creature::process_effects();
+}
+
+double Character::vomit_mod()
+{
+    double mod = mutation_value( "vomit_multiplier" );
+    if( has_effect( effect_weed_high ) ) {
+        mod *= .1;
+    }
+    // If you're already nauseous, any food in your stomach greatly
+    // increases chance of vomiting. Liquids don't provoke vomiting, though.
+    if( stomach.contains() != 0_ml && has_effect( effect_nausea ) ) {
+        mod *= 5 * get_effect_int( effect_nausea );
+    }
+    return mod;
+}
+
+int Character::sleep_spot( const tripoint &p ) const
+{
+    const int current_stim = get_stim();
+    const comfort_response_t comfort_info = base_comfort_value( p );
+    if( comfort_info.aid != nullptr ) {
+        add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_info.aid->tname() );
+    }
+
+    int sleepy = static_cast<int>( comfort_info.level );
+    bool watersleep = has_trait( trait_WATERSLEEP );
+
+    if( has_addiction( add_type::SLEEP ) ) {
+        sleepy -= 4;
+    }
+    if( has_trait( trait_INSOMNIA ) ) {
+        // 12.5 points is the difference between "tired" and "dead tired"
+        sleepy -= 12;
+    }
+    if( has_trait( trait_EASYSLEEPER ) ) {
+        // Low fatigue (being rested) has a much stronger effect than high fatigue
+        // so it's OK for the value to be that much higher
+        sleepy += 24;
+    }
+    if( has_active_bionic( bio_soporific ) ) {
+        sleepy += 30;
+    }
+    if( has_trait( trait_EASYSLEEPER2 ) ) {
+        // Mousefolk can sleep just about anywhere.
+        sleepy += 40;
+    }
+    if( watersleep && get_map().has_flag_ter( "SWIMMABLE", pos() ) ) {
+        sleepy += 10; //comfy water!
+    }
+
+    if( get_fatigue() < fatigue_levels::TIRED + 1 ) {
+        sleepy -= static_cast<int>( ( fatigue_levels::TIRED + 1 - get_fatigue() ) / 4 );
+    } else {
+        sleepy += static_cast<int>( ( get_fatigue() - fatigue_levels::TIRED + 1 ) / 16 );
+    }
+
+    if( current_stim > 0 || !has_trait( trait_INSOMNIA ) ) {
+        sleepy -= 2 * current_stim;
+    } else {
+        // Make it harder for insomniac to get around the trait
+        sleepy -= current_stim;
+    }
+
+    return sleepy;
+}
+
+bool Character::can_sleep()
+{
+    if( has_effect( effect_meth ) ) {
+        // Sleep ain't happening until that meth wears off completely.
+        return false;
+    }
+
+    // Since there's a bit of randomness to falling asleep, we want to
+    // prevent exploiting this if can_sleep() gets called over and over.
+    // Only actually check if we can fall asleep no more frequently than
+    // every 30 minutes.  We're assuming that if we return true, we'll
+    // immediately be falling asleep after that.
+    //
+    // Also if player debug menu'd time backwards this breaks, just do the
+    // check anyway, this will reset the timer if 'dur' is negative.
+    const time_point now = calendar::turn;
+    const time_duration dur = now - last_sleep_check;
+    if( dur >= 0_turns && dur < 30_minutes ) {
+        return false;
+    }
+    last_sleep_check = now;
+
+    int sleepy = sleep_spot( pos() );
+    sleepy += rng( -8, 8 );
+    bool result = sleepy > 0;
+
+    if( has_active_bionic( bio_soporific ) ) {
+        if( bio_soporific_powered_at_last_sleep_check && !has_power() ) {
+            add_msg_if_player( m_bad, _( "Your soporific inducer runs out of power!" ) );
+        } else if( !bio_soporific_powered_at_last_sleep_check && has_power() ) {
+            add_msg_if_player( m_good, _( "Your soporific inducer starts back up." ) );
+        }
+        bio_soporific_powered_at_last_sleep_check = has_power();
+    }
+
+    return result;
 }
 
 void Character::shift_destination( const point &shift )

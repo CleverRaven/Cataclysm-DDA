@@ -43,7 +43,7 @@ int map_test_case::get_height() const
     return setup.size();
 }
 
-void map_test_case::for_each_tile( tripoint tmp_origin,
+void map_test_case::for_each_tile( const tripoint &tmp_origin,
                                    const std::function<void( map_test_case::tile & )> &callback ) const
 {
     int width = get_width();
@@ -179,7 +179,7 @@ std::string map_test_case::generate_transform_combinations()
     return out.str();
 }
 
-void map_test_case::validate_anchor_point( tripoint p )
+void map_test_case::validate_anchor_point( const tripoint &p )
 {
     INFO( "checking point: " << p );
     tripoint origin_p = get_origin();

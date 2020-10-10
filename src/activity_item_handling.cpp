@@ -506,7 +506,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     for( const act_item &ait : items ) {
         item *filthy_item = const_cast<item *>( &*ait.loc );
-        filthy_item->item_tags.erase( "FILTHY" );
+        filthy_item->unset_flag( "FILTHY" );
         p->on_worn_item_washed( *filthy_item );
     }
 
@@ -823,7 +823,7 @@ static activity_reason_info find_base_construction(
     used.insert( idx );
     cata::optional<do_activity_reason> reason;
     construction_id pre_req_idx( -1 );
-    //first step: try only constructions with the same description
+    //first step: try only constructions with the same group
     //second step: try all constructions
     for( int try_num = 0; try_num < 2; ++try_num ) {
         for( const construction &pre_build : list_constructions ) {
@@ -840,9 +840,9 @@ static activity_reason_info find_base_construction(
                 pre_build.post_terrain != build.post_terrain ) {
                 continue;
             }
-            //at first step, try to get building with the same description
+            //at first step, try to get building with the same group
             if( try_num == 0 &&
-                pre_build.description != build.description ) {
+                pre_build.group != build.group ) {
                 continue;
             }
             activity_reason_info act_info_pre = find_base_construction( list_constructions,
@@ -970,11 +970,11 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 if( weldpart ) {
                     item welder( itype_welder, 0 );
                     welder.charges = veh.fuel_left( itype_battery, true );
-                    welder.item_tags.insert( "PSEUDO" );
+                    welder.set_flag( "PSEUDO" );
                     temp_inv.add_item( welder );
                     item soldering_iron( itype_soldering_iron, 0 );
                     soldering_iron.charges = veh.fuel_left( itype_battery, true );
-                    soldering_iron.item_tags.insert( "PSEUDO" );
+                    soldering_iron.set_flag( "PSEUDO" );
                     temp_inv.add_item( soldering_iron );
                 }
             }

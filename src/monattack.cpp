@@ -994,7 +994,7 @@ bool mattack::resurrect( monster *z )
                 }
                 return false;
             }
-            int raise_score = ( i.damage_level( 4 ) + 1 ) * mt->hp + i.burnt;
+            int raise_score = ( i.damage_level() + 1 ) * mt->hp + i.burnt;
             lowest_raise_score = std::min( lowest_raise_score, raise_score );
             if( raise_score <= raising_level ) {
                 corpses.push_back( std::make_pair( p, &i ) );
@@ -1048,7 +1048,7 @@ bool mattack::resurrect( monster *z )
     // To appease static analysis
     cata_assert( raised.second );
     // NOLINTNEXTLINE(clang-analyzer-core.CallAndMessage)
-    float corpse_damage = raised.second->damage_level( 4 );
+    float corpse_damage = raised.second->damage_level();
     // Did we successfully raise something?
     if( g->revive_corpse( raised.first, *raised.second ) ) {
         here.i_rem( raised.first, raised.second );
@@ -4473,9 +4473,9 @@ bool mattack::longswipe( monster *z )
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
         if( target->is_player() || target->is_npc() ) {
-            target->as_character()->make_bleed( bodypart_id( "head" ), 15_minutes );
+            target->as_character()->make_bleed( effect_source( z ), bodypart_id( "head" ), 15_minutes );
         } else {
-            target->add_effect( effect_bleed, 15_minutes, bodypart_id( "head" ) );
+            target->add_effect( effect_source( z ), effect_bleed, 15_minutes, bodypart_id( "head" ) );
         }
 
     } else {
@@ -4791,7 +4791,7 @@ bool mattack::riotbot( monster *z )
                          _( "You deftly slip out of the handcuffs just as the robot closes them.  The robot didn't seem to notice!" ) );
                 foe->i_add( handcuffs );
             } else {
-                handcuffs.item_tags.insert( "NO_UNWIELD" );
+                handcuffs.set_flag( "NO_UNWIELD" );
                 foe->wield( foe->i_add( handcuffs ) );
                 foe->moves -= 300;
                 add_msg( _( "The robot puts handcuffs on you." ) );
@@ -5311,7 +5311,7 @@ bool mattack::bio_op_impale( monster *z )
         target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
 
         if( do_bleed ) {
-            target->as_character()->make_bleed( hit, rng( 75_turns, 125_turns ), 1, true );
+            target->as_character()->make_bleed( effect_source( z ), hit, rng( 75_turns, 125_turns ), 1, true );
         }
     } else {
         target->add_msg_player_or_npc( _( "but fails to penetrate your armor!" ),
@@ -5341,7 +5341,7 @@ bool mattack::bio_op_disarm( monster *z )
     player *foe = dynamic_cast< player * >( target );
 
     // disarm doesn't work on creatures or unarmed targets
-    if( foe == nullptr || ( foe != nullptr && !foe->is_armed() ) ) {
+    if( foe == nullptr || !foe->is_armed() ) {
         return false;
     }
 

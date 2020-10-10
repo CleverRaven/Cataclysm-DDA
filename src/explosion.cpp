@@ -655,27 +655,25 @@ void scrambler_blast( const tripoint &p )
 
 void emp_blast( const tripoint &p )
 {
-    // TODO: Implement z part
-    point p2( p.xy() );
     Character &player_character = get_player_character();
     const bool sight = player_character.sees( p );
     map &here = get_map();
-    if( here.has_flag( "CONSOLE", p2 ) ) {
+    if( here.has_flag( "CONSOLE", p ) ) {
         if( sight ) {
-            add_msg( _( "The %s is rendered non-functional!" ), here.tername( p2 ) );
+            add_msg( _( "The %s is rendered non-functional!" ), here.tername( p ) );
         }
-        here.furn_set( p2, furn_str_id( "f_machinery_electronic" ) );
+        here.furn_set( p, furn_str_id( "f_machinery_electronic" ) );
         return;
     }
     // TODO: More terrain effects.
-    if( here.ter( p2 ) == t_card_science || here.ter( p2 ) == t_card_military ||
-        here.ter( p2 ) == t_card_industrial ) {
+    if( here.ter( p ) == t_card_science || here.ter( p ) == t_card_military ||
+        here.ter( p ) == t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
             }
-            here.ter_set( p2, t_card_reader_broken );
+            here.ter_set( p, t_card_reader_broken );
         }
         if( rn > 80 ) {
             if( sight ) {
@@ -683,8 +681,8 @@ void emp_blast( const tripoint &p )
             }
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
-                    if( here.ter( p2 + point( i, j ) ) == t_door_metal_locked ) {
-                        here.ter_set( p2 + point( i, j ), t_floor );
+                    if( here.ter( p + tripoint( i, j, 0 ) ) == t_door_metal_locked ) {
+                        here.ter_set( p + tripoint( i, j, 0 ), t_floor );
                     }
                 }
             }
@@ -751,7 +749,8 @@ void emp_blast( const tripoint &p )
             add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name() );
         }
     }
-    if( player_character.posx() == p2.x && player_character.posy() == p2.y ) {
+    if( player_character.posx() == p.x && player_character.posy() == p.y &&
+        player_character.posz() == p.z ) {
         if( player_character.get_power_level() > 0_kJ ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
             int max_drain = ( player_character.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
@@ -761,7 +760,7 @@ void emp_blast( const tripoint &p )
         // TODO: More effects?
         //e-handcuffs effects
         if( player_character.weapon.typeId() == itype_e_handcuffs && player_character.weapon.charges > 0 ) {
-            player_character.weapon.item_tags.erase( "NO_UNWIELD" );
+            player_character.weapon.unset_flag( "NO_UNWIELD" );
             player_character.weapon.charges = 0;
             player_character.weapon.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
@@ -769,7 +768,7 @@ void emp_blast( const tripoint &p )
         }
     }
     // Drain any items of their battery charge
-    for( item &it : here.i_at( p2 ) ) {
+    for( item &it : here.i_at( p ) ) {
         if( it.is_tool() && it.ammo_current() == itype_battery ) {
             it.charges = 0;
         }

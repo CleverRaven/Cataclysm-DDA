@@ -84,7 +84,6 @@ static const itype_id itype_84x246mm( "84x246mm" );
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_arrow( "arrow" );
 static const itype_id itype_bolt( "bolt" );
-static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_flammable( "flammable" );
 static const itype_id itype_m235( "m235" );
 static const itype_id itype_metal_rail( "metal_rail" );
@@ -1087,7 +1086,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Put the item into the projectile
     proj.set_drop( std::move( thrown ) );
-    if( thrown_type->item_tags.count( "CUSTOM_EXPLOSION" ) ) {
+    if( thrown_type->has_flag( "CUSTOM_EXPLOSION" ) ) {
         proj.set_custom_explosion( thrown_type->explosion );
     }
 
@@ -2361,15 +2360,23 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     if( mode == TargetMode::Fire ) {
         recalc_aim_turning_penalty();
     } else if( mode == TargetMode::Spell ) {
-        const std::string fx = casting->effect();
-        if( fx == "target_attack" || fx == "projectile_attack" || fx == "ter_transform" ) {
-            spell_aoe = spell_effect::spell_effect_blast( *casting, src, dst, casting->aoe(), true );
-        } else if( fx == "cone_attack" ) {
-            spell_aoe = spell_effect::spell_effect_cone( *casting, src, dst, casting->aoe(), true );
-        } else if( fx == "line_attack" ) {
-            spell_aoe = spell_effect::spell_effect_line( *casting, src, dst, casting->aoe(), true );
-        } else {
-            spell_aoe.clear();
+        switch( casting->shape() ) {
+            case spell_shape::blast:
+                spell_aoe = spell_effect::spell_effect_blast(
+                                spell_effect::override_parameters( *casting ), src, dst );
+                break;
+            case spell_shape::cone:
+                spell_aoe = spell_effect::spell_effect_cone(
+                                spell_effect::override_parameters( *casting ), src, dst );
+                break;
+            case spell_shape::line:
+                spell_aoe = spell_effect::spell_effect_line(
+                                spell_effect::override_parameters( *casting ), src, dst );
+                break;
+            default:
+                spell_aoe.clear();
+                debugmsg( "%s does not have valid spell shape", casting->id().str() );
+                break;
         }
     } else if( mode == TargetMode::Turrets ) {
         update_turrets_in_range();
@@ -3020,9 +3027,11 @@ void target_ui::draw_controls_list( int text_y )
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
         lines.push_back( {5, colored( col_enabled, string_format( _( "[%s] to switch firing modes." ),
-                                      bound_key( "SWITCH_MODE" ).short_description() ) )} );
+                                      bound_key( "SWITCH_MODE" ).short_description() ) )
+                         } );
         lines.push_back( {6, colored( col_enabled, string_format( _( "[%s] to reload/switch ammo." ),
-                                      bound_key( "SWITCH_AMMO" ).short_description() ) )} );
+                                      bound_key( "SWITCH_AMMO" ).short_description() ) )
+                         } );
     }
     if( mode == TargetMode::Turrets ) {
         const std::string label = draw_turret_lines

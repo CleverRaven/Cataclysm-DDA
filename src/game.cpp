@@ -50,6 +50,7 @@
 #include "color.h"
 #include "computer_session.h"
 #include "construction.h"
+#include "construction_group.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
@@ -204,7 +205,6 @@ static const skill_id skill_survival( "survival" );
 static const species_id species_PLANT( "PLANT" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
-static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
@@ -4285,7 +4285,7 @@ void game::mon_info_update( )
     for( auto &m : unique_mons ) {
         m.clear();
     }
-    std::fill( dangerous, dangerous + 8, false );
+    std::fill_n( dangerous, 8, false );
 
     const tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
@@ -5329,7 +5329,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
 void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer )
 {
     int damage = cyborg->damage();
-    int dmg_lvl = cyborg->damage_level( 4 );
+    int dmg_lvl = cyborg->damage_level();
     int difficulty = 12;
 
     if( damage != 0 ) {
@@ -6331,7 +6331,7 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
         std::string tr_name;
         if( pc && tr == tr_unfinished_construction ) {
             const construction &built = pc->id.obj();
-            tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.description,
+            tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.group->name(),
                                      pc->counter / 100000 );
         } else {
             tr_name = tr.name();
@@ -7739,7 +7739,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             if( iItemNum > 0 && activeItem ) {
                 std::vector<iteminfo> vThisItem;
                 std::vector<iteminfo> vDummy;
-                activeItem->example->info( true, vThisItem );
+                activeItem->vIG[page_num].it->info( true, vThisItem );
 
                 item_info_data dummy( "", "", vThisItem, vDummy, iScrollPos );
                 dummy.without_getch = true;
@@ -7757,8 +7757,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         if( iItemNum > 0 && activeItem ) {
             // print info window title: < item name >
             mvwprintw( w_item_info, point( 2, 0 ), "< " );
-            trim_and_print( w_item_info, point( 4, 0 ), width - 8, activeItem->example->color_in_inventory(),
-                            activeItem->example->display_name() );
+            trim_and_print( w_item_info, point( 4, 0 ), width - 8,
+                            activeItem->vIG[page_num].it->color_in_inventory(),
+                            activeItem->vIG[page_num].it->display_name() );
             wprintw( w_item_info, " >" );
         }
 
@@ -7803,9 +7804,10 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         } else if( action == "EXAMINE" && !filtered_items.empty() && activeItem ) {
             std::vector<iteminfo> vThisItem;
             std::vector<iteminfo> vDummy;
-            activeItem->example->info( true, vThisItem );
+            activeItem->vIG[page_num].it->info( true, vThisItem );
 
-            item_info_data info_data( activeItem->example->tname(), activeItem->example->type_name(), vThisItem,
+            item_info_data info_data( activeItem->vIG[page_num].it->tname(),
+                                      activeItem->vIG[page_num].it->type_name(), vThisItem,
                                       vDummy );
             info_data.handle_scrolling = true;
 
@@ -8425,7 +8427,7 @@ static void add_disassemblables( uilist &menu,
                                              it.tname(), stack.second );
             menu.addentry_col( menu_index++, true, hotkey, msg,
                                to_string_clipped( recipe_dictionary::get_uncraft(
-                                       it.typeId() ).time_to_craft( get_player_character() ) ) );
+                                       it.typeId() ).time_to_craft( get_player_character(), recipe_time_flag::ignore_proficiencies ) ) );
             hotkey = cata::nullopt;
         }
     }
@@ -8737,7 +8739,7 @@ void game::butcher()
             int time_to_disassemble_recursive = 0;
             for( const auto &stack : disassembly_stacks ) {
                 const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time_to_craft_moves(
-                                     get_player_character() );
+                                     get_player_character(), recipe_time_flag::ignore_proficiencies );
                 time_to_disassemble_once += time * stack.second;
                 time_to_disassemble_recursive += stack.first->get_recursive_disassemble_moves(
                                                      get_player_character() ) * stack.second;
@@ -10625,7 +10627,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
         }
 
-        if( !can_climb_here || pts.empty() ) {
+        if( pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
             return;
