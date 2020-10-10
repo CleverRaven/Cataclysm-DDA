@@ -2098,7 +2098,6 @@ static void stash_on_pet( const std::list<item> &items, monster &pet, Character 
     }
 }
 
-
 void stash_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint pos = placement + who.pos();

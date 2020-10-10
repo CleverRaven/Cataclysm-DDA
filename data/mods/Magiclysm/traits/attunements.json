@@ -294,7 +294,7 @@
     "valid": false,
     "description": "Stone is superior to flesh.  You have allowed this axiom into your life, and work to correct your own weakness with biomancy.  The strength of the Earth rushed up to meet you with open arms.",
     "prereqs": [ "BIOMANCER", "EARTHSHAPER" ],
-    "spells_learned": [ [ "quake", 5 ] ],
+    "spells_learned": [ [ "quake", 5 ], [ "rock_blast", 5 ] ],
     "armor": [
       { "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "head" ], "cut": 15 }
     ],
@@ -576,6 +576,8 @@
     "valid": false,
     "description": "The Technomancer specializes in augmenting humans without actually modifying them; and the Overclocker takes the heat aptitude of a Kelvinist and puts that to work.  You are able to think significantly faster, and are able to align your leylines for spellcasting faster as a result.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
+    "passive_mods": { "int_mod": 5 },
+    "casting_time_multiplier": 0.75,
     "spells_learned": [ [ "overaccelerate", 5 ] ],
     "cancels": [
       "ARTIFICER",
@@ -656,7 +658,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Through the fine manipulation of light, an Illusionist might craft deceptively convincing and dangerous illusions.  An Illusionist excels at avoiding direct confrontation, instead relying on decoys and traps to slip by undetected. ",
+    "description": "Through the fine manipulation of light, an Illusionist might craft deceptively convincing and dangerous illusions.  An Illusionist excels at avoiding direct confrontation, instead relying on decoys and traps to slip by undetected.",
     "spells_learned": [ [ "spear_of_light", 5 ] ],
     "prereqs": [ "MAGUS", "TECHNOMANCER" ],
     "cancels": [
@@ -697,6 +699,7 @@
     "valid": false,
     "description": "",
     "prereqs": [ "STORMSHAPER", "EARTHSHAPER" ],
+    "spells_learned": [ [ "railgun", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -777,7 +780,7 @@
     "valid": false,
     "description": "The Radiation mage was discovered as an attunement in the 20th century, closely guarded as a military secret in close relation to the Manhatten Project.  It was declassified in 1989 as a part of the attunement awareness movement, but it is still poorly understood even by the very few researchers that wrote books on attunements.",
     "prereqs": [ "STORMSHAPER", "ANIMIST" ],
-    "spells_learned": [ [ "shortwave", 5 ] ],
+    "spells_learned": [ [ "shortwave", 5 ], [ "gamma_burst", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -1142,7 +1145,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "One of the most destructive forces on earth, a Volcano Mage takes some aspect of its namesake.  Their spells tend to be a little slow, but their resilience in proximity to a volcano is legendary.",
+    "spells_learned": [ [ "lava_bomb_main", 5 ] ],
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",

@@ -16,6 +16,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ], [ "spellcraft", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
+    "categories": [ "Other" ],
     "damage_reduction": { "all": 12 }
   },
   {
@@ -24,6 +25,7 @@
     "name": "orichalcum frame",
     "item": "orichalcum_frame",
     "location": "structure",
+    "symbol": "c",
     "durability": 2000,
     "description": "An expensive magical metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "orichalcum_frame_break",
@@ -33,6 +35,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "MOUNTABLE" ],
+    "categories": [ "Other" ],
     "damage_reduction": { "all": 78 }
   },
   {

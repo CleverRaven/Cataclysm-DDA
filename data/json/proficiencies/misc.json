@@ -42,6 +42,22 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_bowyery",
+    "name": { "str": "Bowyery" },
+    "description": "The ability to make durable, effective bows.",
+    "can_learn": true,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_fletching",
+    "name": { "str": "Fletching" },
+    "description": "The skill involved in making arrows that fly true.",
+    "can_learn": true,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_basketweaving",
     "name": { "str": "Basketweaving" },
     "description": "Forming coarse fibers into shapes.",
@@ -67,8 +83,8 @@
   {
     "type": "proficiency",
     "id": "prof_carving",
-    "name": { "str": "Woodcarving" },
-    "description": "Shaping wood with a cutting implement.",
+    "name": { "str": "Carving" },
+    "description": "Shaping wood, bone, and similar materials with a cutting implement.",
     "can_learn": true,
     "time_to_learn": "10 h"
   },

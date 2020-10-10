@@ -982,13 +982,6 @@ void Creature::set_fake( const bool fake_value )
     fake = fake_value;
 }
 
-void Creature::add_effect( const effect &eff, bool force, bool deferred )
-{
-    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp(), eff.is_permanent(),
-                eff.get_intensity(),
-                force, deferred );
-}
-
 void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
                            bool permanent, int intensity, bool force, bool deferred )
 {
@@ -1163,7 +1156,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
         get_event_bus().send<event_type::character_loses_effect>( ch->getID(), eff_id );
     }
 
-    // num_bp means remove all of a given effect id
+    // bp_null means remove all of a given effect id
     if( bp == bodypart_id( "bp_null" ) ) {
         for( auto &it : ( *effects )[eff_id] ) {
             on_effect_int_change( eff_id, 0, it.first );
@@ -1185,7 +1178,7 @@ bool Creature::remove_effect( const efftype_id &eff_id )
 }
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
-    // num_bp means anything targeted or not
+    // bp_null means anything targeted or not
     if( bp == bodypart_str_id( "bp_null" ) ) {
         return effects->find( eff_id ) != effects->end();
     } else {

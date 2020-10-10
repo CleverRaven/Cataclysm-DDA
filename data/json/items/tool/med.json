@@ -105,6 +105,7 @@
     "type": "TOOL",
     "name": { "str": "scalpel" },
     "description": "This is a very sharp knife designed for surgical cutting.  Its small, sharp blade allows for precision strikes in the hands of the skilled.",
+    "ascii_picture": "scalpel",
     "weight": "23 g",
     "volume": "15 ml",
     "price": 1000,

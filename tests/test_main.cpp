@@ -140,6 +140,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     get_avatar() = avatar();
     get_avatar().create( character_type::NOW );
+    get_avatar().setID( g->assign_npc_id(), false );
 
     get_map() = map();
 
@@ -358,6 +359,8 @@ int main( int argc, const char *argv[] )
         DebugLog( D_INFO, DC_ALL ) << "Treating result as failure due to error logged during tests.";
         return 1;
     }
+
+    printf( "\n" );
 
     return result;
 }

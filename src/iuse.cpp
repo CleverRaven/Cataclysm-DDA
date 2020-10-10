@@ -3194,7 +3194,7 @@ int iuse::chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level() > 5 && !p->is_underwater(),
                            20, _( "With a roar, the chainsaw leaps to life!" ),
                            _( "You yank the cord, but nothing happens." ) );
 }
@@ -3203,7 +3203,7 @@ int iuse::elec_chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level() > 5 && !p->is_underwater(),
                            20, _( "With a roar, the electric chainsaw leaps to life!" ),
                            _( "You flip the switch, but nothing happens." ) );
 }
@@ -3212,7 +3212,7 @@ int iuse::cs_lajatang_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
                            40, _( "With a roar, the chainsaws leap to life!" ),
                            _( "You yank the cords, but nothing happens." ) );
 }
@@ -3221,7 +3221,7 @@ int iuse::ecs_lajatang_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
                            40, _( "With a buzz, the chainsaws leap to life!" ),
                            _( "You flip the on switch, but nothing happens." ) );
 }
@@ -3239,7 +3239,7 @@ int iuse::trimmer_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 3,
+                           rng( 0, 10 ) - it->damage_level() > 3,
                            15, _( "With a roar, the hedge trimmer leaps to life!" ),
                            _( "You yank the cord, but nothing happens." ) );
 }
@@ -5245,7 +5245,8 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
     }
     const std::set<ter_id> allowed_ter_id {
         t_chaingate_l,
-        t_chainfence
+        t_chainfence,
+        t_fence_barbed
     };
     map &here = get_map();
     const std::function<bool( const tripoint & )> f =
@@ -5286,6 +5287,13 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
         sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
                        "boltcutters" );
         here.spawn_item( pnt, "wire", 20 );
+    } else if( type == t_fence_barbed ) {
+        p->moves -= to_moves<int>( 10_seconds );
+        here.ter_set( pnt, t_fence_post );
+        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
+                       "boltcutters" );
+        here.spawn_item( pnt, "wire_barbed", 2 );
+
     } else {
         return 0;
     }
@@ -6841,32 +6849,36 @@ static std::string effects_description_for_creature( Creature *const creature, s
             status( status ), intensity_lower_limit( 0 ) {}
     };
     static const std::unordered_map<efftype_id, ef_con> vec_effect_status = {
-        { effect_onfire, ef_con( to_translation( " is on <color_red>fire</color>. " ) ) },
-        { effect_bleed, ef_con( to_translation( " is <color_red>bleeding</color>. " ), 1 ) },
-        { effect_happy, ef_con( to_translation( " looks <color_green>happy</color>. " ), 13 ) },
+        { effect_onfire, ef_con( to_translation( " is on <color_red>fire</color>.  " ) ) },
+        { effect_bleed, ef_con( to_translation( " is <color_red>bleeding</color>.  " ), 1 ) },
+        { effect_happy, ef_con( to_translation( " looks <color_green>happy</color>.  " ), 13 ) },
         { effect_downed, ef_con( translation(), to_translation( "downed" ) ) },
         { effect_in_pit, ef_con( translation(), to_translation( "stuck" ) ) },
-        { effect_stunned, ef_con( to_translation( " is <color_blue>stunned</color>. " ) ) },
-        { effect_dazed, ef_con( to_translation( " is <color_blue>dazed</color>. " ) ) },
-        { effect_beartrap, ef_con( to_translation( " is stuck in beartrap. " ) ) },
-        { effect_laserlocked, ef_con( to_translation( " have tiny <color_red>red dot</color> on body. " ) ) },
-        { effect_boomered, ef_con( to_translation( " is covered in <color_magenta>bile</color>. " ) ) },
-        { effect_glowing, ef_con( to_translation( " is covered in <color_yellow>glowing goo</color>. " ) ) },
-        { effect_slimed, ef_con( to_translation( " is covered in <color_green>thick goo</color>. " ) ) },
-        { effect_corroding, ef_con( to_translation( " is covered in <color_light_green>acid</color>. " ) ) },
-        { effect_sap, ef_con( to_translation( " is coated in <color_brown>sap</color>. " ) ) },
-        { effect_webbed, ef_con( to_translation( " is covered in <color_dark_gray>webs</color>. " ) ) },
-        { effect_spores, ef_con( to_translation( " is covered in <color_green>spores</color>. " ), 1 ) },
-        { effect_crushed, ef_con( to_translation( " lies under <color_dark_gray>collapsed debris</color>. " ), to_translation( "lies" ) ) },
-        { effect_lack_sleep, ef_con( to_translation( " looks <color_dark_gray>very tired</color>. " ) ) },
-        { effect_lying_down, ef_con( to_translation( " is <color_dark_blue>sleeping</color>. " ), to_translation( "lies" ) ) },
-        { effect_sleep, ef_con( to_translation( " is <color_dark_blue>sleeping</color>. " ), to_translation( "lies" ) ) },
-        { effect_haslight, ef_con( to_translation( " is <color_yellow>lit</color>. " ) ) },
-        { effect_monster_saddled, ef_con( to_translation( " is <color_dark_gray>saddled</color>. " ) ) },
-        { effect_harnessed, ef_con( to_translation( " is being <color_dark_gray>harnessed</color> by a vehicle. " ) ) },
-        { effect_monster_armor, ef_con( to_translation( " is <color_dark_gray>wearing armor</color>. " ) ) },
-        { effect_has_bag, ef_con( to_translation( " have <color_dark_gray>bag</color> attached. " ) ) },
-        { effect_tied, ef_con( to_translation( " is <color_dark_gray>tied</color>. " ) ) },
+        { effect_stunned, ef_con( to_translation( " is <color_blue>stunned</color>.  " ) ) },
+        { effect_dazed, ef_con( to_translation( " is <color_blue>dazed</color>.  " ) ) },
+        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+        { effect_beartrap, ef_con( to_translation( " is stuck in beartrap.  " ) ) },
+        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+        { effect_laserlocked, ef_con( to_translation( " have tiny <color_red>red dot</color> on body.  " ) ) },
+        { effect_boomered, ef_con( to_translation( " is covered in <color_magenta>bile</color>.  " ) ) },
+        { effect_glowing, ef_con( to_translation( " is covered in <color_yellow>glowing goo</color>.  " ) ) },
+        { effect_slimed, ef_con( to_translation( " is covered in <color_green>thick goo</color>.  " ) ) },
+        { effect_corroding, ef_con( to_translation( " is covered in <color_light_green>acid</color>.  " ) ) },
+        { effect_sap, ef_con( to_translation( " is coated in <color_brown>sap</color>.  " ) ) },
+        { effect_webbed, ef_con( to_translation( " is covered in <color_dark_gray>webs</color>.  " ) ) },
+        { effect_spores, ef_con( to_translation( " is covered in <color_green>spores</color>.  " ), 1 ) },
+        { effect_crushed, ef_con( to_translation( " lies under <color_dark_gray>collapsed debris</color>.  " ), to_translation( "lies" ) ) },
+        { effect_lack_sleep, ef_con( to_translation( " looks <color_dark_gray>very tired</color>.  " ) ) },
+        { effect_lying_down, ef_con( to_translation( " is <color_dark_blue>sleeping</color>.  " ), to_translation( "lies" ) ) },
+        { effect_sleep, ef_con( to_translation( " is <color_dark_blue>sleeping</color>.  " ), to_translation( "lies" ) ) },
+        { effect_haslight, ef_con( to_translation( " is <color_yellow>lit</color>.  " ) ) },
+        { effect_monster_saddled, ef_con( to_translation( " is <color_dark_gray>saddled</color>.  " ) ) },
+        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+        { effect_harnessed, ef_con( to_translation( " is being <color_dark_gray>harnessed</color> by a vehicle.  " ) ) },
+        { effect_monster_armor, ef_con( to_translation( " is <color_dark_gray>wearing armor</color>.  " ) ) },
+        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+        { effect_has_bag, ef_con( to_translation( " have <color_dark_gray>bag</color> attached.  " ) ) },
+        { effect_tied, ef_con( to_translation( " is <color_dark_gray>tied</color>.  " ) ) },
         { effect_bouldering, ef_con( translation(), to_translation( "balancing" ) ) }
     };
 
@@ -6885,26 +6897,26 @@ static std::string effects_description_for_creature( Creature *const creature, s
         if( creature->has_effect( effect_sad ) ) {
             int intensity = creature->get_effect_int( effect_sad );
             if( intensity > 500 && intensity <= 950 ) {
-                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>sad</color>. " );
+                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>sad</color>.  " );
             } else if( intensity > 950 ) {
-                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>depressed</color>. " );
+                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>depressed</color>.  " );
             }
         }
         float pain = creature->get_pain() / 10.f;
         if( pain > 3 ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " is writhing in <color_red>pain</color>. " );
+            figure_effects += pronoun_sex + pgettext( "Someone", " is writhing in <color_red>pain</color>.  " );
         }
         if( creature->has_effect( effect_riding ) ) {
             pose = _( "rides" );
             monster *const mon = g->critter_at<monster>( creature->pos(), false );
-            figure_effects += pronoun_sex + string_format( _( " is riding %s. " ),
+            figure_effects += pronoun_sex + string_format( _( " is riding %s.  " ),
                               colorize( mon->name(), c_light_blue ) );
         }
         if( creature->has_effect( effect_glowy_led ) ) {
-            figure_effects += _( "A bionic LED is <color_yellow>glowing</color> softly. " );
+            figure_effects += _( "A bionic LED is <color_yellow>glowing</color> softly.  " );
         }
     }
-    if( !figure_effects.empty() && figure_effects.back() == ' ' ) { // remove last space
+    while( !figure_effects.empty() && figure_effects.back() == ' ' ) { // remove last spaces
         figure_effects.erase( figure_effects.end() - 1 );
     }
     return figure_effects;

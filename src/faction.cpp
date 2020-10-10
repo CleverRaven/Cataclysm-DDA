@@ -100,12 +100,12 @@ faction_template::faction_template( const JsonObject &jsobj )
     , respects_u( jsobj.get_int( "respects_u" ) )
     , known_by_u( jsobj.get_bool( "known_by_u" ) )
     , id( faction_id( jsobj.get_string( "id" ) ) )
-    , desc( jsobj.get_string( "description" ) )
     , size( jsobj.get_int( "size" ) )
     , power( jsobj.get_int( "power" ) )
     , food_supply( jsobj.get_int( "food_supply" ) )
     , wealth( jsobj.get_int( "wealth" ) )
 {
+    jsobj.get_member( "description" ).read( desc );
     if( jsobj.has_string( "currency" ) ) {
         jsobj.read( "currency", currency, true );
     } else {
@@ -123,7 +123,7 @@ faction_template::faction_template( const JsonObject &jsobj )
 
 std::string faction::describe() const
 {
-    std::string ret = _( desc );
+    std::string ret = desc.translated();
     return ret;
 }
 
@@ -490,7 +490,8 @@ void faction::faction_display( const catacurses::window &fac_w, const int width 
     int y = 2;
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Attitude to you:           %s" ),
                fac_ranking_text( likes_u ) );
-    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_light_gray, _( desc ) );
+    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_light_gray,
+                    "%s", desc );
 }
 
 int npc::faction_display( const catacurses::window &fac_w, const int width ) const
@@ -902,7 +903,7 @@ void faction_manager::display() const
                 guy->reset_companion_mission();
                 popup( _( "%s returns from their mission" ), guy->disp_name() );
             } else {
-                if( tab == tab_mode::TAB_FOLLOWERS && guy && ( interactable || radio_interactable ) ) {
+                if( tab == tab_mode::TAB_FOLLOWERS && ( interactable || radio_interactable ) ) {
                     player_character.talk_to( get_talker_for( *guy ), false, radio_interactable );
                 } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
                     camp->query_new_name();

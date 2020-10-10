@@ -34,7 +34,7 @@
     "color": "red",
     "move_cost": 0,
     "coverage": 65,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "LIQUIDCONT" ],
     "examine_action": "gaspump",
     "bash": {
       "str_min": 8,
@@ -56,7 +56,7 @@
     "color": "yellow_red",
     "move_cost": 0,
     "coverage": 65,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "LIQUIDCONT" ],
     "examine_action": "gaspump"
   },
   {
@@ -94,7 +94,7 @@
     "looks_like": "t_gas_pump",
     "move_cost": 0,
     "coverage": 65,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "LIQUIDCONT" ],
     "examine_action": "gaspump",
     "bash": {
       "str_min": 8,
@@ -116,7 +116,7 @@
     "looks_like": "t_gas_pump_a",
     "move_cost": 0,
     "coverage": 65,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "LIQUIDCONT" ],
     "examine_action": "gaspump",
     "bash": {
       "str_min": 8,

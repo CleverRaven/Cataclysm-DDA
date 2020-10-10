@@ -6974,10 +6974,9 @@ void map::saven( const tripoint &grid )
         debugmsg( "Tried to save submap node (%d) but it's not loaded", gridn );
         return;
     }
-    if( submap_to_save == nullptr || submap_to_save->get_ter( point_zero ) == t_null ) {
+    if( submap_to_save->get_ter( point_zero ) == t_null ) {
         // This is a serious error and should be signaled as soon as possible
-        debugmsg( "map::saven grid (%d,%d,%d) %s!", grid.x, grid.y, grid.z,
-                  submap_to_save == nullptr ? "null" : "uninitialized" );
+        debugmsg( "map::saven grid (%d,%d,%d) uninitialized!", grid.x, grid.y, grid.z );
         return;
     }
 
@@ -8638,10 +8637,10 @@ tripoint_range<tripoint> map::points_in_radius( const tripoint &center, size_t r
         size_t radiusz ) const
 {
     const tripoint min( std::max<int>( 0, center.x - radius ), std::max<int>( 0, center.y - radius ),
-                        clamp( static_cast<int>( center.z - radiusz ), -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
+                        clamp<int>( center.z - radiusz, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
     const tripoint max( std::min<int>( SEEX * my_MAPSIZE - 1, center.x + radius ),
-                        std::min<int>( SEEX * my_MAPSIZE - 1, center.y + radius ),
-                        clamp( static_cast<int>( center.z + radiusz ), -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
+                        std::min<int>( SEEX * my_MAPSIZE - 1, center.y + radius ), clamp<int>( center.z + radiusz,
+                                -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
     return tripoint_range<tripoint>( min, max );
 }
 

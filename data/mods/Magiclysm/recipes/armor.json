@@ -14,6 +14,10 @@
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
     "skills_required": [ [ "spellcraft", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 }
+    ],
     "difficulty": 7,
     "time": "4 h",
     "book_learn": [ [ "magic_armormaking", 6 ] ],
@@ -34,6 +38,11 @@
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
     "skills_required": [ [ "spellcraft", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
+    ],
     "difficulty": 6,
     "time": "2 h",
     "book_learn": [ [ "magic_armormaking", 5 ] ],
@@ -53,6 +62,11 @@
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
     "skills_required": [ [ "spellcraft", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
+    ],
     "difficulty": 8,
     "time": "4 h",
     "book_learn": [ [ "magic_armormaking", 7 ] ],
@@ -72,6 +86,11 @@
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
     "skills_required": [ [ "spellcraft", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
+    ],
     "difficulty": 5,
     "time": "2 h 40 m",
     "book_learn": [ [ "magic_armormaking", 4 ] ],
@@ -91,6 +110,11 @@
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
     "skills_required": [ [ "spellcraft", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 3 }
+    ],
     "difficulty": 5,
     "time": "2 h",
     "book_learn": [ [ "magic_armormaking", 4 ] ],
@@ -107,6 +131,11 @@
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
     "skills_required": [ [ "spellcraft", 6 ], [ "fabrication", 4 ], [ "survival", 4 ] ],
     "using": [ [ "cordage", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
+    ],
     "components": [ [ [ "demon_chitin_plate", 4 ] ], [ [ "demon_chitin_piece", 20 ] ] ]
   },
   {
@@ -117,6 +146,11 @@
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
     "skills_required": [ [ "spellcraft", 6 ], [ "fabrication", 4 ], [ "survival", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
+    ],
     "time": "5 h",
     "using": [ [ "cordage", 1 ] ],
     "components": [ [ [ "demon_chitin_piece", 12 ] ] ]

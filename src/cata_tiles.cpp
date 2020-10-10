@@ -322,7 +322,7 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
     throwErrorIf( SDL_BlitSurface( original.get(), nullptr, surf.get(), nullptr ) != 0,
                   "SDL_BlitSurface failed" );
 
-    SDL_Color *pix = reinterpret_cast<SDL_Color *>( surf->pixels );
+    SDL_Color *pix = static_cast<SDL_Color *>( surf->pixels );
 
     for( int y = 0, ey = surf->h; y < ey; ++y ) {
         for( int x = 0, ex = surf->w; x < ex; ++x, ++pix ) {
@@ -985,7 +985,7 @@ struct tile_render_info {
     tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
                       const bool ( &invisible )[5] )
         : pos( pos ), height_3d( height_3d ), ll( ll ) {
-        std::copy( invisible, invisible + 5, this->invisible );
+        std::copy_n( invisible, 5, this->invisible );
     }
 };
 
@@ -2671,7 +2671,7 @@ bool cata_tiles::draw_vpart_below( const tripoint &p, const lit_level /*ll*/, in
     tripoint pbelow( p.xy(), p.z - 1 );
     int height_3d_below = 0;
     bool below_invisible[5];
-    std::fill( below_invisible, below_invisible + 5, false );
+    std::fill_n( below_invisible, 5, false );
     return draw_vpart( pbelow, lit_level::LOW, height_3d_below, below_invisible );
 }
 
