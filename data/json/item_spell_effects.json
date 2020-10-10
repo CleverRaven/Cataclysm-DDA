@@ -3,7 +3,7 @@
     "id": "dragon_inflatable",
     "type": "SPELL",
     "name": { "str": "inflatable dragon" },
-    "description": "Creates a short-lived inflatbable.",
+    "description": "Creates a short-lived inflatable.",
     "valid_targets": [ "ground" ],
     "flags": [ "SILENT" ],
     "effect": "summon",
