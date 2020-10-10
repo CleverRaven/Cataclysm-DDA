@@ -60,6 +60,8 @@
     "min_field_intensity": 0,
     "max_field_intensity": 4,
     "field_intensity_increment": 0.5,
+    "min_duration": 18000,
+    "max_duration": 18000,
     "damage_type": "cold"
   }
 ]
