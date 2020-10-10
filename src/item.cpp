@@ -6666,7 +6666,7 @@ bool item::is_comestible() const
 
 bool item::is_food() const
 {
-    if ( !is_comestible() ) {
+    if( !is_comestible() ) {
         return false;
     }
     const std::string &comest_type = get_comestible()->comesttype;
@@ -6675,7 +6675,7 @@ bool item::is_food() const
 
 bool item::is_medication() const
 {
-    if ( !is_comestible() ) {
+    if( !is_comestible() ) {
         return false;
     }
     return get_comestible()->comesttype == "MED";
