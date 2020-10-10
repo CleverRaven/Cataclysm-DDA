@@ -488,7 +488,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
             final_casting_time_box.setValue( std::min( final_casting_time_box.value(),
                                              editable_spell.base_casting_time ) );
         } else {
-            final_energy_cost_box.setValue( editable_spell.base_casting_time );
+            final_casting_time_box.setValue( editable_spell.base_casting_time );
         }
         editable_spell.final_casting_time = final_casting_time_box.value();
         write_json();
