@@ -151,7 +151,7 @@
       {
         "text": "Wonderful.  Please don't inject me with anything else unless I ask for it in the future.",
         "effect": [
-          { "u_lose_var": "sadie_injection", "type": "general", "context": "injection", "value": "yes" },
+          { "u_lose_var": "sadie_injection", "type": "general", "context": "injection" },
           { "u_add_var": "sadie_nuts", "type": "general", "context": "nuts", "value": "yes" }
         ],
         "topic": "TALK_sadie_1"
