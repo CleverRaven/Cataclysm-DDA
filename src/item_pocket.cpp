@@ -947,7 +947,11 @@ void item_pocket::favorite_info( std::vector<iteminfo> &info )
 
 ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) const
 {
-
+    // To prevent debugmsg. Casings can only be inserted in a magazine during firing.
+    if( data->type == item_pocket::pocket_type::MAGAZINE && it.has_flag( "CASING" ) ) {
+        return ret_val<item_pocket::contain_code>::make_success();
+    }
+    
     if( data->type == item_pocket::pocket_type::CORPSE ) {
         // corpses can't have items stored in them the normal way,
         // we simply don't want them to "spill"
