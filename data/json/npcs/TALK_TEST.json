@@ -830,6 +830,32 @@
     ]
   },
   {
+    "type": "talk_topic",
+    "id": "TALK_TEST_CHANGE_FIRST_TOPIC_1",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.  First topic.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
+      {
+        "text": "Change to SECOND response.",
+        "topic": "TALK_DONE",
+        "effect": { "npc_first_topic": "TALK_TEST_CHANGE_FIRST_TOPIC_2" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_CHANGE_FIRST_TOPIC_2",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.  Second topic.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
+      {
+        "text": "Change to FIRST response.",
+        "topic": "TALK_DONE",
+        "effect": { "npc_first_topic": "TALK_TEST_CHANGE_FIRST_TOPIC_1" }
+      }
+    ]
+  },
+  {
     "type": "npc",
     "id": "test_talker",
     "//": "NPC in unit tests",

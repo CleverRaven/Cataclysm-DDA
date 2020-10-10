@@ -432,6 +432,7 @@ Effect | Description
 `barber_hair` | Opens a menu allowing the player to choose a new hair style.
 `barber_beard` | Opens a menu allowing the player to choose a new beard style.
 `u_learn_recipe: recipe_string`  | Your character will learn and memorize the recipe `recipe_string`.
+`npc_first_topic: topic_string`  | NPC permanently changes first dialogue topic to `topic_string`.
 
 #### Trade / Items
 
