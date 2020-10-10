@@ -128,5 +128,14 @@
     "description": "You know the tricks for working with kevlar, nomex, and other advanced polymer cloth.",
     "can_learn": true,
     "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_oversized",
+    "name": { "str": "Oversized costuming" },
+    "description": "Making outfits of this size was previously restricted to wrestling costumers and people dressing animatronics.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "required_proficiencies": [ "prof_articulation" ]
   }
 ]
