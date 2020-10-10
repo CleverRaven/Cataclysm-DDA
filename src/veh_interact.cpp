@@ -347,6 +347,11 @@ struct veh_interact::install_info_t {
     std::vector<std::string> tab_list;
 };
 
+struct veh_interact::remove_info_t {
+    int pos = 0;
+    size_t tab = 0;
+};
+
 shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
 {
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
@@ -380,6 +385,9 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
             if( install_info ) {
                 display_list( install_info->pos, install_info->tab_vparts, 2 );
                 display_details( sel_vpart_info );
+            } else if( remove_info ) {
+                display_details( sel_vpart_info );
+                display_overview();
             } else {
                 display_overview();
             }
@@ -1793,6 +1801,10 @@ void veh_interact::do_remove()
     restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
     title = _( "Choose a part here to remove:" );
 
+    restore_on_out_of_scope<std::unique_ptr<remove_info_t>> prev_remove_info( std::move(
+                remove_info ) );
+    remove_info = std::make_unique<remove_info_t>();
+
     avatar &player_character = get_avatar();
     int pos = 0;
     for( size_t i = 0; i < parts_here.size(); i++ ) {
@@ -2469,7 +2481,7 @@ void veh_interact::display_stats() const
                                 ( x[ i ] + 10 < getmaxx( w_stats ) ),
                                 ( x[ i ] + 10 < getmaxx( w_stats ) ) );
 
-    if( install_info ) {
+    if( install_info || remove_info ) {
         const int details_w = getmaxx( w_details );
         // clear rightmost blocks of w_stats to avoid overlap
         int stats_col_2 = 33;
