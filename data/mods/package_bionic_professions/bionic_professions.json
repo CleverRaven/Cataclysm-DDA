@@ -322,7 +322,7 @@
       { "level": 2, "name": "cutting" },
       { "level": 1, "name": "bashing" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_leatherworking", "prof_lockpicking" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_leatherworking_basic", "prof_lockpicking" ],
     "items": {
       "both": {
         "items": [
