@@ -4303,7 +4303,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     // spawn the item
     item new_item( type_id, birthday );
     if( one_in( 3 ) && new_item.has_flag( "VARSIZE" ) ) {
-        new_item.item_tags.insert( "FIT" );
+        new_item.set_flag( "FIT" );
     }
 
     if( charges && new_item.charges > 0 ) {
@@ -4626,7 +4626,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             const time_duration time_left = washing_time - n.age();
             static const std::string filthy( "FILTHY" );
             if( time_left <= 0_turns ) {
-                n.item_tags.erase( filthy );
+                n.unset_flag( filthy );
                 washing_machine_finished = true;
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
@@ -4654,7 +4654,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             static const std::string no_sterile( "NO_STERILE" );
             if( time_left <= 0_turns ) {
                 if( !n.has_flag( "NO_PACKED" ) ) {
-                    n.item_tags.erase( no_sterile );
+                    n.unset_flag( no_sterile );
                 }
                 autoclave_finished = true;
                 cur_veh.part( part ).enabled = false;
@@ -8455,7 +8455,7 @@ void map::add_corpse( const tripoint &p )
         body = item::make_corpse();
     } else {
         body = item::make_corpse( mon_zombie );
-        body.item_tags.insert( "REVIVE_SPECIAL" );
+        body.set_flag( "REVIVE_SPECIAL" );
     }
 
     put_items_from_loc( "default_zombie_clothes", p, 0 );
