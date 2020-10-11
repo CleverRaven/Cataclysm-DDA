@@ -1286,6 +1286,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
 
 void consume_activity_actor::finish( player_activity &act, Character & )
 {
+    activity_id new_act = type;
     // Prevent interruptions from this point onwards, so that e.g. pain from
     // injecting serum doesn't pop up messages about cancelling consuming (it's
     // too late; we've already consumed).
@@ -1318,12 +1319,12 @@ void consume_activity_actor::finish( player_activity &act, Character & )
 
     if( !temp_selections.empty() || !temp_selected_items.empty() || !temp_filter.empty() ) {
         if( act.is_null() ) {
-            player_character.assign_activity( type );
+            player_character.assign_activity( new_act );
             player_character.activity.values = temp_selections;
             player_character.activity.targets = temp_selected_items;
             player_character.activity.str_values = { temp_filter };
         } else {
-            player_activity eat_menu( type );
+            player_activity eat_menu( new_act );
             eat_menu.values = temp_selections;
             eat_menu.targets = temp_selected_items;
             eat_menu.str_values = { temp_filter };
