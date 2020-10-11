@@ -1965,11 +1965,6 @@
     "context": [  ]
   },
   {
-    "id": "NO_AMMO",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "PUMP_RAIL_COMPATIBLE",
     "type": "json_flag",
     "context": [  ]
