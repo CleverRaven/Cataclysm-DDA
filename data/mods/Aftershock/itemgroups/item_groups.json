@@ -470,10 +470,10 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [
-      [ "combat_wetsuit_cecalia", "prob": 20 ],
-      [ "wetsuit_cecalia", "prob": 70 ],
-      [ "trident", "prob": 70 ],
-      [ "dive_bag", "prob": 100 ]
+      [ "combat_wetsuit_cecalia", 20 ],
+      [ "wetsuit_cecalia", 70 ],
+      [ "trident", 70 ],
+      [ "dive_bag", 100 ]
     ]
   }
 ]
