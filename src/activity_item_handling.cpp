@@ -2874,7 +2874,7 @@ int get_auto_consume_moves( player &p, const bool food )
                 // not good eatings.
                 continue;
             }
-            if( !p.can_consume( it ) ) {
+            if( !p.can_consume( comest ) ) {
                 continue;
             }
             if( food && p.compute_effective_nutrients( comest ).kcal < 50 ) {
