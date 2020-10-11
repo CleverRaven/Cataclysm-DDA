@@ -267,7 +267,7 @@
     "weight": "3412 g",
     "volume": "6 L",
     "copy-from": "armguard_scrap",
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN" "OVERSIZE" ]
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "OVERSIZE" ]
   },
   {
     "id": "armguard_soft",
