@@ -8048,6 +8048,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     input_context ctxt( "LIST_MONSTERS" );
     ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
     ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "SAFEMODE_BLACKLIST_ADD" );
@@ -8256,6 +8258,20 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             }
         } else if( action == "DOWN" ) {
             iActive++;
+            if( iActive >= static_cast<int>( monster_list.size() ) ) {
+                iActive = 0;
+            }
+        } else if( action == "PAGE_UP" ) {
+            iActive -= iMaxRows - 2;
+            if( iActive < 0 ) {
+                if( monster_list.empty() ) {
+                    iActive = 0;
+                } else {
+                    iActive = static_cast<int>( monster_list.size() ) - 1;
+                }
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            iActive += iMaxRows - 2;
             if( iActive >= static_cast<int>( monster_list.size() ) ) {
                 iActive = 0;
             }
