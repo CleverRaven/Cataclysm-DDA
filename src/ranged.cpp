@@ -2046,11 +2046,6 @@ target_handler::trajectory target_ui::run()
                 loop_exit_code = ExitCode::Reload;
                 break;
             }
-        } else if( action == "SWITCH_AIM" ) {
-            if( status != Status::Good ) {
-                continue;
-            }
-            action_switch_mode();
         } else if( action == "FIRE" ) {
             if( status != Status::Good ) {
                 continue;
@@ -2188,7 +2183,6 @@ void target_ui::init_window_and_input()
     }
     if( mode == TargetMode::Fire ) {
         ctxt.register_action( "AIM" );
-        ctxt.register_action( "SWITCH_AIM" );
 
         aim_types = you->get_aim_types( *relevant );
         for( aim_type &type : aim_types ) {
@@ -3100,11 +3094,8 @@ void target_ui::draw_controls_list( int text_y )
 
         std::string aim = string_format( _( "[%s] to steady your aim.  (10 moves)" ),
                                          bound_key( "AIM" ).short_description() );
-        std::string sw_aim = string_format( _( "[%s] to switch aiming modes." ),
-                                            bound_key( "SWITCH_AIM" ).short_description() );
 
         lines.push_back( {2, colored( col_fire, aim )} );
-        lines.push_back( {1, colored( col_fire, sw_aim )} );
         lines.push_back( {4, colored( col_fire, aim_and_fire )} );
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
