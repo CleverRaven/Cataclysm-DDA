@@ -1890,11 +1890,6 @@
     "context": [  ]
   },
   {
-    "id": "EXPLODES",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "FIRE_100",
     "type": "json_flag",
     "context": [  ]
