@@ -1647,6 +1647,7 @@
     "description": "A fabric pouch that used to contain an IFAK.",
     "weight": "5 g",
     "volume": "1250 ml",
+    "rigid": false,
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -2,
@@ -1656,7 +1657,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "3 kg",
-        "rigid": false,
         "moves": 400
       }
     ],
