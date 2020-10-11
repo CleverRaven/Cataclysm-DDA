@@ -659,7 +659,6 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 
 ### Flags
 
-- ```ANESTHESIA``` ... Item is considered anesthesia for the purpose of installing or uninstalling bionics.
 - ```BIONIC_NPC_USABLE``` ... Safe CBMs that NPCs can use without extensive NPC rewrites to utilize toggle CBMs.
 - ```BIONIC_TOGGLED``` ... This bionic only has a function when activated, instead of causing its effect every turn.
 - ```BIONIC_POWER_SOURCE``` ... This bionic is a source of bionic power.

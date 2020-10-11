@@ -1968,10 +1968,5 @@
     "id": "auto_wield",
     "type": "json_flag",
     "context": [  ]
-  },
-  {
-    "id": "ANESTHESIA",
-    "type": "json_flag",
-    "context": [  ]
   }
 ]
