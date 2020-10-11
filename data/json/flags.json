@@ -1935,12 +1935,6 @@
     "context": [  ]
   },
   {
-    "id": "HURT_WHEN_PULLED",
-    "type": "json_flag",
-    "context": [  ],
-    "//": "???"
-  },
-  {
     "id": "JAVELIN",
     "type": "json_flag",
     "context": [  ]
@@ -1986,18 +1980,6 @@
     "context": [  ]
   },
   {
-    "id": "RAPIDFIRE",
-    "type": "json_flag",
-    "context": [  ],
-    "//": "???"
-  },
-  {
-    "id": "REFILLABLE_LIGHTER",
-    "type": "json_flag",
-    "context": [  ],
-    "//": "???"
-  },
-  {
     "id": "STR_DRAW",
     "type": "json_flag",
     "context": [  ]
@@ -2006,12 +1988,6 @@
     "id": "UNBREAKABLE_MELEE",
     "type": "json_flag",
     "context": [  ]
-  },
-  {
-    "id": "USE_PART_ITEM",
-    "type": "json_flag",
-    "context": [  ],
-    "//": "???"
   },
   {
     "id": "WATERPROOF_GUN",
@@ -2037,11 +2013,5 @@
     "id": "NO_PICKUP",
     "type": "json_flag",
     "context": [  ]
-  },
-  {
-    "id": "NV10_EFFECT",
-    "type": "json_flag",
-    "context": [  ],
-    "//": "???"
   }
 ]
