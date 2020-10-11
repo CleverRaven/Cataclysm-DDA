@@ -1259,13 +1259,20 @@ tab_direction set_traits( avatar &u, points_left &points )
                 iCurrentLine[iCurWorkingPage] = 0;
             }
         } else if( action == "PAGE_DOWN" ) {
-            iCurrentLine[iCurWorkingPage] += + 10;
-            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= traits_size[iCurWorkingPage] ) {
+            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) == traits_size[iCurWorkingPage] - 1 ) {
                 iCurrentLine[iCurWorkingPage] = 0;
+            } else if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] + 10 ) >=
+                       traits_size[iCurWorkingPage] ) {
+                iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            } else {
+                iCurrentLine[iCurWorkingPage] += +10;
             }
         } else if( action == "PAGE_UP" ) {
             if( iCurrentLine[iCurWorkingPage] == 0 ) {
                 iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            } else if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] - 10 ) >=
+                       traits_size[iCurWorkingPage] ) {
+                iCurrentLine[iCurWorkingPage] = 0;
             } else {
                 iCurrentLine[iCurWorkingPage] += -10;
             }
