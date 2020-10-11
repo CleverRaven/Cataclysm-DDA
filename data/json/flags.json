@@ -1895,11 +1895,6 @@
     "context": [  ]
   },
   {
-    "id": "EXPLOSIVE",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "FIRE_100",
     "type": "json_flag",
     "context": [  ]
