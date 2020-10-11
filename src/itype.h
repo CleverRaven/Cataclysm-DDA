@@ -12,7 +12,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "bodypart.h" // body_part::num_bp
+#include "bodypart.h"
 #include "calendar.h"
 #include "color.h" // nc_color
 #include "damage.h"
@@ -98,7 +98,7 @@ struct islot_tool {
     std::set<ammotype> ammo_id;
 
     cata::optional<itype_id> revert_to;
-    std::string revert_msg;
+    translation revert_msg;
 
     itype_id subtype;
 
@@ -364,7 +364,7 @@ struct islot_book {
         /**
          * The name for the recipe as it appears in the book.
          */
-        std::string name;
+        cata::optional<translation> optional_name;
         /**
          * Hidden means it does not show up in the description of the book.
          */
@@ -375,6 +375,7 @@ struct islot_book {
         bool is_hidden() const {
             return hidden;
         }
+        std::string name() const;
     };
     using recipe_list_t = std::set<recipe_with_description_t>;
     recipe_list_t recipes;
@@ -498,7 +499,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Noise displayed when reloading the weapon.
      */
-    std::string reload_noise = translate_marker( "click." );
+    translation reload_noise = to_translation( "click." );
     /**
      * Volume of the noise made when reloading this weapon.
      */
@@ -614,7 +615,7 @@ struct islot_gunmod : common_ranged_data {
     int loudness = 0;
 
     /** How many moves does this gunmod take to install? */
-    int install_time = 0;
+    int install_time = -1;
 
     /** Increases base gun UPS consumption by this many times per shot */
     float ups_charges_multiplier = 1.0f;
@@ -827,7 +828,7 @@ class islot_milling
 {
     public:
         itype_id into_;
-        double conversion_rate_;
+        double conversion_rate_ = 0;
 
         bool was_loaded = false;
 
@@ -837,6 +838,8 @@ class islot_milling
 
 struct itype {
         friend class Item_factory;
+
+        using FlagsSetType = std::set<std::string>;
 
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
@@ -897,7 +900,6 @@ struct itype {
         /** Fields to emit when item is in active state */
         std::set<emit_id> emits;
 
-        std::set<std::string> item_tags;
         std::set<matec_id> techniques;
 
         // Minimum stat(s) or skill(s) to use the item
@@ -1022,6 +1024,8 @@ struct itype {
         int damage_max_ = +4000;
         /// @}
 
+        FlagsSetType item_tags;
+
     protected:
         itype_id id = itype_id::NULL_ID(); /** unique string identifier for this type */
 
@@ -1111,6 +1115,12 @@ struct itype {
         int charges_per_volume( const units::volume &vol ) const;
 
         bool has_use() const;
+
+        bool has_flag( const std::string &flag ) const;
+
+        // returns read-only set of all item tags/flags
+        const FlagsSetType &get_flags() const;
+
         bool can_use( const std::string &iuse_name ) const;
         const use_function *get_use( const std::string &iuse_name ) const;
 

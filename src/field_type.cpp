@@ -11,7 +11,53 @@
 #include "json.h"
 #include "string_id.h"
 
-field_type_id fd_null;
+const field_type_str_id fd_null = field_type_str_id::NULL_ID();
+const field_type_str_id fd_fire( "fd_fire" );
+const field_type_str_id fd_blood( "fd_blood" );
+const field_type_str_id fd_bile( "fd_bile" );
+const field_type_str_id fd_extinguisher( "fd_extinguisher" );
+const field_type_str_id fd_gibs_flesh( "fd_gibs_flesh" );
+const field_type_str_id fd_gibs_veggy( "fd_gibs_veggy" );
+const field_type_str_id fd_web( "fd_web" );
+const field_type_str_id fd_slime( "fd_slime" );
+const field_type_str_id fd_acid( "fd_acid" );
+const field_type_str_id fd_sap( "fd_sap" );
+const field_type_str_id fd_sludge( "fd_sludge" );
+const field_type_str_id fd_smoke( "fd_smoke" );
+const field_type_str_id fd_toxic_gas( "fd_toxic_gas" );
+const field_type_str_id fd_tear_gas( "fd_tear_gas" );
+const field_type_str_id fd_nuke_gas( "fd_nuke_gas" );
+const field_type_str_id fd_gas_vent( "fd_gas_vent" );
+const field_type_str_id fd_fire_vent( "fd_fire_vent" );
+const field_type_str_id fd_flame_burst( "fd_flame_burst" );
+const field_type_str_id fd_electricity( "fd_electricity" );
+const field_type_str_id fd_fatigue( "fd_fatigue" );
+const field_type_str_id fd_push_items( "fd_push_items" );
+const field_type_str_id fd_shock_vent( "fd_shock_vent" );
+const field_type_str_id fd_acid_vent( "fd_acid_vent" );
+const field_type_str_id fd_plasma( "fd_plasma" );
+const field_type_str_id fd_laser( "fd_laser" );
+const field_type_str_id fd_dazzling( "fd_dazzling" );
+const field_type_str_id fd_blood_veggy( "fd_blood_veggy" );
+const field_type_str_id fd_blood_insect( "fd_blood_insect" );
+const field_type_str_id fd_blood_invertebrate( "fd_blood_invertebrate" );
+const field_type_str_id fd_gibs_insect( "fd_gibs_insect" );
+const field_type_str_id fd_gibs_invertebrate( "fd_gibs_invertebrate" );
+const field_type_str_id fd_bees( "fd_bees" );
+const field_type_str_id fd_incendiary( "fd_incendiary" );
+const field_type_str_id fd_relax_gas( "fd_relax_gas" );
+const field_type_str_id fd_fungal_haze( "fd_fungal_haze" );
+const field_type_str_id fd_cold_air2( "fd_cold_air2" );
+const field_type_str_id fd_cold_air3( "fd_cold_air3" );
+const field_type_str_id fd_cold_air4( "fd_cold_air4" );
+const field_type_str_id fd_hot_air1( "fd_hot_air1" );
+const field_type_str_id fd_hot_air2( "fd_hot_air2" );
+const field_type_str_id fd_hot_air3( "fd_hot_air3" );
+const field_type_str_id fd_hot_air4( "fd_hot_air4" );
+const field_type_str_id fd_fungicidal_gas( "fd_fungicidal_gas" );
+const field_type_str_id fd_insecticidal_gas( "fd_insecticidal_gas" );
+const field_type_str_id fd_smoke_vent( "fd_smoke_vent" );
+const field_type_str_id fd_tindalos_rift( "fd_tindalos_rift" );
 
 namespace io
 {
@@ -101,11 +147,17 @@ const field_type &string_id<field_type>::obj() const
     return all_field_types.obj( *this );
 }
 
+template<>
+int_id<field_type> string_id<field_type>::id_or( const int_id<field_type> &fallback ) const
+{
+    return all_field_types.convert( *this, fallback, false );
+}
+
 /** @relates string_id */
 template<>
 int_id<field_type> string_id<field_type>::id() const
 {
-    return all_field_types.convert( *this, fd_null );
+    return all_field_types.convert( *this, fd_null.id_or( int_id<field_type>() ) );
 }
 
 /** @relates int_id */
@@ -272,7 +324,6 @@ void field_type::finalize()
             debugmsg( "Invalid mtype_id %s in immune_mtypes for field %s.", m_id.c_str(), id.c_str() );
         }
     }
-    fd_null = field_type_id( "fd_null" );
 }
 
 void field_type::check() const

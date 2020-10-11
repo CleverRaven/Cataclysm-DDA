@@ -6,6 +6,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "FN Five-Seven" },
     "description": "Designed to work with FN's proprietary 5.7x28mm round, the Five-Seven is a lightweight pistol with a very high capacity, best used against armored opponents.",
+    "ascii_picture": "FN_five_seven",
     "weight": "600 g",
     "volume": "551 ml",
     "longest_side": "164 mm",

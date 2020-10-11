@@ -91,6 +91,7 @@
     "volume": "1 L",
     "price": 10000,
     "price_postapoc": 500,
+    "install_time": "0 s",
     "to_hit": -1,
     "material": [ "steel" ],
     "symbol": ":",
@@ -652,6 +653,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted fusion gun" },
     "item": "ftk93",
+    "categories": [ "Other" ],
     "color": "magenta",
     "broken_color": "magenta",
     "difficulty": 6,
@@ -798,6 +800,7 @@
   },
   {
     "id": "wheel_steerable",
+    "categories": [ "Other" ],
     "copy-from": "wheel",
     "type": "vehicle_part",
     "name": { "str": "wheel (steerable)" },
@@ -805,6 +808,7 @@
   },
   {
     "id": "wheel_slick_steerable",
+    "categories": [ "Other" ],
     "copy-from": "wheel_slick",
     "type": "vehicle_part",
     "name": { "str": "racing slick (steerable)" },
@@ -813,6 +817,7 @@
   },
   {
     "id": "wheel_armor_steerable",
+    "categories": [ "Other" ],
     "copy-from": "wheel_armor",
     "type": "vehicle_part",
     "name": { "str": "armored wheel (steerable)" },
@@ -820,6 +825,7 @@
   },
   {
     "id": "wheel_bicycle_steerable",
+    "categories": [ "Other" ],
     "copy-from": "wheel_bicycle",
     "type": "vehicle_part",
     "name": { "str": "bicycle wheel (steerable)" },
@@ -827,6 +833,7 @@
   },
   {
     "id": "wheel_bicycle_or_steerable",
+    "categories": [ "Other" ],
     "copy-from": "wheel_bicycle_or",
     "type": "vehicle_part",
     "name": { "str": "off-road bicycle wheel (steerable)" },
@@ -834,6 +841,7 @@
   },
   {
     "id": "wheel_motorbike_steerable",
+    "categories": [ "Other" ],
     "copy-from": "wheel_motorbike",
     "type": "vehicle_part",
     "name": { "str": "motorbike wheel (steerable)" },
@@ -841,6 +849,7 @@
   },
   {
     "id": "wheel_motorbike_or_steerable",
+    "categories": [ "Other" ],
     "copy-from": "wheel_motorbike_or",
     "type": "vehicle_part",
     "name": { "str": "off-road motorbike wheel (steerable)" },
@@ -848,6 +857,7 @@
   },
   {
     "id": "wheel_small_steerable",
+    "categories": [ "Other" ],
     "copy-from": "wheel_small",
     "type": "vehicle_part",
     "name": { "str": "small wheel (steerable)" },
@@ -855,6 +865,7 @@
   },
   {
     "id": "wheel_wide_steerable",
+    "categories": [ "Other" ],
     "copy-from": "wheel_wide",
     "type": "vehicle_part",
     "name": { "str": "wide wheel (steerable)" },
@@ -862,6 +873,7 @@
   },
   {
     "id": "wheel_wide_or_steerable",
+    "categories": [ "Other" ],
     "copy-from": "wheel_wide_or",
     "type": "vehicle_part",
     "name": { "str": "off-road wide wheel (steerable)" },
@@ -923,6 +935,7 @@
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
     "rolling_resistance": 0.375,
     "wheel_type": "rigid",
+    "categories": [ "Other" ],
     "contact_area": 80,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
@@ -937,6 +950,7 @@
     "id": "plating_bone",
     "name": { "str": "bone plating" },
     "symbol": ")",
+    "categories": [ "Hull" ],
     "color": "white",
     "broken_symbol": ")",
     "broken_color": "light_gray",
@@ -1113,6 +1127,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted mininuke launcher" },
     "item": "mininuke_launcher",
+    "categories": [ "Other" ],
     "color": "green",
     "broken_color": "green",
     "breaks_into": [ { "item": "scrap", "count": 27 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
@@ -1124,6 +1139,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted heavy rail rifle" },
     "item": "heavy_rail_rifle",
+    "categories": [ "Other" ],
     "color": "magenta",
     "broken_color": "magenta",
     "breaks_into": [ { "item": "scrap", "count": 30 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
@@ -1138,6 +1154,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted ferromagnetic rail rifle" },
     "item": "rebar_rifle",
+    "categories": [ "Other" ],
     "color": "magenta",
     "broken_color": "magenta",
     "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 2 } ],
@@ -1617,5 +1634,21 @@
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
     }
+  },
+  {
+    "type": "skill",
+    "id": "lockpick",
+    "name": { "str": "lockpicking" },
+    "description": "Deprecated.",
+    "display_category": "none",
+    "obsolete": true
+  },
+  {
+    "type": "skill",
+    "id": "barter",
+    "name": { "str": "bartering" },
+    "description": "Deprecated.",
+    "display_category": "none",
+    "obsolete": true
   }
 ]

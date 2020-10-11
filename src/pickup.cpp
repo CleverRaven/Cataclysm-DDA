@@ -369,6 +369,8 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             loc.remove_item();
         }
         player_character.moves -= moves_taken;
+        player_character.flag_encumbrance();
+        player_character.invalidate_weight_carried_cache();
     }
 
     return picked_up || !did_prompt;
@@ -578,7 +580,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             const int minleftover = itemsH + pickupBorderRows;
             const int maxmaxitems = TERMY - minleftover;
             const int minmaxitems = 9;
-            maxitems = clamp( static_cast<int>( stacked_here.size() ), minmaxitems, maxmaxitems );
+            maxitems = clamp<int>( stacked_here.size(), minmaxitems, maxmaxitems );
 
             start = selected - selected % maxitems;
 

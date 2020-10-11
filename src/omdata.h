@@ -110,8 +110,8 @@ class overmap_land_use_code
         overmap_land_use_code_id id = overmap_land_use_code_id::NULL_ID();
 
         int land_use_code = 0;
-        std::string name;
-        std::string detailed_definition;
+        translation name;
+        translation detailed_definition;
         uint32_t symbol = 0;
         nc_color color = c_black;
 
@@ -209,7 +209,7 @@ struct oter_type_t {
 
     public:
         string_id<oter_type_t> id;
-        std::string name;               // Untranslated name
+        translation name;
         uint32_t symbol = 0;
         nc_color color = c_black;
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
@@ -276,7 +276,7 @@ struct oter_t {
         oter_id get_rotated( om_direction::type dir ) const;
 
         std::string get_name() const {
-            return _( type->name );
+            return type->name.translated();
         }
 
         std::string get_symbol( const bool from_land_use_code = false ) const {

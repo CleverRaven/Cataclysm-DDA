@@ -85,7 +85,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         return item( null_item_id, birthday );
     }
     if( one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
-        tmp.item_tags.insert( "FIT" );
+        tmp.set_flag( "FIT" );
     }
     if( modifier ) {
         modifier->modify( tmp );
@@ -576,6 +576,14 @@ Item_spawn_data::ItemList Item_group::create( const time_point &birthday, Recurs
             break;
         }
     }
+    if( container_item ) {
+        item ctr( *container_item, birthday );
+        for( const item &it : result ) {
+            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
+            ctr.put_in( it, pk_type );
+        }
+        result = ItemList{ ctr };
+    }
 
     return result;
 }
@@ -661,16 +669,7 @@ item_group::ItemList item_group::items_from( const Group_tag &group_id, const ti
     if( group == nullptr ) {
         return ItemList();
     }
-    ItemList created = group->create( birthday );
-    if( group->container_item ) {
-        item ctr( *group->container_item, birthday );
-        for( const item &it : created ) {
-            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
-            ctr.put_in( it, pk_type );
-        }
-        created = ItemList{ ctr };
-    }
-    return created;
+    return group->create( birthday );
 }
 
 item_group::ItemList item_group::items_from( const Group_tag &group_id )

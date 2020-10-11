@@ -150,8 +150,8 @@
         "distribution": [
           { "group": "clothing_glasses", "prob": 60 },
           { "item": "glasses_bal", "prob": 30 },
-          { "item": "goggles_nv", "prob": 5 },
-          { "item": "goggles_ir", "prob": 5 }
+          { "item": "goggles_nv", "prob": 5, "charges": [ 0, 100 ] },
+          { "item": "goggles_ir", "prob": 5, "charges": [ 0, 100 ] }
         ],
         "prob": 20
       },
@@ -176,8 +176,8 @@
         "distribution": [
           { "group": "clothing_glasses", "prob": 60 },
           { "item": "glasses_bal", "prob": 30 },
-          { "item": "goggles_nv", "prob": 5 },
-          { "item": "goggles_ir", "prob": 5 }
+          { "item": "goggles_nv", "prob": 5, "charges": [ 0, 100 ] },
+          { "item": "goggles_ir", "prob": 5, "charges": [ 0, 100 ] }
         ],
         "prob": 20
       },
@@ -206,7 +206,7 @@
       },
       { "distribution": [ { "item": "fancy_sunglasses", "prob": 95 }, { "item": "glasses_bal", "prob": 5 } ] },
       { "group": "clothing_watch", "prob": 85 },
-      { "item": "goggles_ir", "prob": 10 }
+      { "item": "goggles_ir", "prob": 10, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -241,7 +241,7 @@
     "type": "item_group",
     "id": "ear_protection",
     "//": "used in shooting_range.",
-    "items": [ [ "powered_earmuffs", 10 ], [ "ear_plugs", 50 ] ]
+    "items": [ { "item": "powered_earmuffs", "prob": 10, "charges": [ 0, 100 ] }, [ "ear_plugs", 50 ] ]
   },
   {
     "id": "clothing_outdoor_shoes",
@@ -341,7 +341,7 @@
       { "item": "sf_watch", "prob": 5 },
       { "item": "pocketwatch", "prob": 30 },
       { "item": "diving_watch", "prob": 20 },
-      { "item": "game_watch", "prob": 20 },
+      { "item": "game_watch", "prob": 20, "charges": [ 0, 50 ] },
       { "item": "fitness_band", "prob": 10 }
     ]
   },
@@ -383,8 +383,8 @@
     "entries": [
       { "item": "hat_hard", "prob": 60 },
       { "item": "hat_hard_hooded", "prob": 15 },
-      { "item": "miner_hat", "prob": 10 },
-      { "item": "wearable_light", "prob": 15 }
+      { "item": "miner_hat", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -392,7 +392,7 @@
     "type": "item_group",
     "//": "Protective masks often worn by technicians and tradesmen.",
     "subtype": "distribution",
-    "entries": [ { "item": "mask_dust", "prob": 90 }, { "item": "mask_filter", "prob": 10 } ]
+    "entries": [ { "item": "mask_dust", "prob": 90 }, { "item": "mask_filter", "prob": 10, "charges": [ 0, 100 ] } ]
   },
   {
     "id": "clothing_work_pants",
@@ -462,8 +462,8 @@
       [ "bootsheath", 3 ],
       [ "gloves_leather", 40 ],
       [ "gloves_work", 45 ],
-      [ "wearable_light", 10 ],
-      [ "miner_hat", 1 ]
+      { "item": "wearable_light", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "miner_hat", "prob": 1, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -482,9 +482,9 @@
       [ "fishing_waders", 20 ],
       [ "jumpsuit", 20 ],
       [ "apron_leather", 20 ],
-      [ "mask_filter", 20 ],
+      { "item": "mask_filter", "prob": 20, "charges": [ 0, 100 ] },
       [ "hat_hard", 50 ],
-      [ "wearable_light", 100 ]
+      { "item": "wearable_light", "prob": 100, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -501,7 +501,10 @@
     "id": "hazmat_masks",
     "type": "item_group",
     "//": "Full face protection worn with hazmat suits",
-    "items": [ { "collection": [ { "item": "glasses_safety" }, { "item": "mask_filter" } ], "prob": 40 }, [ "mask_gas", 60 ] ]
+    "items": [
+      { "collection": [ { "item": "glasses_safety" }, { "item": "mask_filter", "charges-min": 0 } ], "prob": 40 },
+      { "item": "mask_gas", "prob": 60, "charges-min": 0 }
+    ]
   },
   {
     "id": "boxing_clothes",
@@ -1151,11 +1154,11 @@
       [ "vest", 15 ],
       [ "mag_porn", 20 ],
       [ "photo_album", 10 ],
-      [ "lighter", 60 ],
-      [ "ref_lighter", 2 ],
-      [ "sewing_kit", 30 ],
+      { "item": "lighter", "prob": 60, "charges-min": 0 },
+      { "item": "ref_lighter", "prob": 2, "charges-min": 0 },
+      { "item": "sewing_kit", "prob": 30, "charges-min": 0 },
       [ "thread", 40 ],
-      [ "flashlight", 40 ],
+      { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       [ "suit", 60 ],
       [ "waistcoat", 30 ],
       [ "tophat", 10 ],
@@ -1170,7 +1173,7 @@
       [ "wolfsuit", 4 ],
       [ "dinosuit", 4 ],
       [ "zentai", 5 ],
-      [ "vibrator", 5 ],
+      { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "condom", "prob": 30, "count": [ 1, 5 ] },
       [ "snuggie", 5 ],
       [ "flyer", 10 ],
@@ -1853,7 +1856,7 @@
     "entries": [
       {
         "collection": [
-          { "item": "helmet_eod" },
+          { "item": "helmet_eod", "charges": [ 0, 500 ] },
           { "item": "jacket_eod" },
           { "item": "trousers_eod" },
           { "item": "foot_protectors_eod" },
@@ -1877,9 +1880,9 @@
       [ "kevlar", 10 ],
       [ "ballistic_vest_esapi", 30 ],
       [ "vest", 15 ],
-      [ "mask_gas", 10 ],
-      [ "goggles_nv", 1 ],
-      [ "goggles_ir", 1 ],
+      { "item": "mask_gas", "prob": 10, "charges-min": 0 },
+      { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
+      { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       [ "optical_cloak", 1 ],
       [ "holo_cloak", 1 ],
       [ "backpack", 38 ],
@@ -1916,12 +1919,12 @@
     "items": [
       [ "mask_gas", 10 ],
       [ "duffelbag", 15 ],
-      [ "goggles_nv", 1 ],
-      [ "goggles_ir", 1 ],
+      { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
+      { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       [ "optical_cloak", 1 ],
       [ "holo_cloak", 1 ],
-      [ "mess_kit", 9 ],
-      [ "mil_mess_kit", 1 ],
+      { "item": "mess_kit", "prob": 9, "charges": [ 0, 500 ] },
+      { "item": "mil_mess_kit", "prob": 1, "charges": [ 0, 500 ] },
       [ "backpack", 38 ],
       [ "briefcase", 10 ],
       [ "UPS_off", 5 ],
@@ -2077,14 +2080,14 @@
       { "item": "gloves_rubber", "prob": 20 },
       { "item": "gloves_leather", "prob": 45 },
       { "item": "gloves_work", "prob": 45 },
-      { "item": "mask_filter", "prob": 30 },
+      { "item": "mask_filter", "prob": 30, "charges-min": 0 },
       { "item": "glasses_safety", "prob": 40 },
       { "item": "hat_hard", "prob": 50 },
       { "item": "hat_hard_hooded", "prob": 25 },
       { "item": "wearable_light", "prob": 5 },
       { "item": "ear_plugs", "prob": 50 },
       { "group": "ammo_any_batteries_full", "prob": 50 },
-      { "item": "flashlight", "prob": 40 },
+      { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "boots_rubber", "prob": 20 },
       { "group": "tools_toolbox", "prob": 1 },
       { "item": "apron_leather", "prob": 10 }
@@ -2144,12 +2147,12 @@
     "type": "item_group",
     "id": "fireman_mask",
     "items": [
-      [ "mask_bunker", 70 ],
+      { "item": "mask_bunker", "prob": 70, "charges-min": 0 },
       [ "mask_dust", 30 ],
-      [ "mask_gas", 20 ],
-      [ "mask_filter", 10 ],
-      [ "goggles_ir", 2 ],
-      [ "goggles_nv", 1 ]
+      { "item": "mask_gas", "prob": 20, "charges-min": 0 },
+      { "item": "mask_filter", "prob": 10, "charges-min": 0 },
+      { "item": "goggles_nv", "prob": 2, "charges": [ 0, 100 ] },
+      { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -2175,7 +2178,11 @@
   {
     "type": "item_group",
     "id": "hazmat_mask",
-    "items": [ [ "mask_dust", 80 ], [ "mask_filter", 20 ], [ "mask_gas", 10 ] ]
+    "items": [
+      [ "mask_dust", 80 ],
+      { "item": "mask_filter", "prob": 20, "charges-min": 0 },
+      { "item": "mask_gas", "prob": 10, "charges-min": 0 }
+    ]
   },
   {
     "type": "item_group",
@@ -2369,8 +2376,8 @@
       [ "glasses_bal", 18 ],
       [ "glasses_safety", 24 ],
       [ "goggles_ski", 14 ],
-      [ "goggles_nv", 2 ],
-      [ "goggles_ir", 1 ],
+      { "item": "goggles_nv", "prob": 2, "charges": [ 0, 100 ] },
+      { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       [ "tacvest", 22 ],
       [ "legrig", 22 ],
       [ "tool_belt", 16 ],
@@ -2410,7 +2417,7 @@
       [ "throw_extinguisher", 2 ],
       [ "small_repairkit", 14 ],
       [ "grapnel", 6 ],
-      [ "misc_repairkit", 8 ],
+      { "item": "misc_repairkit", "prob": 8, "charges-min": 0 },
       [ "survival_kit", 3 ],
       { "group": "tools_toolbox", "prob": 1 },
       [ "survivor_belt", 2 ],
@@ -3339,7 +3346,7 @@
       { "item": "american_flag", "prob": 2 },
       { "item": "tool_belt", "prob": 10 },
       { "item": "leather_belt", "prob": 60 },
-      { "item": "wearable_light", "prob": 30 },
+      { "item": "wearable_light", "prob": 30, "charges": [ 0, 100 ] },
       { "item": "binoculars", "prob": 10 },
       { "item": "whistle", "prob": 30 },
       { "item": "harmonica_holder", "prob": 10 },

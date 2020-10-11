@@ -74,7 +74,7 @@
     "id": "dks_mon_stray_soldier",
     "type": "MONSTER",
     "name": { "str": "stray soldier" },
-    "description": "A former soldier, no doubt deployed to assist with evacuations and drive off the Order, dressed from head to toe in partially crystalized combat armor.  Though their training could not have prepared them for what they were up against, they still seem to remember enough to take you on.",
+    "description": "A former soldier, no doubt deployed to assist with evacuations and drive off the aliens, dressed from head to toe in partially crystalized combat armor.  Though their training could not have prepared them for what they were up against, they still seem to remember enough to take you on.",
     "looks_like": "mon_zombie_soldier",
     "default_faction": "stray",
     "bodytype": "human",

@@ -98,7 +98,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Your assistance is greatly appreciated, we need to clear out the more ruthless monsters that are wandering up from the lower levels.  If you could cull twenty or so of what we refer to as 'nightmares' my men would be much safer.  If you've cleared out most of this floor then the lower levels should be your next target. ",
+      "offer": "Your assistance is greatly appreciated, we need to clear out the more ruthless monsters that are wandering up from the lower levels.  If you could cull twenty or so of what we refer to as 'nightmares' my men would be much safer.  If you've cleared out most of this floor then the lower levels should be your next target.",
       "accepted": "Good luck, finding a clear passage to the second level may be tricky.",
       "rejected": "I don't know why you would bother wasting your time down here if you can't handle a few small tasks…",
       "advice": "These creatures can swing their appendages surprisingly far.",

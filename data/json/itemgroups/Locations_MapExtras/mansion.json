@@ -681,8 +681,8 @@
       [ "slingshot", 10 ],
       [ "rock", 10 ],
       [ "bat", 10 ],
-      [ "creepy_doll", 3 ],
-      [ "portable_game", 5 ],
+      { "item": "creepy_doll", "prob": 3, "charges": [ 0, 100 ] },
+      { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] },
       [ "whistle", 3 ]
     ]
   },
@@ -696,7 +696,7 @@
     "id": "creepy",
     "type": "item_group",
     "items": [
-      [ "candle", 50 ],
+      { "item": "candle", "prob": 50, "charges": [ 0, 100 ] },
       [ "rope_6", 50 ],
       { "item": "rag", "prob": 40, "custom-flags": [ "FILTHY" ] },
       [ "spike", 30 ],
@@ -711,9 +711,9 @@
     "id": "sex_lair",
     "type": "item_group",
     "items": [
-      [ "candle", 50 ],
+      { "item": "candle", "prob": 50, "charges": [ 0, 100 ] },
       [ "rope_6", 50 ],
-      [ "vibrator", 40 ],
+      { "item": "vibrator", "prob": 40, "charges": [ 0, 100 ] },
       [ "camisole", 40 ],
       [ "panties", 40 ],
       [ "bra", 40 ],
@@ -721,7 +721,7 @@
       [ "boxer_shorts", 30 ],
       [ "mag_porn", 30 ],
       [ "briefs", 30 ],
-      { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
       { "group": "stash_drugs", "prob": 20 },
       [ "bikini_top_leather", 20 ],
       [ "skirt_leather", 20 ],
@@ -816,7 +816,7 @@
       [ "jar_glass_sealed", 50 ],
       [ "jar_3l_glass_sealed", 40 ],
       [ "tongs", 25 ],
-      [ "coffeemaker", 10 ],
+      { "item": "coffeemaker", "prob": 10, "charges": [ 0, 500 ] },
       [ "cookbook_daintydishes", 40 ],
       [ "cookbook_indian", 10 ],
       [ "cookbook_foodfashions", 18 ]
@@ -872,7 +872,7 @@
       [ "paper", 30 ],
       [ "rolling_paper", 20 ],
       { "item": "rag", "prob": 20, "custom-flags": [ "FILTHY" ] },
-      [ "flashlight", 20 ],
+      { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
@@ -934,7 +934,7 @@
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
-      [ "inhaler", 20 ],
+      { "item": "inhaler", "prob": 20, "charges-min": 10, "charges-max": 100 },
       [ "hairpin", 20 ],
       [ "lighter", 20 ],
       [ "matches", 20 ],
@@ -1176,10 +1176,10 @@
       [ "gum", 30 ],
       [ "glass", 20 ],
       [ "bandana", 10 ],
-      [ "mp3", 10 ],
-      [ "portable_game", 5 ],
-      [ "cell_phone", 1 ],
-      [ "smart_phone", 5 ],
+      { "item": "mp3", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] },
+      { "item": "cell_phone", "prob": 1, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 5, "charges-min": 0 },
       [ "phonebook", 5 ],
       [ "hairpin", 5 ],
       { "group": "tinware", "prob": 5 },
@@ -1271,11 +1271,11 @@
       [ "string_36", 40 ],
       [ "yarn", 40 ],
       { "group": "bed", "prob": 30, "damage": [ 0, 2 ] },
-      [ "sewing_kit", 30 ],
+      { "item": "sewing_kit", "prob": 30, "charges": [ 0, 25 ] },
       [ "rag", 30 ],
       [ "lycra_patch", 15 ],
       [ "nylon", 10 ],
-      [ "tailors_kit", 20 ]
+      { "item": "tailors_kit", "prob": 20, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -1291,11 +1291,11 @@
       { "group": "jewelry_front", "prob": 30 },
       [ "fc_hairpin", 30 ],
       [ "barrette", 30 ],
-      [ "elec_hairtrimmer", 20 ],
+      { "item": "elec_hairtrimmer", "prob": 20, "charges": [ 0, 50 ] },
       [ "thread", 20 ],
       [ "purse", 20 ],
-      [ "shavingkit", 10 ],
-      [ "sewing_kit", 10 ],
+      { "item": "shavingkit", "prob": 10, "charges": [ 0, 10 ] },
+      { "item": "sewing_kit", "prob": 10, "charges-min": 0 },
       [ "mag_beauty", 10 ],
       [ "mag_glam", 10 ],
       { "group": "harddrugs", "prob": 5 },
@@ -1554,14 +1554,14 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "camera_pro", 90 ],
+      { "item": "camera_pro", "prob": 90, "charges": [ 0, 150 ] },
       [ "hot_pants_leather", 50 ],
       [ "photo_album", 50 ],
       [ "sports_bra", 50 ],
       [ "panties", 50 ],
       [ "mag_porn", 40 ],
-      [ "camera", 30 ],
-      [ "flashlight", 30 ],
+      { "item": "camera", "prob": 30, "charges": [ 0, 150 ] },
+      { "item": "flashlight", "prob": 30, "charges": [ 0, 300 ] },
       [ "binoculars", 20 ]
     ]
   },
@@ -1583,7 +1583,7 @@
       [ "material_quicklime", 30 ],
       [ "seed_sunflower", 30 ],
       [ "straw_basket", 30 ],
-      [ "trimmer_off", 20 ],
+      { "item": "trimmer_off", "prob": 20, "charges-min": 0 },
       [ "knee_pads", 10 ],
       [ "fertilizer_liquid", 1 ]
     ]
@@ -1606,6 +1606,12 @@
     "id": "gear_butler",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "knife_butcher", 35 ], [ "cane", 25 ], [ "umbrella", 20 ], [ "heavy_flashlight", 15 ], [ "candlestick", 5 ] ]
+    "items": [
+      [ "knife_butcher", 35 ],
+      [ "cane", 25 ],
+      [ "umbrella", 20 ],
+      { "item": "heavy_flashlight", "prob": 15, "charges": [ 0, 300 ] },
+      [ "candlestick", 5 ]
+    ]
   }
 ]

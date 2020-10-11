@@ -50,6 +50,7 @@
 #include "color.h"
 #include "computer_session.h"
 #include "construction.h"
+#include "construction_group.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
@@ -204,7 +205,6 @@ static const skill_id skill_survival( "survival" );
 static const species_id species_PLANT( "PLANT" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
-static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
@@ -1829,7 +1829,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
 
         maptile mt = here.maptile_at( dest );
 
-        int ffire = maptile_field_intensity( mt, field_type_id( "fd_fire" ) );
+        int ffire = maptile_field_intensity( mt, fd_fire );
         if( ffire > 0 ) {
             heat_intensity = ffire;
         } else if( here.tr_at( dest ) == tr_lava ) {
@@ -1865,8 +1865,7 @@ int get_convection_temperature( const tripoint &location )
     int temp_mod = 0;
     map &here = get_map();
     // Directly on lava tiles
-    int lava_mod = here.tr_at( location ) == tr_lava ?
-                   field_type_id( "fd_fire" )->get_convection_temperature_mod() : 0;
+    int lava_mod = here.tr_at( location ) == tr_lava ? fd_fire->get_convection_temperature_mod() : 0;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
@@ -3594,13 +3593,13 @@ void game::draw_panels( bool force_draw )
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
     int spacer = get_option<bool>( "SIDEBAR_SPACERS" ) ? 1 : 0;
     int log_height = 0;
-    for( const window_panel &panel : mgr.get_current_layout() ) {
+    for( const window_panel &panel : mgr.get_current_layout().panels() ) {
         if( panel.get_height() != -2 && panel.toggle && panel.render() ) {
             log_height += panel.get_height() + spacer;
         }
     }
     log_height = std::max( TERMY - log_height, 3 );
-    for( const window_panel &panel : mgr.get_current_layout() ) {
+    for( const window_panel &panel : mgr.get_current_layout().panels() ) {
         if( panel.render() ) {
             // height clamped to window height.
             int h = std::min( panel.get_height(), TERMY - y );
@@ -3614,7 +3613,7 @@ void game::draw_panels( bool force_draw )
                                                        point( sidebar_right ? TERMX - panel.get_width() : 0, y ) ) );
                 }
                 if( show_panel_adm ) {
-                    const std::string panel_name = _( panel.get_name() );
+                    const std::string panel_name = panel.get_name();
                     const int panel_name_width = utf8_width( panel_name );
                     catacurses::window label = catacurses::newwin( 1, panel_name_width, point( sidebar_right ?
                                                TERMX - panel.get_width() - panel_name_width - 1 : panel.get_width() + 1, y ) );
@@ -4286,7 +4285,7 @@ void game::mon_info_update( )
     for( auto &m : unique_mons ) {
         m.clear();
     }
-    std::fill( dangerous, dangerous + 8, false );
+    std::fill_n( dangerous, 8, false );
 
     const tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
@@ -5329,10 +5328,8 @@ bool game::revive_corpse( const tripoint &p, item &it )
 
 void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer )
 {
-    int assist_bonus = installer.get_effect_int( effect_assisted );
-
     int damage = cyborg->damage();
-    int dmg_lvl = cyborg->damage_level( 4 );
+    int dmg_lvl = cyborg->damage_level();
     int difficulty = 12;
 
     if( damage != 0 ) {
@@ -5344,8 +5341,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         difficulty += dmg_lvl;
     }
 
-    int chance_of_success = bionic_success_chance( true, -1, std::max( 0,
-                            difficulty - 4 * assist_bonus ), installer );
+    int chance_of_success = bionic_success_chance( true, -1, difficulty, installer );
     int success = chance_of_success - rng( 1, 100 );
 
     if( !get_avatar().query_yn(
@@ -5799,7 +5795,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
 {
     map &here = get_map();
     if( here.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
-        field_entry *fire = here.get_field( examp, field_type_id( "fd_fire" ) );
+        field_entry *fire = here.get_field( examp, fd_fire );
         if( fire ) {
             std::string ss;
             ss += _( "There is a fire here." );
@@ -6335,7 +6331,7 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
         std::string tr_name;
         if( pc && tr == tr_unfinished_construction ) {
             const construction &built = pc->id.obj();
-            tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.description,
+            tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.group->name(),
                                      pc->counter / 100000 );
         } else {
             tr_name = tr.name();
@@ -6972,7 +6968,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     if( show_window ) {
         ui = std::make_unique<ui_adaptor>();
         ui->on_screen_resize( [&]( ui_adaptor & ui ) {
-            int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+            int panel_width = panel_manager::get_manager().get_current_layout().panels().begin()->get_width();
             int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
 
             // If particularly small, base height on panel width irrespective of other elements.
@@ -7743,7 +7739,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             if( iItemNum > 0 && activeItem ) {
                 std::vector<iteminfo> vThisItem;
                 std::vector<iteminfo> vDummy;
-                activeItem->example->info( true, vThisItem );
+                activeItem->vIG[page_num].it->info( true, vThisItem );
 
                 item_info_data dummy( "", "", vThisItem, vDummy, iScrollPos );
                 dummy.without_getch = true;
@@ -7761,8 +7757,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         if( iItemNum > 0 && activeItem ) {
             // print info window title: < item name >
             mvwprintw( w_item_info, point( 2, 0 ), "< " );
-            trim_and_print( w_item_info, point( 4, 0 ), width - 8, activeItem->example->color_in_inventory(),
-                            activeItem->example->display_name() );
+            trim_and_print( w_item_info, point( 4, 0 ), width - 8,
+                            activeItem->vIG[page_num].it->color_in_inventory(),
+                            activeItem->vIG[page_num].it->display_name() );
             wprintw( w_item_info, " >" );
         }
 
@@ -7807,9 +7804,10 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         } else if( action == "EXAMINE" && !filtered_items.empty() && activeItem ) {
             std::vector<iteminfo> vThisItem;
             std::vector<iteminfo> vDummy;
-            activeItem->example->info( true, vThisItem );
+            activeItem->vIG[page_num].it->info( true, vThisItem );
 
-            item_info_data info_data( activeItem->example->tname(), activeItem->example->type_name(), vThisItem,
+            item_info_data info_data( activeItem->vIG[page_num].it->tname(),
+                                      activeItem->vIG[page_num].it->type_name(), vThisItem,
                                       vDummy );
             info_data.handle_scrolling = true;
 
@@ -8050,6 +8048,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     input_context ctxt( "LIST_MONSTERS" );
     ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
     ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "SAFEMODE_BLACKLIST_ADD" );
@@ -8261,6 +8261,20 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             if( iActive >= static_cast<int>( monster_list.size() ) ) {
                 iActive = 0;
             }
+        } else if( action == "PAGE_UP" ) {
+            iActive -= iMaxRows - 2;
+            if( iActive < 0 ) {
+                if( monster_list.empty() ) {
+                    iActive = 0;
+                } else {
+                    iActive = static_cast<int>( monster_list.size() ) - 1;
+                }
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            iActive += iMaxRows - 2;
+            if( iActive >= static_cast<int>( monster_list.size() ) ) {
+                iActive = 0;
+            }
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
             return game::vmenu_ret::CHANGE_TAB;
@@ -8429,7 +8443,7 @@ static void add_disassemblables( uilist &menu,
                                              it.tname(), stack.second );
             menu.addentry_col( menu_index++, true, hotkey, msg,
                                to_string_clipped( recipe_dictionary::get_uncraft(
-                                       it.typeId() ).time_to_craft( get_player_character() ) ) );
+                                       it.typeId() ).time_to_craft( get_player_character(), recipe_time_flag::ignore_proficiencies ) ) );
             hotkey = cata::nullopt;
         }
     }
@@ -8741,7 +8755,7 @@ void game::butcher()
             int time_to_disassemble_recursive = 0;
             for( const auto &stack : disassembly_stacks ) {
                 const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time_to_craft_moves(
-                                     get_player_character() );
+                                     get_player_character(), recipe_time_flag::ignore_proficiencies );
                 time_to_disassemble_once += time * stack.second;
                 time_to_disassemble_recursive += stack.first->get_recursive_disassemble_moves(
                                                      get_player_character() ) * stack.second;
@@ -9214,15 +9228,15 @@ bool game::disable_robot( const tripoint &p )
         // Can only disable / reprogram friendly or stunned monsters
         return false;
     }
-    const auto mid = critter.type->id;
-    const auto mon_item_id = critter.type->revert_to_itype;
+    const mtype_id mid = critter.type->id;
+    const itype_id mon_item_id = critter.type->revert_to_itype;
     if( !mon_item_id.is_empty() &&
         query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
 
         u.moves -= 100;
         m.add_item_or_charges( p, critter.to_item() );
         if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
-            for( auto &ammodef : critter.ammo ) {
+            for( std::pair<const itype_id, int> &ammodef : critter.ammo ) {
                 if( ammodef.second > 0 ) {
                     m.spawn_item( p.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
                 }
@@ -9286,48 +9300,80 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 
 std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) const
 {
-    std::vector<std::string> harmful_stuff;
-    const field fields_here = m.field_at( u.pos() );
-    for( const auto &e : m.field_at( dest_loc ) ) {
-        // warn before moving into a dangerous field except when already standing within a similar field
-        if( u.is_dangerous_field( e.second ) && fields_here.find_field( e.first ) == nullptr ) {
-            harmful_stuff.push_back( e.second.name() );
-        }
+    if( u.is_blind() ) {
+        return {}; // blinded players don't see dangerous tiles
     }
 
-    if( !u.is_blind() ) {
-        const trap &tr = m.tr_at( dest_loc );
-        const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( "BOARDABLE",
-                               true ) );
-        // HACK: Hack for now, later ledge should stop being a trap
-        // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
-        if( tr == tr_ledge && m.has_zlevels() ) {
-            if( !boardable ) {
-                harmful_stuff.emplace_back( tr.name() );
+    std::vector<std::string> harmful_stuff;
+    const field fields_here = m.field_at( u.pos() );
+    const auto veh_here = m.veh_at( u.pos() ).part_with_feature( "BOARDABLE", true );
+    const auto veh_dest = m.veh_at( dest_loc ).part_with_feature( "BOARDABLE", true );
+    const bool exiting_vehicle = veh_here && !veh_dest;
+    const bool entering_veh = !veh_here && veh_dest;
+    const bool entering_veh_inside = entering_veh && veh_dest->is_inside();
+
+    for( const std::pair<const field_type_id, field_entry> &e : m.field_at( dest_loc ) ) {
+        if( !u.is_dangerous_field( e.second ) ) {
+            continue;
+        }
+
+        // if the field is dangerous but has no effects apparently this
+        // means effects are hardcoded in map_field.cpp so we should...
+        bool warn = e.second.field_effects().empty(); // ... warn if effects are empty
+        for( const field_effect &fe : e.second.field_effects() ) {
+            if( entering_veh && fe.immune_in_vehicle ) {
+                continue;
             }
-        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !boardable ) {
+            if( entering_veh_inside && fe.immune_inside_vehicle ) {
+                continue;
+            }
+            if( !entering_veh_inside && fe.immune_outside_vehicle ) {
+                continue;
+            }
+            warn = true;
+            break;
+        }
+
+        if( !warn ) {
+            continue;
+        }
+
+        // if not exiting a vehicle don't warn if already within similar field
+        if( !exiting_vehicle && fields_here.find_field( e.first ) != nullptr ) {
+            continue;
+        }
+
+        harmful_stuff.push_back( e.second.name() );
+    }
+
+    const trap &tr = m.tr_at( dest_loc );
+    // HACK: Hack for now, later ledge should stop being a trap
+    // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
+    if( tr == tr_ledge && m.has_zlevels() ) {
+        if( !veh_dest ) {
             harmful_stuff.emplace_back( tr.name() );
         }
+    } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !veh_dest ) {
+        harmful_stuff.emplace_back( tr.name() );
+    }
 
-        static const std::set< bodypart_id > sharp_bps = {
-            bodypart_id( "eyes" ), bodypart_id( "mouth" ), bodypart_id( "head" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" ), bodypart_id( "foot_l" ), bodypart_id( "foot_r" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
-            bodypart_id( "hand_l" ), bodypart_id( "hand_r" ), bodypart_id( "torso" )
-        };
+    static const std::set< bodypart_id > sharp_bps = {
+        bodypart_id( "eyes" ), bodypart_id( "mouth" ), bodypart_id( "head" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" ), bodypart_id( "foot_l" ), bodypart_id( "foot_r" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
+        bodypart_id( "hand_l" ), bodypart_id( "hand_r" ), bodypart_id( "torso" )
+    };
 
-        const auto sharp_bp_check = [this]( bodypart_id bp ) {
-            return u.immune_to( bp, { damage_type::CUT, 10 } );
-        };
+    const auto sharp_bp_check = [this]( bodypart_id bp ) {
+        return u.immune_to( bp, { damage_type::CUT, 10 } );
+    };
 
-        if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
-            ( u.get_armor_bash( bodypart_id( "foot_l" ) ) < 5 ||
-              u.get_armor_bash( bodypart_id( "foot_r" ) ) < 5 ) ) {
-            harmful_stuff.emplace_back( m.name( dest_loc ) );
-        } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !( u.in_vehicle ||
-                   m.veh_at( dest_loc ) ) &&
-                   u.dex_cur < 78 && !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
-            harmful_stuff.emplace_back( m.name( dest_loc ) );
-        }
-
+    if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !veh_dest &&
+        ( u.get_armor_bash( bodypart_id( "foot_l" ) ) < 5 ||
+          u.get_armor_bash( bodypart_id( "foot_r" ) ) < 5 ) ) {
+        harmful_stuff.emplace_back( m.name( dest_loc ) );
+    } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !( u.in_vehicle ||
+               m.veh_at( dest_loc ) ) &&
+               u.dex_cur < 78 && !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
+        harmful_stuff.emplace_back( m.name( dest_loc ) );
     }
 
     return harmful_stuff;
@@ -9631,11 +9677,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
     if( pulling ) {
         const tripoint shifted_furn_pos = furn_pos - ms_shift;
         const tripoint shifted_furn_dest = furn_dest - ms_shift;
-        const time_duration fire_age = m.get_field_age( shifted_furn_pos, field_type_id( "fd_fire" ) );
-        const int fire_intensity = m.get_field_intensity( shifted_furn_pos, field_type_id( "fd_fire" ) );
-        m.remove_field( shifted_furn_pos, field_type_id( "fd_fire" ) );
-        m.set_field_intensity( shifted_furn_dest, field_type_id( "fd_fire" ), fire_intensity );
-        m.set_field_age( shifted_furn_dest, field_type_id( "fd_fire" ), fire_age );
+        const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
+        const int fire_intensity = m.get_field_intensity( shifted_furn_pos, fd_fire );
+        m.remove_field( shifted_furn_pos, fd_fire );
+        m.set_field_intensity( shifted_furn_dest, fd_fire, fire_intensity );
+        m.set_field_age( shifted_furn_dest, fd_fire, fire_age );
     }
 
     if( u.is_hauling() ) {
@@ -10145,8 +10191,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
                              m.furn( fpos ).obj().has_flag( "FIRE_CONTAINER" ) ||
                              m.furn( fpos ).obj().has_flag( "SEALED" );
 
-    const int fire_intensity = m.get_field_intensity( fpos, field_type_id( "fd_fire" ) );
-    time_duration fire_age = m.get_field_age( fpos, field_type_id( "fd_fire" ) );
+    const int fire_intensity = m.get_field_intensity( fpos, fd_fire );
+    time_duration fire_age = m.get_field_age( fpos, fd_fire );
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
@@ -10215,9 +10261,9 @@ bool game::grabbed_furn_move( const tripoint &dp )
     m.furn_set( fpos, f_null );
 
     if( fire_intensity == 1 && !pulling_furniture ) {
-        m.remove_field( fpos, field_type_id( "fd_fire" ) );
-        m.set_field_intensity( fdest, field_type_id( "fd_fire" ), fire_intensity );
-        m.set_field_age( fdest, field_type_id( "fd_fire" ), fire_age );
+        m.remove_field( fpos, fd_fire );
+        m.set_field_intensity( fdest, fd_fire, fire_intensity );
+        m.set_field_age( fdest, fd_fire, fire_age );
     }
 
     // Is there is only liquids on the ground, remove them after moving furniture.
@@ -10597,7 +10643,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
         }
 
-        if( !can_climb_here || pts.empty() ) {
+        if( pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
             return;

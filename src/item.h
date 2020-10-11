@@ -175,6 +175,8 @@ inline bool is_crafting_component( const item &component );
 class item : public visitable<item>
 {
     public:
+        using FlagsSetType = cata::flat_set<std::string>;
+
         item();
 
         item( item && );
@@ -534,9 +536,11 @@ class item : public visitable<item>
          * stacks like "3 items-count-by-charge (5)".
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
-        bool stacks_with( const item &rhs, bool check_components = false ) const;
+        bool stacks_with( const item &rhs, bool check_components = false,
+                          bool combine_liquid = false ) const;
         /** combines two items together if possible. returns false if it fails. */
         bool combine( const item &rhs );
+        bool can_combine( const item &rhs ) const;
         /**
          * Merge charges of the other item into this item.
          * @return true if the items have been merged, otherwise false.
@@ -566,6 +570,12 @@ class item : public visitable<item>
 
         /** Volume check for corpses, helper for base_volume(). */
         units::volume corpse_volume( const mtype *corpse ) const;
+
+        /**
+         * Volume to subtract when the item is collapsed or folded.
+         * @result positive value when the item increases in volume when wielded and 0 if no change.
+         */
+        units::volume collapsed_volume_delta() const;
 
         /** Required strength to be able to successfully lift the item unaided by equipment */
         int lift_strength() const;
@@ -1043,7 +1053,7 @@ class item : public visitable<item>
          * here mostly for back-compatibility. It should not be used when
          * doing continuous math with the damage value: use damage() instead.
          *
-         * For example, for max = 4, min_damage = -1000, max_damage = 4000
+         * For example, for min_damage = -1000, max_damage = 4000
          *   damage       level
          *   -1000 ~   -1    -1
          *              0     0
@@ -1051,10 +1061,8 @@ class item : public visitable<item>
          *    1334 ~ 2666     2
          *    2667 ~ 3999     3
          *           4000     4
-         *
-         * @param max Maximum number of levels
          */
-        int damage_level( int max ) const;
+        int damage_level() const;
 
         /** Minimum amount of damage to an item (state of maximum repair) */
         int min_damage() const;
@@ -1426,7 +1434,8 @@ class item : public visitable<item>
         /**
          * @name Item flags
          *
-         * If you use any new flags, add a comment to doc/JSON_FLAGS.md and make sure your new
+         * If you use any new flags, add them to `flags.json`,
+         * add a comment to doc/JSON_FLAGS.md and make sure your new
          * flag does not conflict with any existing flag.
          *
          * Item flags are taken from the item type (@ref itype::item_tags), but also from the
@@ -1436,7 +1445,23 @@ class item : public visitable<item>
          */
         /*@{*/
         bool has_flag( const std::string &flag ) const;
-        bool has_any_flag( const std::vector<std::string> &flags ) const;
+
+        template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
+        bool has_any_flag( const Container &flags ) const {
+            return std::any_of( flags.begin(), flags.end(), [&]( const T & flag ) {
+                return has_flag( flag );
+            } );
+        }
+
+        /**
+         * Checks whether item itself has given flag (doesn't check item type or gunmods).
+         * Essentially get_flags().count(f).
+         * Works faster than `has_flag`
+        */
+        bool has_own_flag( const std::string &flag ) const;
+
+        /** returs read-only set of flags of this item (not including flags from item type or gunmods) */
+        const FlagsSetType &get_flags() const;
 
         /** Idempotent filter setting an item specific flag. */
         item &set_flag( const std::string &flag );
@@ -1453,6 +1478,9 @@ class item : public visitable<item>
 
         /**Does this item have the specified fault*/
         bool has_fault( const fault_id &fault ) const;
+
+        /** Does this item part have a fault with this flag */
+        bool has_fault_flag( const std::string &searched_flag ) const;
 
         /**
          * @name Item properties
@@ -2217,9 +2245,9 @@ class item : public visitable<item>
         std::list<item> components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
-        cata::flat_set<std::string> item_tags; // generic item specific flags
 
     private:
+        FlagsSetType item_tags; // generic item specific flags
         safe_reference_anchor anchor;
         const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;

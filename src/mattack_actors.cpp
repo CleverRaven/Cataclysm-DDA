@@ -189,11 +189,9 @@ bool mon_spellcasting_actor::call( monster &mon ) const
 
     const tripoint target = self ? mon.pos() : mon.attack_target()->pos();
 
-    std::string fx = spell_data.effect();
     // is the spell an attack that needs to hit the target?
     // examples of spells that don't: summons, teleport self
-    const bool targeted_attack = fx == "target_attack" || fx == "projectile_attack" ||
-                                 fx == "cone_attack" || fx == "line_attack";
+    const bool targeted_attack = spell_data.effect() == "attack";
 
     if( targeted_attack && rl_dist( mon.pos(), target ) > spell_data.range() ) {
         return false;

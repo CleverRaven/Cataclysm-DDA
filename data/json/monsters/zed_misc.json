@@ -531,7 +531,7 @@
     "armor_bash": 8,
     "armor_cut": 12,
     "armor_bullet": 10,
-    "vision_day": 50,
+    "vision_day": 83,
     "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [ [ "SMASH", 20 ] ],

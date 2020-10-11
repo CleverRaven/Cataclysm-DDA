@@ -98,22 +98,11 @@
 #include "weighted_list.h"
 
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_chemistry_set( "chemistry_set" );
-static const itype_id itype_dehydrator( "dehydrator" );
-static const itype_id itype_electrolysis_kit( "electrolysis_kit" );
-static const itype_id itype_food_processor( "food_processor" );
-static const itype_id itype_forge( "forge" );
 static const itype_id itype_glass_shard( "glass_shard" );
-static const itype_id itype_hotplate( "hotplate" );
-static const itype_id itype_kiln( "kiln" );
 static const itype_id itype_nail( "nail" );
-static const itype_id itype_press( "press" );
 static const itype_id itype_sheet( "sheet" );
-static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
-static const itype_id itype_vac_sealer( "vac_sealer" );
-static const itype_id itype_welder( "welder" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
@@ -366,6 +355,7 @@ void map::on_vehicle_moved( const int smz )
     set_outside_cache_dirty( smz );
     set_transparency_cache_dirty( smz );
     set_floor_cache_dirty( smz );
+    set_floor_cache_dirty( smz + 1 );
     set_pathfinding_cache_dirty( smz );
 }
 
@@ -1402,6 +1392,11 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
         set_floor_cache_dirty( p.z );
         set_seen_cache_dirty( p );
     }
+
+    if( old_t.has_flag( TFLAG_SUN_ROOF_ABOVE ) != new_t.has_flag( TFLAG_SUN_ROOF_ABOVE ) ) {
+        set_floor_cache_dirty( p.z + 1 );
+    }
+
     invalidate_max_populated_zlev( p.z );
 
     set_memory_seen_cache_dirty( p );
@@ -2693,7 +2688,7 @@ bool map::is_flammable( const tripoint &p )
         return true;
     }
 
-    if( get_field_intensity( p, field_type_id( "fd_web" ) ) > 0 ) {
+    if( get_field_intensity( p, fd_web ) > 0 ) {
         return true;
     }
 
@@ -2797,7 +2792,7 @@ bool map::has_adjacent_furniture_with( const tripoint &p,
 bool map::has_nearby_fire( const tripoint &p, int radius )
 {
     for( const tripoint &pt : points_in_radius( p, radius ) ) {
-        if( get_field( pt, field_type_id( "fd_fire" ) ) != nullptr ) {
+        if( get_field( pt, fd_fire ) != nullptr ) {
             return true;
         }
         if( has_flag_ter_or_furn( "USABLE_FIRE", p ) ) {
@@ -3047,8 +3042,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
                 item_was_damaged = true;
             }
         } else {
-            const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() :
-                                             field_type_id( "fd_null" );
+            const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
             while( ( damage_chance > material_factor ||
                      x_in_y( damage_chance, material_factor ) ) &&
                    i->damage() < i->max_damage() ) {
@@ -3783,7 +3777,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             ter_set( p, t_dirt );
         }
         if( inc ) {
-            add_field( p, field_type_id( "fd_fire" ), 1 );
+            add_field( p, fd_fire, 1 );
         }
     } else if( terrain == t_gas_pump ) {
         if( hit_items || one_in( 3 ) ) {
@@ -3844,7 +3838,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         for( const std::pair<const field_type_id, field_entry> &fd : fields_copy ) {
             if( fd.first->bash_info.str_min > 0 ) {
                 if( inc ) {
-                    add_field( p, field_type_id( "fd_fire" ), fd.second.get_field_intensity() - 1 );
+                    add_field( p, fd_fire, fd.second.get_field_intensity() - 1 );
                 } else if( dam > 5 + fd.second.get_field_intensity() * 5 &&
                            one_in( 5 - fd.second.get_field_intensity() ) ) {
                     dam -= rng( 1, 2 + fd.second.get_field_intensity() * 2 );
@@ -3929,7 +3923,7 @@ bool map::hit_with_fire( const tripoint &p )
 
     // non passable but flammable terrain, set it on fire
     if( has_flag( "FLAMMABLE", p ) || has_flag( "FLAMMABLE_ASH", p ) ) {
-        add_field( p, field_type_id( "fd_fire" ), 3 );
+        add_field( p, fd_fire, 3 );
     }
     return true;
 }
@@ -4298,7 +4292,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     // spawn the item
     item new_item( type_id, birthday );
     if( one_in( 3 ) && new_item.has_flag( "VARSIZE" ) ) {
-        new_item.item_tags.insert( "FIT" );
+        new_item.set_flag( "FIT" );
     }
 
     if( charges && new_item.charges > 0 ) {
@@ -4469,7 +4463,7 @@ item &map::add_item( const tripoint &p, item new_item )
         return null_item_reference();
     }
 
-    if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, field_type_id( "fd_fire" ) ) != nullptr ) {
+    if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, fd_fire ) != nullptr ) {
         if( new_item.has_flag( "BOMB" ) && new_item.is_transformable() ) {
             //Convert a bomb item into its transformable version, e.g. incendiary grenade -> active incendiary grenade
             new_item.convert( dynamic_cast<const iuse_transform *>
@@ -4621,7 +4615,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             const time_duration time_left = washing_time - n.age();
             static const std::string filthy( "FILTHY" );
             if( time_left <= 0_turns ) {
-                n.item_tags.erase( filthy );
+                n.unset_flag( filthy );
                 washing_machine_finished = true;
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
@@ -4649,7 +4643,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             static const std::string no_sterile( "NO_STERILE" );
             if( time_left <= 0_turns ) {
                 if( !n.has_flag( "NO_PACKED" ) ) {
-                    n.item_tags.erase( no_sterile );
+                    n.unset_flag( no_sterile );
                 }
                 autoclave_finished = true;
                 cur_veh.part( part ).enabled = false;
@@ -4995,21 +4989,6 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
     return ret;
 }
 
-template <typename Stack>
-std::list<item> use_charges_from_stack( Stack stack, const itype_id &type, int &quantity,
-                                        const tripoint &pos, const std::function<bool( const item & )> &filter )
-{
-    std::list<item> ret;
-    for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( !a->made_of( phase_id::LIQUID ) && a->use_charges( type, quantity, ret, pos, filter ) ) {
-            a = stack.erase( a );
-        } else {
-            ++a;
-        }
-    }
-    return ret;
-}
-
 static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &quantity,
                                    map *m, const tripoint &p, std::list<item> &ret,
                                    const std::function<bool( const item & )> &filter )
@@ -5106,7 +5085,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         }
 
         if( accessible_items( p ) ) {
-            std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity, p, filter );
+            std::list<item> tmp = i_at( p ).use_charges( type, quantity, p, filter );
             ret.splice( ret.end(), tmp );
             if( quantity <= 0 ) {
                 return ret;
@@ -5114,145 +5093,8 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         }
 
         const optional_vpart_position vp = veh_at( p );
-        if( !vp ) {
-            continue;
-        }
-
-        const cata::optional<vpart_reference> kpart = vp.part_with_feature( "FAUCET", true );
-        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
-        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
-        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
-        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
-        const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
-        const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
-
-        if( kpart ) { // we have a faucet, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            // Special case hotplates which draw battery power
-            if( type == itype_hotplate ) {
-                ftype = itype_battery;
-            } else {
-                ftype = type;
-            }
-
-            // TODO: add a sane birthday arg
-            item tmp( type, 0 );
-            tmp.charges = kpart->vehicle().drain( ftype, quantity );
-            // TODO: Handle water poison when crafting starts respecting it
-            quantity -= tmp.charges;
-            ret.push_back( tmp );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( weldpart ) { // we have a weldrig, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_welder ) {
-                ftype = itype_battery;
-            } else if( type == itype_soldering_iron ) {
-                ftype = itype_battery;
-            }
-            // TODO: add a sane birthday arg
-            item tmp( type, 0 );
-            tmp.charges = weldpart->vehicle().drain( ftype, quantity );
-            quantity -= tmp.charges;
-            ret.push_back( tmp );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( craftpart ) { // we have a craftrig, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_press ) {
-                ftype = itype_battery;
-            } else if( type == itype_vac_sealer ) {
-                ftype = itype_battery;
-            } else if( type == itype_dehydrator ) {
-                ftype = itype_battery;
-            } else if( type == itype_food_processor ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            item tmp( type, 0 );
-            tmp.charges = craftpart->vehicle().drain( ftype, quantity );
-            quantity -= tmp.charges;
-            ret.push_back( tmp );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( forgepart ) { // we have a veh_forge, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_forge ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            item tmp( type, 0 );
-            tmp.charges = forgepart->vehicle().drain( ftype, quantity );
-            quantity -= tmp.charges;
-            ret.push_back( tmp );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( kilnpart ) { // we have a veh_kiln, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_kiln ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            item tmp( type, 0 );
-            tmp.charges = kilnpart->vehicle().drain( ftype, quantity );
-            quantity -= tmp.charges;
-            ret.push_back( tmp );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( chempart ) { // we have a chem_lab, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_chemistry_set ) {
-                ftype = itype_battery;
-            } else if( type == itype_hotplate ) {
-                ftype = itype_battery;
-            } else if( type == itype_electrolysis_kit ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            item tmp( type, 0 );
-            tmp.charges = chempart->vehicle().drain( ftype, quantity );
-            quantity -= tmp.charges;
-            ret.push_back( tmp );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( cargo ) {
-            std::list<item> tmp =
-                use_charges_from_stack( cargo->vehicle().get_items( cargo->part_index() ), type, quantity, p,
-                                        filter );
+        if( vp ) {
+            std::list<item> tmp = vp->vehicle().use_charges( *vp, type, quantity, filter );
             ret.splice( ret.end(), tmp );
             if( quantity <= 0 ) {
                 return ret;
@@ -6969,10 +6811,9 @@ void map::saven( const tripoint &grid )
         debugmsg( "Tried to save submap node (%d) but it's not loaded", gridn );
         return;
     }
-    if( submap_to_save == nullptr || submap_to_save->get_ter( point_zero ) == t_null ) {
+    if( submap_to_save->get_ter( point_zero ) == t_null ) {
         // This is a serious error and should be signaled as soon as possible
-        debugmsg( "map::saven grid (%d,%d,%d) %s!", grid.x, grid.y, grid.z,
-                  submap_to_save == nullptr ? "null" : "uninitialized" );
+        debugmsg( "map::saven grid (%d,%d,%d) uninitialized!", grid.x, grid.y, grid.z );
         return;
     }
 
@@ -8110,19 +7951,31 @@ bool map::build_floor_cache( const int zlev )
     bool &no_floor_gaps = ch.no_floor_gaps;
     no_floor_gaps = true;
 
+    bool lowest_z_lev = zlev <= -OVERMAP_DEPTH;
+
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            const submap *below_submap = !lowest_z_lev ? get_submap_at_grid( { smx, smy, zlev - 1 } ) : nullptr;
+
             if( cur_submap == nullptr ) {
                 debugmsg( "Tried to build floor cache at (%d,%d,%d) but the submap is not loaded", smx, smy, zlev );
+                continue;
+            }
+            if( !lowest_z_lev && below_submap == nullptr ) {
+                debugmsg( "Tried to build floor cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
+                          zlev - 1 );
                 continue;
             }
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
-                    // Note: furniture currently can't affect existence of floor
-                    const ter_t &terrain = cur_submap->get_ter( { sx, sy } ).obj();
+                    point sp( sx, sy );
+                    const ter_t &terrain = cur_submap->get_ter( sp ).obj();
                     if( terrain.has_flag( TFLAG_NO_FLOOR ) ) {
+                        if( below_submap && ( below_submap->get_furn( sp ).obj().has_flag( TFLAG_SUN_ROOF_ABOVE ) ) ) {
+                            continue;
+                        }
                         const int x = sx + smx * SEEX;
                         const int y = sy + smy * SEEY;
                         floor_cache[x][y] = false;
@@ -8174,6 +8027,16 @@ static void vehicle_caching_internal( level_cache &zch, const vpart_reference &v
         floor_cache[part_pos.x][part_pos.y] = true;
     }
 }
+
+static void vehicle_caching_internal_above( level_cache &zch_above, const vpart_reference &vp,
+        vehicle *v )
+{
+    if( vp.has_feature( VPFLAG_ROOF ) || vp.has_feature( VPFLAG_OPAQUE ) ) {
+        const tripoint &part_pos = v->global_part_pos3( vp.part() );
+        zch_above.floor_cache[part_pos.x][part_pos.y] = true;
+    }
+}
+
 void map::do_vehicle_caching( int z )
 {
     level_cache &ch = get_cache( z );
@@ -8184,6 +8047,9 @@ void map::do_vehicle_caching( int z )
                 continue;
             }
             vehicle_caching_internal( get_cache( part_pos.z ), vp, v );
+            if( part_pos.z < OVERMAP_HEIGHT ) {
+                vehicle_caching_internal_above( get_cache( part_pos.z + 1 ), vp, v );
+            }
         }
     }
 }
@@ -8426,7 +8292,7 @@ void map::add_corpse( const tripoint &p )
         body = item::make_corpse();
     } else {
         body = item::make_corpse( mon_zombie );
-        body.item_tags.insert( "REVIVE_SPECIAL" );
+        body.set_flag( "REVIVE_SPECIAL" );
     }
 
     put_items_from_loc( "default_zombie_clothes", p, 0 );
@@ -8608,10 +8474,10 @@ tripoint_range<tripoint> map::points_in_radius( const tripoint &center, size_t r
         size_t radiusz ) const
 {
     const tripoint min( std::max<int>( 0, center.x - radius ), std::max<int>( 0, center.y - radius ),
-                        clamp( static_cast<int>( center.z - radiusz ), -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
+                        clamp<int>( center.z - radiusz, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
     const tripoint max( std::min<int>( SEEX * my_MAPSIZE - 1, center.x + radius ),
-                        std::min<int>( SEEX * my_MAPSIZE - 1, center.y + radius ),
-                        clamp( static_cast<int>( center.z + radiusz ), -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
+                        std::min<int>( SEEX * my_MAPSIZE - 1, center.y + radius ), clamp<int>( center.z + radiusz,
+                                -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
     return tripoint_range<tripoint>( min, max );
 }
 

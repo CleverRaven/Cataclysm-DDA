@@ -70,9 +70,11 @@ std::vector<const Skill *> Skill::get_skills_sorted_by(
     std::vector<const Skill *> result;
     result.reserve( skills.size() );
 
-    std::transform( begin( skills ), end( skills ), back_inserter( result ), []( const Skill & s ) {
-        return &s;
-    } );
+    for( const Skill &sk : skills ) {
+        if( !sk.obsolete() ) {
+            result.push_back( &sk );
+        }
+    }
 
     std::sort( begin( result ), end( result ), [&]( const Skill * lhs, const Skill * rhs ) {
         return pred( *lhs, *rhs );
@@ -119,6 +121,7 @@ void Skill::load_skill( const JsonObject &jsobj )
     sk._companion_survival_rank_factor = jsobj.get_int( "companion_survival_rank_factor", 0 );
     sk._companion_industry_rank_factor = jsobj.get_int( "companion_industry_rank_factor", 0 );
     sk._companion_skill_practice = companion_skill_practice;
+    sk._obsolete = jsobj.get_bool( "obsolete", false );
 
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;
@@ -173,7 +176,7 @@ skill_id Skill::from_legacy_int( const int legacy_id )
             skill_id( "gun" ), skill_id( "pistol" ), skill_id( "shotgun" ), skill_id( "smg" ),
             skill_id( "rifle" ), skill_id( "archery" ), skill_id( "launcher" ), skill_id( "mechanics" ),
             skill_id( "electronics" ), skill_id( "cooking" ), skill_id( "tailor" ), skill_id::NULL_ID(),
-            skill_id( "firstaid" ), skill_id( "speech" ), skill_id( "barter" ), skill_id( "computer" ),
+            skill_id( "firstaid" ), skill_id( "speech" ), skill_id( "computer" ),
             skill_id( "survival" ), skill_id( "traps" ), skill_id( "swimming" ), skill_id( "driving" ),
         }
     };
@@ -391,7 +394,7 @@ bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
     return exceeds_recipe_requirements( rec ) >= 0;
 }
 
-// Actually take the difference in barter skill between the two parties involved
+// Actually take the difference in social skill between the two parties involved
 // Caps at 200% when you are 5 levels ahead, int comparison is handled in npctalk.cpp
 double price_adjustment( int barter_skill )
 {
