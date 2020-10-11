@@ -2363,7 +2363,7 @@
     "warmth": 15,
     "material_thickness": 4,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "modularvestceramic",
@@ -2387,7 +2387,7 @@
     "warmth": 15,
     "material_thickness": 9,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "modularvesthard",
@@ -2411,7 +2411,7 @@
     "warmth": 15,
     "material_thickness": 5,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "modularvestkevlar",
@@ -2435,7 +2435,7 @@
     "warmth": 15,
     "material_thickness": 6,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "modularveststeel",
@@ -2459,7 +2459,7 @@
     "warmth": 15,
     "material_thickness": 7,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "modularvestsuper",
@@ -2483,7 +2483,7 @@
     "warmth": 15,
     "material_thickness": 6,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER", "ALLOWS_REMOTE_USE" ]
   },
   {
     "type": "AMMO",

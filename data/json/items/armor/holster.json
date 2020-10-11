@@ -28,7 +28,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW" ]
+    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bootstrap",
@@ -49,7 +49,7 @@
     "encumbrance": 3,
     "max_encumbrance": 4,
     "material_thickness": 1,
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ],
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR", "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -80,7 +80,7 @@
     "encumbrance": 3,
     "max_encumbrance": 7,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "WAIST" ],
+    "flags": [ "OVERSIZE", "WAIST", "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -124,7 +124,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "western_holster",
@@ -176,6 +176,7 @@
         "moves": 20
       }
     ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "holster" }
   },
   {
@@ -198,6 +199,7 @@
         "moves": 30
       }
     ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "holster" }
   },
   {
@@ -225,7 +227,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "SKINTIGHT", "WATER_FRIENDLY", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "survivor_vest",
@@ -278,7 +280,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "XL_holster",
@@ -310,6 +312,6 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "ALLOWS_REMOTE_USE" ]
   }
 ]

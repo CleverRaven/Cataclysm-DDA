@@ -1968,7 +1968,7 @@
     "price_postapoc": 1000,
     "material": [ "leather", "iron" ],
     "volume": "4 L",
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE", "ALLOWS_REMOTE_USE" ],
     "coverage": 15,
     "encumbrance": 4,
     "material_thickness": 2,

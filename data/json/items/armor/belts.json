@@ -27,7 +27,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" },
-    "flags": [ "FANCY", "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": [ "FANCY", "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY", "ALLOWS_REMOTE_USE" ]
   },
   {
     "abstract": "judo_belt_abstract",
@@ -130,7 +130,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "obi_gi",
@@ -174,7 +174,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to holder?", "holster_msg": "You attach your %s to your %s." },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "survivor_belt_notools",
@@ -205,7 +205,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_belt",
@@ -274,7 +274,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "webbing_belt",

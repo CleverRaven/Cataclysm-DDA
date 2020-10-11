@@ -99,7 +99,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
+    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "backpack_giant",
@@ -621,7 +621,7 @@
     ],
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "OVERSIZE" ],
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath golf club", "holster_msg": "You awkwardly sheath your %s" }
   },
   {

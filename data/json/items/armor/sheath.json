@@ -27,7 +27,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath axe", "holster_msg": "You sheath your %s" },
-    "flags": [ "NONCONDUCTIVE", "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "NONCONDUCTIVE", "WAIST", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "baldric",
@@ -58,7 +58,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bootsheath",
@@ -90,7 +90,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ]
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bscabbard",
@@ -121,7 +121,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "scabbard",
@@ -152,7 +152,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "sheath",
@@ -182,7 +182,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "spearsling",
@@ -213,6 +213,6 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Holster spear", "holster_msg": "You holster your %s." },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "ALLOWS_REMOTE_USE" ]
   }
 ]

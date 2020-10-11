@@ -98,7 +98,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "WAIST" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "chestpouch",
@@ -126,7 +126,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "chestrig",
@@ -175,7 +175,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "javelin_bag",
@@ -237,7 +237,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash javelins", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "legpouch",
@@ -267,7 +267,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR", "ALLOWS_REMOTE_USE" ]
   },
   {
     "type": "ARMOR",
@@ -303,7 +303,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "quiver",
@@ -443,7 +443,7 @@
         "moves": 60
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "xlkevlar",
@@ -501,6 +501,6 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "OVERSIZE", "STURDY", "OUTER" ]
+    "flags": [ "OVERSIZE", "STURDY", "OUTER", "ALLOWS_REMOTE_USE" ]
   }
 ]

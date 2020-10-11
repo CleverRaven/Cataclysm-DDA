@@ -281,6 +281,6 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash grenades", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_REMOTE_USE" ]
   }
 ]
