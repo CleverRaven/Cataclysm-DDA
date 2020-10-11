@@ -3,9 +3,6 @@
   "compatibility": [
     "UlticaShell"
   ],
-  "tile_info": [
-    { "width": 32, "height": 32 }
-  ],
   "tiles-new": [
     {
       "file": "tiles.png",
@@ -1773,8 +1770,8 @@
       "//": "range 1041 to 1072",
       "sprite_width": 64,
       "sprite_height": 80,
-      "sprite_offset_x": 0,
-      "sprite_offset_y": 0
+      "sprite_offset_x": -16,
+      "sprite_offset_y": -48
     }
   ]
 }
