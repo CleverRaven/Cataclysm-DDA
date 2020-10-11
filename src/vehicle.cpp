@@ -2589,6 +2589,19 @@ cata::optional<vpart_reference> vpart_position::part_with_feature( const vpart_b
     return vpart_reference( vehicle(), i );
 }
 
+cata::optional<vpart_reference> vpart_position::avail_part_with_feature(
+    const std::string &f ) const
+{
+    const int i = vehicle().avail_part_with_feature( part_index(), f );
+    return i >= 0 ? vpart_reference( vehicle(), i ) : cata::optional<vpart_reference>();
+}
+
+cata::optional<vpart_reference> vpart_position::avail_part_with_feature( vpart_bitflags f ) const
+{
+    const int i = vehicle().avail_part_with_feature( part_index(), f );
+    return i >= 0 ? vpart_reference( vehicle(), i ) : cata::optional<vpart_reference>();
+}
+
 cata::optional<vpart_reference> optional_vpart_position::part_with_feature( const std::string &f,
         const bool unbroken ) const
 {
@@ -2599,6 +2612,18 @@ cata::optional<vpart_reference> optional_vpart_position::part_with_feature( cons
         const bool unbroken ) const
 {
     return has_value() ? value().part_with_feature( f, unbroken ) : cata::nullopt;
+}
+
+cata::optional<vpart_reference> optional_vpart_position::avail_part_with_feature(
+    const std::string &f ) const
+{
+    return has_value() ? value().avail_part_with_feature( f ) : cata::nullopt;
+}
+
+cata::optional<vpart_reference> optional_vpart_position::avail_part_with_feature(
+    vpart_bitflags f ) const
+{
+    return has_value() ? value().avail_part_with_feature( f ) : cata::nullopt;
 }
 
 cata::optional<vpart_reference> optional_vpart_position::obstacle_at_part() const
@@ -2644,24 +2669,23 @@ int vehicle::part_with_feature( const point &pt, const std::string &flag, bool u
     return -1;
 }
 
-int vehicle::avail_part_with_feature( int part, vpart_bitflags const flag, bool unbroken ) const
+int vehicle::avail_part_with_feature( int part, vpart_bitflags const flag ) const
 {
-    int part_a = part_with_feature( part, flag, unbroken );
+    int part_a = part_with_feature( part, flag, true );
     if( ( part_a >= 0 ) && parts[ part_a ].is_available() ) {
         return part_a;
     }
     return -1;
 }
 
-int vehicle::avail_part_with_feature( int part, const std::string &flag, bool unbroken ) const
+int vehicle::avail_part_with_feature( int part, const std::string &flag ) const
 {
-    return avail_part_with_feature( parts[ part ].mount, flag, unbroken );
+    return avail_part_with_feature( parts[ part ].mount, flag );
 }
 
-int vehicle::avail_part_with_feature( const point &pt, const std::string &flag,
-                                      bool unbroken ) const
+int vehicle::avail_part_with_feature( const point &pt, const std::string &flag ) const
 {
-    int part_a = part_with_feature( pt, flag, unbroken );
+    int part_a = part_with_feature( pt, flag, true );
     if( ( part_a >= 0 ) && parts[ part_a ].is_available() ) {
         return part_a;
     }
@@ -3322,7 +3346,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
 
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
         if( vp && &vp->vehicle() == this && player_controlling ) {
-            const int p = avail_part_with_feature( vp->part_index(), VPFLAG_ENGINE, true );
+            const int p = avail_part_with_feature( vp->part_index(), VPFLAG_ENGINE );
             if( p >= 0 && is_part_on( p ) && part_info( p ).fuel_type == fuel_type_muscle ) {
                 //Broken limbs prevent muscle engines from working
                 if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) &&

@@ -1004,9 +1004,9 @@ class vehicle
         int part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
 
         // returns index of part, inner to given, with certain flag, or -1
-        int avail_part_with_feature( int p, const std::string &f, bool unbroken ) const;
-        int avail_part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
-        int avail_part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
+        int avail_part_with_feature( int p, const std::string &f ) const;
+        int avail_part_with_feature( const point &pt, const std::string &f ) const;
+        int avail_part_with_feature( int p, vpart_bitflags f ) const;
 
         /**
          *  Check if vehicle has at least one unbroken part with specified flag
@@ -1767,7 +1767,7 @@ class vehicle
         void use_bike_rack( int part );
         void use_harness( int part, const tripoint &pos );
 
-        void interact_with( const tripoint &pos, int interact_part );
+        void interact_with( const vpart_position &vp );
 
         std::string disp_name() const;
 

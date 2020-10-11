@@ -5577,14 +5577,14 @@ void game::control_vehicle()
         }
     }
     if( veh != nullptr && veh->player_in_control( u ) &&
-        veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
+        veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 ) {
         veh->use_controls( u.pos() );
     } else if( veh && veh->player_in_control( u ) &&
-               veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL", true ) >= 0 ) {
+               veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL" ) >= 0 ) {
         u.controlling_vehicle = false;
         add_msg( m_info, _( "You let go of the reins." ) );
-    } else if( veh && ( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ||
-                        ( veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL", true ) >= 0 &&
+    } else if( veh && ( veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 ||
+                        ( veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL" ) >= 0 &&
                           veh->has_engine_type( fuel_type_animal, false ) && veh->has_harnessed_animal() ) ) &&
                u.in_vehicle ) {
         if( !veh->interact_vehicle_locked() ) {
@@ -5893,16 +5893,13 @@ void game::examine( const tripoint &examp )
     }
 
     const optional_vpart_position vp = m.veh_at( examp );
-    if( vp && u.is_mounted() ) {
-        if( !u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-            add_msg( m_warning, _( "You cannot interact with a vehicle while mounted." ) );
-        } else {
-            vp->vehicle().interact_with( examp, vp->part_index() );
+    if( vp ) {
+        if( !u.is_mounted() || u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+            vp->vehicle().interact_with( *vp );
             return;
+        } else {
+            add_msg( m_warning, _( "You cannot interact with a vehicle while mounted." ) );
         }
-    } else if( vp && !u.is_mounted() ) {
-        vp->vehicle().interact_with( examp, vp->part_index() );
-        return;
     }
 
     if( m.has_flag( "CONSOLE", examp ) && !u.is_mounted() ) {
