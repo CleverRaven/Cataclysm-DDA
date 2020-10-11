@@ -417,6 +417,21 @@
     ]
   },
   {
+    "result": "xl_boots_winter",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "copy-from": "boots_winter",
+    "using": [
+      [ "tailoring_felt_patchwork", 6 ],
+      [ "plastic_molding", 5 ],
+      [ "waterproofing_plastic_bags", 2 ],
+      [ "fastener_small", 2 ]
+    ],
+    "time": "16 h"
+  },
+  {
     "result": "boots_wsurvivor",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
@@ -779,6 +794,13 @@
       { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 }
     ],
     "using": [ [ "armor_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xl_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "chainmail_feet",
+    "time": "5 h",
+    "using": [ [ "armor_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "roller_blades",
