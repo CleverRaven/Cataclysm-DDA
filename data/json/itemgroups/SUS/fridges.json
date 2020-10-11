@@ -21,9 +21,10 @@
       { "group": "fresh_produce", "count": [ 1, 8 ], "prob": 50 },
       {
         "distribution": [
-          { "item": "milk", "charges-min": 1, "prob": 94, "container-item": "jug_plastic", "sealed": false },
+          { "item": "milk", "charges-min": 1, "prob": 89, "container-item": "jug_plastic", "sealed": false },
           { "item": "almond_milk", "charges-min": 1, "prob": 3, "container-item": "jug_plastic", "sealed": false },
-          { "item": "soy_milk", "charges-min": 1, "prob": 3, "container-item": "jug_plastic", "sealed": false }
+          { "item": "soy_milk", "charges-min": 1, "prob": 3, "container-item": "jug_plastic", "sealed": false },
+          { "item": "milk_choc", "charges-min": 1, "prob": 5, "container-item": "jug_plastic", "sealed": false }
         ],
         "prob": 95
       },
