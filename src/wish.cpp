@@ -1,5 +1,3 @@
-#include "debug_menu.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cstddef>
 #include <iterator>
@@ -7,6 +5,7 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
@@ -14,6 +13,8 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "debug_menu.h" // IWYU pragma: associated
+#include "enums.h"
 #include "flat_set.h"
 #include "game.h"
 #include "input.h"
@@ -36,6 +37,9 @@
 #include "type_id.h"
 #include "ui.h"
 #include "uistate.h"
+
+class ui_adaptor;
+template <typename T> class string_id;
 
 class wish_mutate_callback: public uilist_callback
 {
@@ -77,7 +81,7 @@ class wish_mutate_callback: public uilist_callback
         void refresh( uilist *menu ) override {
             if( !started ) {
                 started = true;
-                for( auto &traits_iter : mutation_branch::get_all() ) {
+                for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.id );
                     pTraits[traits_iter.id] = p->has_trait( traits_iter.id );
                 }
@@ -151,7 +155,7 @@ class wish_mutate_callback: public uilist_callback
                 if( !mdata.additions.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Add-ons:" ) );
-                    for( auto &j : mdata.additions ) {
+                    for( const string_id<mutation_branch> &j : mdata.additions ) {
                         mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                    mutation_branch::get_name( j ) );
                         line2++;
@@ -161,7 +165,7 @@ class wish_mutate_callback: public uilist_callback
                 if( !mdata.types.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Type:" ) );
-                    for( auto &j : mdata.types ) {
+                    for( const std::string &j : mdata.types ) {
                         mvwprintw( menu->window, point( startx + 11, line2 ), j );
                         line2++;
                     }
@@ -170,8 +174,8 @@ class wish_mutate_callback: public uilist_callback
                 if( !mdata.category.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Category:" ) );
-                    for( auto &j : mdata.category ) {
-                        mvwprintw( menu->window, point( startx + 11, line2 ), j );
+                    for( const mutation_category_id &j : mdata.category ) {
+                        mvwprintw( menu->window, point( startx + 11, line2 ), j.str() );
                         line2++;
                     }
                 }
@@ -197,7 +201,7 @@ class wish_mutate_callback: public uilist_callback
 
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
             msg.clear();
-            input_context ctxt( menu->input_category );
+            input_context ctxt( menu->input_category, keyboard_mode::keycode );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
@@ -213,7 +217,7 @@ void debug_menu::wishmutate( player *p )
     uilist wmenu;
     int c = 0;
 
-    for( auto &traits_iter : mutation_branch::get_all() ) {
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         wmenu.addentry( -1, true, -2, traits_iter.name() );
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt.clear();
@@ -339,7 +343,6 @@ class wish_monster_callback: public uilist_callback
         void refresh( uilist *menu ) override {
             catacurses::window w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right,
                                         point( menu->w_x + menu->w_width - 1 - menu->pad_right, 1 ) );
-            const std::string padding = std::string( getmaxx( w_info ), ' ' );
 
             const int entnum = menu->selected;
             const bool valid_entnum = entnum >= 0 && static_cast<size_t>( entnum ) < mtypes.size();
@@ -366,7 +369,7 @@ class wish_monster_callback: public uilist_callback
 
             mvwprintz( w_info, point( 0, getmaxy( w_info ) - 3 ), c_green, msg );
             msg.clear();
-            input_context ctxt( menu->input_category );
+            input_context ctxt( menu->input_category, keyboard_mode::keycode );
             mvwprintw( w_info, point( 0, getmaxy( w_info ) - 2 ),
                        _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
@@ -422,7 +425,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
                     }
                     ++num_spawned;
                 }
-                input_context ctxt( wmenu.input_category );
+                input_context ctxt( wmenu.input_category, keyboard_mode::keycode );
                 cb.msg = string_format( _( "Spawned %d monsters, choose another or [%s] to quit." ),
                                         num_spawned, ctxt.get_desc( "QUIT" ) );
                 if( num_spawned == 0 ) {
@@ -434,17 +437,36 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
     } while( wmenu.ret >= 0 );
 }
 
+static item wishitem_produce( const itype &type, std::string &flags, bool incontainer )
+{
+    item granted( &type, calendar::turn );
+
+    granted.unset_flags();
+    for( const auto &tag : debug_menu::string_to_iterable<std::vector<std::string>>( flags, " " ) ) {
+        granted.set_flag( tag );
+    }
+
+    if( incontainer ) {
+        granted = granted.in_its_container();
+    }
+    // If the item has an ammunition, this loads it to capacity, including magazines.
+    if( !granted.ammo_default().is_null() ) {
+        granted.ammo_set( granted.ammo_default(), -1 );
+    }
+
+    return granted;
+}
+
 class wish_item_callback: public uilist_callback
 {
     public:
         bool incontainer;
-        bool has_flag;
         bool spawn_everything;
         std::string msg;
-        std::string flag;
+        std::string flags;
         const std::vector<const itype *> &standard_itype_ids;
         wish_item_callback( const std::vector<const itype *> &ids ) :
-            incontainer( false ), has_flag( false ), spawn_everything( false ), standard_itype_ids( ids ) {
+            incontainer( false ), spawn_everything( false ), standard_itype_ids( ids ) {
         }
 
         void select( uilist *menu ) override {
@@ -456,25 +478,33 @@ class wish_item_callback: public uilist_callback
             } else {
                 incontainer = false;
             }
+
+            // grab default flags for the itype
+            flags = debug_menu::iterable_to_string( standard_itype_ids[menu->selected]->get_flags(), "" );
         }
 
-        bool key( const input_context &, const input_event &event, int /*entnum*/,
+        bool key( const input_context &ctxt, const input_event &event, int /*entnum*/,
                   uilist * /*menu*/ ) override {
 
-            if( event.get_first_input() == 'f' ) {
+            const std::string &action = ctxt.input_to_action( event );
+            if( action == "CONTAINER" ) {
                 incontainer = !incontainer;
                 return true;
             }
-            if( event.get_first_input() == 'F' ) {
-                flag = string_input_popup()
-                       .title( _( "Add which flag?  Use UPPERCASE letters without quotes" ) )
-                       .query_string();
-                if( !flag.empty() ) {
-                    has_flag = true;
+            if( action == "FLAG" ) {
+                string_input_popup popup;
+                popup
+                .title( _( "Flags:" ) )
+                .description( _( "UPPERCASE, no quotes, separate with spaces" ) )
+                .max_length( 100 )
+                .text( flags )
+                .query();
+                if( popup.confirmed() ) {
+                    flags = popup.text();
+                    return true;
                 }
-                return true;
             }
-            if( event.get_first_input() == 'E' ) {
+            if( action == "EVERYTHING" ) {
                 spawn_everything = !spawn_everything;
                 return true;
             }
@@ -491,11 +521,11 @@ class wish_item_callback: public uilist_callback
             mvwhline( menu->window, point( startx, 1 ), ' ', menu->pad_right - 1 );
             const int entnum = menu->selected;
             if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
-                item tmp( standard_itype_ids[entnum], calendar::turn );
+                item tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
                 const std::string header = string_format( "#%d: %s%s%s", entnum,
                                            standard_itype_ids[entnum]->get_id().c_str(),
                                            incontainer ? _( " (contained)" ) : "",
-                                           has_flag ? _( " (flagged)" ) : "" );
+                                           flags.empty() ? "" : _( " (flagged)" ) );
                 mvwprintz( menu->window, point( startx + ( menu->pad_right - 1 - utf8_width( header ) ) / 2, 1 ),
                            c_cyan, header );
 
@@ -505,10 +535,12 @@ class wish_item_callback: public uilist_callback
 
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
             msg.erase();
-            input_context ctxt( menu->input_category );
+            input_context ctxt( menu->input_category, keyboard_mode::keycode );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
-                       _( "[%s] find, [f] container, [F] flag, [E] everything, [%s] quit" ),
-                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
+                       _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] quit" ),
+                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "CONTAINER" ),
+                       ctxt.get_desc( "FLAG" ), ctxt.get_desc( "EVERYTHING" ),
+                       ctxt.get_desc( "QUIT" ) );
             wnoutrefresh( menu->window );
         }
 };
@@ -538,6 +570,12 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     int prev_amount = 1;
     int amount = 1;
     uilist wmenu;
+    wmenu.input_category = "WISH_ITEM";
+    wmenu.additional_actions = {
+        { "CONTAINER", translation() },
+        { "FLAG", translation() },
+        { "EVERYTHING", translation() }
+    };
     wmenu.w_x_setup = 0;
     wmenu.w_width_setup = []() -> int {
         return TERMX;
@@ -564,19 +602,8 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         }
         bool did_amount_prompt = false;
         while( wmenu.ret >= 0 ) {
-            item granted( opts[wmenu.ret].second );
-            if( cb.incontainer ) {
-                granted = granted.in_its_container();
-            }
-            if( cb.has_flag ) {
-                granted.item_tags.insert( cb.flag );
-            }
-            // If the item has an ammunition, this loads it to capacity, including magazines.
-            if( !granted.ammo_default().is_null() ) {
-                granted.ammo_set( granted.ammo_default(), -1 );
-            }
+            item granted = wishitem_produce( *opts[wmenu.ret].second, cb.flags, cb.incontainer ) ;
 
-            granted.set_birthday( calendar::turn );
             prev_amount = amount;
             bool canceled = false;
             if( p != nullptr && !did_amount_prompt ) {
@@ -615,7 +642,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                     wmenu.ret = -1;
                 }
                 if( amount > 0 ) {
-                    input_context ctxt( wmenu.input_category );
+                    input_context ctxt( wmenu.input_category, keyboard_mode::keycode );
                     cb.msg = string_format( _( "Wish granted.  Wish for more or hit [%s] to quit." ),
                                             ctxt.get_desc( "QUIT" ) );
                 }
@@ -642,6 +669,10 @@ void debug_menu::wishskill( player *p )
     uilist skmenu;
     skmenu.text = _( "Select a skill to modify" );
     skmenu.allow_anykey = true;
+    skmenu.additional_actions = {
+        { "LEFT", to_translation( "Decrease skill" ) },
+        { "RIGHT", to_translation( "Increase skill" ) }
+    };
     skmenu.addentry( 0, true, '1', _( "Modify all skills…" ) );
 
     auto sorted_skills = Skill::get_skills_sorted_by( []( const Skill & a, const Skill & b ) {
@@ -665,12 +696,12 @@ void debug_menu::wishskill( player *p )
         int skill_id = -1;
         int skset = -1;
         const int sksel = skmenu.selected - skoffset;
-        if( skmenu.ret == UILIST_UNBOUND && ( skmenu.keypress == KEY_LEFT ||
-                                              skmenu.keypress == KEY_RIGHT ) ) {
+        if( skmenu.ret == UILIST_UNBOUND && ( skmenu.ret_act == "LEFT" ||
+                                              skmenu.ret_act == "RIGHT" ) ) {
             if( sksel >= 0 && sksel < static_cast<int>( sorted_skills.size() ) ) {
                 skill_id = sksel;
                 skset = p->get_skill_level( sorted_skills[skill_id]->ident() ) +
-                        ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
+                        ( skmenu.ret_act == "LEFT" ? -1 : 1 );
             }
         } else if( skmenu.ret >= 0 && sksel >= 0 &&
                    sksel < static_cast<int>( sorted_skills.size() ) ) {

@@ -461,7 +461,7 @@
     "name": { "str": "Rigid Table Manners" },
     "points": -1,
     "consume_time_modifier": 1.5,
-    "description": "You've been taught proper table manners from your early childhood on.  Now you can't even think about eating without a table or not taking your time.  Eating without it frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
+    "description": "You've been taught proper table manners from your early childhood on.  Now you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
     "starting_trait": true,
     "valid": false
   },
@@ -472,6 +472,7 @@
     "points": 1,
     "description": "You are less likely to throw up from food poisoning, alcohol, etc.  If you throw up nevertheless, you won't suffer a residual nausea.",
     "starting_trait": true,
+    "vomit_multiplier": 0.5,
     "changes_to": [ "NAUSEA" ],
     "//": "nope.  This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics.",
     "cancels": [ "WEAKSTOMACH" ]
@@ -527,7 +528,8 @@
     "starting_trait": true,
     "category": [ "MOUSE", "LUPINE" ],
     "valid": false,
-    "active": true
+    "active": true,
+    "stomach_size_multiplier": 2.0
   },
   {
     "type": "mutation",
@@ -679,11 +681,11 @@
     "//": "Can't change the ID as that breaks save-compatibility.",
     "name": { "str": "Scout" },
     "points": 1,
-    "description": "You're an excellent navigator and your ability to spot distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
+    "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
     "valid": false,
     "starting_trait": true,
     "category": [ "BIRD", "MOUSE" ],
-    "cancels": [ "MYOPIC", "UNOBSERVANT" ],
+    "cancels": [ "UNOBSERVANT" ],
     "overmap_sight": 5
   },
   {
@@ -714,7 +716,7 @@
     "id": "STRICT_HUMANITARIAN",
     "name": { "str": "Strict Humanitarian" },
     "points": 1,
-    "description": "You'd never eat people, but these things that look vaguely human from elsewhere are definitely not people.",
+    "description": "You're convinced that these things that look vaguely human from elsewhere are definitely not people.  Therefore it's okay to eat them, right?",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
@@ -888,7 +890,7 @@
     "points": -2,
     "description": "Without glasses, your seeing radius is severely reduced!  However, you are guaranteed to start with a pair of glasses.",
     "starting_trait": true,
-    "cancels": [ "URSINE_EYE", "EAGLEEYED" ],
+    "cancels": [ "URSINE_EYE" ],
     "category": [ "BEAST", "TROGLOBITE" ]
   },
   {
@@ -1279,9 +1281,9 @@
   {
     "type": "mutation",
     "id": "SCHIZOPHRENIC",
-    "name": { "str": "Schizophrenic" },
+    "name": { "str": "Kaluptic Psychosis" },
     "points": -3,
-    "description": "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
+    "description": "Ever since the sky first broke you have felt unwell, with your head split by alien thoughts.  You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
     "starting_trait": true,
     "valid": false,
     "category": [ "MEDICAL" ]
@@ -1372,6 +1374,7 @@
     "points": -1,
     "description": "You are more likely to throw up from food poisoning, alcohol, etc.",
     "starting_trait": true,
+    "vomit_multiplier": 2,
     "changes_to": [ "NAUSEA" ],
     "cancels": [ "STRONGSTOMACH" ]
   },
@@ -2294,7 +2297,8 @@
       {
         "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "bash": 8,
-        "cut": 8
+        "cut": 8,
+        "bullet": 1
       }
     ],
     "passive_mods": { "dex_mod": -1 }
@@ -2374,7 +2378,8 @@
       {
         "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "bash": 8,
-        "cut": 8
+        "cut": 8,
+        "bullet": 1
       }
     ],
     "passive_mods": { "dex_mod": -1 }
@@ -2535,7 +2540,7 @@
     "points": 9,
     "visibility": 12,
     "ugliness": 6,
-    "description": "You leaves are vibrant, large, and green, and have become a major source of nutrition for your body.  Whenever your arms and head are uncovered you will gain a large amount of nutrition by standing in the sunlight.  Reduces wet effects.",
+    "description": "Your leaves are vibrant, large, and green, and have become a major source of nutrition for your body.  Whenever your arms and head are uncovered you will gain a large amount of nutrition by standing in the sunlight.  Reduces wet effects.",
     "prereqs": [ "LEAVES2" ],
     "prereqs2": [ "TRANSPIRATION" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -2609,7 +2614,7 @@
     "points": 6,
     "visibility": 5,
     "ugliness": 3,
-    "description": "Local organisms seem to regard open spore-dispersal as a danger, and attack the Mycus.  Accordingly our local spore sacs remain quiescent, until local guidance determines that it is safe to germinate.  Rapid development taxes local nutrient reserves but ensures swift and effective growth.",
+    "description": "Local organisms seem to regard open spore-dispersal as a danger, and attack the Mycus.  Accordingly, our local spore sacs remain quiescent, until local guidance determines that it is safe to germinate.  Rapid development taxes local nutrient reserves but ensures swift and effective growth.",
     "valid": false,
     "changes_to": [ "M_PROVENANCE" ],
     "prereqs": [ "M_SPORES" ],
@@ -2644,7 +2649,7 @@
     "points": 6,
     "visibility": 10,
     "ugliness": 1,
-    "description": "Local organisms seem to regard open spore-dispersal as a danger, and attack the Mycus.  Accordingly our local blossoms remain quiescent, until local guidance determines that it is safe to germinate.  Rapid development taxes local nutrient reserves but ensures swift and effective growth.",
+    "description": "Local organisms seem to regard open spore-dispersal as a danger, and attack the Mycus.  Accordingly, our local blossoms remain quiescent, until local guidance determines that it is safe to germinate.  Rapid development taxes local nutrient reserves but ensures swift and effective growth.",
     "valid": false,
     "changes_to": [ "M_PROVENANCE" ],
     "cancels": [ "M_SPORES", "M_FERTILE" ],
@@ -2769,7 +2774,7 @@
     "cut_dmg_bonus": 3,
     "pierce_dmg_bonus": 3,
     "butchering_quality": 4,
-    "description": "Sharp claws are exten from the end of your fingers.",
+    "description": "Sharp claws are extending from the end of your fingers.",
     "transform": { "target": "CLAWS_RETRACT", "msg_transform": "You retract your claws.", "active": false, "moves": 10 },
     "cost": 0
   },
@@ -3075,7 +3080,7 @@
     "type": "mutation",
     "id": "HOOVES",
     "name": { "str": "Hooves" },
-    "points": -4,
+    "points": -1,
     "visibility": 2,
     "ugliness": 2,
     "mixed_effect": true,
@@ -3158,6 +3163,7 @@
     "description": "You seem to get full faster now, and food goes through you more rapidly as well.",
     "valid": false,
     "purifiable": false,
+    "stomach_size_multiplier": 0.9,
     "prereqs": [ "BEAK", "BEAK_PECK", "BEAK_HUM" ],
     "prereqs2": [ "LIGHTEATER" ],
     "threshreq": [ "THRESH_BIRD" ],
@@ -3564,7 +3570,8 @@
     "threshreq": [ "THRESH_URSINE" ],
     "category": [ "URSINE" ],
     "active": true,
-    "cost": 0
+    "cost": 0,
+    "stomach_size_multiplier": 3.0
   },
   {
     "type": "mutation",
@@ -3673,7 +3680,7 @@
     "id": "NOPAIN",
     "name": { "str": "Deadened" },
     "points": 2,
-    "description": "Nothing hurts any more.  Those bites tickle and the wounds itch a bit, but that's it.",
+    "description": "Nothing hurts anymore.  Those bites tickle and the wounds itch a bit, but that's it.",
     "valid": false,
     "purifiable": false,
     "prereqs": [ "MASOCHIST", "PAINRESIST" ],
@@ -4049,7 +4056,7 @@
     "id": "WEB_RAPPEL",
     "name": { "str": "Web Diver" },
     "points": 2,
-    "description": "Your webbing is easily strong enough to support your weight.  You'll use it to descend down any sheer drops you may encounter.",
+    "description": "Your webbing is easily strong enough to support your weight.  You'll use it to descend any sheer drops you may encounter.",
     "prereqs": [ "WEB_WEAVER" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ]
@@ -4129,6 +4136,7 @@
     "changes_to": [ "LARGE_OK", "HUGE" ],
     "category": [ "URSINE", "CATTLE", "LIZARD" ],
     "passive_mods": { "str_mod": 2 },
+    "stomach_size_multiplier": 1.5,
     "weight_capacity_modifier": 1.05
   },
   {
@@ -4146,6 +4154,7 @@
     "leads_to": [ "MUT_TOUGH" ],
     "category": [ "URSINE", "CATTLE", "LIZARD" ],
     "passive_mods": { "str_mod": 2 },
+    "stomach_size_multiplier": 1.5,
     "weight_capacity_modifier": 1.05
   },
   {
@@ -4167,6 +4176,7 @@
     "fatigue_modifier": 0.15,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
+    "stomach_size_multiplier": 2.0,
     "weight_capacity_modifier": 1.1
   },
   {
@@ -4187,6 +4197,7 @@
     "passive_mods": { "str_mod": 4 },
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
+    "stomach_size_multiplier": 2.0,
     "weight_capacity_modifier": 1.1
   },
   {
@@ -4484,6 +4495,7 @@
     "cancels": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "SMALL2" ],
     "category": [ "MOUSE" ],
+    "stomach_size_multiplier": 0.5,
     "hp_modifier": -0.05,
     "dodge_modifier": 1,
     "weight_capacity_modifier": 0.8
@@ -4500,6 +4512,7 @@
     "cancels": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "SMALL_OK" ],
     "category": [ "MOUSE" ],
+    "stomach_size_multiplier": 0.5,
     "hp_modifier": -0.3,
     "dodge_modifier": 2,
     "weight_capacity_modifier": 0.5,
@@ -4518,6 +4531,7 @@
     "purifiable": false,
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
+    "stomach_size_multiplier": 0.5,
     "hp_modifier": -0.25,
     "dodge_modifier": 2,
     "weight_capacity_modifier": 0.7,
@@ -4897,6 +4911,7 @@
     "name": { "str": "Nausea" },
     "points": -2,
     "description": "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.  You can, if desired, think yourself into vomiting, too.",
+    "vomit_multiplier": 3,
     "prereqs": [ "WEAKSTOMACH" ],
     "changes_to": [ "VOMITOUS", "EATPOISON" ],
     "category": [ "ALPHA" ],
@@ -4908,6 +4923,7 @@
     "name": { "str": "Vomitous" },
     "points": -3,
     "description": "You have a major digestive disorder.  Though it causes you to vomit frequently, you have found that you can trigger your vomit reflex on demand, too.",
+    "vomit_multiplier": 3,
     "prereqs": [ "NAUSEA" ],
     "changes_to": [ "EATPOISON" ],
     "category": [ "SLIME", "RAT", "MEDICAL", "ELFA" ],
@@ -5396,6 +5412,7 @@
     "description": "Your body is more or less one consistent whole: a single, giant, omni-cell that alters itself as needed.",
     "valid": false,
     "purifiable": false,
+    "stomach_size_multiplier": 3,
     "prereqs": [ "INT_SLIME" ],
     "prereqs2": [ "PER_SLIME_OK" ],
     "threshreq": [ "THRESH_SLIME" ],
@@ -5950,7 +5967,7 @@
     "points": -5,
     "visibility": 8,
     "ugliness": 3,
-    "description": "You have grown a thick shell over your torso, providing excellent armor.  You find you can use the empty space as 16 storage space, but cannot wear anything on your torso.  Somewhat reduces wet effects.",
+    "description": "You have grown a thick shell over your torso, providing excellent armor, but cannot wear anything on your torso.  Somewhat reduces wet effects.",
     "prereqs": [ "CHITIN" ],
     "cancels": [ "CHITIN3" ],
     "changes_to": [ "SHELL2" ],
@@ -5958,7 +5975,7 @@
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "restricts_gear": [ "torso" ],
     "destroys_gear": true,
-    "armor": [ { "parts": "torso", "bash": 6, "cut": 14 } ]
+    "armor": [ { "parts": "torso", "bash": 6, "cut": 14, "bullet": 4 } ]
   },
   {
     "type": "mutation",
@@ -5979,7 +5996,7 @@
     "active": true,
     "restricts_gear": [ "torso" ],
     "destroys_gear": true,
-    "armor": [ { "parts": "torso", "bash": 9, "cut": 17 } ]
+    "armor": [ { "parts": "torso", "bash": 9, "cut": 17, "bullet": 6 } ]
   },
   {
     "type": "mutation",
@@ -6153,7 +6170,7 @@
     "id": "THRESH_SPIDER",
     "name": { "str": "Arachnid" },
     "points": 1,
-    "description": "Well, maybe you'll just have to make your own world wide web.",
+    "description": "Well, maybe you'll just have to make your own world-wide web.",
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -6296,7 +6313,7 @@
     "points": 2,
     "visibility": 3,
     "ugliness": 4,
-    "description": "Like a true fish, your eyes lack eyelids, and are are instead covered by a translucent, protective membrane that blocks irritants and water, and provides minor armor.  It also allows you to sleep with your eyes open!  Activate to cause the approach of hostile creatures to wake you up.",
+    "description": "Like a true fish, your eyes lack eyelids, and are instead covered by a translucent, protective membrane that blocks irritants and water, and provides minor armor.  It also allows you to sleep with your eyes open!  Activate to cause the approach of hostile creatures to wake you up.",
     "category": [ "FISH" ],
     "threshreq": [ "THRESH_FISH" ],
     "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
@@ -6657,6 +6674,16 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_CLAIRVOYANCE_PLUS",
+    "name": { "str": "Debug Clairvoyance Plus" },
+    "points": 99,
+    "valid": false,
+    "description": "You can clearly see that this is for dev purposes only.",
+    "flags": [ "CLAIRVOYANCE_PLUS" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_CLOAK",
     "name": { "str": "Debug Invisibility" },
     "points": 99,
@@ -6729,15 +6756,6 @@
   },
   {
     "type": "mutation",
-    "id": "DEBUG_STORAGE",
-    "name": { "str": "Debug Very Strong Back" },
-    "points": 99,
-    "valid": false,
-    "description": "Lets you carry 15 bugs worth of your body weight in your mandibles.",
-    "debug": true
-  },
-  {
-    "type": "mutation",
     "id": "DEBUG_BIONICS",
     "name": { "str": "Debug Bionic Installation" },
     "points": 99,
@@ -6798,9 +6816,7 @@
     "name": { "str": "mute" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
-    "player_display": false,
-    "threshold": true
+    "description": "Trait that makes it impossible to say anything."
   },
   {
     "type": "mutation",

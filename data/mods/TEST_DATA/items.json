@@ -22,6 +22,24 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
+    "type": "TOOL_ARMOR",
+    "id": "test_ring_strength_1",
+    "weight": "4 g",
+    "volume": "1 ml",
+    "price": 5000,
+    "material": [ "copper" ],
+    "symbol": "[",
+    "color": "light_red",
+    "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
+    "coverage": 0,
+    "warmth": 0,
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ],
+    "name": { "str": "ring of strength +1", "str_pl": "rings of strength +1" },
+    "description": "A copper ring that makes you a little stronger when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ] }
+  },
+  {
     "id": "test_rag",
     "type": "TOOL",
     "category": "spare_parts",
@@ -33,7 +51,10 @@
     "material": [ "cotton" ],
     "symbol": ",",
     "color": "white",
-    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 5, "limb_power": 0 }, "WASH_HARD_ITEMS" ],
+    "use_action": [
+      { "type": "heal", "move_cost": 200, "used_up_item": { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] } },
+      "WASH_HARD_ITEMS"
+    ],
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -88,7 +109,7 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 20,
     "encumbrance": 2,
     "material_thickness": 2,
@@ -128,6 +149,93 @@
         "max_contains_weight": "1000 g",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "test_utility_belt",
+    "type": "ARMOR",
+    "name": { "str": "utility belt" },
+    "description": "Holy pockets, Batman!  This belt has all kinds of pockets for testing.",
+    "weight": "3 kg",
+    "volume": "4 L",
+    "price": 25000,
+    "price_postapoc": 9900,
+    "bashing": 5,
+    "material": [ "kevlar" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "yellow",
+    "covers": [ "TORSO" ],
+    "coverage": 30,
+    "encumbrance": 5,
+    "material_thickness": 4,
+    "pocket_data": [
+      {
+        "//": "Small pouch for a pocket knife, screwdriver, or multi-tool.  Just long enough for a test screwdriver, but not long enough for a sonic screwdriver.",
+        "holster": true,
+        "rigid": true,
+        "min_item_volume": "10 ml",
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "15 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "//": "Large holster for an axe or Halligan bar",
+        "holster": true,
+        "rigid": false,
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "4000 g",
+        "max_item_length": "80 cm",
+        "moves": 200,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "//": "Flexible water pouch for drinks or other liquid.  Integrated straw for fast access.",
+        "watertight": true,
+        "rigid": false,
+        "max_item_volume": "1 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "moves": 10
+      },
+      {
+        "//": "Pressure-tight canister for emergency oxygen supply or other gas.",
+        "airtight": true,
+        "rigid": true,
+        "max_item_volume": "1 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1 kg",
+        "moves": 100
+      },
+      {
+        "//": "Fire-proof pouch for thermite or other combustible materials.",
+        "rigid": false,
+        "fire_protection": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 150
+      },
+      {
+        "//": "Micro cooler to preserve snacks for long stakeouts.",
+        "rigid": true,
+        "spoil_multiplier": 0.5,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 150
+      },
+      {
+        "//": "Cryo-chamber to deep-freeze organic samples.  Small, but prevents spoiling indefinitely.",
+        "rigid": true,
+        "spoil_multiplier": 0.0,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "100 g",
+        "moves": 1000
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
@@ -244,7 +352,7 @@
     "qualities": [ [ "SCREW", 2 ], [ "SCREW_FINE", 1 ], [ "WRENCH", 1 ], [ "PRY", 2 ], [ "LOCKPICK", 30 ] ],
     "use_action": [ "PICK_LOCK" ],
     "flags": [ "SPEAR", "BELT_CLIP" ],
-    "min_skills": [ [ "electronics", 3 ], [ "lockpick", 2 ] ],
+    "min_skills": [ [ "electronics", 3 ], [ "traps", 2 ] ],
     "min_intelligence": 9,
     "min_perception": 5
   },
@@ -382,9 +490,27 @@
     "symbol": "[",
     "looks_like": "socks_wool",
     "color": "white",
-    "covers": [ "FEET" ],
+    "covers": [ "foot_l", "foot_r" ],
     "coverage": 100,
     "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
+    "id": "test_croc_socks",
+    "type": "ARMOR",
+    "name": { "str": "TEST pair of croc socks", "str_pl": "TEST pairs of croc socks" },
+    "description": "Goofy-looking socks with zero ankle coverage and lots of holes on top.  For testing only, nobody would actually wear these, right?",
+    "weight": "20 g",
+    "volume": "150 ml",
+    "price": 200,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "socks_wool",
+    "color": "green",
+    "covers": [ "foot_l", "foot_r" ],
+    "coverage": 50,
+    "warmth": 2,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
@@ -400,7 +526,7 @@
     "symbol": "[",
     "looks_like": "dress_shirt",
     "color": "blue",
-    "covers": [ "TORSO", "ARMS" ],
+    "covers": [ "torso", "arm_l", "arm_r" ],
     "coverage": 90,
     "encumbrance": 3,
     "warmth": 5,
@@ -435,13 +561,74 @@
     "symbol": "[",
     "looks_like": "beekeeping_suit",
     "color": "yellow",
-    "covers": [ "HEAD", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 37,
     "warmth": 40,
     "material_thickness": 2,
     "environmental_protection": 20,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
+  },
+  {
+    "id": "test_zentai",
+    "type": "ARMOR",
+    "name": { "str": "test zentai" },
+    "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 2500,
+    "price_postapoc": 50,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "coverage": 100,
+    "warmth": 20,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "test_sunglasses",
+    "repairs_like": "goggles_swim",
+    "type": "ARMOR",
+    "name": { "str": "test pair of sunglasses", "str_pl": "test pairs of sunglasses" },
+    "description": "When your tests are so bright, you have to wear shades.",
+    "weight": "35 g",
+    "volume": "250 ml",
+    "price": 5000,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "material": [ "glass", "plastic" ],
+    "symbol": "[",
+    "looks_like": "glasses_eye",
+    "color": "dark_gray",
+    "covers": [ "eyes" ],
+    "coverage": 85,
+    "encumbrance": 1,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "qualities": [ [ "GLARE", 1 ] ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ]
+  },
+  {
+    "id": "test_umbrella",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "test umbrella" },
+    "description": "A portable plastic dome to keep the rain and sun off.",
+    "weight": "141 g",
+    "volume": "1500 ml",
+    "price": 2400,
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "bashing": 6,
+    "cutting": 4,
+    "material": [ "plastic", "aluminum" ],
+    "ascii_picture": "umbrella",
+    "symbol": "/",
+    "color": "magenta",
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD" ]
   },
   {
     "id": "test_compbow",
@@ -557,6 +744,31 @@
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 14 ], [ "iron", 1 ] ]
   },
   {
+    "id": "test_egg",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "category": "food",
+    "name": { "str": "test egg" },
+    "description": "Test egg, very much like a bird egg, but a little too perfect.  Does not need to be cooked.",
+    "volume": "50 ml",
+    "weight": "40 g",
+    "color": "brown",
+    "spoils_in": "7 days",
+    "symbol": "o",
+    "quench": 4,
+    "healthy": 1,
+    "calories": 80,
+    "price": 44,
+    "price_postapoc": 50,
+    "material": [ "egg" ],
+    "fun": -8,
+    "//": "Omitting the RAW flag so calories will be taken at face value.",
+    "flags": [ "FREEZERBURN" ],
+    "rot_spawn": "GROUP_EGG_BIRD_WILD",
+    "vitamins": [ [ "vitA", 9 ], [ "calcium", 3 ], [ "iron", 4 ], [ "vitB", 21 ] ],
+    "rot_spawn_chance": 50
+  },
+  {
     "id": "test_jug_plastic",
     "type": "GENERIC",
     "category": "container",
@@ -595,7 +807,7 @@
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
-    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "material_thickness": 2 },
+    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 5, "material_thickness": 2 },
     "pocket_data": [
       {
         "max_item_volume": "15 ml",
@@ -638,6 +850,30 @@
     "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {
+    "id": "test_can_drink",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test aluminum can" },
+    "description": "A factory-sealed aluminum can for testing.",
+    "weight": "13 g",
+    "volume": "253 ml",
+    "material": [ "aluminum" ],
+    "symbol": ")",
+    "color": "light_blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "10 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ]
+  },
+  {
     "id": "test_backpack",
     "type": "ARMOR",
     "name": "TEST backpack",
@@ -650,7 +886,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "green",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 30,
     "encumbrance": 2,
     "max_encumbrance": 15,
@@ -674,7 +910,8 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 10,
     "encumbrance": 30,
     "pocket_data": [
@@ -703,7 +940,8 @@
     "symbol": "[",
     "looks_like": "bscabbard",
     "color": "brown",
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 10,
     "encumbrance": 3,
     "material_thickness": 1,
@@ -832,9 +1070,46 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "glockmag", "glockbigmag" ]
+        "item_restriction": [ "test_glockmag", "test_glockbigmag" ]
       }
     ]
+  },
+  {
+    "id": "test_glockmag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Test Glock magazine" },
+    "description": "Magazine exclusively designed for Test Glocks.",
+    "weight": "105 g",
+    "volume": "250 ml",
+    "price": 2900,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "9mm" ],
+    "capacity": 15,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+  },
+  {
+    "id": "test_glockbigmag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Test Glock extended magazine" },
+    "description": "30-round magazine exclusively for use with the Test Glock.",
+    "weight": "210 g",
+    "volume": "500 ml",
+    "price": 4700,
+    "price_postapoc": 500,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "9mm" ],
+    "capacity": 30,
+    "reload_time": 140,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ]
   },
   {
     "id": "test_9mm_ammo",
@@ -976,6 +1251,7 @@
     "volume": "750 ml",
     "price": 480,
     "price_postapoc": 250,
+    "install_time": "30 s",
     "to_hit": 1,
     "bashing": 3,
     "material": [ "steel" ],
@@ -1132,7 +1408,7 @@
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "light_gray",
-    "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 50,
     "pocket_data": [
@@ -1148,7 +1424,6 @@
     "power_armor": true,
     "material_thickness": 14,
     "environmental_protection": 16,
-    "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
   {
@@ -1238,7 +1513,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
-    "armor_portion_data": [ { "covers": [ "torso", "LEGS", "ARMS" ], "coverage": 95, "encumbrance": [ 12, 25 ] } ],
+    "armor_portion_data": [ { "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 12, 25 ] } ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -1265,7 +1540,7 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "brown",
-    "covers": [ "LEGS" ],
+    "covers": [ "leg_l", "leg_r" ],
     "coverage": 95,
     "encumbrance": 16,
     "max_encumbrance": 20,
@@ -1288,7 +1563,7 @@
     "name": { "str_sp": "faux fur pants" },
     "description": "A pair of long cotton pants lined with warm imitation fur.",
     "material": [ "faux_fur", "cotton" ],
-    "covers": [ "LEGS" ],
+    "covers": [ "leg_l", "leg_r" ],
     "warmth": 70
   },
   {
@@ -1303,5 +1578,174 @@
       { "covers": [ "arm_l", "leg_l", "head" ], "coverage": 50, "encumbrance": 5 }
     ],
     "warmth": 5
+  },
+  {
+    "id": "test_liquid_1ml",
+    "type": "AMMO",
+    "category": "fuel",
+    "ammo_type": "gasoline",
+    "phase": "liquid",
+    "name": { "str_sp": "test liquid" },
+    "description": "One milliliter liquid.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "light_gray"
+  },
+  {
+    "id": "test_solid_1ml",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "ammo_type": "components",
+    "name": { "str": "test solid" },
+    "description": "One milliliter solid.",
+    "volume": "1 ml",
+    "weight": "1 g",
+    "symbol": "?",
+    "color": "light_gray"
+  },
+  {
+    "id": "test_watertight_open_sealed_container_250ml",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test can" },
+    "description": "Some strange can from another dimension.  It can be worn on the waist.",
+    "weight": "13 g",
+    "volume": "253 ml",
+    "symbol": "?",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ],
+    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "test_watertight_open_sealed_multipocket_container_2x250ml",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test can" },
+    "description": "Some strange can from another dimension.",
+    "weight": "26 g",
+    "volume": "506 ml",
+    "symbol": "?",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ]
+  },
+  {
+    "id": "test_watertight_open_sealed_container_1L",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test jug" },
+    "description": "Some strange jug from another dimension.",
+    "weight": "52 g",
+    "volume": "1012 ml",
+    "symbol": "?",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "1 L",
+        "max_item_volume": "1 L",
+        "max_contains_weight": "4 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ],
+    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "test_watertight_open_sealed_multipocket_container_2x1L",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test jug with strap", "str_pl": "test jugs with strap" },
+    "description": "Some strange jug from another dimension.  It can be worn on the waist.",
+    "weight": "104 g",
+    "volume": "2024 ml",
+    "symbol": "?",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "1 L",
+        "max_item_volume": "1 L",
+        "max_contains_weight": "4 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "item_restriction": [ "test_watertight_open_sealed_multipocket_container_2x250ml", "test_solid_1ml" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "1 L",
+        "max_item_volume": "1 L",
+        "max_contains_weight": "4 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "item_restriction": [ "test_watertight_open_sealed_multipocket_container_2x250ml", "test_solid_1ml" ]
+      }
+    ],
+    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "test_restricted_container_holder",
+    "type": "ARMOR",
+    "name": { "str": "test restricted container holder" },
+    "description": "A backpack that somehow only holds specific containers.",
+    "weight": "208 g",
+    "volume": "4048 ml",
+    "symbol": "?",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "16 kg",
+        "item_restriction": [
+          "test_watertight_open_sealed_multipocket_container_2x1L",
+          "test_watertight_open_sealed_container_1L",
+          "test_watertight_open_sealed_container_250ml"
+        ]
+      }
+    ],
+    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "flags": [ "BELTED" ]
   }
 ]

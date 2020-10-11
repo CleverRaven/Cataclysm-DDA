@@ -7,7 +7,7 @@
       [ "weeks_old_newspaper", 25 ],
       [ "newest_newspaper", 25 ],
       [ "survnote", 5 ],
-      [ "rag_bloody", 20 ],
+      { "item": "rag", "prob": 20, "custom-flags": [ "FILTHY" ] },
       [ "rag", 20 ],
       [ "bag_plastic", 30 ],
       [ "necropolis_leaflet", 1 ]
@@ -94,8 +94,8 @@
       [ "hotplate", 10 ],
       [ "software_medical", 10 ],
       [ "funnel", 10 ],
-      [ "jar_glass", 30 ],
-      [ "jar_3l_glass", 15 ],
+      [ "jar_glass_sealed", 30 ],
+      [ "jar_3l_glass_sealed", 15 ],
       [ "pur_tablets", 20 ],
       [ "lye_powder", 20 ],
       [ "oxy_powder", 10 ],
@@ -119,28 +119,11 @@
     ]
   },
   {
-    "id": "virology_lab_fridge",
-    "type": "item_group",
-    "items": [
-      [ "blood", 300 ],
-      [ "vacutainer", 100 ],
-      [ "jar_glass", 30 ],
-      [ "jar_3l_glass", 15 ],
-      [ "hygrometer", 3 ],
-      [ "chem_nitric_acid", 15 ],
-      [ "denat_alcohol", 100 ],
-      [ "thermometer", 50 ],
-      [ "vaccine_shot", 50 ],
-      [ "flu_shot", 50 ],
-      [ "disinfectant", 35 ]
-    ]
-  },
-  {
     "id": "rocketry_lab",
     "type": "item_group",
     "items": [
       [ "funnel", 10 ],
-      [ "jar_glass", 30 ],
+      [ "jar_glass_sealed", 30 ],
       [ "adv_chemistry", 25 ],
       [ "radio", 10 ],
       { "group": "tools_toolbox", "prob": 10 },

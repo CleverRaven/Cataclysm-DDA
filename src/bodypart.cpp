@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <set>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -11,10 +12,7 @@
 #include "enum_conversions.h"
 #include "generic_factory.h"
 #include "json.h"
-#include "pldata.h"
 #include "type_id.h"
-
-static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 side opposite_side( side s )
 {
@@ -60,28 +58,6 @@ namespace
 generic_factory<body_part_type> body_part_factory( "body part" );
 
 } // namespace
-
-bool is_legacy_bodypart_id( const std::string &id )
-{
-    static const std::vector<std::string> legacy_body_parts = {
-        "TORSO",
-        "HEAD",
-        "EYES",
-        "MOUTH",
-        "ARM_L",
-        "ARM_R",
-        "HAND_L",
-        "HAND_R",
-        "LEG_L",
-        "LEG_R",
-        "FOOT_L",
-        "FOOT_R",
-        "NUM_BP",
-    };
-
-    return std::find( legacy_body_parts.begin(), legacy_body_parts.end(),
-                      id ) != legacy_body_parts.end();
-}
 
 static body_part legacy_id_to_enum( const std::string &legacy_id )
 {
@@ -155,11 +131,6 @@ bodypart_id string_id<body_part_type>::id() const
 template<>
 int_id<body_part_type>::int_id( const string_id<body_part_type> &id ) : _id( id.id() ) {}
 
-body_part get_body_part_token( const std::string &id )
-{
-    return legacy_id_to_enum( id );
-}
-
 const bodypart_str_id &convert_bp( body_part bp )
 {
     static const std::vector<bodypart_str_id> body_parts = {
@@ -175,7 +146,7 @@ const bodypart_str_id &convert_bp( body_part bp )
         bodypart_str_id( "leg_r" ),
         bodypart_str_id( "foot_l" ),
         bodypart_str_id( "foot_r" ),
-        bodypart_str_id( "num_bp" ),
+        bodypart_str_id( "bp_null" ),
     };
     if( bp > num_bp || bp < bp_torso ) {
         debugmsg( "Invalid body part token %d", bp );
@@ -185,14 +156,14 @@ const bodypart_str_id &convert_bp( body_part bp )
     return body_parts[static_cast<size_t>( bp )];
 }
 
-static const body_part_type &get_bp( body_part bp )
-{
-    return convert_bp( bp ).obj();
-}
-
 void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
 {
     body_part_factory.load( jo, src );
+}
+
+bool body_part_type::has_flag( const std::string &flag ) const
+{
+    return flags.count( flag ) > 0;
 }
 
 void body_part_type::load( const JsonObject &jo, const std::string & )
@@ -231,8 +202,18 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "legacy_id", legacy_id );
     token = legacy_id_to_enum( legacy_id );
 
+    optional( jo, was_loaded, "fire_warmth_bonus", fire_warmth_bonus, 0 );
+
     mandatory( jo, was_loaded, "main_part", main_part );
+    if( main_part == id ) {
+        mandatory( jo, was_loaded, "connected_to", connected_to );
+    } else {
+        connected_to = main_part;
+    }
     mandatory( jo, was_loaded, "opposite_part", opposite_part );
+
+    optional( jo, was_loaded, "smash_message", smash_message );
+    optional( jo, was_loaded, "smash_efficiency", smash_efficiency, 0.5f );
 
     optional( jo, was_loaded, "hot_morale_mod", hot_morale_mod, 0.0 );
     optional( jo, was_loaded, "cold_morale_mod", cold_morale_mod, 0.0 );
@@ -241,6 +222,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );
 
     optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );
+
+    optional( jo, was_loaded, "flags", flags );
 
     part_side = jo.get_enum_value<side>( "side" );
 }
@@ -273,7 +256,7 @@ void body_part_type::check_consistency()
 
 void body_part_type::check() const
 {
-    const auto &under_token = get_bp( token );
+    const body_part_type &under_token = convert_bp( token ).obj();
     if( this != &under_token ) {
         debugmsg( "Body part %s has duplicate token %d, mapped to %s", id.c_str(), token,
                   under_token.id.c_str() );
@@ -293,6 +276,21 @@ void body_part_type::check() const
 
     if( !opposite_part.is_valid() ) {
         debugmsg( "Body part %s has invalid opposite part %s.", id.c_str(), opposite_part.c_str() );
+    } else if( opposite_part->opposite_part != id ) {
+        debugmsg( "Bodypart %s has inconsistent opposite part!", id.str() );
+    }
+
+    // Check that connected_to leads eventually to the root bodypart (currently always head),
+    // without any loops
+    std::unordered_set<bodypart_str_id> visited = { id };
+    bodypart_str_id next = connected_to;
+    while( !visited.count( next ) ) {
+        visited.insert( next );
+        next = next->connected_to;
+    }
+
+    if( next != next->connected_to ) {
+        debugmsg( "Loop in body part connectedness starting from %s", id.str() );
     }
 }
 
@@ -319,39 +317,17 @@ std::string body_part_name_as_heading( const bodypart_id &bp, int number )
 
 std::string body_part_hp_bar_ui_text( const bodypart_id &bp )
 {
-    return _( bp->hp_bar_ui_text );
+    return bp->hp_bar_ui_text.translated();
 }
 
 std::string encumb_text( const bodypart_id &bp )
 {
-    const std::string &txt = bp->encumb_text;
-    return !txt.empty() ? _( txt ) : txt;
-}
-
-body_part random_body_part( bool main_parts_only )
-{
-    const auto &part = anatomy_human_anatomy->random_body_part();
-    return main_parts_only ? part->main_part->token : part->token;
-}
-
-body_part mutate_to_main_part( body_part bp )
-{
-    return get_bp( bp ).main_part->token;
-}
-
-body_part opposite_body_part( body_part bp )
-{
-    return get_bp( bp ).opposite_part->token;
-}
-
-std::string get_body_part_id( body_part bp )
-{
-    return get_bp( bp ).legacy_id;
+    return bp->encumb_text.translated();
 }
 
 body_part_set body_part_set::unify_set( const body_part_set &rhs )
 {
-    for( const  bodypart_str_id &i : rhs ) {
+    for( const bodypart_str_id &i : rhs ) {
         if( !test( i ) ) {
             set( i );
         }
@@ -362,7 +338,7 @@ body_part_set body_part_set::unify_set( const body_part_set &rhs )
 body_part_set body_part_set::intersect_set( const body_part_set &rhs )
 {
     body_part_set temp;
-    for( const  bodypart_str_id &j : rhs ) {
+    for( const bodypart_str_id &j : rhs ) {
         if( test( j ) ) {
             temp.set( j );
         }
@@ -374,7 +350,7 @@ body_part_set body_part_set::intersect_set( const body_part_set &rhs )
 
 body_part_set body_part_set::substract_set( const body_part_set &rhs )
 {
-    for( const  bodypart_str_id &j : rhs ) {
+    for( const bodypart_str_id &j : rhs ) {
         if( test( j ) ) {
             reset( j );
         }
@@ -441,7 +417,7 @@ int bodypart::get_damage_disinfected() const
     return damage_disinfected;
 }
 
-encumbrance_data bodypart::get_encumbrance_data() const
+const encumbrance_data &bodypart::get_encumbrance_data() const
 {
     return encumb_data;
 }
@@ -496,7 +472,7 @@ void bodypart::set_damage_disinfected( int set )
     damage_disinfected = set;
 }
 
-void bodypart::set_encumbrance_data( encumbrance_data set )
+void bodypart::set_encumbrance_data( const encumbrance_data &set )
 {
     encumb_data = set;
 }

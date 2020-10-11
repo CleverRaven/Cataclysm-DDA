@@ -1,5 +1,6 @@
 #include <algorithm>
-#include <cassert>
+#include <cstddef>
+#include <iterator>
 #include <list>
 #include <memory>
 #include <string>
@@ -9,16 +10,18 @@
 #include "advanced_inv_pagination.h"
 #include "advanced_inv_pane.h"
 #include "avatar.h"
-#include "inventory.h"
+#include "cata_assert.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_search.h"
 #include "map.h"
 #include "options.h"
-#include "player.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "vehicle.h"
+
+class item_category;
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
@@ -38,7 +41,7 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     const int i_location = ( get_option<bool>( "OPEN_DEFAULT_ADV_INV" ) ) ? saved_area_idx :
                            save_state->area_idx;
     const aim_location location = static_cast<aim_location>( i_location );
-    auto square = squares[location];
+    const advanced_inv_area square = squares[location];
     // determine the square's vehicle/map item presence
     bool has_veh_items = square.can_store_in_vehicle() ?
                          !square.veh->get_items( square.vstor ).empty() : false;
@@ -128,7 +131,7 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
 void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         bool vehicle_override )
 {
-    assert( square.id != AIM_ALL );
+    cata_assert( square.id != AIM_ALL );
     if( !square.canputitems() ) {
         return;
     }
@@ -214,8 +217,8 @@ void advanced_inventory_pane::fix_index()
 void advanced_inventory_pane::mod_index( int offset )
 {
     // 0 would make no sense
-    assert( offset != 0 );
-    assert( !items.empty() );
+    cata_assert( offset != 0 );
+    cata_assert( !items.empty() );
     index += offset;
     if( index < 0 ) {
         index = static_cast<int>( items.size() ) - 1;
@@ -227,7 +230,7 @@ void advanced_inventory_pane::mod_index( int offset )
 void advanced_inventory_pane::scroll_by( int offset )
 {
     // 0 would make no sense
-    assert( offset != 0 );
+    cata_assert( offset != 0 );
     if( items.empty() ) {
         return;
     }
@@ -237,7 +240,7 @@ void advanced_inventory_pane::scroll_by( int offset )
 void advanced_inventory_pane::scroll_page( int linesPerPage, int offset )
 {
     // only those two offsets are allowed
-    assert( offset == -1 || offset == +1 );
+    cata_assert( offset == -1 || offset == +1 );
     if( items.empty() ) {
         return;
     }
@@ -296,13 +299,13 @@ void advanced_inventory_pane::scroll_page( int linesPerPage, int offset )
 void advanced_inventory_pane::scroll_category( int offset )
 {
     // only those two offsets are allowed
-    assert( offset == -1 || offset == +1 );
+    cata_assert( offset == -1 || offset == +1 );
     if( items.empty() ) {
         return;
     }
     // index must already be valid!
-    assert( get_cur_item_ptr() != nullptr );
-    auto cur_cat = items[index].cat;
+    cata_assert( get_cur_item_ptr() != nullptr );
+    const item_category *cur_cat = items[index].cat;
     if( offset > 0 ) {
         while( items[index].cat == cur_cat ) {
             index++;

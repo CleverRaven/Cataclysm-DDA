@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <map>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -13,8 +14,9 @@
 #include "json.h"
 #include "magic.h"
 #include "optional.h"
+#include "string_id.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 class Character;
 class Creature;
@@ -112,6 +114,7 @@ class enchantment
             ALWAYS,
             UNDERGROUND,
             UNDERWATER,
+            ACTIVE, // the item, mutation, etc. is active
             NUM_CONDITION
         };
 
@@ -144,7 +147,8 @@ class enchantment
         bool is_active( const Character &guy, const item &parent ) const;
 
         // this enchantment has a valid item independent conditions
-        bool is_active( const Character &guy ) const;
+        // @active means the container for the enchantment is active, for comparison to active flag.
+        bool is_active( const Character &guy, bool active ) const;
 
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
@@ -164,7 +168,7 @@ class enchantment
         // casts all the hit_me_effects on self or a target depending on the enchantment definition
         void cast_hit_me( Character &caster, const Creature *target ) const;
 
-        std::set<trait_id> get_mutations() const {
+        const std::set<trait_id> &get_mutations() const {
             return mutations;
         }
     private:

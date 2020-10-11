@@ -146,7 +146,7 @@ time_duration field_entry::set_field_age( const time_duration &new_age )
 }
 
 field::field()
-    : _displayed_field_type( fd_null )
+    : _displayed_field_type( fd_null.id_or( INVALID_FIELD_TYPE_ID ) )
 {
 }
 
@@ -157,6 +157,9 @@ Good for checking for existence of a field: if(myfield.find_field(fd_fire)) woul
 */
 field_entry *field::find_field( const field_type_id &field_type_to_find )
 {
+    if( !_displayed_field_type ) {
+        return nullptr;
+    }
     const auto it = _field_type_list.find( field_type_to_find );
     if( it != _field_type_list.end() ) {
         return &it->second;
@@ -166,6 +169,9 @@ field_entry *field::find_field( const field_type_id &field_type_to_find )
 
 const field_entry *field::find_field_c( const field_type_id &field_type_to_find ) const
 {
+    if( !_displayed_field_type ) {
+        return nullptr;
+    }
     const auto it = _field_type_list.find( field_type_to_find );
     if( it != _field_type_list.end() ) {
         return &it->second;
@@ -189,14 +195,19 @@ Intensity defaults to 1, and age to 0 (permanent) if not specified.
 bool field::add_field( const field_type_id &field_type_to_add, const int new_intensity,
                        const time_duration &new_age )
 {
-    auto it = _field_type_list.find( field_type_to_add );
-    if( field_type_to_add.obj().priority >= _displayed_field_type.obj().priority ) {
-        _displayed_field_type = field_type_to_add;
+    // sanity check, we don't want to store fd_null
+    if( !field_type_to_add ) {
+        return false;
     }
+    auto it = _field_type_list.find( field_type_to_add );
     if( it != _field_type_list.end() ) {
         //Already exists, but lets update it. This is tentative.
         it->second.set_field_intensity( it->second.get_field_intensity() + new_intensity );
         return false;
+    }
+    if( !_displayed_field_type ||
+        field_type_to_add.obj().priority >= _displayed_field_type.obj().priority ) {
+        _displayed_field_type = field_type_to_add;
     }
     _field_type_list[field_type_to_add] = field_entry( field_type_to_add, new_intensity, new_age );
     return true;
@@ -215,12 +226,10 @@ bool field::remove_field( const field_type_id &field_to_remove )
 void field::remove_field( std::map<field_type_id, field_entry>::iterator const it )
 {
     _field_type_list.erase( it );
-    if( _field_type_list.empty() ) {
-        _displayed_field_type = fd_null;
-    } else {
-        _displayed_field_type = fd_null;
+    _displayed_field_type = fd_null;
+    if( !_field_type_list.empty() ) {
         for( auto &fld : _field_type_list ) {
-            if( fld.first.obj().priority >= _displayed_field_type.obj().priority ) {
+            if( !_displayed_field_type || fld.first.obj().priority >= _displayed_field_type.obj().priority ) {
                 _displayed_field_type = fld.first;
             }
         }
@@ -273,7 +282,7 @@ description_affix field::displayed_description_affix() const
 int field::total_move_cost() const
 {
     int current_cost = 0;
-    for( auto &fld : _field_type_list ) {
+    for( const auto &fld : _field_type_list ) {
         current_cost += fld.second.move_cost();
     }
     return current_cost;

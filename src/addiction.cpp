@@ -50,7 +50,7 @@ std::string enum_to_string<add_type>( add_type data )
 
 } // namespace io
 
-void marloss_add( Character &u, int in, const char *msg );
+static void marloss_add( Character &u, int in, const char *msg );
 
 void addict_effect( Character &u, addiction &add )
 {

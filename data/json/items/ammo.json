@@ -9,7 +9,7 @@
     "symbol": "=",
     "color": "yellow",
     "description": "Some free-floating battery charge.  This can be reloaded into rechargable battery cells, but can never be unloaded.",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
     "material": [ "iron" ],
     "effects": [ "COOKOFF" ],
     "volume": "250 ml",
@@ -31,6 +31,44 @@
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
     "ammo_type": "butane"
+  },
+  {
+    "type": "AMMO",
+    "id": "aerosol_paint",
+    "name": { "str_sp": "aerosol paint" },
+    "symbol": "~",
+    "description": "A paint that comes in a sealed, pressurized container and is released in an aerosol spray when a valve button is depressed.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "phase": "liquid",
+    "ammo_type": "aerosol_paint"
+  },
+  {
+    "type": "AMMO",
+    "id": "permanent_ink",
+    "name": { "str_sp": "permanent ink" },
+    "symbol": "~",
+    "description": "A ink comprises a main carrier solvent, a glyceride, a pyrrolidone, a resin and a colorant, making it water resistant.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "phase": "liquid",
+    "ammo_type": "permanent_ink"
+  },
+  {
+    "type": "AMMO",
+    "id": "candle_wax",
+    "name": { "str_sp": "candle wax" },
+    "symbol": "~",
+    "description": "A flammable solid substance used to make candles.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "ammo_type": "candle_wax"
   },
   {
     "type": "AMMO",
@@ -123,7 +161,7 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "A unit of currency equivalent to 0.01 US dollars.",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
     "volume": "0 ml",
     "ammo_type": "money"
   },
@@ -210,7 +248,7 @@
     "color": "white",
     "description": "A cleansing agent made into bars.",
     "volume": "250 ml",
-    "weight": "90 g",
+    "weight": "10 g",
     "ammo_type": "soap",
     "count": 10,
     "stack_size": 10
@@ -537,12 +575,13 @@
     "color": "dark_gray",
     "description": "Firearm-quality gunpowder, mixed without concern for composition, burn rate or shape.  It has been slightly ground to make its properties more uniform.  Only the truly desperate would attempt to reload with this.",
     "container": "bottle_plastic",
+    "sealed": false,
     "material": [ "powder" ],
     "flags": [ "TINDER" ],
     "volume": "250 ml",
-    "weight": "1 g",
+    "weight": "100 mg",
     "ammo_type": "components",
-    "count": 454,
+    "count": 4540,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -630,7 +669,7 @@
     "container": "bottle_plastic_small",
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
-    "weight": "1 g",
+    "weight": "2662 mg",
     "ammo_type": "components",
     "count": 200
   },
@@ -792,7 +831,7 @@
     "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
     "volume": "0 ml",
     "ammo_type": "NULL",
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [ "UNRECOVERABLE", "ZERO_WEIGHT" ]
   },
   {
     "type": "AMMO",
@@ -994,23 +1033,6 @@
   },
   {
     "type": "AMMO",
-    "id": "oxygen",
-    "category": "spare_parts",
-    "price": 12000,
-    "price_postapoc": 1000,
-    "//": "This seems like the larger medical tank, not an instant-use model with mask attached",
-    "name": { "str_sp": "oxygen" },
-    "symbol": "=",
-    "color": "light_gray",
-    "description": "A canister of oxygen.",
-    "material": [ "steel" ],
-    "volume": "2500 ml",
-    "weight": "1183 g",
-    "ammo_type": "oxygen",
-    "count": 10
-  },
-  {
-    "type": "AMMO",
     "id": "spiked_rocket",
     "price": 1000,
     "price_postapoc": 100,
@@ -1122,6 +1144,7 @@
     "symbol": "=",
     "color": "white",
     "container": "bottle_plastic",
+    "sealed": false,
     "description": "Mixture of oxygen and nitrogen in proportions suitable for diving.",
     "volume": "250 ml",
     "weight": "1 g",
@@ -1138,6 +1161,7 @@
     "symbol": "%",
     "color": "white",
     "container": "bottle_plastic",
+    "sealed": false,
     "description": "Dry chemical solution effective in extinguishing fires.",
     "volume": "250 ml",
     "weight": "1 g",
@@ -1224,5 +1248,17 @@
     "symbol": ",",
     "color": "yellow",
     "ammo_type": "components"
+  },
+  {
+    "type": "AMMO",
+    "id": "glowstick_juice",
+    "name": { "str_sp": "glowstick juice" },
+    "symbol": "~",
+    "description": "A mix of blue dye, base catalyst, and diphenyl oxalate used in glowsticks.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "ammo_type": "glowstick_juice"
   }
 ]

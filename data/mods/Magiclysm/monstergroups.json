@@ -16,6 +16,14 @@
       { "monster": "mon_troll", "freq": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
       { "monster": "mon_claygolem", "freq": 8, "cost_multiplier": 3 },
       { "monster": "mon_stonegolem", "freq": 4, "cost_multiplier": 5 },
+      {
+        "monster": "mon_loup_garou",
+        "freq": 4,
+        "cost_multiplier": 5,
+        "conditions": [ "NIGHT" ],
+        "pack_size": [ 2, 4 ],
+        "starts": 1500
+      },
       { "monster": "mon_irongolem", "freq": 2, "cost_multiplier": 8 },
       { "monster": "mon_demon_spiderling", "freq": 15, "cost_multiplier": 5, "pack_size": [ 3, 7 ] }
     ]

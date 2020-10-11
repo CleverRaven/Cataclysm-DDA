@@ -11,7 +11,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 5,
     "material_thickness": 2,
     "pocket_data": [
@@ -57,6 +57,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "3 L",
         "max_contains_weight": "9 kg",
+        "max_item_length": "70 cm",
         "moves": 90,
         "weight_multiplier": 0.5,
         "volume_multiplier": 0.35
@@ -65,6 +66,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "3 L",
         "max_contains_weight": "9 kg",
+        "max_item_length": "70 cm",
         "moves": 90,
         "weight_multiplier": 0.5,
         "volume_multiplier": 0.35
@@ -73,6 +75,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "3 L",
         "max_contains_weight": "9 kg",
+        "max_item_length": "70 cm",
         "moves": 90,
         "weight_multiplier": 0.5,
         "volume_multiplier": 0.35
@@ -81,6 +84,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "3 L",
         "max_contains_weight": "9 kg",
+        "max_item_length": "70 cm",
         "moves": 90,
         "weight_multiplier": 0.5,
         "volume_multiplier": 0.35
@@ -101,6 +105,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "5 L",
         "max_contains_weight": "12 kg",
+        "max_item_length": "125 cm",
         "moves": 80,
         "weight_multiplier": 0.3,
         "volume_multiplier": 0.2
@@ -109,6 +114,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "5 L",
         "max_contains_weight": "12 kg",
+        "max_item_length": "125 cm",
         "moves": 80,
         "weight_multiplier": 0.3,
         "volume_multiplier": 0.2
@@ -117,6 +123,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "5 L",
         "max_contains_weight": "12 kg",
+        "max_item_length": "125 cm",
         "moves": 80,
         "weight_multiplier": 0.3,
         "volume_multiplier": 0.2
@@ -125,6 +132,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "5 L",
         "max_contains_weight": "12 kg",
+        "max_item_length": "125 cm",
         "moves": 80,
         "weight_multiplier": 0.3,
         "volume_multiplier": 0.2
@@ -139,13 +147,14 @@
     "description": "A wide girdle that fits around your waist, you can sheath or holster any weapon into it in the blink of an eye, and it seemingly stores them somewhere else.",
     "coverage": 10,
     "encumbrance": 3,
+    "max_encumbrance": 3,
     "pocket_data": [
-      { "holster": true, "moves": 5, "max_contains_volume": "4 L", "max_contains_weight": "2500 g", "weight_multiplier": 0.0 },
       {
         "holster": true,
         "moves": 5,
         "max_contains_volume": "4 L",
         "max_contains_weight": "2500 g",
+        "max_item_length": "125 cm",
         "weight_multiplier": 0.0
       },
       {
@@ -153,6 +162,7 @@
         "moves": 5,
         "max_contains_volume": "4 L",
         "max_contains_weight": "2500 g",
+        "max_item_length": "125 cm",
         "weight_multiplier": 0.0
       },
       {
@@ -160,6 +170,15 @@
         "moves": 5,
         "max_contains_volume": "4 L",
         "max_contains_weight": "2500 g",
+        "max_item_length": "125 cm",
+        "weight_multiplier": 0.0
+      },
+      {
+        "holster": true,
+        "moves": 5,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "125 cm",
         "weight_multiplier": 0.0
       }
     ],
@@ -171,9 +190,16 @@
     "name": { "str": "technomancer's toolbelt" },
     "weight": "2000 g",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 2, "holster": true }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "70 cm",
+        "moves": 2,
+        "holster": true
+      }
     ],
     "symbol": "[",
     "description": "A custom-built leather utility belt that instantly creates any tool that you reach for.  Activate to sheathe/draw a weapon.",

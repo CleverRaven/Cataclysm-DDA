@@ -7,7 +7,7 @@
     "name": { "str": "crash axe" },
     "looks_like": "hatchet",
     "//": "Same stats as a hatchet, except it has prying instead of hammering.",
-    "description": "A short lightweight emergency tool with a quarter circular blade, a short pick opposite the blade and an insulated handle.  Used on airplanes to chop down or pry walls or cabinets to gain access in case of fire.",
+    "description": "A short lightweight emergency tool with a quarter circular blade, a short pick opposite the blade, and an insulated handle.  Used on airplanes to chop down or pry walls, or cabinets to gain access in case of fire.",
     "price": 2500,
     "price_postapoc": 750,
     "material": [ "steel" ],
@@ -69,7 +69,17 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
-    "use_action": [ "CROWBAR" ]
+    "use_action": [ "CROWBAR" ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "5500 g",
+        "max_item_length": "61 cm",
+        "moves": 150,
+        "item_restriction": [ "halligan" ],
+        "holster": true
+      }
+    ]
   },
   {
     "id": "halligan",
@@ -127,7 +137,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "throwable fire extinguisher" },
-    "description": "This is a fire extinguisher in grenade form.  While not as effective as a regular fire extinguisher, you can use it from a distance.  It has a plastic plug that can be pulled, but is primarely activated by heat, so just throw it into the flames.",
+    "description": "This is a fire extinguisher in grenade form.  While not as effective as a regular fire extinguisher, you can use it from a distance.  It has a plastic plug that can be pulled, but is primarily activated by heat, so just throw it into the flames.",
     "weight": "630 g",
     "volume": "250 ml",
     "price": 3000,

@@ -1,14 +1,16 @@
 #include "overmapbuffer.h"
 
 #include <algorithm>
-#include <cassert>
 #include <climits>
 #include <iterator>
 #include <list>
 #include <map>
+#include <tuple>
+#include <type_traits>
 
 #include "basecamp.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
@@ -23,6 +25,7 @@
 #include "int_id.h"
 #include "line.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
@@ -31,6 +34,7 @@
 #include "overmap_connection.h"
 #include "overmap_types.h"
 #include "path_info.h"
+#include "point.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
@@ -51,13 +55,13 @@ const city_reference city_reference::invalid{ nullptr, tripoint_abs_sm(), -1 };
 
 int city_reference::get_distance_from_bounds() const
 {
-    assert( city != nullptr );
+    cata_assert( city != nullptr );
     return distance - omt_to_sm_copy( city->size );
 }
 
 int camp_reference::get_distance_from_bounds() const
 {
-    assert( camp != nullptr );
+    cata_assert( camp != nullptr );
     return distance - omt_to_sm_copy( 4 );
 }
 
@@ -476,7 +480,7 @@ std::vector<om_vehicle> overmapbuffer::get_vehicle( const tripoint_abs_omt &p )
 
 void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_power )
 {
-    const auto radius = sig_power;
+    const int radius = sig_power;
     for( auto &om : get_overmaps_near( center, radius ) ) {
         const point_abs_sm abs_pos_om = project_to<coords::sm>( om->pos() );
         const tripoint_rel_sm rel_pos = center - abs_pos_om;
@@ -489,7 +493,7 @@ void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_
 void overmapbuffer::process_mongroups()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
-    const auto radius = MAPSIZE * 2;
+    const int radius = MAPSIZE * 2;
     // TODO: fix point types
     const tripoint_abs_sm center( get_player_character().global_sm_location() );
     for( auto &om : get_overmaps_near( center, radius ) ) {
@@ -500,7 +504,7 @@ void overmapbuffer::process_mongroups()
 void overmapbuffer::move_hordes()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
-    const auto radius = MAPSIZE * 2;
+    const int radius = MAPSIZE * 2;
     // TODO: fix point types
     const tripoint_abs_sm center( get_player_character().global_sm_location() );
     for( auto &om : get_overmaps_near( center, radius ) ) {
@@ -542,6 +546,8 @@ std::vector<mongroup *> overmapbuffer::groups_at( const tripoint_abs_sm &p )
     return result;
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-noreturn"
 std::array<std::array<scent_trace, 3>, 3> overmapbuffer::scents_near( const tripoint_abs_omt
         &origin )
 {
@@ -556,6 +562,7 @@ std::array<std::array<scent_trace, 3>, 3> overmapbuffer::scents_near( const trip
 
     return found_traces;
 }
+#pragma GCC diagnostic pop
 
 scent_trace overmapbuffer::scent_at( const tripoint_abs_omt &p )
 {
@@ -740,8 +747,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_npc_path(
                                  !is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) ) {
             return pf::rejected;
         }
-        if( ptype.only_water && ( !is_river_or_lake( oter ) ||
-                                  is_ot_match( "bridge", oter, ot_match_type::type ) ) ) {
+        if( ptype.only_water && !is_river_or_lake( oter ) ) {
             return pf::rejected;
         }
         if( ptype.only_air && ( !is_ot_match( "open_air", oter, ot_match_type::type ) ) ) {
@@ -1077,7 +1083,7 @@ cata::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
 
 void overmapbuffer::insert_npc( const shared_ptr_fast<npc> &who )
 {
-    assert( who );
+    cata_assert( who );
     const tripoint_abs_omt npc_omt_pos = who->global_omt_location();
     const point_abs_om npc_om_pos = project_to<coords::om>( npc_omt_pos.xy() );
     get( npc_om_pos ).insert_npc( who );
@@ -1209,7 +1215,7 @@ radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
     const tripoint_abs_sm center( get_player_character().global_sm_location() );
     for( auto &om : get_overmaps_near( center, RADIO_MAX_STRENGTH ) ) {
         for( auto &tower : om->radios ) {
-            const auto rref = create_radio_tower_reference( *om, tower, center );
+            const radio_tower_reference rref = create_radio_tower_reference( *om, tower, center );
             if( rref.signal_strength > 0 && tower.frequency == frequency ) {
                 return rref;
             }
@@ -1228,7 +1234,7 @@ std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
     const int radius = RADIO_MAX_STRENGTH;
     for( auto &om : get_overmaps_near( center, radius ) ) {
         for( auto &tower : om->radios ) {
-            const auto rref = create_radio_tower_reference( *om, tower, center );
+            const radio_tower_reference rref = create_radio_tower_reference( *om, tower, center );
             if( rref.signal_strength > 0 ) {
                 result.push_back( rref );
             }
@@ -1241,13 +1247,13 @@ std::vector<camp_reference> overmapbuffer::get_camps_near( const tripoint_abs_sm
         int radius )
 {
     std::vector<camp_reference> result;
-    for( const auto om : get_overmaps_near( location, radius ) ) {
+    for( overmap *om : get_overmaps_near( location, radius ) ) {
         result.reserve( result.size() + om->camps.size() );
         std::transform( om->camps.begin(), om->camps.end(), std::back_inserter( result ),
         [&]( basecamp & element ) {
             const tripoint_abs_omt camp_pt = element.camp_omt_pos();
             const tripoint_abs_sm camp_sm = project_to<coords::sm>( camp_pt );
-            const auto distance = rl_dist( camp_sm, location );
+            const int distance = rl_dist( camp_sm, location );
 
             return camp_reference{ &element, camp_sm, distance };
         } );
@@ -1264,7 +1270,7 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_overmap_npcs()
     std::vector<shared_ptr_fast<npc>> result;
     for( auto &om : overmaps ) {
         const overmap &overmap = *om.second;
-        for( auto &guy : overmap.npcs ) {
+        for( const auto &guy : overmap.npcs ) {
             result.push_back( guy );
         }
     }
@@ -1276,14 +1282,14 @@ std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint_abs_s
 {
     std::vector<city_reference> result;
 
-    for( const auto om : get_overmaps_near( location, radius ) ) {
+    for( overmap *om : get_overmaps_near( location, radius ) ) {
         result.reserve( result.size() + om->cities.size() );
         std::transform( om->cities.begin(), om->cities.end(), std::back_inserter( result ),
         [&]( city & element ) {
             const auto rel_pos_city = project_to<coords::sm>( element.pos );
             const auto abs_pos_city =
                 tripoint_abs_sm( project_combine( om->pos(), rel_pos_city ), 0 );
-            const auto distance = rl_dist( abs_pos_city, location );
+            const int distance = rl_dist( abs_pos_city, location );
 
             return city_reference{ &element, abs_pos_city, distance };
         } );
@@ -1334,7 +1340,7 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
         return ter_name;
     }
 
-    const auto closest_cref = closest_known_city( where );
+    const city_reference closest_cref = closest_known_city( where );
 
     if( !closest_cref ) {
         return ter_name;
@@ -1397,14 +1403,14 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
         // is stored *after* it has gone out of bounds during shifting. When reloading
         // we only need the part that tells where on the submap to put it.
         point ms( modulo( this_monster.posx(), SEEX ), modulo( this_monster.posy(), SEEY ) );
-        assert( ms.x >= 0 && ms.x < SEEX );
-        assert( ms.y >= 0 && ms.y < SEEX );
+        cata_assert( ms.x >= 0 && ms.x < SEEX );
+        cata_assert( ms.y >= 0 && ms.y < SEEX );
         // TODO: fix point types
         ms += project_to<coords::ms>( p.xy() ).raw();
         const map &here = get_map();
         // The monster position must be local to the main map when added to the game
         const tripoint local = tripoint( here.getlocal( ms ), p.z() );
-        assert( here.inbounds( local ) );
+        cata_assert( here.inbounds( local ) );
         monster *const placed = g->place_critter_at( make_shared_fast<monster>( this_monster ),
                                 local );
         if( placed ) {

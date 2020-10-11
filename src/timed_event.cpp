@@ -5,6 +5,7 @@
 
 #include "avatar.h"
 #include "avatar_action.h"
+#include "character.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -57,7 +58,7 @@ void timed_event::actualize()
             break;
 
         case timed_event_type::ROBOT_ATTACK: {
-            const auto u_pos = player_character.global_sm_location();
+            const tripoint u_pos = player_character.global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
@@ -70,7 +71,7 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::SPAWN_WYRMS: {
-            if( g->get_levz() >= 0 ) {
+            if( here.get_abs_sub().z >= 0 ) {
                 return;
             }
             get_memorial().add(
@@ -252,7 +253,7 @@ void timed_event::per_turn()
     switch( type ) {
         case timed_event_type::WANTED: {
             // About once every 5 minutes. Suppress in classic zombie mode.
-            if( g->get_levz() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
+            if( here.get_abs_sub().z >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
                 point place = here.random_outdoor_tile();
                 if( place.x == -1 && place.y == -1 ) {
                     // We're safely indoors!
@@ -269,7 +270,7 @@ void timed_event::per_turn()
         break;
 
         case timed_event_type::SPAWN_WYRMS:
-            if( g->get_levz() >= 0 ) {
+            if( here.get_abs_sub().z >= 0 ) {
                 when -= 1_turns;
                 return;
             }

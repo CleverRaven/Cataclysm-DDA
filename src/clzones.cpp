@@ -7,9 +7,10 @@
 #include <string>
 #include <tuple>
 
-#include "avatar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "construction.h"
+#include "construction_group.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "faction.h"
@@ -25,9 +26,9 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "memory_fast.h"
 #include "output.h"
 #include "path_info.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -43,76 +44,76 @@ static const item_category_id item_category_food( "food" );
 zone_manager::zone_manager()
 {
     types.emplace( zone_type_id( "NO_AUTO_PICKUP" ),
-                   zone_type( translate_marker( "No Auto Pickup" ),
-                              translate_marker( "You won't auto-pickup items inside the zone." ) ) );
+                   zone_type( to_translation( "No Auto Pickup" ),
+                              to_translation( "You won't auto-pickup items inside the zone." ) ) );
     types.emplace( zone_type_id( "NO_NPC_PICKUP" ),
-                   zone_type( translate_marker( "No NPC Pickup" ),
-                              translate_marker( "Friendly NPCs don't pickup items inside the zone." ) ) );
+                   zone_type( to_translation( "No NPC Pickup" ),
+                              to_translation( "Friendly NPCs don't pickup items inside the zone." ) ) );
     types.emplace( zone_type_id( "NPC_RETREAT" ),
-                   zone_type( translate_marker( "NPC Retreat" ),
-                              translate_marker( "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles." ) ) );
+                   zone_type( to_translation( "NPC Retreat" ),
+                              to_translation( "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles." ) ) );
     types.emplace( zone_type_id( "NPC_NO_INVESTIGATE" ),
-                   zone_type( translate_marker( "NPC Ignore Sounds" ),
-                              translate_marker( "Friendly NPCs won't investigate unseen sounds coming from this zone." ) ) );
+                   zone_type( to_translation( "NPC Ignore Sounds" ),
+                              to_translation( "Friendly NPCs won't investigate unseen sounds coming from this zone." ) ) );
     types.emplace( zone_type_id( "NPC_INVESTIGATE_ONLY" ),
-                   zone_type( translate_marker( "NPC Investigation Area" ),
-                              translate_marker( "Friendly NPCs will investigate unseen sounds only if they come from inside this area." ) ) );
+                   zone_type( to_translation( "NPC Investigation Area" ),
+                              to_translation( "Friendly NPCs will investigate unseen sounds only if they come from inside this area." ) ) );
 
     for( const zone_type &zone : zone_type::get_all() ) {
         types.emplace( zone.id, zone );
     }
 
     types.emplace( zone_type_id( "SOURCE_FIREWOOD" ),
-                   zone_type( translate_marker( "Source: Firewood" ),
-                              translate_marker( "Source for firewood or other flammable materials in this zone may be used to automatically refuel fires.  "
+                   zone_type( to_translation( "Source: Firewood" ),
+                              to_translation( "Source for firewood or other flammable materials in this zone may be used to automatically refuel fires.  "
                                       "This will be done to maintain light during long-running tasks such as crafting, reading or waiting." ) ) );
     types.emplace( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
-                   zone_type( translate_marker( "Construction: Blueprint" ),
-                              translate_marker( "Designate a blueprint zone for construction." ) ) );
+                   zone_type( to_translation( "Construction: Blueprint" ),
+                              to_translation( "Designate a blueprint zone for construction." ) ) );
     types.emplace( zone_type_id( "FARM_PLOT" ),
-                   zone_type( translate_marker( "Farm: Plot" ),
-                              translate_marker( "Designate a farm plot for tilling and planting." ) ) );
+                   zone_type( to_translation( "Farm: Plot" ),
+                              to_translation( "Designate a farm plot for tilling and planting." ) ) );
     types.emplace( zone_type_id( "CHOP_TREES" ),
-                   zone_type( translate_marker( "Chop Trees" ),
-                              translate_marker( "Designate an area to chop down trees." ) ) );
+                   zone_type( to_translation( "Chop Trees" ),
+                              to_translation( "Designate an area to chop down trees." ) ) );
     types.emplace( zone_type_id( "FISHING_SPOT" ),
-                   zone_type( translate_marker( "Fishing Spot" ),
-                              translate_marker( "Designate an area to fish from." ) ) );
+                   zone_type( to_translation( "Fishing Spot" ),
+                              to_translation( "Designate an area to fish from." ) ) );
     types.emplace( zone_type_id( "MINING" ),
-                   zone_type( translate_marker( "Mine Terrain" ),
-                              translate_marker( "Designate an area to mine." ) ) );
+                   zone_type( to_translation( "Mine Terrain" ),
+                              to_translation( "Designate an area to mine." ) ) );
     types.emplace( zone_type_id( "VEHICLE_DECONSTRUCT" ),
-                   zone_type( translate_marker( "Vehicle Deconstruct Zone" ),
-                              translate_marker( "Any vehicles in this area are marked for deconstruction." ) ) );
+                   zone_type( to_translation( "Vehicle Deconstruct Zone" ),
+                              to_translation( "Any vehicles in this area are marked for deconstruction." ) ) );
     types.emplace( zone_type_id( "VEHICLE_REPAIR" ),
-                   zone_type( translate_marker( "Vehicle Repair Zone" ),
-                              translate_marker( "Any vehicles in this area are marked for repair work." ) ) );
+                   zone_type( to_translation( "Vehicle Repair Zone" ),
+                              to_translation( "Any vehicles in this area are marked for repair work." ) ) );
     types.emplace( zone_type_id( "VEHICLE_PATROL" ),
-                   zone_type( translate_marker( "Vehicle Patrol Zone" ),
-                              translate_marker( "Vehicles with an autopilot will patrol in this zone." ) ) );
+                   zone_type( to_translation( "Vehicle Patrol Zone" ),
+                              to_translation( "Vehicles with an autopilot will patrol in this zone." ) ) );
     types.emplace( zone_type_id( "CAMP_STORAGE" ),
-                   zone_type( translate_marker( "Basecamp: Storage" ),
-                              translate_marker( "Items in this zone will be added to a basecamp's inventory for use by it's workers." ) ) );
+                   zone_type( to_translation( "Basecamp: Storage" ),
+                              to_translation( "Items in this zone will be added to a basecamp's inventory for use by it's workers." ) ) );
     types.emplace( zone_type_id( "CAMP_FOOD" ),
-                   zone_type( translate_marker( "Basecamp: Food" ),
-                              translate_marker( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
+                   zone_type( to_translation( "Basecamp: Food" ),
+                              to_translation( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
     types.emplace( zone_type_id( "AUTO_EAT" ),
-                   zone_type( translate_marker( "Auto Eat" ),
-                              translate_marker( "Items in this zone will be automatically eaten during a long activity if you get hungry." ) ) );
+                   zone_type( to_translation( "Auto Eat" ),
+                              to_translation( "Items in this zone will be automatically eaten during a long activity if you get hungry." ) ) );
     types.emplace( zone_type_id( "AUTO_DRINK" ),
-                   zone_type( translate_marker( "Auto Drink" ),
-                              translate_marker( "Items in this zone will be automatically consumed during a long activity if you get thirsty." ) ) );
+                   zone_type( to_translation( "Auto Drink" ),
+                              to_translation( "Items in this zone will be automatically consumed during a long activity if you get thirsty." ) ) );
 
 }
 
 std::string zone_type::name() const
 {
-    return _( name_ );
+    return name_.translated();
 }
 
 std::string zone_type::desc() const
 {
-    return _( desc_ );
+    return desc_.translated();
 }
 
 namespace
@@ -146,7 +147,7 @@ void zone_type::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "id", id );
-    optional( jo, was_loaded, "description", desc_, "" );
+    optional( jo, was_loaded, "description", desc_, translation() );
 }
 
 shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
@@ -192,7 +193,7 @@ construction_id blueprint_options::get_final_construction(
             continue;
         }
         const construction &con_next = list_constructions[i];
-        if( con.description == con_next.description &&
+        if( con.group == con_next.group &&
             con.post_terrain == con_next.pre_terrain ) {
             skip_index.insert( idx );
             return get_final_construction( list_constructions, construction_id( i ), skip_index );
@@ -212,11 +213,11 @@ blueprint_options::query_con_result blueprint_options::query_con()
 
         const construction &chosen = con_index.obj();
 
-        const std::string &chosen_desc = chosen.description;
+        const construction_group_str_id &chosen_group = chosen.group;
         const std::string &chosen_mark = chosen.post_terrain;
 
-        if( con_index != index || chosen_desc != con || chosen_mark != mark ) {
-            con = chosen_desc;
+        if( con_index != index || chosen_group != group || chosen_mark != mark ) {
+            group = chosen_group;
             mark = chosen_mark;
             index = con_index;
             return changed;
@@ -254,7 +255,7 @@ plot_options::query_seed_result plot_options::query_seed()
     std::vector<item *> seed_inv = player_character.items_with( []( const item & itm ) {
         return itm.is_seed();
     } );
-    auto &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
     const std::unordered_set<tripoint> &zone_src_set = mgr.get_near( zone_type_id( "LOOT_SEEDS" ),
             here.getabs( player_character.pos() ), 60 );
@@ -363,8 +364,8 @@ bool plot_options::query()
 
 std::string blueprint_options::get_zone_name_suggestion() const
 {
-    if( !con.empty() ) {
-        return con;
+    if( group ) {
+        return group->name();
     }
 
     return _( "No construction" );
@@ -373,7 +374,7 @@ std::string blueprint_options::get_zone_name_suggestion() const
 std::string plot_options::get_zone_name_suggestion() const
 {
     if( !seed.is_empty() ) {
-        auto type = itype_id( seed );
+        const itype_id type = itype_id( seed );
         item it = item( type );
         if( it.is_seed() ) {
             return it.type->seed->plant_name.translated();
@@ -390,7 +391,7 @@ std::vector<std::pair<std::string, std::string>> blueprint_options::get_descript
     std::vector<std::pair<std::string, std::string>> options =
                 std::vector<std::pair<std::string, std::string>>();
     options.emplace_back( std::make_pair( _( "Construct: " ),
-                                          !con.empty() ? con : _( "No Construction" ) ) );
+                                          group ? group->name() : _( "No Construction" ) ) );
 
     return options;
 }
@@ -408,14 +409,14 @@ std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions(
 void blueprint_options::serialize( JsonOut &json ) const
 {
     json.member( "mark", mark );
-    json.member( "con", con );
+    json.member( "group", group );
     json.member( "index", index.id() );
 }
 
 void blueprint_options::deserialize( const JsonObject &jo_zone )
 {
     jo_zone.read( "mark", mark );
-    jo_zone.read( "con", con );
+    jo_zone.read( "group", group );
     if( jo_zone.has_int( "index" ) ) {
         // Oops, saved incorrectly as an int id by legacy code. Just load it and hope for the best
         index = construction_id( jo_zone.get_int( "index" ) );
@@ -499,7 +500,7 @@ bool zone_data::set_type()
 {
     const auto maybe_type = zone_manager::get_manager().query_type();
     if( maybe_type.has_value() && maybe_type.value() != type ) {
-        auto new_options = zone_options::create( maybe_type.value() );
+        shared_ptr_fast<zone_options> new_options = zone_options::create( maybe_type.value() );
         if( new_options->query_at_creation() ) {
             zone_manager::get_manager().zone_edited( *this );
             type = maybe_type.value();
@@ -508,6 +509,8 @@ bool zone_data::set_type()
             return true;
         }
     }
+    // False positive from memory leak detection on shared_ptr_fast
+    // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
     return false;
 }
 
@@ -565,7 +568,7 @@ void zone_manager::cache_data()
 {
     area_cache.clear();
 
-    for( auto &elem : zones ) {
+    for( const zone_data &elem : zones ) {
         if( !elem.get_enabled() ) {
             continue;
         }
@@ -584,8 +587,9 @@ void zone_manager::cache_data()
 void zone_manager::cache_vzones()
 {
     vzone_cache.clear();
-    auto vzones = get_map().get_vehicle_zones( g->get_levz() );
-    for( auto elem : vzones ) {
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
+    for( zone_data *elem : vzones ) {
         if( !elem->get_enabled() ) {
             continue;
         }
@@ -663,7 +667,7 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint &where, in
                              const faction_id &fac ) const
 {
     const auto &point_set = get_point_set( type, fac );
-    for( auto &point : point_set ) {
+    for( const tripoint &point : point_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
                 return true;
@@ -672,7 +676,7 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint &where, in
     }
 
     const auto &vzone_set = get_vzone_set( type, fac );
-    for( auto &point : vzone_set ) {
+    for( const tripoint &point : vzone_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
                 return true;
@@ -707,7 +711,8 @@ const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_ty
             return &zone;
         }
     }
-    auto vzones = get_map().get_vehicle_zones( g->get_levz() );
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
     for( const zone_data *zone : vzones ) {
         if( zone->has_inside( where ) && zone->get_type() == type ) {
             return zone;
@@ -718,7 +723,7 @@ const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_ty
 
 bool zone_manager::custom_loot_has( const tripoint &where, const item *it ) const
 {
-    auto zone = get_zone_at( where, zone_type_id( "LOOT_CUSTOM" ) );
+    const zone_data *zone = get_zone_at( where, zone_type_id( "LOOT_CUSTOM" ) );
     if( !zone || !it ) {
         return false;
     }
@@ -735,7 +740,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     const auto &point_set = get_point_set( type, fac );
     auto near_point_set = std::unordered_set<tripoint>();
 
-    for( auto &point : point_set ) {
+    for( const tripoint &point : point_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
                 if( it && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
@@ -750,7 +755,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     }
 
     const auto &vzone_set = get_vzone_set( type, fac );
-    for( auto &point : vzone_set ) {
+    for( const tripoint &point : vzone_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
                 if( it && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
@@ -898,9 +903,10 @@ const zone_data *zone_manager::get_bottom_zone( const tripoint &where,
             return &zone;
         }
     }
-    auto vzones = get_map().get_vehicle_zones( g->get_levz() );
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
     for( auto it = vzones.rbegin(); it != vzones.rend(); ++it ) {
-        const auto zone = *it;
+        const zone_data *zone = *it;
         if( zone->get_faction() != fac ) {
             continue;
         }
@@ -923,7 +929,8 @@ void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &moun
     //create a vehicle loot zone
     new_zone.set_is_vehicle( true );
     auto nz = vehicle.loot_zones.emplace( mount_point, new_zone );
-    get_map().register_vehicle_zone( &vehicle, g->get_levz() );
+    map &here = get_map();
+    here.register_vehicle_zone( &vehicle, here.get_abs_sub().z );
     vehicle.zones_dirty = false;
     added_vzones.push_back( &nz->second );
     cache_vzones();
@@ -1051,9 +1058,10 @@ std::vector<zone_manager::ref_zone_data> zone_manager::get_zones( const faction_
         }
     }
 
-    auto vzones = get_map().get_vehicle_zones( g->get_levz() );
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
 
-    for( auto zone : vzones ) {
+    for( zone_data *zone : vzones ) {
         if( zone->get_faction() == fac ) {
             zones.emplace_back( *zone );
         }
@@ -1067,15 +1075,16 @@ std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones(
 {
     auto zones = std::vector<ref_const_zone_data>();
 
-    for( auto &zone : this->zones ) {
+    for( const zone_data &zone : this->zones ) {
         if( zone.get_faction() == fac ) {
             zones.emplace_back( zone );
         }
     }
 
-    auto vzones = get_map().get_vehicle_zones( g->get_levz() );
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
 
-    for( auto zone : vzones ) {
+    for( zone_data *zone : vzones ) {
         if( zone->get_faction() == fac ) {
             zones.emplace_back( *zone );
         }
@@ -1201,21 +1210,21 @@ void zone_manager::zone_edited( zone_data &zone )
 void zone_manager::revert_vzones()
 {
     map &here = get_map();
-    for( auto zone : removed_vzones ) {
+    for( zone_data zone : removed_vzones ) {
         //Code is copied from add() to avoid yn query
         if( const cata::optional<vpart_reference> vp = here.veh_at( here.getlocal(
                     zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
             zone.set_is_vehicle( true );
             vp->vehicle().loot_zones.emplace( vp->mount(), zone );
             vp->vehicle().zones_dirty = false;
-            here.register_vehicle_zone( &vp->vehicle(), g->get_levz() );
+            here.register_vehicle_zone( &vp->vehicle(), here.get_abs_sub().z );
             cache_vzones();
         }
     }
     for( const auto &zpair : changed_vzones ) {
         *( zpair.second ) = zpair.first;
     }
-    for( auto zone : added_vzones ) {
+    for( zone_data *zone : added_vzones ) {
         remove( *zone );
     }
 }

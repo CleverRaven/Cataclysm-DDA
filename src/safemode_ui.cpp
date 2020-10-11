@@ -143,7 +143,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         };
 
         int tmpx = 0;
-        for( auto &hotkey : hotkeys ) {
+        for( const std::string &hotkey : hotkeys ) {
             tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( hotkey ) ) + 2;
         }
 
@@ -220,7 +220,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             if( i >= start_pos &&
                 i < start_pos + std::min( content_height, static_cast<int>( current_tab.size() ) ) ) {
 
-                auto rule = current_tab[i];
+                safemode::rules_class rule = current_tab[i];
 
                 nc_color line_color = ( rule.active ) ? c_white : c_light_gray;
 
@@ -417,7 +417,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                     current_tab[line].proximity = get_option<int>( "SAFEMODEPROXIMITY" );
                 } else {
                     //Let the options class handle the validity of the new value
-                    auto temp_option = get_options().get_option( "SAFEMODEPROXIMITY" );
+                    options_manager::cOpt temp_option = get_options().get_option( "SAFEMODEPROXIMITY" );
                     temp_option.setValue( text );
                     current_tab[line].proximity = atoi( temp_option.getValue().c_str() );
                 }
@@ -655,7 +655,7 @@ void safemode::add_rules( const std::vector<rules_class> &rules_in )
 {
     //if a specific monster is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all monsters also
-    for( auto &rule : rules_in ) {
+    for( const rules_class &rule : rules_in ) {
         switch( rule.category ) {
             case Categories::HOSTILE_SPOTTED:
                 if( !rule.whitelist ) {
@@ -817,8 +817,8 @@ void safemode::serialize( JsonOut &json ) const
 {
     json.start_array();
 
-    auto &temp_rules = ( is_character ) ? character_rules : global_rules;
-    for( auto &elem : temp_rules ) {
+    const std::vector<rules_class> &temp_rules = is_character ? character_rules : global_rules;
+    for( const rules_class &elem : temp_rules ) {
         json.start_object();
 
         json.member( "rule", elem.rule );

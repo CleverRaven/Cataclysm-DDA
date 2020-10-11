@@ -1,12 +1,16 @@
 #include "weather_type.h"
-#include "weather.h"
-#include "game_constants.h"
+
+#include <cstdlib>
+#include <set>
+
+#include "assign.h"
+#include "debug.h"
+#include "generic_factory.h"
 
 namespace
 {
 generic_factory<weather_type> weather_type_factory( "weather_type" );
 } // namespace
-
 
 namespace io
 {
@@ -158,13 +162,8 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     assign( jo, "color", color );
     assign( jo, "map_color", map_color );
 
-    std::string glyph;
-    mandatory( jo, was_loaded, "glyph", glyph );
-    if( glyph.size() != 1 ) {
-        jo.throw_error( "glyph must be only one character" );
-    } else {
-        glyph = glyph[0];
-    }
+    mandatory( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader );
+
     mandatory( jo, was_loaded, "ranged_penalty", ranged_penalty );
     mandatory( jo, was_loaded, "sight_penalty", sight_penalty );
     mandatory( jo, was_loaded, "light_modifier", light_modifier );
@@ -209,7 +208,8 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         optional( weather_effect_jo, was_loaded, "trait_id_to_add", effect.trait_id_to_add );
         optional( weather_effect_jo, was_loaded, "trait_id_to_remove", effect.trait_id_to_remove );
         optional( weather_effect_jo, was_loaded, "target_part", effect.target_part );
-        optional( weather_effect_jo, was_loaded, "damage", effect.damage, 0 );
+        assign( weather_effect_jo, "damage", effect.damage );
+
         for( const JsonObject field_jo : weather_effect_jo.get_array( "fields" ) ) {
             weather_field new_field;
             mandatory( field_jo, was_loaded, "type", new_field.type );
@@ -236,21 +236,14 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         }
         effects.emplace_back( effect );
     }
-    weather_animation = { 0.0f, c_white, '?' };
     if( jo.has_member( "weather_animation" ) ) {
         JsonObject weather_animation_jo = jo.get_object( "weather_animation" );
-        weather_animation_t animation;
-        mandatory( weather_animation_jo, was_loaded, "factor", animation.factor );
-        if( !assign( weather_animation_jo, "color", animation.color ) ) {
+        mandatory( weather_animation_jo, was_loaded, "factor", weather_animation.factor );
+        if( !assign( weather_animation_jo, "color", weather_animation.color ) ) {
             weather_animation_jo.throw_error( "missing mandatory member \"color\"" );
         }
-        mandatory( weather_animation_jo, was_loaded, "glyph", glyph );
-        if( glyph.size() != 1 ) {
-            weather_animation_jo.throw_error( "glyph must be only one character" );
-        } else {
-            animation.glyph = glyph[0];
-        }
-        weather_animation = animation;
+        mandatory( weather_animation_jo, was_loaded, "sym", weather_animation.symbol,
+                   unicode_codepoint_from_symbol_reader );
     }
 
     requirements = {};
@@ -268,7 +261,6 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         optional( weather_requires, was_loaded, "windpower_max", new_requires.windpower_max, INT_MAX );
         optional( weather_requires, was_loaded, "humidity_and_pressure", new_requires.humidity_and_pressure,
                   true );
-        optional( weather_requires, was_loaded, "acidic", new_requires.acidic, false );
         optional( weather_requires, was_loaded, "time", new_requires.time,
                   weather_time_requirement_type::both );
         for( const std::string &required_weather :
@@ -319,4 +311,3 @@ void weather_types::load( const JsonObject &jo, const std::string &src )
 {
     weather_type_factory.load( jo, src );
 }
-

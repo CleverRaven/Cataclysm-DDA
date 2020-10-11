@@ -1,0 +1,165 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_UTILIBOT",
+    "default": "mon_utilibot",
+    "monsters": [
+      { "monster": "mon_utilibot_fire", "freq": 200, "cost_multiplier": 3 },
+      { "monster": "mon_hazmatbot", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_utilibot_const", "freq": 200, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SEWER",
+    "monsters": [
+      { "monster": "mon_utilibot", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_utilibot_const", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TURRET",
+    "default": "mon_turret_rifle",
+    "monsters": [ { "monster": "mon_laserturret_xray", "freq": 50, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB",
+    "auto_total": true,
+    "default": "mon_zombie_scientist",
+    "monsters": [
+      { "monster": "mon_utilibot", "freq": 5, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_secubot", "freq": 0, "cost_multiplier": 10 },
+      { "monster": "mon_milbot_556", "freq": 1, "cost_multiplier": 10 },
+      { "monster": "mon_milbot_8x40mm", "freq": 1, "cost_multiplier": 10 },
+      { "monster": "mon_milbot_needle", "freq": 1, "cost_multiplier": 10 },
+      { "monster": "mon_laserturret_xray", "freq": 2, "cost_multiplier": 20 },
+      { "monster": "mon_medibot", "freq": 5, "cost_multiplier": 3, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTRAL_LAB",
+    "auto_total": true,
+    "default": "mon_zombie_scientist",
+    "monsters": [
+      { "monster": "mon_secubot", "freq": 0, "cost_multiplier": 10 },
+      { "monster": "mon_utilibot", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_milbot_556", "freq": 1, "cost_multiplier": 10 },
+      { "monster": "mon_milbot_308", "freq": 1, "cost_multiplier": 20 },
+      { "monster": "mon_milbot_8x40mm", "freq": 1, "cost_multiplier": 10 },
+      { "monster": "mon_milbot_needle", "freq": 1, "cost_multiplier": 10 },
+      { "monster": "mon_advbot_laser", "freq": 2, "cost_multiplier": 20 },
+      { "monster": "mon_medibot", "freq": 3, "cost_multiplier": 3 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROBOT",
+    "auto_total": true,
+    "default": "mon_manhack",
+    "monsters": [
+      { "monster": "mon_medibot", "freq": 3, "cost_multiplier": 0 },
+      { "monster": "mon_skitterbot", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_defbot_shot", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_milbot_556", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_milbot_308", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_milbot_8x40mm", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_milbot_needle", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_milbot_flame", "freq": 1, "cost_multiplier": 0 },
+      { "monster": "mon_advbot_laser", "freq": 20, "cost_multiplier": 0 },
+      { "monster": "mon_advbot_plasma", "freq": 1, "cost_multiplier": 0 },
+      { "monster": "mon_molebot", "freq": 0, "cost_multiplier": 0 },
+      { "monster": "mon_tripod", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0, "starts": 1086 },
+      { "monster": "mon_chickenbot", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_bloodhound_drone", "freq": 220, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_PUBLICWORKERS",
+    "default": "mon_zombie_electric",
+    "monsters": [
+      { "monster": "mon_utilibot", "freq": 10, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_utilibot_const", "freq": 10, "cost_multiplier": 0, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SMALL_STATION",
+    "default": "mon_zombie_technician",
+    "monsters": [
+      { "monster": "mon_utilibot", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_utilibot_const", "freq": 10, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LARGE_STATION",
+    "default": "mon_zombie_technician",
+    "monsters": [
+      { "monster": "mon_utilibot", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_utilibot_const", "freq": 10, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROBOT_EYEBOT",
+    "default": "mon_eyebot",
+    "monsters": [ { "monster": "mon_eyebot", "freq": 100, "cost_multiplier": 0 } ]
+  },
+  {
+    "name": "GROUP_MANSION",
+    "type": "monstergroup",
+    "default": "mon_zombie",
+    "monsters": [ { "monster": "mon_utilibot_butler", "freq": 20, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_HOSPITAL",
+    "default": "mon_null",
+    "//": "Hospital monster spawns.  Same as GROUP_ZOMBIE, but without Z-dogs.",
+    "monsters": [ { "monster": "mon_medibot", "freq": 15, "cost_multiplier": 20, "pack_size": [ 2, 3 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FIRE",
+    "default": "mon_zombie_fireman",
+    "monsters": [ { "monster": "mon_utilibot_fire", "freq": 200, "cost_multiplier": 2, "pack_size": [ 4, 6 ] } ]
+  },
+  {
+    "name": "GROUP_NECROPOLIS_ROBOT",
+    "type": "monstergroup",
+    "default": "mon_chickenbot",
+    "monsters": [ { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MIL_BASE",
+    "monsters": [
+      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MAYBE_MIL",
+    "monsters": [
+      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MIL_STRONG",
+    "monsters": [
+      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
+    ]
+  }
+]

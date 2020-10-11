@@ -14,9 +14,11 @@
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "dark_gray",
-    "covers": [ "LEGS", "TORSO", "ARMS" ],
-    "coverage": 75,
-    "encumbrance": 20,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": 20 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 75, "encumbrance": 20 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 75, "encumbrance": 20 }
+    ],
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 1,
@@ -37,10 +39,10 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "pink",
-    "covers": [ "LEGS", "TORSO", "ARMS" ],
-    "coverage": 90,
-    "encumbrance": 17,
-    "max_encumbrance": 30,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 17, 30 ] },
+      { "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 17, 20 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 120 },
@@ -65,10 +67,11 @@
     "symbol": "[",
     "looks_like": "wolfsuit",
     "color": "light_green",
-    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 26,
-    "max_encumbrance": 30,
+    "armor_portion_data": [
+      { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 26, 30 ] },
+      { "covers": [ "mouth", "eyes" ], "coverage": 95, "encumbrance": [ 26, 26 ] },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
+    ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
     "warmth": 50,
     "material_thickness": 5,
@@ -89,10 +92,11 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "yellow",
-    "covers": [ "LEGS", "ARMS", "TORSO" ],
-    "coverage": 95,
-    "encumbrance": 1,
-    "max_encumbrance": 2,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
@@ -117,10 +121,11 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "yellow",
-    "covers": [ "LEGS", "ARMS", "TORSO" ],
-    "coverage": 95,
-    "encumbrance": 1,
-    "max_encumbrance": 2,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -156,10 +161,11 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "yellow",
-    "covers": [ "LEGS", "ARMS", "TORSO" ],
-    "coverage": 95,
-    "encumbrance": 3,
-    "max_encumbrance": 7,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 3, 7 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 2, 2 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 60, "encumbrance": [ 2, 5 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
@@ -181,9 +187,10 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_gray",
-    "covers": [ "TORSO", "ARMS", "LEGS" ],
-    "coverage": 95,
-    "encumbrance": 3,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 3 },
+      { "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 90, "encumbrance": 3 }
+    ],
     "warmth": 35,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
@@ -193,32 +200,18 @@
     "type": "ARMOR",
     "name": { "str": "wolf suit" },
     "description": "A full body fursuit in the form of an anthropomorphic wolf.  It is quite encumbering and has little storage but is very warm.",
-    "weight": "7033 g",
-    "volume": "12 L",
-    "price": 14500,
-    "price_postapoc": 50,
-    "to_hit": -3,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "dinosuit",
+    "copy-from": "dinosuit",
     "color": "light_gray",
-    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 26,
-    "max_encumbrance": 30,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
     ],
-    "warmth": 50,
-    "material_thickness": 7,
-    "environmental_protection": 2,
-    "flags": [ "OUTER" ]
+    "material_thickness": 7
   },
   {
     "id": "wool_suit",
     "type": "ARMOR",
-    "name": { "str": "wool suit" },
+    "name": { "str": "thick wool onesie" },
     "description": "An encumbering wool suit covered in nice patterns.  It looks like full body armor but it only protects against cold, sadly.",
     "weight": "883 g",
     "volume": "3 L",
@@ -229,9 +222,12 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
-    "covers": [ "TORSO", "HEAD", "ARMS", "LEGS", "FEET" ],
-    "coverage": 95,
-    "encumbrance": 20,
+    "armor_portion_data": [
+      { "covers": [ "torso", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 20 },
+      { "covers": [ "head" ], "coverage": 60, "encumbrance": 15 },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 15 }
+    ],
     "warmth": 50,
     "material_thickness": 3,
     "flags": [ "VARSIZE" ]
@@ -248,7 +244,7 @@
     "material": [ "lycra" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 100,
     "warmth": 20,
     "material_thickness": 1,

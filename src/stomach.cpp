@@ -13,21 +13,6 @@
 #include "units.h"
 #include "vitamin.h"
 
-static const trait_id trait_GIZZARD( "GIZZARD" );
-static const trait_id trait_GOURMAND( "GOURMAND" );
-static const trait_id trait_HIBERNATE( "HIBERNATE" );
-static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
-
-//size mutations now affect this, so we have to define them first
-static const trait_id trait_SMALL( "SMALL" );
-static const trait_id trait_SMALL2( "SMALL2" );
-static const trait_id trait_SMALL_OK( "SMALL_OK" );
-static const trait_id trait_LARGE( "LARGE" );
-static const trait_id trait_LARGE_OK( "LARGE_OK" );
-static const trait_id trait_HUGE( "HUGE" );
-static const trait_id trait_HUGE_OK( "HUGE_OK" );
-//done defining, the new things start at line 184
-
 void nutrients::min_in_place( const nutrients &r )
 {
     kcal = std::min( kcal, r.kcal );
@@ -167,44 +152,7 @@ void stomach_contents::deserialize( JsonIn &json )
 
 units::volume stomach_contents::capacity( const Character &owner ) const
 {
-    float max_mod = 1;
-    if( owner.has_trait( trait_GIZZARD ) ) {
-        max_mod *= 0.9;
-    }
-    if( owner.has_active_mutation( trait_HIBERNATE ) ) {
-        max_mod *= 3;
-    }
-    if( owner.has_active_mutation( trait_GOURMAND ) ) {
-        max_mod *= 2;
-    }
-    if( owner.has_trait( trait_SLIMESPAWNER ) ) {
-        max_mod *= 3;
-    }
-
-    //Huge, for example, makes you roughly x2 larger, so stomach size is doubled
-    //The scientifically correct approach would be x8 stomach size, due to square-cube law, but that would break the game
-    //The same 'square-cube law is ignored for balance' reasoning is applied to the other size category mutations
-    // -ungen
-
-    //else if because they're mutually exclusive, that way we save a lot of uneccesary checks -ungen
-    if( owner.has_trait( trait_SMALL_OK ) ) {
-        max_mod *= 0.5;
-    } else if( owner.has_trait( trait_SMALL2 ) ) {
-        max_mod *= 0.5;
-    } else if( owner.has_trait( trait_SMALL ) ) {
-        max_mod *= 0.75;
-    } else if( owner.has_trait( trait_LARGE ) ) {
-        max_mod *= 1.5;
-    } else if( owner.has_trait( trait_LARGE_OK ) ) {
-        max_mod *= 1.5;
-    } else if( owner.has_trait( trait_HUGE ) ) {
-        max_mod *= 2;
-    } else if( owner.has_trait( trait_HUGE_OK ) ) {
-        max_mod *= 2;
-    }
-    //I thought this would be a lot harder to code, boy I was wrong -ungen
-
-    return max_volume * max_mod;
+    return max_volume * owner.mutation_value( "stomach_size_multiplier" );
 }
 
 units::volume stomach_contents::stomach_remaining( const Character &owner ) const

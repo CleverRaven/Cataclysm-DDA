@@ -6,6 +6,8 @@
 #include <string>
 
 #include "field_type.h"
+#include "int_id.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -62,7 +64,7 @@ class emit
 
     private:
         emit_id id_;
-        field_type_id field_ = fd_null;
+        field_type_id field_ = fd_null.id_or( INVALID_FIELD_TYPE_ID );
         int intensity_ = 1;
         int qty_ = 1;
         int chance_ = 100;

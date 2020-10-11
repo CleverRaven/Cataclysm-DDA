@@ -2,8 +2,10 @@
 #ifndef CATA_SRC_TYPE_ID_H
 #define CATA_SRC_TYPE_ID_H
 
+// IWYU pragma: begin_exports
 #include "int_id.h"
 #include "string_id.h"
+// IWYU pragma: end_exports
 
 class achievement;
 using achievement_id = string_id<achievement>;
@@ -27,6 +29,9 @@ using bodypart_str_id = string_id<body_part_type>;
 
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
+
+struct construction_group;
+using construction_group_str_id = string_id<construction_group>;
 
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
@@ -144,6 +149,9 @@ using start_location_id = string_id<start_location>;
 class move_mode;
 using move_mode_id = string_id<move_mode>;
 
+struct mutation_category_trait;
+using mutation_category_id = string_id<mutation_category_trait>;
+
 class proficiency;
 using proficiency_id = string_id<proficiency>;
 
@@ -194,5 +202,9 @@ using snippet_id = string_id<translation>;
 struct construction;
 using construction_id = int_id<construction>;
 using construction_str_id = string_id<construction>;
+
+class json_flag;
+using flag_id = int_id<json_flag>;
+using flag_str_id = string_id<json_flag>;
 
 #endif // CATA_SRC_TYPE_ID_H

@@ -55,7 +55,7 @@ struct affected_type {
 
     private:
         affected_stat stat = affected_stat::NONE;
-        damage_type type = damage_type::DT_NULL;
+        damage_type type = damage_type::NONE;
 };
 
 // This is the bonus we are indexing

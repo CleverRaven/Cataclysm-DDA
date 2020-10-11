@@ -1,14 +1,16 @@
+#include "catch/catch.hpp"
+#include "map_memory.h"
+
 #include <bitset>
 #include <cstdio>
 #include <sstream>
 #include <string>
+#include <type_traits>
 
-#include "catch/catch.hpp"
 #include "game_constants.h"
 #include "json.h"
 #include "lru_cache.h"
 #include "map.h"
-#include "map_memory.h"
 #include "point.h"
 
 static constexpr tripoint p1{ tripoint_above };
@@ -157,8 +159,8 @@ static void check_quadrants( std::bitset<MAPSIZE *SEEX *MAPSIZE *SEEY> &test_cac
     }
 }
 
-constexpr size_t first_twelve = SEEX;
-constexpr size_t last_twelve = ( SEEX *MAPSIZE ) - SEEX;
+static constexpr size_t first_twelve = SEEX;
+static constexpr size_t last_twelve = ( SEEX *MAPSIZE ) - SEEX;
 
 TEST_CASE( "shift_map_memory_seen_cache" )
 {

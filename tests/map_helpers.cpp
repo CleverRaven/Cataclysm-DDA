@@ -1,23 +1,18 @@
 #include "map_helpers.h"
 
-#include <cassert>
 #include <memory>
-#include <string>
-#include <utility>
 #include <vector>
 
-#include "character.h"
-#include "field.h"
+#include "cata_assert.h"
 #include "game.h"
 #include "game_constants.h"
+#include "location.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "npc.h"
 #include "point.h"
 #include "type_id.h"
-
-class vehicle;
 
 // Remove all vehicles from the map
 void clear_vehicles()
@@ -32,8 +27,8 @@ void wipe_map_terrain()
 {
     map &here = get_map();
     const int mapsize = here.getmapsize() * SEEX;
-    for( int z = 0; z <= OVERMAP_HEIGHT; ++z ) {
-        ter_id terrain = z == 0 ? t_grass : t_open_air;
+    for( int z = -1; z <= OVERMAP_HEIGHT; ++z ) {
+        ter_id terrain = z == 0 ? t_grass : z < 0 ? t_rock : t_open_air;
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
                 here.set( { x, y, z}, terrain, f_null );
@@ -110,13 +105,13 @@ void clear_map_and_put_player_underground()
 {
     clear_map();
     // Make sure the player doesn't block the path of the monster being tested.
-    get_player_character().setpos( { 0, 0, -2 } );
+    get_player_location().setpos( { 0, 0, -2 } );
 }
 
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
 {
     monster *const added = g->place_critter_at( mtype_id( monster_type ), start );
-    assert( added );
+    cata_assert( added );
     return *added;
 }
 
@@ -135,4 +130,13 @@ void build_test_map( const ter_id &terrain )
 
     here.invalidate_map_cache( 0 );
     here.build_map_cache( 0, true );
+}
+
+void player_add_headlamp()
+{
+    item headlamp( "wearable_light_on" );
+    item battery( "light_battery_cell" );
+    battery.ammo_set( battery.ammo_default(), -1 );
+    headlamp.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+    get_player_character().worn.push_back( headlamp );
 }

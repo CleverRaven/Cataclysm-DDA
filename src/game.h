@@ -33,9 +33,12 @@
 #include "type_id.h"
 #include "weather.h"
 
+class Character;
 class Creature_tracker;
 class item;
+class location;
 class spell_events;
+class viewer;
 
 static constexpr int DEFAULT_TILESET_ZOOM = 16;
 
@@ -47,17 +50,10 @@ static const std::string SAVE_EXTENSION_LOG( ".log" );
 static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
 static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 
-extern bool test_mode;
-
 // The reference to the one and only game instance.
 class game;
 
 extern std::unique_ptr<game> g;
-
-extern bool use_tiles;
-extern bool fov_3d;
-extern int fov_3d_z_range;
-extern bool tile_iso;
 
 extern const int core_version;
 
@@ -88,10 +84,7 @@ enum safe_mode_type {
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
 };
 
-enum body_part : int;
 enum action_id : int;
-
-struct special_game;
 
 class achievements_tracker;
 class avatar;
@@ -106,20 +99,21 @@ class player;
 class save_t;
 class scenario;
 class stats_tracker;
-template<typename Tripoint>
-class tripoint_range;
 class vehicle;
 struct WORLD;
+struct special_game;
+template<typename Tripoint>
+class tripoint_range;
 
 using WORLDPTR = WORLD *;
 class live_view;
 class loading_ui;
 class overmap;
 class scent_map;
+class static_popup;
 class timed_event_manager;
-struct visibility_variables;
-
 class ui_adaptor;
+struct visibility_variables;
 
 using item_filter = std::function<bool ( const item & )>;
 
@@ -155,6 +149,8 @@ class game
         friend map &get_map();
         friend Character &get_player_character();
         friend avatar &get_avatar();
+        friend location &get_player_location();
+        friend viewer &get_player_view();
         friend weather_manager &get_weather();
         friend const scenario *get_scenario();
         friend void set_scenario( const scenario *new_scenario );
@@ -566,10 +562,6 @@ class game
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
-        void process_artifact( item &it, player &p );
-        void add_artifact_messages( const std::vector<art_effect_passive> &effects );
-        void add_artifact_dreams( );
-
         void peek();
         void peek( const tripoint &p );
         cata::optional<tripoint> look_debug();
@@ -641,13 +633,6 @@ class game
         */
         bool take_screenshot( const std::string &file_path ) const;
 
-        /**
-         * The top left corner of the reality bubble (in submaps coordinates). This is the same
-         * as @ref map::abs_sub of the @ref m map.
-         */
-        int get_levx() const;
-        int get_levy() const;
-        int get_levz() const;
         /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap
          * coordinates.
@@ -941,6 +926,7 @@ class game
             { ACTION_DISPLAY_VISIBILITY, false },
             { ACTION_DISPLAY_LIGHTING, false },
             { ACTION_DISPLAY_RADIATION, false },
+            { ACTION_DISPLAY_TRANSPARENCY, false },
         };
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
@@ -948,6 +934,7 @@ class game
         void display_visibility(); // Displays visibility map
         void display_lighting(); // Displays lighting conditions heat map
         void display_radiation(); // Displays radiation map
+        void display_transparency(); // Displays transparency map
 
         Creature *is_hostile_within( int distance );
 
@@ -1088,6 +1075,8 @@ class game
                 const tripoint &last, bool iso );
 
         weak_ptr_fast<ui_adaptor> main_ui_adaptor;
+
+        std::unique_ptr<static_popup> wait_popup;
     public:
         /** Used to implement mouse "edge scrolling". Returns a
          *  tripoint which is a vector of the resulting "move", i.e.

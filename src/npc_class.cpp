@@ -60,7 +60,7 @@ const npc_class_id NC_BARTENDER( "NC_BARTENDER" );
 const npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
 const npc_class_id NC_HALLU( "NC_HALLU" );
 
-generic_factory<npc_class> npc_class_factory( "npc_class" );
+static generic_factory<npc_class> npc_class_factory( "npc_class" );
 
 /** @relates string_id */
 template<>
@@ -112,7 +112,7 @@ void apply_all_to_unassigned( T &skills )
 
 void npc_class::finalize_all()
 {
-    for( auto &cl_const : npc_class_factory.get_all() ) {
+    for( const npc_class &cl_const : npc_class_factory.get_all() ) {
         auto &cl = const_cast<npc_class &>( cl_const );
         apply_all_to_unassigned( cl.skills );
         apply_all_to_unassigned( cl.bonus_skills );
@@ -135,7 +135,7 @@ void npc_class::check_consistency()
         }
     }
 
-    for( auto &cl : npc_class_factory.get_all() ) {
+    for( const npc_class &cl : npc_class_factory.get_all() ) {
         if( !item_group::group_is_defined( cl.shopkeeper_item_group ) ) {
             debugmsg( "Missing shopkeeper item group %s", cl.shopkeeper_item_group.c_str() );
         }
@@ -256,6 +256,8 @@ void npc_class::load( const JsonObject &jo, const std::string & )
             _starting_spells.emplace( sp, level );
         }
     }
+
+    optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
     /* Mutation rounds can be specified as follows:
      *   "mutation_rounds": {
      *     "ANY" : { "constant": 1 },
@@ -263,20 +265,21 @@ void npc_class::load( const JsonObject &jo, const std::string & )
      *   }
      */
     if( jo.has_object( "mutation_rounds" ) ) {
-        const std::map<std::string, mutation_category_trait> &mutation_categories =
+        const std::map<mutation_category_id, mutation_category_trait> &mutation_categories =
             mutation_category_trait::get_all();
         for( const JsonMember member : jo.get_object( "mutation_rounds" ) ) {
-            const std::string &mutation = member.name();
-            const auto category_match = [&mutation]( const std::pair<const std::string, mutation_category_trait>
+            const mutation_category_id mutation( member.name() );
+            const auto category_match = [&mutation]( const
+                                        std::pair<const mutation_category_id, mutation_category_trait>
             &p ) {
                 return p.second.id == mutation;
             };
             if( std::find_if( mutation_categories.begin(), mutation_categories.end(),
                               category_match ) == mutation_categories.end() ) {
-                debugmsg( "Unrecognized mutation category %s", mutation );
+                debugmsg( "Unrecognized mutation category %s", mutation.str() );
                 continue;
             }
-            auto distrib = member.get_object();
+            JsonObject distrib = member.get_object();
             mutation_rounds[mutation] = load_distribution( distrib );
         }
     }

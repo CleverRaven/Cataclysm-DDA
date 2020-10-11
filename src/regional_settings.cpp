@@ -308,6 +308,27 @@ static void load_overmap_forest_settings(
     }
 }
 
+static void load_overmap_ravine_settings(
+    const JsonObject &jo, overmap_ravine_settings &overmap_ravine_settings, const bool strict,
+    const bool overlay )
+{
+    if( !jo.has_object( "overmap_ravine_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"overmap_ravine_settings\": { … } required for default" );
+        }
+    } else {
+        JsonObject overmap_ravine_settings_jo = jo.get_object( "overmap_ravine_settings" );
+        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "num_ravines",
+                                    overmap_ravine_settings.num_ravines, !overlay );
+        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "ravine_range",
+                                    overmap_ravine_settings.ravine_range, !overlay );
+        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "ravine_width",
+                                    overmap_ravine_settings.ravine_width, !overlay );
+        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "ravine_depth",
+                                    overmap_ravine_settings.ravine_depth, !overlay );
+    }
+}
+
 static void load_overmap_lake_settings( const JsonObject &jo,
                                         overmap_lake_settings &overmap_lake_settings,
                                         const bool strict, const bool overlay )
@@ -567,6 +588,8 @@ void load_region_settings( const JsonObject &jo )
 
     load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
 
+    load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
+
     load_region_terrain_and_furniture_settings( jo, new_region.region_terrain_and_furniture, strict,
             false );
 
@@ -717,6 +740,8 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
 
     load_overmap_lake_settings( jo, region.overmap_lake, false, true );
 
+    load_overmap_ravine_settings( jo, region.overmap_ravine, false, true );
+
     load_region_terrain_and_furniture_settings( jo, region.region_terrain_and_furniture, false, true );
 }
 
@@ -846,7 +871,7 @@ ter_furn_id forest_biome::pick() const
     // If a given component does not roll as success, proceed to the next feature in sequence until
     // a feature is picked or none are picked, in which case an empty feature is returned.
     const ter_furn_id *result = nullptr;
-    for( auto &pr : biome_components ) {
+    for( const forest_biome_component &pr : biome_components ) {
         if( one_in( pr.chance ) ) {
             result = pr.types.pick();
             break;

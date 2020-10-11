@@ -10,6 +10,7 @@
 #include "inventory_ui.h"
 #include "item_location.h"
 
+class Character;
 struct tripoint;
 
 namespace cata
@@ -70,6 +71,15 @@ void reassign_letter( player &p, item &it );
 void swap_letters( player &p );
 
 /**
+* Compares two items, if confirm_message isn't empty then it will be printed
+* to the screen and function return value will be true if confirm button was
+* pressed, false for "quit" input.
+* @return False if confirm_message is empty or QUIT input was pressed.
+*/
+bool compare_items( const item &first, const item &second,
+                    const std::string &confirm_message = "" );
+
+/**
  * Select items to drop.
  * @return A list of pairs of item_location, quantity.
  */
@@ -84,7 +94,8 @@ item_location consume_drink( player &p );
 /** Consuming a medication item via a custom menu. */
 item_location consume_meds( player &p );
 /** Choosing a container for liquid. */
-item_location container_for( Character &you, const item &liquid, int radius = 0 );
+item_location container_for( Character &you, const item &liquid, int radius = 0,
+                             const item *avoid = nullptr );
 /** Item disassembling menu. */
 item_location disassemble( Character &p );
 /** Gunmod installation menu. */

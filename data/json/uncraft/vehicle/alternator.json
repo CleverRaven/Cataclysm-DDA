@@ -1,6 +1,7 @@
 [
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "alternator_car",
     "skill_used": "mechanics",
     "difficulty": 3,
@@ -11,6 +12,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "alternator_motorbike",
     "skill_used": "mechanics",
     "difficulty": 2,
@@ -21,6 +23,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "alternator_truck",
     "skill_used": "mechanics",
     "difficulty": 3,
@@ -31,6 +34,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "generator_7500w",
     "skill_used": "mechanics",
     "difficulty": 4,

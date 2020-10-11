@@ -1,6 +1,7 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 
-#include "catch/catch.hpp"
 #include "safe_reference.h"
 
 struct example {

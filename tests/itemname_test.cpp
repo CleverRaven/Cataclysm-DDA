@@ -1,11 +1,14 @@
-#include <memory>
+#include "catch/catch.hpp"
+
+#include <set>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "character.h"
-#include "player_helpers.h"
 #include "flat_set.h"
 #include "item.h"
+#include "item_pocket.h"
+#include "player_helpers.h"
+#include "ret_val.h"
 #include "type_id.h"
 
 TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
@@ -30,8 +33,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.set_flag( "UNDERSIZE" );
+            i.set_flag( "FIT" );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
@@ -66,8 +69,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.set_flag( "UNDERSIZE" );
+            i.set_flag( "FIT" );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
@@ -102,8 +105,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.set_flag( "UNDERSIZE" );
+            i.set_flag( "FIT" );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {

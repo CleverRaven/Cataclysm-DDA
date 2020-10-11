@@ -6,8 +6,8 @@
     "//2": "This group is for an office desk containing documents and electronics for work and some desk clutter.",
     "subtype": "collection",
     "entries": [
-      { "item": "eink_tablet_pc", "prob": 20 },
-      { "item": "laptop", "prob": 60 },
+      { "item": "eink_tablet_pc", "prob": 20, "charges": [ 0, 100 ] },
+      { "item": "laptop", "prob": 60, "charges": [ 0, 500 ] },
       { "item": "battery_charger", "prob": 80 },
       { "item": "usb_drive", "prob": 20 },
       { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
@@ -16,6 +16,7 @@
       { "item": "paper", "count": [ 2, 9 ], "prob": 60 },
       { "item": "pen", "count": [ 1, 10 ], "prob": 95 },
       { "item": "stapler", "prob": 60 },
+      { "item": "office_holepunch", "prob": 35 },
       { "item": "scissors", "prob": 35 },
       { "item": "phonebook", "prob": 10 },
       { "item": "family_photo", "prob": 10 },

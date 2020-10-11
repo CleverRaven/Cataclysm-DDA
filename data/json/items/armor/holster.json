@@ -12,7 +12,7 @@
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "light_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 5,
     "encumbrance": 5,
     "material_thickness": 1,
@@ -43,12 +43,13 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "FOOT_EITHER" ],
+    "covers": [ "foot_l", "foot_r" ],
+    "sided": true,
     "coverage": 5,
     "encumbrance": 3,
     "max_encumbrance": 4,
     "material_thickness": 1,
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -74,7 +75,7 @@
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "green",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 5,
     "encumbrance": 3,
     "max_encumbrance": 7,
@@ -106,7 +107,8 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "light_gray",
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 5,
     "encumbrance": 5,
     "material_thickness": 1,
@@ -123,6 +125,58 @@
     ],
     "use_action": { "type": "holster" },
     "flags": [ "WAIST", "OVERSIZE" ]
+  },
+  {
+    "id": "western_holster",
+    "copy-from": "holster",
+    "type": "ARMOR",
+    "name": { "str": "western holster" },
+    "description": "A western style holster as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
+    "price_postapoc": 500,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 5, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 5, "encumbrance": 3 },
+      { "sided": true }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "25 cm",
+        "moves": 30
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": false,
+        "rigid": true,
+        "ammo_restriction": {
+          "32": 18,
+          "762x25": 18,
+          "38": 18,
+          "357mag": 18,
+          "357sig": 18,
+          "380": 18,
+          "38super": 18,
+          "40": 18,
+          "10mm": 18,
+          "44": 18,
+          "45": 18,
+          "45colt": 18,
+          "46": 18,
+          "57": 18,
+          "9x18": 18,
+          "9mm": 18,
+          "454": 18,
+          "460": 18,
+          "500": 18
+        },
+        "moves": 20
+      }
+    ],
+    "use_action": { "type": "holster" }
   },
   {
     "id": "sholster",
@@ -157,7 +211,7 @@
     "price": 3000,
     "price_postapoc": 500,
     "material": [ "lycra" ],
-    "covers": [ "LEGS" ],
+    "covers": [ "leg_l", "leg_r" ],
     "encumbrance": 1,
     "pocket_data": [
       {
@@ -186,7 +240,7 @@
     "symbol": "[",
     "looks_like": "tacvest",
     "color": "green",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 20,
     "encumbrance": 1,
     "max_encumbrance": 2,
@@ -200,6 +254,27 @@
         "max_contains_weight": "8200 g",
         "max_item_length": "120 cm",
         "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
       }
     ],
     "use_action": { "type": "holster" },
@@ -218,7 +293,8 @@
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "light_gray",
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 10,
     "encumbrance": 2,
     "material_thickness": 1,
@@ -226,7 +302,7 @@
       {
         "pocket_type": "CONTAINER",
         "holster": true,
-        "min_item_volume": "750 ml",
+        "min_item_volume": "500 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "5 kg",
         "max_item_length": "45 cm",

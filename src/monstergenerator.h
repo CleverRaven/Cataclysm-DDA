@@ -9,7 +9,6 @@
 
 #include "enum_bitset.h"
 #include "enums.h"
-#include "generic_factory.h"
 #include "mattack_common.h"
 #include "mtype.h"
 #include "pimpl.h"
@@ -20,6 +19,7 @@ class Creature;
 class JsonObject;
 class monster;
 struct dealt_projectile_attack;
+template <typename T> class generic_factory;
 template <typename T> class string_id;
 
 using mon_action_death  = void ( * )( monster & );
@@ -69,6 +69,7 @@ class MonsterGenerator
 
         void check_monster_definitions() const;
 
+        cata::optional<mon_action_death> get_death_function( const std::string &f ) const;
         const std::vector<mtype> &get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
         friend struct mtype;

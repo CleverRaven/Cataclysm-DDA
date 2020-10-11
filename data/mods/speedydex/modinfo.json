@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "speedydex",
+    "id": "speedydex",
     "name": "SpeedyDex",
     "authors": [ "KorGgenT" ],
     "maintainers": [ "KorGgenT" ],

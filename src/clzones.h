@@ -3,27 +3,28 @@
 #define CATA_SRC_CLZONES_H
 
 #include <cstddef>
+#include <functional>
 #include <map>
+#include <memory>
+#include <set>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
-#include <functional>
-#include <memory>
-#include <string>
-#include <set>
 
+#include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
-#include "memory_fast.h"
 
 class JsonIn;
-class JsonOut;
 class JsonObject;
-class item;
+class JsonOut;
 class faction;
+class item;
 class map;
 struct construction;
 
@@ -34,15 +35,15 @@ const std::string type_fac_hash_str = "__FAC__";
 class zone_type
 {
     private:
-        std::string name_;
-        std::string desc_;
+        translation name_;
+        translation desc_;
     public:
 
         zone_type_id id;
         bool was_loaded = false;
 
         zone_type() = default;
-        explicit zone_type( const std::string &name, const std::string &desc ) : name_( name ),
+        explicit zone_type( const translation &name, const translation &desc ) : name_( name ),
             desc_( desc ) {}
 
         std::string name() const;
@@ -150,7 +151,7 @@ class blueprint_options : public zone_options, public mark_option
     private:
         // furn/ter id as string.
         std::string mark;
-        std::string con;
+        construction_group_str_id group = construction_group_str_id::NULL_ID();
         construction_id index;
 
         enum query_con_result {
@@ -164,9 +165,6 @@ class blueprint_options : public zone_options, public mark_option
     public:
         std::string get_mark() const override {
             return mark;
-        }
-        std::string get_con() const {
-            return con;
         }
         construction_id get_index() const {
             return index;

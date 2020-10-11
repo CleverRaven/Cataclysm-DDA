@@ -1,7 +1,10 @@
 #include "character_martial_arts.h"
 
+#include <algorithm>
+
 #include "action.h"
 #include "character.h"
+#include "color.h"
 #include "enums.h"
 #include "json.h"
 #include "martialarts.h"

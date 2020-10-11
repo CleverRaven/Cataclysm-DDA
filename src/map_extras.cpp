@@ -1,6 +1,8 @@
 #include "map_extras.h"
 
+#include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdlib>
 #include <map>
 #include <memory>
@@ -436,7 +438,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
+                    for( int sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
                         vehicle_stack here = wreckage->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -460,7 +462,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
+                    for( int sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
                         vehicle_stack here = wreckage->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -476,7 +478,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     m.add_spawn( mon_zombie_military_pilot, 1, pos );
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
+                    for( int sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
                         vehicle_stack here = wreckage->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -1101,6 +1103,14 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
     return true;
 }
 
+static void place_trap_if_clear( map &m, const point &target, trap_id trap_type )
+{
+    tripoint tri_target( target, m.get_abs_sub().z );
+    if( m.ter( tri_target ).obj().trap == tr_null ) {
+        mtrap_set( &m, target, trap_type );
+    }
+}
+
 static bool mx_minefield( map &, const tripoint &abs_sub )
 {
     const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
@@ -1132,7 +1142,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     }
 
     tinymap m;
-    if( bridge_at_north && bridgehead_at_center && road_at_south ) {
+    if( bridge_at_north && road_at_south ) {
         m.load( project_to<coords::sm>( abs_omt + point_south ), false );
 
         //Sandbag block at the left edge
@@ -1197,9 +1207,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 3, SEEX * 2 - 4 ), y = rng( SEEY, SEEY * 2 - 2 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, point( x, y ), tr_landmine_buried );
+                place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, point( x, y ), tr_landmine );
+                place_trap_if_clear( m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1232,7 +1242,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_south && bridgehead_at_center && road_at_north ) {
+    if( bridge_at_south && road_at_north ) {
         m.load( project_to<coords::sm>( abs_omt + point_north ), false );
         //Two horizontal lines of sandbags
         line_furn( &m, f_sandbag_half, point( 5, 15 ), point( 10, 15 ) );
@@ -1299,9 +1309,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 3, SEEX * 2 - 4 ), y = rng( 1, SEEY );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, point( x, y ), tr_landmine_buried );
+                place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, point( x, y ), tr_landmine );
+                place_trap_if_clear( m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1334,7 +1344,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_west && bridgehead_at_center && road_at_east ) {
+    if( bridge_at_west && road_at_east ) {
         m.load( project_to<coords::sm>( abs_omt + point_east ), false );
         //Draw walls of first tent
         square_furn( &m, f_canvas_wall, point( 0, 3 ), point( 4, 13 ) );
@@ -1446,9 +1456,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( SEEX + 1, SEEX * 2 - 2 ), y = rng( 3, SEEY * 2 - 4 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, point( x, y ), tr_landmine_buried );
+                place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, point( x, y ), tr_landmine );
+                place_trap_if_clear( m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1481,7 +1491,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_east && bridgehead_at_center && road_at_west ) {
+    if( bridge_at_east && road_at_west ) {
         m.load( project_to<coords::sm>( abs_omt + point_west ), false );
         //Spawn military cargo truck blocking the entry
         m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 15, 11 ), 270, 70, 1 );
@@ -1581,9 +1591,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 1, SEEX ), y = rng( 3, SEEY * 2 - 4 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, point( x, y ), tr_landmine_buried );
+                place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, point( x, y ), tr_landmine );
+                place_trap_if_clear( m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1688,8 +1698,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         case 2: {
             m.add_field( portal_location, fd_fatigue, 3 );
             for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
-                m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.xy() + point( -5, -5 ), loc.xy() + point( 5, 5 ), 1,
-                                true );
+                m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.xy(), loc.xy(), 1, true );
             }
             break;
         }
@@ -1708,7 +1717,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         //Radiation from the portal killed the vegetation
         case 4: {
             m.add_field( portal_location, fd_fatigue, 3 );
-            const int rad = 10;
+            const int rad = 5;
             for( int i = p.x - rad; i <= p.x + rad; i++ ) {
                 for( int j = p.y - rad; j <= p.y + rad; j++ ) {
                     if( trig_dist( p, point( i, j ) ) + rng( 0, 3 ) <= rad ) {
@@ -1723,7 +1732,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         //Lava seams originating from the portal
         case 5: {
             if( abs_sub.z <= 0 ) {
-                point p1( rng( 0,    SEEX     - 3 ), rng( 0,    SEEY     - 3 ) );
+                point p1( rng( 1,    SEEX     - 3 ), rng( 1,    SEEY     - 3 ) );
                 point p2( rng( SEEX, SEEX * 2 - 3 ), rng( SEEY, SEEY * 2 - 3 ) );
                 // Pick a random cardinal direction to also spawn lava in
                 // This will make the lava a single connected line, not just on diagonals
@@ -1755,7 +1764,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 place_fumarole( m, p1 + extra, p2 + extra,
                                 ignited );
 
-                for( auto &i : ignited ) {
+                for( const point &i : ignited ) {
                     // Don't need to do anything to tiles that already have lava on them
                     if( m.ter( i ) != t_lava ) {
                         // Spawn an intense but short-lived fire
@@ -1770,10 +1779,12 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             //Mi-go went through the portal and began constructing their base of operations
             m.add_field( portal_location, fd_fatigue, 3 );
             for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
-                m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.xy() + point( -5, -5 ), loc.xy() + point( 5, 5 ), 1,
-                                true );
+                m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.xy(), loc.xy(), 1, true );
             }
-            const point pos( p + point( rng( -5, 5 ), rng( -5, 5 ) ) );
+            point pos;
+            do {
+                pos = p + point( rng( -5, 5 ), rng( -5, 5 ) );
+            } while( pos.x >= 1 && pos.y >= 1 && pos.x < SEEX * 2 - 1 && pos.y < SEEY * 2 - 1 );
             circle( &m, ter_id( "t_wall_resin" ), pos, 6 );
             rough_circle( &m, ter_id( "t_floor_resin" ), pos, 5 );
             break;
@@ -3235,9 +3246,6 @@ void map_extra::load( const JsonObject &jo, const std::string & )
     color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : c_white;
     optional( jo, was_loaded, "autonote", autonote, false );
 }
-
-extern std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> >
-        update_mapgen;
 
 void map_extra::check() const
 {

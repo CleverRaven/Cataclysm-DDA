@@ -1,25 +1,26 @@
 #include "mission_companion.h"
 
 #include <algorithm>
-#include <array>
-#include <cassert>
+#include <cmath>
 #include <cstdlib>
 #include <list>
 #include <map>
 #include <memory>
 #include <set>
+#include <tuple>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "basecamp.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "catacharset.h"
+#include "character.h"
 #include "colony.h"
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -39,9 +40,8 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapbuffer.h"
 #include "mapdata.h"
-#include "material.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -50,7 +50,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "skill.h"
@@ -62,6 +61,8 @@
 #include "value_ptr.h"
 #include "weather.h"
 #include "weighted_list.h"
+
+class character_id;
 
 static const efftype_id effect_riding( "riding" );
 
@@ -347,9 +348,10 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
         if( !npc_list_aux.empty() ) {
             std::string entry_aux = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n\n"
                                        "\nRoster:\n" );
+            const std::string entry_suffix = _( " [READY]\n" );
             for( auto &elem : npc_list_aux ) {
                 if( elem->companion_mission_time == calendar::before_time_starts ) {
-                    entry_aux = entry_aux + "  " + elem->name + _( " [READY]\n" );
+                    entry_aux = entry_aux + "  " + elem->name + entry_suffix;
                 }
             }
             entry_aux = entry_aux + _( "\n\n"
@@ -699,7 +701,7 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
     }
     Character &player_character = get_player_character();
     //Ensure we have someone to give equipment to before we lose it
-    for( auto i : equipment ) {
+    for( item *i : equipment ) {
         comp->companion_mission_inv.add_item( *i );
         //comp->i_add(*i);
         if( item::count_by_charges( i->typeId() ) ) {
@@ -720,7 +722,7 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
     }
     g->reload_npcs();
     g->validate_npc_followers();
-    assert( !comp->is_active() );
+    cata_assert( !comp->is_active() );
     return comp;
 }
 
@@ -1313,7 +1315,7 @@ bool talk_function::scavenging_raid_return( npc &p )
         if( one_in( 8 ) ) {
             itemlist = "npc_weapon_random";
         }
-        auto result = item_group::item_from( itemlist );
+        item result = item_group::item_from( itemlist );
         if( !result.is_null() ) {
             popup( _( "%s returned with a %s for you!" ), comp->name, result.tname() );
             player_character.i_add( result );
@@ -1484,7 +1486,7 @@ bool talk_function::forage_return( npc &p )
                     debugmsg( "Invalid season" );
             }
         }
-        auto result = item_group::item_from( itemlist );
+        item result = item_group::item_from( itemlist );
         if( !result.is_null() ) {
             popup( _( "%s returned with a %s for you!" ), comp->name, result.tname() );
             player_character.i_add( result );
@@ -1528,8 +1530,8 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
             } );
         }
     }
-    float avg_survival = 0;
-    for( auto &guy : group ) {
+    float avg_survival = 0.0f;
+    for( const auto &guy : group ) {
         avg_survival += guy->get_skill_level( skill_survival );
     }
     avg_survival = avg_survival / group.size();
@@ -1537,7 +1539,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
     monster mon;
 
     std::vector< monster * > monsters_fighting;
-    for( auto mons : monsters_around ) {
+    for( monster *mons : monsters_around ) {
         if( mons->get_hp() <= 0 ) {
             continue;
         }
@@ -1557,7 +1559,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
     if( !monsters_fighting.empty() ) {
         bool outcome = force_on_force( group, "Patrol", monsters_fighting, "attacking monsters",
                                        rng( -1, 2 ) );
-        for( auto mons : monsters_fighting ) {
+        for( monster *mons : monsters_fighting ) {
             mons->death_drops = true;
         }
         return outcome;
@@ -1736,7 +1738,7 @@ void talk_function::companion_skill_trainer( npc &comp, const skill_id &skill_te
 
 void talk_function::companion_return( npc &comp )
 {
-    assert( !comp.is_active() );
+    cata_assert( !comp.is_active() );
     comp.reset_companion_mission();
     comp.companion_mission_time = calendar::before_time_starts;
     comp.companion_mission_time_ret = calendar::before_time_starts;
@@ -1882,7 +1884,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp(
                                          player_character.global_omt_location().xy() );
 
-    for( auto &elem : g->get_follower_list() ) {
+    for( const character_id &elem : g->get_follower_list() ) {
         npc_ptr guy = overmap_buffer.find_npc( elem );
         if( !guy ) {
             continue;

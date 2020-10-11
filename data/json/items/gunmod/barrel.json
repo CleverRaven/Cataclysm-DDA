@@ -7,6 +7,7 @@
     "volume": "0 ml",
     "price": 12000,
     "price_postapoc": 250,
+    "install_time": "0 s",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
@@ -14,7 +15,7 @@
     "mod_targets": [ "smg", "rifle", "shotgun" ],
     "dispersion_modifier": 75,
     "loudness_modifier": 2,
-    "flags": [ "IRREMOVABLE" ]
+    "flags": [ "IRREMOVABLE", "ZERO_WEIGHT" ]
   },
   {
     "id": "upstest",
@@ -25,6 +26,7 @@
     "volume": "500 ml",
     "price": 20000,
     "price_postapoc": 0,
+    "install_time": "0 s",
     "bashing": 5,
     "material": [ "steel" ],
     "symbol": ":",

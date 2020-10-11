@@ -1,10 +1,10 @@
 [
   {
     "type": "profession",
-    "ident": "wizard_novice",
+    "id": "wizard_novice",
     "name": "Would-be Wizard",
     "description": "You found a pamphlet with bright colors claiming you can be a Wizard, oddly serene with the world falling down around you.",
-    "points": 1,
+    "points": 0,
     "items": {
       "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "wizard_beginner" ],
       "male": [ "boxer_briefs" ],
@@ -13,7 +13,7 @@
   },
   {
     "type": "profession",
-    "ident": "pyromaniac",
+    "id": "pyromaniac",
     "name": "Pyromaniac Kelvinist",
     "description": "You have loved fire all of your life.  You have now discovered your inner fire, and want to exercise that upon the world.",
     "points": 2,
@@ -26,7 +26,7 @@
   },
   {
     "type": "profession",
-    "ident": "druid",
+    "id": "druid",
     "name": "Druid",
     "description": "The ancient circle of druids is gone with the Cataclysm.  Nature must thrive.",
     "points": 4,
@@ -37,7 +37,7 @@
   },
   {
     "type": "profession",
-    "ident": "priest_magic2",
+    "id": "priest_magic2",
     "name": "Priest",
     "description": "When the apocalypse struck you did everything you could to protect your parish faithful, but it appears that prayers were not enough.  Now that they are all dead, you should probably find something more tangible to protect you.",
     "points": 0,
@@ -54,7 +54,7 @@
   },
   {
     "type": "profession",
-    "ident": "shinto_priest_magic2",
+    "id": "shinto_priest_magic2",
     "name": "Kannushi",
     "description": "You were one of the maintainers of a Shinto shrine, performing rituals and sacred tasks.  You preferred it when only the spirits of the dead inhabited your shrine, and not their rotting corpses.",
     "points": 0,
@@ -71,13 +71,13 @@
   },
   {
     "type": "profession",
-    "ident": "imam_magic2",
+    "id": "imam_magic2",
     "name": { "male": "Imam", "female": "Mourchida" },
     "description": "You spent much of your time prior to the apocalypse at the local mosque, studying the words of the Prophet and the Quran and guiding your community in prayer.  Back then they came from far and wide to listen to you, now they come to eat your brains.",
     "points": 0,
     "flags": [ "SCEN_ONLY" ],
     "//": "No knife, fire, or decent storage/armor.  Skill points are countered.",
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "barter" } ],
+    "skills": [ { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
         "items": [ "pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran", "priest_beginner", "mbag" ],
@@ -89,7 +89,7 @@
   },
   {
     "type": "profession",
-    "ident": "rabbi_magic2",
+    "id": "rabbi_magic2",
     "name": "Rabbi",
     "description": "You were celebrating with your flock in the temple when the Cataclysm struck.  You sure could use a messiah right now!",
     "points": 0,
@@ -119,7 +119,7 @@
   },
   {
     "type": "profession",
-    "ident": "guru_magic2",
+    "id": "guru_magic2",
     "name": "Guru",
     "description": "You spent many years traveling the world, becoming wise and learned.  Normally, you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
     "points": 2,
@@ -150,7 +150,7 @@
   },
   {
     "type": "profession",
-    "ident": "preacher_magic2",
+    "id": "preacher_magic2",
     "name": "Preacher",
     "description": "You devoted your life to spreading the good word; always on the road, traveling from town to town.  Now everything has gone to hell, you can't host your daily podcast, and the undead listening to your sermons don't seem particularly moved.",
     "points": 2,
@@ -181,14 +181,17 @@
   },
   {
     "type": "profession",
-    "ident": "novice_necromancer",
+    "id": "novice_necromancer",
     "name": "Novice Necromancer",
     "description": "You always had to hide your magic, as it was generally not an acceptable type of magic in the wizarding world, but with the Cataclysm you need to pull every trick out of the book.",
     "spells": [ { "id": "summon_zombie", "level": 5 }, { "id": "necrotic_gaze", "level": 1 } ],
     "points": 2,
     "skills": [ { "level": 1, "name": "spellcraft" } ],
     "items": {
-      "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "primitive_knife" ],
+      "both": {
+        "items": [ "jeans", "tshirt", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "leather_belt" ],
+        "entries": [ { "item": "primitive_knife", "container-item": "sheath" } ]
+      },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -196,7 +199,7 @@
   },
   {
     "type": "profession",
-    "ident": "novice_stormshaper",
+    "id": "novice_stormshaper",
     "name": "Novice Stormshaper",
     "description": "The son of a weatherman, you were always interested in the weather.  Recently you found it was possible to manipulate the weather yourself through arcane means!  Unfortunately you did not have long to enjoy your power, as events unfolded…",
     "spells": [ { "id": "lightning_bolt", "level": 1 }, { "id": "windrun", "level": 1 } ],
@@ -210,7 +213,7 @@
   },
   {
     "type": "profession",
-    "ident": "novice_earthshaper",
+    "id": "novice_earthshaper",
     "name": "Novice Earthshaper",
     "description": "You always were tough in a fight.  Your coach managed to teach you a trick or two to make you a little tougher.",
     "spells": [ { "id": "stonefist", "level": 1 }, { "id": "seismic_stomp", "level": 1 } ],
@@ -224,7 +227,7 @@
   },
   {
     "type": "profession",
-    "ident": "novice_technomancer",
+    "id": "novice_technomancer",
     "name": "Novice Technomancer",
     "description": "With the recent Cataclysm, the way you found to cheat on tests may have to find some other use.",
     "spells": [ { "id": "synaptic_stimulation", "level": 4 } ],
@@ -238,9 +241,9 @@
   },
   {
     "type": "profession",
-    "ident": "ranger",
+    "id": "ranger",
     "name": "Introspectionist",
-    "description": "You segregated yourself from society because you wanted to concentrate on improving yourself.  It was you and your best friend, but now the apocalypse won't leave you alone. ",
+    "description": "You segregated yourself from society because you wanted to concentrate on improving yourself.  It was you and your best friend, but now the apocalypse won't leave you alone.",
     "spells": [ { "id": "magic_missile", "level": 4 } ],
     "points": 4,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" } ],
@@ -257,7 +260,7 @@
   },
   {
     "type": "profession",
-    "ident": "vengpreacher",
+    "id": "vengpreacher",
     "name": "Vengeful Preacher",
     "description": "You lost your faith when your spouse died of illness.  You've been drinking yourself to death ever since.  God is punishing everyone with this apocalypse, you are going to show them your brand of mercy.",
     "points": 2,
@@ -286,9 +289,9 @@
   },
   {
     "type": "profession",
-    "ident": "techno_prepper",
+    "id": "techno_prepper",
     "name": "Techno-Prepper",
-    "description": "You've long suspected the world might suddenly turn over. With your training, spells, and revolver, your chances are far better than most.",
+    "description": "You've long suspected the world might suddenly turn over.  With your training, spells, and revolver, your chances are far better than most.",
     "spells": [ { "id": "create_atomic_lamp", "level": 8 }, { "id": "invisibility", "level": 2 } ],
     "points": 5,
     "skills": [
@@ -319,9 +322,9 @@
   },
   {
     "type": "profession",
-    "ident": "magic_vamp",
+    "id": "magic_vamp",
     "name": "Bionic Pseudovamp",
-    "description": "You've long had an obsession with horror novels, and used your wealth to augment yourself with spells and bionics into a denizen of the night. Your neglect to your health in your pursuit has left you pale and unlively.",
+    "description": "You've long had an obsession with horror novels, and used your wealth to augment yourself with spells and bionics into a denizen of the night.  Your neglect to your health in your pursuit has left you pale and unlively.",
     "points": 7,
     "spells": [
       { "id": "recover_mana", "level": 2 },
@@ -349,9 +352,9 @@
   },
   {
     "type": "profession",
-    "ident": "academy_wizard",
+    "id": "academy_wizard",
     "name": "Academy Wizard",
-    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells. With the teachers converted into the undead and classes cancelled, the final lesson has begun.",
+    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells.  With the teachers converted into the undead and classes cancelled, the final lesson has begun.",
     "points": 4,
     "spells": [
       { "id": "magic_missile", "level": 6 },
@@ -377,9 +380,9 @@
   },
   {
     "type": "profession",
-    "ident": "biomancer_musician",
+    "id": "biomancer_musician",
     "name": "Corrosive Rocker",
-    "description": "Your metal career soared to new heights when you swapped special effects for acrid gore and spiked whips. It seems the Cataclysm is now your final tour.",
+    "description": "Your metal career soared to new heights when you swapped special effects for acrid gore and spiked whips.  It seems the Cataclysm is now your final tour.",
     "points": 4,
     "spells": [
       { "id": "vicious_tentacle", "level": 2 },
@@ -408,7 +411,7 @@
   },
   {
     "type": "profession",
-    "ident": "storm_police",
+    "id": "storm_police",
     "name": "Shock Officer",
     "description": "You were enrolled in a experimental law enforcement program designed to decrease suspect casualties and equipment costs by substituting tasers and bullets for less-lethal Stormshaping.",
     "points": 4,
@@ -436,9 +439,9 @@
   },
   {
     "type": "profession",
-    "ident": "earth_boxer",
+    "id": "earth_boxer",
     "name": "Earthquake Brawler",
-    "description": "You've made a name for yourself in underground magic boxing rings as an unstoppable punching machine. Now that all your opponents are undead, there's no need to hold back.",
+    "description": "You've made a name for yourself in underground magic boxing rings as an unstoppable punching machine.  Now that all your opponents are undead, there's no need to hold back.",
     "points": 4,
     "spells": [
       { "id": "earthshaper_stoneskin", "level": 2 },

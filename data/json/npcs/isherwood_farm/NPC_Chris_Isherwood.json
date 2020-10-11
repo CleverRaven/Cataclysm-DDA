@@ -28,7 +28,7 @@
         "skill": "ALL",
         "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
       },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "survival", "bonus": { "rng": [ 7, 10 ] } },
       { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
@@ -47,7 +47,7 @@
     "responses": [
       {
         "text": "…",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_MARSHAL_CHRIS",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
@@ -137,7 +137,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_LEAVE_NOW",
+    "id": "TALK_LEAVE_NOW_MARSHAL_CHRIS",
     "dynamic_line": "You should leave before my family sees you.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },

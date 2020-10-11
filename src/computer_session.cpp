@@ -1,18 +1,20 @@
 #include "computer_session.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
-#include <functional>
 #include <memory>
 #include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "character_id.h"
 #include "colony.h"
 #include "color.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -29,6 +31,7 @@
 #include "item_contents.h"
 #include "item_factory.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -44,6 +47,7 @@
 #include "overmapbuffer.h"
 #include "player.h"
 #include "point.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -319,16 +323,13 @@ bool computer_session::can_activate( computer_action action )
     switch( action ) {
         case COMPACT_LOCK:
             return get_map().has_nearby_ter( get_player_character().pos(), t_door_metal_c, 8 );
-            break;
 
         case COMPACT_RELEASE:
         case COMPACT_RELEASE_DISARM:
             return get_map().has_nearby_ter( get_player_character().pos(), t_reinforced_glass, 25 );
-            break;
 
         case COMPACT_RELEASE_BIONICS:
             return get_map().has_nearby_ter( get_player_character().pos(), t_reinforced_glass, 3 );
-            break;
 
         case COMPACT_TERMINATE: {
             map &here = get_map();
@@ -345,17 +346,14 @@ bool computer_session::can_activate( computer_action action )
                 }
             }
             return false;
-            break;
         }
 
         case COMPACT_UNLOCK:
         case COMPACT_UNLOCK_DISARM:
             return get_map().has_nearby_ter( get_player_character().pos(), t_door_metal_locked, 8 );
-            break;
 
         default:
             return true;
-            break;
     }
 }
 
@@ -536,9 +534,10 @@ void computer_session::action_cascade()
 
 void computer_session::action_research()
 {
+    map &here = get_map();
     // TODO: seed should probably be a member of the computer, or better: of the computer action.
     // It is here to ensure one computer reporting the same text on each invocation.
-    const int seed = g->get_levx() + g->get_levy() + g->get_levz() + comp.alerts;
+    const int seed = std::hash<tripoint> {}( here.get_abs_sub() ) + comp.alerts;
     cata::optional<translation> log = SNIPPET.random_from_category( "lab_notes", seed );
     if( !log.has_value() ) {
         log = to_translation( "No data found." );
@@ -692,7 +691,8 @@ void computer_session::action_amigara_log()
     Character &player_character = get_player_character();
     player_character.moves -= 30;
     reset_terminal();
-    print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
+    point abs_sub = get_map().get_abs_sub().xy();
+    print_line( _( "NEPower Mine(%d:%d) Log" ), abs_sub.x, abs_sub.y );
     print_text( "%s", SNIPPET.random_from_category( "amigara1" ).value_or( translation() ) );
 
     if( !query_bool( _( "Continue reading?" ) ) ) {
@@ -700,7 +700,7 @@ void computer_session::action_amigara_log()
     }
     player_character.moves -= 30;
     reset_terminal();
-    print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
+    print_line( _( "NEPower Mine(%d:%d) Log" ), abs_sub.x, abs_sub.y );
     print_text( "%s", SNIPPET.random_from_category( "amigara2" ).value_or( translation() ) );
 
     if( !query_bool( _( "Continue reading?" ) ) ) {
@@ -708,7 +708,7 @@ void computer_session::action_amigara_log()
     }
     player_character.moves -= 30;
     reset_terminal();
-    print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
+    print_line( _( "NEPower Mine(%d:%d) Log" ), abs_sub.x, abs_sub.y );
     print_text( "%s", SNIPPET.random_from_category( "amigara3" ).value_or( translation() ) );
 
     if( !query_bool( _( "Continue reading?" ) ) ) {
@@ -729,9 +729,10 @@ void computer_session::action_amigara_log()
     }
     player_character.moves -= 30;
     reset_terminal();
+    tripoint abs_loc = get_map().get_abs_sub();
     print_line( _( "SITE %d%d%d\n"
                    "PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
-                g->get_levx(), g->get_levy(), std::abs( g->get_levz() ) );
+                abs_loc.x, abs_loc.y, std::abs( abs_loc.z ) );
     print_text( "%s", SNIPPET.random_from_category( "amigara4" ).value_or( translation() ) );
     print_gibberish_line();
     print_gibberish_line();
@@ -744,10 +745,6 @@ void computer_session::action_amigara_log()
 void computer_session::action_amigara_start()
 {
     get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 1_minutes );
-    Character &player_character = get_player_character();
-    if( !player_character.has_artifact_with( AEP_PSYSHIELD ) ) {
-        player_character.add_effect( effect_amigara, 2_minutes );
-    }
     // Disable this action to prevent further amigara events, which would lead to
     // further amigara monster, which would lead to further artifacts.
     comp.remove_option( COMPACT_AMIGARA_START );
@@ -755,7 +752,7 @@ void computer_session::action_amigara_start()
 
 void computer_session::action_complete_disable_external_power()
 {
-    for( auto miss : get_avatar().get_active_missions() ) {
+    for( mission *miss : get_avatar().get_active_missions() ) {
         static const mission_type_id commo_2 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_2" );
         if( miss->mission_id() == commo_2 ) {
             print_error( _( "--ACCESS GRANTED--" ) );
@@ -773,7 +770,7 @@ void computer_session::action_repeater_mod()
 {
     avatar &player_character = get_avatar();
     if( player_character.has_amount( itype_radio_repeater_mod, 1 ) ) {
-        for( auto miss : player_character.get_active_missions() ) {
+        for( mission *miss : player_character.get_active_missions() ) {
             static const mission_type_id commo_3 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" ),
                                          commo_4 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" );
             if( miss->mission_id() == commo_3 || miss->mission_id() == commo_4 ) {
@@ -819,7 +816,7 @@ void computer_session::action_blood_anal()
     player_character.moves -= 70;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 2 ) ) {
-        if( here.ter( dest ) == t_centrifuge ) {
+        if( here.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
@@ -1349,7 +1346,7 @@ void computer_session::failure_alarm()
     sounds::sound( player_character.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
                    "environment",
                    "alarm" );
-    if( g->get_levz() > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
+    if( get_map().get_abs_sub().z > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
         get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
                                 player_character.global_sm_location() );
     }
@@ -1438,12 +1435,11 @@ void computer_session::failure_amigara()
 {
     get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 30_seconds );
     get_player_character().add_effect( effect_amigara, 2_minutes );
-    explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
-                                  10,
-                                  0.7, false, 10 );
-    explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
-                                  10,
-                                  0.7, false, 10 );
+    map &here = get_map();
+    explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ),
+                                            here.get_abs_sub().z ), 10, 0.7, false, 10 );
+    explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ),
+                                            here.get_abs_sub().z ), 10, 0.7, false, 10 );
     comp.remove_option( COMPACT_AMIGARA_START );
 }
 
@@ -1452,7 +1448,7 @@ void computer_session::failure_destroy_blood()
     print_error( _( "ERROR: Disruptive Spin" ) );
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( get_player_character().pos(), 2 ) ) {
-        if( here.ter( dest ) == t_centrifuge ) {
+        if( here.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
@@ -1521,9 +1517,9 @@ void computer_session::action_emerg_ref_center()
     } );
 
     if( !has_mission ) {
-        const auto mission = mission::reserve_new( mission_type, character_id() );
-        mission->assign( player_character );
-        mission_target = mission->get_target();
+        mission *new_mission = mission::reserve_new( mission_type, character_id() );
+        new_mission->assign( player_character );
+        mission_target = new_mission->get_target();
     }
 
     //~555-0164 is a fake phone number in the US, please replace it with a number that will not cause issues in your locale if possible.
@@ -1568,14 +1564,14 @@ computer_session::ynq computer_session::query_ynq( const std::string &text, Args
 {
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
-    input_context ctxt( "YESNOQUIT" );
+    input_context ctxt( "YESNOQUIT", keyboard_mode::keycode );
     ctxt.register_action( "YES" );
     ctxt.register_action( "NO" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    print_indented_line( 0, width, force_uc
+    print_indented_line( 0, width, force_uc && !is_keycode_mode_supported()
                          //~ 1st: query string, 2nd-4th: keybinding descriptions
                          ? pgettext( "query_ynq", "%s %s, %s, %s (Case sensitive)" )
                          //~ 1st: query string, 2nd-4th: keybinding descriptions

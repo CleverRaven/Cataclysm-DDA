@@ -17,7 +17,7 @@
   {
     "id": "morale_ate_with_table",
     "type": "morale_type",
-    "text": "Ate with table"
+    "text": "Ate with table and chair"
   },
   {
     "id": "morale_ate_without_table",
@@ -383,5 +383,10 @@
     "id": "morale_perm_debug",
     "type": "morale_type",
     "text": "Debug Morale"
+  },
+  {
+    "id": "morale_nightmare",
+    "type": "morale_type",
+    "text": "Had a vivid nightmare"
   }
 ]

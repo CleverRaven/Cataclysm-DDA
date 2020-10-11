@@ -10,6 +10,7 @@
 #include "color.h"
 #include "enums.h"
 #include "field_type.h"
+#include "int_id.h"
 #include "type_id.h"
 
 /**
@@ -19,7 +20,8 @@
 class field_entry
 {
     public:
-        field_entry() : type( fd_null ), intensity( 1 ), age( 0_turns ), is_alive( false ) { }
+        field_entry() : type( fd_null.id_or( INVALID_FIELD_TYPE_ID ) ), intensity( 1 ), age( 0_turns ),
+            is_alive( false ) { }
         field_entry( const field_type_id &t, const int i, const time_duration &a ) : type( t ),
             intensity( i ), age( a ), is_alive( true ) { }
 

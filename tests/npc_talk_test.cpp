@@ -1,20 +1,22 @@
+#include "catch/catch.hpp"
+
 #include <cstdio>
+#include <list>
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "character_id.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "dialogue.h"
+#include "dialogue_chatbin.h"
 #include "effect.h"
 #include "faction.h"
 #include "game.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "map.h"
@@ -27,8 +29,6 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
-#include "string_id.h"
-#include "stringmaker.h"
 #include "talker.h"
 #include "type_id.h"
 
@@ -67,7 +67,7 @@ static void gen_response_lines( dialogue &d, size_t expected_count )
 {
     d.gen_responses( d.topic_stack.back() );
     for( talk_response &response : d.responses ) {
-        response.create_option_line( d, ' ' );
+        response.create_option_line( d, input_event() );
     }
     if( d.responses.size() != expected_count ) {
         printf( "Test failure in %s\n", d.topic_stack.back().id.c_str() );
@@ -585,8 +585,8 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     player &player_character = get_avatar();
 
     player_character.remove_items_with( []( const item & it ) {
-        return it.get_category().get_id() == item_category_id( "books" ) ||
-               it.get_category().get_id() == item_category_id( "food" ) ||
+        return it.get_category_shallow().get_id() == item_category_id( "books" ) ||
+               it.get_category_shallow().get_id() == item_category_id( "food" ) ||
                it.typeId() == itype_id( "bottle_glass" );
     } );
     d.add_topic( "TALK_TEST_HAS_ITEM" );

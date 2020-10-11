@@ -55,6 +55,7 @@
     "price": 0,
     "price_postapoc": 25,
     "material": [ "plastic" ],
+    "qualities": [ [ "SURFACE", 3 ] ],
     "symbol": ")",
     "color": "light_blue",
     "use_action": { "type": "deploy_furn", "furn_type": "f_plastic_groundsheet" }

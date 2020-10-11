@@ -130,7 +130,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\*.h" Exclude ="..src\message.h" />
+    <ClInclude Include="..\src\*.h" Exclude="..src\message.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

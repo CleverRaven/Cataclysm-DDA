@@ -221,18 +221,6 @@
     ]
   },
   {
-    "id": "demihuman",
-    "//": "drops regular stomach, has no fur",
-    "type": "harvest",
-    "entries": [
-      { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.34 },
-      { "drop": "demihuman_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "demihuman_fat", "type": "flesh", "mass_ratio": 0.07 }
-    ]
-  },
-  {
     "id": "demihuman_large_fur",
     "//": "drops large stomach",
     "type": "harvest",
@@ -538,7 +526,8 @@
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
       { "drop": "bee_sting", "base_num": [ 0, 1 ], "type": "bone" },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "venom_bee", "type": "offal", "mass_ratio": 0.01 }
     ]
   },
   {
@@ -553,7 +542,8 @@
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
       { "drop": "wasp_sting", "base_num": [ 0, 1 ], "type": "bone" },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "venom_wasp", "type": "offal", "mass_ratio": 0.005 }
     ]
   },
   {
@@ -621,7 +611,8 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.24 },
+      { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.04 },
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.04 },
       { "drop": "pheromone", "type": "bionic", "max": 1 }
     ]
   },

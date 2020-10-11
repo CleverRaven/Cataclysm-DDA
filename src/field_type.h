@@ -18,7 +18,9 @@
 #include "color.h"
 #include "effect.h"
 #include "enums.h"
+#include "int_id.h"
 #include "mapdata.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -44,14 +46,6 @@ struct hash<description_affix> {
 };
 } // namespace std
 
-static const std::unordered_map<description_affix, std::string> description_affixes = {
-    { description_affix::DESCRIPTION_AFFIX_IN, translate_marker( " in %s" ) },
-    { description_affix::DESCRIPTION_AFFIX_COVERED_IN, translate_marker( " covered in %s" ) },
-    { description_affix::DESCRIPTION_AFFIX_ON, translate_marker( " on %s" ) },
-    { description_affix::DESCRIPTION_AFFIX_UNDER, translate_marker( " under %s" ) },
-    { description_affix::DESCRIPTION_AFFIX_ILLUMINTED_BY, translate_marker( " in %s" ) },
-};
-
 template<>
 struct enum_traits<description_affix> {
     static constexpr description_affix last = description_affix::DESCRIPTION_AFFIX_NUM;
@@ -62,7 +56,7 @@ struct field_effect {
     time_duration min_duration = 0_seconds;
     time_duration max_duration = 0_seconds;
     int intensity = 0;
-    body_part bp = num_bp;
+    bodypart_str_id bp;
     bool is_environmental = true;
     bool immune_in_vehicle  = false;
     bool immune_inside_vehicle  = false;
@@ -83,7 +77,8 @@ struct field_effect {
         return message_npc.translated();
     }
     effect get_effect( const time_point &start_time = calendar::turn ) const {
-        return effect( &id.obj(), get_duration(), bp, false, intensity, start_time );
+        return effect( effect_source::empty(), &id.obj(), get_duration(), bp, false, intensity,
+                       start_time );
     }
 };
 
@@ -112,6 +107,55 @@ struct field_intensity_level {
     int scent_neutralization = 0;
     std::vector<field_effect> field_effects;
 };
+
+const field_type_id INVALID_FIELD_TYPE_ID = field_type_id( -1 );
+extern const field_type_str_id fd_null;
+extern const field_type_str_id fd_fire;
+extern const field_type_str_id fd_blood;
+extern const field_type_str_id fd_bile;
+extern const field_type_str_id fd_extinguisher;
+extern const field_type_str_id fd_gibs_flesh;
+extern const field_type_str_id fd_gibs_veggy;
+extern const field_type_str_id fd_web;
+extern const field_type_str_id fd_slime;
+extern const field_type_str_id fd_acid;
+extern const field_type_str_id fd_sap;
+extern const field_type_str_id fd_sludge;
+extern const field_type_str_id fd_smoke;
+extern const field_type_str_id fd_toxic_gas;
+extern const field_type_str_id fd_tear_gas;
+extern const field_type_str_id fd_nuke_gas;
+extern const field_type_str_id fd_gas_vent;
+extern const field_type_str_id fd_fire_vent;
+extern const field_type_str_id fd_flame_burst;
+extern const field_type_str_id fd_electricity;
+extern const field_type_str_id fd_fatigue;
+extern const field_type_str_id fd_push_items;
+extern const field_type_str_id fd_shock_vent;
+extern const field_type_str_id fd_acid_vent;
+extern const field_type_str_id fd_plasma;
+extern const field_type_str_id fd_laser;
+extern const field_type_str_id fd_dazzling;
+extern const field_type_str_id fd_blood_veggy;
+extern const field_type_str_id fd_blood_insect;
+extern const field_type_str_id fd_blood_invertebrate;
+extern const field_type_str_id fd_gibs_insect;
+extern const field_type_str_id fd_gibs_invertebrate;
+extern const field_type_str_id fd_bees;
+extern const field_type_str_id fd_incendiary;
+extern const field_type_str_id fd_relax_gas;
+extern const field_type_str_id fd_fungal_haze;
+extern const field_type_str_id fd_cold_air2;
+extern const field_type_str_id fd_cold_air3;
+extern const field_type_str_id fd_cold_air4;
+extern const field_type_str_id fd_hot_air1;
+extern const field_type_str_id fd_hot_air2;
+extern const field_type_str_id fd_hot_air3;
+extern const field_type_str_id fd_hot_air4;
+extern const field_type_str_id fd_fungicidal_gas;
+extern const field_type_str_id fd_insecticidal_gas;
+extern const field_type_str_id fd_smoke_vent;
+extern const field_type_str_id fd_tindalos_rift;
 
 struct field_type {
     public:
@@ -151,7 +195,7 @@ struct field_type {
         std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
 
         std::vector<trait_id> immunity_data_traits;
-        std::vector<std::pair<body_part, int>> immunity_data_body_part_env_resistance;
+        std::vector<std::pair<bodypart_str_id, int>> immunity_data_body_part_env_resistance;
         std::set<mtype_id> immune_mtypes;
 
         int priority = 0;
@@ -160,6 +204,7 @@ struct field_type {
         bool accelerated_decay = false;
         bool display_items = true;
         bool display_field = false;
+        bool legacy_make_rubble = false;
         field_type_id wandering_field;
         std::string looks_like;
 
@@ -262,65 +307,8 @@ void check_consistency();
 void reset();
 
 const std::vector<field_type> &get_all();
-void set_field_type_ids();
 field_type get_field_type_by_legacy_enum( int legacy_enum_id );
 
 } // namespace field_types
-
-extern field_type_id fd_null,
-       fd_blood,
-       fd_bile,
-       fd_extinguisher,
-       fd_gibs_flesh,
-       fd_gibs_veggy,
-       fd_web,
-       fd_slime,
-       fd_acid,
-       fd_sap,
-       fd_sludge,
-       fd_fire,
-       fd_rubble,
-       fd_smoke,
-       fd_toxic_gas,
-       fd_tear_gas,
-       fd_nuke_gas,
-       fd_gas_vent,
-       fd_fire_vent,
-       fd_flame_burst,
-       fd_electricity,
-       fd_fatigue,
-       fd_push_items,
-       fd_shock_vent,
-       fd_acid_vent,
-       fd_plasma,
-       fd_laser,
-       fd_spotlight,
-       fd_dazzling,
-       fd_blood_veggy,
-       fd_blood_insect,
-       fd_blood_invertebrate,
-       fd_gibs_insect,
-       fd_gibs_invertebrate,
-       fd_cigsmoke,
-       fd_weedsmoke,
-       fd_cracksmoke,
-       fd_methsmoke,
-       fd_bees,
-       fd_incendiary,
-       fd_relax_gas,
-       fd_fungal_haze,
-       fd_cold_air1,
-       fd_cold_air2,
-       fd_cold_air3,
-       fd_cold_air4,
-       fd_hot_air1,
-       fd_hot_air2,
-       fd_hot_air3,
-       fd_hot_air4,
-       fd_fungicidal_gas,
-       fd_insecticidal_gas,
-       fd_smoke_vent,
-       fd_tindalos_rift
-       ;
 
 #endif // CATA_SRC_FIELD_TYPE_H

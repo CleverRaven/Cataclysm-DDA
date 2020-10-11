@@ -20,7 +20,7 @@ struct ammo_effect {
         void check() const;
 
     public:
-        field_type_id aoe_field_type = fd_null;
+        field_type_id aoe_field_type = fd_null.id_or( INVALID_FIELD_TYPE_ID );
         /** used during JSON loading only */
         std::string aoe_field_type_name = "fd_null";
         int aoe_intensity_min = 0;
@@ -36,8 +36,9 @@ struct ammo_effect {
         int aoe_check_sees_radius = 0;
         bool do_flashbang = false;
         bool do_emp_blast = false;
+        bool foamcrete_build = false;
 
-        field_type_id trail_field_type = fd_null;
+        field_type_id trail_field_type = fd_null.id_or( INVALID_FIELD_TYPE_ID );
         /** used during JSON loading only */
         std::string trail_field_type_name = "fd_null";
         int trail_intensity_min = 0;

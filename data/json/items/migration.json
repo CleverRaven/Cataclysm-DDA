@@ -202,139 +202,157 @@
     "id": "dogfood_canned",
     "type": "MIGRATION",
     "replace": "can_medium",
-    "contents": [ "dogfood" ]
+    "contents": [ { "id": "dogfood", "count": 1 } ]
   },
   {
     "id": "catfood_canned",
     "type": "MIGRATION",
     "replace": "can_food",
-    "contents": [ "catfood" ]
+    "contents": [ { "id": "catfood", "count": 1 } ]
   },
   {
     "id": "jar_V8",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "V8" ]
+    "contents": [ { "id": "V8", "count": 2 } ]
   },
   {
     "id": "jar_apple_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "apple_canned" ]
+    "contents": [ { "id": "apple_canned", "count": 4 } ]
   },
   {
     "id": "jar_broth",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "broth" ]
+    "contents": [ { "id": "broth", "count": 2 } ]
   },
   {
     "id": "jar_broth_bone",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "broth_bone" ]
+    "contents": [ { "id": "broth_bone", "count": 2 } ]
   },
   {
     "id": "jar_broth_human",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "broth_bone" ]
+    "contents": [ { "id": "broth_bone", "count": 2 } ]
   },
   {
     "id": "jar_fish_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "fish_canned" ]
+    "contents": [ { "id": "fish_canned", "count": 2 } ]
   },
   {
     "id": "jar_fish_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "fish_pickled" ]
+    "contents": [ { "id": "fish_pickled", "count": 2 } ]
   },
   {
     "id": "jar_human_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "meat_canned" ]
+    "contents": [ { "id": "meat_canned", "count": 2 } ]
   },
   {
     "id": "jar_human_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "meat_pickled" ]
+    "contents": [ { "id": "meat_pickled", "count": 2 } ]
   },
   {
     "id": "jar_kompot",
     "type": "MIGRATION",
     "replace": "jar_3l_glass_sealed",
-    "contents": [ "kompot" ]
+    "contents": [ { "id": "kompot", "count": 12 } ]
   },
   {
     "id": "jar_meat_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "meat_canned" ]
+    "contents": [ { "id": "meat_canned", "count": 2 } ]
   },
   {
     "id": "jar_meat_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "meat_pickled" ]
+    "contents": [ { "id": "meat_pickled", "count": 2 } ]
   },
   {
     "id": "jar_soup_fish",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "soup_fish" ]
+    "contents": [ { "id": "soup_fish", "count": 2 } ]
   },
   {
     "id": "jar_soup_human",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "soup_meat" ]
+    "contents": [ { "id": "soup_meat", "count": 2 } ]
   },
   {
     "id": "jar_soup_meat",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "soup_meat" ]
+    "contents": [ { "id": "soup_meat", "count": 2 } ]
   },
   {
     "id": "jar_soup_mushroom",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "soup_mushroom" ]
+    "contents": [ { "id": "soup_mushroom", "count": 2 } ]
   },
   {
     "id": "jar_soup_veggy",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "soup_veggy" ]
+    "contents": [ { "id": "soup_veggy", "count": 2 } ]
   },
   {
     "id": "jar_soup_woods",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "soup_woods" ]
+    "contents": [ { "id": "soup_woods", "count": 2 } ]
   },
   {
     "id": "jar_tomato_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "can_tomato" ]
+    "contents": [ { "id": "can_tomato", "count": 4 } ]
   },
   {
     "id": "jar_veggy_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "veggy_canned" ]
+    "contents": [ { "id": "veggy_canned", "count": 2 } ]
   },
   {
     "id": "jar_veggy_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "veggy_pickled" ]
+    "contents": [ { "id": "veggy_pickled", "count": 2 } ]
+  },
+  {
+    "id": "jar_eggs_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ { "id": "pickled_egg", "count": 6 } ]
+  },
+  {
+    "id": "jar_pickles_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ { "id": "pickle", "count": 2 } ]
+  },
+  {
+    "id": "jar_sauerkraut_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ { "id": "sauerkraut", "count": 2 } ]
   },
   {
     "id": "m14a",
@@ -375,7 +393,8 @@
     "id": "saiga_sawn",
     "type": "MIGRATION",
     "replace": "saiga_12",
-    "contents": [ "barrel_small" ]
+    "contents": [ { "id": "barrel_small", "count": 1 } ],
+    "sealed": false
   },
   {
     "id": "silver",
@@ -1105,11 +1124,6 @@
     "replace": "44_speedloader6"
   },
   {
-    "id": "l_enforcer_45",
-    "type": "MIGRATION",
-    "replace": "sw629"
-  },
-  {
     "id": [ "mosin91_30_ebr", "mn_ebr_kit", "mn_classic_kit" ],
     "type": "MIGRATION",
     "replace": "mosin91_30"
@@ -1235,8 +1249,54 @@
     "replace": "carton_sealed"
   },
   {
+    "id": "jar_3l_glass",
+    "type": "MIGRATION",
+    "replace": "jar_3l_glass_sealed"
+  },
+  {
+    "id": "jar_glass",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed"
+  },
+  {
+    "id": "condiment_bottle_unsealed",
+    "type": "MIGRATION",
+    "replace": "condiment_bottle_sealed"
+  },
+  {
+    "id": "acid",
+    "type": "MIGRATION",
+    "replace": "chem_sulphuric_acid"
+  },
+  {
+    "id": "water_acid",
+    "type": "MIGRATION",
+    "replace": "chem_sulphuric_acid"
+  },
+  {
+    "id": "water_acid_weak",
+    "type": "MIGRATION",
+    "replace": "chem_acetic_acid"
+  },
+  {
     "id": "four_winds_shotgun",
     "type": "MIGRATION",
     "replace": "slamfire_shotgun"
+  },
+  {
+    "id": "rag_bloody",
+    "type": "MIGRATION",
+    "replace": "rag",
+    "flags": [ "FILTHY" ]
+  },
+  {
+    "id": "bottle_plastic_sealed",
+    "type": "MIGRATION",
+    "replace": "bottle_plastic"
+  },
+  {
+    "id": "jug_plastic_sealed",
+    "type": "MIGRATION",
+    "replace": "jug_plastic"
   }
 ]

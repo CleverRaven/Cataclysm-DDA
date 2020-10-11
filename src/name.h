@@ -6,15 +6,23 @@
 
 #include "enum_traits.h"
 
+template <typename E> struct enum_traits;
+
+/// @brief types of proper noun tables
 enum class nameFlags : int {
+    /// Masculine first names, also used for Unisex
     IsMaleName   = 1 << 0,
+    /// Feminine first names, also used for Unisex
     IsFemaleName = 1 << 1,
     IsUnisexName = IsMaleName | IsFemaleName,
     IsGivenName  = 1 << 2,
     IsFamilyName = 1 << 3,
     IsNickName   = 1 << 4,
+    /// Names of cities and towns in game
     IsTownName   = 1 << 5,
+    /// Full names of crowdfunding donors
     IsFullName   = 1 << 6,
+    /// Name belongs to list for world config saves. Seen in start menu.
     IsWorldName  = 1 << 7
 };
 
