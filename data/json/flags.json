@@ -1950,11 +1950,6 @@
     "context": [  ]
   },
   {
-    "id": "MECH_WEAPON",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "NOGIB",
     "type": "json_flag",
     "context": [  ]
