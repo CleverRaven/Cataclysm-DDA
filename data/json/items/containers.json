@@ -1627,14 +1627,14 @@
     "category": "container",
     "name": { "str": "first aid kit box" },
     "looks_like": "1st_aid",
-    "description": "A plastic box that used to contain a first aid kit. Can hold 1.25 liters of liquid.",
+    "description": "A plastic box that used to contain a first aid kit.  Can hold 1.25 liters of liquid.",
     "weight": "50 g",
     "volume": "1250 ml",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -2,
     "material": [ "plastic" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1.25 L", "max_contains_weight": "3 kg", "moves": 400 } ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1250 ml", "max_contains_weight": "3 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "red"
   },
@@ -1652,7 +1652,7 @@
     "price_postapoc": 10,
     "to_hit": -2,
     "material": [ "cotton", "neoprene" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1.25 L", "max_contains_weight": "3 kg", "moves": 400 } ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1250 ml", "max_contains_weight": "3 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "red"
   }
