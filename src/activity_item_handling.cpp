@@ -963,20 +963,19 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     // use nearby welding rig without needing to drag it or position yourself on the right side of the vehicle.
     if( !found_welder ) {
         for( const tripoint &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
-            const optional_vpart_position vp = here.veh_at( elem );
+            const cata::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( itype_welder );
+
             if( vp ) {
-                vehicle &veh = vp->vehicle();
-                const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
-                if( weldpart ) {
-                    item welder( itype_welder, 0 );
-                    welder.charges = veh.fuel_left( itype_battery, true );
-                    welder.set_flag( "PSEUDO" );
-                    temp_inv.add_item( welder );
-                    item soldering_iron( itype_soldering_iron, 0 );
-                    soldering_iron.charges = veh.fuel_left( itype_battery, true );
-                    soldering_iron.set_flag( "PSEUDO" );
-                    temp_inv.add_item( soldering_iron );
-                }
+                const int veh_battery = vp->vehicle().fuel_left( itype_battery, true );
+
+                item welder( itype_welder, 0 );
+                welder.charges = veh_battery;
+                welder.set_flag( "PSEUDO" );
+                temp_inv.add_item( welder );
+                item soldering_iron( itype_soldering_iron, 0 );
+                soldering_iron.charges = veh_battery;
+                soldering_iron.set_flag( "PSEUDO" );
+                temp_inv.add_item( soldering_iron );
             }
         }
     }

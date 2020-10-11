@@ -80,6 +80,13 @@ class vpart_position
          */
         cata::optional<vpart_reference> part_displayed() const;
         /**
+        * Returns the part displayed at this point of the vehicle.
+        */
+        cata::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
+        // Returns a list of all tools provided by vehicle and their hotkey
+        std::vector<std::pair<itype_id, int>> get_tools() const;
+
+        /**
          * Returns the position of this part in the coordinates system that @ref game::m uses.
          * Postcondition (if the vehicle cache of the map is correct and if there are un-removed
          * parts at this positions):
@@ -116,6 +123,8 @@ class optional_vpart_position : public cata::optional<vpart_position>
         cata::optional<vpart_reference> avail_part_with_feature( vpart_bitflags f ) const;
         cata::optional<vpart_reference> obstacle_at_part() const;
         cata::optional<vpart_reference> part_displayed() const;
+        cata::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
+        std::vector<std::pair<itype_id, int>> get_tools() const;
 };
 
 /**

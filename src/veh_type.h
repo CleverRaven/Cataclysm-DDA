@@ -223,6 +223,13 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
+        bool has_tool( const itype_id &tool ) const {
+            return std::find_if( pseudo_tools.cbegin(),
+            pseudo_tools.cend(), [&tool]( std::pair<itype_id, int>p ) {
+                return p.first == tool;
+            } ) != pseudo_tools.cend();
+        }
+
         /** Gets whether part is in a category for display */
         bool has_category( const std::string &category ) const;
 
@@ -278,6 +285,7 @@ class vpart_info
          */
         const cata::optional<vpslot_workbench> &get_workbench_info() const;
 
+        std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
     private:
         std::set<std::string> flags;
         // category list for installation ui breakdown
@@ -289,6 +297,9 @@ class vpart_info
         std::vector<std::pair<requirement_id, int>> install_reqs;
         std::vector<std::pair<requirement_id, int>> removal_reqs;
         std::vector<std::pair<requirement_id, int>> repair_reqs;
+
+        /** Pseudo tools this provides when installed, second is the hotkey */
+        std::set<std::pair<itype_id, int>> pseudo_tools;
 
         cata::optional<vpslot_engine> engine_info;
         cata::optional<vpslot_wheel> wheel_info;

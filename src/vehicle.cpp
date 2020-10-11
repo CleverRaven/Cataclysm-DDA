@@ -2569,6 +2569,32 @@ cata::optional<vpart_reference> vpart_position::part_displayed() const
     return vpart_reference( vehicle(), part_id );
 }
 
+cata::optional<vpart_reference> vpart_position::part_with_tool( const itype_id &tool_type ) const
+{
+    for( const int idx : vehicle().parts_at_relative( mount(), false ) ) {
+        const vpart_reference vp( vehicle(), idx );
+        if( vp.part().is_available() && vp.info().has_tool( tool_type ) ) {
+            return vp;
+        }
+    }
+    return cata::optional<vpart_reference>();
+}
+
+std::vector<std::pair<itype_id, int>> vpart_position::get_tools() const
+{
+    std::set<std::pair<itype_id, int>> tools;
+    for( const int part_idx : this->vehicle().parts_at_relative( this->mount(), false ) ) {
+        const vpart_reference vp( this->vehicle(), part_idx );
+        if( vp.part().is_broken() ) {
+            continue;
+        }
+        std::set<std::pair<itype_id, int>> items = vp.part().info().get_pseudo_tools();
+        std::copy( items.cbegin(), items.cend(), std::inserter( tools, tools.end() ) );
+    }
+
+    return std::vector<std::pair<itype_id, int>>( tools.cbegin(), tools.cend() );
+}
+
 cata::optional<vpart_reference> vpart_position::part_with_feature( const std::string &f,
         const bool unbroken ) const
 {
@@ -2636,6 +2662,13 @@ cata::optional<vpart_reference> optional_vpart_position::part_displayed() const
     return has_value() ? value().part_displayed() : cata::nullopt;
 }
 
+cata::optional<vpart_reference> optional_vpart_position::part_with_tool(
+    const itype_id &tool_type ) const
+{
+    return has_value() ? value().part_with_tool( tool_type ) : cata::nullopt;
+}
+
+
 int vehicle::part_with_feature( int part, vpart_bitflags const flag, bool unbroken ) const
 {
     if( part_flag( part, flag ) && ( !unbroken || !parts[part].is_broken() ) ) {
@@ -2656,6 +2689,11 @@ int vehicle::part_with_feature( int part, vpart_bitflags const flag, bool unbrok
 int vehicle::part_with_feature( int part, const std::string &flag, bool unbroken ) const
 {
     return part_with_feature( parts[part].mount, flag, unbroken );
+}
+
+std::vector<std::pair<itype_id, int>> optional_vpart_position::get_tools() const
+{
+    return has_value() ? value().get_tools() : std::vector<std::pair<itype_id, int>>();
 }
 
 int vehicle::part_with_feature( const point &pt, const std::string &flag, bool unbroken ) const
@@ -6770,29 +6808,26 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
                                       const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
+    // HACK: water_faucet pseudo tool gives access to liquids in tanks
+    const itype_id veh_tool_type = type.obj().phase > phase_id::SOLID
+                                   ? itype_id( "water_faucet" )
+                                   : type;
+    const cata::optional<vpart_reference> tool_vp = vp.part_with_tool( veh_tool_type );
+    const cata::optional<vpart_reference> cargo_vp = vp.part_with_feature( "CARGO", true );
 
-    const cata::optional<vpart_reference> kpart = vp.part_with_feature( "FAUCET", true );
-    const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
-    const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
-    const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
-    const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
-    const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
-    const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
+    const auto tool_wants_battery = []( const itype_id & type ) {
+        item tool( type, 0 ), mag( tool.magazine_default() );
+        mag.contents.clear_items();
 
-    if( kpart ) { // we have a faucet, now to see what to drain
-        itype_id ftype = itype_id::NULL_ID();
+        return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
+               tool.ammo_capacity( ammotype( "battery" ) ) > 0;
+    };
 
-        // Special case hotplates which draw battery power
-        if( type == itype_hotplate ) {
-            ftype = itype_battery;
-        } else {
-            ftype = type;
-        }
-
-        // TODO: add a sane birthday arg
-        item tmp( type, 0 );
-        tmp.charges = kpart->vehicle().drain( ftype, quantity );
+    if( tool_vp ) { // handle vehicle tools
+        itype_id fuel_type = tool_wants_battery( type ) ? itype_battery : type;
+        item tmp( type, 0 ); // TODO: add a sane birthday arg
         // TODO: Handle water poison when crafting starts respecting it
+        tmp.charges = tool_vp->vehicle().drain( fuel_type, quantity );
         quantity -= tmp.charges;
         ret.push_back( tmp );
 
@@ -6801,109 +6836,8 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
         }
     }
 
-    if( weldpart ) { // we have a weldrig, now to see what to drain
-        itype_id ftype = itype_id::NULL_ID();
-
-        if( type == itype_welder ) {
-            ftype = itype_battery;
-        } else if( type == itype_soldering_iron ) {
-            ftype = itype_battery;
-        }
-        // TODO: add a sane birthday arg
-        item tmp( type, 0 );
-        tmp.charges = weldpart->vehicle().drain( ftype, quantity );
-        quantity -= tmp.charges;
-        ret.push_back( tmp );
-
-        if( quantity == 0 ) {
-            return ret;
-        }
-    }
-
-    if( craftpart ) { // we have a craftrig, now to see what to drain
-        itype_id ftype = itype_id::NULL_ID();
-
-        if( type == itype_press ) {
-            ftype = itype_battery;
-        } else if( type == itype_vac_sealer ) {
-            ftype = itype_battery;
-        } else if( type == itype_dehydrator ) {
-            ftype = itype_battery;
-        } else if( type == itype_food_processor ) {
-            ftype = itype_battery;
-        }
-
-        // TODO: add a sane birthday arg
-        item tmp( type, 0 );
-        tmp.charges = craftpart->vehicle().drain( ftype, quantity );
-        quantity -= tmp.charges;
-        ret.push_back( tmp );
-
-        if( quantity == 0 ) {
-            return ret;
-        }
-    }
-
-    if( forgepart ) { // we have a veh_forge, now to see what to drain
-        itype_id ftype = itype_id::NULL_ID();
-
-        if( type == itype_forge ) {
-            ftype = itype_battery;
-        }
-
-        // TODO: add a sane birthday arg
-        item tmp( type, 0 );
-        tmp.charges = forgepart->vehicle().drain( ftype, quantity );
-        quantity -= tmp.charges;
-        ret.push_back( tmp );
-
-        if( quantity == 0 ) {
-            return ret;
-        }
-    }
-
-    if( kilnpart ) { // we have a veh_kiln, now to see what to drain
-        itype_id ftype = itype_id::NULL_ID();
-
-        if( type == itype_kiln ) {
-            ftype = itype_battery;
-        }
-
-        // TODO: add a sane birthday arg
-        item tmp( type, 0 );
-        tmp.charges = kilnpart->vehicle().drain( ftype, quantity );
-        quantity -= tmp.charges;
-        ret.push_back( tmp );
-
-        if( quantity == 0 ) {
-            return ret;
-        }
-    }
-
-    if( chempart ) { // we have a chem_lab, now to see what to drain
-        itype_id ftype = itype_id::NULL_ID();
-
-        if( type == itype_chemistry_set ) {
-            ftype = itype_battery;
-        } else if( type == itype_hotplate ) {
-            ftype = itype_battery;
-        } else if( type == itype_electrolysis_kit ) {
-            ftype = itype_battery;
-        }
-
-        // TODO: add a sane birthday arg
-        item tmp( type, 0 );
-        tmp.charges = chempart->vehicle().drain( ftype, quantity );
-        quantity -= tmp.charges;
-        ret.push_back( tmp );
-
-        if( quantity == 0 ) {
-            return ret;
-        }
-    }
-
-    if( cargo ) {
-        vehicle_stack veh_stack = get_items( cargo->part_index() );
+    if( cargo_vp ) {
+        vehicle_stack veh_stack = get_items( cargo_vp->part_index() );
         std::list<item> tmp = veh_stack.use_charges( type, quantity, vp.pos(), filter );
         ret.splice( ret.end(), tmp );
         if( quantity <= 0 ) {
@@ -7070,8 +7004,10 @@ void vehicle::update_time( const time_point &update_to )
         int cost_to_purify = c_qty * item::find_type( itype_water_purifier )->charges_to_use();
 
         if( qty > 0 ) {
-            if( has_part( global_part_pos3( pt ), "WATER_PURIFIER", true ) &&
-                ( fuel_left( itype_battery, true ) > cost_to_purify ) ) {
+            const cata::optional<vpart_reference> vp_purifier = vpart_position( *this, idx )
+                    .part_with_tool( itype_water_purifier );
+
+            if( vp_purifier && ( fuel_left( itype_battery, true ) > cost_to_purify ) ) {
                 tank->ammo_set( itype_water_clean, c_qty );
                 discharge_battery( cost_to_purify );
             } else {
