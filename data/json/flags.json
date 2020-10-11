@@ -1925,11 +1925,6 @@
     "context": [  ]
   },
   {
-    "id": "FLAMMABLE",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "GRENADE",
     "type": "json_flag",
     "context": [  ]
