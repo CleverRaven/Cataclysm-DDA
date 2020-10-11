@@ -1973,10 +1973,5 @@
     "id": "ANESTHESIA",
     "type": "json_flag",
     "context": [  ]
-  },
-  {
-    "id": "NO_PICKUP",
-    "type": "json_flag",
-    "context": [  ]
   }
 ]
