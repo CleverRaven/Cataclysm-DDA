@@ -1784,11 +1784,6 @@
     "context": [  ]
   },
   {
-    "id": "TRANSPARENT",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "UNDERWATER_GUN",
     "type": "json_flag",
     "context": [  ]
