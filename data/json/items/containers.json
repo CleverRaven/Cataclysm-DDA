@@ -1620,5 +1620,40 @@
     "symbol": ")",
     "color": "green",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]
+  },
+  {
+    "id": "1st_aid_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "first aid kit box" },
+    "looks_like": "1st_aid",
+    "description": "A plastic box that used to contain a first aid kit. Can hold 1.25 liters of liquid.",
+    "weight": "50 g",
+    "volume": "1250 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "material": [ "plastic" ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1.25 L", "max_contains_weight": "3 kg", "moves": 400 } ],
+    "symbol": ")",
+    "color": "red"
+  },
+  {
+    "id": "ifak_pouch",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "IFAK pouch" },
+    "looks_like": "1st_aid",
+    "description": "A fabric pouch that used to contain an IFAK.",
+    "weight": "5 g",
+    "volume": "1250 ml",
+    "rigid": "false",
+    "price": 0,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "material": [ "cotton", "neoprene" ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1.25 L", "max_contains_weight": "3 kg", "moves": 400 } ],
+    "symbol": ")",
+    "color": "red"
   }
 ]
