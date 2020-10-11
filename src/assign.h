@@ -45,7 +45,7 @@ inline void report_strict_violation( const JsonObject &jo, const std::string &me
         jo.throw_error( message, name );
     } catch( const JsonError &err ) {
         // And catch the exception so the loading continues like normal.
-        debugmsg( "%s", err.what() );
+        debugmsg( "(json-error)\n%s", err.what() );
     }
 }
 
@@ -122,7 +122,7 @@ bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val
     std::pair<T, T> out;
 
     if( jo.has_array( name ) ) {
-        auto arr = jo.get_array( name );
+        JsonArray arr = jo.get_array( name );
         arr.read( 0, out.first );
         arr.read( 1, out.second );
 

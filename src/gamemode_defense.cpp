@@ -40,7 +40,7 @@
 #include "ui_manager.h"
 #include "weather.h"
 
-static const skill_id skill_barter( "barter" );
+static const skill_id skill_speech( "speech" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_ROBOT( "GROUP_ROBOT" );
@@ -60,22 +60,21 @@ static constexpr int SPECIAL_WAVE_MIN = 5;
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
 
-std::string caravan_category_name( caravan_category cat );
-std::vector<itype_id> caravan_items( caravan_category cat );
-std::set<m_flag> monflags_to_add;
+static std::string caravan_category_name( caravan_category cat );
+static std::vector<itype_id> caravan_items( caravan_category cat );
 
-int caravan_price( Character &u, int price );
+static int caravan_price( Character &u, int price );
 
-void draw_caravan_borders( const catacurses::window &w, int current_window );
-void draw_caravan_categories( const catacurses::window &w, int category_selected,
-                              int total_price, int cash );
-void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items,
-                         std::vector<int> *counts, int offset, int item_selected );
+static void draw_caravan_borders( const catacurses::window &w, int current_window );
+static void draw_caravan_categories( const catacurses::window &w, int category_selected,
+                                     int total_price, int cash );
+static void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items,
+                                std::vector<int> *counts, int offset, int item_selected );
 
-std::string defense_style_name( defense_style style );
-std::string defense_style_description( defense_style style );
-std::string defense_location_name( defense_location location );
-std::string defense_location_description( defense_location location );
+static std::string defense_style_name( defense_style style );
+static std::string defense_style_description( defense_style style );
+static std::string defense_location_name( defense_location location );
+static std::string defense_location_description( defense_location location );
 
 defense_game::defense_game()
     : time_between_waves( 0_turns )
@@ -1272,10 +1271,10 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
 int caravan_price( Character &u, int price )
 {
     ///\EFFECT_BARTER reduces caravan prices, 5% per point, up to 50%
-    if( u.get_skill_level( skill_barter ) > 10 ) {
+    if( u.get_skill_level( skill_speech ) > 10 ) {
         return static_cast<int>( static_cast<double>( price ) * .5 );
     }
-    return price * ( 1.0 - u.get_skill_level( skill_barter ) * .05 );
+    return price * ( 1.0 - u.get_skill_level( skill_speech ) * .05 );
 }
 
 void defense_game::spawn_wave()

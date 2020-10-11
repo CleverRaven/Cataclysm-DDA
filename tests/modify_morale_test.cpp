@@ -611,7 +611,7 @@ TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
             dummy.mutate_towards( trait_URSINE_FUR );
             dummy.mutate_towards( trait_URSINE_EYE );
             dummy.mutate_towards( trait_PADDED_FEET );
-            REQUIRE( dummy.mutation_category_level["URSINE"] > 40 );
+            REQUIRE( dummy.mutation_category_level[mutation_category_id( "URSINE" )] > 40 );
 
             THEN( "they get an extra honey morale bonus for eating it" ) {
                 dummy.modify_morale( honeycomb );

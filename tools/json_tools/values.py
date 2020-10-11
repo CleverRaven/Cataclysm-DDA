@@ -24,14 +24,20 @@ Example usages:
     # What cost values are in bionics that are active?
     %(prog)s --key=cost type=bionic active=true
 """, formatter_class=argparse.RawDescriptionHelpFormatter)
+
 parser.add_argument(
     "--fnmatch",
     default="*.json",
     help="override with glob expression to select a smaller fileset.")
 parser.add_argument(
-    "--human",
+    "-H", "--human",
     action="store_true",
-    help="if set, makes output human readable. default is to return output in JSON dictionary.")
+    help="if set, makes output human readable. default is JSON output.")
+parser.add_argument(
+    "-L", "--list",
+    action="store_true",
+    help="print only a sorted list of values in JSON format,"
+         " or newline-separated plain text list if --human is also set.")
 parser.add_argument(
     "-k", "--key",
     required=True, type=str,
@@ -64,11 +70,15 @@ if __name__ == "__main__":
         print("Nothing found.")
         sys.exit(1)
 
-    if args.human:
+    if args.human and args.list:
+        print("\n".join(sorted(stats.keys())))
+    elif args.human:
         title = "Count of values from field '%s'" % search_key
         print("\n\n%s" % title)
         print("(Data from %s out of %s blobs)" % (num_matches, len(json_data)))
         print("-" * len(title))
         ui_counts_to_columns(stats)
+    elif args.list:
+        print(json.dumps(sorted(stats.keys())))
     else:
         print(json.dumps(stats))

@@ -11,8 +11,6 @@
 #include "player_helpers.h"
 #include "item.h"
 
-
-
 static void test_generic_ench( avatar &p, int str_before )
 {
     // wait a turn for the effect to kick in
@@ -64,7 +62,7 @@ TEST_CASE( "bionic enchantments", "[enchantments][bionics]" )
     p.set_max_power_level( 100_kJ );
     p.set_power_level( 100_kJ );
 
-    give_and_activate_bionic( p, bionic_id( "test_bio_night" ) );
+    give_and_activate_bionic( p, bionic_id( "test_bio_ench" ) );
 
     test_generic_ench( p, str_before );
 }
@@ -74,7 +72,7 @@ TEST_CASE( "mutation enchantments", "[enchantments][mutations]" )
     avatar p;
     clear_character( p );
 
-    const trait_id test_ink( "TEST_INK_GLANDS" );
+    const trait_id test_ink( "TEST_ENCH_MUTATION" );
     int str_before = p.get_str();
 
     p.toggle_trait( test_ink );

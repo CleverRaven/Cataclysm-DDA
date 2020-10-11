@@ -50,6 +50,7 @@ class vehicle;
 class vehicle_cursor;
 class vehicle_part_range;
 class vpart_info;
+class vpart_position;
 class zone_data;
 struct itype;
 struct uilist_entry;
@@ -60,6 +61,8 @@ enum vpart_bitflags : int;
 enum ter_bitflags : int;
 template<typename feature_type>
 class vehicle_part_with_feature_range;
+
+void handbrake();
 
 namespace catacurses
 {
@@ -108,11 +111,11 @@ enum veh_coll_type : int {
 struct smart_controller_cache {
     time_point created = calendar::turn;
     time_point gas_engine_last_turned_on = calendar::start_of_cataclysm;
-    bool gas_engine_shutdown_forbidden;
-    int velocity;
-    int battery_percent;
-    int battery_net_charge_rate;
-    float load;
+    bool gas_engine_shutdown_forbidden = false;
+    int velocity = 0;
+    int battery_percent = 0;
+    int battery_net_charge_rate = 0;
+    float load = 0.0f;
 };
 
 struct smart_controller_config {
@@ -181,7 +184,7 @@ class towing_data
             towing = nullptr;
             towed_by = nullptr;
         }
-        towing_point_side tow_direction;
+        towing_point_side tow_direction = NUM_TOW_TYPES;
         // temp variable used for saving/loading
         tripoint other_towing_point;
 };
@@ -303,6 +306,9 @@ struct vehicle_part {
         /** Current faults affecting this part (if any) */
         const std::set<fault_id> &faults() const;
 
+        /** Does this vehicle part have a fault with this flag */
+        bool has_fault_flag( const std::string &searched_flag ) const;
+
         /** Faults which could potentially occur with this part (if any) */
         std::set<fault_id> faults_potential() const;
 
@@ -397,7 +403,7 @@ struct vehicle_part {
         int max_damage() const;
 
         /** Current part damage level in same units as item::damage_level */
-        int damage_level( int max ) const;
+        int damage_level() const;
 
         /** Current part damage as a percentage of maximum, with 0.0 being perfect condition */
         double damage_percent() const;
@@ -867,6 +873,8 @@ class vehicle
         // Fold up the vehicle
         bool fold_up();
 
+        // Try select any fuel for engine, returns true if some fuel is available
+        bool auto_select_fuel( int e );
         // Attempt to start an engine
         bool start_engine( int e );
         // stop all engines
@@ -1426,7 +1434,7 @@ class vehicle
          * @param k_traction_cache cached value of vehicle::k_traction, if empty, will be computed
          */
         void smart_controller_handle_turn( bool thrusting = false,
-                                           cata::optional<float> k_traction_cache = cata::nullopt );
+                                           const cata::optional<float> &k_traction_cache = cata::nullopt );
 
         //deceleration due to ground friction and air resistance
         int slowdown( int velocity ) const;
@@ -1619,6 +1627,16 @@ class vehicle
 
         // Update the set of occupied points and return a reference to it
         std::set<tripoint> &get_points( bool force_refresh = false );
+
+        /**
+        * Consumes specified charges (or fewer) from the vehicle part
+        * @param what specific type of charge required, e.g. 'battery'
+        * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
+        * @param filter Must return true for use to occur.
+        * @return items that provide consumed charges
+        */
+        std::list<item> use_charges( const vpart_position &vp, const itype_id &type, int &quantity,
+                                     const std::function<bool( const item & )> &filter );
 
         // opens/closes doors or multipart doors
         void open( int part_index );
@@ -1964,7 +1982,7 @@ class vehicle
         bool is_autodriving = false;
         bool is_following = false;
         bool is_patrolling = false;
-        bool all_wheels_on_one_axis;
+        bool all_wheels_on_one_axis = false;
         // TODO: change these to a bitset + enum?
         // cruise control on/off
         bool cruise_on = true;

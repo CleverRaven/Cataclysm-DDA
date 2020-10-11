@@ -2692,6 +2692,7 @@
     "price_postapoc": 250,
     "material": [ "wood" ],
     "volume": "6750 ml",
+    "longest_side": "100 cm",
     "warmth": 2,
     "encumbrance": 27,
     "bashing": 8,
@@ -2733,6 +2734,7 @@
     "//": "Electric guitar less awesome when there's no electricity.",
     "material": [ "wood", "iron" ],
     "volume": "6750 ml",
+    "longest_side": "100 cm",
     "warmth": 2,
     "encumbrance": 27,
     "bashing": 8,
@@ -3046,7 +3048,7 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES" ]
   },
   {
     "id": "helmet_riot_raised",

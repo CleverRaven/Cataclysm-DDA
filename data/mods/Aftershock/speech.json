@@ -58,5 +58,11 @@
     "speaker": "afs_mon_migoturret",
     "sound": "\"I can't keep myself from killing you, please run!\"",
     "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_utilibot_beehive",
+    "sound": "\"bzzzzzz.\"",
+    "volume": 3
   }
 ]

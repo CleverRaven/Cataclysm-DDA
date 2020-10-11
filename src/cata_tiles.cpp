@@ -15,6 +15,7 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
@@ -89,8 +90,6 @@ static const std::array<std::string, 8> multitile_keys = {{
     }
 };
 
-extern int fontwidth;
-extern int fontheight;
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
         "", // C_NONE,
@@ -323,7 +322,7 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
     throwErrorIf( SDL_BlitSurface( original.get(), nullptr, surf.get(), nullptr ) != 0,
                   "SDL_BlitSurface failed" );
 
-    SDL_Color *pix = reinterpret_cast<SDL_Color *>( surf->pixels );
+    SDL_Color *pix = static_cast<SDL_Color *>( surf->pixels );
 
     for( int y = 0, ey = surf->h; y < ey; ++y ) {
         for( int x = 0, ex = surf->w; x < ex; ++x, ++pix ) {
@@ -986,7 +985,7 @@ struct tile_render_info {
     tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
                       const bool ( &invisible )[5] )
         : pos( pos ), height_3d( height_3d ), ll( ll ) {
-        std::copy( invisible, invisible + 5, this->invisible );
+        std::copy_n( invisible, 5, this->invisible );
     }
 };
 
@@ -1021,7 +1020,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     init_light();
     map &here = get_map();
-    here.update_visibility_cache( center.z );
     const visibility_variables &cache = here.get_visibility_variables_cache();
 
     const bool iso_mode = tile_iso;
@@ -1222,8 +1220,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 const bool visibility = g->displaying_visibility_creature->sees( pos );
 
                 // color overlay.
-                auto block_color = visibility ? windowsPalette[catacurses::green] :
-                                   SDL_Color{ 192, 192, 192, 255 };
+                SDL_Color block_color = visibility ? windowsPalette[catacurses::green] :
+                                        SDL_Color{ 192, 192, 192, 255 };
                 block_color.a = 100;
                 color_blocks.first = SDL_BLENDMODE_BLEND;
                 color_blocks.second.emplace( player_to_screen( point( x, y ) ), block_color );
@@ -1235,33 +1233,41 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                                  direction::NORTH ) );
             }
 
-            if( g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
-                static std::vector<SDL_Color> lighting_colors;
-                if( g->displaying_lighting_condition == 0 ) {
-                    if( lighting_colors.empty() ) {
-                        SDL_Color white = { 255, 255, 255, 255 };
-                        SDL_Color blue = { 0, 0, 255, 255 };
-                        lighting_colors = color_linear_interpolate( white, blue, 9 );
-                    }
-
-                    // note: lighting will be constrained in the [1.0, 11.0] range.
-                    float ambient = here.ambient_light_at( {x, y, center.z} );
-                    float lighting = std::max( 1.0, LIGHT_AMBIENT_LIT - ambient + 1.0 );
-
-                    auto tile_pos = player_to_screen( point( x, y ) );
-
-                    // color overlay
-                    auto color = lighting_colors[static_cast<int>( lighting ) - 1];
-                    color.a = 100;
-                    color_blocks.first = SDL_BLENDMODE_BLEND;
-                    color_blocks.second.emplace( tile_pos, color );
-
-                    // string overlay
-                    overlay_strings.emplace( tile_pos + quarter_tile,
-                                             formatted_text( string_format( "%.1f", ambient ),
-                                                     catacurses::black,
-                                                     direction::NORTH ) );
+            static std::vector<SDL_Color> lighting_colors;
+            // color hue in the range of [0..10], 0 being white,  10 being blue
+            auto draw_debug_tile = [&]( const int color_hue, const std::string & text ) {
+                if( lighting_colors.empty() ) {
+                    SDL_Color white = { 255, 255, 255, 255 };
+                    SDL_Color blue = { 0, 0, 255, 255 };
+                    lighting_colors = color_linear_interpolate( white, blue, 9 );
                 }
+                point tile_pos = player_to_screen( point( x, y ) );
+
+                // color overlay
+                SDL_Color color = lighting_colors[std::min( std::max( 0, color_hue ), 10 )];
+                color.a = 100;
+                color_blocks.first = SDL_BLENDMODE_BLEND;
+                color_blocks.second.emplace( tile_pos, color );
+
+                // string overlay
+                overlay_strings.emplace( tile_pos + quarter_tile, formatted_text( text, catacurses::black,
+                                         direction::NORTH ) );
+            };
+
+            if( g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
+                if( g->displaying_lighting_condition == 0 ) {
+                    const float light = here.ambient_light_at( {x, y, center.z} );
+                    // note: lighting will be constrained in the [1.0, 11.0] range.
+                    int intensity = static_cast<int>( std::max( 1.0, LIGHT_AMBIENT_LIT - light + 1.0 ) ) - 1;
+                    draw_debug_tile( intensity, string_format( "%.1f", light ) );
+                }
+            }
+
+            if( g->display_overlay_state( ACTION_DISPLAY_TRANSPARENCY ) ) {
+                const float tr = here.light_transparency( {x, y, center.z} );
+                int intensity =  tr <= LIGHT_TRANSPARENCY_SOLID ? 10 :  static_cast<int>
+                                 ( ( tr - LIGHT_TRANSPARENCY_OPEN_AIR ) * 8 );
+                draw_debug_tile( intensity, string_format( "%.2f", tr ) );
             }
 
             if( !invisible[0] && apply_vision_effects( pos, here.get_visibility( ll, cache ) ) ) {
@@ -2665,7 +2671,7 @@ bool cata_tiles::draw_vpart_below( const tripoint &p, const lit_level /*ll*/, in
     tripoint pbelow( p.xy(), p.z - 1 );
     int height_3d_below = 0;
     bool below_invisible[5];
-    std::fill( below_invisible, below_invisible + 5, false );
+    std::fill_n( below_invisible, 5, false );
     return draw_vpart( pbelow, lit_level::LOW, height_3d_below, below_invisible );
 }
 
@@ -2832,7 +2838,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         attitude = Creature::Attitude::ANY;
         const monster *m = dynamic_cast<const monster *>( &critter );
         if( m != nullptr ) {
-            const auto ent_category = C_MONSTER;
+            const TILE_CATEGORY ent_category = C_MONSTER;
             std::string ent_subcategory = empty_string;
             if( !m->type->species.empty() ) {
                 ent_subcategory = m->type->species.begin()->str();
@@ -3413,7 +3419,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
                                            iter->getStep() >= SCT.iMaxSteps / 2 );
 
             if( use_font ) {
-                const auto direction = iter->getDirecton();
+                const direction direction = iter->getDirecton();
                 // Compensate for string length offset added at SCT creation
                 // (it will be readded using font size and proper encoding later).
                 const int direction_offset = ( -direction_XY( direction ).x + 1 ) *
@@ -3786,11 +3792,11 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
     std::vector<options_manager::id_and_option> renderer_names;
     std::vector<options_manager::id_and_option> default_renderer_names = {
 #   if defined(_WIN32)
-        { "direct3d", translate_marker( "direct3d" ) },
+        { "direct3d", to_translation( "direct3d" ) },
 #   endif
-        { "software", translate_marker( "software" ) },
-        { "opengl", translate_marker( "opengl" ) },
-        { "opengles2", translate_marker( "opengles2" ) },
+        { "software", to_translation( "software" ) },
+        { "opengl", to_translation( "opengl" ) },
+        { "opengles2", to_translation( "opengles2" ) },
     };
     int numRenderDrivers = SDL_GetNumRenderDrivers();
     DebugLog( D_INFO, DC_ALL ) << "Number of render drivers on your system: " << numRenderDrivers;
@@ -3803,7 +3809,7 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
         if( ri.name == default_renderer_names.front().first ) {
             renderer_names.emplace( renderer_names.begin(), default_renderer_names.front() );
         } else {
-            renderer_names.emplace_back( ri.name, ri.name );
+            renderer_names.emplace_back( ri.name, no_translation( ri.name ) );
         }
 
     }
@@ -3815,12 +3821,12 @@ std::vector<options_manager::id_and_option> cata_tiles::build_display_list()
 {
     std::vector<options_manager::id_and_option> display_names;
     std::vector<options_manager::id_and_option> default_display_names = {
-        { "0", translate_marker( "Display 0" ) }
+        { "0", to_translation( "Display 0" ) }
     };
 
     int numdisplays = SDL_GetNumVideoDisplays();
     for( int i = 0 ; i < numdisplays ; i++ ) {
-        display_names.emplace_back( std::to_string( i ), std::string( SDL_GetDisplayName( i ) ) );
+        display_names.emplace_back( std::to_string( i ), no_translation( SDL_GetDisplayName( i ) ) );
     }
 
     return display_names.empty() ? default_display_names : display_names;

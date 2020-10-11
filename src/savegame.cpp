@@ -114,7 +114,8 @@ void game::serialize( std::ostream &fout )
 
 std::string scent_map::serialize( bool is_type ) const
 {
-    std::stringstream rle_out;
+    std::ostringstream rle_out;
+    rle_out.imbue( std::locale::classic() );
     if( is_type ) {
         rle_out << typescent.str();
     } else {
@@ -210,7 +211,7 @@ void game::unserialize( std::istream &fin )
         data.read( "active_monsters", *critter_tracker );
 
         coming_to_stairs.clear();
-        for( auto elem : data.get_array( "stair_monsters" ) ) {
+        for( JsonValue elem : data.get_array( "stair_monsters" ) ) {
             monster stairtmp;
             elem.read( stairtmp );
             coming_to_stairs.push_back( stairtmp );
@@ -247,6 +248,7 @@ void game::unserialize( std::istream &fin )
 void scent_map::deserialize( const std::string &data, bool is_type )
 {
     std::istringstream buffer( data );
+    buffer.imbue( std::locale::classic() );
     if( is_type ) {
         std::string str;
         buffer >> str;
@@ -312,7 +314,7 @@ void game::save_shortcuts( std::ostream &fout )
 }
 #endif
 
-std::unordered_set<std::string> obsolete_terrains;
+static std::unordered_set<std::string> obsolete_terrains;
 
 void overmap::load_obsolete_terrains( const JsonObject &jo )
 {

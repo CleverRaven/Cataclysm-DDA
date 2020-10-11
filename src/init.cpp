@@ -23,6 +23,7 @@
 #include "clzones.h"
 #include "construction.h"
 #include "construction_category.h"
+#include "construction_group.h"
 #include "crafting_gui.h"
 #include "creature.h"
 #include "debug.h"
@@ -191,8 +192,6 @@ void DynamicDataLoader::add( const std::string &type,
     }
 }
 
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
-
 void DynamicDataLoader::initialize()
 {
     // all of the applicable types that can be loaded, along with their loading functions
@@ -200,7 +199,7 @@ void DynamicDataLoader::initialize()
     // Static Function Access
     add( "WORLD_OPTION", &load_world_option );
     add( "EXTERNAL_OPTION", &load_external_option );
-    add( "json_flag", &json_flag::load );
+    add( "json_flag", &json_flag::load_all );
     add( "fault", &fault::load_fault );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "field_type", &field_types::load );
@@ -345,6 +344,7 @@ void DynamicDataLoader::initialize()
     add( "obsolete_terrain", &overmap::load_obsolete_terrains );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
+    add( "construction_group", &construction_groups::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
@@ -441,10 +441,10 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
         std::istringstream iss( read_entire_file( file ) );
         try {
             // parse it
-            JsonIn jsin( iss );
+            JsonIn jsin( iss, file );
             load_all_from_json( jsin, src, ui, path, file );
         } catch( const JsonError &err ) {
-            throw std::runtime_error( file + ": " + err.what() );
+            throw std::runtime_error( err.what() );
         }
     }
 }
@@ -490,6 +490,7 @@ void DynamicDataLoader::unload_data()
     clear_techniques_and_martial_arts();
     clothing_mods::reset();
     construction_categories::reset();
+    construction_groups::reset();
     dreams.clear();
     emit::reset();
     event_statistic::reset();
@@ -570,6 +571,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
+            { _( "json_flag" ), &json_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },

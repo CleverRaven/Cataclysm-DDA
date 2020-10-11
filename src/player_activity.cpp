@@ -241,9 +241,10 @@ void player_activity::do_turn( player &p )
             }
         }
     }
+    const float activity_mult = p.exertion_adjusted_move_multiplier();
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
-            moves_left -= 100;
+            moves_left -= 100 * activity_mult;
             p.moves = 0;
         } else {
             p.moves -= p.moves * moves_left / 100;
@@ -251,7 +252,7 @@ void player_activity::do_turn( player &p )
         }
     } else if( type->based_on() == based_on_type::SPEED ) {
         if( p.moves <= moves_left ) {
-            moves_left -= p.moves;
+            moves_left -= p.moves * activity_mult;
             p.moves = 0;
         } else {
             p.moves -= moves_left;
@@ -268,9 +269,9 @@ void player_activity::do_turn( player &p )
         return;
     }
     const bool travel_activity = id() == ACT_TRAVELLING;
+    p.increase_activity_level( exertion_level() );
     // This might finish the activity (set it to null)
     if( actor ) {
-        p.increase_activity_level( actor->get_type()->exertion_level() );
         actor->do_turn( *this, p );
     } else {
         // Use the legacy turn function
@@ -316,7 +317,6 @@ void player_activity::do_turn( player &p )
                 set_to_null();
             }
         }
-        p.reset_activity_level();
     }
     if( !*this ) {
         // Make sure data of previous activity is cleared
@@ -336,6 +336,14 @@ void player_activity::canceled( Character &who )
     }
 }
 
+float player_activity::exertion_level() const
+{
+    if( actor ) {
+        return actor->exertion_level();
+    }
+    return type->exertion_level();
+}
+
 template <typename T>
 bool containers_equal( const T &left, const T &right )
 {
@@ -352,6 +360,10 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     // And to forbid resuming now-invalid crafting
 
     if( !*this || !other || type->no_resume() ) {
+        return false;
+    }
+
+    if( id() != other.id() ) {
         return false;
     }
 
@@ -379,9 +391,13 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
+    } else if( id() == activity_id( "ACT_VEHICLE" ) ) {
+        if( values != other.values || str_values != other.str_values ) {
+            return false;
+        }
     }
 
-    return !auto_resume && id() == other.id() && index == other.index &&
+    return !auto_resume && index == other.index &&
            position == other.position && name == other.name && targets == other.targets;
 }
 

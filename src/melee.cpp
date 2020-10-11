@@ -24,6 +24,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "event_bus.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -119,11 +120,11 @@ static const efftype_id effect_amigara( "amigara" );
 
 static const species_id species_HUMAN( "HUMAN" );
 
-void player_hit_message( Character *attacker, const std::string &message,
-                         Creature &t, int dam, bool crit = false );
-int  stumble( Character &u, const item &weap );
-std::string melee_message( const ma_technique &tec, Character &p,
-                           const dealt_damage_instance &ddi );
+static void player_hit_message( Character *attacker, const std::string &message,
+                                Creature &t, int dam, bool crit = false );
+static int  stumble( Character &u, const item &weap );
+static std::string melee_message( const ma_technique &tec, Character &p,
+                                  const dealt_damage_instance &ddi );
 
 /* Melee Functions!
  * These all belong to class player.
@@ -284,7 +285,7 @@ float Character::get_hit_weapon( const item &weap ) const
     /** @EFFECT_BASHING improves hit chance for bashing weapons */
     /** @EFFECT_CUTTING improves hit chance for cutting weapons */
     /** @EFFECT_STABBING improves hit chance for piercing weapons */
-    auto skill = get_skill_level( weap.melee_skill() );
+    int skill = get_skill_level( weap.melee_skill() );
 
     // CQB bionic acts as a lower bound providing item uses a weapon skill
     if( skill < BIO_CQB_LEVEL && has_active_bionic( bio_cqb ) ) {
@@ -427,6 +428,10 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             return;
         }
     }
+
+    // Fighting is hard work
+    increase_activity_level( EXTRA_EXERCISE );
+
     item *cur_weapon = allow_unarmed ? &used_weapon() : &weapon;
 
     // If no weapon is selected, use highest layer of gloves instead.
@@ -458,8 +463,18 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
     int move_cost = attack_speed( *cur_weapon );
 
+    const bool hits = hit_spread >= 0;
+
+    if( monster *m = t.as_monster() ) {
+        get_event_bus().send<event_type::character_melee_attacks_monster>(
+            getID(), cur_weapon->typeId(), hits, m->type->id );
+    } else if( Character *c = t.as_character() ) {
+        get_event_bus().send<event_type::character_melee_attacks_character>(
+            getID(), cur_weapon->typeId(), hits, c->getID(), c->get_name() );
+    }
+
     Character &player_character = get_player_character();
-    if( hit_spread < 0 ) {
+    if( !hits ) {
         int stumble_pen = stumble( *this, *cur_weapon );
         sfx::generate_melee_sound( pos(), t.pos(), false, false );
         if( is_player() ) { // Only display messages if this is the player
@@ -473,7 +488,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
             if( can_miss_recovery( *cur_weapon ) ) {
                 ma_technique tec = martial_arts_data->get_miss_recovery_tec( *cur_weapon );
-                add_msg( _( tec.avatar_message ), t.disp_name() );
+                add_msg( tec.avatar_message.translated(), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
                 add_msg( m_bad, _( "You miss and stumble with the momentum." ) );
             } else if( stumble_pen >= 10 ) {
@@ -640,11 +655,13 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     const int mod_sta = get_standard_stamina_cost();
 
     const int melee = get_skill_level( skill_melee );
-    const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
+    const int deft_bonus = !hits && has_trait( trait_DEFT ) ? 50 : 0;
 
     mod_stamina( std::min( -50, mod_sta + melee + deft_bonus ) );
     add_msg_debug( "Stamina burn: %d", std::min( -50, mod_sta ) );
-    mod_moves( -move_cost );
+    // Weariness handling - 1 / the value, because it returns what % of the normal speed
+    const float weary_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
+    mod_moves( -move_cost * ( 1 / weary_mult ) );
     // trigger martial arts on-attack effects
     martial_arts_data->ma_onattack_effects( *this );
     // some things (shattering weapons) can harm the attacking creature.
@@ -664,6 +681,9 @@ void player::reach_attack( const tripoint &p )
         force_technique = matec_id( "WHIP_DISARM" );
     }
 
+    // Fighting is hard work
+    increase_activity_level( EXTRA_EXERCISE );
+
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
     const int target_size = critter != nullptr ? static_cast<int>( critter->get_size() ) : 2;
@@ -672,7 +692,10 @@ void player::reach_attack( const tripoint &p )
     // Max out recoil
     recoil = MAX_RECOIL;
 
-    int move_cost = attack_speed( weapon );
+    // Weariness handling
+    // 1 / mult because mult is the percent penalty, in the form 1.0 == 100%
+    const float weary_mult = 1.0f / exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
+    int move_cost = attack_speed( weapon ) * weary_mult;
     int skill = std::min( 10, get_skill_level( skill_stabbing ) );
     int t = 0;
     map &here = get_map();
@@ -741,7 +764,7 @@ bool Character::scored_crit( float target_dodge, const item &weap ) const
 /**
  * Limits a probability to be between 0.0 and 1.0
  */
-inline double limit_probability( double unbounded_probability )
+static inline double limit_probability( double unbounded_probability )
 {
     return std::max( std::min( unbounded_probability, 1.0 ), 0.0 );
 }
@@ -819,13 +842,7 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
     return chance_triple + ma_buff_crit_chance;
 }
 
-float player::get_dodge_base() const
-{
-    // TODO: Remove this override?
-    return Character::get_dodge_base();
-}
-
-float player::get_dodge() const
+float Character::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
@@ -883,7 +900,7 @@ float player::get_dodge() const
     return std::max( 0.0f, ret );
 }
 
-float player::dodge_roll()
+float Character::dodge_roll()
 {
     return get_dodge() * 5;
 }
@@ -1204,14 +1221,23 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
-        // skip dodge counter techniques
-        if( dodge_counter != tec.dodge_counter ) {
-            continue;
-        }
+        if( tec.block_counter || tec.dodge_counter ) {
+            // skip dodge counter techniques
+            if( dodge_counter != tec.dodge_counter ) {
+                continue;
+            }
+            // skip block counter techniques
+            if( block_counter != tec.block_counter ) {
+                continue;
+            }
+            int move_cost = attack_speed( used_weapon() );
+            move_cost *= tec.move_cost_multiplier( *this );
+            move_cost += tec.move_cost_penalty( *this );
 
-        // skip block counter techniques
-        if( block_counter != tec.block_counter ) {
-            continue;
+            // Don't counter if it would exhaust moves.
+            if( get_moves() + get_speed() - move_cost < 0 ) {
+                continue;
+            }
         }
 
         // if critical then select only from critical tecs
@@ -2046,9 +2072,9 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             // Can't use <npcname> here
             // TODO: Fix
             if( is_player() ) {
-                tmp.text = string_format( _( mut_atk.attack_text_u ), target );
+                tmp.text = string_format( mut_atk.attack_text_u.translated(), target );
             } else {
-                tmp.text = string_format( _( mut_atk.attack_text_npc ), name, target );
+                tmp.text = string_format( mut_atk.attack_text_npc.translated(), name, target );
             }
 
             // Attack starts here
@@ -2150,9 +2176,9 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
     if( tec.id != tec_none ) {
         std::string message;
         if( p.is_npc() ) {
-            message = _( tec.npc_message );
+            message = tec.npc_message.translated();
         } else {
-            message = _( tec.avatar_message );
+            message = tec.avatar_message.translated();
         }
         if( !message.empty() ) {
             return message;
@@ -2294,7 +2320,7 @@ int Character::attack_speed( const item &weap ) const
     return move_cost;
 }
 
-double player::weapon_value( const item &weap, int ammo ) const
+double Character::weapon_value( const item &weap, int ammo ) const
 {
     if( is_wielding( weap ) ) {
         auto cached_value = cached_info.find( "weapon_value" );
@@ -2316,7 +2342,7 @@ double player::weapon_value( const item &weap, int ammo ) const
     return my_val;
 }
 
-double player::melee_value( const item &weap ) const
+double Character::melee_value( const item &weap ) const
 {
     // start with average effective dps against a range of enemies
     double my_value = weap.average_dps( *this );
@@ -2341,7 +2367,7 @@ double player::melee_value( const item &weap ) const
     return std::max( 0.0, my_value );
 }
 
-double player::unarmed_value() const
+double Character::unarmed_value() const
 {
     // TODO: Martial arts
     return melee_value( item() );

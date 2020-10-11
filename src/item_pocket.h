@@ -124,6 +124,8 @@ class item_pocket
         bool rigid() const;
         bool watertight() const;
         bool airtight() const;
+        // is this speedloader compatible with this pocket (if any speedloaders are whitelisted)
+        bool allows_speedloader( const itype_id &speedloader_id ) const;
 
         // is this pocket one of the standard types?
         // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
@@ -145,6 +147,7 @@ class item_pocket
 
         ret_val<contain_code> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
+        bool contains_phase( phase_id phase ) const;
 
         // combined volume of contained items
         units::volume contains_volume() const;
@@ -187,6 +190,7 @@ class item_pocket
         // returns all allowable ammotypes
         std::set<ammotype> ammo_types() const;
         int ammo_capacity( const ammotype &ammo ) const;
+        int remaining_ammo_capacity( const ammotype &ammo ) const;
         void casings_handle( const std::function<bool( item & )> &func );
         bool use_amount( const itype_id &it, int &quantity, std::list<item> &used );
         bool will_explode_in_a_fire() const;
@@ -309,7 +313,7 @@ class item_pocket
  */
 struct sealable_data {
     // required for generic_factory
-    bool was_loaded;
+    bool was_loaded = false;
     /** multiplier for spoilage rate of contained items when sealed */
     float spoil_multiplier = 1.0f;
 
@@ -372,6 +376,7 @@ class pocket_data
         // items stored are restricted to these item ids.
         // this takes precedence over the other two restrictions
         cata::flat_set<itype_id> item_id_restriction;
+        cata::flat_set<itype_id> allowed_speedloaders;
         // the first in the json array for item_id_restriction when loaded
         itype_id default_magazine = itype_id::NULL_ID();
         // container's size and encumbrance does not change based on contents.
@@ -389,7 +394,7 @@ class pocket_data
 
 template<>
 struct enum_traits<item_pocket::pocket_type> {
-    static constexpr auto last = item_pocket::pocket_type::LAST;
+    static constexpr item_pocket::pocket_type last = item_pocket::pocket_type::LAST;
 };
 
 template<>

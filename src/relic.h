@@ -146,7 +146,7 @@ struct relic_charge_template {
     std::pair<int, int> init_charges;
     std::pair<int, int> charges_per_use;
     std::pair<time_duration, time_duration> time;
-    relic_recharge type;
+    relic_recharge type = relic_recharge::none;
 
     int power_level = 0;
 

@@ -185,7 +185,6 @@
     "dodge_counter": true,
     "crit_ok": true,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.0 },
       { "stat": "damage", "type": "bash", "scale": 1.2 },
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
@@ -282,7 +281,6 @@
     "block_counter": true,
     "crit_ok": true,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.0 },
       { "stat": "damage", "type": "bash", "scale": 1.2 },
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }

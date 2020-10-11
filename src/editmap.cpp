@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -1374,6 +1375,7 @@ void editmap::edit_fld()
  */
 enum editmap_imenu_ent {
     imenu_bday, imenu_damage, imenu_burnt,
+    imenu_tags,
     imenu_sep,
     imenu_savetest,
     imenu_exit,
@@ -1434,6 +1436,8 @@ void editmap::edit_itm()
                             "damage: %d" ), it.damage() );
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
                             "burnt: %d" ), static_cast<int>( it.burnt ) );
+            imenu.addentry( imenu_tags, true, -1, pgettext( "item manipulation debug menu entry",
+                            "tags: %s" ), debug_menu::iterable_to_string( it.get_flags(), " " ) );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
                             "-[ light emission ]-" ) );
             imenu.addentry( imenu_savetest, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1450,6 +1454,7 @@ void editmap::edit_itm()
                 imenu.query();
                 if( imenu.ret >= 0 && imenu.ret < imenu_savetest ) {
                     int intval = -1;
+                    std::string strval;
                     switch( imenu.ret ) {
                         case imenu_bday:
                             intval = to_turn<int>( it.birthday() );
@@ -1460,13 +1465,25 @@ void editmap::edit_itm()
                         case imenu_burnt:
                             intval = static_cast<int>( it.burnt );
                             break;
+                        case imenu_tags:
+                            strval = debug_menu::iterable_to_string( it.get_flags(), " " );
+                            break;
                     }
                     string_input_popup popup;
-                    int retval = popup
+                    int retval = 0;
+                    if( imenu.ret < imenu_tags ) {
+                        retval = popup
                                  .title( "set:" )
                                  .width( 20 )
                                  .text( to_string( intval ) )
                                  .query_int();
+                    } else if( imenu.ret == imenu_tags ) {
+                        strval = popup
+                                 .title( _( "Flags:" ) )
+                                 .description( "UPPERCASE, no quotes, separate with spaces:" )
+                                 .text( strval )
+                                 .query_string();
+                    }
                     if( popup.confirmed() ) {
                         switch( imenu.ret ) {
                             case imenu_bday:
@@ -1480,6 +1497,14 @@ void editmap::edit_itm()
                             case imenu_burnt:
                                 it.burnt = retval;
                                 imenu.entries[imenu_burnt].txt = string_format( "burnt: %d", it.burnt );
+                                break;
+                            case imenu_tags:
+                                const auto tags = debug_menu::string_to_iterable<std::vector<std::string>>( strval, " " );
+                                it.unset_flags();
+                                for( const auto &t : tags ) {
+                                    it.set_flag( t );
+                                }
+                                imenu.entries[imenu_tags].txt = debug_menu::iterable_to_string( it.get_flags(), " " );
                                 break;
                         }
                     }
@@ -1880,8 +1905,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                 for( int y = 0; y < 2; y++ ) {
                     // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
                     // functions that would alter the results
-                    const auto dest_pos = target_sub + tripoint( x, y, target.z );
-                    const auto src_pos = tripoint{ x, y, target.z };
+                    const tripoint dest_pos = target_sub + tripoint( x, y, target.z );
+                    const tripoint src_pos = tripoint{ x, y, target.z };
 
                     submap *destsm = here.get_submap_at_grid( dest_pos );
                     submap *srcsm = tmpmap.get_submap_at_grid( src_pos );

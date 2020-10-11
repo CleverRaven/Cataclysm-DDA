@@ -26,6 +26,7 @@
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
+#include "construction_group.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "craft_command.h"
@@ -249,7 +250,7 @@ void iexamine::none( player &/*p*/, const tripoint &examp )
 void iexamine::cvdmachine( player &p, const tripoint & )
 {
     // Select an item to which it is possible to apply a diamond coating
-    auto loc = g->inv_map_splice( []( const item & e ) {
+    item_location loc = g->inv_map_splice( []( const item & e ) {
         return ( e.is_melee( damage_type::CUT ) || e.is_melee( damage_type::STAB ) ) &&
                e.made_of( material_id( "steel" ) ) &&
                !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD );
@@ -262,7 +263,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     // Require materials proportional to selected item volume
     auto qty = loc->volume() / units::legacy_volume_factor;
     qty = std::max( 1, qty );
-    auto reqs = *requirement_id( "cvd_diamond" ) * qty;
+    requirement_data reqs = *requirement_id( "cvd_diamond" ) * qty;
 
     if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
@@ -279,7 +280,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     p.invalidate_crafting_inventory();
 
     // Apply flag to item
-    loc->item_tags.insert( "DIAMOND" );
+    loc->set_flag( "DIAMOND" );
     add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name() );
     p.mod_moves( -to_turns<int>( 10_seconds ) );
 }
@@ -303,7 +304,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
         return;
     }
 
-    auto nanofab_template = g->inv_map_splice( []( const item & e ) {
+    item_location nanofab_template = g->inv_map_splice( []( const item & e ) {
         return e.has_var( "NANOFAB_ITEM_ID" );
     }, _( "Introduce Nanofabricator template" ), PICKUP_RANGE,
     _( "You don't have any usable templates." ) );
@@ -314,8 +315,8 @@ void iexamine::nanofab( player &p, const tripoint &examp )
 
     item new_item( nanofab_template->get_var( "NANOFAB_ITEM_ID" ), calendar::turn );
 
-    auto qty = std::max( 1, new_item.volume() / 250_ml );
-    auto reqs = *requirement_id( "nanofabricator" ) * qty;
+    int qty = std::max( 1, new_item.volume() / 250_ml );
+    requirement_data reqs = *requirement_id( "nanofabricator" ) * qty;
 
     if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
@@ -332,7 +333,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     p.invalidate_crafting_inventory();
 
     if( new_item.is_armor() && new_item.has_flag( flag_VARSIZE ) ) {
-        new_item.item_tags.insert( "FIT" );
+        new_item.set_flag( "FIT" );
     }
 
     here.add_item_or_charges( spawn_point, new_item );
@@ -780,7 +781,7 @@ void iexamine::vending( player &p, const tripoint &examp )
 
         for( int line = 0; line < page_size; ++line ) {
             const int i = page_beg + line;
-            const auto color = ( i == cur_pos ) ? h_light_gray : c_light_gray;
+            const nc_color color = ( i == cur_pos ) ? h_light_gray : c_light_gray;
             const auto &elem = item_list[i];
             const int count = elem->second.size();
             const char c = ( count < 10 ) ? ( '0' + count ) : '*';
@@ -1833,7 +1834,7 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         add_msg( m_warning, _( "This flower has a heady aroma." ) );
     }
 
-    auto recentWeather = sum_conditions( calendar::turn - 10_minutes, calendar::turn, p.pos() );
+    weather_sum recentWeather = sum_conditions( calendar::turn - 10_minutes, calendar::turn, p.pos() );
 
     // If it has been raining recently, then this event is twice less likely.
     if( ( ( recentWeather.rain_amount > 1 ) ? one_in( 6 ) : one_in( 3 ) ) && resist < 5 ) {
@@ -2769,7 +2770,7 @@ void iexamine::autoclave_empty( player &p, const tripoint &examp )
                  _( "Some of those CBMs are filthy, you should wash them first for the sterilization process to work properly." ) );
         return;
     }
-    auto reqs = *requirement_id( "autoclave" );
+    requirement_data reqs = *requirement_id( "autoclave" );
 
     if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
@@ -3484,7 +3485,7 @@ void iexamine::tree_maple( player &p, const tripoint &examp )
     map &here = get_map();
     here.ter_set( examp, t_tree_maple_tapped );
 
-    auto cont_loc = maple_tree_sap_container();
+    item_location cont_loc = maple_tree_sap_container();
 
     item *container = cont_loc.get_item();
     if( container ) {
@@ -3562,7 +3563,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         }
 
         case ADD_CONTAINER: {
-            auto cont_loc = maple_tree_sap_container();
+            item_location cont_loc = maple_tree_sap_container();
 
             container = cont_loc.get_item();
             if( container ) {
@@ -3708,7 +3709,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     choose_output.text = string_format( _( "Compact %1$.3f %2$s of %3$s into:" ),
                                         convert_weight( sum_weight ), weight_units(), m.name() );
     for( const itype_id &ci : m.compacts_into() ) {
-        auto it = item( ci, 0, item::solitary_tag{} );
+        item it = item( ci, 0, item::solitary_tag{} );
         const int amount = norm_recover_weight / it.weight();
         //~ %1$d: number of, %2$s: output item
         choose_output.addentry( string_format( _( "about %1$d %2$s" ), amount,
@@ -3784,7 +3785,7 @@ void trap::examine( const tripoint &examp ) const
         }
         const construction &built = pc->id.obj();
         if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
-                       built.description, pc->counter / 100000 ) ) {
+                       built.group->name(), pc->counter / 100000 ) ) {
             if( query_yn( _( "Cancel construction?" ) ) ) {
                 on_disarmed( here, examp );
                 for( const item &it : pc->components ) {
@@ -4003,14 +4004,8 @@ void iexamine::curtains( player &p, const tripoint &examp )
         p.add_msg_if_player( _( "You carefully peek through the curtains." ) );
     } else if( choice == 1 ) {
         // Mr. Gorbachev, tear down those curtains!
-        if( ter == t_window_domestic || ter == t_curtains ) {
-            here.ter_set( examp, t_window_no_curtains );
-        } else if( ter == t_window_open ) {
-            here.ter_set( examp, t_window_no_curtains_open );
-        } else if( ter == t_window_domestic_taped ) {
-            here.ter_set( examp, t_window_no_curtains_taped );
-        } else if( ter == t_window_bars_domestic || ter == t_window_bars_curtains ) {
-            here.ter_set( examp, t_window_bars );
+        if( here.ter( examp )->has_curtains() ) {
+            here.ter_set( examp, here.ter( examp )->curtain_transform );
         }
 
         here.spawn_item( p.pos(), itype_nail, 1, 4, calendar::turn );
@@ -4141,7 +4136,7 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
 
 static int getGasDiscountCardQuality( const item &it )
 {
-    std::set<std::string> tags = it.type->item_tags;
+    const auto &tags = it.type->get_flags();
 
     for( const std::string &tag : tags ) {
 
@@ -4243,10 +4238,7 @@ bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
 
             item liq_d( item_it->type, calendar::turn, units );
 
-            const auto backup_pump = here.ter( dst );
-            here.ter_set( dst, ter_str_id::NULL_ID() );
             here.add_item_or_charges( dst, liq_d );
-            here.ter_set( dst, backup_pump );
 
             if( item_it->charges < 1 ) {
                 items.erase( item_it );
@@ -4496,6 +4488,8 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
     cmenu.query();
 
+    // Weariness scaling
+    float weary_mult = 1.0f;
     map &here = get_map();
     switch( cmenu.ret ) {
         case 1: {
@@ -4546,7 +4540,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
             const bool has_grapnel = p.has_amount( itype_grapnel, 1 );
             const int climb_cost = p.climbing_cost( where, examp );
-            const auto fall_mod = p.fall_damage_mod();
+            const float fall_mod = p.fall_damage_mod();
             const char *query_str = ngettext( "Looks like %d story.  Jump down?",
                                               "Looks like %d stories.  Jump down?",
                                               height );
@@ -4556,6 +4550,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             } else if( height == 1 ) {
                 const char *query;
                 p.increase_activity_level( MODERATE_EXERCISE );
+                weary_mult = 1.0f / p.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
 
                 if( !has_grapnel ) {
                     if( climb_cost <= 0 && fall_mod > 0.8 ) {
@@ -4576,7 +4571,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 }
             }
 
-            p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod );
+            p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult;
             p.setpos( examp );
 
             if( has_grapnel ) {
@@ -5279,10 +5274,11 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
         if( it.type->milling_data ) {
             it.calc_rot_while_processing( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
-            item result( mdata.into_, start_time + milling_time, it.charges * mdata.conversion_rate_ );
+            item result( mdata.into_, start_time + milling_time,
+                         ( it.count_by_charges() ? it.charges : 1 ) * mdata.conversion_rate_ );
             result.components.push_back( it );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-            for( const std::string &f : it.type->item_tags ) {
+            for( const std::string &f : it.type->get_flags() ) {
                 if( json_flag::get( f ).craft_inherit() ) {
                     result.set_flag( f );
                 }
@@ -5803,9 +5799,9 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     const bool full_portable = f_volume >= sm_rack::MAX_FOOD_VOLUME_PORTABLE;
     const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME - f_volume;
     const auto remaining_capacity_portable = sm_rack::MAX_FOOD_VOLUME_PORTABLE - f_volume;
-    const auto has_coal_in_inventory = p.charges_of( itype_charcoal ) > 0;
-    const auto coal_charges = count_charges_in_list( item::find_type( itype_charcoal ), items_here );
-    const auto need_charges = get_charcoal_charges( f_volume );
+    const bool has_coal_in_inventory = p.charges_of( itype_charcoal ) > 0;
+    const int coal_charges = count_charges_in_list( item::find_type( itype_charcoal ), items_here );
+    const int need_charges = get_charcoal_charges( f_volume );
     const bool has_coal = coal_charges > 0;
     const bool has_enough_coal = coal_charges >= need_charges;
 
@@ -5979,7 +5975,16 @@ void iexamine::open_safe( player &, const tripoint &examp )
 
 void iexamine::workbench( player &p, const tripoint &examp )
 {
-    workbench_internal( p, examp, cata::nullopt );
+    if( get_option<bool>( "WORKBENCH_ALL_OPTIONS" ) ) {
+        workbench_internal( p, examp, cata::nullopt );
+    } else {
+        if( !get_map().i_at( examp ).empty() ) {
+            Pickup::pick_up( examp, 0 );
+        }
+        if( item::type_is_defined( get_map().furn( examp ).obj().deployed_item ) ) {
+            deployed_furniture( p, examp );
+        }
+    }
 }
 
 void iexamine::workbench_internal( player &p, const tripoint &examp,
@@ -5993,7 +5998,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
 
     if( part ) {
         name = part->part().name();
-        auto items_at_part = part->vehicle().get_items( part->part_index() );
+        vehicle_stack items_at_part = part->vehicle().get_items( part->part_index() );
 
         for( item &it : items_at_part ) {
             if( it.is_craft() ) {

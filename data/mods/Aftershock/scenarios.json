@@ -72,5 +72,15 @@
     "type": "scenario",
     "extend": { "professions": [ "afs_affluent_executive", "afs_wraitheon_executive" ] },
     "id": "presort"
+  },
+  {
+    "type": "scenario",
+    "id": "robot_dispatch",
+    "name": "Robots",
+    "points": 1,
+    "description": "During the riots and chaos, you hid in a robot dispatch center hoping the robots would protect you, but they may prove more dangerous than the zombies.",
+    "allowed_locs": [ "sloc_robot_dispatch" ],
+    "flags": [ "CITY_START" ],
+    "start_name": "Robot Dispatch"
   }
 ]

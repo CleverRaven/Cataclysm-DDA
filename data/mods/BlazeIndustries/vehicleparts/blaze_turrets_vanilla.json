@@ -1,6 +1,7 @@
 [
   {
     "id": "mounted_TDI",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted TDI Vector" },
@@ -10,6 +11,7 @@
   },
   {
     "id": "mounted_acr",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Remington ACR" },
@@ -19,6 +21,7 @@
   },
   {
     "id": "mounted_ak47",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted AK47" },
@@ -28,6 +31,7 @@
   },
   {
     "id": "mounted_ak74",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted AK74" },
@@ -37,6 +41,7 @@
   },
   {
     "id": "mounted_american_180",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted American-180" },
@@ -46,6 +51,7 @@
   },
   {
     "id": "mounted_an94",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted AN94" },
@@ -55,6 +61,7 @@
   },
   {
     "id": "mounted_ar15",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted AR-15" },
@@ -64,6 +71,7 @@
   },
   {
     "id": "mounted_bigun",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted autoshotgun" },
@@ -73,6 +81,7 @@
   },
   {
     "id": "mounted_blunderbuss",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted blunderbuss" },
@@ -82,6 +91,7 @@
   },
   {
     "id": "mounted_browning_blr",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Browning BLR" },
@@ -91,6 +101,7 @@
   },
   {
     "id": "mounted_calico",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Calico M960" },
@@ -106,6 +117,7 @@
     "item": "carbine_flintlock",
     "symbol": "+",
     "broken_symbol": "x",
+    "categories": [ "Other" ],
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "durability": 240,
@@ -114,6 +126,7 @@
   },
   {
     "id": "mounted_cx4",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Cx4 Storm" },
@@ -127,6 +140,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted flamethrower" },
     "item": "flamethrower",
+    "categories": [ "Other" ],
     "color": "red",
     "broken_color": "red",
     "breaks_into": [ { "item": "flamethrower", "prob": 50 } ],
@@ -139,6 +153,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted RM451 flamethrower" },
     "item": "rm451_flamethrower",
+    "categories": [ "Other" ],
     "color": "red",
     "broken_color": "red",
     "breaks_into": [ { "item": "rm451_flamethrower", "prob": 50 } ],
@@ -147,6 +162,7 @@
   },
   {
     "id": "mounted_fn_fal",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted FN FAL" },
@@ -156,6 +172,7 @@
   },
   {
     "id": "mounted_fn_p90",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted FN P90" },
@@ -165,6 +182,7 @@
   },
   {
     "id": "mounted_h&k416a5",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted H&K 416A5" },
@@ -174,6 +192,7 @@
   },
   {
     "id": "mounted_hk_g3",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted H&K G3" },
@@ -183,6 +202,7 @@
   },
   {
     "id": "mounted_hk_g36",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted H&K G36" },
@@ -192,6 +212,7 @@
   },
   {
     "id": "mounted_hk_g80",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted H&K G80" },
@@ -201,6 +222,7 @@
   },
   {
     "id": "mounted_hk_mp5",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted H&K MP5" },
@@ -210,6 +232,7 @@
   },
   {
     "id": "mounted_hk_mp7",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted H&K MP7" },
@@ -219,6 +242,7 @@
   },
   {
     "id": "mounted_hk_ump45",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted H&K UMP45" },
@@ -228,6 +252,7 @@
   },
   {
     "id": "mounted_ksg",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Kel-Tec KSG" },
@@ -237,6 +262,7 @@
   },
   {
     "id": "mounted_tavor_12",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Tavor TS12" },
@@ -246,6 +272,7 @@
   },
   {
     "id": "mounted_launcher_simple",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted 40mm launcher" },
@@ -255,6 +282,7 @@
   },
   {
     "id": "mounted_m1014",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted M1014 shotgun" },
@@ -264,6 +292,7 @@
   },
   {
     "id": "mounted_m107a1",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Barrett M107A1" },
@@ -273,6 +302,7 @@
   },
   {
     "id": "mounted_m14ebr",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted M14-EBR" },
@@ -282,6 +312,7 @@
   },
   {
     "id": "mounted_m1a",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted M1A" },
@@ -291,6 +322,7 @@
   },
   {
     "id": "mounted_m2010",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted M2010 ESR" },
@@ -300,6 +332,7 @@
   },
   {
     "id": "mounted_m27iar",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted M27 IAR" },
@@ -309,6 +342,7 @@
   },
   {
     "id": "mounted_m2browning_sawn",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted .50 caliber" },
@@ -318,6 +352,7 @@
   },
   {
     "id": "mounted_m320",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted M320" },
@@ -327,6 +362,7 @@
   },
   {
     "id": "mounted_m4a1",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted M4A1" },
@@ -336,6 +372,7 @@
   },
   {
     "id": "mounted_m60",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted M60" },
@@ -345,6 +382,7 @@
   },
   {
     "id": "mounted_m79",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted M79" },
@@ -354,6 +392,7 @@
   },
   {
     "id": "mounted_mac_10",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted MAC-10" },
@@ -363,6 +402,7 @@
   },
   {
     "id": "mounted_marlin_9a",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Marlin 39A" },
@@ -372,6 +412,7 @@
   },
   {
     "id": "mounted_mgl",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Milkor MGL" },
@@ -381,6 +422,7 @@
   },
   {
     "id": "mounted_mossberg_500",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Mossberg 500" },
@@ -390,6 +432,7 @@
   },
   {
     "id": "mounted_pipe_double_shotgun",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted double pipe shotgun" },
@@ -399,6 +442,7 @@
   },
   {
     "id": "mounted_pipe_shotgun",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted pipe shotgun" },
@@ -408,6 +452,7 @@
   },
   {
     "id": "mounted_remington_700",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Remington 700" },
@@ -417,6 +462,7 @@
   },
   {
     "id": "mounted_remington_870",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Remington 870" },
@@ -430,6 +476,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted repeating crossbow" },
     "item": "rep_crossbow",
+    "categories": [ "Other" ],
     "color": "brown",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "rep_crossbow", "prob": 50 } ],
@@ -437,6 +484,7 @@
   },
   {
     "id": "mounted_revolver_shotgun",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted revolver shotgun" },
@@ -446,6 +494,7 @@
   },
   {
     "id": "mounted_rifle_22",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted .22 pipe rifle" },
@@ -455,6 +504,7 @@
   },
   {
     "id": "mounted_rifle_308",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted .308 pipe rifle" },
@@ -464,6 +514,7 @@
   },
   {
     "id": "mounted_rifle_9mm",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted 9x19mm pipe rifle" },
@@ -473,6 +524,7 @@
   },
   {
     "id": "mounted_rifle_flintlock",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted flintlock rifle" },
@@ -485,6 +537,7 @@
   },
   {
     "id": "mounted_rm11b_sniper_rifle",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted RM11B scout rifle" },
@@ -494,6 +547,7 @@
   },
   {
     "id": "mounted_rm2000_smg",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted RM2000 SMG" },
@@ -503,6 +557,7 @@
   },
   {
     "id": "mounted_rm51_assault_rifle",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted RM51 assault rifle" },
@@ -512,6 +567,7 @@
   },
   {
     "id": "mounted_rm614_lmg",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted RM614 LMG" },
@@ -521,6 +577,7 @@
   },
   {
     "id": "mounted_rm802",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted RM802" },
@@ -530,6 +587,7 @@
   },
   {
     "id": "mounted_rm88_battle_rifle",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted RM88 battle rifle" },
@@ -539,6 +597,7 @@
   },
   {
     "id": "mounted_ruger_1022",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Ruger 10/22" },
@@ -548,6 +607,7 @@
   },
   {
     "id": "mounted_ruger_mini",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Ruger mini-14" },
@@ -557,6 +617,7 @@
   },
   {
     "id": "mounted_saiga_12",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Saiga 12" },
@@ -566,6 +627,7 @@
   },
   {
     "id": "mounted_savage_111f",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Savage 111F" },
@@ -575,6 +637,7 @@
   },
   {
     "id": "mounted_scar_h",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted FN SCAR-H" },
@@ -584,6 +647,7 @@
   },
   {
     "id": "mounted_scar_l",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted FN SCAR-L" },
@@ -593,6 +657,7 @@
   },
   {
     "id": "mounted_shotgun_d",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted double shotgun" },
@@ -602,6 +667,7 @@
   },
   {
     "id": "mounted_shotgun_s",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted single shotgun" },
@@ -611,6 +677,7 @@
   },
   {
     "id": "mounted_sks",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted SKS" },
@@ -620,6 +687,7 @@
   },
   {
     "id": "mounted_steyr_aug",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Steyr AUG" },
@@ -629,6 +697,7 @@
   },
   {
     "id": "mounted_surv_carbine_223",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted 223 carbine" },
@@ -638,6 +707,7 @@
   },
   {
     "id": "mounted_tec9",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted TEC-9" },
@@ -647,6 +717,7 @@
   },
   {
     "id": "mounted_uzi",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Uzi" },
@@ -656,6 +727,7 @@
   },
   {
     "id": "mounted_v29",
+    "categories": [ "Other" ],
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted V29 laser" },

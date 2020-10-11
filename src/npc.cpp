@@ -97,13 +97,13 @@ static const efftype_id effect_riding( "riding" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
 static const skill_id skill_archery( "archery" );
-static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
 static const skill_id skill_smg( "smg" );
+static const skill_id skill_speech( "speech" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
 
@@ -127,8 +127,8 @@ static const std::string flag_NPC_SAFE( "NPC_SAFE" );
 
 class monfaction;
 
-void starting_clothes( npc &who, const npc_class_id &type, bool male );
-void starting_inv( npc &who, const npc_class_id &type );
+static void starting_clothes( npc &who, const npc_class_id &type, bool male );
+static void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
     : restock( calendar::turn_zero )
@@ -199,7 +199,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 
     for( item &e : worn ) {
         if( e.has_flag( "VARSIZE" ) ) {
-            e.item_tags.insert( "FIT" );
+            e.set_flag( "FIT" );
         }
     }
 }
@@ -415,7 +415,7 @@ void npc::randomize( const npc_class_id &type )
     //A universal barter boost to keep NPCs competitive with players
     //The int boost from trade wasn't active... now that it is, most
     //players will vastly outclass npcs in trade without a little help.
-    mod_skill_level( skill_barter, rng( 2, 4 ) );
+    mod_skill_level( skill_speech, rng( 2, 4 ) );
 
     set_body();
     recalc_hp();
@@ -508,7 +508,7 @@ faction *npc::get_faction() const
 static item random_item_from( const npc_class_id &type, const std::string &what,
                               const std::string &fallback )
 {
-    auto result = item_group::item_from( type.str() + "_" + what, calendar::turn );
+    item result = item_group::item_from( type.str() + "_" + what, calendar::turn );
     if( result.is_null() ) {
         result = item_group::item_from( fallback, calendar::turn );
     }
@@ -577,7 +577,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     who.worn.clear();
     for( item &it : ret ) {
         if( it.has_flag( "VARSIZE" ) ) {
-            it.item_tags.insert( "FIT" );
+            it.set_flag( "FIT" );
         }
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
@@ -631,7 +631,7 @@ void starting_inv( npc &who, const npc_class_id &type )
         item tmp = random_item_from( type, "misc" ).in_its_container();
         if( !tmp.is_null() ) {
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
-                tmp.item_tags.insert( "FIT" );
+                tmp.set_flag( "FIT" );
             }
             if( who.can_pickVolume( tmp ) ) {
                 res.push_back( tmp );
@@ -834,9 +834,7 @@ void npc::starting_weapon( const npc_class_id &type )
 
     if( weapon.is_gun() ) {
         if( !weapon.magazine_default().is_null() ) {
-            item mag( weapon.magazine_default() );
-            mag.ammo_set( mag.ammo_default() );
-            weapon.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            weapon.ammo_set( weapon.magazine_default()->magazine->default_ammo );
         } else if( !weapon.ammo_default().is_null() ) {
             weapon.ammo_set( weapon.ammo_default() );
         } else {
@@ -1024,7 +1022,7 @@ void npc::do_npc_read()
     if( !pl ) {
         return;
     }
-    auto loc = game_menus::inv::read( *pl );
+    item_location loc = game_menus::inv::read( *pl );
 
     if( loc ) {
         std::vector<std::string> fail_reasons;
@@ -1070,7 +1068,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
     }
 
     while( !worn.empty() ) {
-        auto size_before = worn.size();
+        size_t size_before = worn.size();
         // Strip until we can put the new item on
         // This is one of the reasons this command is not used by the AI
         if( can_wear( it ).success() ) {
@@ -1218,12 +1216,19 @@ void npc::form_opinion( const player &u )
         op_of_u.fear -= 1;
     }
 
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+    // is your health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {
         const int hp_max = elem.second.get_hp_max();
         const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear--;
         }
+    }
+
+    // is my health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const int hp_max = elem.second.get_hp_max();
+        const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear++;
         }
@@ -1291,7 +1296,7 @@ void npc::form_opinion( const player &u )
         }
     }
     decide_needs();
-    for( auto &i : needs ) {
+    for( const npc_need &i : needs ) {
         if( i == need_food || i == need_drink ) {
             op_of_u.value += 2;
         }
@@ -1562,6 +1567,10 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
     std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
     if( player_character.is_deaf() ) {
         add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't hear it!" ), name );
+    }
+    if( player_character.is_mute() ) {
+        add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't reply to it!" ),
+                                name );
     }
     // Hallucinations don't make noise when they speak
     if( is_hallucination() ) {

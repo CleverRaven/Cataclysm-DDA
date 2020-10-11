@@ -14,6 +14,7 @@
 #include <unordered_map>
 
 #include "calendar.h"
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "character_id.h"
@@ -435,7 +436,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
     }
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "builtin" ) {
-        if( const auto ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
+        if( const building_gen_pointer ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
             ret = std::make_shared<mapgen_function_builtin>( ptr, mgweight );
             oter_mapgen.add( id_base, ret );
         } else {
@@ -917,11 +918,11 @@ class jmapgen_faction : public jmapgen_piece
 class jmapgen_sign : public jmapgen_piece
 {
     public:
-        std::string signage;
+        translation signage;
         std::string snippet;
         jmapgen_sign( const JsonObject &jsi ) :
-            signage( jsi.get_string( "signage", "" ) )
-            , snippet( jsi.get_string( "snippet", "" ) ) {
+            snippet( jsi.get_string( "snippet", "" ) ) {
+            jsi.read( "signage", signage );
             if( signage.empty() && snippet.empty() ) {
                 jsi.throw_error( "jmapgen_sign: needs either signage or snippet" );
             }
@@ -938,12 +939,10 @@ class jmapgen_sign : public jmapgen_piece
                 // select a snippet from the category
                 signtext = SNIPPET.random_from_category( snippet ).value_or( translation() ).translated();
             } else if( !signage.empty() ) {
-                signtext = signage;
+                signtext = signage.translated();
             }
             if( !signtext.empty() ) {
                 // replace tags
-                signtext = _( signtext );
-
                 std::string cityname = "illegible city name";
                 tripoint abs_sub = dat.m.get_abs_sub();
                 // TODO: fix point types
@@ -972,11 +971,11 @@ class jmapgen_sign : public jmapgen_piece
 class jmapgen_graffiti : public jmapgen_piece
 {
     public:
-        std::string text;
+        translation text;
         std::string snippet;
         jmapgen_graffiti( const JsonObject &jsi ) :
-            text( jsi.get_string( "text", "" ) )
-            , snippet( jsi.get_string( "snippet", "" ) ) {
+            snippet( jsi.get_string( "snippet", "" ) ) {
+            jsi.read( "text", text );
             if( text.empty() && snippet.empty() ) {
                 jsi.throw_error( "jmapgen_graffiti: needs either text or snippet" );
             }
@@ -991,12 +990,10 @@ class jmapgen_graffiti : public jmapgen_piece
                 // select a snippet from the category
                 graffiti = SNIPPET.random_from_category( snippet ).value_or( translation() ).translated();
             } else if( !text.empty() ) {
-                graffiti = text;
+                graffiti = text.translated();
             }
             if( !graffiti.empty() ) {
                 // replace tags
-                graffiti = _( graffiti );
-
                 std::string cityname = "illegible city name";
                 tripoint abs_sub = dat.m.get_abs_sub();
                 // TODO: fix point types
@@ -1413,10 +1410,12 @@ class jmapgen_spawn_item : public jmapgen_piece
         itype_id type;
         jmapgen_int amount;
         jmapgen_int chance;
+        std::set<std::string> flags;
         jmapgen_spawn_item( const JsonObject &jsi ) :
             type( jsi.get_string( "item" ) )
             , amount( jsi, "amount", 1, 1 )
-            , chance( jsi, "chance", 100, 100 ) {
+            , chance( jsi, "chance", 100, 100 )
+            , flags( jsi.get_tags( "custom-flags" ) ) {
             if( !item::type_is_defined( type ) ) {
                 set_mapgen_defer( jsi, "item", "no such item" );
             }
@@ -1430,7 +1429,8 @@ class jmapgen_spawn_item : public jmapgen_piece
             const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
             int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
             for( int i = 0; i < spawn_count; i++ ) {
-                dat.m.spawn_item( point( x.get(), y.get() ), type, amount.get() );
+                dat.m.spawn_item( point( x.get(), y.get() ), type, amount.get(),
+                                  0, calendar::start_of_cataclysm, 0, flags );
             }
         }
 };
@@ -1942,7 +1942,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( const JsonArray &parray )
         }
 
         auto loot = make_shared_fast<jmapgen_loot>( jsi );
-        auto rate = get_option<float>( "ITEM_SPAWNRATE" );
+        float rate = get_option<float>( "ITEM_SPAWNRATE" );
 
         if( where.repeat.valmax != 1 ) {
             // if loot can repeat scale according to rate
@@ -2139,7 +2139,7 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
     }
 }
 
-std::map<std::string, mapgen_palette> palettes;
+static std::map<std::string, mapgen_palette> palettes;
 
 mapgen_palette mapgen_palette::load_temp( const JsonObject &jo, const std::string &src )
 {
@@ -2849,7 +2849,7 @@ void jmapgen_objects::apply( const mapgendata &dat, const point &offset ) const
 bool jmapgen_objects::has_vehicle_collision( const mapgendata &dat, const point &offset ) const
 {
     for( const jmapgen_obj &obj : objects ) {
-        auto where = obj.first;
+        jmapgen_place where = obj.first;
         where.offset( -offset );
         const auto &what = *obj.second;
         if( what.has_vehicle_collision( dat, point( where.x.get(), where.y.get() ) ) ) {
@@ -2904,8 +2904,8 @@ void map::draw_map( mapgendata &dat )
     draw_connections( dat );
 }
 
-const int SOUTH_EDGE = 2 * SEEY - 1;
-const int EAST_EDGE = 2 * SEEX  - 1;
+static const int SOUTH_EDGE = 2 * SEEY - 1;
+static const int EAST_EDGE = 2 * SEEX  - 1;
 
 void map::draw_office_tower( const mapgendata &dat )
 {
@@ -5788,10 +5788,11 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
     }
     for( item *e : res ) {
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
-            if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
-                e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE );
+            if( rng( 0, 99 ) < magazine && e->magazine_default() && !e->magazine_integral() &&
+                !e->magazine_current() ) {
+                e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE_WELL );
             }
-            if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
+            if( rng( 0, 99 ) < ammo && e->ammo_default() && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default() );
             }
         }
@@ -5900,6 +5901,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
         }
         place_on_submap->vehicles.push_back( std::move( placed_vehicle_up ) );
         place_on_submap->is_uniform = false;
+        invalidate_max_populated_zlev( p.z );
 
         auto &ch = get_cache( placed_vehicle->sm_pos.z );
         ch.vehicle_list.insert( placed_vehicle );
@@ -5933,7 +5935,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
-        const auto p = veh->global_part_pos3( *part );
+        const tripoint p = veh->global_part_pos3( *part );
 
         //Don't spawn anything in water
         if( has_flag_ter( TFLAG_DEEP_WATER, p ) && !can_float ) {
@@ -7140,7 +7142,7 @@ bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat )
 
 int register_mapgen_function( const std::string &key )
 {
-    if( const auto ptr = get_mapgen_cfunction( key ) ) {
+    if( const building_gen_pointer ptr = get_mapgen_cfunction( key ) ) {
         return oter_mapgen.add( key, std::make_shared<mapgen_function_builtin>( ptr ) );
     }
     return -1;

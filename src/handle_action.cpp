@@ -15,6 +15,7 @@
 #include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
@@ -26,6 +27,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "event_bus.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -224,7 +226,7 @@ input_context game::get_player_input( std::string &action )
         }
 
         //x% of the Viewport, only shown on visible areas
-        const auto weather_info = weather.weather_id->weather_animation;
+        const weather_animation_t weather_info = weather.weather_id->weather_animation;
         point offset( u.view_offset.xy() + point( -getmaxx( w_terrain ) / 2 + u.posx(),
                       -getmaxy( w_terrain ) / 2 + u.posy() ) );
 
@@ -240,12 +242,12 @@ input_context game::get_player_input( std::string &action )
 #endif //TILES
 
         // TODO: Move the weather calculations out of here.
-        const bool bWeatherEffect = ( weather_info.glyph != '?' );
+        const bool bWeatherEffect = weather_info.symbol != NULL_UNICODE;
         const int dropCount = static_cast<int>( iEnd.x * iEnd.y * weather_info.factor );
 
         weather_printable wPrint;
         wPrint.colGlyph = weather_info.color;
-        wPrint.cGlyph = weather_info.glyph;
+        wPrint.cGlyph = weather_info.symbol;
         wPrint.wtype = weather.weather_id;
         wPrint.vdrops.clear();
 
@@ -560,31 +562,6 @@ static void close()
     }
 }
 
-static void handbrake()
-{
-    Character &player_character = get_player_character();
-    const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
-    if( !vp ) {
-        return;
-    }
-    vehicle *const veh = &vp->vehicle();
-    add_msg( _( "You pull a handbrake." ) );
-    veh->cruise_velocity = 0;
-    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
-        veh->skidding = true;
-        add_msg( m_warning, _( "You lose control of %s." ), veh->name );
-        veh->turn( veh->last_turn > 0 ? 60 : -60 );
-    } else {
-        int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
-        if( std::abs( veh->velocity ) < braking_power ) {
-            veh->stop();
-        } else {
-            int sgn = veh->velocity > 0 ? 1 : -1;
-            veh->velocity = sgn * ( std::abs( veh->velocity ) - braking_power );
-        }
-    }
-    player_character.moves = 0;
-}
 
 // Establish or release a grab on a vehicle
 static void grab()
@@ -705,6 +682,8 @@ static void smash()
         smashp.z = player_character.posz();
         smash_floor = true;
     }
+    get_event_bus().send<event_type::character_smashes_tile>(
+        player_character.getID(), here.ter( smashp ).id(), here.furn( smashp ).id() );
     if( player_character.is_mounted() ) {
         monster *crit = player_character.mounted_creature.get();
         if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -735,20 +714,26 @@ static void smash()
         }
     }
 
+    bool should_pulp = false;
     for( const item &maybe_corpse : here.i_at( smashp ) ) {
         if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
             maybe_corpse.can_revive() ) {
-            // do activity forever. ACT_PULP stops itself
             if( maybe_corpse.get_mtype()->bloodType()->has_acid ) {
                 if( !query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
                     return; // Player doesn't want an acid bath
                 }
             }
-            player_character.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-            player_character.activity.placement = here.getabs( smashp );
-            return; // don't smash terrain if we've smashed a corpse
+            should_pulp = true; // There is at least one corpse to pulp
         }
     }
+
+    if( should_pulp ) {
+        // do activity forever. ACT_PULP stops itself
+        player_character.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
+        player_character.activity.placement = here.getabs( smashp );
+        return; // don't smash terrain if we've smashed a corpse
+    }
+
     vehicle *veh = veh_pointer_or_null( here.veh_at( smashp ) );
     if( veh != nullptr ) {
         if( !veh->handle_potential_theft( player_character ) ) {
@@ -756,14 +741,53 @@ static void smash()
         }
     }
 
-    const int bash_furn = here.furn( smashp )->bash.str_min;
-    const int bash_ter = here.ter( smashp )->bash.str_min;
-
+    if( !player_character.has_weapon() ) {
+        const bodypart_id bp_null( "bp_null" );
+        std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
+        int tmp_bash_armor = 0;
+        for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
+            for( const item &i : player_character.worn ) {
+                if( i.covers( bp ) ) {
+                    tmp_bash_armor += i.bash_resist();
+                }
+            }
+            for( const trait_id &mut : player_character.get_mutations() ) {
+                for( const std::pair<const bodypart_str_id, resistances> &res : mut->armor ) {
+                    if( res.first == bp.id() ) {
+                        tmp_bash_armor += std::floor( res.second.type_resist( damage_type::BASH ) );
+                    }
+                }
+            }
+            if( tmp_bash_armor > best_part_to_smash.second ) {
+                best_part_to_smash = {bp, tmp_bash_armor};
+            }
+        }
+        if( best_part_to_smash.first != bp_null && here.is_bashable( smashp ) ) {
+            std::string name_to_bash = _( "thing" );
+            if( here.is_bashable_furn( smashp ) ) {
+                name_to_bash = here.furnname( smashp );
+            } else if( here.is_bashable_ter( smashp ) ) {
+                name_to_bash = here.tername( smashp );
+            }
+            if( !best_part_to_smash.first->smash_message.empty() ) {
+                add_msg( best_part_to_smash.first->smash_message, name_to_bash );
+            } else {
+                add_msg( _( "You use your %s to smash the %s." ),
+                         body_part_name_accusative( best_part_to_smash.first ), name_to_bash );
+            }
+        }
+        const int min_smashskill = smashskill * best_part_to_smash.first->smash_efficiency;
+        const int max_smashskill = smashskill * ( 1.0f + best_part_to_smash.first->smash_efficiency );
+        smashskill = std::min( best_part_to_smash.second + min_smashskill, max_smashskill );
+    }
     didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
+    // Weariness scaling
+    float weary_mult = 1.0f;
     if( didit ) {
         if( !mech_smash ) {
             player_character.increase_activity_level( MODERATE_EXERCISE );
             player_character.handle_melee_wear( player_character.weapon );
+            weary_mult = 1.0f / player_character.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
 
             const int mod_sta = 2 * player_character.get_standard_stamina_cost();
             player_character.mod_stamina( mod_sta );
@@ -790,35 +814,8 @@ static void smash()
                 player_character.remove_weapon();
                 player_character.check_dead_state();
             }
-
-            // It hurts if you smash things with your hands.
-            const bool hard_target = ( ( bash_furn > 2 ) || ( bash_furn == -1 && bash_ter > 2 ) );
-
-            int glove_coverage = 0;
-            for( const item &i : player_character.worn ) {
-                if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) ) {
-                    int l_coverage = i.get_coverage( bodypart_id( "hand_l" ) );
-                    int r_coverage = i.get_coverage( bodypart_id( "hand_r" ) );
-                    glove_coverage = std::max( l_coverage, r_coverage );
-                }
-            }
-
-            if( !player_character.has_weapon() && hard_target ) {
-                int dam = roll_remainder( 5.0 * ( 1 - glove_coverage / 100.0 ) );
-                if( player_character.get_part_hp_cur( bodypart_id( "arm_r" ) ) > player_character.get_part_hp_cur(
-                        bodypart_id( "arm_l" ) ) ) {
-                    player_character.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_type::BASH,
-                                                  dam ) );
-                } else {
-                    player_character.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_type::BASH,
-                                                  dam ) );
-                }
-                if( dam > 0 ) {
-                    add_msg( m_bad, _( "You hurt your hands trying to smash the %s." ), here.furnname( smashp ) );
-                }
-            }
         }
-        player_character.moves -= move_cost;
+        player_character.moves -= move_cost * weary_mult;
 
         if( smashskill < here.bash_resistance( smashp ) && one_in( 10 ) ) {
             if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
@@ -949,7 +946,8 @@ static void wait()
         }
     }
 
-    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ),
+    // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+    as_m.text = ( has_watch ) ? string_format( _( "It's %s now.  " ),
                 to_string_time_of_day( calendar::turn ) ) : "";
     as_m.text += setting_alarm ? _( "Set alarm for when?" ) : _( "Wait for how long?" );
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
@@ -2548,6 +2546,13 @@ bool game::handle_action()
                     break;    //don't do anything when sharing and not debugger
                 }
                 display_radiation();
+                break;
+
+            case ACTION_DISPLAY_TRANSPARENCY:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_transparency();
                 break;
 
             case ACTION_TOGGLE_DEBUG_MODE:

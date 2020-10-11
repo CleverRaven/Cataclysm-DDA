@@ -176,6 +176,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "watertight": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "750 g",
         "spoil_multiplier": 0.8,
@@ -276,7 +277,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "plastic bottle" },
-    "description": "A watertight plastic bottle, holds 500 ml of liquid.",
+    "description": "A watertight plastic bottle, holds 500 ml of liquid.  Some may be factory sealed to preserve content from rot until opened.",
     "weight": "13 g",
     "volume": "502 ml",
     "pocket_data": [
@@ -288,6 +289,7 @@
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1250 g",
+        "sealed_data": { "spoil_multiplier": 0.5 },
         "moves": 400
       }
     ],
@@ -496,6 +498,7 @@
     "category": "container",
     "name": { "str": "bucket" },
     "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, French fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
+    "ascii_picture": "bucket",
     "weight": "725 g",
     "volume": "5 L",
     "price": 300,
@@ -1138,7 +1141,7 @@
     "category": "container",
     "name": { "str": "gallon jug" },
     "looks_like": "bottle_plastic",
-    "description": "A standard plastic jug used for milk and household cleaning chemicals.",
+    "description": "A standard plastic jug used for milk and household cleaning chemicals.  Some may be factory sealed to preserve content from rot until opened.",
     "weight": "190 g",
     "volume": "3752 ml",
     "price": 0,
@@ -1154,7 +1157,8 @@
         "watertight": true,
         "max_contains_volume": "3750 ml",
         "max_item_volume": "32 ml",
-        "max_contains_weight": "8 kg"
+        "max_contains_weight": "8 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 }
       }
     ]
   },
@@ -1470,8 +1474,10 @@
     "id": "wrapper_pr",
     "type": "GENERIC",
     "name": { "str": "wrapper" },
-    "//desc": "Daizu is Japanese for soy, hence DaiZoom",
-    "description": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper.",
+    "description": {
+      "//~": "Daizu is Japanese for soy, hence DaiZoom",
+      "str": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper."
+    },
     "copy-from": "wrapper",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ]
   },

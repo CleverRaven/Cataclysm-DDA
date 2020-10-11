@@ -167,6 +167,47 @@ TEST_CASE( "stacking_over_time", "[item]" )
     }
 }
 
+TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][combine]" )
+{
+    item liquid_hot( "test_liquid" );
+    item liquid_cold( "test_liquid" );
+    item liquid_filthy( "test_liquid" );
+
+    // heat_up/cold_up sets temperature of item and corresponding HOT/COLD flags
+    liquid_hot.heat_up(); // 60 C (333.15 K)
+    liquid_cold.cold_up(); // 3 C (276.15 K)
+    liquid_filthy.cold_up(); // 3 C (276.15 K)
+    liquid_filthy.set_flag( "FILTHY" );
+
+    // Temperature is in terms of 0.000001 K
+    REQUIRE( std::floor( liquid_hot.temperature / 100000 ) == 333 );
+    REQUIRE( std::floor( liquid_cold.temperature / 100000 ) == 276 );
+    REQUIRE( liquid_hot.has_flag( "HOT" ) );
+    REQUIRE( liquid_cold.has_flag( "COLD" ) );
+
+    SECTION( "liquids at the same temperature can stack together" ) {
+        CHECK( liquid_cold.stacks_with( liquid_cold ) );
+        CHECK( liquid_hot.stacks_with( liquid_hot ) );
+    }
+
+    SECTION( "liquids at different temperature do not stack" ) {
+        // Items with different flags do not stack
+        CHECK_FALSE( liquid_cold.stacks_with( liquid_hot ) );
+        CHECK_FALSE( liquid_hot.stacks_with( liquid_cold ) );
+    }
+
+    SECTION( "liquids at different temperature can be combined" ) {
+        CHECK( liquid_cold.can_combine( liquid_hot ) );
+        CHECK( liquid_hot.can_combine( liquid_cold ) );
+    }
+
+    SECTION( "liquids with different flags can not be combined" ) {
+        CHECK( !liquid_cold.can_combine( liquid_filthy ) );
+        CHECK( !liquid_filthy.can_combine( liquid_cold ) );
+    }
+}
+
+
 static void assert_minimum_length_to_volume_ratio( const item &target )
 {
     if( target.type->get_id().is_null() ) {

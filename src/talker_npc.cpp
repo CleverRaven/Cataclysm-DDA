@@ -168,6 +168,15 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
             add_topics.push_back( "TALK_DEAF" );
         }
     }
+    if( player_character.is_mute() ) {
+        if( add_topics.back() == "TALK_MUG" ||
+            add_topics.back() == "TALK_STRANGER_AGGRESSIVE" ) {
+            me_npc->make_angry();
+            add_topics.push_back( "TALK_MUTE_ANGRY" );
+        } else {
+            add_topics.push_back( "TALK_MUTE" );
+        }
+    }
 
     if( me_npc->has_trait( trait_PROF_FOODP ) &&
         !( me_npc->is_wearing( itype_id( "foodperson_mask_on" ) ) ||
@@ -537,9 +546,9 @@ std::string talker_npc::give_item_to( const bool to_use )
                 }
             }
         } else {
-            reason += string_format( _( "My current weapon is better than this.\n"
-                                        "(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
-                                     cur_weapon_value );
+            reason += " " + string_format( _( "My current weapon is better than this.\n"
+                                              "(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
+                                           cur_weapon_value );
         }
     } else {//allow_use is false so try to carry instead
         if( me_npc->can_pickVolume( given ) && me_npc->can_pickWeight( given ) ) {
@@ -550,7 +559,7 @@ std::string talker_npc::give_item_to( const bool to_use )
             if( !me_npc->can_pickVolume( given ) ) {
                 const units::volume free_space = me_npc->volume_capacity() -
                                                  me_npc->volume_carried();
-                reason += "\n" + std::string( _( "I have no space to store it." ) ) + "\n";
+                reason += " " + std::string( _( "I have no space to store it." ) ) + " ";
                 if( free_space > 0_ml ) {
                     reason += string_format( _( "I can only store %s %s more." ),
                                              format_volume( free_space ), volume_units_long() );
@@ -559,7 +568,7 @@ std::string talker_npc::give_item_to( const bool to_use )
                 }
             }
             if( !me_npc->can_pickWeight( given ) ) {
-                reason += std::string( "\n" ) + _( "It is too heavy for me to carry." );
+                reason += std::string( " " ) + _( "It is too heavy for me to carry." );
             }
         }
     }

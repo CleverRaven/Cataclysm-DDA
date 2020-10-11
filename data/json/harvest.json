@@ -526,7 +526,8 @@
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
       { "drop": "bee_sting", "base_num": [ 0, 1 ], "type": "bone" },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "venom_bee", "type": "offal", "mass_ratio": 0.01 }
     ]
   },
   {
@@ -541,7 +542,8 @@
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
       { "drop": "wasp_sting", "base_num": [ 0, 1 ], "type": "bone" },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "venom_wasp", "type": "offal", "mass_ratio": 0.005 }
     ]
   },
   {
