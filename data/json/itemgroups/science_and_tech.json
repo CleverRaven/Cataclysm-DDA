@@ -137,7 +137,7 @@
       { "item": "butane_tank", "prob": 15 },
       { "item": "vac_oven_small", "prob": 5 },
       { "item": "butane_can", "prob": 2 },
-      { "item": "chem_sodium_benzoate", "prob": 16 }
+      { "item": "chem_citric_acid", "prob": 16 }
     ]
   },
   {
@@ -223,7 +223,7 @@
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
       [ "denat_alcohol", 10 ],
-      { "item": "chem_sodium_benzoate", "prob": 16, "charges-min": 100 }
+      { "item": "chem_citric_acid", "prob": 16, "charges-min": 100 }
     ]
     ]
   },

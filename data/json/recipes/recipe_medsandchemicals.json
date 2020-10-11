@@ -1551,7 +1551,7 @@
   },
   {
     "type": "recipe",
-    "result": "cocaine_hcl",
+    "result": "cocaine_topical",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
     "skill_used": "chemistry",
@@ -1563,7 +1563,7 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
     "components": [
-      [ [ "chem_sodium_benzoate", 9 ] ],
+      [ [ "chem_citric_acid", 9 ] ],
       [ [ "cocaine", 1 ] ],
       [ [ "bottle_plastic_small", 1 ] ],
       [ [ "water", 1, "LIST" ] ]
