@@ -112,7 +112,7 @@
     "time": "260 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
     "byproducts": [ [ "scrap_neoprene", 67 ] ],
-    "using": [ [ "plastic_molding", 3 ], [ "tailoring_neoprene_patchwork", 3 ] ],
+    "using": [ [ "plastic_molding", 3 ], [ "tailoring_neoprene_patchwork", 3 ] ]
   },
   {
     "result": "armguard_larmor",
