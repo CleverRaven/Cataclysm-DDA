@@ -1656,7 +1656,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "3 kg",
-        "rigid": "false",
+        "rigid": false,
         "moves": 400
       }
     ],
