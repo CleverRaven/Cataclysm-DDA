@@ -227,6 +227,7 @@
     "item": "afs_titanium_frame",
     "location": "structure",
     "color": "light_gray",
+    "symbol": "c",
     "durability": 100,
     "description": "An ultralight titanium framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": [ { "item": "afs_scrap_titanium", "count": [ 1, 3 ] } ],

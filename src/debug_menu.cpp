@@ -1717,7 +1717,7 @@ void debug()
                     break;
             }
             if( query_int( intensity, _( "Add bleeding duration in minutes, equal to intensity:" ) ) ) {
-                player_character.make_bleed( part, 1_minutes * intensity );
+                player_character.make_bleed( effect_source::empty(), part, 1_minutes * intensity );
             }
         }
         break;

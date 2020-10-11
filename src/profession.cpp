@@ -423,7 +423,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
             return VisitResponse::NEXT;
         } );
         if( it.has_flag( "VARSIZE" ) ) {
-            it.item_tags.insert( "FIT" );
+            it.set_flag( "FIT" );
         }
     }
 

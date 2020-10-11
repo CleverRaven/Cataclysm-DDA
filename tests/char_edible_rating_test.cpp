@@ -60,8 +60,8 @@ TEST_CASE( "cannot eat dirty food", "[can_eat][edible_rating][dirty]" )
 
     GIVEN( "food that is dirty" ) {
         item chocolate( "chocolate" );
-        chocolate.item_tags.insert( "DIRTY" );
-        REQUIRE( chocolate.item_tags.count( "DIRTY" ) );
+        chocolate.set_flag( "DIRTY" );
+        REQUIRE( chocolate.has_own_flag( "DIRTY" ) );
 
         THEN( "they cannot eat it" ) {
             expect_cannot_eat( dummy, chocolate, "This is full of dirt after being on the ground." );
@@ -120,7 +120,7 @@ TEST_CASE( "when frozen food can be eaten", "[can_eat][edible_rating][frozen]" )
         REQUIRE_FALSE( apple.has_flag( "MELTS" ) );
 
         WHEN( "it is not frozen" ) {
-            REQUIRE_FALSE( apple.item_tags.count( "FROZEN" ) );
+            REQUIRE_FALSE( apple.has_own_flag( "FROZEN" ) );
 
             THEN( "they can eat it" ) {
                 expect_can_eat( dummy, apple );
@@ -128,8 +128,8 @@ TEST_CASE( "when frozen food can be eaten", "[can_eat][edible_rating][frozen]" )
         }
 
         WHEN( "it is frozen" ) {
-            apple.item_tags.insert( "FROZEN" );
-            REQUIRE( apple.item_tags.count( "FROZEN" ) );
+            apple.set_flag( "FROZEN" );
+            REQUIRE( apple.has_own_flag( "FROZEN" ) );
 
             THEN( "they cannot eat it" ) {
                 expect_cannot_eat( dummy, apple, "It's frozen solid.  You must defrost it before you can eat it." );
@@ -143,7 +143,7 @@ TEST_CASE( "when frozen food can be eaten", "[can_eat][edible_rating][frozen]" )
         REQUIRE_FALSE( water.has_flag( "MELTS" ) );
 
         WHEN( "it is not frozen" ) {
-            REQUIRE_FALSE( water.item_tags.count( "FROZEN" ) );
+            REQUIRE_FALSE( water.has_own_flag( "FROZEN" ) );
 
             THEN( "they can drink it" ) {
                 expect_can_eat( dummy, water );
@@ -151,8 +151,8 @@ TEST_CASE( "when frozen food can be eaten", "[can_eat][edible_rating][frozen]" )
         }
 
         WHEN( "it is frozen" ) {
-            water.item_tags.insert( "FROZEN" );
-            REQUIRE( water.item_tags.count( "FROZEN" ) );
+            water.set_flag( "FROZEN" );
+            REQUIRE( water.has_own_flag( "FROZEN" ) );
 
             THEN( "they cannot drink it" ) {
                 expect_cannot_eat( dummy, water, "You can't drink it while it's frozen." );
@@ -165,8 +165,8 @@ TEST_CASE( "when frozen food can be eaten", "[can_eat][edible_rating][frozen]" )
         REQUIRE( necco.has_flag( "EDIBLE_FROZEN" ) );
 
         WHEN( "it is frozen" ) {
-            necco.item_tags.insert( "FROZEN" );
-            REQUIRE( necco.item_tags.count( "FROZEN" ) );
+            necco.set_flag( "FROZEN" );
+            REQUIRE( necco.has_own_flag( "FROZEN" ) );
 
             THEN( "they can eat it" ) {
                 expect_can_eat( dummy, necco );
@@ -183,8 +183,8 @@ TEST_CASE( "when frozen food can be eaten", "[can_eat][edible_rating][frozen]" )
         REQUIRE( milkshake.has_flag( "MELTS" ) );
 
         WHEN( "it is frozen" ) {
-            milkshake.item_tags.insert( "FROZEN" );
-            REQUIRE( milkshake.item_tags.count( "FROZEN" ) );
+            milkshake.set_flag( "FROZEN" );
+            REQUIRE( milkshake.has_own_flag( "FROZEN" ) );
 
             THEN( "they can eat it" ) {
                 expect_can_eat( dummy, milkshake );

@@ -63,8 +63,8 @@ static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
 static const skill_id skill_computer( "computer" );
-static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_traps( "traps" );
 
 static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
 static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
@@ -365,7 +365,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
         here.place_items( "jewelry_front", 20, location, location, false, calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
-                it->item_tags.insert( "FILTHY" );
+                it->set_flag( "FILTHY" );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }
@@ -1076,7 +1076,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    int pick_roll = std::pow( 1.5, who.get_skill_level( skill_lockpick ) ) *
+    int pick_roll = std::pow( 1.5, who.get_skill_level( skill_traps ) ) *
                     ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
                       it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
                     who.dex_cur / 4.0;
@@ -1107,9 +1107,9 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     if( avatar *you = dynamic_cast<avatar *>( &who ) ) {
         if( !perfect ) {
             // You don't gain much skill since the item does all the hard work for you
-            xp_gain += std::pow( 2, you->get_skill_level( skill_lockpick ) ) + 1;
+            xp_gain += std::pow( 2, you->get_skill_level( skill_traps ) ) + 1;
         }
-        you->practice( skill_lockpick, xp_gain );
+        you->practice( skill_traps, xp_gain );
     }
 
     if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
@@ -2097,7 +2097,6 @@ static void stash_on_pet( const std::list<item> &items, monster &pet, Character 
         item( it ).handle_pickup_ownership( who );
     }
 }
-
 
 void stash_activity_actor::do_turn( player_activity &, Character &who )
 {

@@ -701,6 +701,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "milk_choc",
+    "name": { "str_sp": "chocolate milk" },
+    "copy-from": "milk",
+    "color": "brown",
+    "description": "Baby cow food, with chocolate added for adult humans.  Spoils rapidly.",
+    "calories": 272,
+    "fun": 6
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "milk_reconstituted",
     "name": { "str_sp": "reconstituted milk" },
     "copy-from": "milk",

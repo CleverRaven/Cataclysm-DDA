@@ -405,7 +405,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     // The default nutrients are always a possibility
     nutrients min_nutr = compute_default_effective_nutrients( comest_it, *this, extra_flags );
 
-    if( comest->item_tags.count( flag_NUTRIENT_OVERRIDE ) ||
+    if( comest->has_flag( flag_NUTRIENT_OVERRIDE ) ||
         recipe_dict.is_item_on_loop( comest->get_id() ) ) {
         return { min_nutr, min_nutr };
     }
@@ -692,7 +692,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
     }
 
-    if( food.item_tags.count( "DIRTY" ) ) {
+    if( food.has_own_flag( "DIRTY" ) ) {
         return ret_val<edible_rating>::make_failure(
                    _( "This is full of dirt after being on the ground." ) );
     }
@@ -714,7 +714,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
             }
         }
     }
-    if( food.item_tags.count( flag_FROZEN ) && !food.has_flag( flag_EDIBLE_FROZEN ) &&
+    if( food.has_own_flag( flag_FROZEN ) && !food.has_flag( flag_EDIBLE_FROZEN ) &&
         !food.has_flag( flag_MELTS ) ) {
         if( edible ) {
             return ret_val<edible_rating>::make_failure(
@@ -1258,7 +1258,6 @@ void Character::modify_morale( item &food, const int nutr )
     }
 }
 
-
 // Used when determining stomach fullness from eating.
 double Character::compute_effective_food_volume_ratio( const item &food ) const
 {
@@ -1298,7 +1297,6 @@ int Character::compute_calories_per_effective_volume( const item &food,
     const double effective_volume = converted_volume * energy_density_ratio;
     return std::round( kcalories / effective_volume );
 }
-
 
 bool Character::consume_effects( item &food )
 {
