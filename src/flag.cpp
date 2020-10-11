@@ -75,7 +75,7 @@ json_flag::operator bool() const
 
 const json_flag &json_flag::get( const std::string &id )
 {
-    static const json_flag null_value;
+    static const json_flag null_value = json_flag();
     const flag_str_id f_id( id );
     return f_id.is_valid() ? *f_id : null_value;
 }
