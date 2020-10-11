@@ -251,7 +251,7 @@
     "vision_day": 20,
     "harvest": "zombie_meatslug",
     "death_drops": "seabased_death_drop",
-    "special_attacks": [ [ "BITE", 20 ] ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
@@ -259,7 +259,6 @@
       "GOODHEARING",
       "SWIMS",
       "WARM",
-      "AQUATIC",
       "GROUP_BASH",
       "POISON",
       "NO_BREATHE",

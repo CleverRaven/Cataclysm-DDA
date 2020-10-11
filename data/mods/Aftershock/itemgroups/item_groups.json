@@ -352,5 +352,16 @@
       { "item": "wetsuit_cecalia", "prob": 70 },
       { "item": "trident", "prob": 70 }
     ]
+  },
+  {
+    "id": "seabased_death_drop",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      [ "item": "combat_wetsuit_cecalia", "prob": 20 ],
+      [ "item": "wetsuit_cecalia", "prob": 70 ],
+      [ "item": "trident", "prob": 70 ],
+      [ "item": "dive_bag", "prob": 100 ]
+    ]
   }
 ]
