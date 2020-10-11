@@ -4,6 +4,7 @@
     "id": "cargo_bag",
     "name": { "str": "storage bag" },
     "symbol": "o",
+    "categories": [ "Cargo" ],
     "color": "light_gray",
     "broken_symbol": "#",
     "broken_color": "dark_gray",
@@ -44,12 +45,14 @@
     "damage_reduction": { "all": 6 }
   },
   {
+    "categories": [ "Cargo", "Hull" ],
     "copy-from": "basketlg_abstract",
     "id": "basketlg",
     "symbol": "o",
     "type": "vehicle_part"
   },
   {
+    "categories": [ "Cargo", "Hull" ],
     "copy-from": "basketlg_abstract",
     "id": "basketlg_cart",
     "symbol": "o",
@@ -64,6 +67,7 @@
     "location": "structure",
     "symbol": "o",
     "broken_symbol": "#",
+    "categories": [ "Cargo" ],
     "color": "brown",
     "broken_color": "brown",
     "durability": 75,
@@ -84,6 +88,7 @@
     "name": { "str": "folding shopping cart basket" },
     "symbol": "o",
     "looks_like": "basketlg",
+    "categories": [ "Cargo", "Hull" ],
     "color": "brown",
     "broken_symbol": "#",
     "broken_color": "brown",
@@ -107,6 +112,7 @@
     "name": { "str": "wire bike basket" },
     "symbol": "o",
     "looks_like": "basketlg",
+    "categories": [ "Cargo" ],
     "color": "brown",
     "broken_symbol": "#",
     "broken_color": "brown",
@@ -147,6 +153,7 @@
     "location": "structure",
     "symbol": "o",
     "broken_symbol": "#",
+    "categories": [ "Cargo" ],
     "color": "brown",
     "broken_color": "brown",
     "durability": 75,
@@ -185,12 +192,14 @@
     "damage_reduction": { "all": 28 }
   },
   {
+    "categories": [ "Cargo" ],
     "copy-from": "box_abstract",
     "id": "box",
     "symbol": "o",
     "type": "vehicle_part"
   },
   {
+    "categories": [ "Cargo" ],
     "copy-from": "box_abstract",
     "id": "box_wheelbarrow",
     "looks_like": "box",
@@ -205,6 +214,7 @@
     "location": "structure",
     "symbol": "=",
     "broken_symbol": "#",
+    "categories": [ "Cargo" ],
     "color": "light_gray",
     "broken_color": "dark_gray",
     "durability": 250,
@@ -227,6 +237,7 @@
     "location": "anywhere",
     "symbol": "=",
     "broken_symbol": "#",
+    "categories": [ "Other" ],
     "color": "light_gray",
     "broken_color": "dark_gray",
     "durability": 150,
@@ -252,6 +263,7 @@
     "location": "structure",
     "symbol": "o",
     "broken_symbol": "#",
+    "categories": [ "Other" ],
     "color": "light_gray",
     "broken_color": "dark_gray",
     "durability": 75,

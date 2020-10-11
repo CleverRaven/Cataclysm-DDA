@@ -199,7 +199,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 
     for( item &e : worn ) {
         if( e.has_flag( "VARSIZE" ) ) {
-            e.item_tags.insert( "FIT" );
+            e.set_flag( "FIT" );
         }
     }
 }
@@ -577,7 +577,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     who.worn.clear();
     for( item &it : ret ) {
         if( it.has_flag( "VARSIZE" ) ) {
-            it.item_tags.insert( "FIT" );
+            it.set_flag( "FIT" );
         }
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
@@ -631,7 +631,7 @@ void starting_inv( npc &who, const npc_class_id &type )
         item tmp = random_item_from( type, "misc" ).in_its_container();
         if( !tmp.is_null() ) {
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
-                tmp.item_tags.insert( "FIT" );
+                tmp.set_flag( "FIT" );
             }
             if( who.can_pickVolume( tmp ) ) {
                 res.push_back( tmp );
@@ -1216,12 +1216,19 @@ void npc::form_opinion( const player &u )
         op_of_u.fear -= 1;
     }
 
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+    // is your health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {
         const int hp_max = elem.second.get_hp_max();
         const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear--;
         }
+    }
+
+    // is my health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const int hp_max = elem.second.get_hp_max();
+        const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear++;
         }
@@ -1289,7 +1296,7 @@ void npc::form_opinion( const player &u )
         }
     }
     decide_needs();
-    for( auto &i : needs ) {
+    for( const npc_need &i : needs ) {
         if( i == need_food || i == need_drink ) {
             op_of_u.value += 2;
         }

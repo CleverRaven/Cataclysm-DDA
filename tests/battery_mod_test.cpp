@@ -88,7 +88,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
         REQUIRE( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MOD ) );
 
         WHEN( "medium battery mod is installed" ) {
-            med_mod.item_tags.insert( "IRREMOVABLE" );
+            med_mod.set_flag( "IRREMOVABLE" );
             flashlight.put_in( med_mod, item_pocket::pocket_type::MOD );
 
             THEN( "tool modification is successful" ) {

@@ -62,7 +62,6 @@ static constexpr int SPECIAL_WAVE_MIN = 5;
 
 static std::string caravan_category_name( caravan_category cat );
 static std::vector<itype_id> caravan_items( caravan_category cat );
-static std::set<m_flag> monflags_to_add;
 
 static int caravan_price( Character &u, int price );
 

@@ -129,13 +129,13 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 
-static void eff_fun_onfire( player &u, effect &it )
+static void eff_fun_onfire( Character &u, effect &it )
 {
     const int intense = it.get_intensity();
     u.deal_damage( nullptr, it.get_bp(), damage_instance( damage_type::HEAT, rng( intense,
                    intense * 2 ) ) );
 }
-static void eff_fun_spores( player &u, effect &it )
+static void eff_fun_spores( Character &u, effect &it )
 {
     // Equivalent to X in 150000 + health * 100
     const int intense = it.get_intensity();
@@ -144,7 +144,7 @@ static void eff_fun_spores( player &u, effect &it )
         u.add_effect( effect_fungus, 1_turns, true );
     }
 }
-static void eff_fun_antifungal( player &u, effect & )
+static void eff_fun_antifungal( Character &u, effect & )
 {
     // antifungal drugs are deadly poison for marloss people
     if( u.has_trait( trait_THRESH_MYCUS ) && one_in( 30 ) ) {
@@ -159,7 +159,7 @@ static void eff_fun_antifungal( player &u, effect & )
         u.apply_damage( nullptr, random_bpart, 1 );
     }
 }
-static void eff_fun_fungus( player &u, effect &it )
+static void eff_fun_fungus( Character &u, effect &it )
 {
     const int intense = it.get_intensity();
     const bool resists = u.resists_effect( it );
@@ -243,7 +243,7 @@ static void eff_fun_fungus( player &u, effect &it )
             break;
     }
 }
-static void eff_fun_rat( player &u, effect &it )
+static void eff_fun_rat( Character &u, effect &it )
 {
     const int dur = to_turns<int>( it.get_duration() );
     it.set_intensity( dur / 10 );
@@ -265,7 +265,7 @@ static void eff_fun_rat( player &u, effect &it )
         }
     }
 }
-static void eff_fun_bleed( player &u, effect &it )
+static void eff_fun_bleed( Character &u, effect &it )
 {
     // Presuming that during the first-aid process you're putting pressure
     // on the wound or otherwise suppressing the flow. (Kits contain either
@@ -287,7 +287,7 @@ static void eff_fun_bleed( player &u, effect &it )
         }
     }
 }
-static void eff_fun_hallu( player &u, effect &it )
+static void eff_fun_hallu( Character &u, effect &it )
 {
     // TODO: Redo this to allow for variable durations
     // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
@@ -376,7 +376,7 @@ struct temperature_effect {
         msg_chance( mc ), miss_msg( mm ) {
     }
 
-    void apply( player &u ) const {
+    void apply( Character &u ) const {
         if( str_pen > 0 ) {
             u.mod_str_bonus( -str_pen );
         }
@@ -396,7 +396,7 @@ struct temperature_effect {
     }
 };
 
-static void eff_fun_cold( player &u, effect &it )
+static void eff_fun_cold( Character &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
     static const std::map<std::pair<bodypart_id, int>, temperature_effect> effs = {{
@@ -430,7 +430,7 @@ static void eff_fun_cold( player &u, effect &it )
     }
 }
 
-static void eff_fun_hot( player &u, effect &it )
+static void eff_fun_hot( Character &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
     static const std::map<std::pair<bodypart_id, int>, temperature_effect> effs = {{
@@ -472,7 +472,7 @@ static void eff_fun_hot( player &u, effect &it )
     }
 }
 
-static void eff_fun_frostbite( player &u, effect &it )
+static void eff_fun_frostbite( Character &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
     static const std::map<std::pair<bodypart_id, int>, temperature_effect> effs = {{
@@ -492,7 +492,7 @@ static void eff_fun_frostbite( player &u, effect &it )
     }
 }
 
-void player::hardcoded_effects( effect &it )
+void Character::hardcoded_effects( effect &it )
 {
     if( const ma_buff *buff = ma_buff::from_effect( it ) ) {
         if( buff->is_valid_character( *this ) ) {
@@ -502,7 +502,7 @@ void player::hardcoded_effects( effect &it )
         }
         return;
     }
-    using hc_effect_fun = std::function<void( player &, effect & )>;
+    using hc_effect_fun = std::function<void( Character &, effect & )>;
     static const std::map<efftype_id, hc_effect_fun> hc_effect_map = {{
             { effect_onfire, eff_fun_onfire },
             { effect_spores, eff_fun_spores },

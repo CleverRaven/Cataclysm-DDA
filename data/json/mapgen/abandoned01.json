@@ -5,8 +5,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "funnel" },
-      { "item": "water_clean", "container-item": "bottle_plastic" },
-      { "item": "water_clean", "container-item": "jug_plastic", "charges-min": 7, "charges-max": 15 },
+      { "item": "water_clean", "container-item": "bottle_plastic", "sealed": false },
+      { "item": "water_clean", "container-item": "jug_plastic", "charges-min": 7, "charges-max": 15, "sealed": false },
       { "item": "water_clean", "container-item": "30gal_drum", "charges-min": 150, "charges-max": 350 }
     ]
   },

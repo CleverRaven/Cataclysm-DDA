@@ -545,7 +545,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     // Bashing critical
     if( critical_hit && !is_immune_effect( effect_stunned ) ) {
         if( d.type_damage( damage_type::BASH ) * hit_spread > get_hp_max() ) {
-            add_effect( effect_stunned, 1_turns ); // 1 turn is enough
+            add_effect( source, effect_stunned, 1_turns ); // 1 turn is enough
             if( source->is_avatar() ) {
                 add_msg( m_good, _( "You stun %s with your blow." ), disp_name() );
             }
@@ -567,7 +567,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
                                            disp_name() );
         }
 
-        add_effect( effect_downed, 1_turns );
+        add_effect( source, effect_downed, 1_turns );
         mod_moves( -stab_moves / 2 );
     } else {
         mod_moves( -stab_moves );
@@ -643,7 +643,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     // Bounce applies whether it does damage or not.
     if( proj.proj_effects.count( "BOUNCE" ) ) {
-        add_effect( effect_bounced, 1_turns );
+        add_effect( source, effect_bounced, 1_turns );
     }
 
     bodypart_id bp_hit;
@@ -733,7 +733,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( z ) {
             const item &drop_item = proj.get_drop();
             if( !drop_item.is_null() ) {
-                z->add_effect( effect_tied, 1_turns, true );
+                z->add_effect( source, effect_tied, 1_turns, true );
                 z->tied_item = cata::make_value<item>( drop_item );
             } else {
                 add_msg_debug( "projectile with TANGLE effect, but no drop item specified" );
@@ -741,28 +741,28 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         } else if( n && !is_immune_effect( effect_downed ) ) {
             // no tied up effect for people yet, just down them and stun them, its close enough to the desired effect.
             // we can assume a person knows how to untangle their legs eventually and not panic like an animal.
-            add_effect( effect_downed, 1_turns );
+            add_effect( source, effect_downed, 1_turns );
             // stunned to simulate staggering around and stumbling trying to get the entangled thing off of them.
-            add_effect( effect_stunned, rng( 3_turns, 8_turns ) );
+            add_effect( source, effect_stunned, rng( 3_turns, 8_turns ) );
         }
     }
     if( proj.proj_effects.count( "INCENDIARY" ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
+            add_effect( source, effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
         } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
-            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit );
+            add_effect( source, effect_onfire, rng( 1_turns, 4_turns ), bp_hit );
         }
     } else if( proj.proj_effects.count( "IGNITE" ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, 6_turns, bp_hit );
+            add_effect( source, effect_onfire, 6_turns, bp_hit );
         } else if( made_of_any( cmat_flesh ) ) {
-            add_effect( effect_onfire, 10_turns, bp_hit );
+            add_effect( source, effect_onfire, 10_turns, bp_hit );
         }
     }
 
     if( proj.proj_effects.count( "ROBOT_DAZZLE" ) ) {
         if( goodhit < accuracy_critical && in_species( species_ROBOT ) ) {
-            add_effect( effect_stunned, rng( 6_turns, 8_turns ) );
+            add_effect( source, effect_stunned, rng( 6_turns, 8_turns ) );
             add_msg( source->is_player() ?
                      _( "You land a clean shot on the %1$s sensors, stunning it." ) :
                      _( "The %1$s is stunned!" ),
@@ -776,16 +776,16 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     if( proj_effects.count( "APPLY_SAP" ) ) {
-        add_effect( effect_sap, 1_turns * dealt_dam.total_damage() );
+        add_effect( source, effect_sap, 1_turns * dealt_dam.total_damage() );
     }
     if( proj_effects.count( "PARALYZEPOISON" ) && dealt_dam.total_damage() > 0 ) {
         add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
-        add_effect( effect_paralyzepoison, 5_minutes );
+        add_effect( source, effect_paralyzepoison, 5_minutes );
     }
 
     if( proj_effects.count( "FOAMCRETE" ) &&  effect_foamcrete_slow.is_valid() ) {
         add_msg_if_player( m_bad, _( "The foamcrete stiffens around you!" ) );
-        add_effect( effect_foamcrete_slow, 5_minutes );
+        add_effect( source, effect_foamcrete_slow, 5_minutes );
     }
 
     int stun_strength = 0;
@@ -813,7 +813,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                 stun_strength /= 4;
                 break;
         }
-        add_effect( effect_stunned, 1_turns * rng( stun_strength / 2, stun_strength ) );
+        add_effect( source, effect_stunned, 1_turns * rng( stun_strength / 2, stun_strength ) );
     }
 
     if( u_see_this && print_messages ) {
@@ -883,7 +883,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
         int cur_damage = 0;
-        deal_damage_handle_type( it, bp, cur_damage, total_pain );
+        deal_damage_handle_type( source, it, bp, cur_damage, total_pain );
         if( cur_damage > 0 ) {
             dealt_dams.dealt_dams[ static_cast<int>( it.type ) ] += cur_damage;
             total_damage += cur_damage;
@@ -895,8 +895,8 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     apply_damage( source, bp, total_damage );
     return dealt_dams;
 }
-void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
-                                        int &pain )
+void Creature::deal_damage_handle_type( const effect_source &source, const damage_unit &du,
+                                        bodypart_id bp, int &damage, int &pain )
 {
     // Handles ACIDPROOF, electric immunity etc.
     if( is_immune_damage( du.type ) ) {
@@ -920,13 +920,13 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
         case damage_type::HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp );
+                add_effect( source, effect_onfire, rng( 1_turns, 3_turns ), bp );
             }
             break;
 
         case damage_type::ELECTRIC:
             // Electrical damage adds a major speed/dex debuff
-            add_effect( effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
+            add_effect( source, effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
             break;
 
         case damage_type::ACID:
@@ -939,9 +939,9 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
         case damage_type::BULLET:
             // these are bleed inducing damage types
             if( is_avatar() || is_npc() ) {
-                as_character()->make_bleed( bp, 1_minutes * rng( 1, adjusted_damage ) );
+                as_character()->make_bleed( source, bp, 1_minutes * rng( 1, adjusted_damage ) );
             } else {
-                add_effect( effect_bleed, 1_minutes * rng( 1, adjusted_damage ), bp );
+                add_effect( source, effect_bleed, 1_minutes * rng( 1, adjusted_damage ), bp );
             }
 
         default:
@@ -982,15 +982,15 @@ void Creature::set_fake( const bool fake_value )
     fake = fake_value;
 }
 
-void Creature::add_effect( const effect &eff, bool force, bool deferred )
+void Creature::add_effect( const effect_source &source, const effect &eff, bool force,
+                           bool deferred )
 {
-    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp(), eff.is_permanent(),
-                eff.get_intensity(),
-                force, deferred );
+    add_effect( source, eff.get_id(), eff.get_duration(), eff.get_bp(), eff.is_permanent(),
+                eff.get_intensity(), force, deferred );
 }
 
-void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
-                           bool permanent, int intensity, bool force, bool deferred )
+void Creature::add_effect( const effect_source &source, const efftype_id &eff_id,
+                           const time_duration &dur, bodypart_id bp, bool permanent, int intensity, bool force, bool deferred )
 {
     // Check our innate immunity
     if( !force && is_immune_effect( eff_id ) ) {
@@ -1075,7 +1075,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
         }
 
         // Now we can make the new effect for application
-        effect e( &type, dur, bp.id(), permanent, intensity, calendar::turn );
+        effect e( effect_source( source ), &type, dur, bp.id(), permanent, intensity, calendar::turn );
         // Bound to max duration
         if( e.get_max_duration() > 0_turns && e.get_duration() > e.get_max_duration() ) {
             e.set_duration( e.get_max_duration() );
@@ -1108,10 +1108,10 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
         }
     }
 }
-void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, bool permanent,
-                           int intensity, bool force, bool deferred )
+void Creature::add_effect( const effect_source &source, const efftype_id &eff_id,
+                           const time_duration &dur, bool permanent, int intensity, bool force, bool deferred )
 {
-    add_effect( eff_id, dur, bodypart_id( "bp_null" ), permanent, intensity, force, deferred );
+    add_effect( source, eff_id, dur, bodypart_id( "bp_null" ), permanent, intensity, force, deferred );
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                                const time_duration &dur, const bodypart_id &bp, bool permanent, int intensity, bool force )
@@ -1123,7 +1123,7 @@ bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vect
     if( dice( strength, 3 ) > dice( get_env_resist( vector ), 3 ) ) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
-        add_effect( eff_id, dur, bp, permanent, intensity, true );
+        add_effect( effect_source::empty(), eff_id, dur, bp, permanent, intensity, true );
         return true;
     } else {
         return false;
@@ -1163,7 +1163,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
         get_event_bus().send<event_type::character_loses_effect>( ch->getID(), eff_id );
     }
 
-    // num_bp means remove all of a given effect id
+    // bp_null means remove all of a given effect id
     if( bp == bodypart_id( "bp_null" ) ) {
         for( auto &it : ( *effects )[eff_id] ) {
             on_effect_int_change( eff_id, 0, it.first );
@@ -1185,7 +1185,7 @@ bool Creature::remove_effect( const efftype_id &eff_id )
 }
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
-    // num_bp means anything targeted or not
+    // bp_null means anything targeted or not
     if( bp == bodypart_str_id( "bp_null" ) ) {
         return effects->find( eff_id ) != effects->end();
     } else {

@@ -1128,7 +1128,7 @@ void item::inherit_flags( const item &parent, const recipe &making )
         }
         //If item is crafted from perfect-fit components, the result is perfectly fitted too
         if( parent.has_flag( flag_FIT ) ) {
-            item_tags.insert( flag_FIT );
+            set_flag( flag_FIT );
         }
     }
     for( const std::string &f : parent.item_tags ) {
@@ -1136,7 +1136,7 @@ void item::inherit_flags( const item &parent, const recipe &making )
             set_flag( f );
         }
     }
-    for( const std::string &f : parent.type->item_tags ) {
+    for( const std::string &f : parent.type->get_flags() ) {
         if( json_flag::get( f ).craft_inherit() ) {
             set_flag( f );
         }
@@ -1209,7 +1209,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
 
         //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
         if( newit.has_flag( flag_VARSIZE ) ) {
-            newit.item_tags.insert( flag_FIT );
+            newit.set_flag( flag_FIT );
         }
         food_contained.inherit_flags( used, making );
 
@@ -2239,7 +2239,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     // has been removed.
     item dis_item = org_item;
 
-    float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level( 4 ) ), 1.0 );
+    float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level() ), 1.0 );
 
     add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
     // Remove any batteries, ammo and mods first
@@ -2361,11 +2361,11 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
         // Refitted clothing disassembles into refitted components (when applicable)
         if( dis_item.has_flag( flag_FIT ) && act_item.has_flag( flag_VARSIZE ) ) {
-            act_item.item_tags.insert( flag_FIT );
+            act_item.set_flag( flag_FIT );
         }
 
         if( filthy ) {
-            act_item.item_tags.insert( "FILTHY" );
+            act_item.set_flag( "FILTHY" );
         }
 
         for( std::list<item>::iterator a = dis_item.components.begin(); a != dis_item.components.end();

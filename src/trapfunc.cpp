@@ -368,7 +368,7 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
         if( n != nullptr ) {
             ///\EFFECT_DODGE reduces chance of being hit by crossbow trap
             if( !one_in( 4 ) && rng( 8, 20 ) > n->get_dodge() ) {
-                bodypart_id hit = bodypart_id( " num_bp" );
+                bodypart_id hit( "bp_null" );
                 switch( rng( 1, 10 ) ) {
                     case  1:
                         if( one_in( 2 ) ) {
@@ -945,7 +945,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
         } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
             n->add_msg_if_player( _( "You avoid the glass shards within." ) );
         } else {
-            bodypart_id hit( " num_bp" );
+            bodypart_id hit( "bp_null" );
             switch( rng( 1, 10 ) ) {
                 case  1:
                     hit = bodypart_id( "leg_l" );

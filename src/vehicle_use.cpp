@@ -144,6 +144,32 @@ void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
     } );
 }
 
+void handbrake()
+{
+    Character &player_character = get_player_character();
+    const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
+    if( !vp ) {
+        return;
+    }
+    vehicle *const veh = &vp->vehicle();
+    add_msg( _( "You pull a handbrake." ) );
+    veh->cruise_velocity = 0;
+    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
+        veh->skidding = true;
+        add_msg( m_warning, _( "You lose control of %s." ), veh->name );
+        veh->turn( veh->last_turn > 0 ? 60 : -60 );
+    } else {
+        int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
+        if( std::abs( veh->velocity ) < braking_power ) {
+            veh->stop();
+        } else {
+            int sgn = veh->velocity > 0 ? 1 : -1;
+            veh->velocity = sgn * ( std::abs( veh->velocity ) - braking_power );
+        }
+    }
+    player_character.moves = 0;
+}
+
 void vehicle::control_doors()
 {
     const auto door_motors = get_avail_parts( "DOOR_MOTOR" );
@@ -916,6 +942,27 @@ int vehicle::engine_start_time( const int e ) const
     return part_vpower_w( engines[ e ], true ) / watts_per_time + 100 * dmg + cold;
 }
 
+bool vehicle::auto_select_fuel( int e )
+{
+    vehicle_part &vp_engine = parts[ engines[ e ] ];
+    const vpart_info &vp_engine_info = part_info( engines[e] );
+    if( !vp_engine.is_available() ) {
+        return false;
+    }
+    if( vp_engine_info.fuel_type == fuel_type_none ||
+        vp_engine_info.has_flag( "PERPETUAL" ) ||
+        engine_fuel_left( e ) > 0 ) {
+        return true;
+    }
+    for( const itype_id &fuel_id : vp_engine_info.engine_fuel_opts() ) {
+        if( fuel_left( fuel_id ) > 0 ) {
+            vp_engine.fuel_set( fuel_id );
+            return true;
+        }
+    }
+    return false; // not a single fuel type left for this engine
+}
+
 bool vehicle::start_engine( const int e )
 {
     if( !is_engine_on( e ) ) {
@@ -925,16 +972,7 @@ bool vehicle::start_engine( const int e )
     const vpart_info &einfo = part_info( engines[e] );
     vehicle_part &eng = parts[ engines[ e ] ];
 
-    bool out_of_fuel = false;
-    if( einfo.fuel_type != fuel_type_none && engine_fuel_left( e ) <= 0 ) {
-        for( const itype_id &fuel_id : einfo.engine_fuel_opts() ) {
-            if( fuel_left( fuel_id ) > 0 ) {
-                eng.fuel_set( fuel_id );
-                break;
-            }
-        }
-        out_of_fuel = true;
-    }
+    bool out_of_fuel = !auto_select_fuel( e );
 
     Character &player_character = get_player_character();
     if( out_of_fuel ) {
@@ -1959,15 +1997,16 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const bool has_workbench = workbench_part >= 0;
 
     enum {
-        EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
-        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE, USE_DISHWASHER,
-        USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, USE_TOWEL, PEEK_CURTAIN,
+        EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,
+        RELOAD_TURRET, USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE,
+        USE_DISHWASHER, USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, USE_TOWEL, PEEK_CURTAIN,
     };
     uilist selectmenu;
 
     selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
     selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
     if( has_controls ) {
+        selectmenu.addentry( HANDBRAKE, true, 'h', _( "Pull handbrake" ) );
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
     }
     if( has_electronics ) {
@@ -2190,6 +2229,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case FOLD_VEHICLE: {
             fold_up();
+            return;
+        }
+        case HANDBRAKE: {
+            handbrake();
             return;
         }
         case CONTROL: {

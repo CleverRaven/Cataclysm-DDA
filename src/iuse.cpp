@@ -307,7 +307,7 @@ static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_lockpick( "lockpick" );
+static const skill_id skill_traps( "traps" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
@@ -445,12 +445,12 @@ void remove_radio_mod( item &it, Character &p )
     p.add_msg_if_player( _( "You remove the radio modification from your %s!" ), it.tname() );
     item mod( "radio_mod" );
     p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "RADIO_ACTIVATION" );
-    it.item_tags.erase( "RADIO_MOD" );
-    it.item_tags.erase( "RADIOSIGNAL_1" );
-    it.item_tags.erase( "RADIOSIGNAL_2" );
-    it.item_tags.erase( "RADIOSIGNAL_3" );
-    it.item_tags.erase( "RADIOCARITEM" );
+    it.unset_flag( "RADIO_ACTIVATION" );
+    it.unset_flag( "RADIO_MOD" );
+    it.unset_flag( "RADIOSIGNAL_1" );
+    it.unset_flag( "RADIOSIGNAL_2" );
+    it.unset_flag( "RADIOSIGNAL_3" );
+    it.unset_flag( "RADIOCARITEM" );
 }
 
 // Checks that the player does not have an active item with LITCIG flag.
@@ -1788,10 +1788,10 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
     p->add_msg_if_player(
         _( "You modify your %1$s to listen for %2$s activation signal on the radio." ),
         modded.tname(), colorname );
-    modded.item_tags.insert( "RADIO_ACTIVATION" );
-    modded.item_tags.insert( "RADIOCARITEM" );
-    modded.item_tags.insert( "RADIO_MOD" );
-    modded.item_tags.insert( newtag );
+    modded.set_flag( "RADIO_ACTIVATION" );
+    modded.set_flag( "RADIOCARITEM" );
+    modded.set_flag( "RADIO_MOD" );
+    modded.set_flag( newtag );
     return 1;
 }
 
@@ -3194,7 +3194,7 @@ int iuse::chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level() > 5 && !p->is_underwater(),
                            20, _( "With a roar, the chainsaw leaps to life!" ),
                            _( "You yank the cord, but nothing happens." ) );
 }
@@ -3203,7 +3203,7 @@ int iuse::elec_chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level() > 5 && !p->is_underwater(),
                            20, _( "With a roar, the electric chainsaw leaps to life!" ),
                            _( "You flip the switch, but nothing happens." ) );
 }
@@ -3212,7 +3212,7 @@ int iuse::cs_lajatang_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
                            40, _( "With a roar, the chainsaws leap to life!" ),
                            _( "You yank the cords, but nothing happens." ) );
 }
@@ -3221,7 +3221,7 @@ int iuse::ecs_lajatang_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
                            40, _( "With a buzz, the chainsaws leap to life!" ),
                            _( "You flip the on switch, but nothing happens." ) );
 }
@@ -3239,7 +3239,7 @@ int iuse::trimmer_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 3,
+                           rng( 0, 10 ) - it->damage_level() > 3,
                            15, _( "With a roar, the hedge trimmer leaps to life!" ),
                            _( "You yank the cord, but nothing happens." ) );
 }
@@ -3435,7 +3435,7 @@ int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
     } else {
         duration = std::max( to_moves<int>( 10_seconds ),
                              to_moves<int>( 10_minutes - time_duration::from_minutes( qual ) ) - ( you.dex_cur +
-                                     you.get_skill_level( skill_lockpick ) ) * 2300 );
+                                     you.get_skill_level( skill_traps ) ) * 2300 );
     }
 
     you.assign_activity( lockpick_activity_actor::use_item( duration, item_location( you, it ),
@@ -5245,7 +5245,8 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
     }
     const std::set<ter_id> allowed_ter_id {
         t_chaingate_l,
-        t_chainfence
+        t_chainfence,
+        t_fence_barbed
     };
     map &here = get_map();
     const std::function<bool( const tripoint & )> f =
@@ -5286,6 +5287,13 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
         sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
                        "boltcutters" );
         here.spawn_item( pnt, "wire", 20 );
+    } else if( type == t_fence_barbed ) {
+        p->moves -= to_moves<int>( 10_seconds );
+        here.ter_set( pnt, t_fence_post );
+        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
+                       "boltcutters" );
+        here.spawn_item( pnt, "wire_barbed", 2 );
+
     } else {
         return 0;
     }
@@ -5426,7 +5434,7 @@ static bool heat_item( player &p )
 {
     item_location loc = g->inv_map_splice( []( const item & itm ) {
         const item *food = itm.get_food();
-        return food && !food->item_tags.count( "HOT" );
+        return food && !food->has_own_flag( "HOT" );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -5439,7 +5447,7 @@ static bool heat_item( player &p )
     // this is x2 to simulate larger delta temperature of frozen food in relation to
     // heating non-frozen food (x1); no real life physics here, only aproximations
     int duration = to_turns<int>( time_duration::from_seconds( to_gram( target->weight() ) ) ) * 10;
-    if( target->item_tags.count( "FROZEN" ) && !target->has_flag( flag_EATEN_COLD ) ) {
+    if( target->has_own_flag( "FROZEN" ) && !target->has_flag( flag_EATEN_COLD ) ) {
         duration *= 2;
     }
     p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
@@ -5569,7 +5577,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
             }
 
             // WET, active items have their timer decremented every turn
-            it->item_tags.insert( "WET" );
+            it->set_flag( "WET" );
             it->active = true;
         }
     }
@@ -6094,7 +6102,7 @@ static void init_memory_card_with_random_stuff( item &it )
                                         it.has_flag( "MC_SCIENCE_STUFF" ) ) && !( it.has_flag( "MC_USED" ) ||
                                                 it.has_flag( "MC_HAS_DATA" ) ) ) {
 
-        it.item_tags.insert( "MC_HAS_DATA" );
+        it.set_flag( "MC_HAS_DATA" );
 
         bool encrypted = false;
 
@@ -6841,32 +6849,36 @@ static std::string effects_description_for_creature( Creature *const creature, s
             status( status ), intensity_lower_limit( 0 ) {}
     };
     static const std::unordered_map<efftype_id, ef_con> vec_effect_status = {
-        { effect_onfire, ef_con( to_translation( " is on <color_red>fire</color>. " ) ) },
-        { effect_bleed, ef_con( to_translation( " is <color_red>bleeding</color>. " ), 1 ) },
-        { effect_happy, ef_con( to_translation( " looks <color_green>happy</color>. " ), 13 ) },
+        { effect_onfire, ef_con( to_translation( " is on <color_red>fire</color>.  " ) ) },
+        { effect_bleed, ef_con( to_translation( " is <color_red>bleeding</color>.  " ), 1 ) },
+        { effect_happy, ef_con( to_translation( " looks <color_green>happy</color>.  " ), 13 ) },
         { effect_downed, ef_con( translation(), to_translation( "downed" ) ) },
         { effect_in_pit, ef_con( translation(), to_translation( "stuck" ) ) },
-        { effect_stunned, ef_con( to_translation( " is <color_blue>stunned</color>. " ) ) },
-        { effect_dazed, ef_con( to_translation( " is <color_blue>dazed</color>. " ) ) },
-        { effect_beartrap, ef_con( to_translation( " is stuck in beartrap. " ) ) },
-        { effect_laserlocked, ef_con( to_translation( " have tiny <color_red>red dot</color> on body. " ) ) },
-        { effect_boomered, ef_con( to_translation( " is covered in <color_magenta>bile</color>. " ) ) },
-        { effect_glowing, ef_con( to_translation( " is covered in <color_yellow>glowing goo</color>. " ) ) },
-        { effect_slimed, ef_con( to_translation( " is covered in <color_green>thick goo</color>. " ) ) },
-        { effect_corroding, ef_con( to_translation( " is covered in <color_light_green>acid</color>. " ) ) },
-        { effect_sap, ef_con( to_translation( " is coated in <color_brown>sap</color>. " ) ) },
-        { effect_webbed, ef_con( to_translation( " is covered in <color_dark_gray>webs</color>. " ) ) },
-        { effect_spores, ef_con( to_translation( " is covered in <color_green>spores</color>. " ), 1 ) },
-        { effect_crushed, ef_con( to_translation( " lies under <color_dark_gray>collapsed debris</color>. " ), to_translation( "lies" ) ) },
-        { effect_lack_sleep, ef_con( to_translation( " looks <color_dark_gray>very tired</color>. " ) ) },
-        { effect_lying_down, ef_con( to_translation( " is <color_dark_blue>sleeping</color>. " ), to_translation( "lies" ) ) },
-        { effect_sleep, ef_con( to_translation( " is <color_dark_blue>sleeping</color>. " ), to_translation( "lies" ) ) },
-        { effect_haslight, ef_con( to_translation( " is <color_yellow>lit</color>. " ) ) },
-        { effect_monster_saddled, ef_con( to_translation( " is <color_dark_gray>saddled</color>. " ) ) },
-        { effect_harnessed, ef_con( to_translation( " is being <color_dark_gray>harnessed</color> by a vehicle. " ) ) },
-        { effect_monster_armor, ef_con( to_translation( " is <color_dark_gray>wearing armor</color>. " ) ) },
-        { effect_has_bag, ef_con( to_translation( " have <color_dark_gray>bag</color> attached. " ) ) },
-        { effect_tied, ef_con( to_translation( " is <color_dark_gray>tied</color>. " ) ) },
+        { effect_stunned, ef_con( to_translation( " is <color_blue>stunned</color>.  " ) ) },
+        { effect_dazed, ef_con( to_translation( " is <color_blue>dazed</color>.  " ) ) },
+        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+        { effect_beartrap, ef_con( to_translation( " is stuck in beartrap.  " ) ) },
+        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+        { effect_laserlocked, ef_con( to_translation( " have tiny <color_red>red dot</color> on body.  " ) ) },
+        { effect_boomered, ef_con( to_translation( " is covered in <color_magenta>bile</color>.  " ) ) },
+        { effect_glowing, ef_con( to_translation( " is covered in <color_yellow>glowing goo</color>.  " ) ) },
+        { effect_slimed, ef_con( to_translation( " is covered in <color_green>thick goo</color>.  " ) ) },
+        { effect_corroding, ef_con( to_translation( " is covered in <color_light_green>acid</color>.  " ) ) },
+        { effect_sap, ef_con( to_translation( " is coated in <color_brown>sap</color>.  " ) ) },
+        { effect_webbed, ef_con( to_translation( " is covered in <color_dark_gray>webs</color>.  " ) ) },
+        { effect_spores, ef_con( to_translation( " is covered in <color_green>spores</color>.  " ), 1 ) },
+        { effect_crushed, ef_con( to_translation( " lies under <color_dark_gray>collapsed debris</color>.  " ), to_translation( "lies" ) ) },
+        { effect_lack_sleep, ef_con( to_translation( " looks <color_dark_gray>very tired</color>.  " ) ) },
+        { effect_lying_down, ef_con( to_translation( " is <color_dark_blue>sleeping</color>.  " ), to_translation( "lies" ) ) },
+        { effect_sleep, ef_con( to_translation( " is <color_dark_blue>sleeping</color>.  " ), to_translation( "lies" ) ) },
+        { effect_haslight, ef_con( to_translation( " is <color_yellow>lit</color>.  " ) ) },
+        { effect_monster_saddled, ef_con( to_translation( " is <color_dark_gray>saddled</color>.  " ) ) },
+        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+        { effect_harnessed, ef_con( to_translation( " is being <color_dark_gray>harnessed</color> by a vehicle.  " ) ) },
+        { effect_monster_armor, ef_con( to_translation( " is <color_dark_gray>wearing armor</color>.  " ) ) },
+        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+        { effect_has_bag, ef_con( to_translation( " have <color_dark_gray>bag</color> attached.  " ) ) },
+        { effect_tied, ef_con( to_translation( " is <color_dark_gray>tied</color>.  " ) ) },
         { effect_bouldering, ef_con( translation(), to_translation( "balancing" ) ) }
     };
 
@@ -6885,26 +6897,26 @@ static std::string effects_description_for_creature( Creature *const creature, s
         if( creature->has_effect( effect_sad ) ) {
             int intensity = creature->get_effect_int( effect_sad );
             if( intensity > 500 && intensity <= 950 ) {
-                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>sad</color>. " );
+                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>sad</color>.  " );
             } else if( intensity > 950 ) {
-                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>depressed</color>. " );
+                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>depressed</color>.  " );
             }
         }
         float pain = creature->get_pain() / 10.f;
         if( pain > 3 ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " is writhing in <color_red>pain</color>. " );
+            figure_effects += pronoun_sex + pgettext( "Someone", " is writhing in <color_red>pain</color>.  " );
         }
         if( creature->has_effect( effect_riding ) ) {
             pose = _( "rides" );
             monster *const mon = g->critter_at<monster>( creature->pos(), false );
-            figure_effects += pronoun_sex + string_format( _( " is riding %s. " ),
+            figure_effects += pronoun_sex + string_format( _( " is riding %s.  " ),
                               colorize( mon->name(), c_light_blue ) );
         }
         if( creature->has_effect( effect_glowy_led ) ) {
-            figure_effects += _( "A bionic LED is <color_yellow>glowing</color> softly. " );
+            figure_effects += _( "A bionic LED is <color_yellow>glowing</color> softly.  " );
         }
     }
-    if( !figure_effects.empty() && figure_effects.back() == ' ' ) { // remove last space
+    while( !figure_effects.empty() && figure_effects.back() == ' ' ) { // remove last spaces
         figure_effects.erase( figure_effects.end() - 1 );
     }
     return figure_effects;
@@ -7737,7 +7749,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         mc.convert( itype_mobile_memory_card );
         mc.clear_vars();
         mc.unset_flags();
-        mc.item_tags.insert( "MC_HAS_DATA" );
+        mc.set_flag( "MC_HAS_DATA" );
 
         mc.set_var( "MC_MONSTER_PHOTOS", it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
         mc.set_var( "MC_EXTENDED_PHOTOS", it->get_var( "CAMERA_EXTENDED_PHOTOS" ) );
@@ -7756,7 +7768,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
     if( t ) {
 
         if( get_map().has_flag( "SWIMMABLE", pos.xy() ) ) {
-            it->item_tags.erase( "NO_UNWIELD" );
+            it->unset_flag( "NO_UNWIELD" );
             it->ammo_unset();
             it->active = false;
             add_msg( m_good, _( "%s automatically turned off!" ), it->tname() );
@@ -7766,7 +7778,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
         if( it->charges == 0 ) {
 
             sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
-            it->item_tags.erase( "NO_UNWIELD" );
+            it->unset_flag( "NO_UNWIELD" );
             it->active = false;
 
             if( p->has_item( *it ) && p->weapon.typeId() == itype_e_handcuffs ) {
@@ -7781,7 +7793,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
                 one_in( 5 ) ) {
                 p->mod_power_level( -2_kJ );
 
-                it->item_tags.erase( "NO_UNWIELD" );
+                it->unset_flag( "NO_UNWIELD" );
                 it->ammo_unset();
                 it->active = false;
                 add_msg( m_good, _( "The %s crackle with electricity from your bionic, then come off your hands!" ),

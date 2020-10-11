@@ -342,7 +342,7 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
     item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
     if( it.has_flag( "FIT" ) ) {
-        dummy.item_tags.insert( "FIT" );
+        dummy.set_flag( "FIT" );
     }
     dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
                        dummy.tname() ) );
@@ -1480,7 +1480,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // chance of losing more components if the item is damaged.
     // If the item being cut is not damaged, no additional losses will be incurred.
     if( count > 0 && cut.get_item()->damage() > 0 ) {
-        float component_success_chance = std::min( std::pow( 0.8, cut.get_item()->damage_level( 4 ) ),
+        float component_success_chance = std::min( std::pow( 0.8, cut.get_item()->damage_level() ),
                                          1.0 );
         for( int i = count; i > 0; i-- ) {
             if( component_success_chance < rng_float( 0, 1 ) ) {
@@ -1523,7 +1523,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
             add_msg( m_good, ngettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
                      amount, result.display_name( amount ) );
             if( filthy ) {
-                result.item_tags.insert( "FILTHY" );
+                result.set_flag( "FILTHY" );
             }
             if( cut_type == item_location::type::character ) {
                 p.i_add_or_drop( result, amount );
@@ -1837,7 +1837,7 @@ int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) c
     }
 
     p.moves -= moves;
-    if( rng( 0, 10 ) - it.damage_level( 4 ) > success_chance && !p.is_underwater() ) {
+    if( rng( 0, 10 ) - it.damage_level() > success_chance && !p.is_underwater() ) {
         if( noise > 0 ) {
             sounds::sound( p.pos(), noise, sounds::sound_t::combat, success_message );
         } else {
@@ -2771,7 +2771,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
     int action_difficulty = 0;
     switch( action_type ) {
         case RT_REPAIR:
-            action_difficulty = fix.damage_level( 4 );
+            action_difficulty = fix.damage_level();
             break;
         case RT_REFIT:
             // Let's make refitting as hard as recovering an almost-wrecked item
@@ -2949,7 +2949,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             if( !fix->has_flag( "FIT" ) ) {
                 pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
                                       fix->tname() );
-                fix->item_tags.insert( "FIT" );
+                fix->set_flag( "FIT" );
             }
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
@@ -2963,7 +2963,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
                                   fix->tname().c_str() );
-            fix->item_tags.insert( "UNDERSIZE" );
+            fix->set_flag( "UNDERSIZE" );
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
         }
@@ -2975,7 +2975,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
                                   fix->tname().c_str() );
-            fix->item_tags.erase( "UNDERSIZE" );
+            fix->unset_flag( "UNDERSIZE" );
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
         }
@@ -4219,10 +4219,10 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     // Gives us an item with the mod added or removed (toggled)
     const auto modded_copy = []( const item & proto, const std::string & mod_type ) {
         item mcopy = proto;
-        if( mcopy.item_tags.count( mod_type ) == 0 ) {
-            mcopy.item_tags.insert( mod_type );
+        if( mcopy.has_own_flag( mod_type ) == 0 ) {
+            mcopy.set_flag( mod_type );
         } else {
-            mcopy.item_tags.erase( mod_type );
+            mcopy.unset_flag( mod_type );
         }
 
         return mcopy;
@@ -4239,7 +4239,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     int mod_count = 0;
     for( const clothing_mod &cm : clothing_mods::get_all() ) {
-        mod_count += mod.item_tags.count( cm.flag );
+        mod_count += mod.has_own_flag( cm.flag );
     }
 
     // We need extra thread to lose it on bad rolls
@@ -4270,7 +4270,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
         bool enab = false;
         std::string prompt;
-        if( mod.item_tags.count( obj.flag ) == 0 ) {
+        if( mod.has_own_flag( obj.flag ) == 0 ) {
             // TODO: Fix for UTF-8 strings
             // TODO: find other places where this is used and make a global function for all
             static const auto tolower = []( std::string t ) {
@@ -4335,9 +4335,9 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     const std::string &the_mod = clothing_mods[choice].obj().flag;
 
     // If the picked mod already exists, player wants to destroy it
-    if( mod.item_tags.count( the_mod ) ) {
+    if( mod.has_own_flag( the_mod ) ) {
         if( query_yn( _( "Are you sure?  You will not gain any materials back." ) ) ) {
-            mod.item_tags.erase( the_mod );
+            mod.unset_flag( the_mod );
         }
         mod.update_clothing_mod_val();
 
@@ -4379,13 +4379,13 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( m_mixed, _( "You modify your %s, but waste a lot of thread." ),
                              mod.tname() );
         p.consume_items( comps, 1, is_crafting_component );
-        mod.item_tags.insert( the_mod );
+        mod.set_flag( the_mod );
         mod.update_clothing_mod_val();
         return thread_needed;
     }
 
     p.add_msg_if_player( m_good, _( "You modify your %s!" ), mod.tname() );
-    mod.item_tags.insert( the_mod );
+    mod.set_flag( the_mod );
     mod.update_clothing_mod_val();
     p.consume_items( comps, 1, is_crafting_component );
     return thread_needed / 2;

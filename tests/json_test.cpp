@@ -62,7 +62,8 @@ TEST_CASE( "spell_type handles all members", "[json]" )
         CHECK( test_spell.name == to_translation( "test spell" ) );
         CHECK( test_spell.description ==
                to_translation( "a spell to make sure the json deserialization and serialization is working properly" ) );
-        CHECK( test_spell.effect_name == "target_attack" );
+        CHECK( test_spell.effect_name == "attack" );
+        CHECK( test_spell.spell_area == spell_shape::blast );
         CHECK( test_spell.valid_targets.test( spell_target::none ) );
         CHECK( test_spell.effect_str == "string" );
         CHECK( test_spell.skill == skill_id( "not_spellcraft" ) );
@@ -123,7 +124,8 @@ TEST_CASE( "spell_type handles all members", "[json]" )
             R"("id":"test_spell_json",)"
             R"("name":"test spell",)"
             R"("description":"a spell to make sure the json deserialization and serialization is working properly",)"
-            R"("effect":"target_attack",)"
+            R"("effect":"attack",)"
+            R"("shape":"blast",)"
             R"("valid_targets":["none"],)"
             R"("effect_str":"string",)"
             R"("skill":"not_spellcraft",)"

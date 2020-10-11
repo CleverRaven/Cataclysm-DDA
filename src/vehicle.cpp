@@ -100,6 +100,18 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
+
+static const itype_id itype_chemistry_set( "chemistry_set" );
+static const itype_id itype_dehydrator( "dehydrator" );
+static const itype_id itype_electrolysis_kit( "electrolysis_kit" );
+static const itype_id itype_food_processor( "food_processor" );
+static const itype_id itype_forge( "forge" );
+static const itype_id itype_hotplate( "hotplate" );
+static const itype_id itype_kiln( "kiln" );
+static const itype_id itype_press( "press" );
+static const itype_id itype_soldering_iron( "soldering_iron" );
+static const itype_id itype_vac_sealer( "vac_sealer" );
+static const itype_id itype_welder( "welder" );
 static const itype_id itype_water_purifier( "water_purifier" );
 
 static const std::string flag_PERPETUAL( "PERPETUAL" );
@@ -670,6 +682,10 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             set_hp( parts[random_entry( wheelcache )], 0 );
             tries++;
         }
+    }
+
+    for( size_t i = 0; i < engines.size(); i++ ) {
+        auto_select_fuel( i );
     }
 
     invalidate_mass();
@@ -5956,7 +5972,7 @@ bool vehicle::is_external_part( const tripoint &part_pt ) const
         if( !vp ) {
             return true;
         }
-        if( vp && &vp->vehicle() != this ) {
+        if( &vp->vehicle() != this ) {
             return true;
         }
     }
@@ -6521,7 +6537,7 @@ int vehicle::break_off( int p, int dmg )
         // remove parts for which required flags are not present anymore
         if( !part_info( p ).get_flags().empty() ) {
             const std::vector<int> parts_here = parts_at_relative( position, false );
-            for( auto &part : parts_here ) {
+            for( const auto &part : parts_here ) {
                 bool remove = false;
                 for( const std::string &flag : part_info( part ).get_flags() ) {
                     if( !json_flag::get( flag ).requires_flag().empty() ) {
@@ -6724,6 +6740,154 @@ std::set<tripoint> &vehicle::get_points( const bool force_refresh )
     }
 
     return occupied_points;
+}
+
+std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &type, int &quantity,
+                                      const std::function<bool( const item & )> &filter )
+{
+    std::list<item> ret;
+
+    const cata::optional<vpart_reference> kpart = vp.part_with_feature( "FAUCET", true );
+    const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
+    const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
+    const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
+    const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
+    const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
+    const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
+
+    if( kpart ) { // we have a faucet, now to see what to drain
+        itype_id ftype = itype_id::NULL_ID();
+
+        // Special case hotplates which draw battery power
+        if( type == itype_hotplate ) {
+            ftype = itype_battery;
+        } else {
+            ftype = type;
+        }
+
+        // TODO: add a sane birthday arg
+        item tmp( type, 0 );
+        tmp.charges = kpart->vehicle().drain( ftype, quantity );
+        // TODO: Handle water poison when crafting starts respecting it
+        quantity -= tmp.charges;
+        ret.push_back( tmp );
+
+        if( quantity == 0 ) {
+            return ret;
+        }
+    }
+
+    if( weldpart ) { // we have a weldrig, now to see what to drain
+        itype_id ftype = itype_id::NULL_ID();
+
+        if( type == itype_welder ) {
+            ftype = itype_battery;
+        } else if( type == itype_soldering_iron ) {
+            ftype = itype_battery;
+        }
+        // TODO: add a sane birthday arg
+        item tmp( type, 0 );
+        tmp.charges = weldpart->vehicle().drain( ftype, quantity );
+        quantity -= tmp.charges;
+        ret.push_back( tmp );
+
+        if( quantity == 0 ) {
+            return ret;
+        }
+    }
+
+    if( craftpart ) { // we have a craftrig, now to see what to drain
+        itype_id ftype = itype_id::NULL_ID();
+
+        if( type == itype_press ) {
+            ftype = itype_battery;
+        } else if( type == itype_vac_sealer ) {
+            ftype = itype_battery;
+        } else if( type == itype_dehydrator ) {
+            ftype = itype_battery;
+        } else if( type == itype_food_processor ) {
+            ftype = itype_battery;
+        }
+
+        // TODO: add a sane birthday arg
+        item tmp( type, 0 );
+        tmp.charges = craftpart->vehicle().drain( ftype, quantity );
+        quantity -= tmp.charges;
+        ret.push_back( tmp );
+
+        if( quantity == 0 ) {
+            return ret;
+        }
+    }
+
+    if( forgepart ) { // we have a veh_forge, now to see what to drain
+        itype_id ftype = itype_id::NULL_ID();
+
+        if( type == itype_forge ) {
+            ftype = itype_battery;
+        }
+
+        // TODO: add a sane birthday arg
+        item tmp( type, 0 );
+        tmp.charges = forgepart->vehicle().drain( ftype, quantity );
+        quantity -= tmp.charges;
+        ret.push_back( tmp );
+
+        if( quantity == 0 ) {
+            return ret;
+        }
+    }
+
+    if( kilnpart ) { // we have a veh_kiln, now to see what to drain
+        itype_id ftype = itype_id::NULL_ID();
+
+        if( type == itype_kiln ) {
+            ftype = itype_battery;
+        }
+
+        // TODO: add a sane birthday arg
+        item tmp( type, 0 );
+        tmp.charges = kilnpart->vehicle().drain( ftype, quantity );
+        quantity -= tmp.charges;
+        ret.push_back( tmp );
+
+        if( quantity == 0 ) {
+            return ret;
+        }
+    }
+
+    if( chempart ) { // we have a chem_lab, now to see what to drain
+        itype_id ftype = itype_id::NULL_ID();
+
+        if( type == itype_chemistry_set ) {
+            ftype = itype_battery;
+        } else if( type == itype_hotplate ) {
+            ftype = itype_battery;
+        } else if( type == itype_electrolysis_kit ) {
+            ftype = itype_battery;
+        }
+
+        // TODO: add a sane birthday arg
+        item tmp( type, 0 );
+        tmp.charges = chempart->vehicle().drain( ftype, quantity );
+        quantity -= tmp.charges;
+        ret.push_back( tmp );
+
+        if( quantity == 0 ) {
+            return ret;
+        }
+    }
+
+    if( cargo ) {
+        vehicle_stack veh_stack = get_items( cargo->part_index() );
+        std::list<item> tmp = veh_stack.use_charges( type, quantity, vp.pos(), filter );
+        ret.splice( ret.end(), tmp );
+        if( quantity <= 0 ) {
+            return ret;
+        }
+    }
+
+    return ret;
 }
 
 vehicle_part &vpart_reference::part() const

@@ -562,31 +562,6 @@ static void close()
     }
 }
 
-static void handbrake()
-{
-    Character &player_character = get_player_character();
-    const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
-    if( !vp ) {
-        return;
-    }
-    vehicle *const veh = &vp->vehicle();
-    add_msg( _( "You pull a handbrake." ) );
-    veh->cruise_velocity = 0;
-    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
-        veh->skidding = true;
-        add_msg( m_warning, _( "You lose control of %s." ), veh->name );
-        veh->turn( veh->last_turn > 0 ? 60 : -60 );
-    } else {
-        int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
-        if( std::abs( veh->velocity ) < braking_power ) {
-            veh->stop();
-        } else {
-            int sgn = veh->velocity > 0 ? 1 : -1;
-            veh->velocity = sgn * ( std::abs( veh->velocity ) - braking_power );
-        }
-    }
-    player_character.moves = 0;
-}
 
 // Establish or release a grab on a vehicle
 static void grab()
@@ -971,7 +946,8 @@ static void wait()
         }
     }
 
-    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ),
+    // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+    as_m.text = ( has_watch ) ? string_format( _( "It's %s now.  " ),
                 to_string_time_of_day( calendar::turn ) ) : "";
     as_m.text += setting_alarm ? _( "Set alarm for when?" ) : _( "Wait for how long?" );
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */

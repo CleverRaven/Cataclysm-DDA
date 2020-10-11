@@ -75,7 +75,7 @@ class recipe
 
         int time = 0; // in movement points (100 per turn)
 
-        float exertion;
+        float exertion = 0.0f;
 
     public:
         recipe();

@@ -97,10 +97,10 @@ struct damage_instance {
 class damage_over_time_data
 {
     public:
-        damage_type type;
+        damage_type type = damage_type::NONE;
         time_duration duration;
         std::vector<bodypart_str_id> bps;
-        int amount;
+        int amount = 0;
 
         bool was_loaded = false;
 

@@ -30,6 +30,9 @@ using bodypart_str_id = string_id<body_part_type>;
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
 
+struct construction_group;
+using construction_group_str_id = string_id<construction_group>;
+
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
 
@@ -199,5 +202,9 @@ using snippet_id = string_id<translation>;
 struct construction;
 using construction_id = int_id<construction>;
 using construction_str_id = string_id<construction>;
+
+class json_flag;
+using flag_id = int_id<json_flag>;
+using flag_str_id = string_id<json_flag>;
 
 #endif // CATA_SRC_TYPE_ID_H

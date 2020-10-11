@@ -231,7 +231,7 @@
       [ "foot_crank", 10 ],
       [ "spray_can", 50 ],
       [ "bearing", 1 ],
-      [ "permanent_marker", 20 ],
+      { "item": "permanent_marker", "prob": 20, "charges": [ 0, 500 ] },
       [ "cu_pipe", 50 ],
       [ "fungicide", 5 ],
       [ "insecticide", 5 ],
@@ -256,7 +256,7 @@
     "id": "supplies_reagents_lab",
     "//": "General laboratory reagents and expendibles.  This list contains most conceivable chemicals in the game.  More specific lists for each type of lab would be reasonable eventually.",
     "items": [
-      { "item": "water_clean", "prob": 90, "charges-min": 1 },
+      { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
       { "item": "salt_water", "prob": 20, "charges-min": 1 },
       [ "detergent", 10 ],
       { "item": "bleach", "prob": 10, "charges-min": 10 },
@@ -477,7 +477,7 @@
       [ "cig", 5 ],
       [ "purse", 2 ],
       [ "pipe_tobacco", 1 ],
-      [ "permanent_marker", 5 ]
+      { "item": "permanent_marker", "prob": 5, "charges": [ 0, 500 ] }
     ]
   },
   {
@@ -485,7 +485,7 @@
     "type": "item_group",
     "items": [
       [ "paper", 100 ],
-      [ "permanent_marker", 35 ],
+      { "item": "permanent_marker", "prob": 35, "charges": [ 0, 500 ] },
       [ "file", 15 ],
       [ "duct_tape", 15 ],
       [ "file", 15 ],

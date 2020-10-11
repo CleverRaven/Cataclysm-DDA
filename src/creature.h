@@ -14,6 +14,7 @@
 #include "bodypart.h"
 #include "damage.h"
 #include "debug.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "location.h"
 #include "pimpl.h"
@@ -417,7 +418,7 @@ class Creature : public location, public viewer
                 const damage_instance &dam );
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
-        virtual void deal_damage_handle_type( const damage_unit &du,
+        virtual void deal_damage_handle_type( const effect_source &source, const damage_unit &du,
                                               bodypart_id bp, int &damage, int &pain );
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
@@ -486,13 +487,30 @@ class Creature : public location, public viewer
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects( bool attacking ) = 0;
 
-        void add_effect( const effect &eff, bool force = false, bool deferred = false );
+
+        // Next three functions don't do anything but forward to next functions with nullptr
+        // as source they should be removed once all effect sources are assigned
+        void add_effect( const effect &eff, bool force = false, bool deferred = false ) {
+            add_effect( effect_source::empty(), eff, force, deferred );
+        }
+        void add_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
+                         bool permanent = false, int intensity = 0, bool force = false, bool deferred = false ) {
+            add_effect( effect_source::empty(), eff_id, dur, bp, permanent, intensity, force, deferred );
+        }
+        void add_effect( const efftype_id &eff_id, const time_duration &dur, bool permanent = false,
+                         int intensity = 0, bool force = false, bool deferred = false ) {
+            add_effect( effect_source::empty(), eff_id, dur, permanent, intensity, force, deferred );
+        }
+
+        void add_effect( const effect_source &source, const effect &eff, bool force = false,
+                         bool deferred = false );
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
-        void add_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
+        void add_effect( const effect_source &source, const efftype_id &eff_id, const time_duration &dur,
+                         bodypart_id bp, bool permanent = false, int intensity = 0, bool force = false,
+                         bool deferred = false );
+        void add_effect( const effect_source &source, const efftype_id &eff_id, const time_duration &dur,
                          bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
-        void add_effect( const efftype_id &eff_id, const time_duration &dur, bool permanent = false,
-                         int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
         bool add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                              const time_duration &dur, const bodypart_id &bp, bool permanent = false, int intensity = 1,

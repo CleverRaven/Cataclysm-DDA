@@ -17,7 +17,7 @@
 #include "point.h"
 #include "type_id.h"
 
-static int get_actual_light_level( map_test_case::tile t )
+static int get_actual_light_level( const map_test_case::tile &t )
 {
     const map &here = get_map();
     const visibility_variables &vvcache = here.get_visibility_variables_cache();

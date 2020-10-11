@@ -437,17 +437,36 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
     } while( wmenu.ret >= 0 );
 }
 
+static item wishitem_produce( const itype &type, std::string &flags, bool incontainer )
+{
+    item granted( &type, calendar::turn );
+
+    granted.unset_flags();
+    for( const auto &tag : debug_menu::string_to_iterable<std::vector<std::string>>( flags, " " ) ) {
+        granted.set_flag( tag );
+    }
+
+    if( incontainer ) {
+        granted = granted.in_its_container();
+    }
+    // If the item has an ammunition, this loads it to capacity, including magazines.
+    if( !granted.ammo_default().is_null() ) {
+        granted.ammo_set( granted.ammo_default(), -1 );
+    }
+
+    return granted;
+}
+
 class wish_item_callback: public uilist_callback
 {
     public:
         bool incontainer;
-        bool has_flag;
         bool spawn_everything;
         std::string msg;
-        std::string flag;
+        std::string flags;
         const std::vector<const itype *> &standard_itype_ids;
         wish_item_callback( const std::vector<const itype *> &ids ) :
-            incontainer( false ), has_flag( false ), spawn_everything( false ), standard_itype_ids( ids ) {
+            incontainer( false ), spawn_everything( false ), standard_itype_ids( ids ) {
         }
 
         void select( uilist *menu ) override {
@@ -459,6 +478,9 @@ class wish_item_callback: public uilist_callback
             } else {
                 incontainer = false;
             }
+
+            // grab default flags for the itype
+            flags = debug_menu::iterable_to_string( standard_itype_ids[menu->selected]->get_flags(), "" );
         }
 
         bool key( const input_context &ctxt, const input_event &event, int /*entnum*/,
@@ -470,13 +492,17 @@ class wish_item_callback: public uilist_callback
                 return true;
             }
             if( action == "FLAG" ) {
-                flag = string_input_popup()
-                       .title( _( "Add which flag?  Use UPPERCASE letters without quotes" ) )
-                       .query_string();
-                if( !flag.empty() ) {
-                    has_flag = true;
+                string_input_popup popup;
+                popup
+                .title( _( "Flags:" ) )
+                .description( _( "UPPERCASE, no quotes, separate with spaces" ) )
+                .max_length( 100 )
+                .text( flags )
+                .query();
+                if( popup.confirmed() ) {
+                    flags = popup.text();
+                    return true;
                 }
-                return true;
             }
             if( action == "EVERYTHING" ) {
                 spawn_everything = !spawn_everything;
@@ -495,11 +521,11 @@ class wish_item_callback: public uilist_callback
             mvwhline( menu->window, point( startx, 1 ), ' ', menu->pad_right - 1 );
             const int entnum = menu->selected;
             if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
-                item tmp( standard_itype_ids[entnum], calendar::turn );
+                item tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
                 const std::string header = string_format( "#%d: %s%s%s", entnum,
                                            standard_itype_ids[entnum]->get_id().c_str(),
                                            incontainer ? _( " (contained)" ) : "",
-                                           has_flag ? _( " (flagged)" ) : "" );
+                                           flags.empty() ? "" : _( " (flagged)" ) );
                 mvwprintz( menu->window, point( startx + ( menu->pad_right - 1 - utf8_width( header ) ) / 2, 1 ),
                            c_cyan, header );
 
@@ -576,19 +602,8 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         }
         bool did_amount_prompt = false;
         while( wmenu.ret >= 0 ) {
-            item granted( opts[wmenu.ret].second );
-            if( cb.incontainer ) {
-                granted = granted.in_its_container();
-            }
-            if( cb.has_flag ) {
-                granted.item_tags.insert( cb.flag );
-            }
-            // If the item has an ammunition, this loads it to capacity, including magazines.
-            if( !granted.ammo_default().is_null() ) {
-                granted.ammo_set( granted.ammo_default(), -1 );
-            }
+            item granted = wishitem_produce( *opts[wmenu.ret].second, cb.flags, cb.incontainer ) ;
 
-            granted.set_birthday( calendar::turn );
             prev_amount = amount;
             bool canceled = false;
             if( p != nullptr && !did_amount_prompt ) {
