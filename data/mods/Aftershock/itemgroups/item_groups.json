@@ -469,11 +469,6 @@
     "id": "seabased_death_drop",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
-      [ "combat_wetsuit_cecalia", 20 ],
-      [ "wetsuit_cecalia", 70 ],
-      [ "trident", 70 ],
-      [ "dive_bag", 100 ]
-    ]
+    "items": [ [ "combat_wetsuit_cecalia", 20 ], [ "wetsuit_cecalia", 70 ], [ "trident", 70 ], [ "dive_bag", 100 ] ]
   }
 ]
