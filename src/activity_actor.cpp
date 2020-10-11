@@ -1286,7 +1286,6 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
 
 void consume_activity_actor::finish( player_activity &act, Character & )
 {
-    activity_id new_act = type;
     // Prevent interruptions from this point onwards, so that e.g. pain from
     // injecting serum doesn't pop up messages about cancelling consuming (it's
     // too late; we've already consumed).
@@ -1298,6 +1297,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     const std::vector<item_location> temp_selected_items = consume_menu_selected_items;
     const std::string temp_filter = consume_menu_filter;
     item_location consume_loc = consume_location;
+    activity_id new_act = type;
 
     avatar &player_character = get_avatar();
     if( !canceled ) {
