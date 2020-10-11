@@ -43,6 +43,13 @@
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
+    "id": "xl_boots",
+    "type": "ARMOR",
+    "name": { "str": "pair of oversize boots", "str_pl": "pairs of oversize boots" },
+    "copy-from": "boots",
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+  },
+  {
     "id": "boots_bone",
     "type": "ARMOR",
     "category": "armor",
@@ -111,6 +118,13 @@
     "flags": [ "STURDY" ]
   },
   {
+    "id": "xl_boots_chitin",
+    "type": "ARMOR",
+    "name": { "str": "paird of oversize chitin boots", "str_pl": "pairs of oversized chitin boots" },
+    "copy-from": "boots_chitin",
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+  },
+  {
     "id": "boots_acidchitin",
     "copy-from": "boots_chitin",
     "type": "ARMOR",
@@ -120,6 +134,13 @@
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
     "relative": { "bashing": 2, "material_thickness": 1 }
+  },
+  {
+    "id": "xl_boots_acidchitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of oversize biosilicified boots", "str_pl": "pairs of oversize biosilicified boots" },
+    "copy-from": "boots_acidchitin",
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
   },
   {
     "id": "boots_combat",
@@ -212,6 +233,13 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "xl_boots_fsurvivor",
+    "type": "ARMOR",
+    "name": { "str": "pair of oversized fireproof survivorboots", "str_pl": "pairs of oversized fireproof survivorboots" },
+    "copy-from": "boots_fsurvivor",
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
+  },
+  {
     "id": "boots_fur",
     "type": "ARMOR",
     "name": { "str": "pair of fur boots", "str_pl": "pairs of fur boots" },
@@ -233,6 +261,13 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF" ]
+  },
+  {
+    "id": "xl_boots_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of oversized fur boots", "str_pl": "pairs of oversized fur boots" },
+    "copy-from": "boots_fur",
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
   },
   {
     "id": "boots_h20survivor",
@@ -305,6 +340,13 @@
     "material_thickness": 6,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "xl_boots_hsurvivor",
+    "type": "ARMOR",
+    "name": { "str": "pair of oversized heavy survivorboots", "str_pl": "pairs of oversized heavy survivorboots" },
+    "copy-from": "boots_hsurvivor",
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
   },
   {
     "id": "boots_larmor",
