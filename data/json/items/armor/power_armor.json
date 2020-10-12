@@ -480,7 +480,7 @@
     "name": { "str": "field combat exoskeleton" },
     "description": "The final iteration of military power armor before the fall of civilization, this type - a powered exoskeleton with high-tech segmented plating - was designed for actual widespread combat use and was seen on the front lines during the last days of the cataclysm.  Like the heavier suits, it is resistant to most modern weaponry, but it is light and maneuverable, and can fit into normal vehicles and doorways without fuss, a huge advantage over predecessors.  Unfortunately, the world ended before it could roll out in significant numbers.  There is an integrated chemical resistant bodyglove that precludes wearing other clothing.",
     "weight": "12670 g",
-    "volume": "15 L",
+    "volume": "25 L",
     "price": 11500000,
     "price_postapoc": 40000,
     "to_hit": 1,
