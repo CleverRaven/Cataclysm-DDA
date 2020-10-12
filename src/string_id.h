@@ -16,34 +16,37 @@ class generic_factory;
 
 namespace Hash {
     namespace CompileTime {
-        constexpr uint64_t fnv1a_64(const char* byte_data, size_t length)
+        template <unsigned N>
+        constexpr uint64_t fnv1_64(const char(&text)[N])
         {
-            return length ? (fnv1a_64(byte_data, length - 1) * 1099511628211ull) ^ byte_data[length - 1]
-                : 14695981039346656037ull;
+            return (fnv1_64<N - 1>((const char(&)[N - 1])text) * 1099511628211ull) ^ text[N - 2];
+        }
+
+        template<>
+        constexpr uint64_t fnv1_64<1>(const char(&text)[1])
+        {
+            return 14695981039346656037ull;
         }
     }
 
     namespace RunTime {
-        // MSVC doesn't optimize compile time fnv1a_64 well, so have a runtime variation as well:
-        inline uint64_t fnv1a_64(const void* data, size_t length)
+        constexpr uint64_t fnv1_64(const char* data, size_t length)
         {
-            auto byte_data = reinterpret_cast<const char*>(data);
             uint64_t hash = 14695981039346656037ull;
             for (int i = 0; i < length; i++) {
                 hash *= 1099511628211ull;
-                hash ^= byte_data[i];
+                hash ^= data[i];
             }
             return hash;
         }
     }
 }
 
-constexpr uint64_t operator"" _id(const char* data, size_t count)
+constexpr uint64_t operator"" _id(const char *data, size_t length)
 {
-    // This allows us to compute the hash of all compiled IDs in compile time.
-    // However, since constexpr doesn't allow us to create a collection of all precompiled strings
-    // we have to save both the string and its hash, so cached_strings will have a copy of the correct string.
-    return Hash::CompileTime::fnv1a_64(data, count);
+    // This allows us to compute the hash of all compiled IDs in
+    // (hopefully) compile time. constexpr doesn't promise it...
+    return Hash::RunTime::fnv1_64(data, length);
 }
 
 /**
@@ -105,7 +108,8 @@ public:
     friend class string_id;
     using This = string_id<T>;
 
-    explicit constexpr string_id(const char *str) : _hash(Hash::CompileTime::fnv1a_64(str, strlen(str))), _is_char_ptr(true), _char_ptr(str) {}
+    template<unsigned N>
+    explicit constexpr string_id(const char (&str)[N]) : _hash(Hash::CompileTime::fnv1_64(str)), _is_char_ptr(true), _char_ptr(str) {}
 
     template<typename U>
     string_id(const string_id<U>& other) : _hash(other.hash()), _char_ptr(other._char_ptr), _is_char_ptr(other._is_char_ptr) {}
@@ -115,7 +119,7 @@ public:
     >
     explicit string_id(S&& id) {
         auto str = std::make_unique<std::string>(std::forward<S>(id));
-        uint64_t hash = Hash::RunTime::fnv1a_64(str->c_str(), str->size());
+        uint64_t hash = Hash::RunTime::fnv1_64(str->c_str(), str->size());
         _hash = hash;
 
         auto insertion = cached_strings().try_emplace(hash, std::move(str));
