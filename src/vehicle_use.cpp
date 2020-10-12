@@ -1946,6 +1946,33 @@ void vehicle::use_bike_rack( int part )
     }
 }
 
+void vpart_position::form_inventory( inventory &inv )
+{
+    const int veh_battery = vehicle().fuel_left( itype_id( "battery" ), true );
+    const cata::optional<vpart_reference> vp_faucet = part_with_tool( itype_water_faucet );
+    const cata::optional<vpart_reference> vp_cargo = part_with_feature( "CARGO", true );
+
+    if( vp_cargo ) {
+        const vehicle_stack items = vehicle().get_items( vp_cargo->part_index() );
+        inv += std::list<item>( items.begin(), items.end() );
+    }
+
+    // HACK: water_faucet pseudo tool gives access to liquids in tanks
+    if( vp_faucet && inv.provide_pseudo_item( itype_water_faucet, 0 ) ) {
+        for( const std::pair<const itype_id, int> &it : vehicle().fuels_left() ) {
+            item fuel( it.first, 0 );
+            if( fuel.made_of( phase_id::LIQUID ) ) {
+                fuel.charges = it.second;
+                inv.add_item( fuel );
+            }
+        }
+    }
+
+    for( const std::pair<itype_id, int> &tool : get_tools() ) {
+        inv.provide_pseudo_item( tool.first, veh_battery );
+    }
+}
+
 // Handles interactions with a vehicle in the examine menu.
 void vehicle::interact_with( const vpart_position &vp )
 {

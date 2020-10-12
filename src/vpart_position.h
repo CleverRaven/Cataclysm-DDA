@@ -79,12 +79,13 @@ class vpart_position
          * Returns the part displayed at this point of the vehicle.
          */
         cata::optional<vpart_reference> part_displayed() const;
-        /**
-        * Returns the part displayed at this point of the vehicle.
-        */
+
+        // Finds vpart_reference to inner part with specified tool
         cata::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
         // Returns a list of all tools provided by vehicle and their hotkey
         std::vector<std::pair<itype_id, int>> get_tools() const;
+        // Forms inventory for inventory::form_from_map
+        void form_inventory( inventory &inv );
 
         /**
          * Returns the position of this part in the coordinates system that @ref game::m uses.

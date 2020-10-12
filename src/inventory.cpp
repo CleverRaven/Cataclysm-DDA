@@ -337,6 +337,31 @@ void inventory::push_back( const item &newit )
 extern void remove_stale_inventory_quick_shortcuts();
 #endif
 
+item *inventory::provide_pseudo_item( const itype_id &id, int battery )
+{
+    if( !provisioned_pseudo_tools.insert( id ).second ) {
+        return nullptr; // already provided tool bail out
+    }
+
+    item &it = add_item( item( id, calendar::turn, 0 ) );
+    it.set_flag( "PSEUDO" );
+
+    // if tool doesn't need battery bail out early
+    if( battery <= 0 || it.magazine_default().is_null() ) {
+        return &it;
+    }
+    item it_batt( it.magazine_default() );
+    item it_ammo = item( it_batt.ammo_default(), 0 );
+    if( it_ammo.is_null() || it_ammo.typeId() != itype_id( "battery" ) ) {
+        return &it;
+    }
+
+    it_batt.ammo_set( it_batt.ammo_default(), battery );
+    it.put_in( it_batt, item_pocket::pocket_type::MAGAZINE_WELL );
+
+    return &it;
+}
+
 void inventory::restack( Character &p )
 {
     // tasks that the old restack seemed to do:
@@ -450,32 +475,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                                bool assign_invlet )
 {
     items.clear();
-    std::set<itype_id> provided; // prevent duplicating tools/liquids
-
-    // returns item pointer if it was added or null if was already fulfilled
-    auto provide_pseudo_item = [this, &provided]( const itype_id & id, int battery )  {
-        if( !provided.insert( id ).second ) {
-            return static_cast<item *>( nullptr ); // already provided tool bail out
-        }
-
-        item &it = add_item( item( id, calendar::turn, 0 ) );
-        it.set_flag( "PSEUDO" );
-
-        // if tool doesn't need battery bail out early
-        if( battery <= 0 || it.magazine_default().is_null() ) {
-            return &it;
-        }
-        item it_batt( it.magazine_default() );
-        item it_ammo = item( it_batt.ammo_default(), 0 );
-        if( it_ammo.is_null() || it_ammo.typeId() != itype_id( "battery" ) ) {
-            return &it;
-        }
-
-        it_batt.ammo_set( it_batt.ammo_default(), battery );
-        it.put_in( it_batt, item_pocket::pocket_type::MAGAZINE_WELL );
-
-        return &it;
-    };
+    provisioned_pseudo_tools.clear();
 
     for( const tripoint &p : pts ) {
         // a temporary hack while trees are terrain
@@ -545,33 +545,9 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             }
         }
 
-        const optional_vpart_position vp = m.veh_at( p );
-        if( !vp ) {
-            continue;
-        }
-        const vehicle &veh = vp->vehicle();
-        const int veh_battery = veh.fuel_left( itype_id( "battery" ), true );
-        const cata::optional<vpart_reference> vp_faucet = vp->part_with_tool( itype_water_faucet );
-        const cata::optional<vpart_reference> vp_cargo = vp->part_with_feature( "CARGO", true );
-
-        if( vp_cargo ) {
-            const vehicle_stack items = veh.get_items( vp_cargo->part_index() );
-            *this += std::list<item>( items.begin(), items.end() );
-        }
-
-        // HACK: water_faucet pseudo tool gives access to liquids in tanks
-        if( vp_faucet && provide_pseudo_item( itype_water_faucet, 0 ) ) {
-            for( const std::pair<const itype_id, int> &it : veh.fuels_left() ) {
-                item fuel( it.first, 0 );
-                if( fuel.made_of( phase_id::LIQUID ) ) {
-                    fuel.charges = it.second;
-                    add_item( fuel );
-                }
-            }
-        }
-
-        for( const std::pair<itype_id, int> &tool : vp->get_tools() ) {
-            provide_pseudo_item( tool.first, veh_battery );
+        // form from vehicle
+        if( optional_vpart_position vp = m.veh_at( p ) ) {
+            vp->form_inventory( *this );
         }
     }
     pts.clear();
