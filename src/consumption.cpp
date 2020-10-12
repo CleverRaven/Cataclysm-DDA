@@ -1286,7 +1286,7 @@ int Character::compute_calories_per_effective_volume( const item &food,
     } else {
         kcalories = compute_effective_nutrients( food ).kcal;
     }
-    units::volume water_vol = ( food.type->comestible->quench > 0 ) ? food.type->comestible->quench *
+    units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
                               5_ml : 0_ml;
     // Water volume is ignored.
     units::volume food_vol = food.volume() - water_vol * food.count();
