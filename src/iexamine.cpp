@@ -4136,15 +4136,12 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
 
 static int getGasDiscountCardQuality( const item &it )
 {
-    const auto &tags = it.type->get_flags();
-
-    for( const std::string &tag : tags ) {
-
-        if( tag.size() > 15 && tag.substr( 0, 15 ) == "DISCOUNT_VALUE_" ) {
-            return atoi( tag.substr( 15 ).c_str() );
+    for( const flag_id &tag : it.type->get_flags() ) {
+        int discount_value;
+        if( sscanf( tag->id.c_str(), "DISCOUNT_VALUE_%i", &discount_value ) == 1 ) {
+            return discount_value;
         }
     }
-
     return 0;
 }
 
@@ -5278,8 +5275,8 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
                          ( it.count_by_charges() ? it.charges : 1 ) * mdata.conversion_rate_ );
             result.components.push_back( it );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-            for( const std::string &f : it.type->get_flags() ) {
-                if( json_flag::get( f ).craft_inherit() ) {
+            for( const flag_id &f : it.type->get_flags() ) {
+                if( f->craft_inherit() ) {
                     result.set_flag( f );
                 }
             }

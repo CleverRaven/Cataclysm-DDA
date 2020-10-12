@@ -839,7 +839,7 @@ class islot_milling
 struct itype {
         friend class Item_factory;
 
-        using FlagsSetType = std::set<std::string>;
+        using FlagsSetType = std::set<flag_id>;
 
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
@@ -1024,6 +1024,10 @@ struct itype {
         int damage_max_ = +4000;
         /// @}
 
+        // Temporary storage of flags before entity is finalized.
+        // During finalization, flags are moved into `item_tags` and `item_tags_str_tmp` is cleared.
+        // This deferred flag conversion is necessary, as some flags might not be loaded yet when `itype` is loaded.
+        std::set<flag_str_id> item_tags_str_tmp;
         FlagsSetType item_tags;
 
     protected:
@@ -1116,7 +1120,9 @@ struct itype {
 
         bool has_use() const;
 
+        bool has_flag( const flag_id &flag ) const;
         bool has_flag( const std::string &flag ) const;
+        bool has_flag( const flag_str_id &flag ) const;
 
         // returns read-only set of all item tags/flags
         const FlagsSetType &get_flags() const;

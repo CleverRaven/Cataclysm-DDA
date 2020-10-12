@@ -453,7 +453,7 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    for( const std::string &flag : custom_flags ) {
+    for( const flag_str_id &flag : custom_flags ) {
         new_item.set_flag( flag );
     }
 }

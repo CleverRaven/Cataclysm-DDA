@@ -1410,12 +1410,12 @@ class jmapgen_spawn_item : public jmapgen_piece
         itype_id type;
         jmapgen_int amount;
         jmapgen_int chance;
-        std::set<std::string> flags;
+        std::set<flag_id> flags;
         jmapgen_spawn_item( const JsonObject &jsi ) :
             type( jsi.get_string( "item" ) )
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 )
-            , flags( jsi.get_tags( "custom-flags" ) ) {
+            , flags( jsi.get_tags<flag_id>( "custom-flags" ) ) {
             if( !item::type_is_defined( type ) ) {
                 set_mapgen_defer( jsi, "item", "no such item" );
             }

@@ -2399,14 +2399,10 @@ void item::io( Archive &archive )
         std::swap( irradiation, poison );
     }
 
-    // erase all invalid flags (not defined in flags.json), display warning about invalid flags
-    erase_if( item_tags, [&]( const std::string & f ) {
-        if( !json_flag::get( f ).id.is_valid() ) {
-            debugmsg( "item of type '%s' was loaded with undefined flag '%s'.", typeId().str(), f );
-            return true;
-        } else {
-            return false;
-        }
+    // erase all invalid flags (not defined in flags.json)
+    // warning was generated earlier on load
+    erase_if( item_tags, [&]( const flag_id & f ) {
+        return !f.is_valid();
     } );
 
     if( note_read ) {

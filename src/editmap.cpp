@@ -1437,7 +1437,10 @@ void editmap::edit_itm()
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
                             "burnt: %d" ), static_cast<int>( it.burnt ) );
             imenu.addentry( imenu_tags, true, -1, pgettext( "item manipulation debug menu entry",
-                            "tags: %s" ), debug_menu::iterable_to_string( it.get_flags(), " " ) );
+                            "tags: %s" ), debug_menu::iterable_to_string( it.get_flags(), " ",
+            []( const flag_id & f ) {
+                return f.id().str();
+            } ) );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
                             "-[ light emission ]-" ) );
             imenu.addentry( imenu_savetest, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1466,7 +1469,10 @@ void editmap::edit_itm()
                             intval = static_cast<int>( it.burnt );
                             break;
                         case imenu_tags:
-                            strval = debug_menu::iterable_to_string( it.get_flags(), " " );
+                            strval = debug_menu::iterable_to_string( it.get_flags(), " ",
+                            []( const flag_id & f ) {
+                                return f.id().str();
+                            } );
                             break;
                     }
                     string_input_popup popup;
@@ -1504,7 +1510,10 @@ void editmap::edit_itm()
                                 for( const auto &t : tags ) {
                                     it.set_flag( t );
                                 }
-                                imenu.entries[imenu_tags].txt = debug_menu::iterable_to_string( it.get_flags(), " " );
+                                imenu.entries[imenu_tags].txt = debug_menu::iterable_to_string(
+                                it.get_flags(), " ", []( const flag_id & f ) {
+                                    return f.id().str();
+                                } );
                                 break;
                         }
                     }

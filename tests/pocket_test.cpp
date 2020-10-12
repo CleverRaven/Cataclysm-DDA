@@ -441,7 +441,7 @@ TEST_CASE( "pocket with item flag restriction", "[pocket][flag_restriction]" )
     // items with any of those flags can be inserted in the pocket.
 
     GIVEN( "pocket with BELT_CLIP flag restriction" ) {
-        data_belt.flag_restriction.push_back( "BELT_CLIP" );
+        data_belt.add_flag_restriction( flag_str_id( "BELT_CLIP" ) );
         item_pocket pocket_belt( &data_belt );
 
         GIVEN( "item has BELT_CLIP flag" ) {

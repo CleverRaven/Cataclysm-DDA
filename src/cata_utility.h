@@ -433,6 +433,53 @@ bool erase_if( Col &set, Pred predicate )
     return ret;
 }
 
+/**
+ * Checks if two sets are equal, ignoring specified elements.
+ * Works as if `ignored_elements` were temporarily erased from both sets before comparison.
+ * @tparam Set type of the set (must be ordered, i.e. std::set, cata::flat_set)
+ * @param set first set to compare
+ * @param set2 second set to compare
+ * @param ignored_elements elements from both sets to ignore
+ * @return true, if sets without ignored elements are equal, false otherwise
+ */
+template<typename Set, typename T = std::decay_t<decltype( *std::declval<const Set &>().begin() )>>
+bool equal_ignoring_elements( const Set &set, const Set &set2, const Set &ignored_elements )
+{
+    // general idea: splits both sets into the ranges bounded by elements from `ignored_elements`
+    // and checks that these ranges are equal
+
+    // traverses ignored elements in
+    if( ignored_elements.empty() ) {
+        return set == set2;
+    }
+
+    using Iter = typename Set::iterator;
+    Iter end = ignored_elements.end();
+    Iter cur = ignored_elements.begin();
+    Iter prev = cur;
+    cur++;
+
+    // first comparing the sets range [set.begin() .. ignored_elements.begin()]
+    if( !std::equal( set.begin(), set.lower_bound( *prev ),
+                     set2.begin(), set2.lower_bound( *prev ) ) ) {
+        return false;
+    }
+
+    // compare ranges bounded by two elements: [`prev` .. `cur`]
+    while( cur != end ) {
+        if( !std::equal( set.upper_bound( *prev ), set.lower_bound( *cur ),
+                         set2.upper_bound( *prev ), set2.lower_bound( *cur ) ) ) {
+            return false;
+        }
+        prev = cur;
+        cur++;
+    }
+
+    // compare the range after the last element of ignored_elements: [ignored_elements.back() .. set.end()]
+    return static_cast<bool>( std::equal( set.upper_bound( *prev ), set.end(),
+                                          set2.upper_bound( *prev ), set2.end() ) );
+}
+
 int modulo( int v, int m );
 
 class on_out_of_scope
