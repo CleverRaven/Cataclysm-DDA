@@ -19,6 +19,13 @@
     ]
   },
   {
+    "result": "xl_gauntlets_chitin",
+    "type": "recipe",
+    "copy-from": "gauntlets_chitin",
+    "time": "13 h",
+    "using": [ [ "armor_chitin", 12 ], [ "strap_small", 2 ], [ "clasps", 2 ] ]
+  },
+  {
     "result": "gauntlets_acidchitin",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -40,6 +47,13 @@
     "components": [ [ [ "cordage_superior", 1, "LIST" ] ] ]
   },
   {
+    "result": "xl_gauntlets_acidchitin",
+    "type": "recipe",
+    "copy-from": "gauntlets_acidchitin",
+    "time": "17 h",
+    "using": [ [ "armor_acidchitin", 12 ], [ "strap_small", 2 ], [ "clasps", 2 ] ]
+  },
+  {
     "result": "gauntlets_larmor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -55,6 +69,13 @@
       { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
     ]
+  },
+  {
+    "result": "xl_gauntlets_larmor",
+    "type": "recipe",
+    "copy-from": "gauntlets_larmor",
+    "time": "12 h",
+    "using": [ [ "sewing_standard", 16 ], [ "tailoring_leather_small", 6 ] ]
   },
   {
     "result": "gloves_bag",
@@ -133,6 +154,14 @@
     "components": [ [ [ "duct_tape", 120 ] ], [ [ "nomex_gloves", 1 ], [ "fire_gauntlets", 1 ] ] ]
   },
   {
+    "result": "xl_gloves_fsurvivor",
+    "type": "recipe",
+    "copy-from": "gloves_fsurvivor",
+    "time": "26 h",
+    "using": [ [ "tailoring_leather_small", 3 ], [ "tailoring_nomex_patchwork", 3 ], [ "tailoring_kevlar_fabric", 2 ] ],
+    "components": [ [ [ "duct_tape", 170 ] ], [ [ "nomex_gloves", 1 ], [ "fire_gauntlets", 1 ] ] ]
+  },
+  {
     "result": "gloves_fur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -149,6 +178,13 @@
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_furriery", "required": false, "time_multiplier": 3 }
     ]
+  },
+  {
+    "result": "xl_gloves_fur",
+    "type": "recipe",
+    "copy-from": "gloves_fur",
+    "time": "13 h",
+    "using": [ [ "tailoring_fur_small", 5 ] ]
   },
   {
     "result": "gloves_h20survivor",
