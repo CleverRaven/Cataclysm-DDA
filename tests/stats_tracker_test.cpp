@@ -343,6 +343,29 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
         CHECK( last_wielded->value( s ) == cata_variant( crowbar ) );
     }
+
+    SECTION( "invalid_values_filtered_out" ) {
+        const oter_id field( "field" );
+        const oter_type_str_id field_type( "field" );
+        const cata_variant invalid_oter_id =
+            cata_variant::from_string( cata_variant_type::oter_id, "XXXXXX" );
+        const string_id<event_statistic> last_entered( "last_oter_type_avatar_entered" );
+
+        send_game_start( b, u_id );
+        CHECK( last_entered->value( s ) == cata_variant() );
+
+        b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        CHECK( last_entered->value( s ) == cata_variant( field_type ) );
+
+        const cata::event invalid_event(
+            event_type::avatar_enters_omt, calendar::turn,
+        cata::event::data_type{
+            { "pos", cata_variant( tripoint_below ) },
+            { "oter_id", invalid_oter_id }
+        } );
+        b.send( invalid_event );
+        CHECK( last_entered->value( s ) == cata_variant( field_type ) );
+    }
 }
 
 struct watch_stat : stat_watcher {

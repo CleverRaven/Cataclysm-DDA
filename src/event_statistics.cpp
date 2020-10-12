@@ -287,6 +287,11 @@ struct new_field {
             // been reported at startup time.
             return result;
         }
+        if( !it->second.get_string().empty() && !it->second.is_valid() ) {
+            // Field value is non-empty and invalid; event_transformation_functions are not
+            // required to handle invalid values, so just skip it
+            return result;
+        }
         for( const cata_variant &v : transformation.function( it->second ) ) {
             result.push_back( data );
             result.back().emplace( new_field_name, v );
