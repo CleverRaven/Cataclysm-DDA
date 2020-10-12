@@ -474,15 +474,15 @@
     "melee_dice": 1,
     "melee_dice_sides": 5,
     "melee_cut": 5,
-    "special_attacks": [ [ "STRETCH_ATTACK", 50 ] ],
+    "special_attacks": [ [ "STRETCH_ATTACK", 25 ] ],
     "armor_cut": 6,
     "armor_bullet": 5,
+    "dodge": 3,
     "vision_day": 10,
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "AQUATIC", "ARTHROPOD_BLOOD", "NO_BREATHE", "SEES", "SWIMS" ],
     "upgrades": { "age_grow": 24, "into": "mon_dragonfly_giant" }
@@ -507,15 +507,15 @@
     "melee_skill": 5,
     "melee_dice": 1,
     "melee_dice_sides": 6,
-    "melee_cut": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 8, "armor_penetration": 10 } ],
     "special_attacks": [
       [ "GRAB", 100 ],
       {
         "type": "bite",
-        "cooldown": 4,
+        "cooldown": 6,
         "accuracy": 5,
-        "move_cost": 150,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 6, "armor_penetration": 3 } ]
+        "move_cost": 300,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 6, "armor_penetration": 20 } ]
       }
     ],
     "dodge": 2,
@@ -526,7 +526,7 @@
     "fear_triggers": [ "HURT" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 45, "into": "mon_dragonfly_mega" },
-    "flags": [ "SWARMS", "SEES", "SMELLS", "FLIES", "PATH_AVOID_FIRE" ]
+    "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_dragonfly_mega",
@@ -539,32 +539,30 @@
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "hp": 1100,
-    "speed": 85,
+    "speed": 100,
     "material": [ "iflesh" ],
     "symbol": "Y",
     "color": "light_green",
     "aggression": 20,
-    "morale": 60,
+    "morale": 80,
     "melee_skill": 7,
-    "melee_dice": 2,
-    "melee_cut": 10,
+    "melee_dice": 3,
+    "melee_cut": 15,
     "special_attacks": [
       {
         "type": "bite",
-        "cooldown": 4,
-        "accuracy": 5,
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 30, "armor_multiplier": 0.3 } ]
+        "cooldown": 6,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 40, "armor_penetration": 20 } ]
       }
     ],
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "arachnid_dragonfly_mega",
     "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
-    "fear_triggers": [ "HURT" ],
     "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_dragonfly", "baby_count": 3, "baby_timer": 1 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
-    "flags": [ "SEES", "SMELLS", "STUMBLES", "SWIMS", "BASHES", "PUSH_MON", "PUSH_VEH" ]
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "SWIMS", "BASHES", "PUSH_MON", "PUSH_VEH" ]
   },
   {
     "id": "mon_fly_small",
