@@ -6,11 +6,11 @@
 #include "enums.h"
 #include "filesystem.h"
 #include "options.h"
+#include "rng.h"
 
 #if defined(_WIN32)
 #include <windows.h>
 #endif
-#include <visitable.cpp>
 
 /**
  * Return a locale specific path, or if there is no path for the current
@@ -385,6 +385,11 @@ std::string PATH_INFO::title( const holiday current_holiday )
 
     if( !get_option<bool>( "SEASONAL_TITLE" ) ) {
         return find_translated_file( theme_basepath, theme_extension, theme_fallback );
+    }
+
+    if( x_in_y( get_option<int>( "ALT_TITLE" ), 100 ) ) {
+        theme_extension = ".alt1";
+        theme_fallback = datadir_value + "title/" + "en.alt1";
     }
 
     switch( current_holiday ) {

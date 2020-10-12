@@ -1727,6 +1727,10 @@ void options_manager::add_options_graphics()
          true
        );
 
+    add( "ALT_TITLE", "graphics", to_translation( "Alternative title screen frequency" ),
+         to_translation( "Set the frequency of appearance of the alternate title screen." ), 0, 100, 10
+       );
+
     add_empty_line();
 
     add( "TERMINAL_X", "graphics", to_translation( "Terminal width" ),
