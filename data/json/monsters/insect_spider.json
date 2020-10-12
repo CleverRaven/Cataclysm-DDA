@@ -478,7 +478,7 @@
     "armor_cut": 6,
     "armor_bullet": 5,
     "dodge": 3,
-    "vision_day": 10,
+    "vision_day": 25,
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
@@ -497,7 +497,7 @@
     "species": [ "INSECT" ],
     "volume": "40 L",
     "weight": "40750 g",
-    "hp": 70,
+    "hp": 50,
     "speed": 150,
     "material": [ "iflesh" ],
     "symbol": "y",
@@ -525,7 +525,7 @@
     "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
     "fear_triggers": [ "HURT" ],
     "death_function": [ "NORMAL" ],
-    "upgrades": { "age_grow": 45, "into": "mon_dragonfly_mega" },
+    "upgrades": { "age_grow": 40, "into": "mon_dragonfly_mega" },
     "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "PATH_AVOID_FIRE" ]
   },
   {
