@@ -1728,7 +1728,7 @@ void options_manager::add_options_graphics()
        );
 
     add( "ALT_TITLE", "graphics", to_translation( "Alternative title screen frequency" ),
-         to_translation( "Set the frequency of appearance of the alternate title screen." ), 0, 100, 10
+         to_translation( "Set the probability of appearance of the alternate title screen." ), 0, 100, 10
        );
 
     add_empty_line();
