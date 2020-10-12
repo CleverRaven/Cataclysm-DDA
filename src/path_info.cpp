@@ -10,7 +10,7 @@
 #if defined(_WIN32)
 #include <windows.h>
 #endif
-#include <visitable.cpp>
+#include "visitable.cpp"
 
 /**
  * Return a locale specific path, or if there is no path for the current
