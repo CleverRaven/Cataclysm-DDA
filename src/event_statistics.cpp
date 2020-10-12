@@ -261,7 +261,7 @@ struct new_field {
                 const cata::event::fields_type &input_fields ) const {
         auto it = input_fields.find( input_field );
         if( it == input_fields.end() ) {
-            debugmsg( "event_transformation %s specifies transformation on field %s but not such "
+            debugmsg( "event_transformation %s specifies transformation on field %s but no such "
                       "field exists on the input", context_name, input_field );
             return;
         }
