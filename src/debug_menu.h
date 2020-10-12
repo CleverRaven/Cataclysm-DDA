@@ -3,6 +3,7 @@
 #define CATA_SRC_DEBUG_MENU_H
 
 #include <functional>
+#include <iomanip>
 #include <iosfwd>
 #include <string>
 
