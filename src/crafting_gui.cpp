@@ -1,6 +1,7 @@
 #include "crafting_gui.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cstddef>
 #include <cstring>
 #include <iterator>
@@ -26,6 +27,7 @@
 #include "optional.h"
 #include "output.h"
 #include "point.h"
+#include "popup.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -667,6 +669,23 @@ const recipe *select_crafting_recipe( int &batch_size )
                     available.push_back( availability( chosen, i ) );
                 }
             } else {
+                static_popup popup;
+                auto last_update = std::chrono::steady_clock::now();
+                static constexpr std::chrono::milliseconds update_interval( 500 );
+
+                std::function<void( size_t, size_t )> progress_callback =
+                [&]( size_t at, size_t out_of ) {
+                    auto now = std::chrono::steady_clock::now();
+                    if( now - last_update < update_interval ) {
+                        return;
+                    }
+                    last_update = now;
+                    double percent = 100.0 * at / out_of;
+                    popup.message( _( "Searching… %3.0f%%\n" ), percent );
+                    ui_manager::redraw();
+                    refresh_display();
+                };
+
                 std::vector<const recipe *> picking;
                 if( !filterstring.empty() ) {
                     auto qry = trim( filterstring );
@@ -683,37 +702,37 @@ const recipe *select_crafting_recipe( int &batch_size )
                             switch( qry_filter_str[0] ) {
                                 case 't':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::tool );
+                                                       recipe_subset::search_type::tool, progress_callback );
                                     break;
 
                                 case 'c':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::component );
+                                                       recipe_subset::search_type::component, progress_callback );
                                     break;
 
                                 case 's':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::skill );
+                                                       recipe_subset::search_type::skill, progress_callback );
                                     break;
 
                                 case 'p':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::primary_skill );
+                                                       recipe_subset::search_type::primary_skill, progress_callback );
                                     break;
 
                                 case 'Q':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::quality );
+                                                       recipe_subset::search_type::quality, progress_callback );
                                     break;
 
                                 case 'q':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::quality_result );
+                                                       recipe_subset::search_type::quality_result, progress_callback );
                                     break;
 
                                 case 'd':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::description_result );
+                                                       recipe_subset::search_type::description_result, progress_callback );
                                     break;
 
                                 case 'm': {
@@ -730,7 +749,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                                 case 'P':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::proficiency );
+                                                       recipe_subset::search_type::proficiency, progress_callback );
                                     break;
 
                                 default:
