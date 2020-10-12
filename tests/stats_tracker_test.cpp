@@ -533,7 +533,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
     },
     [&]( const achievement * a, bool /*achievements_enabled*/ ) {
         achievements_failed.emplace( a->id, a );
-    } );
+    }, true );
     b.subscribe( &a );
 
     const character_id u_id = get_player_character().getID();
