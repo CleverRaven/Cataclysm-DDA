@@ -3,20 +3,21 @@
 ##############################################################################
 <color_white>Visit us:</color>
 
-<color_light_gray>* Homepage:</color>    <color_cyan>https://cataclysmdda.org</color>
-<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+<color_light_gray>* Homepage:</color>    <color_cyan>https://github.com/cataclysmbnteam/Cataclysm-BN/</color>
+<color_light_gray>* Wiki:</color>        <color_cyan>https://github.com/cataclysmbnteam/Cataclysm-BN/wiki</color>
 
 <color_white>Report bugs, suggestion and follow the development at:</color>
 
-<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
-<color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
+<color_light_gray>* Github: </color><color_light_cyan>https://github.com/cataclysmbnteam/Cataclysm-BN/issues</color>
+<color_light_gray>* e-mail: </color><color_light_cyan>Coolthulhu@gmail.com</color>
 
 <color_white>Join the discussion on forums and chats:</color>
 
-<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Reddit:                    </color><color_cyan>https://www.reddit.com/r/cataclysmbn/</color>
 <color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
-<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA at freenode.net</color>
-<color_light_gray>* Reddit (unofficial):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+<color_light_gray>* Modding Discord:           </color><color_cyan>https://discord.gg/B5q4XCa</color>
+<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Try also:                  </color><color_cyan>https://boards.4chan.org</color>
 
 <color_light_gray>Other useful links are also available at our Homepage.</color>
 
