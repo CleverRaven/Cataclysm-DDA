@@ -2135,6 +2135,19 @@ These values apply to crafting tasks performed at the WORKBENCH.
 "bonus_fire_warmth_feet": 200,// (Optional, default=0). Bonus fire warmth as for terrain/furniture.
 ```
 
+#### The following optional field describes pseudo tools for any part.
+Crafting stations (e.g. kitchen, welding rigs etc) have tools that they provide as part
+of forming the inventory for crafting as well as providing menu items when `e`xamining
+the vehicle tile.
+Following example array gives the vpart a pot as passive tool for crafting because it has no hotkey defined.
+It also has a hotplate that can be activated by examining it with `e` then `h` on the part's vehicle tile.
+```c++
+"pseudo_tools" : [
+  { "id": "hotplate", "hotkey": "h" },
+  { "id": "pot" }
+],
+```
+
 ### Part Resistance
 
 ```C++
