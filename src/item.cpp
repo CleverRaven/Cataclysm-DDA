@@ -5215,7 +5215,7 @@ shared_ptr_fast<npc> item::get_talker()
     std::string talker_string = get_var("Talker", "");
     if (talker_string._Equal("")) {
         // No talker saved since before, creating new.
-        const string_id<npc_template> test_talker("brain_cylinder_1_talker"); // TODO: Get name dynamically
+        const string_id<npc_template> test_talker(this->type->talker_name);
         
         talker->normalize();
         talker->load_npc_template(test_talker);

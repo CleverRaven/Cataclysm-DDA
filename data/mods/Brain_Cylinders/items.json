@@ -1,9 +1,9 @@
 [
   {
-    "id": "brain_cylinder_1",
+    "id": "brain_cylinder",
     "type": "GENERIC",
     "name": "Brain Cylinder",
-    "description": "This is a glass cylinder containing a brain. Strange organic-looking growths of resin caps both ends. There apears to be a button on the bottom.",
+    "description": "This is a glass cylinder containing a brain. Strange organic-looking growths of resin cap both ends. There appears to be a button on the bottom.",
     "weight": "1000 g",
     "volume": "1000 ml",
     "price": 30000,
@@ -12,6 +12,24 @@
     "material": [ "glass", "alien_resin" ],
     "symbol": "▯",
     "color": "light_blue",
-    "use_action": { "type": "TALK_TO" }
+    "use_action": { "type": "TALK_TO" },
+    "talker_name": "brain_cylinder_talker",
+    "looks_like": "jar_glass_sealed"
+  },
+  {
+    "type": "GENERIC",
+    "id": "intercom_transceiver",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "intercom transceiver" },
+    "category": "other",
+    "description": "A transceiver once used in an intercom. It looks broken.",
+    "price": 3000,
+    "price_postapoc": 10,
+    "material": [ "aluminum" ],
+    "weight": "14 g",
+    "volume": "5 ml",
+    "talker_name": "robofac_intercom",
+    "looks_like": "e_scrap"
   }
 ]

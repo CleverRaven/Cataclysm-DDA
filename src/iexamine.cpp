@@ -1100,15 +1100,17 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
 
 void iexamine::intercom( player &p, const tripoint &examp )
 {
-    const std::vector<npc *> intercom_npcs = g->get_npcs_if( [examp]( const npc & guy ) {
-        return guy.myclass == npc_class_id( "NC_ROBOFAC_INTERCOM" ) && rl_dist( guy.pos(), examp ) < 10;
-    } );
-    if( intercom_npcs.empty() ) {
-        p.add_msg_if_player( m_info, _( "No one responds." ) );
-    } else {
-        // TODO: This needs to be converted a talker_console or something
-        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false, false );
+    map& here = get_map();
+    map_stack items = here.i_at(examp);
+    if (items.empty()) {
+        item talking_dummy("intercom_transceiver", calendar::turn);
+        here.add_item_or_charges(examp, talking_dummy);
+        map_stack items = here.i_at(examp);
     }
+    shared_ptr_fast<npc> talker = items.only_item().get_talker();
+    get_avatar().talk_to( get_talker_for(talker.get()), false, false );
+    items.only_item().set_talker(talker); // Saves changes done to the NPC
+
 }
 
 /**

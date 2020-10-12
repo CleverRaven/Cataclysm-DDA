@@ -897,6 +897,9 @@ struct itype {
         /** Action to take BEFORE the item is placed on map. If it returns non-zero, item won't be placed. */
         use_function drop_action;
 
+        /** ID of NPC that the item can talk as. */
+        std::string talker_name;
+
         /** Fields to emit when item is in active state */
         std::set<emit_id> emits;
 

@@ -1,7 +1,7 @@
 [
   {
     "type": "npc",
-    "id": "brain_cylinder_1_talker",
+    "id": "brain_cylinder_talker",
     "name_suffix": "cylinder",
     "class": "NC_BRAIN_CYLINDER",
     "attitude": 0,

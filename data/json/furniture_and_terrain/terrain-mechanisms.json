@@ -207,7 +207,7 @@
     "symbol": "=",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": [ "PLACE_ITEM", "SEALED", "CONTAINER", "CONNECT_TO_WALL" ],
     "//": "For the player to chat with an NPC through the intercom, the npc must have 'name_unique': 'the_intercom' and must be within 10 tiles of the intercom.",
     "examine_action": "intercom",
     "bash": {
