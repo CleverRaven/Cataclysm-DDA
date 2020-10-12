@@ -820,7 +820,9 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-        cycle_action( gun, current_ammo, pos() );
+        if( !current_ammo.is_null() ) {
+            cycle_action( gun, current_ammo, pos() );
+        }
 
         if( !gun.has_flag( flag_VEHICLE ) ) {
             use_charges( itype_UPS, gun.get_gun_ups_drain() );
