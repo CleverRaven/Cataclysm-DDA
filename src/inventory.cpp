@@ -339,8 +339,8 @@ extern void remove_stale_inventory_quick_shortcuts();
 
 item *inventory::provide_pseudo_item( const itype_id &id, int battery )
 {
-    if( !provisioned_pseudo_tools.insert( id ).second ) {
-        return nullptr; // already provided tool bail out
+    if( id.is_empty() || !provisioned_pseudo_tools.insert( id ).second ) {
+        return nullptr; // empty itype_id or already provided tool -> bail out
     }
 
     item &it = add_item( item( id, calendar::turn, 0 ) );
@@ -482,17 +482,13 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         if( m.ter( p )->has_flag( "TREE" ) ) {
             provide_pseudo_item( itype_id( "butchery_tree_pseudo" ), 0 );
         }
-        if( m.has_furn( p ) ) {
-            const furn_t &f = m.furn( p ).obj();
-            if( !f.crafting_pseudo_item.is_empty() ) {
-                if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item, 0 ) ) {
-                    const itype *ammo = f.crafting_ammo_item_type();
-                    if( furn_item->contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
-                        // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
-                        item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
-                        furn_item->put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
-                    }
-                }
+        const furn_t &f = m.furn( p ).obj();
+        if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item, 0 ) ) {
+            const itype *ammo = f.crafting_ammo_item_type();
+            if( furn_item->contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+                // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
+                item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
+                furn_item->put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
             }
         }
         if( m.accessible_items( p ) ) {
