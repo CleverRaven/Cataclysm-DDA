@@ -10,6 +10,7 @@
 #if defined(_WIN32)
 #include <windows.h>
 #endif
+#include <visitable.cpp>
 
 /**
  * Return a locale specific path, or if there is no path for the current
@@ -381,6 +382,11 @@ std::string PATH_INFO::title( const holiday current_holiday )
     std::string theme_basepath = datadir_value + "title/";
     std::string theme_extension = ".title";
     std::string theme_fallback = theme_basepath + "en.title";
+
+    if( !get_option<bool>( "SEASONAL_TITLE" ) ) {
+        return find_translated_file( theme_basepath, theme_extension, theme_fallback );
+    }
+
     switch( current_holiday ) {
         case holiday::new_year:
             theme_extension = ".new_year";
