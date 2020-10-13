@@ -40,7 +40,7 @@ enum body_part : int {
 
 template<>
 struct enum_traits<body_part> {
-    static constexpr auto last = body_part::num_bp;
+    static constexpr body_part last = body_part::num_bp;
 };
 
 enum class side : int {
@@ -52,7 +52,7 @@ enum class side : int {
 
 template<>
 struct enum_traits<side> {
-    static constexpr auto last = side::num_sides;
+    static constexpr side last = side::num_sides;
 };
 
 /**
@@ -97,8 +97,9 @@ struct body_part_type {
         translation accusative_multiple;
         translation name_as_heading;
         translation name_as_heading_multiple;
-        std::string hp_bar_ui_text;
-        std::string encumb_text;
+        translation smash_message;
+        translation hp_bar_ui_text;
+        translation encumb_text;
         // Legacy "string id"
         std::string legacy_id;
         // Legacy enum "int id"
@@ -114,13 +115,17 @@ struct body_part_type {
          * Formula is `chance *= pow(hit_roll, hit_difficulty)`
          */
         float hit_difficulty = 0.0f;
-        // "Parent" of this part - main parts are their own "parents"
-        // TODO: Connect head and limbs to torso
+        // "Parent" of this part for damage purposes - main parts are their own "parents"
         bodypart_str_id main_part;
+        // "Parent" of this part for connectedness - should be next part towards head.
+        // Head connects to itself.
+        bodypart_str_id connected_to;
         // A part that has no opposite is its own opposite (that's pretty Zen)
         bodypart_str_id opposite_part;
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
+
+        float smash_efficiency = 0.5f;
 
         //Morale parameters
         float hot_morale_mod = 0.0f;
@@ -128,12 +133,17 @@ struct body_part_type {
         float stylish_bonus = 0.0f;
         int squeamish_penalty = 0;
 
+        int fire_warmth_bonus = 0;
+
         int base_hp = 60;
         stat_hp_mods hp_mods;
 
         bool is_limb = false;
 
-        int drench_max;
+        int drench_max = 0;
+
+        cata::flat_set<std::string> flags;
+        bool has_flag( const std::string &flag ) const;
 
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
@@ -200,8 +210,8 @@ class bodypart
     private:
         bodypart_str_id id;
 
-        int hp_cur;
-        int hp_max;
+        int hp_cur = 0;
+        int hp_max = 0;
 
         int wetness = 0;
         int temp_cur = 5000; // BODYTEMP_NORM = 5000
@@ -353,19 +363,5 @@ std::string body_part_hp_bar_ui_text( const bodypart_id &bp );
 
 /** Returns the matching encumbrance text for a given body_part token. */
 std::string encumb_text( const bodypart_id &bp );
-
-/** Returns a random body_part token. main_parts_only will limit it to arms, legs, torso, and head. */
-body_part random_body_part( bool main_parts_only = false );
-
-/** Returns the matching main body_part that corresponds to the input; i.e. returns bp_arm_l from bp_hand_l. */
-body_part mutate_to_main_part( body_part bp );
-/** Returns the opposite body part (limb on the other side) */
-body_part opposite_body_part( body_part bp );
-
-/** Returns the matching body_part key from the corresponding body_part token. */
-std::string get_body_part_id( body_part bp );
-
-/** Returns the matching body_part token from the corresponding body_part string. */
-body_part get_body_part_token( const std::string &id );
 
 #endif // CATA_SRC_BODYPART_H

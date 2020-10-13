@@ -697,13 +697,21 @@
     "type": "keybinding",
     "id": "LEVEL_UP",
     "name": "Go Up",
-    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "PPAGE" },
+      { "input_method": "keyboard_char", "key": "<" },
+      { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
     "id": "LEVEL_DOWN",
     "name": "Go Down",
-    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "NPAGE" },
+      { "input_method": "keyboard_char", "key": ">" },
+      { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -1226,6 +1234,13 @@
   },
   {
     "type": "keybinding",
+    "id": "RANDOMIZE_CHAR_NAME",
+    "category": "NEW_CHAR_DESCRIPTION",
+    "name": "Pick random character name",
+    "bindings": [ { "input_method": "keyboard_any", "key": "n" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "RANDOMIZE_CHAR_DESCRIPTION",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Pick random character description",
@@ -1669,8 +1684,7 @@
     "type": "keybinding",
     "name": "Toggle Map Memory",
     "category": "DEFAULTMODE",
-    "id": "toggle_map_memory",
-    "bindings": [ { "input_method": "keyboard_char", "key": "{" }, { "input_method": "keyboard_code", "key": "[", "mod": [ "shift" ] } ]
+    "id": "toggle_map_memory"
   },
   {
     "type": "keybinding",
@@ -1998,7 +2012,10 @@
     "name": "Wait for Several Minutes",
     "category": "DEFAULTMODE",
     "id": "wait",
-    "bindings": [ { "input_method": "keyboard_char", "key": "|" }, { "input_method": "keyboard_code", "key": "", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "|" },
+      { "input_method": "keyboard_code", "key": "\\", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -3337,5 +3354,61 @@
       { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
       { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
     ]
+  },
+  {
+    "type": "keybinding",
+    "category": "WISH_ITEM",
+    "id": "CONTAINER",
+    "name": "Toggle spawning item with container",
+    "bindings": [ { "input_method": "keyboard_any", "key": "f" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "WISH_ITEM",
+    "id": "FLAG",
+    "name": "Add flags to spawned items",
+    "bindings": [ { "input_method": "keyboard_char", "key": "F" }, { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "WISH_ITEM",
+    "id": "EVERYTHING",
+    "name": "Toggle spawning everything",
+    "bindings": [ { "input_method": "keyboard_char", "key": "E" }, { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "WISH_ITEM",
+    "id": "FILTER",
+    "name": "Filter",
+    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DIALOGUE_CHOOSE_RESPONSE",
+    "id": "LOOK_AT",
+    "name": "Look at",
+    "bindings": [ { "input_method": "keyboard_char", "key": "L" }, { "input_method": "keyboard_code", "key": "l", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DIALOGUE_CHOOSE_RESPONSE",
+    "id": "SIZE_UP_STATS",
+    "name": "Size up stats",
+    "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DIALOGUE_CHOOSE_RESPONSE",
+    "id": "YELL",
+    "name": "Yell",
+    "bindings": [ { "input_method": "keyboard_char", "key": "Y" }, { "input_method": "keyboard_code", "key": "y", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DIALOGUE_CHOOSE_RESPONSE",
+    "id": "CHECK_OPINION",
+    "name": "Check opinion",
+    "bindings": [ { "input_method": "keyboard_char", "key": "O" }, { "input_method": "keyboard_code", "key": "o", "mod": [ "shift" ] } ]
   }
 ]

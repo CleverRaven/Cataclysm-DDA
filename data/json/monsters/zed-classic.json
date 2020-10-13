@@ -166,6 +166,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
@@ -232,7 +233,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 10, "into_group": "GROUP_ZOMBIE_FAT" },
+    "upgrades": { "half_life": 12, "into_group": "GROUP_ZOMBIE_FAT" },
     "flags": [
       "SEES",
       "HEARS",

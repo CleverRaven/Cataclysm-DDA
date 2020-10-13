@@ -185,19 +185,17 @@ class player_morale
                 mutation_data() = default;
                 mutation_data( const mutation_handler &on_gain_and_loss ) :
                     on_gain( on_gain_and_loss ),
-                    on_loss( on_gain_and_loss ),
-                    active( false ) {}
+                    on_loss( on_gain_and_loss ) {}
                 mutation_data( const mutation_handler &on_gain, const mutation_handler &on_loss ) :
                     on_gain( on_gain ),
-                    on_loss( on_loss ),
-                    active( false ) {}
+                    on_loss( on_loss ) {}
                 void set_active( player_morale *sender, bool new_active );
                 bool get_active() const;
                 void clear();
             private:
                 mutation_handler on_gain;
                 mutation_handler on_loss;
-                bool active;
+                bool active = false;
         };
         std::map<trait_id, mutation_data> mutations;
 

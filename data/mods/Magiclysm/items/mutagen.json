@@ -22,5 +22,23 @@
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "freezing_point": -22,
     "fun": -15
+  },
+  {
+    "id": "mutagen_black_dragon",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "color": "black",
+    "description": "An alchemic concoction made from the remains of a slain black dragon and a bit of potion base.  Ancient and Academic texts talk of profound changes from consuming this.",
+    "name": { "str": "black dragon mutagen" },
+    "use_action": { "type": "mutagen", "mutation_category": "DRAGON_BLACK" }
+  },
+  {
+    "id": "iv_black_dragon",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "black dragon serum",
+    "description": "A super-concentrated mutagen that seems swirl with the anger of a black dragon.  Do you dare leave you humanity behind and inject it?",
+    "color": "black",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "DRAGON_BLACK" }
   }
 ]

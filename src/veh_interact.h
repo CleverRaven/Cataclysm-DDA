@@ -74,6 +74,7 @@ class veh_interact
         int overview_limit = 0;
 
         const vpart_info *sel_vpart_info = nullptr;
+        std::string sel_vpart_variant;
         //Command currently being run by the player
         char sel_cmd = ' ';
 
@@ -104,6 +105,10 @@ class veh_interact
         struct install_info_t;
 
         std::unique_ptr<install_info_t> install_info;
+
+        struct remove_info_t;
+
+        std::unique_ptr<remove_info_t> remove_info;
 
         vehicle *veh;
         inventory crafting_inv;
@@ -169,11 +174,11 @@ class veh_interact
         size_t display_esc( const catacurses::window &win );
 
         struct part_option {
-            part_option( const std::string &key, vehicle_part *part, char hotkey,
+            part_option( const std::string &key, vehicle_part *part, const input_event &hotkey,
                          std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details ) :
                 key( key ), part( part ), hotkey( hotkey ), details( details ) {}
 
-            part_option( const std::string &key, vehicle_part *part, char hotkey,
+            part_option( const std::string &key, vehicle_part *part, const input_event &hotkey,
                          std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details,
                          std::function<void( const vehicle_part &pt )> message ) :
                 key( key ), part( part ), hotkey( hotkey ), details( details ), message( message ) {}
@@ -182,7 +187,7 @@ class veh_interact
             vehicle_part *part;
 
             /** Can @param action be run for this entry? */
-            char hotkey;
+            input_event hotkey;
 
             /** Writes any extra details for this entry */
             std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details;
@@ -271,5 +276,7 @@ class veh_interact
         /** Returns true if the vehicle has a jack powerful enough to lift itself installed */
         bool can_self_jack();
 };
+
+void act_vehicle_siphon( vehicle *veh );
 
 #endif // CATA_SRC_VEH_INTERACT_H

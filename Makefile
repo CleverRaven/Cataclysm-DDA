@@ -351,7 +351,7 @@ ifeq ($(RELEASE), 1)
 
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # OTHERS += -march=native # Uncomment this to build an optimized binary for your machine only
-  
+
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
@@ -420,7 +420,7 @@ ifeq ($(PCH), 1)
         CXXFLAGS += -Xclang -fno-pch-timestamp
       endif
     endif
-    
+
   endif
 endif
 
@@ -648,9 +648,7 @@ ifeq ($(TILES), 1)
       endif
     endif
   else # not osx
-    CXXFLAGS += $(shell $(PKG_CONFIG) sdl2 --cflags)
-    CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_image --cflags)
-    CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --cflags)
+    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2 SDL2_image SDL2_ttf)
 
     ifeq ($(STATIC), 1)
       LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --static --libs)
@@ -672,8 +670,7 @@ ifeq ($(TILES), 1)
       # These differ depending on what SDL2 is configured to use.
       ifneq (,$(findstring mingw32,$(CROSS)))
         # We use pkg-config to find out which libs are needed with MXE
-        LDFLAGS += $(shell $(PKG_CONFIG) SDL2_image --libs)
-        LDFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --libs)
+        LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_image SDL2_ttf)
       else
         ifeq ($(MSYS2),1)
           LDFLAGS += -Wl,--start-group -lharfbuzz -lfreetype -Wl,--end-group -lgraphite2 -lpng -lz -ltiff -lbz2 -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
@@ -801,7 +798,7 @@ SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
-JSON_FORMATTER_SOURCES := tools/format/format.cpp src/json.cpp
+JSON_FORMATTER_SOURCES := tools/format/format.cpp tools/format/format_main.cpp src/json.cpp
 CHKJSON_SOURCES := src/chkjson/chkjson.cpp src/json.cpp
 CLANG_TIDY_PLUGIN_SOURCES := \
   $(wildcard tools/clang-tidy-plugin/*.cpp tools/clang-tidy-plugin/*/*.cpp)
@@ -934,7 +931,9 @@ clean: clean-tests
 	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
 	rm -f $(SRC_DIR)/version.h
 	rm -f $(CHKJSON_BIN)
-	rm -f pch/*pch.hpp.{gch,pch,d}
+	rm -f pch/*pch.hpp.gch
+	rm -f pch/*pch.hpp.pch
+	rm -f pch/*pch.hpp.d
 
 distclean:
 	rm -rf *$(BINDIST_DIR)
@@ -1133,7 +1132,7 @@ astyle: $(ASTYLE_SOURCES)
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-  ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(ASTYLE_SOURCES))
+  ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q --ascii $(ASTYLE_SOURCES))
 endif
 
 astyle-check:
@@ -1159,6 +1158,9 @@ style-all-json: $(JSON_FORMATTER_BIN)
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \
 	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
+
+python-check:
+	flake8
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests

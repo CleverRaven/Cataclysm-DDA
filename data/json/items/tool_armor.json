@@ -788,8 +788,7 @@
     "flags": [ "LIGHT_300", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID" ],
     "power_draw": 10000,
     "revert_to": "wearable_light",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "wearable_light" },
-    "covers": [ "HEAD" ]
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "wearable_light" }
   },
   {
     "id": "survivor_light",
@@ -848,8 +847,7 @@
     "flags": [ "LIGHT_350", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
     "power_draw": 10000,
     "revert_to": "survivor_light",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "survivor_light" },
-    "covers": [ "HEAD" ]
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "survivor_light" }
   },
   {
     "id": "wearable_atomic_light",
@@ -1175,8 +1173,6 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
     "ammo": "rebreather_filter",
-    "max_charges": 60,
-    "initial_charges": 60,
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -1224,8 +1220,6 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
     "ammo": "rebreather_filter",
-    "max_charges": 60,
-    "initial_charges": 60,
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -1280,8 +1274,6 @@
     "environmental_protection_with_filter": 7,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_s": 100 } } ],
     "ammo": "gasfilter_s",
-    "max_charges": 100,
-    "initial_charges": 100,
     "use_action": [ "GASMASK" ]
   },
   {
@@ -1309,8 +1301,6 @@
     "environmental_protection_with_filter": 16,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
-    "max_charges": 100,
-    "initial_charges": 100,
     "use_action": [ "GASMASK" ]
   },
   {
@@ -1337,8 +1327,6 @@
     "environmental_protection_with_filter": 16,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
-    "max_charges": 100,
-    "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "flags": [ "OVERSIZE", "SLEEP_IGNORE" ]
   },
@@ -1367,8 +1355,6 @@
     "environmental_protection_with_filter": 15,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
-    "max_charges": 100,
-    "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
@@ -1397,8 +1383,6 @@
     "environmental_protection_with_filter": 15,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
-    "max_charges": 100,
-    "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
@@ -1420,8 +1404,6 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
-    "max_charges": 100,
-    "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "warmth": 30,
     "environmental_protection": 1,
@@ -1446,8 +1428,6 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
-    "max_charges": 100,
-    "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "steel" ],
     "symbol": "[",
@@ -1476,8 +1456,6 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
-    "max_charges": 100,
-    "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "cotton" ],
     "symbol": "[",
@@ -1506,8 +1484,6 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
-    "max_charges": 100,
-    "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "leather" ],
     "symbol": "[",
@@ -1536,8 +1512,6 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
-    "max_charges": 100,
-    "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "plastic" ],
     "symbol": "[",
@@ -1566,8 +1540,6 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
-    "max_charges": 100,
-    "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "fur" ],
     "symbol": "[",
@@ -1596,8 +1568,6 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
-    "max_charges": 100,
-    "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "fur" ],
     "symbol": "[",
@@ -1778,7 +1748,6 @@
     "volume": "750 ml",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "stimpack_ammo": 5 } } ],
     "ammo": "stimpack_ammo",
-    "initial_charges": 5,
     "charges_per_use": 1,
     "use_action": [ "STIMPACK" ],
     "material_thickness": 3
@@ -1971,6 +1940,7 @@
     "ammo": "battery",
     "use_action": [ "RADGLOVE" ],
     "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 5,
     "material_thickness": 1,
     "flags": [ "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
@@ -2722,6 +2692,7 @@
     "price_postapoc": 250,
     "material": [ "wood" ],
     "volume": "6750 ml",
+    "longest_side": "100 cm",
     "warmth": 2,
     "encumbrance": 27,
     "bashing": 8,
@@ -2763,6 +2734,7 @@
     "//": "Electric guitar less awesome when there's no electricity.",
     "material": [ "wood", "iron" ],
     "volume": "6750 ml",
+    "longest_side": "100 cm",
     "warmth": 2,
     "encumbrance": 27,
     "bashing": 8,
@@ -2954,7 +2926,25 @@
     "warmth": 5,
     "encumbrance": 5,
     "coverage": 10,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      }
+    ]
   },
   {
     "id": "stethoscope",
@@ -3058,7 +3048,7 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES" ]
   },
   {
     "id": "helmet_riot_raised",
@@ -3102,8 +3092,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "max_charges": 60,
-    "initial_charges": 60,
     "ammo": "nitrox",
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
@@ -3169,7 +3157,6 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
     ],
-    "max_charges": 20,
     "covers": [ "torso" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
     "environmental_protection": 1,

@@ -40,6 +40,7 @@ class Character;
 class Creature;
 class JsonIn;
 class JsonOut;
+struct input_event;
 class map;
 class monster;
 class nc_color;
@@ -49,6 +50,7 @@ class vehicle;
 class vehicle_cursor;
 class vehicle_part_range;
 class vpart_info;
+class vpart_position;
 class zone_data;
 struct itype;
 struct uilist_entry;
@@ -59,6 +61,8 @@ enum vpart_bitflags : int;
 enum ter_bitflags : int;
 template<typename feature_type>
 class vehicle_part_with_feature_range;
+
+void handbrake();
 
 namespace catacurses
 {
@@ -107,11 +111,11 @@ enum veh_coll_type : int {
 struct smart_controller_cache {
     time_point created = calendar::turn;
     time_point gas_engine_last_turned_on = calendar::start_of_cataclysm;
-    bool gas_engine_shutdown_forbidden;
-    int velocity;
-    int battery_percent;
-    int battery_net_charge_rate;
-    float load;
+    bool gas_engine_shutdown_forbidden = false;
+    int velocity = 0;
+    int battery_percent = 0;
+    int battery_net_charge_rate = 0;
+    float load = 0.0f;
 };
 
 struct smart_controller_config {
@@ -180,7 +184,7 @@ class towing_data
             towing = nullptr;
             towed_by = nullptr;
         }
-        towing_point_side tow_direction;
+        towing_point_side tow_direction = NUM_TOW_TYPES;
         // temp variable used for saving/loading
         tripoint other_towing_point;
 };
@@ -189,8 +193,6 @@ struct bounding_box {
     point p1;
     point p2;
 };
-
-char keybind( const std::string &opt, const std::string &context = "VEHICLE" );
 
 int mps_to_vmiph( double mps );
 double vmiph_to_mps( int vmiph );
@@ -217,7 +219,8 @@ struct vehicle_part {
 
         vehicle_part(); /** DefaultConstructible */
 
-        vehicle_part( const vpart_id &vp, const point &dp, item &&obj );
+        vehicle_part( const vpart_id &vp, const std::string &variant_id, const point &dp,
+                      item &&obj );
 
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
@@ -302,6 +305,9 @@ struct vehicle_part {
 
         /** Current faults affecting this part (if any) */
         const std::set<fault_id> &faults() const;
+
+        /** Does this vehicle part have a fault with this flag */
+        bool has_fault_flag( const std::string &searched_flag ) const;
 
         /** Faults which could potentially occur with this part (if any) */
         std::set<fault_id> faults_potential() const;
@@ -397,7 +403,7 @@ struct vehicle_part {
         int max_damage() const;
 
         /** Current part damage level in same units as item::damage_level */
-        int damage_level( int max ) const;
+        int damage_level() const;
 
         /** Current part damage as a percentage of maximum, with 0.0 being perfect condition */
         double damage_percent() const;
@@ -448,6 +454,8 @@ struct vehicle_part {
     private:
         /** What type of part is this? */
         vpart_id id;
+        /** If it's a part with variants, which variant it is */
+        std::string variant;
 
         /** As a performance optimization we cache the part information here on first lookup */
         mutable const vpart_info *info_cache = nullptr;
@@ -684,7 +692,7 @@ class vehicle
 
         // direct damage to part (armor protection and internals are not counted)
         // returns damage bypassed
-        int damage_direct( int p, int dmg, damage_type type = DT_TRUE );
+        int damage_direct( int p, int dmg, damage_type type = damage_type::PURE );
         // Removes the part, breaks it into pieces and possibly removes parts attached to it
         int break_off( int p, int dmg );
         // Returns if it did actually explode
@@ -779,7 +787,7 @@ class vehicle
          * @param dt type of damage which may be passed to base @ref item::on_damage callback
          * @return whether part was destroyed as a result of the damage
          */
-        bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
+        bool mod_hp( vehicle_part &pt, int qty, damage_type dt = damage_type::NONE );
 
         // check if given player controls this vehicle
         bool player_in_control( const Character &p ) const;
@@ -865,6 +873,8 @@ class vehicle
         // Fold up the vehicle
         bool fold_up();
 
+        // Try select any fuel for engine, returns true if some fuel is available
+        bool auto_select_fuel( int e );
         // Attempt to start an engine
         bool start_engine( int e );
         // stop all engines
@@ -886,13 +896,15 @@ class vehicle
         bool can_unmount( int p, std::string &reason ) const;
 
         // install a new part to vehicle
-        int install_part( const point &dp, const vpart_id &id, bool force = false );
+        int install_part( const point &dp, const vpart_id &id, const std::string &variant = "",
+                          bool force = false );
 
         // Install a copy of the given part, skips possibility check
         int install_part( const point &dp, const vehicle_part &part );
 
         /** install item specified item to vehicle as a vehicle part */
-        int install_part( const point &dp, const vpart_id &id, item &&obj, bool force = false );
+        int install_part( const point &dp, const vpart_id &id, item &&obj,
+                          const std::string &variant = "", bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
         bool try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks );
@@ -992,9 +1004,9 @@ class vehicle
         int part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
 
         // returns index of part, inner to given, with certain flag, or -1
-        int avail_part_with_feature( int p, const std::string &f, bool unbroken ) const;
-        int avail_part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
-        int avail_part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
+        int avail_part_with_feature( int p, const std::string &f ) const;
+        int avail_part_with_feature( const point &pt, const std::string &f ) const;
+        int avail_part_with_feature( int p, vpart_bitflags f ) const;
 
         /**
          *  Check if vehicle has at least one unbroken part with specified flag
@@ -1087,7 +1099,7 @@ class vehicle
 
         // get symbol for map
         char part_sym( int p, bool exact = false ) const;
-        vpart_id part_id_string( int p, char &part_mod ) const;
+        std::string part_id_string( int p, char &part_mod ) const;
 
         // get color for map
         nc_color part_color( int p, bool exact = false ) const;
@@ -1422,7 +1434,7 @@ class vehicle
          * @param k_traction_cache cached value of vehicle::k_traction, if empty, will be computed
          */
         void smart_controller_handle_turn( bool thrusting = false,
-                                           cata::optional<float> k_traction_cache = cata::nullopt );
+                                           const cata::optional<float> &k_traction_cache = cata::nullopt );
 
         //deceleration due to ground friction and air resistance
         int slowdown( int velocity ) const;
@@ -1523,7 +1535,7 @@ class vehicle
         // must exceed certain threshold to be subtracted from hp
         // (a lot light collisions will not destroy parts)
         // Returns damage bypassed
-        int damage( int p, int dmg, damage_type type = DT_BASH, bool aimed = true );
+        int damage( int p, int dmg, damage_type type = damage_type::BASH, bool aimed = true );
 
         // damage all parts (like shake from strong collision), range from dmg1 to dmg2
         void damage_all( int dmg1, int dmg2, damage_type type, const point &impact );
@@ -1616,6 +1628,16 @@ class vehicle
         // Update the set of occupied points and return a reference to it
         std::set<tripoint> &get_points( bool force_refresh = false );
 
+        /**
+        * Consumes specified charges (or fewer) from the vehicle part
+        * @param what specific type of charge required, e.g. 'battery'
+        * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
+        * @param filter Must return true for use to occur.
+        * @return items that provide consumed charges
+        */
+        std::list<item> use_charges( const vpart_position &vp, const itype_id &type, int &quantity,
+                                     const std::function<bool( const item & )> &filter );
+
         // opens/closes doors or multipart doors
         void open( int part_index );
         void close( int part_index );
@@ -1654,7 +1676,9 @@ class vehicle
         void crash_terrain_around();
         void transform_terrain();
         void add_toggle_to_opts( std::vector<uilist_entry> &options,
-                                 std::vector<std::function<void()>> &actions, const std::string &name, char key,
+                                 std::vector<std::function<void()>> &actions,
+                                 const std::string &name,
+                                 const input_event &key,
                                  const std::string &flag );
         void set_electronics_menu_options( std::vector<uilist_entry> &options,
                                            std::vector<std::function<void()>> &actions );
@@ -1743,7 +1767,7 @@ class vehicle
         void use_bike_rack( int part );
         void use_harness( int part, const tripoint &pos );
 
-        void interact_with( const tripoint &pos, int interact_part );
+        void interact_with( const vpart_position &vp );
 
         std::string disp_name() const;
 
@@ -1958,7 +1982,7 @@ class vehicle
         bool is_autodriving = false;
         bool is_following = false;
         bool is_patrolling = false;
-        bool all_wheels_on_one_axis;
+        bool all_wheels_on_one_axis = false;
         // TODO: change these to a bitset + enum?
         // cruise control on/off
         bool cruise_on = true;

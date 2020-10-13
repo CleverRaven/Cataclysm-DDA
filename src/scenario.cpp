@@ -35,7 +35,7 @@ bool string_id<scenario>::is_valid() const
     return all_scenarios.is_valid( *this );
 }
 
-scen_blacklist sc_blacklist;
+static scen_blacklist sc_blacklist;
 
 scenario::scenario()
     : id( "" ), _name_male( no_translation( "null" ) ),
@@ -63,7 +63,8 @@ void scenario::load( const JsonObject &jo, const std::string & )
 
     if( !was_loaded || jo.has_string( "description" ) ) {
         // These also may differ depending on the language settings!
-        const std::string desc = jo.get_string( "description" );
+        std::string desc;
+        mandatory( jo, false, "description", desc, text_style_check_reader() );
         _description_male = to_translation( "scen_desc_male", desc );
         _description_female = to_translation( "scen_desc_female", desc );
     }

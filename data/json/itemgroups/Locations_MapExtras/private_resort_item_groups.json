@@ -173,7 +173,7 @@
     "id": "private_resort_sec_weapon",
     "type": "item_group",
     "items": [
-      { "item": "tazer", "prob": 20, "damage": [ 1, 4 ] },
+      { "item": "tazer", "prob": 20, "charges": [ 0, 500 ], "damage": [ 1, 4 ] },
       { "item": "PR24-retracted", "prob": 50 },
       { "item": "shot_beanbag", "prob": 50 }
     ]

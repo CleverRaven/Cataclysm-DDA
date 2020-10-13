@@ -21,6 +21,7 @@
 #else
 #include <csignal>
 #endif
+#include "cached_options.h"
 #include "color.h"
 #include "crash.h"
 #include "cursesdef.h"
@@ -686,6 +687,7 @@ int main( int argc, const char *argv[] )
         set_language();
     }
 #endif
+    replay_buffered_debugmsg_prompts();
 
     while( true ) {
         if( !cli.world.empty() ) {

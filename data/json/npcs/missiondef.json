@@ -380,7 +380,7 @@
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle…",
       "offer": "I have another task if you are feeling up to it.  There is a prisoner that the priest made special mention of.  I was wondering if you could see what may have happened to him or if he left anything in his cell.  The priest admits the individual is rather unstable, to put it lightly, but the priest personally believed the man was some kind of repentant visionary.  I'm not in a position to cast out the account just yet… it seems the man has prophesied events accurately before concerning the Church of Starry Wisdom.",
-      "accepted": "I wish you the best of luck, may whatever god you please guide your path…  I can only imagine that the prison will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew death was almost certain.  ",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path…  I can only imagine that the prison will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew death was almost certain.",
       "rejected": "Ya, I guess the stress may just be getting to me…",
       "advice": "The worst case scenario will probably be that the prisoners have escaped their cells and turned the building into their own little fortress.  Best case, the building went into lock-down and secured the prisoners in their cells.  Either way, navigating the building will pose its own difficulties.",
       "inquire": "Any luck?",
@@ -586,6 +586,20 @@
     "difficulty": 1,
     "value": 0,
     "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Wild", "search_range": 200 } },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_HELICOPTER_REFUEL",
+    "type": "mission_definition",
+    "name": { "str": "Refuel your helicopter." },
+    "description": "You were flying towards a nearby private airport before your forced landing.  You could still reach it by ground, and scavenge it for fuel.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "s_air_hangars",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport", "search_range": 100 }
+    },
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {

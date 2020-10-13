@@ -146,7 +146,7 @@ struct mission_fail {
 struct mission_target_params {
     std::string overmap_terrain;
     ot_match_type overmap_terrain_match_type = ot_match_type::type;
-    mission *mission_pointer;
+    mission *mission_pointer = nullptr;
 
     bool origin_u = true;
     cata::optional<tripoint_rel_omt> offset;
@@ -462,11 +462,7 @@ class mission
         static mission_status status_from_string( const std::string &s );
         static std::string status_to_string( mission_status st );
 
-        /** Used to handle saves from before player_id was a member of mission */
-        void set_player_id_legacy_0c( character_id id );
-
     private:
-        bool legacy_no_player_id = false;
 
         void set_target_to_mission_giver();
 

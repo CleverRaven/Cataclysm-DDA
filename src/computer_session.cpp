@@ -745,10 +745,6 @@ void computer_session::action_amigara_log()
 void computer_session::action_amigara_start()
 {
     get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 1_minutes );
-    Character &player_character = get_player_character();
-    if( !player_character.has_artifact_with( AEP_PSYSHIELD ) ) {
-        player_character.add_effect( effect_amigara, 2_minutes );
-    }
     // Disable this action to prevent further amigara events, which would lead to
     // further amigara monster, which would lead to further artifacts.
     comp.remove_option( COMPACT_AMIGARA_START );
@@ -820,7 +816,7 @@ void computer_session::action_blood_anal()
     player_character.moves -= 70;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 2 ) ) {
-        if( here.ter( dest ) == t_centrifuge ) {
+        if( here.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
@@ -1452,7 +1448,7 @@ void computer_session::failure_destroy_blood()
     print_error( _( "ERROR: Disruptive Spin" ) );
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( get_player_character().pos(), 2 ) ) {
-        if( here.ter( dest ) == t_centrifuge ) {
+        if( here.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );

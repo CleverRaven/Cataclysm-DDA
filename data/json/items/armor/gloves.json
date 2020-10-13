@@ -594,7 +594,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of wool gloves", "str_pl": "pairs of wool gloves" },
     "description": "A thick pair of wool gloves.  Cumbersome, but warm.",
-    "weight": "240 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "price": 3500,
     "price_postapoc": 50,

@@ -1,7 +1,6 @@
 #include "mission_companion.h"
 
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <list>
@@ -16,6 +15,7 @@
 #include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
@@ -348,9 +348,10 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
         if( !npc_list_aux.empty() ) {
             std::string entry_aux = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n\n"
                                        "\nRoster:\n" );
+            const std::string entry_suffix = _( " [READY]\n" );
             for( auto &elem : npc_list_aux ) {
                 if( elem->companion_mission_time == calendar::before_time_starts ) {
-                    entry_aux = entry_aux + "  " + elem->name + _( " [READY]\n" );
+                    entry_aux = entry_aux + "  " + elem->name + entry_suffix;
                 }
             }
             entry_aux = entry_aux + _( "\n\n"
@@ -721,7 +722,7 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
     }
     g->reload_npcs();
     g->validate_npc_followers();
-    assert( !comp->is_active() );
+    cata_assert( !comp->is_active() );
     return comp;
 }
 
@@ -1314,7 +1315,7 @@ bool talk_function::scavenging_raid_return( npc &p )
         if( one_in( 8 ) ) {
             itemlist = "npc_weapon_random";
         }
-        auto result = item_group::item_from( itemlist );
+        item result = item_group::item_from( itemlist );
         if( !result.is_null() ) {
             popup( _( "%s returned with a %s for you!" ), comp->name, result.tname() );
             player_character.i_add( result );
@@ -1485,7 +1486,7 @@ bool talk_function::forage_return( npc &p )
                     debugmsg( "Invalid season" );
             }
         }
-        auto result = item_group::item_from( itemlist );
+        item result = item_group::item_from( itemlist );
         if( !result.is_null() ) {
             popup( _( "%s returned with a %s for you!" ), comp->name, result.tname() );
             player_character.i_add( result );
@@ -1737,7 +1738,7 @@ void talk_function::companion_skill_trainer( npc &comp, const skill_id &skill_te
 
 void talk_function::companion_return( npc &comp )
 {
-    assert( !comp.is_active() );
+    cata_assert( !comp.is_active() );
     comp.reset_companion_mission();
     comp.companion_mission_time = calendar::before_time_starts;
     comp.companion_mission_time_ret = calendar::before_time_starts;

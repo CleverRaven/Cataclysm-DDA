@@ -91,6 +91,7 @@
     "name": "sewer",
     "color": "green",
     "see_cost": 5,
+    "extras": "sewer",
     "flags": [ "LINEAR" ]
   },
   {

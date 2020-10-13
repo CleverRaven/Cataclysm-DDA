@@ -125,7 +125,7 @@ void user_interface::show()
         rule_list &cur_rules = tabs[iTab].new_rules;
         int locx = 17;
         for( size_t i = 0; i < tabs.size(); i++ ) {
-            const auto color = iTab == i ? hilite( c_white ) : c_white;
+            const nc_color color = iTab == i ? hilite( c_white ) : c_white;
             locx += shortcut_print( w_header, point( locx, 2 ), c_white, color, tabs[i].title ) + 1;
         }
 
@@ -749,15 +749,9 @@ void player_settings::load( const bool bCharacter )
         sFile = PATH_INFO::player_base_save_path() + ".apu.json";
     }
 
-    if( !read_from_file_optional_json( sFile, [&]( JsonIn & jsin ) {
-    ( bCharacter ? character_rules : global_rules ).deserialize( jsin );
-    } ) ) {
-        if( load_legacy( bCharacter ) ) {
-            if( save( bCharacter ) ) {
-                remove_file( sFile );
-            }
-        }
-    }
+    read_from_file_optional_json( sFile, [&]( JsonIn & jsin ) {
+        ( bCharacter ? character_rules : global_rules ).deserialize( jsin );
+    } ) ;
 
     invalidate();
 }
@@ -797,80 +791,6 @@ void rule_list::deserialize( JsonIn &jsin )
         rule tmp;
         tmp.deserialize( jsin );
         push_back( tmp );
-    }
-}
-
-bool player_settings::load_legacy( const bool bCharacter )
-{
-    std::string sFile = PATH_INFO::legacy_autopickup2();
-
-    if( bCharacter ) {
-        sFile = PATH_INFO::player_base_save_path() + ".apu.txt";
-    }
-
-    invalidate();
-
-    auto &rules = bCharacter ? character_rules : global_rules;
-
-    using namespace std::placeholders;
-    const auto &reader = std::bind( &rule_list::load_legacy_rules, std::ref( rules ), _1 );
-    if( !read_from_file_optional( sFile, reader ) ) {
-        if( !bCharacter ) {
-            return read_from_file_optional( PATH_INFO::legacy_autopickup(), reader );
-        } else {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-void rule_list::load_legacy_rules( std::istream &fin )
-{
-    clear();
-
-    std::string sLine;
-    while( !fin.eof() ) {
-        getline( fin, sLine );
-
-        if( !sLine.empty() && sLine[0] != '#' ) {
-            const int iNum = std::count( sLine.begin(), sLine.end(), ';' );
-
-            if( iNum != 2 ) {
-                debugmsg( "Bad Rule: %s (will be skipped)", sLine );
-            } else {
-                std::string sRule;
-                bool bActive = true;
-                bool bExclude = false;
-
-                size_t iPos = 0;
-                int iCol = 1;
-                do {
-                    iPos = sLine.find( ';' );
-
-                    std::string sTemp = iPos == std::string::npos ? sLine : sLine.substr( 0, iPos );
-
-                    if( iCol == 1 ) {
-                        sRule = sTemp;
-
-                    } else if( iCol == 2 ) {
-                        bActive = sTemp == "T" || sTemp == "True";
-
-                    } else if( iCol == 3 ) {
-                        bExclude = sTemp == "T" || sTemp == "True";
-                    }
-
-                    iCol++;
-
-                    if( iPos != std::string::npos ) {
-                        sLine = sLine.substr( iPos + 1, sLine.size() );
-                    }
-
-                } while( iPos != std::string::npos );
-
-                push_back( rule( sRule, bActive, bExclude ) );
-            }
-        }
     }
 }
 

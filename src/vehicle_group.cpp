@@ -17,8 +17,8 @@
 using vplacement_id = string_id<VehiclePlacement>;
 
 std::unordered_map<vgroup_id, VehicleGroup> vgroups;
-std::unordered_map<vplacement_id, VehiclePlacement> vplacements;
-std::unordered_map<vspawn_id, VehicleSpawn> vspawns;
+static std::unordered_map<vplacement_id, VehiclePlacement> vplacements;
+static std::unordered_map<vspawn_id, VehicleSpawn> vspawns;
 
 /** @relates string_id */
 template<>
@@ -128,7 +128,7 @@ VehicleFunction_json::VehicleFunction_json( const JsonObject &jo )
 
 void VehicleFunction_json::apply( map &m, const std::string &terrain_name ) const
 {
-    for( auto i = number.get(); i > 0; i-- ) {
+    for( int i = number.get(); i > 0; i-- ) {
         if( !location ) {
             const size_t replace = placement.find( "%t" );
             const VehicleLocation *loc = vplacement_id( replace != std::string::npos ?

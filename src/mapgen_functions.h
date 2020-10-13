@@ -75,6 +75,7 @@ void mapgen_ants_larvae( mapgendata &dat );
 void mapgen_ants_queen( mapgendata &dat );
 void mapgen_tutorial( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
+void mapgen_ravine_edge( mapgendata &dat );
 
 // Temporary wrappers
 void mremove_trap( map *m, const point & );
