@@ -34,8 +34,6 @@
     "result": "xl_boots",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
     "copy-from": "boots",
     "using": [ [ "tailoring_leather_small", 15 ], [ "fastener_small", 2 ] ],
     "time": "12 h"
