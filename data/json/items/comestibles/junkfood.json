@@ -331,6 +331,7 @@
     "type": "COMESTIBLE",
     "id": "weed_candy",
     "name": { "str_sp": "crazy candy" },
+    "copy-from": "candy3",
     "description": "A handful of colorful, fruit-flavored, THC infused chewy candy",
     "price": 2000,
     "price_postapoc": 4000,
