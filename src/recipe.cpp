@@ -410,15 +410,15 @@ void recipe::finalize()
             debugmsg( "proficiency %s provides a bonus for not being known in recipe %s", rpof.id.str(),
                       ident_.str() );
         }
-		
+
         if( rpof.time_multiplier == 0.0f ) {
             rpof.time_multiplier = rpof.get_default_time_multiplier();
         }
-		
-		if( rpof.fail_multiplier == 0.0f ) {
+
+        if( rpof.fail_multiplier == 0.0f ) {
             rpof.fail_multiplier = rpof.get_default_fail_multiplier();
         }
-		
+
         if( rpof.fail_multiplier < 1.0f ) {
             debugmsg( "proficiency %s provides a bonus for not being known in recipe %s", rpof.id.str(),
                       ident_.str() );

@@ -39,7 +39,7 @@ void proficiency::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "description", _description );
     mandatory( jo, was_loaded, "can_learn", _can_learn );
-	
+
     optional( jo, was_loaded, "default_time_multiplier", _default_time_multiplier );
     optional( jo, was_loaded, "default_fail_multiplier", _default_fail_multiplier );
     optional( jo, was_loaded, "time_to_learn", _time_to_learn );

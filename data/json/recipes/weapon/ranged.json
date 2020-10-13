@@ -1043,7 +1043,7 @@
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_bladesmith"  }
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1061,7 +1061,7 @@
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_bladesmith"  }
     ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
@@ -1079,7 +1079,7 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "scrap", 2 ] ] ]
   },

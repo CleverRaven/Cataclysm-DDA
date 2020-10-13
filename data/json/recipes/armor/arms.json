@@ -40,9 +40,10 @@
     "autolearn": true,
     "byproducts": [ [ "scrap_leather", 80 ] ],
     "proficiencies": [
-      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_articulation" }
     ],
     "using": [ [ "armor_chitin", 3 ], [ "tailoring_leather_small", 2 ] ]
   },
@@ -60,9 +61,10 @@
     "byproducts": [ [ "scrap_leather", 80 ] ],
     "using": [ [ "armor_acidchitin", 3 ], [ "tailoring_leather_small", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_articulation" }
     ]
   },
   {
@@ -78,10 +80,7 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
     "byproducts": [ [ "scrap_neoprene", 43 ] ],
     "using": [ [ "plastic_molding", 2 ], [ "tailoring_neoprene_patchwork", 2 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 }
-    ]
+    "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_plasticworking" } ]
   },
   {
     "result": "armguard_larmor",
@@ -95,7 +94,7 @@
     "autolearn": true,
     "byproducts": [ [ "leather", 9 ], [ "scrap_leather", 29 ] ],
     "using": [ [ "tailoring_leather", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 } ]
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
   {
     "result": "armguard_lightplate",
@@ -112,13 +111,11 @@
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 3 },
-      {
-        "proficiency": "prof_leatherworking",
-        "required": false,
-        "time_multiplier": 1.5,
-        "learning_time_multiplier": 0.5
-      }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1 },
+      { "proficiency": "prof_articulation" }
     ]
   },
   {
@@ -135,7 +132,7 @@
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 4 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 3 } ]
+    "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ]
   },
   {
     "result": "armguard_paper",
@@ -163,10 +160,7 @@
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 60 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 1.5 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 1.5 }
-    ]
+    "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ]
   },
   {
     "result": "armguard_soft",
@@ -180,7 +174,7 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
     "byproducts": [ [ "scrap_cotton", 43 ], [ "scrap_neoprene", 44 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "tailoring_neoprene_patchwork", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 2 } ]
+    "proficiencies": [ { "proficiency": "prof_polymerworking" } ]
   },
   {
     "result": "elbow_pads",
@@ -195,7 +189,7 @@
     "autolearn": true,
     "byproducts": [ [ "scrap_cotton", 71 ] ],
     "using": [ [ "plastic_molding", 1 ], [ "tailoring_cotton_patchwork", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ]
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   },
   {
     "result": "stockings_tent_arms",
@@ -237,7 +231,7 @@
     "autolearn": true,
     "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 42 ] ],
     "using": [ [ "tailoring_leather", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 } ]
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
   {
     "result": "chainmail_arms",
@@ -252,9 +246,6 @@
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 66 ] ],
     "using": [ [ "armor_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 8 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
-    ]
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   }
 ]

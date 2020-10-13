@@ -34,7 +34,7 @@ class proficiency
 
         float _default_time_multiplier = 2.0f;
         float _default_fail_multiplier = 3.0f;
-		
+
         time_duration _time_to_learn = 9999_hours;
         std::set<proficiency_id> _required;
 
@@ -46,10 +46,10 @@ class proficiency
         bool can_learn() const;
         std::string name() const;
         std::string description() const;
-		
+
         float get_default_time_multiplier() const;
         float get_default_fail_multiplier() const;
-		
+
         time_duration time_to_learn() const;
         std::set<proficiency_id> required_proficiencies() const;
 };

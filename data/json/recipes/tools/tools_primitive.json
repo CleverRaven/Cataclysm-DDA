@@ -38,7 +38,7 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_knapping", "required": false, "time_multiplier": 2, "fail_multiplier": 10 },
-      { "proficiency": "prof_knapping_speed", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_knapping_speed" }
     ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
@@ -98,8 +98,8 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_redsmithing", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking"  },
+      { "proficiency": "prof_redsmithing" }
     ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
@@ -120,7 +120,7 @@
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_knapping", "required": false, "time_multiplier": 2, "fail_multiplier": 10 },
-      { "proficiency": "prof_knapping_speed", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_knapping_speed" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "HAMMER_SOFT", "level": 1 }, { "id": "CHISEL_WOOD", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ] ] ]
@@ -201,7 +201,7 @@
     "difficulty": 2,
     "time": "50 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_pottery", "required": false, "time_multiplier": 4 } ],
+    "proficiencies": [ { "proficiency": "prof_pottery"  } ],
     "using": [ [ "earthenware_firing", 100 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 8 ] ] ]
   },
@@ -313,7 +313,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "HAMMER_SOFT", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_knapping", "required": false, "time_multiplier": 2, "fail_multiplier": 10 },
-      { "proficiency": "prof_knapping_speed", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_knapping_speed" }
     ],
     "components": [ [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ] ] ]
   }
