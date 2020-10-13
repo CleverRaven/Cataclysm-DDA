@@ -1051,7 +1051,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                         obj.set_rot( corpse_item->get_rot() );
                     }
                 }
-                for( const flag_id &flg : entry.flags ) {
+                for( const flag_str_id &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
@@ -1071,7 +1071,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                         obj.set_rot( corpse_item->get_rot() );
                     }
                 }
-                for( const flag_id &flg : entry.flags ) {
+                for( const flag_str_id &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
