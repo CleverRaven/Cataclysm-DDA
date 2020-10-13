@@ -124,7 +124,7 @@
     "dispersion_modifier": 45,
     "loudness_modifier": 4,
     "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ] ],
-    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE", "RAPIDFIRE" ]
+    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "autofire",

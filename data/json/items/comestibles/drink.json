@@ -539,7 +539,7 @@
     "description": "A sweet liquid with a vaguely fruity taste.  Having been pasteurized, it will last for a long time.",
     "price": 90,
     "price_postapoc": 150,
-    "flags": [ "EATEN_COLD", "IRREPLACEABLE_COMSUMABLE" ],
+    "flags": [ "EATEN_COLD", "IRREPLACEABLE_CONSUMABLE" ],
     "fun": 1
   },
   {

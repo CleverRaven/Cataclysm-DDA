@@ -72,6 +72,7 @@
 
 ## Notes
 
+- Some flags (items, effects, vehicle parts) have to be defined in `flags.json` or `vp_flags.json` (with type: `json_flag`) to work correctly. 
 - Many of the flags intended for one category or item type, can be used in other categories or item types. Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
 
@@ -537,7 +538,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```DOOR``` Can be opened (used for NPC path-finding).
 - ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
 - ```EMITTER``` This furniture will emit fields automatically as defined by its emissions entry
-- ```EXPLODES``` Explodes when on fire.
 - ```FIRE_CONTAINER``` Stops fire from spreading (brazier, wood stove, etc.)
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
 - ```FLAMMABLE_HARD``` Harder to light on fire, but still possible.
@@ -659,7 +659,6 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 
 ### Flags
 
-- ```ANESTHESIA``` ... Item is considered anesthesia for the purpose of installing or uninstalling bionics.
 - ```BIONIC_NPC_USABLE``` ... Safe CBMs that NPCs can use without extensive NPC rewrites to utilize toggle CBMs.
 - ```BIONIC_TOGGLED``` ... This bionic only has a function when activated, instead of causing its effect every turn.
 - ```BIONIC_POWER_SOURCE``` ... This bionic is a source of bionic power.
@@ -683,7 +682,6 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```LEAK_DAM``` ... Leaks when damaged (may be combined with "RADIOACTIVE").
 - ```NEEDS_UNFOLD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with "SLOW_WIELD".
 - ```NO_PACKED``` ... This item is not protected against contamination and won't stay sterile.  Only applies to CBMs.
-- ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
 - ```NO_REPAIR``` ... Prevents repairing of this item even if otherwise suitable tools exist.
 - ```NO_SALVAGE``` ... Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
 - ```NO_STERILE``` ... This item is not sterile.  Only applies to CBMs.
@@ -728,7 +726,6 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```FIRE_TWOHAND``` Gun can only be fired if player has two free hands.
 - ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
 - ```MECH_BAT```    This is an exotic battery designed to power military mechs.
-- ```MECH_WEAPON``` A built-in mech weapon, cannot be removed or have mods added / removed.
 - ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag.
 - ```NEVER_JAMS``` Never malfunctions.
 - ```NO_UNLOAD``` Cannot be unloaded.
@@ -1292,7 +1289,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
 - ```HAS_RECIPE``` Used by the E-Ink tablet to indicates it's currently showing a recipe.
 - ```IS_UPS``` Item is Unified Power Supply. Used in active item processing
-- ```LIGHT_[X]``` Illuminates the area with light intensity `[X]` where `[X]` is an intensity value. (e.x. `LIGHT_4` or `LIGHT_100`).
+- ```LIGHT_[X]``` Illuminates the area with light intensity `[X]` where `[X]` is an intensity value. (e.x. `LIGHT_4` or `LIGHT_100`). Note: this flags sets `itype::light_emission` field and then is removed (can't be found using `has_flag`); 
 - ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
 - ```NO_DROP``` Item should never exist on map tile as a discrete item (must be contained by another item)
 - ```NO_UNLOAD``` Cannot be unloaded.

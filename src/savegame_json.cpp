@@ -119,6 +119,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
+#include "flag.h"
 
 struct mutation_branch;
 struct oter_type_t;
@@ -2398,9 +2399,15 @@ void item::io( Archive &archive )
         std::swap( irradiation, poison );
     }
 
-    // Items may have acquired the ENCUMBRANCE_UPDATE flag, but are not armor and will never be worn and will never loose it.
-    // This removes the flag unconditionally. It is a temporary flag, which is removed during the game nearly immediately after setting.
-    item_tags.erase( "ENCUMBRANCE_UPDATE" );
+    // erase all invalid flags (not defined in flags.json), display warning about invalid flags
+    erase_if( item_tags, [&]( const std::string & f ) {
+        if( !json_flag::get( f ).id.is_valid() ) {
+            debugmsg( "item of type '%s' was loaded with undefined flag '%s'.", typeId().str(), f );
+            return true;
+        } else {
+            return false;
+        }
+    } );
 
     if( note_read ) {
         snip_id = SNIPPET.migrate_hash_to_id( note );

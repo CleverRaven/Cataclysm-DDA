@@ -2716,20 +2716,6 @@ Every item type can have optional seed data, if the item has seed data, it's con
 }
 ```
 
-### Artifact Data
-
-Every item type can have optional artifact properties (which makes it an artifact):
-
-```C++
-"artifact_data" : {
-    "charge_type": "ARTC_PAIN",
-    "effects_carried": ["AEP_INT_DOWN"],
-    "effects_wielded": ["AEP_DEX_UP"],
-    "effects_activated": ["AEA_BLOOD", "AEA_NOISE"],
-    "effects_worn": ["AEP_STR_UP"]
-}
-```
-
 ### Brewing Data
 
 Every item type can have optional brewing data, if the item has brewing data, it can be placed in a vat and will ferment into a different item type.
@@ -2742,22 +2728,6 @@ Currently only vats can only accept and produce liquid items.
     "result": "beer" // The id of the result of the fermentation.
 }
 ```
-
-#### `Charge_type`
-
-(optional, default: `ARTC_NULL`)
-
-How the item is recharged.
-
-For this to work, the item needs to be a tool that consumes charges upon invocation and has non-zero max_charges. Possible values (see src/artifact.h for an up-to-date list):
-
-- `ARTC_NULL` Never recharges!
-- `ARTC_TIME` Very slowly recharges with time
-- `ARTC_SOLAR` Recharges in sunlight
-- `ARTC_PAIN` Creates pain to recharge
-- `ARTC_HP` Drains HP to recharge
-- `ARTC_FATIGUE` Creates fatigue to recharge
-- `ARTC_PORTAL` Consumes portals to recharge
 
 #### `Effects_carried`
 
