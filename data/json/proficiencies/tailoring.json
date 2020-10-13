@@ -83,6 +83,8 @@
     "name": { "str": "Principles of Leatherworking" },
     "description": "You've got a basic familiarity with how to work with leather, furs, hides, and similar materials.",
     "can_learn": true,
+	"default_time_multiplier": 1.5,
+	"default_fail_multiplier": 5,
     "time_to_learn": "4 h"
   },
   {

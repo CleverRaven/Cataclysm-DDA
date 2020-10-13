@@ -412,11 +412,11 @@ void recipe::finalize()
         }
 		
         if( rpof.time_multiplier == 0.0f ) {
-            rpof.time_multiplier = something.get_default_time_multiplier();
+            rpof.time_multiplier = rpof.get_default_time_multiplier();
         }
 		
-		if( rpof.fail_multiplier == 0f ) {
-            rpof.fail_multiplier = something.get_default_fail_multiplier();
+		if( rpof.fail_multiplier == 0.0f ) {
+            rpof.fail_multiplier = rpof.get_default_fail_multiplier();
         }
 		
         if( rpof.fail_multiplier < 1.0f ) {
@@ -996,20 +996,10 @@ void recipe_proficiency::load( const JsonObject &jo )
     jo.read( "required", required );
     jo.read( "time_multiplier", time_multiplier );
     jo.read( "fail_multiplier", fail_multiplier );
-    jo.read( "learning_time_multiplier", learning_time_mult );
-    jo.read( "max_experience", max_experience );
-}
-
-void parent_proficiency::deserialize( JsonIn &jsin )
-{
-    load( jsin.get_object() );
-}
-
-void parent_proficiency::load( const JsonObject &jo )
-{
-    jo.read( "proficiency", id );
     jo.read( "default_time_multiplier", default_time_multiplier );
     jo.read( "default_fail_multiplier", default_fail_multiplier );
+    jo.read( "learning_time_multiplier", learning_time_mult );
+    jo.read( "max_experience", max_experience );
 }
 
 void book_recipe_data::deserialize( JsonIn &jsin )

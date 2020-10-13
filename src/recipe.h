@@ -51,16 +51,9 @@ struct recipe_proficiency {
     float time_multiplier = 0.0f;
     float fail_multiplier = 0.0f;
     float learning_time_mult = 1.0f;
-    cata::optional<time_duration> max_experience = cata::nullopt;
-
-    void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
-};
-
-struct parent_proficiency {
-    proficiency_id id;
     float default_time_multiplier = 0.0f;
     float default_fail_multiplier = 0.0f;
+    cata::optional<time_duration> max_experience = cata::nullopt;
 
     void load( const JsonObject &jo );
     void deserialize( JsonIn &jsin );
