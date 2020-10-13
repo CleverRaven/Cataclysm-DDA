@@ -22,6 +22,8 @@
     "name": { "str": "Principles of Trapping" },
     "description": "You know the basics of setting and taking down traps safely.",
     "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2.5,
     "time_to_learn": "3 h"
   },
   {
