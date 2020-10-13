@@ -6,7 +6,7 @@
     "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
-    "categories": [ "Internal" ],
+    "categories": [ "movement", "power" ],
     "description": "An alternator.",
     "flags": [ "ALTERNATOR" ]
   },
