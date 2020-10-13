@@ -47,8 +47,8 @@ class proficiency
         std::string name() const;
         std::string description() const;
 
-        float get_default_time_multiplier() const;
-        float get_default_fail_multiplier() const;
+        float default_time_multiplier() const;
+        float default_fail_multiplier() const;
 
         time_duration time_to_learn() const;
         std::set<proficiency_id> required_proficiencies() const;

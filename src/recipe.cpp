@@ -392,7 +392,7 @@ void recipe::finalize()
 
     std::set<proficiency_id> required;
     std::set<proficiency_id> used;
-    for( const recipe_proficiency &rpof : proficiencies ) {
+    for( recipe_proficiency &rpof : proficiencies ) {
         if( !rpof.id.is_valid() ) {
             debugmsg( "proficiency %s does not exist in recipe %s", rpof.id.str(), ident_.str() );
         }
@@ -406,8 +406,12 @@ void recipe::finalize()
                       ident_.str() );
         }
 
-        if( rpof.time_multiplier < 1.0f ) {
-            debugmsg( "proficiency %s provides a bonus for not being known in recipe %s", rpof.id.str(),
+        if( rpof.time_multiplier < 1.0f && rpof.default_time_multiplier < 1.0f ) {
+            debugmsg( "proficiency %s provides a time bonus for not being known in recipe %s.  Time multiplier: %s Default multiplier: %s", rpof.id.str(), ident_.str(), rpof.time_multiplier, rpof.default_time_multiplier );
+        }
+		
+		if( rpof.fail_multiplier < 1.0f && rpof.default_fail_multiplier < 1.0f ) {
+            debugmsg( "proficiency %s provides a fail bonus for not being known in recipe %s", rpof.id.str(),
                       ident_.str() );
         }
 
