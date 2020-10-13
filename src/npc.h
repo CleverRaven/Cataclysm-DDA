@@ -912,7 +912,7 @@ class npc : public player
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
         int time_to_read( const item &book, const player &reader ) const;
         void do_npc_read();
-        void stow_item( item &it );
+        item &stow_item( item &it );
         bool wield( item &it ) override;
         void drop( const drop_locations &what, const tripoint &target,
                    bool stash ) override;
