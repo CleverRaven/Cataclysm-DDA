@@ -63,8 +63,6 @@
     "result": "xl_boots_chitin",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
     "copy-from": "boots_chitin",
     "using": [ [ "armor_chitin", 23 ], [ "strap_small", 6 ], [ "clasps", 2 ] ],
     "time": "15 h"
