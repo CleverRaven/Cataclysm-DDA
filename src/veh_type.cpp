@@ -133,7 +133,6 @@ static const std::vector<std::pair<std::string, veh_ter_mod>> rail_terrain_mod =
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
-static std::set<std::string> vpart_categories_all;
 
 static std::map<vpart_id, vpart_info> abstract_parts;
 
@@ -521,10 +520,6 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     } else {
         vpart_info_all[def.id] = def;
     }
-
-    for( const std::string &cat : def.categories ) {
-        vpart_categories_all.insert( cat );
-    }
 }
 
 void vpart_info::set_flag( const std::string &flag )
@@ -534,6 +529,11 @@ void vpart_info::set_flag( const std::string &flag )
     if( iter != vpart_bitflag_map.end() ) {
         bitflags.set( iter->second );
     }
+}
+
+const std::set<std::string> &vpart_info::get_categories() const
+{
+    return this->categories;
 }
 
 void vpart_info::finalize()
@@ -789,18 +789,12 @@ void vpart_info::check()
 void vpart_info::reset()
 {
     vpart_info_all.clear();
-    vpart_categories_all.clear();
     abstract_parts.clear();
 }
 
 const std::map<vpart_id, vpart_info> &vpart_info::all()
 {
     return vpart_info_all;
-}
-
-const std::set<std::string> &vpart_info::categories_all()
-{
-    return vpart_categories_all;
 }
 
 std::string vpart_info::name() const
@@ -1289,4 +1283,33 @@ std::vector<vproto_id> vehicle_prototype::get_all()
         result.push_back( vp.first );
     }
     return result;
+}
+
+static std::vector<vpart_category> vpart_categories_all;
+
+const std::vector<vpart_category> &vpart_category::all()
+{
+    return vpart_categories_all;
+}
+
+void vpart_category::load( const JsonObject &jo )
+{
+    vpart_category def;
+
+    assign( jo, "id", def.id_ );
+    assign( jo, "name", def.name_ );
+    assign( jo, "short_name", def.short_name_ );
+    assign( jo, "priority", def.priority_ );
+
+    vpart_categories_all.push_back( def );
+}
+
+void vpart_category::finalize()
+{
+    std::sort( vpart_categories_all.begin(), vpart_categories_all.end() );
+}
+
+void vpart_category::reset()
+{
+    vpart_categories_all.clear();
 }

@@ -1,0 +1,90 @@
+[
+  {
+    "id": "_all",
+    "type": "vehicle_part_category",
+    "name": "All",
+    "short_name": "*",
+    "//": "Hardcoded filter for any category.",
+    "priority": 0
+  },
+  {
+    "id": "_filter",
+    "type": "vehicle_part_category",
+    "name": "Filter",
+    "short_name": "/",
+    "//": "Hardcoded filter for user search.",
+    "priority": 10000
+  },
+  {
+    "id": "movement",
+    "type": "vehicle_part_category",
+    "name": "Movement",
+    "short_name": "M",
+    "//": "Wheels, rotors, engines, motors, controls, alternators, fuel tanks, batteries and seats.",
+    "priority": 100
+  },
+  {
+    "id": "power",
+    "type": "vehicle_part_category",
+    "name": "Power Generation",
+    "short_name": "G",
+    "//": "Reactors, engines, alternators, fuel tanks, batteries, solar panels and controls. Anything that makes the vehicle produce and store power.",
+    "priority": 200
+  },
+  {
+    "id": "hull",
+    "type": "vehicle_part_category",
+    "name": "Hull",
+    "short_name": "H",
+    "//": "Frames, armor, rams, doors, roofs, hulls and structural bits of all kinds.",
+    "priority": 300
+  },
+  {
+    "id": "weapons",
+    "type": "vehicle_part_category",
+    "name": "Weapons",
+    "short_name": "W",
+    "//": "Turret mounts, mounted weapons and rams.",
+    "priority": 400
+  },
+  {
+    "id": "passengers",
+    "type": "vehicle_part_category",
+    "name": "Passengers",
+    "short_name": "P",
+    "//": "Aisles, seats, beds, and possibly animal carriers and livestock stalls.",
+    "priority": 500
+  },
+  {
+    "id": "cargo",
+    "type": "vehicle_part_category",
+    "name": "Cargo",
+    "short_name": "C",
+    "//": "Anything that holds cargo, such as seats, cargo racks, trunks, etc.",
+    "priority": 600
+  },
+  {
+    "id": "lights",
+    "type": "vehicle_part_category",
+    "name": "Lights",
+    "short_name": "L",
+    "//": "Internal and external lighting.",
+    "priority": 700
+  },
+  {
+    "id": "utility",
+    "type": "vehicle_part_category",
+    "name": "Utility",
+    "short_name": "U",
+    "//": "Crafting stations, water purifiers, and pseudo-crafting stations like the dishwasher.",
+    "priority": 800
+  },
+  {
+    "id": "other",
+    "type": "vehicle_part_category",
+    "name": "Other",
+    "short_name": "O",
+    "//": "Everything else",
+    "priority": 900
+  }
+]
