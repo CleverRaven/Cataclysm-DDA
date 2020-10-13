@@ -70,6 +70,8 @@
     "name": { "str": "Bladesmithing" },
     "description": "How to fabricate sharp and reliable blades from scratch.",
     "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 1.5,
     "time_to_learn": "12 h",
     "required_proficiencies": [ "prof_blacksmithing" ]
   },
@@ -79,6 +81,8 @@
     "name": { "str": "Manual Tooling" },
     "description": "How to make high-quality tools and parts by hand.  Includes techniques like threading, durable articulation points, and using appropriate metals for appropriate tasks.",
     "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 1.5,
     "time_to_learn": "10 h",
     "required_proficiencies": [ "prof_blacksmithing" ]
   }
