@@ -406,22 +406,20 @@ void recipe::finalize()
                       ident_.str() );
         }
 
-        if( rpof.time_multiplier < 1.0f && rpof.default_time_multiplier < 1.0f ) {
-            debugmsg( "proficiency %s provides a time bonus for not being known in recipe %s.  Time multiplier: %s Default multiplier: %s", rpof.id.str(), ident_.str(), rpof.time_multiplier, rpof.default_time_multiplier );
+        if( rpof.time_multiplier < 1.0f && rpof.id->default_time_multiplier() < 1.0f ) {
+            debugmsg( "proficiency %s provides a time bonus for not being known in recipe %s.  Time multiplier: %s Default multiplier: %s", rpof.id.str(), ident_.str(), rpof.time_multiplier, rpof.id->default_time_multiplier() );
         }
-		
-
-
+	
         if( rpof.time_multiplier == 0.0f ) {
-            rpof.time_multiplier = rpof.default_time_multiplier;
+            rpof.time_multiplier = rpof.id->default_time_multiplier();
         }
 
         if( rpof.fail_multiplier == 0.0f ) {
-            rpof.fail_multiplier = rpof.default_fail_multiplier;
+            rpof.fail_multiplier = rpof.id->default_fail_multiplier();
         }
 
-		if( rpof.fail_multiplier < 1.0f && rpof.default_fail_multiplier < 1.0f ) {
-            debugmsg( "proficiency %s provides a fail bonus for not being known in recipe %s  Fail multiplier: %s Default multiplier: %s", rpof.id.str(), ident_.str(), rpof.fail_multiplier, rpof.default_fail_multiplier );
+		if( rpof.fail_multiplier < 1.0f && rpof.id->default_fail_multiplier() < 1.0f ) {
+            debugmsg( "proficiency %s provides a fail bonus for not being known in recipe %s  Fail multiplier: %s Default multiplier: %s", rpof.id.str(), ident_.str(), rpof.fail_multiplier, rpof.id->default_fail_multiplier() );
         }
 
         // Now that we've done the error checking, log that a proficiency with this id is used
@@ -996,8 +994,6 @@ void recipe_proficiency::load( const JsonObject &jo )
     jo.read( "required", required );
     jo.read( "time_multiplier", time_multiplier );
     jo.read( "fail_multiplier", fail_multiplier );
-    jo.read( "default_time_multiplier", default_time_multiplier );
-    jo.read( "default_fail_multiplier", default_fail_multiplier );
     jo.read( "learning_time_multiplier", learning_time_mult );
     jo.read( "max_experience", max_experience );
 }
