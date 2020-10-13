@@ -51,7 +51,7 @@ class int_id
         /**
          * constexpr constructor, use to allow compilers to optimize some checks to compile time.
          */
-        explicit constexpr int_id(const char *id) : int_id(string_id<T>(id)) {}
+        explicit constexpr int_id( const char *id ) : int_id( string_id<T>( id ) ) {}
 
         /**
          * Forwarding constructor, forwards any parameter to the string_id
