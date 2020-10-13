@@ -113,7 +113,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
         character.set_skill_level( req.first, req.second );
     }
 
-    get_map().add_vehicle( vproto_id( "rv" ), test_origin, -90, 0, 0 );
+    get_map().add_vehicle( vproto_id( "test_rv" ), test_origin, -90, 0, 0 );
     const optional_vpart_position &ovp = get_map().veh_at( test_origin );
     vehicle &veh = ovp->vehicle();
     REQUIRE( ovp.has_value() );
