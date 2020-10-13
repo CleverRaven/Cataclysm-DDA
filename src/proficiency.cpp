@@ -61,12 +61,12 @@ std::string proficiency::description() const
     return _description.translated();
 }
 
-std::string proficiency::default_time_multiplier() const
+std::string proficiency::get_default_time_multiplier() const
 {
     return _default_time_multiplier;
 }
 
-std::string proficiency::default_fail_multiplier() const
+std::string proficiency::get_default_fail_multiplier() const
 {
     return _default_fail_multiplier;
 }
