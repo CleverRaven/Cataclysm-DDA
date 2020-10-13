@@ -690,11 +690,12 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
     for( const auto &set_of_tools : vec ) {
         bool has_tool_in_set = false;
         int UPS_charges_used = std::numeric_limits<int>::max();
-        for( const auto &tool : set_of_tools ) {
-            if( tool.has( crafting_inv, filter, batch, flags,
-            [ &UPS_charges_used ]( int charges ) {
+        const std::function<void( int )> use_ups = [ &UPS_charges_used ]( int charges ) {
             UPS_charges_used = std::min( UPS_charges_used, charges );
-            } ) ) {
+        };
+
+        for( const auto &tool : set_of_tools ) {
+            if( tool.has( crafting_inv, filter, batch, flags, use_ups ) ) {
                 tool.available = available_status::a_true;
             } else {
                 tool.available = available_status::a_false;
