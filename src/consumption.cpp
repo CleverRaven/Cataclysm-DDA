@@ -405,7 +405,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     // The default nutrients are always a possibility
     nutrients min_nutr = compute_default_effective_nutrients( comest_it, *this, extra_flags );
 
-    if( comest->item_tags.count( flag_NUTRIENT_OVERRIDE ) ||
+    if( comest->has_flag( flag_NUTRIENT_OVERRIDE ) ||
         recipe_dict.is_item_on_loop( comest->get_id() ) ) {
         return { min_nutr, min_nutr };
     }
@@ -692,7 +692,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
     }
 
-    if( food.item_tags.count( "DIRTY" ) ) {
+    if( food.has_own_flag( "DIRTY" ) ) {
         return ret_val<edible_rating>::make_failure(
                    _( "This is full of dirt after being on the ground." ) );
     }
@@ -714,7 +714,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
             }
         }
     }
-    if( food.item_tags.count( flag_FROZEN ) && !food.has_flag( flag_EDIBLE_FROZEN ) &&
+    if( food.has_own_flag( flag_FROZEN ) && !food.has_flag( flag_EDIBLE_FROZEN ) &&
         !food.has_flag( flag_MELTS ) ) {
         if( edible ) {
             return ret_val<edible_rating>::make_failure(
@@ -1137,15 +1137,19 @@ void Character::modify_morale( item &food, const int nutr )
     }
 
     // Morale bonus for eating unspoiled food with chair/table nearby
-    // Does not apply to non-ingested consumables like bandages or drugs
-    if( !food.rotten() && !food.has_flag( flag_ALLERGEN_JUNK ) && !food.has_flag( "NO_INGEST" ) &&
-        food.get_comestible()->comesttype != "MED" ) {
+    // Does not apply to non-ingested consumables like bandages or drugs,
+    // nor to drinks.
+    if( !food.has_flag( "NO_INGEST" ) &&
+        food.get_comestible()->comesttype != "MED" &&
+        food.get_comestible()->comesttype != comesttype_DRINK ) {
         map &here = get_map();
         if( here.has_nearby_chair( pos(), 1 ) && here.has_nearby_table( pos(), 1 ) ) {
             if( has_trait( trait_TABLEMANNERS ) ) {
                 rem_morale( MORALE_ATE_WITHOUT_TABLE );
-                add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true );
-            } else {
+                if( !food.rotten() ) {
+                    add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true );
+                }
+            } else if( !food.rotten() ) {
                 add_morale( MORALE_ATE_WITH_TABLE, 1, 1, 3_hours, 2_hours, true );
             }
         } else {
@@ -1252,6 +1256,46 @@ void Character::modify_morale( item &food, const int nutr )
         }
         add_morale( MORALE_HONEY, honey_fun, 100 );
     }
+}
+
+// Used when determining stomach fullness from eating.
+double Character::compute_effective_food_volume_ratio( const item &food ) const
+{
+    const nutrients food_nutrients = compute_effective_nutrients( food );
+    units::mass food_weight = ( food.weight() / food.count() );
+    double ratio = 1.0f;
+    if( units::to_gram( food_weight ) != 0 ) {
+        ratio = std::max( static_cast<double>( food_nutrients.kcal ) / units::to_gram( food_weight ), 1.0 );
+        if( ratio > 3.0f ) {
+            ratio = std::sqrt( 3 * ratio );
+        }
+    }
+    return ratio;
+}
+
+// Used when displaying effective food satiation values.
+int Character::compute_calories_per_effective_volume( const item &food,
+        const nutrients *nutrient /* = nullptr */ )const
+{
+    /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
+    stomach fullness source code. Look at issue #44365*/
+    int kcalories;
+    if( nutrient ) {
+        // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
+        kcalories = nutrient->kcal;
+    } else {
+        kcalories = compute_effective_nutrients( food ).kcal;
+    }
+    units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
+                              5_ml : 0_ml;
+    // Water volume is ignored.
+    units::volume food_vol = food.volume() - water_vol * food.count();
+    // Divide by 1000 to convert to L. Final quantity is essentially dimensionless, so unit of measurement does not matter.
+    const double converted_volume = round_up( ( static_cast<float>( food_vol.value() ) / food.count() )
+                                    * 0.001, 2 );
+    const double energy_density_ratio = compute_effective_food_volume_ratio( food );
+    const double effective_volume = converted_volume * energy_density_ratio;
+    return std::round( kcalories / effective_volume );
 }
 
 bool Character::consume_effects( item &food )
@@ -1378,14 +1422,7 @@ bool Character::consume_effects( item &food )
                               5_ml : 0_ml;
     units::volume food_vol = food.base_volume() - water_vol;
     units::mass food_weight = ( food.weight() / food.count() );
-    double ratio = 1.0f;
-    if( units::to_gram( food_weight ) != 0 ) {
-        ratio = std::max( static_cast<double>( food_nutrients.kcal ) / units::to_gram( food_weight ), 1.0 );
-        if( ratio > 3.0f ) {
-            ratio = std::sqrt( 3 * ratio );
-        }
-    }
-
+    const double ratio = compute_effective_food_volume_ratio( food );
     food_summary ingested{
         water_vol,
         food_vol * ratio,

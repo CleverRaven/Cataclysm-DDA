@@ -20,7 +20,6 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_id.h"
-#include "translations.h"
 
 static const skill_id skill_traps( "traps" );
 
@@ -175,7 +174,7 @@ void trap::load( const JsonObject &jo, const std::string & )
 
 std::string trap::name() const
 {
-    return _( name_ );
+    return name_.translated();
 }
 
 std::string trap::map_regen_target() const

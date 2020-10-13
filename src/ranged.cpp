@@ -84,7 +84,6 @@ static const itype_id itype_84x246mm( "84x246mm" );
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_arrow( "arrow" );
 static const itype_id itype_bolt( "bolt" );
-static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_flammable( "flammable" );
 static const itype_id itype_m235( "m235" );
 static const itype_id itype_metal_rail( "metal_rail" );
@@ -124,7 +123,13 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static projectile make_gun_projectile( const item &gun );
 static int time_to_attack( const Character &p, const itype &firing );
-static void cycle_action( item &weap, const tripoint &pos );
+/**
+* Handle spent ammo casings and linkages.
+* @param weap   Weapon.
+* @param ammo   Ammo used.
+* @param pos    Character position.
+*/
+static void cycle_action( item &weap, itype_id ammo, const tripoint &pos );
 static void make_gun_sound_effect( const player &p, bool burst, item *weapon );
 
 class target_ui
@@ -798,12 +803,11 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
-
-        cycle_action( gun, pos() );
+        const itype_id current_ammo = gun.ammo_current();
 
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
-            if( gun.ammo_current() == itype_flammable || gun.ammo_current() == itype_66mm ||
-                gun.ammo_current() == itype_84x246mm || gun.ammo_current() == itype_m235 ) {
+            if( current_ammo == itype_flammable || current_ammo == itype_66mm ||
+                current_ammo == itype_84x246mm || current_ammo == itype_m235 ) {
                 add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
                                    gun.tname() );
                 add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
@@ -814,6 +818,10 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname() );
             break;
+        }
+
+        if( !current_ammo.is_null() ) {
+            cycle_action( gun, current_ammo, pos() );
         }
 
         if( !gun.has_flag( flag_VEHICLE ) ) {
@@ -1087,7 +1095,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Put the item into the projectile
     proj.set_drop( std::move( thrown ) );
-    if( thrown_type->item_tags.count( "CUSTOM_EXPLOSION" ) ) {
+    if( thrown_type->has_flag( "CUSTOM_EXPLOSION" ) ) {
         proj.set_custom_explosion( thrown_type->explosion );
     }
 
@@ -1562,7 +1570,7 @@ int time_to_attack( const Character &p, const itype &firing )
                      info.base_time - info.time_reduction_per_level * p.get_skill_level( skill_used ) );
 }
 
-static void cycle_action( item &weap, const tripoint &pos )
+static void cycle_action( item &weap, itype_id ammo, const tripoint &pos )
 {
     map &here = get_map();
     // eject casings and linkages in random direction avoiding walls using player position as fallback
@@ -1581,13 +1589,16 @@ static void cycle_action( item &weap, const tripoint &pos )
     }
 
     item *brass_catcher = weap.gunmod_find_by_flag( "BRASS_CATCHER" );
-    if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
-        const itype_id casing = *weap.ammo_data()->ammo->casing;
+    if( !!ammo->ammo->casing ) {
+        const itype_id casing = *ammo->ammo->casing;
         if( weap.has_flag( "RELOAD_EJECT" ) ) {
-            weap.put_in( item( casing ).set_flag( "CASING" ), item_pocket::pocket_type::CONTAINER );
-        } else if( !( brass_catcher && brass_catcher->put_in( item( casing ),
-                      item_pocket::pocket_type::CONTAINER ).success() ) ) {
-            if( cargo.empty() ) {
+            weap.contents.force_insert_item( item( casing ).set_flag( "CASING" ),
+                                             item_pocket::pocket_type::MAGAZINE );
+            weap.on_contents_changed();
+        } else {
+            if( brass_catcher && brass_catcher->can_contain( casing.obj() ) ) {
+                brass_catcher->put_in( item( casing ), item_pocket::pocket_type::CONTAINER );
+            } else if( cargo.empty() ) {
                 here.add_item_or_charges( eject, item( casing ) );
             } else {
                 vp->vehicle().add_item( *cargo.front(), item( casing ) );
@@ -2360,15 +2371,23 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     if( mode == TargetMode::Fire ) {
         recalc_aim_turning_penalty();
     } else if( mode == TargetMode::Spell ) {
-        const std::string fx = casting->effect();
-        if( fx == "target_attack" || fx == "projectile_attack" || fx == "ter_transform" ) {
-            spell_aoe = spell_effect::spell_effect_blast( *casting, src, dst, casting->aoe(), true );
-        } else if( fx == "cone_attack" ) {
-            spell_aoe = spell_effect::spell_effect_cone( *casting, src, dst, casting->aoe(), true );
-        } else if( fx == "line_attack" ) {
-            spell_aoe = spell_effect::spell_effect_line( *casting, src, dst, casting->aoe(), true );
-        } else {
-            spell_aoe.clear();
+        switch( casting->shape() ) {
+            case spell_shape::blast:
+                spell_aoe = spell_effect::spell_effect_blast(
+                                spell_effect::override_parameters( *casting ), src, dst );
+                break;
+            case spell_shape::cone:
+                spell_aoe = spell_effect::spell_effect_cone(
+                                spell_effect::override_parameters( *casting ), src, dst );
+                break;
+            case spell_shape::line:
+                spell_aoe = spell_effect::spell_effect_line(
+                                spell_effect::override_parameters( *casting ), src, dst );
+                break;
+            default:
+                spell_aoe.clear();
+                debugmsg( "%s does not have valid spell shape", casting->id().str() );
+                break;
         }
     } else if( mode == TargetMode::Turrets ) {
         update_turrets_in_range();
@@ -3019,9 +3038,11 @@ void target_ui::draw_controls_list( int text_y )
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
         lines.push_back( {5, colored( col_enabled, string_format( _( "[%s] to switch firing modes." ),
-                                      bound_key( "SWITCH_MODE" ).short_description() ) )} );
+                                      bound_key( "SWITCH_MODE" ).short_description() ) )
+                         } );
         lines.push_back( {6, colored( col_enabled, string_format( _( "[%s] to reload/switch ammo." ),
-                                      bound_key( "SWITCH_AMMO" ).short_description() ) )} );
+                                      bound_key( "SWITCH_AMMO" ).short_description() ) )
+                         } );
     }
     if( mode == TargetMode::Turrets ) {
         const std::string label = draw_turret_lines

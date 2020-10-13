@@ -872,11 +872,11 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         // mass_ratio will override the use of base_num, scale_num, and max
         if( entry.mass_ratio != 0.00f ) {
             roll = static_cast<int>( std::round( entry.mass_ratio * monster_weight ) );
-            roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) );
+            roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level() );
         } else if( entry.type != "bionic" && entry.type != "bionic_group" ) {
             roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
             // will not give less than min_num defined in the JSON
-            roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) ),
+            roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level() ),
                                   entry.base_num.first );
         }
         itype_id drop_id = itype_id::NULL_ID();
@@ -928,10 +928,10 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
         }
         if( action == butcher_type::DISSECT ) {
-            int roll = roll_butchery() - corpse_item->damage_level( 4 );
+            int roll = roll_butchery() - corpse_item->damage_level();
             roll = roll < 0 ? 0 : roll;
             roll = std::min( entry.max, roll );
-            add_msg_debug( _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item->damage_level( 4 ) );
+            add_msg_debug( _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item->damage_level() );
             if( entry.type == "bionic" ) {
                 butcher_cbm_item( drop_id, p.pos(), calendar::turn, roll, entry.flags, entry.faults );
             } else if( entry.type == "bionic_group" ) {
@@ -2064,7 +2064,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
             sfx::play_variant_sound( "reload", reloadable.typeId().str(),
                                      sfx::get_heard_volume( p->pos() ) );
             sounds::ambient_sound( p->pos(), reloadable.type->gun->reload_noise_volume,
-                                   sounds::sound_t::activity, reloadable.type->gun->reload_noise );
+                                   sounds::sound_t::activity, reloadable.type->gun->reload_noise.translated() );
         }
     } else if( reloadable.is_watertight_container() ) {
         add_msg( m_neutral, _( "You refill the %s." ), reloadable_name );
@@ -2462,7 +2462,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         here.furn_set( pos, f_safe_o );
         // 50% of starting a fire.
         if( here.flammable_items_at( pos ) && rng( 1, 100 ) < 50 ) {
-            here.add_field( pos, field_type_id( "fd_fire" ), 1, 10_minutes );
+            here.add_field( pos, fd_fire, 1, 10_minutes );
         }
     }
 }
@@ -2772,7 +2772,7 @@ void activity_handlers::heat_item_finish( player_activity *act, player *p )
         return;
     }
     item &target = *food;
-    if( target.item_tags.count( "FROZEN" ) ) {
+    if( target.has_own_flag( "FROZEN" ) ) {
         target.apply_freezerburn();
         if( target.has_flag( flag_EATEN_COLD ) ) {
             target.cold_up();
@@ -2909,7 +2909,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     item &mod = *act->targets[1];
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname(), tool.tname() );
-    mod.item_tags.insert( "IRREMOVABLE" );
+    mod.set_flag( "IRREMOVABLE" );
     tool.put_in( mod, item_pocket::pocket_type::MOD );
     act->targets[1].remove_item();
 }
@@ -3359,7 +3359,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
             if( !bps.empty() ) {
                 for( const bodypart_id &bp : bps ) {
-                    p->make_bleed( bp, 1_turns, difficulty, true );
+                    p->make_bleed( effect_source::empty(), bp, 1_turns, difficulty, true );
                     p->apply_damage( nullptr, bp, 20 * difficulty );
 
                     if( u_see ) {
@@ -3372,7 +3372,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     }
                 }
             } else {
-                p->make_bleed( bodypart_id( "bp_null" ), 1_turns, difficulty, true );
+                p->make_bleed( effect_source::empty(), bodypart_id( "bp_null" ), 1_turns, difficulty, true );
                 p->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
             }
         }

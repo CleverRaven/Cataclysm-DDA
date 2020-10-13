@@ -97,13 +97,13 @@ static const efftype_id effect_riding( "riding" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
 static const skill_id skill_archery( "archery" );
-static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
 static const skill_id skill_smg( "smg" );
+static const skill_id skill_speech( "speech" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
 
@@ -199,7 +199,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 
     for( item &e : worn ) {
         if( e.has_flag( "VARSIZE" ) ) {
-            e.item_tags.insert( "FIT" );
+            e.set_flag( "FIT" );
         }
     }
 }
@@ -415,7 +415,7 @@ void npc::randomize( const npc_class_id &type )
     //A universal barter boost to keep NPCs competitive with players
     //The int boost from trade wasn't active... now that it is, most
     //players will vastly outclass npcs in trade without a little help.
-    mod_skill_level( skill_barter, rng( 2, 4 ) );
+    mod_skill_level( skill_speech, rng( 2, 4 ) );
 
     set_body();
     recalc_hp();
@@ -577,7 +577,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     who.worn.clear();
     for( item &it : ret ) {
         if( it.has_flag( "VARSIZE" ) ) {
-            it.item_tags.insert( "FIT" );
+            it.set_flag( "FIT" );
         }
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
@@ -631,7 +631,7 @@ void starting_inv( npc &who, const npc_class_id &type )
         item tmp = random_item_from( type, "misc" ).in_its_container();
         if( !tmp.is_null() ) {
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
-                tmp.item_tags.insert( "FIT" );
+                tmp.set_flag( "FIT" );
             }
             if( who.can_pickVolume( tmp ) ) {
                 res.push_back( tmp );
@@ -1216,12 +1216,19 @@ void npc::form_opinion( const player &u )
         op_of_u.fear -= 1;
     }
 
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+    // is your health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {
         const int hp_max = elem.second.get_hp_max();
         const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear--;
         }
+    }
+
+    // is my health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const int hp_max = elem.second.get_hp_max();
+        const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear++;
         }
@@ -1289,7 +1296,7 @@ void npc::form_opinion( const player &u )
         }
     }
     decide_needs();
-    for( auto &i : needs ) {
+    for( const npc_need &i : needs ) {
         if( i == need_food || i == need_drink ) {
             op_of_u.value += 2;
         }
@@ -1560,6 +1567,10 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
     std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
     if( player_character.is_deaf() ) {
         add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't hear it!" ), name );
+    }
+    if( player_character.is_mute() ) {
+        add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't reply to it!" ),
+                                name );
     }
     // Hallucinations don't make noise when they speak
     if( is_hallucination() ) {

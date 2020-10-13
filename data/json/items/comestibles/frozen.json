@@ -40,6 +40,15 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "milkshake_choc",
+    "name": { "str": "chocolate milkshake" },
+    "copy-from": "milkshake",
+    "description": "An all-natural cold beverage made with chocolate milk and sweeteners.  Tastes great when frozen.",
+    "color": "brown",
+    "calories": 170
+  },
+  {
+    "type": "COMESTIBLE",
     "copy-from": "milkshake",
     "id": "milkshake_deluxe",
     "name": { "str": "deluxe milkshake" },
@@ -52,6 +61,14 @@
     "price_postapoc": 150,
     "material": [ "milk", "junk" ],
     "primary_material": "milk"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milkshake_deluxe_choc",
+    "name": { "str": "deluxe chocolate milkshake" },
+    "copy-from": "milkshake_deluxe",
+    "description": "This chocolate milkshake has been enhanced with added sweeteners, and even has a cherry on top.  Tastes great, but is fairly awful for your health.",
+    "calories": 285
   },
   {
     "type": "COMESTIBLE",
@@ -89,6 +106,15 @@
     "price_postapoc": 100,
     "primary_material": "ice_cream",
     "material": [ "milk", "junk" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "icecream_choc",
+    "name": { "str": "chocolate ice cream", "str_pl": "chocolate ice cream scoops" },
+    "copy-from": "icecream",
+    "description": "A sweet, frozen food made of chocolate milk with liberal amounts of sugar.",
+    "color": "brown",
+    "calories": 345
   },
   {
     "type": "COMESTIBLE",

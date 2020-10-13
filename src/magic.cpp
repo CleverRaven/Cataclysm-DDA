@@ -64,11 +64,22 @@ std::string enum_to_string<spell_target>( spell_target data )
         case spell_target::ground: return "ground";
         case spell_target::none: return "none";
         case spell_target::item: return "item";
-        case spell_target::fire: return "fd_fire";
-        case spell_target::blood: return "fd_blood";
+        case spell_target::field: return "field";
         case spell_target::num_spell_targets: break;
     }
     debugmsg( "Invalid valid_target" );
+    abort();
+}
+template<>
+std::string enum_to_string<spell_shape>( spell_shape data )
+{
+    switch( data ) {
+        case spell_shape::blast: return "blast";
+        case spell_shape::cone: return "cone";
+        case spell_shape::line: return "line";
+        case spell_shape::num_shapes: break;
+    }
+    debugmsg( "Invalid spell_shape" );
     abort();
 }
 template<>
@@ -77,6 +88,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
     switch( data ) {
         case spell_flag::PERMANENT: return "PERMANENT";
         case spell_flag::IGNORE_WALLS: return "IGNORE_WALLS";
+        case spell_flag::NO_PROJECTILE: return "NO_PROJECTILE";
         case spell_flag::HOSTILE_SUMMON: return "HOSTILE_SUMMON";
         case spell_flag::HOSTILE_50: return "HOSTILE_50";
         case spell_flag::FRIENDLY_POLY: return "FRIENDLY_POLY";
@@ -94,6 +106,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
         case spell_flag::RANDOM_DURATION: return "RANDOM_DURATION";
         case spell_flag::RANDOM_TARGET: return "RANDOM_TARGET";
+        case spell_flag::RANDOM_CRITTER: return "RANDOM_CRITTER";
         case spell_flag::MUTATE_TRAIT: return "MUTATE_TRAIT";
         case spell_flag::PAIN_NORESIST: return "PAIN_NORESIST";
         case spell_flag::WITH_CONTAINER: return "WITH_CONTAINER";
@@ -212,39 +225,6 @@ static std::string moves_to_string( const int moves )
 
 void spell_type::load( const JsonObject &jo, const std::string & )
 {
-    static const
-    std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
-    effect_map{
-        { "pain_split", spell_effect::pain_split },
-        { "target_attack", spell_effect::target_attack },
-        { "targeted_polymorph", spell_effect::targeted_polymorph },
-        { "projectile_attack", spell_effect::projectile_attack },
-        { "cone_attack", spell_effect::cone_attack },
-        { "line_attack", spell_effect::line_attack },
-        { "teleport_random", spell_effect::teleport_random },
-        { "spawn_item", spell_effect::spawn_ethereal_item },
-        { "recover_energy", spell_effect::recover_energy },
-        { "summon", spell_effect::spawn_summoned_monster },
-        { "summon_vehicle", spell_effect::spawn_summoned_vehicle },
-        { "translocate", spell_effect::translocate },
-        { "area_pull", spell_effect::area_pull },
-        { "area_push", spell_effect::area_push },
-        { "timed_event", spell_effect::timed_event },
-        { "ter_transform", spell_effect::transform_blast },
-        { "noise", spell_effect::noise },
-        { "vomit", spell_effect::vomit },
-        { "explosion", spell_effect::explosion },
-        { "flashbang", spell_effect::flashbang },
-        { "mod_moves", spell_effect::mod_moves },
-        { "map", spell_effect::map },
-        { "morale", spell_effect::morale },
-        { "charm_monster", spell_effect::charm_monster },
-        { "mutate", spell_effect::mutate },
-        { "bash", spell_effect::bash },
-        { "dash", spell_effect::dash },
-        { "none", spell_effect::none }
-    };
-
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -257,16 +237,15 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "sound_id", sound_id, sound_id_default );
     optional( jo, was_loaded, "sound_variant", sound_variant, sound_variant_default );
     mandatory( jo, was_loaded, "effect", effect_name );
-    const auto found_effect = effect_map.find( effect_name );
-    if( found_effect == effect_map.cend() ) {
+    const auto found_effect = spell_effect::effect_map.find( effect_name );
+    if( found_effect == spell_effect::effect_map.cend() ) {
         effect = spell_effect::none;
         debugmsg( "ERROR: spell %s has invalid effect %s", id.c_str(), effect_name );
     } else {
         effect = found_effect->second;
     }
-
-    const auto effect_targets_reader = enum_flags_reader<spell_target> { "effect_targets" };
-    optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
+    mandatory( jo, was_loaded, "shape", spell_area );
+    spell_area_function = spell_effect::shape_map.at( spell_area );
 
     const auto targeted_monster_ids_reader = auto_flags_reader<mtype_id> {};
     optional( jo, was_loaded, "targeted_monster_ids", targeted_monster_ids,
@@ -349,6 +328,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "name", name.translated() );
     json.member( "description", description.translated() );
     json.member( "effect", effect_name );
+    json.member( "shape", io::enum_to_string( spell_area ) );
     json.member( "valid_targets", valid_targets, enum_bitset<spell_target> {} );
     json.member( "effect_str", effect_str, effect_str_default );
     json.member( "skill", skill, skill_default );
@@ -361,7 +341,6 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "sound_ambient", sound_ambient, sound_ambient_default );
     json.member( "sound_id", sound_id, sound_id_default );
     json.member( "sound_variant", sound_variant, sound_variant_default );
-    json.member( "effect_filter", effect_targets, enum_bitset<spell_target> {} );
     json.member( "targeted_monster_ids", targeted_monster_ids, std::set<mtype_id> {} );
     json.member( "extra_effects", additional_spells, std::vector<fake_spell> {} );
     if( !affected_bps.none() ) {
@@ -636,6 +615,17 @@ int spell::aoe() const
     }
 }
 
+std::set<tripoint> spell::effect_area( const spell_effect::override_parameters &params,
+                                       const tripoint &source, const tripoint &target ) const
+{
+    return type->spell_area_function( params, source, target );
+}
+
+std::set<tripoint> spell::effect_area( const tripoint &source, const tripoint &target ) const
+{
+    return effect_area( spell_effect::override_parameters( *this ), source, target );
+}
+
 bool spell::in_aoe( const tripoint &source, const tripoint &target ) const
 {
     if( has_flag( spell_flag::RANDOM_AOE ) ) {
@@ -779,6 +769,10 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( Character &guy ) const
 {
+    if( guy.has_trait_flag( "NO_SPELLCASTING" ) ) {
+        return false;
+    }
+
     if( !type->spell_components.is_empty() &&
         !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos(), 0 ),
                 return_true<item> ) ) {
@@ -844,6 +838,9 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
     } else {
         casting_time = type->base_casting_time;
     }
+
+    casting_time *= guy.mutation_value( "casting_time_multiplier" );
+
     if( !ignore_encumb ) {
         if( !has_flag( spell_flag::NO_LEGS ) ) {
             // the first 20 points of encumbrance combined is ignored
@@ -946,6 +943,11 @@ std::string spell::colorized_fail_percent( const Character &guy ) const
         color = c_light_green;
     }
     return colorize( fail_str, color );
+}
+
+spell_shape spell::shape() const
+{
+    return type->spell_area;
 }
 
 int spell::xp() const
@@ -1114,11 +1116,6 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
         valid = is_valid_target( spell_target::ground );
     }
     return valid;
-}
-
-bool spell::is_valid_effect_target( spell_target t ) const
-{
-    return type->effect_targets[t];
 }
 
 bool spell::target_by_monster_id( const tripoint &p ) const
@@ -1380,10 +1377,12 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
 cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
         const tripoint &caster_pos ) const
 {
+    const bool ignore_ground = has_flag( spell_flag::RANDOM_CRITTER );
     std::set<tripoint> valid_area;
-    for( const tripoint &target : spell_effect::spell_effect_blast( *this, caster_pos, caster_pos,
-            range(), false ) ) {
-        if( is_valid_target( caster, target ) ) {
+    for( const tripoint &target : spell_effect::spell_effect_blast(
+             spell_effect::override_parameters( *this ), caster_pos, caster_pos ) ) {
+        if( target != caster_pos && is_valid_target( caster, target ) &&
+            ( !ignore_ground || g->critter_at<Creature>( target ) ) ) {
             valid_area.emplace( target );
         }
     }
@@ -1592,8 +1591,8 @@ int known_magic::max_mana( const Character &guy ) const
 void known_magic::update_mana( const Character &guy, float turns )
 {
     // mana should replenish in 8 hours.
-    const float full_replenish = to_turns<float>( 8_hours );
-    const float ratio = turns / full_replenish;
+    const double full_replenish = to_turns<double>( 8_hours );
+    const double ratio = turns / full_replenish;
     mod_mana( guy, std::floor( ratio * guy.calculate_by_enchantment( max_mana( guy ) *
                                guy.mutation_value( "mana_regen_multiplier" ), enchant_vals::mod::REGEN_MANA ) ) );
 }
@@ -1911,7 +1910,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         } else {
             monster_name = monster( mtype_id( sp.effect_data() ) ).get_name( );
         }
-        damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(), _( monster_name ) );
+        damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(), monster_name );
         aoe_string = string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
     } else if( fx == "targeted_polymorph" ) {
         std::string monster_name = sp.effect_data();
@@ -1931,6 +1930,12 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                                        monster_name );
     } else if( fx == "ter_transform" ) {
         aoe_string = string_format( "%s: %s", _( "Spell Radius" ), sp.aoe_string() );
+    } else if( fx == "banishment" ) {
+        damage_string = string_format( "%s: %s %s", _( "Damage" ), sp.damage_string(),
+                                       sp.damage_type_string() );
+        if( sp.aoe() > 0 ) {
+            aoe_string = string_format( _( "Spell Radius: %d" ), sp.aoe() );
+        }
     }
 
     range_string = string_format( "%s: %s", _( "Range" ),

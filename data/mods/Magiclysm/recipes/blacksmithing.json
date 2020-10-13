@@ -9,6 +9,12 @@
     "difficulty": 5,
     "time": "180 m",
     "batch_time_factors": [ 50, 2 ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_metallurgy", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_almetallurgy", "required": false, "time_multiplier": 2 }
+    ],
     "book_learn": [ [ "welding_book", 4 ] ],
     "tools": [ [ [ "demon_forge", 15 ] ], [ [ "tongs", -1 ] ] ],
     "components": [ [ [ "orichalcum_sliver", 8 ], [ "orichalcum_lump", 2 ] ], [ [ "mercury", 100 ] ] ]
@@ -22,6 +28,11 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "180 m",
+    "proficiencies": [
+      { "proficiency": "prof_metallurgy", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_almetallurgy", "required": false, "time_multiplier": 2 }
+    ],
     "batch_time_factors": [ 50, 2 ],
     "book_learn": [ [ "welding_book", 4 ] ],
     "tools": [ [ [ "demon_forge", 15 ] ], [ [ "tongs", -1 ] ] ],
@@ -35,8 +46,12 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "20 m",
+    "time": "40 m",
     "book_learn": [ [ "metal_legends", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_pottery", "required": false, "time_multiplier": 1.5 }
+    ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "con_mix", 50 ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ], [ [ "demon_chitin_piece", 10 ] ] ]
@@ -47,11 +62,12 @@
     "result": "alumentum",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
-    "skill_used": "spellcraft",
+    "skill_used": "chemistry",
     "difficulty": 3,
-    "time": "16 m",
+    "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "DISTILL", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "charcoal", 50 ] ], [ [ "crystallized_mana", 10 ] ], [ [ "denat_alcohol", 10 ] ] ]
   }

@@ -10,6 +10,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "construction.h"
+#include "construction_group.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "faction.h"
@@ -192,7 +193,7 @@ construction_id blueprint_options::get_final_construction(
             continue;
         }
         const construction &con_next = list_constructions[i];
-        if( con.description == con_next.description &&
+        if( con.group == con_next.group &&
             con.post_terrain == con_next.pre_terrain ) {
             skip_index.insert( idx );
             return get_final_construction( list_constructions, construction_id( i ), skip_index );
@@ -212,11 +213,11 @@ blueprint_options::query_con_result blueprint_options::query_con()
 
         const construction &chosen = con_index.obj();
 
-        const std::string &chosen_desc = chosen.description;
+        const construction_group_str_id &chosen_group = chosen.group;
         const std::string &chosen_mark = chosen.post_terrain;
 
-        if( con_index != index || chosen_desc != con || chosen_mark != mark ) {
-            con = chosen_desc;
+        if( con_index != index || chosen_group != group || chosen_mark != mark ) {
+            group = chosen_group;
             mark = chosen_mark;
             index = con_index;
             return changed;
@@ -363,8 +364,8 @@ bool plot_options::query()
 
 std::string blueprint_options::get_zone_name_suggestion() const
 {
-    if( !con.empty() ) {
-        return con;
+    if( group ) {
+        return group->name();
     }
 
     return _( "No construction" );
@@ -390,7 +391,7 @@ std::vector<std::pair<std::string, std::string>> blueprint_options::get_descript
     std::vector<std::pair<std::string, std::string>> options =
                 std::vector<std::pair<std::string, std::string>>();
     options.emplace_back( std::make_pair( _( "Construct: " ),
-                                          !con.empty() ? con : _( "No Construction" ) ) );
+                                          group ? group->name() : _( "No Construction" ) ) );
 
     return options;
 }
@@ -408,14 +409,14 @@ std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions(
 void blueprint_options::serialize( JsonOut &json ) const
 {
     json.member( "mark", mark );
-    json.member( "con", con );
+    json.member( "group", group );
     json.member( "index", index.id() );
 }
 
 void blueprint_options::deserialize( const JsonObject &jo_zone )
 {
     jo_zone.read( "mark", mark );
-    jo_zone.read( "con", con );
+    jo_zone.read( "group", group );
     if( jo_zone.has_int( "index" ) ) {
         // Oops, saved incorrectly as an int id by legacy code. Just load it and hope for the best
         index = construction_id( jo_zone.get_int( "index" ) );
@@ -499,7 +500,7 @@ bool zone_data::set_type()
 {
     const auto maybe_type = zone_manager::get_manager().query_type();
     if( maybe_type.has_value() && maybe_type.value() != type ) {
-        auto new_options = zone_options::create( maybe_type.value() );
+        shared_ptr_fast<zone_options> new_options = zone_options::create( maybe_type.value() );
         if( new_options->query_at_creation() ) {
             zone_manager::get_manager().zone_edited( *this );
             type = maybe_type.value();
@@ -508,6 +509,8 @@ bool zone_data::set_type()
             return true;
         }
     }
+    // False positive from memory leak detection on shared_ptr_fast
+    // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
     return false;
 }
 

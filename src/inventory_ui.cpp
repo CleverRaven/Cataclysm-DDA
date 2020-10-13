@@ -1703,6 +1703,10 @@ void inventory_selector::refresh_window()
 {
     cata_assert( w_inv );
 
+    if( get_option<std::string>( "INVENTORY_HIGHLIGHT" ) != "disable" ) {
+        highlight();
+    }
+
     werase( w_inv );
 
     draw_frame( w_inv );
@@ -2120,9 +2124,6 @@ item_location inventory_pick_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
     while( true ) {
-        if( get_option<std::string>( "INVENTORY_HIGHLIGHT" ) != "disable" ) {
-            highlight();
-        }
         ui_manager::redraw();
         const inventory_input input = get_input();
 
@@ -2466,9 +2467,6 @@ drop_locations inventory_drop_selector::execute()
 
     int count = 0;
     while( true ) {
-        if( get_option<std::string>( "INVENTORY_HIGHLIGHT" ) != "disable" ) {
-            highlight();
-        }
         ui_manager::redraw();
 
         const inventory_input input = get_input();

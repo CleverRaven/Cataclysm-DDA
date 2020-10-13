@@ -278,12 +278,8 @@
     "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 2.5 },
-      {
-        "proficiency": "prof_blacksmithing",
-        "required": false,
-        "learning_time_multiplier": 0.5,
-        "time_multiplier": 3
-      }
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 }
     ]
   },
   {

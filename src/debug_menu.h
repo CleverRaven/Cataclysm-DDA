@@ -4,6 +4,7 @@
 
 #include <functional>
 #include <iosfwd>
+#include <string>
 
 #include "enum_traits.h"
 
@@ -100,6 +101,37 @@ void mutation_wish();
 void draw_benchmark( int max_difference );
 
 void debug();
+
+/* Splits a string by @param delimiter and push_back's the elements into _Container */
+template<typename _Container>
+_Container string_to_iterable( const std::string &str, const std::string &delimiter )
+{
+    _Container res;
+
+    size_t pos = 0;
+    std::string s = str;
+    while( ( pos = s.find( delimiter ) ) != std::string::npos ) {
+        res.push_back( s.substr( 0, pos ) );
+        s.erase( 0, pos + delimiter.length() );
+    }
+    res.push_back( s );
+
+    return res;
+}
+
+/* Merges iterable elements into std::string with @param delimiter between them */
+template<typename _Container>
+std::string iterable_to_string( const _Container &values, const std::string &delimiter )
+{
+    std::string res;
+    for( auto iter = values.begin(); iter != values.end(); ++iter ) {
+        if( iter != values.begin() ) {
+            res += delimiter;
+        }
+        res += *iter;
+    }
+    return res;
+}
 
 } // namespace debug_menu
 

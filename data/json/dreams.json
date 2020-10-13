@@ -110,7 +110,7 @@
       "You have a strange dream.",
       "You have a puckish dream.",
       "You dream of the changeling.  Again.",
-      "You feel a yearning..."
+      "You feel a yearning…"
     ],
     "category": "ELFA",
     "strength": 1
@@ -288,7 +288,7 @@
     "messages": [
       "You dream of a home in the forests.",
       "You dream you are lithe in the sunlight and radiant with grace.",
-      "You feel beautiful, and yet riven with worry..."
+      "You feel beautiful, and yet riven with worry…"
     ],
     "category": "ELFA",
     "strength": 2
@@ -306,7 +306,7 @@
     "type": "dream",
     "messages": [
       "You dream of stalking some sort of lizard… no, that can't be right, can it?",
-      "For some reason you dream of your shoes.  They don't fit, and nothing seems to help..."
+      "For some reason you dream of your shoes.  They don't fit, and nothing seems to help…"
     ],
     "category": "RAPTOR",
     "strength": 2
@@ -500,7 +500,7 @@
   {
     "type": "dream",
     "messages": [
-      "You weave between the zombies' legs, too small for them to catch.  The gas station isn't far now, with all its soda and chips and- UGH, dream...",
+      "You weave between the zombies' legs, too small for them to catch.  The gas station isn't far now, with all its soda and chips and- UGH, dream…",
       "Once you finish your tasty dinner of seeds, you look around for your drink, but you already ate it."
     ],
     "category": "MOUSE",
@@ -548,8 +548,8 @@
   {
     "type": "dream",
     "messages": [
-      "You wonder if you could find one of those 'salmon runs', or if they were just a legend...",
-      "Ah, the wolf-slaying dream again.  That's a good one..."
+      "You wonder if you could find one of those 'salmon runs', or if they were just a legend…",
+      "Ah, the wolf-slaying dream again.  That's a good one…"
     ],
     "category": "URSINE",
     "strength": 4
@@ -588,7 +588,7 @@
     "messages": [
       "You feel smug, knowing that the Queen is dependent on you.",
       "You relax and enjoy the humming adulation of all your followers.",
-      "You dream of a weirdly shaped plant, whose nectar surpassed your every wish..."
+      "You dream of a weirdly shaped plant, whose nectar surpassed your every wish…"
     ],
     "category": "INSECT",
     "strength": 4
@@ -613,7 +613,7 @@
     "type": "dream",
     "messages": [
       "Your vivid dream of your pseudopods calcifying into rigid structures terrifies you.",
-      "Ah, the painting-the-planet dream again.  Maybe if you assimilated more..."
+      "Ah, the painting-the-planet dream again.  Maybe if you assimilated more…"
     ],
     "category": "SLIME",
     "strength": 4
@@ -646,7 +646,7 @@
   {
     "type": "dream",
     "messages": [
-      "The Fury is so big!  It's GONNA GET YOAAAAAH! *pant* only a dream.",
+      "The Fury is so big!  It's GONNA GET YOAAAAAH!  *pant* only a dream.",
       "You find your paws twitching.  There's a cave.  You should go."
     ],
     "category": "RAT",
@@ -666,7 +666,7 @@
     "type": "dream",
     "messages": [
       "You pant, terrified at the thought of that FUNGUS destroying your home!",
-      "You wish others could understand, and join your struggle..."
+      "You wish others could understand, and join your struggle…"
     ],
     "category": "ELFA",
     "strength": 4
@@ -687,7 +687,7 @@
     "type": "dream",
     "messages": [
       "You curl up some more in your nest.  Geez, shredded paper really *is* comfy.",
-      "Oh boy! This hidey hole sure is swell.",
+      "Oh boy!  This hidey hole sure is swell.",
       "Once we finish the burrow we'll settle down and start a little family.  Maybe just a dozen boys and a dozen girls.  Nice and cosy.",
       "In your dreams, you blindly run through the pipes of the city, navigating the familiar byways via smell alone.",
       "Sneaky sneak under the floorboards.  We will sneak all their crumbs for us.  But later, back to sleep for now.",

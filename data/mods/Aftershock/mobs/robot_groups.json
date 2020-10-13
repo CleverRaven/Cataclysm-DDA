@@ -71,8 +71,10 @@
       { "monster": "mon_advbot_laser", "freq": 20, "cost_multiplier": 0 },
       { "monster": "mon_advbot_plasma", "freq": 1, "cost_multiplier": 0 },
       { "monster": "mon_molebot", "freq": 0, "cost_multiplier": 0 },
-      { "monster": "mon_tripod", "freq": 0, "cost_multiplier": 0 },
-      { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0, "starts": 1086 }
+      { "monster": "mon_tripod", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0, "starts": 1086 },
+      { "monster": "mon_chickenbot", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_bloodhound_drone", "freq": 220, "cost_multiplier": 0 }
     ]
   },
   {
@@ -126,5 +128,38 @@
     "name": "GROUP_FIRE",
     "default": "mon_zombie_fireman",
     "monsters": [ { "monster": "mon_utilibot_fire", "freq": 200, "cost_multiplier": 2, "pack_size": [ 4, 6 ] } ]
+  },
+  {
+    "name": "GROUP_NECROPOLIS_ROBOT",
+    "type": "monstergroup",
+    "default": "mon_chickenbot",
+    "monsters": [ { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MIL_BASE",
+    "monsters": [
+      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MAYBE_MIL",
+    "monsters": [
+      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MIL_STRONG",
+    "monsters": [
+      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
+    ]
   }
 ]

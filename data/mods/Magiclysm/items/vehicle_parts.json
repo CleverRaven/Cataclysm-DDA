@@ -4,6 +4,7 @@
     "id": "bulette_plate",
     "name": "bulette plating",
     "symbol": ")",
+    "categories": [ "Hull" ],
     "color": "light_gray",
     "broken_symbol": ")",
     "broken_color": "light_gray",

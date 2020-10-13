@@ -1,7 +1,6 @@
 #include "itype.h"
 
 #include <cstdlib>
-#include <utility>
 
 #include "debug.h"
 #include "item.h"
@@ -15,6 +14,15 @@ std::string gunmod_location::name() const
 {
     // Yes, currently the name is just the translated id.
     return _( _id );
+}
+
+std::string islot_book::recipe_with_description_t::name() const
+{
+    if( optional_name ) {
+        return optional_name->translated();
+    } else {
+        return recipe->result_name();
+    }
 }
 
 namespace io
@@ -58,6 +66,16 @@ int itype::charges_per_volume( const units::volume &vol ) const
 bool itype::has_use() const
 {
     return !use_methods.empty();
+}
+
+bool itype::has_flag( const std::string &flag ) const
+{
+    return item_tags.count( flag );
+}
+
+const itype::FlagsSetType &itype::get_flags() const
+{
+    return item_tags;
 }
 
 bool itype::can_use( const std::string &iuse_name ) const
@@ -132,7 +150,7 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( item_tags.count( "CAN_HAVE_CHARGES" ) ) {
+    if( has_flag( "CAN_HAVE_CHARGES" ) ) {
         return true;
     }
     return false;

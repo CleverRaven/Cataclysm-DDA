@@ -1046,7 +1046,7 @@
     "coverage": 50,
     "encumbrance": 2,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "STRAPPED" ]
+    "flags": [ "OVERSIZE", "BELTED" ]
   },
   {
     "id": "dimensional_anchor_on",
@@ -1065,7 +1065,7 @@
       "target": "dimensional_anchor"
     },
     "covers": [ "torso" ],
-    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "STRAPPED" ]
+    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED" ]
   },
   {
     "id": "phase_immersion_suit",
@@ -2692,6 +2692,7 @@
     "price_postapoc": 250,
     "material": [ "wood" ],
     "volume": "6750 ml",
+    "longest_side": "100 cm",
     "warmth": 2,
     "encumbrance": 27,
     "bashing": 8,
@@ -2733,6 +2734,7 @@
     "//": "Electric guitar less awesome when there's no electricity.",
     "material": [ "wood", "iron" ],
     "volume": "6750 ml",
+    "longest_side": "100 cm",
     "warmth": 2,
     "encumbrance": 27,
     "bashing": 8,

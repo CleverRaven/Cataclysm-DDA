@@ -1,0 +1,45 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_lockpicking",
+    "name": { "str": "Lockpicking" },
+    "description": "You know how to pick a lock.",
+    "can_learn": true,
+    "time_to_learn": "4 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_safecracking",
+    "name": { "str": "Safecracking" },
+    "description": "Opening safes is an exacting skill, one that you are proficient at.",
+    "can_learn": true,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_lockpicking" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_traps",
+    "name": { "str": "Principles of Trapping" },
+    "description": "You know the basics of setting and taking down traps safely.",
+    "can_learn": true,
+    "time_to_learn": "3 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_trapsetting",
+    "name": { "str": "Trap Setting" },
+    "description": "You're specifically quite skilled at setting effective traps.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "required_proficiencies": [ "prof_traps" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_disarming",
+    "name": { "str": "Trap Disarming" },
+    "description": "You know how to take down a trap safely.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "required_proficiencies": [ "prof_traps" ]
+  }
+]

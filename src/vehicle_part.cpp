@@ -45,7 +45,7 @@ vehicle_part::vehicle_part( const vpart_id &vp, const std::string &variant_id, c
     : mount( dp ), id( vp ), variant( variant_id ), base( std::move( obj ) )
 {
     // Mark base item as being installed as a vehicle part
-    base.item_tags.insert( "VEHICLE" );
+    base.set_flag( "VEHICLE" );
 
     if( base.typeId() != vp->item ) {
         debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
@@ -71,7 +71,7 @@ void vehicle_part::set_base( const item &new_base )
 item vehicle_part::properties_to_item() const
 {
     item tmp = base;
-    tmp.item_tags.erase( "VEHICLE" );
+    tmp.unset_flag( "VEHICLE" );
 
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
@@ -80,7 +80,7 @@ item vehicle_part::properties_to_item() const
         const tripoint local_pos = here.getlocal( target.first );
         if( !here.veh_at( local_pos ) ) {
             // That vehicle ain't there no more.
-            tmp.item_tags.insert( "NO_DROP" );
+            tmp.set_flag( "NO_DROP" );
         }
 
         tmp.set_var( "source_x", target.first.x );
@@ -92,7 +92,7 @@ item vehicle_part::properties_to_item() const
 
     // force rationalization of damage values to the middle value of each damage level so
     // that parts will stack nicely
-    tmp.set_damage( tmp.damage_level( 4 ) * itype::damage_scale );
+    tmp.set_damage( tmp.damage_level() * itype::damage_scale );
     return tmp;
 }
 
@@ -145,9 +145,9 @@ int vehicle_part::max_damage() const
     return base.max_damage();
 }
 
-int vehicle_part::damage_level( int max ) const
+int vehicle_part::damage_level() const
 {
-    return base.damage_level( max );
+    return base.damage_level();
 }
 
 double vehicle_part::health_percent() const
@@ -422,6 +422,11 @@ bool vehicle_part::fill_with( item &liquid, int qty )
 const std::set<fault_id> &vehicle_part::faults() const
 {
     return base.faults;
+}
+
+bool vehicle_part::has_fault_flag( const std::string &searched_flag ) const
+{
+    return base.has_fault_flag( searched_flag );
 }
 
 std::set<fault_id> vehicle_part::faults_potential() const

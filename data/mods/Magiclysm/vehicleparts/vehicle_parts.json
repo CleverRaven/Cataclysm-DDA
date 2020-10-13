@@ -4,5 +4,38 @@
     "id": "orichalcum_frame_break",
     "subtype": "collection",
     "entries": [ { "item": "orichalcum_lump", "count": [ 4, 6 ] }, { "item": "orichalcum_sliver", "count": [ 4, 6 ] } ]
+  },
+  {
+    "abstract": "mana_engine",
+    "copy-from": "engine_combustion",
+    "type": "vehicle_part",
+    "fuel_type": "mana",
+    "m2c": 60,
+    "//": "30% energy efficiency",
+    "description": "A magically manifested combustion engine.  Despite operating entirely off of mana rather than normal fuel, it otherwise functions exactly as a conventional internal combustion engine.  Somehow."
+  },
+  {
+    "id": "engine_vtwin_magic",
+    "categories": [ "Internal" ],
+    "copy-from": "mana_engine",
+    "type": "vehicle_part",
+    "item": "v2_combustion",
+    "durability": 200,
+    "epower": -50,
+    "power": 37300,
+    "energy_consumption": 124500,
+    "folded_volume": "2 L",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 10, 20 ] },
+      { "item": "steel_chunk", "count": [ 10, 20 ] },
+      { "item": "scrap", "count": [ 10, 20 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "damage_reduction": { "all": 60 }
   }
 ]

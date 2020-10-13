@@ -277,7 +277,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "plastic bottle" },
-    "description": "A watertight plastic bottle, holds 500 ml of liquid.",
+    "description": "A watertight plastic bottle, holds 500 ml of liquid.  Some may be factory sealed to preserve content from rot until opened.",
     "weight": "13 g",
     "volume": "502 ml",
     "pocket_data": [
@@ -289,6 +289,7 @@
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1250 g",
+        "sealed_data": { "spoil_multiplier": 0.5 },
         "moves": 400
       }
     ],
@@ -497,6 +498,7 @@
     "category": "container",
     "name": { "str": "bucket" },
     "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, French fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
+    "ascii_picture": "bucket",
     "weight": "725 g",
     "volume": "5 L",
     "price": 300,
@@ -1139,7 +1141,7 @@
     "category": "container",
     "name": { "str": "gallon jug" },
     "looks_like": "bottle_plastic",
-    "description": "A standard plastic jug used for milk and household cleaning chemicals.",
+    "description": "A standard plastic jug used for milk and household cleaning chemicals.  Some may be factory sealed to preserve content from rot until opened.",
     "weight": "190 g",
     "volume": "3752 ml",
     "price": 0,
@@ -1155,7 +1157,8 @@
         "watertight": true,
         "max_contains_volume": "3750 ml",
         "max_item_volume": "32 ml",
-        "max_contains_weight": "8 kg"
+        "max_contains_weight": "8 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 }
       }
     ]
   },
@@ -1471,8 +1474,10 @@
     "id": "wrapper_pr",
     "type": "GENERIC",
     "name": { "str": "wrapper" },
-    "//desc": "Daizu is Japanese for soy, hence DaiZoom",
-    "description": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper.",
+    "description": {
+      "//~": "Daizu is Japanese for soy, hence DaiZoom",
+      "str": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper."
+    },
     "copy-from": "wrapper",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ]
   },
@@ -1615,5 +1620,47 @@
     "symbol": ")",
     "color": "green",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]
+  },
+  {
+    "id": "1st_aid_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "first aid kit box" },
+    "looks_like": "1st_aid",
+    "description": "A plastic box that used to contain a first aid kit.  Can hold 1.25 liters of liquid.",
+    "weight": "50 g",
+    "volume": "1250 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "material": [ "plastic" ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1250 ml", "max_contains_weight": "3 kg", "moves": 400 } ],
+    "symbol": ")",
+    "color": "red"
+  },
+  {
+    "id": "ifak_pouch",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "IFAK pouch" },
+    "looks_like": "1st_aid",
+    "description": "A fabric pouch that used to contain an IFAK.",
+    "weight": "5 g",
+    "volume": "1250 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "material": [ "cotton", "neoprene" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "moves": 400,
+        "rigid": false
+      }
+    ],
+    "symbol": ")",
+    "color": "red"
   }
 ]
