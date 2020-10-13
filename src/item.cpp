@@ -1040,7 +1040,7 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
         static const flag_str_id json_flag_HOT( flag_HOT );
 
         //we can combine liquids of same type and different temperatures
-        if( equal_ignoring_elements( rhs.get_flags(), get_flags(),
+        if( !equal_ignoring_elements( rhs.get_flags(), get_flags(),
         { json_flag_COLD, json_flag_FROZEN, json_flag_HOT } ) ) {
             return false;
         }
