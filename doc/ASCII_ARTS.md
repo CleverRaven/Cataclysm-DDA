@@ -5,7 +5,7 @@ ASCII art can be made using any text editor, such as Notepad, but it's more conv
 1. Download REXPaint [here](https://www.gridsagegames.com/rexpaint/downloads.html) and unzip the folder. Note: in version 1.50 colors yellow and pink were not exported correctly. This has been fixed in version 1.60.
 2. Download CDDA color palette [here](https://www.gridsagegames.com/rexpaint/resources.html#Palettes) and put in the `palettes` folder.  Change the palette in REXPaint  to "CDDA" palette using `[` and `]` buttons. You can sort the colors nicely by pressing `Ctrl-Shift-o`.
 3. Download unifont font (the font used in CDDA) [here](https://www.gridsagegames.com/rexpaint/resources.html#Fonts). Put it into `fonts` folder and paste the following line at the bottom of `_config.xt` file:
-`"cp437_8x16_unifont"	cp437_8x16_unifont	16	16	cp437_8x16_unifont	16	16	_utf8	_mirror	1	`
+`"cp437_8x16_unifont"	cp437_8x16_unifont	16	16	cp437_8x16_unifont	16	16	_utf8	_mirror	1	`.
 You can change the font in REXPaint by pressing `Ctrl-wheel`.
 
 ### Drawing
