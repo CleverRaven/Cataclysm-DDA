@@ -25,7 +25,6 @@
   },
   {
     "id": "wheel_mount_wood_steerable",
-    "categories": [ "Other" ],
     "copy-from": "wheel_mount_wood",
     "type": "vehicle_part",
     "name": { "str": "wooden wheel mount (steerable)" },
@@ -57,7 +56,6 @@
   },
   {
     "id": "wheel_mount_light_steerable",
-    "categories": [ "Other" ],
     "copy-from": "wheel_mount_light",
     "type": "vehicle_part",
     "name": { "str": "light wheel mount (steerable)" },
@@ -119,7 +117,6 @@
   },
   {
     "id": "wheel_mount_heavy_steerable",
-    "categories": [ "Other" ],
     "copy-from": "wheel_mount_heavy",
     "type": "vehicle_part",
     "name": { "str": "heavy wheel hub assembly (steerable)" },
@@ -151,7 +148,6 @@
   },
   {
     "id": "rail_wheel_steerable",
-    "categories": [ "Other" ],
     "copy-from": "rail_wheel",
     "type": "vehicle_part",
     "name": { "str": "rail wheel (steerable)" },
@@ -162,7 +158,6 @@
     "type": "vehicle_part",
     "name": { "str": "pair of small rail wheels" },
     "item": "wheel_rail_small_pair",
-    "categories": [ "Other" ],
     "copy-from": "rail_wheel",
     "symbol": "=",
     "difficulty": 2,
@@ -237,7 +232,6 @@
     "name": { "str": "racing slick" },
     "item": "wheel_slick",
     "wheel_type": "racing",
-    "categories": [ "Other" ],
     "contact_area": 180,
     "damage_reduction": { "bash": 12 }
   },
@@ -306,6 +300,7 @@
     "location": "under",
     "symbol": "|",
     "broken_symbol": "x",
+    "categories": [ "Other" ],
     "color": "dark_gray",
     "durability": 40,
     "description": "A thin bicycle wheel.",
@@ -328,7 +323,6 @@
     "damage_reduction": { "bash": 6 }
   },
   {
-    "categories": [ "Other" ],
     "copy-from": "wheel_bicycle_abstract",
     "id": "wheel_bicycle",
     "looks_like": "wheel",
@@ -348,7 +342,6 @@
     "type": "vehicle_part",
     "name": { "str": "off-road bicycle wheel" },
     "item": "wheel_bicycle_or",
-    "categories": [ "Other" ],
     "contact_area": 36,
     "wheel_type": "off-road"
   },
@@ -456,7 +449,6 @@
     "type": "vehicle_part",
     "name": { "str": "off-road motorbike wheel" },
     "item": "wheel_motorbike_or",
-    "categories": [ "Other" ],
     "contact_area": 60,
     "wheel_type": "off-road",
     "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
@@ -610,7 +602,6 @@
     "name": { "str": "off-road wide wheel" },
     "item": "wheel_wide_or",
     "wheel_type": "off-road",
-    "categories": [ "Other" ],
     "contact_area": 320,
     "damage_reduction": { "bash": 20, "cut": 15, "stab": 10 }
   },
@@ -642,7 +633,6 @@
   },
   {
     "id": "wheel_wood_b",
-    "categories": [ "Other" ],
     "copy-from": "wheel_wood",
     "type": "vehicle_part",
     "name": { "str": "banded wooden cart wheel" },

@@ -61,7 +61,7 @@
     "max_charges": 30,
     "charges_per_use": 1,
     "material": [ "steel" ],
-    "flags": [ "EXPLOSIVE", "EXPLODES" ],
+    "flags": [  ],
     "explosion": {
       "power": 4503,
       "distance_factor": 0.1,

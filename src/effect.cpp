@@ -21,6 +21,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "units.h"
+#include "effect_source.h"
 
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_beartrap( "beartrap" );
@@ -1372,6 +1373,11 @@ void effect_type::register_ma_buff_effect( const effect_type &eff )
     effect_types.insert( std::make_pair( eff.id, eff ) );
 }
 
+const effect_source &effect::get_source() const
+{
+    return this->source;
+}
+
 void effect::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -1381,6 +1387,7 @@ void effect::serialize( JsonOut &json ) const
     json.member( "permanent", permanent );
     json.member( "intensity", intensity );
     json.member( "start_turn", start_time );
+    json.member( "source", source );
     json.end_object();
 }
 void effect::deserialize( JsonIn &jsin )
@@ -1402,6 +1409,7 @@ void effect::deserialize( JsonIn &jsin )
     jo.read( "intensity", intensity );
     start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );
+    jo.read( "source", source );
 }
 
 std::string texitify_base_healing_power( const int power )

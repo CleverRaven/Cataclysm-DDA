@@ -639,6 +639,7 @@
       { "item": "milk_raw", "prob": 2 },
       { "item": "almond_milk", "prob": 50 },
       { "item": "soy_milk", "prob": 50 },
+      { "item": "milk_choc", "prob": 25 },
       { "item": "butter", "prob": 45, "charges-min": 1, "charges-max": 32, "container-item": "wrapper" },
       {
         "item": "ghee",

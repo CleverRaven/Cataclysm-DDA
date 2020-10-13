@@ -1,0 +1,767 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_bionic_prepper",
+    "entries": [ { "item": "bolt_steel", "charges": 20 } ]
+  },
+  {
+    "type": "profession",
+    "id": "bionic_athlete",
+    "name": "Bionic Athlete",
+    "description": "You'll never get your shot at the Cyberolympics.  All that's left of your dream is a single leftover protein shake.  Well, that and your bulging, cybernetically-enhanced muscles.",
+    "points": 5,
+    "CBMs": [ "bio_str_enhancer", "bio_adrenaline", "bio_hydraulics", "bio_metabolics", "bio_power_storage_mkII" ],
+    "items": {
+      "both": {
+        "items": [
+          "socks_ankle",
+          "under_armor_shorts",
+          "under_armor",
+          "tshirt",
+          "shorts",
+          "lowtops",
+          "fanny",
+          "protein_drink",
+          "wristwatch"
+        ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "sports_bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_cop",
+    "name": "Bionic Police Officer",
+    "description": "Mortally injured in the line of duty, you were resurrected by the surgeons from the department's revolutionary Cybercop program.  Now, in these lawless times, you are truly the future of law enforcement.",
+    "points": 5,
+    "CBMs": [
+      "bio_armor_eyes",
+      "bio_armor_head",
+      "bio_armor_torso",
+      "bio_armor_legs",
+      "bio_armor_arms",
+      "bio_targeting",
+      "bio_infrared",
+      "bio_metabolics",
+      "bio_power_storage_mkII"
+    ],
+    "traits": [ "PROF_CYBERCOP" ],
+    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "pistol" } ],
+    "items": {
+      "both": {
+        "items": [ "tac_fullhelmet", "police_belt", "pants_cargo", "under_armor", "socks", "boots", "badge_cybercop", "wristwatch" ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          { "group": "charged_smart_phone" },
+          { "item": "glock_18c", "ammo-item": "9mmP", "container-item": "holster" },
+          { "item": "tacvest", "contents-group": "army_mags_glock17" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_customer",
+    "name": "Commercial Cyborg",
+    "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone?",
+    "points": 6,
+    "CBMs": [ "bio_flashlight", "bio_tools", "bio_ups", "bio_watch", "bio_batteries", "bio_power_storage_mkII" ],
+    "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "fabrication" } ],
+    "items": {
+      "both": { "items": [ "tshirt", "sneakers", "jacket_light", "wristwatch" ], "entries": [ { "group": "charged_smart_phone" } ] },
+      "male": [ "briefs", "socks", "pants" ],
+      "female": [ "bra", "panties", "stockings", "skirt" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_firefighter",
+    "name": "Bionic Firefighter",
+    "description": "As a second-generation augmented firefighter, you have been cybernetically enhanced to operate in the most dire of emergency situations.  You're pretty sure this counts.",
+    "points": 5,
+    "CBMs": [
+      "bio_climate",
+      "bio_heatsink",
+      "bio_purifier",
+      "bio_infrared",
+      "bio_faraday",
+      "bio_batteries",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII"
+    ],
+    "skills": [ { "level": 2, "name": "melee" }, { "level": 1, "name": "firstaid" }, { "level": 1, "name": "swimming" } ],
+    "items": {
+      "both": [
+        "bunker_pants",
+        "fireman_belt",
+        "bunker_coat",
+        "nomex_socks",
+        "boots_bunker",
+        "fire_gauntlets",
+        "glasses_safety",
+        "wristwatch"
+      ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_game_master",
+    "name": "Bionic Game Master",
+    "description": "You came into a large fortune, through luck or will, and hosted games for world-famous celebrities.  You could afford to spoil your players, and so you did.  You invested in bionics to make you smarter and memorized the entire handbook.  Let's hope that knowledge helps you now.",
+    "points": 4,
+    "traits": [ "PROF_DICEMASTER" ],
+    "CBMs": [ "bio_batteries", "bio_power_storage", "bio_memory", "bio_int_enhancer" ],
+    "skills": [
+      { "level": 3, "name": "speech" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "archery" },
+      { "level": 1, "name": "bashing" },
+      { "level": 1, "name": "cutting" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "throw" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "polo_shirt", "socks", "dress_shoes", "mbag", "caffeine", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bio_gangster",
+    "name": "Bionic Gangster",
+    "description": "You were the boss's favorite, their protege; they always counted on you to get the toughest jobs done.  They invested in \"basic\" augments and the best gear on the market in preparation for your biggest hit yet.  Sadly, you came out of surgery to find your whole gang had been eaten.",
+    "points": 8,
+    "CBMs": [
+      "bio_targeting",
+      "bio_shotgun",
+      "bio_carbon",
+      "bio_adrenaline",
+      "bio_night_vision",
+      "bio_face_mask",
+      "bio_metabolics",
+      "bio_power_storage_mkII"
+    ],
+    "skills": [
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "unarmed" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 1, "name": "shotgun" },
+      { "level": 1, "name": "driving" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses", "shot_00" ],
+        "entries": [
+          { "group": "charged_ref_lighter" },
+          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_hitman",
+    "name": "Bionic Assassin",
+    "description": "The product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently engaging your target while maintaining an innocuous appearance.  Your handler cut all contact a week ago.",
+    "points": 8,
+    "CBMs": [
+      "bio_cqb",
+      "bio_blade",
+      "bio_shock",
+      "bio_carbon",
+      "bio_adrenaline",
+      "bio_night_vision",
+      "bio_face_mask",
+      "bio_metabolics",
+      "bio_power_storage_mkII"
+    ],
+    "skills": [ { "level": 3, "name": "dodge" } ],
+    "items": {
+      "both": {
+        "items": [ "dress_shoes", "dress_shirt", "knit_scarf", "wristwatch", "blazer" ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "briefs", "socks", "pants" ],
+      "female": [ "bra", "panties", "stockings", "skirt" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_installer",
+    "name": "Augmentation Associate",
+    "description": "When bionics first emerged, you were quick to make them into your career, and spent your days overseeing their installation.  That makes you one of the few non-zombies in the world that can calibrate an Autodoc, which might come in handy.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "firstaid" }, { "level": 4, "name": "electronics" } ],
+    "traits": [ "PROF_AUTODOC" ],
+    "items": {
+      "both": {
+        "items": [
+          "pants",
+          "dress_shirt",
+          "gloves_medical",
+          "socks",
+          "dress_shoes",
+          "coat_lab",
+          "bandages",
+          "1st_aid",
+          "wristwatch",
+          "stethoscope"
+        ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "anesthetic_kit", "charges": 3000 } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bio_medic",
+    "name": "Bionic Surgeon",
+    "description": "As one of the top surgeons in the country, you were chosen for an augmentation program to expand the medical field.  With your expertise and augmentations, you can perform precise surgery with little assistance.",
+    "points": 6,
+    "CBMs": [ "bio_surgical_razor", "bio_flashlight", "bio_batteries", "bio_power_storage_mkII" ],
+    "skills": [ { "level": 8, "name": "firstaid" } ],
+    "traits": [ "PROF_MED" ],
+    "items": {
+      "both": {
+        "items": [
+          "gloves_medical",
+          "socks",
+          "mask_dust",
+          "dress_shirt",
+          "pants",
+          "dress_shoes",
+          "coat_lab",
+          "stethoscope",
+          "bfipowder",
+          "antibiotics",
+          "oxycodone",
+          "1st_aid",
+          "wristwatch"
+        ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "medium_battery_cell", "charges": 500 } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_mentat",
+    "name": "Bionic Boffin",
+    "description": "You were employed by a major international corporation as a representative and technical advisor, utilizing the incredible power of your cybernetically augmented mind.",
+    "points": 4,
+    "CBMs": [ "bio_int_enhancer", "bio_face_mask", "bio_watch", "bio_memory", "bio_batteries", "bio_power_storage_mkII" ],
+    "skills": [ { "level": 2, "name": "speech" } ],
+    "no_bonus": "teleumbrella",
+    "items": {
+      "both": {
+        "items": [ "socks", "suit", "dress_shoes", "gold_watch", "knit_scarf", "briefcase", "file", "teleumbrella" ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_patient",
+    "name": "Bionic Patient",
+    "description": "When the diagnosis came back positive, you signed up for a series of experimental bionic surgeries that saved your life.  Now you're healthier than you ever were before, thanks to a suite of bionic systems powered by your own metabolic functions.  Make the most of your second chance at life.",
+    "points": 5,
+    "CBMs": [ "bio_leukocyte", "bio_blood_anal", "bio_blood_filter", "bio_nanobots", "bio_metabolics", "bio_power_storage_mkII" ],
+    "items": {
+      "both": { "items": [ "jeans", "tshirt", "socks", "sneakers", "wristwatch" ], "entries": [ { "group": "charged_cell_phone" } ] },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_prepper",
+    "name": "Bionic Prepper",
+    "description": "You knew the end was coming.  You augmented yourself with some basic bionic tools and underwent extensive survival training.  Now the end has come, and it is time to see if your efforts have paid off.",
+    "points": 6,
+    "CBMs": [
+      "bio_metabolics",
+      "bio_power_storage_mkII",
+      "bio_tools",
+      "bio_flashlight",
+      "bio_lighter",
+      "bio_evap",
+      "bio_climate",
+      "bio_taste_blocker"
+    ],
+    "skills": [
+      { "level": 4, "name": "survival" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 3, "name": "cooking" },
+      { "level": 3, "name": "chemistry" },
+      { "level": 2, "name": "firstaid" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "traps" },
+      { "level": 2, "name": "cutting" },
+      { "level": 1, "name": "bashing" }
+    ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_leatherworking", "prof_lockpicking" ],
+    "items": {
+      "both": {
+        "items": [
+          "hat_boonie",
+          "tshirt",
+          "gloves_fingerless",
+          "pants_cargo",
+          "socks",
+          "boots",
+          "trenchcoat",
+          "knit_scarf",
+          "backpack",
+          "canteen",
+          "wristwatch",
+          "binoculars"
+        ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "crossbow", "ammo-item": "bolt_steel", "charges": 1, "contents-item": "shoulder_strap" },
+          { "item": "quiver", "contents-group": "quiver_bionic_prepper" },
+          { "item": "machete", "container-item": "scabbard" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_runner",
+    "name": "Bionic Runner",
+    "description": "You were the kind of sportsman who couldn't get off the track.  You love running, and you enhanced your body with cybernetics to go even faster.  Now there's plenty to run from - this is your kind of game.",
+    "points": 4,
+    "CBMs": [ "bio_adrenaline", "bio_torsionratchet", "bio_power_storage_mkII", "bio_jointservo" ],
+    "items": {
+      "both": {
+        "items": [
+          "socks_ankle",
+          "under_armor_shorts",
+          "under_armor",
+          "tshirt",
+          "shorts",
+          "lowtops",
+          "fanny",
+          "sports_drink",
+          "wristwatch"
+        ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "sports_bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bio_sniper",
+    "name": "Bionic Sniper",
+    "description": "A top-secret military program sought to convert you into the perfect sniper.  Your bionics, equipment, and extensive field training enable you to drop targets from implausible distances, even after weeks of total isolation in enemy territory.",
+    "points": 8,
+    "CBMs": [
+      "bio_eye_enhancer",
+      "bio_targeting",
+      "bio_climate",
+      "bio_evap",
+      "bio_eye_optic",
+      "bio_power_storage_mkII",
+      "bio_torsionratchet",
+      "bio_lighter",
+      "bio_night_vision"
+    ],
+    "skills": [
+      { "level": 5, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "chemistry" },
+      { "level": 1, "name": "cooking" },
+      { "level": 1, "name": "fabrication" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "winter_pants_army",
+          "army_top",
+          "winter_jacket_army",
+          "gloves_tactical",
+          "rucksack",
+          "cloak",
+          "mask_ski",
+          "socks",
+          "boots_combat",
+          "canteen",
+          "wristwatch",
+          "tent_kit",
+          "rollmat",
+          "e_tool",
+          "knife_hunting"
+        ],
+        "entries": [
+          { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
+          { "group": "charged_two_way_radio" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
+          {
+            "item": "m2010",
+            "ammo-item": "300_winmag",
+            "charges": 5,
+            "contents-item": [ "shoulder_strap", "rifle_scope", "bipod" ]
+          },
+          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
+          { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
+          { "item": "legpouch_large" },
+          { "item": "tacvest", "contents-group": [ "army_mags_m2010" ] }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bio_soldier",
+    "name": "Bionic Soldier",
+    "description": "You are the result of one of the military's last research programs: a prototype cyborg soldier.  The wars they expected you to fight have become obsolete, but war never changes.",
+    "points": 6,
+    "CBMs": [
+      "bio_targeting",
+      "bio_purifier",
+      "bio_carbon",
+      "bio_geiger",
+      "bio_adrenaline",
+      "bio_night_vision",
+      "bio_metabolics",
+      "bio_power_storage_mkII",
+      "bio_taste_blocker"
+    ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "rifle" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "dodge" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "winter_pants_army",
+          "winter_jacket_army",
+          "winter_gloves_army",
+          "mask_ski",
+          "tac_helmet",
+          "socks",
+          "boots_combat",
+          "wristwatch"
+        ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "sheath", "contents-item": "knife_combat" },
+          {
+            "item": "h&k416a5",
+            "ammo-item": "556",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "acog_scope" ]
+          },
+          { "item": "ballistic_vest_esapi" },
+          { "item": "legpouch_large", "contents-group": "army_mags_m4" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_spy",
+    "name": "Bionic Agent",
+    "description": "Your body conceals several bionic components, worth millions of dollars in public taxes.  The government turned you into an infiltration and recon specialist: you have night vision, an alarm, lock picking capabilities and a hacking module.",
+    "points": 4,
+    "CBMs": [
+      "bio_fingerhack",
+      "bio_lockpick",
+      "bio_face_mask",
+      "bio_alarm",
+      "bio_night_vision",
+      "bio_batteries",
+      "bio_power_storage_mkII"
+    ],
+    "skills": [ { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [ "dress_shoes", "socks", "knit_scarf", "suit", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_student",
+    "name": "Bionic Student",
+    "description": "Your parents were so obsessed with making sure you aced every test that they had you outfitted with bionics to enhance your intellect and memory.  Now you're facing the hardest test yet, and you're not sure if those are the right kind of tools for the job.",
+    "points": 3,
+    "CBMs": [ "bio_batteries", "bio_power_storage", "bio_int_enhancer", "bio_memory" ],
+    "items": {
+      "both": {
+        "items": [
+          "dress_shirt",
+          "jacket_light",
+          "pants",
+          "socks",
+          "dress_shoes",
+          "tie_clipon",
+          "tieclip",
+          "fancy_sunglasses",
+          "knit_scarf",
+          "wristwatch",
+          "mbag",
+          "water_mineral",
+          "money_bundle"
+        ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_thief",
+    "name": "Bionic Thief",
+    "description": "Impeccable style and a few bionic tricks up your sleeve have seen you pull off a string of daring, high-profile heists.  The cops would love to get their hands on you, but seem otherwise occupied.",
+    "points": 4,
+    "proficiencies": [ "prof_lockpicking" ],
+    "CBMs": [ "bio_batteries", "bio_lockpick", "bio_fingerhack", "bio_power_storage_mkII" ],
+    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "smg" }, { "level": 3, "name": "traps" } ],
+    "items": {
+      "both": {
+        "items": [ "waistcoat", "pants", "dress_shirt", "socks", "dress_shoes", "knit_scarf", "gold_watch" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "briefcase_smg", "ammo-item": "9mm", "charges": 30 },
+          { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_worker",
+    "name": "Industrial Cyborg",
+    "description": "For better or for worse, bionic augmentation has turned you into a walking power tool.  Upgraded with a standard industrial-grade manual labor surgery and training package, you are augmented with bionic muscles and an integrated toolset, both powered by standard batteries.",
+    "points": 6,
+    "skills": [ { "level": 4, "name": "fabrication" }, { "level": 2, "name": "mechanics" } ],
+    "CBMs": [
+      "bio_tools",
+      "bio_sunglasses",
+      "bio_flashlight",
+      "bio_hydraulics",
+      "bio_cable",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII"
+    ],
+    "items": {
+      "both": {
+        "items": [ "socks", "tshirt", "jeans", "leather_belt", "boots_steel", "gloves_work", "glasses_safety", "hat_hard", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "sports_bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "broken_cyborg",
+    "name": "Prototype Cyborg",
+    "description": "You were normal once.  Before the tests, before the procedures, before they stripped away every outward sign of your humanity.  You're more machine than human now, but that might prove to be an advantage against the horrors that await.",
+    "points": -2,
+    "CBMs": [
+      "bio_dis_shock",
+      "bio_dis_acid",
+      "bio_drain",
+      "bio_noise",
+      "bio_power_weakness",
+      "bio_itchy",
+      "bio_nostril",
+      "bio_thumbs",
+      "bio_spasm",
+      "bio_shakes",
+      "bio_leaky",
+      "bio_sleepy",
+      "bio_deformity",
+      "bio_voice",
+      "bio_pokedeye",
+      "bio_ankles",
+      "bio_trip",
+      "bio_stiff",
+      "bio_armor_head",
+      "bio_armor_torso",
+      "bio_armor_arms",
+      "bio_armor_legs",
+      "bio_armor_eyes",
+      "bio_razors",
+      "bio_power_storage",
+      "bio_torsionratchet"
+    ],
+    "items": { "both": [ "subsuit_xl", "footrags", "hat_noise_cancelling" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+  },
+  {
+    "type": "profession",
+    "id": "cyberjunkie",
+    "name": "Cyberjunkie",
+    "description": "Long ago your lifelong infatuation with bionic enhancement lead you into a shady world of back-alley bionic clinics and self-installed secondhand CBMs.  Your posthuman hunger still cries out to be fed; where will you get your bionic fix now?",
+    "points": 0,
+    "CBMs": [
+      "bio_itchy",
+      "bio_shakes",
+      "bio_leaky",
+      "bio_sleepy",
+      "bio_trip",
+      "bio_spasm",
+      "bio_metabolics",
+      "bio_power_storage_mkII",
+      "bio_painkiller",
+      "bio_climate"
+    ],
+    "skills": [ { "level": 1, "name": "electronics" }, { "level": 1, "name": "firstaid" }, { "level": 1, "name": "computer" } ],
+    "items": {
+      "both": {
+        "items": [ "tank_top", "shorts", "socks", "lowtops", "aspirin", "pockknife", "backpack", "wristwatch" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "anesthetic_kit", "charges": 3000 } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "camisole", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "cykotic",
+    "name": "Bionic Monster",
+    "description": "Completely overtaken by bionic-induced psychosis, you are a deformed posthuman monster, forced to hide in the shadows.  Amidst the desolation, however, even a creature such as yourself might find its niche.",
+    "points": 2,
+    "CBMs": [
+      "bio_thumbs",
+      "bio_spasm",
+      "bio_shakes",
+      "bio_leaky",
+      "bio_sleepy",
+      "bio_deformity",
+      "bio_voice",
+      "bio_ankles",
+      "bio_trip",
+      "bio_stiff",
+      "bio_metabolics",
+      "bio_power_storage_mkII",
+      "bio_adrenaline",
+      "bio_claws",
+      "bio_digestion",
+      "bio_water_extractor",
+      "bio_taste_blocker"
+    ],
+    "skills": [
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "unarmed" },
+      { "level": 3, "name": "dodge" },
+      { "level": 2, "name": "survival" }
+    ],
+    "items": {
+      "both": [
+        "tank_top",
+        "shorts_cargo",
+        "footrags",
+        "gloves_wraps",
+        "hat_cotton",
+        "bandana",
+        "hat_noise_cancelling",
+        "wristwatch"
+      ],
+      "male": [ "briefs" ],
+      "female": [ "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "faulty_bionic",
+    "name": "Failed Cyborg",
+    "description": "After a series of surgical mistakes, your body is a wreck of bionic parts.  You have a large capacity for power, but are filled with broken and useless bionics.  Your ethanol power supply still works, at least.",
+    "points": -2,
+    "CBMs": [
+      "bio_drain",
+      "bio_noise",
+      "bio_dis_acid",
+      "bio_dis_shock",
+      "bio_ethanol",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII"
+    ],
+    "items": {
+      "both": {
+        "items": [ "socks", "sneakers", "jeans", "tshirt", "wristwatch" ],
+        "entries": [ { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "drone_op",
+    "name": "Drone Operator",
+    "description": "You had a job programming machines such as automatic street cleaners, newsbots, and pizza delivery drones.  Bionic implants helped you control them remotely.  Now all the drones carry guns instead of pizza.",
+    "points": 1,
+    "CBMs": [ "bio_batteries", "bio_power_storage", "bio_remote" ],
+    "skills": [ { "level": 2, "name": "computer" } ],
+    "items": {
+      "both": { "items": [ "jumpsuit", "socks", "boots", "wristwatch" ], "entries": [ { "group": "charged_cell_phone" } ] },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "razorgirl",
+    "name": { "male": "Razor Boy", "female": "Razor Girl" },
+    "description": "Through a series of painful and expensive surgeries, you became a walking bionic weapon, your services as a mercenary available to the highest bidder.",
+    "points": 5,
+    "CBMs": [ "bio_razors", "bio_armor_eyes", "bio_sunglasses", "bio_dex_enhancer", "bio_ears", "bio_carbon" ],
+    "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
+    "items": {
+      "both": {
+        "items": [ "socks", "tank_top", "jacket_leather", "pants_leather", "boots", "gloves_fingerless", "wristwatch", "gum" ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "sports_bra", "boy_shorts" ]
+    }
+  }
+]

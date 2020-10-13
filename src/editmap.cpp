@@ -1437,7 +1437,7 @@ void editmap::edit_itm()
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
                             "burnt: %d" ), static_cast<int>( it.burnt ) );
             imenu.addentry( imenu_tags, true, -1, pgettext( "item manipulation debug menu entry",
-                            "tags: %s" ), debug_menu::iterable_to_string( it.item_tags, " " ) );
+                            "tags: %s" ), debug_menu::iterable_to_string( it.get_flags(), " " ) );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
                             "-[ light emission ]-" ) );
             imenu.addentry( imenu_savetest, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1466,7 +1466,7 @@ void editmap::edit_itm()
                             intval = static_cast<int>( it.burnt );
                             break;
                         case imenu_tags:
-                            strval = debug_menu::iterable_to_string( it.item_tags, " " );
+                            strval = debug_menu::iterable_to_string( it.get_flags(), " " );
                             break;
                     }
                     string_input_popup popup;
@@ -1500,8 +1500,11 @@ void editmap::edit_itm()
                                 break;
                             case imenu_tags:
                                 const auto tags = debug_menu::string_to_iterable<std::vector<std::string>>( strval, " " );
-                                it.item_tags = cata::flat_set<std::string>( tags.begin(), tags.end() );
-                                imenu.entries[imenu_tags].txt = debug_menu::iterable_to_string( it.item_tags, " " );
+                                it.unset_flags();
+                                for( const auto &t : tags ) {
+                                    it.set_flag( t );
+                                }
+                                imenu.entries[imenu_tags].txt = debug_menu::iterable_to_string( it.get_flags(), " " );
                                 break;
                         }
                     }

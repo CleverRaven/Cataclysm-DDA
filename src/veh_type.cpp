@@ -807,22 +807,34 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     msg += "> <color_" + string_from_color( format_color ) + ">";
 
     std::string long_descrip;
-    if( !description.empty() ) {
-        long_descrip += description.translated();
-    }
-    for( const auto &flagid : flags ) {
-        if( flagid == "ALARMCLOCK"
-            || flagid == "WATCH"
-            || flagid == "ENABLED_DRAINS_EPOWER"
-            || flagid == "SOLAR_PANEL" ) {
-            continue;
+    // handle appending text and double-whitespace
+    const auto append_desc = [&long_descrip]( const std::string & text ) {
+        if( text.empty() ) {
+            return;
         }
-        json_flag flag = json_flag::get( flagid );
-        if( !flag.info().empty() ) {
-            if( !long_descrip.empty() ) {
-                long_descrip += "  ";
+        if( !long_descrip.empty() ) {
+            long_descrip += "  ";
+        }
+        long_descrip += text;
+    };
+
+    append_desc( description.translated() );
+
+    for( const std::string &flagid : flags ) {
+        if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
+            continue;
+        } else if( flagid == "ENABLED_DRAINS_EPOWER" ||
+                   flagid == "ENGINE" ) { // ENGINEs get the same description
+            if( epower < 0 ) {
+                append_desc( string_format( json_flag::get( "ENABLED_DRAINS_EPOWER" ).info(), -epower ) );
             }
-            long_descrip += flag.info();
+        } else if( flagid == "ALTERNATOR" ||
+                   flagid == "SOLAR_PANEL" ||
+                   flagid == "WATER_WHEEL" ||
+                   flagid == "WIND_TURBINE" ) {
+            append_desc( string_format( json_flag::get( flagid ).info(), epower ) );
+        } else {
+            append_desc( json_flag::get( flagid ).info() );
         }
     }
     if( has_flag( "TURRET" ) ) {
@@ -840,14 +852,6 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
                                        base.gun_range( true ),
                                        base.gun_damage().total_damage() );
-    }
-    if( has_flag( "ENABLED_DRAINS_EPOWER" ) ) {
-        json_flag drains = json_flag::get( "ENABLED_DRAINS_EPOWER" );
-        long_descrip += "  " + string_format( drains.info(), std::to_string( -epower ) );
-    }
-    if( has_flag( "SOLAR_PANEL" ) ) {
-        json_flag solar_panel = json_flag::get( "SOLAR_PANEL" );
-        long_descrip += "  " + string_format( solar_panel.info(), std::to_string( epower ) );
     }
 
     if( !long_descrip.empty() ) {

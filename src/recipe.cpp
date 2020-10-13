@@ -541,7 +541,7 @@ std::vector<item> recipe::create_byproducts( int batch ) const
     for( const auto &e : byproducts ) {
         item obj( e.first, calendar::turn, item::default_charges_tag{} );
         if( obj.has_flag( "VARSIZE" ) ) {
-            obj.item_tags.insert( "FIT" );
+            obj.set_flag( "FIT" );
         }
 
         if( obj.count_by_charges() ) {

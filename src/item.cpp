@@ -380,7 +380,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     if( type->gun ) {
         for( const itype_id &mod : type->gun->built_in_mods ) {
             item it( mod, turn, qty );
-            it.item_tags.insert( "IRREMOVABLE" );
+            it.set_flag( "IRREMOVABLE" );
             put_in( it, item_pocket::pocket_type::MOD );
         }
         for( const itype_id &mod : type->gun->default_mods ) {
@@ -478,7 +478,7 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
                 set_flag( f );
             }
         }
-        for( const std::string &f : component.type->item_tags ) {
+        for( const std::string &f : component.type->get_flags() ) {
             if( json_flag::get( f ).craft_inherit() ) {
                 set_flag( f );
             }
@@ -506,7 +506,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 
     if( result.corpse->has_flag( MF_REVIVES ) ) {
         if( one_in( 20 ) ) {
-            result.item_tags.insert( "REVIVE_SPECIAL" );
+            result.set_flag( "REVIVE_SPECIAL" );
         }
         result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
     }
@@ -653,8 +653,8 @@ item &item::ammo_set( const itype_id &ammo, int qty )
         ammo_unset();
         item set_ammo( ammo, calendar::turn, std::min( qty, ammo_capacity( ammo_type ) ) );
         if( has_flag( flag_NO_UNLOAD ) ) {
-            set_ammo.item_tags.insert( "NO_DROP" );
-            set_ammo.item_tags.insert( "IRREMOVABLE" );
+            set_ammo.set_flag( "NO_DROP" );
+            set_ammo.set_flag( "IRREMOVABLE" );
         }
         put_in( set_ammo, item_pocket::pocket_type::MAGAZINE );
 
@@ -970,7 +970,7 @@ bool item::display_stacked_with( const item &rhs, bool check_components ) const
     return !count_by_charges() && stacks_with( rhs, check_components );
 }
 
-bool item::combine( const item &rhs )
+bool item::can_combine( const item &rhs ) const
 {
     if( !contents.empty() || !rhs.contents.empty() ) {
         return false;
@@ -978,7 +978,18 @@ bool item::combine( const item &rhs )
     if( !count_by_charges() ) {
         return false;
     }
-    if( has_temperature() && typeId() == rhs.typeId() ) {
+    if( !stacks_with( rhs, true, true ) ) {
+        return false;
+    }
+    return true;
+}
+
+bool item::combine( const item &rhs )
+{
+    if( !can_combine( rhs ) ) {
+        return false;
+    }
+    if( has_temperature() ) {
         if( goes_bad() ) {
             //use maximum rot between the two
             set_relative_rot( std::max( get_relative_rot(),
@@ -992,14 +1003,12 @@ bool item::combine( const item &rhs )
             set_item_specific_energy( combined_specific_energy );
         }
 
-    } else if( !stacks_with( rhs, true ) ) {
-        return false;
     }
     charges += rhs.charges;
     return true;
 }
 
-bool item::stacks_with( const item &rhs, bool check_components ) const
+bool item::stacks_with( const item &rhs, bool check_components, bool combine_liquid ) const
 {
     if( type != rhs.type ) {
         return false;
@@ -1025,8 +1034,29 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( active != rhs.active ) {
         return false;
     }
-    if( item_tags != rhs.item_tags ) {
-        return false;
+    if( combine_liquid && has_temperature() && made_of_from_type( phase_id::LIQUID ) ) {
+        //we can combine liquids of same type and different temperatures
+        //compare ranges between "COLD", "FROZEN", "HOT".
+        if( !std::equal( rhs.item_tags.begin(), rhs.item_tags.lower_bound( flag_COLD ),
+                         item_tags.begin(), item_tags.lower_bound( flag_COLD ) ) ) {
+            return false;
+        }
+        if( !std::equal( rhs.item_tags.upper_bound( flag_COLD ), rhs.item_tags.lower_bound( flag_FROZEN ),
+                         item_tags.upper_bound( flag_COLD ), item_tags.lower_bound( flag_FROZEN ) ) ) {
+            return false;
+        }
+        if( !std::equal( rhs.item_tags.upper_bound( flag_FROZEN ), rhs.item_tags.lower_bound( flag_HOT ),
+                         item_tags.upper_bound( flag_FROZEN ), item_tags.lower_bound( flag_HOT ) ) ) {
+            return false;
+        }
+        if( !std::equal( rhs.item_tags.upper_bound( flag_HOT ), rhs.item_tags.end(),
+                         item_tags.upper_bound( flag_HOT ), item_tags.end() ) ) {
+            return false;
+        }
+    } else {
+        if( item_tags != rhs.item_tags ) {
+            return false;
+        }
     }
     if( faults != rhs.faults ) {
         return false;
@@ -1501,7 +1531,8 @@ double item::effective_dps( const Character &guy, monster &mon ) const
         for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
             int cur_damage = 0;
             int total_pain = 0;
-            temp_mon.deal_damage_handle_type( dmg_unit, bodypart_id( "torso" ), cur_damage, total_pain );
+            temp_mon.deal_damage_handle_type( effect_source::empty(), dmg_unit, bodypart_id( "torso" ),
+                                              cur_damage, total_pain );
             if( cur_damage > 0 ) {
                 dealt_dams.dealt_dams[ static_cast<int>( dmg_unit.type )] += cur_damage;
             }
@@ -1523,7 +1554,8 @@ double item::effective_dps( const Character &guy, monster &mon ) const
             for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 int cur_damage = 0;
                 int total_pain = 0;
-                temp_rs_mon.deal_damage_handle_type( dmg_unit, bodypart_id( "torso" ), cur_damage, total_pain );
+                temp_rs_mon.deal_damage_handle_type( effect_source::empty(), dmg_unit, bodypart_id( "torso" ),
+                                                     cur_damage, total_pain );
                 if( cur_damage > 0 ) {
                     rs_dealt_dams.dealt_dams[ static_cast<int>( dmg_unit.type ) ] += cur_damage;
                 }
@@ -2131,6 +2163,14 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         if( !default_ammo.is_null() ) {
             tmp.ammo_set( default_ammo );
         } else if( !tmp.magazine_default().is_null() ) {
+            // clear out empty magazines so put_in below doesn't error
+            for( item *i : tmp.contents.all_items_top() ) {
+                if( i->is_magazine() ) {
+                    tmp.remove_item( *i );
+                    tmp.on_contents_changed();
+                }
+            }
+
             item tmp_mag( tmp.magazine_default() );
             tmp_mag.ammo_set( tmp_mag.ammo_default() );
             tmp.put_in( tmp_mag, item_pocket::pocket_type::MAGAZINE_WELL );
@@ -3789,7 +3829,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     avatar &player_character = get_avatar();
     if( parts->test( iteminfo_parts::DESCRIPTION_ALLERGEN ) ) {
         if( is_armor() && player_character.has_trait( trait_WOOLALLERGY ) &&
-            ( made_of( material_id( "wool" ) ) || item_tags.count( "wooled" ) ) ) {
+            ( made_of( material_id( "wool" ) ) || has_own_flag( "wooled" ) ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This clothing will give you an <bad>allergic "
                                          "reaction</bad>." ) ) );
@@ -3799,8 +3839,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
         // concatenate base and acquired flags...
         std::vector<std::string> flags;
-        std::set_union( type->item_tags.begin(), type->item_tags.end(),
-                        item_tags.begin(), item_tags.end(),
+        std::set_union( type->get_flags().begin(), type->get_flags().end(),
+                        get_flags().begin(), get_flags().end(),
                         std::back_inserter( flags ) );
 
         // ...and display those which have an info description
@@ -4212,9 +4252,9 @@ nc_color item::color_in_inventory() const
     } else if( has_flag( flag_LITCIG ) ) {
         ret = c_red;
     } else if( is_armor() && player_character.has_trait( trait_WOOLALLERGY ) &&
-               ( made_of( material_id( "wool" ) ) || item_tags.count( "wooled" ) ) ) {
+               ( made_of( material_id( "wool" ) ) || has_own_flag( "wooled" ) ) ) {
         ret = c_red;
-    } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
+    } else if( is_filthy() || has_own_flag( "DIRTY" ) ) {
         ret = c_brown;
     } else if( is_bionic() ) {
         if( !player_character.has_bionic( type->bionic->id ) ) {
@@ -4660,7 +4700,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( ethereal ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
-        if( item_tags.count( "DIRTY" ) ) {
+        if( has_own_flag( "DIRTY" ) ) {
             tagtext += _( " (dirty)" );
         } else if( rotten() ) {
             tagtext += _( " (rotten)" );
@@ -5368,6 +5408,11 @@ bool item::has_fault_flag( const std::string &searched_flag ) const
     return false;
 }
 
+bool item::has_own_flag( const std::string &f ) const
+{
+    return item_tags.count( f );
+}
+
 bool item::has_flag( const std::string &f ) const
 {
     bool ret = false;
@@ -5382,25 +5427,14 @@ bool item::has_flag( const std::string &f ) const
     }
 
     // other item type flags
-    ret = type->item_tags.count( f );
+    ret = type->has_flag( f );
     if( ret ) {
         return ret;
     }
 
     // now check for item specific flags
-    ret = item_tags.count( f );
+    ret = has_own_flag( f );
     return ret;
-}
-
-bool item::has_any_flag( const std::vector<std::string> &flags ) const
-{
-    for( const std::string &flag : flags ) {
-        if( has_flag( flag ) ) {
-            return true;
-        }
-    }
-
-    return false;
 }
 
 item &item::set_flag( const std::string &flag )
@@ -5422,6 +5456,11 @@ item &item::set_flag_recursive( const std::string &flag )
         comp.set_flag_recursive( flag );
     }
     return *this;
+}
+
+const item::FlagsSetType &item::get_flags() const
+{
+    return item_tags;
 }
 
 bool item::has_property( const std::string &prop ) const
@@ -5541,7 +5580,7 @@ int item::get_comestible_fun() const
     for( const std::string &flag : item_tags ) {
         fun += json_flag::get( flag ).taste_mod();
     }
-    for( const std::string &flag : type->item_tags ) {
+    for( const std::string &flag : type->get_flags() ) {
         fun += json_flag::get( flag ).taste_mod();
     }
 
@@ -5721,7 +5760,7 @@ void item::calc_rot( int temp, const float spoil_modifier,
         return;
     }
 
-    if( item_tags.count( "FROZEN" ) ) {
+    if( has_own_flag( "FROZEN" ) ) {
         return;
     }
 
@@ -5730,11 +5769,11 @@ void item::calc_rot( int temp, const float spoil_modifier,
     if( is_corpse() && has_flag( flag_FIELD_DRESS ) ) {
         factor *= 0.75;
     }
-    if( item_tags.count( "MUSHY" ) ) {
+    if( has_own_flag( "MUSHY" ) ) {
         factor *= 3.0;
     }
 
-    if( item_tags.count( "COLD" ) ) {
+    if( has_own_flag( "COLD" ) ) {
         temp = std::min( temperatures::fridge, temp );
     }
 
@@ -5752,7 +5791,7 @@ void item::calc_rot( int temp, const float spoil_modifier,
 
 void item::calc_rot_while_processing( time_duration processing_duration )
 {
-    if( !item_tags.count( "PROCESSING" ) ) {
+    if( !has_own_flag( "PROCESSING" ) ) {
         debugmsg( "calc_rot_while_processing called on non smoking item: %s", tname() );
         return;
     }
@@ -8588,31 +8627,29 @@ void item::set_item_specific_energy( const float new_specific_energy )
     // Warm = over temperatures::warm
     // Cold = below temperatures::cold
     // Frozen = Over 50% frozen
-    if( item_tags.count( "FROZEN" ) ) {
-        item_tags.erase( "FROZEN" );
+    if( has_own_flag( "FROZEN" ) ) {
+        unset_flag( "FROZEN" );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
             current_phase = type->phase;
             apply_freezerburn();
         }
-    } else if( item_tags.count( "COLD" ) ) {
-        item_tags.erase( "COLD" );
-    } else if( item_tags.count( "HOT" ) ) {
-        item_tags.erase( "HOT" );
+    } else if( has_own_flag( "COLD" ) ) {
+        unset_flag( "COLD" );
+    } else if( has_own_flag( "HOT" ) ) {
+        unset_flag( "HOT" );
     }
     if( new_item_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        item_tags.insert( "HOT" );
+        set_flag( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
-        item_tags.insert( "FROZEN" );
+        set_flag( "FROZEN" );
         current_phase = phase_id::SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            if( !( item_tags.count( "NO_PARASITES" ) ) ) {
-                item_tags.insert( "NO_PARASITES" );
-            }
+            set_flag( "NO_PARASITES" );
         }
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        item_tags.insert( "COLD" );
+        set_flag( "COLD" );
     }
     temperature = std::lround( 100000 * new_item_temperature );
     specific_energy = std::lround( 100000 * new_specific_energy );
@@ -8665,31 +8702,29 @@ void item::set_item_temperature( float new_temperature )
         freeze_percentage = ( completely_liquid_specific_energy - new_specific_energy ) /
                             ( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
-    if( item_tags.count( "FROZEN" ) ) {
-        item_tags.erase( "FROZEN" );
+    if( has_own_flag( "FROZEN" ) ) {
+        unset_flag( "FROZEN" );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
             current_phase = type->phase;
             apply_freezerburn();
         }
-    } else if( item_tags.count( "COLD" ) ) {
-        item_tags.erase( "COLD" );
-    } else if( item_tags.count( "HOT" ) ) {
-        item_tags.erase( "HOT" );
+    } else if( has_own_flag( "COLD" ) ) {
+        unset_flag( "COLD" );
+    } else if( has_own_flag( "HOT" ) ) {
+        unset_flag( "HOT" );
     }
     if( new_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        item_tags.insert( "HOT" );
+        set_flag( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
-        item_tags.insert( "FROZEN" );
+        set_flag( "FROZEN" );
         current_phase = phase_id::SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            if( !( item_tags.count( "NO_PARASITES" ) ) ) {
-                item_tags.insert( "NO_PARASITES" );
-            }
+            set_flag( "NO_PARASITES" );
         }
     } else if( new_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        item_tags.insert( "COLD" );
+        set_flag( "COLD" );
     }
     reset_temp_check();
 }
@@ -8719,10 +8754,19 @@ int item::fill_with( const item &contained, const int amount )
             break;
         }
         if( count_by_charges ) {
-            contained_item.charges = std::min( { amount - num_contained,
-                                                 contained_item.charges_per_volume( pocket->remaining_volume() ),
-                                                 contained_item.charges_per_weight( pocket->remaining_weight() )
-                                               } );
+            ammotype ammo = contained.ammo_type();
+            if( pocket->ammo_capacity( ammo ) ) {
+                contained_item.charges = std::min( amount - num_contained,
+                                                   pocket->remaining_ammo_capacity( ammo ) );
+            } else {
+                contained_item.charges = std::min( { amount - num_contained,
+                                                     contained_item.charges_per_volume( pocket->remaining_volume() ),
+                                                     contained_item.charges_per_weight( pocket->remaining_weight() )
+                                                   } );
+            }
+        }
+        if( contained_item.charges == 0 ) {
+            break;
         }
         if( !pocket->insert_item( contained_item ).success() ) {
             if( count_by_charges ) {
@@ -9091,9 +9135,7 @@ void item::apply_freezerburn()
     if( !has_flag( flag_FREEZERBURN ) ) {
         return;
     }
-    if( !item_tags.count( "MUSHY" ) ) {
-        item_tags.insert( "MUSHY" );
-    }
+    set_flag( "MUSHY" );
 }
 
 bool item::process_temperature_rot( float insulation, const tripoint &pos,
@@ -9385,31 +9427,31 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // Warm = over temperatures::warm
     // Cold = below temperatures::cold
     // Frozen = Over 50% frozen
-    if( item_tags.count( "FROZEN" ) ) {
-        item_tags.erase( "FROZEN" );
+    if( has_own_flag( "FROZEN" ) ) {
+        unset_flag( "FROZEN" );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
             current_phase = type->phase;
             apply_freezerburn();
         }
-    } else if( item_tags.count( "COLD" ) ) {
-        item_tags.erase( "COLD" );
-    } else if( item_tags.count( "HOT" ) ) {
-        item_tags.erase( "HOT" );
+    } else if( has_own_flag( "COLD" ) ) {
+        unset_flag( "COLD" );
+    } else if( has_own_flag( "HOT" ) ) {
+        unset_flag( "HOT" );
     }
     if( new_item_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        item_tags.insert( "HOT" );
+        set_flag( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
-        item_tags.insert( "FROZEN" );
+        set_flag( "FROZEN" );
         current_phase = phase_id::SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            if( !( item_tags.count( "NO_PARASITES" ) ) ) {
-                item_tags.insert( "NO_PARASITES" );
+            if( !( has_own_flag( "NO_PARASITES" ) ) ) {
+                set_flag( "NO_PARASITES" );
             }
         }
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        item_tags.insert( "COLD" );
+        set_flag( "COLD" );
     }
     temperature = std::lround( 100000 * new_item_temperature );
     specific_energy = std::lround( 100000 * new_specific_energy );
@@ -9424,9 +9466,9 @@ float item::get_item_thermal_energy() const
 
 void item::heat_up()
 {
-    item_tags.erase( "COLD" );
-    item_tags.erase( "FROZEN" );
-    item_tags.insert( "HOT" );
+    unset_flag( "COLD" );
+    unset_flag( "FROZEN" );
+    set_flag( "HOT" );
     current_phase = type->phase;
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
@@ -9438,9 +9480,9 @@ void item::heat_up()
 
 void item::cold_up()
 {
-    item_tags.erase( "HOT" );
-    item_tags.erase( "FROZEN" );
-    item_tags.insert( "COLD" );
+    unset_flag( "HOT" );
+    unset_flag( "FROZEN" );
+    set_flag( "COLD" );
     current_phase = type->phase;
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
@@ -9857,7 +9899,7 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
         if( is_tool() && type->tool->revert_to ) {
             convert( *type->tool->revert_to );
         }
-        item_tags.erase( "WET" );
+        unset_flag( "WET" );
         active = false;
     }
     // Always return true so our caller will bail out instead of processing us as a tool.
@@ -10281,8 +10323,8 @@ bool item::on_drop( const tripoint &pos, map &m )
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty
     if( made_of_from_type( phase_id::LIQUID ) && !m.has_flag( flag_LIQUIDCONT, pos ) &&
-        !item_tags.count( "DIRTY" ) ) {
-        item_tags.insert( "DIRTY" );
+        !has_own_flag( "DIRTY" ) ) {
+        set_flag( "DIRTY" );
     }
 
     avatar &player_character = get_avatar();
@@ -10403,7 +10445,7 @@ const cata::value_ptr<islot_comestible> &item::get_comestible() const
 bool item::has_clothing_mod() const
 {
     for( const clothing_mod &cm : clothing_mods::get_all() ) {
-        if( item_tags.count( cm.flag ) > 0 ) {
+        if( has_own_flag( cm.flag ) > 0 ) {
             return true;
         }
     }
@@ -10424,7 +10466,7 @@ void item::update_clothing_mod_val()
                                     type );
         float tmp = 0.0f;
         for( const clothing_mod &cm : clothing_mods::get_all_with( type ) ) {
-            if( item_tags.count( cm.flag ) > 0 ) {
+            if( has_own_flag( cm.flag ) ) {
                 tmp += cm.get_mod_val( type, *this );
             }
         }

@@ -18,7 +18,7 @@
       "practice": 2,
       "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
     },
-    "flags": [ "HURT_WHEN_WIELDED", "HURT_WHEN_PULLED", "TRADER_AVOID" ],
+    "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID" ],
     "to_hit": -1
   },
   {

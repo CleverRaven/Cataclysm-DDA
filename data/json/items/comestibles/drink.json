@@ -539,7 +539,7 @@
     "description": "A sweet liquid with a vaguely fruity taste.  Having been pasteurized, it will last for a long time.",
     "price": 90,
     "price_postapoc": 150,
-    "flags": [ "EATEN_COLD", "IRREPLACEABLE_COMSUMABLE" ],
+    "flags": [ "EATEN_COLD", "IRREPLACEABLE_CONSUMABLE" ],
     "fun": 1
   },
   {
@@ -698,6 +698,16 @@
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
     "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_choc",
+    "name": { "str_sp": "chocolate milk" },
+    "copy-from": "milk",
+    "color": "brown",
+    "description": "Baby cow food, with chocolate added for adult humans.  Spoils rapidly.",
+    "calories": 272,
+    "fun": 6
   },
   {
     "type": "COMESTIBLE",
