@@ -28,7 +28,7 @@
     "stim": -30,
     "phase": "solid",
     "color": "light_red",
-    "flags": [ "ANESTHESIA", "LIGHT_4", "EATEN_HOT" ],
+    "flags": [ "LIGHT_4", "EATEN_HOT" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You go limp and collapse as the sunesthesia knocks you senseless.",

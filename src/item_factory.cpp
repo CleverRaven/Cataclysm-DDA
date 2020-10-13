@@ -24,6 +24,7 @@
 #include "enum_conversions.h"
 #include "enums.h"
 #include "explosion.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "generic_factory.h"
@@ -208,11 +209,18 @@ void Item_factory::finalize_pre( itype &obj )
         }
         obj.volume = units::from_milliliter( 1 );
     }
-    for( const auto &tag : obj.item_tags ) {
-        if( tag.size() > 6 && tag.substr( 0, 6 ) == "LIGHT_" ) {
-            obj.light_emission = std::max( atoi( tag.substr( 6 ).c_str() ), 0 );
+
+    // set light_emission based on LIGHT_[X] flag
+    for( const auto &f : obj.item_tags ) {
+        int ll;
+        if( sscanf( f.c_str(), "LIGHT_%i", &ll ) == 1 && ll > 0 ) {
+            obj.light_emission = ll;
         }
     }
+    // remove LIGHT_[X] flags
+    erase_if( obj.item_tags, []( const std::string & f ) {
+        return f.find( "LIGHT_" ) == 0;
+    } );
 
     // for ammo not specifying loudness (or an explicit zero) derive value from other properties
     if( obj.ammo ) {
@@ -489,6 +497,17 @@ void Item_factory::register_cached_uses( const itype &obj )
 
 void Item_factory::finalize_post( itype &obj )
 {
+    // erase all invalid flags (not defined in flags.json), display warning about invalid flags
+    erase_if( obj.item_tags, [&]( const std::string & f ) {
+        if( !json_flag::get( f ).id.is_valid() ) {
+            debugmsg( "itype '%s' uses undefined flag '%s'. Please add corresponding 'json_flag' entry to json.",
+                      obj.id.str(), f );
+            return true;
+        } else {
+            return false;
+        }
+    } );
+
     // handle complex firearms as a special case
     if( obj.gun && !obj.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
         std::copy( gun_tools.begin(), gun_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );

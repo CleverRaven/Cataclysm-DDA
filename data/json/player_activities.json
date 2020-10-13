@@ -207,7 +207,7 @@
   {
     "id": "ACT_DISSECT",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "verb": "dissecting",
     "based_on": "speed"
   },
