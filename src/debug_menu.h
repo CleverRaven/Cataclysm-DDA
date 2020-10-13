@@ -3,7 +3,6 @@
 #define CATA_SRC_DEBUG_MENU_H
 
 #include <functional>
-#include <iomanip>
 #include <iosfwd>
 #include <string>
 
@@ -130,14 +129,14 @@ template<typename _Container, typename Mapper>
 std::string iterable_to_string( const _Container &values, const std::string &delimiter,
                                 const Mapper &f )
 {
-    std::ostringstream res;
+    std::string res;
     for( auto iter = values.begin(); iter != values.end(); ++iter ) {
         if( iter != values.begin() ) {
-            res << delimiter;
+            res += delimiter;
         }
-        res << f( *iter );
+        res += f( *iter );
     }
-    return res.str();
+    return res;
 }
 
 template<typename _Container>
