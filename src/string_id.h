@@ -175,10 +175,9 @@ public:
      * Returns the identifier as plain std::string. Use with care, the plain string does not
      * have any information as what type of object it refers to (the T template parameter of
      * the class).
-     * Note: The function is declared with safebuffers as MSVC insert a cookie check here
-     * for some reason, and it takes up 25% of str()'s runtime.
+     * Note: The function should be declared with safebuffers as MSVC insert a cookie check
+     * here for some reason, and it takes up 25% of str()'s runtime.
      */
-    __declspec(safebuffers)
     const std::string& str() const {
         if (_is_char_ptr) {
             // We don't want to break the constness of str(), and this change is 100% internal with
