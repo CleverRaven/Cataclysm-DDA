@@ -119,8 +119,6 @@
     "result": "xl_boots_fsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
     "copy-from": "boots_fsurvivor",
     "using": [ [ "tailoring_kevlar_fabric", 6 ], [ "tailoring_nomex", 11 ], [ "fastener_small", 2 ] ],
     "time": "23 h"
