@@ -407,9 +407,10 @@ void recipe::finalize()
         }
 
         if( rpof.time_multiplier < 1.0f && rpof.id->default_time_multiplier() < 1.0f ) {
-            debugmsg( "proficiency %s provides a time bonus for not being known in recipe %s.  Time multiplier: %s Default multiplier: %s", rpof.id.str(), ident_.str(), rpof.time_multiplier, rpof.id->default_time_multiplier() );
+            debugmsg( "proficiency %s provides a time bonus for not being known in recipe %s.  Time multiplier: %s Default multiplier: %s",
+                      rpof.id.str(), ident_.str(), rpof.time_multiplier, rpof.id->default_time_multiplier() );
         }
-	
+
         if( rpof.time_multiplier == 0.0f ) {
             rpof.time_multiplier = rpof.id->default_time_multiplier();
         }
@@ -418,8 +419,9 @@ void recipe::finalize()
             rpof.fail_multiplier = rpof.id->default_fail_multiplier();
         }
 
-		if( rpof.fail_multiplier < 1.0f && rpof.id->default_fail_multiplier() < 1.0f ) {
-            debugmsg( "proficiency %s provides a fail bonus for not being known in recipe %s  Fail multiplier: %s Default multiplier: %s", rpof.id.str(), ident_.str(), rpof.fail_multiplier, rpof.id->default_fail_multiplier() );
+        if( rpof.fail_multiplier < 1.0f && rpof.id->default_fail_multiplier() < 1.0f ) {
+            debugmsg( "proficiency %s provides a fail bonus for not being known in recipe %s  Fail multiplier: %s Default multiplier: %s",
+                      rpof.id.str(), ident_.str(), rpof.fail_multiplier, rpof.id->default_fail_multiplier() );
         }
 
         // Now that we've done the error checking, log that a proficiency with this id is used
