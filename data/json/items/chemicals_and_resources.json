@@ -1520,6 +1520,15 @@
     "use_action": [ "POISON" ]
   },
   {
+    "id": "venom_paralytic",
+    "type": "COMESTIBLE",
+    "copy-from": "venom_gland",
+    "name": { "str": "sac of paralytic venom", "str_pl": "sacs of paralytic venom" },
+    "description": "This greyish, flexible vesicle is filled to the brim with the potent paralytic agent the triffids use to subdue still-moving fertilizer such as yourself.  If you know your way around poisons you might be able to find a use for it.",
+    "material": [ "veggy" ],
+    "color": "light_gray"
+  },
+  {
     "id": "conc_venom",
     "type": "AMMO",
     "category": "chems",
@@ -1534,5 +1543,13 @@
     "container": "test_tube",
     "symbol": ";",
     "color": "light_green"
+  },
+  {
+    "id": "conc_paralytic",
+    "type": "AMMO",
+    "name": { "str_sp": "concentrated paralytic" },
+    "description": "The concentrated paralytic agent, originally from a triffid.  Given your experience with its effects (chiefly gathered while sourcing this batch) and their striking similarity to earthly flora you figure it's related to curarines. Might come in handy in crafting more usefult things.",
+    "copy-from": "conc_venom",
+    "color": "light_gray"
   }
 ]
