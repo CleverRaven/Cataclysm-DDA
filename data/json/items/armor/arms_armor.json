@@ -375,7 +375,7 @@
     "id": "xl_vambrace_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of xl leather vambraces", "str_pl": "pairs of xl leather vambraces" },
-    "description": "Customized oversized leather vambraces, made for archery. ",
+    "description": "Customized oversized leather vambraces, made for archery.",
     "weight": "531 g",
     "volume": "1250 ml",
     "copy-from": "vambrace_larmor",
