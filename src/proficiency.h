@@ -33,7 +33,7 @@ class proficiency
         translation _description;
 
         float _default_time_multiplier = 2.0f;
-        float _default_fail_multiplier = 3.0f;
+        float _default_fail_multiplier = 2.0f;
 
         time_duration _time_to_learn = 9999_hours;
         std::set<proficiency_id> _required;

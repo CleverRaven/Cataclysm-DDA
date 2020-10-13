@@ -61,19 +61,14 @@ std::string proficiency::description() const
     return _description.translated();
 }
 
-std::string proficiency::get_default_time_multiplier() const
+float proficiency::default_time_multiplier() const
 {
     return _default_time_multiplier;
 }
 
-std::string proficiency::get_default_fail_multiplier() const
+float proficiency::default_fail_multiplier() const
 {
     return _default_fail_multiplier;
-}
-
-std::string proficiency::description() const
-{
-    return _description.translated();
 }
 
 time_duration proficiency::time_to_learn() const

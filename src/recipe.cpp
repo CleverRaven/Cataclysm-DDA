@@ -412,11 +412,11 @@ void recipe::finalize()
         }
 
         if( rpof.time_multiplier == 0.0f ) {
-            rpof.time_multiplier = rpof.get_default_time_multiplier();
+            rpof.time_multiplier = rpof.default_time_multiplier;
         }
 
         if( rpof.fail_multiplier == 0.0f ) {
-            rpof.fail_multiplier = rpof.get_default_fail_multiplier();
+            rpof.fail_multiplier = rpof.default_fail_multiplier;
         }
 
         if( rpof.fail_multiplier < 1.0f ) {
