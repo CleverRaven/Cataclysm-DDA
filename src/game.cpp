@@ -324,7 +324,7 @@ static void achievement_failed( const achievement *a, bool achievements_enabled 
 game::game() :
     liveview( *liveview_ptr ),
     scent_ptr( *this ),
-    achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained, achievement_failed ),
+    achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained, achievement_failed, true ),
     m( *map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
