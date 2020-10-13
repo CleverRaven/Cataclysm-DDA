@@ -57,6 +57,15 @@ struct recipe_proficiency {
     void deserialize( JsonIn &jsin );
 };
 
+struct parent_proficiency {
+    proficiency_id id;
+    float default_time_multiplier = 0f;
+    float default_fail_multiplier = 0f;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+};
+
 struct book_recipe_data {
     int skill_req = -1;
     cata::optional<translation> alt_name = cata::nullopt;
