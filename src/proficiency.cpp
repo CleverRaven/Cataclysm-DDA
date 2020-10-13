@@ -39,6 +39,8 @@ void proficiency::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "description", _description );
     mandatory( jo, was_loaded, "can_learn", _can_learn );
+    mandatory( jo, was_loaded, "default_time_multiplier", _default_time_multiplier );
+    mandatory( jo, was_loaded, "default_fail_multiplier", _default_fail_multiplier );
 
     optional( jo, was_loaded, "time_to_learn", _time_to_learn );
     optional( jo, was_loaded, "required_proficiencies", _required );
@@ -52,6 +54,21 @@ bool proficiency::can_learn() const
 std::string proficiency::name() const
 {
     return _name.translated();
+}
+
+std::string proficiency::description() const
+{
+    return _description.translated();
+}
+
+std::string proficiency::default_time_multiplier() const
+{
+    return _default_time_multiplier;
+}
+
+std::string proficiency::default_fail_multiplier() const
+{
+    return _default_fail_multiplier;
 }
 
 std::string proficiency::description() const
