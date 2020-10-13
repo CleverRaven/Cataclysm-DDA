@@ -48,8 +48,8 @@ struct enum_traits<recipe_filter_flags> {
 struct recipe_proficiency {
     proficiency_id id;
     bool required = false;
-    float time_multiplier = 0f;
-    float fail_multiplier = 0f;
+    float time_multiplier = 0.0f;
+    float fail_multiplier = 0.0f;
     float learning_time_mult = 1.0f;
     cata::optional<time_duration> max_experience = cata::nullopt;
 
@@ -59,8 +59,8 @@ struct recipe_proficiency {
 
 struct parent_proficiency {
     proficiency_id id;
-    float default_time_multiplier = 0f;
-    float default_fail_multiplier = 0f;
+    float default_time_multiplier = 0.0f;
+    float default_fail_multiplier = 0.0f;
 
     void load( const JsonObject &jo );
     void deserialize( JsonIn &jsin );

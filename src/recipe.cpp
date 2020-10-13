@@ -397,7 +397,7 @@ void recipe::finalize()
             debugmsg( "proficiency %s does not exist in recipe %s", rpof.id.str(), ident_.str() );
         }
 
-        if( rpof.required && rpof.time_multiplier != 0f ) {
+        if( rpof.required && rpof.time_multiplier != 0.0f ) {
             debugmsg( "proficiencies in recipes cannot be both required and provide a malus in %s",
                       rpof.id.str(), ident_.str() );
         }
@@ -411,7 +411,7 @@ void recipe::finalize()
                       ident_.str() );
         }
 		
-        if( rpof.time_multiplier == 0f ) {
+        if( rpof.time_multiplier == 0.0f ) {
             rpof.time_multiplier = something.get_default_time_multiplier();
         }
 		
