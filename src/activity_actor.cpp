@@ -1083,12 +1083,15 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
                     ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
                       it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
                     who.dex_cur / 4.0 + who.per_cur / 6.0 + who.int_cur / 8.0;
+    // If you lack any proficiency you are highly unlikely to succeed.
     int pick_roll_prof_modifier = 20;
     if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
-        pick_roll_prof_modifier -= 18;
+        // If you know basic lockpicking, your chance will be halved.
+        pick_roll_prof_modifier = 2;
     }
     if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
-        pick_roll_prof_modifier -= 1;
+        // If you're a locksmith you use your full, unmodified roll.
+        pick_roll_prof_modifier = 1;
     }
     int lock_roll = rng( 1, 120 );
     int xp_gain = 0;
