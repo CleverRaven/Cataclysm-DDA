@@ -888,7 +888,7 @@
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 },
       { "drop": "stick", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "venom_paralytic", "type": "offal", "mass_ratio": 0.015 }
+      { "drop": "venom_paralytic", "type": "offal", "mass_ratio": 0.0075 }
     ]
   },
   {
@@ -899,7 +899,7 @@
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.15 },
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 },
-      { "drop": "venom_paralytic", "type": "offal", "mass_ratio": 0.0375 }
+      { "drop": "venom_paralytic", "type": "offal", "mass_ratio": 0.02 }
     ]
   }
 ]
