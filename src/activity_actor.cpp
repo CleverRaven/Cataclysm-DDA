@@ -1082,7 +1082,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     int pick_roll = std::pow( 1.5, who.get_skill_level( skill_traps ) ) *
                     ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
                       it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
-                    who.dex_cur / 4.0 + who.per_cur / 4.0;
+                    who.dex_cur / 4.0 + who.per_cur / 6.0;
     int pick_roll_prof_modifier = 20
     if( player_character.has_proficiency( proficiency_prof_lockpicking ) ) {
         pick_roll_prof_modifier -= 18
