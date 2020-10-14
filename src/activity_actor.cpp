@@ -66,6 +66,9 @@ static const skill_id skill_computer( "computer" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_traps( "traps" );
 
+static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
+static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
+
 static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
 static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
@@ -1079,10 +1082,17 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     int pick_roll = std::pow( 1.5, who.get_skill_level( skill_traps ) ) *
                     ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
                       it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
-                    who.dex_cur / 4.0;
+                    who.dex_cur / 4.0 + who.per_cur / 4.0;
+    int pick_roll_prof_modifier = 21
+    if( player_character.has_proficiency( proficiency_prof_lockpicking ) ) {
+        pick_roll_prof_modifier -= 8
+    }
+    if( player_character.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+        pick_roll_prof_modifier -= 12
+    }
     int lock_roll = rng( 1, 120 );
     int xp_gain = 0;
-    if( perfect || ( pick_roll >= lock_roll ) ) {
+    if( perfect || ( ( pick_roll / pick_roll_prof_modifier ) >= lock_roll ) ) {
         xp_gain += lock_roll;
         here.has_furn( target ) ?
         here.furn_set( target, new_furn_type ) :

@@ -3,9 +3,18 @@
     "type": "proficiency",
     "id": "prof_lockpicking",
     "name": { "str": "Lockpicking" },
-    "description": "You know how to pick a lock.",
+    "description": "You know how to pick a lock, at least in theory.",
     "can_learn": true,
     "time_to_learn": "4 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_lockpicking",
+    "name": { "str": "Lockpicking Expert" },
+    "description": "You can pick a lock in the dark, blindfolded.  Although that doesn't make it all that much harder.  You're good at locks, OK?",
+    "can_learn": true,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_lockpicking" ]
   },
   {
     "type": "proficiency",
