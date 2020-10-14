@@ -79,7 +79,7 @@
     "type": "proficiency",
     "id": "prof_toolsmithing",
     "name": { "str": "Manual Tooling" },
-    "description": "How to make high-quality tools and parts by hand.  Includes techniques like threading, durable articulation points, and using appropriate metals for appropriate tasks.",
+    "description": "How to make high-quality tools and parts by hand.  Includes techniques like threading, durable articulation points, and using appropriate metals for appropriate tasks.  Also applies to making blunt instruments that can withstand a severe beating without distortion.",
     "can_learn": true,
     "default_time_multiplier": 2,
     "default_fail_multiplier": 1.5,
