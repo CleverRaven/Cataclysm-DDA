@@ -375,6 +375,8 @@ void map::generate_lightmap( const int zlev )
     auto &lm = map_cache.lm;
     auto &sm = map_cache.sm;
     auto &outside_cache = map_cache.outside_cache;
+    auto &prev_floor_cache = get_cache( clamp( zlev + 1, -OVERMAP_DEPTH, OVERMAP_DEPTH ) ).floor_cache;
+    bool top_floor = zlev == OVERMAP_DEPTH;
     std::memset( lm, 0, sizeof( lm ) );
     std::memset( sm, 0, sizeof( sm ) );
 
@@ -426,22 +428,22 @@ void map::generate_lightmap( const int zlev )
                     const int y = sy + smy * SEEY;
                     const tripoint p( x, y, zlev );
                     // Project light into any openings into buildings.
-                    if( !outside_cache[p.x][p.y] ) {
+                    if( !outside_cache[p.x][p.y] || ( !top_floor && prev_floor_cache[p.x][p.y] ) ) {
                         // Apply light sources for external/internal divide
                         for( int i = 0; i < 4; ++i ) {
                             point neighbour = p.xy() + point( dir_x[i], dir_y[i] );
                             if( lightmap_boundaries.contains( neighbour )
-                                && outside_cache[neighbour.x][neighbour.y]
+                                && outside_cache[neighbour.x][neighbour.y] &&
+                                ( top_floor || !prev_floor_cache[neighbour.x][neighbour.y] )
                               ) {
+                                const float source_light =
+                                    std::min( natural_light, lm[neighbour.x][neighbour.y].max() );
                                 if( light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID ) {
-                                    update_light_quadrants(
-                                        lm[p.x][p.y], natural_light, quadrant::default_ );
-                                    apply_directional_light( p, dir_d[i], natural_light );
+                                    update_light_quadrants( lm[p.x][p.y], source_light, quadrant::default_ );
+                                    apply_directional_light( p, dir_d[i], source_light );
                                 } else {
-                                    update_light_quadrants(
-                                        lm[p.x][p.y], natural_light, dir_quadrants[i][0] );
-                                    update_light_quadrants(
-                                        lm[p.x][p.y], natural_light, dir_quadrants[i][1] );
+                                    update_light_quadrants( lm[p.x][p.y], source_light, dir_quadrants[i][0] );
+                                    update_light_quadrants( lm[p.x][p.y], source_light, dir_quadrants[i][1] );
                                 }
                             }
                         }
