@@ -182,7 +182,7 @@
     "traits": [
       [ "PRETTY", 100 ],
       [ "OPTIMISTIC", 100 ],
-      [ "INT_DOWN_3", 100 ],
+      [ "INT_DOWN_2", 100 ],
       [ "FORGETFUL", 100 ],
       [ "STR_UP_3", 100 ],
       [ "THRESH_MEDICAL", 100 ],
