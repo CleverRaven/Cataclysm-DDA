@@ -265,6 +265,7 @@
       [ "nyquil", 5 ],
       { "group": "mansion_guns", "prob": 3 },
       { "group": "harddrugs", "prob": 1 },
+      { "group": "wallets", "prob": 10 },
       [ "joint", 1 ],
       [ "curler_hair", 10 ],
       [ "hairbrush", 5 ]
@@ -350,6 +351,7 @@
       { "item": "scuba_tank", "prob": 2 },
       { "item": "dive_bag", "prob": 3 },
       { "item": "poncho", "prob": 15 },
+      { "group": "wallets", "prob": 15 },
       { "item": "folding_poncho", "prob": 5 },
       { "item": "gloves_light", "prob": 35 },
       { "item": "mittens", "prob": 30 },
@@ -820,6 +822,7 @@
       { "item": "sneakers", "prob": 80 },
       { "item": "mask_hockey", "prob": 5 },
       { "item": "hockey_stick", "prob": 10 },
+      { "group": "wallets", "prob": 10 },
       { "item": "roller_blades", "prob": 20 },
       { "item": "roller_shoes_off", "prob": 10 },
       { "item": "jersey", "prob": 40 },
