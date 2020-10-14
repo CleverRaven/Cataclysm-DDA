@@ -29,7 +29,7 @@ constexpr uint64_t fnv1_64<1>( const char( &text )[1] )
 {
     return 14695981039346656037ull;
 }
-}
+} // CompileTime
 
 namespace RunTime
 {
@@ -42,8 +42,8 @@ constexpr uint64_t fnv1_64( const char *data, size_t length )
     }
     return hash;
 }
-}
-}
+} // RunTime
+} // Hash
 
 constexpr uint64_t operator"" _id( const char *data, size_t length )
 {
@@ -113,14 +113,14 @@ class string_id
 
         template<unsigned N>
         explicit constexpr string_id( const char ( &str )[N] ) : _hash( Hash::CompileTime::fnv1_64( str ) ),
-            _is_char_ptr( true ), _char_ptr( str ) {}
+            _char_ptr( str ), _is_char_ptr( true ) {}
 
         template<typename U>
         string_id( const string_id<U> &other ) : _hash( other.hash() ), _char_ptr( other._char_ptr ),
             _is_char_ptr( other._is_char_ptr ) {}
 
         template<typename S, class = typename
-                 std::enable_if_t< std::is_convertible_v< S, std::string > >
+                 std::enable_if< std::is_convertible< S, std::string >::value >::type
                  >
         explicit string_id( S && id ) {
             auto str = std::make_unique<std::string>( std::forward<S>( id ) );
@@ -187,8 +187,8 @@ class string_id
             if( _is_char_ptr ) {
                 // We don't want to break the constness of str(), and this change is 100% internal with
                 // observable side effects, therefore we break the constness of this to cache the string.
-                auto wthis = const_cast<This *>( this );
-                auto string = std::make_unique<std::string>( _char_ptr );
+                string_id<T> wthis = const_cast<This *>( this );
+                std::unique_ptr<std::string> string = std::make_unique<std::string>( _char_ptr );
                 wthis->_string = cached_strings().try_emplace( _hash, std::move( string ) ).first->second.get();
                 wthis->_is_char_ptr = false;
             }
