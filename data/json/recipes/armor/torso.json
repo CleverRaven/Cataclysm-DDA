@@ -12,10 +12,7 @@
     "reversible": true,
     "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
   {
     "result": "armor_lamellar",
@@ -34,10 +31,7 @@
       [ [ "rag", 4 ] ],
       [ [ "leather", 42 ], [ "tanned_hide", 7 ], [ "fur", 42 ], [ "tanned_pelt", 7 ] ]
     ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
   {
     "result": "bikini_top",
@@ -66,10 +60,7 @@
     "reversible": true,
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "fur", 3 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_furriery" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
   },
   {
     "result": "bikini_top_leather",
@@ -84,10 +75,7 @@
     "reversible": true,
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "leather", 3 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
   {
     "result": "blazer",
@@ -102,7 +90,7 @@
     "reversible": true,
     "using": [ [ "sewing_standard", 100 ], [ "button", 2 ] ],
     "components": [ [ [ "felt_patch", 25 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_closures"  } ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "bookplate",
@@ -201,7 +189,7 @@
     "using": [ [ "sewing_standard", 20 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 11 ] ], [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_closures"  },
+      { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
     ]
@@ -220,7 +208,7 @@
     "using": [ [ "sewing_standard", 20 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 11 ] ], [ [ "faux_fur", 12 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_closures"  },
+      { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
     ]
@@ -239,10 +227,7 @@
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "book_learn": [ [ "trappers_companion", 6 ], [ "survival_book", 4 ] ],
     "components": [ [ [ "stomach_sealed", 16 ], [ "large_stomach_sealed", 10 ] ], [ [ "filament", 60, "LIST" ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_leatherworking_basic" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
     "result": "coat_rain",
@@ -257,10 +242,7 @@
     "tools": [  ],
     "using": [ [ "fastener_large", 1 ] ],
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "bag_plastic", 10 ] ], [ [ "rag", 10 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures"  },
-      { "proficiency": "prof_closures_waterproofing" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "cuirass_lightplate",
@@ -277,7 +259,7 @@
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_armorsmithing"  },
+      { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" }
     ]
@@ -407,7 +389,7 @@
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures"  },
+      { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
     ]
   },
@@ -506,7 +488,7 @@
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures"  }
+      { "proficiency": "prof_closures" }
     ]
   },
   {
@@ -527,7 +509,7 @@
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures"  }
+      { "proficiency": "prof_closures" }
     ]
   },
   {
@@ -680,7 +662,7 @@
     "reversible": true,
     "using": [ [ "sewing_standard", 120 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "felt_patch", 30 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_closures"  } ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "poncho",
@@ -708,10 +690,7 @@
     "time": "5 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_knitting"  },
-      { "proficiency": "prof_knitting_speed" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 910 ] ]
   },
   {
@@ -728,7 +707,7 @@
     "reversible": true,
     "using": [ [ "sewing_standard", 27 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 19 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_closures"  } ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "sleeveless_duster",
@@ -762,7 +741,7 @@
     "using": [ [ "sewing_standard", 50 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "fur", 34 ], [ "tanned_pelt", 6 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_closures"  },
+      { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
     ]
@@ -782,7 +761,7 @@
     "using": [ [ "sewing_standard", 50, [ "fastener_large", 1 ] ] ],
     "components": [ [ [ "rag", 20 ] ], [ [ "faux_fur", 12 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_closures"  },
+      { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
     ]
@@ -837,7 +816,7 @@
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures"  }
+      { "proficiency": "prof_closures" }
     ]
   },
   {
@@ -907,7 +886,7 @@
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures_waterproofing"  }
+      { "proficiency": "prof_closures_waterproofing" }
     ]
   },
   {
@@ -940,7 +919,7 @@
     "reversible": true,
     "using": [ [ "sewing_standard", 20 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 16 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_closures"  } ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "sleeveless_trenchcoat_fur",
@@ -990,7 +969,7 @@
     "using": [ [ "sewing_standard", 38 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "fur", 28 ], [ "tanned_pelt", 5 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_closures"  },
+      { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
     ]
@@ -1010,7 +989,7 @@
     "using": [ [ "sewing_standard", 38 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 10 ] ], [ [ "faux_fur", 10 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_closures"  },
+      { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
     ]
@@ -1049,7 +1028,7 @@
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures"  }
+      { "proficiency": "prof_closures" }
     ]
   },
   {
@@ -1087,7 +1066,7 @@
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures_waterproofing"  }
+      { "proficiency": "prof_closures_waterproofing" }
     ]
   },
   {
@@ -1205,10 +1184,7 @@
     "autolearn": true,
     "reversible": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_knitting"  },
-      { "proficiency": "prof_knitting_speed" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 550 ] ]
   },
   {
@@ -1253,7 +1229,7 @@
     "reversible": true,
     "using": [ [ "sewing_standard", 23 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 18 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_closures"  } ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "trenchcoat_fur",
@@ -1270,7 +1246,7 @@
     "using": [ [ "sewing_standard", 45 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "fur", 30 ], [ "tanned_pelt", 5 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_closures"  },
+      { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
     ]
@@ -1289,7 +1265,7 @@
     "using": [ [ "sewing_standard", 45 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 14 ] ], [ [ "faux_fur", 12 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_closures"  },
+      { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
     ]
@@ -1311,7 +1287,7 @@
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures"  }
+      { "proficiency": "prof_closures" }
     ]
   },
   {
@@ -1468,10 +1444,7 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "sewing_standard", 20 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "leather", 10 ], [ "tanned_hide", 2 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_leatherworking_basic" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
     "result": "vest_leather",
@@ -1546,9 +1519,6 @@
     "book_learn": [ [ "textbook_armwest", 8 ] ],
     "using": [ [ "forging_standard", 14 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 28 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_redsmithing" }
-    ]
+    "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]
   }
 ]

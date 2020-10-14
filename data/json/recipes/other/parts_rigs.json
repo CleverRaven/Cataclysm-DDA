@@ -136,8 +136,8 @@
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking"  },
-      { "proficiency": "prof_welding_basic" , "fail_multiplier": 5 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
@@ -156,8 +156,8 @@
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking"  },
-      { "proficiency": "prof_welding_basic" , "fail_multiplier": 5 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
@@ -176,8 +176,8 @@
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking"  },
-      { "proficiency": "prof_welding_basic" , "fail_multiplier": 5 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
@@ -196,8 +196,8 @@
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking"  },
-      { "proficiency": "prof_welding_basic" , "fail_multiplier": 5 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],

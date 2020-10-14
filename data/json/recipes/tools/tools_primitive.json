@@ -97,10 +97,7 @@
     "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking"  },
-      { "proficiency": "prof_redsmithing" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "copper_scrap_equivalent", 40, "LIST" ] ],
@@ -201,7 +198,7 @@
     "difficulty": 2,
     "time": "50 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_pottery"  } ],
+    "proficiencies": [ { "proficiency": "prof_pottery" } ],
     "using": [ [ "earthenware_firing", 100 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 8 ] ] ]
   },
