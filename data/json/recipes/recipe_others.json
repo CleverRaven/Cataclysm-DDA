@@ -136,10 +136,7 @@
     "difficulty": 2,
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_survival", 1 ], [ "textbook_survival", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 2.5 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "time": "32 m",
     "autolearn": true,
     "components": [ [ [ "largebroketent", 2 ], [ "broketent", 4 ], [ "tent_kit", 3 ] ], [ [ "superglue", 3 ], [ "duct_tape", 40 ] ] ]
@@ -190,9 +187,9 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
     ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
@@ -216,9 +213,9 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ], [ "steel_standard", 4 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
     ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
@@ -238,7 +235,7 @@
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": "20 m",
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "book_learn": [ [ "recipe_bullets", 6 ], [ "textbook_fabrication", 7 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "swage", -1 ] ] ],
@@ -335,7 +332,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "skewer_bone", 1 ] ] ]
   },
   {
@@ -349,7 +346,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "splinter", 1 ] ] ]
   },
   {
@@ -364,7 +361,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
@@ -433,9 +430,9 @@
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "fail_multiplier": 5 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures", "required": false, "time_multiplier": 1.5 },
-      { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_closures_waterproofing" }
     ],
     "components": [ [ [ "stick", 10 ], [ "2x4", 5 ] ], [ [ "leather", 20 ], [ "tanned_hide", 4 ] ], [ [ "filament", 40, "LIST" ] ] ]
   },
@@ -453,9 +450,9 @@
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "fail_multiplier": 5 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures", "required": false, "time_multiplier": 1.5 },
-      { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_closures_waterproofing" }
     ],
     "components": [
       [ [ "stick", 3 ], [ "2x4", 2 ] ],
@@ -480,7 +477,7 @@
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "fail_multiplier": 5 },
-      { "proficiency": "prof_furriery", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_furriery" }
     ],
     "components": [ [ [ "fur", 24 ], [ "tanned_pelt", 4 ] ], [ [ "filament", 10, "LIST" ] ] ]
   },
@@ -513,9 +510,9 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
     ],
     "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
@@ -533,9 +530,9 @@
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_mechanics", 4 ], [ "textbook_mechanics", 4 ] ],
     "using": [ [ "welding_standard", 30 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [
@@ -570,10 +567,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap", 1 ] ] ]
@@ -603,10 +597,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "surface_heat", 2, "LIST" ], [ "forge", 2 ], [ "oxy_torch", 2 ] ] ],
     "components": [ [ [ "wire", 6 ] ] ]
   },
@@ -620,7 +611,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "cordage_short", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_carving", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "splinter", 1 ], [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
@@ -663,10 +654,7 @@
     "difficulty": 1,
     "time": "60 m",
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ]
   },
   {
@@ -856,7 +844,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "tools": [ [ [ "welder", 200 ], [ "welder_crude", 300 ], [ "toolset", 300 ], [ "soldering_iron", 300 ], [ "oxy_torch", 40 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "element", 8 ] ],
       [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
@@ -876,10 +864,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "steel_chunk", 160 ], [ "steel_lump", 40 ], [ "frame", 4 ], [ "hdframe", 2 ] ] ]
   },
   {
@@ -892,7 +877,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_pottery", "required": false, "time_multiplier": 2.5 } ],
+    "proficiencies": [ { "proficiency": "prof_pottery" } ],
     "using": [ [ "earthenware_firing", 90 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
@@ -943,10 +928,7 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 }
-    ]
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ]
   },
   {
     "type": "recipe",
@@ -959,10 +941,7 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
   },
   {
@@ -976,7 +955,7 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "wire", 1 ] ] ]
@@ -992,7 +971,7 @@
     "time": "10 m",
     "reversible": true,
     "book_learn": [ [ "plastics_book", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "lens", 1 ], [ "lens_small", 1 ] ], [ [ "spring", 1 ] ] ]
@@ -1032,7 +1011,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "soldering_iron", 150 ], [ "oxy_torch", 20 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
       [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
@@ -1061,7 +1040,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "soldering_iron", 75 ], [ "oxy_torch", 10 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [ [ [ "pilot_light", 1 ] ], [ [ "scrap", 4 ] ], [ [ "metal_tank_little", 1 ] ] ]
   },
   {
@@ -1076,9 +1055,9 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 },
-      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1095,9 +1074,9 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 },
-      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1115,9 +1094,9 @@
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
     "using": [ [ "welding_standard", 15 ], [ "steel_standard", 6 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
     ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
@@ -1142,9 +1121,9 @@
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
     "using": [ [ "welding_standard", 15 ], [ "steel_standard", 6 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
     ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
@@ -1176,9 +1155,9 @@
     "book_learn": [ [ "textbook_fabrication", 7 ], [ "manual_fabrication", 7 ] ],
     "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
     ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
@@ -1213,7 +1192,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "tools": [ [ [ "welder", 150 ], [ "welder_crude", 225 ], [ "toolset", 225 ], [ "soldering_iron", 225 ], [ "oxy_torch", 30 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "steel_lump", 5 ], [ "steel_chunk", 20 ], [ "scrap", 60 ] ],
       [ [ "metal_tank_little", 1 ] ],
@@ -1302,7 +1281,7 @@
     "difficulty": 6,
     "time": "1 h",
     "book_learn": [ [ "glassblowing_book", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
     "components": [ [ [ "glass_shard", 3 ], [ "bottle_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
@@ -1505,10 +1484,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 24 ] ], [ [ "nail", 40 ] ] ]
   },
@@ -1557,9 +1533,9 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 3 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
@@ -1589,7 +1565,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 3 ] ] ]
   },
@@ -2105,7 +2081,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
-    "proficiencies": [ { "proficiency": "prof_basketweaving", "required": false, "time_multiplier": 4 } ],
+    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "components": [ [ [ "plant_cordage", 6, "LIST" ] ] ]
   },
   {
@@ -2140,10 +2116,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 4 ] ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2157,7 +2130,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "splinter", 1 ] ] ]
   },
   {
@@ -2196,10 +2169,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_redsmithing", "required": false, "time_multiplier": 2.5 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap_bronze", 10 ] ] ]
   },
@@ -2240,7 +2210,7 @@
     "difficulty": 7,
     "time": "1 h",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [

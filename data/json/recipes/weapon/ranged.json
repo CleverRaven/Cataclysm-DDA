@@ -14,9 +14,9 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "using": [ [ "welding_standard", 40 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_gunsmithing_improv" }
     ],
     "components": [
       [ [ "pipe", 2 ] ],
@@ -35,7 +35,7 @@
     "skills_required": [ "throw", 1 ],
     "time": "1 h",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "sling", 1 ] ] ]
   },
@@ -51,10 +51,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -70,10 +67,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -89,10 +83,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -108,10 +99,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -127,10 +115,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -154,11 +139,11 @@
     ],
     "using": [ [ "forging_standard", 4 ], [ "steel_standard", 3 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_antique", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_antique" },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.5 }
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
@@ -183,11 +168,11 @@
     ],
     "using": [ [ "forging_standard", 6 ], [ "steel_standard", 3 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_antique", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_antique" },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.5 }
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
@@ -212,11 +197,11 @@
     ],
     "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_antique", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_antique" },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.5 }
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
@@ -241,11 +226,11 @@
     ],
     "using": [ [ "forging_standard", 2 ], [ "steel_standard", 3 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_antique", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_antique" },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.5 }
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
@@ -264,11 +249,11 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "using": [ [ "forging_standard", 2 ], [ "steel_standard", 1 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_antique", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_antique" },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.5 }
     ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 2 ] ], [ [ "sharp_rock", 2 ] ] ]
   },
@@ -286,10 +271,7 @@
     "autolearn": true,
     "book_learn": [ [ "manual_rifle", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_antique", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_antique" } ],
     "components": [ [ [ "rifle_flintlock", 2 ], [ "carbine_flintlock", 2 ] ] ]
   },
   {
@@ -304,9 +286,9 @@
     "time": "60 m",
     "autolearn": true,
     "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_spring", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 }
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_spring" },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.5 }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ], [ [ "hose", 4 ] ], [ [ "scrap", 4 ] ] ]
@@ -323,9 +305,9 @@
     "time": "90 m",
     "autolearn": true,
     "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_spring", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 }
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_spring" },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.5 }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "2x4", 3 ], [ "stick", 3 ] ], [ [ "hose", 8 ] ], [ [ "scrap", 6 ] ] ]
@@ -342,9 +324,9 @@
     "time": "2 h",
     "autolearn": true,
     "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_spring", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 }
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_spring" },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.5 }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "hose", 2 ] ], [ [ "scrap", 3 ] ] ]
@@ -392,9 +374,9 @@
       ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_gunsmithing_improv" }
     ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
@@ -441,10 +423,7 @@
         [ "shot_hull", -1 ]
       ]
     ],
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "pipe_fittings", 1 ] ] ]
   },
   {
@@ -458,7 +437,7 @@
     "skills_required": [ [ "gun", 1 ] ],
     "time": "1 h",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 1.5 } ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_improv" } ],
     "components": [ [ [ "slamfire_shotgun", 2 ] ], [ [ "duct_tape", 100 ] ] ]
   },
   {
@@ -504,9 +483,9 @@
       ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_gunsmithing_improv" }
     ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "nail", 2 ] ], [ [ "scrap", 6 ] ] ]
   },
@@ -530,9 +509,9 @@
       { "id": "WELD", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_gunsmithing_improv" }
     ],
     "components": [ [ [ "slamfire_shotgun", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -580,9 +559,9 @@
       ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_gunsmithing_improv" }
     ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "nail", 2 ] ], [ [ "pipe_fittings", 2 ] ], [ [ "scrap", 3 ] ] ]
   },
@@ -609,7 +588,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "required": false, "time_multiplier": 4, "fail_multiplier": 5 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 4, "fail_multiplier": 5 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
@@ -639,7 +618,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_fibers", "required": false, "time_multiplier": 4, "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_fibers", "time_multiplier": 4, "fail_multiplier": 1 } ],
     "components": [ [ [ "cordage", 32, "LIST" ] ], [ [ "rock", 8 ] ] ]
   },
   {
@@ -653,7 +632,7 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5 } ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "filament", 20, "LIST" ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
   },
@@ -670,7 +649,7 @@
     "time": "15 m",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_fibers", "required": false, "time_multiplier": 2, "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_fibers", "fail_multiplier": 1 } ],
     "using": [ [ "cordage", 3 ] ]
   },
   {
@@ -696,7 +675,7 @@
     "time": "3 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5 } ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 20 ] ], [ [ "rope_superior_short", 2, "LIST" ] ] ]
   },
@@ -712,10 +691,7 @@
     "time": "8 h",
     "reversible": true,
     "decomp_learn": 1,
-    "proficiencies": [
-      { "proficiency": "prof_bowyery", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
     "book_learn": [ [ "manual_archery", 2 ], [ "recipe_bows", 1 ], [ "book_archery", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick_long", 1 ], [ "2x4", 1 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
@@ -733,10 +709,7 @@
     "reversible": true,
     "decomp_learn": 1,
     "book_learn": [ [ "manual_archery", 6 ], [ "recipe_bows", 5 ], [ "book_archery", 7 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_bowyery", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick_long", 4 ], [ "2x4", 4 ] ], [ [ "cordage_superior", 6, "LIST" ] ] ]
   },
@@ -752,7 +725,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_bowyery", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 } ],
+    "proficiencies": [ { "proficiency": "prof_bowyery" } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ] ] ]
   },
   {
@@ -770,10 +743,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bows", 1 ], [ "manual_archery", 2 ], [ "book_archery", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_bowyery", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
   {
@@ -789,10 +759,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bows", 4 ], [ "manual_archery", 5 ] ],
     "using": [ [ "adhesive", 3 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_bowyery", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "bone_sturdy", 3, "LIST" ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
@@ -809,16 +776,11 @@
     "time": "14 h",
     "book_learn": [ [ "recipe_bows", 9 ], [ "welding_book", 8 ], [ "textbook_mechanics", 8 ] ],
     "proficiencies": [
-      { "proficiency": "prof_bowyery", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 4 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      {
-        "proficiency": "prof_plasticworking",
-        "required": false,
-        "time_multiplier": 1.5,
-        "learning_time_multiplier": 0.25
-      }
+      { "proficiency": "prof_bowyery" },
+      { "proficiency": "prof_carving" },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_plasticworking", "time_multiplier": 1.5, "learning_time_multiplier": 0.25 }
     ],
     "qualities": [
       { "id": "CUT", "level": 1 },
@@ -850,10 +812,10 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 3 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_revolver", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_revolver" }
     ],
     "components": [
       [ [ "shotgun_s", 1 ], [ "pipe_shotgun", 1 ] ],
@@ -876,10 +838,10 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 3 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_revolver", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_revolver" }
     ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 2 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -897,10 +859,10 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 3 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_revolver", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_revolver" }
     ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 2 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -924,8 +886,8 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_bowyery", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
-      { "proficiency": "prof_gunsmithing_spring", "required": false, "time_multiplier": 2, "fail_multiplier": 5 }
+      { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_gunsmithing_spring" }
     ],
     "components": [
       [ [ "2x4", 2 ], [ "stick", 3 ] ],
@@ -948,8 +910,8 @@
     "reversible": true,
     "decomp_learn": 2,
     "proficiencies": [
-      { "proficiency": "prof_bowyery", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
-      { "proficiency": "prof_gunsmithing_spring", "required": false, "time_multiplier": 2, "fail_multiplier": 5 }
+      { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_gunsmithing_spring" }
     ],
     "book_learn": [ [ "recipe_bows", 2 ], [ "manual_archery", 4 ], [ "book_archery", 3 ], [ "textbook_armschina", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -964,9 +926,9 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "traps", 2 ], [ "archery", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_bowyery", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
-      { "proficiency": "prof_gunsmithing_spring", "required": false, "time_multiplier": 2, "fail_multiplier": 5 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.5 }
+      { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_gunsmithing_spring" },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5 }
     ],
     "difficulty": 5,
     "time": "10 h",
@@ -988,8 +950,8 @@
     "reversible": true,
     "decomp_learn": 2,
     "proficiencies": [
-      { "proficiency": "prof_bowyery", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
-      { "proficiency": "prof_gunsmithing_spring", "required": false, "time_multiplier": 2, "fail_multiplier": 5 }
+      { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_gunsmithing_spring" }
     ],
     "book_learn": [ [ "recipe_bows", 1 ], [ "manual_archery", 3 ], [ "book_archery", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -1007,10 +969,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "duct_tape", 50 ] ] ]
   },
@@ -1026,10 +985,7 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -1044,10 +1000,7 @@
     "difficulty": 2,
     "time": "2 h",
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -1063,10 +1016,7 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ], [ [ "2x4", 1 ] ] ]
   },
@@ -1082,10 +1032,7 @@
     "time": "2 h 30 m",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "scrap", 3 ] ], [ [ "2x4", 1 ] ] ]
   },
@@ -1101,10 +1048,7 @@
     "time": "3 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ], [ [ "2x4", 1 ] ] ]
   },
@@ -1122,10 +1066,10 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_improv" }
     ],
     "components": [ [ [ "pipe", 3 ] ], [ [ "nail", 3 ] ], [ [ "scrap", 3 ] ], [ [ "2x4", 1 ] ] ]
   },
@@ -1141,10 +1085,7 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "nail", 1 ] ], [ [ "spring", 1 ] ] ]
   },
@@ -1174,10 +1115,10 @@
     "book_learn": [ [ "manual_shotgun", 2 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 25 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_improv" }
     ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
@@ -1212,10 +1153,10 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 10 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_improv" }
     ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -1231,9 +1172,9 @@
     "time": "4 h",
     "autolearn": true,
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1251,9 +1192,9 @@
     "time": "3 h",
     "autolearn": true,
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
@@ -1271,7 +1212,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 3 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -1297,9 +1238,9 @@
       { "id": "SAW_W", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_bowyery", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
-      { "proficiency": "prof_gunsmithing_spring", "required": false, "time_multiplier": 2, "fail_multiplier": 5 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.5 }
+      { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_gunsmithing_spring" },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5 }
     ],
     "components": [
       [ [ "2x4", 8 ], [ "stick", 16 ] ],
@@ -1324,9 +1265,9 @@
     "decomp_learn": 4,
     "book_learn": [ [ "recipe_bows", 4 ], [ "textbook_weapeast", 6 ] ],
     "proficiencies": [
-      { "proficiency": "prof_bowyery", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
-      { "proficiency": "prof_gunsmithing_spring", "required": false, "time_multiplier": 2, "fail_multiplier": 5 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.5 }
+      { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_gunsmithing_spring" },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5 }
     ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ], [ [ "spring", 1 ] ], [ [ "cordage_superior", 1, "LIST" ] ], [ [ "nail", 20 ] ] ]
@@ -1346,10 +1287,10 @@
     "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 30 ] ] ],
     "using": [ [ "welding_standard", 3 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_gunsmithing_basic" },
+      { "proficiency": "prof_gunsmithing_improv" }
     ],
     "components": [ [ [ "m2browning", 1 ] ], [ [ "2x4", 1 ] ] ]
   },
@@ -1366,9 +1307,9 @@
     "book_learn": [ [ "manual_launcher", 7 ] ],
     "using": [ [ "welding_standard", 3 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_gunsmithing_improv" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pilot_light", 2 ] ], [ [ "light_battery_cell", 2 ] ], [ [ "processor", 2 ] ] ]
@@ -1384,7 +1325,7 @@
     "time": "4 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 } ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "leather", 30 ], [ "rope_superior_short", 2, "LIST" ] ], [ [ "scrap", 9 ], [ "razor_blade", 9 ] ] ]
   },
@@ -1403,15 +1344,10 @@
     "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_electromagnetics", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_gunsmithing_improv", "required": false, "time_multiplier": 2 },
-      {
-        "proficiency": "prof_plasticworking",
-        "required": false,
-        "time_multiplier": 1.25,
-        "learning_time_multiplier": 0.1
-      }
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_electromagnetics" },
+      { "proficiency": "prof_gunsmithing_improv" },
+      { "proficiency": "prof_plasticworking", "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "laptop", -1 ] ] ],
     "components": [

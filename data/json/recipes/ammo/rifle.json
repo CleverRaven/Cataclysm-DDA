@@ -503,7 +503,7 @@
     "book_learn": [ [ "recipe_caseless", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "plastic_molding", 1 ] ],
     "//": "3000 mg gunpowder rounded to 30 100 mg 'pieces'",
     "components": [

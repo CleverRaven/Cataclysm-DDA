@@ -28,7 +28,7 @@
     "book_learn": [ [ "manual_mechanics", 3 ], [ "textbook_mechanics", 2 ], [ "welding_book", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5 },
-      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -50,9 +50,9 @@
     "time": "3 h",
     "autolearn": true,
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
       {
         "proficiency": "prof_toolsmithing",
         "required": false,
@@ -523,7 +523,7 @@
     "reversible": true,
     "book_learn": [ [ "recipe_caseless", 8 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "components": [
       [ [ "plastic_chunk", 5 ] ],
       [ [ "superglue", 1 ] ],
@@ -549,7 +549,7 @@
     "decomp_learn": 4,
     "autolearn": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "textbook_chemistry", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 4 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -575,7 +575,7 @@
     "autolearn": true,
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "superglue", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "cable", 5 ] ], [ [ "motor_micro", 1 ] ] ]
   },
@@ -642,7 +642,7 @@
     "book_learn": [ [ "advanced_electronics", 4 ], [ "mag_electronics", 6 ], [ "manual_electronics", 5 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "components": [
       [ [ "scrap", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
