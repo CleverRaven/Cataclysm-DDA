@@ -1591,7 +1591,7 @@ void npc_favor::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "type", static_cast<int>( type ) );
     json.member( "value", value );
-    json.member( "itype_id", static_cast<std::string>( item_id ) );
+    json.member( "itype_id", item_id.str() );
     json.member( "skill_id", skill );
     json.end_object();
 }

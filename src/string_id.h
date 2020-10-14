@@ -187,16 +187,12 @@ class string_id
             if( _is_char_ptr ) {
                 // We don't want to break the constness of str(), and this change is 100% internal with
                 // observable side effects, therefore we break the constness of this to cache the string.
-                string_id<T> wthis = const_cast<This *>( this );
+                string_id<T> *wthis = const_cast<This *>( this );
                 std::unique_ptr<std::string> string = std::make_unique<std::string>( _char_ptr );
                 wthis->_string = cached_strings().try_emplace( _hash, std::move( string ) ).first->second.get();
                 wthis->_is_char_ptr = false;
             }
             return *_string;
-        }
-
-        explicit operator std::string() const {
-            return str();
         }
 
         // Those are optional, you need to implement them on your own if you want to use them.

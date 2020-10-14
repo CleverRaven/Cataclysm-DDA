@@ -2177,7 +2177,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
 {
     player_activity act( ACT_PLANT_SEED, to_moves<int>( 30_seconds ) );
     act.placement = get_map().getabs( examp );
-    act.str_values.emplace_back( seed_id );
+    act.str_values.emplace_back( seed_id.str() );
     p.assign_activity( act );
 }
 

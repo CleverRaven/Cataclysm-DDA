@@ -7921,7 +7921,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
         if( e->is_gun() ) {
             for( const std::pair<const gun_mode_id, gun_modifier_data> &m : e->type->gun->modes ) {
                 // prefix attached gunmods, e.g. M203_DEFAULT to avoid index key collisions
-                std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
+                std::string prefix = e->is_gunmod() ? e->typeId().str() + "_" : "";
                 std::transform( prefix.begin(), prefix.end(), prefix.begin(),
                                 static_cast<int( * )( int )>( toupper ) );
 
