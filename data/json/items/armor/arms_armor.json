@@ -202,7 +202,7 @@
     "id": "xl_armguard_metal",
     "type": "ARMOR",
     "name": { "str": "pair of oversize metal arm guards", "str_pl": "pairs of oversize metal arm guards" },
-    "description": "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look. Larger than average.",
+    "description": "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.  Larger than average.",
     "weight": "1380 g",
     "volume": "3250 ml",
     "copy-from": "armguard_metal",

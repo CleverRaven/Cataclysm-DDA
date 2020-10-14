@@ -438,6 +438,14 @@
     ]
   },
   {
+    "result": "xl_helmet_barbute",
+    "type": "recipe",
+    "copy-from": "helmet_barbute",
+    "time": "16 h",
+    "using": [ [ "blacksmithing_standard", 50 ], [ "steel_standard", 15 ] ],
+    "components": [ [ [ "fur", 6 ], [ "leather", 5 ] ] ]
+  },
+  {
     "result": "helmet_chitin",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -452,6 +460,13 @@
       { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_fibers", "required": false, "time_multiplier": 2 }
     ]
+  },
+  {
+    "result": "xl_helmet_chitin",
+    "type": "recipe",
+    "copy-from": "helmet_chitin",
+    "time": "9 h",
+    "components": [ [ [ "cordage_superior", 2, "LIST" ] ], [ [ "chitin_piece", 17 ] ] ]
   },
   {
     "result": "helmet_conical",
@@ -474,6 +489,14 @@
     ]
   },
   {
+    "result": "xl_helmet_conical",
+    "type": "recipe",
+    "copy-from": "helmet_conical",
+    "time": "17 h",
+    "using": [ [ "sewing_standard", 23 ], [ "blacksmithing_standard", 11 ], [ "steel_standard", 3 ] ],
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
+  },
+  {
     "result": "helmet_acidchitin",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -490,6 +513,13 @@
       { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_fibers", "required": false, "time_multiplier": 2 }
     ]
+  },
+  {
+    "result": "xl_helmet_acidchitin",
+    "type": "recipe",
+    "copy-from": "helmet_acidchitin",
+    "time": "5 h",
+    "components": [ [ [ "cordage_superior", 2, "LIST" ] ], [ [ "acidchitin_piece", 17 ] ] ]
   },
   {
     "result": "helmet_galea",
