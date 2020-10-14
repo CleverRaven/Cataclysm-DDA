@@ -8286,14 +8286,18 @@ bool item::reload( Character &u, item_location ammo, int qty )
     } else {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
-            //~ %1$s: magazine name, %2$s: weapon name
-            std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
-                                                magazine_current()->tname(), tname() );
+            // we don't want to replace wielded `ammo` with ejected magazine
+            // as it will invalidate `ammo`
+            bool allow_wield = !u.is_wielding( *ammo );
 
             // eject magazine to player inventory
-            u.i_add( *magazine_current() );
-
+            u.i_add( *magazine_current(), true, nullptr, true, allow_wield );
             remove_item( *magazine_current() );
+        }
+
+        if( !ammo ) {
+            debugmsg( "Tried to reload using invalidated ammo location" );
+            return false;
         }
 
         put_in( *ammo, item_pocket::pocket_type::MAGAZINE_WELL );
