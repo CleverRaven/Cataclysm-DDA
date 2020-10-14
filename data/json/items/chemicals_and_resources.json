@@ -1551,7 +1551,7 @@
     "id": "conc_paralytic",
     "type": "AMMO",
     "name": { "str_sp": "concentrated paralytic" },
-    "description": "The concentrated paralytic agent, originally from a triffid.  Given your experience with its effects (chiefly gathered while sourcing this batch) and their striking similarity to earthly flora you figure it's related to curarines. Might come in handy in crafting more useful things.",
+    "description": "The concentrated paralytic agent, originally from a triffid.  Given your experience with its effects (chiefly gathered while sourcing this batch) and their striking similarity to earthly flora you figure it's related to curarines.  Might come in handy in crafting more useful things.",
     "copy-from": "conc_venom",
     "color": "light_gray"
   }
