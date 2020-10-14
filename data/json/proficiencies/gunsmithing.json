@@ -38,7 +38,7 @@
     "description": "Similar to bowyery, the art of making guns that are powered by elastic mechanisms.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_fail_multiplier": 2,
+    "default_fail_multiplier": 4,
     "time_to_learn": "6 h"
   },
   {
