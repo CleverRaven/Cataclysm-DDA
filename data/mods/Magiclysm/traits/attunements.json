@@ -499,6 +499,7 @@
     "valid": false,
     "description": "The Golemancer is the ancient myth of the clay golem, made reality from constant use of Animist summons and Earthshaper self-strengthening spells.  Takes some traits from the golems they create, such as immunity to slowing effects.",
     "prereqs": [ "ANIMIST", "EARTHSHAPER" ],
+    "spells_learned": [ [ "golem_push", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",

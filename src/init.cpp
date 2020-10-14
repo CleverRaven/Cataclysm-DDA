@@ -199,7 +199,7 @@ void DynamicDataLoader::initialize()
     // Static Function Access
     add( "WORLD_OPTION", &load_world_option );
     add( "EXTERNAL_OPTION", &load_external_option );
-    add( "json_flag", &json_flag::load );
+    add( "json_flag", &json_flag::load_all );
     add( "fault", &fault::load_fault );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "field_type", &field_types::load );
@@ -571,6 +571,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
+            { _( "json_flag" ), &json_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },

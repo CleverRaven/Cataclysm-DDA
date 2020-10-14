@@ -322,6 +322,8 @@ struct weariness_tracker {
     int tick_counter = 0;
 
     void clear();
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
@@ -1758,9 +1760,8 @@ class Character : public Creature, public visitable<Character>
         // magic mod
         pimpl<known_magic> magic;
 
-        void make_bleed( const bodypart_id &bp, time_duration duration, int intensity = 1,
-                         bool permanent = false,
-                         bool force = false, bool defferred = false );
+        void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
+                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
 
         /** Calls Creature::normalize()
          *  nulls out the player's weapon

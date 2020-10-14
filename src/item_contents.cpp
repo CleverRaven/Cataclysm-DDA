@@ -725,9 +725,16 @@ const item &item_contents::first_ammo() const
         if( !pocket.is_type( item_pocket::pocket_type::MAGAZINE ) || pocket.empty() ) {
             continue;
         }
+        if( pocket.front().has_flag( "CASING" ) ) {
+            for( const item *i : pocket.all_items_top() ) {
+                if( !i->has_flag( "CASING" ) ) {
+                    return *i;
+                }
+            }
+            continue;
+        }
         return pocket.front();
     }
-    debugmsg( "Error: Tried to get first ammo in container not containing ammo" );
     return null_item_reference();
 }
 

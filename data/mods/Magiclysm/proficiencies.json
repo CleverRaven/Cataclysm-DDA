@@ -5,6 +5,8 @@
     "name": { "str": "Alchemy" },
     "description": "You know the basics of manipulating the mana of objects through application of chemical laws.",
     "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 3,
     "time_to_learn": "8 h"
   },
   {
@@ -14,6 +16,8 @@
     "description": "The forging of magical alloys is a complex process requiring an understanding of both mundane metals and alchemy.",
     "can_learn": true,
     "time_to_learn": "4 h",
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2,
     "required_proficiencies": [ "prof_alchemy" ]
   }
 ]

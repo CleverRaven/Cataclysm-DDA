@@ -48,8 +48,8 @@ struct enum_traits<recipe_filter_flags> {
 struct recipe_proficiency {
     proficiency_id id;
     bool required = false;
-    float time_multiplier = 1.0f;
-    float fail_multiplier = 2.5f;
+    float time_multiplier = 0.0f;
+    float fail_multiplier = 0.0f;
     float learning_time_mult = 1.0f;
     cata::optional<time_duration> max_experience = cata::nullopt;
 

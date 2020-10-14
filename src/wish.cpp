@@ -441,9 +441,9 @@ static item wishitem_produce( const itype &type, std::string &flags, bool incont
 {
     item granted( &type, calendar::turn );
 
-    granted.item_tags.clear();
+    granted.unset_flags();
     for( const auto &tag : debug_menu::string_to_iterable<std::vector<std::string>>( flags, " " ) ) {
-        granted.item_tags.insert( tag );
+        granted.set_flag( tag );
     }
 
     if( incontainer ) {
@@ -480,7 +480,7 @@ class wish_item_callback: public uilist_callback
             }
 
             // grab default flags for the itype
-            flags = debug_menu::iterable_to_string( standard_itype_ids[menu->selected]->item_tags, "" );
+            flags = debug_menu::iterable_to_string( standard_itype_ids[menu->selected]->get_flags(), "" );
         }
 
         bool key( const input_context &ctxt, const input_event &event, int /*entnum*/,

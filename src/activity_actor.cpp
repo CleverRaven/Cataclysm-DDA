@@ -365,7 +365,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
         here.place_items( "jewelry_front", 20, location, location, false, calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
-                it->item_tags.insert( "FILTHY" );
+                it->set_flag( "FILTHY" );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }

@@ -1259,13 +1259,20 @@ tab_direction set_traits( avatar &u, points_left &points )
                 iCurrentLine[iCurWorkingPage] = 0;
             }
         } else if( action == "PAGE_DOWN" ) {
-            iCurrentLine[iCurWorkingPage] += + 10;
-            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= traits_size[iCurWorkingPage] ) {
+            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) == traits_size[iCurWorkingPage] - 1 ) {
                 iCurrentLine[iCurWorkingPage] = 0;
+            } else if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] + 10 ) >=
+                       traits_size[iCurWorkingPage] ) {
+                iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            } else {
+                iCurrentLine[iCurWorkingPage] += +10;
             }
         } else if( action == "PAGE_UP" ) {
             if( iCurrentLine[iCurWorkingPage] == 0 ) {
                 iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            } else if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] - 10 ) >=
+                       traits_size[iCurWorkingPage] ) {
+                iCurrentLine[iCurWorkingPage] = 0;
             } else {
                 iCurrentLine[iCurWorkingPage] += -10;
             }
@@ -1394,6 +1401,8 @@ tab_direction set_profession( avatar &u, points_left &points,
 
     input_context ctxt( "NEW_CHAR_PROFESSIONS" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "PREV_TAB" );
@@ -1695,6 +1704,18 @@ tab_direction set_profession( avatar &u, points_left &points,
             desc_offset = 0;
         } else if( action == "UP" ) {
             cur_id--;
+            if( cur_id < 0 ) {
+                cur_id = profs_length - 1;
+            }
+            desc_offset = 0;
+        } else if( action == "PAGE_DOWN" ) {
+            cur_id += iContentHeight - 1;
+            if( cur_id > static_cast<int>( profs_length ) - 1 ) {
+                cur_id = 0;
+            }
+            desc_offset = 0;
+        } else if( action == "PAGE_UP" ) {
+            cur_id -= iContentHeight - 1;
             if( cur_id < 0 ) {
                 cur_id = profs_length - 1;
             }
@@ -2485,13 +2506,15 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     ctxt.register_action( "SAVE_TEMPLATE" );
     ctxt.register_action( "RANDOMIZE_CHAR_NAME" );
     ctxt.register_action( "RANDOMIZE_CHAR_DESCRIPTION" );
+    if( !MAP_SHARING::isSharing() && allow_reroll ) {
+        ctxt.register_action( "REROLL_CHARACTER" );
+        ctxt.register_action( "REROLL_CHARACTER_WITH_SCENARIO" );
+    }
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CHOOSE_LOCATION" );
-    ctxt.register_action( "REROLL_CHARACTER" );
-    ctxt.register_action( "REROLL_CHARACTER_WITH_SCENARIO" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
 

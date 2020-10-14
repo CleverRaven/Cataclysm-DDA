@@ -1622,7 +1622,7 @@
     "charges_per_use": 5,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": [ "CS_LAJATANG_OFF" ],
-    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "cs_lajatang_on",
@@ -1638,7 +1638,7 @@
     "turns_per_charge": 1,
     "charges_per_use": 0,
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -250 ] ],
-    "flags": [ "MESSY", "HURT_WHEN_PULLED", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "ecs_lajatang_off",
@@ -1659,7 +1659,7 @@
     "charges_per_use": 5,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": [ "ECS_LAJATANG_OFF" ],
-    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "ALWAYS_TWOHAND" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1684,7 +1684,7 @@
     "charges_per_use": 0,
     "revert_to": "ecs_lajatang_off",
     "use_action": [ "ECS_LAJATANG_ON" ],
-    "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "cutlass",
@@ -1713,7 +1713,7 @@
     "symbol": "/",
     "color": "brown",
     "name": { "str": "lajatang" },
-    "description": "An exotic weapon comprised of a long pole of wood with curved blades on each end.  It can be deadly in skilled hands.",
+    "description": "An impractical exotic weapon comprised of a long pole of wood with curved blades on each end.",
     "price": 12000,
     "price_postapoc": 1250,
     "material": [ "wood", "iron" ],
