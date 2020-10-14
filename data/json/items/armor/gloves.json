@@ -142,7 +142,10 @@
   {
     "id": "xl_gauntlets_acidchitin",
     "type": "ARMOR",
-    "name": { "str": "pair of oversize biosilicified chitin gauntlets", "str_pl": "pairs of oversize biosilicified chitin gauntlets" },
+    "name": {
+      "str": "pair of oversize biosilicified chitin gauntlets",
+      "str_pl": "pairs of oversize biosilicified chitin gauntlets"
+    },
     "copy-from": "gauntlets_acidchitin",
     "flags": [ "STURDY", "OVERSIZE" ]
   },
@@ -525,7 +528,10 @@
   {
     "id": "xl_gloves_survivor_fingerless",
     "type": "ARMOR",
-    "name": { "str": "pair of oversized survivor gloves without fingers", "str_pl": "pairs of oversized survivor gloves without fingers" },
+    "name": {
+      "str": "pair of oversized survivor gloves without fingers",
+      "str_pl": "pairs of oversized survivor gloves without fingers"
+    },
     "copy-from": "gloves_survivor_fingerless",
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS" ]
   },

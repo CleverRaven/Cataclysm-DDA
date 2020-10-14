@@ -596,6 +596,14 @@
     ]
   },
   {
+    "result": "xl_helmet_larmor",
+    "type": "recipe",
+    "copy-from": "helmet_larmor",
+    "time": "1 h",
+    "using": [ [ "sewing_standard", 23 ] ],
+    "components": [ [ [ "leather", 21 ], [ "tanned_hide", 4 ], [ "fur", 21 ], [ "tanned_pelt", 4 ] ] ]
+  },
+  {
     "result": "helmet_nasal",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
