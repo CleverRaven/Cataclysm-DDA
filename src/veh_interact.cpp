@@ -934,9 +934,6 @@ void veh_interact::do_install()
     std::vector<const vpart_info *> &tab_vparts = install_info->tab_vparts;
     auto refresh_parts_list = [&]( std::vector<const vpart_info *> parts ) {
         std::copy_if( parts.begin(), parts.end(), std::back_inserter( tab_vparts ), tab_filters[tab] );
-        std::sort( tab_vparts.begin(), tab_vparts.end(), []( const vpart_info * a, const vpart_info * b ) {
-            return localized_compare( a->name(), b->name() );
-        } );
     };
     refresh_parts_list( can_mount );
 
@@ -2061,7 +2058,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
 
     can_mount.clear();
     if( !obstruct ) {
-        int divider_index = 0;
+        std::vector<const vpart_info *> req_missing;
         for( const auto &e : vpart_info::all() ) {
             const vpart_info &vp = e.second;
             if( has_critter && vp.has_flag( VPFLAG_OBSTACLE ) ) {
@@ -2073,12 +2070,18 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
                     continue;
                 }
                 if( can_potentially_install( vp ) ) {
-                    can_mount.insert( can_mount.begin() + divider_index++, &vp );
-                } else {
                     can_mount.push_back( &vp );
+                } else {
+                    req_missing.push_back( &vp );
                 }
             }
         }
+        auto vpart_localized_sort = []( const vpart_info * a, const vpart_info * b ) {
+            return localized_compare( a->name(), b->name() );
+        };
+        std::sort( can_mount.begin(), can_mount.end(), vpart_localized_sort );
+        std::sort( req_missing.begin(), req_missing.end(), vpart_localized_sort );
+        can_mount.insert( can_mount.end(), req_missing.cbegin(), req_missing.cend() );
     }
 
     need_repair.clear();
