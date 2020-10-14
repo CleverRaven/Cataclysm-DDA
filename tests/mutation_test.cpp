@@ -61,7 +61,7 @@ std::string get_mutations_as_string( const player &p )
 {
     std::ostringstream s;
     for( trait_id &m : p.get_mutations() ) {
-        s << static_cast<std::string>( m ) << " ";
+        s << m.str() << " ";
     }
     return s.str();
 }
