@@ -16,7 +16,7 @@
     "description": "A basic understanding of the different types of welding, welding tools and fuels, how to weld different materials, and more.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_fail_multiplier": 3,
+    "default_fail_multiplier": 5,
     "time_to_learn": "6 h",
     "required_proficiencies": [ "prof_metalworking" ]
   },

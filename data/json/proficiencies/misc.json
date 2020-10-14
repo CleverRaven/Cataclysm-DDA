@@ -6,7 +6,7 @@
     "description": "You know the basic principles of turning stones into more useful tools.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_fail_multiplier": 5,
+    "default_fail_multiplier": 8,
     "time_to_learn": "8 h"
   },
   {
@@ -56,7 +56,7 @@
     "name": { "str": "Bowyery" },
     "description": "The ability to make durable, effective bows.",
     "can_learn": true,
-    "default_time_multiplier": 1.5,
+    "default_time_multiplier": 2.5,
     "default_fail_multiplier": 5,
     "time_to_learn": "10 h"
   },
