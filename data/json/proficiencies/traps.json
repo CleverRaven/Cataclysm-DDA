@@ -9,7 +9,7 @@
   },
   {
     "type": "proficiency",
-    "id": "prof_lockpicking",
+    "id": "prof_lockpicking_expert",
     "name": { "str": "Lockpicking Expert" },
     "description": "You can pick a lock in the dark, blindfolded.  Although that doesn't make it all that much harder.  You're good at locks, OK?",
     "can_learn": true,
