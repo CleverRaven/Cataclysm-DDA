@@ -43,6 +43,7 @@
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
+#include "proficiency.h"
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -1079,23 +1080,23 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    int pick_roll = std::pow( 1.5, who.get_skill_level( skill_traps ) ) *
-                    ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
-                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
-                    who.dex_cur / 4.0 + who.per_cur / 6.0 + who.int_cur / 8.0;
+    int pick_roll = ( std::pow( 1.5, who.get_skill_level( skill_traps ) ) *
+                      ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
+                        it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
+                      who.dex_cur / 4.0 + who.per_cur / 6.0 + who.int_cur / 8.0 ) / 20;
     // If you lack any proficiency you are highly unlikely to succeed.
-    int pick_roll_prof_modifier = 20;
+    // Divide result by twenty then work it back up as you get lockpicking profs.
     if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
         // If you know basic lockpicking, your chance will be halved.
-        pick_roll_prof_modifier = 2;
+        pick_roll = pick_roll * 10;
     }
     if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
         // If you're a locksmith you use your full, unmodified roll.
-        pick_roll_prof_modifier = 1;
+        pick_roll = pick_roll * 2;
     }
     int lock_roll = rng( 1, 120 );
     int xp_gain = 0;
-    if( perfect || ( ( pick_roll / pick_roll_prof_modifier ) >= lock_roll ) ) {
+    if( perfect || ( pick_roll >= lock_roll ) ) {
         xp_gain += lock_roll;
         here.has_furn( target ) ?
         here.furn_set( target, new_furn_type ) :
@@ -1123,6 +1124,11 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             xp_gain += std::pow( 2, you->get_skill_level( skill_traps ) ) + 1;
         }
         you->practice( skill_traps, xp_gain );
+        if( !who.has_proficiency( proficiency_prof_lockpicking ) ) {
+            you->practice_proficiency( proficiency_prof_lockpicking, 1_minutes );
+        } else if( !who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+            you->practice_proficiency( proficiency_prof_lockpicking_expert, 1_minutes );
+        }
     }
 
     if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
