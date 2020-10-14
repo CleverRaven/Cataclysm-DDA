@@ -432,6 +432,7 @@
     "name": "Sheltered Militia",
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter with your collection of guns.  You've spent the past months eating canned food and practicing your aim.  Now it is winter - time to face the world above.",
     "points": 4,
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gunsmithing_improv" ],
     "skills": [ { "level": 2, "name": "gun" }, { "level": 1, "name": "rifle" }, { "level": 1, "name": "pistol" } ],
     "items": {
       "both": {
@@ -461,7 +462,14 @@
     "points": 2,
     "//": "Tailoring kit makes an already decent class for careful folks much more powerful.",
     "skills": [ { "level": 4, "name": "tailor" } ],
-    "proficiencies": [ "prof_fibers", "prof_leatherworking", "prof_closures", "prof_closures_waterproofing" ],
+    "proficiencies": [
+      "prof_fibers",
+      "prof_leatherworking_basic",
+      "prof_leatherworking",
+      "prof_furriery",
+      "prof_closures",
+      "prof_closures_waterproofing"
+    ],
     "items": {
       "both": {
         "items": [ "polo_shirt", "blazer", "pants", "socks", "dress_shoes", "knit_scarf", "scissors", "wristwatch" ],
@@ -500,7 +508,7 @@
       },
       "female": [ "chestwrap" ]
     },
-    "proficiencies": [ "prof_fibers" ],
+    "proficiencies": [ "prof_fibers", "prof_carving", "prof_leatherworking_basic" ],
     "skills": [
       { "level": 1, "name": "melee" },
       { "level": 1, "name": "throw" },
@@ -541,7 +549,7 @@
     "id": "mechanic",
     "name": "Home Mechanic",
     "description": "You've always loved cars, and there's nothing like getting under the hood and fixing it yourself.  You've kept hold of some handy tools for the job, and at least now you'll never want for parts.",
-    "proficiencies": [ "prof_metalworking", "prof_welding_basic" ],
+    "proficiencies": [ "prof_metalworking", "prof_welding_basic", "prof_elec_soldering" ],
     "points": 2,
     "skills": [ { "level": 3, "name": "mechanics" }, { "level": 1, "name": "driving" } ],
     "items": {
@@ -701,6 +709,7 @@
     "name": "Military Recruit",
     "description": "Joining the military has been your dream for years.  You finally got in, just in time for your training to get interrupted by some sort of national emergency.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 4,
+    "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "rifle" },
@@ -742,7 +751,7 @@
     "name": "Special Operator",
     "description": "You were the best of the best, the military's finest.  That's why you're still alive, even after all your comrades fell to the undead.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 5,
-    "proficiencies": [ "prof_traps", "prof_disarming" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_disarming" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "smg" },
@@ -968,7 +977,17 @@
     "id": "survivalist",
     "name": "Survivalist",
     "description": "Living off the land, far from civilization, is nothing new to you.  The only difference is all the monsters that suddenly want you dead.  Your equipment is basic, but versatile… except that your canteen's run out!",
-    "points": 3,
+    "points": 4,
+    "proficiencies": [
+      "prof_gunsmithing_basic",
+      "prof_gunsmithing_improv",
+      "prof_bowyery",
+      "prof_fibers",
+      "prof_fibers_rope",
+      "prof_leatherworking_basic",
+      "prof_metalworking",
+      "prof_lockpicking"
+    ],
     "skills": [
       { "level": 4, "name": "survival" },
       { "level": 2, "name": "traps" },
@@ -978,7 +997,6 @@
       { "level": 2, "name": "firstaid" },
       { "level": 2, "name": "swimming" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_leatherworking", "prof_lockpicking" ],
     "items": {
       "both": {
         "items": [
@@ -1214,6 +1232,7 @@
     "name": "SWAT Officer",
     "description": "As a member of the police force's most elite division, you are more than adequately trained and equipped to survive the brutal onslaught of the apocalypse.  Unfortunately, the chain of command has broken down; your only mission now is to stay alive.",
     "points": 5,
+    "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 3, "name": "smg" } ],
     "traits": [ "PROF_SWAT" ],
     "items": {
@@ -1275,6 +1294,7 @@
     "name": "Police Sniper",
     "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well-placed bullet.  Now survival itself is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
     "points": 5,
+    "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [ { "level": 5, "name": "gun" }, { "level": 4, "name": "rifle" }, { "level": 1, "name": "pistol" } ],
     "traits": [ "PROF_POLICE" ],
     "items": {
@@ -1370,6 +1390,7 @@
     "name": "Bow Hunter",
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for archery.  Why, if the world ended, there's nothing you'd want at your side more than your trusty bow.  So, when it did, you made sure to bring it along.",
     "points": 2,
+    "proficiencies": [ "prof_bowyery" ],
     "skills": [ { "level": 2, "name": "archery" } ],
     "items": {
       "both": {
@@ -1400,6 +1421,7 @@
     "name": "Crossbow Hunter",
     "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along.",
     "points": 2,
+    "proficiencies": [ "prof_gunsmithing_spring" ],
     "skills": [ { "level": 2, "name": "rifle" } ],
     "items": {
       "both": {
@@ -1465,7 +1487,7 @@
     "name": { "male": "Handy Man", "female": "Handy Woman" },
     "description": "You used to work at a local hardware store, and you did plenty of home renovations yourself.  Now you look out at the horizon of a ruined world, and wonder - are your meager skills, and the few supplies you grabbed on the way out, sufficient to help rebuild?",
     "points": 1,
-    "proficiencies": [ "prof_lockpicking", "prof_plumbing" ],
+    "proficiencies": [ "prof_plumbing", "prof_elec_soldering", "prof_metalworking", "prof_lockpicking" ],
     "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "traps" } ],
     "items": {
       "both": {
@@ -1548,6 +1570,7 @@
     "name": "Electrician",
     "description": "Small businesses often hired you for electrical work.  You were halfway through your latest job when the whole power grid went dead.",
     "points": 1,
+    "proficiencies": [ "prof_elec_soldering" ],
     "skills": [ { "level": 3, "name": "electronics" } ],
     "items": {
       "both": {
@@ -2452,6 +2475,7 @@
     "name": "Military Holdout",
     "description": "You must have paid attention to your survival training in boot camp; otherwise, you would never have lived long enough to outlast the chain of command and find yourself in this predicament.  The only mission left now is to survive.",
     "points": 6,
+    "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
       { "level": 4, "name": "survival" },
       { "level": 4, "name": "gun" },
@@ -2532,7 +2556,7 @@
       { "level": 2, "name": "chemistry" },
       { "level": 3, "name": "cooking" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping", "prof_leatherworking" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping", "prof_leatherworking_basic" ],
     "items": {
       "both": {
         "items": [
@@ -2602,6 +2626,7 @@
     "name": "Historical Reenactor",
     "description": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans.",
     "points": 3,
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gunsmithing_antique" ],
     "skills": [
       { "level": 2, "name": "tailor" },
       { "level": 2, "name": "gun" },
@@ -3301,6 +3326,7 @@
     "name": "Wild West Gunslinger",
     "description": "You made your living on Wild West exhibitions and shows, impressing tourists with your displays of marksmanship.  But that world has ended, so you took your trusty six-shooter and wandered into a world where it's always high noon.",
     "points": 4,
+    "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
       { "level": 4, "name": "gun" },
       { "level": 3, "name": "pistol" },
