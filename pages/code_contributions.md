@@ -5,7 +5,7 @@ title: ""
 
 ## Code Style
 
-Current policy is to only update code to the standard style when changing a substantial portion of it, but **please** do this in a separate commit. See doc/CODE_STYLE.txt for details
+The current policy is to only update code to the standard style when changing a substantial portion of it, but **please** do this in a separate commit. See doc/CODE_STYLE.txt for details
 
 ## Translations
 
@@ -38,7 +38,7 @@ untranslated = "other text";
 translated_again = _(untranslated);
 ```
 
-Strings from the JSON data files are extracted via the "lang/extract_json_strings.py" script. They can be translated at run time using `_()`.
+Strings from the JSON data files are extracted via the `lang/extract_json_strings.py` script. They can be translated at run time using `_()`.
 
 ### Using `_()`
 
@@ -124,7 +124,7 @@ Remote tracking branches allow you to easily stay in touch with this repository'
     * master      xxxx [origin/master] ....
       new_feature xxxx ....
 
-Here you can see we have two branches; `master` which is tracking `origin/master`, and `new_feature` which isn't tracking any branch. In practice, what this means is that git won't know where to get changes from.
+Here you can see we have two branches: `master`, which is tracking `origin/master`, and `new_feature`, which isn't tracking any branch. In practice, what this means is that git won't know where to get changes from.
 
     $ git checkout new_feature
     Switched to branch 'new_feature'

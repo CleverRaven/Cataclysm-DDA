@@ -53,7 +53,7 @@ title: ""
         # origin was automatically set to point to your fork when you cloned it
 
 
-3. Once you're finished working on your branch, and have committed and pushed all your changes, submit a pull request from your `new_feature` branch to this repository's `master` branch.
+3. Once you're finished working on your branch and have committed and pushed all your changes, submit a pull request from your `new_feature` branch to this repository's `master` branch.
 
  * Note: any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
 
@@ -69,7 +69,7 @@ If you file a PR but you're still working on it, please add a [WIP] before the t
 
 If you are also looking for suggestions then mark it with [CR] - "comments requested". You can use both [WIP] and [CR] to indicated that you need opinion/code review/suggestions to continue working (e.g. "[WIP] [CR] Super awesome big feature"). Feel free to remove [CR] when you feel you got enough information to proceed.
 
-This can help speed up our review process by allowing us to only review the things that are ready for it, and will prevent anything that isn't completely ready from being merged in.
+This can help speed up our review process by allowing us to only review the things that are ready for it and will prevent anything that isn't completely ready from being merged in.
 
 One more thing: when marking your PR as closing, fixing, or resolving issues, please include "XXXX #???" somewhere in the description, where XXX is on this list:
 close

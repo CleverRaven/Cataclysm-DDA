@@ -7,12 +7,12 @@ Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalypt
 
 ## Gameplay
 
-As your game begins, you awaken with hazy memories of violence and terror from when the world suddenly unravelled around you.  Now you need to explore your surroundings, and secure food, water and safety.  After that, who knows?  Long term survival will mean tapping abilities you haven't used before, learning to survive in this new environment and developing new skills.
+As your game begins, you awaken with hazy memories of violence and terror from when the world suddenly unravelled around you.  Now you need to explore your surroundings, and secure food, water and safety.  After that, who knows?  Long term survival will mean tapping abilities you haven't used before, learning to survive in this new environment, and developing new skills.
 
 ## Community and Resources
 
 * [Forums](https://discourse.cataclysmdda.org)
-* [Reddit(unofficial)](https://www.reddit.com/r/cataclysmdda/)
+* [Reddit (unofficial)](https://www.reddit.com/r/cataclysmdda/)
 * [Discord](https://discord.gg/jFEc7Yp)
 * IRC server: irc.freenode.net channel: #CataclysmDDA [webchat](https://webchat.freenode.net/?channels=#CataclysmDDA)
 * [Wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php)
@@ -26,7 +26,7 @@ As your game begins, you awaken with hazy memories of violence and terror from w
 
 "I used to test the game on an Asus EEE 700. That's a 900MHz mobile cpu with 500MB of ram." -Kevin Granade
 
-Tilesets increase the amount of RAM required dramatically, I recommend at least 1GB of ram for tilesets, and there are reports of instability due to RAM exhaustion when certain tilesets are used. (The larger the size of the individual tiles, the more RAM is used)
+Tilesets increase the amount of RAM required dramatically. I recommend at least 1GB of ram for tilesets, and there are reports of instability due to RAM exhaustion when certain tilesets are used. (The larger the size of the individual tiles, the more RAM is used)
 
 ### Recommended
 "I regularly test the game now on a Windows netbook with a sub 2GHz single core CPU, 1GB of ram, and no graphics acceleration." -Kevin Granade
@@ -35,7 +35,7 @@ Graphical builds run much faster with some kind of graphics acceleration.  2GB o
 
 ## Downloads
 
-Cataclysm has official builds for Windows, Linux and OSX, and each platform comes in both terminal and graphical flavors. There are also "unnofficial" builds for IOS and Android.
+Cataclysm has official builds for Windows, Linux, and OSX, and each build comes in both terminal and graphical flavors. There are also "unofficial" builds for iOS and Android.
 
 ### Latest Stable
 The most recent stable release is {{ site.github.latest_release.tag_name }} {{ site.github.latest_release.name }}.  We recommend stable for the most bug-free experience possible.  You can download it from the [Releases Page]({{ site.baseurl }}{% link releases.md %}).

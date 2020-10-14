@@ -7,7 +7,7 @@ title: ""
 
 ## How to create new issues properly
 
-GitHub issues are used for everything from bug reporting to long-term ideas. As such you can make everything much smoother by following some simple rules.
+GitHub issues are used for everything from bug reporting to long-term ideas. As such, you can make everything much smoother by following some simple rules.
 
 ### Rule zero
 
@@ -17,25 +17,25 @@ Note: `[CR]` and `[WIP]` "tags" are meaningful only for PRs. All open issues by 
 
 ### Bug reports
 
-Before you submit a bug always search the issues to see if it hasn't been reported already.
+Before you submit a bug, always search the issues to see if it hasn't been reported already.
 
-Your bug report should to include:
+Your bug report should include:
 
-- On what OS did you experience the problem (Windows, Linux, OS X etc.)
+- What OS did you experience the problem on (Windows, Linux, OS X etc.)
 - What version were you playing:
  - Tiles or Curses (text-based)
  - Version string (preferably full version e.g. "0.C-4547-g3f1c109")
-- Description of the problem you've found written in a way that enables anyone to try recreate it.
+- A description of the problem you've found written in a way that enables anyone to try to recreate it.
 - The behavior you expected from the game.
 
 Your bug report may include:
 
 - Screenshot(s) as some things are best explained visually
-- Save file (e.g. link to a dropbox upload)
+- A save file (e.g. link to a dropbox upload)
 
 Bonus points for:
 
-- Checking if the bug exists under latest experimental build.
+- Checking if the bug exists under the latest experimental build.
 - Checking if it is OS specific.
 
 The OS and CDDA version are very important - with the pace of changes here it is possible the bug you have encountered has already been fixed. After that reproducibility is the key, so write your report with all the necessary details.
@@ -56,7 +56,7 @@ You should direct your question to the forum or ask on IRC. You should also chec
 
 We have a fairly overwhelming number of open issues, 900+ as of this page's creation, we need to bring this under control, otherwise important issues can go unnoticed.  In order to make this happen, we need to step up issue triage, closing stale issues.
 
-Ideally, issues will be found to be either invalid and closed quickly, or found to be valid and addressed quickly.  Unfortunately there are some valid issues that cannot be addressed as quickly as we'd like, and they tend to accumulate.
+Ideally, issues will be found to be either invalid and closed quickly or found to be valid and addressed quickly.  Unfortunately there are some valid issues that cannot be addressed as quickly as we'd like, and they tend to accumulate.
 
 ### Reasons to close Issues
 - Issue is invalid.  There are a number of reasons an issue might be invalid:
@@ -69,7 +69,7 @@ Ideally, issues will be found to be either invalid and closed quickly, or found 
 
 ## Bounties
 
-We keep the development and direction of the game community-driven so placing a bounty *does not* necessarily mean that change will be incorporated into the main game. But it may be incorporated as a mod (or not). As such feel free to post bounties on what you like, but remember we don't do "bounty-driven" development. Good way of thinking about bounties is as encouragement for contributors to work on a particular issue, and certainly not as "paying for features".
+We keep the development and direction of the game community-driven so placing a bounty *does not* necessarily mean that change will be incorporated into the main game. But it may be incorporated as a mod (or not). As such feel free to post bounties on what you like, but remember we don't do "bounty-driven" development. A good way of thinking about bounties is as encouragement for contributors to work on a particular issue and certainly not as "paying for features".
 
 ## Issue resolution
 

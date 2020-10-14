@@ -11,7 +11,7 @@ Catalcysm: Dark Days Ahead is availible to download from many package repositori
 
 ### Arch Linux
 
-Ncurses and tiles version available in [Community repo](https://www.archlinux.org/packages/?q=cataclysm-dda)
+Ncurses and tiles versions are available in the [Community repo](https://www.archlinux.org/packages/?q=cataclysm-dda)
 
 `sudo pacman -S cataclysm-dda`
 
@@ -19,7 +19,7 @@ Ncurses and tiles version available in [Community repo](https://www.archlinux.or
 
 ### Debian / Ubuntu
 
-Ncurses and tiles version available in [official repos](https://tracker.debian.org/pkg/cataclysm-dda)
+Ncurses and tiles versions are available in the [official repos](https://tracker.debian.org/pkg/cataclysm-dda)
 
 `sudo apt install cataclysm-dda-curses`
 
@@ -27,7 +27,7 @@ Ncurses and tiles version available in [official repos](https://tracker.debian.o
 
 ### Fedora
 
-Ncurses and tiles version available in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda)
+Ncurses and tiles versions are available in the [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda)
 
 `sudo dnf install cataclysm-dda`
 
