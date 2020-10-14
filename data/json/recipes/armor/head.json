@@ -542,6 +542,14 @@
     ]
   },
   {
+    "result": "xl_helmet_galea ",
+    "type": "recipe",
+    "copy-from": "helmet_galea",
+    "time": "17 h",
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
+    "components": [ [ [ "fur", 5 ], [ "leather", 5 ] ] ]
+  },
+  {
     "result": "helmet_kabuto",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -560,6 +568,14 @@
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 4 }
     ]
+  },
+  {
+    "result": "xl_helmet_kabuto ",
+    "type": "recipe",
+    "copy-from": "helmet_kabuto",
+    "time": "14 h",
+    "using": [ [ "blacksmithing_standard", 63 ], [ "steel_standard", 16 ] ],
+    "components": [ [ [ "fur", 20 ], [ "tanned_pelt", 3 ], [ "leather", 20 ], [ "tanned_hide", 3 ] ], [ [ "rag", 7 ] ] ]
   },
   {
     "result": "helmet_larmor",
