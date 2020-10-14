@@ -1,0 +1,112 @@
+[
+  {
+    "type": "item_group",
+    "id": "wallets",
+    "items": [
+      [ "wallet_full", 40 ],
+      [ "wallet_duct_tape_full", 1 ],
+      [ "wallet_leather_full", 25 ],
+      [ "wallet_large_full", 9 ],
+      [ "wallet_stylish_full", 25 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "wallets_science",
+    "items": [ [ "wallet_science_full", 50 ], [ "wallet_science_leather_full", 25 ], [ "wallet_science_stylish_full", 25 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "wallets_military",
+    "items": [ [ "wallet_military_full", 50 ], [ "wallet_military_leather_full", 25 ], [ "wallet_military_stylish_full", 25 ] ]
+  },
+  {
+    "id": "wallet_full",
+    "type": "item_group",
+    "//": "A typical wallet filled with stuffs.  We might need more wallet-stuff like coins to be implemented.",
+    "subtype": "collection",
+    "container-item": "wallet",
+    "items": [
+      { "item": "cash_card", "prob": 1600, "charges-min": 0, "charges-max": 50000 },
+      { "item": "money_ten", "prob": 1600, "count": [ 5, 10 ] },
+      { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
+      [ "scorecard", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "wallet_leather_full",
+    "copy-from": "wallet_full",
+    "container-item": "wallet_leather"
+  },
+  {
+    "type": "item_group",
+    "id": "wallet_large_full",
+    "copy-from": "wallet_full",
+    "container-item": "wallet_large"
+  },
+  {
+    "type": "item_group",
+    "id": "wallet_duct_tape_full",
+    "container-item": "wallet_duct_tape",
+    "items": [
+      { "item": "cash_card", "prob": 50, "charges-min": 0, "charges-max": 500 },
+      { "item": "money_one", "prob": 1600, "count": [ 5, 10 ] },
+      { "item": "coin_quarter", "prob": 50, "count": [ 2, 5 ] },
+      { "item": "coin_nickel", "prob": 0, "count": [ 1, 6 ] },
+      { "group": "discount_cards", "prob": 10 },
+      [ "scorecard", 40 ]
+    ]
+  },
+  {
+    "id": "wallet_stylish_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "wallet",
+    "items": [
+      { "item": "cash_card", "prob": 1600, "charges-min": 10000, "charges-max": 50000 },
+      { "item": "money_one", "prob": 1600, "count": [ 10, 20 ] },
+      { "item": "money_ten", "prob": 1600, "count": [ 5, 10 ] },
+      { "item": "money_twenty", "prob": 1600, "count": [ 5, 10 ] },
+      { "group": "discount_cards", "prob": 60, "count": [ 2, 5 ] },
+      [ "scorecard", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "wallet_military_leather_full",
+    "copy-from": "wallet_leather_full",
+    "items": [ { "item": "id_military", "prob": 1600 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "wallet_military_full",
+    "copy-from": "wallet_full",
+    "items": [ { "item": "id_military", "prob": 1600 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "wallet_science_leather_full",
+    "copy-from": "wallet_leather_full",
+    "items": [ { "item": "id_science", "prob": 1600 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "wallet_science_full",
+    "copy-from": "wallet_full",
+    "items": [ { "item": "id_science", "prob": 1600 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "wallet_science_stylish_full",
+    "copy-from": "wallet_stylish_full",
+    "items": [ { "item": "id_science", "prob": 1600 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "discount_cards",
+    "items": [ [ "fp_loyalty_card", 40 ], [ "gasdiscount_silver", 20 ], [ "gasdiscount_gold", 10 ], [ "gasdiscount_platinum", 5 ] ]
+  }
+]
