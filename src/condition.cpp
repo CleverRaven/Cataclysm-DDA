@@ -319,7 +319,8 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
     const std::string &location = jo.get_string( member );
     condition = [location, is_npc]( const T & d ) {
         const tripoint_abs_omt omt_pos = d.actor( is_npc )->global_omt_location();
-        const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+        const oter_id &omt_ter = overmap_buffer.ter( omt_pos );
+        const std::string &omt_str = omt_ter.id().c_str();
 
         if( location == "FACTION_CAMP_ANY" ) {
             cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
@@ -327,13 +328,11 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
                 return true;
             }
             // legacy check
-            const std::string &omt_str = omt_ref.id().c_str();
             return omt_str.find( "faction_base_camp" ) != std::string::npos;
         } else if( location == "FACTION_CAMP_START" ) {
-            return !recipe_group::get_recipes_by_id( "all_faction_base_types",
-                    omt_ref.id().c_str() ).empty();
+            return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty();
         } else {
-            return omt_ref == oter_id( oter_no_dir( oter_id( location ) ) );
+            return oter_no_dir( omt_ter ) == location;
         }
     };
 }
