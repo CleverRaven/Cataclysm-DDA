@@ -860,8 +860,9 @@ void avatar_action::eat( avatar &you, const item_location &loc,
 void avatar_action::plthrow( avatar &you, item_location loc,
                              const cata::optional<tripoint> &blind_throw_from_pos )
 {
-    if( you.get_working_arm_count() <= 0 ) {
-        add_msg( m_info, _( "You need at least one arm to even consider throwing something." ) );
+    const auto ret = you.can_wield( *loc );
+    if( !ret.success() ) {
+        add_msg( m_info, "%s", ret.c_str() );
         return;
     }
     if( you.has_active_mutation( trait_SHELL2 ) ) {

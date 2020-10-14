@@ -2295,7 +2295,11 @@ int game::inventory_item_menu( item_location locThisItem,
                     handler.handle();
                     break;
                 case 'w':
-                    wield( locThisItem );
+                    if( u.can_wield( *locThisItem ).success() ) {
+                        wield( locThisItem );
+                    } else {
+                        add_msg( m_info, "%s", u.can_wield( *locThisItem ).c_str() );
+                    }
                     handler.handle();
                     break;
                 case 't':
@@ -9041,10 +9045,6 @@ void game::reload_weapon( bool try_everything )
 
 void game::wield( item_location loc )
 {
-    if( u.get_working_arm_count() <= 0 ) {
-        add_msg( m_info, _( "You need at least one arm to even consider wielding something." ) );
-        return;
-    }
     if( !loc ) {
         debugmsg( "ERROR: tried to wield null item" );
         return;
@@ -9072,12 +9072,10 @@ void game::wield( item_location loc )
             return;
         }
     }
-
     const auto ret = u.can_wield( *loc );
     if( !ret.success() ) {
         add_msg( m_info, "%s", ret.c_str() );
     }
-
     // Need to do this here because holster_actor::use() checks if/where the item is worn
     item &target = *loc.get_item();
     if( target.get_use( "holster" ) && !target.contents.empty() ) {
