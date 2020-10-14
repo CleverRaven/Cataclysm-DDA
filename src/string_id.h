@@ -21,11 +21,12 @@ namespace CompileTime
 template <unsigned N>
 constexpr uint64_t fnv1_64( const char( &text )[N] )
 {
-    return ( fnv1_64 < N - 1 > ( ( const char( & )[N - 1] )text ) * 1099511628211ull ) ^ text[N - 2];
+    return ( fnv1_64( reinterpret_cast < const char( & )[N - 1] > ( text ) ) * 1099511628211ull ) ^
+           text[N - 2];
 }
 
 template<>
-constexpr uint64_t fnv1_64<1>( const char( &text )[1] )
+constexpr uint64_t fnv1_64<1>( const char( & )[1] )
 {
     return 14695981039346656037ull;
 }
@@ -36,7 +37,7 @@ namespace RunTime
 constexpr uint64_t fnv1_64( const char *data, size_t length )
 {
     uint64_t hash = 14695981039346656037ull;
-    for( int i = 0; i < length; i++ ) {
+    for( size_t i = 0; i < length; i++ ) {
         hash *= 1099511628211ull;
         hash ^= data[i];
     }
