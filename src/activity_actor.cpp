@@ -43,7 +43,6 @@
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
-#include "proficiency.h"
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"

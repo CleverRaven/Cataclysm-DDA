@@ -167,6 +167,8 @@ static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
+static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
+
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
@@ -1403,44 +1405,46 @@ void iexamine::slot_machine( player &p, const tripoint & )
  * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
  * Small chance of just guessing the combo without listening device.
  */
-void iexamine::safe( player &p, const tripoint &examp )
+void iexamine::safe( player &guy, const tripoint &examp )
 {
-    auto cracking_tool = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+    auto cracking_tool = guy.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
         return temporary_item.has_flag( flag_SAFECRACK );
     } );
 
-    if( !( !cracking_tool.empty() || p.has_bionic( bio_ears ) ) ) {
-        p.moves -= to_turns<int>( 10_seconds );
-        // one_in(30^3) chance of guessing
-        if( one_in( 27000 ) ) {
-            p.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
+    if( !( !cracking_tool.empty() || guy.has_bionic( bio_ears ) ) ) {
+        guy.moves -= to_turns<int>( 10_seconds );
+        // Assume a 3 digit 60-number code. 1/216000 odds.
+        if( one_in( 216000 ) ) {
+            guy.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
             get_map().furn_set( examp, f_safe_o );
             return;
         } else {
-            p.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
+            guy.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
             return;
         }
     }
 
-    if( p.is_deaf() ) {
+    if( guy.is_deaf() ) {
         add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
         return;
-    } else if( p.has_effect( effect_earphones ) ) {
+    } else if( guy.has_effect( effect_earphones ) ) {
         add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
         return;
     } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
         add_msg( m_info, _( "You start cracking the safe." ) );
-        // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
-        // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
-        ///\EFFECT_PER speeds up safe cracking
+        // 150 minutes +/- 20 minutes per devices point away from 3 +/- 10 minutes per
+        // perception point away from 8; capped at 30 minutes minimum. Multiply by 3 if you
+        // don't have safecracking proficiency.
 
-        ///\EFFECT_MECHANICS speeds up safe cracking
-        const time_duration time = std::max( 150_minutes - 20_minutes * ( p.get_skill_level(
-                skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
-
-        p.assign_activity( ACT_CRACKING, to_moves<int>( time ) );
-        p.activity.placement = examp;
+        time_duration time = std::max( 150_minutes - 20_minutes * ( guy.get_skill_level(
+                skill_traps ) - 3 ) - 10_minutes * ( guy.get_per() - 8 ), 30_minutes );
+        if( !guy.has_proficiency( proficiency_prof_safecracking ) ) {
+           time = std::max( 3 * ( 150_minutes - 20_minutes * ( guy.get_skill_level(
+                skill_traps ) - 3 ) - 10_minutes * ( guy.get_per() - 8 ) ), 90_minutes );
+        }
+        guy.assign_activity( ACT_CRACKING, to_moves<int>( time ) );
+        guy.activity.placement = examp;
     }
 }
 
