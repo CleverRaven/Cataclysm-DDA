@@ -806,9 +806,15 @@ void debug_menu::wishproficiency( player *p )
     std::sort( sorted_profs.begin(), sorted_profs.end(), localized_compare );
 
     for( size_t i = 0; i < sorted_profs.size(); ++i ) {
-        prmenu.addentry( i + proffset, true, -2, _( "%s" ),
-                         sorted_profs[i].first->name() );
-        prmenu.entries[i + proffset].text_color = sorted_profs[i].second ? c_yellow : prmenu.text_color;
+        if( sorted_profs[i].second ) {
+            prmenu.addentry( i + proffset, true, -2, _( "(known) %s" ),
+                             sorted_profs[i].first->name() );
+            prmenu.entries[i + proffset].text_color = c_yellow;
+        } else {
+            prmenu.addentry( i + proffset, true, -2, _( "%s" ),
+                             sorted_profs[i].first->name() );
+            prmenu.entries[i + proffset].text_color = prmenu.text_color;
+        }
     }
 
     do {
@@ -820,6 +826,7 @@ void debug_menu::wishproficiency( player *p )
                 for( size_t i = 0; i < sorted_profs.size(); ++i ) {
                     std::pair<proficiency_id, bool> &cur = sorted_profs[i];
                     cur.second = false;
+                    prmenu.entries[i + proffset].txt = string_format( "%s",  cur.first->name() );
                     prmenu.entries[i + proffset].text_color = prmenu.text_color;
                     p->lose_proficiency( cur.first, true );
                 }
@@ -830,6 +837,7 @@ void debug_menu::wishproficiency( player *p )
 
                     if( !cur.second ) {
                         cur.second = true;
+                        prmenu.entries[i + proffset].txt = string_format( _( "(known) %s" ), cur.first->name() );
                         prmenu.entries[i + proffset].text_color = c_yellow;
                         p->add_proficiency( cur.first, true );
                     }
@@ -844,16 +852,18 @@ void debug_menu::wishproficiency( player *p )
             proficiency_id &prof = cur.first;
 
             cur.second = know_prof;
-            prmenu.entries[prmenu.selected].text_color = know_prof ?
-                    c_yellow : prmenu.text_color;
 
             if( know_prof ) {
+                prmenu.entries[prmenu.selected].txt = string_format( _( "(known) %s" ), cur.first->name() );
+                prmenu.entries[prmenu.selected].text_color = c_yellow;
                 p->add_msg_if_player( m_good, _( "You are now proficient in %s" ), prof->name() );
                 p->add_proficiency( prof, true );
                 continue;
             }
 
             know_all = false;
+            prmenu.entries[prmenu.selected].txt = string_format( "%s", cur.first->name() );
+            prmenu.entries[prmenu.selected].text_color = prmenu.text_color;
             p->add_msg_if_player( m_bad, _( "You are no longer proficient in %s" ), prof->name() );
             p->lose_proficiency( prof, true );
         }
