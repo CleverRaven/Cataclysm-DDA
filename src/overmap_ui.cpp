@@ -1254,7 +1254,6 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         //Draw search box
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
 
         int a = utf8_width( _( "Search:" ) );
         int b = utf8_width( _( "Result:" ) );
@@ -1262,12 +1261,13 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
         int d = utf8_width( _( "Direction:" ) );
         int align_width = 0;
         int align_w_value[4] = { a, b, c, d};
-        for( int i = 0; i < 4; i++ ) {
-            if( align_w_value[i] > align_width ) {
-                align_width = align_w_value[i] + 2;
+        for( int n : align_w_value ) {
+            if( n > align_width ) {
+                align_width = n + 2;
             }
         }
 
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_search, point( 1, 1 ), c_light_blue, _( "Search:" ) );
         mvwprintz( w_search, point( align_width, 1 ), c_light_red, "%s", term );
 
