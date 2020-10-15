@@ -246,23 +246,23 @@ void timed_event::actualize()
         break;
 		
 		case timed_event_type::EDIBLE_DIGESTED: {
-			    time_duration duration = 12_minutes;
-    if( player_character.has_trait( trait_TOLERANCE ) ) {
-        duration = 9_minutes;
-    }
-    if( player_character.has_trait( trait_LIGHTWEIGHT ) ) {
-        duration = 15_minutes;
-    }
-    player_character.mod_hunger( 2 );
-    player_character.mod_thirst( 6 );
-    if( player_character.get_painkiller() < 5 ) {
-        player_character.set_painkiller( ( player_character.get_painkiller() + 3 ) * 2 );
-    }
-    player_character.add_effect( effect_weed_high, duration );
-    player_character.moves -= 100;
-    if( one_in( 5 ) ) {
-        weed_msg( player_character );
-    }
+			time_duration duration = 12_minutes;
+			if( player_character.has_trait( trait_TOLERANCE ) ) {
+				duration = 9_minutes;
+			}
+			if( player_character.has_trait( trait_LIGHTWEIGHT ) ) {
+				duration = 15_minutes;
+			}
+			player_character.mod_hunger( 2 );
+			player_character.mod_thirst( 6 );
+			if( player_character.get_painkiller() < 5 ) {
+				player_character.set_painkiller( ( player_character.get_painkiller() + 3 ) * 2 );
+			}
+			player_character.add_effect( effect_weed_high, duration );
+			player_character.moves -= 100;
+			if( one_in( 5 ) ) {
+				weed_msg( player_character );
+			}
 		}
 		break;
 

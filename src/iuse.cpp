@@ -838,9 +838,7 @@ int iuse::weed_edible( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player(
             _( "You start gulping down the delicious %s.  It tastes a little funny though…" ), it->tname() );
     }
-	
-	                get_timed_events().add( timed_event_type::EDIBLE_DIGESTED, calendar::turn + 30_minutes, 0,
-                                        p->global_sm_location() );
+	get_timed_events().add( timed_event_type::EDIBLE_DIGESTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
 
     return it->type->charges_to_use();
 }
