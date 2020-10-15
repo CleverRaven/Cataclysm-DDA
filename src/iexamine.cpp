@@ -1438,14 +1438,14 @@ void iexamine::safe( player &guy, const tripoint &examp )
         // don't have safecracking proficiency.
 
         time_duration time_base = std::max( 150_minutes - 20_minutes * ( guy.get_skill_level(
-                                           skill_traps ) - 3 ) - 10_minutes * ( guy.get_per() - 8 ), 30_minutes );
+                                                skill_traps ) - 3 ) - 10_minutes * ( guy.get_per() - 8 ), 30_minutes );
         int time = to_moves<int>( time_base );
         if( !guy.has_proficiency( proficiency_prof_safecracking ) ) {
             time = time * 3;
         }
         guy.assign_activity( ACT_CRACKING, time );
         guy.activity.placement = examp;
-        
+
     }
 }
 

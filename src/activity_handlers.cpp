@@ -2473,7 +2473,7 @@ void activity_handlers::cracking_finish( player_activity *act, player *guy )
 {
     guy->add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
     if( !guy->has_proficiency( proficiency_prof_safecracking ) ) {
-      guy->practice_proficiency( proficiency_prof_safecracking, 60_minutes );
+        guy->practice_proficiency( proficiency_prof_safecracking, 60_minutes );
     }
     get_map().furn_set( act->placement, f_safe_c );
     act->set_to_null();
