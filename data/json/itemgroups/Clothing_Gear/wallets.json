@@ -43,6 +43,7 @@
     "type": "item_group",
     "id": "wallet_leather_full",
     "container-item": "wallet_leather",
+    "//": "copy-from: wallet_full ",
     "items": [
       { "item": "cash_card", "prob": 1600, "charges-min": 0, "charges-max": 50000 },
       { "item": "money_ten", "prob": 1600, "count": [ 5, 10 ] },
@@ -55,6 +56,7 @@
   {
     "type": "item_group",
     "id": "wallet_large_full",
+    "//": "copy-from: wallet_full ",
     "container-item": "wallet_large",
     "items": [
       { "item": "cash_card", "prob": 1600, "charges-min": 0, "charges-max": 50000 },
@@ -95,6 +97,7 @@
   {
     "type": "item_group",
     "id": "wallet_military_leather_full",
+    "//": "copy-from: wallet_leather_full ",
     "container-item": "wallet_leather",
     "items": [
       { "item": "cash_card", "prob": 1600, "charges-min": 0, "charges-max": 50000 },
@@ -109,6 +112,7 @@
   {
     "type": "item_group",
     "id": "wallet_military_full",
+    "//": "copy-from: wallet_full ",
     "container-item": "wallet",
     "items": [
       { "item": "cash_card", "prob": 1600, "charges-min": 0, "charges-max": 50000 },
@@ -123,6 +127,7 @@
   {
     "type": "item_group",
     "id": "wallet_science_leather_full",
+    "//": "copy-from: wallet_leather_full ",
     "container-item": "wallet_leather",
     "items": [
       { "item": "cash_card", "prob": 1600, "charges-min": 0, "charges-max": 50000 },
@@ -137,6 +142,7 @@
   {
     "type": "item_group",
     "id": "wallet_science_full",
+    "//": "copy-from: wallet_full ",
     "container-item": "wallet",
     "items": [
       { "item": "cash_card", "prob": 1600, "charges-min": 0, "charges-max": 50000 },
@@ -151,6 +157,7 @@
   {
     "type": "item_group",
     "id": "wallet_science_stylish_full",
+    "//": "copy-from: wallet_stylish_full ",
     "container-item": "wallet_stylish",
     "items": [
       { "item": "id_science", "prob": 1600 },
