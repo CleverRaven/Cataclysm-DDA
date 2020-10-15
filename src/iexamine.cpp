@@ -3824,21 +3824,17 @@ void trap::examine( const tripoint &examp ) const
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
         const int traps_skill_level = player_character.get_skill_level( skill_traps );
-        //int max_traps_roll = traps_skill_level + player_character.per_cur + player_character.dex_cur;
-        
-        
-        //int roll = rng( traps_skill_level, max_traps_roll );
-        int mean_disarm_roll = traps_skill_level + ( player_character.per_cur / 4 ) + ( player_character.dex_cur / 4 );
-        
-        if ( player_character.has_proficiency( proficiency_prof_traps ) ) {
-            mean_disarm_roll += 4;
-        }
-        if ( player_character.has_proficiency( proficiency_prof_disarming ) ) {
-            mean_disarm_roll += 10;
-        }
-        
-        int roll = normal_roll ( mean_disarm_roll + 2, 5 );
+        int roll = rng( traps_skill_level, 4 * traps_skill_level );
 
+        ///\EFFECT_PER increases chance of disarming trap
+
+        ///\EFFECT_DEX increases chance of disarming trap
+
+        ///\EFFECT_TRAPS increases chance of disarming trap
+        while( ( rng( 5, 20 ) < player_character.per_cur ||
+                 rng( 1, 20 ) < player_character.dex_cur ) && roll < 50 ) {
+            roll++;
+        }
         if( roll >= difficulty ) {
             add_msg( _( "You disarm the trap!" ) );
             const int morale_buff = avoidance * 0.4 + difficulty + rng( 0, 4 );
