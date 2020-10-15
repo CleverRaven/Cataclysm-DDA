@@ -22,8 +22,7 @@
     "name": { "str": "Safecracking" },
     "description": "Opening safes is an exacting skill, one that you are proficient at.",
     "can_learn": true,
-    "time_to_learn": "10 h",
-    "required_proficiencies": [ "prof_lockpicking" ]
+    "time_to_learn": "10 h"
   },
   {
     "type": "proficiency",
