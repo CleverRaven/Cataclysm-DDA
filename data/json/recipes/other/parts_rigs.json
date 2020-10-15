@@ -136,9 +136,9 @@
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "motor", 2 ] ], [ [ "processor", 1 ] ] ]
@@ -156,9 +156,9 @@
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "motor", 2 ] ], [ [ "wheel", 1 ] ], [ [ "processor", 1 ] ] ]
@@ -176,9 +176,9 @@
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "frame", 1 ] ], [ [ "wheel", 1 ] ] ]
@@ -196,9 +196,9 @@
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [

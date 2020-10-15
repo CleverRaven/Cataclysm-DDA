@@ -6,6 +6,7 @@
     "entries": [
       { "item": "m4a1", "prob": 88, "charges": [ 0, 30 ] },
       { "item": "m27iar", "prob": 10, "charges": [ 0, 30 ] },
+      { "item": "m38dmr", "prob": 1, "charges": [ 0, 30 ] },
       { "item": "m16a4", "prob": 2, "charges": [ 0, 30 ] }
     ]
   },
@@ -33,7 +34,9 @@
     "subtype": "distribution",
     "entries": [
       { "item": "m9", "prob": 30, "charges": [ 0, 15 ] },
+      { "item": "m11", "prob": 3, "charges": [ 0, 13 ] },
       { "item": "m17", "prob": 65, "charges": [ 0, 17 ] },
+      { "item": "m18", "prob": 30, "charges": [ 0, 17 ] },
       { "item": "glock_19", "prob": 3, "charges": [ 0, 15 ] },
       { "item": "m1911_MEU", "prob": 2, "charges": [ 0, 7 ] }
     ]
@@ -170,14 +173,22 @@
       { "item": "m9", "prob": 6 },
       { "item": "usp_45", "prob": 6 },
       { "item": "m4a1", "prob": 7 },
+      { "item": "m4_cqbr", "prob": 1 },
+      { "item": "m231pfw", "prob": 1 },
       { "item": "m16a4", "prob": 5 },
+      { "item": "m16a3", "prob": 1 },
+      { "item": "colt_ro635", "prob": 1 },
+      { "item": "p226_9mm", "prob": 1 },
+      { "item": "sp2022", "prob": 1 },
       { "item": "h&k416a5", "prob": 7 },
       { "item": "m1014", "prob": 2 },
       { "item": "scar_l", "prob": 6 },
       { "item": "scar_h", "prob": 5 },
+      { "item": "sig_mcx_rattler_sbr", "prob": 1 },
       { "item": "m249", "prob": 1 },
       { "item": "m240", "prob": 1 },
       { "item": "m27iar", "prob": 1 },
+      { "item": "m38dmr", "prob": 1 },
       { "item": "plasma_gun", "prob": 1 },
       { "item": "m320", "prob": 5 },
       { "item": "m320_mod", "prob": 10 },
@@ -278,7 +289,8 @@
       { "item": "electrolaser_conversion", "prob": 1 },
       { "item": "effective_emitter", "prob": 1 },
       { "item": "high_density_capacitor", "prob": 1 },
-      { "item": "emp_gun", "prob": 1 }
+      { "item": "emp_gun", "prob": 1 },
+      { "item": "bt_apc9k", "prob": 1 }
     ]
   },
   {
@@ -363,6 +375,7 @@
       { "item": "m249", "prob": 30 },
       { "item": "m240", "prob": 20 },
       { "item": "m27iar", "prob": 30 },
+      { "item": "m38dmr", "prob": 3 },
       { "item": "m2browning", "prob": 15 },
       { "item": "mark19", "prob": 15 },
       { "item": "556", "prob": 30 },
@@ -402,7 +415,8 @@
       { "item": "20x66_exp", "prob": 2 },
       { "item": "20x66_frag", "prob": 2 },
       { "item": "20x66_flare", "prob": 4 },
-      { "item": "20x66_inc", "prob": 2 }
+      { "item": "20x66_inc", "prob": 2 },
+      { "item": "bt_apc9k", "prob": 1 }
     ]
   },
   {
@@ -421,7 +435,9 @@
       { "item": "fire_ax", "prob": 5, "count": 16 },
       { "item": "manual_stabbing", "prob": 5, "count": 64 },
       { "item": "manual_rifle", "prob": 5, "count": 64 },
-      { "item": "m17", "prob": 3, "count": 32 }
+      { "item": "m11", "prob": 1, "count": 16 },
+      { "item": "m17", "prob": 3, "count": 32 },
+      { "item": "m18", "prob": 2, "count": 16 }
     ]
   },
   {
