@@ -42,8 +42,10 @@ class proficiency
         static void load_proficiencies( const JsonObject &jo, const std::string &src );
         static void reset();
         void load( const JsonObject &jo, const std::string &src );
+        static const std::vector<proficiency> &get_all();
 
         bool can_learn() const;
+        proficiency_id prof_id() const;
         std::string name() const;
         std::string description() const;
 
@@ -72,6 +74,10 @@ class proficiency_set
                        const cata::optional<time_duration> &max );
         void learn( const proficiency_id &learned );
         void remove( const proficiency_id &lost );
+
+        // Ignore requirements, made for debugging
+        void direct_learn( const proficiency_id &learned );
+        void direct_remove( const proficiency_id &lost );
 
         // Do we know this proficiency?
         bool has_learned( const proficiency_id &query ) const;
