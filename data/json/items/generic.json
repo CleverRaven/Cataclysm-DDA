@@ -3196,7 +3196,7 @@
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
         "moves": 100,
-        "item_restriction": [ "FMCNote", "signed_chit", "family_photo" ]
+        "item_restriction": [ "FMCNote", "signed_chit", "family_photo", "money_one", "money_ten", "money_twenty" ]
       },
       {
         "//": "Card Sleeves",
@@ -3214,6 +3214,7 @@
           "id_military",
           "id_industrial",
           "fp_loyalty_card",
+          "scorecard",
           "robofac_test_data",
           "icon"
         ]

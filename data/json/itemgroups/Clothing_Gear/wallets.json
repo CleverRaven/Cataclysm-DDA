@@ -92,7 +92,7 @@
     "id": "wallet_stylish_full",
     "type": "item_group",
     "subtype": "collection",
-    "container-item": "wallet-stylish",
+    "container-item": "wallet_stylish",
     "items": [
       { "item": "cash_card", "prob": 1600, "charges-min": 10000, "charges-max": 50000 },
       { "item": "money_one", "prob": 1600, "count": [ 10, 20 ] },
