@@ -5,7 +5,8 @@ title: ""
 
 ## Code Style
 
-The current policy is to only update code to the standard style when changing a substantial portion of it, but **please** do this in a separate commit. See doc/CODE_STYLE.txt for details
+Both c++ and JSON files within the repository have their style validated as part of the build process.
+See doc/CODE_STYLE.txt and doc/JSON_STYLE.md for details
 
 ## Translations
 
