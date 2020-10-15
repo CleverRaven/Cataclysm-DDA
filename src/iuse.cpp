@@ -9232,6 +9232,22 @@ cata::optional<int> iuse::weather_tool( player *p, item *it, bool, const tripoin
     return 0;
 }
 
+cata::optional<int> iuse::wet_o_meter_tool( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( m_neutral, _( "The %s reads:" ), it->tname() );
+
+    for( const bodypart_id &bp : p->get_all_body_parts() ) {
+        p->add_msg_if_player( m_neutral, _( "The %s wetness is %d of %d." ), bp->name.translated(),
+                              p->get_part_wetness( bp ), p->get_part_drench_capacity( bp ) );
+
+        p->add_msg_if_player( m_neutral, _( "The %s temperature is %d and trending to %d." ),
+                              bp->name.translated(),
+                              p->get_part_temp_cur( bp ), p->get_part_temp_conv( bp ) );
+    }
+
+    return 0;
+}
+
 cata::optional<int> iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
 {
     if( it->is_armor() &&  !( p->is_worn( *it ) ) ) {
