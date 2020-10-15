@@ -2960,7 +2960,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_extract_clay",
+    "id": "constr_extract_clay_mound",
     "group": "extract_clay",
     "//": "Step 2 : extract clay",
     "category": "OTHER",
