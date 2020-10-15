@@ -7,7 +7,7 @@
     "can_learn": true,
     "default_time_multiplier": 2,
     "default_fail_multiplier": 5,
-    "time_to_learn": "4 h"
+    "time_to_learn": "2 h"
   },
   {
     "type": "proficiency",
@@ -15,7 +15,7 @@
     "name": { "str": "Locksmith" },
     "description": "You can pick a lock in the dark, blindfolded.  Although that doesn't make it all that much harder.  You're good at locks, OK?",
     "can_learn": true,
-    "time_to_learn": "10 h",
+    "time_to_learn": "14 h",
     "required_proficiencies": [ "prof_lockpicking" ]
   },
   {
@@ -24,6 +24,7 @@
     "name": { "str": "Safecracking" },
     "description": "Opening safes is an exacting skill, one that you are proficient at.",
     "can_learn": true,
+    "time_to_learn": "10 h"
   },
   {
     "type": "proficiency",
