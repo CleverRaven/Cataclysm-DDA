@@ -100,7 +100,6 @@
     "symbol": "3",
     "color": "light_gray",
     "name": { "str": "Earthshaper cestus", "str_pl": "Earthshaper cesti" },
-    "//": "Equivalent to cestus +1 with BRUTAL and WBLOCK1",
     "description": "A stone battle glove with carved runes encasing the hand, protecting it while increasing striking power.  There is an Earthshaper rune embedded in the palm.",
     "material": [ "stone", "leather", "steel" ],
     "volume": "500 ml",

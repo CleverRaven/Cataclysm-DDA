@@ -163,7 +163,6 @@ std::unique_ptr<mattack_actor> mon_spellcasting_actor::clone() const
 
 void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::string & )
 {
-    std::string sp_id;
     fake_spell intermediate;
     mandatory( obj, was_loaded, "spell_data", intermediate );
     self = intermediate.self;
@@ -188,13 +187,11 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         return false;
     }
 
-    const tripoint target = mon.attack_target()->pos();
+    const tripoint target = self ? mon.pos() : mon.attack_target()->pos();
 
-    std::string fx = spell_data.effect();
     // is the spell an attack that needs to hit the target?
     // examples of spells that don't: summons, teleport self
-    const bool targeted_attack = fx == "target_attack" || fx == "projectile_attack" ||
-                                 fx == "cone_attack" || fx == "line_attack";
+    const bool targeted_attack = spell_data.effect() == "attack";
 
     if( targeted_attack && rl_dist( mon.pos(), target ) > spell_data.range() ) {
         return false;
@@ -286,14 +283,14 @@ bool melee_actor::call( monster &z ) const
 
     z.mod_moves( -move_cost );
 
-    add_msg( m_debug, "%s attempting to melee_attack %s", z.name(),
-             target->disp_name() );
+    add_msg_debug( "%s attempting to melee_attack %s", z.name(),
+                   target->disp_name() );
 
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
     int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
 
     if( hitspread < 0 ) {
-        auto msg_type = target->is_avatar() ? m_warning : m_info;
+        game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, z.name() );
@@ -314,7 +311,7 @@ bool melee_actor::call( monster &z ) const
     dealt_damage.bp_hit = bp_hit.id();
 
     int damage_total = dealt_damage.total_damage();
-    add_msg( m_debug, "%s's melee_attack did %d damage", z.name(), damage_total );
+    add_msg_debug( "%s's melee_attack did %d damage", z.name(), damage_total );
     if( damage_total > 0 ) {
         on_damage( z, *target, dealt_damage );
     } else {
@@ -334,8 +331,9 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
                                  sfx::get_heard_angle( z.pos() ) );
         sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
     }
-    auto msg_type = target.attitude_to( get_player_character() ) == Creature::Attitude::FRIENDLY ?
-                    m_bad : m_neutral;
+    game_message_type msg_type = target.attitude_to( get_player_character() ) ==
+                                 Creature::Attitude::FRIENDLY ?
+                                 m_bad : m_neutral;
     const bodypart_id &bp = dealt.bp_hit ;
     target.add_msg_player_or_npc( msg_type, hit_dmg_u, hit_dmg_npc, z.name(),
                                   body_part_name_accusative( bp ) );

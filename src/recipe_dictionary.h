@@ -48,6 +48,7 @@ class recipe_dictionary
         static void load_uncraft( const JsonObject &jo, const std::string &src );
 
         static void finalize();
+        static void check_consistency();
         static void reset();
 
     protected:
@@ -133,7 +134,8 @@ class recipe_subset
             tool,
             quality,
             quality_result,
-            description_result
+            description_result,
+            proficiency,
         };
 
         /** Find marked favorite recipes */

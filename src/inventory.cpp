@@ -264,7 +264,7 @@ char inventory::find_usable_cached_invlet( const itype_id &item_type )
 {
     Character &player_character = get_player_character();
     // Some of our preferred letters might already be used.
-    for( auto invlet : invlet_cache.invlets_for( item_type ) ) {
+    for( char invlet : invlet_cache.invlets_for( item_type ) ) {
         // Don't overwrite user assignments.
         if( assigned_invlet.count( invlet ) ) {
             continue;
@@ -322,12 +322,12 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
     return items.back().back();
 }
 
-void inventory::add_item_keep_invlet( item newit )
+void inventory::add_item_keep_invlet( const item &newit )
 {
     add_item( newit, true );
 }
 
-void inventory::push_back( item newit )
+void inventory::push_back( const item &newit )
 {
     add_item( newit );
 }
@@ -453,7 +453,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         // a temporary hack while trees are terrain
         if( m.ter( p )->has_flag( "TREE" ) ) {
             item tree_pseudo( "butchery_tree_pseudo" );
-            tree_pseudo.item_tags.insert( "PSEUDO" );
+            tree_pseudo.set_flag( "PSEUDO" );
             add_item( tree_pseudo );
         }
         if( m.has_furn( p ) ) {
@@ -467,7 +467,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                     item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
                     furn_item.put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
                 }
-                furn_item.item_tags.insert( "PSEUDO" );
+                furn_item.set_flag( "PSEUDO" );
                 add_item( furn_item );
             }
         }
@@ -543,7 +543,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
         if( cargo ) {
-            const auto items = veh->get_items( cargo->part_index() );
+            const vehicle_stack items = veh->get_items( cargo->part_index() );
             *this += std::list<item>( items.begin(), items.end() );
         }
 
@@ -561,7 +561,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             item it_batt( it.magazine_default() );
             it_batt.ammo_set( it_batt.ammo_default(), qty );
             it.put_in( it_batt, item_pocket::pocket_type::MAGAZINE_WELL );
-            it.item_tags.insert( "PSEUDO" );
+            it.set_flag( "PSEUDO" );
             return it;
         };
         int veh_battery = veh->fuel_left( itype_id( "battery" ), true );
@@ -570,10 +570,10 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             add_item( hotplate );
 
             item pot( "pot", 0 );
-            pot.item_tags.insert( "PSEUDO" );
+            pot.set_flag( "PSEUDO" );
             add_item( pot );
             item pan( "pan", 0 );
-            pan.item_tags.insert( "PSEUDO" );
+            pan.set_flag( "PSEUDO" );
             add_item( pan );
         }
         if( weldpart ) {
@@ -593,7 +593,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             add_item( food_processor );
 
             item press = item( "press" );
-            press.item_tags.insert( "PSEUDO" );
+            press.set_flag( "PSEUDO" );
             add_item( press );
         }
         if( forgepart ) {
@@ -824,7 +824,7 @@ int inventory::leak_level( const std::string &flag ) const
                 if( elem_stack_iter.has_flag( flag_LEAK_ALWAYS ) ) {
                     ret += elem_stack_iter.volume() / units::legacy_volume_factor;
                 } else if( elem_stack_iter.has_flag( flag_LEAK_DAM ) && elem_stack_iter.damage() > 0 ) {
-                    ret += elem_stack_iter.damage_level( 4 );
+                    ret += elem_stack_iter.damage_level();
                 }
             }
         }
@@ -907,7 +907,7 @@ void inventory::rust_iron_items()
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 //Freshwater without oxygen rusts slower than air
                 here.water_from( player_character.pos() ).typeId() == itype_salt_water ) {
-                elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
+                elem_stack_iter.inc_damage( damage_type::ACID ); // rusting never completely destroys an item
                 add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );
             }
         }
@@ -1034,6 +1034,20 @@ enchantment inventory::get_active_enchantment_cache( const Character &owner ) co
     return temp_cache;
 }
 
+int inventory::count_item( const itype_id &item_type ) const
+{
+    int num = 0;
+    const itype_bin bin = get_binned_items();
+    if( bin.find( item_type ) == bin.end() ) {
+        return num;
+    }
+    const std::list<const item *> items = get_binned_items().find( item_type )->second;
+    for( const item *it : items ) {
+        num += it->count();
+    }
+    return num;
+}
+
 void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )
 {
     const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
@@ -1059,7 +1073,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
                 // don't overwrite assigned keys
                 continue;
             }
-            if( !selector.action_bound_to_key( inv_char ).empty() ) {
+            if( selector.action_bound_to_key( inv_char ) != "ERROR" ) {
                 // don't auto-assign bound keys
                 continue;
             }

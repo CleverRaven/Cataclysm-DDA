@@ -128,7 +128,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 item obj( e );
                 if( bp == bp_null || obj.covers( bp ) ) {
                     if( obj.has_flag( flag_VARSIZE ) ) {
-                        obj.item_tags.insert( "FIT" );
+                        obj.set_flag( "FIT" );
                     }
                     dump( obj );
                 }
@@ -283,8 +283,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Aerodynamics coeff", "Rolling coeff", "Static Drag", "Offroad %"
         };
         auto dump = [&rows]( const vproto_id & obj ) {
-            auto veh_empty = vehicle( obj, 0, 0 );
-            auto veh_fueled = vehicle( obj, 100, 0 );
+            vehicle veh_empty = vehicle( obj, 0, 0 );
+            vehicle veh_fueled = vehicle( obj, 100, 0 );
 
             std::vector<std::string> r;
             r.push_back( veh_empty.name );

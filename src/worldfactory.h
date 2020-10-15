@@ -153,7 +153,7 @@ class worldfactory
         pimpl<mod_ui> mman_ui;
 
         using worldgen_display = std::function<int ( const catacurses::window &, WORLDPTR,
-                                 const std::function<bool()> )>;
+                                 std::function<bool()> )>;
 
         std::vector<worldgen_display> tabs;
 };

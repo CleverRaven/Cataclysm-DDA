@@ -207,7 +207,7 @@
   {
     "id": "ACT_DISSECT",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "verb": "dissecting",
     "based_on": "speed"
   },
@@ -564,6 +564,14 @@
   },
   {
     "id": "ACT_GUNMOD_ADD",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "modifying gun",
+    "suspendable": false,
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_GUNMOD_REMOVE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "modifying gun",

@@ -33,5 +33,271 @@
     "cutting": 6,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_utilibot",
+    "symbol": ",",
+    "color": "light_gray",
+    "looks_like": "broken_cleanerbot",
+    "name": "broken utility robot",
+    "category": "other",
+    "description": "A broken utility robot, now limp and unmoving.  Could be gutted for parts or crafted into a salvaged robot.",
+    "material": [ "steel", "plastic" ],
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_utilibot_beehive",
+    "name": "broken beehive robot",
+    "copy-from": "broken_utilibot"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_laserturret_xray",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken xray laser turret" },
+    "weight": "110 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_hazmatbot",
+    "name": "broken utility robot",
+    "copy-from": "broken_utilibot",
+    "color": "green"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_migoturret_whately",
+    "name": "broken Whately turret",
+    "copy-from": "broken_afs_mon_migoturret",
+    "color": "green"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_utilibot_butler",
+    "copy-from": "broken_utilibot",
+    "color": "dark_gray",
+    "name": "broken butler-bot",
+    "description": "A broken butler-bot, now silent and mangled.  Could be stripped down for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_utilibot_const",
+    "copy-from": "broken_utilibot",
+    "color": "dark_gray",
+    "name": "broken construction robot",
+    "description": "A broken construction robot, now wrecked and immobile.  Could be stripped down for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_utilibot_fire",
+    "copy-from": "broken_utilibot",
+    "color": "yellow",
+    "name": "broken firefighter robot",
+    "description": "A broken firefighter robot, now cold and inert.  Could be stripped down for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_skitterbot_rat",
+    "copy-from": "broken_skitterbot",
+    "color": "light_gray",
+    "name": "broken rat snatcher",
+    "description": "A broken rat snatcher, now harmless and inert.  Could be stripped down or re-crafted."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_skitterbot_grab",
+    "copy-from": "broken_skitterbot",
+    "color": "light_gray",
+    "name": "broken grab-bot",
+    "description": "A broken grabber robot, now limp and nonthreatening.  Could be stripped down or re-crafted."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_skitterbot_hunter",
+    "copy-from": "broken_skitterbot",
+    "color": "light_gray",
+    "name": "broken pest hunter",
+    "description": "A broken pest hunter, now harmless and inert.  Could be gutted for parts or re-crafted."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_milbot_556",
+    "copy-from": "broken_milbot_disarmed",
+    "color": "light_gray",
+    "name": "broken military robot",
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 5.56mm firearm.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_milbot_308",
+    "copy-from": "broken_milbot_disarmed",
+    "color": "light_gray",
+    "name": "broken military robot",
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 7.62mm firearm.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_milbot_8x40mm",
+    "copy-from": "broken_milbot_disarmed",
+    "color": "light_gray",
+    "name": "broken military robot",
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 8x40mm firearm.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_milbot_needle",
+    "copy-from": "broken_milbot_disarmed",
+    "color": "light_gray",
+    "name": "broken military robot",
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated flechette gun.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_milbot_40mm",
+    "copy-from": "broken_milbot_disarmed",
+    "color": "red",
+    "name": "broken military robot",
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 40mm grenade launcher.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_milbot_flame",
+    "copy-from": "broken_milbot_disarmed",
+    "color": "red",
+    "name": "broken military flame robot",
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated flamethrower.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_eyebot_heater",
+    "copy-from": "broken_eyebot",
+    "color": "pink",
+    "name": "broken floating heater",
+    "description": "A broken floating heater, now cold and motionless.  Could be stripped down or re-crafted."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_defbot_shot",
+    "copy-from": "broken_defbot_disarmed",
+    "color": "light_gray",
+    "name": "broken defense bot",
+    "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_advbot_disarmed",
+    "symbol": ",",
+    "color": "white",
+    "looks_like": "broken_copbot",
+    "name": "broken disarmed advanced bot",
+    "category": "other",
+    "description": "A broken advanced robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "superalloy", "plastic" ],
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_advbot_laser",
+    "copy-from": "broken_advbot_disarmed",
+    "color": "yellow",
+    "name": "broken advanced robot",
+    "description": "A broken advanced robot.  This one is armed with an integrated laser-emitter.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_advbot_plasma",
+    "copy-from": "broken_advbot_disarmed",
+    "color": "magenta",
+    "name": "broken advanced robot",
+    "description": "A broken advanced robot.  This one is armed with an integrated plasma-ejector.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_advbot_rail",
+    "copy-from": "broken_advbot_disarmed",
+    "color": "magenta",
+    "name": "broken advanced robot",
+    "description": "A broken advanced robot.  This one is armed with an integrated laser-emitter.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_advbot_emp",
+    "copy-from": "broken_advbot_disarmed",
+    "color": "light_blue",
+    "name": "broken advanced robot",
+    "description": "A broken advanced robot.  This one is armed with an integrated EMP projector.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_milbot_disarmed",
+    "symbol": ",",
+    "color": "green",
+    "looks_like": "broken_secubot",
+    "name": "broken disarmed military bot",
+    "category": "other",
+    "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_defbot_disarmed",
+    "symbol": ",",
+    "color": "light_gray",
+    "looks_like": "broken_riotbot",
+    "name": "broken disarmed defense bot",
+    "category": "other",
+    "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_medibot",
+    "symbol": ",",
+    "color": "white",
+    "looks_like": "broken_tribot",
+    "name": "broken medical bot",
+    "category": "other",
+    "description": "A broken medical robot, now crumpled and inert.  Could be stripped down for parts.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
   }
 ]

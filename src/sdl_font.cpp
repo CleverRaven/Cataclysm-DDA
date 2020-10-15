@@ -218,7 +218,6 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
     return nullptr;
 }
 
-
 // line_id is one of the LINE_*_C constants
 // FG is a curses color
 void Font::draw_ascii_lines( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
@@ -363,7 +362,6 @@ CachedTTFFont::CachedTTFFont(
     TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
 }
 
-
 SDL_Texture_Ptr CachedTTFFont::create_glyph( SDL_Renderer_Ptr &renderer, const std::string &ch,
         const int color )
 {
@@ -451,7 +449,6 @@ void CachedTTFFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr
     }
 }
 
-
 BitmapFont::BitmapFont(
     SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
     const int w, const int h,
@@ -461,7 +458,7 @@ BitmapFont::BitmapFont(
 {
     dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "].";
     SDL_Surface_Ptr asciiload = load_image( typeface_path.c_str() );
-    assert( asciiload );
+    cata_assert( asciiload );
     if( asciiload->w * asciiload->h < ( width * height * 256 ) ) {
         throw std::runtime_error( "bitmap for font is to small" );
     }

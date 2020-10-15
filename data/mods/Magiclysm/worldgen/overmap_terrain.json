@@ -81,7 +81,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "magic_basement",
+    "id": [ "house_technomancer_1", "house_technomancer_2" ],
+    "copy-from": "generic_city_house"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "house_technomancer_3", "house_technomancer_4", "house_technomancer_5", "house_technomancer_6" ],
+    "copy-from": "generic_city_house_no_sidewalk"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "magic_basement", "house_technomancer_7", "house_technomancer_8" ],
     "copy-from": "generic_city_house_basement"
   },
   {

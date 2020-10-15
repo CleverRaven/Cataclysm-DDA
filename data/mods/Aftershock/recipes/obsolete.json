@@ -82,5 +82,10 @@
     "result": "afs_mbr_titanium",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "result": "afs_sunesthesia",
+    "type": "recipe",
+    "obsolete": true
   }
 ]

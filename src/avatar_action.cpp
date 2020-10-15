@@ -16,6 +16,7 @@
 #include "activity_actor.h"
 #include "avatar.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
@@ -69,14 +70,9 @@ static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_swim_fins( "swim_fins" );
-static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 
 static const skill_id skill_swimming( "swimming" );
-
-static const bionic_id bio_ups( "bio_ups" );
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_GRAZER( "GRAZER" );
@@ -85,13 +81,8 @@ static const trait_id trait_SHELL2( "SHELL2" );
 
 static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 static const std::string flag_DIG_TOOL( "DIG_TOOL" );
-static const std::string flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
-static const std::string flag_MOUNTABLE( "MOUNTABLE" );
-static const std::string flag_MOUNTED_GUN( "MOUNTED_GUN" );
 static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_RAMP_END( "RAMP_END" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
-static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -275,9 +266,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 add_msg( m_info, _( "Move into the monster to attack." ) );
                 you.clear_destination();
                 return false;
-            } else {
-                // fighting is hard work!
-                you.increase_activity_level( EXTRA_EXERCISE );
             }
             if( you.has_effect( effect_relax_gas ) ) {
                 if( one_in( 8 ) ) {
@@ -317,8 +305,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
 
         you.melee_attack( np, true );
-        // fighting is hard work!
-        you.increase_activity_level( EXTRA_EXERCISE );
         np.make_angry();
         return false;
     }
@@ -634,105 +620,6 @@ void avatar_action::autoattack( avatar &you, map &m )
     you.reach_attack( best.pos() );
 }
 
-/**
- * Common checks for gunmode (when firing a weapon / manually firing turret)
- * @param messages Used to store messages describing failed checks
- * @return True if all conditions are true
- */
-static bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> &messages,
-                                   const gun_mode &gmode )
-{
-    bool result = true;
-
-    // Check that passed gun mode is valid and we are able to use it
-    if( !( gmode && you.can_use( *gmode ) ) ) {
-        messages.push_back( string_format( _( "You can't currently fire your %s." ),
-                                           gmode->tname() ) );
-        result = false;
-    }
-
-    const optional_vpart_position vp = m.veh_at( you.pos() );
-    if( vp && vp->vehicle().player_in_control( you ) && ( gmode->is_two_handed( you ) ||
-            gmode->has_flag( flag_FIRE_TWOHAND ) ) ) {
-        messages.push_back( string_format( _( "You can't fire your %s while driving." ),
-                                           gmode->tname() ) );
-        result = false;
-    }
-
-    if( gmode->has_flag( flag_FIRE_TWOHAND ) && ( !you.has_two_arms() ||
-            you.worn_with_flag( flag_RESTRICT_HANDS ) ) ) {
-        messages.push_back( string_format( _( "You need two free hands to fire your %s." ),
-                                           gmode->tname() ) );
-        result = false;
-    }
-
-    return result;
-}
-
-/**
- * Various checks for gunmode when firing a weapon
- * @param messages Used to store messages describing failed checks
- * @return True if all conditions are true
- */
-static bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> &messages,
-                                   const gun_mode &gmode )
-{
-    bool result = true;
-
-    if( !gmode->ammo_sufficient() && !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        if( !gmode->ammo_remaining() ) {
-            messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
-        } else {
-            messages.push_back( string_format( _( "Your %s needs %i charges to fire!" ),
-                                               gmode->tname(), gmode->ammo_required() ) );
-        }
-        result = false;
-    }
-
-    if( gmode->get_gun_ups_drain() > 0 ) {
-        const int ups_drain = gmode->get_gun_ups_drain();
-        const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
-        bool is_mech_weapon = false;
-        if( you.is_mounted() ) {
-            monster *mons = get_player_character().mounted_creature.get();
-            if( !mons->type->mech_weapon.is_empty() ) {
-                is_mech_weapon = true;
-            }
-        }
-        if( !is_mech_weapon ) {
-            if( !( you.has_charges( itype_UPS_off, ups_drain ) ||
-                   you.has_charges( itype_adv_UPS_off, adv_ups_drain ) ||
-                   ( you.has_active_bionic( bio_ups ) &&
-                     you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
-                messages.push_back( string_format(
-                                        _( "You need a UPS with at least %2$d charges or an advanced UPS with at least %3$d charges to fire the %1$s!" ),
-                                        gmode->tname(), ups_drain, adv_ups_drain ) );
-                result = false;
-            }
-        } else {
-            if( !you.has_charges( itype_UPS, ups_drain ) ) {
-                messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
-                                                   gmode->tname() ) );
-                result = false;
-            }
-        }
-    }
-
-    if( gmode->has_flag( flag_MOUNTED_GUN ) ) {
-        const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
-                                 true ) );
-        bool t_mountable = m.has_flag_ter_or_furn( flag_MOUNTABLE, you.pos() );
-        if( !t_mountable && !v_mountable ) {
-            messages.push_back( string_format(
-                                    _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),
-                                    gmode->tname() ) );
-            result = false;
-        }
-    }
-
-    return result;
-}
-
 // TODO: Move data/functions related to targeting out of game class
 bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weapon )
 {
@@ -871,6 +758,12 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
 
 void avatar_action::mend( avatar &you, item_location loc )
 {
+
+    if( you.fine_detail_vision_mod() > 4 ) {
+        add_msg( m_bad, _( "It's too dark to work on mending this." ) );
+        return;
+    }
+
     if( !loc ) {
         if( you.is_armed() ) {
             loc = item_location( you, &you.weapon );
@@ -951,7 +844,7 @@ void avatar_action::eat( avatar &you, const item_location &loc )
 }
 
 void avatar_action::eat( avatar &you, const item_location &loc,
-                         std::vector<int> consume_menu_selections,
+                         const std::vector<int> &consume_menu_selections,
                          const std::vector<item_location> &consume_menu_selected_items,
                          const std::string &consume_menu_filter )
 {
@@ -1114,15 +1007,15 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             add_msg( _( "Never mind." ) );
             return;
         }
+    }
 
-        if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
-            use_in_place = true;
-        } else {
-            loc = loc.obtain( you );
-            if( !loc ) {
-                debugmsg( "Failed to obtain target item" );
-                return;
-            }
+    if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+        use_in_place = true;
+    } else {
+        loc = loc.obtain( you );
+        if( !loc ) {
+            debugmsg( "Failed to obtain target item" );
+            return;
         }
     }
 

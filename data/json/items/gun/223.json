@@ -330,6 +330,7 @@
     "type": "GUN",
     "name": { "str": "M249" },
     "description": "The M249 is a mountable machine gun used by the US military and SWAT teams.  Quite inaccurate and difficult to control, the M249 is designed to fire many rounds very quickly.",
+    "ascii_picture": "m249_saw",
     "weight": "7500 g",
     "volume": "10610 ml",
     "longest_side": "1035 mm",
@@ -399,6 +400,7 @@
     "type": "GUN",
     "name": { "str": "M27 IAR" },
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
+    "ascii_picture": "m27_iar",
     "weight": "3710 g",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "relative": { "ranged_damage": { "damage_type": "bullet", "amount": 1 }, "durability": 1 },
@@ -427,12 +429,23 @@
     ]
   },
   {
+    "id": "m38dmr",
+    "copy-from": "m27iar",
+    "name": { "str": "M38 DMR" },
+    "type": "GUN",
+    "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor.",
+    "dispersion": 125,
+    "price_postapoc": 3000,
+    "default_mods": [ "suppressor", "rifle_scope", "bipod" ]
+  },
+  {
     "id": "m4a1",
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "M4A1" },
     "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
+    "ascii_picture": "m4a1",
     "weight": "2880 g",
     "volume": "3310 ml",
     "longest_side": "758 mm",
@@ -472,6 +485,19 @@
         ]
       }
     ]
+  },
+  {
+    "id": "m4_cqbr",
+    "copy-from": "m4a1",
+    "type": "GUN",
+    "name": { "str": "MK 18 CQBR" },
+    "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations.",
+    "weight": "2720 g",
+    "volume": "3110 ml",
+    "longest_side": "682 mm",
+    "price": 260000,
+    "price_postapoc": 6000,
+    "ranged_damage": { "damage_type": "bullet", "amount": -3 }
   },
   {
     "id": "m16a4",
@@ -518,6 +544,29 @@
         ]
       }
     ]
+  },
+  {
+    "id": "m16a3",
+    "copy-from": "m16a4",
+    "type": "GUN",
+    "name": { "str": "M16A3" },
+    "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability.",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
+  },
+  {
+    "id": "m231pfw",
+    "copy-from": "m16a4",
+    "type": "GUN",
+    "name": { "str": "M231 Port Firing Weapon" },
+    "description": "The M231 PFW is an adaptation of the M16 assault rifle, designed to be used in the firing ports of the M2 Bradley Infantry Fighting Vehicle.  It does not have a buttstock or front sight post, and the smooth front hand guard makes it slighly less ergonomic.  It fires from an open bolt.  The fire selector says only 'SAFE' and 'AUTO'.  You can't help but wonder which one is preferable.",
+    "weight": "3330 g",
+    "volume": "2400 ml",
+    "longest_side": "727 mm",
+    "price": 90000,
+    "price_postapoc": 3500,
+    "dispersion": 350,
+    "//": "This weapon has an extremely high rate of fire, due to the open bolt design. This is based on a cyclic rate of fire of 1150 RPM, which is close to 19 rounds per second. 6 rounds is comparable to to other weapons with similar rates, such as the MAC-11.",
+    "modes": [ [ "DEFAULT", "auto", 6 ] ]
   },
   {
     "id": "oa93",
@@ -588,6 +637,7 @@
     "type": "GUN",
     "name": { "str": "Ruger Mini-14" },
     "description": "A small, lightweight semi-auto carbine designed for civilian and police use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations.",
+    "ascii_picture": "mini-14",
     "weight": "3180 g",
     "volume": "2900 ml",
     "longest_side": "977 mm",
@@ -635,6 +685,7 @@
     "type": "GUN",
     "name": { "str": "FN SCAR-L" },
     "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
+    "ascii_picture": "scar-L",
     "weight": "3500 g",
     "volume": "4970 ml",
     "longest_side": "850 mm",

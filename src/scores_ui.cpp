@@ -1,7 +1,6 @@
 #include "scores_ui.h"
 
 #include <algorithm>
-#include <cassert>
 #include <iterator>
 #include <string>
 #include <tuple>
@@ -9,6 +8,7 @@
 #include <vector>
 
 #include "achievement.h"
+#include "cata_assert.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "event_statistics.h"
@@ -150,7 +150,8 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
                     view.set_text( kills.get_kills_text() );
                     break;
                 case tab_mode::num_tabs:
-                    assert( false );
+                    // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+                    cata_assert( false );
                     break;
             }
         }

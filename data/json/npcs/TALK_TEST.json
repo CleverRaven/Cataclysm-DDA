@@ -136,6 +136,11 @@
         "text": "This is a faction camp any test response.",
         "topic": "TALK_DONE",
         "condition": { "u_at_om_location": "FACTION_CAMP_ANY" }
+      },
+      {
+        "text": "This is a om_location_field direction variant response.",
+        "topic": "TALK_DONE",
+        "condition": { "u_at_om_location": "evac_center_7" }
       }
     ]
   },
@@ -805,7 +810,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL_CONDITIONAL",
+    "id": "TALK_TEST_MAPGEN",
     "dynamic_line": [ "This is an example of mapgen_update effect variations" ],
     "responses": [
       {

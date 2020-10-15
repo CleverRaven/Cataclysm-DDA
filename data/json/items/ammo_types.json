@@ -307,6 +307,24 @@
   },
   {
     "type": "ammunition_type",
+    "id": "aerosol_paint",
+    "name": "paint",
+    "default": "aerosol_paint"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "permanent_ink",
+    "name": "ink",
+    "default": "permanent_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "candle_wax",
+    "name": "wax",
+    "default": "candle_wax"
+  },
+  {
+    "type": "ammunition_type",
     "id": "flare_nitrate",
     "name": "flare pyrotechnic",
     "default": "flare_nitrate"
@@ -648,10 +666,10 @@
     "type": "ammunition_type"
   },
   {
-    "id": "oxygen",
-    "name": "oxygen",
-    "default": "oxygen",
-    "type": "ammunition_type"
+    "id": "water",
+    "type": "ammunition_type",
+    "name": "water",
+    "default": "water"
   },
   {
     "type": "ammunition_type",
@@ -664,5 +682,11 @@
     "id": "123ln",
     "name": "12.3ln cartridge",
     "default": "123ln"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "glowstick_juice",
+    "name": "glowstick juice",
+    "default": "glowstick_juice"
   }
 ]

@@ -55,9 +55,9 @@ parser.add_argument(
 parser.set_defaults(with_header=True, tileset_types_only=False)
 
 
-I18N_DICT_KEYS = ('str', 'str_sp', 'str_pl', 'ctxt')
+I18N_DICT_KEYS = ('str', 'str_sp', 'str_pl', 'ctxt', '//~')
 I18N_DICT_KEYS_SET = set(I18N_DICT_KEYS)
-TILESET_TYPES=[
+TILESET_TYPES = [
     "AMMO", "ARMOR", "BATTERY", "BIONIC_ITEM", "bionic", "BOOK", "COMESTIBLE",
     "ENGINE", "field_type", "furniture", "gate", "GENERIC", "GUN", "GUNMOD",
     "MAGAZINE", "MONSTER", "mutation", "PET_ARMOR", "terrain", "TOOL",
@@ -73,7 +73,8 @@ def item_values(item, fields, none_string="None"):
         ...             ['name', 'length_cm'])
         ['sword', '90']
 
-    Fields may also be nested objects; subkeys may be referenced like key.subkey:
+    Fields may also be nested objects; subkeys may be referenced like
+    key.subkey:
 
         >>> item_values({'loc': {'x': 5, 'y': 10}}, ['loc.x', 'loc.y'])
         ['5', '10']
@@ -208,7 +209,8 @@ class CDDAValues:
         format_class = get_format_class_by_extension(format_string)
         self.output = format_class()
 
-    def print_table(self, data, columns, types_filter, none_string, with_header):
+    def print_table(self, data, columns, types_filter,
+                    none_string, with_header):
         if with_header:
             self.output.header(columns)
         for item in data:

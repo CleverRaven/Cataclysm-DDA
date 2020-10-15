@@ -1,11 +1,11 @@
 #include "creature_tracker.h"
 
 #include <algorithm>
-#include <cassert>
 #include <ostream>
 #include <string>
 #include <utility>
 
+#include "cata_assert.h"
 #include "debug.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -54,7 +54,7 @@ shared_ptr_fast<monster> Creature_tracker::from_temporary_id( const int id )
 
 bool Creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
 {
-    assert( critter_ptr );
+    cata_assert( critter_ptr );
     monster &critter = *critter_ptr;
 
     if( critter.type->id.is_null() ) { // Don't want to spawn null monsters o.O
@@ -92,15 +92,15 @@ bool Creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
 
 void Creature_tracker::add_to_faction_map( const shared_ptr_fast<monster> &critter_ptr )
 {
-    assert( critter_ptr );
+    cata_assert( critter_ptr );
     monster &critter = *critter_ptr;
 
     // Only 1 faction per mon at the moment.
     if( critter.friendly == 0 ) {
-        monster_faction_map_[ critter.faction ].insert( critter_ptr );
+        monster_faction_map_[ critter.faction ][critter_ptr->pos().z].insert( critter_ptr );
     } else {
         static const mfaction_str_id playerfaction( "player" );
-        monster_faction_map_[ playerfaction ].insert( critter_ptr );
+        monster_faction_map_[ playerfaction ][critter_ptr->pos().z].insert( critter_ptr );
     }
 }
 
@@ -182,11 +182,12 @@ void Creature_tracker::remove( const monster &critter )
     }
 
     for( auto &pair : monster_faction_map_ ) {
-        const auto fac_iter = pair.second.find( *iter );
-        if( fac_iter != pair.second.end() ) {
+        const int zpos = critter.pos().z;
+        const auto fac_iter = pair.second[zpos].find( *iter );
+        if( fac_iter != pair.second[zpos].end() ) {
             // Need to do this manually because the shared pointer containing critter is kept valid
             // within removed_ and so the weak pointer in monster_faction_map_ is also valid.
-            pair.second.erase( fac_iter );
+            pair.second[zpos].erase( fac_iter );
             break;
         }
     }
@@ -259,7 +260,7 @@ bool Creature_tracker::kill_marked_for_death()
     // This happens for example with blob monsters (they split into two smaller monsters).
     const auto copy = monsters_list;
     for( const shared_ptr_fast<monster> &mon_ptr : copy ) {
-        assert( mon_ptr );
+        cata_assert( mon_ptr );
         monster &critter = *mon_ptr;
         if( !critter.is_dead() ) {
             continue;

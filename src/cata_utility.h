@@ -72,7 +72,6 @@ T divide_round_up( T num, T den )
     return ( num + den - 1 ) / den;
 }
 
-
 int divide_round_down( int a, int b );
 
 /**
@@ -411,6 +410,28 @@ bool return_true( const T & )
  * Joins a vector of `std::string`s into a single string with a delimiter/joiner
  */
 std::string join( const std::vector<std::string> &strings, const std::string &joiner );
+
+/**
+ * Erases elements from a set that match given predicate function.
+ * Will work on vector, albeit not optimally performance-wise.
+ * @return true if set was changed
+ */
+//bool erase_if( const std::function<bool( const value_type & )> &predicate ) {
+template<typename Col, class Pred>
+bool erase_if( Col &set, Pred predicate )
+{
+    bool ret = false;
+    auto iter = set.begin();
+    for( ; iter != set.end(); ) {
+        if( predicate( *iter ) ) {
+            iter = set.erase( iter );
+            ret = true;
+        } else {
+            ++iter;
+        }
+    }
+    return ret;
+}
 
 int modulo( int v, int m );
 

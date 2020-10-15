@@ -462,14 +462,18 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
                 tank_color = c_light_red;
                 tank_goal = _( "empty" );
             }
+
+            // promote to double so esimate doesn't overflow for high fuel values
+            // 3600 * tank_use overflows signed 32 bit when tank_use is over ~596523
+            double turns = to_turns<double>( 60_minutes );
+            time_duration estimate = time_duration::from_turns( turns * tank_use / std::abs( rate ) );
+
             if( debug_mode ) {
                 wprintz( win, tank_color, _( ", %d %s(%4.2f%%)/hour, %s until %s" ),
-                         rate, units, 100.0 * rate  / cap,
-                         to_string_clipped( 60_minutes * tank_use / std::abs( rate ) ), tank_goal );
+                         rate, units, 100.0 * rate  / cap, to_string_clipped( estimate ), tank_goal );
             } else {
                 wprintz( win, tank_color, _( ", %3.1f%% / hour, %s until %s" ),
-                         100.0 * rate  / cap,
-                         to_string_clipped( 60_minutes * tank_use / std::abs( rate ) ), tank_goal );
+                         100.0 * rate  / cap, to_string_clipped( estimate ), tank_goal );
             }
         }
     }

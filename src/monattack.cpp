@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -18,6 +17,7 @@
 #include "ballistics.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
@@ -607,10 +607,11 @@ bool mattack::acid( monster *z )
     projectile proj;
     proj.speed = 10;
     // Mostly just for momentum
-    proj.impact.add_damage( DT_ACID, 5 );
+    proj.impact.add_damage( damage_type::ACID, 5 );
     proj.range = 10;
     proj.proj_effects.insert( "NO_OVERSHOOT" );
-    auto dealt = projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 5400 }, z );
+    dealt_projectile_attack dealt = projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 5400 },
+                                    z );
     const tripoint &hitp = dealt.end_point;
     const Creature *hit_critter = dealt.hit_critter;
     if( hit_critter == nullptr && here.hit_with_acid( hitp ) ) {
@@ -653,7 +654,7 @@ bool mattack::acid_barf( monster *z )
     bool uncanny = target->uncanny_dodge();
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     if( uncanny || dodge_check( z, target ) ) {
-        auto msg_type = target->is_avatar() ? m_warning : m_info;
+        game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
         target->add_msg_player_or_npc( msg_type,
                                        _( "The %s barfs acid at you, but you dodge!" ),
                                        _( "The %s barfs acid at <npcname>, but they dodge!" ),
@@ -667,12 +668,12 @@ bool mattack::acid_barf( monster *z )
 
     const bodypart_id &hit = target->get_random_body_part();
     int dam = rng( 5, 12 );
-    dam = target->deal_damage( z,  hit, damage_instance( DT_ACID,
+    dam = target->deal_damage( z,  hit, damage_instance( damage_type::ACID,
                                dam ) ).total_damage();
     target->add_env_effect( effect_corroding, hit, 5, time_duration::from_turns( dam / 2 + 5 ), hit );
 
     if( dam > 0 ) {
-        auto msg_type = target->is_avatar() ? m_bad : m_info;
+        game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
         target->add_msg_player_or_npc( msg_type,
                                        //~ 1$s is monster name, 2$s bodypart in accusative
                                        _( "The %1$s barfs acid on your %2$s for %3$d damage!" ),
@@ -721,7 +722,7 @@ bool mattack::acid_accurate( monster *z )
     proj.range = 10;
     proj.proj_effects.insert( "BLINDS_EYES" );
     proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
-    proj.impact.add_damage( DT_ACID, rng( 3, 5 ) );
+    proj.impact.add_damage( damage_type::ACID, rng( 3, 5 ) );
     // Make it arbitrarily less accurate at close ranges
     projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 8000.0 * range }, z );
 
@@ -752,7 +753,7 @@ bool mattack::shockstorm( monster *z )
     z->moves -= 50;
 
     if( seen ) {
-        auto msg_type = target->is_avatar() ? m_bad : m_neutral;
+        game_message_type msg_type = target->is_avatar() ? m_bad : m_neutral;
         add_msg( msg_type, _( "A bolt of electricity arcs towards %s!" ), target->disp_name() );
     }
     if( !player_character.is_deaf() ) {
@@ -795,7 +796,7 @@ bool mattack::pull_metal_weapon( monster *z )
     // Constants and Configuration
 
     // max distance that "pull_metal_weapon" can be applied to the target.
-    constexpr auto max_distance = 12;
+    constexpr int max_distance = 12;
 
     // attack movement costs
     constexpr int att_cost_pull = 150;
@@ -830,7 +831,7 @@ bool mattack::pull_metal_weapon( monster *z )
                 ///\EFFECT_MELEE increases resistance to pull_metal_weapon special attack
                 success = std::max( 100 - ( 6 * ( foe->str_cur - 6 ) ) - ( 6 * wp_skill ), 0 );
             }
-            auto m_type = foe->is_avatar() ? m_bad : m_neutral;
+            game_message_type m_type = foe->is_avatar() ? m_bad : m_neutral;
             if( rng( 1, 100 ) <= success ) {
                 target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
                                                _( "%s is pulled away from <npcname>'s hands!" ), foe->weapon.tname() );
@@ -993,7 +994,7 @@ bool mattack::resurrect( monster *z )
                 }
                 return false;
             }
-            int raise_score = ( i.damage_level( 4 ) + 1 ) * mt->hp + i.burnt;
+            int raise_score = ( i.damage_level() + 1 ) * mt->hp + i.burnt;
             lowest_raise_score = std::min( lowest_raise_score, raise_score );
             if( raise_score <= raising_level ) {
                 corpses.push_back( std::make_pair( p, &i ) );
@@ -1045,9 +1046,9 @@ bool mattack::resurrect( monster *z )
 
     std::pair<tripoint, item *> raised = random_entry( corpses );
     // To appease static analysis
-    assert( raised.second );
+    cata_assert( raised.second );
     // NOLINTNEXTLINE(clang-analyzer-core.CallAndMessage)
-    float corpse_damage = raised.second->damage_level( 4 );
+    float corpse_damage = raised.second->damage_level();
     // Did we successfully raise something?
     if( g->revive_corpse( raised.first, *raised.second ) ) {
         here.i_rem( raised.first, raised.second );
@@ -1147,7 +1148,7 @@ template <size_t N = 1>
 std::pair < std::array < tripoint, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
 find_empty_neighbors( const tripoint &origin )
 {
-    constexpr auto r = static_cast<int>( N );
+    constexpr int r = static_cast<int>( N );
 
     std::pair < std::array < tripoint, ( 2 * N + 1 )*( 2 * N + 1 ) >, size_t > result;
 
@@ -1208,7 +1209,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     };
 
     // max distance that "science" can be applied to the target.
-    constexpr auto max_distance = 5;
+    constexpr int max_distance = 5;
 
     // attack movement costs
     constexpr int att_cost_shock   = 0;
@@ -1449,7 +1450,7 @@ bool mattack::growplants( monster *z )
                                         //~ %s is bodypart name in accusative.
                                         _( "A tree bursts forth from the earth and pierces <npcname>'s %s!" ),
                                         body_part_name_accusative( hit ) );
-        critter->deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
+        critter->deal_damage( z, hit, damage_instance( damage_type::STAB, rng( 10, 30 ) ) );
     }
 
     // 1 in 5 chance of making existing vegetation grow larger
@@ -1484,7 +1485,7 @@ bool mattack::growplants( monster *z )
                                                 //~ %s is bodypart name in accusative.
                                                 _( "Underbrush grows into a tree, and it pierces <npcname>'s %s!" ),
                                                 body_part_name_accusative( hit ) );
-                critter->deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
+                critter->deal_damage( z, hit, damage_instance( damage_type::STAB, rng( 10, 30 ) ) );
             }
         }
     }
@@ -1540,8 +1541,8 @@ bool mattack::vine( monster *z )
                                             z->name(),
                                             body_part_name_accusative( bphit ) );
             damage_instance d;
-            d.add_damage( DT_CUT, 8 );
-            d.add_damage( DT_BASH, 8 );
+            d.add_damage( damage_type::CUT, 8 );
+            d.add_damage( damage_type::BASH, 8 );
             critter->deal_damage( z, bphit, d );
             critter->check_dead_state();
             z->moves -= 100;
@@ -1589,7 +1590,7 @@ bool mattack::spit_sap( monster *z )
     proj.speed = 10;
     proj.range = 12;
     proj.proj_effects.insert( "APPLY_SAP" );
-    proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
+    proj.impact.add_damage( damage_type::ACID, rng( 5, 10 ) );
     projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 150 }, z );
 
     return true;
@@ -1746,7 +1747,7 @@ bool mattack::fungus_haze( monster *z )
 bool mattack::fungus_big_blossom( monster *z )
 {
     bool firealarm = false;
-    const auto u_see = get_player_view().sees( *z );
+    const bool u_see = get_player_view().sees( *z );
     map &here = get_map();
     // Fungal fire-suppressor! >:D
     for( const tripoint &dest : here.points_in_radius( z->pos(), 6 ) ) {
@@ -1833,7 +1834,8 @@ bool mattack::fungus_inject( monster *z )
 
     const bodypart_id hit = target->get_random_body_part();
     int dam = rng( 5, 11 );
-    dam = player_character.deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
+    dam = player_character.deal_damage( z, hit, damage_instance( damage_type::CUT,
+                                        dam ) ).total_damage();
 
     if( dam > 0 ) {
         //~ 1$s is monster name, 2$s bodypart in accusative
@@ -1870,7 +1872,7 @@ bool mattack::fungus_bristle( monster *z )
         return false;
     }
 
-    auto msg_type = target->is_avatar() ? m_warning : m_neutral;
+    game_message_type msg_type = target->is_avatar() ? m_warning : m_neutral;
 
     add_msg( msg_type, _( "The %1$s swipes at %2$s with a barbed tendril!" ), z->name(),
              target->disp_name() );
@@ -1890,7 +1892,7 @@ bool mattack::fungus_bristle( monster *z )
 
     const bodypart_id hit = target->get_random_body_part();
     int dam = rng( 7, 16 );
-    dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
+    dam = target->deal_damage( z, hit, damage_instance( damage_type::CUT, dam ) ).total_damage();
 
     if( dam > 0 ) {
         //~ 1$s is monster name, 2$s bodypart in accusative
@@ -2032,7 +2034,7 @@ bool mattack::fungus_fortify( monster *z )
             //~ %s is bodypart name in accusative.
             add_msg( m_bad, _( "A fungal tendril bursts forth from the earth and pierces your %s!" ),
                      body_part_name_accusative( hit ) );
-            player_character.deal_damage( z,  hit, damage_instance( DT_CUT, rng( 5, 11 ) ) );
+            player_character.deal_damage( z,  hit, damage_instance( damage_type::CUT, rng( 5, 11 ) ) );
             player_character.check_dead_state();
             // Probably doesn't have spores available *just* yet.  Let's be nice.
         } else if( monster *const tendril = g->place_critter_at( mon_fungal_tendril, hit_pos ) ) {
@@ -2060,7 +2062,8 @@ bool mattack::fungus_fortify( monster *z )
     // TODO: 21 damage with no chance to critical isn't scary
     const bodypart_id hit = target->get_random_body_part();
     int dam = rng( 15, 21 );
-    dam = player_character.deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();
+    dam = player_character.deal_damage( z, hit, damage_instance( damage_type::STAB,
+                                        dam ) ).total_damage();
 
     if( dam > 0 ) {
         //~ 1$s is monster name, 2$s bodypart in accusative
@@ -2092,7 +2095,7 @@ bool mattack::impale( monster *z )
     z->moves -= 80;
     bool uncanny = target->uncanny_dodge();
     if( uncanny || dodge_check( z, target ) ) {
-        auto msg_type = target->is_avatar() ? m_warning : m_info;
+        game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
         target->add_msg_player_or_npc( msg_type, _( "The %s lunges at you, but you dodge!" ),
                                        _( "The %s lunges at <npcname>, but they dodge!" ),
                                        z->name() );
@@ -2103,11 +2106,12 @@ bool mattack::impale( monster *z )
         return true;
     }
 
-    int dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_STAB, rng( 10, 20 ),
+    int dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::STAB,
+                                   rng( 10, 20 ),
                                    rng( 5, 15 ),
                                    .5 ) ).total_damage();
     if( dam > 0 ) {
-        auto msg_type = target->is_avatar() ? m_bad : m_info;
+        game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
         target->add_msg_player_or_npc( msg_type,
                                        //~ 1$s is monster name, 2$s bodypart in accusative
                                        _( "The %1$s impales your torso!" ),
@@ -2556,7 +2560,7 @@ bool mattack::tentacle( monster *z )
 
     const bodypart_id hit = target->get_random_body_part();
     int dam = rng( 10, 20 );
-    dam = target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
+    dam = target->deal_damage( z, hit, damage_instance( damage_type::BASH, dam ) ).total_damage();
 
     if( dam > 0 ) {
         target->add_msg_player_or_npc( msg_type,
@@ -2607,7 +2611,7 @@ bool mattack::ranged_pull( monster *z )
     const bool uncanny = target->uncanny_dodge();
     if( uncanny || dodge_check( z, target ) ) {
         z->moves -= 200;
-        auto msg_type = foe && foe->is_avatar() ? m_warning : m_info;
+        game_message_type msg_type = foe && foe->is_avatar() ? m_warning : m_info;
         target->add_msg_player_or_npc( msg_type, _( "The %s's arms fly out at you, but you dodge!" ),
                                        _( "The %s's arms fly out at <npcname>, but they dodge!" ),
                                        z->name() );
@@ -2687,7 +2691,7 @@ bool mattack::grab( monster *z )
 
     z->moves -= 80;
     const bool uncanny = target->uncanny_dodge();
-    const auto msg_type = target->is_avatar() ? m_warning : m_info;
+    const game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
     if( uncanny || dodge_check( z, target ) ) {
         target->add_msg_player_or_npc( msg_type, _( "The %s gropes at you, but you dodge!" ),
                                        _( "The %s gropes at <npcname>, but they dodge!" ),
@@ -2721,7 +2725,8 @@ bool mattack::grab( monster *z )
             thrown_by_judo( z );
         } else if( pl->has_grab_break_tec() ) {
             ma_technique tech = pl->martial_arts_data->get_grab_break_tec( cur_weapon );
-            target->add_msg_player_or_npc( m_info, _( tech.avatar_message ), _( tech.npc_message ), z->name() );
+            target->add_msg_player_or_npc( m_info, tech.avatar_message.translated(),
+                                           tech.npc_message.translated(), z->name() );
         } else {
             target->add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
                                            _( "The %s tries to grab <npcname>, but they break its grab!" ),
@@ -2811,7 +2816,7 @@ bool mattack::gene_sting( monster *z )
     z->moves -= 150;
 
     damage_instance dam = damage_instance();
-    dam.add_damage( DT_STAB, 6, 10, 0.6, 1 );
+    dam.add_damage( damage_type::STAB, 6, 10, 0.6, 1 );
     bool hit = sting_shoot( z, target, dam, range );
     if( hit ) {
         //Add checks if previous NPC/player conditions are removed
@@ -2832,7 +2837,7 @@ bool mattack::para_sting( monster *z )
     z->moves -= 150;
 
     damage_instance dam = damage_instance();
-    dam.add_damage( DT_STAB, 6, 8, 0.8, 1 );
+    dam.add_damage( damage_type::STAB, 6, 8, 0.8, 1 );
     bool hit = sting_shoot( z, target, dam, range );
     if( hit ) {
         target->add_msg_if_player( m_bad, _( "You feel poison enter your body!" ) );
@@ -3293,8 +3298,9 @@ void mattack::taze( monster *z, Creature *target )
         return;
     }
 
-    int dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_ELECTRIC, rng( 1,
-                                   5 ) ) ).total_damage();
+    int dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
+                                   rng( 1,
+                                        5 ) ) ).total_damage();
     if( dam == 0 ) {
         target->add_msg_player_or_npc( _( "The %s unsuccessfully attempts to shock you." ),
                                        _( "The %s unsuccessfully attempts to shock <npcname>." ),
@@ -3302,8 +3308,9 @@ void mattack::taze( monster *z, Creature *target )
         return;
     }
 
-    auto m_type = target->attitude_to( get_player_character() ) == Creature::Attitude::FRIENDLY ?
-                  m_bad : m_neutral;
+    game_message_type m_type = target->attitude_to( get_player_character() ) ==
+                               Creature::Attitude::FRIENDLY ?
+                               m_bad : m_neutral;
     target->add_msg_player_or_npc( m_type,
                                    _( "The %s shocks you!" ),
                                    _( "The %s shocks <npcname>!" ),
@@ -4119,7 +4126,7 @@ bool mattack::stretch_bite( monster *z )
     if( uncanny || dodge_check( z, target ) ) {
         z->moves -= 150;
         z->add_effect( effect_stunned, 3_turns );
-        auto msg_type = target->is_avatar() ? m_warning : m_info;
+        game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
         target->add_msg_player_or_npc( msg_type,
                                        _( "The %s's head extends to bite you, but you dodge and the head sails past!" ),
                                        _( "The %s's head extends to bite <npcname>, but they dodge and the head sails past!" ),
@@ -4133,10 +4140,10 @@ bool mattack::stretch_bite( monster *z )
     const bodypart_id hit = target->get_random_body_part();
     // More damage due to the speed of the moving head
     int dam = rng( 5, 15 );
-    dam = target->deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();
+    dam = target->deal_damage( z, hit, damage_instance( damage_type::STAB, dam ) ).total_damage();
 
     if( dam > 0 ) {
-        auto msg_type = target->is_avatar() ? m_bad : m_info;
+        game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
         target->add_msg_player_or_npc( msg_type,
                                        //~ 1$s is monster name, 2$s bodypart in accusative
                                        _( "The %1$s's teeth sink into your %2$s!" ),
@@ -4231,7 +4238,7 @@ bool mattack::flesh_golem( monster *z )
     const bodypart_id hit = target->get_random_body_part();
     // TODO: 10 bashing damage doesn't sound like a "massive claw" but a mediocre punch
     int dam = rng( 5, 10 );
-    target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
+    target->deal_damage( z, hit, damage_instance( damage_type::BASH, dam ) );
     if( one_in( 6 ) ) {
         target->add_effect( effect_downed, 3_minutes );
     }
@@ -4288,8 +4295,8 @@ bool mattack::absorb_meat( monster *z )
                 if( player_character.sees( *z ) ) {
                     add_msg( m_warning, _( "The %1$s absorbs the %2$s, growing larger." ), z->name(),
                              current_item.tname() );
-                    add_msg( m_debug, "The %1$s now has %2$s out of %3$s hp", z->name(), z->get_hp(),
-                             z->get_hp_max() );
+                    add_msg_debug( "The %1$s now has %2$s out of %3$s hp", z->name(), z->get_hp(),
+                                   z->get_hp_max() );
                 }
                 return true;
             }
@@ -4352,9 +4359,9 @@ bool mattack::lunge( monster *z )
     }
     const bodypart_id hit = target->get_random_body_part();
     int dam = rng( 3, 7 );
-    dam = target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
+    dam = target->deal_damage( z, hit, damage_instance( damage_type::BASH, dam ) ).total_damage();
     if( dam > 0 ) {
-        auto msg_type = target->is_avatar() ? m_bad : m_warning;
+        game_message_type msg_type = target->is_avatar() ? m_bad : m_warning;
         target->add_msg_player_or_npc( msg_type,
                                        _( "The %1$s lunges at your %2$s, battering it for %3$d damage!" ),
                                        _( "The %1$s lunges at <npcname>'s %2$s, battering it for %3$d damage!" ),
@@ -4421,9 +4428,9 @@ bool mattack::longswipe( monster *z )
             }
             const bodypart_id hit = target->get_random_body_part();
             int dam = rng( 3, 7 );
-            dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
+            dam = target->deal_damage( z, hit, damage_instance( damage_type::CUT, dam ) ).total_damage();
             if( dam > 0 ) {
-                auto msg_type = target->is_avatar() ? m_bad : m_warning;
+                game_message_type msg_type = target->is_avatar() ? m_bad : m_warning;
                 target->add_msg_player_or_npc( msg_type,
                                                //~ 1$s is bodypart name, 2$d is damage value.
                                                _( "The %1$s thrusts a claw at your %2$s, slashing it for %3$d damage!" ),
@@ -4457,18 +4464,18 @@ bool mattack::longswipe( monster *z )
     }
 
     int dam = rng( 6, 10 );
-    dam = target->deal_damage( z, bodypart_id( "head" ), damage_instance( DT_CUT,
+    dam = target->deal_damage( z, bodypart_id( "head" ), damage_instance( damage_type::CUT,
                                dam ) ).total_damage();
     if( dam > 0 ) {
-        auto msg_type = target->is_avatar() ? m_bad : m_warning;
+        game_message_type msg_type = target->is_avatar() ? m_bad : m_warning;
         target->add_msg_player_or_npc( msg_type,
                                        _( "The %1$s slashes at your neck, cutting your throat for %2$d damage!" ),
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
         if( target->is_player() || target->is_npc() ) {
-            target->as_character()->make_bleed( bodypart_id( "head" ), 15_minutes );
+            target->as_character()->make_bleed( effect_source( z ), bodypart_id( "head" ), 15_minutes );
         } else {
-            target->add_effect( effect_bleed, 15_minutes, bodypart_id( "head" ) );
+            target->add_effect( effect_source( z ), effect_bleed, 15_minutes, bodypart_id( "head" ) );
         }
 
     } else {
@@ -4659,7 +4666,7 @@ bool mattack::thrown_by_judo( monster *z )
                 target->add_msg_if_player( _( "The flip does shock you…" ) );
                 // Discounted electric damage for quick flip
                 damage_instance shock;
-                shock.add_damage( DT_ELECTRIC, rng( 1, 3 ) );
+                shock.add_damage( damage_type::ELECTRIC, rng( 1, 3 ) );
                 foe->deal_damage( z, bodypart_id( "arm_l" ), shock );
                 foe->deal_damage( z, bodypart_id( "arm_r" ), shock );
                 foe->check_dead_state();
@@ -4669,7 +4676,7 @@ bool mattack::thrown_by_judo( monster *z )
             const int min_damage = 10 + foe->get_skill_level( skill_unarmed );
             const int max_damage = 20 + foe->get_skill_level( skill_unarmed );
             // Deal moderate damage
-            const auto damage = rng( min_damage, max_damage );
+            const int damage = rng( min_damage, max_damage );
             z->apply_damage( foe, bodypart_id( "torso" ), damage );
             z->check_dead_state();
         } else {
@@ -4784,7 +4791,7 @@ bool mattack::riotbot( monster *z )
                          _( "You deftly slip out of the handcuffs just as the robot closes them.  The robot didn't seem to notice!" ) );
                 foe->i_add( handcuffs );
             } else {
-                handcuffs.item_tags.insert( "NO_UNWIELD" );
+                handcuffs.set_flag( "NO_UNWIELD" );
                 foe->wield( foe->i_add( handcuffs ) );
                 foe->moves -= 300;
                 add_msg( _( "The robot puts handcuffs on you." ) );
@@ -4895,7 +4902,7 @@ bool mattack::evolve_kill_strike( monster *z )
     z->moves -= 100;
     const bool uncanny = target->uncanny_dodge();
     if( uncanny || dodge_check( z, target ) ) {
-        auto msg_type = target->is_avatar() ? m_warning : m_info;
+        game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
         target->add_msg_player_or_npc( msg_type, _( "The %s lunges at you, but you dodge!" ),
                                        _( "The %s lunges at <npcname>, but they dodge!" ),
                                        z->name() );
@@ -4911,11 +4918,12 @@ bool mattack::evolve_kill_strike( monster *z )
     const std::string target_name = target->disp_name();
     damage_instance damage( z->type->melee_damage );
     damage.mult_damage( 1.33f );
-    damage.add( damage_instance( DT_STAB, dice( z->type->melee_dice, z->type->melee_sides ), rng( 5,
-                                 15 ), 1.0, 0.5 ) );
+    damage.add( damage_instance( damage_type::STAB, dice( z->type->melee_dice, z->type->melee_sides ),
+                                 rng( 5,
+                                      15 ), 1.0, 0.5 ) );
     int damage_dealt = target->deal_damage( z, bodypart_id( "torso" ), damage ).total_damage();
     if( damage_dealt > 0 ) {
-        auto msg_type = target->is_avatar() ? m_bad : m_warning;
+        game_message_type msg_type = target->is_avatar() ? m_bad : m_warning;
         target->add_msg_player_or_npc( msg_type,
                                        _( "The %1$s impales yor chest for %2$d damage!" ),
                                        _( "The %1$s impales <npcname>'s chest for %2$d damage!" ),
@@ -5098,8 +5106,8 @@ bool mattack::flesh_tendril( monster *z )
 
 bool mattack::bio_op_random_biojutsu( monster *z )
 {
-    int choice;
-    int redo;
+    int choice = 0;
+    bool redo = false;
 
     if( !z->can_act() ) {
         return false;
@@ -5178,9 +5186,9 @@ bool mattack::bio_op_takedown( monster *z )
         // Handle mons earlier - less to check for
         dam = rng( 6, 18 );
         // Always aim for the torso
-        target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_BASH, dam ) );
+        target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dam ) );
         // Two hits - "leg" and torso
-        target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_BASH, dam ) );
+        target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dam ) );
         target->add_effect( effect_downed, 3_turns );
         if( seen ) {
             add_msg( _( "%1$s slams %2$s to the ground!" ), z->name(), target->disp_name() );
@@ -5201,7 +5209,7 @@ bool mattack::bio_op_takedown( monster *z )
     //~ 1$s is bodypart name in accusative, 2$d is damage value.
     target->add_msg_if_player( m_bad, _( "The zombie kicks your %1$s for %2$d damage…" ),
                                body_part_name_accusative( hit ), dam );
-    foe->deal_damage( z,  hit, damage_instance( DT_BASH, dam ) );
+    foe->deal_damage( z,  hit, damage_instance( damage_type::BASH, dam ) );
     // At this point, Judo or Tentacle Bracing can make this much less painful
     if( !foe->is_throw_immune() ) {
         if( !target->is_immune_effect( effect_downed ) ) {
@@ -5211,12 +5219,12 @@ bool mattack::bio_op_takedown( monster *z )
                 dam = rng( 9, 21 );
                 target->add_msg_if_player( m_bad, _( "and slams you, face first, to the ground for %d damage!" ),
                                            dam );
-                foe->deal_damage( z, bodypart_id( "head" ), damage_instance( DT_BASH, dam ) );
+                foe->deal_damage( z, bodypart_id( "head" ), damage_instance( damage_type::BASH, dam ) );
             } else {
                 hit = bodypart_id( "torso" );
                 dam = rng( 6, 18 );
                 target->add_msg_if_player( m_bad, _( "and slams you to the ground for %d damage!" ), dam );
-                foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_BASH, dam ) );
+                foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dam ) );
             }
             foe->add_effect( effect_downed, 3_turns );
         }
@@ -5227,7 +5235,7 @@ bool mattack::bio_op_takedown( monster *z )
         hit = bodypart_id( "torso" );
         dam = rng( 3, 9 );
         target->add_msg_if_player( m_bad, _( "and slams you for %d damage!" ), dam );
-        foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_BASH, dam ) );
+        foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dam ) );
     }
     target->on_hit( z, hit,  z->type->melee_skill );
     foe->check_dead_state();
@@ -5280,7 +5288,7 @@ bool mattack::bio_op_impale( monster *z )
 
     if( foe == nullptr ) {
         // Handle mons earlier - less to check for
-        target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_STAB, dam ) );
+        target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::STAB, dam ) );
         if( do_bleed ) {
             target->add_effect( effect_bleed, rng( 3_minutes, 10_minutes ), bodypart_id( "torso" ), true );
         }
@@ -5293,7 +5301,7 @@ bool mattack::bio_op_impale( monster *z )
 
     const bodypart_id hit = target->get_random_body_part();
 
-    t_dam = foe->deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();
+    t_dam = foe->deal_damage( z, hit, damage_instance( damage_type::STAB, dam ) ).total_damage();
 
     target->add_msg_player_or_npc( _( "The %1$s tries to impale your %s…" ),
                                    _( "The %1$s tries to impale <npcname>'s %s…" ),
@@ -5303,7 +5311,7 @@ bool mattack::bio_op_impale( monster *z )
         target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
 
         if( do_bleed ) {
-            target->as_character()->make_bleed( hit, rng( 75_turns, 125_turns ), true );
+            target->as_character()->make_bleed( effect_source( z ), hit, rng( 75_turns, 125_turns ), 1, true );
         }
     } else {
         target->add_msg_player_or_npc( _( "but fails to penetrate your armor!" ),
@@ -5333,7 +5341,7 @@ bool mattack::bio_op_disarm( monster *z )
     player *foe = dynamic_cast< player * >( target );
 
     // disarm doesn't work on creatures or unarmed targets
-    if( foe == nullptr || ( foe != nullptr && !foe->is_armed() ) ) {
+    if( foe == nullptr || !foe->is_armed() ) {
         return false;
     }
 
@@ -5397,7 +5405,7 @@ bool mattack::kamikaze( monster *z )
 {
     if( z->ammo.empty() ) {
         // We somehow lost our ammo! Toggle this special off so we stop processing
-        add_msg( m_debug, "Missing ammo in kamikaze special for %s.", z->name() );
+        add_msg_debug( "Missing ammo in kamikaze special for %s.", z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
@@ -5417,14 +5425,14 @@ bool mattack::kamikaze( monster *z )
         const use_function *usage = bomb_type->get_use( "transform" );
         if( usage == nullptr ) {
             // Invalid item usage, Toggle this special off so we stop processing
-            add_msg( m_debug, "Invalid bomb transform use in kamikaze special for %s.", z->name() );
+            add_msg_debug( "Invalid bomb transform use in kamikaze special for %s.", z->name() );
             z->disable_special( "KAMIKAZE" );
             return true;
         }
         const iuse_transform *actor = dynamic_cast<const iuse_transform *>( usage->get_actor_ptr() );
         if( actor == nullptr ) {
             // Invalid bomb item, Toggle this special off so we stop processing
-            add_msg( m_debug, "Invalid bomb type in kamikaze special for %s.", z->name() );
+            add_msg_debug( "Invalid bomb type in kamikaze special for %s.", z->name() );
             z->disable_special( "KAMIKAZE" );
             return true;
         }
@@ -5439,7 +5447,7 @@ bool mattack::kamikaze( monster *z )
             // Timer is out, detonate
             item i_explodes( act_bomb_type, calendar::turn, 0 );
             i_explodes.active = true;
-            i_explodes.process( nullptr, z->pos(), false );
+            i_explodes.process( nullptr, z->pos() );
             return false;
         }
         return false;
@@ -5449,15 +5457,15 @@ bool mattack::kamikaze( monster *z )
     const use_function *use = act_bomb_type->get_use( "explosion" );
     if( use == nullptr ) {
         // Invalid active bomb item usage, Toggle this special off so we stop processing
-        add_msg( m_debug, "Invalid active bomb explosion use in kamikaze special for %s.",
-                 z->name() );
+        add_msg_debug( "Invalid active bomb explosion use in kamikaze special for %s.",
+                       z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
     const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
     if( exp_actor == nullptr ) {
         // Invalid active bomb item, Toggle this special off so we stop processing
-        add_msg( m_debug, "Invalid active bomb type in kamikaze special for %s.", z->name() );
+        add_msg_debug( "Invalid active bomb type in kamikaze special for %s.", z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
@@ -5578,7 +5586,7 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
     // if the player can see it
     if( get_player_view().sees( *z ) ) {
         if( data[att].message.empty() ) {
-            add_msg( m_debug, "Invalid ammo message in grenadier special." );
+            add_msg_debug( "Invalid ammo message in grenadier special." );
         } else {
             add_msg( m_bad, data[att].message, z->name() );
         }
@@ -5589,14 +5597,14 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
     const use_function *usage = bomb_type->get_use( "place_monster" );
     if( usage == nullptr ) {
         // Invalid bomb item usage, Toggle this special off so we stop processing
-        add_msg( m_debug, "Invalid bomb item usage in grenadier special for %s.", z->name() );
+        add_msg_debug( "Invalid bomb item usage in grenadier special for %s.", z->name() );
         return -1;
     }
     const place_monster_iuse *actor = dynamic_cast<const place_monster_iuse *>
                                       ( usage->get_actor_ptr() );
     if( actor == nullptr ) {
         // Invalid bomb item, Toggle this special off so we stop processing
-        add_msg( m_debug, "Invalid bomb type in grenadier special for %s.", z->name() );
+        add_msg_debug( "Invalid bomb type in grenadier special for %s.", z->name() );
         return -1;
     }
 
@@ -5701,7 +5709,7 @@ bool mattack::stretch_attack( monster *z )
         }
     }
 
-    auto msg_type = target->is_avatar() ? m_warning : m_info;
+    game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
     target->add_msg_player_or_npc( msg_type,
                                    _( "The %s thrusts its arm at you, stretching to reach you from afar." ),
                                    _( "The %s thrusts its arm at <npcname>." ),
@@ -5716,10 +5724,10 @@ bool mattack::stretch_attack( monster *z )
     }
 
     const bodypart_id hit = target->get_random_body_part();
-    dam = target->deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();
+    dam = target->deal_damage( z, hit, damage_instance( damage_type::STAB, dam ) ).total_damage();
 
     if( dam > 0 ) {
-        auto msg_type = target->is_avatar() ? m_bad : m_info;
+        game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
         target->add_msg_player_or_npc( msg_type,
                                        //~ 1$s is monster name, 2$s bodypart in accusative
                                        _( "The %1$s's arm pierces your %2$s!" ),
@@ -5794,7 +5802,7 @@ bool mattack::dodge_check( monster *z, Creature *target )
 {
     ///\EFFECT_DODGE increases chance of dodging, vs their melee skill
     float dodge = std::max( target->get_dodge() - rng( 0, z->get_hit() ), 0.0f );
-    return rng( 0, 10000 ) < 10000 / ( 1 + 99 * std::exp( -.6 * dodge ) );
+    return dodge > 0.0 && rng( 0, 10000 ) < 10000 / ( 1 + 99 * std::exp( -.6 * dodge ) );
 }
 
 bool mattack::speaker( monster *z )

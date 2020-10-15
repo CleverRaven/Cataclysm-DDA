@@ -1046,7 +1046,7 @@
     "coverage": 50,
     "encumbrance": 2,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "STRAPPED" ]
+    "flags": [ "OVERSIZE", "BELTED" ]
   },
   {
     "id": "dimensional_anchor_on",
@@ -1065,7 +1065,7 @@
       "target": "dimensional_anchor"
     },
     "covers": [ "torso" ],
-    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "STRAPPED" ]
+    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED" ]
   },
   {
     "id": "phase_immersion_suit",
@@ -1940,6 +1940,7 @@
     "ammo": "battery",
     "use_action": [ "RADGLOVE" ],
     "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 5,
     "material_thickness": 1,
     "flags": [ "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
@@ -2691,6 +2692,7 @@
     "price_postapoc": 250,
     "material": [ "wood" ],
     "volume": "6750 ml",
+    "longest_side": "100 cm",
     "warmth": 2,
     "encumbrance": 27,
     "bashing": 8,
@@ -2732,6 +2734,7 @@
     "//": "Electric guitar less awesome when there's no electricity.",
     "material": [ "wood", "iron" ],
     "volume": "6750 ml",
+    "longest_side": "100 cm",
     "warmth": 2,
     "encumbrance": 27,
     "bashing": 8,
@@ -3045,7 +3048,7 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES" ]
   },
   {
     "id": "helmet_riot_raised",

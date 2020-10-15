@@ -21,6 +21,7 @@
 #include "item_contents.h"
 #include "item_group.h"
 #include "kill_tracker.h"
+#include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -30,6 +31,8 @@
 #include "requirements.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -65,7 +68,7 @@ static std::unordered_map<int, mission> world_missions;
 
 mission *mission::reserve_new( const mission_type_id &type, const character_id &npc_id )
 {
-    const auto tmp = mission_type::get( type )->create( npc_id );
+    const mission tmp = mission_type::get( type )->create( npc_id );
     // TODO: Warn about overwrite?
     mission &miss = world_missions[tmp.uid] = tmp;
     return &miss;
@@ -164,7 +167,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
         // Technically, the active missions could be moved to the failed mission section.
         return;
     }
-    const auto dead_guys_id = p->getID();
+    const character_id dead_guys_id = p->getID();
     for( auto &e : world_missions ) {
         mission &i = e.second;
         if( !i.in_progress() ) {
@@ -229,6 +232,11 @@ void mission::assign( avatar &u )
             kill_count_to_reach = kills.kill_count( monster_type ) + monster_kill_goal;
         } else if( type->goal == MGOAL_KILL_MONSTER_SPEC ) {
             kill_count_to_reach = kills.kill_count( monster_species ) + monster_kill_goal;
+        }
+        if( type->deadline_low != 0_turns || type->deadline_high != 0_turns ) {
+            deadline = calendar::turn + rng( type->deadline_low, type->deadline_high );
+        } else {
+            deadline = 0;
         }
         type->start( this );
         status = mission_status::in_progress;
@@ -387,10 +395,40 @@ bool mission::is_complete( const character_id &_npc_id ) const
             if( npc_id.is_valid() && npc_id != _npc_id ) {
                 return false;
             }
-            const inventory &tmp_inv = player_character.crafting_inventory();
-            // TODO: check for count_by_charges and use appropriate player::has_* function
-            if( !tmp_inv.has_amount( type->item_id, item_count ) ) {
-                return tmp_inv.has_amount( type->item_id, 1 ) && tmp_inv.has_charges( type->item_id, item_count );
+            item item_sought( type->item_id );
+            map &here = get_map();
+            int found_quantity = 0;
+            bool charges = item_sought.count_by_charges();
+            auto count_items = [this, &found_quantity, &player_character, charges]( item_stack && items ) {
+                for( const item &i : items ) {
+                    if( !i.is_owned_by( player_character, true ) ) {
+                        continue;
+                    }
+                    if( charges ) {
+                        found_quantity += i.charges_of( type->item_id, item_count - found_quantity );
+                    } else {
+                        found_quantity += i.amount_of( type->item_id, item_count - found_quantity );
+                    }
+                }
+            };
+            for( const tripoint &p : here.points_in_radius( player_character.pos(), 5 ) ) {
+                if( player_character.sees( p ) ) {
+                    if( here.has_items( p ) && here.accessible_items( p ) ) {
+                        count_items( here.i_at( p ) );
+                    }
+                    if( const cata::optional<vpart_reference> vp =
+                            here.veh_at( p ).part_with_feature( "CARGO", true ) ) {
+                        count_items( vp->vehicle().get_items( vp->part_index() ) );
+                    }
+                    if( found_quantity >= item_count ) {
+                        break;
+                    }
+                }
+            }
+            if( charges ) {
+                return player_character.charges_of( type->item_id ) + found_quantity >= item_count;
+            } else {
+                return player_character.amount_of( type->item_id ) + found_quantity >= item_count;
             }
         }
         return true;

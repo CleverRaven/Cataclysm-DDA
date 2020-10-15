@@ -14,7 +14,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 10 ] } ]
     },
-    "crafting_pseudo_item": "rock_forge_pseudo",
+    "crafting_pseudo_item": "medium_surface_pseudo",
     "bash": {
       "str_min": 12,
       "str_max": 40,

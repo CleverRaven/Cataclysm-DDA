@@ -165,6 +165,8 @@ class player_activity
         void ignore_distraction( distraction_type );
         void allow_distractions();
         void inherit_distractions( const player_activity & );
+
+        float exertion_level() const;
 };
 
 #endif // CATA_SRC_PLAYER_ACTIVITY_H

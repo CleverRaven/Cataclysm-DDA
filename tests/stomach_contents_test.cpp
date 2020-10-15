@@ -27,7 +27,7 @@ static void reset_time()
 
 static void pass_time( Character &p, time_duration amt )
 {
-    for( auto turns = 1_turns; turns < amt; turns += 1_turns ) {
+    for( time_duration turns = 1_turns; turns < amt; turns += 1_turns ) {
         calendar::turn += 1_turns;
         p.update_body();
     }
@@ -107,7 +107,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
 
     // A specific BMR isn't the real target of this test, the number of days
     // is, but it helps to debug the test faster if this value is wrong.
-    REQUIRE( dummy.get_bmr() == 1739 );
+    REQUIRE( dummy.get_bmr() == 1738 );
 
     constexpr int expected_day = 36;
     int day = 0;

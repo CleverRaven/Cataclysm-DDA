@@ -1,11 +1,5 @@
 [
   {
-    "id": "fd_null",
-    "type": "field_type",
-    "legacy_enum_id": 0,
-    "intensity_levels": [ { "name": "nothing" } ]
-  },
-  {
     "id": "fd_blood",
     "type": "field_type",
     "legacy_enum_id": 1,
@@ -224,9 +218,22 @@
     "type": "field_type",
     "legacy_enum_id": 9,
     "intensity_levels": [
-      { "name": "thin sludge trail", "sym": "5", "color": "light_gray", "dangerous": true },
-      { "name": "sludge trail", "color": "dark_gray" },
-      { "name": "thick sludge trail" }
+      {
+        "name": "thin sludge trail",
+        "sym": "5",
+        "color": "light_gray",
+        "dangerous": true,
+        "effects": [ { "effect_id": "sludged", "intensity": 1, "immune_in_vehicle": true, "is_environmental": false } ]
+      },
+      {
+        "name": "sludge trail",
+        "color": "dark_gray",
+        "effects": [ { "effect_id": "sludged", "intensity": 2, "immune_in_vehicle": true, "is_environmental": false } ]
+      },
+      {
+        "name": "thick sludge trail",
+        "effects": [ { "effect_id": "sludged", "intensity": 3, "immune_in_vehicle": true, "is_environmental": false } ]
+      }
     ],
     "description_affix": "covered_in",
     "is_splattering": true,
@@ -1167,12 +1174,12 @@
     ],
     "decay_amount_factor": 15,
     "gas_absorption_factor": 5,
-    "percent_spread": 55,
-    "outdoor_age_speedup": "5 minutes",
+    "percent_spread": 30,
+    "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
     "priority": 8,
-    "half_life": "50 minutes",
+    "half_life": "7 minutes",
     "phase": "gas",
     "display_items": false,
     "display_field": true,
@@ -1215,8 +1222,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_cold_air2",
@@ -1232,8 +1238,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_cold_air3",
@@ -1249,8 +1254,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_cold_air4",
@@ -1266,8 +1270,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air1",
@@ -1283,8 +1286,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air2",
@@ -1300,8 +1302,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air3",
@@ -1317,8 +1318,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air4",
@@ -1334,8 +1334,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air_sauna",

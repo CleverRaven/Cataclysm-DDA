@@ -15,7 +15,6 @@
 class JsonObject;
 
 using Group_tag = std::string;
-using Mutation_category_tag = std::string;
 
 class Trait_group;
 
@@ -76,7 +75,7 @@ class npc_class
         Group_tag carry_override;
         Group_tag weapon_override;
 
-        std::map<Mutation_category_tag, distribution> mutation_rounds;
+        std::map<mutation_category_id, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
         // the int is what level the spell starts at
         std::map<spell_id, int> _starting_spells;

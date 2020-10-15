@@ -226,7 +226,7 @@ static weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
 static bool get_scent_glyph( const tripoint_abs_omt &pos, nc_color &ter_color,
                              std::string &ter_sym )
 {
-    auto possible_scent = overmap_buffer.scent_at( pos );
+    scent_trace possible_scent = overmap_buffer.scent_at( pos );
     if( possible_scent.creation_time != calendar::before_time_starts ) {
         color_manager &color_list = get_all_colors();
         int i = 0;
@@ -434,14 +434,14 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
         nmenu.additional_actions.emplace_back( "DELETE_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "EDIT_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "MARK_DANGER", translation() );
-        const input_context ctxt( nmenu.input_category, keyboard_mode::keychar );
+        const input_context ctxt( nmenu.input_category, keyboard_mode::keycode );
         nmenu.text = string_format(
                          _( "<%s> - center on note, <%s> - edit note, <%s> - mark as dangerous, <%s> - delete note, <%s> - close window" ),
-                         colorize( "RETURN", c_yellow ),
-                         colorize( ctxt.key_bound_to( "EDIT_NOTE" ), c_yellow ),
-                         colorize( ctxt.key_bound_to( "MARK_DANGER" ), c_red ),
-                         colorize( ctxt.key_bound_to( "DELETE_NOTE" ), c_yellow ),
-                         colorize( "ESCAPE", c_yellow )
+                         colorize( ctxt.get_desc( "CONFIRM", 1 ), c_yellow ),
+                         colorize( ctxt.get_desc( "EDIT_NOTE", 1 ), c_yellow ),
+                         colorize( ctxt.get_desc( "MARK_DANGER", 1 ), c_red ),
+                         colorize( ctxt.get_desc( "DELETE_NOTE", 1 ), c_yellow ),
+                         colorize( ctxt.get_desc( "QUIT", 1 ), c_yellow )
                      );
         int row = 0;
         overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes( origin.z() );
@@ -708,7 +708,7 @@ void draw(
             } else if( viewing_weather && ( data.debug_weather || los_sky ) ) {
                 const weather_type_id type = get_weather_at_point( omp );
                 ter_color = type->map_color;
-                ter_sym = type->glyph;
+                ter_sym = type->get_symbol();
             } else if( data.debug_scent && get_scent_glyph( omp, ter_color, ter_sym ) ) {
                 // get_scent_glyph has changed ter_color and ter_sym if omp has a scent
             } else if( blink && has_target && omp.xy() == target.xy() ) {
@@ -1098,19 +1098,27 @@ void draw(
 
 void create_note( const tripoint_abs_omt &curs )
 {
-    std::string color_notes = _( "Color codes: " );
-    for( const std::pair<std::string, std::string> &color_pair : get_note_color_names() ) {
+    std::string color_notes = string_format( "%s\n\n\n",
+                              _( "Add a note to the map.  "
+                                 "For a custom GLYPH or COLOR follow the examples below.  "
+                                 "Default GLYPH and COLOR looks like this: "
+                                 "<color_yellow>N</color>" ) );
+
+    color_notes += _( "Color codes: " );
+    for( const std::pair<const std::string, note_color> &color_pair : get_note_color_names() ) {
         // The color index is not translatable, but the name is.
-        color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
-                                      _( color_pair.second ), string_replace( color_pair.second, " ", "_" ) );
+        //~ %1$s: note color abbreviation, %2$s: note color name
+        color_notes += string_format( pgettext( "note color", "%1$s:%2$s, " ), color_pair.first,
+                                      colorize( color_pair.second.name, color_pair.second.color ) );
     }
 
-    std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",
-                              _( "Type GLYPH:TEXT to set a custom glyph." ),
-                              _( "Type COLOR;TEXT to set a custom color." ),
+    std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n\n",
+                              _( "Type GLYPH<color_yellow>:</color>TEXT to set a custom glyph." ),
+                              _( "Type COLOR<color_yellow>;</color>TEXT to set a custom color." ),
                               // NOLINTNEXTLINE(cata-text-style): literal exclaimation mark
                               _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
-    color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), helper_text );
+    color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(),
+                                       helper_text );
     std::string title = _( "Note:" );
 
     const std::string old_note = overmap_buffer.note( curs );

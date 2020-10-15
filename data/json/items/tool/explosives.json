@@ -62,7 +62,7 @@
       "type": "explosion",
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "explosion": { "power": 50, "shrapnel": { "casing_mass": 40, "fragment_mass": 1 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
@@ -158,7 +158,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 938 }
     },
@@ -216,7 +216,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 1 } }
     },
@@ -334,7 +334,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 1500 }
     },
@@ -392,7 +392,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 1500 }
     },
@@ -1230,7 +1230,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
     },
@@ -1290,7 +1290,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
     },
@@ -1375,77 +1375,12 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "id": "tool_anfo_charge",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "ANFO charge" },
-    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty seconds before it explodes and creates a large fireball.",
-    "weight": "77800 g",
-    "volume": "50 L",
-    "price": 75000,
-    "price_postapoc": 4000,
-    "to_hit": -5,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "red",
-    "explode_in_fire": true,
-    "explosion": {
-      "power": 25000,
-      "//": "Fire would burn away/degrade some of the ANFO before the detonator would trigger.",
-      "shrapnel": 12600
-    },
-    "use_action": {
-      "target": "tool_anfo_charge_act",
-      "msg": "You light the fuse on the ANFO charge.  Run survivor, run!",
-      "target_charges": 100,
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light fuse",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "tool_anfo_charge_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "active ANFO charge" },
-    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  The fuse has been lit - better run like hell!",
-    "weight": "77800 g",
-    "volume": "50 L",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -5,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "light_red",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "turns_per_charge": 1,
-    "explode_in_fire": true,
-    "explosion": { "power": 25000, "shrapnel": 12600 },
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "Tick.",
-      "no_deactivate_msg": "You've already lit the fuse - run!",
-      "explosion": {
-        "power": 48900,
-        "//": "Fire exposure would burn away/degrade some of the ANFO before the detonator would trigger.",
-        "shrapnel": 12600
-      }
-    },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
-  },
-  {
     "id": "tool_small_bootleg_fragmentation_device",
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "small bootleg frag device" },
     "looks_like": "tool_black_powder_charge",
-    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with military explosives and scrap metal, equipped with a delayed fuse.  Use this item to pull the pin.  Once you do it should explode in about 20 seconds. ",
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with military explosives and scrap metal, equipped with a delayed fuse.  Use this item to pull the pin.  Once you do it should explode in about 20 seconds.",
     "weight": "6500 g",
     "volume": "4 L",
     "price": 20000,
@@ -1494,7 +1429,7 @@
     "category": "weapons",
     "name": { "str": "small improvised frag device" },
     "looks_like": "tool_black_powder_charge",
-    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with stable explosives and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Once you do it should explode in about 20 seconds. ",
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with stable explosives and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Once you do it should explode in about 20 seconds.",
     "weight": "6500 g",
     "volume": "4 L",
     "price": 20000,
@@ -1549,7 +1484,7 @@
     "category": "weapons",
     "name": { "str": "small primitive frag device" },
     "looks_like": "tool_black_powder_charge",
-    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with volatile explosives and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Once you do it should explode in about 20 seconds. ",
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with volatile explosives and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Once you do it should explode in about 20 seconds.",
     "weight": "6500 g",
     "volume": "4 L",
     "price": 20000,

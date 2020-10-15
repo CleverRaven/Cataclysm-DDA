@@ -89,7 +89,7 @@ static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 
 struct itype;
 
-void spawn_animal( npc &p, const mtype_id &mon );
+static void spawn_animal( npc &p, const mtype_id &mon );
 
 void talk_function::nothing( npc & )
 {
@@ -202,7 +202,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
         mon_ptr->add_effect( effect_pet, 1_turns, true );
     } else {
         // TODO: handle this gracefully (return the money, proper in-character message from npc)
-        add_msg( m_debug, "No space to spawn purchased pet" );
+        add_msg_debug( "No space to spawn purchased pet" );
     }
 }
 
@@ -322,7 +322,7 @@ void talk_function::goto_location( npc &p )
     selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     selection_menu.selected = 0;
     selection_menu.query();
-    auto index = selection_menu.ret;
+    int index = selection_menu.ret;
     if( index < 0 || index > static_cast<int>( camps.size() + 1 ) ||
         index == static_cast<int>( camps.size() + 1 ) ) {
         return;

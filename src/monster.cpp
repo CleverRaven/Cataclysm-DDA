@@ -275,7 +275,7 @@ void monster::setpos( const tripoint &p )
     g->update_zombie_pos( *this, p );
     position = p;
     if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
-        add_msg( m_debug, "Ridden monster %s moved independently and dumped player", get_name() );
+        add_msg_debug( "Ridden monster %s moved independently and dumped player", get_name() );
         mounted_player->forced_dismount();
     }
     if( wandering ) {
@@ -1009,7 +1009,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             return Attitude::FRIENDLY;
         }
 
-        auto faction_att = faction.obj().attitude( m->faction );
+        mf_attitude faction_att = faction.obj().attitude( m->faction );
         if( ( friendly != 0 && m->friendly != 0 ) ||
             ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
             // Friendly (to player) monsters are friendly to each other
@@ -1266,13 +1266,13 @@ bool monster::in_species( const species_id &spec ) const
 
 bool monster::is_elec_immune() const
 {
-    return is_immune_damage( DT_ELECTRIC );
+    return is_immune_damage( damage_type::ELECTRIC );
 }
 
 bool monster::is_immune_effect( const efftype_id &effect ) const
 {
     if( effect == effect_onfire ) {
-        return is_immune_damage( DT_HEAT ) ||
+        return is_immune_damage( damage_type::HEAT ) ||
                made_of( phase_id::LIQUID ) ||
                has_flag( MF_FIREY );
     }
@@ -1299,31 +1299,31 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 bool monster::is_immune_damage( const damage_type dt ) const
 {
     switch( dt ) {
-        case DT_NONE:
+        case damage_type::NONE:
             return true;
-        case DT_TRUE:
+        case damage_type::PURE:
             return false;
-        case DT_BIOLOGICAL:
+        case damage_type::BIOLOGICAL:
             // NOTE: Unused
             return false;
-        case DT_BASH:
+        case damage_type::BASH:
             return false;
-        case DT_CUT:
+        case damage_type::CUT:
             return false;
-        case DT_ACID:
+        case damage_type::ACID:
             return has_flag( MF_ACIDPROOF );
-        case DT_STAB:
+        case damage_type::STAB:
             return false;
-        case DT_HEAT:
+        case damage_type::HEAT:
             // Ugly hardcode - remove later
             return made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) );
-        case DT_COLD:
+        case damage_type::COLD:
             return false;
-        case DT_ELECTRIC:
+        case damage_type::ELECTRIC:
             return type->sp_defense == &mdefense::zapback ||
                    has_flag( MF_ELECTRIC ) ||
                    has_flag( MF_ELECTRIC_FIELD );
-        case DT_BULLET:
+        case damage_type::BULLET:
             return false;
         default:
             return true;
@@ -1343,8 +1343,8 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {
-        add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
-                 name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
+        add_msg_debug( "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
+                       name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
         elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
     }
@@ -1384,7 +1384,7 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
-        damage.add_damage( DT_BASH, dice( type->melee_dice, type->melee_sides ) );
+        damage.add_damage( damage_type::BASH, dice( type->melee_dice, type->melee_sides ) );
     }
 
     dealt_damage_instance dealt_dam;
@@ -1395,11 +1395,16 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
+        bool target_dodging = target.dodge_roll() > 0.0;
         // Miss
         if( u_see_me && !target.in_sleep_state() ) {
             if( target.is_player() ) {
-                add_msg( _( "You dodge %s." ), disp_name() );
-            } else if( target.is_npc() ) {
+                if( target_dodging ) {
+                    add_msg( _( "You dodge %s." ), disp_name() );
+                } else {
+                    add_msg( _( "The %s misses you." ), disp_name() );
+                }
+            } else if( target.is_npc() && target_dodging ) {
                 add_msg( _( "%1$s dodges %2$s attack." ),
                          target.disp_name(), name() );
             } else {
@@ -1499,7 +1504,8 @@ void monster::melee_attack( Creature &target, float accuracy )
         }
     }
 
-    const int stab_cut = dealt_dam.type_damage( DT_CUT ) + dealt_dam.type_damage( DT_STAB );
+    const int stab_cut = dealt_dam.type_damage( damage_type::CUT ) + dealt_dam.type_damage(
+                             damage_type::STAB );
 
     if( stab_cut > 0 && has_flag( MF_VENOM ) ) {
         target.add_msg_if_player( m_bad, _( "You're envenomed!" ) );
@@ -1548,48 +1554,48 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     }
 }
 
-void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
-                                       int &pain )
+void monster::deal_damage_handle_type( const effect_source &source, const damage_unit &du,
+                                       bodypart_id bp, int &damage, int &pain )
 {
     switch( du.type ) {
-        case DT_ELECTRIC:
+        case damage_type::ELECTRIC:
             if( has_flag( MF_ELECTRIC ) ) {
                 return; // immunity
             }
             break;
-        case DT_COLD:
+        case damage_type::COLD:
             if( has_flag( MF_COLDPROOF ) ) {
                 return; // immunity
             }
             break;
-        case DT_BASH:
+        case damage_type::BASH:
             if( has_flag( MF_PLASTIC ) ) {
                 damage += du.amount / rng( 2, 4 ); // lessened effect
                 pain += du.amount / 4;
                 return;
             }
             break;
-        case DT_NONE:
-            debugmsg( "monster::deal_damage_handle_type: illegal damage type DT_NONE" );
+        case damage_type::NONE:
+            debugmsg( "monster::deal_damage_handle_type: illegal damage type damage_type::NONE" );
             break;
-        case DT_ACID:
+        case damage_type::ACID:
             if( has_flag( MF_ACIDPROOF ) ) {
                 // immunity
                 return;
             }
-        case DT_TRUE:
+        case damage_type::PURE:
         // typeless damage, should always go through
-        case DT_BIOLOGICAL:
+        case damage_type::BIOLOGICAL:
         // internal damage, like from smoke or poison
-        case DT_CUT:
-        case DT_STAB:
-        case DT_BULLET:
-        case DT_HEAT:
+        case damage_type::CUT:
+        case damage_type::STAB:
+        case damage_type::BULLET:
+        case damage_type::HEAT:
         default:
             break;
     }
 
-    Creature::deal_damage_handle_type( du,  bp, damage, pain );
+    Creature::deal_damage_handle_type( source, du,  bp, damage, pain );
 }
 
 int monster::heal( const int delta_hp, bool overheal )
@@ -1818,20 +1824,22 @@ int monster::get_armor_cut( bodypart_id bp ) const
 {
     ( void ) bp;
     // TODO: Add support for worn armor?
-    return static_cast<int>( type->armor_cut ) + armor_cut_bonus + get_worn_armor_val( DT_CUT );
+    return static_cast<int>( type->armor_cut ) + armor_cut_bonus + get_worn_armor_val(
+               damage_type::CUT );
 }
 
 int monster::get_armor_bash( bodypart_id bp ) const
 {
     ( void ) bp;
-    return static_cast<int>( type->armor_bash ) + armor_bash_bonus + get_worn_armor_val( DT_BASH );
+    return static_cast<int>( type->armor_bash ) + armor_bash_bonus + get_worn_armor_val(
+               damage_type::BASH );
 }
 
 int monster::get_armor_bullet( bodypart_id bp ) const
 {
     ( void ) bp;
     return static_cast<int>( type->armor_bullet ) + armor_bullet_bonus + get_worn_armor_val(
-               DT_BULLET );
+               damage_type::BULLET );
 }
 
 int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
@@ -1839,26 +1847,26 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
     int worn_armor = get_worn_armor_val( dt );
 
     switch( dt ) {
-        case DT_TRUE:
-        case DT_BIOLOGICAL:
+        case damage_type::PURE:
+        case damage_type::BIOLOGICAL:
             return 0;
-        case DT_BASH:
+        case damage_type::BASH:
             return get_armor_bash( bp );
-        case DT_CUT:
+        case damage_type::CUT:
             return get_armor_cut( bp );
-        case DT_BULLET:
+        case damage_type::BULLET:
             return get_armor_bullet( bp );
-        case DT_ACID:
+        case damage_type::ACID:
             return worn_armor + static_cast<int>( type->armor_acid );
-        case DT_STAB:
+        case damage_type::STAB:
             return worn_armor + static_cast<int>( type->armor_stab ) + armor_cut_bonus * 0.8f;
-        case DT_HEAT:
+        case damage_type::HEAT:
             return worn_armor + static_cast<int>( type->armor_fire );
-        case DT_COLD:
-        case DT_ELECTRIC:
+        case damage_type::COLD:
+        case damage_type::ELECTRIC:
             return worn_armor;
-        case DT_NONE:
-        case NUM_DT:
+        case damage_type::NONE:
+        case damage_type::NUM:
             // Let it error below
             break;
     }
@@ -2377,7 +2385,7 @@ void monster::drop_items_on_death()
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
-                it->item_tags.insert( "FILTHY" );
+                it->set_flag( "FILTHY" );
             }
         }
     }
@@ -2404,7 +2412,7 @@ void monster::process_one_effect( effect &it, bool is_new )
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, 1 ) ) {
-            apply_damage( nullptr, bodypart_id( "torso" ), val );
+            apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), val );
         }
     }
 
@@ -2420,9 +2428,9 @@ void monster::process_one_effect( effect &it, bool is_new )
             dam = rng( 5, 10 );
         }
 
-        dam -= get_armor_type( DT_HEAT, bodypart_id( "torso" ) );
+        dam -= get_armor_type( damage_type::HEAT, bodypart_id( "torso" ) );
         if( dam > 0 ) {
-            apply_damage( nullptr, bodypart_id( "torso" ), dam );
+            apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), dam );
         } else {
             it.set_duration( 0_turns );
         }
@@ -2432,7 +2440,7 @@ void monster::process_one_effect( effect &it, bool is_new )
         effect_cache[VISION_IMPAIRED] = true;
     } else if( id == effect_bleed && x_in_y( it.get_intensity(), it.get_max_intensity() ) ) {
         // monsters are simplified so they just take damage from bleeding
-        apply_damage( nullptr, bodypart_id( "torso" ), 1 );
+        apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), 1 );
         // this is for balance only
         it.mod_duration( -rng( 1_turns, it.get_int_dur_factor() / 2 ) );
         bleed();
@@ -2639,7 +2647,7 @@ field_type_id monster::gibType() const
 
 creature_size monster::get_size() const
 {
-    return creature_size( type->size + size_bonus );
+    return static_cast<creature_size>( type->size + size_bonus );
 }
 
 units::mass monster::get_weight() const
@@ -2725,9 +2733,9 @@ void monster::init_from_item( const item &itm )
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
         hp = static_cast<int>( hp * 0.7 );
-        if( itm.damage_level( 4 ) > 0 ) {
-            set_speed_base( speed_base / ( itm.damage_level( 4 ) + 1 ) );
-            hp /= itm.damage_level( 4 ) + 1;
+        if( itm.damage_level() > 0 ) {
+            set_speed_base( speed_base / ( itm.damage_level() + 1 ) );
+            hp /= itm.damage_level() + 1;
         }
 
         hp -= burnt_penalty;
@@ -2963,8 +2971,8 @@ void monster::on_load()
         healed_speed = get_speed_base() - old_speed;
     }
 
-    add_msg( m_debug, "on_load() by %s, %d turns, healed %d hp, %d speed",
-             name(), to_turns<int>( dt ), healed, healed_speed );
+    add_msg_debug( "on_load() by %s, %d turns, healed %d hp, %d speed",
+                   name(), to_turns<int>( dt ), healed, healed_speed );
 }
 
 const pathfinding_settings &monster::get_pathfinding_settings() const

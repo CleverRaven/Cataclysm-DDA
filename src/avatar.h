@@ -187,7 +187,7 @@ class avatar : public player
         object_type get_grab_type() const;
         /** Handles player vomiting effects */
         void vomit();
-
+        void add_pain_msg( int val, const bodypart_id &bp ) const;
         /**
          * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
          * notices your steal attempt and getting angry with you, and you successfully stealing the item.
@@ -207,6 +207,10 @@ class avatar : public player
         int free_upgrade_points() const;
         // how much "kill xp" you have
         int kill_xp() const;
+        void power_bionics() override;
+        void power_mutations() override;
+        /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
+        bionic *bionic_by_invlet( int ch );
 
         faction *get_faction() const override;
         // Set in npc::talk_to_you for use in further NPC interactions

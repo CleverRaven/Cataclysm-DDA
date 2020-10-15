@@ -422,6 +422,10 @@ int register_mapgen_function( const std::string &key );
  * Check that @p key is present in @ref oter_mapgen.
  */
 bool has_mapgen_for( const std::string &key );
+/**
+ * Check whether @p key is a valid update_mapgen id.
+ */
+bool has_update_mapgen_for( const std::string &key );
 /*
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */
@@ -473,5 +477,10 @@ void circle( map *m, const ter_id &type, double x, double y, double rad );
 void circle( map *m, const ter_id &type, const point &, int rad );
 void circle_furn( map *m, const furn_id &type, const point &, int rad );
 void add_corpse( map *m, const point & );
+
+extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
+        nested_mapgen;
+extern std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> >
+        update_mapgen;
 
 #endif // CATA_SRC_MAPGEN_H

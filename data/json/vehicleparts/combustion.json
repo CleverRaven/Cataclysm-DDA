@@ -2,6 +2,7 @@
   {
     "abstract": "engine_combustion",
     "type": "vehicle_part",
+    "categories": [ "Internal" ],
     "location": "engine_block",
     "symbol": "*",
     "color": "light_red",

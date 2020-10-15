@@ -1,7 +1,6 @@
 #include "requirements.h"
 
 #include <algorithm>
-#include <cassert>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -13,6 +12,7 @@
 #include <stack>
 #include <unordered_set>
 
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
@@ -133,10 +133,11 @@ bool tool_comp::by_charges() const
 std::string tool_comp::to_string( const int batch, const int ) const
 {
     if( by_charges() ) {
+        int charge_total = count * batch;
         //~ %1$s: tool name, %2$d: charge requirement
         return string_format( npgettext( "requirement", "%1$s (%2$d charge)", "%1$s (%2$d charges)",
-                                         count * batch ),
-                              item::nname( type ), count * batch );
+                                         charge_total ),
+                              item::nname( type ), charge_total );
     } else {
         return item::nname( type, std::abs( count ) );
     }
@@ -325,6 +326,17 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     return res;
 }
 
+requirement_data requirement_data::operator+(
+    const std::pair<const requirement_id, int> &rhs ) const
+{
+    return *this + *rhs.first * rhs.second;
+}
+
+requirement_data requirement_data::operator+( const std::pair<requirement_id, int> &rhs ) const
+{
+    return *this + *rhs.first * rhs.second;
+}
+
 void requirement_data::load_requirement( const JsonObject &jsobj, const requirement_id &id )
 {
     requirement_data req;
@@ -346,7 +358,7 @@ void requirement_data::load_requirement( const JsonObject &jsobj, const requirem
 
 void requirement_data::save_requirement( const requirement_data &req, const requirement_id &id )
 {
-    auto dup = req;
+    requirement_data dup = req;
     if( !id.is_null() ) {
         dup.id_ = id;
     }
@@ -401,17 +413,19 @@ template<typename T>
 std::string requirement_data::print_missing_objs( const std::string &header,
         const std::vector< std::vector<T> > &objs )
 {
+    std::string separator_and = _( "and " );
+    std::string separator_or = _( " or " );
     std::string buffer;
     for( const auto &list : objs ) {
         if( any_marked_available( list ) ) {
             continue;
         }
         if( !buffer.empty() ) {
-            buffer += std::string( "\n" ) + _( "and " );
+            buffer += std::string( "\n" ) + separator_and;
         }
         for( auto it = list.begin(); it != list.end(); ++it ) {
             if( it != list.begin() ) {
-                buffer += _( " or " );
+                buffer += separator_or;
             }
             buffer += it->to_string();
         }
@@ -676,11 +690,12 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
     for( const auto &set_of_tools : vec ) {
         bool has_tool_in_set = false;
         int UPS_charges_used = std::numeric_limits<int>::max();
-        for( const auto &tool : set_of_tools ) {
-            if( tool.has( crafting_inv, filter, batch, flags,
-            [ &UPS_charges_used ]( int charges ) {
+        const std::function<void( int )> use_ups = [ &UPS_charges_used ]( int charges ) {
             UPS_charges_used = std::min( UPS_charges_used, charges );
-            } ) ) {
+        };
+
+        for( const auto &tool : set_of_tools ) {
+            if( tool.has( crafting_inv, filter, batch, flags, use_ups ) ) {
                 tool.available = available_status::a_true;
             } else {
                 tool.available = available_status::a_false;
@@ -1303,8 +1318,8 @@ static void expand_item_in_reqs(
     const requirement_data::alter_item_comp_vector &to_expand, size_t orig_index, size_t index,
     std::vector<requirement_data::alter_item_comp_vector> &result )
 {
-    assert( req_prefix.size() >= orig_index );
-    assert( orig_index < index );
+    cata_assert( req_prefix.size() >= orig_index );
+    cata_assert( orig_index < index );
 
     if( index == to_expand.size() ) {
         // We reached the end without using the leftovers.  So need to add them

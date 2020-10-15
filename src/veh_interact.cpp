@@ -110,8 +110,7 @@ static auto can_refill = []( const vehicle_part &pt )
     return pt.can_reload();
 };
 
-void act_vehicle_siphon( vehicle *veh );
-void act_vehicle_unload_fuel( vehicle *veh );
+static void act_vehicle_unload_fuel( vehicle *veh );
 
 player_activity veh_interact::serialize_activity()
 {
@@ -241,6 +240,8 @@ veh_interact::veh_interact( vehicle &veh, const point &p )
     main_context.register_action( "FUEL_LIST_UP" );
     main_context.register_action( "DESC_LIST_DOWN" );
     main_context.register_action( "DESC_LIST_UP" );
+    main_context.register_action( "PAGE_DOWN" );
+    main_context.register_action( "PAGE_UP" );
     main_context.register_action( "CONFIRM" );
     main_context.register_action( "HELP_KEYBINDINGS" );
     main_context.register_action( "FILTER" );
@@ -343,8 +344,12 @@ struct veh_interact::install_info_t {
     int pos = 0;
     size_t tab = 0;
     std::vector<const vpart_info *> tab_vparts;
-    std::array<std::string, 8> tab_list;
-    std::array<std::string, 8> tab_list_short;
+    std::vector<std::string> tab_list;
+};
+
+struct veh_interact::remove_info_t {
+    int pos = 0;
+    size_t tab = 0;
 };
 
 shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
@@ -380,6 +385,9 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
             if( install_info ) {
                 display_list( install_info->pos, install_info->tab_vparts, 2 );
                 display_details( sel_vpart_info );
+            } else if( remove_info ) {
+                display_details( sel_vpart_info );
+                display_overview();
             } else {
                 display_overview();
             }
@@ -407,6 +415,7 @@ void veh_interact::do_main_loop()
     while( !finish ) {
         calc_overview();
         ui_manager::redraw();
+        const int description_scroll_lines = catacurses::getmaxy( w_parts ) - 4;
         const std::string action = main_context.handle_input();
         msg.reset();
         if( const cata::optional<tripoint> vec = main_context.get_direction( action ) ) {
@@ -485,6 +494,10 @@ void veh_interact::do_main_loop()
             move_cursor( point_zero, 1 );
         } else if( action == "DESC_LIST_UP" ) {
             move_cursor( point_zero, -1 );
+        } else if( action == "PAGE_DOWN" ) {
+            move_cursor( point_zero, description_scroll_lines );
+        } else if( action == "PAGE_UP" ) {
+            move_cursor( point_zero, -description_scroll_lines );
         }
         if( sel_cmd != ' ' ) {
             finish = true;
@@ -751,7 +764,7 @@ bool veh_interact::can_install_part()
         }
     }
 
-    const auto reqs = sel_vpart_info->install_requirements();
+    const requirement_data reqs = sel_vpart_info->install_requirements();
 
     avatar &player_character = get_avatar();
     std::string nmsg;
@@ -891,130 +904,42 @@ void veh_interact::do_install()
                 install_info ) );
     install_info = std::make_unique<install_info_t>();
 
-    std::array<std::string, 8> &tab_list = install_info->tab_list = { {
-            pgettext( "Vehicle Parts|", "All" ),
-            pgettext( "Vehicle Parts|", "Cargo" ),
-            pgettext( "Vehicle Parts|", "Light" ),
-            pgettext( "Vehicle Parts|", "Util" ),
-            pgettext( "Vehicle Parts|", "Hull" ),
-            pgettext( "Vehicle Parts|", "Internal" ),
-            pgettext( "Vehicle Parts|", "Other" ),
-            pgettext( "Vehicle Parts|", "Filter" )
-        }
-    };
+    std::vector<std::string> &tab_list = install_info->tab_list = {};
+    tab_list.push_back( pgettext( "Vehicle Parts|", "All" ) );
+    for( const std::string &cat : vpart_info::categories_all() ) {
+        tab_list.push_back( pgettext( "Vehicle Parts|", cat.c_str() ) );
+    }
+    tab_list.push_back( pgettext( "Vehicle Parts|", "Filter" ) );
 
-    install_info->tab_list_short = { {
-            pgettext( "Vehicle Parts|", "A" ),
-            pgettext( "Vehicle Parts|", "C" ),
-            pgettext( "Vehicle Parts|", "L" ),
-            pgettext( "Vehicle Parts|", "U" ),
-            pgettext( "Vehicle Parts|", "H" ),
-            pgettext( "Vehicle Parts|", "I" ),
-            pgettext( "Vehicle Parts|", "O" ),
-            pgettext( "Vehicle Parts|", "F" )
-        }
-    };
-
-    std::array <std::function<bool( const vpart_info * )>, 8>
-    tab_filters; // filter for each tab, last one
-    tab_filters[0] = [&]( const vpart_info * ) {
+    std::vector <std::function<bool( const vpart_info * )>> tab_filters;
+    tab_filters.push_back( [&]( const vpart_info * ) {
         return true;
-    }; // All
-    tab_filters[1] = [&]( const vpart_info * p ) {
-        const auto &part = *p;
-        return part.has_flag( VPFLAG_CARGO ) && // Cargo
-               !part.has_flag( "TURRET" );
-    };
-    tab_filters[2] = [&]( const vpart_info * p ) {
-        const auto &part = *p;
-        return part.has_flag( VPFLAG_LIGHT ) || // Light
-               part.has_flag( VPFLAG_CONE_LIGHT ) ||
-               part.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
-               part.has_flag( VPFLAG_CIRCLE_LIGHT ) ||
-               part.has_flag( VPFLAG_DOME_LIGHT ) ||
-               part.has_flag( VPFLAG_AISLE_LIGHT ) ||
-               part.has_flag( VPFLAG_ATOMIC_LIGHT );
-    };
-    tab_filters[3] = [&]( const vpart_info * p ) {
-        const auto &part = *p;
-        return part.has_flag( "TRACK" ) || //Util
-               part.has_flag( VPFLAG_FRIDGE ) ||
-               part.has_flag( VPFLAG_FREEZER ) ||
-               part.has_flag( "KITCHEN" ) ||
-               part.has_flag( "WELDRIG" ) ||
-               part.has_flag( "CRAFTRIG" ) ||
-               part.has_flag( "CHEMLAB" ) ||
-               part.has_flag( "FORGE" ) ||
-               part.has_flag( "HORN" ) ||
-               part.has_flag( "BEEPER" ) ||
-               part.has_flag( "AUTOPILOT" ) ||
-               part.has_flag( "WATCH" ) ||
-               part.has_flag( "ALARMCLOCK" ) ||
-               part.has_flag( VPFLAG_RECHARGE ) ||
-               part.has_flag( "VISION" ) ||
-               part.has_flag( "POWER_TRANSFER" ) ||
-               part.has_flag( "FAUCET" ) ||
-               part.has_flag( "STEREO" ) ||
-               part.has_flag( "CHIMES" ) ||
-               part.has_flag( "MUFFLER" ) ||
-               part.has_flag( "REMOTE_CONTROLS" ) ||
-               part.has_flag( "CURTAIN" ) ||
-               part.has_flag( "SEATBELT" ) ||
-               part.has_flag( "SECURITY" ) ||
-               part.has_flag( "SEAT" ) ||
-               part.has_flag( "BED" ) ||
-               part.has_flag( "SPACE_HEATER" ) ||
-               part.has_flag( "COOLER" ) ||
-               part.has_flag( "DOOR_MOTOR" ) ||
-               part.has_flag( "WATER_PURIFIER" ) ||
-               part.has_flag( "WORKBENCH" );
-    };
-    tab_filters[4] = [&]( const vpart_info * p ) {
-        const auto &part = *p;
-        return( part.has_flag( VPFLAG_OBSTACLE ) || // Hull
-                part.has_flag( "ROOF" ) ||
-                part.has_flag( VPFLAG_ARMOR ) ) &&
-              !part.has_flag( "WHEEL" ) &&
-              !tab_filters[3]( p );
-    };
-    tab_filters[5] = [&]( const vpart_info * p ) {
-        const auto &part = *p;
-        return part.has_flag( VPFLAG_ENGINE ) || // Internals
-               part.has_flag( VPFLAG_ALTERNATOR ) ||
-               part.has_flag( VPFLAG_CONTROLS ) ||
-               part.location == "fuel_source" ||
-               part.location == "on_battery_mount" ||
-               ( part.location.empty() && part.has_flag( "FUEL_TANK" ) );
-    };
-
-    // Other: everything that's not in the other filters
-    tab_filters[tab_filters.size() - 2] = [&]( const vpart_info * part ) {
-        for( size_t i = 1; i < tab_filters.size() - 2; i++ ) {
-            if( tab_filters[i]( part ) ) {
-                return false;
-            }
-        }
-        return true;
-    };
+    } );
+    for( const std::string &cat : vpart_info::categories_all() ) {
+        tab_filters.push_back( [&]( const vpart_info * p ) {
+            return p->has_category( cat );
+        } );
+    }
 
     std::string filter; // The user specified filter
-    tab_filters[7] = [&]( const vpart_info * p ) {
-        return lcmatch( p->name(), filter );
-    };
-
-    // full list of mountable parts, to be filtered according to tab
-    std::vector<const vpart_info *> &tab_vparts = install_info->tab_vparts = can_mount;
+    tab_filters.push_back( [&]( const vpart_info * p ) {
+        return !filter.empty() && lcmatch( p->name(), filter );
+    } );
 
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
     int &pos = install_info->pos = 0;
     size_t &tab = install_info->tab = 0;
 
+    std::vector<const vpart_info *> &tab_vparts = install_info->tab_vparts;
+    auto refresh_parts_list = [&]( std::vector<const vpart_info *> parts ) {
+        std::copy_if( parts.begin(), parts.end(), std::back_inserter( tab_vparts ), tab_filters[tab] );
+    };
+    refresh_parts_list( can_mount );
+
     while( true ) {
         // filtered list can be empty
         sel_vpart_info = tab_vparts.empty() ? nullptr : tab_vparts[pos];
-
-        bool can_install = can_install_part();
 
         ui_manager::redraw();
 
@@ -1027,14 +952,14 @@ void veh_interact::do_install()
             .description( _( "Filter" ) )
             .max_length( 100 )
             .edit( filter );
-            tab = 7; // Move to the user filter tab.
+            tab = tab_filters.size() - 1; // Move to the user filter tab.
         }
         if( action == "REPAIR" ) {
             filter.clear();
             tab = 0;
         }
         if( action == "INSTALL" || action == "CONFIRM" ) {
-            if( can_install ) {
+            if( can_install_part() ) {
                 switch( reason ) {
                     case task_reason::LOW_MORALE:
                         msg = _( "Your morale is too low to construct…" );
@@ -1085,7 +1010,7 @@ void veh_interact::do_install()
                         std::string disp_name = sel_vpart_info->name();
                         for( const auto &vp_variant_pair : vpart_variants ) {
                             if( vp_variant_pair.first == vp_variant.first ) {
-                                disp_name += " " + _( vp_variant_pair.second );
+                                disp_name += " " + vp_variant_pair.second;
                                 break;
                             }
                         }
@@ -1150,8 +1075,7 @@ void veh_interact::do_install()
                 tab = ( tab < tab_list.size() - 1 ) ? tab + 1 : 0;
             }
 
-            copy_if( can_mount.begin(), can_mount.end(), back_inserter( tab_vparts ),
-                     tab_filters[tab] );
+            refresh_parts_list( can_mount );
         } else {
             move_in_list( pos, action, tab_vparts.size(), 2 );
         }
@@ -1162,9 +1086,9 @@ bool veh_interact::move_in_list( int &pos, const std::string &action, const int 
                                  const int header ) const
 {
     int lines_per_page = page_size - header;
-    if( action == "PREV_TAB" || action == "LEFT" ) {
+    if( action == "PREV_TAB" || action == "LEFT" || action == "PAGE_UP" ) {
         pos -= lines_per_page;
-    } else if( action == "NEXT_TAB" || action == "RIGHT" ) {
+    } else if( action == "NEXT_TAB" || action == "RIGHT" || action == "PAGE_DOWN" ) {
         pos += lines_per_page;
     } else if( action == "UP" ) {
         pos--;
@@ -1188,7 +1112,7 @@ void veh_interact::do_repair()
 
     if( reason == task_reason::INVALID_TARGET ) {
         vehicle_part *most_repairable = get_most_repariable_part();
-        if( most_repairable ) {
+        if( most_repairable && most_repairable->damage_percent() ) {
             move_cursor( ( most_repairable->mount + dd ).rotate( 3 ) );
             return;
         }
@@ -1259,7 +1183,7 @@ void veh_interact::do_repair()
                     ok = false;
                 }
             } else {
-                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
+                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level(), vp.repair_skills,
                                   vp.repair_time( player_character ) * pt.base.damage() / pt.base.max_damage() );
             }
         }
@@ -1387,43 +1311,13 @@ void veh_interact::do_refill()
 
 void veh_interact::calc_overview()
 {
+    const hotkey_queue &hotkeys = hotkey_queue::alphabets();
+
     const auto next_hotkey = [&]( const vehicle_part & pt, input_event & evt ) {
         if( overview_action && overview_enable && overview_enable( pt ) ) {
-            switch( evt.type ) {
-                case input_event_t::keyboard_char: {
-                    const input_event next = evt;
-                    do {
-                        if( evt.sequence[0] == 'z' ) {
-                            evt.sequence[0] = 'A';
-                        } else if( evt.sequence[0] == 'Z' ) {
-                            evt = input_event();
-                        } else {
-                            ++evt.sequence[0];
-                        }
-                    } while( evt.type == input_event_t::keyboard_char &&
-                             main_context.input_to_action( evt ) != "ERROR" );
-                    return next;
-                }
-                case input_event_t::keyboard_code: {
-                    const input_event next = evt;
-                    do {
-                        if( evt.sequence[0] == 'z' ) {
-                            if( evt.modifiers.count( keymod_t::shift ) ) {
-                                evt = input_event();
-                            } else {
-                                evt.sequence[0] = 'a';
-                                evt.modifiers.emplace( keymod_t::shift );
-                            }
-                        } else {
-                            ++evt.sequence[0];
-                        }
-                    } while( evt.type == input_event_t::keyboard_code &&
-                             main_context.input_to_action( evt ) != "ERROR" );
-                    return next;
-                }
-                default:
-                    return input_event();
-            }
+            const input_event prev = evt;
+            evt = main_context.next_unassigned_hotkey( hotkeys, evt );
+            return prev;
         } else {
             return input_event();
         }
@@ -1483,9 +1377,7 @@ void veh_interact::calc_overview()
         right_print( w, y, 1, c_light_gray, _( "Who" ) );
     };
 
-    input_event hotkey = main_context.is_event_type_enabled( input_event_t::keyboard_code )
-                         ? input_event( 'a', input_event_t::keyboard_code )
-                         : input_event( 'a', input_event_t::keyboard_char );
+    input_event hotkey = main_context.first_unassigned_hotkey( hotkeys );
 
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
         if( vpr.part().is_engine() && vpr.part().is_available() ) {
@@ -1524,7 +1416,7 @@ void veh_interact::calc_overview()
                 // but item::display_name tags use a space so this prevents
                 // needing *second* translation for the same thing with a
                 // space in front of it
-                if( it.item_tags.count( "FROZEN" ) ) {
+                if( it.has_own_flag( "FROZEN" ) ) {
                     specials += _( " (frozen)" );
                 } else if( it.rotten() ) {
                     specials += _( " (rotten)" );
@@ -1562,13 +1454,12 @@ void veh_interact::calc_overview()
                                             round_up( vol_L, 1 ) ) );
             }
         };
-        if( vpr.part().is_tank() && vpr.part().is_available() ) {
-            overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
-                                        tank_details );
-        } else if( vpr.part().is_fuel_store() && !( vpr.part().is_battery() ||
-                   vpr.part().is_reactor() ) && !vpr.part().is_broken() ) {
-            overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
-                                        no_tank_details );
+
+        vehicle_part &vp = vpr.part();
+        if( vp.is_tank() && vp.is_available() ) {
+            overview_opts.emplace_back( "TANK", &vp, next_hotkey( vp, hotkey ), tank_details );
+        } else if( vp.is_fuel_store() && !( vp.is_turret() || vp.is_battery() || vp.is_reactor() ) ) {
+            overview_opts.emplace_back( "TANK", &vp, next_hotkey( vp, hotkey ), no_tank_details );
         }
     }
 
@@ -1663,25 +1554,10 @@ void veh_interact::display_overview()
         // print part name
         const input_event &hotkey = overview_opts[idx].hotkey;
         nc_color col = hotkey != input_event() ? c_white : c_dark_gray;
-        std::string maybe_shift_symbol;
-        switch( hotkey.type ) {
-            case input_event_t::keyboard_char:
-                maybe_shift_symbol = " ";
-                break;
-            case input_event_t::keyboard_code:
-                if( hotkey.modifiers.count( keymod_t::shift ) ) {
-                    maybe_shift_symbol = "\u21E7"; // upwards white arrow
-                } else {
-                    maybe_shift_symbol = " ";
-                }
-                break;
-            default:
-                maybe_shift_symbol = " ";
-        }
         trim_and_print( w_list, point( 1, y ), getmaxx( w_list ) - 1,
                         highlighted ? hilite( col ) : col,
-                        "<color_dark_gray>%s%c </color>%s", maybe_shift_symbol,
-                        hotkey != input_event() ? hotkey.sequence[0] : ' ', pt.name() );
+                        "<color_dark_gray>%s </color>%s",
+                        right_justify( hotkey.short_description(), 2 ), pt.name() );
 
         // print extra columns (if any)
         overview_opts[idx].details( pt, w_list, y );
@@ -1768,7 +1644,7 @@ void veh_interact::overview( const overview_enable_t &enable,
                     overview_pos = 0;
                 }
             } while( overview_opts[overview_pos].hotkey == input_event() );
-        } else {
+        } else if( input == "ANY_INPUT" ) {
             // did we try and activate a hotkey option?
             const input_event hotkey = main_context.get_raw_input();
             if( hotkey != input_event() && overview_action ) {
@@ -1849,7 +1725,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
                     sel_vehicle_part->name(), result_of_removal.display_name() );
     }
 
-    const auto reqs = sel_vpart_info->removal_requirements();
+    const requirement_data reqs = sel_vpart_info->removal_requirements();
     bool ok = format_reqs( nmsg, reqs, sel_vpart_info->removal_skills,
                            sel_vpart_info->removal_time( p ) );
 
@@ -1921,6 +1797,10 @@ void veh_interact::do_remove()
 
     restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
     title = _( "Choose a part here to remove:" );
+
+    restore_on_out_of_scope<std::unique_ptr<remove_info_t>> prev_remove_info( std::move(
+                remove_info ) );
+    remove_info = std::make_unique<remove_info_t>();
 
     avatar &player_character = get_avatar();
     int pos = 0;
@@ -2178,7 +2058,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
 
     can_mount.clear();
     if( !obstruct ) {
-        int divider_index = 0;
+        std::vector<const vpart_info *> req_missing;
         for( const auto &e : vpart_info::all() ) {
             const vpart_info &vp = e.second;
             if( has_critter && vp.has_flag( VPFLAG_OBSTACLE ) ) {
@@ -2190,12 +2070,18 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
                     continue;
                 }
                 if( can_potentially_install( vp ) ) {
-                    can_mount.insert( can_mount.begin() + divider_index++, &vp );
-                } else {
                     can_mount.push_back( &vp );
+                } else {
+                    req_missing.push_back( &vp );
                 }
             }
         }
+        auto vpart_localized_sort = []( const vpart_info * a, const vpart_info * b ) {
+            return localized_compare( a->name(), b->name() );
+        };
+        std::sort( can_mount.begin(), can_mount.end(), vpart_localized_sort );
+        std::sort( req_missing.begin(), req_missing.end(), vpart_localized_sort );
+        can_mount.insert( can_mount.end(), req_missing.cbegin(), req_missing.cend() );
     }
 
     need_repair.clear();
@@ -2581,12 +2467,12 @@ void veh_interact::display_stats() const
     if( is_boat ) {
 
         const double water_clearance = veh->water_hull_height() - veh->water_draft();
-        std::string draft_string = water_clearance > 0 ?
+        const char *draft_string = water_clearance > 0 ?
                                    _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_blue>%4.2f</color>m" ) :
                                    _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_red>%4.2f</color>m" ) ;
 
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                        draft_string.c_str(),
+                        draft_string,
                         veh->water_draft(), water_clearance );
         i += 1;
     }
@@ -2598,7 +2484,7 @@ void veh_interact::display_stats() const
                                 ( x[ i ] + 10 < getmaxx( w_stats ) ),
                                 ( x[ i ] + 10 < getmaxx( w_stats ) ) );
 
-    if( install_info ) {
+    if( install_info || remove_info ) {
         const int details_w = getmaxx( w_details );
         // clear rightmost blocks of w_stats to avoid overlap
         int stats_col_2 = 33;
@@ -2717,16 +2603,16 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
 
     if( install_info ) {
         auto &tab_list = install_info->tab_list;
-        auto &tab_list_short = install_info->tab_list_short;
         auto &tab = install_info->tab;
         // draw tab menu
         int tab_x = 0;
         for( size_t i = 0; i < tab_list.size(); i++ ) {
-            std::string tab_name = ( tab == i ) ? tab_list[i] : tab_list_short[i]; // full name for selected tab
-            tab_x += ( tab == i ); // add a space before selected tab
-            draw_subtab( w_list, tab_x, tab_name, tab == i, false );
-            tab_x += ( 1 + utf8_width( tab_name ) + ( tab ==
-                       i ) ); // one space padding and add a space after selected tab
+            bool active = tab == i; // current tab is active
+            std::string tab_name = active ? tab_list[i] : utf8_truncate( tab_list[i], 1 );
+            tab_x += active; // add a space before selected tab
+            draw_subtab( w_list, tab_x, tab_name, active, false );
+            // one space padding and add a space after selected tab
+            tab_x += 1 + utf8_width( tab_name ) + active;
         }
     }
     wnoutrefresh( w_list );
@@ -3024,7 +2910,7 @@ void veh_interact::complete_vehicle( player &p )
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
         if( !p.activity.coord_set.empty() ) {
-            for( const auto pt : p.activity.coord_set ) {
+            for( const tripoint pt : p.activity.coord_set ) {
                 vp = here.veh_at( here.getlocal( pt ) );
                 if( vp ) {
                     break;
@@ -3051,7 +2937,7 @@ void veh_interact::complete_vehicle( player &p )
         case 'i': {
             const inventory &inv = p.crafting_inventory();
 
-            const auto reqs = vpinfo.install_requirements();
+            const requirement_data reqs = vpinfo.install_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 add_msg( m_info, _( "You don't meet the requirements to install the %s." ),
                          vpinfo.name() );
@@ -3185,7 +3071,7 @@ void veh_interact::complete_vehicle( player &p )
                 }
 
             } else if( pt.is_fuel_store() ) {
-                auto qty = src->charges;
+                int qty = src->charges;
                 pt.base.reload( p, std::move( src ), qty );
 
                 //~ 1$s vehicle name, 2$s reactor name
@@ -3213,7 +3099,7 @@ void veh_interact::complete_vehicle( player &p )
                     return;
                 }
             }
-            const auto reqs = vpinfo.removal_requirements();
+            const requirement_data reqs = vpinfo.removal_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 //~  1$s is the vehicle part name
                 add_msg( m_info, _( "You don't meet the requirements to remove the %1$s." ),

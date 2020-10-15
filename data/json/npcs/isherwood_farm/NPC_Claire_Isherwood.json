@@ -28,7 +28,7 @@
         "skill": "ALL",
         "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
       },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "cooking", "bonus": { "rng": [ 4, 8 ] } },
       { "skill": "firstaid", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
@@ -113,13 +113,13 @@
     "responses": [
       {
         "text": "Yes, I'm a marshal.",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_MARSHAL_CLAIRE",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
         "text": "…",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_MARSHAL_CLAIRE",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
@@ -251,7 +251,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_LEAVE_NOW",
+    "id": "TALK_LEAVE_NOW_MARSHAL_CLAIRE",
     "dynamic_line": "You should get off our land, you have no business here.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },

@@ -2,6 +2,7 @@
   {
     "result": "3006_clip",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -17,6 +18,7 @@
   {
     "result": "762x39_clip",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -32,6 +34,7 @@
   {
     "result": "762R_clip",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -62,6 +65,7 @@
   {
     "result": "garandclip",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -77,6 +81,7 @@
   {
     "result": "marlin_tubeloader",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -91,6 +96,7 @@
   {
     "result": "pressurized_tank_chem",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -105,6 +111,7 @@
   {
     "result": "survivor223mag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -134,6 +141,7 @@
   {
     "result": "ruger_makeshiftmag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -149,6 +157,7 @@
   {
     "result": "m14_makeshiftmag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -164,6 +173,7 @@
   {
     "result": "hk417_makeshiftmag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -179,6 +189,7 @@
   {
     "result": "ar10_makeshiftmag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -194,6 +205,7 @@
   {
     "result": "g3_makeshiftmag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -209,6 +221,7 @@
   {
     "result": "fal_makeshiftmag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -224,6 +237,7 @@
   {
     "result": "scarh_makeshiftmag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -240,6 +254,7 @@
     "result": "scarh_makeshiftmag",
     "id_suffix": "conversion",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -253,6 +268,7 @@
   {
     "result": "scarhmag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -266,6 +282,7 @@
   {
     "result": "scarhmag_30rd",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -279,6 +296,7 @@
   {
     "result": "shotbelt_20",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "tailor",
@@ -292,6 +310,7 @@
   {
     "result": "smg_40_mag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -307,6 +326,7 @@
   {
     "result": "smg_45_mag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -322,6 +342,7 @@
   {
     "result": "ump45_makeshiftmag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -337,6 +358,7 @@
   {
     "result": "thompson_makeshiftmag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -352,6 +374,7 @@
   {
     "result": "survivor9mm_mag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -367,6 +390,7 @@
   {
     "result": "aux_pressurized_tank",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -381,6 +405,7 @@
   {
     "result": "nailmag",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",

@@ -90,7 +90,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ]
   },
   {
     "id": "bscabbard",
@@ -207,7 +207,7 @@
         "holster": true,
         "moves": 30,
         "flag_restriction": [ "SHEATH_SPEAR" ],
-        "max_contains_volume": "3500 ml",
+        "max_contains_volume": "4000 ml",
         "max_contains_weight": "4 kg",
         "max_item_length": "200 cm"
       }

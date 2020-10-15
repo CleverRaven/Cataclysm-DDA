@@ -44,8 +44,8 @@ struct sound_effect_resource {
     std::unique_ptr<Mix_Chunk, deleter> chunk;
 };
 struct sound_effect {
-    int volume;
-    int resource_id;
+    int volume = 0;
+    int resource_id = 0;
 };
 struct sfx_resources_t {
     std::vector<sound_effect_resource> resource;
@@ -134,7 +134,7 @@ void shutdown_sound()
     Mix_CloseAudio();
 }
 
-void musicFinished();
+static void musicFinished();
 
 static void play_music_file( const std::string &filename, int volume )
 {

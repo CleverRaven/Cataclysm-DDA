@@ -94,9 +94,9 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         // And if we deal enough damage
         // Item volume bumps up the required damage too
         embed = embed &&
-                ( attack.dealt_dam.type_damage( DT_CUT ) / 2 ) +
-                attack.dealt_dam.type_damage( DT_STAB ) >
-                attack.dealt_dam.type_damage( DT_BASH ) +
+                ( attack.dealt_dam.type_damage( damage_type::CUT ) / 2 ) +
+                attack.dealt_dam.type_damage( damage_type::STAB ) >
+                attack.dealt_dam.type_damage( damage_type::BASH ) +
                 vol * 3 / 250_ml + rng( 0, 5 );
     }
 
@@ -264,10 +264,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         trajectory = here.find_clear_path( source, target );
     }
 
-    add_msg( m_debug, "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
-             aim.missed_by_tiles, aim.missed_by,
-             target_arg.x, target_arg.y, target_arg.z,
-             target.x, target.y, target.z );
+    add_msg_debug( "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
+                   aim.missed_by_tiles, aim.missed_by,
+                   target_arg.x, target_arg.y, target_arg.z,
+                   target.x, target.y, target.z );
 
     // Trace the trajectory, doing damage in order
     tripoint &tp = attack.end_point;
