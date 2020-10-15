@@ -82,7 +82,7 @@
     "id": "wallet_stylish_full",
     "type": "item_group",
     "subtype": "collection",
-    "container-item": "wallet",
+    "container-item": "wallet-stylish",
     "items": [
       { "item": "cash_card", "prob": 1600, "charges-min": 10000, "charges-max": 50000 },
       { "item": "money_one", "prob": 1600, "count": [ 10, 20 ] },
@@ -153,13 +153,13 @@
     "id": "wallet_science_stylish_full",
     "container-item": "wallet_stylish",
     "items": [
-      { "item": "cash_card", "prob": 1600, "charges-min": 0, "charges-max": 50000 },
       { "item": "id_science", "prob": 1600 },
+      { "item": "cash_card", "prob": 1600, "charges-min": 10000, "charges-max": 50000 },
+      { "item": "money_one", "prob": 1600, "count": [ 10, 20 ] },
       { "item": "money_ten", "prob": 1600, "count": [ 5, 10 ] },
-      { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
-      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      [ "scorecard", 20 ]
+      { "item": "money_twenty", "prob": 1600, "count": [ 5, 10 ] },
+      { "group": "discount_cards", "prob": 60, "count": [ 2, 5 ] },
+      [ "scorecard", 5 ]
     ]
   },
   {
