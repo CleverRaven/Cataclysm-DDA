@@ -37,7 +37,9 @@
       "glock17_17",
       "usp9mag",
       "kpf9mag",
+      "p320mag_10rd_9x19mm",
       "p320mag_17rd_9x19mm",
+      "p320mag_21rd_9x19mm",
       "bhp9mag_13rd",
       "bhp9mag_15rd",
       "p38mag",
@@ -58,7 +60,17 @@
       "m1911_10mag",
       "p220_10_mag",
       "xd_10_mag",
-      "witness_mag_10"
+      "witness_mag_10",
+      "btmp9mag_9x19mm_15",
+      "btmp9mag_9x19mm_20",
+      "btmp9mag_9x19mm_25",
+      "btmp9mag_9x19mm_30",
+      "p228mag_13rd_9x19mm",
+      "p226mag_10rd_9mm",
+      "p226mag_15rd_9mm",
+      "sp2022mag_10rd_9mm",
+      "sp2022mag_12rd_9mm",
+      "sp2022mag_15rd_9mm"
     ],
     "type": "MIGRATION",
     "replace": "pistol_mag"
