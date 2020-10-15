@@ -35,10 +35,13 @@ Graphical builds run much faster with some kind of graphics acceleration.  2GB o
 
 ## Downloads
 
-Cataclysm has official builds for Windows, Linux, and OSX, and each build comes in both terminal and graphical flavors. There are also "unofficial" builds for iOS and Android.
+Cataclysm has official builds for Windows, Linux, OSX and Android.  
+The Linux and OSX builds are available in both terminal and graphical flavors.  
+Windows and Android builds are graphical only, though there is a "text rendering" mode in the graphical build.  
+There is a very old and unsupported fork for iOS.
 
 ### Latest Stable
-The most recent stable release is {{ site.github.latest_release.tag_name }} {{ site.github.latest_release.name }}.  We recommend stable for the most bug-free experience possible.  You can download it from the [Releases Page]({{ site.baseurl }}{% link releases.md %}).
+The most recent stable release is {{ site.github.latest_release.tag_name }} {{ site.github.latest_release.name }}.  We recommend stable for the most bug-free experience available.  You can download it from the [Releases Page]({{ site.baseurl }}{% link releases.md %}).
 
 ### Latest Experimental
 Cataclysm: DDA is under constant development. As such, stable can lag behind with features. If you would like access to the bleeding edge of features and any bugs that may come along with them, you can download the [latest experimental builds]({{ site.baseurl }}{% link pages/experimental.md %}).
