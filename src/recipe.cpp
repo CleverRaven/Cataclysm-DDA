@@ -590,23 +590,26 @@ std::string recipe::required_proficiencies_string( const Character *c ) const
     return required;
 }
 
-std::string profstring( const std::pair<proficiency_id, std::pair<float, float>> &prof,
+struct prof_penalty {
+    proficiency_id id;
+    float time_mult;
+    float failure_mult;
+};
+
+std::string profstring( const prof_penalty &prof,
                         std::string &color )
 {
-    const proficiency_id this_id = prof.first;
-    const float time_mult = prof.second.first;
-    const float fail_mult = prof.second.second;
-    if( time_mult == 1.0f ) {
+    if( prof.time_mult == 1.0f ) {
         return string_format( _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0failure</color>)" ),
-                              this_id->name(), color, fail_mult );
-    } else if( fail_mult == 1.0f ) {
+                              prof.id->name(), color, prof.failure_mult );
+    } else if( prof.failure_mult == 1.0f ) {
         return string_format( _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0time</color>)" ),
-                              this_id->name(), color, time_mult );
+                              prof.id->name(), color, prof.time_mult );
     }
 
     return string_format(
                _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0time, %gx\u00a0failure</color>)" ),
-               this_id->name(), color, time_mult, fail_mult );
+               prof.id->name(), color, prof.time_mult, prof.failure_mult );
 }
 
 std::string recipe::used_proficiencies_string( const Character *c ) const
@@ -614,19 +617,19 @@ std::string recipe::used_proficiencies_string( const Character *c ) const
     if( c == nullptr ) {
         return { };
     }
-    std::vector<std::pair<proficiency_id, std::pair<float, float>>> used_profs;
+    std::vector<prof_penalty> used_profs;
 
     for( const recipe_proficiency &rec : proficiencies ) {
         if( !rec.required ) {
             if( c->has_proficiency( rec.id ) || helpers_have_proficiencies( *c, rec.id ) )  {
-                used_profs.push_back( { rec.id, { rec.time_multiplier, rec.fail_multiplier } } );
+                used_profs.push_back( { rec.id, rec.time_multiplier, rec.fail_multiplier } );
             }
         }
     }
 
-    std::string color = "white";
+    std::string color = "light_gray";
     std::string used = enumerate_as_string( used_profs.begin(),
-    used_profs.end(), [&]( const std::pair<proficiency_id, std::pair<float, float>> &prof ) {
+    used_profs.end(), [&]( const prof_penalty &prof ) {
         return profstring( prof, color );
     } );
 
@@ -638,19 +641,19 @@ std::string recipe::missing_proficiencies_string( const Character *c ) const
     if( c == nullptr ) {
         return { };
     }
-    std::vector<std::pair<proficiency_id, std::pair<float, float>>> missing_profs;
+    std::vector<prof_penalty> missing_profs;
 
     for( const recipe_proficiency &rec : proficiencies ) {
         if( !rec.required ) {
             if( !( c->has_proficiency( rec.id ) || helpers_have_proficiencies( *c, rec.id ) ) )  {
-                missing_profs.push_back( { rec.id, { rec.time_multiplier, rec.fail_multiplier } } );
+                missing_profs.push_back( { rec.id, rec.time_multiplier, rec.fail_multiplier } );
             }
         }
     }
 
     std::string color = "yellow";
     std::string missing = enumerate_as_string( missing_profs.begin(),
-    missing_profs.end(), [&]( const std::pair<proficiency_id, std::pair<float, float>> &prof ) {
+    missing_profs.end(), [&]( const prof_penalty &prof ) {
         return profstring( prof, color );
     } );
 
