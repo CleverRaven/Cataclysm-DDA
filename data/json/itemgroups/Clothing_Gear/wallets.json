@@ -3,22 +3,29 @@
     "type": "item_group",
     "id": "wallets",
     "items": [
-      [ "wallet_full", 40 ],
-      [ "wallet_duct_tape_full", 1 ],
-      [ "wallet_leather_full", 25 ],
-      [ "wallet_large_full", 9 ],
-      [ "wallet_stylish_full", 25 ]
+      { "group": "wallet_full", "prob": 40 },
+      { "group": "wallet_duct_tape_full", "prob": 1 },
+      { "group": "wallet_leather_full", "prob": 25 },
+      { "group": "wallet_large_full", "prob": 9 },
+      { "group": "wallet_stylish_full", "prob": 25 }
     ]
   },
   {
     "type": "item_group",
     "id": "wallets_science",
-    "items": [ [ "wallet_science_full", 50 ], [ "wallet_science_leather_full", 25 ], [ "wallet_science_stylish_full", 25 ] ]
+    "items": [
+      { "group": "wallet_science_full", "prob": 50 },
+      { "group": "wallet_science_leather_full", "prob": 25 },
+      { "group": "wallet_science_stylish_full", "prob": 25 }
+    ]
   },
   {
     "type": "item_group",
     "id": "wallets_military",
-    "items": [ [ "wallet_military_full", 50 ], [ "wallet_military_leather_full", 25 ], [ "wallet_military_stylish_full", 25 ] ]
+    "items": [
+      { "group": "wallet_military_full", "prob": 50 },
+      { "group": "wallet_military_leather_full", "prob": 50 }
+    ]
   },
   {
     "id": "wallet_full",
