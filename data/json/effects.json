@@ -1603,15 +1603,31 @@
   {
     "type": "effect_type",
     "id": "toxin_buildup",
-    "name": [ "", "Concerning symptoms", "Unnerving symptoms" ],
+    "name": [ "", "Weird feeling", "Otherwordly feeling", "Mutagenic cascade" ],
     "desc": [
       "",
-      "Your muscles keep twitching strangely.",
-      "Your nervous system is malfunctioning, almost like it's being torn apart from the inside."
+      "You don't feel entirely like yourself.",
+      "Your feel like you're about to change into something else.",
+      "Change is coming!"
     ],
-    "base_mods": { "h_mod_min": [ -1 ], "h_mod_chance": [ 1 ], "h_mod_chance_bot": [ 5 ], "h_mod_tick": [ 1800 ] },
+    "apply_message": "You feel weird.",
+    "max_intensity": 4,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutating",
+    "name": [ "Crawling skin", "Crawling flesh", "Twisting flesh" ],
+    "desc": [
+      "Your body is altering itself occasionally.",
+      "You are mutating.",
+      "You feel your body shifting, mutating into new forms."
+    ],
+    "apply_message": "You start mutating!",
+    "max_duration": "8 d",
     "max_intensity": 3,
-    "scaling_mods": { "h_mod_min": [ -5 ] }
+    "int_dur_factor": "3 d",
+    "rating": "bad"
   },
   {
     "type": "effect_type",

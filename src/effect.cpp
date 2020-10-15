@@ -456,9 +456,17 @@ bool effect_type::get_main_parts() const
 {
     return main_parts_only;
 }
+time_duration effect_type::get_max_duration() const
+{
+    return max_duration;
+}
 bool effect_type::is_show_in_info() const
 {
     return show_in_info;
+}
+time_duration effect_type::get_int_dur_factor() const
+{
+    return int_dur_factor;
 }
 bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
 {
@@ -749,7 +757,7 @@ time_duration effect::get_duration() const
 }
 time_duration effect::get_max_duration() const
 {
-    return eff_type->max_duration;
+    return eff_type->get_max_duration();
 }
 void effect::set_duration( const time_duration &dur, bool alert )
 {
@@ -1163,7 +1171,7 @@ int effect::get_dur_add_perc() const
 }
 time_duration effect::get_int_dur_factor() const
 {
-    return eff_type->int_dur_factor;
+    return eff_type->get_int_dur_factor();
 }
 int effect::get_int_add_val() const
 {

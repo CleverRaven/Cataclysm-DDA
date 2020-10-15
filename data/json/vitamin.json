@@ -57,12 +57,12 @@
     "id": "mutant_toxin",
     "type": "vitamin",
     "vit_type": "toxin",
-    "name": { "str": "Toxins" },
+    "name": { "str": "Mutagenic toxins" },
     "excess": "toxin_buildup",
     "min": 0,
-    "max": 1800,
-    "rate": "15 m",
-    "disease_excess": [ [ 500, 949 ], [ 950, 1399 ], [ 1400, 1800 ] ]
+    "max": 1100,
+    "rate": "12 m",
+    "disease_excess": [ [ 251, 500 ], [ 501, 750 ], [ 751, 1000 ], [ 1001, 1100 ] ]
   },
   {
     "id": "bad_food",

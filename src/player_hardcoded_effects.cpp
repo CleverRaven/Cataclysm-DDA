@@ -30,6 +30,7 @@
 #include "teleport.h"
 #include "translations.h"
 #include "weather.h"
+#include "vitamin.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -44,6 +45,7 @@
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
+static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_antibiotic( "antibiotic" );
@@ -73,6 +75,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_motor_seizure( "motor_seizure" );
+static const efftype_id effect_mutating( "mutating" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_onfire( "onfire" );
@@ -95,6 +98,7 @@ static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
 const vitamin_id vitamin_iron( "iron" );
+const vitamin_id vitamin_mutant_toxin( "mutant_toxin" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
@@ -435,6 +439,41 @@ static void eff_fun_bloated( player &u, effect &it )
     }
 }
 
+static void eff_fun_toxin_buildup( player &u, effect &it )
+{
+    if( it.get_intensity() > 3 ) {
+        u.vitamin_set( vitamin_mutant_toxin, 0 );
+        u.add_effect( effect_mutating, effect_mutating->get_max_duration() / 2 );
+        u.mutate();
+    }
+}
+
+static void eff_fun_mutating( player &u, effect &it )
+{
+    if( it.get_intensity() > 1 ) {
+        // "Activate" toxins that would otherwise need to accumulate first
+        // There is some loss
+        const vitamin &tox = *vitamin_mutant_toxin;
+        int vit_amt = u.vitamin_get( vitamin_mutant_toxin );
+        time_duration extra_duration = it.get_max_duration() / 2 * vit_amt / tox.max();
+        it.mod_duration( extra_duration );
+        u.vitamin_set( vitamin_mutant_toxin, 0 );
+    }
+
+    // At intensity 1
+    constexpr time_duration base_time_per_mut = 2_days;
+    int mutation_mult = it.get_intensity() * it.get_intensity();
+    float muts_per_second = mutation_mult / to_seconds<float>( base_time_per_mut );
+    float mgen_per_mut = to_seconds<float>( effect_accumulated_mutagen->get_int_dur_factor() );
+    float mgen_per_second = mgen_per_mut * muts_per_second;
+    // How much accumulated mutagen effect do we add per second
+    time_duration mgen_time_mult = 1_seconds * roll_remainder( mgen_per_second );
+    u.add_effect( effect_accumulated_mutagen, mgen_time_mult, num_bp, true );
+    if( u.get_effect_int( effect_accumulated_mutagen ) > 1 ) {
+        u.mutate();
+    }
+}
+
 void player::hardcoded_effects( effect &it )
 {
     if( auto buff = ma_buff::from_effect( it ) ) {
@@ -457,6 +496,8 @@ void player::hardcoded_effects( effect &it )
             { effect_hot, eff_fun_hot },
             { effect_frostbite, eff_fun_frostbite },
             { effect_bloated, eff_fun_bloated },
+            { effect_toxin_buildup, eff_fun_toxin_buildup },
+            { effect_mutating, eff_fun_mutating },
         }
     };
     const efftype_id &id = it.get_id();
@@ -1268,78 +1309,5 @@ void player::hardcoded_effects( effect &it )
             hp_cur[i] += 10;
         }
         mod_pain( -10 );
-    } else if( id == effect_toxin_buildup ) {
-        // Loosely based on toxic man-made compounds (mostly pesticides) which don't degrade
-        // easily, leading to build-up in muscle and fat tissue through bioaccumulation.
-        // Symptoms vary, and many are too long-term to be relevant in C:DDA (i.e. carcinogens),
-        // but lowered immune response and neurotoxicity (i.e. seizures, migraines) are common.
-
-        if( in_sleep_state() ) {
-            return;
-        }
-        // Modifier for symptom frequency.
-        // Each symptom is twice as frequent for each level of intensity above the one it first appears for.
-        int mod = 1;
-        switch( intense ) {
-            case 3:
-                // Tonic-clonic seizure (full body convulsive seizure)
-                if( one_turn_in( 3_days ) && !has_effect( effect_valium ) ) {
-                    add_msg_if_player( m_bad, _( "You lose control of your body as it begins to convulse!" ) );
-                    time_duration td = rng( 30_seconds, 4_minutes );
-                    add_effect( effect_motor_seizure, td );
-                    add_effect( effect_downed, td );
-                    add_effect( effect_stunned, td );
-                    if( one_in( 3 ) ) {
-                        add_msg_if_player( m_bad, _( "You lose consciousness!" ) );
-                        fall_asleep( td );
-                    }
-                }
-                mod *= 2;
-            /* fallthrough */
-            case 2:
-                // Myoclonic seizure (muscle spasm)
-                if( one_turn_in( 2_hours / mod ) && !has_effect( effect_valium ) ) {
-                    std::string limb = random_entry<std::vector<std::string>>( {
-                        translate_marker( "arm" ), translate_marker( "hand" ), translate_marker( "leg" )
-                    } );
-                    add_msg_if_player( m_bad, string_format(
-                                           _( "Your %s suddenly jerks in an unexpected direction!" ), _( limb ) ) );
-                    if( limb == "arm" ) {
-                        mod_dex_bonus( -8 );
-                        recoil = MAX_RECOIL;
-                    } else if( limb == "hand" ) {
-                        if( is_armed() && can_unwield( weapon ).success() ) {
-                            if( dice( 4, 4 ) > get_dex() ) {
-                                put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { remove_weapon() } );
-                            } else {
-                                add_msg_if_player( m_neutral, _( "However, you manage to keep hold of your weapon." ) );
-                            }
-                        }
-                    } else if( limb == "leg" ) {
-                        if( dice( 4, 4 ) > get_dex() ) {
-                            add_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
-                        } else {
-                            add_msg_if_player( m_neutral, _( "However, you manage to keep your footing." ) );
-                        }
-                    }
-                }
-                // Atonic seizure (a.k.a. drop seizure)
-                if( one_turn_in( 2_days / mod ) && !has_effect( effect_valium ) ) {
-                    add_msg_if_player( m_bad,
-                                       _( "You suddenly lose all muscle tone, and can't support your own weight!" ) );
-                    add_effect( effect_motor_seizure, rng( 1_seconds, 2_seconds ) );
-                    add_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
-                }
-                mod *= 2;
-            /* fallthrough */
-            case 1:
-                // Migraine
-                if( one_turn_in( 2_days / mod ) ) {
-                    add_msg_if_player( m_bad, _( "You have a splitting headache." ) );
-                    mod_pain( 12 );
-                }
-
-                break;
-        }
     }
 }
