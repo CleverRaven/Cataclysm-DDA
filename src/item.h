@@ -1055,6 +1055,13 @@ class item : public visitable
         /*@}*/
 
         /**
+         * Breathability is the ability of a fabric to allow moisture vapor to be transmitted through the material.
+         * range 0 - 100 (no breathability - full breathability)
+         * @return average of item's materials
+         */
+        int breathability() const;
+
+        /**
          * Assuming that specified du hit the armor, reduce du based on the item's resistance to the
          * damage type. This will never reduce du.amount below 0.
          */
