@@ -177,7 +177,7 @@
       { "item": "mobile_memory_card_science", "prob": 1 },
       { "item": "standard_template_construct", "prob": 8 },
       { "group": "wallets_military", "prob": 3 },
-      { "item": "id_industrial", "prob": 5 },
+      { "group": "wallets_industrial", "prob": 5 },
       { "item": "militarymap", "prob": 3 },
       { "item": "pistol_bayonet", "prob": 4 },
       { "item": "rope_30", "prob": 35 },

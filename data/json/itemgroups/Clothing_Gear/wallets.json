@@ -25,6 +25,11 @@
     "items": [ { "group": "wallet_military_full", "prob": 50 }, { "group": "wallet_military_leather_full", "prob": 50 } ]
   },
   {
+    "type": "item_group",
+    "id": "wallets_industrial",
+    "items": [ { "group": "wallet_industrial_full", "prob": 50 }, { "group": "wallet_industrial_leather_full", "prob": 50 } ]
+  },
+  {
     "id": "wallet_full",
     "type": "item_group",
     "//": "A typical wallet filled with stuffs.  We might need more wallet-stuff like coins to be implemented.",
@@ -167,6 +172,36 @@
       { "item": "money_twenty", "prob": 1600, "count": [ 5, 10 ] },
       { "group": "discount_cards", "prob": 60, "count": [ 2, 5 ] },
       [ "scorecard", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "wallet_industrial_leather_full",
+    "//": "copy-from: wallet_leather_full ",
+    "container-item": "wallet_leather",
+    "items": [
+      { "item": "cash_card", "prob": 1600, "charges-min": 0, "charges-max": 50000 },
+      { "item": "id_industrial", "prob": 1600 },
+      { "item": "money_ten", "prob": 1600, "count": [ 5, 10 ] },
+      { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
+      [ "scorecard", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "wallet_industrial_full",
+    "//": "copy-from: wallet_full ",
+    "container-item": "wallet",
+    "items": [
+      { "item": "cash_card", "prob": 1600, "charges-min": 0, "charges-max": 50000 },
+      { "item": "id_industrial", "prob": 1600 },
+      { "item": "money_ten", "prob": 1600, "count": [ 5, 10 ] },
+      { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
+      [ "scorecard", 20 ]
     ]
   },
   {
