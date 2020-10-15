@@ -46,6 +46,7 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
     "id": "wallet_leather_full",
     "container-item": "wallet_leather",
     "//": "copy-from: wallet_full ",
@@ -60,6 +61,7 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
     "id": "wallet_large_full",
     "//": "copy-from: wallet_full ",
     "container-item": "wallet_large",
@@ -74,6 +76,7 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
     "id": "wallet_duct_tape_full",
     "container-item": "wallet_duct_tape",
     "items": [
@@ -101,6 +104,7 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
     "id": "wallet_military_leather_full",
     "//": "copy-from: wallet_leather_full ",
     "container-item": "wallet_leather",
@@ -116,6 +120,7 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
     "id": "wallet_military_full",
     "//": "copy-from: wallet_full ",
     "container-item": "wallet",
@@ -131,6 +136,7 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
     "id": "wallet_science_leather_full",
     "//": "copy-from: wallet_leather_full ",
     "container-item": "wallet_leather",
@@ -146,6 +152,7 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
     "id": "wallet_science_full",
     "//": "copy-from: wallet_full ",
     "container-item": "wallet",
@@ -161,6 +168,7 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
     "id": "wallet_science_stylish_full",
     "//": "copy-from: wallet_stylish_full ",
     "container-item": "wallet_stylish",
@@ -176,6 +184,7 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
     "id": "wallet_industrial_leather_full",
     "//": "copy-from: wallet_leather_full ",
     "container-item": "wallet_leather",
@@ -191,6 +200,7 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
     "id": "wallet_industrial_full",
     "//": "copy-from: wallet_full ",
     "container-item": "wallet",

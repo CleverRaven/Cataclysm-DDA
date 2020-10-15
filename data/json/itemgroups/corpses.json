@@ -70,7 +70,7 @@
           { "item": "mask_gas", "prob": 0, "damage-min": 1, "damage-max": 4 },
           { "item": "two_way_radio", "prob": 50 },
           { "item": "grenade", "prob": 5 },
-          { "item": "wallets_military", "prob": 5 },
+          { "group": "wallets_military", "prob": 5 },
           { "group": "misc_smoking", "prob": 30 }
         ]
       },
