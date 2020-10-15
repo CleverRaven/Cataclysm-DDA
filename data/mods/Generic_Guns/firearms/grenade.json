@@ -7,7 +7,7 @@
     "ammo": [ "ammo_grenade" ],
     "description": "An older single shot grenade launcher, looking something like a sawn off shotgun.  Though it's mostly been replaced by underbarrel launchers, dedicated models like this have seen use by law enforcement and riot personnel.  Still deadly against hard or soft targets, depending on what cartridges are available.",
     "clip_size": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 1 }, "rigid": true } ]
   },
   {
     "id": "grenade_hmg",
@@ -22,7 +22,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "grenade_belt" ]
+        "item_restriction": [ "grenade_belt" ],
+        "rigid": true
       }
     ]
   },
@@ -41,7 +42,7 @@
       "target": "grenade_under",
       "msg": "You make the launcher ready for attachment."
     },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 1 }, "rigid": true } ]
   },
   {
     "id": "grenade_revolver",
@@ -51,6 +52,6 @@
     "ammo": [ "ammo_grenade" ],
     "description": "Looking something like a large revolver from a cartoon this launcher is capable of firing six grenades in rapid succession.  Its huge cylinder is wound by a clock spring, which hastens firing, but slows reloading, as it must be re-wound.  Needless to say, six well placed shots is an incredible amount of firepower, depending on the cartridges loaded.",
     "clip_size": 6,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 6 }, "rigid": true } ]
   }
 ]
