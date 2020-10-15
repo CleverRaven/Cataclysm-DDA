@@ -1145,6 +1145,7 @@ bool npc::wield( item &it )
     }
 
     item copy = it;
+    map_cursor cur = map_cursor( pos() );
 
     invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
@@ -1166,6 +1167,13 @@ bool npc::wield( item &it )
     bool combine_stacks = copy.can_combine( weapon );
     if( has_item( copy ) ) {
         item removed = remove_item( copy );
+        if( combine_stacks ) {
+            weapon.combine( removed );
+        } else {
+            weapon = removed;
+        }
+    } else if( cur.has_item( copy ) ) {
+        item removed = cur.remove_item( copy );
         if( combine_stacks ) {
             weapon.combine( removed );
         } else {
