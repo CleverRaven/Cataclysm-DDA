@@ -85,12 +85,6 @@ static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_RAMP_END( "RAMP_END" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
-static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
-static const activity_id ACT_NULL = activity_id::NULL_ID();
-
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
