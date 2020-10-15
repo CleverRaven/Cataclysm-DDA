@@ -167,7 +167,10 @@ static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
+static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
 static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
+static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -3820,34 +3823,38 @@ void trap::examine( const tripoint &examp ) const
     }
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
-        const int tSkillLevel = player_character.get_skill_level( skill_traps );
-        int roll = rng( tSkillLevel, 4 * tSkillLevel );
-
-        ///\EFFECT_PER increases chance of disarming trap
-
-        ///\EFFECT_DEX increases chance of disarming trap
-
-        ///\EFFECT_TRAPS increases chance of disarming trap
-        while( ( rng( 5, 20 ) < player_character.per_cur ||
-                 rng( 1, 20 ) < player_character.dex_cur ) && roll < 50 ) {
-            roll++;
+        const int traps_skill_level = player_character.get_skill_level( skill_traps );
+        //int max_traps_roll = traps_skill_level + player_character.per_cur + player_character.dex_cur;
+        
+        
+        //int roll = rng( traps_skill_level, max_traps_roll );
+        int mean_disarm_roll = traps_skill_level + ( player_character.per_cur / 4 ) + ( player_character.dex_cur / 4 );
+        
+        if ( player_character.has_proficiency( proficiency_prof_traps ) ) {
+            mean_disarm_roll += 4;
         }
+        if ( player_character.has_proficiency( proficiency_prof_disarming ) ) {
+            mean_disarm_roll += 10;
+        }
+        
+        int roll = normal_roll ( mean_disarm_roll + 2, 5 );
+
         if( roll >= difficulty ) {
             add_msg( _( "You disarm the trap!" ) );
             const int morale_buff = avoidance * 0.4 + difficulty + rng( 0, 4 );
             player_character.rem_morale( MORALE_FAILURE );
             player_character.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
             on_disarmed( here, examp );
-            if( difficulty > 1.25 * tSkillLevel ) { // failure might have set off trap
-                player_character.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
+            if( difficulty > 1.25 * traps_skill_level ) { // failure might have set off trap
+                player_character.practice( skill_traps, 1.5 * ( difficulty - traps_skill_level ) );
             }
         } else if( roll >= difficulty * .8 ) {
             add_msg( _( "You fail to disarm the trap." ) );
             const int morale_debuff = -rng( 6, 18 );
             player_character.rem_morale( MORALE_ACCOMPLISHMENT );
             player_character.add_morale( MORALE_FAILURE, morale_debuff, -40 );
-            if( difficulty > 1.25 * tSkillLevel ) {
-                player_character.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
+            if( difficulty > 1.25 * traps_skill_level ) {
+                player_character.practice( skill_traps, 1.5 * ( difficulty - traps_skill_level ) );
             }
         } else {
             add_msg( m_bad, _( "You fail to disarm the trap, and you set it off!" ) );
