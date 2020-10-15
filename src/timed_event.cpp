@@ -244,7 +244,7 @@ void timed_event::actualize()
             g->place_critter_around( montype, player_character.pos(), 2 );
         }
         break;
-		
+
         case timed_event_type::EDIBLE_DIGESTED: {
             time_duration duration = 12_minutes;
             if( player_character.has_trait( trait_TOLERANCE ) ) {

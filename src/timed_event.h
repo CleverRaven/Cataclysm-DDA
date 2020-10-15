@@ -20,7 +20,7 @@ enum class timed_event_type : int {
     TEMPLE_SPAWN,
     DIM,
     ARTIFACT_LIGHT,
-	EDIBLE_DIGESTED,
+    EDIBLE_DIGESTED,
     NUM_TIMED_EVENT_TYPES
 };
 
