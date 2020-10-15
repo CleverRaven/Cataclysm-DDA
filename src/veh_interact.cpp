@@ -941,6 +941,9 @@ void veh_interact::do_install()
         // filtered list can be empty
         sel_vpart_info = tab_vparts.empty() ? nullptr : tab_vparts[pos];
 
+        // next line is misleading; this isn't just a "can" check but actually updates a
+        // ton of stuff in the right ui panes, this MUST trigger here so ui redraws
+        bool can_install = can_install_part();
         ui_manager::redraw();
 
         const std::string action = main_context.handle_input();
@@ -959,7 +962,7 @@ void veh_interact::do_install()
             tab = 0;
         }
         if( action == "INSTALL" || action == "CONFIRM" ) {
-            if( can_install_part() ) {
+            if( can_install ) {
                 switch( reason ) {
                     case task_reason::LOW_MORALE:
                         msg = _( "Your morale is too low to construct…" );
