@@ -582,6 +582,7 @@
       { "monster": "mon_zombie_waif", "freq": 5, "cost_multiplier": 7 }
     ]
   },
+  {
     "name": "GROUP_FERROUS_UPGRADE",
     "type": "monstergroup",
     "default": "mon_zombie_rust",
@@ -589,7 +590,8 @@
       { "monster": "mon_zombie_plated", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_urchin", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_wrecking_ball", "freq": 100, "cost_multiplier": 2 }
-    ],
+    ]
+  },
   {
     "name": "GROUP_FERROUS",
     "type": "monstergroup",

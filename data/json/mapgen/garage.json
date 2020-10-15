@@ -78,8 +78,7 @@
         { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
         { "vehicle": "garage", "x": [ 18, 18 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 }
       ],
-      { "monster": "GROUP_FERROUS", "x": [ 5, 20 ], "y": [ 7, 15 ], "chance": 10 }
-      }
+      "place_monsters": [ { "monster": "GROUP_FERROUS", "x": [ 5, 20 ], "y": [ 7, 15 ], "chance": 10 } ]
     }
   },
   {
