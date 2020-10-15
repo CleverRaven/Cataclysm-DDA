@@ -42,9 +42,9 @@ When used in recipes these values are the amount the time to complete the recipe
 - Most other proficiencies should be in the 2-3 range for both values.
 
 ### `time_to_learn`
-Optional. time_duration, as a string
+Optional. time_duration, as a string  
 The (optimal) time required to learn this proficiency.
 
 ### `required_proficiencies`
-Optional. Array of strings
-The proficiencies that must be obtained before this one can.
+Optional. Array of strings  
+The proficiencies that must be obtained before this one can.  You cannot gain experience in a proficiency without the necessary prerequisites.
