@@ -886,7 +886,7 @@
     "name": { "str": "toolbox", "str_pl": "toolboxes" },
     "description": "This is a stout metal box for containing tools.  It has a handle on the top and a latch on the front.",
     "weight": "3522 g",
-    "volume": "2500 ml",
+    "volume": "46 L",
     "price": 12999,
     "price_postapoc": 3000,
     "to_hit": -2,
@@ -894,7 +894,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
-    "pocket_data": [ { "max_contains_volume": "2400 ml", "max_contains_weight": "10 kg", "rigid": true } ]
+    "pocket_data": [ { "max_contains_volume": "45 L", "max_contains_weight": "10 kg", "rigid": true, "max_item_length": "50 cm" } ]
   },
   {
     "id": "toolbox_workshop",
