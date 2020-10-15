@@ -267,5 +267,27 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "OUTER", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "shield_kite",
+    "type": "ARMOR",
+    "name": "kite shield",
+    "category": "armor",
+    "//": "Doesn't use leather in material because it's not meant to be sewn up",
+    "description": "A classic medieval style of shield, made of wood overlaid with leather, in an elongated teardrop shape.  Affords decent protection, but was better suited for cavalry.",
+    "weight": "3628 g",
+    "volume": "5 L",
+    "price": 120000,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": "wood",
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "coverage": 60,
+    "encumbrance": 24,
+    "material_thickness": 3,
+    "techniques": [ "WBLOCK_3" ],
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
   }
 ]
