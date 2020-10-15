@@ -543,6 +543,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     for( const mutation_branch &trait : mutation_branch::get_all() ) {
         all_traits.append( QString( trait.id.c_str() ) );
     }
+    spell_class_box.addItems( all_traits );
     QObject::connect( &spell_class_box, &QComboBox::currentTextChanged,
     [&]() {
         editable_spell.spell_class = trait_id( spell_class_box.currentText().toStdString() );
@@ -601,6 +602,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     for( const requirement_data &req : requirement_data::get_all() ) {
         all_requirements.append( QString( req.id().c_str() ) );
     }
+    components_box.addItems( all_requirements );
     QObject::connect( &components_box, &QComboBox::currentTextChanged,
     [&]() {
         editable_spell.spell_components = requirement_id( components_box.currentText().toStdString() );
@@ -618,6 +620,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     for( const Skill &sk : Skill::skills ) {
         all_skills.append( QString( sk.ident().c_str() ) );
     }
+    skill_box.addItems( all_skills );
     QObject::connect( &skill_box, &QComboBox::currentTextChanged,
     [&]() {
         editable_spell.skill = skill_id( skill_box.currentText().toStdString() );
@@ -632,8 +635,9 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     field_id_box.show();
     QStringList all_field_types;
     for( const field_type &fd_type : field_types::get_all() ) {
-
+        all_field_types.append( QString( fd_type.id.c_str() ) );
     }
+    field_id_box.addItems( all_field_types );
     QObject::connect( &field_id_box, &QComboBox::currentTextChanged,
     [&]() {
         editable_spell.field = field_type_id( field_id_box.currentText().toStdString() );
