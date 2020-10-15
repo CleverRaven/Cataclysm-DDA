@@ -1311,12 +1311,16 @@
     "type": "effect_type",
     "id": "hot",
     "name": [ "Warm", "Hot", "Scorching" ],
-    "desc": [ "Your %s feels warm.", "Your %s is sweating from the heat.", "Your %s is sweating profusely!" ],
+    "desc": [ "Your %s feels warm and sweaty.", "Your %s is sweating a lot from the heat.", "Your %s is sweating profusely!" ],
     "max_intensity": 3,
     "part_descs": true,
     "base_mods": {
-      "thirst_tick": [ 2400 ],
-      "thirst_chance": [ 2 ],
+      "thirst_min": [ 1 ],
+      "thirst_tick": [ 200 ],
+      "thirst_chance": [ 6 ],
+      "perspiration_min": [ 10 ],
+      "perspiration_tick": [ 60 ],
+      "perspiration_chance": [ 1 ],
       "pain_min": [ 1 ],
       "pain_chance": [ 2 ],
       "pain_max_val": [ -1 ],
@@ -1324,7 +1328,15 @@
       "hurt_chance": [ -300 ],
       "stamina_chance": [ 2 ]
     },
-    "scaling_mods": { "thirst_min": [ 1 ], "thirst_tick": [ -600 ], "pain_max_val": [ 10 ], "hurt_chance": [ 200 ], "stamina_min": [ -1 ] }
+    "scaling_mods": {
+      "thirst_tick": [ -50 ],
+      "thirst_chance": [ -1 ],
+      "perspiration_min": [ 5 ],
+      "perspiration_tick": [ -15 ],
+      "pain_max_val": [ 10 ],
+      "hurt_chance": [ 200 ],
+      "stamina_min": [ -1 ]
+    }
   },
   {
     "type": "effect_type",
@@ -1334,8 +1346,8 @@
     "speed_name": "Heat slowdown",
     "max_intensity": 3,
     "part_descs": true,
-    "base_mods": { "speed_mod": [ -2 ] },
-    "scaling_mods": { "speed_mod": [ -4 ] }
+    "base_mods": { "speed_mod": [ -1 ] },
+    "scaling_mods": { "speed_mod": [ -2 ] }
   },
   {
     "type": "effect_type",
