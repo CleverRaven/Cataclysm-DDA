@@ -34,9 +34,9 @@
       [ "joint", 100 ],
       [ "joint_roach", 20 ],
       [ "pipe_glass", 10 ],
-      [ "weed_soda", 8 ],
-      [ "weed_candy", 8 ],
-      [ "weed_chocolate", 8 ]
+      [ "soda_weed", 8 ],
+      [ "candy_weed", 8 ],
+      [ "chocolate_weed", 8 ]
     ]
   },
   {

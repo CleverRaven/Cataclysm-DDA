@@ -838,23 +838,10 @@ int iuse::weed_edible( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player(
             _( "You start gulping down the delicious %s.  It tastes a little funny though…" ), it->tname() );
     }
-    time_duration duration = 12_minutes;
-    if( p->has_trait( trait_TOLERANCE ) ) {
-        duration = 9_minutes;
-    }
-    if( p->has_trait( trait_LIGHTWEIGHT ) ) {
-        duration = 15_minutes;
-    }
-    p->mod_hunger( 2 );
-    p->mod_thirst( 6 );
-    if( p->get_painkiller() < 5 ) {
-        p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
-    }
-    p->add_effect( effect_weed_high, duration );
-    p->moves -= 100;
-    if( one_in( 5 ) ) {
-        weed_msg( *p );
-    }
+	
+	                get_timed_events().add( timed_event_type::EDIBLE_DIGESTED, calendar::turn + 30_minutes, 0,
+                                        p->global_sm_location() );
+
     return it->type->charges_to_use();
 }
 

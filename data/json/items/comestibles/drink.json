@@ -819,7 +819,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "weed_soda",
+    "id": "soda_weed",
     "name": "marijuana pop",
     "copy-from": "orangesoda",
     "price_postapoc": 4000,

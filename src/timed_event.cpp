@@ -28,6 +28,8 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const efftype_id effect_weed_high( "weed_high" );
+
 static const itype_id itype_petrified_eye( "petrified_eye" );
 
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
@@ -39,6 +41,9 @@ static const mtype_id mon_riotbot( "mon_riotbot" );
 static const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
+
+static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint p )
     : type( e_t )
@@ -239,6 +244,27 @@ void timed_event::actualize()
             g->place_critter_around( montype, player_character.pos(), 2 );
         }
         break;
+		
+		case timed_event_type::EDIBLE_DIGESTED: {
+			    time_duration duration = 12_minutes;
+    if( player_character.has_trait( trait_TOLERANCE ) ) {
+        duration = 9_minutes;
+    }
+    if( player_character.has_trait( trait_LIGHTWEIGHT ) ) {
+        duration = 15_minutes;
+    }
+    player_character.mod_hunger( 2 );
+    player_character.mod_thirst( 6 );
+    if( player_character.get_painkiller() < 5 ) {
+        player_character.set_painkiller( ( player_character.get_painkiller() + 3 ) * 2 );
+    }
+    player_character.add_effect( effect_weed_high, duration );
+    player_character.moves -= 100;
+    if( one_in( 5 ) ) {
+        weed_msg( player_character );
+    }
+		}
+		break;
 
         default:
             // Nothing happens for other events

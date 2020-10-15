@@ -214,7 +214,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "weed_chocolate",
+    "id": "chocolate_weed",
     "name": "infused chocolate bar",
     "copy-from": "chocolate",
     "description": "Chocolate isn't very healthy, and THC isn't either, but together they make quite a treat.",
@@ -329,7 +329,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "weed_candy",
+    "id": "candy_weed",
     "name": { "str_sp": "crazy candy" },
     "copy-from": "candy3",
     "description": "A handful of colorful, fruit-flavored, THC infused chewy candy",
@@ -425,6 +425,16 @@
     "stack_size": 20,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
     "fun": 7
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "cookies_weed",
+    "name": "canna cookie",
+    "copy-from": "cookies",
+    "description": "Sweet and delicious cookies, not at all like grandma used to bake.",
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
+    "use_action": [ "WEED_EDIBLE" ],
+    "fun": 14
   },
   {
     "type": "COMESTIBLE",
