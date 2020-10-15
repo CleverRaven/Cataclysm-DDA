@@ -860,7 +860,7 @@ void avatar_action::eat( avatar &you, const item_location &loc,
 void avatar_action::plthrow( avatar &you, item_location loc,
                              const cata::optional<tripoint> &blind_throw_from_pos )
 {
-    const auto ret = you.can_wield( *loc );
+    const ret_val<bool> ret = you.can_wield( *loc );
     if( !ret.success() ) {
         add_msg( m_info, "%s", ret.c_str() );
         return;
