@@ -3226,7 +3226,7 @@
         "max_contains_weight": "600 g",
         "max_contains_volume": "150 ml",
         "moves": 200,
-        "item_restriction": [ "FMCNote", "RobofacCoin", "FlatCoin", "coin_quarter" ]
+        "item_restriction": [ "FMCNote", "RobofacCoin", "FlatCoin", "coin_quarter", "coin_nickel" ]
       }
     ]
   },
