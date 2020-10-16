@@ -121,4 +121,3 @@ class widget
 };
 
 #endif // CATA_SRC_WIDGET_H
-
