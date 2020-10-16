@@ -175,7 +175,7 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_armoursmithing" },
+      { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -196,7 +196,7 @@
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_armoursmithing", "fail_multiplier": 1 },
+      { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [ [ [ "cuirass_lightplate", 1 ] ], [ [ "armguard_lightplate", 1 ] ], [ [ "legguard_lightplate", 1 ] ] ]
@@ -219,7 +219,7 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_armoursmithing" },
+      { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
     "components": [ [ [ "fur", 12 ], [ "tanned_pelt", 2 ], [ "leather", 12 ], [ "tanned_hide", 2 ] ] ]
@@ -293,7 +293,7 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_armoursmithing" },
+      { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
     "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "armor_larmor", 1 ] ], [ [ "armguard_larmor", 1 ] ] ]
@@ -316,7 +316,7 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_armoursmithing" },
+      { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
     "components": [ [ [ "fur", 16 ], [ "tanned_pelt", 3 ], [ "leather", 16 ], [ "tanned_hide", 3 ] ] ]
@@ -339,7 +339,7 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_armoursmithing" },
+      { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
     "components": [ [ [ "fur", 28 ], [ "tanned_pelt", 6 ], [ "leather", 28 ], [ "tanned_hide", 6 ] ], [ [ "rag", 10 ] ] ]
