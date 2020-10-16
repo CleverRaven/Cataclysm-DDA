@@ -3,6 +3,7 @@
     "abstract": "engine_manual",
     "type": "vehicle_part",
     "location": "engine_block",
+    "categories": [ "Internal" ],
     "fuel_type": "muscle",
     "symbol": "*",
     "color": "light_gray",
@@ -18,7 +19,6 @@
   {
     "id": "foot_pedals",
     "type": "vehicle_part",
-    "categories": [ "Internal" ],
     "copy-from": "engine_manual",
     "name": { "str": "foot pedals" },
     "item": "foot_crank",
@@ -39,7 +39,6 @@
   {
     "id": "hand_rims",
     "type": "vehicle_part",
-    "categories": [ "Internal" ],
     "copy-from": "engine_manual",
     "name": { "str": "hand rims" },
     "item": "hand_rims",

@@ -52,6 +52,7 @@
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
+#include "effect_source.h"
 #include "enums.h" // IWYU pragma: associated
 #include "event.h"
 #include "faction.h"
@@ -118,6 +119,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
+#include "flag.h"
 
 struct mutation_branch;
 struct oter_type_t;
@@ -418,6 +420,31 @@ void character_id::deserialize( JsonIn &jsin )
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+///// effect_source.h
+
+void effect_source::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "character_id", this->character );
+    json.member( "faction_id", this->fac );
+    if( this->mfac ) {
+        json.member( "mfaction_id", this->mfac->id().str() );
+    }
+    json.end_object();
+}
+
+void effect_source::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "character_id", this->character );
+    data.read( "faction_id", this->fac );
+    const std::string mfac_id = data.get_string( "mfaction_id", "" );
+    this->mfac = !mfac_id.empty()
+                 ? cata::optional<mfaction_id>( mfaction_str_id( mfac_id ).id() )
+                 : cata::optional<mfaction_id>();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// Character.h, avatar + npc
 
 void Character::trait_data::serialize( JsonOut &json ) const
@@ -452,6 +479,25 @@ void consumption_event::deserialize( JsonIn &jsin )
     jo.read( "time", time );
     jo.read( "type_id", type_id );
     jo.read( "component_hash", component_hash );
+}
+
+void weariness_tracker::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "tracker", tracker );
+    json.member( "intake", intake );
+    json.member( "low_activity_ticks", low_activity_ticks );
+    json.member( "tick_counter", tick_counter );
+    json.end_object();
+}
+
+void weariness_tracker::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "tracker", tracker );
+    jo.read( "intake", intake );
+    jo.read( "low_activity_ticks", low_activity_ticks );
+    jo.read( "tick_counter", tick_counter );
 }
 
 /**
@@ -497,6 +543,7 @@ void Character::load( const JsonObject &data )
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
     data.read( "fatigue", fatigue );
+    data.read( "weary", weary );
     data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stored_calories", stored_calories );
     data.read( "radiation", radiation );
@@ -870,6 +917,7 @@ void Character::store( JsonOut &json ) const
     json.member( "thirst", thirst );
     json.member( "hunger", hunger );
     json.member( "fatigue", fatigue );
+    json.member( "weary", weary );
     json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stored_calories", stored_calories );
     json.member( "radiation", radiation );
@@ -2351,9 +2399,15 @@ void item::io( Archive &archive )
         std::swap( irradiation, poison );
     }
 
-    // Items may have acquired the ENCUMBRANCE_UPDATE flag, but are not armor and will never be worn and will never loose it.
-    // This removes the flag unconditionally. It is a temporary flag, which is removed during the game nearly immediately after setting.
-    item_tags.erase( "ENCUMBRANCE_UPDATE" );
+    // erase all invalid flags (not defined in flags.json), display warning about invalid flags
+    erase_if( item_tags, [&]( const std::string & f ) {
+        if( !json_flag::get( f ).id.is_valid() ) {
+            debugmsg( "item of type '%s' was loaded with undefined flag '%s'.", typeId().str(), f );
+            return true;
+        } else {
+            return false;
+        }
+    } );
 
     if( note_read ) {
         snip_id = SNIPPET.migrate_hash_to_id( note );
@@ -2374,8 +2428,8 @@ void item::io( Archive &archive )
         active = true;
     }
     if( !active &&
-        ( item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 ||
-          item_tags.count( "WET" ) > 0 ) ) {
+        ( has_own_flag( "HOT" ) > 0 || has_own_flag( "COLD" ) > 0 ||
+          has_own_flag( "WET" ) > 0 ) ) {
         // Some hot/cold items from legacy saves may be inactive
         active = true;
     }
@@ -2403,7 +2457,7 @@ void item::io( Archive &archive )
 
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save
-    if( item_tags.count( "FROZEN" ) && current_phase == phase_id::LIQUID ) {
+    if( has_own_flag( "FROZEN" ) && current_phase == phase_id::LIQUID ) {
         current_phase = phase_id::SOLID;
     }
 

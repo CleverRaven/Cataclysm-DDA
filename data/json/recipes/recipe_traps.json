@@ -11,10 +11,7 @@
     "time": "1 h 40 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -76,7 +73,7 @@
     "time": "30 s",
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_traps", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_traps" } ],
     "components": [ [ [ "superglue", 1 ] ] ]
   },
   {
@@ -121,11 +118,11 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 3 ], [ "steel_standard", 11 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 },
-      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_traps", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_trapsetting", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" },
+      { "proficiency": "prof_traps" },
+      { "proficiency": "prof_trapsetting" }
     ],
     "book_learn": [ [ "mag_traps", 1 ], [ "manual_mechanics", 2 ], [ "manual_traps", 1 ], [ "howto_traps", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
@@ -146,10 +143,7 @@
     "decomp_learn": 2,
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_traps", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_trapsetting", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_traps" }, { "proficiency": "prof_trapsetting" } ],
     "components": [ [ [ "crossbow", 1 ] ], [ [ "bolt_steel", 1 ], [ "bolt_wood", 4 ] ] ]
   },
   {
@@ -166,10 +160,7 @@
     "decomp_learn": 2,
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_traps", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_trapsetting", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_traps" }, { "proficiency": "prof_trapsetting" } ],
     "components": [ [ [ "slamfire_shotgun_d", 1 ] ], [ [ "shot_00", 2 ], [ "shot_slug", 2 ], [ "shot_flechette", 2 ] ] ]
   },
   {
@@ -184,7 +175,7 @@
     "time": "25 m",
     "reversible": true,
     "decomp_learn": 3,
-    "proficiencies": [ { "proficiency": "prof_traps", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_traps" } ],
     "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_traps", 3 ], [ "howto_traps", 3 ], [ "book_icef", 4 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "motor", 1 ] ], [ [ "blade", 2 ] ], [ [ "cordage", 1, "LIST" ] ] ]
@@ -202,10 +193,7 @@
     "book_learn": [ [ "manual_traps_mil", 3 ] ],
     "using": [ [ "cordage_short", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_traps", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_trapsetting", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_traps" }, { "proficiency": "prof_trapsetting" } ],
     "components": [ [ [ "grenade", 1 ] ], [ [ "clay_canister", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ] ]
   },
   {
@@ -221,10 +209,7 @@
     "reversible": true,
     "book_learn": [ [ "manual_traps_mil", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_traps", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_trapsetting", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_traps" }, { "proficiency": "prof_trapsetting" } ],
     "components": [
       [ [ "superglue", 1 ], [ "duct_tape", 75 ] ],
       [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],

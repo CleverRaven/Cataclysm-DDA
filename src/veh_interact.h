@@ -106,6 +106,10 @@ class veh_interact
 
         std::unique_ptr<install_info_t> install_info;
 
+        struct remove_info_t;
+
+        std::unique_ptr<remove_info_t> remove_info;
+
         vehicle *veh;
         inventory crafting_inv;
         input_context main_context;

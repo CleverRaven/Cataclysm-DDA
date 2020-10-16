@@ -33,8 +33,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.set_flag( "UNDERSIZE" );
+            i.set_flag( "FIT" );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
@@ -69,8 +69,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.set_flag( "UNDERSIZE" );
+            i.set_flag( "FIT" );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
@@ -105,8 +105,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.set_flag( "UNDERSIZE" );
+            i.set_flag( "FIT" );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {

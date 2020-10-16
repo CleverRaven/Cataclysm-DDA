@@ -1722,6 +1722,17 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
+    add( "SEASONAL_TITLE", "graphics", to_translation( "Use seasonal title screen" ),
+         to_translation( "If true, the title screen will use the art appropriate for the season." ),
+         true
+       );
+
+    add( "ALT_TITLE", "graphics", to_translation( "Alternative title screen frequency" ),
+         to_translation( "Set the probability of the alternate title screen appearing." ), 0, 100, 10
+       );
+
+    add_empty_line();
+
     add( "TERMINAL_X", "graphics", to_translation( "Terminal width" ),
          to_translation( "Set the size of the terminal along the X axis." ),
          80, 960, 80, COPT_POSIX_CURSES_HIDE

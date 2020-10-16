@@ -541,14 +541,18 @@ int item_pocket::ammo_consume( int qty )
 {
     int need = qty;
     int used = 0;
-    while( !contents.empty() ) {
-        item &e = contents.front();
-        if( need >= e.charges ) {
-            need -= e.charges;
-            used += e.charges;
-            contents.erase( contents.begin() );
+    std::list<item>::iterator it;
+    for( it = contents.begin(); it != contents.end(); ) {
+        if( it->has_flag( "CASING" ) ) {
+            it++;
+            continue;
+        }
+        if( need >= it->charges ) {
+            need -= it->charges;
+            used += it->charges;
+            it = contents.erase( it );
         } else {
-            e.charges -= need;
+            it->charges -= need;
             used = need;
             break;
         }
@@ -564,6 +568,25 @@ int item_pocket::ammo_capacity( const ammotype &ammo ) const
     } else {
         return found_ammo->second;
     }
+}
+
+int item_pocket::remaining_ammo_capacity( const ammotype &ammo ) const
+{
+    int total_capacity = ammo_capacity( ammo );
+    if( total_capacity == 0 ) {
+        return 0;
+    }
+    int ammo_count = 0;
+    if( !contents.empty() ) {
+        if( ammo != contents.front().ammo_type() ) {
+            return 0;
+        } else {
+            for( const item &it : contents ) {
+                ammo_count += it.count();
+            }
+        }
+    }
+    return total_capacity - ammo_count;
 }
 
 std::set<ammotype> item_pocket::ammo_types() const
@@ -943,6 +966,10 @@ void item_pocket::favorite_info( std::vector<iteminfo> &info )
 
 ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) const
 {
+    // To prevent debugmsg. Casings can only be inserted in a magazine during firing.
+    if( data->type == item_pocket::pocket_type::MAGAZINE && it.has_flag( "CASING" ) ) {
+        return ret_val<item_pocket::contain_code>::make_success();
+    }
 
     if( data->type == item_pocket::pocket_type::CORPSE ) {
         // corpses can't have items stored in them the normal way,
@@ -966,8 +993,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
     }
 
     if( data->holster && !contents.empty() ) {
-        item item_copy( contents.front() );
-        if( item_copy.combine( it ) ) {
+        if( contents.front().can_combine( it ) ) {
             return ret_val<item_pocket::contain_code>::make_success();
         } else {
             return ret_val<item_pocket::contain_code>::make_failure(
@@ -988,26 +1014,15 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         }
 
         const ammotype it_ammo = it.ammo_type();
-        const auto ammo_restriction_iter = data->ammo_restriction.find( it_ammo );
+        const auto ammo_restriction_iter = data->ammo_restriction.find( it.ammo_type() );
 
-        if( ammo_restriction_iter == data->ammo_restriction.end() ) {
+        if( ammo_restriction_iter == data->ammo_restriction.end() || ( !contents.empty() &&
+                it_ammo != contents.front().ammo_type() ) ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_AMMO, _( "item is not the correct ammo type" ) );
         }
 
-        // how much ammo is inside the pocket
-        int internal_count = 0;
-        // the ammo must match what's inside
-        if( !contents.empty() ) {
-            if( it_ammo != contents.front().ammo_type() ) {
-                return ret_val<item_pocket::contain_code>::make_failure(
-                           contain_code::ERR_AMMO, _( "item is not the correct ammo type" ) );
-            } else {
-                internal_count = contents.front().count();
-            }
-        }
-
-        if( it.count() + internal_count > ammo_restriction_iter->second ) {
+        if( it.count() > remaining_ammo_capacity( it_ammo ) ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_NO_SPACE, _( "tried to put too many charges of ammo in item" ) );
         }
@@ -1020,11 +1035,12 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_LIQUID, _( "can't contain liquid" ) );
         }
-        if( size() != 0 && !item( contents.front() ).combine( it ) ) {
+        if( size() != 0 && !contents.front().can_combine( it ) ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_LIQUID, _( "can't mix liquid with contained item" ) );
         }
-    } else if( size() == 1 && contents.front().made_of( phase_id::LIQUID ) ) {
+    } else if( size() == 1 && ( contents.front().made_of( phase_id::LIQUID ) ||
+                                contents.front().is_frozen_liquid() ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_LIQUID, _( "can't put non liquid into pocket with liquid" ) );
     }
@@ -1033,7 +1049,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_GAS, _( "can't contain gas" ) );
         }
-        if( size() != 0 && !item( contents.front() ).combine( it ) ) {
+        if( size() != 0 && !contents.front().can_combine( it ) ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_GAS, _( "can't mix gas with contained item" ) );
         }

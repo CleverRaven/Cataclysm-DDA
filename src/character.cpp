@@ -3286,6 +3286,16 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 return VisitResponse::SKIP;
             }
 
+            // Solid ammo gets skipped earlier than non-solid because it does not need a container.
+            if( !nested && parent != nullptr && parent->is_container() &&
+                !node->made_of_from_type( phase_id::LIQUID ) && !node->made_of( phase_id::GAS ) ) {
+                return VisitResponse::SKIP;
+            }
+
+            if( !nested && node->is_container() && parent != nullptr && parent->is_container() ) {
+                return VisitResponse::SKIP;
+            }
+
             for( const ammotype &at : ammo ) {
                 if( node->ammo_type() == at ) {
                     out = item_location( src, node );
@@ -3296,7 +3306,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                     out = item_location( src, node );
                 }
             }
-            return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+            return VisitResponse::NEXT;
         } );
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
@@ -3599,7 +3609,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     }
 
     if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) ||
-                                            it.item_tags.count( "wooled" ) ) ) {
+                                            it.has_own_flag( "wooled" ) ) ) {
         return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
     }
 
@@ -4061,8 +4071,8 @@ bool Character::meets_requirements( const item &it, const item &context ) const
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
-void Character::make_bleed( const bodypart_id &bp, time_duration duration, int intensity,
-                            bool permanent, bool force, bool defferred )
+void Character::make_bleed( const effect_source &source, const bodypart_id &bp,
+                            time_duration duration, int intensity, bool permanent, bool force, bool defferred )
 {
     int b_resist = 0;
     for( const trait_id &mut : get_mutations() ) {
@@ -4073,7 +4083,7 @@ void Character::make_bleed( const bodypart_id &bp, time_duration duration, int i
         return;
     }
 
-    add_effect( effect_bleed, duration, bp, permanent, intensity, force, defferred );
+    add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
 }
 
 void Character::normalize()
@@ -8950,8 +8960,8 @@ void Character::vomit()
     }
 
     if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea
-        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, bodypart_str_id( "bp_null" ), false, 1,
-                                   calendar::turn );
+        const effect dummy_nausea( effect_source( this ), &effect_nausea.obj(), 0_turns,
+                                   bodypart_str_id( "bp_null" ), false, 1, calendar::turn );
         add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * units::to_milliliter(
                 stomach.contains() ) / 21, dummy_nausea.get_int_dur_factor() ) );
     }

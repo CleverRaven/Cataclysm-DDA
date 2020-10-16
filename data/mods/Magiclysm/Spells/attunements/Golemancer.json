@@ -1,0 +1,25 @@
+[
+  {
+    "type": "SPELL",
+    "id": "golem_push",
+    "name": "Golem Push",
+    "description": "You channel the strength of a golem to push an enemy backward.",
+    "effect": "directed_push",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "LOUD", "VERBAL", "SOMATIC" ],
+    "spell_class": "GOLEMANCER",
+    "min_damage": 5,
+    "max_damage": 16,
+    "damage_increment": 0.26,
+    "min_range": 1,
+    "max_range": 1,
+    "base_energy_cost": 4,
+    "energy_source": "HP",
+    "difficulty": 4,
+    "max_level": 35,
+    "base_casting_time": 480,
+    "final_casting_time": 130,
+    "casting_time_increment": -10.0
+  }
+]

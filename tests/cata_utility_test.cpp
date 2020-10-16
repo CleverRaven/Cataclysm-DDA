@@ -1,7 +1,8 @@
 #include "catch/catch.hpp"
+#include "assertion_helpers.h"
 #include "cata_utility.h"
-#include "units_utility.h"
 #include "units.h"
+#include "units_utility.h"
 
 TEST_CASE( "string_starts_with", "[utility]" )
 {
@@ -39,4 +40,49 @@ TEST_CASE( "divide_round_up_units", "[utility]" )
     CHECK( divide_round_up( 4_ml, 5_ml ) == 1 );
     CHECK( divide_round_up( 5_ml, 5_ml ) == 1 );
     CHECK( divide_round_up( 6_ml, 5_ml ) == 2 );
+}
+
+TEST_CASE( "erase_if", "[utility]" )
+{
+    std::set<int> s{1, 2, 3, 4, 5};
+    SECTION( "erase none" ) {
+        CHECK_FALSE( erase_if( s, []( const auto & v ) {
+            return v == 6;
+        } ) );
+        check_containers_equal( s, std::vector<int> {1, 2, 3, 4, 5} );
+    }
+    SECTION( "erase single" ) {
+        CHECK( erase_if( s,  []( const auto & v ) {
+            return v == 1;
+        } ) );
+        check_containers_equal( s, std::vector<int> {2, 3, 4, 5} );
+    }
+
+    SECTION( "erase prefix" ) {
+        CHECK( erase_if( s,  []( const auto & v ) {
+            return v <= 2;
+        } ) );
+        check_containers_equal( s, std::vector<int> { 3, 4, 5} );
+    }
+
+    SECTION( "erase middle" ) {
+        CHECK( erase_if( s, []( const auto & v ) {
+            return v >= 2 && v <= 4;
+        } ) );
+        check_containers_equal( s, std::vector<int> { 1, 5} );
+    }
+
+    SECTION( "erase suffix" ) {
+        CHECK( erase_if( s, []( const auto & v ) {
+            return v >= 4;
+        } ) );
+        check_containers_equal( s, std::vector<int> { 1, 2, 3} );
+    }
+
+    SECTION( "erase all" ) {
+        CHECK( erase_if( s, []( const auto & ) {
+            return true;
+        } ) );
+        check_containers_equal( s, std::vector<int>() );
+    }
 }
