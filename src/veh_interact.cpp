@@ -699,7 +699,7 @@ bool veh_interact::can_self_jack()
     return false;
 }
 
-bool veh_interact::can_install_part()
+bool veh_interact::update_part_requirements()
 {
     if( sel_vpart_info == nullptr ) {
         return false;
@@ -940,9 +940,7 @@ void veh_interact::do_install()
         // filtered list can be empty
         sel_vpart_info = tab_vparts.empty() ? nullptr : tab_vparts[pos];
 
-        // next line is misleading; this isn't just a "can" check but actually updates a
-        // ton of stuff in the right ui panes, this MUST trigger here so ui redraws
-        bool can_install = can_install_part();
+        bool can_install = update_part_requirements();
         ui_manager::redraw();
 
         const std::string action = main_context.handle_input();
