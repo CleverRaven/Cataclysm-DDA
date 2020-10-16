@@ -784,6 +784,14 @@
     ]
   },
   {
+    "result": "xl_hood_fsurvivor",
+    "type": "recipe",
+    "copy-from": "hood_fsurvivor",
+    "time": "8 h",
+    "using": [ [ "sewing_standard", 55 ] ],
+    "components": [ [ [ "nomex", 10 ] ], [ [ "sheet_kevlar_layered", 6 ] ], [ [ "nomex_hood", 1 ] ], [ [ "duct_tape", 150 ] ] ]
+  },
+  {
     "result": "hood_h20survivor",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
@@ -828,6 +836,19 @@
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_polymerworking" }
+    ]
+  },
+  {
+    "result": "xl_hood_lsurvivor",
+    "type": "recipe",
+    "copy-from": "hood_lsurvivor",
+    "time": "8 h",
+    "using": [ [ "sewing_standard", 60 ] ],
+    "components": [
+      [ [ "rag", 10 ] ],
+      [ [ "sheet_kevlar_layered", 6 ] ],
+      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "duct_tape", 150 ] ]
     ]
   },
   {
@@ -900,6 +921,20 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_polymerworking" }
+    ]
+  },
+  {
+    "result": "xl_hood_wsurvivor",
+    "type": "recipe",
+    "copy-from": "hood_wsurvivor",
+    "time": "8 h",
+    "using": [ [ "sewing_standard", 60 ] ],
+    "components": [
+      [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ],
+      [ [ "rag", 4 ] ],
+      [ [ "sheet_kevlar_layered", 6 ] ],
+      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "duct_tape", 150 ] ]
     ]
   },
   {
