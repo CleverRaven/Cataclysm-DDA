@@ -56,6 +56,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_type.h"
+#include "widget.h"
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
@@ -1925,6 +1926,37 @@ static void draw_overmap_wide( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+// Moddable sidebar
+static void draw_mod_sidebar_narrow( avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    widget focus = widget_id( "focus_num" ).obj();
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 0, 0 ), c_light_gray, _( focus.show( u ) ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 0, 1 ), c_light_gray, _( "More TODO" ) );
+    wnoutrefresh( w );
+}
+
+static void draw_mod_sidebar_wide( avatar &u, const catacurses::window &w )
+{
+    werase( w );
+
+    draw_rectangle( w, c_light_gray, point_zero, point( 43, 12 ) );
+    mvwprintz( w, point( 3, 0 ), c_light_gray, _( "Data Driven Sidebar Demo" ) );
+
+    // Render each row of the "root_layout" widget
+    widget root = widget_id( "root_layout" ).obj();
+    int row_num = 1;
+    for( const widget_id &row_wid : root._widgets ) {
+        widget row_widget = row_wid.obj();
+        trim_and_print( w, point( 1, row_num ), 42, c_light_gray, _( row_widget.layout( u, 42 ) ) );
+        row_num++;
+    }
+
+    wnoutrefresh( w );
+}
+
 static void draw_veh_compact( const avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -2314,6 +2346,8 @@ static std::vector<window_panel> initialize_default_classic_panels()
                                     20, 44, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", to_translation( "Log" ),
                                     -2, 44, true ) );
+    ret.emplace_back( window_panel( draw_mod_sidebar_wide, "Moddable", to_translation( "Moddable" ),
+                                    12, 44, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 44, true, default_render, true ) );
@@ -2353,6 +2387,8 @@ static std::vector<window_panel> initialize_default_compact_panels()
                                     8, 32, true ) );
     ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
+    ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Moddable", to_translation( "Moddable" ),
+                                    10, 32, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 32, true, default_render, true ) );
@@ -2401,6 +2437,8 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
                                     8, 32, true ) );
     ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
+    ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Moddable", to_translation( "Moddable" ),
+                                    10, 32, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 32, true, default_render, true ) );
@@ -2453,6 +2491,8 @@ static std::vector<window_panel> initialize_default_label_panels()
                                     8, 44, true ) );
     ret.emplace_back( window_panel( draw_overmap_wide, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
+    ret.emplace_back( window_panel( draw_mod_sidebar_wide, "Moddable", to_translation( "Moddable" ),
+                                    12, 44, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 44, true, default_render, true ) );
