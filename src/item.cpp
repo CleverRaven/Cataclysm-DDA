@@ -5603,6 +5603,9 @@ bool item::goes_bad() const
         // Corpses rot only if they are made of rotting materials
         return made_of_any( materials::get_rotting() );
     }
+    if( is_container() ) {
+        return contains_perishable();
+    }
     return is_food() && get_comestible()->spoils != 0_turns;
 }
 
