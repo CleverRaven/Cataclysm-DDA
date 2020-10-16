@@ -3824,23 +3824,27 @@ void trap::examine( const tripoint &examp ) const
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
         const int traps_skill_level = player_character.get_skill_level( skill_traps );
-        const int weighted_stat_average = ( 2 * player_character.per_cur + 3 * player_character.dex_cur + player_character.int_cur ) / 6;
+        const int weighted_stat_average = ( 2 * player_character.per_cur + 3 * player_character.dex_cur +
+                                            player_character.int_cur ) / 6;
         int proficiency_effect = -2;
+        // Without at least a basic traps proficiency, your skill level is effectively 2 levels lower.
         if( player_character.has_proficiency( proficiency_prof_traps ) ) {
-            proficiency_effect += 2;
+            proficiency_effect = 0;
+            // If you have the basic traps prof, negate the above penalty
         }
         if( player_character.has_proficiency( proficiency_prof_disarming ) ) {
-            proficiency_effect += 6;
+            proficiency_effect = 4;
+            // If you have the disarming proficiency, your skill level is effectively 4 levels higher.
         }
         const int mean_roll = traps_skill_level + ( weighted_stat_average / 4 ) + proficiency_effect;
 
-        double roll_unrounded = normal_roll ( mean_roll, 3 );
+        double roll_unrounded = normal_roll( mean_roll, 3 );
         int roll = std::round( roll_unrounded );
-        
+
         add_msg( m_debug, _( "Rolled %i, mean_roll %i. difficulty %i." ), roll, mean_roll, difficulty );
-        
+
         if( roll >= difficulty ) {
-            add_msg( _( "You disarm the trap!" ) ); 
+            add_msg( _( "You disarm the trap!" ) );
             on_disarmed( here, examp );
             if( difficulty > ( 1.25 * traps_skill_level ) ) { // failure might have set off trap
                 player_character.practice( skill_traps, 1.5 * ( difficulty - traps_skill_level ) );
