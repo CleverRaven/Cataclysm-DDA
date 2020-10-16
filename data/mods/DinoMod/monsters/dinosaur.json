@@ -746,7 +746,7 @@
       [ "SMASH", 30 ],
       [ "EAT_CROP", 40 ]
     ],
-    "description": "This armored dinosaur looks like a giant prehistoric armadillo. Its tail ends in a spiked club of bone.",
+    "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone.",
     "reproduction": { "baby_egg": "egg_dyoplosaurus", "baby_count": 3, "baby_timer": 24 },
     "flags": [
       "SEES",
