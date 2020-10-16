@@ -3836,6 +3836,10 @@ void trap::examine( const tripoint &examp ) const
             proficiency_effect = 4;
             // If you have the disarming proficiency, your skill level is effectively 4 levels higher.
         }
+        if( player_character.has_proficiency( proficiency_prof_trapsetting ) ) {
+            proficiency_effect += 1;
+            // Knowing how to set traps does give you a small bonus to disarming them as well, regardless of your other bonuses.
+        }
         const int mean_roll = traps_skill_level + ( weighted_stat_average / 4 ) + proficiency_effect;
 
         double roll_unrounded = normal_roll( mean_roll, 3 );
