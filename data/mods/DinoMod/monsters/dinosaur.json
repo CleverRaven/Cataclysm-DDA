@@ -736,6 +736,33 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_dyoplosaurus",
+    "name": { "str_sp": "Dyoplosaurus" },
+    "copy-from": "mon_ankylosaurus",
+    "hp": 200,
+    "zombify_into": "mon_zyoplosaurus",
+    "special_attacks": [
+      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "SMASH", 30 ],
+      [ "EAT_CROP", 40 ]
+    ],
+    "description": "This armored dinosaur looks like a giant prehistoric armadillo. Its tail ends in a spiked club of bone.",
+    "reproduction": { "baby_egg": "egg_dyoplosaurus", "baby_count": 3, "baby_timer": 24 },
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "ATTACKMON",
+      "PET_MOUNTABLE",
+      "CATTLEFODDER"
+    ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_ankylosaurus",
     "name": { "str_sp": "Ankylosaurus" },
     "species": "DINOSAUR",
@@ -765,7 +792,7 @@
       [ "SMASH", 30 ],
       [ "EAT_CROP", 40 ]
     ],
-    "description": "This dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a massive spiked club of bone.",
+    "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a massive spiked club of bone.",
     "reproduction": { "baby_egg": "egg_ankylosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
@@ -785,6 +812,59 @@
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_nodosaurus",
+    "name": { "str_sp": "Nodosaurus" },
+    "copy-from": "mon_ankylosaurus",
+    "hp": 400,
+    "zombify_into": "mon_zodosaurus",
+    "armor_bash": 20,
+    "armor_cut": 20,
+    "armor_bullet": 10,
+    "special_attacks": [ [ "EAT_CROP", 40 ] ],
+    "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo.",
+    "reproduction": { "baby_egg": "egg_nodosaurus", "baby_count": 3, "baby_timer": 24 },
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "ATTACKMON",
+      "PET_MOUNTABLE",
+      "CATTLEFODDER"
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_edmontonia",
+    "name": { "str_sp": "Edmontonia" },
+    "copy-from": "mon_ankylosaurus",
+    "hp": 350,
+    "zombify_into": "mon_zedmontonia",
+    "melee_cut": 10,
+    "armor_bash": 20,
+    "armor_cut": 20,
+    "armor_bullet": 10,
+    "special_attacks": [ [ "EAT_CROP", 40 ] ],
+    "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo with long bony spikes.",
+    "reproduction": { "baby_egg": "egg_edmontonia", "baby_count": 3, "baby_timer": 24 },
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "ATTACKMON",
+      "PET_MOUNTABLE",
+      "CATTLEFODDER"
+    ]
   },
   {
     "type": "MONSTER",
