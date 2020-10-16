@@ -11,6 +11,8 @@
 #include "point.h"
 #include "units_fwd.h"
 
+struct rl_vec2d;
+
 extern bool trigdist;
 
 /**
@@ -231,6 +233,7 @@ int manhattan_dist( const point &loc1, const point &loc2 );
 
 // get angle of direction represented by point
 units::angle atan2( const point & );
+units::angle atan2( const rl_vec2d & );
 
 // Get the magnitude of the slope ranging from 0.0 to 1.0
 float get_normalized_angle( const point &start, const point &end );

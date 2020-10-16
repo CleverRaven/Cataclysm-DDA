@@ -276,6 +276,11 @@ units::angle atan2( const point &p )
     return units::atan2( p.y, p.x );
 }
 
+units::angle atan2( const rl_vec2d &p )
+{
+    return units::atan2( p.y, p.x );
+}
+
 // This more general version of this function gives correct values for larger values.
 unsigned make_xyz( const tripoint &p )
 {
