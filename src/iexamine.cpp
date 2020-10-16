@@ -3824,39 +3824,34 @@ void trap::examine( const tripoint &examp ) const
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
         const int traps_skill_level = player_character.get_skill_level( skill_traps );
-        int roll = rng( traps_skill_level, 4 * traps_skill_level );
-
-        ///\EFFECT_PER increases chance of disarming trap
-
-        ///\EFFECT_DEX increases chance of disarming trap
-
-        ///\EFFECT_TRAPS increases chance of disarming trap
-        while( ( rng( 5, 20 ) < player_character.per_cur ||
-                 rng( 1, 20 ) < player_character.dex_cur ) && roll < 50 ) {
-            roll++;
+        const int weighted_stat_average = ( 2 * player_character.per_cur + 3 * player_character.dex_cur + player_character.int_cur ) / 6;
+        int proficiency_effect = -2;
+        if( player_character.has_proficiency( proficiency_prof_traps ) ) {
+            proficiency_effect += 2;
         }
+        if( player_character.has_proficiency( proficiency_prof_disarming ) ) {
+            proficiency_effect += 6;
+        }
+        const int mean_roll = traps_skill_level + ( weighted_stat_average / 4 ) + proficiency_effect;
+
+        double roll_unrounded = normal_roll ( mean_roll, 3 );
+        int roll = std::round( roll_unrounded );
+        
+        add_msg( m_debug, _( "Rolled %i, mean_roll %i. difficulty %i." ), roll, mean_roll, difficulty );
+        
         if( roll >= difficulty ) {
-            add_msg( _( "You disarm the trap!" ) );
-            const int morale_buff = avoidance * 0.4 + difficulty + rng( 0, 4 );
-            player_character.rem_morale( MORALE_FAILURE );
-            player_character.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
+            add_msg( _( "You disarm the trap!" ) ); 
             on_disarmed( here, examp );
-            if( difficulty > 1.25 * traps_skill_level ) { // failure might have set off trap
+            if( difficulty > ( 1.25 * traps_skill_level ) ) { // failure might have set off trap
                 player_character.practice( skill_traps, 1.5 * ( difficulty - traps_skill_level ) );
             }
-        } else if( roll >= difficulty * .8 ) {
+        } else if( roll >= ( difficulty * .8 ) ) {
             add_msg( _( "You fail to disarm the trap." ) );
-            const int morale_debuff = -rng( 6, 18 );
-            player_character.rem_morale( MORALE_ACCOMPLISHMENT );
-            player_character.add_morale( MORALE_FAILURE, morale_debuff, -40 );
             if( difficulty > 1.25 * traps_skill_level ) {
                 player_character.practice( skill_traps, 1.5 * ( difficulty - traps_skill_level ) );
             }
         } else {
             add_msg( m_bad, _( "You fail to disarm the trap, and you set it off!" ) );
-            const int morale_debuff = -rng( 12, 24 );
-            player_character.rem_morale( MORALE_ACCOMPLISHMENT );
-            player_character.add_morale( MORALE_FAILURE, morale_debuff, -40 );
             trigger( examp, player_character );
             if( difficulty - roll <= 6 ) {
                 // Give xp for failing, but not if we failed terribly (in which
@@ -3864,6 +3859,8 @@ void trap::examine( const tripoint &examp ) const
                 player_character.practice( skill_traps, 2 * difficulty );
             }
         }
+        player_character.practice_proficiency( proficiency_prof_traps, 5_minutes );
+        player_character.practice_proficiency( proficiency_prof_disarming, 5_minutes );
         return;
     }
 }
