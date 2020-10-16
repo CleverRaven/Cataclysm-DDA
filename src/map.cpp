@@ -8066,8 +8066,13 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         build_transparency_cache( z );
         seen_cache_dirty |= ( build_floor_cache( z ) && affects_seen_cache );
         seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
+    }
+    // needs a separate pass as it changes the caches on neighbour z-levels (e.g. floor_cache);
+    // otherwise such changes might be overwritten by main cache-building logic
+    for( int z = minz; z <= maxz; z++ ) {
         do_vehicle_caching( z );
     }
+
     seen_cache_dirty |= build_vision_transparency_cache( zlev );
 
     if( seen_cache_dirty ) {
