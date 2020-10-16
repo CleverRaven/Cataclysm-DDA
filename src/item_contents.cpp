@@ -1081,7 +1081,7 @@ const cata::something<something> &item::contains_perishable() const
         all_contents.end(),
         [](const itype & child) {
             // this is to prevent double checking of child objects in goes_bad()
-            if( !child->is_container ){
+            if( !child->is_container() ){
                 if( child->goes_bad() ) {
                     contains_perishable = true
                     // 2 possible optimizations here, but given the item counts while sorting the value is questionable
