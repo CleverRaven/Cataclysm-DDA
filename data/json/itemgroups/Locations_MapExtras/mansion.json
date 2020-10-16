@@ -672,7 +672,7 @@
       [ "football", 20 ],
       [ "frisbee", 40 ],
       [ "disc_golf", 20 ],
-      [ "radio_car_box", 10 ],
+      { "group": "toy_radio_car", "prob": 10 },
       [ "orangesoda", 30 ],
       [ "magic_8_ball", 10 ],
       [ "hairpin", 30 ],
