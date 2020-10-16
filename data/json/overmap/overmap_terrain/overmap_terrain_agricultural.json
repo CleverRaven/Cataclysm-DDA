@@ -141,8 +141,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "pottery_cottage_basement" ],
-    "copy-from": "generic_city_house_basement",
-    "mondensity": 2
+    "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",
