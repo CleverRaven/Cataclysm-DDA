@@ -393,7 +393,8 @@ TEST_CASE( "noon_sun_doesn't_move_much", "[sun]" )
 
 using PointSet = std::unordered_set<std::pair<int, int>, cata::tuple_hash>;
 
-static PointSet sun_positions_regular( time_point start, time_point end, time_duration interval )
+static PointSet sun_positions_regular( time_point start, time_point end, time_duration interval,
+                                       int azimuth_scale )
 {
     CAPTURE( to_days<int>( start - calendar::turn_zero ) );
     std::unordered_set<std::pair<int, int>, cata::tuple_hash> plot_points;
@@ -406,10 +407,11 @@ static PointSet sun_positions_regular( time_point start, time_point end, time_du
             continue;
         }
         // Convert to ASCII-art plot
-        // x-axis is azimuth, 4 degrees per column
+        // x-axis is azimuth, 4/azimuth_scale degrees per column
         // y-axis is altitude, 3 degrees per column
-        azimuth += 180_degrees;
-        azimuth = fmod( azimuth, 360.0_degrees );
+        azimuth = normalize( azimuth + 180_degrees );
+        // Scale azimuth away from 180 by specified scale
+        azimuth = 180_degrees + ( azimuth - 180_degrees ) * azimuth_scale;
         REQUIRE( azimuth >= 0_degrees );
         REQUIRE( azimuth <= 360_degrees );
         REQUIRE( altitude >= 0_degrees );
@@ -425,7 +427,16 @@ static PointSet sun_throughout_day( time_point day_start )
     REQUIRE( time_past_midnight( day_start ) == 0_seconds );
     // Calculate the Sun's position every few minutes thourhgout the day
     time_point day_end = day_start + 1_days;
-    return sun_positions_regular( day_start, day_end, 5_minutes );
+    return sun_positions_regular( day_start, day_end, 5_minutes, 1 );
+}
+
+static PointSet sun_throughout_year( time_point day_start )
+{
+    REQUIRE( time_past_midnight( day_start ) == 0_seconds );
+    // Calculate the Sun's position every noon throughout the year
+    time_point first_noon = day_start + 1_days / 2;
+    time_point last_noon = first_noon + calendar::year_length();
+    return sun_positions_regular( first_noon, last_noon, 1_days, 4 );
 }
 
 static void check_sun_plot( const std::vector<PointSet> &points, const std::string &reference )
@@ -507,6 +518,49 @@ TEST_CASE( "movement_of_sun_through_day", "[sun]" )
 "                                                                                    Azimuth\n";
 // *INDENT-ON*
     check_sun_plot( { summer_points, equinox_points, winter_points }, reference );
+}
+
+TEST_CASE( "movement_of_noon_through_year", "[sun]" )
+{
+    PointSet points = sun_throughout_year( calendar::turn_zero );
+    std::string reference =
+// *INDENT-OFF*
+// This should yield an analemma
+"Altitude\n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                   ######                                  \n"
+"                                                  ##    #                                  \n"
+"                                                  #    ##                                  \n"
+"                                                  ## ###                                   \n"
+"                                                   ###                                     \n"
+"                                                  ###                                      \n"
+"                                                 ## #                                      \n"
+"                                                ##  ##                                     \n"
+"                                               ##    #                                     \n"
+"                                              ##     ##                                    \n"
+"                                             ##       #                                    \n"
+"                                             #        #                                    \n"
+"                                             #        #                                    \n"
+"                                             #       ##                                    \n"
+"                                             ##     ##                                     \n"
+"                                              #######                                      \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                    Azimuth\n";
+// *INDENT-ON*
+    check_sun_plot( { points }, reference );
 }
 
 TEST_CASE( "noon_rises_towards_solsitice", "[sun]" )
