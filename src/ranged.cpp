@@ -3187,18 +3187,19 @@ void target_ui::panel_spell_info( int &text_y )
         nc_color color = c_light_gray;
         const std::string fx = casting->effect();
         const std::string aoes = casting->aoe_string();
-        if( fx == "projectile_attack" || fx == "target_attack" ||
-            fx == "area_pull" || fx == "area_push" ||
-            fx == "ter_transform" ) {
-            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
-                                      _( "Effective Spell Radius: %s%s" ), aoes,
-                                      casting->in_aoe( src, dst ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
-        } else if( fx == "cone_attack" ) {
-            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
-                                      _( "Cone Arc: %s degrees" ), aoes );
-        } else if( fx == "line_attack" ) {
-            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
-                                      _( "Line width: %s" ), aoes );
+        if( fx == "attack" || fx == "area_pull" || fx == "area_push" || fx == "ter_transform" ) {
+
+            if( casting->shape() == spell_shape::cone ) {
+                text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
+                                          _( "Cone Arc: %s degrees" ), aoes );
+            } else if( casting->shape() == spell_shape::line ) {
+                text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
+                                          _( "Line width: %s" ), aoes );
+            } else {
+                text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
+                                          _( "Effective Spell Radius: %s%s" ), aoes,
+                                          casting->in_aoe( src, dst ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
+            }
         }
     }
 
