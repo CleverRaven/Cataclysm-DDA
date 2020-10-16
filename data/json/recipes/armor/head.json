@@ -624,6 +624,14 @@
     ]
   },
   {
+    "result": "xl_helmet_nasal",
+    "type": "recipe",
+    "copy-from": "helmet_nasal",
+    "time": "10 h",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "components": [ [ [ "fur", 5 ], [ "leather", 5 ] ] ]
+  },
+  {
     "result": "helmet_nomad",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -645,6 +653,18 @@
     ]
   },
   {
+    "result": "xl_helmet_nomad",
+    "type": "recipe",
+    "copy-from": "helmet_nomad",
+    "time": "10 h",
+    "using": [ [ "sewing_standard", 85 ] ],
+    "components": [
+      [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
+      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
+      [ [ "leather", 12 ], [ "tanned_hide", 3 ] ]
+    ],
+  },
+  {
     "result": "helmet_plate",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -663,6 +683,14 @@
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 5 }
     ]
+  },
+  {
+    "result": "xl_helmet_plate",
+    "type": "recipe",
+    "copy-from": "helmet_plate",
+    "time": "13 h",
+    "using": [ [ "blacksmithing_standard", 76 ], [ "steel_standard", 21 ] ],
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   },
   {
     "result": "helmet_scavenger",
@@ -689,6 +717,19 @@
     ]
   },
   {
+    "result": "xl_helmet_scavenger",
+    "type": "recipe",
+    "copy-from": "helmet_scavenger",
+    "time": "5 h",
+    "using": [ [ "sewing_standard", 85 ], [ "soldering_standard", 11 ] ],
+    "components": [
+      [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
+      [ [ "mask_filter", 1 ] ],
+      [ [ "glasses_bal", 1 ], [ "goggles_ski", 1 ] ],
+      [ [ "sheet_kevlar_layered", 12 ] ]
+    ]
+  },
+  {
     "result": "helmet_scrap",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
@@ -703,6 +744,14 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 30 ] ] ],
     "proficiencies": [ { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 1.5 } ]
+  },
+  {
+    "result": "xl_helmet_scrap",
+    "type": "recipe",
+    "copy-from": "helmet_scrap",
+    "time": "13 h",
+    "using": [ [ "cordage", 2 ] ],
+    "components": [ [ [ "scrap", 45 ] ] ]
   },
   {
     "result": "hood_fsurvivor",
