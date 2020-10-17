@@ -135,7 +135,7 @@
         { "monster": "GROUP_PUBLICWORKERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.3 },
         { "monster": "GROUP_PUBLICWORKERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.1 }
       ],
-      "place_vehicles": [ { "vehicle": "industrial_vehicles", "x": 24, "y": 10, "chance": 50, "fuel": 0, "status": 0, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "industrial_vehicles", "x": 24, "y": 10, "chance": 50, "fuel": 0, "rotation": 90 } ]
     }
   },
   {

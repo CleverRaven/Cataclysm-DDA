@@ -77,8 +77,8 @@
         { "chance": 25, "item": "trash", "x": 20, "y": 7 }
       ],
       "place_vehicles": [
-        { "chance": 75, "fuel": 0, "rotation": 180, "status": 0, "vehicle": "food_cart", "x": 20, "y": 17 },
-        { "chance": 75, "fuel": 0, "rotation": 270, "status": 0, "vehicle": "food_cart", "x": 6, "y": 19 }
+        { "chance": 75, "rotation": 180, "vehicle": "food_cart", "x": 20, "y": 17 },
+        { "chance": 75, "rotation": 270, "vehicle": "food_cart", "x": 6, "y": 19 }
       ],
       "rows": [
         "...._..._..._..._....g_.",

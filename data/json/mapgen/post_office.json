@@ -100,7 +100,7 @@
       ],
       "place_vehicles": [
         { "vehicle": "beetle", "x": 3, "y": 3, "chance": 10, "fuel": 10, "rotation": 270 },
-        { "vehicle": "motorcycle_sidecart", "x": 8, "y": 4, "chance": 25, "fuel": 15, "status": 0, "rotation": 270 },
+        { "vehicle": "motorcycle_sidecart", "x": 8, "y": 4, "chance": 25, "fuel": 15, "rotation": 270 },
         { "vehicle": "shopping_cart", "x": 8, "y": 20, "chance": 50 },
         { "vehicle": "shopping_cart", "x": 14, "y": 22, "chance": 50 }
       ]

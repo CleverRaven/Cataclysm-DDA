@@ -161,7 +161,7 @@
       "place_vehicles": [
         { "vehicle": "cube_van_cheap", "x": 7, "y": 5, "chance": 50, "fuel": 300, "status": -1, "rotation": 0 },
         { "vehicle": "quad_bike", "x": 15, "y": 6, "chance": 30, "fuel": 200, "status": -1, "rotation": 0 },
-        { "vehicle": "bicycle", "x": 13, "y": 8, "chance": 80, "fuel": 0, "status": 0, "rotation": 0 }
+        { "vehicle": "bicycle", "x": 13, "y": 8, "chance": 80, "fuel": 0, "status": -1, "rotation": 0 }
       ]
     }
   },

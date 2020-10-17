@@ -99,7 +99,7 @@
         { "monster": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 49, 70 ], "repeat": [ 1, 2 ], "density": 0.1 }
       ],
       "place_monster": [ { "monster": [ "mon_nursebot", "mon_nursebot_defective" ], "x": [ 27, 33 ], "y": [ 20, 23 ], "chance": 50 } ],
-      "place_vehicles": [ { "vehicle": "school_vehicles", "x": 9, "y": 7, "chance": 25, "fuel": 0, "status": 0, "rotation": 0 } ]
+      "place_vehicles": [ { "vehicle": "school_vehicles", "x": 9, "y": 7, "chance": 25, "rotation": 0 } ]
     }
   },
   {

@@ -91,10 +91,7 @@
         { "monster": "GROUP_SCHOOL", "x": [ 3, 7 ], "y": [ 12, 16 ] },
         { "monster": "GROUP_SCHOOL", "x": [ 3, 10 ], "y": [ 4, 8 ] }
       ],
-      "place_vehicles": [
-        { "vehicle": "tricycle", "x": 12, "y": 17, "chance": 5, "status": 0 },
-        { "vehicle": "tricycle", "x": 2, "y": 10, "chance": 15, "status": 0 }
-      ]
+      "place_vehicles": [ { "vehicle": "tricycle", "x": 12, "y": 17, "chance": 5 }, { "vehicle": "tricycle", "x": 2, "y": 10, "chance": 15 } ]
     }
   },
   {

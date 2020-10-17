@@ -88,7 +88,7 @@
         "L": { "item": "jackets", "chance": 20 },
         "9": { "item": "softdrugs", "chance": 20 }
       },
-      "place_vehicles": [ { "vehicle": "security_van", "x": 11, "y": 2, "chance": 20, "fuel": 20, "status": 0, "rotation": 0 } ]
+      "place_vehicles": [ { "vehicle": "security_van", "x": 11, "y": 2, "chance": 20, "fuel": 20, "rotation": 0 } ]
     }
   },
   {

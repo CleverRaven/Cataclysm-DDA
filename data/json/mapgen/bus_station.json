@@ -94,8 +94,8 @@
       },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 15 ] } ],
       "place_vehicles": [
-        { "vehicle": "buses", "x": 35, "y": [ 6, 7 ], "chance": 35, "status": 0, "rotation": 360 },
-        { "vehicle": "buses", "x": 35, "y": [ 16, 17 ], "chance": 35, "status": 0, "rotation": 360 }
+        { "vehicle": "buses", "x": 35, "y": [ 6, 7 ], "chance": 35, "rotation": 360 },
+        { "vehicle": "buses", "x": 35, "y": [ 16, 17 ], "chance": 35, "rotation": 360 }
       ],
       "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
       "toilets": { "T": {  } }

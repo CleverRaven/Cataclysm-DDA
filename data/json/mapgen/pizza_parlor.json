@@ -276,7 +276,7 @@
         "T": { "item": "pizza_table", "chance": 25 },
         "c": { "item": "pizza_soda", "chance": 25 }
       },
-      "place_vehicles": [ { "vehicle": "bicycle", "x": [ 1, 3 ], "y": [ 20, 23 ], "chance": 35, "status": 0, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "bicycle", "x": [ 1, 3 ], "y": [ 20, 23 ], "chance": 35, "rotation": 270 } ]
     }
   },
   {

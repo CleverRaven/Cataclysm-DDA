@@ -100,14 +100,14 @@
         "w": { "item": "oa_ig_rd_metal_trash", "chance": 45 }
       },
       "place_vehicles": [
-        { "vehicle": "motorcycle", "x": 56, "y": 16, "rotation": 180, "chance": 50, "status": 0 },
-        { "vehicle": "motorcycle_cross", "x": 56, "y": 18, "rotation": 180, "chance": 50, "status": 0 },
-        { "vehicle": "motorcycle_enduro", "x": 56, "y": 20, "rotation": 180, "chance": 50, "status": 0 },
-        { "vehicle": "superbike", "x": 56, "y": 22, "rotation": 180, "chance": 50, "status": 0 },
-        { "vehicle": "motorcycle_sidecart", "x": 66, "y": 16, "rotation": 180, "chance": 50, "status": 0 },
-        { "vehicle": "scooter", "x": 64, "y": 18, "rotation": 180, "chance": 50, "status": 0 },
-        { "vehicle": "motorcycle", "x": 64, "y": 20, "rotation": 180, "chance": 50, "status": 0 },
-        { "vehicle": "motorcycle", "x": 64, "y": 22, "rotation": 180, "chance": 50, "status": 0 }
+        { "vehicle": "motorcycle", "x": 56, "y": 16, "rotation": 180, "chance": 50 },
+        { "vehicle": "motorcycle_cross", "x": 56, "y": 18, "rotation": 180, "chance": 50 },
+        { "vehicle": "motorcycle_enduro", "x": 56, "y": 20, "rotation": 180, "chance": 50 },
+        { "vehicle": "superbike", "x": 56, "y": 22, "rotation": 180, "chance": 50 },
+        { "vehicle": "motorcycle_sidecart", "x": 66, "y": 16, "rotation": 180, "chance": 50 },
+        { "vehicle": "scooter", "x": 64, "y": 18, "rotation": 180, "chance": 50 },
+        { "vehicle": "motorcycle", "x": 64, "y": 20, "rotation": 180, "chance": 50 },
+        { "vehicle": "motorcycle", "x": 64, "y": 22, "rotation": 180, "chance": 50 }
       ]
     }
   },

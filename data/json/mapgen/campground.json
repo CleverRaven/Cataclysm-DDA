@@ -31,7 +31,7 @@
       "place_vehicles": [
         { "chance": 25, "fuel": 15, "rotation": 270, "status": -1, "vehicle": "campground_vehicles", "x": 16, "y": 2 },
         { "chance": 25, "fuel": -1, "rotation": 180, "status": -1, "vehicle": "campground_vehicles", "x": 5, "y": 19 },
-        { "chance": 50, "fuel": 20, "rotation": 0, "status": 0, "vehicle": "lux_rv", "x": 43, "y": 18 },
+        { "chance": 50, "fuel": 20, "rotation": 0, "status": -1, "vehicle": "lux_rv", "x": 43, "y": 18 },
         {
           "chance": 25,
           "fuel": 15,
