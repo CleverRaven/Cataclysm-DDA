@@ -680,7 +680,11 @@
     "reversible": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_redsmithing" }, { "proficiency": "prof_articulation" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_articulation" }
+    ],
     "components": [ [ [ "scrap_bronze", 12 ] ] ]
   }
 ]
