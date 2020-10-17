@@ -118,4 +118,23 @@
       "                           </color><color_red>║</color><color_black> </color><color_yellow>╚════</color><color_light_gray>──</color><color_black>",
       "                           </color><color_red>╚══════</color><color_light_gray>──</color><color_black>"
     ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "mobile_memory_card",
+    "picture": [
+      "",
+      "",
+      "     <color_white>   ______________",
+      "       /</color><color_yellow>  ╔╗╔╗╔╗╔╗╔╗╔╗</color><color_white>|",
+      "      /</color><color_yellow>╔╗ ╚╝╚╝╚╝╚╝╚╝╚╝</color><color_white>|",
+      "     /</color><color_yellow> ╚╝</color><color_white>             |",
+      "     |                |",
+      "     |                |",
+      "     |                |",
+      "     |                |",
+      "     |                |",
+      "     |</color><color_yellow> MADE IN CHINA</color><color_white>  |",
+      "     |________________|"
+    ]
   }
