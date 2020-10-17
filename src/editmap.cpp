@@ -745,9 +745,11 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, daylight_sight_range: %d," ),
                player_character.sight_range( g->light_level( player_character.posz() ) ),
                player_character.sight_range( current_daylight_level( calendar::turn ) ) );
-    mvwprintw( w_info, point( 1, off++ ), _( "transparency: %.5f, visibility: %.5f," ),
+    mvwprintw( w_info, point( 1, off++ ), _( "cache{transp:%.4f seen:%.4f cam:%.4f}" ),
                map_cache.transparency_cache[target.x][target.y],
-               map_cache.seen_cache[target.x][target.y] );
+               map_cache.seen_cache[target.x][target.y],
+               map_cache.camera_cache[target.x][target.y]
+             );
     map::apparent_light_info al = map::apparent_light_helper( map_cache, target );
     int apparent_light = static_cast<int>(
                              here.apparent_light_at( target, here.get_visibility_variables_cache() ) );
