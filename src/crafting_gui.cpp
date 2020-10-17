@@ -251,7 +251,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             const requirement_data &simple_req = r->simple_requirements();
             apparently_craftable = simple_req.can_make_with_inventory(
                                        inv, all_items_filter, batch_size, craft_flags::start_only );
-            proficiency_maluses = r->proficiency_maluses( player );
+            proficiency_time_maluses = r->proficiency_time_maluses( player );
+            proficiency_failure_maluses = r->proficiency_failure_maluses( player );
             has_all_skills = r->skill_used.is_null() ||
                              player.get_skill_level( r->skill_used ) >= r->difficulty;
             for( const std::pair<const skill_id, int> &e : r->required_skills ) {
@@ -266,7 +267,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         bool apparently_craftable;
         bool has_proficiencies;
         bool has_all_skills;
-        float proficiency_maluses;
+        float proficiency_time_maluses;
+        float proficiency_failure_maluses;
 
         nc_color selected_color() const {
             if( !can_craft ) {
@@ -526,8 +528,16 @@ const recipe *select_crafting_recipe( int &batch_size )
                 ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Required: %s" ),
                                         current[line]->required_proficiencies_string( &get_player_character() ) );
 
-                ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Used: %s" ),
-                                        current[line]->used_proficiencies_string( &get_player_character() ) );
+                std::string used_profs = current[line]->used_proficiencies_string( &get_player_character() );
+                if( !used_profs.empty() ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Used: %s" ),
+                                            used_profs );
+                }
+                std::string missing_profs = current[line]->missing_proficiencies_string( &get_player_character() );
+                if( !missing_profs.empty() ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Missing: %s" ),
+                                            missing_profs );
+                }
 
                 const int expected_turns = player_character.expected_time_to_craft( *current[line],
                                            count ) / to_moves<int>( 1_turns );
@@ -585,10 +595,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 _( "<color_red>Cannot be crafted because the same item is needed "
                                    "for multiple components</color>" ) );
                 }
-                float maluses = available[line].proficiency_maluses;
-                if( maluses != 1.0 ) {
-                    std::string msg = string_format( _( "<color_yellow>This recipe will take %g%% of the normal time "
-                                                        "because you lack some of the proficiencies used." ), maluses * 100 );
+                float time_maluses = available[line].proficiency_time_maluses;
+                float fail_maluses = available[line].proficiency_failure_maluses;
+                if( time_maluses != 1.0 || fail_maluses != 1.0 ) {
+                    std::string msg = string_format( _( "<color_yellow>This recipe will take %.1fx as long as normal, "
+                                                        "and be %.1fx more likely to incur failures, because you "
+                                                        "lack some of the proficiencies used." ), time_maluses, fail_maluses );
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, msg );
                 }
                 if( !can_craft_this && !available[line].has_proficiencies ) {

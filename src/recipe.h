@@ -168,6 +168,7 @@ class recipe
         // Format the proficiencies string.
         std::string required_proficiencies_string( const Character *c ) const;
         std::string used_proficiencies_string( const Character *c ) const;
+        std::string missing_proficiencies_string( const Character *c ) const;
         // Required proficiencies
         std::set<proficiency_id> required_proficiencies() const;
         //
@@ -175,7 +176,9 @@ class recipe
         // Helpful proficiencies
         std::set<proficiency_id> assist_proficiencies() const;
         // The time malus due to proficiencies lacking
-        float proficiency_maluses( const Character &guy ) const;
+        float proficiency_time_maluses( const Character &guy ) const;
+        // The failure malus due to proficiencies lacking
+        float proficiency_failure_maluses( const Character &guy ) const;
 
         // How active of exercise this recipe is
         float exertion_level() const;
