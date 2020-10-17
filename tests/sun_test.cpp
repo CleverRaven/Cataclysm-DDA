@@ -563,13 +563,26 @@ TEST_CASE( "movement_of_noon_through_year", "[sun]" )
     check_sun_plot( { points }, reference );
 }
 
-TEST_CASE( "noon_rises_towards_solsitice", "[sun]" )
+TEST_CASE( "noon_rises_towards_summer_solsitice_and_falls_towards_winter", "[sun]" )
 {
-    static constexpr time_point first_noon = calendar::turn_zero + 12_hours;
-    const time_point end_of_spring = calendar::turn_zero + calendar::season_length();
+    int old_season_length = to_days<int>( calendar::season_length() );
+    on_out_of_scope restore_season_length( [ = ]() {
+        calendar::set_season_length( old_season_length );
+    } );
+    int this_season_length = GENERATE( 5, 14, 91, 1000 );
+    CAPTURE( this_season_length );
+    calendar::set_season_length( this_season_length );
+
+    const time_point summer_solstice = calendar::turn_zero + calendar::season_length();
+    const time_point winter_solstice = calendar::turn_zero + 3 * calendar::season_length();
+
+    // Make some allowance and don't check the days within this range of the
+    // solstice.
+    const time_duration allowance = calendar::season_length() / 100;
+
     rl_vec2d last_noon_angle;
 
-    for( time_point noon = first_noon; noon < end_of_spring; noon += 1_days ) {
+    for( time_point noon = first_noon; noon < winter_solstice; noon += 1_days ) {
         CAPTURE( to_days<int>( noon - first_noon ) );
 
         const rl_vec2d noon_angle = checked_sunlight_angle( noon );
@@ -578,8 +591,14 @@ TEST_CASE( "noon_rises_towards_solsitice", "[sun]" )
             CAPTURE( last_noon_angle );
             CAPTURE( noon_angle );
 
-            // Sun should be higher than yesterday
-            CHECK( noon_angle.magnitude() < last_noon_angle.magnitude() );
+            if( noon < summer_solstice - allowance ) {
+                // Sun should be higher than yesterday until summer solstice
+                CHECK( noon_angle.magnitude() < last_noon_angle.magnitude() );
+            } else if( noon >= summer_solstice + allowance &&
+                       noon <= winter_solstice - allowance ) {
+                // ...and then lower than yesterday until winter solstice
+                CHECK( noon_angle.magnitude() > last_noon_angle.magnitude() );
+            }
         }
 
         last_noon_angle = noon_angle;
