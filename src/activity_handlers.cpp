@@ -2528,52 +2528,46 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
 // Note: similar hack could be used to implement all sorts of vehicle pseudo-items
 //  and possibly CBM pseudo-items too.
 struct weldrig_hack {
-    vehicle *veh;
-    int part;
+    cata::optional<vpart_reference> part;
     item pseudo;
 
-    weldrig_hack()
-        : veh( nullptr )
-        , part( -1 )
-        , pseudo( itype_welder, calendar::turn )
-    { }
+    weldrig_hack() : part( cata::nullopt ) { }
 
     bool init( const player_activity &act ) {
-        if( act.coords.empty() || act.values.size() < 2 ) {
+        if( act.coords.empty() || act.str_values.size() < 2 ) {
             return false;
         }
 
-        part = act.values[1];
-        veh = veh_pointer_or_null( get_map().veh_at( act.coords[0] ) );
-        if( veh == nullptr || veh->part_count() <= part ) {
-            part = -1;
+        const optional_vpart_position vp = get_map().veh_at( act.coords[0] );
+        if( !vp ) {
             return false;
         }
 
-        part = veh->part_with_feature( part, "WELDRIG", true );
-        return part >= 0;
+        itype_id tool_id( act.get_str_value( 1, "" ) );
+        pseudo = item( tool_id, calendar::turn );
+        part = vp->part_with_tool( tool_id );
+        return part.has_value();
     }
 
     item &get_item() {
-        if( veh != nullptr && part >= 0 ) {
-            item pseudo_magazine( pseudo.magazine_default() );
-            pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
-            pseudo.ammo_set( itype_battery,  veh->drain( itype_battery,
-                             pseudo.ammo_capacity( ammotype( "battery" ) ) ) );
-            return pseudo;
+        if( !part ) {
+            // null item should be handled just fine
+            return null_item_reference();
         }
 
-        // null item should be handled just fine
-        return null_item_reference();
+        item pseudo_magazine( pseudo.magazine_default() );
+        pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
+        pseudo.ammo_set( itype_battery, part->vehicle().drain( itype_battery,
+                         pseudo.ammo_capacity( ammotype( "battery" ) ) ) );
+        return pseudo;
     }
 
     void clean_up() {
-        // Return unused charges
-        if( veh == nullptr || part < 0 ) {
+        if( !part ) {
             return;
         }
 
-        veh->charge_battery( pseudo.ammo_remaining() );
+        part->vehicle().charge_battery( pseudo.ammo_remaining() ); // return unused charges
     }
 
     ~weldrig_hack() {

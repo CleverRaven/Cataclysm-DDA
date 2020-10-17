@@ -482,6 +482,19 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         }
     }
 
+    JsonArray tools = jo.get_array( "pseudo_tools" );
+    if( !tools.empty() ) {
+        def.pseudo_tools.clear();
+        while( tools.has_more() ) {
+            const JsonObject tooldef = tools.next_object();
+            const itype_id tool_id( tooldef.get_string( "id" ) );
+            const std::string hotkey_str = tooldef.has_string( "hotkey" ) ? tooldef.get_string( "hotkey" ) : "";
+            const int hotkey = hotkey_str.empty() ? -1 : static_cast<int>( hotkey_str[0] );
+            if( !def.pseudo_tools.insert( { tool_id, hotkey } ).second ) {
+                debugmsg( "Insert failed on %s to %s's tools, duplicate?", tool_id.str(), def.id.str() );
+            }
+        }
+    }
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
         def.damage_reduction = load_damage_array( dred );
@@ -854,6 +867,14 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
                                        base.gun_damage().total_damage() );
     }
 
+    if( !pseudo_tools.empty() ) {
+        append_desc( std::string( "\n" ) + _( "Provides:" ) + " <color_cyan>" +
+                     enumerate_as_string( pseudo_tools.begin(), pseudo_tools.end(),
+        []( const std::pair<itype_id, int> &p ) {
+            return p.first.obj().nname( 1 );
+        } ) + "</color>" );
+    }
+
     if( !long_descrip.empty() ) {
         const auto wrap_descrip = foldstring( long_descrip, width );
         msg += wrap_descrip[0];
@@ -1021,6 +1042,11 @@ int vpart_info::rotor_diameter() const
 const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
 {
     return workbench_info;
+}
+
+std::set<std::pair<itype_id, int>> vpart_info::get_pseudo_tools() const
+{
+    return pseudo_tools;
 }
 
 /** @relates string_id */
