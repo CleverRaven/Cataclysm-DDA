@@ -12,7 +12,7 @@
     "weight": "670 g",
     "volume": "500 ml",
     "price": 6000,
-    "price-posapoc": 250,
+    "price_posapoc": 250,
     "use_action": [ "RADIOCONTROL" ],
     "pocket_data": [
       {
@@ -44,7 +44,7 @@
     "weight": "2340 g",
     "volume": "1500 ml",
     "price": 24000,
-    "price-posapoc": 250,
+    "price_posapoc": 250,
     "use_action": [ "RADIOCAR" ],
     "flags": [ "RADIO_CONTAINER" ],
     "pocket_data": [
