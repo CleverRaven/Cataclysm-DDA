@@ -1201,7 +1201,7 @@
       [ "money_bundle", 10 ],
       [ "pretzels", 5 ],
       [ "chips", 5 ],
-      { "item": "cash_card", "prob": 1, "charges-min": 25000, "charges-max": 100000 }
+      { "group": "wallet_stylish_full", "prob": 1 }
     ]
   },
   {
