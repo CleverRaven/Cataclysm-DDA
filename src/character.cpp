@@ -1029,6 +1029,16 @@ bool Character::can_stash( const item &it )
     return best_pocket( it, nullptr ).second != nullptr;
 }
 
+bool Character::can_stash_partial( const item &it )
+{
+    item copy = it;
+    if( it.count_by_charges() ) {
+        copy.charges = 1;
+    }
+
+    return can_stash( copy );
+}
+
 void Character::cancel_stashed_activity()
 {
     stashed_outbounds_activity = player_activity();
@@ -3567,6 +3577,16 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
     } else {
         return ( weight_carried() + it.weight() <= weight_capacity() );
     }
+}
+
+bool Character::can_pickWeight_partial( const item &it, bool safe ) const
+{
+    item copy = it;
+    if( it.count_by_charges() ) {
+        copy.charges = 1;
+    }
+
+    return can_pickWeight( copy, safe );
 }
 
 bool Character::can_use( const item &it, const item &context ) const

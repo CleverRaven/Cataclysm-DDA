@@ -1626,6 +1626,7 @@ class Character : public Creature, public visitable<Character>
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
+        bool can_pickWeight_partial( const item &it, bool safe = true ) const;
         /**
          * Checks if character stats and skills meet minimum requirements for the item.
          * Prints an appropriate message if requirements not met.
@@ -1966,6 +1967,7 @@ class Character : public Creature, public visitable<Character>
                                    const player_activity &act_back = player_activity() );
         bool has_stashed_activity() const;
         bool can_stash( const item &it );
+        bool can_stash_partial( const item &it );
         void initialize_stomach_contents();
 
         /** Stable base metabolic rate due to traits */
