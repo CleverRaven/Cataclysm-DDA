@@ -1402,7 +1402,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                 if( target_dodging ) {
                     add_msg( _( "You dodge %s." ), disp_name() );
                 } else {
-                    add_msg( _( "The %s misses you." ), disp_name() );
+                    add_msg( _( "The %s misses you." ), name() );
                 }
             } else if( target.is_npc() && target_dodging ) {
                 add_msg( _( "%1$s dodges %2$s attack." ),
