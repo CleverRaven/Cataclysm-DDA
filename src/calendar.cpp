@@ -656,18 +656,27 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude(
     // https://en.wikipedia.org/wiki/Position_of_the_Sun
     // https://en.wikipedia.org/wiki/Celestial_coordinate_system#Notes_on_conversion
 
-    // Want to compute number of days since J2000 (Greenwich noon, 2000-01-01)
-    // If turn_zero is midnight EST on the day of the vernal equinox for 2000,
-    // That's 2000-03-20 0500 UTC
-    // 2000 was a leap year, so there were 31+29+19=79 days before 2000-03-20
-    // So turn_zero is 79 + (5-12) / 24.0 = 78.7 days since J2000
-    const float days_since_j2000 =
-        to_days<float>( t - calendar::turn_zero ) + 79 + ( -timezone - 12 ) / 24.0;
-    const units::angle mean_long = 280.460_degrees + 0.985647352_degrees * days_since_j2000;
-    const units::angle mean_anomaly = 357.528_degrees + 0.9856002585_degrees * days_since_j2000;
+    // The computation is inspired by the derivation based on J2000 (Greenwich
+    // noon, 2000-01-01), but because we want to handle a different year length
+    // than the real Earth, we don't use the same exact values.
+    // Instead we use as our epoch Greenwich midnight on the vernal equinox
+    // (note that the vernal equinox happens to be Spring day 1 in the game
+    // calendar, which is convenient).
+    const double days_since_epoch =
+        to_days<double>( t - calendar::turn_zero ) + ( -timezone ) / 24.0;
+
+    // It turns out that we want mean longitude to be zero at the vernal
+    // equinox, which simplifies the calculations.
+    const units::angle mean_long = 0.985647352_degrees * days_since_epoch;
+    // Roughly 77 degrees offset between mean longitude and mean anomaly at
+    // J2000, so use that as our offset too.
+    const units::angle mean_anomaly = 77_degrees + 0.9856002585_degrees * days_since_epoch;
     const units::angle ecliptic_longitude =
         mean_long + 1.915_degrees * sin( mean_anomaly ) + 0.020_degrees * sin( 2 * mean_anomaly );
-    const units::angle obliquity = 23.439279_degrees - 3.56e-7_degrees * days_since_j2000;
+
+    // Obliquity does vary slightly, but for simplicity we'll keep it fixed at
+    // its J2000 value.
+    static constexpr units::angle obliquity = 23.439279_degrees;
 
     // ecliptic rectangular coordinates
     const rl_vec2d eclip( cos( ecliptic_longitude ), sin( ecliptic_longitude ) );
@@ -676,12 +685,10 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude(
     const units::angle RA = atan2( rot.xy() );
     const units::angle declination = units::asin( rot.z );
 
-    // sidereal time at GMT +0
-    //const float hour = to_hours<float>( time_past_midnight( t ) );
-    const float delta_J = days_since_j2000 + 0.5;
-    const units::angle L0 = 99.967794687_degrees;
+    // sidereal time
+    const units::angle L0 = 177.83393662_degrees;
     const units::angle L1 = 360.98564736628603_degrees;
-    const units::angle SIDTIME = L0 + L1 * delta_J + location.longitude;
+    const units::angle SIDTIME = L0 + L1 * days_since_epoch + location.longitude;
 
     const units::angle hour_angle = SIDTIME - RA;
 
