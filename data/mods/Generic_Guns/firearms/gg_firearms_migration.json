@@ -125,7 +125,11 @@
       "m1911_10",
       "witness_10",
       "p220_10",
-      "xd_10"
+      "xd_10",
+      "m11",
+      "m18",
+      "p226_9mm",
+      "sp2022"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
@@ -157,7 +161,20 @@
     "replace": "pistol_revolver"
   },
   {
-    "id": [ "ppsh", "hk_mp5", "hk_mp5sd", "uzi", "TDI", "hk_ump45", "fn_p90", "needlegun", "rm2000_smg", "sten" ],
+    "id": [
+      "ppsh",
+      "hk_mp5",
+      "hk_mp5sd",
+      "uzi",
+      "TDI",
+      "hk_ump45",
+      "fn_p90",
+      "needlegun",
+      "rm2000_smg",
+      "sten",
+      "bt_apc9k",
+      "colt_ro635"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_smg"
   },
@@ -184,9 +201,14 @@
       "hk417_13",
       "acr",
       "m4a1",
+      "m16a3",
       "m16a4",
+      "m38dmr",
+      "m4_cqbr",
+      "m231pfw",
       "scar_l",
       "scar_h",
+      "sig_mcx_rattler_sbr",
       "rm51_assault_rifle",
       "an94",
       "rm88_battle_rifle"

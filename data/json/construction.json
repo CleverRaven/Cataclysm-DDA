@@ -2949,12 +2949,26 @@
     "type": "construction",
     "id": "constr_extract_clay",
     "group": "extract_clay",
+    "//": "Step 1 : extract clay",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ] } ],
     "pre_terrain": "t_clay",
+    "post_special": "done_extract_maybe_revert_to_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_extract_clay_mound",
+    "group": "extract_clay",
+    "//": "Step 2 : extract clay",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ] } ],
+    "pre_terrain": "t_claymound",
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
   {

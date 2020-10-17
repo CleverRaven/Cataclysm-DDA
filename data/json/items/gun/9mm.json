@@ -784,6 +784,36 @@
     ]
   },
   {
+    "id": "m11",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": { "str": "M11" },
+    "description": "The M11 is a compact semi-automatic, short recoil operated pistol, also known as the P228.",
+    "weight": "825 g",
+    "volume": "505 ml",
+    "longest_side": "216 mm",
+    "price": 95000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "dispersion": 480,
+    "durability": 7,
+    "min_cycle_recoil": 450,
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "p228mag_13rd_9x19mm" ]
+      }
+    ]
+  },
+  {
     "id": "m17",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
@@ -810,7 +840,76 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "p320mag_17rd_9x19mm" ]
+        "item_restriction": [ "p320mag_10rd_9x19mm", "p320mag_17rd_9x19mm", "p320mag_21rd_9x19mm" ]
+      }
+    ]
+  },
+  {
+    "id": "m18",
+    "copy-from": "m17",
+    "type": "GUN",
+    "name": { "str": "M18" },
+    "description": "The M18 is a compact, semi-automatic, short recoil operated pistol derived from the SIG Sauer P320 Carry, used by US Armed Forces.",
+    "weight": "737 g",
+    "volume": "457 ml",
+    "longest_side": "221 mm"
+  },
+  {
+    "id": "p226_9mm",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": { "str": "SIG P226 MK25" },
+    "description": "The P226 MK25 is a full-size semi-automatic DA/SA, short-recoil operated pistol with corrosion resitant internal coating, and an engraved anchor on the side of the slide.",
+    "weight": "804 g",
+    "volume": "570 ml",
+    "longest_side": "237 mm",
+    "price": 100000,
+    "price_postapoc": 4500,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "steel", "aluminum", "plastic" ],
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "dispersion": 480,
+    "durability": 8,
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "p226mag_10rd_9x19mm", "p226mag_15rd_9x19mm" ]
+      }
+    ]
+  },
+  {
+    "id": "sp2022",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": { "str": "SIG Pro SP2022 9mm" },
+    "description": "This is a polymer-frame, semi-automatic, DA/SA operated pistol, featuring a Picatinny rail, and a Nitron stainless steel slide.",
+    "weight": "822 g",
+    "volume": "514 ml",
+    "longest_side": "221 mm",
+    "price": 50000,
+    "price_postapoc": 3750,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "dispersion": 480,
+    "durability": 7,
+    "min_cycle_recoil": 480,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "magazine_well": "250 ml",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "sp2022mag_10rd_9mm", "sp2022mag_12rd_9mm", "sp2022mag_15rd_9mm" ]
       }
     ]
   },
@@ -990,6 +1089,99 @@
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "ccpmag" ]
+      }
+    ]
+  },
+  {
+    "id": "colt_ro635",
+    "copy-from": "smg_base",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "Colt Model 635" },
+    "description": "This is a 9x19mm submachine gun based on the M16 rifle design.  It is a closed bolt, blowback operated gun.  There is a large plastic brass deflector mounted by the ejection port, and there is no forward assist.  It looks very similar to an M4 carbine, except for the magazine well that accepts Uzi-style magazines.",
+    "weight": "2690 g",
+    "volume": "3450 ml",
+    "longest_side": "655 mm",
+    "price": 100000,
+    "price_postapoc": 1750,
+    "to_hit": -1,
+    "bashing": 11,
+    "material": [ "steel", "plastic" ],
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "dispersion": 240,
+    "durability": 8,
+    "min_cycle_recoil": 450,
+    "blackpowder_tolerance": 32,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "uzimag" ]
+      }
+    ]
+  },
+  {
+    "id": "bt_apc9k",
+    "copy-from": "smg_base",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "B&T APC9 PRO K" },
+    "description": "The Brügger & Thomet APC9 PRO K is a closed bolt blowback submachine gun in 9x19mm Parabellum.  It has a collapsible shoulder stock, and a red dot sight.",
+    "weight": "2400 g",
+    "volume": "1890 ml",
+    "longest_side": "525 mm",
+    "price": 500000,
+    "price_postapoc": 6000,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "steel", "plastic" ],
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "dispersion": 300,
+    "durability": 8,
+    "min_cycle_recoil": 450,
+    "blackpowder_tolerance": 32,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "brass_catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 3 ],
+      [ "underbarrel mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ]
+    ],
+    "default_mods": [ "folding_stock", "red_dot_sight" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "btmp9mag_9x19mm_15", "btmp9mag_9x19mm_20", "btmp9mag_9x19mm_25", "btmp9mag_9x19mm_30" ]
       }
     ]
   }

@@ -30,6 +30,7 @@
 #include "output.h"
 #include "player.h"
 #include "point.h"
+#include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -768,3 +769,104 @@ void debug_menu::wishskill( player *p )
         }
     } while( skmenu.ret != UILIST_CANCEL );
 }
+
+/*
+ * Set proficiency on any player object; player character or NPC
+ */
+void debug_menu::wishproficiency( player *p )
+{
+    bool know_all = true;
+    const int proffset = 1;
+
+    uilist prmenu;
+    prmenu.text = _( "Select proficiency to toggle" );
+    prmenu.allow_anykey = true;
+    prmenu.addentry( 0, true, '1', _( "Toggle all proficiencies" ) );
+
+    const std::vector<proficiency_id> &known_profs = p->known_proficiencies();
+    std::vector<std::pair<proficiency_id, bool>> sorted_profs;
+
+    for( const proficiency &cur : proficiency::get_all() ) {
+
+        const auto iterator = std::find_if( known_profs.begin(), known_profs.end(),
+        [&cur]( proficiency_id prof_id ) {
+            return cur.prof_id() == prof_id;
+        } );
+
+        const bool player_know = iterator != known_profs.end();
+
+        // Does the player know all proficiencies
+        if( know_all ) {
+            know_all = player_know;
+        }
+
+        sorted_profs.push_back( { cur.prof_id(), player_know } );
+    }
+
+    std::sort( sorted_profs.begin(), sorted_profs.end(), localized_compare );
+
+    for( size_t i = 0; i < sorted_profs.size(); ++i ) {
+        if( sorted_profs[i].second ) {
+            prmenu.addentry( i + proffset, true, -2, _( "(known) %s" ),
+                             sorted_profs[i].first->name() );
+            prmenu.entries[i + proffset].text_color = c_yellow;
+        } else {
+            prmenu.addentry( i + proffset, true, -2, _( "%s" ),
+                             sorted_profs[i].first->name() );
+            prmenu.entries[i + proffset].text_color = prmenu.text_color;
+        }
+    }
+
+    do {
+        prmenu.query();
+        const int prsel = prmenu.ret;
+        if( prsel == 0 ) {
+            // if the player knows everything, unlearn everything
+            if( know_all ) {
+                for( size_t i = 0; i < sorted_profs.size(); ++i ) {
+                    std::pair<proficiency_id, bool> &cur = sorted_profs[i];
+                    cur.second = false;
+                    prmenu.entries[i + proffset].txt = string_format( "%s",  cur.first->name() );
+                    prmenu.entries[i + proffset].text_color = prmenu.text_color;
+                    p->lose_proficiency( cur.first, true );
+                }
+                know_all = false;
+            } else {
+                for( size_t i = 0; i < sorted_profs.size(); ++i ) {
+                    std::pair<proficiency_id, bool> &cur = sorted_profs[i];
+
+                    if( !cur.second ) {
+                        cur.second = true;
+                        prmenu.entries[i + proffset].txt = string_format( _( "(known) %s" ), cur.first->name() );
+                        prmenu.entries[i + proffset].text_color = c_yellow;
+                        p->add_proficiency( cur.first, true );
+                    }
+                }
+                know_all = true;
+            }
+        } else if( prsel > 0 ) {
+            std::pair<proficiency_id, bool> &cur = sorted_profs[prsel - proffset];
+            // if the player didn't know it before now it does
+            // if the player knew it before, unlearn proficiency
+            bool know_prof = !cur.second;
+            proficiency_id &prof = cur.first;
+
+            cur.second = know_prof;
+
+            if( know_prof ) {
+                prmenu.entries[prmenu.selected].txt = string_format( _( "(known) %s" ), cur.first->name() );
+                prmenu.entries[prmenu.selected].text_color = c_yellow;
+                p->add_msg_if_player( m_good, _( "You are now proficient in %s" ), prof->name() );
+                p->add_proficiency( prof, true );
+                continue;
+            }
+
+            know_all = false;
+            prmenu.entries[prmenu.selected].txt = string_format( "%s", cur.first->name() );
+            prmenu.entries[prmenu.selected].text_color = prmenu.text_color;
+            p->add_msg_if_player( m_bad, _( "You are no longer proficient in %s" ), prof->name() );
+            p->lose_proficiency( prof, true );
+        }
+    } while( prmenu.ret != UILIST_CANCEL );
+}
+

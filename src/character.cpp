@@ -12411,13 +12411,21 @@ bool Character::has_proficiency( const proficiency_id &prof ) const
     return _proficiencies->has_learned( prof );
 }
 
-void Character::add_proficiency( const proficiency_id &prof )
+void Character::add_proficiency( const proficiency_id &prof, bool ignore_requirements )
 {
+    if( ignore_requirements ) {
+        _proficiencies->direct_learn( prof );
+        return;
+    }
     _proficiencies->learn( prof );
 }
 
-void Character::lose_proficiency( const proficiency_id &prof )
+void Character::lose_proficiency( const proficiency_id &prof, bool ignore_requirements )
 {
+    if( ignore_requirements ) {
+        _proficiencies->direct_remove( prof );
+        return;
+    }
     _proficiencies->remove( prof );
 }
 
