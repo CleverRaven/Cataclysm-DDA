@@ -26,6 +26,7 @@ static const skill_id skill_traps( "traps" );
 static const efftype_id effect_lack_sleep( "lack_sleep" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 
 static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
@@ -206,7 +207,7 @@ bool trap::detected_by_ground_sonar() const
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 {
     // * Buried landmines, the silent killer, have a visibility of 10.
-    // Assuming no knowledge of traps or proficiencies, average per/int, and a focus of 50, 
+    // Assuming no knowledge of traps or proficiencies, average per/int, and a focus of 50,
     // most characters will get a mean_roll of 6.
     // With a std deviation of 3, that leaves a 10% chance of spotting a landmine when you are next to it.
     // This gets worse if you are fatigued, or can't see as well.
@@ -223,7 +224,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     const int encumbrance_penalty = p.encumb( bodypart_id( "eyes" ) ) / 10;
 
     // Your current focus strongly affects your ability to spot things.
-    const int focus_effect = std::round( p.focus_pool / 25 ) -2;
+    const int focus_effect = std::round( p.focus_pool / 25 ) - 2;
 
     // The further away the trap is, the harder it is to spot.
     // Subtract 1 so that we don't get an unfair penalty when not quite on top of the trap.
@@ -246,9 +247,10 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 
     // For every 100 points of sleep deprivation after 200, reduce your roll by 1.
     // That represents a -2 at dead tired, -4 at exhausted, and so on.
-    const int fatigue_penalty = std::min( 0, std::round( p.get_fatigue() - 200 / 100 ) );
+    const int fatigue_penalty = std::round( std::min( 0, p.get_fatigue() - 200 ) / 100 );
 
-    const int mean_roll = weighted_stat_average + std::round( traps_skill_level / 3 ) + proficiency_effect +
+    const int mean_roll = weighted_stat_average + std::round( traps_skill_level / 3 ) +
+                          proficiency_effect +
                           focus_effect - distance_penalty - fatigue_penalty - encumbrance_penalty;
 
     const int roll = std::round( normal_roll( mean_roll, 3 ) );
