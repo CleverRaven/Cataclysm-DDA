@@ -3664,14 +3664,15 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
                             time_duration::from_seconds( data.practice * 30 ) );
 
     //Total time to set the trap will be determined by player's skills and proficiencies
-    int move_cost_final = std::round( data.moves * std::min( 1, ( data.practice ^ 2 ) ) / p.get_skill_level( skill_traps ) );
+    int move_cost_final = std::round( ( data.moves * std::min( 1,
+                                        ( data.practice ^ 2 ) ) ) / p.get_skill_level( skill_traps ) );
     if( !p.has_proficiency( proficiency_prof_trapsetting ) ) {
         move_cost_final = move_cost_final * 2;
     }
     if( !p.has_proficiency( proficiency_prof_traps ) ) {
         move_cost_final = move_cost_final * 4;
     }
-    
+
     //This probably needs to be done via assign_activity
     p.mod_moves( -move_cost_final );
 
