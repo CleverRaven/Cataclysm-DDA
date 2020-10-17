@@ -9053,7 +9053,7 @@ void game::wield( item_location loc )
         add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
         return;
     }
-    if( u.is_armed() ) {
+    if( u.has_wield_conflicts( *loc ) ) {
         const bool is_unwielding = u.is_wielding( *loc );
         const auto ret = u.can_unwield( *loc );
 

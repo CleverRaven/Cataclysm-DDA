@@ -387,7 +387,7 @@ void avatar::add_profession_items()
             inv->push_back( it );
         } else if( it.has_flag( "auto_wield" ) ) {
             it.unset_flag( "auto_wield" );
-            if( !is_armed() ) {
+            if( !has_wield_conflicts( it ) ) {
                 wield( it );
             } else {
                 inv->push_back( it );

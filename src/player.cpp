@@ -2782,7 +2782,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
 
     int mv = 0;
 
-    if( is_armed() ) {
+    if( has_wield_conflicts( *internal_item ) ) {
         if( !unwield() ) {
             return false;
         }
@@ -2794,8 +2794,13 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     // As we couldn't make sure back then what action was going to be used, we remove the cost now.
     item_location il = item_location( *this, &container );
     mv -= il.obtain_cost( *this );
+    mv += item_retrieve_cost( *internal_item, container, penalties, base_cost );
 
-    weapon = std::move( *internal_item );
+    if( internal_item->stacks_with( weapon, true ) ) {
+        weapon.combine( *internal_item );
+    } else {
+        weapon = std::move( *internal_item );
+    }
     container.remove_item( *internal_item );
     container.on_contents_changed();
 
@@ -2803,7 +2808,6 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     inv->update_cache_with_item( weapon );
     last_item = weapon.typeId();
 
-    mv += item_retrieve_cost( weapon, container, penalties, base_cost );
 
     moves -= mv;
 
