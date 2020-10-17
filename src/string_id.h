@@ -86,12 +86,8 @@ class string_id
                  std::enable_if< std::is_convertible< S, std::string >::value >::type
                  >
         explicit string_id( S && id ) {
-            const char *str;
-            if constexpr( std::is_same<S, const char *>::value ) {
-                _string = insert_or_get_cache( id, true );
-            } else {
-                _string = insert_or_get_cache( std::string( id ).c_str(), true );
-            }
+            // TODO no need to create new std::strings most of the time
+            _string = insert_or_get_cache( std::string( id ).c_str(), true );
         }
         /**
         * Default constructor constructs an empty id string.
@@ -108,19 +104,14 @@ class string_id
         bool operator<( const This &rhs ) const {
             // Not str() compares to prevent needless tier ups to std::string
             return strcmp( c_str(), rhs.c_str() ) < 0;
-            // Some places rely on the string ordering - Need to pinpoint and fix them
-            //return reinterpret_cast<uintptr_t>( _string ) < reinterpret_cast<uintptr_t>( rhs._string );
+            // Some places rely on the string ordering - Need to pinpoint and fix them. Once fixed:
+            // return reinterpret_cast<uintptr_t>( _string ) < reinterpret_cast<uintptr_t>( rhs._string );
         }
         /**
          * The usual comparator, compares the string id as usual.
          */
         bool operator==( const This &rhs ) const {
-            bool res = _string == rhs._string;
-            if( res != ( !( *this < rhs ) && !( rhs < *this ) ) ) {
-                __debugbreak();
-            }
-            return res;
-            //return _string == rhs._string;
+            return _string == rhs._string;
         }
         /**
          * The usual comparator, compares the string id as usual.
