@@ -80,7 +80,7 @@
     "id": "infantry_medical_gear",
     "subtype": "collection",
     "entries": [
-      { "item": "ifak", "prob": 90 },
+      { "group": "full_ifak", "prob": 90 },
       { "item": "quikclot", "prob": 60 },
       { "collection": [ { "item": "morphine" }, { "item": "syringe" } ], "prob": 30 }
     ]
@@ -456,7 +456,7 @@
       { "item": "neccowafers", "prob": 30 },
       { "item": "can_beans", "prob": 40 },
       { "item": "pork_beans", "prob": 40 },
-      { "item": "ifak", "prob": 35 },
+      { "group": "full_ifak", "prob": 35 },
       { "item": "saline", "prob": 10 },
       { "item": "con_milk", "prob": 10 },
       { "item": "milk_UHT", "prob": 25 },
