@@ -3671,6 +3671,8 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( !p.has_proficiency( proficiency_prof_traps ) ) {
         move_cost_final = move_cost_final * 4;
     }
+    
+    //This probably needs to be done via assign_activity
     p.mod_moves( -move_cost_final );
 
     place_and_add_as_known( p, pos, data.trap );
