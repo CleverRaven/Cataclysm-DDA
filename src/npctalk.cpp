@@ -1078,16 +1078,16 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         needs_rates rates = p->calc_needs_rates();
         if( ability >= 100 - ( p->get_fatigue() / 10 ) ) {
             std::string how_tired;
-            if( p->get_fatigue() > EXHAUSTED ) {
+            if( p->get_fatigue() > fatigue_levels::exhausted ) {
                 how_tired = _( "Exhausted" );
-            } else if( p->get_fatigue() > DEAD_TIRED ) {
+            } else if( p->get_fatigue() > fatigue_levels::dead_tired ) {
                 how_tired = _( "Dead tired" );
-            } else if( p->get_fatigue() > TIRED ) {
+            } else if( p->get_fatigue() > fatigue_levels::tired ) {
                 how_tired = _( "Tired" );
             } else {
                 how_tired = _( "Not tired" );
                 if( ability >= 100 ) {
-                    time_duration sleep_at = 5_minutes * ( TIRED - p->get_fatigue() ) /
+                    time_duration sleep_at = 5_minutes * ( fatigue_levels::tired - p->get_fatigue() ) /
                                              rates.fatigue;
                     how_tired += _( ".  Will need sleep in " ) + to_string_approx( sleep_at );
                 }

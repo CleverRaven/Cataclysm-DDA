@@ -226,7 +226,7 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
         if( mdata.fatigue ) {
             mod_fatigue( mdata.cost );
             // Exhausted
-            if( get_fatigue() >= EXHAUSTED ) {
+            if( get_fatigue() >= fatigue_levels::exhausted ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too exhausted to keep your %s going." ),
                                    mdata.name() );
@@ -1322,7 +1322,7 @@ void Character::suffer_from_stimulants( const int current_stim )
 void Character::suffer_without_sleep( const int sleep_deprivation )
 {
     // redo as a snippet?
-    if( sleep_deprivation >= SLEEP_DEPRIVATION_HARMLESS ) {
+    if( sleep_deprivation >= sleep_deprivation_levels::harmless ) {
         if( one_turn_in( 50_minutes ) ) {
             switch( dice( 1, 4 ) ) {
                 default:
@@ -1346,7 +1346,7 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
         }
     }
     // Minor discomfort
-    if( sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) {
+    if( sleep_deprivation >= sleep_deprivation_levels::minor ) {
         if( one_turn_in( 75_minutes ) ) {
             add_msg_if_player( m_warning, _( "You feel lightheaded for a moment." ) );
             moves -= 10;
@@ -1361,7 +1361,7 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
         }
     }
     // Slight disability
-    if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
+    if( sleep_deprivation >= sleep_deprivation_levels::serious ) {
         if( one_turn_in( 75_minutes ) ) {
             add_msg_if_player( m_bad, _( "Your mind lapses into unawareness briefly." ) );
             moves -= rng( 20, 80 );
@@ -1376,7 +1376,7 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
         }
     }
     // Major disability, high chance of passing out also relevant
-    if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
+    if( sleep_deprivation >= sleep_deprivation_levels::major ) {
         if( !has_effect( effect_nausea ) && one_turn_in( 500_minutes ) ) {
             add_msg_if_player( m_bad, _( "You feel heartburn and an acid taste in your mouth." ) );
             mod_pain( 5 );
@@ -1581,7 +1581,7 @@ void Character::mend( int rate_multiplier )
     // Bed rest speeds up mending
     if( has_effect( effect_sleep ) ) {
         healing_factor *= 4.0;
-    } else if( get_fatigue() > DEAD_TIRED ) {
+    } else if( get_fatigue() > fatigue_levels::dead_tired ) {
         // but being dead tired does not...
         healing_factor *= 0.75;
     } else {

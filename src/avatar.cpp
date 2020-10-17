@@ -990,16 +990,16 @@ void avatar::disp_morale()
     int equilibrium = calc_focus_equilibrium();
 
     int fatigue_penalty = 0;
-    if( get_fatigue() >= MASSIVE_FATIGUE && equilibrium > 20 ) {
+    if( get_fatigue() >= fatigue_levels::massive && equilibrium > 20 ) {
         fatigue_penalty = equilibrium - 20;
         equilibrium = 20;
-    } else if( get_fatigue() >= EXHAUSTED && equilibrium > 40 ) {
+    } else if( get_fatigue() >= fatigue_levels::exhausted && equilibrium > 40 ) {
         fatigue_penalty = equilibrium - 40;
         equilibrium = 40;
-    } else if( get_fatigue() >= DEAD_TIRED && equilibrium > 60 ) {
+    } else if( get_fatigue() >= fatigue_levels::dead_tired && equilibrium > 60 ) {
         fatigue_penalty = equilibrium - 60;
         equilibrium = 60;
-    } else if( get_fatigue() >= TIRED && equilibrium > 80 ) {
+    } else if( get_fatigue() >= fatigue_levels::tired && equilibrium > 80 ) {
         fatigue_penalty = equilibrium - 80;
         equilibrium = 80;
     }
@@ -1098,10 +1098,10 @@ int avatar::calc_focus_change() const
     gain *= base_change;
 
     // Fatigue will incrementally decrease any focus above related cap
-    if( ( get_fatigue() >= TIRED && focus_pool > 80 ) ||
-        ( get_fatigue() >= DEAD_TIRED && focus_pool > 60 ) ||
-        ( get_fatigue() >= EXHAUSTED && focus_pool > 40 ) ||
-        ( get_fatigue() >= MASSIVE_FATIGUE && focus_pool > 20 ) ) {
+    if( ( get_fatigue() >= fatigue_levels::tired && focus_pool > 80 ) ||
+        ( get_fatigue() >= fatigue_levels::dead_tired && focus_pool > 60 ) ||
+        ( get_fatigue() >= fatigue_levels::exhausted && focus_pool > 40 ) ||
+        ( get_fatigue() >= fatigue_levels::massive && focus_pool > 20 ) ) {
 
         //it can fall faster then 1
         if( gain > -1 ) {
@@ -1226,7 +1226,7 @@ void avatar::reset_stats()
         mod_int_bonus( -get_thirst() / 200 );
         mod_per_bonus( -get_thirst() / 200 );
     }
-    if( get_sleep_deprivation() >= SLEEP_DEPRIVATION_HARMLESS ) {
+    if( get_sleep_deprivation() >= sleep_deprivation_levels::harmless ) {
         set_fake_effect_dur( effect_sleep_deprived, 1_turns * get_sleep_deprivation() );
     } else if( has_effect( effect_sleep_deprived ) ) {
         remove_effect( effect_sleep_deprived );

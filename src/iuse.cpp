@@ -4425,7 +4425,7 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "It's not waterproof enough to work underwater." ) );
         return 0;
     }
-    if( p->get_fatigue() >= DEAD_TIRED ) {
+    if( p->get_fatigue() >= fatigue_levels::dead_tired ) {
         p->add_msg_if_player( m_info, _( "You're too exhausted to keep cranking." ) );
         return 0;
     }
@@ -4470,7 +4470,7 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     }
-    if( p->get_fatigue() >= DEAD_TIRED ) {
+    if( p->get_fatigue() >= fatigue_levels::dead_tired ) {
         p->add_msg_if_player( m_info, _( "*Your* batteries are dead." ) );
         return 0;
     } else {

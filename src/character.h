@@ -107,29 +107,148 @@ struct enum_traits<character_movemode> {
     static constexpr auto last = character_movemode::CMM_COUNT;
 };
 
-enum fatigue_levels {
-    TIRED = 191,
-    DEAD_TIRED = 383,
-    EXHAUSTED = 575,
-    MASSIVE_FATIGUE = 1000
+enum class fatigue_levels : int {
+    tired = 191,
+    dead_tired = 383,
+    exhausted = 575,
+    massive = 1000
 };
+
+constexpr inline bool operator>=( const fatigue_levels &lhs, const fatigue_levels &rhs )
+{
+    return static_cast<int>( lhs ) >= static_cast<int>( rhs );
+}
+
+constexpr inline bool operator<( const fatigue_levels &lhs, const fatigue_levels &rhs )
+{
+    return static_cast<int>( lhs ) < static_cast<int>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator>=( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs >= static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator>( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs > static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator<=( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs <= static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator<( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs < static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline int operator/( const fatigue_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) / rhs;
+}
+
+template<typename T>
+constexpr inline int operator+( const fatigue_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) + rhs;
+}
+
+template<typename T>
+constexpr inline int operator-( const fatigue_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) - rhs;
+}
+
+template<typename T>
+constexpr inline int operator-( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs - static_cast<T>( rhs );
+}
+
 const std::unordered_map<std::string, fatigue_levels> fatigue_level_strs = { {
-        { "TIRED", TIRED },
-        { "DEAD_TIRED", DEAD_TIRED },
-        { "EXHAUSTED", EXHAUSTED },
-        { "MASSIVE_FATIGUE", MASSIVE_FATIGUE }
+        { "TIRED", fatigue_levels::tired },
+        { "DEAD_TIRED", fatigue_levels::dead_tired },
+        { "EXHAUSTED", fatigue_levels::exhausted },
+        { "MASSIVE_FATIGUE", fatigue_levels::massive }
     }
 };
 
 // Sleep deprivation is defined in minutes, and although most calculations scale linearly,
 // maluses are bestowed only upon reaching the tiers defined below.
-enum sleep_deprivation_levels {
-    SLEEP_DEPRIVATION_HARMLESS = 2 * 24 * 60,
-    SLEEP_DEPRIVATION_MINOR = 4 * 24 * 60,
-    SLEEP_DEPRIVATION_SERIOUS = 7 * 24 * 60,
-    SLEEP_DEPRIVATION_MAJOR = 10 * 24 * 60,
-    SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
+enum class sleep_deprivation_levels : int {
+    harmless = 2 * 24 * 60,
+    minor = 4 * 24 * 60,
+    serious = 7 * 24 * 60,
+    major = 10 * 24 * 60,
+    massive = 14 * 24 * 60
 };
+
+constexpr inline bool operator>=( const sleep_deprivation_levels &lhs,
+                                  const sleep_deprivation_levels &rhs )
+{
+    return static_cast<int>( lhs ) >= static_cast<int>( rhs );
+}
+
+constexpr inline bool operator<( const sleep_deprivation_levels &lhs,
+                                 const sleep_deprivation_levels &rhs )
+{
+    return static_cast<int>( lhs ) < static_cast<int>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator>=( const T &lhs, const sleep_deprivation_levels &rhs )
+{
+    return lhs >= static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator>( const T &lhs, const sleep_deprivation_levels &rhs )
+{
+    return lhs > static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator<=( const T &lhs, const sleep_deprivation_levels &rhs )
+{
+    return lhs <= static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator<( const T &lhs, const sleep_deprivation_levels &rhs )
+{
+    return lhs < static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline int operator/( const sleep_deprivation_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) / rhs;
+}
+
+template<typename T>
+constexpr inline int operator+( const sleep_deprivation_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) + rhs;
+}
+
+template<typename T>
+constexpr inline int operator-( const sleep_deprivation_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) - rhs;
+}
+
+template<typename T>
+constexpr inline int operator-( const T &lhs, const sleep_deprivation_levels &rhs )
+{
+    return lhs - static_cast<T>( rhs );
+}
 
 // This tries to represent both rating and
 // character's decision to respect said rating

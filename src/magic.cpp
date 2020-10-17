@@ -668,7 +668,7 @@ bool spell::can_cast( const Character &guy ) const
         case bionic_energy:
             return guy.get_power_level() >= units::from_kilojoule( energy_cost( guy ) );
         case fatigue_energy:
-            return guy.get_fatigue() < EXHAUSTED;
+            return guy.get_fatigue() < fatigue_levels::exhausted;
         case none_energy:
         default:
             return true;
@@ -1448,7 +1448,7 @@ bool known_magic::has_enough_energy( const Character &guy, spell &sp ) const
             }
             return false;
         case fatigue_energy:
-            return guy.get_fatigue() < EXHAUSTED;
+            return guy.get_fatigue() < fatigue_levels::exhausted;
         case none_energy:
             return true;
         default:

@@ -1172,14 +1172,22 @@
     "symbol": "!",
     "color": "light_cyan",
     "container": "bag_zipper",
-    "quench": -2,
     "stim": 20,
     "healthy": -7,
     "fun": 30,
     "addiction_potential": 50,
     "addiction_type": "amphetamine",
     "flags": [ "NO_INGEST" ],
-    "use_action": "METH"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You smoke some meth.",
+      "effects": [ { "id": "meth", "duration": "12 h" } ],
+      "stat_adjustments": { "hunger": -100, "thirst": -100 },
+      "fields_produced": { "fd_methsmoke": 2 },
+      "charges_needed": { "fire": 1 },
+      "tools_needed": { "apparatus": -1 },
+      "moves": 250
+    }
   },
   {
     "id": "morphine",

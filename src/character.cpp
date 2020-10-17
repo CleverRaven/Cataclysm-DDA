@@ -145,6 +145,7 @@ static const efftype_id effect_lack_sleep( "lack_sleep" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_melatonin_supplements( "melatonin" );
+static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -4181,13 +4182,13 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
     int fatigue = get_fatigue();
     std::string fatigue_string;
     nc_color fatigue_color = c_white;
-    if( fatigue > EXHAUSTED ) {
+    if( fatigue > fatigue_levels::exhausted ) {
         fatigue_color = c_red;
         fatigue_string = _( "Exhausted" );
-    } else if( fatigue > DEAD_TIRED ) {
+    } else if( fatigue > fatigue_levels::dead_tired ) {
         fatigue_color = c_light_red;
         fatigue_string = _( "Dead Tired" );
-    } else if( fatigue > TIRED ) {
+    } else if( fatigue > fatigue_levels::tired ) {
         fatigue_color = c_yellow;
         fatigue_string = _( "Tired" );
     }
@@ -4231,7 +4232,7 @@ void Character::set_fatigue( int nfatigue )
 
 void Character::set_sleep_deprivation( int nsleep_deprivation )
 {
-    sleep_deprivation = std::min( static_cast< int >( SLEEP_DEPRIVATION_MASSIVE ), std::max( 0,
+    sleep_deprivation = std::min( static_cast< int >( sleep_deprivation_levels::massive ), std::max( 0,
                                   nsleep_deprivation ) );
 }
 
@@ -4563,7 +4564,7 @@ void Character::update_needs( int rate_multiplier )
 
     needs_rates rates = calc_needs_rates();
 
-    const bool wasnt_fatigued = get_fatigue() <= DEAD_TIRED;
+    const bool wasnt_fatigued = get_fatigue() <= fatigue_levels::dead_tired;
     // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
     if( get_fatigue() < 1050 && !asleep && !debug_ls ) {
         if( rates.fatigue > 0.0f ) {
@@ -4580,8 +4581,8 @@ void Character::update_needs( int rate_multiplier )
                 mod_sleep_deprivation( fatigue_roll * 5 );
             }
 
-            if( npc_no_food && get_fatigue() > TIRED ) {
-                set_fatigue( TIRED );
+            if( npc_no_food && get_fatigue() > fatigue_levels::tired ) {
+                set_fatigue( static_cast<int>( fatigue_levels::tired ) );
                 set_sleep_deprivation( 0 );
             }
         }
@@ -4599,35 +4600,25 @@ void Character::update_needs( int rate_multiplier )
                 }
                 mod_fatigue( -recovered );
 
-                // Sleeping on the ground, no bionic = 1x rest_modifier
-                // Sleeping on a bed, no bionic      = 2x rest_modifier
-                // Sleeping on a comfy bed, no bionic= 3x rest_modifier
-
-                // Sleeping on the ground, bionic    = 3x rest_modifier
-                // Sleeping on a bed, bionic         = 6x rest_modifier
-                // Sleeping on a comfy bed, bionic   = 9x rest_modifier
-                float rest_modifier = ( has_active_bionic( bio_synaptic_regen ) ? 3 : 1 );
+                float rest_modifier = 10;
+                // Bionic doubles the base regen
+                if( has_active_bionic( bio_synaptic_regen ) ) {
+                    rest_modifier += 10;
+                }
                 // Melatonin supplements also add a flat bonus to recovery speed
                 if( has_effect( effect_melatonin_supplements ) ) {
-                    rest_modifier += 1;
+                    rest_modifier += 5;
                 }
 
                 const comfort_level comfort = base_comfort_value( pos() ).level;
 
+                // Best possible bed increases recovery by 50% of base
                 if( comfort >= comfort_level::very_comfortable ) {
-                    rest_modifier *= 3;
+                    rest_modifier += 5;
                 } else  if( comfort >= comfort_level::comfortable ) {
-                    rest_modifier *= 2.5;
+                    rest_modifier += 3;
                 } else if( comfort >= comfort_level::slightly_comfortable ) {
-                    rest_modifier *= 2;
-                }
-
-                // If we're just tired, we'll get a decent boost to our sleep quality.
-                // The opposite is true for very tired characters.
-                if( get_fatigue() < DEAD_TIRED ) {
-                    rest_modifier += 2;
-                } else if( get_fatigue() >= EXHAUSTED ) {
-                    rest_modifier = ( rest_modifier > 2 ) ? rest_modifier - 2 : 1;
+                    rest_modifier += 5;
                 }
 
                 // Recovered is multiplied by 2 as well, since we spend 1/3 of the day sleeping
@@ -4636,7 +4627,7 @@ void Character::update_needs( int rate_multiplier )
             }
         }
     }
-    if( is_player() && wasnt_fatigued && get_fatigue() > DEAD_TIRED && !lying ) {
+    if( is_player() && wasnt_fatigued && get_fatigue() > fatigue_levels::dead_tired && !lying ) {
         if( !activity ) {
             add_msg_if_player( m_warning, _( "You're feeling tired.  %s to lie down for sleep." ),
                                press_x( ACTION_SLEEP ) );
@@ -4823,8 +4814,8 @@ void Character::check_needs_extremes()
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if( get_fatigue() >= EXHAUSTED + 25 && !in_sleep_state() ) {
-        if( get_fatigue() >= MASSIVE_FATIGUE ) {
+    if( get_fatigue() >= fatigue_levels::exhausted + 25 && !in_sleep_state() ) {
+        if( get_fatigue() >= fatigue_levels::massive ) {
             add_msg_if_player( m_bad, _( "Survivor sleep now." ) );
             g->events().send<event_type::falls_asleep_from_exhaustion>( getID() );
             mod_fatigue( -10 );
@@ -4838,7 +4829,7 @@ void Character::check_needs_extremes()
 
     // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
     // Penalties start at Dead Tired and go from there
-    if( get_fatigue() >= DEAD_TIRED && !in_sleep_state() ) {
+    if( get_fatigue() >= fatigue_levels::dead_tired && !in_sleep_state() ) {
         if( get_fatigue() >= 700 ) {
             if( calendar::once_every( 30_minutes ) ) {
                 add_msg_if_player( m_warning, _( "You're too physically tired to stop yawning." ) );
@@ -4846,10 +4837,9 @@ void Character::check_needs_extremes()
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when dead tired */
             if( one_in( 50 + int_cur ) ) {
-                // Rivet's idea: look out for microsleeps!
                 fall_asleep( 30_seconds );
             }
-        } else if( get_fatigue() >= EXHAUSTED ) {
+        } else if( get_fatigue() >= fatigue_levels::exhausted ) {
             if( calendar::once_every( 30_minutes ) ) {
                 add_msg_if_player( m_warning, _( "How much longer until bedtime?" ) );
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
@@ -4858,7 +4848,7 @@ void Character::check_needs_extremes()
             if( one_in( 100 + int_cur ) ) {
                 fall_asleep( 30_seconds );
             }
-        } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every( 30_minutes ) ) {
+        } else if( get_fatigue() >= fatigue_levels::dead_tired && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "*yawn* You should really get some sleep." ) );
             add_effect( effect_lack_sleep, 30_minutes + 1_turns );
         }
@@ -4866,15 +4856,16 @@ void Character::check_needs_extremes()
 
     // Sleep deprivation kicks in if lack of sleep is avoided with stimulants or otherwise for long periods of time
     int sleep_deprivation = get_sleep_deprivation();
-    float sleep_deprivation_pct = sleep_deprivation / static_cast<float>( SLEEP_DEPRIVATION_MASSIVE );
+    float sleep_deprivation_pct = sleep_deprivation / static_cast<float>
+                                  ( sleep_deprivation_levels::massive );
 
-    if( sleep_deprivation >= SLEEP_DEPRIVATION_HARMLESS && !in_sleep_state() ) {
+    if( sleep_deprivation >= sleep_deprivation_levels::harmless && !in_sleep_state() ) {
         if( calendar::once_every( 60_minutes ) ) {
-            if( sleep_deprivation < SLEEP_DEPRIVATION_MINOR ) {
+            if( sleep_deprivation < sleep_deprivation_levels::minor ) {
                 add_msg_if_player( m_warning,
                                    _( "Your mind feels tired.  It's been a while since you've slept well." ) );
                 mod_fatigue( 1 );
-            } else if( sleep_deprivation < SLEEP_DEPRIVATION_SERIOUS ) {
+            } else if( sleep_deprivation < sleep_deprivation_levels::serious ) {
                 add_msg_if_player( m_bad,
                                    _( "Your mind feels foggy from lack of good sleep, and your eyes keep trying to close against your will." ) );
                 mod_fatigue( 5 );
@@ -4882,48 +4873,48 @@ void Character::check_needs_extremes()
                 if( one_in( 10 ) ) {
                     mod_healthy_mod( -1, 0 );
                 }
-            } else if( sleep_deprivation < SLEEP_DEPRIVATION_MAJOR ) {
+            } else if( sleep_deprivation < sleep_deprivation_levels::major ) {
                 add_msg_if_player( m_bad,
                                    _( "Your mind feels weary, and you dread every wakeful minute that passes.  You crave sleep, and feel like you're about to collapse." ) );
                 mod_fatigue( 10 );
 
                 if( one_in( 5 ) ) {
-                    mod_healthy_mod( -2, 0 );
+                    mod_healthy_mod( -2, -20 );
                 }
-            } else if( sleep_deprivation < SLEEP_DEPRIVATION_MASSIVE ) {
+            } else if( sleep_deprivation < sleep_deprivation_levels::massive ) {
                 add_msg_if_player( m_bad,
                                    _( "You haven't slept decently for so long that your whole body is screaming for mercy.  It's a miracle that you're still awake, but it just feels like a curse now." ) );
                 mod_fatigue( 40 );
 
-                mod_healthy_mod( -5, 0 );
+                mod_healthy_mod( -5, -50 );
             }
             // else you pass out for 20 hours, guaranteed
 
             // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + int_cur) at lethal sleep deprivation)
             // Note: these can coexist with fatigue-related microsleeps
             /** @EFFECT_INT slightly decreases occurrence of short naps when sleep deprived */
-            if( one_in( static_cast<int>( sleep_deprivation_pct * 75 ) + int_cur ) ) {
+            if( one_in( static_cast<int>( 1.0f - sleep_deprivation_pct * 75 ) + int_cur ) ) {
                 fall_asleep( 30_seconds );
             }
 
-            // Stimulants can be used to stay awake a while longer, but after a while you'll just collapse.
-            bool can_pass_out = ( get_stim() < 30 && sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) ||
-                                sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR;
+            // Meth prevents falling asleep
+            bool can_pass_out = sleep_deprivation >= sleep_deprivation_levels::major &&
+                                !has_effect( effect_meth );
 
             if( can_pass_out && calendar::once_every( 10_minutes ) ) {
                 /** @EFFECT_PER slightly increases resilience against passing out from sleep deprivation */
-                if( one_in( static_cast<int>( ( 1 - sleep_deprivation_pct ) * 100 ) + per_cur ) ||
-                    sleep_deprivation >= SLEEP_DEPRIVATION_MASSIVE ) {
+                if( one_in( static_cast<int>( ( 1.0f - sleep_deprivation_pct ) * 100 ) + per_cur ) ||
+                    sleep_deprivation >= sleep_deprivation_levels::massive ) {
                     add_msg_player_or_npc( m_bad,
                                            _( "Your body collapses due to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." )
                                            , _( "<npcname> collapses to the ground from exhaustion." ) );
-                    if( get_fatigue() < EXHAUSTED ) {
-                        set_fatigue( EXHAUSTED );
+                    if( get_fatigue() < fatigue_levels::exhausted ) {
+                        set_fatigue( static_cast<int>( fatigue_levels::exhausted ) );
                     }
 
-                    if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
+                    if( sleep_deprivation >= sleep_deprivation_levels::major ) {
                         fall_asleep( 20_hours );
-                    } else if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
+                    } else if( sleep_deprivation >= sleep_deprivation_levels::serious ) {
                         fall_asleep( 16_hours );
                     } else {
                         fall_asleep( 12_hours );
@@ -8937,6 +8928,9 @@ void Character::fall_asleep()
 
 void Character::fall_asleep( const time_duration &duration )
 {
+    if( has_effect( effect_meth ) ) {
+        return;
+    }
     if( activity ) {
         if( activity.id() == "ACT_TRY_SLEEP" ) {
             activity.set_to_null();
