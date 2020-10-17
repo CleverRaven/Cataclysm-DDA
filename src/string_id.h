@@ -14,9 +14,6 @@ class int_id;
 template<typename T>
 class generic_factory;
 
-static_assert( "random" == "random",
-               "String pooling has to be enabled for string_ids to work. Please enable it, it is supported on all major compilers." );
-
 constexpr int unsorted_cache_size = 32; // Arbitraily chosen.
 
 /**
@@ -110,9 +107,9 @@ class string_id
          */
         bool operator<( const This &rhs ) const {
             // Not str() compares to prevent needless tier ups to std::string
-            //__debugbreak();
-            //return strcmp( c_str(), rhs.c_str() ) < 0;
-            return reinterpret_cast<uintptr_t>( _string ) < reinterpret_cast<uintptr_t>( rhs._string );
+            return strcmp( c_str(), rhs.c_str() ) < 0;
+            // Some places rely on the string ordering - Need to pinpoint and fix them
+            //return reinterpret_cast<uintptr_t>( _string ) < reinterpret_cast<uintptr_t>( rhs._string );
         }
         /**
          * The usual comparator, compares the string id as usual.
