@@ -596,7 +596,7 @@ struct prof_penalty {
     float failure_mult;
 };
 
-std::string profstring( const prof_penalty &prof,
+static std::string profstring( const prof_penalty &prof,
                         std::string &color )
 {
     if( prof.time_mult == 1.0f ) {
