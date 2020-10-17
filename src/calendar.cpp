@@ -686,7 +686,10 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude(
     const units::angle declination = units::asin( rot.z );
 
     // sidereal time
-    const units::angle L0 = 177.83393662_degrees;
+    // For the origin of sidereal time consider that at the epoch at Greenwich,
+    // it's midnight on the vernal equinox so sidereal time should be 180°.
+    // Timezone and longitude are both zero here, so L0 = 180°.
+    const units::angle L0 = 180_degrees;
     const units::angle L1 = 360.98564736628603_degrees;
     const units::angle SIDTIME = L0 + L1 * days_since_epoch + location.longitude;
 
