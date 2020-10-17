@@ -374,6 +374,8 @@
       "stamina_fatigue_focus_layout",
       "sound_speed_move_layout",
       "stats_layout",
+      "hunger_desc",
+      "thirst_desc",
       "warmth_top_layout",
       "warmth_bottom_layout"
     ]
@@ -385,6 +387,22 @@
     "style": "phrase",
     "var": "mood",
     "strings": [ "8D", ":)", ":|", ":(" ]
+  },
+  {
+    "id": "thirst_desc",
+    "type": "widget",
+    "label": "Thirst",
+    "style": "phrase",
+    "var": "thirst_description",
+    "//": "Uses Character::get_thirst_description"
+  },
+  {
+    "id": "hunger_desc",
+    "type": "widget",
+    "label": "Hunger",
+    "style": "phrase",
+    "var": "hunger_description",
+    "//": "Uses Character::get_hunger_description"
   },
   {
     "id": "thirst_phrase",
