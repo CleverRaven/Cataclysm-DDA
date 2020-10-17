@@ -343,12 +343,12 @@ TEST_CASE( "layout widgets", "[widget][layout]" )
     clear_avatar();
 
     CHECK( stats_w.layout( ava, 32 ) ==
-           string_format( "STR: 8  DEX: 8  INT: 8  PER  : 8" ) );
+           string_format( "STR: 8  DEX: 8  INT: 8  PER:   8" ) );
     CHECK( stats_w.layout( ava, 38 ) ==
-           string_format( "STR  : 8  DEX  : 8  INT : 8  PER   : 8" ) );
+           string_format( "STR:   8  DEX:   8  INT:  8  PER:    8" ) );
     CHECK( stats_w.layout( ava, 40 ) ==
-           string_format( "STR  : 8  DEX  : 8  INT  : 8  PER    : 8" ) );
+           string_format( "STR:   8  DEX:   8  INT:   8  PER:     8" ) );
     CHECK( stats_w.layout( ava, 42 ) ==
-           string_format( "STR   : 8  DEX   : 8  INT  : 8  PER    : 8" ) );
+           string_format( "STR:    8  DEX:    8  INT:   8  PER:     8" ) );
 }
 
