@@ -665,6 +665,9 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude(
     const double days_since_epoch =
         to_days<double>( t - calendar::turn_zero ) + ( -timezone ) / 24.0;
 
+    // The angle per day the Earth moves around the Sun
+    const units::angle angle_per_day = 360_degrees / 365.2425;
+
     // It turns out that we want mean longitude to be zero at the vernal
     // equinox, which simplifies the calculations.
     const units::angle mean_long = 0.985647352_degrees * days_since_epoch;
@@ -685,12 +688,14 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude(
     const units::angle RA = atan2( rot.xy() );
     const units::angle declination = units::asin( rot.z );
 
-    // sidereal time
+    // Sidereal Time
+    //
     // For the origin of sidereal time consider that at the epoch at Greenwich,
     // it's midnight on the vernal equinox so sidereal time should be 180°.
     // Timezone and longitude are both zero here, so L0 = 180°.
     const units::angle L0 = 180_degrees;
-    const units::angle L1 = 360.98564736628603_degrees;
+    // Sidereal time advances by 360° per day plus an additional 360° per year
+    const units::angle L1 = 360_degrees + angle_per_day;
     const units::angle SIDTIME = L0 + L1 * days_since_epoch + location.longitude;
 
     const units::angle hour_angle = SIDTIME - RA;
