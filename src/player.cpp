@@ -32,6 +32,7 @@
 #include "faction.h"
 #include "fault.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "handle_liquid.h"
 #include "input.h"
@@ -246,7 +247,7 @@ player::player()
     }
 
     // Only call these if game is initialized
-    if( !!g ) {
+    if( !!g && json_flag::is_ready() ) {
         recalc_sight_limits();
         calc_encumbrance();
     }

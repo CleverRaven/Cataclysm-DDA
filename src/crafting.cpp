@@ -1131,13 +1131,13 @@ void item::inherit_flags( const item &parent, const recipe &making )
             set_flag( flag_FIT );
         }
     }
-    for( const std::string &f : parent.item_tags ) {
-        if( json_flag::get( f ).craft_inherit() ) {
+    for( const flag_id &f : parent.get_flags() ) {
+        if( f->craft_inherit() ) {
             set_flag( f );
         }
     }
-    for( const std::string &f : parent.type->get_flags() ) {
-        if( json_flag::get( f ).craft_inherit() ) {
+    for( const flag_id &f : parent.type->get_flags() ) {
+        if( f->craft_inherit() ) {
             set_flag( f );
         }
     }
@@ -1213,7 +1213,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
         }
         food_contained.inherit_flags( used, making );
 
-        for( const std::string &flag : making.flags_to_delete ) {
+        for( const flag_str_id &flag : making.flags_to_delete ) {
             food_contained.unset_flag( flag );
         }
 

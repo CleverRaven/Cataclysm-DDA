@@ -95,6 +95,9 @@ class effect_type
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
 
+        /** Check if the effect type has the specified flag */
+        bool has_flag( const flag_id &flag ) const;
+
     protected:
         int max_intensity = 0;
         int max_effective_intensity = 0;
@@ -107,7 +110,8 @@ class effect_type
         int int_decay_tick = 0 ;
         time_duration int_dur_factor = 0_turns;
 
-        std::set<std::string> flags;
+        std::set<flag_str_id> flags;
+        mutable cata::flat_set<flag_id> int_flags;
 
         bool main_parts_only = false;
 
@@ -273,6 +277,7 @@ class effect
 
         /** Check if the effect has the specified flag */
         bool has_flag( const std::string &flag ) const;
+        bool has_flag( const flag_id &flag ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod( const std::string &arg, int addict_level ) const;

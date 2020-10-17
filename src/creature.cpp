@@ -1219,9 +1219,10 @@ bool Creature::has_effect_with_flag( const std::string &flag, const bodypart_id 
 
 bool Creature::has_effect_with_flag( const std::string &flag ) const
 {
+    const flag_id f( flag );
     for( auto &elem : *effects ) {
         for( const std::pair<const bodypart_str_id, effect> &_it : elem.second ) {
-            if( _it.second.has_flag( flag ) ) {
+            if( _it.second.has_flag( f ) ) {
                 return true;
             }
         }

@@ -3858,23 +3858,26 @@ bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) co
 
 bool Character::worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
-    return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item & it ) {
-        return it.has_flag( flag ) && ( bp == bodypart_id( "bp_null" ) || it.covers( bp ) );
+    const flag_id f( flag );
+    return std::any_of( worn.begin(), worn.end(), [&f, bp]( const item & it ) {
+        return it.has_flag( f ) && ( bp == bodypart_id( "bp_null" ) || it.covers( bp ) );
     } );
 }
 
 bool Character::worn_with_flag( const std::string &flag ) const
 {
-    return std::any_of( worn.begin(), worn.end(), [&flag]( const item & it ) {
-        return it.has_flag( flag ) ;
+    const flag_id f( flag );
+    return std::any_of( worn.begin(), worn.end(), [&f]( const item & it ) {
+        return it.has_flag( f ) ;
     } );
 }
 
 item Character::item_worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
+    const flag_id f( flag );
     item it_with_flag;
     for( const item &it : worn ) {
-        if( it.has_flag( flag ) && ( bp == bodypart_id( "bp_null" ) || it.covers( bp ) ) ) {
+        if( it.has_flag( f ) && ( bp == bodypart_id( "bp_null" ) || it.covers( bp ) ) ) {
             it_with_flag = it;
             break;
         }
@@ -3884,9 +3887,10 @@ item Character::item_worn_with_flag( const std::string &flag, const bodypart_id 
 
 item Character::item_worn_with_flag( const std::string &flag ) const
 {
+    const flag_id f( flag );
     item it_with_flag;
     for( const item &it : worn ) {
-        if( it.has_flag( flag ) ) {
+        if( it.has_flag( f ) ) {
             it_with_flag = it;
             break;
         }
@@ -10260,8 +10264,9 @@ bool Character::covered_with_flag( const std::string &flag, const body_part_set 
 
     body_part_set to_cover( parts );
 
+    const flag_id f( flag );
     for( const auto &elem : worn ) {
-        if( !elem.has_flag( flag ) ) {
+        if( !elem.has_flag( f ) ) {
             continue;
         }
 

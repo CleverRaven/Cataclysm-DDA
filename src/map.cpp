@@ -4276,7 +4276,7 @@ void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id )
 
 void map::spawn_item( const tripoint &p, const itype_id &type_id,
                       const unsigned quantity, const int charges,
-                      const time_point &birthday, const int damlevel, const std::set<std::string> &flags )
+                      const time_point &birthday, const int damlevel, const std::set<flag_id> &flags )
 {
     if( type_id.is_null() ) {
         return;
@@ -4306,7 +4306,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     }
 
     new_item.set_damage( damlevel );
-    for( const std::string &flag : flags ) {
+    for( const flag_id &flag : flags ) {
         new_item.set_flag( flag );
     }
 
