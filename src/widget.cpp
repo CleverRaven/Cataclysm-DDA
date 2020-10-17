@@ -77,6 +77,16 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "bp_encumb";
         case widget_var::bp_warmth:
             return "bp_warmth";
+        // Description functions
+        case widget_var::pain_description:
+            return "pain_description";
+        case widget_var::hunger_description:
+            return "hunger_description";
+        case widget_var::thirst_description:
+            return "thirst_description";
+        case widget_var::fatigue_description:
+            return "fatigue_description";
+        // Fall-through - invalid
         case widget_var::last:
             break;
     }
@@ -225,9 +235,50 @@ int widget::get_var_value( const avatar &ava )
 
 std::string widget::show( const avatar &ava )
 {
-    int value = get_var_value( ava );
-    int value_max = get_var_max( ava );
-    return color_value_string( value, value_max );
+    if( uses_legacyfunc() ) {
+        return color_legacyfunc_string( ava );
+    } else {
+        int value = get_var_value( ava );
+        int value_max = get_var_max( ava );
+        return color_value_string( value, value_max );
+    }
+}
+
+bool widget::uses_legacyfunc()
+{
+    switch( _var ) {
+        case widget_var::pain_description:
+        case widget_var::hunger_description:
+        case widget_var::thirst_description:
+        case widget_var::fatigue_description:
+            return true;
+        default:
+            return false;
+    }
+}
+
+std::string widget::color_legacyfunc_string( const avatar &ava )
+{
+    std::string ret;
+    std::pair<std::string, nc_color> desc;
+    switch( _var ) {
+        case widget_var::pain_description:
+            desc = ava.get_pain_description();
+            break;
+        case widget_var::hunger_description:
+            desc = ava.get_hunger_description();
+            break;
+        case widget_var::thirst_description:
+            desc = ava.get_thirst_description();
+            break;
+        case widget_var::fatigue_description:
+            desc = ava.get_fatigue_description();
+            break;
+        default:
+            return "not a legacyfunc?";
+    }
+    ret += colorize( desc.first, desc.second );
+    return ret;
 }
 
 std::string widget::color_value_string( int value, int value_max )

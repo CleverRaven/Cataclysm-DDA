@@ -37,6 +37,10 @@ enum class widget_var : int {
     bp_hp,
     bp_encumb,
     bp_warmth,
+    pain_description,
+    hunger_description,
+    thirst_description,
+    fatigue_description,
     last
 };
 template<>
@@ -98,6 +102,9 @@ class widget
         std::string layout( const avatar &ava, unsigned int max_width = 0 );
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava );
+        // Return a colorized string for a legacy sidebar formatting function
+        std::string color_legacyfunc_string( const avatar &ava );
+        bool uses_legacyfunc();
 
         // Evaluate and return the bound "var" associated value for an avatar
         int get_var_value( const avatar &ava );
