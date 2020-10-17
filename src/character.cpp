@@ -9502,13 +9502,12 @@ ret_val<bool> Character::can_wield( const item &it ) const
     if( has_effect( effect_incorporeal ) ) {
         return ret_val<bool>::make_failure( _( "You can't wield anything while incorporeal." ) );
     }
-    if( it.made_of_from_type( phase_id::LIQUID ) ) {
-        return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
-    }
-
     if( get_working_arm_count() <= 0 ) {
         return ret_val<bool>::make_failure(
                    _( "You need at least one arm to even consider wielding something." ) );
+    }
+    if( it.made_of_from_type( phase_id::LIQUID ) ) {
+        return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
 
     if( is_armed() && !can_unwield( weapon ).success() ) {

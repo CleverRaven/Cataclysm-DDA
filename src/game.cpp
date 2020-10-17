@@ -2121,6 +2121,11 @@ static hint_rating rate_action_wear( const avatar &you, const item &it )
     return you.can_wear( it ).success() ? hint_rating::good : hint_rating::iffy;
 }
 
+static hint_rating rate_action_wield( const avatar &you, const item &it )
+{
+    return you.can_wield( it ).success() ? hint_rating::good : hint_rating::iffy;
+}
+
 /* item submenu for 'i' and '/'
 * It use draw_item_info to draw item info and action menu
 *
@@ -2173,8 +2178,8 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'R', pgettext( "action", "read" ), rate_action_read( u, oThisItem ) );
         addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, oThisItem ) );
         addentry( 'W', pgettext( "action", "wear" ), rate_action_wear( u, oThisItem ) );
-        addentry( 'w', pgettext( "action", "wield" ), hint_rating::good );
-        addentry( 't', pgettext( "action", "throw" ), hint_rating::good );
+        addentry( 'w', pgettext( "action", "wield" ), rate_action_wield( u, oThisItem ) );
+        addentry( 't', pgettext( "action", "throw" ), rate_action_wield( u, oThisItem ) );
         addentry( 'c', pgettext( "action", "change side" ), rate_action_change_side( u, oThisItem ) );
         addentry( 'T', pgettext( "action", "take off" ), rate_action_take_off( u, oThisItem ) );
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
@@ -2290,7 +2295,11 @@ int game::inventory_item_menu( item_location locThisItem,
                     handler.handle();
                     break;
                 case 'w':
-                    wield( locThisItem );
+                    if( u.can_wield( *locThisItem ).success() ) {
+                        wield( locThisItem );
+                    } else {
+                        add_msg( m_info, "%s", u.can_wield( *locThisItem ).c_str() );
+                    }
                     handler.handle();
                     break;
                 case 't':
@@ -9063,12 +9072,10 @@ void game::wield( item_location loc )
             return;
         }
     }
-
     const auto ret = u.can_wield( *loc );
     if( !ret.success() ) {
         add_msg( m_info, "%s", ret.c_str() );
     }
-
     // Need to do this here because holster_actor::use() checks if/where the item is worn
     item &target = *loc.get_item();
     if( target.get_use( "holster" ) && !target.contents.empty() ) {
