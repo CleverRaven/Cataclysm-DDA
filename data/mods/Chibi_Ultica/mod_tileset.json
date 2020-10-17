@@ -1784,83 +1784,231 @@
           ],
           "rotates": false
         },
-        { "id": "mon_twisted_body", "fg": [ 1077, 1078, 1079 ], "bg": [  ], "rotates": false },
+        {
+          "id": "mon_twisted_body",
+          "fg": [ { "weight": 1, "sprite": 1077 }, { "weight": 1, "sprite": 1078 }, { "weight": 1, "sprite": 1079 } ],
+          "bg": [  ],
+          "rotates": false
+        },
         {
           "id": "mon_zombie",
           "fg": [
-            1090,
-            1101,
-            1108,
-            1109,
-            1110,
-            1111,
-            1112,
-            1113,
-            1114,
-            1080,
-            1081,
-            1082,
-            1083,
-            1084,
-            1085,
-            1086,
-            1087,
-            1088,
-            1089,
-            1091,
-            1092,
-            1093,
-            1094,
-            1095,
-            1096,
-            1097,
-            1098,
-            1099,
-            1100,
-            1102,
-            1103,
-            1104,
-            1105,
-            1106,
-            1107
+            { "weight": 1, "sprite": 1090 },
+            { "weight": 1, "sprite": 1101 },
+            { "weight": 1, "sprite": 1108 },
+            { "weight": 1, "sprite": 1109 },
+            { "weight": 1, "sprite": 1110 },
+            { "weight": 1, "sprite": 1111 },
+            { "weight": 1, "sprite": 1112 },
+            { "weight": 1, "sprite": 1113 },
+            { "weight": 1, "sprite": 1114 },
+            { "weight": 1, "sprite": 1080 },
+            { "weight": 1, "sprite": 1081 },
+            { "weight": 1, "sprite": 1082 },
+            { "weight": 1, "sprite": 1083 },
+            { "weight": 1, "sprite": 1084 },
+            { "weight": 1, "sprite": 1085 },
+            { "weight": 1, "sprite": 1086 },
+            { "weight": 1, "sprite": 1087 },
+            { "weight": 1, "sprite": 1088 },
+            { "weight": 1, "sprite": 1089 },
+            { "weight": 1, "sprite": 1091 },
+            { "weight": 1, "sprite": 1092 },
+            { "weight": 1, "sprite": 1093 },
+            { "weight": 1, "sprite": 1094 },
+            { "weight": 1, "sprite": 1095 },
+            { "weight": 1, "sprite": 1096 },
+            { "weight": 1, "sprite": 1097 },
+            { "weight": 1, "sprite": 1098 },
+            { "weight": 1, "sprite": 1099 },
+            { "weight": 1, "sprite": 1100 },
+            { "weight": 1, "sprite": 1102 },
+            { "weight": 1, "sprite": 1103 },
+            { "weight": 1, "sprite": 1104 },
+            { "weight": 1, "sprite": 1105 },
+            { "weight": 1, "sprite": 1106 },
+            { "weight": 1, "sprite": 1107 }
           ],
           "bg": [  ],
           "rotates": false
         },
         {
           "id": "mon_zombie_child",
-          "fg": [ 1115, 1116, 1117, 1126, 1127, 1128, 1129, 1130, 1131, 1118, 1119, 1120, 1121, 1122, 1123, 1124, 1125 ],
+          "fg": [
+            { "weight": 1, "sprite": 1115 },
+            { "weight": 1, "sprite": 1116 },
+            { "weight": 1, "sprite": 1117 },
+            { "weight": 1, "sprite": 1126 },
+            { "weight": 1, "sprite": 1127 },
+            { "weight": 1, "sprite": 1128 },
+            { "weight": 1, "sprite": 1129 },
+            { "weight": 1, "sprite": 1130 },
+            { "weight": 1, "sprite": 1131 },
+            { "weight": 1, "sprite": 1118 },
+            { "weight": 1, "sprite": 1119 },
+            { "weight": 1, "sprite": 1120 },
+            { "weight": 1, "sprite": 1121 },
+            { "weight": 1, "sprite": 1122 },
+            { "weight": 1, "sprite": 1123 },
+            { "weight": 1, "sprite": 1124 },
+            { "weight": 1, "sprite": 1125 }
+          ],
           "bg": [  ],
           "rotates": false
         },
         {
           "id": "mon_zombie_fat",
-          "fg": [ 1132, 1133, 1134, 1142, 1143, 1144, 1145, 1146, 1147, 1135, 1136, 1137, 1138, 1139, 1140, 1141 ],
+          "fg": [
+            { "weight": 1, "sprite": 1132 },
+            { "weight": 1, "sprite": 1133 },
+            { "weight": 1, "sprite": 1134 },
+            { "weight": 1, "sprite": 1142 },
+            { "weight": 1, "sprite": 1143 },
+            { "weight": 1, "sprite": 1144 },
+            { "weight": 1, "sprite": 1145 },
+            { "weight": 1, "sprite": 1146 },
+            { "weight": 1, "sprite": 1147 },
+            { "weight": 1, "sprite": 1135 },
+            { "weight": 1, "sprite": 1136 },
+            { "weight": 1, "sprite": 1137 },
+            { "weight": 1, "sprite": 1138 },
+            { "weight": 1, "sprite": 1139 },
+            { "weight": 1, "sprite": 1140 },
+            { "weight": 1, "sprite": 1141 }
+          ],
           "bg": [  ],
           "rotates": false
         },
         {
           "id": "mon_zombie_grabber",
-          "fg": [ 1148, 1149, 1150, 1151, 1152, 1153, 1154, 1155, 1156 ],
+          "fg": [
+            { "weight": 1, "sprite": 1148 },
+            { "weight": 1, "sprite": 1149 },
+            { "weight": 1, "sprite": 1150 },
+            { "weight": 1, "sprite": 1151 },
+            { "weight": 1, "sprite": 1152 },
+            { "weight": 1, "sprite": 1153 },
+            { "weight": 1, "sprite": 1154 },
+            { "weight": 1, "sprite": 1155 },
+            { "weight": 1, "sprite": 1156 }
+          ],
           "bg": [  ],
           "rotates": false
         },
-        { "id": "mon_zombie_labsecurity", "fg": [ 1157, 1158, 1159, 1160, 1161, 1162 ], "bg": [  ], "rotates": false },
-        { "id": "mon_zombie_prisoner", "fg": [ 1163, 1164, 1165, 1166, 1167, 1168 ], "bg": [  ], "rotates": false },
-        { "id": "mon_zombie_runner", "fg": [ 1169, 1170, 1171, 1172, 1173 ], "bg": [  ], "rotates": false },
+        {
+          "id": "mon_zombie_labsecurity",
+          "fg": [
+            { "weight": 1, "sprite": 1157 },
+            { "weight": 1, "sprite": 1158 },
+            { "weight": 1, "sprite": 1159 },
+            { "weight": 1, "sprite": 1160 },
+            { "weight": 1, "sprite": 1161 },
+            { "weight": 1, "sprite": 1162 }
+          ],
+          "bg": [  ],
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_prisoner",
+          "fg": [
+            { "weight": 1, "sprite": 1163 },
+            { "weight": 1, "sprite": 1164 },
+            { "weight": 1, "sprite": 1165 },
+            { "weight": 1, "sprite": 1166 },
+            { "weight": 1, "sprite": 1167 },
+            { "weight": 1, "sprite": 1168 }
+          ],
+          "bg": [  ],
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_runner",
+          "fg": [
+            { "weight": 1, "sprite": 1169 },
+            { "weight": 1, "sprite": 1170 },
+            { "weight": 1, "sprite": 1171 },
+            { "weight": 1, "sprite": 1172 },
+            { "weight": 1, "sprite": 1173 }
+          ],
+          "bg": [  ],
+          "rotates": false
+        },
         {
           "id": "mon_zombie_scientist",
-          "fg": [ 1174, 1177, 1178, 1179, 1180, 1181, 1182, 1183, 1184, 1175, 1176 ],
+          "fg": [
+            { "weight": 1, "sprite": 1174 },
+            { "weight": 1, "sprite": 1177 },
+            { "weight": 1, "sprite": 1178 },
+            { "weight": 1, "sprite": 1179 },
+            { "weight": 1, "sprite": 1180 },
+            { "weight": 1, "sprite": 1181 },
+            { "weight": 1, "sprite": 1182 },
+            { "weight": 1, "sprite": 1183 },
+            { "weight": 1, "sprite": 1184 },
+            { "weight": 1, "sprite": 1175 },
+            { "weight": 1, "sprite": 1176 }
+          ],
           "bg": [  ],
           "rotates": false
         },
-        { "id": "mon_zombie_screecher", "fg": [ 1185, 1186, 1187, 1188 ], "bg": [  ], "rotates": false },
-        { "id": "mon_zombie_shrieker", "fg": [ 1189, 1190, 1191, 1192 ], "bg": [  ], "rotates": false },
-        { "id": "mon_zombie_survivor", "fg": [ 1193, 1194 ], "bg": [  ], "rotates": false },
-        { "id": "mon_zombie_technician", "fg": [ 1195, 1196, 1197, 1198 ], "bg": [  ], "rotates": false },
+        {
+          "id": "mon_zombie_screecher",
+          "fg": [
+            { "weight": 1, "sprite": 1185 },
+            { "weight": 1, "sprite": 1186 },
+            { "weight": 1, "sprite": 1187 },
+            { "weight": 1, "sprite": 1188 }
+          ],
+          "bg": [  ],
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_shrieker",
+          "fg": [
+            { "weight": 1, "sprite": 1189 },
+            { "weight": 1, "sprite": 1190 },
+            { "weight": 1, "sprite": 1191 },
+            { "weight": 1, "sprite": 1192 }
+          ],
+          "bg": [  ],
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_survivor",
+          "fg": [ { "weight": 1, "sprite": 1193 }, { "weight": 1, "sprite": 1194 } ],
+          "bg": [  ],
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_technician",
+          "fg": [
+            { "weight": 1, "sprite": 1195 },
+            { "weight": 1, "sprite": 1196 },
+            { "weight": 1, "sprite": 1197 },
+            { "weight": 1, "sprite": 1198 }
+          ],
+          "bg": [  ],
+          "rotates": false
+        },
         {
           "id": "mon_zombie_tough",
-          "fg": [ 1199, 1200, 1201, 1208, 1209, 1210, 1211, 1212, 1213, 1202, 1203, 1204, 1205, 1206, 1207 ],
+          "fg": [
+            { "weight": 1, "sprite": 1199 },
+            { "weight": 1, "sprite": 1200 },
+            { "weight": 1, "sprite": 1201 },
+            { "weight": 1, "sprite": 1208 },
+            { "weight": 1, "sprite": 1209 },
+            { "weight": 1, "sprite": 1210 },
+            { "weight": 1, "sprite": 1211 },
+            { "weight": 1, "sprite": 1212 },
+            { "weight": 1, "sprite": 1213 },
+            { "weight": 1, "sprite": 1202 },
+            { "weight": 1, "sprite": 1203 },
+            { "weight": 1, "sprite": 1204 },
+            { "weight": 1, "sprite": 1205 },
+            { "weight": 1, "sprite": 1206 },
+            { "weight": 1, "sprite": 1207 }
+          ],
           "bg": [  ],
           "rotates": false
         }
