@@ -13,7 +13,7 @@
  *    instead of:  some_method( string_id<T>( "id_constant" ) );
  *    use:         some_method( STATIC ( string_id<T>( "id_constant" ) ) );
  *
- *    const V &v = _STATIC( expr );
+ *    const V &v = STATIC( expr );
  *    // is an equivalent of:
  *    static const V v = expr;
  *
