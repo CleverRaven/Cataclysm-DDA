@@ -312,6 +312,9 @@ static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
 
+static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
+static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ALCMET( "ALCMET" );
@@ -3430,13 +3433,25 @@ int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
     /** @EFFECT_DEX speeds up door lock picking */
     /** @EFFECT_LOCKPICK speeds up door lock picking */
     int duration;
+    int duration_proficiency_factor = 10;
+
+    if( you.has_proficiency( proficiency_prof_lockpicking ) ) {
+        duration_proficiency_factor = 5;
+    }
+    if( you.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+        duration_proficiency_factor = 1;
+    }
+
     if( it->has_flag( flag_PERFECT_LOCKPICK ) ) {
         duration = to_moves<int>( 5_seconds );
     } else {
-        duration = std::max( to_moves<int>( 10_seconds ),
+        duration = std::max( to_moves<int>( 30_seconds ),
                              to_moves<int>( 10_minutes - time_duration::from_minutes( qual ) ) - ( you.dex_cur +
-                                     you.get_skill_level( skill_traps ) ) * 2300 );
+                                     you.get_skill_level( skill_traps ) ) * 2000 ) * duration_proficiency_factor;
     }
+
+
+
 
     you.assign_activity( lockpick_activity_actor::use_item( duration, item_location( you, it ),
                          get_map().getabs( *target ) ) );
