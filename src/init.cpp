@@ -253,6 +253,7 @@ void DynamicDataLoader::initialize()
     } );
 
     add( "vehicle_part",  &vpart_info::load );
+    add( "vehicle_part_category",  &vpart_category::load );
     add( "vehicle",  &vehicle_prototype::load );
     add( "vehicle_group",  &VehicleGroup::load );
     add( "vehicle_placement",  &VehiclePlacement::load );
@@ -553,6 +554,7 @@ void DynamicDataLoader::unload_data()
     vehicle_prototype::reset();
     vitamin::reset();
     vpart_info::reset();
+    vpart_category::reset();
     weather_types::reset();
 }
 
@@ -589,6 +591,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
                     requirement_data::finalize();
                 }
             },
+            { _( "Vehicle part categories" ), &vpart_category::finalize },
             { _( "Vehicle parts" ), &vpart_info::finalize },
             { _( "Traps" ), &trap::finalize },
             { _( "Terrain" ), &set_ter_ids },

@@ -189,6 +189,38 @@ std::pair<std::string, std::string> get_vpart_str_variant( const std::string &vp
 std::pair<vpart_id, std::string> get_vpart_id_variant( const vpart_id &vpid );
 std::pair<vpart_id, std::string> get_vpart_id_variant( const std::string &vpid );
 
+class vpart_category
+{
+    public:
+        static const std::vector<vpart_category> &all();
+
+        static void load( const JsonObject &jo );
+        static void finalize();
+        static void reset();
+
+        std::string get_id() const {
+            return id_;
+        }
+
+        std::string name() const {
+            return name_.translated();
+        }
+
+        std::string short_name() const {
+            return short_name_.translated();
+        }
+
+        bool operator < ( const vpart_category &cat ) const {
+            return priority_ < cat.priority_;
+        }
+
+    private:
+        std::string id_;
+        translation name_;
+        translation short_name_;
+        int priority_; // order of tab in the UI
+};
+
 class vpart_info
 {
     public:
@@ -203,7 +235,6 @@ class vpart_info
         static void reset();
 
         static const std::map<vpart_id, vpart_info> &all();
-        static const std::set<std::string> &categories_all();
 
         /** Translated name of a part */
         std::string name() const;
@@ -229,6 +260,9 @@ class vpart_info
                 return p.first == tool;
             } ) != pseudo_tools.cend();
         }
+
+        /** Gets all categories of this part */
+        const std::set<std::string> &get_categories() const;
 
         /** Gets whether part is in a category for display */
         bool has_category( const std::string &category ) const;

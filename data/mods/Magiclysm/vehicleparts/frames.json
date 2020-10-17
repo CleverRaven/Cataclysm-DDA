@@ -16,7 +16,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ], [ "spellcraft", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
-    "categories": [ "Other" ],
+    "categories": [ "hull" ],
     "damage_reduction": { "all": 12 }
   },
   {
@@ -35,7 +35,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "MOUNTABLE" ],
-    "categories": [ "Other" ],
+    "categories": [ "hull" ],
     "damage_reduction": { "all": 78 }
   },
   {
