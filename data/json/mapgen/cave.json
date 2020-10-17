@@ -433,7 +433,6 @@
           { "item": "chainmail_legs", "chance": 100 },
           { "item": "chainmail_hauberk", "chance": 100 },
           { "item": "longsword", "chance": 100 },
-          { "item": "shield_kite", "chance": 100 },
           { "item": "corpse", "chance": 100 }
         ],
         "@": { "item": "mininuke", "chance": 100 },
