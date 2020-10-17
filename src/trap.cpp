@@ -218,13 +218,13 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 
     // Perception is the main stat for spotting traps, int helps a bit.
     // In this case, stats are more important than skills.
-    const int weighted_stat_average = ( 4 * p.per_cur + p.int_cur ) / 5;
+    const int weighted_stat_average = std::round( ( 4 * p.per_cur + p.int_cur ) / 5.0f );
 
     // Eye encumbrance will penalize spotting
     const int encumbrance_penalty = p.encumb( bodypart_id( "eyes" ) ) / 10;
 
     // Your current focus strongly affects your ability to spot things.
-    const int focus_effect = std::round( p.focus_pool / 25 ) - 2;
+    const int focus_effect = std::round( p.focus_pool / 25.0f ) - 2;
 
     // The further away the trap is, the harder it is to spot.
     // Subtract 1 so that we don't get an unfair penalty when not quite on top of the trap.
@@ -247,9 +247,9 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 
     // For every 100 points of sleep deprivation after 200, reduce your roll by 1.
     // That represents a -2 at dead tired, -4 at exhausted, and so on.
-    const int fatigue_penalty = std::round( std::min( 0, p.get_fatigue() - 200 ) / 100 );
+    const int fatigue_penalty = std::round( std::min( 0, p.get_fatigue() - 200 ) / 100.0f );
 
-    const int mean_roll = weighted_stat_average + std::round( traps_skill_level / 3 ) +
+    const int mean_roll = weighted_stat_average + std::round( traps_skill_level / 3.0f ) +
                           proficiency_effect +
                           focus_effect - distance_penalty - fatigue_penalty - encumbrance_penalty;
 
