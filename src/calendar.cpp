@@ -666,7 +666,7 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude(
         to_days<double>( t - calendar::turn_zero ) + ( -timezone ) / 24.0;
 
     // The angle per day the Earth moves around the Sun
-    const units::angle angle_per_day = 360_degrees / 365.2425;
+    const units::angle angle_per_day = 360_degrees / to_days<int>( calendar::year_length() );
 
     // It turns out that we want mean longitude to be zero at the vernal
     // equinox, which simplifies the calculations.
