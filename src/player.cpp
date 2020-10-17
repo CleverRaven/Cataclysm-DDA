@@ -775,8 +775,10 @@ void player::search_surroundings()
                 // Only bug player about traps that aren't trivial to spot.
                 const std::string direction = direction_name(
                                                   direction_from( pos(), tp ) );
-                practice_proficiency( proficiency_prof_traps, 10_seconds );
                 practice_proficiency( proficiency_prof_spotting, 1_minutes );
+                // Seeing a trap set properly gives you a little bonus to trapsetting profs.
+                practice_proficiency( proficiency_prof_traps, 10_seconds );
+                practice_proficiency( proficiency_prof_trapsetting, 10_seconds );
                 add_msg_if_player( _( "You've spotted a %1$s to the %2$s!" ),
                                    tr.name(), direction );
             }

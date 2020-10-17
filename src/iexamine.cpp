@@ -3868,6 +3868,8 @@ void trap::examine( const tripoint &examp ) const
             }
         }
         player_character.practice_proficiency( proficiency_prof_traps, 5_minutes );
+        // Disarming a trap gives you a token bonus to learning to set them properly.
+        player_character.practice_proficiency( proficiency_prof_trapsetting, 30_seconds );
         player_character.practice_proficiency( proficiency_prof_disarming, 5_minutes );
         return;
     }
