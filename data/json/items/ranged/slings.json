@@ -56,7 +56,7 @@
     "symbol": "(",
     "color": "brown",
     "name": { "str": "staff sling" },
-    "description": "This staff can launch rocks with a whiping motion that sends them flying much further and faster than throwing them.",
+    "description": "This staff can launch rocks with a whipping motion that sends them flying much further and faster than throwing them.",
     "price": 150,
     "//": "The staff sling,consists of a staff with a short sling at one end. ",
     "material": [ "wood", "leather" ],
