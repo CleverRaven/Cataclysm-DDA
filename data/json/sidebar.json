@@ -364,6 +364,20 @@
     "widgets": [ "str_num", "dex_num", "int_num", "per_num" ]
   },
   {
+    "id": "pain_thirst_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "pain_desc", "thirst_desc" ]
+  },
+  {
+    "id": "rest_hunger_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "fatigue_desc", "hunger_desc" ]
+  },
+  {
     "id": "root_layout",
     "type": "widget",
     "style": "layout",
@@ -374,8 +388,8 @@
       "stamina_fatigue_focus_layout",
       "sound_speed_move_layout",
       "stats_layout",
-      "hunger_desc",
-      "thirst_desc",
+      "pain_thirst_layout",
+      "rest_hunger_layout",
       "warmth_top_layout",
       "warmth_bottom_layout"
     ]
@@ -389,12 +403,28 @@
     "strings": [ "8D", ":)", ":|", ":(" ]
   },
   {
+    "id": "pain_desc",
+    "type": "widget",
+    "label": "Pain",
+    "style": "phrase",
+    "var": "pain_description",
+    "//": "Uses Character::get_pain_description"
+  },
+  {
     "id": "thirst_desc",
     "type": "widget",
     "label": "Thirst",
     "style": "phrase",
     "var": "thirst_description",
     "//": "Uses Character::get_thirst_description"
+  },
+  {
+    "id": "fatigue_desc",
+    "type": "widget",
+    "label": "Rest",
+    "style": "phrase",
+    "var": "fatigue_description",
+    "//": "Uses Character::get_fatigue_description"
   },
   {
     "id": "hunger_desc",
