@@ -670,10 +670,13 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude(
 
     // It turns out that we want mean longitude to be zero at the vernal
     // equinox, which simplifies the calculations.
-    const units::angle mean_long = 0.985647352_degrees * days_since_epoch;
+    const units::angle mean_long = angle_per_day * days_since_epoch;
     // Roughly 77 degrees offset between mean longitude and mean anomaly at
-    // J2000, so use that as our offset too.
-    const units::angle mean_anomaly = 77_degrees + 0.9856002585_degrees * days_since_epoch;
+    // J2000, so use that as our offset too.  The relative drift is slow, so we
+    // neglect it.
+    const units::angle mean_anomaly = 77_degrees + mean_long;
+    // The two arbitrary constants in the caclulation of ecliptic longitude
+    // relate to the non-circularity of the Earth's orbit.
     const units::angle ecliptic_longitude =
         mean_long + 1.915_degrees * sin( mean_anomaly ) + 0.020_degrees * sin( 2 * mean_anomaly );
 
