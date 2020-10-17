@@ -597,7 +597,7 @@ struct prof_penalty {
 };
 
 static std::string profstring( const prof_penalty &prof,
-                        std::string &color )
+                               std::string &color )
 {
     if( prof.time_mult == 1.0f ) {
         return string_format( _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0failure</color>)" ),
@@ -629,7 +629,7 @@ std::string recipe::used_proficiencies_string( const Character *c ) const
 
     std::string color = "light_gray";
     std::string used = enumerate_as_string( used_profs.begin(),
-    used_profs.end(), [&]( const prof_penalty &prof ) {
+    used_profs.end(), [&]( const prof_penalty & prof ) {
         return profstring( prof, color );
     } );
 
@@ -653,7 +653,7 @@ std::string recipe::missing_proficiencies_string( const Character *c ) const
 
     std::string color = "yellow";
     std::string missing = enumerate_as_string( missing_profs.begin(),
-    missing_profs.end(), [&]( const prof_penalty &prof ) {
+    missing_profs.end(), [&]( const prof_penalty & prof ) {
         return profstring( prof, color );
     } );
 
