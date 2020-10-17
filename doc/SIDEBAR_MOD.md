@@ -13,9 +13,42 @@ Widgets have the following "style" options:
 - "graph": Show a bar graph of the value with colored text characters
 - "layout": Special style; this widget will be a layout container for other widgets
 
+Each widget is bound to a special "var" name, referring to where its value should come from.
 
-Number widget
-----
+
+## Widget variables
+
+The "var" field of a widget tells what variable data gives the widget its value.  Valid var names
+are given by the `widget_var` enum defined in `widget.h`. In the widget's `show` method, these var
+enums determine which avatar method(s) to get their values from.
+
+Below are a few examples of vars and what they mean. See the `widget_var` list in `widget.h` for the
+definitive list of vars.
+
+- `bp_hp`: HP of given "bodypart", like "arm_l" or "torso", scale of 0-max HP
+- `bp_encumb`: encumbrance given "bodypart", scale of 0-??
+- `bp_warmth`: warmth of given "bodypart", scale of 0-10000
+- `stat_(str|dex|int|per)`: base character stat values
+- `stamina`: 0-10000, greater is fuller stamina reserves
+- `fatigue`: 0-1000, greater is more fatigued/tired
+- `move`, `pain`, `speed`, `mana`: other numeric avatar attributes
+
+
+### var_max
+
+Using "graph" style widgets, usually you should provide a "var_max" value (integer) that tells the
+maximum typical value of "var" that will ever be rendered.
+
+Some "var" fields such as "stamina", or "hp_bp" (hit points for body part) have a known maximum, but
+others like character stats, move speed, or encumbrance have no predefined cap - for these you can
+provide an explicit "var_max" that indicates where the top / full point of the graph is.
+
+This helps the graph widget know whether it needs to show values up to 10000 (like stamina) or only
+up to 100 or 200 (like focus). For a stat that usually varies within a range `[low, high]`, select a
+"var_max" greater than `high` to be sure the normal variance is captured in the graph's range.
+
+
+## Number widget
 
 The simplest and usually most compact widget for displaying a value, "style": "number" appears as a
 label with an integer number.
@@ -31,8 +64,7 @@ The numeric value comes from the pseudo-function given by "var".
 
 
 
-Phrase widget
-----
+## Phrase widget
 
 *Wishlist*
 
@@ -66,8 +98,7 @@ being the best, you could define phrase widgets to show the same mood value in t
 More familiar in-game are hunger, thirst, body temperature and pain indicators.
 
 
-Graph widget
-----
+## Graph widget
 
 The graph shows an arrangement of symbols. It has two important parameters:
 
@@ -115,8 +146,7 @@ When using more than two sybols, different ways of filling up the graph become p
 specified with the "fill" field.
 
 
-fill
-----
+### fill
 
 With "bucket" fill, positions are filled like a row of buckets, using all symbols in the first
 position before beginning to fill the next position.  This is like the classic 5-bar HP meter.
@@ -163,8 +193,7 @@ before the next symbol appears.
 The total number of possible graphs is the same in each case, so both have the same resolution.
 
 
-start
------
+### start
 
 *Wishlist*
 
@@ -201,8 +230,7 @@ The simplest *useful* graph is one character wide, with two symbols:
 ```
 
 
-Layout widget
-----
+## Layout widget
 
 Lay out widgets with "style": "layout" widgets, providing a "widgets" list of widget ids or a
 "layout" object with row ids mapping to widget id lists. Widgets in the same row will have their
@@ -249,37 +277,4 @@ Str: 8  Dex: 9  Int: 7  Per: 11
 
 The widget with id "root_layout" defines the top-level layout widget for all sidebar customization.
 
-
-Widget variables
-----
-
-The "var" field of a widget tells what variable data gives the widget its value.  Valid var names
-are given by the `widget_var` enum defined in `widget.h`. In the widget's `show` method, these var
-enums determine which avatar method(s) to get their values from.
-
-Below are a few examples of vars and what they mean. See the `widget_var` list in `widget.h` for the
-definitive list of vars.
-
-- `bp_hp`: HP of given "bodypart", like "arm_l" or "torso", scale of 0-max HP
-- `bp_encumb`: encumbrance given "bodypart", scale of 0-??
-- `bp_warmth`: warmth of given "bodypart", scale of 0-10000
-- `stat_(str|dex|int|per)`: base character stat values
-- `stamina`: 0-10000, greater is fuller stamina reserves
-- `fatigue`: 0-1000, greater is more fatigued/tired
-- `move`, `pain`, `speed`, `mana`: other numeric avatar attributes
-
-
-var_max
---
-
-Using "graph" style widgets, usually you should provide a "var_max" value (integer) that tells the
-maximum typical value of "var" that will ever be rendered.
-
-Some "var" fields such as "stamina", or "hp_bp" (hit points for body part) have a known maximum, but
-others like character stats, move speed, or encumbrance have no predefined cap - for these you can
-provide an explicit "var_max" that indicates where the top / full point of the graph is.
-
-This helps the graph widget know whether it needs to show values up to 10000 (like stamina) or only
-up to 100 or 200 (like focus). For a stat that usually varies within a range `[low, high]`, select a
-"var_max" greater than `high` to be sure the normal variance is captured in the graph's range.
 
