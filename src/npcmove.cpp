@@ -644,6 +644,11 @@ void npc::assess_danger()
     ai_cache.danger_assessment = assessment;
 }
 
+bool npc::is_safe() const
+{
+    return ai_cache.total_danger <= 0;
+}
+
 float npc::character_danger( const Character &uc ) const
 {
     // TODO: Remove this when possible

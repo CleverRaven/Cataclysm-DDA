@@ -695,7 +695,7 @@ template<class T>
 void conditional_t<T>::set_at_safe_space()
 {
     condition = []( const T & d ) {
-        return overmap_buffer.is_safe( d.beta->global_omt_location() );
+        return overmap_buffer.is_safe( d.beta->global_omt_location() ) && d.beta->is_safe();
     };
 }
 

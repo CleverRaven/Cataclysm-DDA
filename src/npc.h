@@ -1040,6 +1040,7 @@ class npc : public player
         float evaluate_enemy( const Creature &target ) const;
 
         void assess_danger();
+        bool is_safe() const;
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
         npc_action method_of_attack();
