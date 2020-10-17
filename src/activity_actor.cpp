@@ -1084,7 +1084,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
                                           who.int_cur ) / 9;
 
     // Get a bonus from your lockpick quality if the quality is higher than 3, or a penalty if it is lower. For a bobby pin this puts you at -2, for a locksmith kit, +2.
-    const float tool_effect = it->get_quality( qual_LOCKPICK ) - 3 - it->damage() / 2000.0 );
+    const float tool_effect = ( it->get_quality( qual_LOCKPICK ) - 3 ) - ( it->damage() / 2000.0 );
 
     // Without at least a basic lockpick proficiency, your skill level is effectively 6 levels lower.
     int proficiency_effect = -6;
