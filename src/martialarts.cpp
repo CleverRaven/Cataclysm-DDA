@@ -515,8 +515,8 @@ std::string ma_requirements::get_description( bool buff ) const
             if( u.has_active_bionic( bio_cqb ) ) {
                 player_skill = BIO_CQB_LEVEL;
             }
-            return string_format( "%s: <stat>%d</stat>/<stat>%d</stat>", pr.first->name(), pr.second,
-                                  player_skill );
+            return string_format( "%s: <stat>%d</stat>/<stat>%d</stat>", pr.first->name(), player_skill,
+                                  pr.second );
         }, enumeration_conjunction::none ) + "\n";
     }
 
@@ -1466,7 +1466,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             } else if( ma.arm_block != 99 ) {
                 buffer += string_format(
                               _( "You can <info>arm block</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
-                              ma.arm_block, unarmed_skill ) + "\n";
+                              unarmed_skill, ma.arm_block ) + "\n";
             }
 
             if( ma.leg_block_with_bio_armor_legs ) {
@@ -1475,7 +1475,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             } else if( ma.leg_block != 99 ) {
                 buffer += string_format(
                               _( "You can <info>leg block</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
-                              ma.leg_block, unarmed_skill );
+                              unarmed_skill, ma.leg_block );
                 buffer += "\n";
             }
             buffer += "--\n";
