@@ -434,14 +434,14 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
         // Width used by label, ": " and value, using utf8_width to ignore color tags
         unsigned int used_width = _label.length() + 2 + utf8_width( shown, true );
 
-        // Label first
-        ret += _label;
+        // Label and ": " first
+        ret += _label + ": ";
         // then enough padding to fit max_width
         if( used_width < max_width ) {
             ret += std::string( max_width - used_width, ' ' );
         }
-        // then ":" and colorized value
-        ret += ": " + shown;
+        // then colorized value
+        ret += shown;
     }
     return ret;
 }
