@@ -6,7 +6,7 @@
 #include <type_traits>
 
 static constexpr int64_t INVALID_VERSION = -1;
-static constexpr int INVALID_CID = -1;
+static constexpr int64_t INVALID_CID = -1;
 
 template<typename T>
 class int_id;
@@ -14,44 +14,10 @@ class int_id;
 template<typename T>
 class generic_factory;
 
-namespace Hash
-{
-namespace CompileTime
-{
-template <unsigned N>
-constexpr uint64_t fnv1_64( const char( &text )[N] )
-{
-    return ( fnv1_64( reinterpret_cast < const char( & )[N - 1] > ( text ) ) * 1099511628211ull ) ^
-           text[N - 2];
-}
+static_assert( "random" == "random",
+               "String pooling has to be enabled for string_ids to work. Please enable it, it is supported on all major compilers." );
 
-template<>
-constexpr uint64_t fnv1_64<1>( const char( & )[1] )
-{
-    return 14695981039346656037ull;
-}
-} // CompileTime
-
-namespace RunTime
-{
-constexpr uint64_t fnv1_64( const char *data, size_t length )
-{
-    uint64_t hash = 14695981039346656037ull;
-    for( size_t i = 0; i < length; i++ ) {
-        hash *= 1099511628211ull;
-        hash ^= data[i];
-    }
-    return hash;
-}
-} // RunTime
-} // Hash
-
-constexpr uint64_t operator"" _id( const char *data, size_t length )
-{
-    // This allows us to compute the hash of all compiled IDs in
-    // (hopefully) compile time. constexpr doesn't promise it...
-    return Hash::RunTime::fnv1_64( data, length );
-}
+constexpr int unsorted_cache_size = 32; // Arbitraily chosen.
 
 /**
  * This represents an identifier (implemented as std::string) of some object.
@@ -112,56 +78,52 @@ class string_id
         friend class string_id;
         using This = string_id<T>;
 
+        // Constructor for compile time strings (Compile time known length)
         template<unsigned N>
-        explicit constexpr string_id( const char ( &str )[N] ) : _hash( Hash::CompileTime::fnv1_64( str ) ),
-            _char_ptr( str ), _is_char_ptr( true ) {}
+        explicit constexpr string_id( const char ( &str )[N] ) {
+            _string = insert_or_get_cache( str, false );
+        }
 
-        template<typename U>
-        string_id( const string_id<U> &other ) : _hash( other.hash() ), _char_ptr( other._char_ptr ),
-            _is_char_ptr( other._is_char_ptr ) {}
-
+        // Constructor for runtime strings (Length not known in compile time)
         template<typename S, class = typename
                  std::enable_if< std::is_convertible< S, std::string >::value >::type
                  >
         explicit string_id( S && id ) {
-            auto str = std::make_unique<std::string>( std::forward<S>( id ) );
-            uint64_t hash = Hash::RunTime::fnv1_64( str->c_str(), str->size() );
-            _hash = hash;
-
-            auto insertion = cached_strings().try_emplace( hash, std::move( str ) );
-            auto cached_string = insertion.first->second.get();
-
-            // Verify we don't have hash collisions
-            //assert(insertion.second || *cached_string == id);
-
-            _string = cached_string;
+            const char *str;
+            if constexpr( std::is_same<S, const char *>::value ) {
+                _string = insert_or_get_cache( id, true );
+            } else {
+                _string = insert_or_get_cache( std::string( id ).c_str(), true );
+            }
         }
-
         /**
-         * Default constructor constructs an empty id string.
-         * Note that this id class does not enforce empty id strings (or any specific string at all)
-         * to be special. Every string (including the empty one) may be a valid id.
-         */
-        constexpr string_id() : string_id( "" ) {};
+        * Default constructor constructs an empty id string.
+        * Note that this id class does not enforce empty id strings (or any specific string at all)
+        * to be special. Every string (including the empty one) may be a valid id.
+        */
+        constexpr string_id() {
+            _string = insert_or_get_cache( "", false );
+        };
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key. Compares
          * the string id as with the strings comparison.
          */
         bool operator<( const This &rhs ) const {
             // Not str() compares to prevent needless tier ups to std::string
-            return strcmp( c_str(), rhs.c_str() ) < 0;
+            //__debugbreak();
+            //return strcmp( c_str(), rhs.c_str() ) < 0;
+            return reinterpret_cast<uintptr_t>( _string ) < reinterpret_cast<uintptr_t>( rhs._string );
         }
         /**
          * The usual comparator, compares the string id as usual.
          */
         bool operator==( const This &rhs ) const {
-            return _hash == rhs._hash;
-        }
-        /**
-         * Allows to quickly compare hashes, when caching the hash would be faster
-         */
-        bool operator==( uint64_t hash ) const {
-            return _hash == hash;
+            bool res = _string == rhs._string;
+            if( res != ( !( *this < rhs ) && !( rhs < *this ) ) ) {
+                __debugbreak();
+            }
+            return res;
+            //return _string == rhs._string;
         }
         /**
          * The usual comparator, compares the string id as usual.
@@ -175,7 +137,7 @@ class string_id
          * to be included in the format string, e.g. debugmsg("invalid id: %s", id.c_str())
          */
         const char *c_str() const {
-            return _is_char_ptr ? _char_ptr : _string->c_str();
+            return _string;
         }
         /**
          * Returns the identifier as plain std::string. Use with care, the plain string does not
@@ -184,16 +146,8 @@ class string_id
          * Note: The function should be declared with safebuffers as MSVC insert a cookie check
          * here for some reason, and it takes up 25% of str()'s runtime.
          */
-        const std::string &str() const {
-            if( _is_char_ptr ) {
-                // We don't want to break the constness of str(), and this change is 100% internal with
-                // observable side effects, therefore we break the constness of this to cache the string.
-                string_id<T> *wthis = const_cast<This *>( this );
-                std::unique_ptr<std::string> string = std::make_unique<std::string>( _char_ptr );
-                wthis->_string = cached_strings().try_emplace( _hash, std::move( string ) ).first->second.get();
-                wthis->_is_char_ptr = false;
-            }
-            return *_string;
+        const std::string str() const {
+            return std::string( _string );
         }
 
         // Those are optional, you need to implement them on your own if you want to use them.
@@ -232,7 +186,8 @@ class string_id
          * keep consistency with the rest is_.. functions
          */
         bool is_empty() const {
-            return _hash == ""_id;
+            // This is a safe compare since we rely on string pooling
+            return _string == "";
         }
         /**
          * Returns a null id whose `string_id<T>::is_null()` must always return true. See @ref is_null.
@@ -270,31 +225,66 @@ class string_id
             return !is_null();
         }
 
-        uint64_t hash() const {
-            return _hash;
-        }
-
     private:
-        std::map < uint64_t, std::unique_ptr< std::string > > &cached_strings() const {
-            static std::map < uint64_t, std::unique_ptr< std::string > > cached_strings_{};
-            return cached_strings_;
+        const char *insert_or_get_cache( const char *string, bool make_unique ) {
+            static std::vector<const char *> sorted_cache;
+            static std::array<const char *, unsorted_cache_size> unsorted_cache;
+            static int cache_left = unsorted_cache_size;
+
+            auto sorted_iter = std::lower_bound( sorted_cache.cbegin(), sorted_cache.cend(), string,
+            [ = ]( const char *a, const char *b ) {
+                return strcmp( a, b ) < 0;
+            } );
+            if( sorted_iter != sorted_cache.cend() && strcmp( *sorted_iter, string ) == 0 ) {
+                return *sorted_iter; // Found in sorted cache
+            }
+
+            auto unsorted_iter = std::find_if( unsorted_cache.cbegin() + cache_left,
+            unsorted_cache.cend(), [ = ]( const char *other ) {
+                return strcmp( string, other ) == 0;
+            } );
+            if( unsorted_iter != unsorted_cache.cend() ) {
+                assert( !make_unique || strcmp( *unsorted_iter, string ) == 0 );
+                return *unsorted_iter; // Found in unsorted cache
+            }
+
+            // New string! Now we cache it:
+
+            // If the copy is volatile - create a permanent one
+            if( make_unique ) {
+                int length = strlen( string );
+                char *permanent_string = new char[length + 1];
+                memcpy( permanent_string, string, length + 1 );
+                string = permanent_string;
+            }
+            cache_left--;
+            unsorted_cache[cache_left] = string;
+
+            // Check if we need to flush the unsorted cache
+            if( cache_left == 0 ) {
+                // Flush the entire unsorted cache into the sorted one as-is
+                sorted_cache.insert( sorted_cache.end(), unsorted_cache.cbegin(), unsorted_cache.cend() );
+
+                // Resort the cache
+                std::sort( sorted_cache.begin(), sorted_cache.end(), []( const char *a, const char *b ) {
+                    return std::strcmp( a, b ) < 0;
+                } );
+
+                // Reset cache
+                cache_left = unsorted_cache_size;
+            }
+
+            return string;
         }
 
-        uint64_t _hash = ""_id;
-
-        union {
-            std::string *_string;
-            const char *_char_ptr;
-        };
+        const char *_string;
 
         // cached int_id counterpart of this string_id
         mutable int _cid = INVALID_CID;
         // generic_factory version that corresponds to the _cid
-        mutable int _version = INVALID_VERSION;
-        // To save these extra 8 bytes, move the bool into the MSb of _string
-        bool _is_char_ptr = false;
+        mutable int64_t _version = INVALID_VERSION;
 
-        inline void set_cid_version( int cid, int version ) const {
+        inline void set_cid_version( int cid, int64_t version ) const {
             _cid = cid;
             _version = version;
         }
@@ -308,7 +298,7 @@ namespace std
 template<typename T>
 struct hash< string_id<T> > {
     std::size_t operator()( const string_id<T> &v ) const noexcept {
-        return static_cast<size_t>( v.hash() );
+        return reinterpret_cast<size_t>( v.c_str() );
     }
 };
 } // namespace std

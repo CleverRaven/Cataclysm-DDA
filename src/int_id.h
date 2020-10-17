@@ -49,9 +49,10 @@ class int_id
         int_id( const string_id<T> &id );
 
         /**
-         * constexpr constructor, use to allow compilers to optimize some checks to compile time.
+         * Forwarding constructor for compile time string ids
          */
-        explicit constexpr int_id( const char *id ) : int_id( string_id<T>( id ) ) {}
+        template<unsigned N>
+        explicit int_id( const char ( &id )[N] ) : int_id( string_id<T>( id ) ) {}
 
         /**
          * Forwarding constructor, forwards any parameter to the string_id
