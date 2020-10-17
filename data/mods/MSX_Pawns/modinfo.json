@@ -3,7 +3,7 @@
     "type": "MOD_INFO",
     "id": "MSX_Pawns",
     "name": "MSX Pawns",
-    "authors": [ "Mshock777", "Xotto" ],
+    "authors": [ "Mshock777", "Xotto", "SomeDeadGuy" ],
     "maintainers": [ "Fris0uman" ],
     "description": "Uses Character, and Monster sprites from MSX with the UlticaShell tileset.",
     "category": "graphical",
