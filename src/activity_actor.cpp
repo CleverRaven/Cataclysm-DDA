@@ -1076,23 +1076,23 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     bool destroy = false;
 
     // Your devices skill is the primary skill that applies to your roll. Your mechanics skill has a little input.
-    const float weighted_skill_average = ( 3 * player_character.get_skill_level(
-            skill_traps ) + player_character.get_skill_level( skill_mechanics ) ) / 4;
+    const float weighted_skill_average = ( 3 * who.get_skill_level(
+            skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4;
 
     // Your dexterity determines most of your stat contribution, but your intelligence and perception combined are about half as much.
-    const float weighted_stat_average = ( 6 * player_character.dex_cur + 2 * player_character.per_cur +
-                                          player_character.int_cur ) / 9;
+    const float weighted_stat_average = ( 6 * who.dex_cur + 2 * who.per_cur +
+                                          who.int_cur ) / 9;
 
     // Get a bonus from your lockpick quality if the quality is higher than 3, or a penalty if it is lower. For a bobby pin this puts you at -2, for a locksmith kit, +2.
     const float tool_effect = it->get_quality( qual_LOCKPICK ) - 3 - it->damage() / 2000.0 );
 
     // Without at least a basic lockpick proficiency, your skill level is effectively 6 levels lower.
     int proficiency_effect = -6;
-    if( player_character.has_proficiency( proficiency_prof_lockpicking ) ) {
+    if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
         // If you have the basic lockpick prof, negate the above penalty
         proficiency_effect = 0;
     }
-    if( player_character.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+    if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
         // If you have the locksmith proficiency, your skill level is effectively 4 levels higher.
         proficiency_effect = 2;
     }
@@ -1137,11 +1137,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             xp_gain += std::pow( 2, you->get_skill_level( skill_traps ) ) + 1;
         }
         you->practice( skill_traps, xp_gain );
-        if( !you->has_proficiency( proficiency_prof_lockpicking ) ) {
-            you->practice_proficiency( proficiency_prof_lockpicking, 1_minutes );
-        } else if( !you->has_proficiency( proficiency_prof_lockpicking_expert ) ) {
-            you->practice_proficiency( proficiency_prof_lockpicking_expert, 1_minutes );
-        }
+        you->practice_proficiency( proficiency_prof_lockpicking, 1_minutes );
+        you->practice_proficiency( proficiency_prof_lockpicking_expert, 1_minutes );
     }
 
     if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
