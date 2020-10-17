@@ -66,6 +66,6 @@
     "can_learn": true,
     "default_time_multiplier": 2,
     "default_fail_multiplier": 3,
-    "time_to_learn": "8 h"
+    "time_to_learn": "3 h"
   }
 ]

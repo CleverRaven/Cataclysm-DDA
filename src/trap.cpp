@@ -255,7 +255,6 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 
     const int roll = std::round( normal_roll( mean_roll, 3 ) );
 
-    // You shoulda seen this before.
     return roll > visibility;
 }
 
