@@ -1053,7 +1053,6 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     std::string open_message;
     if( ter_type == t_chaingate_l ) {
         new_ter_type = t_chaingate_c;
-        open_message = _( "With a satisfying click, the chain-link gate opens." );
     } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
                ter_type == t_door_locked_interior ) {
         new_ter_type = t_door_c;
@@ -1076,24 +1075,39 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     bool perfect = it->has_flag( flag_PERFECT_LOCKPICK );
     bool destroy = false;
 
-    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    int pick_roll = ( std::pow( 1.5, who.get_skill_level( skill_traps ) ) *
-                      ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
-                        it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
-                      who.dex_cur / 4.0 + who.per_cur / 6.0 + who.int_cur / 8.0 ) / 20;
-    // If you lack any proficiency you are highly unlikely to succeed.
-    // Divide result by twenty then work it back up as you get lockpicking profs.
-    if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
-        // If you know basic lockpicking, your chance will be halved.
-        pick_roll = pick_roll * 10;
+    // Your devices skill is the primary skill that applies to your roll. Your mechanics skill has a little input.
+    const float weighted_skill_average = ( 3 * player_character.get_skill_level(
+            skill_traps ) + player_character.get_skill_level( skill_mechanics ) ) / 4;
+
+    // Your dexterity determines most of your stat contribution, but your intelligence and perception combined are about half as much.
+    const float weighted_stat_average = ( 6 * player_character.dex_cur + 2 * player_character.per_cur +
+                                          player_character.int_cur ) / 9;
+
+    // Get a bonus from your lockpick quality if the quality is higher than 3, or a penalty if it is lower. For a bobby pin this puts you at -2, for a locksmith kit, +2.
+    const float tool_effect = it->get_quality( qual_LOCKPICK ) - 3 - it->damage() / 2000.0 );
+
+    // Without at least a basic lockpick proficiency, your skill level is effectively 6 levels lower.
+    int proficiency_effect = -6;
+    if( player_character.has_proficiency( proficiency_prof_lockpicking ) ) {
+        // If you have the basic lockpick prof, negate the above penalty
+        proficiency_effect = 0;
     }
-    if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
-        // If you're a locksmith you use your full, unmodified roll.
-        pick_roll = pick_roll * 2;
+    if( player_character.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+        // If you have the locksmith proficiency, your skill level is effectively 4 levels higher.
+        proficiency_effect = 2;
     }
-    int lock_roll = rng( 1, 120 );
+
+    // We get our average roll by adding the above factors together. For a person with no skill, average stats, no proficiencies, and an improvised lockpick, mean_roll will be 2.
+    const float mean_roll = weighted_skill_average + ( weighted_stat_average / 4 ) + proficiency_effect
+                            + tool_effect;
+
+    // A standard deviation of 2 means that about 2/3 of rolls will come within 2 points of your mean_roll. Lockpicking
+    int pick_roll = std::round( normal_roll( mean_roll, 2 ) );
+
+    // Lock_roll should be replaced with a flat value defined by the door, soon.
+    // In the meantime, let's roll 3d6-3, giving us a range of 0-15 that tends to sit in the 5-7 range.
+    int lock_roll = rng( 0, 5 ) + rng( 0, 5 ) + rng( 0, 5 );
+
     int xp_gain = 0;
     if( perfect || ( pick_roll >= lock_roll ) ) {
         xp_gain += lock_roll;
