@@ -99,3 +99,23 @@
       "            ╚══╩══╝"
     ]
   },
+  {
+    "type": "ascii_art",
+    "id": "electrohack",
+    "picture": [
+      "",
+      "                     </color><color_light_gray>┌────┐</color><color_black>",
+      "                     </color><color_light_gray>│□</color><color_black>  </color><color_light_gray>□│</color><color_black>",
+      "                     </color><color_light_gray>│</color><color_black>    </color><color_light_gray>│</color><color_black>",
+      "      </color><color_yellow>─</color><color_white>╔════════════════════════╗</color><color_black>",
+      "      </color><color_yellow>─</color><color_white>║</color><color_green>00</color><color_light_green>11</color><color_green>000</color><color_light_green>1</color><color_green>00</color><color_light_green>11</color><color_green>00</color><color_light_green>11</color><color_green>00</color><color_light_green>11</color><color_green>00</color><color_light_green>11</color><color_white>║</color><color_black>",
+      "      </color><color_yellow>─</color><color_white>║</color><color_green>00</color><color_light_green>11</color><color_green>0</color><color_light_green>111</color><color_green>0</color><color_light_green>1</color><color_green>00</color><color_light_green>1</color><color_green>00000</color><color_light_green>11</color><color_green>0</color><color_light_green>1</color><color_green>00</color><color_white>║</color><color_black>",
+      "      </color><color_yellow>─</color><color_white>║</color><color_green>0</color><color_light_green>1111</color><color_green>00000</color><color_light_green>11</color><color_green>00000</color><color_light_green>111</color><color_green>00</color><color_light_green>1</color><color_green>0</color><color_white>║</color><color_black>",
+      "       </color><color_white>╚════════════════════════╝</color><color_black>",
+      "        </color><color_yellow>╚╝╚╝╚╝</color><color_black>             </color><color_red>║</color><color_black> </color><color_yellow>║</color><color_black> </color><color_blue>║</color><color_black>",
+      "                           </color><color_red>║</color><color_black> </color><color_yellow>║</color><color_black> </color><color_blue>║</color><color_black>",
+      "                           </color><color_red>║</color><color_black> </color><color_yellow>║</color><color_black> </color><color_blue>╚══</color><color_light_gray>──</color><color_black>",
+      "                           </color><color_red>║</color><color_black> </color><color_yellow>╚════</color><color_light_gray>──</color><color_black>",
+      "                           </color><color_red>╚══════</color><color_light_gray>──</color><color_black>"
+    ]
+  }
