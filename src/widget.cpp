@@ -3,6 +3,7 @@
 #include "color.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "panels.h"
 
 // Use generic factory wrappers for widgets to use standardized JSON loading methods
 namespace
@@ -83,6 +84,17 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "bp_warmth";
         case widget_var::bp_wetness:
             return "bp_wetness";
+        // Description functions
+        case widget_var::pain_text:
+            return "pain_text";
+        case widget_var::hunger_text:
+            return "hunger_text";
+        case widget_var::thirst_text:
+            return "thirst_text";
+        case widget_var::fatigue_text:
+            return "fatigue_text";
+        case widget_var::weight_text:
+            return "weight_text";
         // Fall-through - invalid
         case widget_var::last:
             break;
@@ -249,9 +261,56 @@ int widget::get_var_value( const avatar &ava )
 
 std::string widget::show( const avatar &ava )
 {
-    int value = get_var_value( ava );
-    int value_max = get_var_max( ava );
-    return color_value_string( value, value_max );
+    if( uses_text_function() ) {
+        return color_text_function_string( ava );
+    } else {
+        int value = get_var_value( ava );
+        int value_max = get_var_max( ava );
+        return color_value_string( value, value_max );
+    }
+}
+
+bool widget::uses_text_function()
+{
+    switch( _var ) {
+        case widget_var::pain_text:
+        case widget_var::hunger_text:
+        case widget_var::thirst_text:
+        case widget_var::fatigue_text:
+        case widget_var::weight_text:
+            return true;
+        default:
+            return false;
+    }
+}
+
+std::string widget::color_text_function_string( const avatar &ava )
+{
+    std::string ret;
+    std::pair<std::string, nc_color> desc;
+    switch( _var ) {
+        case widget_var::pain_text:
+            desc = display::pain_text_color( ava );
+            break;
+        case widget_var::hunger_text:
+            desc = display::hunger_text_color( ava );
+            break;
+        case widget_var::thirst_text:
+            desc = display::thirst_text_color( ava );
+            break;
+        case widget_var::fatigue_text:
+            desc = display::fatigue_text_color( ava );
+            break;
+        case widget_var::weight_text:
+            desc = display::weight_text_color( ava );
+            break;
+        default:
+            debugmsg( "Unexpected widget_var %s - no text_color function defined",
+                      io::enum_to_string<widget_var>( _var ) );
+            return "???";
+    }
+    ret += colorize( desc.first, desc.second );
+    return ret;
 }
 
 std::string widget::color_value_string( int value, int value_max )

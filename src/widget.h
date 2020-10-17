@@ -37,6 +37,11 @@ enum class widget_var : int {
     hunger,         // TODO
     thirst,         // TODO
     mood,           // TODO
+    pain_text,      // Pain description text, color string
+    hunger_text,    // Hunger description text, color string
+    thirst_text,    // Thirst description text, color string
+    fatigue_text,   // Fagitue description text, color string
+    weight_text,    // Weight description text, color string
     last // END OF ENUMS
 };
 
@@ -107,6 +112,10 @@ class widget
         std::string layout( const avatar &ava, unsigned int max_width = 0 );
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava );
+        // Return a colorized string for a _var associated with a description function
+        std::string color_text_function_string( const avatar &ava );
+        // Return true if the current _var is one which uses a description function
+        bool uses_text_function();
 
         // Evaluate and return the bound "var" associated value for an avatar
         int get_var_value( const avatar &ava );
