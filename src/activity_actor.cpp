@@ -1137,8 +1137,6 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             xp_gain += std::pow( 2, you->get_skill_level( skill_traps ) ) + 1;
         }
         you->practice( skill_traps, xp_gain );
-        you->practice_proficiency( proficiency_prof_lockpicking, 1_minutes );
-        you->practice_proficiency( proficiency_prof_lockpicking_expert, 1_minutes );
     }
 
     if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
