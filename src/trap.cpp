@@ -29,9 +29,6 @@ static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 
-static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
-static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
-
 namespace
 {
 

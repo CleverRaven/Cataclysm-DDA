@@ -164,6 +164,7 @@ static const skill_id skill_gun( "gun" );
 static const skill_id skill_swimming( "swimming" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 
 static const bionic_id bio_cqb( "bio_cqb" );
