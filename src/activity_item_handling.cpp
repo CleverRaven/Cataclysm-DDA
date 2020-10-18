@@ -2870,7 +2870,7 @@ int get_auto_consume_moves( player &p, const bool food )
         const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
         if( vp ) {
             food_there = &vp->vehicle().get_items( vp->vehicle().part_with_feature( vp->part_index(), "CARGO",
-                                                  false ) );
+                                                   false ) );
         }
         for( item &it : *food_there ) {
             item &comest = p.get_consumable_from( it );
