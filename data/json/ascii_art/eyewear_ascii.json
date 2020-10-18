@@ -1,0 +1,19 @@
+[  
+  {
+    "type": "ascii_art",
+    "id": "glasses_reading",
+    "picture": [
+      "                                         ",
+      "     <color_white>▄▄         ▄▄                       ",
+      "    </color><color_white>▓</color>  <color_white>▌       ▐  </color><color_white>▓</color>                      ",
+      "   <color_white>▓</color>  <color_white>▐         ▌  </color><color_white>▓</color>                     ",
+      "  <color_white>▓</color>                 <color_white>▓</color>                    ",
+      " <color_white>▓</color>                   <color_white>▓</color>                   ",
+      " <color_white>█</color> <color_white>▄▄▄▄▄▄▄</color>   <color_white>▄▄▄▄▄▄▄</color> <color_white>▓</color>                   ",
+      "  <color_white>█</color>       <color_white>█▀█</color>       <color_white>▓</color>                    ",
+      "  <color_white>█</color>      <color_white>█</color>   <color_white>█</color>      <color_white>▓</color>                    ",
+      "   <color_white>▀▄▄▄▄▀</color>     <color_white>▀▄▄▄▄▀</color>                     ",
+      "                                         "
+    ]
+  }
+]
