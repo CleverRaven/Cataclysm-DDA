@@ -8453,16 +8453,16 @@ itype_id item::typeId() const
     return type ? type->get_id() : itype_id::NULL_ID();
 }
 
-bool item::getlight( float &luminance, int &width, int &direction ) const
+bool item::getlight( float &luminance, units::angle &width, units::angle &direction ) const
 {
     luminance = 0;
-    width = 0;
-    direction = 0;
+    width = 0_degrees;
+    direction = 0_degrees;
     if( light.luminance > 0 ) {
         luminance = static_cast<float>( light.luminance );
         if( light.width > 0 ) {  // width > 0 is a light arc
-            width = light.width;
-            direction = light.direction;
+            width = units::from_degrees( light.width );
+            direction = units::from_degrees( light.direction );
         }
         return true;
     } else {

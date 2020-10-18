@@ -571,7 +571,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     if( dp.z != 0 && veh.is_rotorcraft() ) {
         can_move = true;
     }
-    int coll_turn = 0;
+    units::angle coll_turn = 0_degrees;
     if( impulse > 0 ) {
         coll_turn = shake_vehicle( veh, velocity_before, facing.dir() );
         const int volume = std::min<int>( 100, std::sqrt( impulse ) );
@@ -597,16 +597,16 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         }
     }
 
-    const int last_turn_dec = 1;
-    if( veh.last_turn < 0 ) {
+    const units::angle last_turn_dec = 1_degrees;
+    if( veh.last_turn < 0_degrees ) {
         veh.last_turn += last_turn_dec;
         if( veh.last_turn > -last_turn_dec ) {
-            veh.last_turn = 0;
+            veh.last_turn = 0_degrees;
         }
-    } else if( veh.last_turn > 0 ) {
+    } else if( veh.last_turn > 0_degrees ) {
         veh.last_turn -= last_turn_dec;
         if( veh.last_turn < last_turn_dec ) {
-            veh.last_turn = 0;
+            veh.last_turn = 0_degrees;
         }
     }
 
@@ -623,7 +623,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         }
 
         veh.move = facing;
-        if( coll_turn != 0 ) {
+        if( coll_turn != 0_degrees ) {
             veh.skidding = true;
             veh.turn( coll_turn );
         }

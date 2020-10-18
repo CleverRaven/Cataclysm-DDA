@@ -453,7 +453,6 @@ std::string enum_to_string<blood_type>( blood_type data )
 
 // *INDENT-OFF*
 Character::Character() :
-
     visitable<Character>(),
     cached_time( calendar::before_time_starts ),
     id( -1 ),

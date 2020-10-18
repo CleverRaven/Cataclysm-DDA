@@ -3006,15 +3006,7 @@ void veh_interact::complete_vehicle( player &p )
                 // Restore previous view offsets.
                 p.view_offset = old_view_offset;
 
-                int dir = static_cast<int>( atan2( static_cast<float>( delta.y ),
-                                                   static_cast<float>( delta.x ) ) * 180.0 / M_PI );
-                dir -= veh->face.dir();
-                while( dir < 0 ) {
-                    dir += 360;
-                }
-                while( dir > 360 ) {
-                    dir -= 360;
-                }
+                units::angle dir = normalize( atan2( delta ) - veh->face.dir() );
 
                 veh->part( partnum ).direction = dir;
             }

@@ -562,7 +562,6 @@ static void close()
     }
 }
 
-
 // Establish or release a grab on a vehicle
 static void grab()
 {
