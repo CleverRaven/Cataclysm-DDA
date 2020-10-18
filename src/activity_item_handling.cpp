@@ -2920,21 +2920,6 @@ int get_auto_consume_moves( player &p, const bool food )
 
             return consume_moves;
         }
-        //int moves = 0;
-        //vehicle *veh = nullptr;
-        //int veh_part = -1;
-        //const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
-        //if( vp ) {
-        //    veh_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
-        //    veh = &vp->vehicle();
-        //    moves = handle_consume_zone( p, veh->get_items( veh_part ), food, here, loc );
-        //} else {
-        //    moves = handle_consume_zone( p, here.i_at( here.getlocal( loc ) ), food, here, loc );
-        //}
-
-
-
-
     }
     return 0;
 }
