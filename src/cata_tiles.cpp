@@ -260,11 +260,11 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
 
     // populate cache by season
     constexpr size_t suffix_len = 15;
-    constexpr char season_suffix[4][suffix_len] = {
+    constexpr char season_suffix[NUM_SEASONS][suffix_len] = {
         "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
     };
     bool has_season_suffix = false;
-    for( int i = 0; i < 4; i++ ) {
+    for( int i = 0; i < NUM_SEASONS; i++ ) {
         if( string_ends_with( id, season_suffix[i] ) ) {
             has_season_suffix = true;
             // key is id without _season suffix
@@ -277,8 +277,8 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
     }
     // tile doesn't have _season suffix, add it as "default" into all four seasons
     if( !has_season_suffix ) {
-        for( int i = 0; i < 4; i++ ) {
-            tile_ids_by_season[i][id].default_tile = &inserted_tile;
+        for( auto &by_season_map : tile_ids_by_season ) {
+            by_season_map[id].default_tile = &inserted_tile;
         }
     }
 
