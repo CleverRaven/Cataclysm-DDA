@@ -315,13 +315,16 @@ class TilesheetData(object):
                             tile_entry = [tile_entry]
                         self.tile_entries += tile_entry
         if self.row_pngs:
+            if self.row_num == 0 and self.row_pngs == ['null_image']:
+                return []
             merged = self.merge_row(refs)
             tmp_merged_pngs += merged
         return tmp_merged_pngs
 
     def finalize_merges(self, merge_pngs):
-        out_image = Vips.Image.arrayjoin(merge_pngs, across=16)
-        out_image.pngsave(self.ts_path)
+        if merge_pngs:
+            out_image = Vips.Image.arrayjoin(merge_pngs, across=16)
+            out_image.pngsave(self.ts_path)
 
 
 if __name__ == '__main__':
