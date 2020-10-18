@@ -1801,8 +1801,8 @@ void options_manager::add_options_graphics()
        );
 
     add( "ENABLE_ASCII_ART_ITEM", "graphics",
-         to_translation( "Enable ASCII art in item descriptions" ),
-         to_translation( "When available item description will show a picture of the item in ascii art." ),
+         to_translation( "Enable ASCII art in item and monster descriptions" ),
+         to_translation( "When available item and monster description will show a picture of the object in ascii art." ),
          true, COPT_NO_HIDE
        );
 
