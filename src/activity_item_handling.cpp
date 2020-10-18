@@ -2866,13 +2866,13 @@ int get_auto_consume_moves( player &p, const bool food )
         if( loc.z != p.pos().z ) {
             continue;
         }
-        item_stack &food_there = here.i_at( here.getlocal( loc ) );
+        item_stack *food_there = &here.i_at( here.getlocal( loc ) );
         const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
         if( vp ) {
-            food_there = vp->vehicle().get_items( vp->vehicle().part_with_feature( vp->part_index(), "CARGO",
+            food_there = &vp->vehicle().get_items( vp->vehicle().part_with_feature( vp->part_index(), "CARGO",
                                                   false ) );
         }
-        for( item &it : food_there ) {
+        for( item &it : *food_there ) {
             item &comest = p.get_consumable_from( it );
             if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
                 p.fun_for( comest ).first < -5 ) {
