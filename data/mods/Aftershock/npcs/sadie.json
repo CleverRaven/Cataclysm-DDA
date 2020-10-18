@@ -20,46 +20,18 @@
     "type": "talk_topic",
     "id": "TALK_Sadie_1",
     "dynamic_line": {
-      "npc_at_om_location": "hospital",
-      "yes": "Places like this are so romantic.  I used to come to places like this all the time.  Or lots of different parts of me came here just a few times.  Anyway it feels nice and I'm so glad you brought me here.",
-      "no": {
-        "npc_at_om_location": "butcher",
-        "yes": "Such a nice smell here.  And all the pretty pointy things to touch.  Do you mind if we stay here a while?  I'd like to play butcher with you.",
-        "no": {
-          "npc_at_om_location": "cathedral",
-          "yes": "Something is wrong here.  The air is too thin, my skin is too thin, this place is too thin.  We should leave and never come back.",
-          "no": {
-            "npc_at_om_location": "cs_sex_shop",
-            "yes": "This is all a little bit basic but I like the direction we're going in here.  How do you feel about bonesaws and heavy voltage?",
-            "no": {
-              "npc_at_om_location": "mansion",
-              "yes": "Ooh, it's like a murder mystery here.  Are we the murderers, the murdered, or the mystery?",
-              "no": {
-                "npc_at_om_location": "mortuary",
-                "yes": "This seems so familiar.  I think I was naked here with a strange man who put makeup on me and a pretty dress and there were flowers and music and everyone was crying.  Or was that prom?",
-                "no": {
-                  "npc_at_om_location": "refugee_center",
-                  "yes": "I think you would make a very nice refugee.  I think they should let us stay here and beg for catfood with the rest.  Should we become cat mutants?  I would be such a good apocalyptic cat mutant.  I would run and fetch and play dead and eat feces and all of it.  That's all cat stuff I think.",
-                  "no": {
-                    "u_has_var": "u_met_sadie",
-                    "type": "general",
-                    "context": "meeting",
-                    "value": "yes",
-                    "yes": [
-                      "Are we meeting again or did we already do that part?",
-                      "You remind me of my friend Billy.",
-                      "What an amazing world to be alive in, more or less.",
-                      "My head always beats when I see you.  Or is that my heart?  I should check that.",
-                      "It's always so nice to be seen."
-                    ],
-                    "no": "Hello Billy.  Back again to try and kill me?  It won't work, you should just give up."
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+      "u_has_var": "u_met_sadie",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [
+        "Are we meeting again or did we already do that part?",
+        "You remind me of my friend Billy.",
+        "What an amazing world to be alive in, more or less.",
+        "My head always beats when I see you.  Or is that my heart?  I should check that.",
+        "It's always so nice to be seen."
+      ],
+      "no": "Hello Billy.  Back again to try and kill me?  It won't work, you should just give up."
     },
     "responses": [
       {
