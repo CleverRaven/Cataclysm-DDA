@@ -1,5 +1,11 @@
 [
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_mooserider",
+    "entries": [ { "item": "arrow_heavy_fire_hardened_fletched", "charges": 20 } ]
+  },
+  {
     "type": "profession",
     "id": "wizard_novice",
     "name": "Would-be Wizard",
@@ -461,6 +467,69 @@
         "items": [ "under_armor_shorts", "under_armor", "shorts", "gloves_wraps", "headgear", "mouthpiece", "socks", "sneakers" ]
       },
       "female": [ "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "fleshmender",
+    "name": "Illicit Fleshmender",
+    "description": "After failing out of medical school, you took their mundane methods and combined it with magic to save your patients. Now that they all want to kill you, the lack of a license is the least of your worries.",
+    "points": 5,
+    "spells": [ { "id": "light_healing", "level": 3 }, { "id": "create_rune_biomancer", "level": 1 } ],
+    "skills": [ { "level": 3, "name": "firstaid" }, { "level": 2, "name": "spellcraft" } ],
+    "items": {
+      "both": {
+        "items": [ "longshirt", "pants", "socks", "sneakers", "gloves_medical", "coat_lab", "xacto", "wristwatch" ],
+        "entries": [
+          { "item": "disinfectant_makeshift", "charges": 10, "container-item": "bottle_plastic_small" },
+          { "item": "bandages", "charges": 15 },
+          { "group": "charged_cell_phone" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "BIOMANCER" ]
+  },
+  {
+    "type": "profession",
+    "id": "moose_rider",
+    "name": "Wildborne Rider",
+    "description": "Abandoned at a young age and raised by moose, you had to master the wilds to survive.  While the modern world has been devoured, you and your steed are no stranger to hardship.",
+    "points": 6,
+    "proficiencies": [ "prof_bowyery", "prof_fletching", "prof_fibers", "prof_knapping" ],
+    "spells": [
+      { "id": "druidic_healing", "level": 4 },
+      { "id": "purify_seed", "level": 4 },
+      { "id": "druid_woodshaft", "level": 3 },
+      { "id": "create_rune_druid", "level": 1 }
+    ],
+    "skills": [
+      { "level": 4, "name": "survival" },
+      { "level": 3, "name": "spellcraft" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "archery" },
+      { "level": 1, "name": "tailor" }
+    ],
+    "traits": [ "ANIMALEMPATH", "SLOWREADER" ],
+    "pets": [ { "name": "mon_moose", "amount": 1 } ],
+    "items": {
+      "both": {
+        "items": [
+          "tunic",
+          "chestwrap_leather",
+          "loincloth_leather",
+          "footrags_fur",
+          "shoes_birchbark",
+          "gloves_wraps_fur",
+          "straw_hat",
+          "shortbow",
+          "stone_chopper",
+          "ragpouch"
+        ],
+        "entries": [ { "item": "quiver_birchbark", "contents-group": "quiver_mooserider" } ]
+      }
     }
   }
 ]
