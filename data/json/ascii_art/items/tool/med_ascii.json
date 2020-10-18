@@ -21,7 +21,7 @@
       "   ╚═══════════════════════════════╝"
     ]
   },
-{
+  {
     "type": "ascii_art",
     "id": "thermometer",
     "picture": [
@@ -61,41 +61,41 @@
       "     :::::::::::::::::::::::::"
     ]
   },
-{
+  {
     "type": "ascii_art",
     "id": "scalpel",
     "picture": [
-      "                                         ",
-      " <color_black>█</color><color_white>▌</color><color_black>█</color> <color_black>██</color>                                  ",
-      " <color_white>▐█▒</color> <color_black>██</color> <color_black>█</color>                                ",
-      " <color_white>███▒</color><color_black>██</color> <color_black>█</color>                                ",
-      " <color_white>█</color><color_black_white>║</color><color_white>██▒</color><color_black>█</color>           <color_black>█</color>                      ",
-      " <color_white>█</color><color_black_white>║</color><color_white>███▒</color>           <color_black>█</color>                      ",
-      " <color_white>█</color><color_black_white>║</color><color_white>███▒</color>           <color_black>█</color>                      ",
-      " <color_white>████▒</color><color_black>█</color>           <color_black>█</color>                      ",
-      " <color_white>▐██▌</color><color_black>██</color>           <color_black>█</color>                      ",
-      " <color_white>/</color><color_white>\\\\</color><color_white>▌</color><color_black>██</color>           <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░░</color><color_white>\\</color><color_black>██</color>           <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░░░</color><color_white>\\</color>  <color_black>█</color>         <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░()░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░()░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
-      " <color_white>│</color><color_white>░░░░</color><color_white>│</color>           <color_black>█</color>                      ",
-      " <color_black>█</color><color_white>(UU)</color>  <color_black>█</color>         <color_black>█</color>                      ",
-      "                  <color_black>█</color>                      ",
-      "                  <color_black>█</color>                      ",
-      "                  <color_black>█</color>                      ",
-      "                                         "
+      "                                         ",
+      " <color_black>█</color><color_white>▌</color><color_black>█</color> <color_black>██</color>                                  ",
+      " <color_white>▐█▒</color> <color_black>██</color> <color_black>█</color>                                ",
+      " <color_white>███▒</color><color_black>██</color> <color_black>█</color>                                ",
+      " <color_white>█</color><color_black_white>║</color><color_white>██▒</color><color_black>█</color>           <color_black>█</color>                      ",
+      " <color_white>█</color><color_black_white>║</color><color_white>███▒</color>           <color_black>█</color>                      ",
+      " <color_white>█</color><color_black_white>║</color><color_white>███▒</color>           <color_black>█</color>                      ",
+      " <color_white>████▒</color><color_black>█</color>           <color_black>█</color>                      ",
+      " <color_white>▐██▌</color><color_black>██</color>           <color_black>█</color>                      ",
+      " <color_white>/</color><color_white>\\\\</color><color_white>▌</color><color_black>██</color>           <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░░</color><color_white>\\</color><color_black>██</color>           <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░░░</color><color_white>\\</color>  <color_black>█</color>         <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░()░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░()░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░░░░</color><color_white>│</color> <color_black>█</color>         <color_black>█</color>                      ",
+      " <color_white>│</color><color_white>░░░░</color><color_white>│</color>           <color_black>█</color>                      ",
+      " <color_black>█</color><color_white>(UU)</color>  <color_black>█</color>         <color_black>█</color>                      ",
+      "                  <color_black>█</color>                      ",
+      "                  <color_black>█</color>                      ",
+      "                  <color_black>█</color>                      ",
+      "                                         "
     ]
   }
 ]
