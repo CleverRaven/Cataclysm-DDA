@@ -1155,7 +1155,7 @@ bool npc::wield( item &it )
     }
 
     moves -= 15;
-    bool combine_stacks = it.stacks_with( weapon, true );
+    bool combine_stacks = it.can_combine( weapon );
     if( has_item( it ) ) {
         item removed = remove_item( it );
         if( combine_stacks ) {
