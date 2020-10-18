@@ -231,10 +231,9 @@
         "om_terrain_replace": "field",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 120,
-        "z": 1
+        "search_range": 150
       },
-      "update_mapgen": { "om_terrain": "abandonedwarehouse", "place_npcs": [ { "class": "sadie", "x": 19, "y": 20, "target": true } ] }
+      "update_mapgen": { "place_npcs": [ { "class": "sadie", "x": 19, "y": 20, "target": true } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
