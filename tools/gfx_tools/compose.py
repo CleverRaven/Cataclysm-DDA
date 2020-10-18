@@ -337,31 +337,27 @@ if __name__ == '__main__':
 
     refs = PngRefs(tileset_dirname)
 
-    main_ts_data = []
-    filler_ts_data = []
-    fallback_ts_data = []
+    typed_ts_data = {
+        "main": [],
+        "filler": [],
+        "fallback": [],
+    }
     fallback_name = "fallback.png"
 
     for subdir_index in range(1, len(refs.tileset_info)):
         ts_data = TilesheetData(subdir_index, refs)
-        if not ts_data.filler and not ts_data.fallback:
-            ts_data.set_first_index(refs)
-            print("Info: parsing tilesheet {}".format(ts_data.ts_name))
-            tmp_merged_pngs = ts_data.walk_dirs(refs)
-
-            if not tmp_merged_pngs:
-                # no images in the tilesheet
-                continue
-
-            ts_data.finalize_merges(tmp_merged_pngs)
-
-            ts_data.max_index = refs.pngnum
-            main_ts_data.append(ts_data)
+        ts_data.set_first_index(refs)
 
         if ts_data.filler:
-            ts_data.set_first_index(refs)
-            print("Info: parsing filler tilesheet {}".format(ts_data.ts_name))
-            ts_data.first_index = refs.pngnum
+            ts_type = "filler"
+        elif ts_data.fallback:
+            ts_type = "fallback"
+        else:
+            ts_type = "main"
+
+        print("Info: parsing {} tilesheet {}".format(
+            ts_type, ts_data.ts_name))
+        if ts_type != "fallback":
             tmp_merged_pngs = ts_data.walk_dirs(refs)
 
             if not tmp_merged_pngs:
@@ -371,15 +367,11 @@ if __name__ == '__main__':
             ts_data.finalize_merges(tmp_merged_pngs)
 
             ts_data.max_index = refs.pngnum
-            filler_ts_data.append(ts_data)
 
-        if ts_data.fallback:
-            ts_data.set_first_index(refs)
-            print("Info: parsing fallback tilesheet {}".format(
-                ts_data.ts_name))
-            fallback_ts_data.append(ts_data)
+        typed_ts_data[ts_type].append(ts_data)
 
-    all_ts_data = main_ts_data + filler_ts_data + fallback_ts_data
+    all_ts_data = typed_ts_data["main"] + typed_ts_data["filler"] \
+        + typed_ts_data["fallback"]
 
     #print("pngname to pngnum {}".format(json.dumps(
     #    refs.pngname_to_pngnum, indent=2)))
