@@ -15,5 +15,61 @@
       " ▀█████▒",
       "   </color><color_light_gray>~^^"
     ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "glock_40mos",
+    "picture": [
+      "                                      ",
+      "   <color_light_gray>__</color><color_dark_gray>█</color><color_light_gray>______________________________</color><color_dark_gray>⌂</color><color_light_gray>_",
+      "   ▓▌</color><color_dark_gray>▌▌▌▌█████░░░░████████████████████",
+      "   </color><color_light_gray>▓▌</color><color_dark_gray>▌▌▌▌█████████████████████████████",
+      "   </color><color_light_gray>▀▀▓▓▓▓▓▓▓▓▓▓</color><color_dark_gray>@</color><color_light_gray>▓▓▒▒Θ▓▓████</color><color_dark_gray>▀▀▀▀▀▀▀    ",
+      "     </color><color_light_gray>▐</color><color_dark_gray>▓▓▓▓▓▓▓█▀██   </color><color_light_gray>▒                 ",
+      "     </color><color_dark_gray>█▓▓▓▓▓▓██▄_◛█</color><color_light_gray>▄</color><color_dark_gray>▄█                 ",
+      "    </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓░                         ",
+      "   </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓                          ",
+      " ╓▒</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>█                           ",
+      " ▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓                            ",
+      " </color><color_dark_gray>▀█▒▒▒▒▒</color><color_light_gray>▒░                            ",
+      "   </color><color_dark_gray>▀▀▀▀▀</color><color_light_gray>▀                             "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "glock_20",
+    "picture": [
+      "                                 ",
+      "   <color_light_gray>__⌂_________________________∙_",
+      "   ▓▌</color><color_dark_gray>▌▌▌▌█████░░░░███████████████",
+      "   </color><color_light_gray>▓▌</color><color_dark_gray>▌▌▌▌████████████████████████",
+      "   </color><color_light_gray>▀█▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▓▓██████</color><color_dark_gray>████",
+      "   </color><color_light_gray>▀▀▓▓▓▓▓▓▓▓▓▓</color><color_dark_gray>@</color><color_light_gray>▓▓▒▒Θ▓▓██████</color><color_dark_gray>▀☻▀ ",
+      "     </color><color_light_gray>▐</color><color_dark_gray>▓▓▓▓▓▓▓█▀██   </color><color_light_gray>▒            ",
+      "     </color><color_dark_gray>█▓▓▓▓▓▓██▄_◛█</color><color_light_gray>▄</color><color_dark_gray>▄█            ",
+      "    </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓░                    ",
+      "   </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓                     ",
+      "   ▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓                     ",
+      " ╓▒</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>█                      ",
+      " ▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓                       ",
+      " </color><color_dark_gray>▀█▒▒▒▒▒</color><color_light_gray>▒░                       ",
+      "   </color><color_dark_gray>▀▀▀▀▀</color><color_light_gray>▀                        "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "glock_19",
+    "picture": [
+      "   <color_light_gray>__</color><color_dark_gray>∙</color><color_light_gray>____________________</color><color_dark_gray>.</color><color_light_gray>_</color>",
+      "   <color_light_gray>▓▌</color><color_dark_gray>▌▌▌▌█████░░░░██████████</color>",
+      "   <color_light_gray>▓▌</color><color_dark_gray>▌▌▌▌██████████████████▌</color>",
+      "   <color_light_gray>▀▀▓▓▓▓▓▓▓▓▓▓</color><color_dark_gray>@</color><color_light_gray>▓▓▒▒Θ▓▓██</color><color_dark_gray>▀☻⌡</color>",
+      "     <color_light_gray>▐</color><color_dark_gray>▓▓▓▓▓▓▓█▀██   </color><color_light_gray>▒",
+      "     </color><color_dark_gray>█▓▓▓▓▓▓██▄_▄█</color><color_light_gray>▄</color><color_dark_gray>▄⌡",
+      "    </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓░",
+      "   </color><color_light_gray>▓</color><color_dark_gray>▓▓▓▓▓▓▓</color><color_light_gray>▓",
+      "   </color><color_dark_gray>█▒▒▒▒▒</color><color_light_gray>▒░",
+      "    </color><color_dark_gray>▀▀▀▀▀</color><color_light_gray>▀"
+    ]
   }
 ]
