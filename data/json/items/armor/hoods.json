@@ -48,7 +48,7 @@
     "type": "ARMOR",
     "copy-from": "chainmail_hood",
     "name": { "str": "oversize chainmail coif" },
-    "description": "A customized chainmail hood.  Can be worn comfortably under helmets. Comes in size XL.",
+    "description": "A customized chainmail hood.  Can be worn comfortably under helmets.  Comes in size XL.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
   },
@@ -81,7 +81,7 @@
     "type": "ARMOR",
     "copy-from": "hood_fsurvivor",
     "name": { "str": "oversize survivor firehood" },
-    "description": "A customized armored Nomex and Kevlar hood, very strong and durable. Made in Muspelheim.",
+    "description": "A customized armored Nomex and Kevlar hood, very strong and durable.  Made in Muspelheim.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT", "OUTER", "WATERPROOF" ]
   },
