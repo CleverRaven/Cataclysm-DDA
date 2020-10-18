@@ -129,5 +129,22 @@
       "     ▐██</color><color_light_red>▒░</color><color_brown>█▓▒█▒</color><color_dark_gray>▌",
       "      ██☻☻☻☻☻☻☻☻"
     ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "sig_mosquito",
+    "picture": [
+      "      <color_dark_gray>▄▄▄▄▄▄▄▄·    ·▄▄▄▄▄▄▄▄▄▄",
+      "   </color><color_light_gray>♠▓</color><color_dark_gray>███▒▒▒███░░░░░░██████████▌",
+      "    ▄▒▒▒▒▒▒▒▓▒▒▒▒▒▓▒███████▌▒▒▌",
+      "  </color><color_light_gray>•</color><color_dark_gray>☻███████░██▒☻████░██ ▀▀▀ ▀▀",
+      "     ▐█████▒░``█</color><color_light_gray>Γ  </color><color_dark_gray>█",
+      "     </color><color_light_gray>▓</color><color_dark_gray>██</color><color_light_gray>☻</color><color_dark_gray>█▒█░■</color><color_light_gray>__</color><color_white>▒</color><color_dark_gray>__▌",
+      "    ▐████▒░▌",
+      "   ▐█████░▒</color><color_light_gray>Γ",
+      "   ▒</color><color_dark_gray>██████▌",
+      "   ███</color><color_light_gray>☻</color><color_dark_gray>█░░Γ",
+      "   ▀</color><color_light_gray>▓</color><color_dark_gray>▓▓▓░░♠"
+    ]
   }
 ]
