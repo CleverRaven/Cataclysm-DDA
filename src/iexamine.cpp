@@ -1417,8 +1417,9 @@ void iexamine::safe( player &guy, const tripoint &examp )
 
     if( !( !cracking_tool.empty() || guy.has_bionic( bio_ears ) ) ) {
         guy.moves -= to_turns<int>( 10_seconds );
-        // Assume a 3 digit 60-number code. 1/216000 odds.
-        if( one_in( 216000 ) ) {
+        // Assume a 3 digit 90-number code, but safes allow adjacent dial locations to match,
+        // so 1/30^3, or 1/27000 odds.
+        if( one_in( 27000 ) ) {
             guy.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
             get_map().furn_set( examp, f_safe_o );
             return;
