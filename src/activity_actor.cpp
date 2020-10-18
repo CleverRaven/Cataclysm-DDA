@@ -1087,14 +1087,14 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     const float tool_effect = ( it->get_quality( qual_LOCKPICK ) - 3 ) - ( it->damage() / 2000.0 );
 
     // Without at least a basic lockpick proficiency, your skill level is effectively 6 levels lower.
-    int proficiency_effect = -6;
+    int proficiency_effect = -3;
     if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
         // If you have the basic lockpick prof, negate the above penalty
         proficiency_effect = 0;
     }
     if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
         // If you have the locksmith proficiency, your skill level is effectively 4 levels higher.
-        proficiency_effect = 2;
+        proficiency_effect = 3;
     }
 
     // We get our average roll by adding the above factors together. For a person with no skill, average stats, no proficiencies, and an improvised lockpick, mean_roll will be 2.
@@ -1105,8 +1105,10 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     int pick_roll = std::round( normal_roll( mean_roll, 2 ) );
 
     // Lock_roll should be replaced with a flat value defined by the door, soon.
-    // In the meantime, let's roll 3d6-3, giving us a range of 0-15 that tends to sit in the 5-7 range.
-    int lock_roll = rng( 0, 5 ) + rng( 0, 5 ) + rng( 0, 5 );
+    // In the meantime, let's roll 3d5-3, giving us a range of 0-12.
+    int lock_roll = rng( 0, 4 ) + rng( 0, 4 ) + rng( 0, 4 );
+
+    add_msg( m_debug, _( "Rolled %i. Mean_roll %g. Difficulty %i." ), pick_roll, mean_roll, lock_roll );
 
     int xp_gain = 0;
     if( perfect || ( pick_roll >= lock_roll ) ) {
