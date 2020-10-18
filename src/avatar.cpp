@@ -1538,7 +1538,7 @@ bool avatar::wield( item &target, const int obtain_cost )
         return false;
     }
 
-    bool combine_stacks = target.stacks_with( weapon, true );
+    bool combine_stacks = target.can_combine( weapon );
     if( !combine_stacks && !unwield() ) {
         return false;
     }
