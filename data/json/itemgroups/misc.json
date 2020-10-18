@@ -39,6 +39,13 @@
     "items": [ [ "knife_butter", 30 ], [ "knife_steak", 10 ], [ "fork", 30 ], [ "spoon", 30 ] ]
   },
   {
+    "id": "used_toy_box",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "rc_car_box",
+    "items": [ { "item": "bubblewrap", "count": [ 0, 2 ] }, { "item": "screwdriver", "prob": 10 } ]
+  },
+  {
     "id": "tinware",
     "type": "item_group",
     "subtype": "distribution",

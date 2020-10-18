@@ -153,7 +153,8 @@
       [ "box_medium", 15 ],
       [ "thermos", 30 ],
       { "item": "inhaler", "prob": 8, "charges-min": 0, "charges-max": 10 },
-      { "group": "tinware", "prob": 15 }
+      { "group": "tinware", "prob": 15 },
+      { "group": "used_toy_box", "prob": 8 }
     ]
   },
   {
