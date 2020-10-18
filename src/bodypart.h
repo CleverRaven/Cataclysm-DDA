@@ -32,6 +32,12 @@ enum body_part : int {
     num_bp
 };
 
+template <typename T>
+inline bool operator<( body_part a, T b )
+{
+    return static_cast<int>( a ) < static_cast<int>( b );
+}
+
 template<>
 struct enum_traits<body_part> {
     static constexpr auto last = body_part::num_bp;

@@ -8778,9 +8778,8 @@ void Character::check_and_recover_morale()
         test_morale.on_mutation_gain( mut );
     }
 
-    for( std::pair<const efftype_id, std::unordered_map<body_part, effect, std::hash<int>>> &elem :
-         *effects ) {
-        for( std::pair<const body_part, effect> &_effect_it : elem.second ) {
+    for( const auto &elem : *effects ) {
+        for( const std::pair<const body_part, effect> &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
             test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
         }
