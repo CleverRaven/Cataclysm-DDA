@@ -1,0 +1,26 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "scissors",
+    "picture": [
+      "                                         ",
+      "                <color_white>█                        ",
+      "                ░█                       ",
+      "                ░█                       ",
+      "                ░█                       ",
+      "                ░█▌                      ",
+      "                ░█▌      </color><color_dark_gray>████            ",
+      "                </color><color_white>░██     </color><color_dark_gray>█    █           ",
+      "               </color><color_white>▄███    </color><color_dark_gray>█     █           ",
+      "  </color><color_white>▄▄▄▄▄▄█████████◙█████</color><color_dark_gray>██████            ",
+      "                 </color><color_white>██                      ",
+      "                 ██                      ",
+      "               </color><color_dark_gray>███▌                      ",
+      "              █  █                       ",
+      "             █   █                       ",
+      "             █   █                       ",
+      "              ███                        ",
+      "                                         "
+    ]
+  }
+]
