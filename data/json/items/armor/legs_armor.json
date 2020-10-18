@@ -430,7 +430,7 @@
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
   },
   {
-    "id": "xl_survivor_pants",
+    "id": "xl_pants_survivor",
     "type": "ARMOR",
     "copy-from": "survivor_pants",
     "name": { "str_sp": "xl survivor cargo pants" },
