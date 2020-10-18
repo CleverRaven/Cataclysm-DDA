@@ -690,6 +690,14 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
                    size_names.at( get_size() ) );
     }
 
+    if( get_option<bool>( "ENABLE_ASCII_ART_ITEM" ) ) {
+        const ascii_art_id art = type->get_picture_id();
+        if( art.is_valid() ) {
+            for( const std::string &line : art->picture ) {
+                fold_and_print( w, point( column, ++vStart ), max_width, c_white, line );
+            }
+        }
+    }
     return ++vStart;
 }
 
