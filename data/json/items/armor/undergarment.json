@@ -20,7 +20,7 @@
     "flags": [ "SKINTIGHT" ]
   },
   {
-    "id": "arm_warmers",
+    "id": "xl_arm_warmers",
     "type": "ARMOR",
     "name": { "str": "pair of xl arm warmers", "str_pl": "pairs of xl arm warmers" },
     "description": "Snug, soft cloth sleeves to keep your arms warm.  Made only for the largest of survivors.",
