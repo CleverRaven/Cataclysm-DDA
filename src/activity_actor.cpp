@@ -1076,12 +1076,12 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     bool destroy = false;
 
     // Your devices skill is the primary skill that applies to your roll. Your mechanics skill has a little input.
-    const float weighted_skill_average = ( 3 * who.get_skill_level(
-            skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4;
+    const float weighted_skill_average = ( 3.0f * who.get_skill_level(
+            skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4.0f;
 
     // Your dexterity determines most of your stat contribution, but your intelligence and perception combined are about half as much.
-    const float weighted_stat_average = ( 6 * who.dex_cur + 2 * who.per_cur +
-                                          who.int_cur ) / 9;
+    const float weighted_stat_average = ( 6.0f * who.dex_cur + 2.0f * who.per_cur +
+                                          who.int_cur ) / 9.0f;
 
     // Get a bonus from your lockpick quality if the quality is higher than 3, or a penalty if it is lower. For a bobby pin this puts you at -2, for a locksmith kit, +2.
     const float tool_effect = ( it->get_quality( qual_LOCKPICK ) - 3 ) - ( it->damage() / 2000.0 );
