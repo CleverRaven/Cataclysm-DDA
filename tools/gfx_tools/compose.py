@@ -337,7 +337,9 @@ if __name__ == '__main__':
 
     refs = PngRefs(tileset_dirname)
 
-    all_ts_data = []
+    main_ts_data = []
+    filler_ts_data = []
+    fallback_ts_data = []
     fallback_name = "fallback.png"
 
     for subdir_index in range(1, len(refs.tileset_info)):
@@ -347,31 +349,37 @@ if __name__ == '__main__':
             print("Info: parsing tilesheet {}".format(ts_data.ts_name))
             tmp_merged_pngs = ts_data.walk_dirs(refs)
 
+            if not tmp_merged_pngs:
+                # no images in the tilesheet
+                continue
+
             ts_data.finalize_merges(tmp_merged_pngs)
 
             ts_data.max_index = refs.pngnum
-            all_ts_data.append(ts_data)
+            main_ts_data.append(ts_data)
 
-    for subdir_index in range(1, len(refs.tileset_info)):
-        ts_data = TilesheetData(subdir_index, refs)
         if ts_data.filler:
             ts_data.set_first_index(refs)
             print("Info: parsing filler tilesheet {}".format(ts_data.ts_name))
             ts_data.first_index = refs.pngnum
             tmp_merged_pngs = ts_data.walk_dirs(refs)
 
+            if not tmp_merged_pngs:
+                # no images in the tilesheet
+                continue
+
             ts_data.finalize_merges(tmp_merged_pngs)
 
             ts_data.max_index = refs.pngnum
-            all_ts_data.append(ts_data)
+            filler_ts_data.append(ts_data)
 
-    for subdir_index in range(1, len(refs.tileset_info)):
-        ts_data = TilesheetData(subdir_index, refs)
         if ts_data.fallback:
             ts_data.set_first_index(refs)
             print("Info: parsing fallback tilesheet {}".format(
                 ts_data.ts_name))
-            all_ts_data.append(ts_data)
+            fallback_ts_data.append(ts_data)
+
+    all_ts_data = main_ts_data + filler_ts_data + fallback_ts_data
 
     #print("pngname to pngnum {}".format(json.dumps(
     #    refs.pngname_to_pngnum, indent=2)))
