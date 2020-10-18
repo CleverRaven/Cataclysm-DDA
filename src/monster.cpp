@@ -690,7 +690,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
                    size_names.at( get_size() ) );
     }
 
-    if( get_option<bool>( "ENABLE_ASCII_ART_ITEM" ) ) {
+    if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
         const ascii_art_id art = type->get_picture_id();
         if( art.is_valid() ) {
             for( const std::string &line : art->picture ) {
