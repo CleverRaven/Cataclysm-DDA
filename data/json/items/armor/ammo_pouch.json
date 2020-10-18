@@ -178,6 +178,15 @@
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
+    "id": "xl_chestrig",
+    "type": "ARMOR",
+    "copy-from": "chestrig",
+    "name": { "str": "oversize chestrig" },
+    "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches and fits larger than human forms.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+  },
+  {
     "id": "javelin_bag",
     "type": "ARMOR",
     "name": { "str": "javelin bag" },
@@ -449,6 +458,15 @@
       }
     ],
     "flags": [ "WATER_FRIENDLY", "WAIST" ]
+  },
+  {
+    "id": "xl_tacvest",
+    "type": "ARMOR",
+    "copy-from": "tacvest",
+    "name": { "str": "oversize tac vest" },
+    "description": "This light vest is meant to carry your gear and ammunition comfortably distributed about your torso.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.  Oversized and easy to don, this vest can hold four magazines close at hand in its many pouches.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
   },
   {
     "id": "xlkevlar",
