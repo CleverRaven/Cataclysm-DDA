@@ -1,0 +1,42 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "manual_first_aid",
+    "picture": [
+      "<color_red>   /════════════════════════════════════╗</color>",
+      "<color_red>  /</color><color_white>───────────────────────────────────┐│</color><color_red>║</color>",
+      "<color_red> /</color><color_white>───────────────────────────────────┐││</color><color_red>║</color>",
+      "<color_red>╔═══════════════════════════════════╗</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>                                   <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>                                   <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color> <color_light_cyan>╔╦╗╦ ╦╔═╗  ╔╗ ╦╔═╗  ╔╗ ╔═╗╔═╗╦╔═</color>  <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>  <color_light_cyan>║ ╠═╣║╣   ╠╩╗║║ ╦  ╠╩╗║ ║║ ║╠╩╗ </color> <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>  <color_light_cyan>╩ ╩ ╩╚═╝  ╚═╝╩╚═╝  ╚═╝╚═╝╚═╝╩ ╩ </color> <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>  <color_light_cyan>╔═╗╔═╗  ╔═╗╦╦═╗╔═╗╔╦╗  ╔═╗╦╔╦╗  </color> <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>  <color_light_cyan>║ ║╠╣   ╠╣ ║╠╦╝╚═╗ ║   ╠═╣║ ║║  </color> <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>  <color_light_cyan>╚═╝╚    ╚  ╩╩╚═╚═╝ ╩   ╩ ╩╩═╩╝  </color> <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>                                   <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>                                   <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>                                   <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>                                   <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>              <color_white>╔═════╗</color>              <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>              <color_white>║     ║</color>              <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>              <color_white>║     ║</color>              <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>              <color_white>║     ║</color>              <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>       <color_white>╔══════╝     ╚══════╗</color>       <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>       <color_white>║                   ║</color>       <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>       <color_white>║                   ║</color>       <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>       <color_white>╚══════╗     ╔══════╝</color>       <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>              <color_white>║     ║</color>              <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>              <color_white>║     ║</color>              <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>              <color_white>║     ║</color>              <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>              <color_white>╚═════╝</color>              <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>                                   <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>                                   <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>             <color_cyan>By C. Red</color>             <color_red>║</color><color_white>│││</color><color_red>║</color>",
+      "<color_red>║</color>                                   <color_red>║</color><color_white>││/</color>",
+      "<color_red>║</color>                                   <color_red>║</color><color_white>│/</color>",
+      "<color_red>╚═══════════════════════════════════╝</color>"
+    ]
+  }
+]
