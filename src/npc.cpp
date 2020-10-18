@@ -3266,11 +3266,6 @@ void npc_follower_rules::toggle_specific_override_state( ally_rule rule, bool st
     }
 }
 
-bool npc::is_hallucination() const
-{
-    return hallucination;
-}
-
 bool npc_follower_rules::has_override_enable( ally_rule test ) const
 {
     return static_cast<int>( test ) & static_cast<int>( override_enable );

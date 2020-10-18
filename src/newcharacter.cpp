@@ -3097,6 +3097,7 @@ std::vector<trait_id> Character::get_base_traits() const
 std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 {
     std::vector<trait_id> result;
+    result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
         if( include_hidden || t.first.obj().player_display ) {
             result.push_back( t.first );

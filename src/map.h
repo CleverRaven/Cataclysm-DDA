@@ -1686,6 +1686,10 @@ class map
          * Get the submap pointer containing the specified position within the reality bubble.
          * (p) must be a valid coordinate, check with @ref inbounds.
          */
+        inline submap *unsafe_get_submap_at( const tripoint &p ) const {
+            cata_assert( inbounds( p ) );
+            return get_submap_at_grid( { p.x / SEEX, p.y / SEEY, p.z } );
+        }
         submap *get_submap_at( const tripoint &p ) const;
         submap *get_submap_at( const point &p ) const {
             return get_submap_at( tripoint( p, abs_sub.z ) );
@@ -1695,7 +1699,16 @@ class map
          * The same as other get_submap_at, (p) must be valid (@ref inbounds).
          * Also writes the position within the submap to offset_p
          */
-        submap *get_submap_at( const tripoint &p, point &offset_p ) const;
+        submap *unsafe_get_submap_at( const tripoint &p, point &offset_p ) const {
+            offset_p.x = p.x % SEEX;
+            offset_p.y = p.y % SEEY;
+            return unsafe_get_submap_at( p );
+        }
+        submap *get_submap_at( const tripoint &p, point &offset_p ) const {
+            offset_p.x = p.x % SEEX;
+            offset_p.y = p.y % SEEY;
+            return get_submap_at( p );
+        }
         submap *get_submap_at( const point &p, point &offset_p ) const {
             return get_submap_at( { p, abs_sub.z }, offset_p );
         }
