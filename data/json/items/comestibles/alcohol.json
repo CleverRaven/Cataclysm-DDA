@@ -1413,7 +1413,7 @@
     "healthy": 1,
     "addiction_potential": 4,
     "calories": 207,
-    "description": "Tomato juice mixed with vodka and some spices. Hangover cure of choice for many.",
+    "description": "Tomato juice mixed with vodka and some spices.  Hangover cure of choice for many.",
     "price": 600,
     "price_postapoc": 250,
     "material": [ "alcohol", "fruit" ],

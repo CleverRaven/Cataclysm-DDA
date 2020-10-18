@@ -1188,7 +1188,7 @@
     "quench": 40,
     "healthy": 2,
     "calories": 42,
-    "description": "A thick red liquid, made from tomatoes. Not to everyone's taste, it is a healthy and refreshing drink when chilled.",
+    "description": "A thick red liquid, made from tomatoes.  Not to everyone's taste, it is a healthy and refreshing drink when chilled.",
     "price": 90,
     "price_postapoc": 40,
     "material": [ "fruit" ],
