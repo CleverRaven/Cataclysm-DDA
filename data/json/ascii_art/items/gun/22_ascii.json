@@ -45,5 +45,41 @@
       "      ▐█</color><color_light_red>▒</color><color_brown>██▓█▓▓▌",
       "       </color><color_dark_gray>☻~~~~ ~~"
     ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "sm_pipe_gun",
+    "picture": [
+      "",
+      "   <color_light_gray>▓",
+      "   ▓",
+      "   ▓",
+      "   ▓",
+      "  ▐</color><color_dark_gray>░▌",
+      "  ▐░▌",
+      "  ▐░▌",
+      "  ▐░▌",
+      "  ▐░▌",
+      "  ▐░▌",
+      "  ▐░▌",
+      "  ▐░▌",
+      "  ▐░▄ </color><color_light_gray>__∙▄▄",
+      "  </color><color_dark_gray>▐░░█♥☻▀▀▀▀▀",
+      "  ▐░█",
+      "  ▐░▌",
+      " </color><color_light_gray>▐</color><color_dark_gray>▓░▌",
+      "  ◙░▌",
+      "  ▐░▌",
+      "  ▐░▌",
+      "  ▐░▒▒▀▀≡▓▓",
+      "  ▐░█",
+      "  ▐░█",
+      "  ▐░█",
+      "  ▐░█",
+      "  ▐░█",
+      "  █░█",
+      "   █▒▄",
+      "    </color><color_light_gray>▒▒</color><color_dark_gray>▄▄▄▄"
+    ]
   }
 ]
