@@ -226,13 +226,7 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "abandonedwarehouse",
-        "om_terrain_replace": "field",
-        "reveal_radius": 1,
-        "random": true,
-        "search_range": 150
-      },
+      "assign_mission_target": { "om_terrain": "warehouse_north", "om_special": "warehouse", "reveal_radius": 3, "random": true, "search_range": 180 },
       "update_mapgen": { "place_npcs": [ { "class": "sadie", "x": 19, "y": 20, "target": true } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
