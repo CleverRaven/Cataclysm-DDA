@@ -1,4 +1,5 @@
-{
+[
+  {
     "type": "ascii_art",
     "id": "halberd",
     "picture": [
@@ -85,3 +86,4 @@
       "                    ||                   "
     ]
   }
+]
