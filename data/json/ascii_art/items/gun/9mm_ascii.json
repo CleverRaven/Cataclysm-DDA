@@ -101,5 +101,23 @@
       "     ▐█     </color><color_light_gray>▓</color><color_dark_gray>▌         ",
       "     ▐██▀☻███▌         "
     ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "beretta_m9",
+    "picture": [
+      "",
+      "  <color_light_gray>•</color><color_dark_gray>▄__▄▄▲</color><color_light_gray>▄▄▄▄▄▄▄</color><color_dark_gray>______________</color><color_light_gray>■</color><color_dark_gray>▄</color><color_light_gray>■",
+      "    </color><color_dark_gray>███░██████████████████████</color><color_light_gray>▓</color><color_dark_gray>██]",
+      "   </color><color_light_gray>▄</color><color_dark_gray>███</color><color_red>•</color><color_light_gray>▓▓▓▓▓</color><color_dark_gray>▓▓▒▓▓▒▓▒▓▒▓▓█▓█▓▓███",
+      "  ▀▀</color><color_light_gray>▓▓</color><color_dark_gray>████████░▒███▓▓█▀▀▀▀▀▀▀▀▀▀^",
+      "    </color><color_light_gray>▐█</color><color_dark_gray>█▒▒Θ█</color><color_light_gray>▓</color><color_dark_gray>▌  █   ▀▌",
+      "    </color><color_light_gray>▓</color><color_dark_gray>█▒▒▒▒██</color><color_light_gray>▓</color><color_dark_gray>_  ▀°_/►",
+      "   </color><color_light_gray>▐</color><color_dark_gray>█▒▒▒▒██</color><color_light_gray>▓  </color><color_dark_gray>`~~~",
+      "  </color><color_light_gray>▐</color><color_dark_gray>███▒▒██</color><color_light_gray>█",
+      "  █</color><color_dark_gray>███████▌",
+      " </color><color_light_gray>▐</color><color_dark_gray>████Θ██</color><color_light_gray>▓",
+      "  </color><color_dark_gray>▀▀▀</color><color_light_gray>▓</color><color_dark_gray>███</color><color_light_gray>█"
+    ]
   }
 ]
