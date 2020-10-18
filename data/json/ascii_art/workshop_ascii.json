@@ -20,5 +20,35 @@
       "                        ▀▀▀              ",
       "                                         "
     ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "pliers",
+    "picture": [
+      "                                         ",
+      "      <color_white>█{▓                                ",
+      "     █} {▓                               ",
+      "    ██} {█▓                              ",
+      "   ██}   {█▓                             ",
+      "   ███} {██▓                             ",
+      "   ████◙███▓                             ",
+      "    ██████▓                              ",
+      "     ████▓                               ",
+      "      ██▓                                ",
+      "    ██▓ ██▓                              ",
+      "   █▓     █▓                             ",
+      "   </color><color_dark_gray>█▓     █▓                             ",
+      "  █</color><color_yellow>█▓     ██</color><color_dark_gray>▓                            ",
+      "  █</color><color_yellow>█▓     ██</color><color_dark_gray>▓                            ",
+      " ██▓       ██▓                           ",
+      " █</color><color_yellow>█▓       ██</color><color_dark_gray>▓                           ",
+      " █</color><color_yellow>█▓       ██</color><color_dark_gray>▓                           ",
+      "  ██▓     ██▓                            ",
+      "  █</color><color_yellow>█▓     ██</color><color_dark_gray>▓                            ",
+      "  █</color><color_yellow>█▓     ██</color><color_dark_gray>▓                            ",
+      "   █</color><color_yellow>█▓   ██</color><color_dark_gray>▓                             ",
+      "   ██▓   ██▓                             ",
+      "                                         "
+    ]
   }
 ]
