@@ -1,5 +1,4 @@
 [
-  # The item is missing the ascii_picture assignment in 32.json
   {
     "type": "ascii_art",
     "id": "ppk",
