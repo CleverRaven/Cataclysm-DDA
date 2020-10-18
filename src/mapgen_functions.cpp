@@ -115,7 +115,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "river_curved_not", &mapgen_river_curved_not },
             { "river_straight",   &mapgen_river_straight },
             { "river_curved",     &mapgen_river_curved },
-            { "parking_lot",      &mapgen_parking_lot },
             { "spider_pit", mapgen_spider_pit },
             { "cavern", &mapgen_cavern },
             { "open_air", &mapgen_open_air },
@@ -1830,34 +1829,6 @@ void mapgen_river_curved( mapgendata &dat )
     }
     if( dat.terrain_type() == "river_nw" ) {
         m->rotate( 3 );
-    }
-}
-
-void mapgen_parking_lot( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( j == 5 || j == 9 || j == 13 || j == 17 || j == 21 ) &&
-                ( ( i > 1 && i < 8 ) || ( i > 14 && i < SEEX * 2 - 2 ) ) ) {
-                m->ter_set( point( i, j ), t_pavement_y );
-            } else if( ( j < 2 && i > 7 && i < 17 ) || ( j >= 2 && j < SEEY * 2 - 2 && i > 1 &&
-                       i < SEEX * 2 - 2 ) ) {
-                m->ter_set( point( i, j ), t_pavement );
-            } else {
-                m->ter_set( point( i, j ), dat.groundcover() );
-            }
-        }
-    }
-
-    VehicleSpawn::apply( vspawn_id( "default_parkinglot" ), *m, "parkinglot" );
-
-    m->place_items( "road", 8, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), false, dat.when() );
-    for( int i = 1; i < 4; i++ ) {
-        const std::string &id = dat.t_nesw[i].id().str();
-        if( id.size() > 5 && id.find( "road_" ) == 0 ) {
-            m->rotate( i );
-        }
     }
 }
 
