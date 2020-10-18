@@ -547,7 +547,7 @@
     ]
   },
   {
-    "result": "xl_helmet_galea ",
+    "result": "xl_helmet_galea",
     "type": "recipe",
     "copy-from": "helmet_galea",
     "time": "17 h",
@@ -576,7 +576,7 @@
     ]
   },
   {
-    "result": "xl_helmet_kabuto ",
+    "result": "xl_helmet_kabuto",
     "type": "recipe",
     "copy-from": "helmet_kabuto",
     "time": "14 h",

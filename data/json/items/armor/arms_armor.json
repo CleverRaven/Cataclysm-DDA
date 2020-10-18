@@ -69,7 +69,7 @@
     "relative": { "material_thickness": 1 }
   },
   {
-    "id": "armguard_acidchitin",
+    "id": "xl_armguard_acidchitin",
     "copy-from": "armguard_acidchitin",
     "type": "ARMOR",
     "name": { "str": "pair of xl biosilicified chitin arm guards", "str_pl": "pairs of xl biosilicified chitin arm guards" },

@@ -445,6 +445,13 @@
     "flags": [ "WATER_FRIENDLY" ]
   },
   {
+    "id": "xl_gloves_light",
+    "type": "ARMOR",
+    "name": { "str": "pair of oversized light cotton gloves", "str_pl": "pairs of oversized light cotton gloves" },
+    "copy-from": "gloves_light",
+    "flags": [ "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "gloves_liner",
     "type": "ARMOR",
     "name": { "str": "pair of glove liners", "str_pl": "pairs of glove liners" },
