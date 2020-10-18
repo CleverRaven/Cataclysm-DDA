@@ -4659,16 +4659,13 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         maintext += string_format( " (%d%%)", percent_progress );
     } else if( contents.num_item_stacks() == 1 ) {
         const item &contents_item = contents.only_item();
-        if( contents_item.made_of( phase_id::LIQUID ) || contents_item.is_food() ) {
-            const unsigned contents_count = contents_item.charges > 1 ? contents_item.charges : quantity;
-            //~ %1$s: item name, %2$s: content liquid, food, or drink name
-            maintext = string_format( pgettext( "item name", "%1$s of %2$s" ), label( quantity ),
-                                      contents_item.tname( contents_count, with_prefix ) );
-        } else {
-            //~ %1$s: item name, %2$s: non-liquid, non-food, non-drink content item name
-            maintext = string_format( pgettext( "item name", "%1$s with %2$s" ), label( quantity ),
-                                      contents_item.tname( quantity, with_prefix ) );
-        }
+        const unsigned contents_count =
+            ( ( contents_item.made_of( phase_id::LIQUID ) || contents_item.is_food() ) &&
+              contents_item.charges > 1 )
+            ? contents_item.charges
+            : quantity;
+        maintext = string_format( pgettext( "item name", "%2$s (%1$s)" ), label( quantity ),
+                                  contents_item.tname( contents_count, with_prefix ) );
     } else if( !contents.empty() ) {
         maintext = string_format( npgettext( "item name",
                                              //~ %1$s: item name, %2$zd: content size
