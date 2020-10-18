@@ -1,4 +1,5 @@
-{
+[
+  {
     "type": "ascii_art",
     "id": "umbrella",
     "picture": [
@@ -34,3 +35,4 @@
       "                 </color><color_brown>JJJJJ</color><color_black>"
     ]
   }
+]
