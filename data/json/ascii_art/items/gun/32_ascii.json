@@ -1,0 +1,19 @@
+[
+  # The item is missing the ascii_picture assignment in 32.json
+  {
+    "type": "ascii_art",
+    "id": "ppk",
+    "picture": [
+      "      <color_light_gray>╓▄▄▄▄▄▄</color><color_dark_gray>▄▄--▄</color><color_light_gray>▄▄</color><color_dark_gray>▄▄▄▄▄▄",
+      "    </color><color_light_gray>▒▀</color><color_dark_gray>█</color><color_white>░</color><color_dark_gray>▓▓▒▀▀▀▀▀▀▀▀▀▀▓▓▀▀▀▌",
+      "  _▬░ É</color><color_white>░</color><color_dark_gray>░☺░≈</color><color_light_gray>•*∟***∟**</color><color_dark_gray>∞</color><color_light_gray>↔</color><color_dark_gray>▄</color><color_light_gray>▄▀",
+      " </color><color_dark_gray>▀▀▬░ ¢◛▒∞⌐ ┐</color><color_light_gray>▄</color><color_dark_gray>-█~ ▀◛▀~",
+      "    ▐</color><color_light_gray>▒</color><color_dark_gray>███▓⌐  | ╘▬ _¿",
+      "   _█▓▒███:▀</color><color_light_gray>~ </color><color_dark_gray>~~^~",
+      "   ▓▒▒j██▌</color><color_light_gray>▐",
+      "  </color><color_dark_gray>▓▓█████•</color><color_light_gray>Γ",
+      "  </color><color_dark_gray>\\__   =</color><color_light_gray>▒",
+      "     </color><color_dark_gray>`^▀▀▀"
+    ]
+  }
+]
