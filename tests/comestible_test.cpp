@@ -4,11 +4,11 @@
 #include <cstdio>
 #include <utility>
 #include <vector>
-#include "make_static.h"
 
 #include "character.h"
 #include "item.h"
 #include "itype.h"
+#include "make_static.h"
 #include "output.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"

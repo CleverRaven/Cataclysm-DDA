@@ -42,6 +42,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
@@ -71,7 +72,6 @@
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
-#include "make_static.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;

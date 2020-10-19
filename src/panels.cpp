@@ -65,8 +65,8 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 static const efftype_id effect_got_checked( "got_checked" );
 
-static const flag_str_id flag_THERMOMETER( "THERMOMETER" );
-static const flag_str_id flag_SPLINT( "SPLINT" );
+static const flag_str_id json_flag_THERMOMETER( "THERMOMETER" );
+static const flag_str_id json_flag_SPLINT( "SPLINT" );
 
 // constructor
 window_panel::window_panel(
@@ -467,7 +467,7 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
 static std::string get_temp( const avatar &u )
 {
     std::string temp;
-    if( u.has_item_with_flag( flag_THERMOMETER ) ||
+    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
         u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
@@ -912,7 +912,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, bodypart_i
         std::string limb = "~~%~~";
         nc_color color = c_light_red;
 
-        if( u.worn_with_flag( flag_SPLINT,  bp ) ) {
+        if( u.worn_with_flag( json_flag_SPLINT,  bp ) ) {
             static const efftype_id effect_mending( "mending" );
             const auto &eff = u.get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
@@ -1575,7 +1575,8 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( text_left, 5 ), get_wind_color( windpower ),
                get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
 
-    if( u.has_item_with_flag( flag_THERMOMETER ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
+        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
         mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
@@ -1996,7 +1997,8 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 15, 0 ), c_light_gray, _( "Time: ???" ) );
     }
 
-    if( u.has_item_with_flag( flag_THERMOMETER ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
+        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         std::string temp = print_temperature( get_weather().get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }

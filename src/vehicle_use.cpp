@@ -27,6 +27,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -55,7 +56,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
-#include "make_static.h"
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );

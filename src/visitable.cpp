@@ -18,6 +18,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_pocket.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
 #include "monster.h"
@@ -33,7 +34,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "make_static.h"
 
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );

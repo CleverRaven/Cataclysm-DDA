@@ -34,6 +34,7 @@
 #include "itype.h"
 #include "json.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -55,7 +56,6 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "make_static.h"
 
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_deaf( "deaf" );

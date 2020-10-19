@@ -19,6 +19,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "magic.h"
+#include "make_static.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
@@ -42,7 +43,6 @@
 #include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
-#include "make_static.h"
 
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_narcosis( "narcosis" );

@@ -4,10 +4,10 @@
 
 #include "debug.h"
 #include "item.h"
+#include "make_static.h"
 #include "player.h"
 #include "ret_val.h"
 #include "translations.h"
-#include "make_static.h"
 
 struct tripoint;
 

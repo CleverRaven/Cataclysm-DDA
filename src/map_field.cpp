@@ -36,6 +36,7 @@
 #include "item_contents.h"
 #include "itype.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -62,7 +63,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "make_static.h"
 
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );

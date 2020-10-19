@@ -27,6 +27,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -59,7 +60,6 @@
 #include "units.h"
 #include "viewer.h"
 #include "weather.h"
-#include "make_static.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );

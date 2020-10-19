@@ -25,13 +25,13 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "make_static.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
 #include "visitable.h"
-#include "make_static.h"
 
 static const itype_id itype_char_forge( "char_forge" );
 static const itype_id itype_crucible( "crucible" );

@@ -20,6 +20,7 @@
 #include "item_pocket.h"
 #include "iteminfo_query.h"
 #include "itype.h"
+#include "make_static.h"
 #include "map.h"
 #include "output.h"
 #include "point.h"
@@ -29,7 +30,6 @@
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
-#include "make_static.h"
 
 static const std::vector<item_pocket::pocket_type> avail_types{
     item_pocket::pocket_type::CONTAINER,

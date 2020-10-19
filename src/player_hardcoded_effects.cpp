@@ -16,6 +16,7 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "int_id.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -36,7 +37,6 @@
 #include "vitamin.h"
 #include "weather.h"
 #include "weather_type.h"
-#include "make_static.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

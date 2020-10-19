@@ -15,6 +15,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "make_static.h"
 #include "mapgen.h"
 #include "optional.h"
 #include "output.h"
@@ -26,7 +27,6 @@
 #include "units.h"
 #include "units_fwd.h"
 #include "value_ptr.h"
-#include "make_static.h"
 
 recipe_dictionary recipe_dict;
 

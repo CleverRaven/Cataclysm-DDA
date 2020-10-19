@@ -38,6 +38,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "kill_tracker.h"
+#include "make_static.h"
 #include "map.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -72,7 +73,6 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "make_static.h"
 
 static const activity_id ACT_READ( "ACT_READ" );
 

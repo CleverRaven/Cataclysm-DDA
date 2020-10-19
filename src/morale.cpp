@@ -18,13 +18,13 @@
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
+#include "make_static.h"
 #include "morale_types.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "make_static.h"
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );

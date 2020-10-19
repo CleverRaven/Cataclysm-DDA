@@ -20,6 +20,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -33,7 +34,6 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
-#include "make_static.h"
 
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 

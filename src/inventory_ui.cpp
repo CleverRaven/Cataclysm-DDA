@@ -15,6 +15,7 @@
 #include "item_search.h"
 #include "item_stack.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
 #include "memory_fast.h"
@@ -35,7 +36,6 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
-#include "make_static.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>

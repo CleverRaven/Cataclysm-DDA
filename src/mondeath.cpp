@@ -27,6 +27,7 @@
 #include "itype.h"
 #include "kill_tracker.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mattack_actors.h"
@@ -47,7 +48,6 @@
 #include "units_fwd.h"
 #include "value_ptr.h"
 #include "viewer.h"
-#include "make_static.h"
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_boomered( "boomered" );

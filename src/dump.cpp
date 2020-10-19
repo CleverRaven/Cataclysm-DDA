@@ -16,6 +16,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "loading_ui.h"
+#include "make_static.h"
 #include "npc.h"
 #include "output.h"
 #include "recipe.h"
@@ -26,7 +27,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
-#include "make_static.h"
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )

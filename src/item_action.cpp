@@ -24,6 +24,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
+#include "make_static.h"
 #include "optional.h"
 #include "output.h"
 #include "pimpl.h"
@@ -33,7 +34,6 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "make_static.h"
 
 class Character;
 
