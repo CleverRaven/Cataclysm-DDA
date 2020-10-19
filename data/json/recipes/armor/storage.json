@@ -1266,4 +1266,39 @@
       { "proficiency": "prof_leatherworking_basic" }
     ]
   }
+   {
+    "result": "flip_flop_holster",
+    "type": "recipe",
+	"result_mult": 2,
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "skills_required": [ "pistol", 1 ],
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "flip_flops", 1 ], [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ] ] ]
+  },
+  {
+    "result": "longboot_quiver",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "thigh_high_boots", 1 ], [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ] ] ]
+  },
+  {
+    "result": "medboot_quiver",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "knee_high_boots", 1 ], [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ] ] ]
+  },
 ]

@@ -312,4 +312,35 @@
     "use_action": { "type": "holster" },
     "flags": [ "WAIST", "OVERSIZE" ]
   }
+  {
+    "id": "flip_flop_holster",
+    "type": "ARMOR",
+    "name": { "str": "Flipflop Holster" },
+    "description": "A rather improvised solution for the lack of a holster. Rather comedic, but gets the job done albeit with more encumbrance than a regular holster.",
+    "weight": "350 g",
+    "volume": "250 ml",
+    "price": 9000,
+    "price_postapoc": 750,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "sheath",
+    "color": "light_gray",
+    "covers": [ "LEG_EITHER" ],
+    "coverage": 8,
+    "encumbrance": 2,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1200 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "30 cm",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "WAIST", "OVERSIZE" ]
+  }
 ]
