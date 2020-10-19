@@ -813,6 +813,7 @@
   },
   {
     "result": "xl_lsurvivor_suit",
+    "type": "recipe",
     "copy-from": "lsurvivor_suit",
     "time": "5 h",
     "using": [ [ "sewing_standard", 150 ] ],
