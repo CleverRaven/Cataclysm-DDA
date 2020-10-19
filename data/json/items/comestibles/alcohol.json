@@ -1416,7 +1416,7 @@
     "description": "Tomato juice mixed with vodka and some spices.  Hangover cure of choice for many.",
     "price": 600,
     "price_postapoc": 250,
-    "material": [ "alcohol", "fruit" ],
+    "material": [ "alcohol", "tomato" ],
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
