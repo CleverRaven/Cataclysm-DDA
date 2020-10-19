@@ -432,7 +432,7 @@
   {
     "id": "xl_pants_survivor",
     "type": "ARMOR",
-    "copy-from": "survivor_pants",
+    "copy-from": "pants_survivor",
     "name": { "str_sp": "xl survivor cargo pants" },
     "description": "A pair of oversized Kevlar armored pants covered with pouches and pockets.  Custom-built to be durable, comfortable, and easy to wear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
