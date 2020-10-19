@@ -11815,7 +11815,7 @@ void game::display_visibility()
 void game::toggle_debug_hour_timer()
 {
     debug_hour_timer.toggle();
-};
+}
 
 void game::debug_hour_timer::toggle()
 {
