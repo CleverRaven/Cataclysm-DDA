@@ -1191,7 +1191,7 @@
     "description": "A thick red liquid, made from tomatoes.  Not to everyone's taste, it is a healthy and refreshing drink when chilled.",
     "price": 90,
     "price_postapoc": 40,
-    "material": [ "fruit" ],
+    "material": [ "tomato" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
