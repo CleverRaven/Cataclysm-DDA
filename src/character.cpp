@@ -6346,16 +6346,18 @@ void Character::update_bodytemp()
         int windchill = get_local_windchill( player_local_temp,
                                              get_local_humidity( weather.humidity, get_weather().weather_id, sheltered ),
                                              bp_windpower );
+
+        static const auto is_lower = []( const bodypart_id & bp ) {
+            return bp == STATIC( bodypart_str_id( "foot_l" ) ) ||
+                   bp == STATIC( bodypart_str_id( "foot_r" ) ) ||
+                   bp == STATIC( bodypart_str_id( "leg_l" ) ) ||
+                   bp == STATIC( bodypart_str_id( "leg_r" ) );
+        };
+
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         // Convert to 0.01C
-        static const std::set<bodypart_id> lowers {
-            bodypart_id( "foot_l" ),
-            bodypart_id( "foot_r" ),
-            bodypart_id( "leg_l" ),
-            bodypart_id( "leg_r" )
-        };
         if( here.has_flag_ter( TFLAG_DEEP_WATER, pos() ) ||
-            ( here.has_flag_ter( TFLAG_SHALLOW_WATER, pos() ) && lowers.count( bp ) ) ) {
+            ( here.has_flag_ter( TFLAG_SHALLOW_WATER, pos() ) && is_lower( bp ) ) ) {
             adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
             windchill = 0;
         }
@@ -6400,7 +6402,7 @@ void Character::update_bodytemp()
 
         mod_part_temp_conv( bp, sunlight_warmth );
         // DISEASES
-        if( bp == bodypart_id( "head" ) && has_effect( effect_flu ) ) {
+        if( bp == STATIC( bodypart_str_id( "head" ) ) && has_effect( effect_flu ) ) {
             mod_part_temp_conv( bp, 1500 );
         }
         if( has_common_cold ) {
@@ -6410,39 +6412,34 @@ void Character::update_bodytemp()
         mod_part_temp_conv( bp, - blood_loss( bp ) * get_part_temp_conv( bp ) / 200 );
 
         // EQUALIZATION
-        if( bp == bodypart_id( "torso" ) ) {
-            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "arm_l" ) );
-            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "arm_r" ) );
-            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "leg_l" ) );
-            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "leg_r" ) );
-            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "head" ) );
-        } else if( bp == bodypart_id( "head" ) ) {
-            temp_equalizer( bodypart_id( "head" ), bodypart_id( "torso" ) );
-            temp_equalizer( bodypart_id( "head" ), bodypart_id( "mouth" ) );
-        } else if( bp == bodypart_id( "arm_l" ) ) {
-            temp_equalizer( bodypart_id( "arm_l" ), bodypart_id( "torso" ) );
-            temp_equalizer( bodypart_id( "arm_l" ), bodypart_id( "hand_l" ) );
-        } else if( bp == bodypart_id( "arm_r" ) ) {
-            temp_equalizer( bodypart_id( "arm_r" ), bodypart_id( "torso" ) );
-            temp_equalizer( bodypart_id( "arm_r" ), bodypart_id( "hand_r" ) );
-        } else if( bp == bodypart_id( "leg_l" ) ) {
-            temp_equalizer( bodypart_id( "leg_l" ), bodypart_id( "torso" ) );
-            temp_equalizer( bodypart_id( "leg_l" ), bodypart_id( "foot_l" ) );
-        } else if( bp == bodypart_id( "leg_r" ) ) {
-            temp_equalizer( bodypart_id( "leg_r" ), bodypart_id( "torso" ) );
-            temp_equalizer( bodypart_id( "leg_r" ), bodypart_id( "foot_r" ) );
-        } else if( bp == bodypart_id( "mouth" ) ) {
-            temp_equalizer( bodypart_id( "mouth" ), bodypart_id( "head" ) );
-        } else if( bp == bodypart_id( "hand_l" ) ) {
-            temp_equalizer( bodypart_id( "hand_l" ), bodypart_id( "arm_l" ) );
-        } else if( bp == bodypart_id( "hand_r" ) ) {
-            temp_equalizer( bodypart_id( "hand_r" ), bodypart_id( "arm_r" ) );
-        } else if( bp == bodypart_id( "foot_l" ) ) {
-            temp_equalizer( bodypart_id( "foot_l" ), bodypart_id( "leg_l" ) );
-        } else if( bp == bodypart_id( "foot_r" ) ) {
-            temp_equalizer( bodypart_id( "foot_r" ), bodypart_id( "leg_r" ) );
-        } else {
-            debugmsg( "Wacky body part temperature equalization!" );
+        static const std::pair<bodypart_str_id, bodypart_str_id> connections[] {
+            {bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ) },
+            {bodypart_str_id( "torso" ), bodypart_str_id( "arm_r" ) },
+            {bodypart_str_id( "torso" ), bodypart_str_id( "leg_l" ) },
+            {bodypart_str_id( "torso" ), bodypart_str_id( "leg_r" ) },
+            {bodypart_str_id( "torso" ), bodypart_str_id( "head" ) },
+            {bodypart_str_id( "head" ), bodypart_str_id( "mouth" ) },
+            {bodypart_str_id( "arm_l" ), bodypart_str_id( "hand_l" ) },
+            {bodypart_str_id( "arm_r" ), bodypart_str_id( "hand_r" ) },
+            {bodypart_str_id( "leg_l" ), bodypart_str_id( "foot_l" ) },
+            {bodypart_str_id( "leg_r" ), bodypart_str_id( "foot_r" ) }
+        };
+
+        bool equalized = false;
+        for( const auto &conn : connections ) {
+            if( bp == conn.first ) {
+                temp_equalizer( bp, conn.second );
+                equalized = true;
+            }
+            // connections are defined in one-direction only, but should work in both direction
+            if( bp == conn.second ) {
+                temp_equalizer( conn.second, bp );
+                equalized = true;
+            }
+        }
+        if( !equalized ) {
+            debugmsg( "Wacky body part temperature equalization!  Body part is not handled: %s",
+                      bp.id().str() );
         }
 
         // Climate Control eases the effects of high and low ambient temps
