@@ -418,6 +418,21 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zyoplosaurus",
+    "name": { "str": "Dyoplosaurus zombie" },
+    "copy-from": "mon_zankylosaurus",
+    "looks_like": "mon_ankylosaurus",
+    "hp": 350,
+    "special_attacks": [
+      [ "scratch", 10 ],
+      { "type": "bite", "cooldown": 5 },
+      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "SMASH", 30 ]
+    ],
+    "description": "This armored dinosaur corpse looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone."
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zankylosaurus",
     "name": { "str": "Ankylosaurus zombie" },
     "looks_like": "mon_ankylosaurus",
@@ -436,18 +451,50 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_cut": 1,
-    "armor_bash": 7,
-    "armor_cut": 7,
-    "armor_bullet": 4,
-    "hp": 200,
+    "armor_bash": 16,
+    "armor_cut": 21,
+    "armor_bullet": 7,
+    "hp": 1000,
     "death_function": [ "NORMAL" ],
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [
+      [ "scratch", 10 ],
+      { "type": "bite", "cooldown": 5 },
+      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "SMASH", 30 ]
+    ],
     "description": "The shuffling corpse of what looks like a giant armadillo with peeling armored plates and black, glistening eyes.  Its tail ends in a massive spiked club of bone.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zankylosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR", "CLASSIC" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zodosaurus",
+    "name": { "str": "Nodosaurus zombie" },
+    "copy-from": "mon_zankylosaurus",
+    "looks_like": "mon_ankylosaurus",
+    "hp": 600,
+    "armor_bash": 21,
+    "armor_cut": 23,
+    "armor_bullet": 11,
+    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "description": "This heavily armored dinosaur corpse looks like a giant prehistoric armadillo."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zedmontonia",
+    "name": { "str": "Edmontonia zombie" },
+    "copy-from": "mon_zankylosaurus",
+    "looks_like": "mon_ankylosaurus",
+    "hp": 650,
+    "melee_cut": 10,
+    "armor_bash": 21,
+    "armor_cut": 23,
+    "armor_bullet": 11,
+    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "description": "This heavily armored dinosaur corpse looks like a giant prehistoric armadillo with long bony spikes."
   },
   {
     "type": "MONSTER",
