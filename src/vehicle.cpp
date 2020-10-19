@@ -4235,8 +4235,8 @@ bool vehicle::has_sufficient_rotorlift() const
 
 bool vehicle::is_rotorcraft() const
 {
-    return ( has_part( "ROTOR" ) || has_part( "ROTOR_SIMPLE" ) ) && has_sufficient_rotorlift() &&
-           player_in_control( get_player_character() );
+    return !rotors.empty() && player_in_control( get_player_character() ) &&
+           has_sufficient_rotorlift();
 }
 
 bool vehicle::is_flyable() const
@@ -4256,7 +4256,7 @@ int vehicle::get_z_change() const
 
 bool vehicle::would_prevent_flyable( const vpart_info &vpinfo ) const
 {
-    return is_flyable() && has_part( "ROTOR" ) && !vpinfo.has_flag( "SIMPLE_PART" );
+    return flyable && !rotors.empty() && !vpinfo.has_flag( "SIMPLE_PART" );
 }
 
 bool vehicle::is_flying_in_air() const
@@ -6684,7 +6684,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ static_cast<int>( type ) ] );
     int dres = dmg - parts[p].hp();
     if( mod_hp( parts[ p ], 0 - dmg, type ) ) {
-        if( is_flyable() && has_part( "ROTOR" ) && !parts[p].has_flag( VPFLAG_SIMPLE_PART ) ) {
+        if( is_flyable() && !rotors.empty() && !parts[p].has_flag( VPFLAG_SIMPLE_PART ) ) {
             // If we break a part, we can no longer fly the vehicle.
             set_flyable( false );
         }
