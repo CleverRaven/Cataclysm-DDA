@@ -2047,14 +2047,6 @@ target_handler::trajectory target_ui::run()
                 loop_exit_code = ExitCode::Reload;
                 break;
             }
-        } else if( action == "SWITCH_AIM" ) {
-            if( status != Status::Good ) {
-                continue;
-            }
-            aim_mode++;
-            if( aim_mode == aim_types.end() ) {
-                aim_mode = aim_types.begin();
-            }
         } else if( action == "FIRE" ) {
             if( status != Status::Good ) {
                 continue;
@@ -2192,7 +2184,6 @@ void target_ui::init_window_and_input()
     }
     if( mode == TargetMode::Fire ) {
         ctxt.register_action( "AIM" );
-        ctxt.register_action( "SWITCH_AIM" );
 
         aim_types = you->get_aim_types( *relevant );
         for( aim_type &type : aim_types ) {
@@ -2201,6 +2192,11 @@ void target_ui::init_window_and_input()
             }
         }
         aim_mode = aim_types.begin();
+        for( auto it = aim_types.begin(); it != aim_types.end(); ++it ) {
+            if( you->preferred_aiming_mode == it->action ) {
+                aim_mode = it; // default to persisted mode if possible
+            }
+        }
     }
     if( mode == TargetMode::Turrets ) {
         ctxt.register_action( "TOGGLE_TURRET_LINES" );
@@ -2708,10 +2704,79 @@ void target_ui::apply_aim_turning_penalty()
 
 void target_ui::action_switch_mode()
 {
-    relevant->gun_cycle_mode();
-    if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
-        relevant->gun_cycle_mode();
+    uilist menu;
+    menu.settext( _( "Select preferences" ) );
+    const std::pair<int, int> aim_modes_range = std::make_pair( 0, 100 );
+    const std::pair<int, int> firing_modes_range = std::make_pair( 100, 200 );
+
+    if( !aim_types.empty() ) {
+        menu.addentry( -1, false, 0, "  " + std::string( _( "Default aiming mode" ) ) );
+        menu.entries.back().force_color = true;
+        menu.entries.back().text_color = c_cyan;
+
+        for( auto it = aim_types.begin(); it != aim_types.end(); ++it ) {
+            const bool is_active_aim_mode = aim_mode == it;
+            const std::string text = ( it->name.empty() ? _( "Immediate" ) : it->name ) +
+                                     ( is_active_aim_mode ? _( " (active)" ) : "" );
+            menu.addentry( aim_modes_range.first + std::distance( aim_types.begin(), it ),
+                           true, MENU_AUTOASSIGN, text );
+            if( is_active_aim_mode ) {
+                menu.entries.back().text_color = c_light_green;
+            }
+        }
     }
+
+    const std::map<gun_mode_id, gun_mode> gun_modes = relevant->gun_all_modes();
+    if( !gun_modes.empty() ) {
+        menu.addentry( -1, false, 0, "  " + std::string( _( "Firing mode" ) ) );
+        menu.entries.back().force_color = true;
+        menu.entries.back().text_color = c_cyan;
+
+        for( auto it = gun_modes.begin(); it != gun_modes.end(); ++it ) {
+            if( it->second.flags.count( "REACH_ATTACK" ) ) {
+                continue;
+            }
+            const bool active_gun_mode = relevant->gun_get_mode_id() == it->first;
+
+            // If gun mode is from a gunmod use gunmod's name, pay attention to the "->" on tname
+            std::string text = ( it->second.target == relevant )
+                               ? it->second.tname()
+                               : it->second->tname() + " (" + std::to_string( it->second.qty ) + ")";
+
+            text += ( active_gun_mode ? _( " (active)" ) : "" );
+
+            menu.entries.emplace_back( firing_modes_range.first + std::distance( gun_modes.begin(), it ),
+                                       true, MENU_AUTOASSIGN, text );
+            if( active_gun_mode ) {
+                menu.entries.back().text_color = c_light_green;
+                if( menu.selected == 0 ) {
+                    menu.selected = menu.entries.size() - 1;
+                }
+            }
+        }
+    }
+
+    menu.query();
+    if( menu.ret >= firing_modes_range.first && menu.ret < firing_modes_range.second ) {
+        // gun mode select
+        const std::map<gun_mode_id, gun_mode> all_gun_modes = relevant->gun_all_modes();
+        int skip = menu.ret - firing_modes_range.first;
+        for( std::pair<gun_mode_id, gun_mode> it : all_gun_modes ) {
+            if( it.second.flags.count( "REACH_ATTACK" ) ) {
+                continue;
+            }
+            if( skip-- == 0 ) {
+                relevant->gun_set_mode( it.first );
+                break;
+            }
+        }
+    } else if( menu.ret >= aim_modes_range.first && menu.ret < aim_modes_range.second ) {
+        // aiming mode select
+        aim_mode = aim_types.begin();
+        std::advance( aim_mode, menu.ret - aim_modes_range.first );
+        you->preferred_aiming_mode = aim_mode->action;
+    } // else - just refresh
+
     if( mode == TargetMode::TurretManual ) {
         itype_id ammo_current = turret->ammo_current();
         if( ammo_current.is_null() ) {
@@ -3031,11 +3096,8 @@ void target_ui::draw_controls_list( int text_y )
 
         std::string aim = string_format( _( "[%s] to steady your aim.  (10 moves)" ),
                                          bound_key( "AIM" ).short_description() );
-        std::string sw_aim = string_format( _( "[%s] to switch aiming modes." ),
-                                            bound_key( "SWITCH_AIM" ).short_description() );
 
         lines.push_back( {2, colored( col_fire, aim )} );
-        lines.push_back( {1, colored( col_fire, sw_aim )} );
         lines.push_back( {4, colored( col_fire, aim_and_fire )} );
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {

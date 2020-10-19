@@ -1072,13 +1072,6 @@
   },
   {
     "type": "keybinding",
-    "id": "SWITCH_AIM",
-    "category": "TARGET",
-    "name": "Switch Aiming Mode",
-    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "SWITCH_AMMO",
     "category": "TARGET",
     "name": "Switch ammo",
