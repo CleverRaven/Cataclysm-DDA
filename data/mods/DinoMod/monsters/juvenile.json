@@ -444,6 +444,15 @@
     "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" }
   },
   {
+    "id": "mon_dyoplosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "brown and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "brown_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_dyoplosaurus" }
+  },
+  {
     "id": "mon_ankylosaurus_juvenile",
     "type": "MONSTER",
     "name": "brown and magenta four-legged juvenile",
@@ -451,6 +460,24 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "brown_magenta",
     "upgrades": { "age_grow": 365, "into": "mon_ankylosaurus" }
+  },
+  {
+    "id": "mon_nodosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "brown and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "brown_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_nodosaurus" }
+  },
+  {
+    "id": "mon_edmontonia_juvenile",
+    "type": "MONSTER",
+    "name": "brown and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "brown_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_edmontonia" }
   },
   {
     "id": "mon_camptosaurus_juvenile",
