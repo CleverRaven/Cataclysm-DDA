@@ -845,7 +845,7 @@
   },
   {
     "result": "xl_nomex_suit",
-    "copy-from": "nomex_suit"
+    "copy-from": "nomex_suit",
     "time": "2 h",
     "using": [ [ "sewing_standard", 80 ] ],
     "components": [ [ [ "nomex", 36 ] ] ]
@@ -1051,7 +1051,7 @@
   },
   {
     "result": "xl_wsurvivor_suit",
-    "copy-from": "wsurvivor_suit"
+    "copy-from": "wsurvivor_suit",
     "time": "8 h",
     "using": [ [ "sewing_standard", 300 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 104 ], [ "soldering_iron", 104 ], [ "toolset", 104 ] ] ],
