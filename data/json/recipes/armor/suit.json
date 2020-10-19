@@ -808,7 +808,7 @@
   },
   {
     "result": "xl_lsurvivor_suit",
-    "copy-from": "lsurvivor_suit"
+    "copy-from": "lsurvivor_suit",
     "time": "5 h",
     "using": [ [ "sewing_standard", 150 ] ],
     "tools": [ [ [ "welder", 36 ], [ "welder_crude", 58 ], [ "soldering_iron", 58 ], [ "toolset", 58 ] ] ],
