@@ -1214,7 +1214,7 @@
       [ [ "ether", 420 ] ],
       [ [ "heroin", 20 ], [ "morphine", 10 ] ],
       [ [ "datura_seed", 5 ] ],
-      [ [ "conc_venom", 5 ], [ "stimpack_ammo", 5] ],
+      [ [ "conc_venom", 5 ], [ "stimpack_ammo", 5 ] ],
       [ [ "conc_paralytic", 5 ], [ "rocuronium", 5 ] ]
     ]
   },
