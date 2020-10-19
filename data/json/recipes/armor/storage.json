@@ -1265,7 +1265,7 @@
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_leatherworking_basic" }
     ]
-  }
+  },
    {
     "result": "flip_flop_holster",
     "type": "recipe",
