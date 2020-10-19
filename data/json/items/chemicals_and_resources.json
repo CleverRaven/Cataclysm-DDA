@@ -1556,21 +1556,21 @@
     "color": "light_gray"
   },
   {
-	"id": "rocuronium",
-	"type": "AMMO",
-	"ammo_type": "components",
-	"category": "chems",
-	"name": { "str_sp": "rocuronium" },
-	"description": "Rocuronium bromide, a fast-acting muscle relaxant.  Used primarily in emergency medicine because of its relative stability, it can serve as a component of a balanced anesthesia in a pinch.",
-	"weight": "10 g",
-	"volume": "10 ml",
-	"phase": "liquid",
-	"container": "test_tube",
-	"symbol": ";",
-	"color": "light_gray",
-	"price": 2000,
-	"price_postapoc": 20000,
-	"count": 1,
-	"stack_size": 1
+    "id": "rocuronium",
+    "type": "AMMO",
+    "ammo_type": "components",
+    "category": "chems",
+    "name": { "str_sp": "rocuronium" },
+    "description": "Rocuronium bromide, a fast-acting muscle relaxant.  Used primarily in emergency medicine because of its relative stability, it can serve as a component of a balanced anesthesia in a pinch.",
+    "weight": "10 g",
+    "volume": "10 ml",
+    "phase": "liquid",
+    "container": "test_tube",
+    "symbol": ";",
+    "color": "light_gray",
+    "price": 2000,
+    "price_postapoc": 20000,
+    "count": 1,
+    "stack_size": 1
   }
 ]
