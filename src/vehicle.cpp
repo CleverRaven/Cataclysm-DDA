@@ -64,6 +64,7 @@
 #include "string_id.h"
 #include "submap.h"
 #include "translations.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
@@ -262,9 +263,9 @@ units::volume vehicle_stack::max_volume() const
 vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
                   int init_veh_status ): type( type_id )
 {
-    turn_dir = 0;
-    face.init( 0 );
-    move.init( 0 );
+    turn_dir = 0_degrees;
+    face.init( 0_degrees );
+    move.init( 0_degrees );
     of_turn_carry = 0;
 
     if( !type.str().empty() && type.is_valid() ) {
@@ -792,16 +793,13 @@ void vehicle::autopilot_patrol()
     drive_to_local_target( autodrive_local_target, false );
 }
 
-std::set<point> vehicle::immediate_path( int rotate )
+std::set<point> vehicle::immediate_path( units::angle rotate )
 {
     std::set<point> points_to_check;
     const int distance_to_check = 10 + ( velocity / 800 );
-    int adjusted_angle = ( face.dir() + rotate ) % 360;
-    if( adjusted_angle < 0 ) {
-        adjusted_angle += 360;
-    }
+    units::angle adjusted_angle = normalize( face.dir() + rotate );
     // clamp to multiples of 15.
-    adjusted_angle = ( ( adjusted_angle + 15 / 2 ) / 15 ) * 15;
+    adjusted_angle = round_to_multiple_of( adjusted_angle, 15_degrees );
     tileray collision_vector;
     collision_vector.init( adjusted_angle );
     map &here = get_map();
@@ -820,24 +818,24 @@ std::set<point> vehicle::immediate_path( int rotate )
     return points_to_check;
 }
 
-static int get_turn_from_angle( const double angle, const tripoint &vehpos, const tripoint &target,
-                                bool reverse = false )
+static int get_turn_from_angle( const units::angle angle, const tripoint &vehpos,
+                                const tripoint &target, bool reverse = false )
 {
-    if( angle > 10.0 && angle <= 45.0 ) {
+    if( angle > 10.0_degrees && angle <= 45.0_degrees ) {
         return reverse ? 4 : 1;
-    } else if( angle > 45.0 && angle <= 90.0 ) {
+    } else if( angle > 45.0_degrees && angle <= 90.0_degrees ) {
         return 3;
-    } else if( angle > 90.0 && angle < 180.0 ) {
+    } else if( angle > 90.0_degrees && angle < 180.0_degrees ) {
         return reverse ? 1 : 4;
-    } else if( angle < -10.0 && angle >= -45.0 ) {
+    } else if( angle < -10.0_degrees && angle >= -45.0_degrees ) {
         return reverse ? -4 : -1;
-    } else if( angle < -45.0 && angle >= -90.0 ) {
+    } else if( angle < -45.0_degrees && angle >= -90.0_degrees ) {
         return -3;
-    } else if( angle < -90.0 && angle > -180.0 ) {
+    } else if( angle < -90.0_degrees && angle > -180.0_degrees ) {
         return reverse ? -1 : -4;
         // edge case of being exactly on the button for the target.
         // just keep driving, the next path point will be picked up.
-    } else if( ( angle == 180 || angle == -180 ) && vehpos == target ) {
+    } else if( ( angle == 180_degrees || angle == -180_degrees ) && vehpos == target ) {
         return 0;
     }
     return 0;
@@ -873,7 +871,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     refresh();
     map &here = get_map();
     tripoint vehpos = here.getabs( global_pos3() );
-    double angle = get_angle_from_targ( target );
+    units::angle angle = get_angle_from_targ( target );
     // now we got the angle to the target, we can work out when we are heading towards disaster.
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
@@ -966,7 +964,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     is_patrolling ? autodrive( point( turn_x, accel_y ) ) : pldrive( point( turn_x, accel_y ) );
 }
 
-double vehicle::get_angle_from_targ( const tripoint &targ )
+units::angle vehicle::get_angle_from_targ( const tripoint &targ )
 {
     tripoint vehpos = get_map().getabs( global_pos3() );
     rl_vec2d facevec = face_vec();
@@ -977,7 +975,7 @@ double vehicle::get_angle_from_targ( const tripoint &targ )
     // dot product.
     double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
 
-    return atan2( crossy, dotx ) * 180 / M_PI;
+    return units::atan2( crossy, dotx );
 }
 
 void vehicle::do_autodrive()
@@ -1802,18 +1800,18 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         }
     }
 
-    int relative_dir = modulo( carry_veh->face.dir() - face.dir(), 360 );
-    int relative_180 = modulo( relative_dir, 180 );
-    int face_dir_180 = modulo( face.dir(), 180 );
+    units::angle relative_dir = normalize( carry_veh->face.dir() - face.dir() );
+    units::angle relative_180 = units::fmod( relative_dir, 180_degrees );
+    units::angle face_dir_180 = normalize( face.dir(), 180_degrees );
 
     // if the carrier is skewed N/S and the carried vehicle isn't aligned with
     // the carrier, force the carried vehicle to be at a right angle
-    if( face_dir_180 >= 45 && face_dir_180 <= 135 ) {
-        if( relative_180 >= 45 && relative_180 <= 135 ) {
-            if( relative_dir < 180 ) {
-                relative_dir = 90;
+    if( face_dir_180 >= 45_degrees && face_dir_180 <= 135_degrees ) {
+        if( relative_180 >= 45_degrees && relative_180 <= 135_degrees ) {
+            if( relative_dir < 180_degrees ) {
+                relative_dir = 90_degrees;
             } else {
-                relative_dir = 270;
+                relative_dir = 270_degrees;
             }
         }
     }
@@ -1874,7 +1872,8 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         for( const mapping &carry_map : carry_data ) {
             std::string offset = string_format( "%s%3d", carry_map.old_mount == mount_zero ? axis : " ",
                                                 axis == "X" ? carry_map.old_mount.x : carry_map.old_mount.y );
-            std::string unique_id = string_format( "%s%3d%s", offset, relative_dir, carry_veh->name );
+            std::string unique_id = string_format( "%s%3d%s", offset, to_degrees( relative_dir ),
+                                                   carry_veh->name );
             for( const int &carry_part : carry_map.carry_parts_here ) {
                 parts.push_back( carry_veh->parts[ carry_part ] );
                 vehicle_part &carried_part = parts.back();
@@ -2145,21 +2144,23 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     if( veh_record.empty() ) {
         return false;
     }
-    int new_dir = modulo( std::stoi( veh_record.substr( 4, 3 ) ) + face.dir(), 360 );
-    int host_dir = modulo( face.dir(), 180 );
+    units::angle new_dir =
+        normalize( units::from_degrees( std::stoi( veh_record.substr( 4, 3 ) ) ) + face.dir() );
+    units::angle host_dir = normalize( face.dir(), 180_degrees );
     // if the host is skewed N/S, and the carried vehicle is going to come at an angle,
     // force it to east/west instead
-    if( host_dir >= 45 && host_dir <= 135 ) {
-        if( new_dir <= 45 || new_dir >= 315 ) {
-            new_dir = 0;
-        } else if( new_dir >= 135 && new_dir <= 225 ) {
-            new_dir = 180;
+    if( host_dir >= 45_degrees && host_dir <= 135_degrees ) {
+        if( new_dir <= 45_degrees || new_dir >= 315_degrees ) {
+            new_dir = 0_degrees;
+        } else if( new_dir >= 135_degrees && new_dir <= 225_degrees ) {
+            new_dir = 180_degrees;
         }
     }
     map &here = get_map();
     vehicle *new_vehicle = here.add_vehicle( vproto_id( "none" ), new_pos3, new_dir );
     if( new_vehicle == nullptr ) {
-        add_msg_debug( "Unable to unload bike rack, host face %d, new_dir %d!", face.dir(), new_dir );
+        add_msg_debug( "Unable to unload bike rack, host face %d, new_dir %d!",
+                       to_degrees( face.dir() ), to_degrees( new_dir ) );
         return false;
     }
 
@@ -3168,7 +3169,8 @@ point vehicle::coord_translate( const point &p ) const
     return q.xy();
 }
 
-void vehicle::coord_translate( int dir, const point &pivot, const point &p, tripoint &q ) const
+void vehicle::coord_translate( units::angle dir, const point &pivot, const point &p,
+                               tripoint &q ) const
 {
     tileray tdir( dir );
     tdir.advance( p.x - pivot.x );
@@ -3184,7 +3186,8 @@ void vehicle::coord_translate( tileray tdir, const point &pivot, const point &p,
     q.y = tdir.dy() + tdir.ortho_dy( p.y - pivot.y );
 }
 
-point vehicle::rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const
+point vehicle::rotate_mount( units::angle old_dir, units::angle new_dir, const point &pivot,
+                             const point &p ) const
 {
     tripoint q;
     coord_translate( new_dir - old_dir, pivot, p, q );
@@ -3203,7 +3206,7 @@ tripoint vehicle::mount_to_tripoint( const point &mount, const point &offset ) c
     return global_pos3() + mnt_translated;
 }
 
-void vehicle::precalc_mounts( int idir, int dir, const point &pivot )
+void vehicle::precalc_mounts( int idir, units::angle dir, const point &pivot )
 {
     if( idir < 0 || idir > 1 ) {
         idir = 0;
@@ -4232,8 +4235,8 @@ bool vehicle::has_sufficient_rotorlift() const
 
 bool vehicle::is_rotorcraft() const
 {
-    return ( has_part( "ROTOR" ) || has_part( "ROTOR_SIMPLE" ) ) && has_sufficient_rotorlift() &&
-           player_in_control( get_player_character() );
+    return !rotors.empty() && player_in_control( get_player_character() ) &&
+           has_sufficient_rotorlift();
 }
 
 bool vehicle::is_flyable() const
@@ -4253,7 +4256,7 @@ int vehicle::get_z_change() const
 
 bool vehicle::would_prevent_flyable( const vpart_info &vpinfo ) const
 {
-    return is_flyable() && has_part( "ROTOR" ) && !vpinfo.has_flag( "SIMPLE_PART" );
+    return flyable && !rotors.empty() && !vpinfo.has_flag( "SIMPLE_PART" );
 }
 
 bool vehicle::is_flying_in_air() const
@@ -5980,7 +5983,7 @@ void vehicle::do_towing_move()
     const tripoint tower_tow_point = here.getabs( global_part_pos3( tow_index ) );
     const tripoint towed_tow_point = here.getabs( towed_veh->global_part_pos3( other_tow_index ) );
     // same as above, but where the pulling vehicle is pulling from
-    double towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
+    units::angle towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
     const bool reverse = towed_veh->tow_data.tow_direction == TOW_BACK;
     int accel_y = 0;
     tripoint vehpos = here.getabs( towed_veh->global_pos3() );
@@ -6681,7 +6684,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ static_cast<int>( type ) ] );
     int dres = dmg - parts[p].hp();
     if( mod_hp( parts[ p ], 0 - dmg, type ) ) {
-        if( is_flyable() && has_part( "ROTOR" ) && !parts[p].has_flag( VPFLAG_SIMPLE_PART ) ) {
+        if( is_flyable() && !rotors.empty() && !parts[p].has_flag( VPFLAG_SIMPLE_PART ) ) {
             // If we break a part, we can no longer fly the vehicle.
             set_flyable( false );
         }
@@ -6782,9 +6785,9 @@ bool vehicle::restore( const std::string &data )
         return false;
     }
     refresh();
-    face.init( 0 );
-    turn_dir = 0;
-    turn( 0 );
+    face.init( 0_degrees );
+    turn_dir = 0_degrees;
+    turn( 0_degrees );
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     precalc_mounts( 1, pivot_rotation[1], pivot_anchor[1] );
     last_update = calendar::turn;

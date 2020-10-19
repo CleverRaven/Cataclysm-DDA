@@ -96,9 +96,7 @@ static void apply_base_faction( mfaction_id base, mfaction_id faction_id )
     for( const auto &pair : base.obj().attitude_map ) {
         // Fill in values set in base faction, but not in derived one
         auto &faction = faction_list[faction_id.to_i()];
-        if( faction.attitude_map.count( pair.first ) == 0 ) {
-            faction.attitude_map.insert( pair );
-        }
+        faction.attitude_map.insert( pair );
     }
 }
 

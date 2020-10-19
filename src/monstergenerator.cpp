@@ -708,6 +708,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "description", description );
 
+    assign( jo, "ascii_picture", picture_id );
+
     optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
     optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {} );
     optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {} );
@@ -1204,6 +1206,10 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.zombify_into.is_empty() && !mon.zombify_into.is_valid() ) {
             debugmsg( "monster %s has unknown zombify_into: %s", mon.id.c_str(),
                       mon.zombify_into.c_str() );
+        }
+        if( !mon.picture_id.is_empty() && !mon.picture_id.is_valid() ) {
+            debugmsg( "monster %s has unknown ascii_picture: %s", mon.id.c_str(),
+                      mon.picture_id.c_str() );
         }
         if( !mon.mech_weapon.is_empty() && !item::type_is_defined( mon.mech_weapon ) ) {
             debugmsg( "monster %s has unknown mech_weapon: %s", mon.id.c_str(),

@@ -284,11 +284,6 @@ void monster::setpos( const tripoint &p )
     }
 }
 
-const tripoint &monster::pos() const
-{
-    return position;
-}
-
 void monster::poly( const mtype_id &id )
 {
     double hp_percentage = static_cast<double>( hp ) / static_cast<double>( type->hp );
@@ -691,6 +686,14 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
                    size_names.at( get_size() ) );
     }
 
+    if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
+        const ascii_art_id art = type->get_picture_id();
+        if( art.is_valid() ) {
+            for( const std::string &line : art->picture ) {
+                fold_and_print( w, point( column, ++vStart ), max_width, c_white, line );
+            }
+        }
+    }
     return ++vStart;
 }
 

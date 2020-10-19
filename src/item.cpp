@@ -3985,7 +3985,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     contents.info( info, parts );
     contents_info( info, parts, batch, debug );
 
-    if( get_option<bool>( "ENABLE_ASCII_ART_ITEM" ) ) {
+    if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
         const ascii_art_id art = type->picture_id;
         if( art.is_valid() ) {
             for( const std::string &line : art->picture ) {
@@ -6602,15 +6602,19 @@ bool item::is_comestible() const
 
 bool item::is_food() const
 {
-    const std::string comest_type = get_comestible() ? get_comestible()->comesttype : "";
-    return is_comestible() && ( comest_type == "FOOD" ||
-                                comest_type == "DRINK" );
+    if( !is_comestible() ) {
+        return false;
+    }
+    const std::string &comest_type = get_comestible()->comesttype;
+    return comest_type == "FOOD" || comest_type == "DRINK";
 }
 
 bool item::is_medication() const
 {
-    const std::string comest_type = get_comestible() ? get_comestible()->comesttype : "";
-    return is_comestible() && comest_type == "MED";
+    if( !is_comestible() ) {
+        return false;
+    }
+    return get_comestible()->comesttype == "MED";
 }
 
 bool item::is_brewable() const
@@ -8324,16 +8328,16 @@ itype_id item::typeId() const
     return type ? type->get_id() : itype_id::NULL_ID();
 }
 
-bool item::getlight( float &luminance, int &width, int &direction ) const
+bool item::getlight( float &luminance, units::angle &width, units::angle &direction ) const
 {
     luminance = 0;
-    width = 0;
-    direction = 0;
+    width = 0_degrees;
+    direction = 0_degrees;
     if( light.luminance > 0 ) {
         luminance = static_cast<float>( light.luminance );
         if( light.width > 0 ) {  // width > 0 is a light arc
-            width = light.width;
-            direction = light.direction;
+            width = units::from_degrees( light.width );
+            direction = units::from_degrees( light.direction );
         }
         return true;
     } else {

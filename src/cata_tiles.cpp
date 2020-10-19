@@ -1689,7 +1689,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                 }
                 subtile = -1;
 
-                tileray face = tileray( rota );
+                tileray face = tileray( units::from_degrees( rota ) );
                 sym = special_symbol( face.dir_symbol( sym ) );
                 rota = 0;
 
@@ -1862,7 +1862,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
 
             // convert vehicle 360-degree direction (0=E,45=SE, etc) to 4-way tile
             // rotation (0=N,1=W,etc)
-            tileray face = tileray( rota );
+            tileray face = tileray( units::from_degrees( rota ) );
             rota = 3 - face.dir4();
 
         }
@@ -2692,7 +2692,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         char part_mod = 0;
         const std::string &vp_id = veh.part_id_string( veh_part, part_mod );
         const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
-        const int rotation = veh.face.dir();
+        const int rotation = to_degrees( veh.face.dir() );
         const std::string vpname = "vp_" + vp_id;
         avatar &you = get_avatar();
         if( !veh.forward_velocity() && !veh.player_in_control( you ) &&
@@ -2718,13 +2718,13 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         if( vp2 ) {
             const char part_mod = std::get<1>( override->second );
             const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
-            const int rotation = std::get<2>( override->second );
+            const units::angle rotation = std::get<2>( override->second );
             const int draw_highlight = std::get<3>( override->second );
             const std::string vpname = "vp_" + vp2.str();
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
             const bool ret = draw_from_id_string( vpname, C_VEHICLE_PART, empty_string, p,
-                                                  subtile, rotation, lit_level::LIT,
+                                                  subtile, to_degrees( rotation ), lit_level::LIT,
                                                   false, height_3d );
             if( ret && draw_highlight ) {
                 draw_item_highlight( p );
@@ -3111,7 +3111,7 @@ void cata_tiles::init_draw_item_override( const tripoint &p, const itype_id &id,
     item_override.emplace( p, std::make_tuple( id, mid, hilite ) );
 }
 void cata_tiles::init_draw_vpart_override( const tripoint &p, const vpart_id &id,
-        const int part_mod, const int veh_dir, const bool hilite, const point &mount )
+        const int part_mod, const units::angle veh_dir, const bool hilite, const point &mount )
 {
     vpart_override.emplace( p, std::make_tuple( id, part_mod, veh_dir, hilite, mount ) );
 }

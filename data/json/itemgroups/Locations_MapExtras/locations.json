@@ -1840,7 +1840,7 @@
       [ "rollerskates", 10 ],
       [ "roller_shoes_off", 10 ],
       [ "survnote", 3 ],
-      [ "radio_car_box", 3 ],
+      { "group": "toy_radio_car", "prob": 3 },
       { "item": "radiocontrol", "prob": 10, "charges": [ 0, 50 ] },
       [ "scots_cookbook", 1 ],
       [ "scots_tailor", 1 ],

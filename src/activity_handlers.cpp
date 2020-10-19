@@ -231,6 +231,8 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
+static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
+
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
@@ -2449,9 +2451,12 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::cracking_finish( player_activity *act, player *p )
+void activity_handlers::cracking_finish( player_activity *act, player *guy )
 {
-    p->add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
+    guy->add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
+    if( !guy->has_proficiency( proficiency_prof_safecracking ) ) {
+        guy->practice_proficiency( proficiency_prof_safecracking, 60_minutes );
+    }
     get_map().furn_set( act->placement, f_safe_c );
     act->set_to_null();
 }

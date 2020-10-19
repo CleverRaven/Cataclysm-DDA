@@ -1108,6 +1108,10 @@ void Item_factory::check_definitions() const
             }
         }
 
+        if( !type->picture_id.is_empty() && !type->picture_id.is_valid() ) {
+            msg +=  "item has unknown ascii_picture.";
+        }
+
         int mag_pocket_number = 0;
         for( const pocket_data &data : type->pockets ) {
             if( data.type == item_pocket::pocket_type::MAGAZINE ||

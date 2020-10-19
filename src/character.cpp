@@ -419,7 +419,6 @@ std::string enum_to_string<blood_type>( blood_type data )
 
 // *INDENT-OFF*
 Character::Character() :
-
     visitable<Character>(),
     cached_time( calendar::before_time_starts ),
     id( -1 ),
@@ -9521,7 +9520,7 @@ ret_val<bool> Character::can_wield( const item &it ) const
 
 bool Character::has_wield_conflicts( const item &it ) const
 {
-    return is_armed() && !it.stacks_with( weapon, true );
+    return is_armed() && !it.can_combine( weapon );
 }
 
 bool Character::unwield()

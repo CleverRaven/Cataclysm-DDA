@@ -476,6 +476,19 @@
     ]
   },
   {
+    "id": "toy_radio_car",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "rc_car_box",
+    "items": [
+      { "item": "radiocontrol" },
+      { "item": "light_minus_battery_cell", "charges": 50, "count": 3 },
+      { "item": "radio_car" },
+      { "item": "bubblewrap", "count": 2 },
+      { "item": "screwdriver" }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "tools_robotics",
     "//": "tools and equipment you might find on robotics laboratories.",
