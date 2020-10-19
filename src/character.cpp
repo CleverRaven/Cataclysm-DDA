@@ -6439,7 +6439,8 @@ void Character::update_bodytemp()
             }
         }
         if( !equalized ) {
-            debugmsg( "Wacky body part temperature equalization! Body part is not handled: %s", bp.id().str() );
+            debugmsg( "Wacky body part temperature equalization!  Body part is not handled: %s",
+                      bp.id().str() );
         }
 
         // Climate Control eases the effects of high and low ambient temps
