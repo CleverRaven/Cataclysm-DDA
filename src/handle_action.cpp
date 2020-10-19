@@ -65,6 +65,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
@@ -890,15 +891,13 @@ static void wait()
             as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
             durations.emplace( 12, 15_minutes ); // to hide it from showing
         }
-        add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", 5_minutes );
-        add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", 30_minutes );
-
-        if( has_watch ) {
-            add_menu_item( 3, '3', "", 1_hours );
-            add_menu_item( 4, '4', "", 2_hours );
-            add_menu_item( 5, '5', "", 3_hours );
-            add_menu_item( 6, '6', "", 6_hours );
-        }
+        add_menu_item( 1, '1', "", 5_minutes );
+        add_menu_item( 2, '2', "", 30_minutes );
+        add_menu_item( 3, '3', "", 1_hours );
+        add_menu_item( 4, '4', "", 2_hours );
+        add_menu_item( 5, '5', "", 3_hours );
+        add_menu_item( 6, '6', "", 6_hours );
+        as_m.addentry( 13, true, 'c', _( "Custom input" ) );
     }
 
     if( g->get_levz() >= 0 || has_watch ) {
@@ -938,11 +937,21 @@ static void wait()
     as_m.text += setting_alarm ? _( "Set alarm for when?" ) : _( "Wait for how long?" );
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
-    const auto dur_iter = durations.find( as_m.ret );
-    if( dur_iter == durations.end() ) {
-        return;
+    time_duration time_to_wait;
+    if( as_m.ret == 13 ) {
+        int minutes = string_input_popup()
+                      .title( _( "How long? (in minutes)" ) )
+                      .identifier( "wait_duration" )
+                      .query_int();
+        time_to_wait = minutes * 1_minutes;
+    } else {
+
+        const auto dur_iter = durations.find( as_m.ret );
+        if( dur_iter == durations.end() ) {
+            return;
+        }
+        time_to_wait = dur_iter->second;
     }
-    const time_duration time_to_wait = dur_iter->second;
 
     if( setting_alarm ) {
         // Setting alarm
