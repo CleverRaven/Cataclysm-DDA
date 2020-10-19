@@ -2868,22 +2868,21 @@ int get_auto_consume_moves( player &p, const bool food )
         }
 
         const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
-        std::vector<item> items_here;
+        std::vector<item*> items_here;
         if( vp ) {
             vehicle_stack vehitems = vp->vehicle().get_items( vp->vehicle().part_with_feature( vp->part_index(),
-                                     "CARGO",
-                                     false ) );
+                                     "CARGO", false ) );
             for( item &it : vehitems ) {
-                items_here.push_back( it );
+                items_here.push_back( &it );
             }
         } else {
             map_stack mapitems = here.i_at( here.getlocal( loc ) );
             for( item &it : mapitems ) {
-                items_here.push_back( it );
+                items_here.push_back( &it );
             }
         }
-        for( item &it : items_here ) {
-            item &comest = p.get_consumable_from( it );
+        for( item *it : items_here ) {
+            item &comest = p.get_consumable_from( *it );
             if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
                 p.fun_for( comest ).first < -5 ) {
                 // not good eatings.
@@ -2900,7 +2899,7 @@ int get_auto_consume_moves( player &p, const bool food )
                 // wont like it, cannibal meat etc
                 continue;
             }
-            if( !it.is_owned_by( p, true ) ) {
+            if( !it->is_owned_by( p, true ) ) {
                 // it aint ours.
                 continue;
             }
@@ -2908,13 +2907,13 @@ int get_auto_consume_moves( player &p, const bool food )
                 // not quenching enough
                 continue;
             }
-            if( !food && it.is_watertight_container() && comest.made_of( phase_id::SOLID ) ) {
+            if( !food && it->is_watertight_container() && comest.made_of( phase_id::SOLID ) ) {
                 // its frozen
                 continue;
             }
-            int consume_moves = -Pickup::cost_to_move_item( p, it ) * std::max( rl_dist( p.pos(),
+            int consume_moves = -Pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
                                 here.getlocal( loc ) ), 1 );
-            consume_moves += to_moves<int>( p.get_consume_time( it ) );
+            consume_moves += to_moves<int>( p.get_consume_time( *it ) );
             item_location item_loc;
             if( vp ) {
                 item_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), &comest );
