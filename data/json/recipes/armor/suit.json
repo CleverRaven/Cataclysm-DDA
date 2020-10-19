@@ -396,7 +396,12 @@
     "type": "recipe",
     "copy-from": "chainmail_hauberk",
     "time": "20 m",
-    "components": [ [ [ "xl_chainmail_vest", 1 ] ], [ [ "xl_chainmail_arms", 1 ] ], [ [ "xl_chainmail_legs", 1 ] ], [ [ "xl_gambeson", 1 ] ] ]
+    "components": [
+      [ [ "xl_chainmail_vest", 1 ] ],
+      [ [ "xl_chainmail_arms", 1 ] ],
+      [ [ "xl_chainmail_legs", 1 ] ],
+      [ [ "xl_gambeson", 1 ] ]
+    ]
   },
   {
     "result": "chainmail_suit",
