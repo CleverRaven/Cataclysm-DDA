@@ -62,7 +62,9 @@
       { "item": "potato_masher", "prob": 85 },
       { "item": "carving_fork", "prob": 50 },
       { "item": "corkscrew", "prob": 90 },
-      { "item": "bottle_opener", "prob": 95 }
+      { "item": "bottle_opener", "prob": 95 },
+      { "item": "pizza_cutter", "prob": 30 },
+      { "item": "icecream_scoop", "prob": 25 }
     ]
   },
   {
