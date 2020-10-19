@@ -11821,7 +11821,7 @@ void game::debug_hour_timer::toggle()
 {
     enabled = !enabled;
     start_time = cata::nullopt;
-    add_msg( std::string( "debug timer " ) + ( enabled ? "enabled" : "disabled" ) );
+    add_msg( string_format( "debug timer %s", enabled ? "enabled" : "disabled" ) );
 }
 
 void game::debug_hour_timer::print_time()
