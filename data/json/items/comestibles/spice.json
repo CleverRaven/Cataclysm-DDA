@@ -23,28 +23,6 @@
     "phase": "liquid"
   },
   {
-    "id": "soysauce",
-    "type": "COMESTIBLE",
-    "symbol": "~",
-    "color": "brown",
-    "name": { "str_sp": "soy sauce" },
-    "description": "Salty fermented soybean sauce.",
-    "price": 190,
-    "price_postapoc": 25,
-    "weight": "24 g",
-    "volume": "250 ml",
-    "calories": 17,
-    "comestible_type": "DRINK",
-    "container": "bottle_glass",
-    "primary_material": "water",
-    "quench": -20,
-    "charges": 10,
-    "healthy": -1,
-    "fun": -15,
-    "freezing_point": -22,
-    "phase": "liquid"
-  },
-  {
     "id": "cinnamon",
     "copy-from": "spice",
     "type": "COMESTIBLE",
