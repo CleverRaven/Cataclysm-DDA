@@ -1351,12 +1351,12 @@ void consume_activity_actor::finish( player_activity &act, Character & )
             player_character.assign_activity( new_act );
             player_character.activity.values = temp_selections;
             player_character.activity.targets = temp_selected_items;
-            player_character.activity.str_values = { temp_filter };
+            player_character.activity.str_values = { temp_filter, "true" };
         } else {
             player_activity eat_menu( new_act );
             eat_menu.values = temp_selections;
             eat_menu.targets = temp_selected_items;
-            eat_menu.str_values = { temp_filter };
+            eat_menu.str_values = { temp_filter, "true" };
             player_character.backlog.push_back( eat_menu );
         }
     }
