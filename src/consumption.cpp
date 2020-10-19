@@ -130,14 +130,14 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
-static const std::array<flag_str_id, 4> carnivore_blacklist {
-    flag_str_id( "ALLERGEN_VEGGY" ), flag_str_id( "ALLERGEN_FRUIT" ),
-    flag_str_id( "ALLERGEN_WHEAT" ), flag_str_id( "ALLERGEN_NUT" )
-};
+static const std::array<flag_str_id, 4> carnivore_blacklist {{
+        flag_str_id( "ALLERGEN_VEGGY" ), flag_str_id( "ALLERGEN_FRUIT" ),
+        flag_str_id( "ALLERGEN_WHEAT" ), flag_str_id( "ALLERGEN_NUT" )
+    }};
 
-static const std::array<flag_str_id, 2> herbivore_blacklist {
-    flag_str_id( "ALLERGEN_MEAT" ), flag_str_id( "ALLERGEN_EGG" )
-};
+static const std::array<flag_str_id, 2> herbivore_blacklist {{
+        flag_str_id( "ALLERGEN_MEAT" ), flag_str_id( "ALLERGEN_EGG" )
+    }};
 
 // Defines the maximum volume that a internal furnace can consume
 static const units::volume furnace_max_volume( 3_liter );
