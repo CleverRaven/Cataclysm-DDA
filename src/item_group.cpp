@@ -8,10 +8,10 @@
 #include "compatibility.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -20,14 +20,9 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "type_id.h"
-#include "value_ptr.h"
 
 static const std::string null_item_id( "null" );
 
-static const std::string flag_NEEDS_NO_LUBE( "NEEDS_NO_LUBE" );
-static const std::string flag_NON_FOULING( "NON-FOULING" );
-static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
-static const std::string flag_VARSIZE( "VARSIZE" );
 
 Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
 {
@@ -85,7 +80,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         return item( null_item_id, birthday );
     }
     if( one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
-        tmp.set_flag( "FIT" );
+        tmp.set_flag( flag_FIT );
     }
     if( modifier ) {
         modifier->modify( tmp );

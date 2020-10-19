@@ -17,6 +17,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "gates.h"
@@ -65,10 +66,6 @@ static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_traps( "traps" );
-
-static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
-static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
@@ -363,7 +360,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
         here.place_items( "jewelry_front", 20, location, location, false, calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
-                it->set_flag( "FILTHY" );
+                it->set_flag( flag_FILTHY );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }
@@ -530,7 +527,7 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
 
 bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
 {
-    if( gunmod.has_flag( "BRASS_CATCHER" ) ) {
+    if( gunmod.has_flag( flag_BRASS_CATCHER ) ) {
         // Exclude brass catchers so that removing them wouldn't spill the casings
         return true;
     }

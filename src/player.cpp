@@ -157,8 +157,6 @@ static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
-static const std::string flag_SPLINT( "SPLINT" );
-
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_gun( "gun" );
@@ -571,19 +569,19 @@ std::list<item *> player::get_radio_items()
     const invslice &stacks = inv->slice();
     for( const auto &stack : stacks ) {
         item &stack_iter = stack->front();
-        if( stack_iter.has_flag( "RADIO_ACTIVATION" ) ) {
+        if( stack_iter.has_flag( flag_RADIO_ACTIVATION ) ) {
             rc_items.push_back( &stack_iter );
         }
     }
 
     for( auto &elem : worn ) {
-        if( elem.has_flag( "RADIO_ACTIVATION" ) ) {
+        if( elem.has_flag( flag_RADIO_ACTIVATION ) ) {
             rc_items.push_back( &elem );
         }
     }
 
     if( is_armed() ) {
-        if( weapon.has_flag( "RADIO_ACTIVATION" ) ) {
+        if( weapon.has_flag( flag_RADIO_ACTIVATION ) ) {
             rc_items.push_back( &weapon );
         }
     }
@@ -859,7 +857,7 @@ int player::get_perceived_pain() const
 
 float player::fall_damage_mod() const
 {
-    if( has_effect_with_flag( "EFFECT_FEATHER_FALL" ) ) {
+    if( has_effect_with_flag( flag_EFFECT_FEATHER_FALL ) ) {
         return 0.0f;
     }
     float ret = 1.0f;
@@ -1189,7 +1187,7 @@ void player::process_items()
     // Active item processing done, now we're recharging.
     int ch_UPS = 0;
     const auto inv_is_ups = items_with( []( const item & itm ) {
-        return itm.has_flag( "IS_UPS" );
+        return itm.has_flag( flag_IS_UPS );
     } );
     for( const auto &it : inv_is_ups ) {
         itype_id identifier = it->type->get_id();
@@ -1217,7 +1215,7 @@ void player::process_items()
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     const auto inv_use_ups = items_with( []( const item & itm ) {
-        return itm.has_flag( "USE_UPS" );
+        return itm.has_flag( flag_USE_UPS );
     } );
     for( const auto &it : inv_use_ups ) {
         // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
@@ -1328,7 +1326,7 @@ item::reload_option player::select_ammo( const item &base,
 
     uilist menu;
     menu.text = string_format( base.is_watertight_container() ? _( "Refill %s" ) :
-                               base.has_flag( "RELOAD_AND_SHOOT" ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
+                               base.has_flag( flag_RELOAD_AND_SHOOT ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
                                base.tname() );
 
     // Construct item names
@@ -1522,7 +1520,7 @@ item::reload_option player::select_ammo( const item &base,
                 }
                 return false;
             }
-    } cb( opts, draw_row, last_key, default_to, !base.has_flag( "RELOAD_ONE" ) );
+    } cb( opts, draw_row, last_key, default_to, !base.has_flag( flag_RELOAD_ONE ) );
     menu.callback = &cb;
 
     menu.query();
@@ -1563,12 +1561,12 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
             itype_id id = ammo->typeId();
             if( e->can_reload_with( id ) ) {
                 ammo_match_found = true;
-            } else if( ammo->has_flag( "SPEEDLOADER" ) && e->allows_speedloader( id ) &&
+            } else if( ammo->has_flag( flag_SPEEDLOADER ) && e->allows_speedloader( id ) &&
                        ammo->ammo_remaining() > 1 && e->ammo_remaining() < 1 ) {
                 id = ammo->ammo_current();
                 ammo_match_found = e->can_reload_with( id );
             }
-            if( can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
+            if( can_reload( *e, id ) || e->has_flag( flag_RELOAD_AND_SHOOT ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
             }
         }
@@ -1913,7 +1911,7 @@ int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
     // We have the ammo in our hands right now
     int mv = item_handling_cost( obj, true, 0 );
 
-    if( ammo.has_flag( "MAG_BULKY" ) ) {
+    if( ammo.has_flag( flag_MAG_BULKY ) ) {
         mv *= 1.5; // bulky magazines take longer to insert
     }
 
@@ -1940,7 +1938,7 @@ int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
     mv += cost / ( 1.0f + std::min( get_skill_level( sk ) * 0.1f, 1.0f ) );
 
-    if( it.has_flag( "STR_RELOAD" ) ) {
+    if( it.has_flag( flag_STR_RELOAD ) ) {
         /** @EFFECT_STR reduces reload time of some weapons */
         mv -= get_str() * 20;
     }
@@ -2047,7 +2045,7 @@ ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
                                             _( "You can't take off power armor while wearing other power armor components." ) :
                                             _( "<npcname> can't take off power armor while wearing other power armor components." ) );
     }
-    if( it.has_flag( "NO_TAKEOFF" ) ) {
+    if( it.has_flag( flag_NO_TAKEOFF ) ) {
         return ret_val<bool>::make_failure( !is_npc() ?
                                             _( "You can't take that item off." ) :
                                             _( "<npcname> can't take that item off." ) );
@@ -2167,9 +2165,9 @@ bool player::unload( item_location &loc, bool bypass_activity )
     std::vector<item *> opts( 1, &it );
 
     for( item *e : it.gunmods() ) {
-        if( ( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+        if( ( e->is_gun() && !e->has_flag( flag_NO_UNLOAD ) &&
               ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) ||
-            ( e->has_flag( "BRASS_CATCHER" ) && !e->is_container_empty() ) ) {
+            ( e->has_flag( flag_BRASS_CATCHER ) && !e->is_container_empty() ) ) {
             msgs.emplace_back( e->tname() );
             opts.emplace_back( e );
         }
@@ -2193,14 +2191,14 @@ bool player::unload( item_location &loc, bool bypass_activity )
     }
 
     // Next check for any reasons why the item cannot be unloaded
-    if( !target->has_flag( "BRASS_CATCHER" ) ) {
+    if( !target->has_flag( flag_BRASS_CATCHER ) ) {
         if( target->ammo_types().empty() && target->magazine_compatible().empty() ) {
             add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
             return false;
         }
 
-        if( target->has_flag( "NO_UNLOAD" ) ) {
-            if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
+        if( target->has_flag( flag_NO_UNLOAD ) ) {
+            if( target->has_flag( flag_RECHARGE ) || target->has_flag( flag_USE_UPS ) ) {
                 add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname() );
             } else {
                 add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
@@ -2256,7 +2254,7 @@ bool player::unload( item_location &loc, bool bypass_activity )
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );
         if( target->is_filthy() ) {
-            ammo.set_flag( "FILTHY" );
+            ammo.set_flag( flag_FILTHY );
         }
 
         if( ammo.made_of_from_type( phase_id::LIQUID ) ) {
@@ -2275,7 +2273,7 @@ bool player::unload( item_location &loc, bool bypass_activity )
         this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
 
         target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
-    } else if( target->has_flag( "BRASS_CATCHER" ) ) {
+    } else if( target->has_flag( flag_BRASS_CATCHER ) ) {
         target->spill_contents( get_player_character() );
     }
 
@@ -2286,7 +2284,7 @@ bool player::unload( item_location &loc, bool bypass_activity )
 
     add_msg( _( "You unload your %s." ), target->tname() );
 
-    if( it.has_flag( "MAG_DESTROY" ) && it.ammo_remaining() == 0 ) {
+    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
         loc.remove_item();
     }
 
@@ -2419,7 +2417,7 @@ bool player::gunmod_remove( item &gun, item &mod )
 std::pair<int, int> player::gunmod_installation_odds( const item &gun, const item &mod ) const
 {
     // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
-    if( !mod.has_flag( "INSTALL_DIFFICULT" ) || has_trait( trait_DEBUG_HS ) ) {
+    if( !mod.has_flag( flag_INSTALL_DIFFICULT ) || has_trait( trait_DEBUG_HS ) ) {
         return std::make_pair( 100, 0 );
     }
 
@@ -2564,7 +2562,7 @@ bool player::fun_to_read( const item &book ) const
           has_trait( trait_SAPIOVORE ) ) &&
         book.typeId() == itype_cookbook_human ) {
         return true;
-    } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
+    } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( flag_INSPIRATIONAL ) ) {
         return true;
     } else {
         return book_fun_for( book, *this ) > 0;
@@ -2584,7 +2582,7 @@ int player::book_fun_for( const item &book, const player &p ) const
           p.has_trait( trait_SAPIOVORE ) ) &&
         book.typeId() == itype_cookbook_human ) {
         fun_bonus = std::abs( fun_bonus );
-    } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
+    } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( flag_INSPIRATIONAL ) ) {
         fun_bonus = std::abs( fun_bonus * 3 );
     }
 
@@ -2740,7 +2738,7 @@ bool player::has_gun_for_ammo( const ammotype &at ) const
 bool player::has_magazine_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [&at]( const item & it ) {
-        return !it.has_flag( "NO_RELOAD" ) &&
+        return !it.has_flag( flag_NO_RELOAD ) &&
                ( ( it.is_magazine() && it.ammo_types().count( at ) ) ||
                  ( it.is_gun() && it.magazine_integral() && it.ammo_types().count( at ) ) ||
                  ( it.is_gun() && it.magazine_current() != nullptr &&

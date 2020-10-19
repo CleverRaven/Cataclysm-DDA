@@ -157,114 +157,18 @@ static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
-static const std::string flag_ALWAYS_TWOHAND( "ALWAYS_TWOHAND" );
-static const std::string flag_AURA( "AURA" );
-static const std::string flag_BELTED( "BELTED" );
-static const std::string flag_BIPOD( "BIPOD" );
-static const std::string flag_BYPRODUCT( "BYPRODUCT" );
-static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
-static const std::string flag_CANNIBALISM( "CANNIBALISM" );
-static const std::string flag_CHARGEDIM( "CHARGEDIM" );
-static const std::string flag_COLD( "COLD" );
-static const std::string flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
-static const std::string flag_CONDUCTIVE( "CONDUCTIVE" );
-static const std::string flag_CONSUMABLE( "CONSUMABLE" );
-static const std::string flag_CORPSE( "CORPSE" );
-static const std::string flag_DANGEROUS( "DANGEROUS" );
-static const std::string flag_DEEP_WATER( "DEEP_WATER" );
-static const std::string flag_DIAMOND( "DIAMOND" );
-static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
-static const std::string flag_FAKE_MILL( "FAKE_MILL" );
-static const std::string flag_FAKE_SMOKE( "FAKE_SMOKE" );
-static const std::string flag_FIELD_DRESS( "FIELD_DRESS" );
-static const std::string flag_FIELD_DRESS_FAILED( "FIELD_DRESS_FAILED" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_FIRE_100( "FIRE_100" );
-static const std::string flag_FIRE_20( "FIRE_20" );
-static const std::string flag_FIRE_50( "FIRE_50" );
-static const std::string flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
-static const std::string flag_FIT( "FIT" );
+// vitamin flags
+static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
+
+// fault flags
+static const std::string flag_SILENT( "SILENT" );
+
+// terrain-furniture flags
 static const std::string flag_FLAMMABLE( "FLAMMABLE" );
 static const std::string flag_FLAMMABLE_ASH( "FLAMMABLE_ASH" );
-static const std::string flag_FREEZERBURN( "FREEZERBURN" );
-static const std::string flag_FROZEN( "FROZEN" );
-static const std::string flag_GIBBED( "GIBBED" );
-static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
-static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_HOT( "HOT" );
-static const std::string flag_IRREMOVABLE( "IRREMOVABLE" );
-static const std::string flag_BURNOUT( "BURNOUT" );
-static const std::string flag_IS_ARMOR( "IS_ARMOR" );
-static const std::string flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
-static const std::string flag_IS_UPS( "IS_UPS" );
-static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
-static const std::string flag_LEAK_DAM( "LEAK_DAM" );
+static const std::string flag_DEEP_WATER( "DEEP_WATER" );
 static const std::string flag_LIQUID( "LIQUID" );
 static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-static const std::string flag_LITCIG( "LITCIG" );
-static const std::string flag_MAG_BELT( "MAG_BELT" );
-static const std::string flag_MELTS( "MELTS" );
-static const std::string flag_MUSHY( "MUSHY" );
-static const std::string flag_NANOFAB_TEMPLATE( "NANOFAB_TEMPLATE" );
-static const std::string flag_NEEDS_UNFOLD( "NEEDS_UNFOLD" );
-static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
-static const std::string flag_NONCONDUCTIVE( "NONCONDUCTIVE" );
-static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
-static const std::string flag_NO_DROP( "NO_DROP" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_PARASITES( "NO_PARASITES" );
-static const std::string flag_NO_RELOAD( "NO_RELOAD" );
-static const std::string flag_NO_REPAIR( "NO_REPAIR" );
-static const std::string flag_NO_SALVAGE( "NO_SALVAGE" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
-static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
-static const std::string flag_OUTER( "OUTER" );
-static const std::string flag_OVERSIZE( "OVERSIZE" );
-static const std::string flag_PERSONAL( "PERSONAL" );
-static const std::string flag_PROCESSING( "PROCESSING" );
-static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
-static const std::string flag_PULPED( "PULPED" );
-static const std::string flag_PUMP_ACTION( "PUMP_ACTION" );
-static const std::string flag_PUMP_RAIL_COMPATIBLE( "PUMP_RAIL_COMPATIBLE" );
-static const std::string flag_QUARTERED( "QUARTERED" );
-static const std::string flag_RADIOACTIVE( "RADIOACTIVE" );
-static const std::string flag_RADIOSIGNAL_1( "RADIOSIGNAL_1" );
-static const std::string flag_RADIOSIGNAL_2( "RADIOSIGNAL_2" );
-static const std::string flag_RADIOSIGNAL_3( "RADIOSIGNAL_3" );
-static const std::string flag_RADIO_ACTIVATION( "RADIO_ACTIVATION" );
-static const std::string flag_RADIO_INVOKE_PROC( "RADIO_INVOKE_PROC" );
-static const std::string flag_RADIO_MOD( "RADIO_MOD" );
-static const std::string flag_RAIN_PROTECT( "RAIN_PROTECT" );
-static const std::string flag_REACH3( "REACH3" );
-static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
-static const std::string flag_RECHARGE( "RECHARGE" );
-static const std::string flag_REDUCED_BASHING( "REDUCED_BASHING" );
-static const std::string flag_REDUCED_WEIGHT( "REDUCED_WEIGHT" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
-static const std::string flag_RELOAD_EJECT( "RELOAD_EJECT" );
-static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
-static const std::string flag_REVIVE_SPECIAL( "REVIVE_SPECIAL" );
-static const std::string flag_SILENT( "SILENT" );
-static const std::string flag_SKINNED( "SKINNED" );
-static const std::string flag_SKINTIGHT( "SKINTIGHT" );
-static const std::string flag_SLOW_WIELD( "SLOW_WIELD" );
-static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
-static const std::string flag_SPLINT( "SPLINT" );
-static const std::string flag_TOURNIQUET( "TOURNIQUET" );
-static const std::string flag_STR_DRAW( "STR_DRAW" );
-static const std::string flag_TOBACCO( "TOBACCO" );
-static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
-static const std::string flag_UNDERSIZE( "UNDERSIZE" );
-static const std::string flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
-static const std::string flag_USE_UPS( "USE_UPS" );
-static const std::string flag_VARSIZE( "VARSIZE" );
-static const std::string flag_VEHICLE( "VEHICLE" );
-static const std::string flag_WAIST( "WAIST" );
-static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
-static const std::string flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
-static const std::string flag_WET( "WET" );
-static const std::string flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
 
 static const matec_id RAPID( "RAPID" );
 
@@ -380,7 +284,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     if( type->gun ) {
         for( const itype_id &mod : type->gun->built_in_mods ) {
             item it( mod, turn, qty );
-            it.set_flag( "IRREMOVABLE" );
+            it.set_flag( flag_IRREMOVABLE );
             put_in( it, item_pocket::pocket_type::MOD );
         }
         for( const itype_id &mod : type->gun->default_mods ) {
@@ -506,7 +410,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 
     if( result.corpse->has_flag( MF_REVIVES ) ) {
         if( one_in( 20 ) ) {
-            result.set_flag( "REVIVE_SPECIAL" );
+            result.set_flag( flag_REVIVE_SPECIAL );
         }
         result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
     }
@@ -653,8 +557,8 @@ item &item::ammo_set( const itype_id &ammo, int qty )
         ammo_unset();
         item set_ammo( ammo, calendar::turn, std::min( qty, ammo_capacity( ammo_type ) ) );
         if( has_flag( flag_NO_UNLOAD ) ) {
-            set_ammo.set_flag( "NO_DROP" );
-            set_ammo.set_flag( "IRREMOVABLE" );
+            set_ammo.set_flag( flag_NO_DROP );
+            set_ammo.set_flag( flag_IRREMOVABLE );
         }
         put_in( set_ammo, item_pocket::pocket_type::MAGAZINE );
 
@@ -1035,13 +939,10 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
         return false;
     }
     if( combine_liquid && has_temperature() && made_of_from_type( phase_id::LIQUID ) ) {
-        static const flag_str_id json_flag_COLD( flag_COLD );
-        static const flag_str_id json_flag_FROZEN( flag_FROZEN );
-        static const flag_str_id json_flag_HOT( flag_HOT );
 
         //we can combine liquids of same type and different temperatures
         if( !equal_ignoring_elements( rhs.get_flags(), get_flags(),
-        { json_flag_COLD, json_flag_FROZEN, json_flag_HOT } ) ) {
+        { flag_COLD, flag_FROZEN, flag_HOT } ) ) {
             return false;
         }
     } else if( item_tags != rhs.item_tags ) {
@@ -1656,7 +1557,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( idescription != item_vars.end() ) {
             info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
         } else {
-            if( has_flag( "MAGIC_FOCUS" ) ) {
+            if( has_flag( flag_MAGIC_FOCUS ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "This item is a <info>magical focus</info>.  "
                                              "You can cast spells with it in your hand." ) ) );
@@ -3821,7 +3722,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     avatar &player_character = get_avatar();
     if( parts->test( iteminfo_parts::DESCRIPTION_ALLERGEN ) ) {
         if( is_armor() && player_character.has_trait( trait_WOOLALLERGY ) &&
-            ( made_of( material_id( "wool" ) ) || has_own_flag( "wooled" ) ) ) {
+            ( made_of( material_id( "wool" ) ) || has_own_flag( flag_wooled ) ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This clothing will give you an <bad>allergic "
                                          "reaction</bad>." ) ) );
@@ -4244,9 +4145,9 @@ nc_color item::color_in_inventory() const
     } else if( has_flag( flag_LITCIG ) ) {
         ret = c_red;
     } else if( is_armor() && player_character.has_trait( trait_WOOLALLERGY ) &&
-               ( made_of( material_id( "wool" ) ) || has_own_flag( "wooled" ) ) ) {
+               ( made_of( material_id( "wool" ) ) || has_own_flag( flag_wooled ) ) ) {
         ret = c_red;
-    } else if( is_filthy() || has_own_flag( "DIRTY" ) ) {
+    } else if( is_filthy() || has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
     } else if( is_bionic() ) {
         if( !player_character.has_bionic( type->bionic->id ) ) {
@@ -4689,7 +4590,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( ethereal ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
-        if( has_own_flag( "DIRTY" ) ) {
+        if( has_own_flag( flag_DIRTY ) ) {
             tagtext += _( " (dirty)" );
         } else if( rotten() ) {
             tagtext += _( " (rotten)" );
@@ -5397,25 +5298,16 @@ bool item::has_fault_flag( const std::string &searched_flag ) const
     return false;
 }
 
-bool item::has_own_flag( const std::string &f ) const
-{
-    return has_own_flag( flag_id( f ) );
-}
-
 bool item::has_own_flag( const flag_id &f ) const
 {
     return item_tags.count( f );
-}
-
-bool item::has_flag( const std::string &f ) const
-{
-    return has_flag( flag_id( f ) );
 }
 
 bool item::has_flag( const flag_id &f ) const
 {
     bool ret = false;
     if( !f.is_valid() ) {
+        debugmsg( "Attempted to check invalid flag_id %d", f.to_i() );
         return false;
     }
 
@@ -5439,35 +5331,20 @@ bool item::has_flag( const flag_id &f ) const
     return ret;
 }
 
-item &item::set_flag( const std::string &flag )
-{
-    const flag_id f( flag );
-    if( f.is_valid() ) {
-        set_flag( f );
-    }
-    return *this;
-}
-
 item &item::set_flag( const flag_id &flag )
 {
-    item_tags.insert( flag );
+    if( flag.is_valid() ) {
+        item_tags.insert( flag );
+    } else {
+        debugmsg( "Attempted to set invalid flag_id %d", flag.to_i() );
+    }
     return *this;
-}
-
-item &item::unset_flag( const std::string &flag )
-{
-    return unset_flag( flag_id( flag ) );
 }
 
 item &item::unset_flag( const flag_id &flag )
 {
     item_tags.erase( flag );
     return *this;
-}
-
-item &item::set_flag_recursive( const std::string &flag )
-{
-    return set_flag_recursive( flag_id( flag ) );
 }
 
 item &item::set_flag_recursive( const flag_id &flag )
@@ -5781,7 +5658,7 @@ void item::calc_rot( int temp, const float spoil_modifier,
         return;
     }
 
-    if( has_own_flag( "FROZEN" ) ) {
+    if( has_own_flag( flag_FROZEN ) ) {
         return;
     }
 
@@ -5790,11 +5667,11 @@ void item::calc_rot( int temp, const float spoil_modifier,
     if( is_corpse() && has_flag( flag_FIELD_DRESS ) ) {
         factor *= 0.75;
     }
-    if( has_own_flag( "MUSHY" ) ) {
+    if( has_own_flag( flag_MUSHY ) ) {
         factor *= 3.0;
     }
 
-    if( has_own_flag( "COLD" ) ) {
+    if( has_own_flag( flag_COLD ) ) {
         temp = std::min( temperatures::fridge, temp );
     }
 
@@ -5812,7 +5689,7 @@ void item::calc_rot( int temp, const float spoil_modifier,
 
 void item::calc_rot_while_processing( time_duration processing_duration )
 {
-    if( !has_own_flag( "PROCESSING" ) ) {
+    if( !has_own_flag( flag_PROCESSING ) ) {
         debugmsg( "calc_rot_while_processing called on non smoking item: %s", tname() );
         return;
     }
@@ -6655,8 +6532,7 @@ bool item::is_gun() const
 
 bool item::is_firearm() const
 {
-    static const std::string primitive_flag( "PRIMITIVE_RANGED_WEAPON" );
-    return is_gun() && !has_flag( primitive_flag );
+    return is_gun() && !has_flag( flag_PRIMITIVE_RANGED_WEAPON );
 }
 
 int item::get_reload_time() const
@@ -7695,7 +7571,7 @@ itype_id item::ammo_current() const
     const itype *ammo = ammo_data();
     if( ammo ) {
         return ammo->get_id();
-    } else if( has_flag( "USE_UPS" ) ) {
+    } else if( has_flag( flag_USE_UPS ) ) {
         return itype_battery;
     }
 
@@ -7731,7 +7607,7 @@ itype_id item::ammo_default( bool conversion ) const
         if( !res.is_empty() ) {
             return res;
         }
-    } else if( has_flag( "USE_UPS" ) ) {
+    } else if( has_flag( flag_USE_UPS ) ) {
         return itype_battery;
     }
 
@@ -7843,11 +7719,6 @@ item *item::gunmod_find( const itype_id &mod )
 const item *item::gunmod_find( const itype_id &mod ) const
 {
     return const_cast<item *>( this )->gunmod_find( mod );
-}
-
-item *item::gunmod_find_by_flag( const std::string &flag )
-{
-    return gunmod_find_by_flag( flag_id( flag ) );
 }
 
 item *item::gunmod_find_by_flag( const flag_id &flag )
@@ -8657,29 +8528,29 @@ void item::set_item_specific_energy( const float new_specific_energy )
     // Warm = over temperatures::warm
     // Cold = below temperatures::cold
     // Frozen = Over 50% frozen
-    if( has_own_flag( "FROZEN" ) ) {
-        unset_flag( "FROZEN" );
+    if( has_own_flag( flag_FROZEN ) ) {
+        unset_flag( flag_FROZEN );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
             current_phase = type->phase;
             apply_freezerburn();
         }
-    } else if( has_own_flag( "COLD" ) ) {
-        unset_flag( "COLD" );
-    } else if( has_own_flag( "HOT" ) ) {
-        unset_flag( "HOT" );
+    } else if( has_own_flag( flag_COLD ) ) {
+        unset_flag( flag_COLD );
+    } else if( has_own_flag( flag_HOT ) ) {
+        unset_flag( flag_HOT );
     }
     if( new_item_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        set_flag( "HOT" );
+        set_flag( flag_HOT );
     } else if( freeze_percentage > 0.5 ) {
-        set_flag( "FROZEN" );
+        set_flag( flag_FROZEN );
         current_phase = phase_id::SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            set_flag( "NO_PARASITES" );
+            set_flag( flag_NO_PARASITES );
         }
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        set_flag( "COLD" );
+        set_flag( flag_COLD );
     }
     temperature = std::lround( 100000 * new_item_temperature );
     specific_energy = std::lround( 100000 * new_specific_energy );
@@ -8732,29 +8603,29 @@ void item::set_item_temperature( float new_temperature )
         freeze_percentage = ( completely_liquid_specific_energy - new_specific_energy ) /
                             ( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
-    if( has_own_flag( "FROZEN" ) ) {
-        unset_flag( "FROZEN" );
+    if( has_own_flag( flag_FROZEN ) ) {
+        unset_flag( flag_FROZEN );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
             current_phase = type->phase;
             apply_freezerburn();
         }
-    } else if( has_own_flag( "COLD" ) ) {
-        unset_flag( "COLD" );
-    } else if( has_own_flag( "HOT" ) ) {
-        unset_flag( "HOT" );
+    } else if( has_own_flag( flag_COLD ) ) {
+        unset_flag( flag_COLD );
+    } else if( has_own_flag( flag_HOT ) ) {
+        unset_flag( flag_HOT );
     }
     if( new_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        set_flag( "HOT" );
+        set_flag( flag_HOT );
     } else if( freeze_percentage > 0.5 ) {
-        set_flag( "FROZEN" );
+        set_flag( flag_FROZEN );
         current_phase = phase_id::SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            set_flag( "NO_PARASITES" );
+            set_flag( flag_NO_PARASITES );
         }
     } else if( new_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        set_flag( "COLD" );
+        set_flag( flag_COLD );
     }
     reset_temp_check();
 }
@@ -9165,7 +9036,7 @@ void item::apply_freezerburn()
     if( !has_flag( flag_FREEZERBURN ) ) {
         return;
     }
-    set_flag( "MUSHY" );
+    set_flag( flag_MUSHY );
 }
 
 bool item::process_temperature_rot( float insulation, const tripoint &pos,
@@ -9457,31 +9328,31 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // Warm = over temperatures::warm
     // Cold = below temperatures::cold
     // Frozen = Over 50% frozen
-    if( has_own_flag( "FROZEN" ) ) {
-        unset_flag( "FROZEN" );
+    if( has_own_flag( flag_FROZEN ) ) {
+        unset_flag( flag_FROZEN );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
             current_phase = type->phase;
             apply_freezerburn();
         }
-    } else if( has_own_flag( "COLD" ) ) {
-        unset_flag( "COLD" );
-    } else if( has_own_flag( "HOT" ) ) {
-        unset_flag( "HOT" );
+    } else if( has_own_flag( flag_COLD ) ) {
+        unset_flag( flag_COLD );
+    } else if( has_own_flag( flag_HOT ) ) {
+        unset_flag( flag_HOT );
     }
     if( new_item_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        set_flag( "HOT" );
+        set_flag( flag_HOT );
     } else if( freeze_percentage > 0.5 ) {
-        set_flag( "FROZEN" );
+        set_flag( flag_FROZEN );
         current_phase = phase_id::SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            if( !( has_own_flag( "NO_PARASITES" ) ) ) {
-                set_flag( "NO_PARASITES" );
+            if( !( has_own_flag( flag_NO_PARASITES ) ) ) {
+                set_flag( flag_NO_PARASITES );
             }
         }
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        set_flag( "COLD" );
+        set_flag( flag_COLD );
     }
     temperature = std::lround( 100000 * new_item_temperature );
     specific_energy = std::lround( 100000 * new_specific_energy );
@@ -9496,9 +9367,9 @@ float item::get_item_thermal_energy() const
 
 void item::heat_up()
 {
-    unset_flag( "COLD" );
-    unset_flag( "FROZEN" );
-    set_flag( "HOT" );
+    unset_flag( flag_COLD );
+    unset_flag( flag_FROZEN );
+    set_flag( flag_HOT );
     current_phase = type->phase;
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
@@ -9510,9 +9381,9 @@ void item::heat_up()
 
 void item::cold_up()
 {
-    unset_flag( "HOT" );
-    unset_flag( "FROZEN" );
-    set_flag( "COLD" );
+    unset_flag( flag_HOT );
+    unset_flag( flag_FROZEN );
+    set_flag( flag_COLD );
     current_phase = type->phase;
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
@@ -9839,7 +9710,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     }
     std::string state = get_var( "state" );
     if( state == "solar_pack_link" || state == "solar_pack" ) {
-        if( !carrier->has_item( *this ) || !carrier->worn_with_flag( "SOLARPACK_ON" ) ) {
+        if( !carrier->has_item( *this ) || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
             reset_cable( carrier );
             return false;
@@ -9929,7 +9800,7 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
         if( is_tool() && type->tool->revert_to ) {
             convert( *type->tool->revert_to );
         }
-        unset_flag( "WET" );
+        unset_flag( flag_WET );
         active = false;
     }
     // Always return true so our caller will bail out instead of processing us as a tool.
@@ -10058,39 +9929,31 @@ bool item::process_internal( player *carrier, const tripoint &pos,
         here.emit_field( pos, e );
     }
 
-    static const flag_str_id json_flag_FAKE_SMOKE( flag_FAKE_SMOKE );
-    static const flag_str_id json_flag_FAKE_MILL( flag_FAKE_MILL );
-    static const flag_str_id json_flag_WET( flag_WET );
-    static const flag_str_id json_flag_LITCIG( flag_LITCIG );
-    static const flag_str_id json_flag_WATER_EXTINGUISH( flag_WATER_EXTINGUISH );
-    static const flag_str_id json_flag_CABLE_SPOOL( flag_CABLE_SPOOL );
-    static const flag_str_id json_flag_IS_UPS( flag_IS_UPS );
-
-    if( has_flag( json_flag_FAKE_SMOKE ) && process_fake_smoke( carrier, pos ) ) {
+    if( has_flag( flag_FAKE_SMOKE ) && process_fake_smoke( carrier, pos ) ) {
         return true;
     }
-    if( has_flag( json_flag_FAKE_MILL ) && process_fake_mill( carrier, pos ) ) {
+    if( has_flag( flag_FAKE_MILL ) && process_fake_mill( carrier, pos ) ) {
         return true;
     }
     if( is_corpse() && process_corpse( carrier, pos ) ) {
         return true;
     }
-    if( has_flag( json_flag_WET ) && process_wet( carrier, pos ) ) {
+    if( has_flag( flag_WET ) && process_wet( carrier, pos ) ) {
         // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
         return false;
     }
-    if( has_flag( json_flag_LITCIG ) && process_litcig( carrier, pos ) ) {
+    if( has_flag( flag_LITCIG ) && process_litcig( carrier, pos ) ) {
         return true;
     }
-    if( ( has_flag( json_flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
+    if( ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
         process_extinguish( carrier, pos ) ) {
         return false;
     }
-    if( has_flag( json_flag_CABLE_SPOOL ) ) {
+    if( has_flag( flag_CABLE_SPOOL ) ) {
         // DO NOT process this as a tool! It really isn't!
         return process_cable( carrier, pos );
     }
-    if( has_flag( json_flag_IS_UPS ) ) {
+    if( has_flag( flag_IS_UPS ) ) {
         // DO NOT process this as a tool! It really isn't!
         return process_UPS( carrier, pos );
     }
@@ -10237,7 +10100,7 @@ std::string item::type_name( unsigned int quantity ) const
         };
         switch( cname.type ) {
             case condition_type::FLAG:
-                if( has_flag( cname.condition ) ) {
+                if( has_flag( flag_str_id( cname.condition ) ) ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
                 break;
@@ -10361,8 +10224,8 @@ bool item::on_drop( const tripoint &pos, map &m )
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty
     if( made_of_from_type( phase_id::LIQUID ) && !m.has_flag( flag_LIQUIDCONT, pos ) &&
-        !has_own_flag( "DIRTY" ) ) {
-        set_flag( "DIRTY" );
+        !has_own_flag( flag_DIRTY ) ) {
+        set_flag( flag_DIRTY );
     }
 
     avatar &player_character = get_avatar();

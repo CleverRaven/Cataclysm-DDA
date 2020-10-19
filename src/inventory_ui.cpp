@@ -35,6 +35,7 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "make_static.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -1299,7 +1300,7 @@ void inventory_selector::add_contained_items( item_location &container )
 
 void inventory_selector::add_contained_items( item_location &container, inventory_column &column )
 {
-    if( container->has_flag( "NO_UNLOAD" ) ) {
+    if( container->has_flag( STATIC( flag_str_id( "NO_UNLOAD" ) ) ) ) {
         return;
     }
 

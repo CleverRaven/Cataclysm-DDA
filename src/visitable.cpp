@@ -33,6 +33,7 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "make_static.h"
 
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
@@ -803,7 +804,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 if( e->typeId() == id ) {
                     // includes charges from any included magazine.
                     qty = sum_no_wrap( qty, e->ammo_remaining() );
-                    if( e->has_flag( "USE_UPS" ) ) {
+                    if( e->has_flag( STATIC( flag_str_id( "USE_UPS" ) ) ) ) {
                         found_tool_with_UPS = true;
                     }
                 }
@@ -912,8 +913,8 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e ) {
-        if( ( id.str() == "any" || e->typeId() == id ) && filter( *e ) && ( pseudo ||
-                !e->has_flag( "PSEUDO" ) ) ) {
+        if( ( id.str() == "any" || e->typeId() == id ) && filter( *e ) &&
+            ( pseudo || !e->has_flag( STATIC( flag_str_id( "PSEUDO" ) ) ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;

@@ -16,6 +16,7 @@
 #include "construction.h"
 #include "debug.h"
 #include "enum_traits.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "generic_factory.h"
@@ -549,8 +550,8 @@ std::vector<item> recipe::create_byproducts( int batch ) const
     std::vector<item> bps;
     for( const auto &e : byproducts ) {
         item obj( e.first, calendar::turn, item::default_charges_tag{} );
-        if( obj.has_flag( "VARSIZE" ) ) {
-            obj.set_flag( "FIT" );
+        if( obj.has_flag( flag_VARSIZE ) ) {
+            obj.set_flag( flag_FIT );
         }
 
         if( obj.count_by_charges() ) {
@@ -868,7 +869,7 @@ std::function<bool( const item & )> recipe::get_component_filter(
     std::function<bool( const item & )> frozen_filter = return_true<item>;
     if( result.is_food() && !hot_result() ) {
         frozen_filter = []( const item & component ) {
-            return !component.has_flag( "FROZEN" ) || component.has_flag( "EDIBLE_FROZEN" );
+            return !component.has_flag( flag_FROZEN ) || component.has_flag( flag_EDIBLE_FROZEN );
         };
     }
 

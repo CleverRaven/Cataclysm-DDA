@@ -42,6 +42,7 @@
 #include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "make_static.h"
 
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -493,8 +494,10 @@ std::string talker_npc::give_item_to( const bool to_use )
     }
     item &given = *loc;
 
-    if( ( &given == &player_character.weapon && given.has_flag( "NO_UNWIELD" ) ) ||
-        ( player_character.is_worn( given ) && given.has_flag( "NO_TAKEOFF" ) ) ) {
+    if( ( &given == &player_character.weapon &&
+          given.has_flag( STATIC( flag_str_id( "NO_UNWIELD" ) ) ) ) ||
+        ( player_character.is_worn( given ) &&
+          given.has_flag( STATIC( flag_str_id( "NO_TAKEOFF" ) ) ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }

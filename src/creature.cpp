@@ -1205,7 +1205,7 @@ bool Creature::has_effect( const efftype_id &eff_id ) const
     return has_effect( eff_id, bodypart_str_id( "bp_null" ) );
 }
 
-bool Creature::has_effect_with_flag( const std::string &flag, const bodypart_id &bp ) const
+bool Creature::has_effect_with_flag( const flag_id &flag, const bodypart_id &bp ) const
 {
     for( auto &elem : *effects ) {
         for( const std::pair<const bodypart_str_id, effect> &_it : elem.second ) {
@@ -1217,7 +1217,7 @@ bool Creature::has_effect_with_flag( const std::string &flag, const bodypart_id 
     return false;
 }
 
-bool Creature::has_effect_with_flag( const std::string &flag ) const
+bool Creature::has_effect_with_flag( const flag_id &flag ) const
 {
     const flag_id f( flag );
     for( auto &elem : *effects ) {
@@ -1230,7 +1230,7 @@ bool Creature::has_effect_with_flag( const std::string &flag ) const
     return false;
 }
 
-std::vector<effect> Creature::get_effects_with_flag( const std::string &flag ) const
+std::vector<effect> Creature::get_effects_with_flag( const flag_id &flag ) const
 {
     std::vector<effect> effs;
     for( auto &elem : *effects ) {

@@ -177,13 +177,13 @@ TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][comb
     liquid_hot.heat_up(); // 60 C (333.15 K)
     liquid_cold.cold_up(); // 3 C (276.15 K)
     liquid_filthy.cold_up(); // 3 C (276.15 K)
-    liquid_filthy.set_flag( "FILTHY" );
+    liquid_filthy.set_flag( flag_id( "FILTHY" ) );
 
     // Temperature is in terms of 0.000001 K
     REQUIRE( std::floor( liquid_hot.temperature / 100000 ) == 333 );
     REQUIRE( std::floor( liquid_cold.temperature / 100000 ) == 276 );
-    REQUIRE( liquid_hot.has_flag( "HOT" ) );
-    REQUIRE( liquid_cold.has_flag( "COLD" ) );
+    REQUIRE( liquid_hot.has_flag( flag_id( "HOT" ) ) );
+    REQUIRE( liquid_cold.has_flag( flag_id( "COLD" ) ) );
 
     SECTION( "liquids at the same temperature can stack together" ) {
         CHECK( liquid_cold.stacks_with( liquid_cold ) );
