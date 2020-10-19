@@ -1203,7 +1203,7 @@
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "firstaid",
     "difficulty": 6,
-    "skills_required": [ "chemistry", 7 ],
+    "skills_required": [ "chemistry", 5 ],
     "batch_time_factors": [ 75, 1 ],
     "time": "40 m",
     "book_learn": [ [ "textbook_firstaid", 6 ], [ "textbook_toxicology", 6 ] ],
@@ -1212,7 +1212,7 @@
     "//": "This makes 5 charges for an average-sized survivor, morphine assumed as 1 ch=5mg, heroin as 50% pure.",
     "components": [
       [ [ "ether", 420 ] ],
-      [ [ "heroin", 30 ], [ "morphine", 15 ] ],
+      [ [ "heroin", 20 ], [ "morphine", 10 ] ],
       [ [ "datura_seed", 5 ] ],
       [ [ "conc_venom", 5 ], [ "stimpack_ammo", 5] ],
       [ [ "conc_paralytic", 5 ], [ "rocuronium", 5 ] ]
