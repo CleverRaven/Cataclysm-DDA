@@ -232,7 +232,6 @@ class string_id
                 return strcmp( string, other ) == 0;
             } );
             if( unsorted_iter != unsorted_cache.cend() ) {
-                assert( !make_unique || strcmp( *unsorted_iter, string ) == 0 );
                 return *unsorted_iter; // Found in unsorted cache
             }
 
