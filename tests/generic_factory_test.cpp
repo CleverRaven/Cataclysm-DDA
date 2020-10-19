@@ -251,8 +251,8 @@ TEST_CASE( "string_id_compare_benchmark", "[.][generic_factory][string_id][bench
 // compares the lookup performance of different flag container implementations
 TEST_CASE( "flags_benchmark", "[.][generic_factory][int_id][string_id][benchmark]" )
 {
-    constexpr int bit_flags_size = 100;
-    constexpr int bloom_size = 64;
+    static constexpr int bit_flags_size = 100;
+    static constexpr int bloom_size = 64;
 
     INFO( "bloom_size must be a power of two" );
     REQUIRE( __builtin_popcount( bloom_size ) == 1 );
