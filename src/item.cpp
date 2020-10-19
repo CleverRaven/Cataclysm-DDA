@@ -2797,8 +2797,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
                 for( const armor_portion_data &piece : t->data ) {
                     if( piece.covers.has_value() ) {
-                        for( const bodypart_str_id &covering_id : piece.covers.value() ) {
-                            if( covering_id != bodypart_str_id( "bp_null" ) ) {
+                        for( const bodypart_str_id &covering_id : piece.covers.value().values() ) {
+                            if( !covering_id.is_null() ) {
                                 to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
                                         get_encumber( player_character, covering_id ),
                                         get_encumber( player_character, covering_id, encumber_flags::assume_full ),
@@ -2812,7 +2812,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 // Handle things that use both sides to avoid showing L. Arm R. Arm etc when both are the same
                 if( !t->sided ) {
                     for( const armor_portion_data &piece : t->data ) {
-                        for( const bodypart_str_id &bp : *piece.covers ) {
+                        for( const bodypart_str_id &bp : piece.covers->values() ) {
                             bodypart_str_id opposite = bp->opposite_part;
                             if( opposite != bp && covers( bp ) && covers( opposite )
                                 && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
@@ -5884,7 +5884,7 @@ int item::get_avg_encumber( const Character &p, encumber_flags flags ) const
 
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
-            for( const bodypart_str_id &limb : entry.covers.value() ) {
+            for( const bodypart_str_id &limb : entry.covers.value().values()) {
                 int encumber = get_encumber( p, bodypart_id( limb ), flags );
                 if( encumber ) {
                     avg_encumber += encumber;
@@ -5988,7 +5988,7 @@ int item::get_avg_coverage() const
     int avg_ctr = 0;
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
-            for( const bodypart_str_id &limb : entry.covers.value() ) {
+            for( const bodypart_str_id &limb : entry.covers.value().values()) {
                 int coverage = get_coverage( limb );
                 if( coverage ) {
                     avg_coverage += coverage;

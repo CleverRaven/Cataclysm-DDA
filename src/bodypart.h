@@ -59,7 +59,7 @@ struct enum_traits<side> {
  * Contains all valid @ref body_part values in the order they are
  * defined in. Use this to iterate over them.
  */
-constexpr std::array<body_part, 12> all_body_parts = {{
+constexpr std::array<body_part, num_bp> all_body_parts = {{
         bp_torso, bp_head, bp_eyes, bp_mouth,
         bp_arm_l, bp_arm_r, bp_hand_l, bp_hand_r,
         bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
@@ -70,6 +70,8 @@ struct body_part_type;
 
 using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;
+
+const std::array<bodypart_str_id, num_bp> &bodyparts_str_ids();
 
 struct stat_hp_mods {
 
@@ -277,55 +279,85 @@ class bodypart
 class body_part_set
 {
     private:
-
-        cata::flat_set<bodypart_str_id> parts;
-
-        explicit body_part_set( const cata::flat_set<bodypart_str_id> &other ) : parts( other ) { }
+        std::bitset<num_bp> parts;
+        static body_part convert_str_id( const bodypart_str_id &bp ) {
+            const auto it = std::find( bodyparts_str_ids().cbegin(), bodyparts_str_ids().cend(), bp );
+            cata_assert( it != bodyparts_str_ids().cend() );
+            return static_cast<body_part>( it - bodyparts_str_ids().cbegin() );
+        }
 
     public:
         body_part_set() = default;
         body_part_set( std::initializer_list<bodypart_str_id> bps ) {
             for( const bodypart_str_id &bp : bps ) {
-                set( bp );
+                set( convert_str_id( bp ) );
             }
         }
-        body_part_set unify_set( const body_part_set &rhs );
-        body_part_set intersect_set( const body_part_set &rhs );
 
-        body_part_set make_intersection( const body_part_set &rhs ) const;
-        body_part_set substract_set( const body_part_set &rhs );
+        void unify_set( const body_part_set &rhs ) {
+            parts |= rhs.parts;
+        }
 
-        void fill( const std::vector<bodypart_id> &bps );
+        void intersect_set( const body_part_set &rhs ) {
+            parts &= rhs.parts;
+        }
+
+        void substract_set( const body_part_set &rhs ) {
+            parts &= ~rhs.parts;
+        }
+
+        body_part_set make_intersection( const body_part_set &rhs ) const {
+            body_part_set new_intersection;
+            new_intersection.parts = parts & rhs.parts;
+            return new_intersection;
+        }
+
+        void fill( const std::vector<bodypart_id> &bps ) {
+            for( const bodypart_id &bp : bps ) {
+                set( bp.id() );
+            }
+        }
 
         bool test( const bodypart_str_id &bp ) const {
-            return parts.count( bp ) > 0;
+            return parts[ convert_str_id( bp ) ];
         }
         void set( const bodypart_str_id &bp ) {
-            parts.insert( bp );
+            parts.set( convert_str_id( bp ) );
+        }
+        void set( body_part bp ) {
+            parts.set( bp );
         }
         void reset( const bodypart_str_id &bp ) {
-            parts.erase( bp );
+            parts.reset( convert_str_id( bp ) );
+        }
+        void reset( body_part bp ) {
+            parts.reset( bp );
         }
         bool any() const {
-            return !parts.empty();
+            return parts.any();
         }
         bool none() const {
-            return parts.empty();
+            return parts.none();
         }
         size_t count() const {
-            return parts.size();
-        }
-
-        cata::flat_set<bodypart_str_id>::iterator begin() const {
-            return parts.begin();
-        }
-
-        cata::flat_set<bodypart_str_id>::iterator end() const {
-            return parts.end();
+            return parts.count();
         }
 
         void clear() {
-            parts.clear();
+            parts.reset();
+        }
+
+        // TODO use a custom iterator instead
+        std::vector<bodypart_str_id> values() const {
+            std::vector<bodypart_str_id> vec;
+            vec.reserve( parts.count() );
+            for (int i = 0; i < parts.size(); i++) {
+                if (parts[i]) {
+                    vec.push_back( bodyparts_str_ids()[ i ] );
+                }
+            }
+
+            return vec;
         }
 
         template<typename Stream>

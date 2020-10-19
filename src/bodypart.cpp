@@ -133,7 +133,18 @@ int_id<body_part_type>::int_id( const string_id<body_part_type> &id ) : _id( id.
 
 const bodypart_str_id &convert_bp( body_part bp )
 {
-    static const std::vector<bodypart_str_id> body_parts = {
+    if( bp >= num_bp || bp < bp_torso ) {
+        if( bp != num_bp ) {
+            debugmsg("Invalid body part token %d", bp);
+        }
+        return bodypart_str_id::NULL_ID();
+    }
+
+    return bodyparts_str_ids()[ static_cast<size_t>( bp ) ];
+}
+
+const std::array<bodypart_str_id, num_bp> &bodyparts_str_ids() {
+    static const std::array<bodypart_str_id, num_bp> body_parts_str_ids = {
         bodypart_str_id( "torso" ),
         bodypart_str_id( "head" ),
         bodypart_str_id( "eyes" ),
@@ -146,14 +157,8 @@ const bodypart_str_id &convert_bp( body_part bp )
         bodypart_str_id( "leg_r" ),
         bodypart_str_id( "foot_l" ),
         bodypart_str_id( "foot_r" ),
-        bodypart_str_id( "bp_null" ),
     };
-    if( bp > num_bp || bp < bp_torso ) {
-        debugmsg( "Invalid body part token %d", bp );
-        return body_parts[ num_bp ];
-    }
-
-    return body_parts[static_cast<size_t>( bp )];
+    return body_parts_str_ids;
 }
 
 void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
@@ -323,53 +328,6 @@ std::string body_part_hp_bar_ui_text( const bodypart_id &bp )
 std::string encumb_text( const bodypart_id &bp )
 {
     return bp->encumb_text.translated();
-}
-
-body_part_set body_part_set::unify_set( const body_part_set &rhs )
-{
-    for( const bodypart_str_id &i : rhs ) {
-        if( !test( i ) ) {
-            set( i );
-        }
-    }
-    return *this;
-}
-
-body_part_set body_part_set::intersect_set( const body_part_set &rhs )
-{
-    body_part_set temp;
-    for( const bodypart_str_id &j : rhs ) {
-        if( test( j ) ) {
-            temp.set( j );
-        }
-    }
-    clear();
-    unify_set( temp );
-    return *this;
-}
-
-body_part_set body_part_set::substract_set( const body_part_set &rhs )
-{
-    for( const bodypart_str_id &j : rhs ) {
-        if( test( j ) ) {
-            reset( j );
-        }
-    }
-    return *this;
-}
-
-body_part_set body_part_set::make_intersection( const body_part_set &rhs ) const
-{
-    body_part_set new_intersection;
-    new_intersection.unify_set( *this );
-    return new_intersection.intersect_set( rhs );
-}
-
-void body_part_set::fill( const std::vector<bodypart_id> &bps )
-{
-    for( const bodypart_id &bp : bps ) {
-        parts.insert( bp.id() );
-    }
 }
 
 bodypart_id bodypart::get_id() const

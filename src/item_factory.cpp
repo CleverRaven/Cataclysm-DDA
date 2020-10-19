@@ -1130,7 +1130,7 @@ void Item_factory::check_definitions() const
             cata::flat_set<bodypart_str_id> observed_bps;
             for( const armor_portion_data &portion : type->armor->data ) {
                 if( portion.covers.has_value() ) {
-                    for( const bodypart_str_id &bp : *portion.covers ) {
+                    for( const bodypart_str_id &bp : portion.covers->values() ) {
                         if( portion.covers->test( bp ) ) {
                             if( observed_bps.count( bp ) ) {
                                 msg += "multiple portions with same body_part defined\n";
