@@ -1,4 +1,4 @@
-﻿#include "iuse.h"
+﻿﻿#include "iuse.h"
 
 #include <algorithm>
 #include <array>
@@ -3440,14 +3440,6 @@ int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
     if( you.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
         duration_proficiency_factor = 1;
     }
-
-    if( it->has_flag( flag_PERFECT_LOCKPICK ) ) {
-        duration = to_moves<int>( 5_seconds );
-    } else {
-        duration = std::max( to_moves<int>( 30_seconds ),
-                             to_moves<int>( 10_minutes - time_duration::from_minutes( qual ) ) - ( you.dex_cur +
-                                     you.get_skill_level( skill_traps ) ) * 2000 ) * duration_proficiency_factor;
-    }
     time_duration duration = 5_seconds;
     if( !it->has_flag( flag_PERFECT_LOCKPICK ) ) {
         duration = std::max( 30_seconds,
@@ -3455,7 +3447,11 @@ int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
                                      you.get_skill_level( skill_traps ) ) ) * duration_proficiency_factor );
     }
 
-    you.assign_activity( lockpick_activity_actor::use_item( duration, item_location( you, it ),
+
+
+
+    you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
+                         item_location( you, it ),
                          get_map().getabs( *target ) ) );
     you.practice_proficiency( proficiency_prof_lockpicking, duration / duration_proficiency_factor );
     you.practice_proficiency( proficiency_prof_lockpicking_expert,
