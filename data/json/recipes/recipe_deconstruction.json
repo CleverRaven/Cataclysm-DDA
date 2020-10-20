@@ -5029,6 +5029,6 @@
     "skill_used": "fabrication",
     "time": "12 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "spring", 2 ] ] ]
+    "components": [ [ [ "spoon", 1 ] ], [ [ "spring", 2 ] ] ]
   }
 ]
