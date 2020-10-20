@@ -449,6 +449,7 @@
     "skills_required": [ [ "fabrication", 3 ] ],
     "time": "3 h",
     "autolearn": true,
+    "book_learn": [ [ "textbook_arthropod", 5 ] ],
     "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 12 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -485,6 +486,7 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "difficulty": 7,
+    "book_learn": [ [ "textbook_arthropod", 6 ] ],
     "skills_required": [ [ "fabrication", 4 ], [ "chemistry", 2 ] ],
     "time": "3 h",
     "autolearn": true,
