@@ -1512,7 +1512,6 @@
   {
     "type": "COMESTIBLE",
     "abstract": "venom_gland",
-    "type": "COMESTIBLE",
     "name": { "str": "venom gland" },
     "category": "chems",
     "comestible_type": "FOOD",
