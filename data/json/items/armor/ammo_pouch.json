@@ -549,5 +549,5 @@
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "bolt": 20 }, "moves": 20 } ],
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
-  },
+  }
 ]
