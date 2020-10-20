@@ -482,13 +482,13 @@
     "type": "harvest",
     "message": "The chitin of this aerial insect is much thinner than that of the terrestrial species you encountered till now.  Much of its insides are filled with bundles of small vesicles that almost seem to float.",
     "entries": [
-      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.23 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.05 },
+      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.03 },
       { "drop": "mutant_bug_hydrogen_sacs", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.05 }
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.01 }
     ]
   },
   {
