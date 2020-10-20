@@ -1323,13 +1323,30 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                 return false;
             }
             //TODO Subtract turns from player
-            if( !container->put_in( player_character.i_rem( &put ),
-                                    item_pocket::pocket_type::CONTAINER ).success() ) {
-                debugmsg( "Failed to place %s into %s!", itm->display_name(), container->display_name() );
-                return false;
-            }
             const int move_amount = itm->count_by_charges() ?
                                     std::min( remaining_amount, itm->charges ) : 1;
+            if( srcarea == AIM_INVENTORY ) {
+                if( !container->put_in( player_character.i_rem( &put ),
+                                        item_pocket::pocket_type::CONTAINER ).success() ) {
+                    debugmsg( "Failed to place %s into %s!", itm->display_name(), container->display_name() );
+                    return false;
+                }
+            } else if( spane.viewing_container() ) {
+                if( !container->put_in( const_cast<const item &>( put ),
+                                        item_pocket::pocket_type::CONTAINER ).success() ) {
+                    debugmsg( "Failed to place %s into %s!", itm->display_name(), container->display_name() );
+                    return false;
+                }
+                spane.get_container_location().get_item()->remove_item( put );
+            } else {
+                if( !container->put_in( const_cast<const item &>( put ),
+                                        item_pocket::pocket_type::CONTAINER ).success() ) {
+                    debugmsg( "Failed to place %s into %s!", itm->display_name(), container->display_name() );
+                    return false;
+                }
+                map &here = get_map();
+                here.i_rem( squares[srcarea].pos, itm );
+            }
             remaining_amount -= move_amount;
         }
     } else if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
