@@ -669,6 +669,21 @@ std::string recipe::missing_proficiencies_string( const Character *c ) const
     return missing;
 }
 
+std::string recipe::recipe_proficiencies_string() const
+{
+    std::vector<proficiency_id> profs;
+
+    for( const recipe_proficiency &rec : proficiencies ) {
+        profs.push_back( rec.id );
+    }
+    std::string list = enumerate_as_string( profs.begin(),
+    profs.end(), [&]( const proficiency_id & id ) {
+        return id->name();
+    } );
+
+    return list;
+}
+
 std::set<proficiency_id> recipe::required_proficiencies() const
 {
     std::set<proficiency_id> ret;
