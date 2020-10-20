@@ -1554,5 +1554,23 @@
     "description": "The concentrated paralytic agent, originally from a triffid.  Given your experience with its effects (chiefly gathered while sourcing this batch) and their striking similarity to earthly flora, you figure it's related to curarines.  Might come in handy in crafting more useful things.",
     "copy-from": "conc_venom",
     "color": "light_gray"
+  },
+  {
+    "id": "rocuronium",
+    "type": "AMMO",
+    "ammo_type": "components",
+    "category": "chems",
+    "name": { "str_sp": "rocuronium" },
+    "description": "Rocuronium bromide, a fast-acting muscle relaxant.  Used primarily in emergency medicine because of its relative stability, it can serve as a component of a balanced anesthesia in a pinch.",
+    "weight": "10 g",
+    "volume": "10 ml",
+    "phase": "liquid",
+    "container": "test_tube",
+    "symbol": ";",
+    "color": "light_gray",
+    "price": 2000,
+    "price_postapoc": 20000,
+    "count": 1,
+    "stack_size": 1
   }
 ]

@@ -108,7 +108,9 @@
       { "item": "manual_survival", "prob": 33 },
       { "item": "pocket_survival", "prob": 50 },
       { "item": "survival_book", "prob": 12 },
-      { "item": "textbook_survival", "prob": 17 }
+      { "item": "textbook_survival", "prob": 17 },
+      { "item": "textbook_botany", "prob": 5 },
+      { "item": "textbook_arthropod", "prob": 5 }
     ]
   },
   {
@@ -446,7 +448,9 @@
       { "item": "book_lockpick", "prob": 2 },
       { "item": "basic_chemistry", "prob": 5 },
       { "item": "fermenting_book", "prob": 8 },
-      { "item": "distilling_cookbook", "prob": 8 }
+      { "item": "distilling_cookbook", "prob": 8 },
+      { "item": "textbook_arthropod", "prob": 5 },
+      { "item": "textbook_botany", "prob": 5 }
     ]
   },
   {
@@ -484,7 +488,9 @@
       { "item": "collector_book", "prob": 2 },
       { "group": "religious_books", "prob": 40 },
       { "group": "textbooks", "prob": 1 },
-      { "group": "manuals", "prob": 1 }
+      { "group": "manuals", "prob": 1 },
+      { "item": "textbook_arthropod", "prob": 5 },
+      { "item": "textbook_botany", "prob": 5 }
     ]
   },
   {
@@ -542,6 +548,8 @@
       { "item": "scots_cookbook", "prob": 30 },
       { "item": "textbook_biodiesel", "prob": 18 },
       { "item": "jewelry_book", "prob": 15 },
+      { "item": "textbook_arthropod", "prob": 5 },
+      { "item": "textbook_botany", "prob": 5 },
       { "item": "manual_tai_chi", "prob": 5 },
       { "item": "manual_fencing", "prob": 4 },
       { "item": "manual_aikido", "prob": 3 },
