@@ -508,7 +508,7 @@
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "OVERSIZE", "STURDY", "OUTER" ]
   },
-   {
+  {
     "id": "longboot_quiver",
     "type": "ARMOR",
     "name": { "str": "thigh-high boot quiver" },
