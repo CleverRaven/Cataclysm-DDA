@@ -1579,7 +1579,7 @@
     "time": "5 m",
     "charges": 50,
     "batch_time_factors": [ 80, 1 ],
-    "book_learn": [ [ "textbook_extraction", 4 ] ],
+    "book_learn": [ [ "reference_cooking", 4 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "chem_citric_acid", 9 ] ], [ [ "cocaine", 1 ] ], [ [ "bottle_plastic_small", 1 ] ], [ [ "water", 1, "LIST" ] ] ]
@@ -1587,7 +1587,6 @@
   {
     "type": "recipe",
     "result": "conc_venom",
-    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
