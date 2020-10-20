@@ -1920,9 +1920,47 @@ bool vehicle::level_vehicle()
 
 void vehicle::check_falling_or_floating()
 {
+    map &here = get_map();
+    is_falling = here.has_zlevels();
+
+    // If we're flying none of the rest of this matters.
+    if( is_flying && is_rotorcraft() ) {
+        is_falling = false;
+        is_floating = false;
+        in_water = false;
+        return;
+    }
+    is_flying = false;
+
+    auto has_support = [&here]( const tripoint & position ) {
+        if( !here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, position ) ) {
+            return true;
+        }
+        if( position.z == -OVERMAP_DEPTH ) {
+            return true;
+        }
+        tripoint below( position.xy(), position.z - 1 );
+        return here.supports_above( below );
+    };
+    // Check under the wheels, if they're supported nothing else matters.
+    int supported_wheels = 0;
+    for( int wheel_index : wheelcache ) {
+        const tripoint &position = global_part_pos3( wheel_index );
+        if( has_support( position ) ) {
+            ++supported_wheels;
+        }
+    }
+    // If half of the wheels are supported, we're not falling and we're not in water.
+    if( supported_wheels > 0 &&
+        static_cast<size_t>( supported_wheels * 2 ) >= wheelcache.size() ) {
+        is_falling = false;
+        in_water = false;
+        is_floating = false;
+        return;
+    }
     // TODO: Make the vehicle "slide" towards its center of weight
     //  when it's not properly supported
-    const auto &pts = get_points( true );
+    const std::set<tripoint> &pts = get_points( true );
     if( pts.empty() ) {
         // Dirty vehicle with no parts
         is_falling = false;
@@ -1932,25 +1970,15 @@ void vehicle::check_falling_or_floating()
         return;
     }
 
-    map &here = get_map();
-    is_falling = here.has_zlevels();
-
-    if( is_flying && is_rotorcraft() ) {
-        is_falling = false;
-    } else {
-        is_flying = false;
-    }
-
     size_t deep_water_tiles = 0;
     size_t water_tiles = 0;
-    for( const tripoint &p : pts ) {
-        if( is_falling ) {
-            tripoint below( p.xy(), p.z - 1 );
-            is_falling &= here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, p ) &&
-                          ( p.z > -OVERMAP_DEPTH ) && !here.supports_above( below );
+    for( const tripoint &position : pts ) {
+        deep_water_tiles += here.has_flag( TFLAG_DEEP_WATER, position ) ? 1 : 0;
+        water_tiles += here.has_flag( TFLAG_SWIMMABLE, position ) ? 1 : 0;
+        if( !is_falling ) {
+            continue;
         }
-        deep_water_tiles += here.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
-        water_tiles += here.has_flag( TFLAG_SWIMMABLE, p ) ? 1 : 0;
+        is_falling = !has_support( position );
     }
     // floating if 2/3rds of the vehicle is in deep water
     is_floating = 3 * deep_water_tiles >= 2 * pts.size();

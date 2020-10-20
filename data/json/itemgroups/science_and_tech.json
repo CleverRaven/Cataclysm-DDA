@@ -435,6 +435,7 @@
       [ "bfipowder", 15 ],
       [ "quikclot", 10 ],
       [ "anesthetic", 20 ],
+      { "item": "rocuronium", "prob": 10, "count-min": 2, "count-max": 8 },
       { "item": "anesthetic_kit", "prob": 10, "charges-min": 0 }
     ]
   },

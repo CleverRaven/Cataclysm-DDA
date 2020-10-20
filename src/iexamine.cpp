@@ -1398,9 +1398,15 @@ void iexamine::safe( player &guy, const tripoint &examp )
 
     if( !( !cracking_tool.empty() || guy.has_bionic( bio_ears ) ) ) {
         guy.moves -= to_turns<int>( 10_seconds );
-        // Assume a 3 digit 90-number code, but safes allow adjacent dial locations to match,
-        // so 1/30^3, or 1/27000 odds.
-        if( one_in( 27000 ) ) {
+        // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
+        // so 1/20^3, or 1/8,000 odds.
+        // Additionally, safes can be left-handed or right-handed, doubling the problem space.
+        // The dialing procedures for safes vary, I'm estimating 5 procedures.
+        // See https://hoogerhydesafe.com/resources/combination-lock-dialing-procedures/
+        // At the end of the day, that means a 1 / 80,000 chance per attempt.
+        // If someone is interested, they can feel free to add a proficiency for
+        // "safe recognition" to mitigate or eliminate this 2x and 5x factor.
+        if( one_in( 80000 ) ) {
             guy.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
             get_map().furn_set( examp, f_safe_o );
             return;

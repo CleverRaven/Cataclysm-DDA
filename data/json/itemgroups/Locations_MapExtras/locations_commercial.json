@@ -92,7 +92,7 @@
       { "item": "candle", "prob": 25, "charges": [ 0, 100 ] },
       [ "hammer", 20 ],
       [ "screwdriver", 20 ],
-      [ "lighter", 25 ],
+      { "item": "lighter", "prob": 25, "charges": [ 0, 100 ] },
       [ "pockknife", 15 ],
       [ "metal_file", 15 ],
       [ "pin_reamer", 10 ],

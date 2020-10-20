@@ -9366,9 +9366,11 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         harmful_stuff.emplace_back( tr.name() );
     }
 
-    static const std::set< bodypart_id > sharp_bps = {
-        bodypart_id( "eyes" ), bodypart_id( "mouth" ), bodypart_id( "head" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" ), bodypart_id( "foot_l" ), bodypart_id( "foot_r" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
-        bodypart_id( "hand_l" ), bodypart_id( "hand_r" ), bodypart_id( "torso" )
+    static const std::set< bodypart_str_id > sharp_bps = {
+        bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ), bodypart_str_id( "head" ),
+        bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "foot_l" ),
+        bodypart_str_id( "foot_r" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ),
+        bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" ), bodypart_str_id( "torso" )
     };
 
     const auto sharp_bp_check = [this]( bodypart_id bp ) {

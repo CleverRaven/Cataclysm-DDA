@@ -1289,8 +1289,11 @@ void avatar::reset_stats()
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {
-        static const std::array<bodypart_id, 5> parts{ { bodypart_id( "head" ), bodypart_id( "arm_r" ), bodypart_id( "arm_l" ), bodypart_id( "leg_r" ), bodypart_id( "leg_l" ) } };
-        for( const bodypart_id &bp : parts ) {
+        static const bodypart_str_id parts[] {
+            bodypart_str_id( "head" ), bodypart_str_id( "arm_r" ), bodypart_str_id( "arm_l" ),
+            bodypart_str_id( "leg_r" ), bodypart_str_id( "leg_l" )
+        };
+        for( const bodypart_str_id &bp : parts ) {
             if( !wearing_something_on( bp ) ) {
                 mod_dodge_bonus( +1 );
             }
