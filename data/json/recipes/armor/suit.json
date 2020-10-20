@@ -356,7 +356,7 @@
     "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "armor_larmor", 1 ] ], [ [ "armguard_larmor", 1 ] ] ]
   },
   {
-    "result": "xl_armor_plamor",
+    "result": "xl_armor_plarmor",
     "type": "recipe",
     "copy-from": "armor_plarmor",
     "time": "3 h",

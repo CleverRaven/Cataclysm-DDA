@@ -82,6 +82,14 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
   {
+    "id": "xl_armor_lorica",
+    "type": "ARMOR",
+    "name": { "str_sp": "oversized lorica segmentata" },
+    "copy-from": "armor_lorica",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+  },
+  {
     "id": "bookplate",
     "type": "ARMOR",
     "category": "armor",
@@ -127,7 +135,7 @@
   {
     "id": "xl_chainmail_vest",
     "type": "ARMOR",
-    "name": { "str": "xl chainmail vest", "str_pl": "xl chainmail vest" },
+    "name": { "str": "xl chainmail vest" },
     "copy-from": "chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]

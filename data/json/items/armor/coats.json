@@ -308,12 +308,20 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
+    "id": "xl_duster_fur",
+    "type": "ARMOR",
+    "name": { "str": "xl fur duster" },
+    "copy-from": "duster_fur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
+  },
+  {
     "id": "xl_duster",
     "type": "ARMOR",
     "name": { "str": "xl duster" },
     "copy-from": "duster",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "OVERSIZE" ]
   },
   {
     "id": "duster_faux_fur",

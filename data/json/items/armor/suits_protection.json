@@ -798,6 +798,14 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
+    "id": "xl_lsurvivor_suit",
+    "type": "ARMOR",
+    "name": { "str": "xl light survivor suit" },
+    "copy-from": "lsurvivor_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
+  },
+  {
     "id": "nomex_suit",
     "type": "ARMOR",
     "name": { "str": "flame-resistant suit" },
@@ -818,6 +826,14 @@
     "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+  },
+  {
+    "id": "xl_nomex_suit",
+    "type": "ARMOR",
+    "name": { "str": "xl nomex suit" },
+    "copy-from": "nomex_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "robofac_enviro_suit",
