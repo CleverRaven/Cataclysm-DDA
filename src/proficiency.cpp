@@ -46,9 +46,19 @@ void proficiency::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "required_proficiencies", _required );
 }
 
+const std::vector<proficiency> &proficiency::get_all()
+{
+    return proficiency_factory.get_all();
+}
+
 bool proficiency::can_learn() const
 {
     return _can_learn;
+}
+
+proficiency_id proficiency::prof_id() const
+{
+    return id;
 }
 
 std::string proficiency::name() const
@@ -228,6 +238,25 @@ void proficiency_set::remove( const proficiency_id &lost )
     for( const proficiency_id &gone : to_remove ) {
         known.erase( gone );
     }
+}
+
+void proficiency_set::direct_learn( const proficiency_id &learned )
+{
+    // Player might be learning proficiency
+    for( std::vector<learning_proficiency>::iterator it = learning.begin(); it != learning.end(); ) {
+        if( it->id == learned ) {
+            it = learning.erase( it );
+        } else {
+            ++it;
+        }
+    }
+
+    known.insert( learned );
+}
+
+void proficiency_set::direct_remove( const proficiency_id &lost )
+{
+    known.erase( lost );
 }
 
 bool proficiency_set::has_learned( const proficiency_id &query ) const

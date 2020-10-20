@@ -66,6 +66,9 @@ static const skill_id skill_computer( "computer" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_traps( "traps" );
 
+static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
+static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
+
 static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
 static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
@@ -77,8 +80,6 @@ static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
-
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
 aim_activity_actor::aim_activity_actor()
 {
@@ -1050,7 +1051,6 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     std::string open_message;
     if( ter_type == t_chaingate_l ) {
         new_ter_type = t_chaingate_c;
-        open_message = _( "With a satisfying click, the chain-link gate opens." );
     } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
                ter_type == t_door_locked_interior ) {
         new_ter_type = t_door_c;
@@ -1073,14 +1073,41 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     bool perfect = it->has_flag( flag_PERFECT_LOCKPICK );
     bool destroy = false;
 
-    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    int pick_roll = std::pow( 1.5, who.get_skill_level( skill_traps ) ) *
-                    ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
-                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
-                    who.dex_cur / 4.0;
-    int lock_roll = rng( 1, 120 );
+    // Your devices skill is the primary skill that applies to your roll. Your mechanics skill has a little input.
+    const float weighted_skill_average = ( 3.0f * who.get_skill_level(
+            skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4.0f;
+
+    // Your dexterity determines most of your stat contribution, but your intelligence and perception combined are about half as much.
+    const float weighted_stat_average = ( 6.0f * who.dex_cur + 2.0f * who.per_cur +
+                                          who.int_cur ) / 9.0f;
+
+    // Get a bonus from your lockpick quality if the quality is higher than 3, or a penalty if it is lower. For a bobby pin this puts you at -2, for a locksmith kit, +2.
+    const float tool_effect = ( it->get_quality( qual_LOCKPICK ) - 3 ) - ( it->damage() / 2000.0 );
+
+    // Without at least a basic lockpick proficiency, your skill level is effectively 6 levels lower.
+    int proficiency_effect = -3;
+    if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
+        // If you have the basic lockpick prof, negate the above penalty
+        proficiency_effect = 0;
+    }
+    if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+        // If you have the locksmith proficiency, your skill level is effectively 4 levels higher.
+        proficiency_effect = 3;
+    }
+
+    // We get our average roll by adding the above factors together. For a person with no skill, average stats, no proficiencies, and an improvised lockpick, mean_roll will be 2.
+    const float mean_roll = weighted_skill_average + ( weighted_stat_average / 4 ) + proficiency_effect
+                            + tool_effect;
+
+    // A standard deviation of 2 means that about 2/3 of rolls will come within 2 points of your mean_roll. Lockpicking
+    int pick_roll = std::round( normal_roll( mean_roll, 2 ) );
+
+    // Lock_roll should be replaced with a flat value defined by the door, soon.
+    // In the meantime, let's roll 3d5-3, giving us a range of 0-12.
+    int lock_roll = rng( 0, 4 ) + rng( 0, 4 ) + rng( 0, 4 );
+
+    add_msg( m_debug, _( "Rolled %i. Mean_roll %g. Difficulty %i." ), pick_roll, mean_roll, lock_roll );
+
     int xp_gain = 0;
     if( perfect || ( pick_roll >= lock_roll ) ) {
         xp_gain += lock_roll;
@@ -1299,6 +1326,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     const std::vector<item_location> temp_selected_items = consume_menu_selected_items;
     const std::string temp_filter = consume_menu_filter;
     item_location consume_loc = consume_location;
+    activity_id new_act = type;
 
     avatar &player_character = get_avatar();
     if( !canceled ) {
@@ -1317,14 +1345,15 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     if( act.id() == activity_id( "ACT_CONSUME" ) ) {
         act.set_to_null();
     }
+
     if( !temp_selections.empty() || !temp_selected_items.empty() || !temp_filter.empty() ) {
         if( act.is_null() ) {
-            player_character.assign_activity( ACT_EAT_MENU );
+            player_character.assign_activity( new_act );
             player_character.activity.values = temp_selections;
             player_character.activity.targets = temp_selected_items;
             player_character.activity.str_values = { temp_filter };
         } else {
-            player_activity eat_menu( ACT_EAT_MENU );
+            player_activity eat_menu( new_act );
             eat_menu.values = temp_selections;
             eat_menu.targets = temp_selected_items;
             eat_menu.str_values = { temp_filter };
@@ -1713,10 +1742,10 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     // broken limbs as long as they are not involved by the machine
     bool hand_equipment = here.has_flag_furn( "WORKOUT_ARMS", location );
     bool leg_equipment = here.has_flag_furn( "WORKOUT_LEGS", location );
-    static const bodypart_id arm_l = bodypart_id( "arm_l" );
-    static const bodypart_id arm_r = bodypart_id( "arm_r" );
-    static const bodypart_id leg_l = bodypart_id( "leg_l" );
-    static const bodypart_id leg_r = bodypart_id( "leg_r" );
+    static const bodypart_str_id arm_l = bodypart_str_id( "arm_l" );
+    static const bodypart_str_id arm_r = bodypart_str_id( "arm_r" );
+    static const bodypart_str_id leg_l = bodypart_str_id( "leg_l" );
+    static const bodypart_str_id leg_r = bodypart_str_id( "leg_r" );
     if( hand_equipment && ( ( who.is_limb_broken( arm_l ) ) ||
                             who.is_limb_broken( arm_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken arm." ) );

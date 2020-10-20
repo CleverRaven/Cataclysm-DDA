@@ -787,7 +787,7 @@ void Character::start_craft( craft_command &command, const cata::optional<tripoi
     if( !target ) {
         if( !has_two_arms() ) {
             craft_in_world = set_item_map_or_vehicle( *this, pos(), craft );
-        } else if( !is_armed() ) {
+        } else if( !has_wield_conflicts( craft ) ) {
             if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
                 craft_in_world = *it_loc;
             }  else {
@@ -1131,13 +1131,13 @@ void item::inherit_flags( const item &parent, const recipe &making )
             set_flag( flag_FIT );
         }
     }
-    for( const std::string &f : parent.item_tags ) {
-        if( json_flag::get( f ).craft_inherit() ) {
+    for( const flag_id &f : parent.get_flags() ) {
+        if( f->craft_inherit() ) {
             set_flag( f );
         }
     }
-    for( const std::string &f : parent.type->get_flags() ) {
-        if( json_flag::get( f ).craft_inherit() ) {
+    for( const flag_id &f : parent.type->get_flags() ) {
+        if( f->craft_inherit() ) {
             set_flag( f );
         }
     }
@@ -1213,7 +1213,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
         }
         food_contained.inherit_flags( used, making );
 
-        for( const std::string &flag : making.flags_to_delete ) {
+        for( const flag_str_id &flag : making.flags_to_delete ) {
             food_contained.unset_flag( flag );
         }
 
@@ -1287,7 +1287,8 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
 
         if( newit.made_of( phase_id::LIQUID ) ) {
             liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
-        } else if( !loc && !is_armed() && can_wield( newit ).success() ) {
+        } else if( !loc && !has_wield_conflicts( craft ) &&
+                   can_wield( newit ).success() ) {
             wield_craft( *this, newit );
         } else {
             set_item_map_or_vehicle( *this, loc.value_or( pos() ), newit );

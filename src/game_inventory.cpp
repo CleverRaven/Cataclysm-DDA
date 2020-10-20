@@ -417,7 +417,7 @@ class pickup_inventory_preset : public inventory_selector_preset
                     } else {
                         return _( "Can't pick up spilt liquids" );
                     }
-                } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
+                } else if( !p.can_pickVolume( *loc ) && p.has_wield_conflicts( *loc ) ) {
                     return _( "Too big to pick up" );
                 } else if( !p.can_pickWeight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                     return _( "Too heavy to pick up" );
@@ -744,16 +744,18 @@ static std::string get_consume_needs_hint( player &p )
 {
     auto hint = std::string();
     auto desc = p.get_hunger_description();
-    hint.append( string_format( "%s %s", _( "Food :" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( "%s %s", _( "Food:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = p.get_thirst_description();
     hint.append( string_format( "%s %s", _( "Drink:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = p.get_pain_description();
-    hint.append( string_format( "%s %s", _( "Pain :" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( "%s %s", _( "Pain:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = p.get_fatigue_description();
-    hint.append( string_format( "%s %s", _( "Rest :" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( "%s %s", _( "Rest:" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
+    hint.append( string_format( "%s %s", _( "Weight:" ), p.get_weight_string() ) );
     return hint;
 }
 

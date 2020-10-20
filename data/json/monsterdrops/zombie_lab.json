@@ -22,8 +22,7 @@
           { "group": "textbooks", "prob": 25 }
         ]
       },
-      { "item": "id_science", "prob": 5 },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
+      { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 5 }
     ]
   },
   {
@@ -87,7 +86,7 @@
       { "group": "underwear", "damage": [ 1, 4 ] },
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 15000 }
+      { "group": "wallets", "damage": [ 1, 4 ] }
     ]
   },
   {

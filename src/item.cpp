@@ -473,13 +473,13 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
     }
 
     for( item &component : components ) {
-        for( const std::string &f : component.item_tags ) {
-            if( json_flag::get( f ).craft_inherit() ) {
+        for( const flag_id &f : component.get_flags() ) {
+            if( f->craft_inherit() ) {
                 set_flag( f );
             }
         }
-        for( const std::string &f : component.type->get_flags() ) {
-            if( json_flag::get( f ).craft_inherit() ) {
+        for( const flag_id &f : component.type->get_flags() ) {
+            if( f->craft_inherit() ) {
                 set_flag( f );
             }
         }
@@ -1035,28 +1035,17 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
         return false;
     }
     if( combine_liquid && has_temperature() && made_of_from_type( phase_id::LIQUID ) ) {
+        static const flag_str_id json_flag_COLD( flag_COLD );
+        static const flag_str_id json_flag_FROZEN( flag_FROZEN );
+        static const flag_str_id json_flag_HOT( flag_HOT );
+
         //we can combine liquids of same type and different temperatures
-        //compare ranges between "COLD", "FROZEN", "HOT".
-        if( !std::equal( rhs.item_tags.begin(), rhs.item_tags.lower_bound( flag_COLD ),
-                         item_tags.begin(), item_tags.lower_bound( flag_COLD ) ) ) {
+        if( !equal_ignoring_elements( rhs.get_flags(), get_flags(),
+        { json_flag_COLD, json_flag_FROZEN, json_flag_HOT } ) ) {
             return false;
         }
-        if( !std::equal( rhs.item_tags.upper_bound( flag_COLD ), rhs.item_tags.lower_bound( flag_FROZEN ),
-                         item_tags.upper_bound( flag_COLD ), item_tags.lower_bound( flag_FROZEN ) ) ) {
-            return false;
-        }
-        if( !std::equal( rhs.item_tags.upper_bound( flag_FROZEN ), rhs.item_tags.lower_bound( flag_HOT ),
-                         item_tags.upper_bound( flag_FROZEN ), item_tags.lower_bound( flag_HOT ) ) ) {
-            return false;
-        }
-        if( !std::equal( rhs.item_tags.upper_bound( flag_HOT ), rhs.item_tags.end(),
-                         item_tags.upper_bound( flag_HOT ), item_tags.end() ) ) {
-            return false;
-        }
-    } else {
-        if( item_tags != rhs.item_tags ) {
-            return false;
-        }
+    } else if( item_tags != rhs.item_tags ) {
+        return false;
     }
     if( faults != rhs.faults ) {
         return false;
@@ -1739,7 +1728,10 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                       active ) );
             info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                       burnt ) );
-            const std::string tags_listed = enumerate_as_string( item_tags, enumeration_conjunction::none );
+            const std::string tags_listed = enumerate_as_string( item_tags, []( const flag_id & f ) {
+                return f.id().str();
+            }, enumeration_conjunction::none );
+
             info.push_back( iteminfo( "BASE", string_format( _( "tags: %s" ), tags_listed ) ) );
             for( auto const &imap : item_vars ) {
                 info.push_back( iteminfo( "BASE",
@@ -3838,14 +3830,14 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
         // concatenate base and acquired flags...
-        std::vector<std::string> flags;
+        std::vector<flag_id> flags;
         std::set_union( type->get_flags().begin(), type->get_flags().end(),
                         get_flags().begin(), get_flags().end(),
                         std::back_inserter( flags ) );
 
         // ...and display those which have an info description
-        for( const std::string &e : flags ) {
-            const json_flag &f = json_flag::get( e );
+        for( const flag_id &e : flags ) {
+            const json_flag &f = e.obj();
             if( !f.info().empty() ) {
                 info.emplace_back( "DESCRIPTION", string_format( "* %s", f.info() ) );
             }
@@ -4092,7 +4084,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     contents.info( info, parts );
     contents_info( info, parts, batch, debug );
 
-    if( get_option<bool>( "ENABLE_ASCII_ART_ITEM" ) ) {
+    if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
         const ascii_art_id art = type->picture_id;
         if( art.is_valid() ) {
             for( const std::string &line : art->picture ) {
@@ -4667,16 +4659,13 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         maintext += string_format( " (%d%%)", percent_progress );
     } else if( contents.num_item_stacks() == 1 ) {
         const item &contents_item = contents.only_item();
-        if( contents_item.made_of( phase_id::LIQUID ) || contents_item.is_food() ) {
-            const unsigned contents_count = contents_item.charges > 1 ? contents_item.charges : quantity;
-            //~ %1$s: item name, %2$s: content liquid, food, or drink name
-            maintext = string_format( pgettext( "item name", "%1$s of %2$s" ), label( quantity ),
-                                      contents_item.tname( contents_count, with_prefix ) );
-        } else {
-            //~ %1$s: item name, %2$s: non-liquid, non-food, non-drink content item name
-            maintext = string_format( pgettext( "item name", "%1$s with %2$s" ), label( quantity ),
-                                      contents_item.tname( quantity, with_prefix ) );
-        }
+        const unsigned contents_count =
+            ( ( contents_item.made_of( phase_id::LIQUID ) || contents_item.is_food() ) &&
+              contents_item.charges > 1 )
+            ? contents_item.charges
+            : quantity;
+        maintext = string_format( pgettext( "item name", "%2$s (%1$s)" ), label( quantity ),
+                                  contents_item.tname( contents_count, with_prefix ) );
     } else if( !contents.empty() ) {
         maintext = string_format( npgettext( "item name",
                                              //~ %1$s: item name, %2$zd: content size
@@ -5410,14 +5399,27 @@ bool item::has_fault_flag( const std::string &searched_flag ) const
 
 bool item::has_own_flag( const std::string &f ) const
 {
+    return has_own_flag( flag_id( f ) );
+}
+
+bool item::has_own_flag( const flag_id &f ) const
+{
     return item_tags.count( f );
 }
 
 bool item::has_flag( const std::string &f ) const
 {
-    bool ret = false;
+    return has_flag( flag_id( f ) );
+}
 
-    if( json_flag::get( f ).inherit() ) {
+bool item::has_flag( const flag_id &f ) const
+{
+    bool ret = false;
+    if( !f.is_valid() ) {
+        return false;
+    }
+
+    if( f->inherit() ) {
         for( const item *e : is_gun() ? gunmods() : toolmods() ) {
             // gunmods fired separately do not contribute to base gun flags
             if( !e->is_gun() && e->has_flag( f ) ) {
@@ -5439,17 +5441,36 @@ bool item::has_flag( const std::string &f ) const
 
 item &item::set_flag( const std::string &flag )
 {
+    const flag_id f( flag );
+    if( f.is_valid() ) {
+        set_flag( f );
+    }
+    return *this;
+}
+
+item &item::set_flag( const flag_id &flag )
+{
     item_tags.insert( flag );
     return *this;
 }
 
 item &item::unset_flag( const std::string &flag )
 {
+    return unset_flag( flag_id( flag ) );
+}
+
+item &item::unset_flag( const flag_id &flag )
+{
     item_tags.erase( flag );
     return *this;
 }
 
 item &item::set_flag_recursive( const std::string &flag )
+{
+    return set_flag_recursive( flag_id( flag ) );
+}
+
+item &item::set_flag_recursive( const flag_id &flag )
 {
     set_flag( flag );
     for( item &comp : components ) {
@@ -5577,11 +5598,11 @@ int item::get_comestible_fun() const
         return 0;
     }
     int fun = get_comestible()->fun;
-    for( const std::string &flag : item_tags ) {
-        fun += json_flag::get( flag ).taste_mod();
+    for( const flag_id &flag : item_tags ) {
+        fun += flag->taste_mod();
     }
-    for( const std::string &flag : type->get_flags() ) {
-        fun += json_flag::get( flag ).taste_mod();
+    for( const flag_id &flag : type->get_flags() ) {
+        fun += flag->taste_mod();
     }
 
     if( has_flag( flag_MUSHY ) ) {
@@ -6705,15 +6726,19 @@ bool item::is_comestible() const
 
 bool item::is_food() const
 {
-    const std::string comest_type = get_comestible() ? get_comestible()->comesttype : "";
-    return is_comestible() && ( comest_type == "FOOD" ||
-                                comest_type == "DRINK" );
+    if( !is_comestible() ) {
+        return false;
+    }
+    const std::string &comest_type = get_comestible()->comesttype;
+    return comest_type == "FOOD" || comest_type == "DRINK";
 }
 
 bool item::is_medication() const
 {
-    const std::string comest_type = get_comestible() ? get_comestible()->comesttype : "";
-    return is_comestible() && comest_type == "MED";
+    if( !is_comestible() ) {
+        return false;
+    }
+    return get_comestible()->comesttype == "MED";
 }
 
 bool item::is_brewable() const
@@ -7826,6 +7851,11 @@ const item *item::gunmod_find( const itype_id &mod ) const
 
 item *item::gunmod_find_by_flag( const std::string &flag )
 {
+    return gunmod_find_by_flag( flag_id( flag ) );
+}
+
+item *item::gunmod_find_by_flag( const flag_id &flag )
+{
     std::vector<item *> mods = gunmods();
     auto it = std::find_if( mods.begin(), mods.end(), [&flag]( item * e ) {
         return e->has_flag( flag );
@@ -8257,14 +8287,18 @@ bool item::reload( Character &u, item_location ammo, int qty )
     } else {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
-            //~ %1$s: magazine name, %2$s: weapon name
-            std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
-                                                magazine_current()->tname(), tname() );
+            // we don't want to replace wielded `ammo` with ejected magazine
+            // as it will invalidate `ammo`
+            bool allow_wield = !u.is_wielding( *ammo );
 
             // eject magazine to player inventory
-            u.i_add( *magazine_current() );
-
+            u.i_add( *magazine_current(), true, nullptr, true, allow_wield );
             remove_item( *magazine_current() );
+        }
+
+        if( !ammo ) {
+            debugmsg( "Tried to reload using invalidated ammo location" );
+            return false;
         }
 
         put_in( *ammo, item_pocket::pocket_type::MAGAZINE_WELL );
@@ -8423,16 +8457,16 @@ itype_id item::typeId() const
     return type ? type->get_id() : itype_id::NULL_ID();
 }
 
-bool item::getlight( float &luminance, int &width, int &direction ) const
+bool item::getlight( float &luminance, units::angle &width, units::angle &direction ) const
 {
     luminance = 0;
-    width = 0;
-    direction = 0;
+    width = 0_degrees;
+    direction = 0_degrees;
     if( light.luminance > 0 ) {
         luminance = static_cast<float>( light.luminance );
         if( light.width > 0 ) {  // width > 0 is a light arc
-            width = light.width;
-            direction = light.direction;
+            width = units::from_degrees( light.width );
+            direction = units::from_degrees( light.direction );
         }
         return true;
     } else {
@@ -10028,31 +10062,39 @@ bool item::process_internal( player *carrier, const tripoint &pos,
         here.emit_field( pos, e );
     }
 
-    if( has_flag( flag_FAKE_SMOKE ) && process_fake_smoke( carrier, pos ) ) {
+    static const flag_str_id json_flag_FAKE_SMOKE( flag_FAKE_SMOKE );
+    static const flag_str_id json_flag_FAKE_MILL( flag_FAKE_MILL );
+    static const flag_str_id json_flag_WET( flag_WET );
+    static const flag_str_id json_flag_LITCIG( flag_LITCIG );
+    static const flag_str_id json_flag_WATER_EXTINGUISH( flag_WATER_EXTINGUISH );
+    static const flag_str_id json_flag_CABLE_SPOOL( flag_CABLE_SPOOL );
+    static const flag_str_id json_flag_IS_UPS( flag_IS_UPS );
+
+    if( has_flag( json_flag_FAKE_SMOKE ) && process_fake_smoke( carrier, pos ) ) {
         return true;
     }
-    if( has_flag( flag_FAKE_MILL ) && process_fake_mill( carrier, pos ) ) {
+    if( has_flag( json_flag_FAKE_MILL ) && process_fake_mill( carrier, pos ) ) {
         return true;
     }
     if( is_corpse() && process_corpse( carrier, pos ) ) {
         return true;
     }
-    if( has_flag( flag_WET ) && process_wet( carrier, pos ) ) {
+    if( has_flag( json_flag_WET ) && process_wet( carrier, pos ) ) {
         // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
         return false;
     }
-    if( has_flag( flag_LITCIG ) && process_litcig( carrier, pos ) ) {
+    if( has_flag( json_flag_LITCIG ) && process_litcig( carrier, pos ) ) {
         return true;
     }
-    if( ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
+    if( ( has_flag( json_flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
         process_extinguish( carrier, pos ) ) {
         return false;
     }
-    if( has_flag( flag_CABLE_SPOOL ) ) {
+    if( has_flag( json_flag_CABLE_SPOOL ) ) {
         // DO NOT process this as a tool! It really isn't!
         return process_cable( carrier, pos );
     }
-    if( has_flag( flag_IS_UPS ) ) {
+    if( has_flag( json_flag_IS_UPS ) ) {
         // DO NOT process this as a tool! It really isn't!
         return process_UPS( carrier, pos );
     }

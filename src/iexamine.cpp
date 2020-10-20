@@ -167,6 +167,11 @@ static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
+static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
+static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
+static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
@@ -1403,44 +1408,54 @@ void iexamine::slot_machine( player &p, const tripoint & )
  * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
  * Small chance of just guessing the combo without listening device.
  */
-void iexamine::safe( player &p, const tripoint &examp )
+void iexamine::safe( player &guy, const tripoint &examp )
 {
-    auto cracking_tool = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+    auto cracking_tool = guy.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
         return temporary_item.has_flag( flag_SAFECRACK );
     } );
 
-    if( !( !cracking_tool.empty() || p.has_bionic( bio_ears ) ) ) {
-        p.moves -= to_turns<int>( 10_seconds );
-        // one_in(30^3) chance of guessing
-        if( one_in( 27000 ) ) {
-            p.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
+    if( !( !cracking_tool.empty() || guy.has_bionic( bio_ears ) ) ) {
+        guy.moves -= to_turns<int>( 10_seconds );
+        // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
+        // so 1/20^3, or 1/8,000 odds.
+        // Additionally, safes can be left-handed or right-handed, doubling the problem space.
+        // The dialing procedures for safes vary, I'm estimating 5 procedures.
+        // See https://hoogerhydesafe.com/resources/combination-lock-dialing-procedures/
+        // At the end of the day, that means a 1 / 80,000 chance per attempt.
+        // If someone is interested, they can feel free to add a proficiency for
+        // "safe recognition" to mitigate or eliminate this 2x and 5x factor.
+        if( one_in( 80000 ) ) {
+            guy.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
             get_map().furn_set( examp, f_safe_o );
             return;
         } else {
-            p.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
+            guy.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
             return;
         }
     }
 
-    if( p.is_deaf() ) {
+    if( guy.is_deaf() ) {
         add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
         return;
-    } else if( p.has_effect( effect_earphones ) ) {
+    } else if( guy.has_effect( effect_earphones ) ) {
         add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
         return;
     } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
         add_msg( m_info, _( "You start cracking the safe." ) );
-        // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
-        // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
-        ///\EFFECT_PER speeds up safe cracking
+        // 150 minutes +/- 20 minutes per devices point away from 3 +/- 10 minutes per
+        // perception point away from 8; capped at 30 minutes minimum. Multiply by 3 if you
+        // don't have safecracking proficiency.
 
-        ///\EFFECT_MECHANICS speeds up safe cracking
-        const time_duration time = std::max( 150_minutes - 20_minutes * ( p.get_skill_level(
-                skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
+        time_duration time_base = std::max( 150_minutes - 20_minutes * ( guy.get_skill_level(
+                                                skill_traps ) - 3 ) - 10_minutes * ( guy.get_per() - 8 ), 30_minutes );
+        int time = to_moves<int>( time_base );
+        if( !guy.has_proficiency( proficiency_prof_safecracking ) ) {
+            time = time * 3;
+        }
+        guy.assign_activity( ACT_CRACKING, time );
+        guy.activity.placement = examp;
 
-        p.assign_activity( ACT_CRACKING, to_moves<int>( time ) );
-        p.activity.placement = examp;
     }
 }
 
@@ -3815,8 +3830,8 @@ void trap::examine( const tripoint &examp ) const
     }
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
-        const int tSkillLevel = player_character.get_skill_level( skill_traps );
-        int roll = rng( tSkillLevel, 4 * tSkillLevel );
+        const int traps_skill_level = player_character.get_skill_level( skill_traps );
+        int roll = rng( traps_skill_level, 4 * traps_skill_level );
 
         ///\EFFECT_PER increases chance of disarming trap
 
@@ -3833,16 +3848,16 @@ void trap::examine( const tripoint &examp ) const
             player_character.rem_morale( MORALE_FAILURE );
             player_character.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
             on_disarmed( here, examp );
-            if( difficulty > 1.25 * tSkillLevel ) { // failure might have set off trap
-                player_character.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
+            if( difficulty > 1.25 * traps_skill_level ) { // failure might have set off trap
+                player_character.practice( skill_traps, 1.5 * ( difficulty - traps_skill_level ) );
             }
         } else if( roll >= difficulty * .8 ) {
             add_msg( _( "You fail to disarm the trap." ) );
             const int morale_debuff = -rng( 6, 18 );
             player_character.rem_morale( MORALE_ACCOMPLISHMENT );
             player_character.add_morale( MORALE_FAILURE, morale_debuff, -40 );
-            if( difficulty > 1.25 * tSkillLevel ) {
-                player_character.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
+            if( difficulty > 1.25 * traps_skill_level ) {
+                player_character.practice( skill_traps, 1.5 * ( difficulty - traps_skill_level ) );
             }
         } else {
             add_msg( m_bad, _( "You fail to disarm the trap, and you set it off!" ) );
@@ -4136,15 +4151,12 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
 
 static int getGasDiscountCardQuality( const item &it )
 {
-    const auto &tags = it.type->get_flags();
-
-    for( const std::string &tag : tags ) {
-
-        if( tag.size() > 15 && tag.substr( 0, 15 ) == "DISCOUNT_VALUE_" ) {
-            return atoi( tag.substr( 15 ).c_str() );
+    for( const flag_id &tag : it.type->get_flags() ) {
+        int discount_value;
+        if( sscanf( tag->id.c_str(), "DISCOUNT_VALUE_%i", &discount_value ) == 1 ) {
+            return discount_value;
         }
     }
-
     return 0;
 }
 
@@ -5278,8 +5290,8 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
                          ( it.count_by_charges() ? it.charges : 1 ) * mdata.conversion_rate_ );
             result.components.push_back( it );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-            for( const std::string &f : it.type->get_flags() ) {
-                if( json_flag::get( f ).craft_inherit() ) {
+            for( const flag_id &f : it.type->get_flags() ) {
+                if( f->craft_inherit() ) {
                     result.set_flag( f );
                 }
             }

@@ -925,6 +925,17 @@ def extract_snippets(item):
             writestr(outfile, snip["text"])
 
 
+def extract_vehicle_part_category(item):
+    outfile = get_outfile("vehicle_part_categories")
+    name = item.get("name")
+    short_name = item.get("short_name")
+    comment = item.get("//")
+    short_comment = "(short name, optimal 1 symbol) " + comment
+    writestr(outfile, name, context="vpart_category_name", comment=comment)
+    writestr(outfile, short_name, context="vpart_category_short_name",
+             comment=short_comment)
+
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "achievement": extract_achievement,
@@ -958,6 +969,7 @@ extract_specials = {
     "field_type": extract_field_type,
     "ter_furn_transform": extract_ter_furn_transform_messages,
     "skill_display_type": extract_skill_display_type,
+    "vehicle_part_category": extract_vehicle_part_category,
 }
 
 #

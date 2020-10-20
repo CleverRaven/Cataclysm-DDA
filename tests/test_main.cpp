@@ -304,7 +304,6 @@ int main( int argc, const char *argv[] )
     // Set the seed for mapgen (the seed will also be reset before each test)
     const unsigned int seed = session.config().rngSeed();
     if( seed ) {
-        srand( seed );
         rng_set_engine_seed( seed );
 
         // If the run is terminated due to a crash during initialization, we won't

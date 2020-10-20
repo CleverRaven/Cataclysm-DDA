@@ -148,6 +148,7 @@
     "volume": "250 ml",
     "stack_size": 4,
     "flags": [ "MYCUS_OK" ],
+    "vitamins": [ [ "vitA", 25 ], [ "vitB", 25 ], [ "vitC", 25 ], [ "calcium", 25 ], [ "iron", 25 ] ],
     "fun": 30
   },
   {

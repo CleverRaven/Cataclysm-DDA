@@ -10,7 +10,7 @@
     "price": 8333,
     "price_postapoc": 3000,
     "ammo_type": "anesthetic",
-    "count": 540,
+    "count": 420,
     "phase": "liquid",
     "container": "jar_3l_glass_sealed",
     "sealed": false,
@@ -1232,7 +1232,7 @@
     "fun": -20,
     "color": "white",
     "container": "bottle_glass",
-    "description": "Diethyl ether largely supplanted the use of chloroform as a general anesthetic due to ether's more favorable therapeutic index, that is, a greater difference between an effective dose and a potentially toxic dose.",
+    "description": "A useful industrial solvent, and the first inhalative anesthetic in widespread use.  Its uncomfortable side effects and tendency to explode caused it to fall out of favor decades ago in the developed world.  If you can't get the good stuff, however, it might make a passable substitute.",
     "volume": "1 ml",
     "//": "0.7134 g/cm3",
     "weight": "713 mg",
@@ -1508,6 +1508,7 @@
     "name": { "str": "wasp venom gland" },
     "description": "A fragile, slightly quivering organ for the production and storage of wasp venom.  You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
     "color": "light_green",
+    "fun": -50,
     "use_action": [ "POISON" ]
   },
   {
@@ -1517,7 +1518,18 @@
     "name": { "str": "bee venom gland" },
     "description": "A fragile, slightly quivering organ for the production and storage of honeybee venom.  You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
     "color": "yellow",
+    "fun": -50,
     "use_action": [ "POISON" ]
+  },
+  {
+    "id": "venom_paralytic",
+    "type": "COMESTIBLE",
+    "copy-from": "venom_gland",
+    "name": { "str": "sac of paralytic venom", "str_pl": "sacs of paralytic venom" },
+    "description": "This greyish, flexible vesicle is filled to the brim with the potent paralytic agent the triffids use to subdue still-moving fertilizer such as yourself.  If you know your way around poisons you might be able to find a use for it.",
+    "material": [ "veggy" ],
+    "color": "light_gray",
+    "fun": -50
   },
   {
     "id": "conc_venom",
@@ -1534,5 +1546,31 @@
     "container": "test_tube",
     "symbol": ";",
     "color": "light_green"
+  },
+  {
+    "id": "conc_paralytic",
+    "type": "AMMO",
+    "name": { "str_sp": "concentrated paralytic" },
+    "description": "The concentrated paralytic agent, originally from a triffid.  Given your experience with its effects (chiefly gathered while sourcing this batch) and their striking similarity to earthly flora, you figure it's related to curarines.  Might come in handy in crafting more useful things.",
+    "copy-from": "conc_venom",
+    "color": "light_gray"
+  },
+  {
+    "id": "rocuronium",
+    "type": "AMMO",
+    "ammo_type": "components",
+    "category": "chems",
+    "name": { "str_sp": "rocuronium" },
+    "description": "Rocuronium bromide, a fast-acting muscle relaxant.  Used primarily in emergency medicine because of its relative stability, it can serve as a component of a balanced anesthesia in a pinch.",
+    "weight": "10 g",
+    "volume": "10 ml",
+    "phase": "liquid",
+    "container": "test_tube",
+    "symbol": ";",
+    "color": "light_gray",
+    "price": 2000,
+    "price_postapoc": 20000,
+    "count": 1,
+    "stack_size": 1
   }
 ]

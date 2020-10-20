@@ -24,7 +24,7 @@
       { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },
       { "group": "military_patrol_food" },
       { "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ], "prob": 25 },
-      { "item": "cash_card", "prob": 10, "charges": [ 0, 50000 ] },
+      { "group": "wallets", "prob": 10 },
       { "group": "misc_smoking", "prob": 30 }
     ]
   },
@@ -61,7 +61,7 @@
       {
         "collection": [ { "group": "infantry_officer_gear", "prob": 90 }, { "group": "infantry_medical_gear", "prob": 80 } ]
       },
-      { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 },
+      { "group": "wallets", "prob": 10 },
       { "group": "misc_smoking", "prob": 30 }
     ]
   }

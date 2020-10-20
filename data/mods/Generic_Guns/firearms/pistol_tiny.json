@@ -13,7 +13,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [  ]
+        "item_restriction": [  ],
+        "rigid": true
       }
     ]
   },
@@ -30,7 +31,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "pistol_tiny_mag" ]
+        "item_restriction": [ "pistol_tiny_mag" ],
+        "rigid": true
       }
     ]
   },
@@ -42,6 +44,6 @@
     "ammo": [ "ammo_pistol_tiny" ],
     "description": "A crude single shot firearm made from improvised or homemade components, chambered for tiny plinking ammunition.  Zip guns like these often turned up in the hands of criminals and insurgents.  There's no extractor, so it might be slow to reload, and its construction leaves its longevity in question.",
     "clip_size": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol_tiny": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol_tiny": 1 }, "rigid": true } ]
   }
 ]

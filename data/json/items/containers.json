@@ -1662,5 +1662,29 @@
     ],
     "symbol": ")",
     "color": "red"
+  },
+  {
+    "id": "rc_car_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "radio car box", "str_pl": "radio car boxes" },
+    "description": "An RC car, with radio-control and batteries included!  Unpack and enjoy.",
+    "weight": "400 g",
+    "volume": "3200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2900 ml",
+        "max_contains_weight": "4 kg",
+        "rigid": true,
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "red"
   }
 ]

@@ -879,9 +879,12 @@ vehicle *game::place_vehicle_nearby(
             tinymap target_map;
             target_map.load( project_to<coords::sm>( goal ), false );
             const tripoint tinymap_center( SEEX, SEEY, goal.z() );
-            static const std::vector<int> angles = {0, 90, 180, 270};
-            vehicle *veh = target_map.add_vehicle( id, tinymap_center, random_entry( angles ), rng( 50, 80 ),
-                                                   0, false );
+            static constexpr std::array<units::angle, 4> angles = {{
+                    0_degrees, 90_degrees, 180_degrees, 270_degrees
+                }
+            };
+            vehicle *veh = target_map.add_vehicle(
+                               id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false );
             if( veh ) {
                 tripoint abs_local = m.getlocal( target_map.getabs( tinymap_center ) );
                 veh->sm_pos =  ms_to_sm_remain( abs_local );
@@ -2121,6 +2124,11 @@ static hint_rating rate_action_wear( const avatar &you, const item &it )
     return you.can_wear( it ).success() ? hint_rating::good : hint_rating::iffy;
 }
 
+static hint_rating rate_action_wield( const avatar &you, const item &it )
+{
+    return you.can_wield( it ).success() ? hint_rating::good : hint_rating::iffy;
+}
+
 /* item submenu for 'i' and '/'
 * It use draw_item_info to draw item info and action menu
 *
@@ -2173,8 +2181,8 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'R', pgettext( "action", "read" ), rate_action_read( u, oThisItem ) );
         addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, oThisItem ) );
         addentry( 'W', pgettext( "action", "wear" ), rate_action_wear( u, oThisItem ) );
-        addentry( 'w', pgettext( "action", "wield" ), hint_rating::good );
-        addentry( 't', pgettext( "action", "throw" ), hint_rating::good );
+        addentry( 'w', pgettext( "action", "wield" ), rate_action_wield( u, oThisItem ) );
+        addentry( 't', pgettext( "action", "throw" ), rate_action_wield( u, oThisItem ) );
         addentry( 'c', pgettext( "action", "change side" ), rate_action_change_side( u, oThisItem ) );
         addentry( 'T', pgettext( "action", "take off" ), rate_action_take_off( u, oThisItem ) );
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
@@ -2290,7 +2298,11 @@ int game::inventory_item_menu( item_location locThisItem,
                     handler.handle();
                     break;
                 case 'w':
-                    wield( locThisItem );
+                    if( u.can_wield( *locThisItem ).success() ) {
+                        wield( locThisItem );
+                    } else {
+                        add_msg( m_info, "%s", u.can_wield( *locThisItem ).c_str() );
+                    }
                     handler.handle();
                     break;
                 case 't':
@@ -5549,7 +5561,7 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
     }
     tileray ray( dest_loc.xy() + point( -u.posx(), -u.posy() ) );
     // TODO:: make dir() const correct!
-    const int d = ray.dir();
+    const units::angle d = ray.dir();
     add_msg( _( "You dive from the %s." ), veh->name );
     m.unboard_vehicle( u.pos() );
     u.moves -= 200;
@@ -5560,7 +5572,8 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
         if( veh->velocity > 0 ) {
             fling_creature( &u, veh->face.dir(), veh->velocity / static_cast<float>( 100 ) );
         } else {
-            fling_creature( &u, veh->face.dir() + 180, -( veh->velocity ) / static_cast<float>( 100 ) );
+            fling_creature( &u, veh->face.dir() + 180_degrees,
+                            -( veh->velocity ) / static_cast<float>( 100 ) );
         }
     }
 }
@@ -6703,7 +6716,7 @@ void game::zones_manager()
 
                     //Draw Zone name
                     mvwprintz( w_zones, point( 3, iNum - start_index ), colorLine,
-                               zone.get_name() );
+                               trim_by_length( zone.get_name(), 15 ) );
 
                     //Draw Type name
                     mvwprintz( w_zones, point( 20, iNum - start_index ), colorLine,
@@ -9044,7 +9057,7 @@ void game::wield( item_location loc )
         add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
         return;
     }
-    if( u.is_armed() ) {
+    if( u.has_wield_conflicts( *loc ) ) {
         const bool is_unwielding = u.is_wielding( *loc );
         const auto ret = u.can_unwield( *loc );
 
@@ -9063,12 +9076,10 @@ void game::wield( item_location loc )
             return;
         }
     }
-
     const auto ret = u.can_wield( *loc );
     if( !ret.success() ) {
         add_msg( m_info, "%s", ret.c_str() );
     }
-
     // Need to do this here because holster_actor::use() checks if/where the item is worn
     item &target = *loc.get_item();
     if( target.get_use( "holster" ) && !target.contents.empty() ) {
@@ -9354,9 +9365,11 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         harmful_stuff.emplace_back( tr.name() );
     }
 
-    static const std::set< bodypart_id > sharp_bps = {
-        bodypart_id( "eyes" ), bodypart_id( "mouth" ), bodypart_id( "head" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" ), bodypart_id( "foot_l" ), bodypart_id( "foot_r" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
-        bodypart_id( "hand_l" ), bodypart_id( "hand_r" ), bodypart_id( "torso" )
+    static const std::set< bodypart_str_id > sharp_bps = {
+        bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ), bodypart_str_id( "head" ),
+        bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "foot_l" ),
+        bodypart_str_id( "foot_r" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ),
+        bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" ), bodypart_str_id( "torso" )
     };
 
     const auto sharp_bp_check = [this]( bodypart_id bp ) {
@@ -10381,7 +10394,7 @@ void game::on_options_changed()
 #endif
 }
 
-void game::fling_creature( Creature *c, const int &dir, float flvel, bool controlled )
+void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled )
 {
     if( c == nullptr ) {
         debugmsg( "game::fling_creature invoked on null target" );

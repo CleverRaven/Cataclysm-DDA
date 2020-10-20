@@ -416,7 +416,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         std::vector<tripoint> tiles = closest_points_first( p.pos(), 1 );
         tiles.erase( tiles.begin() ); // player tile
         tripoint veh = random_entry( tiles );
-        REQUIRE( here.add_vehicle( vproto_id( "shopping_cart" ), veh, 0, 0, 0 ) );
+        REQUIRE( here.add_vehicle( vproto_id( "shopping_cart" ), veh, 0_degrees, 0, 0 ) );
 
         REQUIRE( std::count_if( tiles.begin(), tiles.end(), [&here]( const tripoint & e ) {
             return static_cast<bool>( here.veh_at( e ) );

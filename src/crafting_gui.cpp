@@ -1,6 +1,7 @@
 #include "crafting_gui.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cstddef>
 #include <cstring>
 #include <iterator>
@@ -26,6 +27,7 @@
 #include "optional.h"
 #include "output.h"
 #include "point.h"
+#include "popup.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -249,7 +251,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             const requirement_data &simple_req = r->simple_requirements();
             apparently_craftable = simple_req.can_make_with_inventory(
                                        inv, all_items_filter, batch_size, craft_flags::start_only );
-            proficiency_maluses = r->proficiency_maluses( player );
+            proficiency_time_maluses = r->proficiency_time_maluses( player );
+            proficiency_failure_maluses = r->proficiency_failure_maluses( player );
             has_all_skills = r->skill_used.is_null() ||
                              player.get_skill_level( r->skill_used ) >= r->difficulty;
             for( const std::pair<const skill_id, int> &e : r->required_skills ) {
@@ -264,7 +267,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         bool apparently_craftable;
         bool has_proficiencies;
         bool has_all_skills;
-        float proficiency_maluses;
+        float proficiency_time_maluses;
+        float proficiency_failure_maluses;
 
         nc_color selected_color() const {
             if( !can_craft ) {
@@ -524,8 +528,16 @@ const recipe *select_crafting_recipe( int &batch_size )
                 ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Required: %s" ),
                                         current[line]->required_proficiencies_string( &get_player_character() ) );
 
-                ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Used: %s" ),
-                                        current[line]->used_proficiencies_string( &get_player_character() ) );
+                std::string used_profs = current[line]->used_proficiencies_string( &get_player_character() );
+                if( !used_profs.empty() ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Used: %s" ),
+                                            used_profs );
+                }
+                std::string missing_profs = current[line]->missing_proficiencies_string( &get_player_character() );
+                if( !missing_profs.empty() ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Missing: %s" ),
+                                            missing_profs );
+                }
 
                 const int expected_turns = player_character.expected_time_to_craft( *current[line],
                                            count ) / to_moves<int>( 1_turns );
@@ -583,10 +595,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 _( "<color_red>Cannot be crafted because the same item is needed "
                                    "for multiple components</color>" ) );
                 }
-                float maluses = available[line].proficiency_maluses;
-                if( maluses != 1.0 ) {
-                    std::string msg = string_format( _( "<color_yellow>This recipe will take %g%% of the normal time "
-                                                        "because you lack some of the proficiencies used." ), maluses * 100 );
+                float time_maluses = available[line].proficiency_time_maluses;
+                float fail_maluses = available[line].proficiency_failure_maluses;
+                if( time_maluses != 1.0 || fail_maluses != 1.0 ) {
+                    std::string msg = string_format( _( "<color_yellow>This recipe will take %.1fx as long as normal, "
+                                                        "and be %.1fx more likely to incur failures, because you "
+                                                        "lack some of the proficiencies used." ), time_maluses, fail_maluses );
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, msg );
                 }
                 if( !can_craft_this && !available[line].has_proficiencies ) {
@@ -667,6 +681,23 @@ const recipe *select_crafting_recipe( int &batch_size )
                     available.push_back( availability( chosen, i ) );
                 }
             } else {
+                static_popup popup;
+                auto last_update = std::chrono::steady_clock::now();
+                static constexpr std::chrono::milliseconds update_interval( 500 );
+
+                std::function<void( size_t, size_t )> progress_callback =
+                [&]( size_t at, size_t out_of ) {
+                    auto now = std::chrono::steady_clock::now();
+                    if( now - last_update < update_interval ) {
+                        return;
+                    }
+                    last_update = now;
+                    double percent = 100.0 * at / out_of;
+                    popup.message( _( "Searching… %3.0f%%\n" ), percent );
+                    ui_manager::redraw();
+                    refresh_display();
+                };
+
                 std::vector<const recipe *> picking;
                 if( !filterstring.empty() ) {
                     auto qry = trim( filterstring );
@@ -683,37 +714,37 @@ const recipe *select_crafting_recipe( int &batch_size )
                             switch( qry_filter_str[0] ) {
                                 case 't':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::tool );
+                                                       recipe_subset::search_type::tool, progress_callback );
                                     break;
 
                                 case 'c':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::component );
+                                                       recipe_subset::search_type::component, progress_callback );
                                     break;
 
                                 case 's':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::skill );
+                                                       recipe_subset::search_type::skill, progress_callback );
                                     break;
 
                                 case 'p':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::primary_skill );
+                                                       recipe_subset::search_type::primary_skill, progress_callback );
                                     break;
 
                                 case 'Q':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::quality );
+                                                       recipe_subset::search_type::quality, progress_callback );
                                     break;
 
                                 case 'q':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::quality_result );
+                                                       recipe_subset::search_type::quality_result, progress_callback );
                                     break;
 
                                 case 'd':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::description_result );
+                                                       recipe_subset::search_type::description_result, progress_callback );
                                     break;
 
                                 case 'm': {
@@ -730,7 +761,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                                 case 'P':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::proficiency );
+                                                       recipe_subset::search_type::proficiency, progress_callback );
                                     break;
 
                                 default:

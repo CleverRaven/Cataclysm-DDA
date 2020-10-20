@@ -141,7 +141,7 @@ void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
     if( obj.damage_max() == obj.damage_min() ) {
-        obj.item_tags.insert( "NO_REPAIR" );
+        obj.item_tags_str_tmp.insert( flag_str_id( "NO_REPAIR" ) );
     }
 
     if( obj.has_flag( "STAB" ) || obj.has_flag( "SPEAR" ) ) {
@@ -211,15 +211,15 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // set light_emission based on LIGHT_[X] flag
-    for( const auto &f : obj.item_tags ) {
+    for( const auto &f : obj.item_tags_str_tmp ) {
         int ll;
         if( sscanf( f.c_str(), "LIGHT_%i", &ll ) == 1 && ll > 0 ) {
             obj.light_emission = ll;
         }
     }
     // remove LIGHT_[X] flags
-    erase_if( obj.item_tags, []( const std::string & f ) {
-        return f.find( "LIGHT_" ) == 0;
+    erase_if( obj.item_tags_str_tmp, []( const flag_str_id & f ) {
+        return f.str().find( "LIGHT_" ) == 0;
     } );
 
     // for ammo not specifying loudness (or an explicit zero) derive value from other properties
@@ -396,8 +396,8 @@ void Item_factory::finalize_pre( itype &obj )
         // TODO: Move to jsons?
         if( obj.gun->skill_used == skill_id( "archery" ) ||
             obj.gun->skill_used == skill_id( "throw" ) ) {
-            obj.item_tags.insert( "WATERPROOF_GUN" );
-            obj.item_tags.insert( "NEVER_JAMS" );
+            obj.item_tags_str_tmp.insert( flag_str_id( "WATERPROOF_GUN" ) );
+            obj.item_tags_str_tmp.insert( flag_str_id( "NEVER_JAMS" ) );
             obj.gun->ammo_effects.insert( "NEVER_MISFIRES" );
         }
     }
@@ -497,16 +497,18 @@ void Item_factory::register_cached_uses( const itype &obj )
 
 void Item_factory::finalize_post( itype &obj )
 {
-    // erase all invalid flags (not defined in flags.json), display warning about invalid flags
-    erase_if( obj.item_tags, [&]( const std::string & f ) {
-        if( !json_flag::get( f ).id.is_valid() ) {
+    // copy string flags into int flags
+    obj.item_tags.clear();
+    for( const flag_str_id &f : obj.item_tags_str_tmp ) {
+        if( !f.is_valid() ) {
             debugmsg( "itype '%s' uses undefined flag '%s'. Please add corresponding 'json_flag' entry to json.",
-                      obj.id.str(), f );
-            return true;
+                      obj.id.str(), f.str() );
         } else {
-            return false;
+            obj.item_tags.insert( f );
         }
-    } );
+    }
+    // now `has_flags` will use `item_tags` for all lookups
+    obj.item_tags_str_tmp.clear();
 
     // handle complex firearms as a special case
     if( obj.gun && !obj.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
@@ -1099,6 +1101,10 @@ void Item_factory::check_definitions() const
                     msg += "is bigger on the inside.  consider using TARDIS flag.\n";
                 }
             }
+        }
+
+        if( !type->picture_id.is_empty() && !type->picture_id.is_valid() ) {
+            msg +=  "item has unknown ascii_picture.";
         }
 
         int mag_pocket_number = 0;
@@ -2492,7 +2498,7 @@ void Item_factory::set_allergy_flags( itype &item_template )
     const auto &mats = item_template.materials;
     for( const auto &pr : all_pairs ) {
         if( std::find( mats.begin(), mats.end(), std::get<0>( pr ) ) != mats.end() ) {
-            item_template.item_tags.insert( std::get<1>( pr ) );
+            item_template.item_tags_str_tmp.insert( flag_str_id( std::get<1>( pr ) ) );
         }
     }
 }
@@ -2514,29 +2520,29 @@ void hflesh_to_flesh( itype &item_template )
 void Item_factory::npc_implied_flags( itype &item_template )
 {
     if( item_template.use_methods.count( "explosion" ) > 0 ) {
-        item_template.item_tags.insert( "DANGEROUS" );
+        item_template.item_tags.insert( flag_str_id( "DANGEROUS" ) );
     }
 
     if( item_template.has_flag( "DANGEROUS" ) > 0 ) {
-        item_template.item_tags.insert( "NPC_THROW_NOW" );
+        item_template.item_tags.insert( flag_str_id( "NPC_THROW_NOW" ) );
     }
 
     if( item_template.has_flag( "BOMB" ) > 0 ) {
-        item_template.item_tags.insert( "NPC_ACTIVATE" );
+        item_template.item_tags.insert( flag_str_id( "NPC_ACTIVATE" ) );
     }
 
     if( item_template.has_flag( "NPC_THROW_NOW" ) > 0 ) {
-        item_template.item_tags.insert( "NPC_THROWN" );
+        item_template.item_tags.insert( flag_str_id( "NPC_THROWN" ) );
     }
 
     if( item_template.has_flag( "NPC_ACTIVATE" ) > 0 ||
         item_template.has_flag( "NPC_THROWN" ) > 0 ) {
-        item_template.item_tags.insert( "NPC_ALT_ATTACK" );
+        item_template.item_tags.insert( flag_str_id( "NPC_ALT_ATTACK" ) );
     }
 
     if( item_template.has_flag( "DANGEROUS" ) > 0 ||
         item_template.has_flag( "PSEUDO" ) > 0 ) {
-        item_template.item_tags.insert( "TRADER_AVOID" );
+        item_template.item_tags.insert( flag_str_id( "TRADER_AVOID" ) );
     }
 }
 
@@ -2899,7 +2905,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.explosion = load_explosion_data( je );
     }
 
-    assign( jo, "flags", def.item_tags );
+    assign( jo, "flags", def.item_tags_str_tmp );
     assign( jo, "faults", def.faults );
 
     if( jo.has_member( "qualities" ) ) {
@@ -3345,7 +3351,13 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
         modifier.sealed = obj.get_bool( "sealed" );
         use_modifier = true;
     }
-    use_modifier |= load_string( modifier.custom_flags, obj, "custom-flags" );
+    std::vector<std::string> custom_flags;
+    use_modifier |= load_string( custom_flags, obj, "custom-flags" );
+    modifier.custom_flags.clear();
+    for( const auto &cf : custom_flags ) {
+        modifier.custom_flags.emplace_back( cf );
+    }
+
     if( use_modifier ) {
         sptr->modifier.emplace( std::move( modifier ) );
     }

@@ -63,6 +63,7 @@
 #include "string_id.h"
 #include "submap.h"
 #include "translations.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
@@ -262,9 +263,9 @@ units::volume vehicle_stack::max_volume() const
 vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
                   int init_veh_status ): type( type_id )
 {
-    turn_dir = 0;
-    face.init( 0 );
-    move.init( 0 );
+    turn_dir = 0_degrees;
+    face.init( 0_degrees );
+    move.init( 0_degrees );
     of_turn_carry = 0;
 
     if( !type.str().empty() && type.is_valid() ) {
@@ -792,16 +793,13 @@ void vehicle::autopilot_patrol()
     drive_to_local_target( autodrive_local_target, false );
 }
 
-std::set<point> vehicle::immediate_path( int rotate )
+std::set<point> vehicle::immediate_path( units::angle rotate )
 {
     std::set<point> points_to_check;
     const int distance_to_check = 10 + ( velocity / 800 );
-    int adjusted_angle = ( face.dir() + rotate ) % 360;
-    if( adjusted_angle < 0 ) {
-        adjusted_angle += 360;
-    }
+    units::angle adjusted_angle = normalize( face.dir() + rotate );
     // clamp to multiples of 15.
-    adjusted_angle = ( ( adjusted_angle + 15 / 2 ) / 15 ) * 15;
+    adjusted_angle = round_to_multiple_of( adjusted_angle, 15_degrees );
     tileray collision_vector;
     collision_vector.init( adjusted_angle );
     map &here = get_map();
@@ -820,24 +818,24 @@ std::set<point> vehicle::immediate_path( int rotate )
     return points_to_check;
 }
 
-static int get_turn_from_angle( const double angle, const tripoint &vehpos, const tripoint &target,
-                                bool reverse = false )
+static int get_turn_from_angle( const units::angle angle, const tripoint &vehpos,
+                                const tripoint &target, bool reverse = false )
 {
-    if( angle > 10.0 && angle <= 45.0 ) {
+    if( angle > 10.0_degrees && angle <= 45.0_degrees ) {
         return reverse ? 4 : 1;
-    } else if( angle > 45.0 && angle <= 90.0 ) {
+    } else if( angle > 45.0_degrees && angle <= 90.0_degrees ) {
         return 3;
-    } else if( angle > 90.0 && angle < 180.0 ) {
+    } else if( angle > 90.0_degrees && angle < 180.0_degrees ) {
         return reverse ? 1 : 4;
-    } else if( angle < -10.0 && angle >= -45.0 ) {
+    } else if( angle < -10.0_degrees && angle >= -45.0_degrees ) {
         return reverse ? -4 : -1;
-    } else if( angle < -45.0 && angle >= -90.0 ) {
+    } else if( angle < -45.0_degrees && angle >= -90.0_degrees ) {
         return -3;
-    } else if( angle < -90.0 && angle > -180.0 ) {
+    } else if( angle < -90.0_degrees && angle > -180.0_degrees ) {
         return reverse ? -1 : -4;
         // edge case of being exactly on the button for the target.
         // just keep driving, the next path point will be picked up.
-    } else if( ( angle == 180 || angle == -180 ) && vehpos == target ) {
+    } else if( ( angle == 180_degrees || angle == -180_degrees ) && vehpos == target ) {
         return 0;
     }
     return 0;
@@ -873,7 +871,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     refresh();
     map &here = get_map();
     tripoint vehpos = here.getabs( global_pos3() );
-    double angle = get_angle_from_targ( target );
+    units::angle angle = get_angle_from_targ( target );
     // now we got the angle to the target, we can work out when we are heading towards disaster.
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
@@ -966,7 +964,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     is_patrolling ? autodrive( point( turn_x, accel_y ) ) : pldrive( point( turn_x, accel_y ) );
 }
 
-double vehicle::get_angle_from_targ( const tripoint &targ )
+units::angle vehicle::get_angle_from_targ( const tripoint &targ )
 {
     tripoint vehpos = get_map().getabs( global_pos3() );
     rl_vec2d facevec = face_vec();
@@ -977,7 +975,7 @@ double vehicle::get_angle_from_targ( const tripoint &targ )
     // dot product.
     double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
 
-    return atan2( crossy, dotx ) * 180 / M_PI;
+    return units::atan2( crossy, dotx );
 }
 
 void vehicle::do_autodrive()
@@ -1802,18 +1800,18 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         }
     }
 
-    int relative_dir = modulo( carry_veh->face.dir() - face.dir(), 360 );
-    int relative_180 = modulo( relative_dir, 180 );
-    int face_dir_180 = modulo( face.dir(), 180 );
+    units::angle relative_dir = normalize( carry_veh->face.dir() - face.dir() );
+    units::angle relative_180 = units::fmod( relative_dir, 180_degrees );
+    units::angle face_dir_180 = normalize( face.dir(), 180_degrees );
 
     // if the carrier is skewed N/S and the carried vehicle isn't aligned with
     // the carrier, force the carried vehicle to be at a right angle
-    if( face_dir_180 >= 45 && face_dir_180 <= 135 ) {
-        if( relative_180 >= 45 && relative_180 <= 135 ) {
-            if( relative_dir < 180 ) {
-                relative_dir = 90;
+    if( face_dir_180 >= 45_degrees && face_dir_180 <= 135_degrees ) {
+        if( relative_180 >= 45_degrees && relative_180 <= 135_degrees ) {
+            if( relative_dir < 180_degrees ) {
+                relative_dir = 90_degrees;
             } else {
-                relative_dir = 270;
+                relative_dir = 270_degrees;
             }
         }
     }
@@ -1874,7 +1872,8 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         for( const mapping &carry_map : carry_data ) {
             std::string offset = string_format( "%s%3d", carry_map.old_mount == mount_zero ? axis : " ",
                                                 axis == "X" ? carry_map.old_mount.x : carry_map.old_mount.y );
-            std::string unique_id = string_format( "%s%3d%s", offset, relative_dir, carry_veh->name );
+            std::string unique_id = string_format( "%s%3d%s", offset, to_degrees( relative_dir ),
+                                                   carry_veh->name );
             for( const int &carry_part : carry_map.carry_parts_here ) {
                 parts.push_back( carry_veh->parts[ carry_part ] );
                 vehicle_part &carried_part = parts.back();
@@ -2145,21 +2144,23 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     if( veh_record.empty() ) {
         return false;
     }
-    int new_dir = modulo( std::stoi( veh_record.substr( 4, 3 ) ) + face.dir(), 360 );
-    int host_dir = modulo( face.dir(), 180 );
+    units::angle new_dir =
+        normalize( units::from_degrees( std::stoi( veh_record.substr( 4, 3 ) ) ) + face.dir() );
+    units::angle host_dir = normalize( face.dir(), 180_degrees );
     // if the host is skewed N/S, and the carried vehicle is going to come at an angle,
     // force it to east/west instead
-    if( host_dir >= 45 && host_dir <= 135 ) {
-        if( new_dir <= 45 || new_dir >= 315 ) {
-            new_dir = 0;
-        } else if( new_dir >= 135 && new_dir <= 225 ) {
-            new_dir = 180;
+    if( host_dir >= 45_degrees && host_dir <= 135_degrees ) {
+        if( new_dir <= 45_degrees || new_dir >= 315_degrees ) {
+            new_dir = 0_degrees;
+        } else if( new_dir >= 135_degrees && new_dir <= 225_degrees ) {
+            new_dir = 180_degrees;
         }
     }
     map &here = get_map();
     vehicle *new_vehicle = here.add_vehicle( vproto_id( "none" ), new_pos3, new_dir );
     if( new_vehicle == nullptr ) {
-        add_msg_debug( "Unable to unload bike rack, host face %d, new_dir %d!", face.dir(), new_dir );
+        add_msg_debug( "Unable to unload bike rack, host face %d, new_dir %d!",
+                       to_degrees( face.dir() ), to_degrees( new_dir ) );
         return false;
     }
 
@@ -2569,6 +2570,32 @@ cata::optional<vpart_reference> vpart_position::part_displayed() const
     return vpart_reference( vehicle(), part_id );
 }
 
+cata::optional<vpart_reference> vpart_position::part_with_tool( const itype_id &tool_type ) const
+{
+    for( const int idx : vehicle().parts_at_relative( mount(), false ) ) {
+        const vpart_reference vp( vehicle(), idx );
+        if( vp.part().is_available() && vp.info().has_tool( tool_type ) ) {
+            return vp;
+        }
+    }
+    return cata::optional<vpart_reference>();
+}
+
+std::vector<std::pair<itype_id, int>> vpart_position::get_tools() const
+{
+    std::set<std::pair<itype_id, int>> tools;
+    for( const int part_idx : this->vehicle().parts_at_relative( this->mount(), false ) ) {
+        const vpart_reference vp( this->vehicle(), part_idx );
+        if( vp.part().is_broken() ) {
+            continue;
+        }
+        std::set<std::pair<itype_id, int>> items = vp.part().info().get_pseudo_tools();
+        std::copy( items.cbegin(), items.cend(), std::inserter( tools, tools.end() ) );
+    }
+
+    return std::vector<std::pair<itype_id, int>>( tools.cbegin(), tools.cend() );
+}
+
 cata::optional<vpart_reference> vpart_position::part_with_feature( const std::string &f,
         const bool unbroken ) const
 {
@@ -2636,6 +2663,13 @@ cata::optional<vpart_reference> optional_vpart_position::part_displayed() const
     return has_value() ? value().part_displayed() : cata::nullopt;
 }
 
+cata::optional<vpart_reference> optional_vpart_position::part_with_tool(
+    const itype_id &tool_type ) const
+{
+    return has_value() ? value().part_with_tool( tool_type ) : cata::nullopt;
+}
+
+
 int vehicle::part_with_feature( int part, vpart_bitflags const flag, bool unbroken ) const
 {
     if( part_flag( part, flag ) && ( !unbroken || !parts[part].is_broken() ) ) {
@@ -2656,6 +2690,11 @@ int vehicle::part_with_feature( int part, vpart_bitflags const flag, bool unbrok
 int vehicle::part_with_feature( int part, const std::string &flag, bool unbroken ) const
 {
     return part_with_feature( parts[part].mount, flag, unbroken );
+}
+
+std::vector<std::pair<itype_id, int>> optional_vpart_position::get_tools() const
+{
+    return has_value() ? value().get_tools() : std::vector<std::pair<itype_id, int>>();
 }
 
 int vehicle::part_with_feature( const point &pt, const std::string &flag, bool unbroken ) const
@@ -3130,7 +3169,8 @@ point vehicle::coord_translate( const point &p ) const
     return q.xy();
 }
 
-void vehicle::coord_translate( int dir, const point &pivot, const point &p, tripoint &q ) const
+void vehicle::coord_translate( units::angle dir, const point &pivot, const point &p,
+                               tripoint &q ) const
 {
     tileray tdir( dir );
     tdir.advance( p.x - pivot.x );
@@ -3146,7 +3186,8 @@ void vehicle::coord_translate( tileray tdir, const point &pivot, const point &p,
     q.y = tdir.dy() + tdir.ortho_dy( p.y - pivot.y );
 }
 
-point vehicle::rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const
+point vehicle::rotate_mount( units::angle old_dir, units::angle new_dir, const point &pivot,
+                             const point &p ) const
 {
     tripoint q;
     coord_translate( new_dir - old_dir, pivot, p, q );
@@ -3165,7 +3206,7 @@ tripoint vehicle::mount_to_tripoint( const point &mount, const point &offset ) c
     return global_pos3() + mnt_translated;
 }
 
-void vehicle::precalc_mounts( int idir, int dir, const point &pivot )
+void vehicle::precalc_mounts( int idir, units::angle dir, const point &pivot )
 {
     if( idir < 0 || idir > 1 ) {
         idir = 0;
@@ -4194,8 +4235,8 @@ bool vehicle::has_sufficient_rotorlift() const
 
 bool vehicle::is_rotorcraft() const
 {
-    return ( has_part( "ROTOR" ) || has_part( "ROTOR_SIMPLE" ) ) && has_sufficient_rotorlift() &&
-           player_in_control( get_player_character() );
+    return !rotors.empty() && player_in_control( get_player_character() ) &&
+           has_sufficient_rotorlift();
 }
 
 bool vehicle::is_flyable() const
@@ -4215,7 +4256,7 @@ int vehicle::get_z_change() const
 
 bool vehicle::would_prevent_flyable( const vpart_info &vpinfo ) const
 {
-    return is_flyable() && has_part( "ROTOR" ) && !vpinfo.has_flag( "SIMPLE_PART" );
+    return flyable && !rotors.empty() && !vpinfo.has_flag( "SIMPLE_PART" );
 }
 
 bool vehicle::is_flying_in_air() const
@@ -5942,7 +5983,7 @@ void vehicle::do_towing_move()
     const tripoint tower_tow_point = here.getabs( global_part_pos3( tow_index ) );
     const tripoint towed_tow_point = here.getabs( towed_veh->global_part_pos3( other_tow_index ) );
     // same as above, but where the pulling vehicle is pulling from
-    double towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
+    units::angle towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
     const bool reverse = towed_veh->tow_data.tow_direction == TOW_BACK;
     int accel_y = 0;
     tripoint vehpos = here.getabs( towed_veh->global_pos3() );
@@ -6643,7 +6684,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ static_cast<int>( type ) ] );
     int dres = dmg - parts[p].hp();
     if( mod_hp( parts[ p ], 0 - dmg, type ) ) {
-        if( is_flyable() && has_part( "ROTOR" ) && !parts[p].has_flag( VPFLAG_SIMPLE_PART ) ) {
+        if( is_flyable() && !rotors.empty() && !parts[p].has_flag( VPFLAG_SIMPLE_PART ) ) {
             // If we break a part, we can no longer fly the vehicle.
             set_flyable( false );
         }
@@ -6744,9 +6785,9 @@ bool vehicle::restore( const std::string &data )
         return false;
     }
     refresh();
-    face.init( 0 );
-    turn_dir = 0;
-    turn( 0 );
+    face.init( 0_degrees );
+    turn_dir = 0_degrees;
+    turn( 0_degrees );
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     precalc_mounts( 1, pivot_rotation[1], pivot_anchor[1] );
     last_update = calendar::turn;
@@ -6770,29 +6811,26 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
                                       const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
+    // HACK: water_faucet pseudo tool gives access to liquids in tanks
+    const itype_id veh_tool_type = type.obj().phase > phase_id::SOLID
+                                   ? itype_id( "water_faucet" )
+                                   : type;
+    const cata::optional<vpart_reference> tool_vp = vp.part_with_tool( veh_tool_type );
+    const cata::optional<vpart_reference> cargo_vp = vp.part_with_feature( "CARGO", true );
 
-    const cata::optional<vpart_reference> kpart = vp.part_with_feature( "FAUCET", true );
-    const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
-    const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
-    const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
-    const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
-    const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
-    const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
+    const auto tool_wants_battery = []( const itype_id & type ) {
+        item tool( type, 0 ), mag( tool.magazine_default() );
+        mag.contents.clear_items();
 
-    if( kpart ) { // we have a faucet, now to see what to drain
-        itype_id ftype = itype_id::NULL_ID();
+        return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
+               tool.ammo_capacity( ammotype( "battery" ) ) > 0;
+    };
 
-        // Special case hotplates which draw battery power
-        if( type == itype_hotplate ) {
-            ftype = itype_battery;
-        } else {
-            ftype = type;
-        }
-
-        // TODO: add a sane birthday arg
-        item tmp( type, 0 );
-        tmp.charges = kpart->vehicle().drain( ftype, quantity );
+    if( tool_vp ) { // handle vehicle tools
+        itype_id fuel_type = tool_wants_battery( type ) ? itype_battery : type;
+        item tmp( type, 0 ); // TODO: add a sane birthday arg
         // TODO: Handle water poison when crafting starts respecting it
+        tmp.charges = tool_vp->vehicle().drain( fuel_type, quantity );
         quantity -= tmp.charges;
         ret.push_back( tmp );
 
@@ -6801,109 +6839,8 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
         }
     }
 
-    if( weldpart ) { // we have a weldrig, now to see what to drain
-        itype_id ftype = itype_id::NULL_ID();
-
-        if( type == itype_welder ) {
-            ftype = itype_battery;
-        } else if( type == itype_soldering_iron ) {
-            ftype = itype_battery;
-        }
-        // TODO: add a sane birthday arg
-        item tmp( type, 0 );
-        tmp.charges = weldpart->vehicle().drain( ftype, quantity );
-        quantity -= tmp.charges;
-        ret.push_back( tmp );
-
-        if( quantity == 0 ) {
-            return ret;
-        }
-    }
-
-    if( craftpart ) { // we have a craftrig, now to see what to drain
-        itype_id ftype = itype_id::NULL_ID();
-
-        if( type == itype_press ) {
-            ftype = itype_battery;
-        } else if( type == itype_vac_sealer ) {
-            ftype = itype_battery;
-        } else if( type == itype_dehydrator ) {
-            ftype = itype_battery;
-        } else if( type == itype_food_processor ) {
-            ftype = itype_battery;
-        }
-
-        // TODO: add a sane birthday arg
-        item tmp( type, 0 );
-        tmp.charges = craftpart->vehicle().drain( ftype, quantity );
-        quantity -= tmp.charges;
-        ret.push_back( tmp );
-
-        if( quantity == 0 ) {
-            return ret;
-        }
-    }
-
-    if( forgepart ) { // we have a veh_forge, now to see what to drain
-        itype_id ftype = itype_id::NULL_ID();
-
-        if( type == itype_forge ) {
-            ftype = itype_battery;
-        }
-
-        // TODO: add a sane birthday arg
-        item tmp( type, 0 );
-        tmp.charges = forgepart->vehicle().drain( ftype, quantity );
-        quantity -= tmp.charges;
-        ret.push_back( tmp );
-
-        if( quantity == 0 ) {
-            return ret;
-        }
-    }
-
-    if( kilnpart ) { // we have a veh_kiln, now to see what to drain
-        itype_id ftype = itype_id::NULL_ID();
-
-        if( type == itype_kiln ) {
-            ftype = itype_battery;
-        }
-
-        // TODO: add a sane birthday arg
-        item tmp( type, 0 );
-        tmp.charges = kilnpart->vehicle().drain( ftype, quantity );
-        quantity -= tmp.charges;
-        ret.push_back( tmp );
-
-        if( quantity == 0 ) {
-            return ret;
-        }
-    }
-
-    if( chempart ) { // we have a chem_lab, now to see what to drain
-        itype_id ftype = itype_id::NULL_ID();
-
-        if( type == itype_chemistry_set ) {
-            ftype = itype_battery;
-        } else if( type == itype_hotplate ) {
-            ftype = itype_battery;
-        } else if( type == itype_electrolysis_kit ) {
-            ftype = itype_battery;
-        }
-
-        // TODO: add a sane birthday arg
-        item tmp( type, 0 );
-        tmp.charges = chempart->vehicle().drain( ftype, quantity );
-        quantity -= tmp.charges;
-        ret.push_back( tmp );
-
-        if( quantity == 0 ) {
-            return ret;
-        }
-    }
-
-    if( cargo ) {
-        vehicle_stack veh_stack = get_items( cargo->part_index() );
+    if( cargo_vp ) {
+        vehicle_stack veh_stack = get_items( cargo_vp->part_index() );
         std::list<item> tmp = veh_stack.use_charges( type, quantity, vp.pos(), filter );
         ret.splice( ret.end(), tmp );
         if( quantity <= 0 ) {
@@ -7070,8 +7007,10 @@ void vehicle::update_time( const time_point &update_to )
         int cost_to_purify = c_qty * item::find_type( itype_water_purifier )->charges_to_use();
 
         if( qty > 0 ) {
-            if( has_part( global_part_pos3( pt ), "WATER_PURIFIER", true ) &&
-                ( fuel_left( itype_battery, true ) > cost_to_purify ) ) {
+            const cata::optional<vpart_reference> vp_purifier = vpart_position( *this, idx )
+                    .part_with_tool( itype_water_purifier );
+
+            if( vp_purifier && ( fuel_left( itype_battery, true ) > cost_to_purify ) ) {
                 tank->ammo_set( itype_water_clean, c_qty );
                 discharge_battery( cost_to_purify );
             } else {

@@ -1144,7 +1144,7 @@ bool npc::wield( item &it )
 
     invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
-    if( is_armed() ) {
+    if( has_wield_conflicts( it ) ) {
         stow_item( weapon );
     }
 
@@ -1155,10 +1155,20 @@ bool npc::wield( item &it )
     }
 
     moves -= 15;
+    bool combine_stacks = it.can_combine( weapon );
     if( has_item( it ) ) {
-        weapon = remove_item( it );
+        item removed = remove_item( it );
+        if( combine_stacks ) {
+            weapon.combine( removed );
+        } else {
+            weapon = removed;
+        }
     } else {
-        weapon = it;
+        if( combine_stacks ) {
+            weapon.combine( it );
+        } else {
+            weapon = it;
+        }
     }
 
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
@@ -1364,11 +1374,11 @@ float npc::vehicle_danger( int radius ) const
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
             // FIXME: this can't be the right way to do this
-            float facing = wrapped_veh.v->face.dir();
+            units::angle facing = wrapped_veh.v->face.dir();
 
             point a( wrapped_veh.v->global_pos3().xy() );
-            point b( static_cast<int>( a.x + std::cos( facing * M_PI / 180.0 ) * radius ),
-                     static_cast<int>( a.y + std::sin( facing * M_PI / 180.0 ) * radius ) );
+            point b( static_cast<int>( a.x + units::cos( facing ) * radius ),
+                     static_cast<int>( a.y + units::sin( facing ) * radius ) );
 
             // fake size
             /* This will almost certainly give the wrong size/location on customized
@@ -3254,11 +3264,6 @@ void npc_follower_rules::toggle_specific_override_state( ally_rule rule, bool st
     } else {
         set_specific_override_state( rule, state );
     }
-}
-
-bool npc::is_hallucination() const
-{
-    return hallucination;
 }
 
 bool npc_follower_rules::has_override_enable( ally_rule test ) const

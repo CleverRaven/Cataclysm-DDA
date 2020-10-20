@@ -1,7 +1,6 @@
 [
   {
     "id": "mounted_bigun",
-    "categories": [ "Other" ],
     "copy-from": "mounted_bigun",
     "type": "vehicle_part",
     "name": { "str": "mounted tactical shotgun" },
@@ -10,7 +9,6 @@
   },
   {
     "id": "mounted_browning",
-    "categories": [ "Other" ],
     "copy-from": "mounted_browning",
     "type": "vehicle_part",
     "name": { "str": "mounted heavy machinegun" },
@@ -19,13 +17,11 @@
   },
   {
     "id": "mounted_rm298",
-    "categories": [ "Other" ],
     "copy-from": "mounted_browning",
     "type": "vehicle_part"
   },
   {
     "id": "mounted_m1918",
-    "categories": [ "Other" ],
     "copy-from": "mounted_m1918",
     "type": "vehicle_part",
     "name": { "str": "mounted assault rifle" },
@@ -34,7 +30,6 @@
   },
   {
     "id": "mounted_m240",
-    "categories": [ "Other" ],
     "copy-from": "mounted_m240",
     "type": "vehicle_part",
     "name": { "str": "mounted light machine gun" },
@@ -43,31 +38,26 @@
   },
   {
     "id": "m249",
-    "categories": [ "Other" ],
     "copy-from": "mounted_m240",
     "type": "vehicle_part"
   },
   {
     "id": "mounted_m134",
-    "categories": [ "Other" ],
     "copy-from": "mounted_m240",
     "type": "vehicle_part"
   },
   {
     "id": "mounted_m60",
-    "categories": [ "Other" ],
     "copy-from": "mounted_m240",
     "type": "vehicle_part"
   },
   {
     "id": "mounted_rm614",
-    "categories": [ "Other" ],
     "copy-from": "mounted_m240",
     "type": "vehicle_part"
   },
   {
     "id": "mounted_mk19",
-    "categories": [ "Other" ],
     "copy-from": "mounted_mk19",
     "type": "vehicle_part",
     "name": { "str": "mounted automatic grenade launcher" },

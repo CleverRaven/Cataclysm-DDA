@@ -23,6 +23,7 @@ These properties are required for all monsters:
 | ---               | ---
 | `name`            | (string or object) Monster name, and optional plural name and translation context
 | `description`     | (string) In-game description of the monster, in one or two sentences
+| `ascii_picture`   | (string) Id of the asci_art used for this monster
 | `hp`              | (integer) Hit points
 | `volume`          | (string) Volume of the creature's body, as an integer with metric units, ex. `"35 L"` or `"1500 ml"`
 | `weight`          | (string) Monster weight, as an integer with metric units, ex. `"12 kg"` or `"7500 g"`
