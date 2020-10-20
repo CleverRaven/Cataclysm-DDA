@@ -1234,6 +1234,7 @@
     "result": "xl_wsurvivor_suit",
     "copy-from": "wsurvivor_suit",
     "time": "8 h",
+    "type": "recipe",
     "using": [ [ "sewing_standard", 300 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 104 ], [ "soldering_iron", 104 ], [ "toolset", 104 ] ] ],
     "components": [
