@@ -1077,7 +1077,7 @@
     "type": "GENERIC",
     "category": "other",
     "id": "icecream_scoop",
-    "name": { "str": "icecream scoop", "str_pl": "icecream scoop" },
+    "name": { "str": "icecream scoop" },
     "description": "A utensil used for scoop icecream into bowls. It has a spring powered lever to assist.",
     "looks_like": "spoon",
     "flags": [ "SHEATH_KNIFE" ],
