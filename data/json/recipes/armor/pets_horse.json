@@ -10,7 +10,11 @@
     "time": "8 h 30 m",
     "using": [ [ "cordage", 7 ] ],
     "components": [ [ [ "acidchitin_piece", 84 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_chitinworking" }, { "proficiency": "prof_closures" }, { "proficiency": "prof_fibers" } ]
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_closures" }
+    ]
   },
   {
     "result": "chitin_armor_horse",
@@ -24,7 +28,11 @@
     "skills_required": [ [ "fabrication", 4 ] ],
     "using": [ [ "cordage", 7 ] ],
     "components": [ [ [ "chitin_piece", 84 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_chitinworking" }, { "proficiency": "prof_closures" }, { "proficiency": "prof_fibers" } ]
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_closures" }
+    ]
   },
   {
     "result": "chainmail_armor_horse",
@@ -124,7 +132,7 @@
     "time": "6 h 30 m",
     "using": [ [ "sewing_standard", 75 ], [ "clasps", 4 ] ],
     "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_demihuman", 39 ] ], [ [ "armor_blarmor", 3 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" } ]
+    "extend": { "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_carving" } ] }
   },
   {
     "result": "leatherbone_armor_horse",
@@ -140,7 +148,11 @@
     "byproducts": [ [ "rag", 6 ] ],
     "using": [ [ "sewing_standard", 35 ], [ "clasps", 4 ] ],
     "components": [ [ [ "bone_sturdy", 39, "LIST" ] ], [ [ "leather_armor_horse", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_closures" } ]
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_carving" }
+    ]
   },
   {
     "result": "leatherbone_armor_horse",
@@ -175,7 +187,8 @@
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },
-      { "proficiency": "prof_leatherworking" }
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_carving" }
     ]
   },
   {

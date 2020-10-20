@@ -387,7 +387,7 @@ void avatar::add_profession_items()
             inv->push_back( it );
         } else if( it.has_flag( "auto_wield" ) ) {
             it.unset_flag( "auto_wield" );
-            if( !is_armed() ) {
+            if( !has_wield_conflicts( it ) ) {
                 wield( it );
             } else {
                 inv->push_back( it );
@@ -3097,6 +3097,7 @@ std::vector<trait_id> Character::get_base_traits() const
 std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 {
     std::vector<trait_id> result;
+    result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
         if( include_hidden || t.first.obj().player_display ) {
             result.push_back( t.first );

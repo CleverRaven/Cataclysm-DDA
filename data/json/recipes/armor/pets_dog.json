@@ -10,7 +10,11 @@
     "time": "3 h 30 m",
     "using": [ [ "cordage", 1 ], [ "clasps", 3 ] ],
     "components": [ [ [ "acidchitin_piece", 12 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_chitinworking" }, { "proficiency": "prof_closures" }, { "proficiency": "prof_fibers" } ]
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_closures" }
+    ]
   },
   {
     "result": "chitin_harness_dog",
@@ -24,7 +28,11 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "using": [ [ "cordage", 1 ], [ "clasps", 3 ] ],
     "components": [ [ [ "chitin_piece", 12 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_chitinworking" }, { "proficiency": "prof_closures" }, { "proficiency": "prof_fibers" } ]
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_closures" }
+    ]
   },
   {
     "result": "chainmail_harness_dog",
@@ -45,7 +53,7 @@
     "proficiencies": [
       { "proficiency": "prof_chain_armour" },
       { "proficiency": "prof_closures" },
-      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "fail_multiplier": 2 }
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2, "fail_multiplier": 2 }
     ]
   },
   {
@@ -60,7 +68,7 @@
     "byproducts": [ [ "leather", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "vest_leather", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "fail_multiplier": 2 } ]
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2, "fail_multiplier": 2 } ]
   },
   {
     "result": "leather_harness_dog",

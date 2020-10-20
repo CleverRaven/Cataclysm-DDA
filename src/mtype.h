@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "ascii_art.h"
 #include "behavior.h"
 #include "calendar.h"
 #include "color.h"
@@ -203,6 +204,8 @@ struct mtype {
         translation name;
         translation description;
 
+        ascii_art_id picture_id;
+
         std::set< const species_type * > species_ptrs;
 
         enum_bitset<m_flag> flags;
@@ -387,6 +390,7 @@ struct mtype {
         itype_id get_meat_itype() const;
         int get_meat_chunks_count() const;
         std::string get_description() const;
+        ascii_art_id get_picture_id() const;
         std::string get_footsteps() const;
         void set_strategy();
         void add_goal( const std::string &goal_id );

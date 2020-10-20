@@ -184,7 +184,7 @@
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "wristwatch", "prob": 15 },
-      { "item": "radio_car_box", "prob": 3 },
+      { "group": "toy_radio_car", "prob": 3 },
       { "item": "radiocontrol", "prob": 15 },
       { "item": "magnifying_glass", "prob": 4 },
       { "item": "omnicamera", "prob": 2 },

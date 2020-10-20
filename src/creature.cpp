@@ -340,9 +340,10 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     tripoint player_pos = player_character.pos();
     constexpr int hostile_adj = 2; // Priority bonus for hostile targets
     const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
-    int iff_hangle = 15 + area; // iff safety margin (degrees). less accuracy, more paranoia
+    // iff safety margin (degrees). less accuracy, more paranoia
+    units::angle iff_hangle = units::from_degrees( 15 + area );
     float best_target_rating = -1.0f; // bigger is better
-    int u_angle = 0;         // player angle relative to turret
+    units::angle u_angle = {};         // player angle relative to turret
     boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
     bool self_area_iff = false; // Need to check if the target is near the vehicle we're a part of
     bool area_iff = false;      // Need to check distance from target to player
@@ -358,7 +359,8 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         if( in_veh && veh_pointer_or_null( vp ) == in_veh && vp->is_inside() ) {
             angle_iff = false; // No angle IFF, but possibly area IFF
         } else if( pldist < 3 ) {
-            iff_hangle = ( pldist == 2 ? 30 : 60 );  // granularity increases with proximity
+            // granularity increases with proximity
+            iff_hangle = ( pldist == 2 ? 30_degrees : 60_degrees );
         }
         u_angle = coord_to_angle( pos(), player_pos );
     }
@@ -439,10 +441,10 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         // only when the target is actually "hostile enough"
         bool maybe_boo = false;
         if( angle_iff ) {
-            int tangle = coord_to_angle( pos(), m->pos() );
-            int diff = std::abs( u_angle - tangle );
+            units::angle tangle = coord_to_angle( pos(), m->pos() );
+            units::angle diff = units::fabs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
-            if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
+            if( ( diff + iff_hangle > 360_degrees || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {
                 maybe_boo = true;
             }
@@ -1219,9 +1221,10 @@ bool Creature::has_effect_with_flag( const std::string &flag, const bodypart_id 
 
 bool Creature::has_effect_with_flag( const std::string &flag ) const
 {
+    const flag_id f( flag );
     for( auto &elem : *effects ) {
         for( const std::pair<const bodypart_str_id, effect> &_it : elem.second ) {
-            if( _it.second.has_flag( flag ) ) {
+            if( _it.second.has_flag( f ) ) {
                 return true;
             }
         }

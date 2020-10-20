@@ -151,7 +151,7 @@ class recipe
         // Books containing this recipe, and the skill level required
         std::map<itype_id, book_recipe_data> booksets;
 
-        std::set<std::string> flags_to_delete; // Flags to delete from the resultant item.
+        std::set<flag_str_id> flags_to_delete; // Flags to delete from the resultant item.
 
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
@@ -168,6 +168,7 @@ class recipe
         // Format the proficiencies string.
         std::string required_proficiencies_string( const Character *c ) const;
         std::string used_proficiencies_string( const Character *c ) const;
+        std::string missing_proficiencies_string( const Character *c ) const;
         // Required proficiencies
         std::set<proficiency_id> required_proficiencies() const;
         //
@@ -175,7 +176,9 @@ class recipe
         // Helpful proficiencies
         std::set<proficiency_id> assist_proficiencies() const;
         // The time malus due to proficiencies lacking
-        float proficiency_maluses( const Character &guy ) const;
+        float proficiency_time_maluses( const Character &guy ) const;
+        // The failure malus due to proficiencies lacking
+        float proficiency_failure_maluses( const Character &guy ) const;
 
         // How active of exercise this recipe is
         float exertion_level() const;

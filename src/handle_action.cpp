@@ -562,7 +562,6 @@ static void close()
     }
 }
 
-
 // Establish or release a grab on a vehicle
 static void grab()
 {
@@ -2053,7 +2052,7 @@ bool game::handle_action()
 
             case ACTION_EAT:
                 if( !avatar_action::eat_here( player_character ) ) {
-                    avatar_action::eat( player_character );
+                    avatar_action::eat( player_character, game_menus::inv::consume( player_character ) );
                 }
                 break;
 

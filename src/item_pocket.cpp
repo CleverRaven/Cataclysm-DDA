@@ -140,7 +140,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "watertight", watertight, false );
     optional( jo, was_loaded, "airtight", airtight, false );
     optional( jo, was_loaded, "open_container", open_container, false );
-    optional( jo, was_loaded, "flag_restriction", flag_restriction );
+    optional( jo, was_loaded, "flag_restriction", flag_restrictions_str );
     optional( jo, was_loaded, "rigid", rigid, false );
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "sealed_data", sealed_data );
@@ -162,7 +162,7 @@ bool pocket_data::operator==( const pocket_data &rhs ) const
            watertight == rhs.watertight &&
            airtight == rhs.airtight &&
            fire_protection == rhs.fire_protection &&
-           flag_restriction == rhs.flag_restriction &&
+           get_flag_restrictions() == rhs.get_flag_restrictions() &&
            type == rhs.type &&
            volume_capacity == rhs.volume_capacity &&
            min_item_volume == rhs.min_item_volume &&
@@ -170,6 +170,23 @@ bool pocket_data::operator==( const pocket_data &rhs ) const
            spoil_multiplier == rhs.spoil_multiplier &&
            weight_multiplier == rhs.weight_multiplier &&
            moves == rhs.moves;
+}
+
+const pocket_data::FlagsSetType &pocket_data::get_flag_restrictions() const
+{
+    if( !flag_restrictions_str.empty() ) {
+        for( const auto &f : flag_restrictions_str ) {
+            flag_restrictions_int.insert( f );
+        }
+        flag_restrictions_str.clear();
+    }
+    return flag_restrictions_int;
+}
+
+void pocket_data::add_flag_restriction( const flag_str_id &flag )
+{
+    flag_restrictions_str.insert( flag );
+    flag_restrictions_int.insert( flag );
 }
 
 bool item_pocket::same_contents( const item_pocket &rhs ) const
@@ -268,9 +285,9 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
         // pockets restricted by ammo should try to get filled first
         return !rhs.data->ammo_restriction.empty();
     }
-    if( data->flag_restriction.empty() != rhs.data->flag_restriction.empty() ) {
+    if( data->get_flag_restrictions().empty() != rhs.data->get_flag_restrictions().empty() ) {
         // pockets restricted by flag should try to get filled first
-        return !rhs.data->flag_restriction.empty();
+        return !rhs.data->get_flag_restrictions().empty();
     }
     if( it.is_comestible() && it.get_comestible()->spoils != 0_seconds ) {
         // a lower spoil multiplier is better
@@ -443,7 +460,8 @@ int item_pocket::remaining_capacity_for_item( const item &it ) const
     if( item_copy.count_by_charges() ) {
         return std::min( { it.charges,
                            item_copy.charges_per_volume( remaining_volume() ),
-                           item_copy.charges_per_weight( remaining_weight() ) } );
+                           item_copy.charges_per_weight( remaining_weight() )
+                         } );
     } else {
         return 1;
     }
@@ -880,11 +898,11 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
     }
 
     // Display flags items need to be stored in this pocket
-    if( !data->flag_restriction.empty() ) {
+    if( !data->get_flag_restrictions().empty() ) {
         info.emplace_back( "DESCRIPTION", _( "<bold>Restrictions</bold>:" ) );
         bool first = true;
-        for( const std::string &e : data->flag_restriction ) {
-            const json_flag &f = json_flag::get( e );
+        for( const flag_id &e : data->get_flag_restrictions() ) {
+            const json_flag &f = *e;
             if( !f.restriction().empty() ) {
                 if( first ) {
                     info.emplace_back( "DESCRIPTION", string_format( "* %s", f.restriction() ) );
@@ -1001,7 +1019,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         }
     }
 
-    if( !data->flag_restriction.empty() && !it.has_any_flag( data->flag_restriction ) ) {
+    if( !data->get_flag_restrictions().empty() && !it.has_any_flag( data->get_flag_restrictions() ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_FLAG, _( "item does not have correct flag" ) );
     }
@@ -1039,8 +1057,9 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_LIQUID, _( "can't mix liquid with contained item" ) );
         }
-    } else if( size() == 1 && ( contents.front().made_of( phase_id::LIQUID ) ||
-                                contents.front().is_frozen_liquid() ) ) {
+    } else if( size() == 1 && !it.is_frozen_liquid() &&
+               ( contents.front().made_of( phase_id::LIQUID ) ||
+                 contents.front().is_frozen_liquid() ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_LIQUID, _( "can't put non liquid into pocket with liquid" ) );
     }

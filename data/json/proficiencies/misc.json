@@ -119,16 +119,6 @@
   },
   {
     "type": "proficiency",
-    "id": "prof_fine_metalsmithing",
-    "name": { "str": "Fine Metalsmithing" },
-    "description": "How to make jewelry from precious metals like gold and silver.",
-    "can_learn": true,
-    "default_time_multiplier": 2,
-    "default_fail_multiplier": 2,
-    "time_to_learn": "14 h"
-  },
-  {
-    "type": "proficiency",
     "id": "prof_gem_setting",
     "name": { "str": "Gem Setting" },
     "description": "How to add gemstones to jewelry.",

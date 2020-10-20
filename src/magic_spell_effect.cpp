@@ -197,10 +197,12 @@ static std::set<tripoint> spell_effect_cone_range_override( const spell_effect::
         const tripoint &source, const tripoint &target )
 {
     std::set<tripoint> targets;
-    const int initial_angle = coord_to_angle( source, target );
+    const units::angle initial_angle = coord_to_angle( source, target );
+    const units::angle half_width = units::from_degrees( params.aoe_radius / 2.0 );
+    const units::angle start_angle = initial_angle - half_width;
+    const units::angle end_angle = initial_angle + half_width;
     std::set<tripoint> end_points;
-    for( int angle = initial_angle - std::floor( params.aoe_radius / 2.0 );
-         angle <= initial_angle + std::ceil( params.aoe_radius / 2.0 ); angle++ ) {
+    for( units::angle angle = start_angle; angle <= end_angle; angle += 1_degrees ) {
         tripoint potential;
         calc_ray_end( angle, params.range, source, potential );
         end_points.emplace( potential );
@@ -794,7 +796,7 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
 
     for( const std::pair<const int, tripoint> &pair : targets_ordered_by_range ) {
         const tripoint &push_point = pair.second;
-        const int angle = coord_to_angle( caster.pos(), target );
+        const units::angle angle = coord_to_angle( caster.pos(), target );
         // positive is push, negative is pull
         int push_distance = sp.damage();
         const int prev_distance = rl_dist( caster.pos(), target );
@@ -881,7 +883,8 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     if( player_character.can_wear( granted ).success() ) {
         granted.set_flag( "FIT" );
         player_character.wear_item( granted, false );
-    } else if( !player_character.is_armed() && player_character.wield( granted, 0 ) ) {
+    } else if( !player_character.has_wield_conflicts( granted ) &&
+               player_character.wield( granted, 0 ) ) {
         // nothing to do
     } else {
         player_character.i_add( granted );
@@ -1031,7 +1034,7 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         caster.add_msg_if_player( m_bad, _( "There is already a vehicle there." ) );
         return;
     }
-    if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90, 100, 0 ) ) {
+    if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees, 100, 0 ) ) {
         veh->magic = true;
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {
             veh->summon_time_limit = sp.duration_turns();

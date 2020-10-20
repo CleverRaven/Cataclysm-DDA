@@ -175,7 +175,7 @@ inline bool is_crafting_component( const item &component );
 class item : public visitable<item>
 {
     public:
-        using FlagsSetType = cata::flat_set<std::string>;
+        using FlagsSetType = std::set<flag_id>;
 
         item();
 
@@ -1445,6 +1445,7 @@ class item : public visitable<item>
          */
         /*@{*/
         bool has_flag( const std::string &flag ) const;
+        bool has_flag( const flag_id &flag ) const;
 
         template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
         bool has_any_flag( const Container &flags ) const {
@@ -1460,17 +1461,24 @@ class item : public visitable<item>
         */
         bool has_own_flag( const std::string &flag ) const;
 
+        bool has_own_flag( const flag_id &f ) const;
+
+
         /** returs read-only set of flags of this item (not including flags from item type or gunmods) */
         const FlagsSetType &get_flags() const;
 
         /** Idempotent filter setting an item specific flag. */
         item &set_flag( const std::string &flag );
+        item &set_flag( const flag_id &flag );
 
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const std::string &flag );
+        item &unset_flag( const flag_id &flag );
+
 
         /** Idempotent filter recursively setting an item specific flag on this item and its components. */
         item &set_flag_recursive( const std::string &flag );
+        item &set_flag_recursive( const flag_id &flag );
 
         /** Removes all item specific flags. */
         void unset_flags();
@@ -1513,7 +1521,7 @@ class item : public visitable<item>
          * @param width If greater 0, the light is emitted in an arc, this is the angle of it.
          * @param direction The direction of the light arc. In degrees.
          */
-        bool getlight( float &luminance, int &width, int &direction ) const;
+        bool getlight( float &luminance, units::angle &width, units::angle &direction ) const;
         /**
          * How much light (see lightmap.cpp) the item emits (it's assumed to be circular).
          */
@@ -1878,6 +1886,7 @@ class item : public visitable<item>
         const item *gunmod_find( const itype_id &mod ) const;
         /** Get first attached gunmod with flag or nullptr if no such mod or item is not a gun */
         item *gunmod_find_by_flag( const std::string &flag );
+        item *gunmod_find_by_flag( const flag_id &flag );
 
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)

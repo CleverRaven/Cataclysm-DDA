@@ -52,6 +52,7 @@
 #include "lightmap.h"
 #include "line.h"
 #include "magic.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -452,7 +453,6 @@ std::string enum_to_string<blood_type>( blood_type data )
 
 // *INDENT-OFF*
 Character::Character() :
-
     visitable<Character>(),
     cached_time( calendar::before_time_starts ),
     id( -1 ),
@@ -1027,6 +1027,16 @@ bool Character::is_on_ground() const
 bool Character::can_stash( const item &it )
 {
     return best_pocket( it, nullptr ).second != nullptr;
+}
+
+bool Character::can_stash_partial( const item &it )
+{
+    item copy = it;
+    if( it.count_by_charges() ) {
+        copy.charges = 1;
+    }
+
+    return can_stash( copy );
 }
 
 void Character::cancel_stashed_activity()
@@ -2953,7 +2963,7 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid )
         if( drop ) {
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
         } else if( add ) {
-            i_add( it, true, avoid, /*allow_drop=*/true, /*allow_wield=*/!is_armed() );
+            i_add( it, true, avoid, /*allow_drop=*/true, /*allow_wield=*/!has_wield_conflicts( it ) );
         }
     }
 
@@ -3569,6 +3579,16 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
     }
 }
 
+bool Character::can_pickWeight_partial( const item &it, bool safe ) const
+{
+    item copy = it;
+    if( it.count_by_charges() ) {
+        copy.charges = 1;
+    }
+
+    return can_pickWeight( copy, safe );
+}
+
 bool Character::can_use( const item &it, const item &context ) const
 {
     if( has_effect( effect_incorporeal ) ) {
@@ -3858,23 +3878,26 @@ bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) co
 
 bool Character::worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
-    return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item & it ) {
-        return it.has_flag( flag ) && ( bp == bodypart_id( "bp_null" ) || it.covers( bp ) );
+    const flag_id f( flag );
+    return std::any_of( worn.begin(), worn.end(), [&f, bp]( const item & it ) {
+        return it.has_flag( f ) && ( bp == bodypart_id( "bp_null" ) || it.covers( bp ) );
     } );
 }
 
 bool Character::worn_with_flag( const std::string &flag ) const
 {
-    return std::any_of( worn.begin(), worn.end(), [&flag]( const item & it ) {
-        return it.has_flag( flag ) ;
+    const flag_id f( flag );
+    return std::any_of( worn.begin(), worn.end(), [&f]( const item & it ) {
+        return it.has_flag( f ) ;
     } );
 }
 
 item Character::item_worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
+    const flag_id f( flag );
     item it_with_flag;
     for( const item &it : worn ) {
-        if( it.has_flag( flag ) && ( bp == bodypart_id( "bp_null" ) || it.covers( bp ) ) ) {
+        if( it.has_flag( f ) && ( bp == bodypart_id( "bp_null" ) || it.covers( bp ) ) ) {
             it_with_flag = it;
             break;
         }
@@ -3884,9 +3907,10 @@ item Character::item_worn_with_flag( const std::string &flag, const bodypart_id 
 
 item Character::item_worn_with_flag( const std::string &flag ) const
 {
+    const flag_id f( flag );
     item it_with_flag;
     for( const item &it : worn ) {
-        if( it.has_flag( flag ) ) {
+        if( it.has_flag( f ) ) {
             it_with_flag = it;
             break;
         }
@@ -6322,16 +6346,18 @@ void Character::update_bodytemp()
         int windchill = get_local_windchill( player_local_temp,
                                              get_local_humidity( weather.humidity, get_weather().weather_id, sheltered ),
                                              bp_windpower );
+
+        static const auto is_lower = []( const bodypart_id & bp ) {
+            return bp == STATIC( bodypart_str_id( "foot_l" ) ) ||
+                   bp == STATIC( bodypart_str_id( "foot_r" ) ) ||
+                   bp == STATIC( bodypart_str_id( "leg_l" ) ) ||
+                   bp == STATIC( bodypart_str_id( "leg_r" ) );
+        };
+
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         // Convert to 0.01C
-        static const std::set<bodypart_id> lowers {
-            bodypart_id( "foot_l" ),
-            bodypart_id( "foot_r" ),
-            bodypart_id( "leg_l" ),
-            bodypart_id( "leg_r" )
-        };
         if( here.has_flag_ter( TFLAG_DEEP_WATER, pos() ) ||
-            ( here.has_flag_ter( TFLAG_SHALLOW_WATER, pos() ) && lowers.count( bp ) ) ) {
+            ( here.has_flag_ter( TFLAG_SHALLOW_WATER, pos() ) && is_lower( bp ) ) ) {
             adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
             windchill = 0;
         }
@@ -6376,7 +6402,7 @@ void Character::update_bodytemp()
 
         mod_part_temp_conv( bp, sunlight_warmth );
         // DISEASES
-        if( bp == bodypart_id( "head" ) && has_effect( effect_flu ) ) {
+        if( bp == STATIC( bodypart_str_id( "head" ) ) && has_effect( effect_flu ) ) {
             mod_part_temp_conv( bp, 1500 );
         }
         if( has_common_cold ) {
@@ -6386,39 +6412,34 @@ void Character::update_bodytemp()
         mod_part_temp_conv( bp, - blood_loss( bp ) * get_part_temp_conv( bp ) / 200 );
 
         // EQUALIZATION
-        if( bp == bodypart_id( "torso" ) ) {
-            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "arm_l" ) );
-            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "arm_r" ) );
-            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "leg_l" ) );
-            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "leg_r" ) );
-            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "head" ) );
-        } else if( bp == bodypart_id( "head" ) ) {
-            temp_equalizer( bodypart_id( "head" ), bodypart_id( "torso" ) );
-            temp_equalizer( bodypart_id( "head" ), bodypart_id( "mouth" ) );
-        } else if( bp == bodypart_id( "arm_l" ) ) {
-            temp_equalizer( bodypart_id( "arm_l" ), bodypart_id( "torso" ) );
-            temp_equalizer( bodypart_id( "arm_l" ), bodypart_id( "hand_l" ) );
-        } else if( bp == bodypart_id( "arm_r" ) ) {
-            temp_equalizer( bodypart_id( "arm_r" ), bodypart_id( "torso" ) );
-            temp_equalizer( bodypart_id( "arm_r" ), bodypart_id( "hand_r" ) );
-        } else if( bp == bodypart_id( "leg_l" ) ) {
-            temp_equalizer( bodypart_id( "leg_l" ), bodypart_id( "torso" ) );
-            temp_equalizer( bodypart_id( "leg_l" ), bodypart_id( "foot_l" ) );
-        } else if( bp == bodypart_id( "leg_r" ) ) {
-            temp_equalizer( bodypart_id( "leg_r" ), bodypart_id( "torso" ) );
-            temp_equalizer( bodypart_id( "leg_r" ), bodypart_id( "foot_r" ) );
-        } else if( bp == bodypart_id( "mouth" ) ) {
-            temp_equalizer( bodypart_id( "mouth" ), bodypart_id( "head" ) );
-        } else if( bp == bodypart_id( "hand_l" ) ) {
-            temp_equalizer( bodypart_id( "hand_l" ), bodypart_id( "arm_l" ) );
-        } else if( bp == bodypart_id( "hand_r" ) ) {
-            temp_equalizer( bodypart_id( "hand_r" ), bodypart_id( "arm_r" ) );
-        } else if( bp == bodypart_id( "foot_l" ) ) {
-            temp_equalizer( bodypart_id( "foot_l" ), bodypart_id( "leg_l" ) );
-        } else if( bp == bodypart_id( "foot_r" ) ) {
-            temp_equalizer( bodypart_id( "foot_r" ), bodypart_id( "leg_r" ) );
-        } else {
-            debugmsg( "Wacky body part temperature equalization!" );
+        static const std::pair<bodypart_str_id, bodypart_str_id> connections[] {
+            {bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ) },
+            {bodypart_str_id( "torso" ), bodypart_str_id( "arm_r" ) },
+            {bodypart_str_id( "torso" ), bodypart_str_id( "leg_l" ) },
+            {bodypart_str_id( "torso" ), bodypart_str_id( "leg_r" ) },
+            {bodypart_str_id( "torso" ), bodypart_str_id( "head" ) },
+            {bodypart_str_id( "head" ), bodypart_str_id( "mouth" ) },
+            {bodypart_str_id( "arm_l" ), bodypart_str_id( "hand_l" ) },
+            {bodypart_str_id( "arm_r" ), bodypart_str_id( "hand_r" ) },
+            {bodypart_str_id( "leg_l" ), bodypart_str_id( "foot_l" ) },
+            {bodypart_str_id( "leg_r" ), bodypart_str_id( "foot_r" ) }
+        };
+
+        bool equalized = false;
+        for( const auto &conn : connections ) {
+            if( bp == conn.first ) {
+                temp_equalizer( bp, conn.second );
+                equalized = true;
+            }
+            // connections are defined in one-direction only, but should work in both direction
+            if( bp == conn.second ) {
+                temp_equalizer( conn.second, bp );
+                equalized = true;
+            }
+        }
+        if( !equalized ) {
+            debugmsg( "Wacky body part temperature equalization!  Body part is not handled: %s",
+                      bp.id().str() );
         }
 
         // Climate Control eases the effects of high and low ambient temps
@@ -9502,13 +9523,12 @@ ret_val<bool> Character::can_wield( const item &it ) const
     if( has_effect( effect_incorporeal ) ) {
         return ret_val<bool>::make_failure( _( "You can't wield anything while incorporeal." ) );
     }
-    if( it.made_of_from_type( phase_id::LIQUID ) ) {
-        return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
-    }
-
     if( get_working_arm_count() <= 0 ) {
         return ret_val<bool>::make_failure(
                    _( "You need at least one arm to even consider wielding something." ) );
+    }
+    if( it.made_of_from_type( phase_id::LIQUID ) ) {
+        return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
 
     if( is_armed() && !can_unwield( weapon ).success() ) {
@@ -9530,6 +9550,11 @@ ret_val<bool> Character::can_wield( const item &it ) const
     }
 
     return ret_val<bool>::make_success();
+}
+
+bool Character::has_wield_conflicts( const item &it ) const
+{
+    return is_armed() && !it.can_combine( weapon );
 }
 
 bool Character::unwield()
@@ -10261,8 +10286,9 @@ bool Character::covered_with_flag( const std::string &flag, const body_part_set 
 
     body_part_set to_cover( parts );
 
+    const flag_id f( flag );
     for( const auto &elem : worn ) {
-        if( !elem.has_flag( flag ) ) {
+        if( !elem.has_flag( f ) ) {
             continue;
         }
 
@@ -10676,7 +10702,7 @@ void Character::migrate_items_to_storage( bool disintegrate )
             }
         } else {
             item &added = i_add( *it, true, /*avoid=*/nullptr,
-                                 /*allow_drop=*/false, /*allow_wield=*/!is_armed() );
+                                 /*allow_drop=*/false, /*allow_wield=*/!has_wield_conflicts( *it ) );
             if( added.is_null() ) {
                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { *it } );
             }
@@ -11461,8 +11487,8 @@ int Character::run_cost( int base_cost, bool diag ) const
     const bool flatground = movecost < 105;
     map &here = get_map();
     // The "FLAT" tag includes soft surfaces, so not a good fit.
-    const bool on_road = flatground && here.has_flag( "ROAD", pos() );
-    const bool on_fungus = here.has_flag_ter_or_furn( "FUNGUS", pos() );
+    const bool on_road = flatground && here.has_flag( STATIC( "ROAD" ), pos() );
+    const bool on_fungus = here.has_flag_ter_or_furn( STATIC( "FUNGUS" ), pos() );
 
     if( !is_mounted() ) {
         if( movecost > 100 ) {
@@ -11549,7 +11575,7 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost += 8;
         }
 
-        if( has_trait( trait_ROOTS3 ) && here.has_flag( "DIGGABLE", pos() ) ) {
+        if( has_trait( trait_ROOTS3 ) && here.has_flag( STATIC( "DIGGABLE" ), pos() ) ) {
             movecost += 10 * footwear_factor();
         }
 
@@ -11685,7 +11711,8 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
             for( const tripoint &point : path ) {
                 if( here.impassable( point ) &&
                     !( weapon.has_flag( "SPEAR" ) && // Fences etc. Spears can stab through those
-                       here.has_flag( "THIN_OBSTACLE", point ) ) ) { //this mirrors melee.cpp function reach_attack
+                       here.has_flag( STATIC( "THIN_OBSTACLE" ),
+                                      point ) ) ) { //this mirrors melee.cpp function reach_attack
                     can_see = false;
                     break;
                 }

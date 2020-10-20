@@ -344,7 +344,7 @@ struct veh_interact::install_info_t {
     int pos = 0;
     size_t tab = 0;
     std::vector<const vpart_info *> tab_vparts;
-    std::vector<std::string> tab_list;
+    std::vector<vpart_category> tab_list;
 };
 
 struct veh_interact::remove_info_t {
@@ -699,7 +699,7 @@ bool veh_interact::can_self_jack()
     return false;
 }
 
-bool veh_interact::can_install_part()
+bool veh_interact::update_part_requirements()
 {
     if( sel_vpart_info == nullptr ) {
         return false;
@@ -904,27 +904,26 @@ void veh_interact::do_install()
                 install_info ) );
     install_info = std::make_unique<install_info_t>();
 
-    std::vector<std::string> &tab_list = install_info->tab_list = {};
-    tab_list.push_back( pgettext( "Vehicle Parts|", "All" ) );
-    for( const std::string &cat : vpart_info::categories_all() ) {
-        tab_list.push_back( pgettext( "Vehicle Parts|", cat.c_str() ) );
-    }
-    tab_list.push_back( pgettext( "Vehicle Parts|", "Filter" ) );
-
-    std::vector <std::function<bool( const vpart_info * )>> tab_filters;
-    tab_filters.push_back( [&]( const vpart_info * ) {
-        return true;
-    } );
-    for( const std::string &cat : vpart_info::categories_all() ) {
-        tab_filters.push_back( [&]( const vpart_info * p ) {
-            return p->has_category( cat );
-        } );
-    }
-
     std::string filter; // The user specified filter
-    tab_filters.push_back( [&]( const vpart_info * p ) {
-        return !filter.empty() && lcmatch( p->name(), filter );
-    } );
+    std::vector<vpart_category> &tab_list = install_info->tab_list = {};
+    std::vector <std::function<bool( const vpart_info * )>> tab_filters;
+
+    for( const vpart_category &cat : vpart_category::all() ) {
+        tab_list.push_back( cat );
+        if( cat.get_id() == "_all" ) {
+            tab_filters.push_back( []( const vpart_info * ) {
+                return true;
+            } );
+        } else if( cat.get_id() == "_filter" ) {
+            tab_filters.push_back( [&filter]( const vpart_info * p ) {
+                return lcmatch( p->name(), filter );
+            } );
+        } else {
+            tab_filters.push_back( [ &, cat = cat.get_id()]( const vpart_info * p ) {
+                return p->has_category( cat );
+            } );
+        }
+    }
 
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
@@ -941,6 +940,7 @@ void veh_interact::do_install()
         // filtered list can be empty
         sel_vpart_info = tab_vparts.empty() ? nullptr : tab_vparts[pos];
 
+        bool can_install = update_part_requirements();
         ui_manager::redraw();
 
         const std::string action = main_context.handle_input();
@@ -959,7 +959,7 @@ void veh_interact::do_install()
             tab = 0;
         }
         if( action == "INSTALL" || action == "CONFIRM" ) {
-            if( can_install_part() ) {
+            if( can_install ) {
                 switch( reason ) {
                     case task_reason::LOW_MORALE:
                         msg = _( "Your morale is too low to construct…" );
@@ -2608,7 +2608,7 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
         int tab_x = 0;
         for( size_t i = 0; i < tab_list.size(); i++ ) {
             bool active = tab == i; // current tab is active
-            std::string tab_name = active ? tab_list[i] : utf8_truncate( tab_list[i], 1 );
+            std::string tab_name = active ? tab_list[i].name() : tab_list[i].short_name();
             tab_x += active; // add a space before selected tab
             draw_subtab( w_list, tab_x, tab_name, active, false );
             // one space padding and add a space after selected tab
@@ -3006,15 +3006,7 @@ void veh_interact::complete_vehicle( player &p )
                 // Restore previous view offsets.
                 p.view_offset = old_view_offset;
 
-                int dir = static_cast<int>( atan2( static_cast<float>( delta.y ),
-                                                   static_cast<float>( delta.x ) ) * 180.0 / M_PI );
-                dir -= veh->face.dir();
-                while( dir < 0 ) {
-                    dir += 360;
-                }
-                while( dir > 360 ) {
-                    dir -= 360;
-                }
+                units::angle dir = normalize( atan2( delta ) - veh->face.dir() );
 
                 veh->part( partnum ).direction = dir;
             }

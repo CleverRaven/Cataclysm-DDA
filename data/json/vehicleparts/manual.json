@@ -3,7 +3,7 @@
     "abstract": "engine_manual",
     "type": "vehicle_part",
     "location": "engine_block",
-    "categories": [ "Internal" ],
+    "categories": [ "movement", "operations" ],
     "fuel_type": "muscle",
     "symbol": "*",
     "color": "light_gray",

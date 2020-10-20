@@ -1202,15 +1202,20 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "firstaid",
-    "difficulty": 3,
-    "batch_time_factors": [ 99, 1 ],
-    "//": "This difficulty assumes that anesthesia administration will be handled by the autodoc or the person using the kit. The included amount of ether is an estimate, based on average body size.",
-    "time": "2 m 30 s",
-    "book_learn": [ [ "textbook_firstaid", 6 ], [ "emergency_book", 5 ] ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "difficulty": 6,
+    "skills_required": [ "chemistry", 5 ],
+    "batch_time_factors": [ 75, 1 ],
+    "time": "40 m",
+    "book_learn": [ [ "textbook_firstaid", 6 ], [ "textbook_toxicology", 6 ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "syringe", -1 ] ] ],
+    "//": "This makes 5 charges for an average-sized survivor, morphine assumed as 1 ch=5mg, heroin as 50% pure.",
     "components": [
-      [ [ "ether", 540 ] ],
-      [ [ "heroin", 1 ], [ "oxycodone", 2 ], [ "tramadol", 3 ], [ "codeine", 4 ], [ "poppy_pain", 4 ] ]
+      [ [ "ether", 420 ] ],
+      [ [ "heroin", 20 ], [ "morphine", 10 ] ],
+      [ [ "datura_seed", 5 ] ],
+      [ [ "conc_venom", 5 ], [ "stimpack_ammo", 5 ] ],
+      [ [ "conc_paralytic", 5 ], [ "rocuronium", 5 ] ]
     ]
   },
   {
@@ -1225,8 +1230,9 @@
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 7 ] ],
     "charges": 250,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "chem_sulphuric_acid", -1 ] ], [ [ "surface_heat", 20, "LIST" ] ] ],
     "byproducts": [ [ "water_clean" ] ],
-    "components": [ [ [ "chem_ethanol", 250 ] ], [ [ "chem_acetic_acid", 1 ], [ "any_strong_acid", 1, "LIST" ] ] ]
+    "components": [ [ [ "chem_ethanol", 250 ] ] ]
   },
   {
     "result": "zinc_metal",
@@ -1561,14 +1567,31 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "chemistry",
-    "difficulty": 7,
-    "skills_required": [ [ "firstaid", 6 ] ],
+    "difficulty": 5,
+    "skills_required": [ [ "firstaid", 3 ] ],
     "time": "60 m",
     "batch_time_factors": [ 50, 3 ],
     "autolearn": false,
     "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 30, "LIST" ] ] ],
     "components": [ [ [ "venom_wasp", 1 ], [ "venom_bee", 1 ] ] ],
-    "book_learn": { "textbook_toxicology": { "skill_level": 6 } }
+    "book_learn": [ [ "textbook_toxicology", 5 ], [ "textbook_arthropod", 5 ] ]
+  },
+  {
+    "result": "conc_paralytic",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "skills_required": [ [ "firstaid", 3 ] ],
+    "time": "60 m",
+    "batch_time_factors": [ 50, 3 ],
+    "autolearn": false,
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
+    "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 30, "LIST" ] ] ],
+    "components": [ [ [ "venom_paralytic", 1 ] ] ],
+    "book_learn": [ [ "textbook_toxicology", 5 ], [ "textbook_botany", 5 ] ]
   }
 ]

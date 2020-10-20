@@ -155,7 +155,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
                                         pt.get_base().damage_color() );
     bool wasbroken = pt.is_broken();
     if( wasbroken ) {
-        const int dir = pt.direction;
+        const units::angle dir = pt.direction;
         point loc = pt.mount;
         auto replacement_id = pt.info().get_id();
         get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );

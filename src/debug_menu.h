@@ -115,23 +115,37 @@ _Container string_to_iterable( const std::string &str, const std::string &delimi
         res.push_back( s.substr( 0, pos ) );
         s.erase( 0, pos + delimiter.length() );
     }
-    res.push_back( s );
+    if( !s.empty() ) {
+        res.push_back( s );
+    }
 
     return res;
 }
 
-/* Merges iterable elements into std::string with @param delimiter between them */
-template<typename _Container>
-std::string iterable_to_string( const _Container &values, const std::string &delimiter )
+/* Merges iterable elements into std::string with
+ * @param delimiter between them
+ * @param f is callable that is called to transform each value
+ * */
+template<typename _Container, typename Mapper>
+std::string iterable_to_string( const _Container &values, const std::string &delimiter,
+                                const Mapper &f )
 {
     std::string res;
     for( auto iter = values.begin(); iter != values.end(); ++iter ) {
         if( iter != values.begin() ) {
             res += delimiter;
         }
-        res += *iter;
+        res += f( *iter );
     }
     return res;
+}
+
+template<typename _Container>
+std::string iterable_to_string( const _Container &values, const std::string &delimiter )
+{
+    return iterable_to_string( values, delimiter, []( const std::string & f ) {
+        return f;
+    } );
 }
 
 } // namespace debug_menu

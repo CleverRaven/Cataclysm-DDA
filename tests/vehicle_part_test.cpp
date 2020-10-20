@@ -75,19 +75,27 @@ TEST_CASE( "vehicle_parts_boardable_openable_parts_have_door_flag", "[vehicle][v
 TEST_CASE( "vehicle_parts_have_at_least_one_category", "[vehicle][vehicle_parts]" )
 {
     // check parts have at least one category
-    const std::set<std::string> categories = vpart_info::categories_all();
+    const std::vector<vpart_category> categories = vpart_category::all();
+    std::set<std::string> all_cat_ids;
+    for( const vpart_category &cat : categories ) {
+        all_cat_ids.insert( cat.get_id() );
+    }
 
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
+        CAPTURE( vp.get_id().c_str() );
 
         bool part_has_category = false;
-        for( const std::string &cat : categories ) {
-            if( vp.has_category( cat ) ) {
+        for( const vpart_category &cat : categories ) {
+            if( vp.has_category( cat.get_id() ) ) {
                 part_has_category = true;
                 break;
             }
         }
-        CAPTURE( vp.get_id().c_str() );
+        for( const std::string &cat : vp.get_categories() ) {
+            const bool no_unknown_categories = all_cat_ids.find( cat ) == all_cat_ids.cend();
+            CHECK_FALSE( no_unknown_categories );
+        }
         CHECK( part_has_category );
     }
 }
@@ -113,7 +121,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
         character.set_skill_level( req.first, req.second );
     }
 
-    get_map().add_vehicle( vproto_id( "test_rv" ), test_origin, -90, 0, 0 );
+    get_map().add_vehicle( vproto_id( "test_rv" ), test_origin, -90_degrees, 0, 0 );
     const optional_vpart_position &ovp = get_map().veh_at( test_origin );
     vehicle &veh = ovp->vehicle();
     REQUIRE( ovp.has_value() );

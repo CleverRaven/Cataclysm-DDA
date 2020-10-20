@@ -286,6 +286,17 @@ class JsonIn
             return true;
         }
 
+        // This is for the int_id type
+        template <typename T>
+        auto read( int_id<T> &thing, bool throw_on_error = false ) -> bool {
+            std::string tmp;
+            if( !read( tmp, throw_on_error ) ) {
+                return false;
+            }
+            thing = int_id<T>( tmp );
+            return true;
+        }
+
         /// Overload that calls a global function `deserialize(T&,JsonIn&)`, if available.
         template<typename T>
         auto read( T &v, bool throw_on_error = false ) ->
@@ -648,6 +659,11 @@ class JsonOut
             write( thing.str() );
         }
 
+        template <typename T>
+        auto write( const int_id<T> &thing ) {
+            write( thing.id().str() );
+        }
+
         // enum ~> string
         template <typename E, typename std::enable_if<std::is_enum<E>::value>::type * = nullptr>
         void write_as_string( const E value ) {
@@ -901,8 +917,8 @@ class JsonObject
         JsonObject get_object( const std::string &name ) const;
 
         // get_tags returns empty set if none found
-        template <typename T = std::string>
-        std::set<T> get_tags( const std::string &name ) const;
+        template<typename T = std::string, typename Res = std::set<T>>
+        Res get_tags( const std::string &name ) const;
 
         // TODO: some sort of get_map(), maybe
 
@@ -1057,8 +1073,8 @@ class JsonArray
         JsonObject get_object( size_t index ) const;
 
         // get_tags returns empty set if none found
-        template <typename T = std::string>
-        std::set<T> get_tags( size_t index ) const;
+        template<typename T = std::string, typename Res = std::set<T>>
+        Res get_tags( size_t index ) const;
 
         class const_iterator;
 
@@ -1289,10 +1305,10 @@ inline JsonObject::const_iterator JsonObject::end() const
     return const_iterator( *this, positions.end() );
 }
 
-template <typename T>
-std::set<T> JsonArray::get_tags( const size_t index ) const
+template <typename T, typename Res>
+Res JsonArray::get_tags( const size_t index ) const
 {
-    std::set<T> res;
+    Res res;
 
     verify_index( index );
     jsin->seek( positions[ index ] );
@@ -1310,10 +1326,10 @@ std::set<T> JsonArray::get_tags( const size_t index ) const
     return res;
 }
 
-template <typename T>
-std::set<T> JsonObject::get_tags( const std::string &name ) const
+template <typename T, typename Res>
+Res JsonObject::get_tags( const std::string &name ) const
 {
-    std::set<T> res;
+    Res res;
     int pos = verify_position( name, false );
     if( !pos ) {
         return res;

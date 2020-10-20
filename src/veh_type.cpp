@@ -133,7 +133,6 @@ static const std::vector<std::pair<std::string, veh_ter_mod>> rail_terrain_mod =
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
-static std::set<std::string> vpart_categories_all;
 
 static std::map<vpart_id, vpart_info> abstract_parts;
 
@@ -482,6 +481,19 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         }
     }
 
+    JsonArray tools = jo.get_array( "pseudo_tools" );
+    if( !tools.empty() ) {
+        def.pseudo_tools.clear();
+        while( tools.has_more() ) {
+            const JsonObject tooldef = tools.next_object();
+            const itype_id tool_id( tooldef.get_string( "id" ) );
+            const std::string hotkey_str = tooldef.has_string( "hotkey" ) ? tooldef.get_string( "hotkey" ) : "";
+            const int hotkey = hotkey_str.empty() ? -1 : static_cast<int>( hotkey_str[0] );
+            if( !def.pseudo_tools.insert( { tool_id, hotkey } ).second ) {
+                debugmsg( "Insert failed on %s to %s's tools, duplicate?", tool_id.str(), def.id.str() );
+            }
+        }
+    }
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
         def.damage_reduction = load_damage_array( dred );
@@ -508,10 +520,6 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     } else {
         vpart_info_all[def.id] = def;
     }
-
-    for( const std::string &cat : def.categories ) {
-        vpart_categories_all.insert( cat );
-    }
 }
 
 void vpart_info::set_flag( const std::string &flag )
@@ -521,6 +529,11 @@ void vpart_info::set_flag( const std::string &flag )
     if( iter != vpart_bitflag_map.end() ) {
         bitflags.set( iter->second );
     }
+}
+
+const std::set<std::string> &vpart_info::get_categories() const
+{
+    return this->categories;
 }
 
 void vpart_info::finalize()
@@ -776,18 +789,12 @@ void vpart_info::check()
 void vpart_info::reset()
 {
     vpart_info_all.clear();
-    vpart_categories_all.clear();
     abstract_parts.clear();
 }
 
 const std::map<vpart_id, vpart_info> &vpart_info::all()
 {
     return vpart_info_all;
-}
-
-const std::set<std::string> &vpart_info::categories_all()
-{
-    return vpart_categories_all;
 }
 
 std::string vpart_info::name() const
@@ -852,6 +859,14 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
                                        base.gun_range( true ),
                                        base.gun_damage().total_damage() );
+    }
+
+    if( !pseudo_tools.empty() ) {
+        append_desc( std::string( "\n" ) + _( "Provides:" ) + " <color_cyan>" +
+                     enumerate_as_string( pseudo_tools.begin(), pseudo_tools.end(),
+        []( const std::pair<itype_id, int> &p ) {
+            return p.first.obj().nname( 1 );
+        } ) + "</color>" );
     }
 
     if( !long_descrip.empty() ) {
@@ -1021,6 +1036,11 @@ int vpart_info::rotor_diameter() const
 const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
 {
     return workbench_info;
+}
+
+std::set<std::pair<itype_id, int>> vpart_info::get_pseudo_tools() const
+{
+    return pseudo_tools;
 }
 
 /** @relates string_id */
@@ -1263,4 +1283,33 @@ std::vector<vproto_id> vehicle_prototype::get_all()
         result.push_back( vp.first );
     }
     return result;
+}
+
+static std::vector<vpart_category> vpart_categories_all;
+
+const std::vector<vpart_category> &vpart_category::all()
+{
+    return vpart_categories_all;
+}
+
+void vpart_category::load( const JsonObject &jo )
+{
+    vpart_category def;
+
+    assign( jo, "id", def.id_ );
+    assign( jo, "name", def.name_ );
+    assign( jo, "short_name", def.short_name_ );
+    assign( jo, "priority", def.priority_ );
+
+    vpart_categories_all.push_back( def );
+}
+
+void vpart_category::finalize()
+{
+    std::sort( vpart_categories_all.begin(), vpart_categories_all.end() );
+}
+
+void vpart_category::reset()
+{
+    vpart_categories_all.clear();
 }

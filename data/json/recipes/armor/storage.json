@@ -11,7 +11,11 @@
     "time": "4 h",
     "autolearn": true,
     "using": [ [ "strap_small", 1 ], [ "tailoring_leather_small", 4 ], [ "clasps", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ]
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
+    ]
   },
   {
     "result": "ammo_satchel",
@@ -34,7 +38,7 @@
     "type": "recipe",
     "time": "1 h 30 m",
     "using": [ [ "strap_small", 1 ], [ "tailoring_leather_small", 2 ], [ "fastener_small", 1 ] ],
-    "extend": { "proficiencies": [ { "proficiency": "prof_leatherworking" } ] }
+    "extend": { "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ] }
   },
   {
     "result": "stone_pouch",
@@ -49,7 +53,11 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "strap_small", 1 ], [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ]
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
+    ]
   },
   {
     "result": "chestrig",
@@ -64,7 +72,11 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "strap_small", 1 ], [ "clasps", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
   },
   {
@@ -94,7 +106,11 @@
     "time": "4 h",
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 3 ], [ "clasps", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ]
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
+    ]
   },
   {
     "result": "backpack",
@@ -125,6 +141,7 @@
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ]
   },
@@ -141,7 +158,11 @@
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 10 ], [ "clasps", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 8 ] ] ]
   },
   {
@@ -157,7 +178,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 2 ], [ "clasps", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ]
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
     "result": "bandolier_rifle",
@@ -172,7 +193,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 2 ], [ "clasps", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ]
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
     "result": "bandolier_shotgun",
@@ -187,7 +208,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 2 ], [ "clasps", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ]
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
     "result": "torso_bandolier_shotgun",
@@ -202,7 +223,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 3 ], [ "clasps", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ]
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
     "result": "bandolier_wrist",
@@ -261,7 +282,11 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 2 ], [ "clasps", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ]
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
+    ]
   },
   {
     "result": "bootstrap",
@@ -276,7 +301,11 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 3 ], [ "clasps", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ]
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
+    ]
   },
   {
     "result": "bow_sling",
@@ -306,7 +335,7 @@
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 15 ], [ "adhesive", 1 ], [ "clasps", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 10 ] ] ]
   },
   {
@@ -330,7 +359,7 @@
     "id_suffix": "from leather",
     "copy-from": "chestpouch",
     "using": [ [ "tailoring_leather_small", 2 ], [ "fastener_small", 1 ] ],
-    "extend": { "proficiencies": [ { "proficiency": "prof_leatherworking" } ] }
+    "extend": { "proficiencies": [ { "proficiency": "prof_leatherworking" }, { "proficiency": "prof_leatherworking_basic" } ] }
   },
   {
     "result": "tacvest",
@@ -345,7 +374,11 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_cotton", 5 ], [ "plastic_molding", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_plasticworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_plasticworking" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
     "components": [ [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ] ]
   },
   {
@@ -378,7 +411,7 @@
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_leatherworking" }
+      { "proficiency": "prof_leatherworking_basic" }
     ]
   },
   {
@@ -434,7 +467,11 @@
     "time": "3 h 30 m",
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
   {
@@ -482,7 +519,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 2 ], [ "clasps", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ]
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
     "result": "leather_pouch",
@@ -500,7 +537,7 @@
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_leatherworking" }
+      { "proficiency": "prof_leatherworking_basic" }
     ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
@@ -520,7 +557,7 @@
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_leatherworking" }
+      { "proficiency": "prof_leatherworking_basic" }
     ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
@@ -627,7 +664,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ] ],
     "using": [ [ "tailoring_leather_small", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
   {
@@ -664,7 +701,7 @@
     "book_learn": [ [ "recipe_arrows", 2 ] ],
     "using": [ [ "tailoring_leather_small", 11 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
     "components": [ [ [ "strap_large", 2, "LIST" ] ], [ [ "clasps", 2, "LIST" ] ] ]
   },
   {
@@ -709,7 +746,11 @@
     "time": "6 h",
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 10 ], [ "clasps", 1 ], [ "adhesive", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 5 ] ] ]
   },
@@ -726,7 +767,11 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
   {
@@ -742,7 +787,11 @@
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "using": [ [ "tailoring_leather_small", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
   {
@@ -791,6 +840,7 @@
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [
@@ -825,6 +875,7 @@
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [
@@ -860,6 +911,7 @@
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [
@@ -895,6 +947,7 @@
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_elastics" }
     ],
@@ -931,6 +984,7 @@
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [ [ [ "rag", 6 ] ], [ [ "holster", 1 ], [ "sholster", 1 ] ], [ [ "leather_pouch", 3 ] ], [ [ "duct_tape", 50 ] ] ]
@@ -960,7 +1014,11 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 6 ], [ "clasps", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "components": [ [ [ "leather_pouch", 7 ] ] ]
   },
   {
@@ -976,7 +1034,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 7 ], [ "strap_large", 1 ], [ "clasps", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking" } ]
+    "proficiencies": [ { "proficiency": "prof_leatherworking" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
     "result": "grenadebandolier",
@@ -1008,6 +1066,7 @@
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
@@ -1061,6 +1120,7 @@
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [ [ [ "strap_large", 2, "LIST" ] ], [ [ "leather_pouch", 2 ] ] ]
@@ -1080,6 +1140,7 @@
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [ [ [ "strap_large", 2, "LIST" ] ] ]
@@ -1121,7 +1182,11 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 5 ], [ "fastener_large", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
   {
@@ -1149,7 +1214,11 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 7 ], [ "fastener_large", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
   {
@@ -1163,7 +1232,11 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 7 ], [ "fastener_large", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
   {
@@ -1187,6 +1260,10 @@
     "time": "3 h",
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 1 ], [ "fastener_small", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking" } ]
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ]
   }
 ]

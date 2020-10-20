@@ -38,8 +38,10 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 4,
+    "skills_required": [ [ "fabrication", 3 ] ],
     "time": "12 h",
     "autolearn": true,
+    "book_learn": [ [ "textbook_arthropod", 3 ] ],
     "using": [ [ "armor_chitin", 18 ], [ "strap_small", 4 ], [ "clasps", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "proficiencies": [
@@ -57,9 +59,10 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ] ],
+    "skills_required": [ [ "fabrication", 3 ], [ "chemistry", 2 ] ],
     "time": "16 h",
     "autolearn": true,
+    "book_learn": [ [ "textbook_arthropod", 4 ] ],
     "using": [ [ "armor_acidchitin", 18 ], [ "strap_small", 4 ], [ "clasps", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "proficiencies": [

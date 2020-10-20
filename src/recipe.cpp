@@ -263,7 +263,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "delete_flags" ) ) {
-        flags_to_delete = jo.get_tags( "delete_flags" );
+        flags_to_delete = jo.get_tags<flag_str_id>( "delete_flags" );
     }
 
     // recipes not specifying any external requirements inherit from their parent recipe (if any)
@@ -599,30 +599,74 @@ std::string recipe::required_proficiencies_string( const Character *c ) const
     return required;
 }
 
+struct prof_penalty {
+    proficiency_id id;
+    float time_mult;
+    float failure_mult;
+};
+
+static std::string profstring( const prof_penalty &prof,
+                               std::string &color )
+{
+    if( prof.time_mult == 1.0f ) {
+        return string_format( _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0failure</color>)" ),
+                              prof.id->name(), color, prof.failure_mult );
+    } else if( prof.failure_mult == 1.0f ) {
+        return string_format( _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0time</color>)" ),
+                              prof.id->name(), color, prof.time_mult );
+    }
+
+    return string_format(
+               _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0time, %gx\u00a0failure</color>)" ),
+               prof.id->name(), color, prof.time_mult, prof.failure_mult );
+}
+
 std::string recipe::used_proficiencies_string( const Character *c ) const
 {
-    std::vector<std::pair<proficiency_id, float>> used_profs;
+    if( c == nullptr ) {
+        return { };
+    }
+    std::vector<prof_penalty> used_profs;
 
     for( const recipe_proficiency &rec : proficiencies ) {
         if( !rec.required ) {
-            used_profs.push_back( { rec.id, rec.time_multiplier } );
+            if( c->has_proficiency( rec.id ) || helpers_have_proficiencies( *c, rec.id ) )  {
+                used_profs.push_back( { rec.id, rec.time_multiplier, rec.fail_multiplier } );
+            }
         }
     }
 
+    std::string color = "light_gray";
     std::string used = enumerate_as_string( used_profs.begin(),
-    used_profs.end(), [&]( const std::pair<proficiency_id, float> &pair ) {
-        std::string color;
-        if( c != nullptr && ( c->has_proficiency( pair.first ) ||
-                              helpers_have_proficiencies( *c, pair.first ) ) ) {
-            color = "white";
-        } else {
-            color = "yellow";
-        }
-        return string_format( "<color_cyan>%s</color> <color_%s>%gx</color>", pair.first->name(), color,
-                              pair.second );
+    used_profs.end(), [&]( const prof_penalty & prof ) {
+        return profstring( prof, color );
     } );
 
     return used;
+}
+
+std::string recipe::missing_proficiencies_string( const Character *c ) const
+{
+    if( c == nullptr ) {
+        return { };
+    }
+    std::vector<prof_penalty> missing_profs;
+
+    for( const recipe_proficiency &rec : proficiencies ) {
+        if( !rec.required ) {
+            if( !( c->has_proficiency( rec.id ) || helpers_have_proficiencies( *c, rec.id ) ) )  {
+                missing_profs.push_back( { rec.id, rec.time_multiplier, rec.fail_multiplier } );
+            }
+        }
+    }
+
+    std::string color = "yellow";
+    std::string missing = enumerate_as_string( missing_profs.begin(),
+    missing_profs.end(), [&]( const prof_penalty & prof ) {
+        return profstring( prof, color );
+    } );
+
+    return missing;
 }
 
 std::set<proficiency_id> recipe::required_proficiencies() const
@@ -657,13 +701,25 @@ std::set<proficiency_id> recipe::assist_proficiencies() const
     return ret;
 }
 
-float recipe::proficiency_maluses( const Character &guy ) const
+float recipe::proficiency_time_maluses( const Character &guy ) const
 {
     float malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {
         if( !guy.has_proficiency( prof.id ) &&
             !helpers_have_proficiencies( guy, prof.id ) ) {
             malus *= prof.time_multiplier;
+        }
+    }
+    return malus;
+}
+
+float recipe::proficiency_failure_maluses( const Character &guy ) const
+{
+    float malus = 1.0f;
+    for( const recipe_proficiency &prof : proficiencies ) {
+        if( !guy.has_proficiency( prof.id ) &&
+            !helpers_have_proficiencies( guy, prof.id ) ) {
+            malus *= prof.fail_multiplier;
         }
     }
     return malus;

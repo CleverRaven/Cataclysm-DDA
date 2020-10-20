@@ -444,7 +444,10 @@ static item wishitem_produce( const itype &type, std::string &flags, bool incont
 
     granted.unset_flags();
     for( const auto &tag : debug_menu::string_to_iterable<std::vector<std::string>>( flags, " " ) ) {
-        granted.set_flag( tag );
+        const flag_str_id flag( tag );
+        if( flag.is_valid() ) {
+            granted.set_flag( flag_str_id( tag ) );
+        }
     }
 
     if( incontainer ) {
@@ -481,7 +484,11 @@ class wish_item_callback: public uilist_callback
             }
 
             // grab default flags for the itype
-            flags = debug_menu::iterable_to_string( standard_itype_ids[menu->selected]->get_flags(), "" );
+            flags = debug_menu::iterable_to_string(
+                        standard_itype_ids[menu->selected]->get_flags(), "",
+            []( const flag_id & f ) {
+                return f.id().str();
+            } );
         }
 
         bool key( const input_context &ctxt, const input_event &event, int /*entnum*/,

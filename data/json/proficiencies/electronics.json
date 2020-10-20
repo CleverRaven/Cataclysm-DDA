@@ -23,7 +23,7 @@
     "type": "proficiency",
     "id": "prof_shock_weapons",
     "name": { "str": "Electroshock Weapons" },
-    "description": "An understanding of how to use high voltage, low-current devices to cause debilitating muscle spasms.",
+    "description": "An understanding of how to use high voltage, low-current devices to cause debilitating muscle spasms.  Includes some theoretical knowledge of how to protect yourself from these.",
     "can_learn": true,
     "default_time_multiplier": 2.5,
     "default_fail_multiplier": 3,
