@@ -396,6 +396,14 @@
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
   },
   {
+    "id": "xl_lsurvivor_armor",
+    "type": "ARMOR",
+    "name": { "str": "light survivor body armor" },
+    "copy-from": "lsurvivor_armor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OVERSIZE" ]
+  },
+  {
     "id": "motorbike_armor",
     "repairs_like": "survivor_suit",
     "type": "ARMOR",
