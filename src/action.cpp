@@ -338,6 +338,8 @@ std::string action_ident( action_id act )
             return "debug_lighting";
         case ACTION_DISPLAY_RADIATION:
             return "debug_radiation";
+        case ACTION_TOGGLE_HOUR_TIMER:
+            return "debug_hour_timer";
         case ACTION_TOGGLE_DEBUG_MODE:
             return "debug_mode";
         case ACTION_ZOOM_OUT:

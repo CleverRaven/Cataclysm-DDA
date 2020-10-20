@@ -1470,6 +1470,8 @@ bool game::do_turn()
         m.spawn_monsters( false );
     }
 
+    debug_hour_timer.print_time();
+
     u.update_body();
 
     // Auto-save if autosave is enabled
@@ -2473,6 +2475,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug_visibility" );
     ctxt.register_action( "debug_lighting" );
     ctxt.register_action( "debug_radiation" );
+    ctxt.register_action( "debug_hour_timer" );
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
@@ -6713,6 +6716,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     ctxt.register_action( "debug_visibility" );
     ctxt.register_action( "debug_lighting" );
     ctxt.register_action( "debug_radiation" );
+    ctxt.register_action( "debug_hour_timer" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -6848,6 +6852,8 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_radiation();
             }
+        } else if( action == "debug_hour_timer" ) {
+            toggle_debug_hour_timer();
         } else if( action == "EXTENDED_DESCRIPTION" ) {
             extended_description( lp );
         } else if( action == "CENTER" ) {
@@ -11369,6 +11375,34 @@ void game::display_visibility()
             }
         } else {
             displaying_visibility_creature = nullptr;
+        }
+    }
+}
+
+void game::toggle_debug_hour_timer()
+{
+    debug_hour_timer.toggle();
+}
+
+void game::debug_hour_timer::toggle()
+{
+    enabled = !enabled;
+    start_time = cata::nullopt;
+    add_msg( string_format( "debug timer %s", enabled ? "enabled" : "disabled" ) );
+}
+
+void game::debug_hour_timer::print_time()
+{
+    if( enabled ) {
+        if( calendar::once_every( time_duration::from_hours( 1 ) ) ) {
+            const IRLTimeMs now = std::chrono::time_point_cast<std::chrono::milliseconds>(
+                                      std::chrono::system_clock::now() );
+            if( start_time ) {
+                add_msg( "in-game hour took: %d ms", ( now - *start_time ).count() );
+            } else {
+                add_msg( "starting debug timer" );
+            }
+            start_time = now;
         }
     }
 }
