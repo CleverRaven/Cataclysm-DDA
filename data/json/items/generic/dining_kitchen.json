@@ -1066,7 +1066,7 @@
     "type": "GENERIC",
     "category": "other",
     "id": "pizza_cutter",
-    "name": { "str": "pizza cutter", "str_pl": "pizza cutters" },
+    "name": { "str": "pizza cutter" },
     "description": "A utensil used for cutting pizza. practically useless in combat.",
     "bashing": 1,
     "cutting": 2,
