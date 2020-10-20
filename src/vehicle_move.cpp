@@ -1960,7 +1960,7 @@ void vehicle::check_falling_or_floating()
     }
     // TODO: Make the vehicle "slide" towards its center of weight
     //  when it's not properly supported
-    const std::set<tripoint> &pts = get_points( true );
+    const std::set<tripoint> &pts = get_points();
     if( pts.empty() ) {
         // Dirty vehicle with no parts
         is_falling = false;
