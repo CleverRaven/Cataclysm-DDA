@@ -316,7 +316,7 @@
     "id": "flip_flop_holster",
     "type": "ARMOR",
     "name": { "str": "Flipflop Holster" },
-    "description": "A rather improvised solution for the lack of a holster. Rather comedic, but gets the job done albeit with more encumbrance than a regular holster.",
+    "description": "A improvised solution for the lack of a holster.  Rather comedic, but gets the job done albeit with more encumbrance when commpared to a regular holster.",
     "weight": "350 g",
     "volume": "250 ml",
     "price": 9000,
