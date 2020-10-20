@@ -1276,7 +1276,7 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "components": [ [ [ "flip_flops", 1 ]], [ [ "leather_belt", 1 ] ] ]
+    "components": [ [ [ "flip_flops", 1 ] ], [ [ "leather_belt", 1 ] ] ]
   },
   {
     "result": "longboot_quiver",
@@ -1287,7 +1287,7 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "components": [ [ [ "thigh_high_boots", 1 ]], [ [ "leather_belt", 1 ] ] ]
+    "components": [ [ [ "thigh_high_boots", 1 ] ], [ [ "leather_belt", 1 ] ] ]
   },
   {
     "result": "medboot_quiver",
@@ -1298,6 +1298,6 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "components": [ [ [ "knee_high_boots", 1 ]], [ [ "leather_belt", 1 ] ] ]
+    "components": [ [ [ "knee_high_boots", 1 ] ], [ [ "leather_belt", 1 ] ] ]
   }
 ]
