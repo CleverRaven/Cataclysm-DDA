@@ -37,10 +37,12 @@
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_deaf( "deaf" );
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
+static const trait_id trait_DEBUG_NODEAF( "DEBUG_NODEAF" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
@@ -737,6 +739,10 @@ void Character::activate_mutation( const trait_id &mut )
             activity.values.push_back( to_turns<int>( startup_time ) );
             return;
         }
+    } else if( mut == trait_DEBUG_NODEAF ) {
+        remove_effect( effect_deaf );
+        tdata.powered = false;
+        return;
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
         mod_max_power_level( 100_kJ );
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
