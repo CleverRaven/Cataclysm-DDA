@@ -1032,12 +1032,6 @@ void player::hardcoded_effects( effect &it )
         }
 #endif // TILES
 
-        if( intense < 1 ) {
-            it.set_intensity( 1 );
-        } else if( intense < 24 ) {
-            it.mod_intensity( 1 );
-        }
-
         if( has_effect( effect_narcosis ) && get_fatigue() <= 25 ) {
             set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia
         }
@@ -1057,7 +1051,6 @@ void player::hardcoded_effects( effect &it )
             it.set_duration( 1_turns * dice( 3, 100 ) );
         }
 
-        // TODO: Move this to update_needs when NPCs can mutate
         bool compatible_weather_types = g->weather.weather == WEATHER_CLEAR ||
                                         g->weather.weather == WEATHER_SUNNY
                                         || g->weather.weather == WEATHER_DRIZZLE || g->weather.weather == WEATHER_RAINY ||
@@ -1072,8 +1065,6 @@ void player::hardcoded_effects( effect &it )
                 if( g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
                     if( get_hunger() >= -30 ) {
                         mod_hunger( -5 );
-                        // photosynthesis warrants absorbing kcal directly
-                        mod_stored_nutr( -5 );
                     }
                     if( get_thirst() >= -30 ) {
                         mod_thirst( -5 );
@@ -1240,20 +1231,10 @@ void player::hardcoded_effects( effect &it )
             const bool asleep = has_effect( effect_sleep );
             if( has_bionic( bio_watch ) ) {
                 if( dur == 1_turns ) {
-                    // Normal alarm is volume 12, tested against (2/3/6)d15 for
-                    // normal/HEAVYSLEEPER/HEAVYSLEEPER2.
-                    //
-                    // It's much harder to ignore an alarm inside your own skull,
-                    // so this uses an effective volume of 20.
-                    const int volume = 20;
                     if( !asleep ) {
                         add_msg_if_player( _( "Your internal chronometer went off and you haven't slept a wink." ) );
                         activity.set_to_null();
-                    } else if( ( !( has_trait( trait_HEAVYSLEEPER ) ||
-                                    has_trait( trait_HEAVYSLEEPER2 ) ) &&
-                                 dice( 2, 15 ) < volume ) ||
-                               ( has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < volume ) ||
-                               ( has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < volume ) ) {
+                    } else {
                         // Secure the flag before wake_up() clears the effect
                         bool slept_through = has_effect( effect_slept_through_alarm );
                         wake_up();
@@ -1262,12 +1243,6 @@ void player::hardcoded_effects( effect &it )
                         } else {
                             add_msg_if_player( _( "Your internal chronometer wakes you up." ) );
                         }
-                    } else {
-                        if( !has_effect( effect_slept_through_alarm ) ) {
-                            add_effect( effect_slept_through_alarm, 1_turns, num_bp, true );
-                        }
-                        // 10 minute cyber-snooze
-                        it.mod_duration( 10_minutes );
                     }
                 }
             } else {

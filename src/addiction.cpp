@@ -14,6 +14,7 @@
 #include "translations.h"
 
 static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_shakes( "shakes" );
 
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
@@ -160,9 +161,12 @@ void addict_effect( Character &u, addiction &add )
             break;
 
         case add_type::SPEED: {
+            if( u.has_effect( effect_meth ) ) {
+                break;
+            }
             u.mod_int_bonus( -1 );
             u.mod_str_bonus( -1 );
-            if( current_stim > -100 && x_in_y( in, 20 ) ) {
+            if( current_stim > in * -5 && calendar::once_every( 3_minutes ) ) {
                 u.mod_stim( -1 );
             }
             if( rng( 0, 150 ) <= in ) {

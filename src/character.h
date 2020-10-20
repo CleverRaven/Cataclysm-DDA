@@ -184,10 +184,10 @@ const std::unordered_map<std::string, fatigue_levels> fatigue_level_strs = { {
 // maluses are bestowed only upon reaching the tiers defined below.
 enum class sleep_deprivation_levels : int {
     harmless = 2 * 24 * 60,
-    minor = 4 * 24 * 60,
-    serious = 7 * 24 * 60,
-    major = 10 * 24 * 60,
-    massive = 14 * 24 * 60
+    minor = 3 * 24 * 60,
+    serious = 4 * 24 * 60,
+    major = 5 * 24 * 60,
+    massive = 6 * 24 * 60
 };
 
 constexpr inline bool operator>=( const sleep_deprivation_levels &lhs,

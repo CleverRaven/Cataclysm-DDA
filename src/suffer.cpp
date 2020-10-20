@@ -92,6 +92,7 @@ static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_iodine( "iodine" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_onfire( "onfire" );
@@ -1285,7 +1286,7 @@ void Character::suffer_from_stimulants( const int current_stim )
         }
     }
     if( current_stim > 75 ) {
-        if( !one_turn_in( 2_minutes ) && !has_effect( effect_nausea ) ) {
+        if( calendar::once_every( 5_minutes ) && !has_effect( effect_nausea ) ) {
             add_msg( _( "You feel nauseous…" ) );
             add_effect( effect_nausea, 5_minutes );
         }
@@ -1297,18 +1298,7 @@ void Character::suffer_from_stimulants( const int current_stim )
             add_msg_if_player( m_bad, _( "You black out!" ) );
             const time_duration dur = rng( 30_minutes, 60_minutes );
             add_effect( effect_downed, dur );
-            add_effect( effect_blind, dur );
             fall_asleep( dur );
-        }
-    }
-    if( current_stim < -85 || get_painkiller() > 145 ) {
-        if( one_turn_in( 15_seconds ) && !has_effect( effect_sleep ) ) {
-            add_msg_if_player( m_bad, _( "You feel dizzy for a moment." ) );
-            mod_moves( -rng( 10, 30 ) );
-            if( one_in( 3 ) && !has_effect( effect_downed ) ) {
-                add_msg_if_player( m_bad, _( "You stumble and fall over!" ) );
-                add_effect( effect_downed, rng( 3_turns, 10_turns ) );
-            }
         }
     }
     if( current_stim < -60 || get_painkiller() > 130 ) {
@@ -1321,6 +1311,9 @@ void Character::suffer_from_stimulants( const int current_stim )
 
 void Character::suffer_without_sleep( const int sleep_deprivation )
 {
+    if( has_effect( effect_meth ) ) {
+        return;
+    }
     // redo as a snippet?
     if( sleep_deprivation >= sleep_deprivation_levels::harmless ) {
         if( one_turn_in( 50_minutes ) ) {

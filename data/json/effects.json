@@ -508,10 +508,16 @@
     "name": [ "Sleep Deprived" ],
     "desc": [ "Your sleep debt has been steadily increasing for a while.  You should get some rest." ],
     "rating": "bad",
-    "max_intensity": 20160,
-    "int_dur_factor": 240,
-    "base_mods": { "speed_mod": [ -5 ] },
-    "scaling_mods": { "speed_mod": [ -1 ], "int_mod": [ -0.33 ], "per_mod": [ -0.33 ], "str_mod": [ -0.17 ], "dex_mod": [ -0.17 ] },
+    "max_intensity": 100,
+    "int_dur_factor": 480,
+    "resist_effects": [ "meth" ],
+    "scaling_mods": {
+      "speed_mod": [ -2, -1 ],
+      "int_mod": [ -0.3, -0.1 ],
+      "per_mod": [ -0.3, -0.1 ],
+      "str_mod": [ -0.2, -0.1 ],
+      "dex_mod": [ -0.2, -0.1 ]
+    },
     "apply_message": "You feel weary, your body tired from lack of quality sleep.",
     "remove_message": "You have finally caught up with your lost sleep, and you feel refreshed and awake for a change."
   },
@@ -1219,19 +1225,18 @@
   {
     "type": "effect_type",
     "id": "meth",
-    "name": [ "Meth comedown", "High on Meth" ],
-    "max_intensity": 2,
-    "int_dur_factor": "200 s",
+    "name": [ "High on Meth" ],
+    "max_duration": "1 d",
     "base_mods": {
-      "speed_mod": [ -20 ],
-      "str_mod": [ -3 ],
-      "dex_mod": [ -2 ],
-      "int_mod": [ -1 ],
-      "per_mod": [ -2 ],
-      "vomit_chance": [ 2000 ],
-      "stamina_min": [ -4 ]
-    },
-    "scaling_mods": { "speed_mod": [ 30 ], "str_mod": [ 3 ], "dex_mod": [ 2 ], "int_mod": [ 1 ], "per_mod": [ 4 ], "stamina_min": [ 6 ] }
+      "speed_mod": [ 5 ],
+      "per_mod": [ 1 ],
+      "fatigue_min": [ -10 ],
+      "health_min": [ -1 ],
+      "health_tick": [ 7200 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ -50 ],
+      "h_mod_tick": [ 720 ]
+    }
   },
   {
     "type": "effect_type",
@@ -1458,8 +1463,7 @@
     "id": "sleep",
     "apply_message": "You fall asleep.",
     "remove_message": "You wake up.",
-    "rating": "neutral",
-    "max_intensity": 24
+    "rating": "neutral"
   },
   {
     "type": "effect_type",

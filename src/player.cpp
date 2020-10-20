@@ -3944,14 +3944,14 @@ int player::sleep_spot( const tripoint &p ) const
     if( has_trait( trait_EASYSLEEPER ) ) {
         // Low fatigue (being rested) has a much stronger effect than high fatigue
         // so it's OK for the value to be that much higher
-        sleepy += 24;
+        sleepy += 40;
     }
     if( has_active_bionic( bio_soporific ) ) {
         sleepy += 30;
     }
     if( has_trait( trait_EASYSLEEPER2 ) ) {
-        // Mousefolk can sleep just about anywhere.
-        sleepy += 40;
+        // At this point, the only limit to sleep is tiredness
+        sleepy += 100;
     }
     if( watersleep && g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
         sleepy += 10; //comfy water!

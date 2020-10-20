@@ -1098,15 +1098,12 @@ int avatar::calc_focus_change() const
     gain *= base_change;
 
     // Fatigue will incrementally decrease any focus above related cap
-    if( ( get_fatigue() >= fatigue_levels::tired && focus_pool > 80 ) ||
-        ( get_fatigue() >= fatigue_levels::dead_tired && focus_pool > 60 ) ||
-        ( get_fatigue() >= fatigue_levels::exhausted && focus_pool > 40 ) ||
-        ( get_fatigue() >= fatigue_levels::massive && focus_pool > 20 ) ) {
+    if( ( get_fatigue() >= fatigue_levels::tired && focus_pool > 100 ) ||
+        ( get_fatigue() >= fatigue_levels::dead_tired && focus_pool > 75 ) ||
+        ( get_fatigue() >= fatigue_levels::exhausted && focus_pool > 50 ) ||
+        ( get_fatigue() >= fatigue_levels::massive && focus_pool > 25 ) ) {
 
-        //it can fall faster then 1
-        if( gain > -1 ) {
-            gain = -1;
-        }
+        gain = std::min( gain, -1 );
     }
     return gain;
 }
