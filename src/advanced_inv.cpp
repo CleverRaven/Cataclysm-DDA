@@ -1322,7 +1322,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                 popup( _( "Cannot place any more into target container!" ) );
                 return false;
             }
-            //TODO Subtract turns from player
+            int moves_taken = container->contents.insert_cost( put );
             const int move_amount = itm->count_by_charges() ?
                                     std::min( remaining_amount, itm->charges ) : 1;
             if( srcarea == AIM_INVENTORY ) {
@@ -1337,7 +1337,9 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                     debugmsg( "Failed to place %s into %s!", itm->display_name(), container->display_name() );
                     return false;
                 }
-                spane.get_container_location().get_item()->remove_item( put );
+                item *scontainer = spane.get_container_location().get_item();
+                moves_taken += scontainer->contents.obtain_cost( put );
+                scontainer->remove_item( put );
             } else {
                 if( !container->put_in( const_cast<const item &>( put ),
                                         item_pocket::pocket_type::CONTAINER ).success() ) {
@@ -1347,6 +1349,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                 map &here = get_map();
                 here.i_rem( squares[srcarea].pos, itm );
             }
+            player_character.moves -= moves_taken;
             remaining_amount -= move_amount;
         }
     } else if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
