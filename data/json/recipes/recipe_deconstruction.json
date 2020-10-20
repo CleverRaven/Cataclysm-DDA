@@ -5028,14 +5028,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "12 s",
-    "qualities": [
-      {
-        "id": "SCREW",
-        "level": 1
-      }
-    ],
-    "components": [
-      [ [ "spoon", 1 ] ]
-    ]
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "spoon", 1 ] ] ]
   }
 ]
