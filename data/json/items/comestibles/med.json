@@ -1982,6 +1982,6 @@
     "addiction_potential": 5,
     "addiction_type": "cocaine",
     "flags": [ "NO_INGEST" ],
-    "use_action": [ { "type": "heal", "bleed": 20, "move_cost": 100 }, { "id": "pkill1", "duration": 720 } ]
+    "use_action": { "type": "heal", "bleed": 20, "move_cost": 100, "effects": [ { "id": "pkill1", "duration": 720 } ] }
   }
 ]
