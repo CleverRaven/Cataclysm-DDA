@@ -311,7 +311,7 @@
     ],
     "use_action": { "type": "holster" },
     "flags": [ "WAIST", "OVERSIZE" ]
-  }
+  },
   {
     "id": "flip_flop_holster",
     "type": "ARMOR",
