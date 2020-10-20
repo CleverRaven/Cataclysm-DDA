@@ -712,7 +712,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
             if( !elem->edible() ) {
                 return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
             }
-        }        
+        }
         // For all those folks who loved eating marloss berries.  D:< mwuhahaha
         if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) ) {
             return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
