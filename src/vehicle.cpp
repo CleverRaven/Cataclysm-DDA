@@ -5279,8 +5279,6 @@ void vehicle::on_move()
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
     }
-
-    occupied_cache_time = calendar::before_time_starts;
 }
 
 void vehicle::slow_leak()
@@ -5835,6 +5833,7 @@ void vehicle::refresh()
     insides_dirty = true;
     zones_dirty = true;
     invalidate_mass();
+    occupied_cache_pos = { -1, -1, -1 };
 }
 
 const point &vehicle::pivot_point() const
@@ -6797,8 +6796,10 @@ bool vehicle::restore( const std::string &data )
 
 std::set<tripoint> &vehicle::get_points( const bool force_refresh )
 {
-    if( force_refresh || occupied_cache_time != calendar::turn ) {
-        occupied_cache_time = calendar::turn;
+    if( force_refresh || occupied_cache_pos != global_pos3() ||
+        occupied_cache_direction != face.dir() ) {
+        occupied_cache_pos = global_pos3();
+        occupied_cache_direction = face.dir();
         occupied_points.clear();
         for( const vehicle_part &p : parts ) {
             occupied_points.insert( global_part_pos3( p ) );
@@ -7254,8 +7255,7 @@ std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripo
         }
         pos = new_pos;
     }
-    // Invalidate vehicle's point cache
-    occupied_cache_time = calendar::before_time_starts;
+    occupied_cache_pos = { -1, -1, -1 };
     return smzs;
 }
 
