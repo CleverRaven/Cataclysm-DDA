@@ -1004,6 +1004,7 @@
   {
     "result": "xl_nomex_suit",
     "copy-from": "nomex_suit",
+    "type": "recipe",
     "time": "2 h",
     "using": [ [ "sewing_standard", 80 ] ],
     "components": [ [ [ "nomex", 36 ] ] ]
