@@ -7541,28 +7541,15 @@ bool Character::pour_into( item &container, item &liquid )
     return true;
 }
 
-bool Character::pour_into( vehicle &veh, item &liquid )
+bool Character::pour_into( const vpart_reference &vp, item &liquid ) const
 {
-    auto sel = [&]( const vehicle_part & pt ) {
-        return pt.is_tank() && pt.can_reload( liquid );
-    };
-
-    auto stack = units::legacy_volume_factor / liquid.type->stack_size;
-    auto title = string_format( _( "Select target tank for <color_%s>%.1fL %s</color>" ),
-                                get_all_colors().get_name( liquid.color() ),
-                                round_up( to_liter( liquid.charges * stack ), 1 ),
-                                liquid.tname() );
-
-    auto &tank = veh_interact::select_part( veh, sel, title );
-    if( !tank ) {
+    if( !vp.part().fill_with( liquid ) ) {
         return false;
     }
 
-    tank.fill_with( liquid );
-
     //~ $1 - vehicle name, $2 - part name, $3 - liquid type
     add_msg_if_player( _( "You refill the %1$s's %2$s with %3$s." ),
-                       veh.name, tank.name(), liquid.type_name() );
+                       vp.vehicle().name, vp.part().name(), liquid.type_name() );
 
     if( liquid.charges > 0 ) {
         add_msg_if_player( _( "There's some left over!" ) );

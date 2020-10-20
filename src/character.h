@@ -75,6 +75,7 @@ class player_morale;
 class proficiency_set;
 class recipe_subset;
 class vehicle;
+class vpart_reference;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
@@ -1487,7 +1488,7 @@ class Character : public Creature, public visitable<Character>
          */
         /**@{*/
         bool pour_into( item &container, item &liquid );
-        bool pour_into( vehicle &veh, item &liquid );
+        bool pour_into( const vpart_reference &vp, item &liquid ) const;
         /**@}*/
 
         /**
