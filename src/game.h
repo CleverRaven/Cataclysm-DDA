@@ -938,6 +938,18 @@ class game
         void display_radiation(); // Displays radiation map
         void display_transparency(); // Displays transparency map
 
+        // prints the IRL time in ms of the last full in-game hour
+        class debug_hour_timer
+        {
+            public:
+                using IRLTimeMs = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+                void toggle();
+                void print_time();
+            private:
+                bool enabled = false;
+                cata::optional<IRLTimeMs> start_time = cata::nullopt;
+        } debug_hour_timer;
+
         Creature *is_hostile_within( int distance );
 
         void move_save_to_graveyard();
@@ -1003,6 +1015,8 @@ class game
         void display_toggle_overlay( action_id );
         // Get the state of an overlay (on/off).
         bool display_overlay_state( action_id );
+        // toggles the timing of in-game hours
+        void toggle_debug_hour_timer();
         /** Creature for which to display the visibility map */
         Creature *displaying_visibility_creature;
         /** Type of lighting condition overlay to display */

@@ -4861,40 +4861,22 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            Character &player_character = get_player_character();
+            std::vector<bionic_id> bio_list;
+            std::vector<std::string> bionic_names;
             for( const bionic &bio : installed_bionics ) {
                 if( bio.id != bio_power_storage ||
                     bio.id != bio_power_storage_mkII ) {
-                    if( item::type_is_defined( bio.info().itype() ) ) {// put cbm items in your inventory
-                        item bionic_to_uninstall( bio.id.str(), calendar::turn );
-                        bionic_to_uninstall.set_flag( flag_IN_CBM );
-                        bionic_to_uninstall.set_flag( flag_NO_STERILE );
-                        bionic_to_uninstall.set_flag( flag_NO_PACKED );
-                        // TODO: refactor this whole bit. adding items to the inventory will
-                        // cause major issues when inv gets removed. this is a shim for now
-                        // in order to reduce lines of change for nested containers.
-                        player_character.inv->push_back( bionic_to_uninstall );
-                    }
+                    bio_list.emplace_back( bio.id );
+                    bionic_names.emplace_back( bio.info().name.translated() );
                 }
             }
-
-            const item_location bionic = game_menus::inv::uninstall_bionic( p, patient );
-            if( !bionic ) {
-                player_character.remove_items_with( []( const item & it ) {// remove cbm items from inventory
-                    return it.has_flag( flag_IN_CBM );
-                } );
+            int bionic_index = uilist( _( "Choose bionic to uninstall" ), bionic_names );
+            if( bionic_index < 0 ) {
                 return;
             }
-            const item *it = bionic.get_item();
-            const itype *itemtype = it->type;
-            const bionic_id &bid = itemtype->bionic->id;
 
-            player_character.remove_items_with( []( const item & it ) {// remove cbm items from inventory
-                return it.has_flag( flag_IN_CBM );
-            } );
-
-            // Malfunctioning bionics that don't have associated items and get a difficulty of 12
-            const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
+            const bionic_id &bid = bio_list[bionic_index];
+            const int difficulty =  bid->itype()->bionic->difficulty;
             const float volume_anesth = difficulty * 20 * 2; // 2ml/min
 
             player &installer = best_installer( p, null_player, difficulty );
