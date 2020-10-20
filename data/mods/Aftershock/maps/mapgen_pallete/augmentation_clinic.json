@@ -1,0 +1,49 @@
+[
+  {
+    "type": "palette",
+    "id": "aug_clinic",
+    "terrain": {
+      " ": "t_region_groundcover_urban",
+      "!": "t_door_locked_interior",
+      "-": "t_wall_metal",
+      "|": "t_concrete_wall",
+      "+": "t_door_c",
+      "9": "t_window_domestic",
+      ":": "t_door_glass_c",
+      ";": "t_door_locked",
+      "=": "t_wall_glass",
+      "(": "t_reinforced_glass",
+      "X": "t_door_metal_locked",
+      "ó": "t_metal_ventilation_shutter",
+      "Y": "t_thconc_floor_olight",
+      "R": "t_railing",
+      "w": "t_window",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "~": "t_sidewalk",
+	  "%": "t_console_broken",
+      "5": "t_console"
+    },
+    "furniture": {
+      "$": "f_safe_l",
+      "A": "f_neuralnet_inserter",
+      "0": "f_cryo_pod",
+      "&": "f_toilet",
+      "B": "f_bed",
+      "S": "f_sink",
+      "b": "f_bench",
+      "c": "f_counter",
+      "d": "f_desk",
+      "h": "f_chair",
+      "H": "f_utility_shelf",
+      "l": "f_locker",
+      "k": "f_bookcase",
+      "r": "f_trashcan",
+      "s": "f_sink",
+      "t": "f_table",
+      "f": "f_filing_cabinet",
+      "^": "f_indoor_plant"
+    },
+    "toilets": { "&": {  } }
+  }
+]

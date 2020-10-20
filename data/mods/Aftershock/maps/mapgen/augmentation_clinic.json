@@ -1,0 +1,259 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_augmentation_clinic_n1" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "                   ,,   ",
+        "                   ,,   ",
+        " -ó-----------    |,,|  ",
+        " -.--0.H%%H.0-     ,,   ",
+        " -.--0......0-     ,,   ",
+        " -.--0......0-     ,,   ",
+        " -.--0......0-     ,,   ",
+        " -.----...------  |,,|  ",
+        " -.--0......0-.-V,,,,,, ",
+        " -.--0......0ó.-V,,,Y,, ",
+        " ó.--0......0-.- |<,,|  ",
+        " ------(:(----.- |||||  ",
+        " -lb..:.Y.:..-.-.       ",
+        " -lb.l|...(.0-.-        ",
+        " -llll|^.^(.A-.-        ",
+        " ----|||:||||-.-------- ",
+        "  -.!........-.óö....ó. ",
+        "  -<-((('((((----.S-.-- ",
+        "  ---c.........-EEE-.ó. ",
+        "    -c. tt..dh.-------- ",
+        "    -c..B...d.n-        ",
+        "    ------------        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "aug_clinic" ],
+      "terrain": { "'": "t_door_glass_o", ".": "t_strconc_floor", ",": "t_sidewalk", "E": "t_machinery_electronic" },
+      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "T": "f_table", "n": "f_trashcan", "B": "f_monomolecularsaw" },
+      "items": {
+        "c": { "item": "dissection", "chance": 80, "repeat": [ 1, 3 ] },
+        "d": { "item": "office", "chance": 60 },
+        "l": [
+          { "item": "dresser", "chance": 60, "repeat": [ 4, 9 ] },
+          { "item": "harddrugs", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "drugs_analgesic", "chance": 20, "repeat": [ 1, 3 ] },
+          { "item": "gear_medical", "chance": 20 }
+        ],
+        "H": [
+          { "item": "harddrugs", "chance": 60 },
+          { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "drugs_rare", "chance": 60 },
+          { "item": "surgery", "chance": 60 }
+        ]
+      },
+      "monster": { "ö": { "monster": "mon_skitterbot" } },
+      "vendingmachines": { "V": { "item_group": "afs_vending_medicine", "reinforced": true } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_augmentation_clinic_n2" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        " |||||||((((((    |..|  ",
+        " |&s|^RÁ.ooot(          ",
+        " |r.|^......o(          ",
+        " ||+|^....t.o(          ",
+        " |^.........o(          ",
+        " ||+|^.....|||||RRRRRRR(",
+        " |&.|^hd......Y:.......:",
+        " |rs|^.d......Y:.......:",
+        " |||||||:||||||||R>RRRR(",
+        " |Sccl|...|lccS| RRR    ",
+        " |....:.Y.:....|.       ",
+        " |./?.=...=.?/.|        ",
+        " |....=^.^=....|        ",
+        " |||||||:|||||||---ó--- ",
+        "  |<!...........X....H- ",
+        "  |>||:|||:||||5-....H- ",
+        "  |||c..|Y.Y.c||-$ll$H- ",
+        "    |S..|.?/..c|------- ",
+        "    |S..|..A..c|        ",
+        "    ||||||||||||        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "aug_clinic" ],
+      "terrain": { " ": "t_open_air" },
+      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "o": "f_sofa", "T": "f_table", "Á": "f_armchair", "n": "f_trashcan" },
+      "computers": {
+        "5": {
+          "name": "Secure Bionic Storage Access",
+          "security": 2,
+          "options": [ { "name": "Unlock Door", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        }
+      },
+      "items": {
+        "B": { "item": "hospital_bed", "chance": 60 },
+        "R": { "item": "trash", "chance": 50 },
+        "o": { "item": "waitingroom", "chance": 60 },
+        "e": { "item": "fridge", "chance": 80, "repeat": [ 1, 3 ] },
+        "C": { "item": "dresser", "chance": 75 },
+        "$": [
+          { "item": "bionics", "chance": 70, "repeat": [ 1, 2 ] },
+          { "item": "afs_bionics_power", "repeat": [ 1, 2 ] },
+          { "item": "afs_bionic_toolkit", "chance": 80 }
+        ],
+        "f": { "item": "office_paper", "chance": 90 },
+        "d": { "item": "office", "chance": 60 },
+        "l": [
+          { "item": "harddrugs", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "drugs_analgesic", "chance": 20, "repeat": [ 1, 3 ] },
+          { "item": "gear_medical", "chance": 20 }
+        ],
+        "c": [
+          { "item": "harddrugs", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "drugs_analgesic", "chance": 20, "repeat": [ 1, 3 ] },
+          { "item": "surgery", "chance": 40 }
+        ],
+        "H": [
+          { "item": "harddrugs", "chance": 60 },
+          { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "afs_bionics_power", "repeat": [ 1, 2 ], "chance": 60 },
+          { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "drugs_rare", "chance": 60 },
+          { "item": "surgery", "chance": 60 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_augmentation_clinic_n3",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        " 6222222222222222222223 ",
+        " 6....................3 ",
+        " 6....................3 ",
+        " 6........o...........3 ",
+        " 6....................3 ",
+        " 6....................3 ",
+        " 6....................3 ",
+        " 6....................3 ",
+        " 6......#w##w##w##....3 ",
+        " 6.######bt#bt#bt#....3 ",
+        " 6.#f__f#__#__#__#....3 ",
+        " 6.#f__f#+##+##+##....3 ",
+        " 6.#f__f#________#....3 ",
+        " 6###+###_########A...3 ",
+        "  #>____+_+_____L#A...3 ",
+        "  ####w##_#y_/?_t#....3 ",
+        "  666..4##########....3 ",
+        "    6.....&=...5------3 ",
+        "    6..........3        ",
+        "    6----------3        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_flat_roof",
+        "=": "t_flat_roof",
+        "&": "t_flat_roof",
+        "A": "t_flat_roof",
+        " ": "t_open_air",
+        "o": "t_glass_roof",
+        "2": "t_gutter_north",
+        "-": "t_gutter_south",
+        "3": "t_gutter_east",
+        "6": "t_gutter_west",
+        ">": "t_stairs_down",
+        "#": "t_wall_b",
+        "_": "t_floor",
+        "w": "t_wall_glass",
+        "+": "t_door_glass_frosted_lab_c",
+        "4": "t_gutter_downspout",
+        "5": "t_gutter_drop"
+      },
+      "furniture": {
+        "&": "f_roof_turbine_vent",
+        "=": "f_vent_pipe",
+        "b": "f_bed",
+        "t": "f_table",
+        "c": "f_armchair",
+        "f": "f_filing_cabinet",
+        "?": "f_autodoc",
+        "L": "f_locker",
+        "/": "f_autodoc_couch",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "A": "f_air_conditioner"
+      },
+      "items": {
+        "b": { "item": "hospital_bed", "chance": 60 },
+        "f": { "item": "office_paper", "chance": 70 },
+        "L": [
+          { "item": "harddrugs", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "drugs_rare", "chance": 60 },
+          { "item": "surgery", "chance": 60 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_augmentation_clinic_n4",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        |222222223      ",
+        "   |2222|........3      ",
+        "   |..........:..3      ",
+        "   |.X...........3      ",
+        "   |.............3      ",
+        "  ||.............3      ",
+        "  |........oooo..3      ",
+        "  |-----5........3      ",
+        "        |--------3      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_flat_roof",
+        " ": "t_open_air",
+        "o": "t_glass_roof",
+        "2": "t_gutter_north",
+        "-": "t_gutter_south",
+        "3": "t_gutter_east",
+        "|": "t_gutter_west",
+        "5": "t_gutter_drop"
+      },
+      "furniture": { ":": "f_cellphone_booster", "X": "f_small_satelitte_dish" }
+    }
+  }
+]

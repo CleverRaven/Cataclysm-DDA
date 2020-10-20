@@ -3,9 +3,9 @@
     "type": "MOD_INFO",
     "ident": "aftershock",
     "name": "Aftershock",
-    "authors": [ "Esther", "Coolthulu" ],
-    "maintainers": [ "Maleclypse" ],
-    "description": "Drifts the game away from realism and more towards sci-fi.",
+    "authors": [ "Esther", "Coolthulu", "Maleclypse", "Candlebury" ],
+    "maintainers": [ "Maleclypse", "Candlebury" ],
+    "description": "Drifts the game away from realism and more towards sci-fi.  Long term goal of being a significantly different experience that remains compatible with other mods.",
     "category": "content",
     "dependencies": [ "dda" ]
   },

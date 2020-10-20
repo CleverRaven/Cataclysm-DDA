@@ -11,9 +11,9 @@
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 1 ], [ "textbook_anarch", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "acid", 1 ] ],
+      [ [ "chem_sulphuric_acid", 1 ] ],
       [ [ "steel_chunk", 1 ], [ "scrap", 1 ] ],
-      [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ]
+      [ [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ]
     ]
   },
   {
@@ -65,7 +65,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "steel_chunk", 1 ], [ "scrap", 1 ] ],
-      [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ],
+      [ [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ],
       [ [ "plut_cell", 1 ] ]
     ]
   },
@@ -206,6 +206,20 @@
     "components": [ [ [ "afs_scrap_titanium", 2 ] ] ]
   },
   {
+    "type": "recipe",
+    "result": "afs_titanium_foldable_frame",
+    "copy-from": "afs_titanium_frame",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "60m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 6 ] ],
+    "components": [ [ [ "afs_scrap_titanium", 2 ], [ "afs_titanium_frame", 1 ] ] ]
+  },
+  {
     "result": "afs_metal_rig",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -242,12 +256,11 @@
       [ [ "water_purifier", 1 ] ],
       [ [ "food_processor", 1 ] ],
       [ [ "press", 1 ] ],
-      [ [ "cable", 5 ] ],
+      [ [ "cable", 15 ] ],
       [ [ "hotplate", 1 ] ],
       [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
       [ [ "pan", 1 ] ],
       [ [ "water_faucet", 2 ] ],
-      [ [ "cable", 10 ] ],
       [ [ "chemistry_set", 1 ] ]
     ]
   },
@@ -324,19 +337,6 @@
     ]
   },
   {
-    "result": "afs_hauling_space",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": 60000,
-    "autolearn": true,
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "hdframe", 3 ] ], [ [ "sheet_metal", 4 ] ] ]
-  },
-  {
     "result": "plut_cell",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
@@ -354,7 +354,7 @@
       [ [ "lead", 25 ] ],
       [ [ "plastic_chunk", 5 ] ],
       [ [ "scrap", 5 ] ],
-      [ [ "can_drink_unsealed", 5 ], [ "can_food_unsealed", 5 ], [ "canister_empty", 5 ] ]
+      [ [ "can_drink", 5 ], [ "can_food", 5 ], [ "canister_empty", 5 ] ]
     ]
   },
   {
@@ -516,5 +516,63 @@
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "afs_titanium_small", 400 ] ] ]
+  },
+  {
+    "result": "afs_material_1",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 90, 4 ],
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "afs_titanium_small", 400 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "control_laptop",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "skills_required": [ "computer", 4 ],
+    "difficulty": 7,
+    "time": "25 m",
+    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 7 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "software_hacking", -1 ] ] ],
+    "components": [ [ [ "laptop", 1 ] ], [ [ "receiver", 2 ] ], [ [ "e_scrap", 2 ] ], [ [ "antenna", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "afs_rebar_rifle",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "electronics",
+    "skills_required": [ "mechanics", 6 ],
+    "difficulty": 9,
+    "time": "6 h",
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "GLARE", "level": 2 },
+      { "id": "DRILL", "level": 2 },
+      { "id": "SAW_W", "level": 1 }
+    ],
+    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
+    "components": [
+      [ [ "cable", 80 ] ],
+      [ [ "afs_circuitry_1", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [ [ "afs_energy_storage_3", 4 ] ],
+      [ [ "afs_material_1", 6 ] ],
+      [ [ "pipe", 3 ] ]
+    ]
   }
 ]

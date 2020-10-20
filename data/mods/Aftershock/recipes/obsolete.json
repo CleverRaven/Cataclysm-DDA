@@ -12,6 +12,11 @@
   },
   {
     "type": "recipe",
+    "result": "afs_bio_precision_solderers",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "id_suffix": "afs_from_dough",
     "result": "bread",
     "obsolete": true
@@ -75,6 +80,11 @@
   },
   {
     "result": "afs_mbr_titanium",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "afs_sunesthesia",
     "type": "recipe",
     "obsolete": true
   }

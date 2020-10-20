@@ -1,0 +1,62 @@
+[
+  {
+    "id": "bionics",
+    "type": "item_group",
+    "items": [
+      [ "bn_bio_solar", 10 ],
+      [ "afs_bio_wind_turbine", 5 ],
+      [ "afs_bio_missiles", 10 ],
+      [ "afs_bio_linguistic_coprocessor", 10 ],
+      [ "afs_bio_dopamine_stimulators", 10 ],
+      [ "afs_bio_neurosoft_aeronautics", 5 ],
+      [ "afs_bio_skullgun", 5 ],
+      [ "bio_blaster", 5 ]
+    ]
+  },
+  {
+    "id": "bionics_common",
+    "type": "item_group",
+    "items": [ [ "bn_bio_solar", 10 ], [ "afs_bio_wind_turbine", 5 ], [ "afs_bio_linguistic_coprocessor", 8 ] ]
+  },
+  {
+    "id": "bionics_mil",
+    "type": "item_group",
+    "items": [
+      [ "bio_blaster", 5 ],
+      [ "afs_bio_neurosoft_aeronautics", 10 ],
+      [ "afs_bio_skullgun", 2 ]
+    ]
+  },
+  {
+    "id": "bionics_sci",
+    "type": "item_group",
+    "items": [ [ "bn_bio_solar", 5 ], [ "afs_bio_wind_turbine", 2 ] ]
+  },
+  {
+    "id": "bionics_op",
+    "type": "item_group",
+    "items": [
+      [ "bn_bio_solar", 15 ],
+      [ "afs_bio_wind_turbine", 10 ],
+      [ "afs_bio_missiles", 10 ],
+      [ "afs_bio_neurosoft_aeronautics", 10 ],
+      [ "afs_bio_dopamine_stimulators", 10 ],
+      [ "afs_bio_skullgun", 2 ]
+    ]
+  },
+  {
+    "id": "afs_bionics_power",
+    "type": "item_group",
+    "items": [ [ "bio_power_storage_mkII", 1 ], [ "bio_power_storage", 14 ] ]
+  },
+  {
+    "id": "afs_bionic_toolkit",
+    "type": "item_group",
+    "items": [ [ "afs_complete_bionic_toolkit", 1 ], [ "bionic_maintenance_toolkit", 14 ] ]
+  },
+  {
+    "id": "bionics_subs",
+    "type": "item_group",
+    "items": [ [ "afs_bio_missiles", 10 ], [ "afs_bio_dopamine_stimulators", 15 ] ]
+  }
+]

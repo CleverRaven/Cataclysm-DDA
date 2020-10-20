@@ -4,28 +4,15 @@
     "id": "afs_cargo_trough",
     "copy-from": "trunk",
     "name": { "str": "cargo trough" },
+    "categories": [ "Cargo" ],
     "color": "light_gray",
     "broken_color": "light_gray",
     "looks_like": "trunk",
     "location": "center",
     "durability": 200,
     "description": "This is little more than a sheetmetal basin welded to the bottom of the vehicle, extending below it.  Though it holds a lot of stuff, its shoddiness makes it fragile.",
-    "size": 1200,
+    "size": 600,
     "breaks_into": [ { "item": "steel_lump", "count": [ 4, 6 ] }, { "item": "scrap", "count": [ 4, 6 ] } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "afs_hauling_space",
-    "copy-from": "cargo_space",
-    "name": { "str": "hauling space" },
-    "looks_like": "cargo_space",
-    "item": "afs_hauling_space",
-    "location": "center",
-    "durability": 400,
-    "description": "A huge, empty space used in truck trailers to transport vast quantities of stuff.",
-    "size": 6000,
-    "breaks_into": [ { "item": "steel_lump", "count": [ 12, 18 ] }, { "item": "scrap", "count": [ 12, 18 ] } ],
-    "flags": [ "AISLE", "BOARDABLE", "CARGO", "ROOF" ]
   },
   {
     "type": "vehicle_part",
@@ -34,6 +21,7 @@
     "description": "A piece of sheet metal welded onto a vehicle as armor.  Thin, and not as protective as proper armor, but it'll do if there's nothing else available.",
     "symbol": ")",
     "looks_like": "steel_plate",
+    "categories": [ "Hull" ],
     "color": "light_gray",
     "broken_symbol": ")",
     "broken_color": "dark_gray",
@@ -50,26 +38,12 @@
     "damage_reduction": { "all": 4 }
   },
   {
-    "id": "laser_cannon",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted laser cannon" },
-    "item": "laser_cannon",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "looks_like": "laser_rifle",
-    "breaks_into": [ { "item": "laser_cannon", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "electronics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
-  },
-  {
     "type": "vehicle_part",
     "id": "afs_fridge",
     "copy-from": "minifridge",
     "name": { "str": "refrigerator" },
     "symbol": "{",
+    "categories": [ "Cargo", "Util" ],
     "color": "white",
     "broken_color": "white",
     "looks_like": "minifridge",
@@ -85,6 +59,7 @@
     "copy-from": "minifreezer",
     "name": { "str": "freezer" },
     "symbol": "{",
+    "categories": [ "Cargo", "Util" ],
     "color": "light_blue",
     "broken_color": "light_blue",
     "looks_like": "minifridge",
@@ -99,6 +74,7 @@
     "id": "afs_metal_rig",
     "name": { "str": "MetalMaster forge buddy" },
     "symbol": "&",
+    "categories": [ "Cargo", "Util" ],
     "color": "red",
     "broken_symbol": "x",
     "broken_color": "red",
@@ -129,6 +105,7 @@
     "id": "afs_cooking_rig",
     "name": { "str": "cooking rig" },
     "symbol": "&",
+    "categories": [ "Cargo", "Util" ],
     "color": "blue",
     "broken_symbol": "x",
     "broken_color": "blue",
@@ -160,6 +137,7 @@
     "id": "afs_kitchen_rig",
     "name": { "str": "KitchenMaster cooking buddy" },
     "symbol": "&",
+    "categories": [ "Cargo", "Util" ],
     "color": "yellow",
     "broken_symbol": "x",
     "broken_color": "yellow",
@@ -197,6 +175,7 @@
     "name": { "str": "control station" },
     "symbol": "$",
     "looks_like": "vehicle_dashboard",
+    "categories": [ "Util", "Internal" ],
     "color": "red",
     "broken_symbol": "$",
     "broken_color": "light_gray",
@@ -233,6 +212,7 @@
   },
   {
     "id": "afs_mounted_external_tank",
+    "categories": [ "Other" ],
     "copy-from": "external_tank_small",
     "type": "vehicle_part",
     "name": { "str": "mounted external tank (200L)" },
@@ -247,6 +227,7 @@
     "item": "afs_titanium_frame",
     "location": "structure",
     "color": "light_gray",
+    "symbol": "c",
     "durability": 100,
     "description": "An ultralight titanium framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": [ { "item": "afs_scrap_titanium", "count": [ 1, 3 ] } ],
@@ -319,8 +300,99 @@
     "symbol": "H"
   },
   {
+    "abstract": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "name": { "str": "ultralight foldable frame" },
+    "item": "afs_titanium_foldable_frame",
+    "location": "structure",
+    "color": "light_gray",
+    "durability": 75,
+    "symbol": "H",
+    "folded_volume": "10 L",
+    "description": "An ultralight titanium foldable framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "breaks_into": [ { "item": "afs_scrap_titanium", "count": [ 1, 3 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ]
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_cover",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_cover",
+    "symbol": "^"
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_cross",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_cross",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_horizontal",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_horizontal",
+    "symbol": "h"
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_horizontal_2",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_horizontal_2",
+    "symbol": "="
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_ne",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_ne",
+    "symbol": "u"
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_nw",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_nw",
+    "symbol": "y"
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_se",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_se",
+    "symbol": "n"
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_sw",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_sw",
+    "symbol": "b"
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_vertical",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_vertical",
+    "symbol": "j"
+  },
+  {
+    "id": "afs_lightweight_foldable_frame_vertical_2",
+    "copy-from": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
+    "looks_like": "afs_lightweight_frame_vertical_2",
+    "symbol": "H"
+  },
+  {
     "type": "vehicle_part",
     "id": "solar_panel_v3",
+    "categories": [ "Other" ],
     "copy-from": "solar_panel",
     "name": "quantum solar panel",
     "looks_like": "solar_panel_v2",
@@ -338,6 +410,33 @@
       { "item": "steel_chunk", "count": [ 4, 4 ] },
       { "item": "scrap", "count": [ 4, 4 ] },
       { "item": "solar_cell", "count": [ 2, 8 ] }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "robot_cargo",
+    "name": "robot_carrier",
+    "symbol": "=",
+    "categories": [ "Cargo" ],
+    "color": "light_gray",
+    "looks_like": "cargo_space",
+    "broken_symbol": "#",
+    "broken_color": "dark_gray",
+    "durability": 250,
+    "description": "A cargo space for carrying robots.  'e'xamine it to capture a robot next to you, or to release the robot currently contained.  When selecting a robot to capture, choose its tile relative to you, not the part.",
+    "size": 800,
+    "item": "robot_carrier",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 8 ] },
+      { "item": "steel_chunk", "count": [ 6, 8 ] },
+      { "item": "scrap", "count": [ 6, 8 ] }
     ]
   }
 ]

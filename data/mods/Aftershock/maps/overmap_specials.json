@@ -61,5 +61,32 @@
     "city_sizes": [ 2, -1 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Strange LMOE Shelter",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "whately_lmoe_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "whately_lmoe_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "whately_lmoe_under_first_floor_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "whately_lmoe_under_second_floor_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "robot_dispatch",
+    "locations": [ "land", "swamp" ],
+    "city_distance": [ -1, 1 ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 0, 3 ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "robot_dispatch_first_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "robot_dispatch_second_north" }
+    ]
   }
 ]

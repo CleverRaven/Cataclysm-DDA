@@ -9,7 +9,7 @@
     "price": 600000,
     "to_hit": -3,
     "bashing": 8,
-    "material": "alien_resin",
+    "material": [ "alien_resin" ],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -19,8 +19,7 @@
       "hostile_msg": "The brain blaster swivels towards you.  You feel a buzzing in the air.",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "cooking",
-      "skill2": "computer"
+      "skills": [ "cooking", "computer" ]
     }
   },
   {
@@ -40,12 +39,11 @@
       "type": "place_monster",
       "monster_id": "mon_chickenbot",
       "friendly_msg": "The chicken walker rises to its feet, sways away from you and begins surveying the area.",
-      "hostile_msg": "The chicken walker whirrs and aims directly at you. Take cover!",
+      "hostile_msg": "The chicken walker whirrs and aims directly at you.  Take cover!",
       "//": "Milspec, but was deployed in active service implying a reliable IFF",
       "difficulty": 9,
       "moves": 250,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -67,12 +65,11 @@
       "type": "place_monster",
       "monster_id": "mon_tankbot",
       "friendly_msg": "The tank drone rolls out and begins acquiring targets.",
-      "hostile_msg": "The tank drone swivels its turret and aims directly at you. Don your brown pants!",
+      "hostile_msg": "The tank drone swivels its turret and aims directly at you.  Don your brown pants!",
       "//": "Milspec, clearly designed with little concern for collateral damage. What did you expect of a robo-tank?",
       "difficulty": 10,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -98,8 +95,7 @@
       "//": "Milspec, clearly designed with little concern for collateral damage.  What did you expect of a chicken walker?",
       "difficulty": 10,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -120,12 +116,11 @@
       "type": "place_monster",
       "monster_id": "mon_tripod",
       "friendly_msg": "The tribot rises to its feet and scans the area for contaminants.",
-      "hostile_msg": "The tribot glowers down at you and ignites its flamethrower. Turns out you hate the smell of napalm.",
+      "hostile_msg": "The tribot glowers down at you and ignites its flamethrower.  Turns out you hate the smell of napalm.",
       "//": "No observed open deployment, likely a prototype or secret project",
       "difficulty": 15,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -189,10 +184,16 @@
     "price": 600000,
     "to_hit": -3,
     "bashing": 8,
-    "material": "alien_resin",
+    "material": [ "alien_resin" ],
     "symbol": ";",
     "color": "green",
-    "use_action": { "type": "place_monster", "monster_id": "afs_mon_sentinel_lx", "difficulty": 4, "moves": 100, "skill2": "computer" }
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "afs_mon_sentinel_lx",
+      "difficulty": 4,
+      "moves": 100,
+      "skills": [ "computer" ]
+    }
   },
   {
     "id": "bot_bloodhound_drone",
@@ -216,8 +217,295 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_laserturret_x-ray",
+    "type": "TOOL",
+    "name": { "str": "inactive laser turret" },
+    "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its replaceable laser cannons.  It requires ammunition tubes to fire.",
+    "weight": "40750 g",
+    "volume": "30 L",
+    "price": 600000,
+    "price_postapoc": 12000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "white",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_laserturret_x-ray",
+      "difficulty": 6,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_utilibot_beehive",
+    "type": "TOOL",
+    "copy-from": "bot_utilibot_base",
+    "name": "inactive bee-bot",
+    "description": "A salvaged utility robot converted into an ambulatory bee hive that periodically removes and delivers segments of fresh honey comb.  It protects the insect colony with a mechanical crossbow mounted to its chassis.  Activate this item, with wooden bolts in your inventory, to load and deploy the robot.",
+    "color": "yellow",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_utilibot_beehive",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "abstract": "bot_medibot_base",
+    "type": "TOOL",
+    "looks_like": "mon_tripod",
+    "name": "inactive medibot",
+    "material": [ "steel", "plastic" ],
+    "weight": "70 kg",
+    "volume": "50 L",
+    "price": 10000,
+    "price_postapoc": 10000,
+    "to_hit": -3,
+    "bashing": 6,
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_medibot",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    },
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+  },
+  {
+    "abstract": "bot_utilibot_base",
+    "type": "TOOL",
+    "name": "inactive utilibot",
+    "looks_like": "mon_cleanerbot",
+    "price": 10000,
+    "price_postapoc": 10000,
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "aluminum" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+  },
+  {
+    "abstract": "bot_hack_base",
+    "type": "TOOL",
+    "name": "inactive hack",
+    "description": "This is an inactive manhack.  Manhacks are fist-sized robots that fly through the air.  They are covered with whirring blades and attack by throwing themselves against their target.  Use this item to reprogram and activate the manhack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "5400 g",
+    "volume": "750 ml",
+    "price": 10000,
+    "price_postapoc": 10000,
+    "to_hit": -3,
+    "bashing": 4,
+    "cutting": 4,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_green"
+  },
+  {
+    "id": "bot_light_hack",
+    "type": "TOOL",
+    "copy-from": "bot_hack_base",
+    "name": "inactive floating lantern",
+    "description": "An inactive floating lantern, a fist-sized robots that flies through the air and illuminates its surroundings with bright LEDs.  The lantern is non aggressive and has no means of attack.  Activate this item to deploy the salvaged robot.",
+    "color": "yellow",
+    "looks_like": "bot_manhack",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_light_hack",
+      "friendly_msg": "The floating lantern flies from your hand and lights up the area!",
+      "hostile_msg": "You misprogram the lantern.",
+      "difficulty": 1,
+      "moves": 60,
+      "place_randomly": true,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "abstract": "bot_milbot_base",
+    "type": "TOOL",
+    "name": "inactive military robot",
+    "looks_like": "mon_secubot",
+    "material": [ "steel", "kevlar" ],
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "price": 10000,
+    "price_postapoc": 10000,
+    "to_hit": -3,
+    "bashing": 8,
+    "symbol": ";",
+    "color": "light_gray",
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+  },
+  {
+    "id": "bot_milbot_308",
+    "type": "TOOL",
+    "copy-from": "bot_milbot_base",
+    "name": "inactive military robot",
+    "description": "An unpowered military robot fitted with an integrated 7.62 firearm and electric prod.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_milbot_308",
+      "difficulty": 0,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_eyebot_heater",
+    "type": "TOOL",
+    "copy-from": "bot_eyebot_base",
+    "name": "inactive floating heater",
+    "description": "A salvaged eyebot repurposed into a floating space heater.  It emits a constant jet of warm air to heat an enclosed space.  It is non-aggressive and has no weapons systems.  Activate this item to deploy the robot.",
+    "color": "pink",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_eyebot_heater",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "abstract": "bot_defbot_base",
+    "type": "TOOL",
+    "name": "inactive defense robot",
+    "looks_like": "mon_riotbot",
+    "material": [ "steel", "plastic" ],
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "price": 10000,
+    "price_postapoc": 10000,
+    "to_hit": -3,
+    "bashing": 8,
+    "symbol": ";",
+    "color": "light_gray",
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+  },
+  {
+    "abstract": "bot_skitterbot_base",
+    "type": "TOOL",
+    "name": "inactive skitterbot",
+    "looks_like": "broken_skitterbot",
+    "material": [ "steel", "plastic" ],
+    "weight": "62650 g",
+    "volume": "30 L",
+    "price": 10000,
+    "price_postapoc": 10000,
+    "to_hit": -3,
+    "bashing": 6,
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+  },
+  {
+    "id": "bot_skitterbot_rat",
+    "type": "TOOL",
+    "copy-from": "bot_skitterbot_base",
+    "name": "inactive rat snatcher",
+    "description": "A salvaged skitterbot repurposed for hunting small game.  It attacks targets with pincers and an integrated tazer.  Activate this item to deploy the robot.",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_skitterbot_rat",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_skitterbot_grab",
+    "type": "TOOL",
+    "copy-from": "bot_skitterbot_base",
+    "name": "inactive grab-bot",
+    "description": "A salvaged skitterbot repurposed to grab onto and immobilize enemies.  Activate this item to deploy the robot.",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_skitterbot_grab",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_skitterbot_hunter",
+    "type": "TOOL",
+    "copy-from": "bot_skitterbot_base",
+    "name": "inactive pest hunter",
+    "description": "A salvaged skitterbot refitted with an 8mm integrated firearm.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_skitterbot_hunter",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "abstract": "bot_eyebot_base",
+    "type": "TOOL",
+    "name": "inactive eyebot",
+    "looks_like": "broken_eyebot",
+    "price": 10000,
+    "price_postapoc": 10000,
+    "material": [ "steel", "plastic" ],
+    "weight": "62650 g",
+    "volume": "30 L",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "symbol": ";",
+    "color": "light_green",
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+  },
+  {
+    "id": "bot_eyebot_heater",
+    "type": "TOOL",
+    "copy-from": "bot_eyebot_base",
+    "name": "inactive floating heater",
+    "description": "A salvaged eyebot repurposed into a floating space heater.  It emits a constant jet of warm air to heat an enclosed space.  It is non-aggressive and has no weapons systems.  Activate this item to deploy the robot.",
+    "color": "pink",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_eyebot_heater",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_laserturret_xray",
+    "type": "TOOL",
+    "name": { "str": "inactive laser turret" },
+    "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
+    "weight": "40750 g",
+    "volume": "30 L",
+    "price": 600000,
+    "price_postapoc": 12000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "white",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_laserturret_xray",
+      "difficulty": 6,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
     }
   }
 ]

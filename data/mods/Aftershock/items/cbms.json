@@ -18,15 +18,6 @@
     "difficulty": 4
   },
   {
-    "id": "afs_bio_precision_solderers",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Precision Solderers CBM" },
-    "description": "A set of tiny electronics tools, including soldering irons and wire cutters.  They serve no purpose on their own, but are required for crafting bionics.",
-    "price": 20000,
-    "difficulty": 3
-  },
-  {
     "id": "afs_bio_missiles",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -54,5 +45,35 @@
     "price": 1000000,
     "price_postapoc": 100000,
     "difficulty": 8
+  },
+  {
+    "id": "afs_bio_neurosoft_aeronautics",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Neurosoft: Aeronautics CBM" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 8
+  },
+  {
+    "id": "afs_bio_cranialbomb",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Cranium Bomb" },
+    "description": "A bomb installed where your spine meets your brain stem.  It's on a timer from installation and you don't have the codes to reset the timer.",
+    "price": 0,
+    "price_postapoc": 0,
+    "difficulty": 8
+  },
+  {
+    "id": "afs_bio_skullgun",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Skullgun CBM" },
+    "description": "Concealed in your head is a single shot .40 pistol.  Activate the bionic to fire and reload the skullgun.",
+    "price": 100000,
+    "price_postapoc": 1500,
+    "difficulty": 16
   }
 ]

@@ -22,14 +22,6 @@
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },
   {
-    "id": "afs_bio_precision_solderers",
-    "type": "bionic",
-    "name": { "str": "Precision Solderers" },
-    "description": "Your hands have been outfitted with precise soldering tools, wire cutters, and cable spools.  They're too small to use in most crafting, but in the absence of proper machinery, they're essential for creating bionics without better tools.",
-    "occupied_bodyparts": [ [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
-    "fake_item": "afs_solderers_item"
-  },
-  {
     "id": "afs_bio_missiles",
     "type": "bionic",
     "//": "Watch those wrist rockets!",
@@ -57,5 +49,35 @@
     "act_cost": 5,
     "react_cost": 5,
     "time": 200
+  },
+  {
+    "id": "afs_bio_neurosoft_aeronautics",
+    "type": "bionic",
+    "name": { "str": "Neurosoft: Aeronautics" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "occupied_bodyparts": [ [ "HEAD", 2 ] ],
+    "learned_proficiencies": [ "prof_helicopter_pilot" ]
+  },
+  {
+    "id": "afs_bio_cranialbomb",
+    "type": "bionic",
+    "name": { "str": "Cranium Bomb" },
+    "description": "You've worked for some nasty people.  People who installed a bomb at the top of your spine.  They are all dead now but there is unfortunately a dead man switch if you don't check in roughly every thirty days.  You need this out and fast.",
+    "occupied_bodyparts": [ [ "HEAD", 2 ] ],
+    "enchantments": [ "cranial_explosion" ]
+  },
+  {
+    "type": "bionic",
+    "id": "afs_bio_skullgun",
+    "name": { "str": "Skullgun CBM" },
+    "description": "Concealed in your head is a single shot .40 pistol.  Activate the bionic to fire and reload the skullgun.",
+    "occupied_bodyparts": [ [ "HEAD", 5 ] ],
+    "encumbrance": [ [ "HEAD", 5 ] ],
+    "act_cost": "35 J",
+    "fake_item": "bio_skullgun_gun",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
+    "stat_bonus": [ [ "INT", -4 ], [ "PER", -2 ] ],
+    "canceled_mutations": [ "INT_UP", "INT_UP_2", "INT_UP_3", "INT_UP_4", "INT_ALPHA" ],
+    "spell_on_activation": { "id": "skullgun_snapback", "hit_self": true }
   }
 ]

@@ -170,6 +170,8 @@
     "points": 3,
     "description": "You no longer move like a human, others find it disconcerting.  Dexterity + 4",
     "prereqs": [ "ENHANCED_REACTIONS" ],
+    "threshreq": "THRESH_YUGGOTH",
+    "social_modifiers": { "persuade": -10, "lie": -6 },
     "category": [ "MIGO" ],
     "passive_mods": { "dex_mod": 4 }
   },
@@ -181,6 +183,7 @@
     "description": "You see some new muscles that you aren't sure you've seen on humans before.  Strength + 1",
     "changes_to": [ "MUSCLE_FIBER" ],
     "category": [ "MIGO" ],
+    "social_modifiers": { "persuade": -3, "intimidate": 2 },
     "passive_mods": { "str_mod": 1 }
   },
   {
@@ -191,6 +194,8 @@
     "description": "Fibrous tissue seems to be spreading through your body.  Strength + 2",
     "prereqs": [ "STR_UP" ],
     "category": [ "MIGO" ],
+    "social_modifiers": { "persuade": -3, "intimidate": 2 },
+    "ugliness": 2,
     "passive_mods": { "str_mod": 2 }
   },
   {
@@ -202,6 +207,7 @@
     "description": "Your ears have split into a series of tuberous projections.  They waggle towards far away sounds.",
     "types": [ "EARS" ],
     "category": [ "MIGO" ],
+    "ugliness": 4,
     "hearing_modifier": 1.4
   },
   {
@@ -210,7 +216,7 @@
     "name": "Detachment",
     "points": 2,
     "flags": [ "PRED1" ],
-    "description": "When were you ever like these creatures, helpless before the changes ravaging this world. ",
+    "description": "When were you ever like these creatures, helpless before the changes ravaging this world.",
     "purifiable": false,
     "changes_to": [ "PRED2" ],
     "prereqs": [ "THRESH_YUGGOTH" ],
@@ -248,13 +254,14 @@
     "id": "MIGO_SCENT",
     "name": "Fetid scent",
     "points": 6,
-    "description": "Your sweat now smells otherworldly, and not in a good way.  The mi-go still hate you but at least they aren't offended by your smell. ",
+    "description": "Your sweat now smells otherworldly, and not in a good way.  The mi-go still hate you but at least they aren't offended by your smell.",
     "valid": false,
     "purifiable": false,
     "types": [ "LEGS" ],
     "prereqs": [ "SMELLY", "SMELLY2" ],
     "threshreq": [ "THRESH_YUGGOTH" ],
     "category": [ "MIGO" ],
+    "ugliness": 1,
     "scent_type": "sc_fetid"
   },
   {
@@ -527,7 +534,8 @@
     "type": "mutation",
     "id": "HUGE_OK",
     "copy-from": "HUGE_OK",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": [ "MASTODON" ], "threshreq": [ "THRESH_MASTODON" ] },
+    "profession": true
   },
   {
     "type": "mutation",
@@ -643,7 +651,7 @@
     "id": "AFS_CRYOADAPTATION",
     "name": { "str": "Cryoadaptation" },
     "description": "An experimental cryosleep procedure has permanently altered your body, allowing you to better tolerate cold temperatures.",
-    "bodytemp_modifiers": [ 50, 100 ],
+    "bodytemp_modifiers": [ -850, 850 ],
     "points": 0,
     "valid": false,
     "purifiable": false,
