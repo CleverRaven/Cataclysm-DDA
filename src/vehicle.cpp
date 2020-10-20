@@ -6801,8 +6801,8 @@ std::set<tripoint> &vehicle::get_points( const bool force_refresh )
         occupied_cache_pos = global_pos3();
         occupied_cache_direction = face.dir();
         occupied_points.clear();
-        for( const vehicle_part &p : parts ) {
-            occupied_points.insert( global_part_pos3( p ) );
+        for( const std::pair<const point, std::vector<int>> &part_location : relative_parts ) {
+            occupied_points.insert( global_part_pos3( part_location.second.front() ) );
         }
     }
 
