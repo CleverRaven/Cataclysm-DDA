@@ -12,6 +12,7 @@
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "cursesdef.h"
+#include "item_location.h"
 
 class item;
 struct advanced_inv_pane_save_state;
@@ -42,6 +43,7 @@ class advanced_inventory_pane
         // pointer to the square this pane is pointing to
         bool viewing_cargo = false;
         bool prev_viewing_cargo = false;
+        item_location container_location = item_location::nowhere;
     public:
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo
         void set_area( const advanced_inv_area &square, bool in_vehicle_cargo = false ) {
@@ -49,6 +51,14 @@ class advanced_inventory_pane
             prev_viewing_cargo = viewing_cargo;
             area = square.id;
             viewing_cargo = square.can_store_in_vehicle() && in_vehicle_cargo;
+            container_location = item_location::nowhere;
+        }
+        void set_area( const advanced_inv_area &square, item_location item_container ) {
+            prev_area = area;
+            prev_viewing_cargo = viewing_cargo;
+            area = square.id;
+            viewing_cargo = false;
+            container_location = item_container;
         }
         void restore_area() {
             area = prev_area;
@@ -62,6 +72,12 @@ class advanced_inventory_pane
         }
         bool in_vehicle() const {
             return viewing_cargo;
+        }
+        item_location get_container_location() const {
+            return container_location;
+        }
+        bool viewing_container() const {
+            return container_location != item_location::nowhere;
         }
         advanced_inv_pane_save_state *save_state;
         void save_settings();

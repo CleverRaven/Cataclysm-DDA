@@ -34,6 +34,7 @@ void advanced_inventory_pane::save_settings()
     save_state->selected_idx = index;
     save_state->filter = filter;
     save_state->sort_idx = sortby;
+    save_state->container_location = container_location;
 }
 
 void advanced_inventory_pane::load_settings( int saved_area_idx,
@@ -47,11 +48,16 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     bool has_veh_items = square.can_store_in_vehicle() ?
                          !square.veh->get_items( square.vstor ).empty() : false;
     bool has_map_items = !get_map().i_at( square.pos ).empty();
-    // determine based on map items and settings to show cargo
     bool show_vehicle = is_re_enter ?
                         save_state->in_vehicle : has_veh_items ? true :
                         has_map_items ? false : square.can_store_in_vehicle();
-    set_area( square, show_vehicle );
+    
+    if ( save_state->container_location != item_location::nowhere ) {
+        set_area ( square, save_state->container_location );
+    } else {
+        set_area( square, show_vehicle );
+    }
+    // determine based on map items and settings to show cargo
     sortby = static_cast<advanced_inv_sortby>( save_state->sort_idx );
     index = save_state->selected_idx;
     filter = save_state->filter;
@@ -155,23 +161,9 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
             square.weight += it.weight;
             items.push_back( it );
         }
-    } else if( square.id == AIM_CONTAINER ) {
-        square.volume = 0_ml;
-        square.weight = 0_gram;
-        item *cont = square.get_container( in_vehicle() );
-        if( cont != nullptr ) {
-            if( !cont->is_container_empty() ) {
-                // filtering does not make sense for liquid in container
-                item *it = &square.get_container( in_vehicle() )->contents.legacy_front();
-                advanced_inv_listitem ait( it, 0, 1, square.id, in_vehicle() );
-                square.volume += ait.volume;
-                square.weight += ait.weight;
-                items.push_back( ait );
-            }
-            square.desc[0] = cont->tname( 1, false );
-        }
     } else {
         bool is_in_vehicle = square.can_store_in_vehicle() && ( in_vehicle() || vehicle_override );
+        bool is_container = viewing_container();
         if( is_in_vehicle ) {
             square.volume_veh = 0_ml;
             square.weight_veh = 0_gram;
@@ -181,7 +173,9 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         }
         const advanced_inv_area::itemstack &stacks = is_in_vehicle ?
                 square.i_stacked( square.veh->get_items( square.vstor ) ) :
-                square.i_stacked( m.i_at( square.pos ) );
+                is_container ?
+                    square.i_stacked( container_location.get_item()->contents.all_standard_items_top() ) :
+                    square.i_stacked( m.i_at( square.pos ) );
 
         for( size_t x = 0; x < stacks.size(); ++x ) {
             advanced_inv_listitem it( stacks[x], x, square.id, is_in_vehicle );

@@ -11,6 +11,7 @@
 #include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
+#include "item_location.h"
 
 class item;
 
@@ -22,6 +23,7 @@ struct advanced_inv_pane_save_state {
         int selected_idx = 0;
 
         bool in_vehicle = false;
+        item_location container_location = item_location();
 
         template<typename JsonStream>
         void serialize( JsonStream &json, const std::string &prefix ) const {
@@ -30,6 +32,7 @@ struct advanced_inv_pane_save_state {
             json.member( prefix + "area_idx", area_idx );
             json.member( prefix + "selected_idx", selected_idx );
             json.member( prefix + "in_vehicle", in_vehicle );
+            json.member( prefix + "container_location", container_location );
         }
 
         void deserialize( const JsonObject &jo, const std::string &prefix ) {
@@ -38,6 +41,7 @@ struct advanced_inv_pane_save_state {
             jo.read( prefix + "area_idx", area_idx );
             jo.read( prefix + "selected_idx", selected_idx );
             jo.read( prefix + "in_vehicle", in_vehicle );
+            jo.read( prefix + "container_location", container_location );
         }
 };
 

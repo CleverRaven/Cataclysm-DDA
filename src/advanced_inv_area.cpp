@@ -109,16 +109,6 @@ void advanced_inv_area::init()
                 desc[0] = _( "No dragged vehicle!" );
             }
             break;
-        case AIM_CONTAINER:
-            // set container position based on location
-            set_container_position();
-            // location always valid, actual check is done in canputitems()
-            // and depends on selected item in pane (if it is valid container)
-            canputitemsloc = true;
-            if( get_container() == nullptr ) {
-                desc[0] = _( "Invalid container!" );
-            }
-            break;
         case AIM_ALL:
             desc[0] = _( "All 9 squares" );
             canputitemsloc = true;
@@ -205,8 +195,7 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
     // All locations (sans the below) are compared by the coordinates,
     // e.g. dragged vehicle (to the south) and AIM_SOUTH are the same.
     if( id != AIM_INVENTORY && other.id != AIM_INVENTORY &&
-        id != AIM_WORN && other.id != AIM_WORN &&
-        id != AIM_CONTAINER && other.id != AIM_CONTAINER ) {
+        id != AIM_WORN && other.id != AIM_WORN ) {
         //     have a vehicle?...     ...do the cargo index and pos match?...    ...at least pos?
         return veh == other.veh ? pos == other.pos && vstor == other.vstor : pos == other.pos;
     }
@@ -216,27 +205,8 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
 
 bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
 {
-    bool canputitems = false;
-    bool from_vehicle = false;
-    item *it = nullptr;
-    switch( id ) {
-        case AIM_CONTAINER:
-            if( advitem != nullptr ) {
-                it = advitem->items.front();
-                from_vehicle = advitem->from_vehicle;
-            }
-            if( get_container( from_vehicle ) != nullptr ) {
-                it = get_container( from_vehicle );
-            }
-            if( it != nullptr ) {
-                canputitems = it->is_watertight_container();
-            }
-            break;
-        default:
-            canputitems = canputitemsloc;
-            break;
-    }
-    return canputitems;
+    ( void )advitem;
+    return canputitemsloc;
 }
 
 item *advanced_inv_area::get_container( bool in_vehicle )
@@ -244,87 +214,85 @@ item *advanced_inv_area::get_container( bool in_vehicle )
     item *container = nullptr;
 
     Character &player_character = get_player_character();
-    if( uistate.adv_inv_container_location != -1 ) {
-        // try to find valid container in the area
-        if( uistate.adv_inv_container_location == AIM_INVENTORY ) {
-            const invslice &stacks = player_character.inv->slice();
+    // try to find valid container in the area
+    if( uistate.adv_inv_container_location == AIM_INVENTORY ) {
+        const invslice &stacks = player_character.inv->slice();
 
-            // check index first
-            if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
-                auto &it = stacks[uistate.adv_inv_container_index]->front();
+        // check index first
+        if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
+            auto &it = stacks[uistate.adv_inv_container_index]->front();
+            if( is_container_valid( &it ) ) {
+                container = &it;
+            }
+        }
+
+        // try entire area
+        if( container == nullptr ) {
+            for( size_t x = 0; x < stacks.size(); ++x ) {
+                item &it = stacks[x]->front();
                 if( is_container_valid( &it ) ) {
                     container = &it;
+                    uistate.adv_inv_container_index = x;
+                    break;
                 }
             }
+        }
+    } else if( uistate.adv_inv_container_location == AIM_WORN ) {
+        std::list<item> &worn = player_character.worn;
+        size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
+        if( worn.size() > idx ) {
+            auto iter = worn.begin();
+            std::advance( iter, idx );
+            if( is_container_valid( &*iter ) ) {
+                container = &*iter;
+            }
+        }
 
-            // try entire area
-            if( container == nullptr ) {
-                for( size_t x = 0; x < stacks.size(); ++x ) {
-                    item &it = stacks[x]->front();
-                    if( is_container_valid( &it ) ) {
-                        container = &it;
-                        uistate.adv_inv_container_index = x;
-                        break;
-                    }
-                }
-            }
-        } else if( uistate.adv_inv_container_location == AIM_WORN ) {
-            std::list<item> &worn = player_character.worn;
-            size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
-            if( worn.size() > idx ) {
-                auto iter = worn.begin();
-                std::advance( iter, idx );
+        // no need to reinvent the wheel
+        if( container == nullptr ) {
+            auto iter = worn.begin();
+            for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
                 if( is_container_valid( &*iter ) ) {
                     container = &*iter;
+                    uistate.adv_inv_container_index = i;
+                    break;
                 }
             }
+        }
+    } else {
+        map &here = get_map();
+        bool is_in_vehicle = veh &&
+                             ( uistate.adv_inv_container_in_vehicle || ( can_store_in_vehicle() && in_vehicle ) );
 
-            // no need to reinvent the wheel
-            if( container == nullptr ) {
-                auto iter = worn.begin();
-                for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
-                    if( is_container_valid( &*iter ) ) {
-                        container = &*iter;
-                        uistate.adv_inv_container_index = i;
-                        break;
-                    }
-                }
+        const itemstack &stacks = is_in_vehicle ?
+                                  i_stacked( veh->get_items( vstor ) ) :
+                                  i_stacked( here.i_at( pos ) );
+
+        // check index first
+        if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
+            item *it = stacks[uistate.adv_inv_container_index].front();
+            if( is_container_valid( it ) ) {
+                container = it;
             }
-        } else {
-            map &here = get_map();
-            bool is_in_vehicle = veh &&
-                                 ( uistate.adv_inv_container_in_vehicle || ( can_store_in_vehicle() && in_vehicle ) );
+        }
 
-            const itemstack &stacks = is_in_vehicle ?
-                                      i_stacked( veh->get_items( vstor ) ) :
-                                      i_stacked( here.i_at( pos ) );
-
-            // check index first
-            if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
-                item *it = stacks[uistate.adv_inv_container_index].front();
+        // try entire area
+        if( container == nullptr ) {
+            for( size_t x = 0; x < stacks.size(); ++x ) {
+                item *it = stacks[x].front();
                 if( is_container_valid( it ) ) {
                     container = it;
-                }
-            }
-
-            // try entire area
-            if( container == nullptr ) {
-                for( size_t x = 0; x < stacks.size(); ++x ) {
-                    item *it = stacks[x].front();
-                    if( is_container_valid( it ) ) {
-                        container = it;
-                        uistate.adv_inv_container_index = x;
-                        break;
-                    }
+                    uistate.adv_inv_container_index = x;
+                    break;
                 }
             }
         }
+    }
 
-        // no valid container in the area, resetting container
-        if( container == nullptr ) {
-            set_container( nullptr );
-            desc[0] = _( "Invalid container" );
-        }
+    // no valid container in the area, resetting container
+    if( container == nullptr ) {
+        set_container( nullptr );
+        desc[0] = _( "Invalid container" );
     }
 
     return container;
@@ -353,15 +321,12 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
 bool advanced_inv_area::is_container_valid( const item *it ) const
 {
     if( it != nullptr ) {
-        if( it->typeId() == uistate.adv_inv_container_type ) {
+        if( it->is_container() && !it->is_watertight_container() ) {
             if( it->is_container_empty() ) {
-                if( uistate.adv_inv_container_content_type.is_null() ) {
-                    return true;
-                }
+                return true;
             } else {
-                if( it->contents.legacy_front().typeId() == uistate.adv_inv_container_content_type ) {
-                    return true;
-                }
+                //TODO add pocket type switch uistate.adv_inv_container_content_type
+                return true;
             }
         }
     }
@@ -454,6 +419,41 @@ advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
         if( !got_stacked ) {
             cache[id].insert( stacks.size() );
             stacks.push_back( { &elem } );
+        }
+    }
+    return stacks;
+}
+
+advanced_inv_area::itemstack advanced_inv_area::i_stacked( std::list<const item *> items )
+{
+    //create a new container for our stacked items
+    advanced_inv_area::itemstack stacks;
+    // used to recall indices we stored `itype_id' item at in itemstack
+    std::unordered_map<itype_id, std::set<int>> cache;
+    // iterate through and create stacks
+    for( const item *elem : items ) {
+        item *item_ptr = const_cast<item *>( elem );
+        const auto id = elem->typeId();
+        auto iter = cache.find( id );
+        bool got_stacked = false;
+        // cache entry exists
+        if( iter != cache.end() ) {
+            // check to see if it stacks with each item in a stack, not just front()
+            for( auto &idx : iter->second ) {
+                for( auto &it : stacks[idx] ) {
+                    if( ( got_stacked = it->display_stacked_with( *elem ) ) ) {
+                        stacks[idx].push_back( item_ptr );
+                        break;
+                    }
+                }
+                if( got_stacked ) {
+                    break;
+                }
+            }
+        }
+        if( !got_stacked ) {
+            cache[id].insert( stacks.size() );
+            stacks.push_back( { item_ptr } );
         }
     }
     return stacks;

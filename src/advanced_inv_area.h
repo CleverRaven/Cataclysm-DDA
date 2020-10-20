@@ -24,7 +24,6 @@ enum aim_location : char {
     AIM_NORTHEAST,
     AIM_DRAGGED,
     AIM_ALL,
-    AIM_CONTAINER,
     AIM_WORN,
     NUM_AIM_LOCATIONS,
     // only useful for AIM_ALL
@@ -91,6 +90,7 @@ class advanced_inv_area
 
         template <typename T>
         advanced_inv_area::itemstack i_stacked( T items );
+        advanced_inv_area::itemstack i_stacked( std::list<const item *> items );
         // if you want vehicle cargo, specify so via `in_vehicle'
         units::volume free_volume( bool in_vehicle = false ) const;
         int get_item_count() const;
