@@ -3831,8 +3831,9 @@ void trap::examine( const tripoint &examp ) const
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
         const int traps_skill_level = player_character.get_skill_level( skill_traps );
-        const float weighted_stat_average = ( 2.0f * player_character.per_cur + 3.0f * player_character.dex_cur +
-                                            player_character.int_cur ) / 6.0f;
+        const float weighted_stat_average = ( 2.0f * player_character.per_cur + 3.0f *
+                                              player_character.dex_cur +
+                                              player_character.int_cur ) / 6.0f;
         int proficiency_effect = -2;
         // Without at least a basic traps proficiency, your skill level is effectively 2 levels lower.
         if( player_character.has_proficiency( proficiency_prof_traps ) ) {
