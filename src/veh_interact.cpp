@@ -377,8 +377,27 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
             if( !msg.has_value() ) {
                 veh->print_vparts_descs( w_msg, getmaxy( w_msg ), getmaxx( w_msg ), cpart, start_at, start_limit );
             } else {
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red, msg.value() );
+                const int height = catacurses::getmaxy( w_msg );
+
+                // the following contraption is splitting buffer into separate lines for scrolling
+                // since earlier code relies on msg already being folded
+                std::vector<std::string> buffer;
+                std::istringstream msg_stream( msg.value() );
+                while( !msg_stream.eof() ) {
+                    std::string line;
+                    getline( msg_stream, line );
+                    buffer.push_back( line );
+                }
+
+                const int pages = static_cast<int>( buffer.size() / ( height - 2 ) );
+                w_msg_scroll_offset = clamp( w_msg_scroll_offset, 0, pages );
+                for( int line = 0; line < height; ++line ) {
+                    const int idx = w_msg_scroll_offset * ( height - 1 ) + line;
+                    if( static_cast<size_t>( idx ) >= buffer.size() ) {
+                        break;
+                    }
+                    fold_and_print( w_msg, point( 1, line ), getmaxx( w_msg ) - 2, c_unset, buffer[idx] );
+                }
             }
             wnoutrefresh( w_msg );
 
@@ -1076,6 +1095,10 @@ void veh_interact::do_install()
             }
 
             refresh_parts_list( can_mount );
+        } else if( action == "DESC_LIST_DOWN" ) {
+            w_msg_scroll_offset++;
+        } else if( action == "DESC_LIST_UP" ) {
+            w_msg_scroll_offset--;
         } else {
             move_in_list( pos, action, tab_vparts.size(), 2 );
         }
