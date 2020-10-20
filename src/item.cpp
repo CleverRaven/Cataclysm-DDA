@@ -5884,7 +5884,7 @@ int item::get_avg_encumber( const Character &p, encumber_flags flags ) const
 
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
-            for( const bodypart_str_id &limb : entry.covers.value().values()) {
+            for( const bodypart_str_id &limb : entry.covers.value().values() ) {
                 int encumber = get_encumber( p, bodypart_id( limb ), flags );
                 if( encumber ) {
                     avg_encumber += encumber;
@@ -5988,7 +5988,7 @@ int item::get_avg_coverage() const
     int avg_ctr = 0;
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
-            for( const bodypart_str_id &limb : entry.covers.value().values()) {
+            for( const bodypart_str_id &limb : entry.covers.value().values() ) {
                 int coverage = get_coverage( limb );
                 if( coverage ) {
                     avg_coverage += coverage;

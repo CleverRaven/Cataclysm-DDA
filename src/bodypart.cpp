@@ -135,7 +135,7 @@ const bodypart_str_id &convert_bp( body_part bp )
 {
     if( bp >= num_bp || bp < bp_torso ) {
         if( bp != num_bp ) {
-            debugmsg("Invalid body part token %d", bp);
+            debugmsg( "Invalid body part token %d", bp );
         }
         return bodypart_str_id::NULL_ID();
     }
@@ -143,7 +143,8 @@ const bodypart_str_id &convert_bp( body_part bp )
     return bodyparts_str_ids()[ static_cast<size_t>( bp ) ];
 }
 
-const std::array<bodypart_str_id, num_bp> &bodyparts_str_ids() {
+const std::array<bodypart_str_id, num_bp> &bodyparts_str_ids()
+{
     static const std::array<bodypart_str_id, num_bp> body_parts_str_ids = {
         bodypart_str_id( "torso" ),
         bodypart_str_id( "head" ),
