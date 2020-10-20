@@ -4880,7 +4880,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            Character &player_character = get_player_character();
             std::vector<bionic_id> bio_list;
             std::vector<std::string> bionic_names;
             for( const bionic &bio : installed_bionics ) {
