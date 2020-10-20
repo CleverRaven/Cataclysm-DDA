@@ -280,10 +280,16 @@ class body_part_set
 {
     private:
         std::bitset<num_bp> parts;
-        static body_part convert_str_id( const bodypart_str_id &bp ) {
+        static size_t convert_str_id( const bodypart_str_id &bp ) {
             const auto it = std::find( bodyparts_str_ids().cbegin(), bodyparts_str_ids().cend(), bp );
             cata_assert( it != bodyparts_str_ids().cend() );
-            return static_cast<body_part>( it - bodyparts_str_ids().cbegin() );
+            return it - bodyparts_str_ids().cbegin();
+        }
+        void set( int index ) {
+            parts.set( index );
+        }
+        void reset( int index ) {
+            parts.reset( index );
         }
 
     public:
@@ -324,14 +330,8 @@ class body_part_set
         void set( const bodypart_str_id &bp ) {
             parts.set( convert_str_id( bp ) );
         }
-        void set( body_part bp ) {
-            parts.set( bp );
-        }
         void reset( const bodypart_str_id &bp ) {
             parts.reset( convert_str_id( bp ) );
-        }
-        void reset( body_part bp ) {
-            parts.reset( bp );
         }
         bool any() const {
             return parts.any();
@@ -351,8 +351,8 @@ class body_part_set
         std::vector<bodypart_str_id> values() const {
             std::vector<bodypart_str_id> vec;
             vec.reserve( parts.count() );
-            for (int i = 0; i < parts.size(); i++) {
-                if (parts[i]) {
+            for( int i = 0; i < parts.size(); i++ ) {
+                if( parts[i] ) {
                     vec.push_back( bodyparts_str_ids()[ i ] );
                 }
             }
