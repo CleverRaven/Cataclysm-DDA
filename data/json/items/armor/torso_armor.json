@@ -23,6 +23,14 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
   {
+    "id": "xl_armor_cuirass",
+    "type": "ARMOR",
+    "name": { "str": "xl bell cuirass", "str_pl": "xl bell cuirasses" },
+    "copy-from": "armor_cuirass",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+  },
+  {
     "id": "armor_lamellar",
     "type": "ARMOR",
     "name": { "str": "lamellar cuirass", "str_pl": "lamellar cuirasses" },
