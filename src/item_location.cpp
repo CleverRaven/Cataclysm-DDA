@@ -726,7 +726,7 @@ void item_location::deserialize( JsonIn &js )
             // probably pointing to the wrong item
             debugmsg( "contents index greater than contents size" );
         }
-    } else if ( type == "null" ) {
+    } else if( type == "null" ) {
         ptr.reset( new impl::nowhere() );
     }
 }

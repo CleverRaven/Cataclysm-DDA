@@ -1272,7 +1272,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     // Not necessarily equivalent to spane.in_vehicle() if using AIM_ALL
     bool from_vehicle = sitem->from_vehicle;
     bool to_vehicle = dpane.in_vehicle();
-    
+
     bool to_container = dpane.viewing_container();
 
     // AIM_ALL should disable same area check and handle it with proper filtering instead.
@@ -1310,7 +1310,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         // exit so that the activity can be carried out
         exit = true;
 
-    } else if (to_container) {
+    } else if( to_container ) {
         int remaining_amount = amount_to_move;
         for( item *itm : sitem->items ) {
             if( remaining_amount <= 0 ) {
@@ -1318,12 +1318,13 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             }
             item &put = *itm;
             item *container = dpane.get_container_location().get_item();
-            if ( !container->can_contain( put ) ) {
-                popup( _( "Cannot place any more into target container!") );
+            if( !container->can_contain( put ) ) {
+                popup( _( "Cannot place any more into target container!" ) );
                 return false;
             }
             //TODO Subtract turns from player
-            if ( !container->put_in( player_character.i_rem( &put ), item_pocket::pocket_type::CONTAINER ).success() ) {
+            if( !container->put_in( player_character.i_rem( &put ),
+                                    item_pocket::pocket_type::CONTAINER ).success() ) {
                 debugmsg( "Failed to place %s into %s!", itm->display_name(), container->display_name() );
                 return false;
             }
@@ -1676,29 +1677,30 @@ void advanced_inventory::display()
         } else if( action == "ITEMS_CONTAINER" ) {
             bool changed = false;
             aim_location cur_location = spane.get_area();
-            if (cur_location == AIM_INVENTORY || cur_location == AIM_DRAGGED || cur_location == AIM_ALL || cur_location == AIM_WORN ) {
+            if( cur_location == AIM_INVENTORY || cur_location == AIM_DRAGGED || cur_location == AIM_ALL ||
+                cur_location == AIM_WORN ) {
                 popup( _( "Cannot open container in current location!" ) );
             } else {
                 item_location container_location;
-                if ( spane.viewing_container() ) {
+                if( spane.viewing_container() ) {
                     // Back to ground
                     container_location = item_location::nowhere;
                     changed = true;
                 } else {
-                    if ( !sitem->items.empty() ) {
+                    if( !sitem->items.empty() ) {
                         // Find container TODO better checking the item stack
                         item *container = sitem->items.front();
                         // TODO add support for liquids
-                        if (!container->is_container() || container->is_watertight_container()) {
+                        if( !container->is_container() || container->is_watertight_container() ) {
                             popup( _( "Selected item is not a container!" ) );
                         } else {
-                          map_cursor cursor( squares[spane.get_area()].pos );
-                          container_location = item_location( cursor, container );
-                          changed = true;
+                            map_cursor cursor( squares[spane.get_area()].pos );
+                            container_location = item_location( cursor, container );
+                            changed = true;
                         }
                     }
                 }
-                if( spane.get_area() != AIM_DRAGGED && changed) {
+                if( spane.get_area() != AIM_DRAGGED && changed ) {
                     // Toggle between container and ground
                     spane.set_area( squares[spane.get_area()], container_location );
                     spane.index = 0;

@@ -51,9 +51,9 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     bool show_vehicle = is_re_enter ?
                         save_state->in_vehicle : has_veh_items ? true :
                         has_map_items ? false : square.can_store_in_vehicle();
-    
-    if ( save_state->container_location != item_location::nowhere ) {
-        set_area ( square, save_state->container_location );
+
+    if( save_state->container_location != item_location::nowhere ) {
+        set_area( square, save_state->container_location );
     } else {
         set_area( square, show_vehicle );
     }
@@ -174,8 +174,8 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         const advanced_inv_area::itemstack &stacks = is_in_vehicle ?
                 square.i_stacked( square.veh->get_items( square.vstor ) ) :
                 is_container ?
-                    square.i_stacked( container_location.get_item()->contents.all_standard_items_top() ) :
-                    square.i_stacked( m.i_at( square.pos ) );
+                square.i_stacked( container_location.get_item()->contents.all_standard_items_top() ) :
+                square.i_stacked( m.i_at( square.pos ) );
 
         for( size_t x = 0; x < stacks.size(); ++x ) {
             advanced_inv_listitem it( stacks[x], x, square.id, is_in_vehicle );
