@@ -438,14 +438,16 @@ void weather_sound( const translation &sound_message, const std::string &sound_e
         if( here.get_abs_sub().z >= 0 ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
-                sfx::play_variant_sound( "environment", sound_effect, 80, rng( 0, 359 ) );
+                sfx::play_variant_sound( "environment", sound_effect, 80, random_direction() );
             }
         } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
                                      player_character.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
-                sfx::play_variant_sound( "environment", sound_effect,
-                                         ( 80 * player_character.mutation_value( "hearing_modifier" ) ), rng( 0, 359 ) );
+                sfx::play_variant_sound(
+                    "environment", sound_effect,
+                    ( 80 * player_character.mutation_value( "hearing_modifier" ) ),
+                    random_direction() );
             }
         }
     }

@@ -444,7 +444,6 @@ cata::optional<std::string> zone_manager::query_name( const std::string &default
     .title( _( "Zone name:" ) )
     .width( 55 )
     .text( default_name )
-    .max_length( 15 )
     .query();
     if( popup.canceled() ) {
         return {};

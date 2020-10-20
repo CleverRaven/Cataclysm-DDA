@@ -123,6 +123,9 @@ class inventory : public visitable<inventory>
         void add_item_keep_invlet( const item &newit );
         void push_back( const item &newit );
 
+        // used by form_from_map, if tool was already provisioned returns nullptr
+        item *provide_pseudo_item( const itype_id &id, int battery );
+
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with
          * the player's worn items / weapon
@@ -239,6 +242,9 @@ class inventory : public visitable<inventory>
         char find_usable_cached_invlet( const itype_id &item_type );
 
         invstack items;
+
+        // tracker for provide_pseudo_item to prevent duplicate tools/liquids
+        std::set<itype_id> provisioned_pseudo_tools;
 
         mutable bool binned = false;
         /**

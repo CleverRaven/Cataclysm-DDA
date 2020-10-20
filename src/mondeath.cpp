@@ -480,7 +480,7 @@ void mdeath::blobsplit( monster &z )
         if( z.type->dies.size() == 1 ) {
             add_msg( m_good, _( "The %s splits in two!" ), z.name() );
         } else {
-            add_msg( m_bad, _( "Two small blobs slither out of the corpse." ) );
+            add_msg( m_bad, _( "Two small slimes slither out of the corpse." ) );
         }
     }
 

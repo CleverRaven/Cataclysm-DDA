@@ -17,7 +17,7 @@
       { "item": "inhaler", "prob": 14, "charges-min": 10, "charges-max": 100 },
       [ "eyedrops", 20 ],
       [ "adderall", 10 ],
-      [ "id_science", 2 ],
+      { "group": "wallets_science", "prob": 2 },
       { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
       [ "badge_doctor", 2 ],
       [ "cleansuit", 5 ],
@@ -435,6 +435,7 @@
       [ "bfipowder", 15 ],
       [ "quikclot", 10 ],
       [ "anesthetic", 20 ],
+      { "item": "rocuronium", "prob": 10, "count-min": 2, "count-max": 8 },
       { "item": "anesthetic_kit", "prob": 10, "charges-min": 0 }
     ]
   },

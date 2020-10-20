@@ -283,11 +283,6 @@ void monster::setpos( const tripoint &p )
     }
 }
 
-const tripoint &monster::pos() const
-{
-    return position;
-}
-
 void monster::poly( const mtype_id &id )
 {
     double hp_percentage = static_cast<double>( hp ) / static_cast<double>( type->hp );
@@ -690,6 +685,14 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
                    size_names.at( get_size() ) );
     }
 
+    if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
+        const ascii_art_id art = type->get_picture_id();
+        if( art.is_valid() ) {
+            for( const std::string &line : art->picture ) {
+                fold_and_print( w, point( column, ++vStart ), max_width, c_white, line );
+            }
+        }
+    }
     return ++vStart;
 }
 
@@ -1402,7 +1405,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                 if( target_dodging ) {
                     add_msg( _( "You dodge %s." ), disp_name() );
                 } else {
-                    add_msg( _( "The %s misses you." ), disp_name() );
+                    add_msg( _( "The %s misses you." ), name() );
                 }
             } else if( target.is_npc() && target_dodging ) {
                 add_msg( _( "%1$s dodges %2$s attack." ),

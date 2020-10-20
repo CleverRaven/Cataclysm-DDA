@@ -1017,9 +1017,11 @@ static void draw_tip( const catacurses::window &w_tip, const player &you,
                    you.male ? _( "Male" ) : _( "Female" ), you.custom_profession );
     }
 
-    right_print( w_tip, 0, 1, c_white, string_format(
+    right_print( w_tip, 0, 1, c_light_gray, string_format(
                      _( "[<color_yellow>%s</color>]" ),
                      ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
+
+    right_print( w_tip, 0, 0, c_light_gray, string_format( "%s", LINE_XOXO_S ) );
 
     wnoutrefresh( w_tip );
 }

@@ -70,6 +70,24 @@
   },
   {
     "type": "overmap_special",
+    "id": "Pottery Cottage",
+    "overmaps": [
+      { "point": [ 0, -1, 0 ], "overmap": "pottery_cottage_field_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "pottery_cottage_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "pottery_cottage_basement_north" },
+      { "point": [ 0, -1, 1 ], "overmap": "pottery_cottage_field_2nd_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "pottery_cottage_2nd_north" },
+      { "point": [ 0, -1, 2 ], "overmap": "pottery_cottage_field_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "pottery_cottage_roof_north" }
+    ],
+    "locations": [ "water" ],
+    "city_distance": [ -1, 25 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "farm_abandoned",
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "car_corner_aban1_north" },

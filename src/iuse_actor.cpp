@@ -627,7 +627,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
         }
     }
 
-    vehicle *veh = get_map().add_vehicle( vehicle_id, p.pos(), 0, 0, 0, false );
+    vehicle *veh = get_map().add_vehicle( vehicle_id, p.pos(), 0_degrees, 0, 0, false );
     if( veh == nullptr ) {
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return 0;
@@ -3068,7 +3068,7 @@ void heal_actor::load( const JsonObject &obj )
         u.read( "id", used_up_item_id, true );
         used_up_item_quantity = u.get_int( "quantity", used_up_item_quantity );
         used_up_item_charges = u.get_int( "charges", used_up_item_charges );
-        used_up_item_flags = u.get_tags( "flags" );
+        used_up_item_flags = u.get_tags<flag_str_id>( "flags" );
     }
 }
 
@@ -4217,7 +4217,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // Gives us an item with the mod added or removed (toggled)
-    const auto modded_copy = []( const item & proto, const std::string & mod_type ) {
+    const auto modded_copy = []( const item & proto, const flag_str_id & mod_type ) {
         item mcopy = proto;
         if( mcopy.has_own_flag( mod_type ) == 0 ) {
             mcopy.set_flag( mod_type );
@@ -4270,7 +4270,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
         bool enab = false;
         std::string prompt;
-        if( mod.has_own_flag( obj.flag ) == 0 ) {
+        if( !mod.has_own_flag( obj.flag ) ) {
             // TODO: Fix for UTF-8 strings
             // TODO: find other places where this is used and make a global function for all
             static const auto tolower = []( std::string t ) {
@@ -4290,7 +4290,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                                         tolower( obj.implement_prompt.translated() ),
                                         items_needed, item::nname( obj.item_string, items_needed ) );
             } else if( obj.restricted &&
-                       std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) {
+                       std::find( valid_mods.begin(), valid_mods.end(), obj.flag.str() ) == valid_mods.end() ) {
                 //~ %1$s: modification desc, %2$s: mod name
                 prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
                                         tolower( obj.implement_prompt.translated() ),
@@ -4332,7 +4332,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // The mod player picked
-    const std::string &the_mod = clothing_mods[choice].obj().flag;
+    const flag_id &the_mod = clothing_mods[choice].obj().flag;
 
     // If the picked mod already exists, player wants to destroy it
     if( mod.has_own_flag( the_mod ) ) {

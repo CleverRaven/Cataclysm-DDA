@@ -828,25 +828,21 @@ bool avatar_action::eat_here( avatar &you )
     return false;
 }
 
-void avatar_action::eat( avatar &you )
+void avatar_action::eat( avatar &you, const item_location &loc )
 {
-    item_location loc = game_menus::inv::consume( you );
     std::string filter;
     if( !you.activity.str_values.empty() ) {
         filter = you.activity.str_values.back();
     }
-    avatar_action::eat( you, loc, you.activity.values, you.activity.targets, filter );
-}
-
-void avatar_action::eat( avatar &you, const item_location &loc )
-{
-    avatar_action::eat( you, loc, std::vector<int>(), std::vector<item_location>(), std::string() );
+    avatar_action::eat( you, loc, you.activity.values, you.activity.targets, filter,
+                        you.activity.id() );
 }
 
 void avatar_action::eat( avatar &you, const item_location &loc,
                          const std::vector<int> &consume_menu_selections,
                          const std::vector<item_location> &consume_menu_selected_items,
-                         const std::string &consume_menu_filter )
+                         const std::string &consume_menu_filter,
+                         activity_id type )
 {
     if( !loc ) {
         you.cancel_activity();
@@ -854,7 +850,7 @@ void avatar_action::eat( avatar &you, const item_location &loc,
         return;
     }
     you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections,
-                                          consume_menu_selected_items, consume_menu_filter ) ) );
+                                          consume_menu_selected_items, consume_menu_filter, type ) ) );
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
@@ -887,6 +883,13 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         add_msg( _( "Never mind." ) );
         return;
     }
+
+    const ret_val<bool> ret = you.can_wield( *loc );
+    if( !ret.success() ) {
+        add_msg( m_info, "%s", ret.c_str() );
+        return;
+    }
+
     // make a copy and get the original.
     // the copy is thrown and has its and the originals charges set appropiately
     // or deleted from inventory if its charges(1) or not stackable.

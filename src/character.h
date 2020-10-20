@@ -1626,6 +1626,7 @@ class Character : public Creature, public visitable<Character>
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
+        bool can_pickWeight_partial( const item &it, bool safe = true ) const;
         /**
          * Checks if character stats and skills meet minimum requirements for the item.
          * Prints an appropriate message if requirements not met.
@@ -1644,6 +1645,12 @@ class Character : public Creature, public visitable<Character>
          * Note: this item may not actually be used to attack.
          */
         bool is_armed() const;
+
+        /**
+        * Returns true if the character is wielding something and it can't be combined with the item
+        * passed as a parameter
+        */
+        bool has_wield_conflicts( const item &it ) const;
 
         /**
          * Removes currently wielded item (if any) and replaces it with the target item.
@@ -1736,8 +1743,8 @@ class Character : public Creature, public visitable<Character>
 
         // --------------- Proficiency Stuff ----------------
         bool has_proficiency( const proficiency_id &prof ) const;
-        void add_proficiency( const proficiency_id &prof );
-        void lose_proficiency( const proficiency_id &prof );
+        void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
+        void lose_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         void practice_proficiency( const proficiency_id &prof, const time_duration &amount,
                                    const cata::optional<time_duration> &max = cata::nullopt );
         time_duration proficiency_training_needed( const proficiency_id &prof ) const;
@@ -1966,6 +1973,7 @@ class Character : public Creature, public visitable<Character>
                                    const player_activity &act_back = player_activity() );
         bool has_stashed_activity() const;
         bool can_stash( const item &it );
+        bool can_stash_partial( const item &it );
         void initialize_stomach_contents();
 
         /** Stable base metabolic rate due to traits */

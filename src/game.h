@@ -545,7 +545,8 @@ class game
         std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
 
         /** Flings the input creature in the given direction. */
-        void fling_creature( Creature *c, const int &dir, float flvel, bool controlled = false );
+        void fling_creature( Creature *c, const units::angle &dir, float flvel,
+                             bool controlled = false );
 
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
@@ -690,9 +691,10 @@ class game
         void draw_graffiti_override( const tripoint &p, bool has );
         void draw_trap_override( const tripoint &p, const trap_id &id );
         void draw_field_override( const tripoint &p, const field_type_id &id );
-        void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid, bool hilite );
-        void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod, int veh_dir,
-                                  bool hilite, const point &mount );
+        void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
+                                 bool hilite );
+        void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
+                                  units::angle veh_dir, bool hilite, const point &mount );
         void draw_below_override( const tripoint &p, bool draw );
         void draw_monster_override( const tripoint &p, const mtype_id &id, int count,
                                     bool more, Creature::Attitude att );

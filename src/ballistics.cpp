@@ -164,7 +164,7 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
     aim.dispersion = dispersion.roll();
 
     // an isosceles triangle is formed by the intended and actual target tiles
-    aim.missed_by_tiles = iso_tangent( range, aim.dispersion );
+    aim.missed_by_tiles = iso_tangent( range, units::from_arcmin( aim.dispersion ) );
 
     // fraction we missed a monster target by (0.0 = perfect hit, 1.0 = miss)
     if( target_size > 0.0 ) {
@@ -230,10 +230,12 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // We missed enough to target a different tile
         double dx = target_arg.x - source.x;
         double dy = target_arg.y - source.y;
-        double rad = atan2( dy, dx );
+        units::angle rad = units::atan2( dy, dx );
 
         // cap wild misses at +/- 30 degrees
-        rad += ( one_in( 2 ) ? 1 : -1 ) * std::min( ARCMIN( aim.dispersion ), DEGREES( 30 ) );
+        units::angle dispersion_angle =
+            std::min( units::from_arcmin( aim.dispersion ), 30_degrees );
+        rad += ( one_in( 2 ) ? 1 : -1 ) * dispersion_angle;
 
         // TODO: This should also represent the miss on z axis
         const int offset = std::min<int>( range, std::sqrt( aim.missed_by_tiles ) );
@@ -242,8 +244,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                         rng( range - offset, proj_arg.range );
         new_range = std::max( new_range, 1 );
 
-        target.x = source.x + roll_remainder( new_range * std::cos( rad ) );
-        target.y = source.y + roll_remainder( new_range * std::sin( rad ) );
+        target.x = source.x + roll_remainder( new_range * cos( rad ) );
+        target.y = source.y + roll_remainder( new_range * sin( rad ) );
 
         if( target == source ) {
             target.x = source.x + sgn( dx );

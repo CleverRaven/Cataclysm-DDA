@@ -56,7 +56,7 @@ These are less generic guidelines and more pain points we've stumbled across ove
     2. Uint is also a problem, it has poor behavior when overflowing and should be avoided for general purpose programming.
         1. If you need binary data, unsigned int or unsigned char are fine, but you should probably use a std::bitset instead.
     3. Float is to be avoided, but has valid uses.
-2. Auto Almost Nothing. Auto has two uses, others should be avoided.
+2. Almost Always Avoid Auto. Auto has two uses, others should be avoided.
     1. Aliasing for extremely long iterator or functional declarations.
     2. Generic code support (but decltype is better).
 3. Avoid using declaration for standard namespaces.

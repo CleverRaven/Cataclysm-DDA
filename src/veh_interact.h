@@ -233,7 +233,7 @@ class veh_interact
         //do_remove supporting operation, writes requirements to ui
         bool can_remove_part( int idx, const player &p );
         //do install support, writes requirements to ui
-        bool can_install_part();
+        bool update_part_requirements();
         //true if trying to install foot crank with electric engines for example
         //writes failure to ui
         bool is_drive_conflict();

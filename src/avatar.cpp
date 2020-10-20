@@ -1287,8 +1287,11 @@ void avatar::reset_stats()
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {
-        static const std::array<bodypart_id, 5> parts{ { bodypart_id( "head" ), bodypart_id( "arm_r" ), bodypart_id( "arm_l" ), bodypart_id( "leg_r" ), bodypart_id( "leg_l" ) } };
-        for( const bodypart_id &bp : parts ) {
+        static const bodypart_str_id parts[] {
+            bodypart_str_id( "head" ), bodypart_str_id( "arm_r" ), bodypart_str_id( "arm_l" ),
+            bodypart_str_id( "leg_r" ), bodypart_str_id( "leg_l" )
+        };
+        for( const bodypart_str_id &bp : parts ) {
             if( !wearing_something_on( bp ) ) {
                 mod_dodge_bonus( +1 );
             }
@@ -1538,7 +1541,8 @@ bool avatar::wield( item &target, const int obtain_cost )
         return false;
     }
 
-    if( !unwield() ) {
+    bool combine_stacks = target.can_combine( weapon );
+    if( !combine_stacks && !unwield() ) {
         return false;
     }
     cached_info.erase( "weapon_value" );
@@ -1571,9 +1575,18 @@ bool avatar::wield( item &target, const int obtain_cost )
     moves -= mv;
 
     if( has_item( target ) ) {
-        weapon = i_rem( &target );
+        item removed = i_rem( &target );
+        if( combine_stacks ) {
+            weapon.combine( removed );
+        } else {
+            weapon = removed;
+        }
     } else {
-        weapon = target;
+        if( combine_stacks ) {
+            weapon.combine( target );
+        } else {
+            weapon = target;
+        }
     }
 
     last_item = weapon.typeId();
