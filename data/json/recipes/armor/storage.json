@@ -1300,5 +1300,5 @@
     "time": "5 m",
     "autolearn": true,
     "components": [ [ [ "knee_high_boots", 1 ], [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ] ] ]
-  },
+  }
 ]
