@@ -6760,7 +6760,7 @@
     "name": { "str": "Debug Ear Muffs" },
     "points": 99,
     "valid": false,
-    "description": "Protects your ears from very loud bugs. Activate to remove deaf effect",
+    "description": "Protects your ears from very loud bugs.  Activate to remove deaf effect",
     "debug": true,
     "active": true
   },
