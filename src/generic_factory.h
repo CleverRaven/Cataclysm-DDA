@@ -16,6 +16,7 @@
 #include "int_id.h"
 #include "json.h"
 #include "output.h"
+#include "robin_hood.h"
 #include "string_id.h"
 #include "units.h"
 #include "wcwidth.h"
@@ -134,7 +135,7 @@ class generic_factory
 
     protected:
         std::vector<T> list;
-        std::unordered_map<string_id<T>, int_id<T>> map;
+        robin_hood::unordered_flat_map<std::string, int_id<T>> map;
         std::unordered_map<std::string, T> abstracts;
 
         std::string type_name;
@@ -148,7 +149,7 @@ class generic_factory
                 result = int_id<T>( id._cid );
                 return is_valid( result );
             }
-            const auto iter = map.find( id );
+            const auto iter = map.find( id.str() );
             // map lookup happens at most once per string_id instance per generic_factory::version
             // id was not found, explicitly marking it as "invalid"
             if( iter == map.end() ) {
@@ -166,9 +167,8 @@ class generic_factory
                 return;
             }
             auto iter = map.begin();
-            const auto end = map.end();
-            while( iter != end ) {
-                if( iter->second == i_id && iter->first != id ) {
+            while( iter != map.end() ) {
+                if( iter->second == i_id && iter->first != id.str() ) {
                     map.erase( iter++ );
                 } else {
                     ++iter;
@@ -210,7 +210,7 @@ class generic_factory
             static const std::string abstract_member_name( "abstract" );
             if( jo.has_string( copy_from_member_name ) ) {
                 const std::string source = jo.get_string( copy_from_member_name );
-                auto base = map.find( string_id<T>( source ) );
+                auto base = map.find( source );
 
                 if( base != map.end() ) {
                     def = obj( base->second );
@@ -264,10 +264,10 @@ class generic_factory
                 insert( def );
 
                 if( jo.has_member( alias_member_name ) ) {
-                    std::set<string_id<T>> aliases;
+                    std::set<std::string> aliases;
                     assign( jo, alias_member_name, aliases, strict );
 
-                    const int_id<T> ref = map[def.id];
+                    const int_id<T> ref = map[def.id.str()];
                     for( const auto &e : aliases ) {
                         map[e] = ref;
                     }
@@ -294,10 +294,10 @@ class generic_factory
                 insert( def );
 
                 if( jo.has_member( alias_member_name ) ) {
-                    std::set<string_id<T>> aliases;
+                    std::set<std::string> aliases;
                     assign( jo, alias_member_name, aliases, strict );
 
-                    const int_id<T> ref = map[def.id];
+                    const int_id<T> ref = map[def.id.str()];
                     for( const auto &e : aliases ) {
                         map[e] = ref;
                     }
@@ -335,7 +335,7 @@ class generic_factory
             // in the common scenario there is no loss of performance, as `finalize` will make cache
             // for all ids valid again
             inc_version();
-            const auto iter = map.find( obj.id );
+            const auto iter = map.find( obj.id.str() );
             if( iter != map.end() ) {
                 T &result = list[iter->second.to_i()];
                 result = obj;
@@ -348,7 +348,7 @@ class generic_factory
 
             T &result = list.back();
             result.id.set_cid_version( cid.to_i(), version );
-            map[result.id] = cid;
+            map[result.id.str()] = cid;
             return result;
         }
 
