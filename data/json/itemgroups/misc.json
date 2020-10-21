@@ -199,8 +199,6 @@
     "id": "brain_cylinder_group",
     "//": "Brain cylinders to spawn in mi-go towers",
     "subtype": "distribution",
-    "entries": [
-      { "item": "brain_cylinder", "prob": 100 }
-    ]
+    "entries": [ { "item": "brain_cylinder", "prob": 100 } ]
   }
 ]

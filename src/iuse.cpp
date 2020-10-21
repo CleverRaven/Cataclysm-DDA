@@ -5759,7 +5759,7 @@ int iuse::contacts( player *p, item *it, bool, const tripoint & )
     }
 }
 
-int iuse::talk_to(player *p, item *it, bool, const tripoint &)
+int iuse::talk_to( player *p, item *it, bool, const tripoint & )
 {
     if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );

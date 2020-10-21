@@ -5213,19 +5213,19 @@ shared_ptr_fast<npc> item::get_talker()
 {
     shared_ptr_fast<npc> talker = make_shared_fast<npc>();
     std::string talker_string = get_var( "Talker", "" );
-    if( talker_string.compare("") == 0 ) { // Empty string
+    if( talker_string.compare( "" ) == 0 ) { // Empty string
         // No talker saved since before, creating new.
         const string_id<npc_template> test_talker( this->type->talker_name );
 
         talker->normalize();
         talker->load_npc_template( test_talker );
 
-        for( const trait_id& tr : talker->get_mutations() ) {
+        for( const trait_id &tr : talker->get_mutations() ) {
             talker->unset_mutation( tr );
         }
         talker->name = type_name();
         // A hack to prevent NPC falling asleep during talking due to massive fatigue
-        talker->set_mutation(trait_id( "WEB_WEAVER" ));
+        talker->set_mutation( trait_id( "WEB_WEAVER" ) );
     } else {
         // Load saved talker
         std::istringstream myistream( talker_string );

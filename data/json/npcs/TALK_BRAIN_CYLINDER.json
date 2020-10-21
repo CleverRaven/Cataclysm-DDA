@@ -116,10 +116,10 @@
     "type": "talk_topic",
     "dynamic_line": "I see.  That is terrible, but…  I suppose deep down, I already knew.",
     "responses": [
-      {
-	    "text": "Perhaps we can help each other.  I'll look for ways to give you a body.  In the meanwhile, perhaps you have some knowledge to share?",
-		"topic": "TALK_AGREE_FOLLOW",
-		"effect": "follow" },
+    {
+      "text": "Perhaps we can help each other.  I'll look for ways to give you a body.  In the meanwhile, perhaps you have some knowledge to share?",
+      "topic": "TALK_AGREE_FOLLOW",
+      "effect": "follow" },
       { "text": "Well I need to go.", "topic": "TALK_DONE" },
       { "text": "Well I need to go, but I promise I'll be back.", "topic": "TALK_DONE" }
     ]
@@ -207,7 +207,7 @@
     "responses": [
       {
         "text": "Be that way then.",
-		"topic": "TALK_DONE", 
+        "topic": "TALK_DONE", 
         "effect": { "u_add_var": "brain_cylinder_hates_you", "type": "dialogue", "context": "brain_cylinder", "value": "yes" }
       },
       {
