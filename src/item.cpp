@@ -5213,7 +5213,7 @@ shared_ptr_fast<npc> item::get_talker()
 {
     shared_ptr_fast<npc> talker = make_shared_fast<npc>();
     std::string talker_string = get_var( "Talker", "" );
-    if( talker_string.compare( "" ) == 0 ) { // Empty string
+    if( talker_string == "" ) {
         // No talker saved since before, creating new.
         const string_id<npc_template> test_talker( this->type->talker_name );
 
