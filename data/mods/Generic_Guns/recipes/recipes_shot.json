@@ -72,6 +72,7 @@
     "charges": 1,
     "reversible": true,
 	"tools": [ [ [ "press", -1 ] ] ],
+	"book_learn": [ [ "recipe_bullets", 1 ], [ "manual_shotgun", 1 ] ],
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
     "components": [ [ [ "chem_black_powder", 3 ] ] ]
   },
@@ -223,6 +224,7 @@
     "skills_required": [ "gun", 1 ],
     "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
+	"autolearn": true,
     "charges": 1,
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ] ],
@@ -254,6 +256,7 @@
     "skills_required": [ "gun", 1 ],
     "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
+	"autolearn": true,
     "charges": 1,
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ] ],
