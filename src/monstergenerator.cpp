@@ -867,6 +867,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {},
               mtype_id::NULL_ID() );
+    assign( jo, "zombify_into", zombify_into );
 
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );

@@ -8500,6 +8500,11 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( corpse == nullptr || damage() >= max_damage() ) {
         return false;
     }
+    if( corpse->zombify_into && rotten() ) {
+        rot -= get_shelf_life();
+        corpse = &*corpse->zombify_into;
+        return false;
+    }
     if( !ready_to_revive( pos ) ) {
         return false;
     }

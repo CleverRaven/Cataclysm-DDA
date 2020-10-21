@@ -77,6 +77,7 @@
     "armor_bash": 2,
     "vision_day": 30,
     "vision_night": 10,
+    "zombify_into": "mon_zombear",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "SOUND" ],

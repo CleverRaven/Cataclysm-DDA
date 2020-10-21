@@ -311,6 +311,7 @@ struct mtype {
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
         mtype_id burn_into;
+        mtype_id zombify_into;
 
         // Monster reproduction variables
         cata::optional<time_duration> baby_timer;
