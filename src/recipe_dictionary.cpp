@@ -184,8 +184,7 @@ std::vector<const recipe *> recipe_subset::search(
             }
 
             case search_type::proficiency:
-                return lcmatch( r->required_proficiencies_string( nullptr ), txt ) ||
-                       lcmatch( r->used_proficiencies_string( nullptr ), txt );
+                return lcmatch( r->recipe_proficiencies_string(), txt );
 
             default:
                 return false;
