@@ -106,6 +106,10 @@ class veh_interact
 
         std::unique_ptr<install_info_t> install_info;
 
+        struct remove_info_t;
+
+        std::unique_ptr<remove_info_t> remove_info;
+
         vehicle *veh;
         inventory crafting_inv;
         input_context main_context;
@@ -229,7 +233,7 @@ class veh_interact
         //do_remove supporting operation, writes requirements to ui
         bool can_remove_part( int idx, const player &p );
         //do install support, writes requirements to ui
-        bool can_install_part();
+        bool update_part_requirements();
         //true if trying to install foot crank with electric engines for example
         //writes failure to ui
         bool is_drive_conflict();

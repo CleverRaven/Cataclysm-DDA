@@ -52,6 +52,7 @@
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
+#include "effect_source.h"
 #include "enums.h" // IWYU pragma: associated
 #include "event.h"
 #include "faction.h"
@@ -118,6 +119,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
+#include "flag.h"
 
 struct mutation_branch;
 struct oter_type_t;
@@ -418,6 +420,31 @@ void character_id::deserialize( JsonIn &jsin )
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+///// effect_source.h
+
+void effect_source::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "character_id", this->character );
+    json.member( "faction_id", this->fac );
+    if( this->mfac ) {
+        json.member( "mfaction_id", this->mfac->id().str() );
+    }
+    json.end_object();
+}
+
+void effect_source::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "character_id", this->character );
+    data.read( "faction_id", this->fac );
+    const std::string mfac_id = data.get_string( "mfaction_id", "" );
+    this->mfac = !mfac_id.empty()
+                 ? cata::optional<mfaction_id>( mfaction_str_id( mfac_id ).id() )
+                 : cata::optional<mfaction_id>();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// Character.h, avatar + npc
 
 void Character::trait_data::serialize( JsonOut &json ) const
@@ -452,6 +479,25 @@ void consumption_event::deserialize( JsonIn &jsin )
     jo.read( "time", time );
     jo.read( "type_id", type_id );
     jo.read( "component_hash", component_hash );
+}
+
+void weariness_tracker::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "tracker", tracker );
+    json.member( "intake", intake );
+    json.member( "low_activity_ticks", low_activity_ticks );
+    json.member( "tick_counter", tick_counter );
+    json.end_object();
+}
+
+void weariness_tracker::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "tracker", tracker );
+    jo.read( "intake", intake );
+    jo.read( "low_activity_ticks", low_activity_ticks );
+    jo.read( "tick_counter", tick_counter );
 }
 
 /**
@@ -497,6 +543,7 @@ void Character::load( const JsonObject &data )
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
     data.read( "fatigue", fatigue );
+    data.read( "weary", weary );
     data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stored_calories", stored_calories );
     data.read( "radiation", radiation );
@@ -870,6 +917,7 @@ void Character::store( JsonOut &json ) const
     json.member( "thirst", thirst );
     json.member( "hunger", hunger );
     json.member( "fatigue", fatigue );
+    json.member( "weary", weary );
     json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stored_calories", stored_calories );
     json.member( "radiation", radiation );
@@ -1196,6 +1244,8 @@ void avatar::store( JsonOut &json ) const
     inv->json_save_invcache( json );
 
     json.member( "calorie_diary", calorie_diary );
+
+    json.member( "preferred_aiming_mode", preferred_aiming_mode );
 }
 
 void avatar::deserialize( JsonIn &jsin )
@@ -1324,6 +1374,8 @@ void avatar::load( const JsonObject &data )
     }
 
     data.read( "calorie_diary", calorie_diary );
+
+    data.read( "preferred_aiming_mode", preferred_aiming_mode );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2041,13 +2093,6 @@ void monster::load( const JsonObject &data )
     data.read( "hallucination", hallucination );
     data.read( "stairscount", staircount ); // really?
     data.read( "fish_population", fish_population );
-    // Load legacy plans.
-    std::vector<tripoint> plans;
-    data.read( "plans", plans );
-    if( !plans.empty() ) {
-        goal = plans.back();
-    }
-
     data.read( "summon_time_limit", summon_time_limit );
 
     // This is relative to the monster so it isn't invalidated by map shifting.
@@ -2358,9 +2403,11 @@ void item::io( Archive &archive )
         std::swap( irradiation, poison );
     }
 
-    // Items may have acquired the ENCUMBRANCE_UPDATE flag, but are not armor and will never be worn and will never loose it.
-    // This removes the flag unconditionally. It is a temporary flag, which is removed during the game nearly immediately after setting.
-    item_tags.erase( "ENCUMBRANCE_UPDATE" );
+    // erase all invalid flags (not defined in flags.json)
+    // warning was generated earlier on load
+    erase_if( item_tags, [&]( const flag_id & f ) {
+        return !f.is_valid();
+    } );
 
     if( note_read ) {
         snip_id = SNIPPET.migrate_hash_to_id( note );
@@ -2381,8 +2428,8 @@ void item::io( Archive &archive )
         active = true;
     }
     if( !active &&
-        ( item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 ||
-          item_tags.count( "WET" ) > 0 ) ) {
+        ( has_own_flag( "HOT" ) > 0 || has_own_flag( "COLD" ) > 0 ||
+          has_own_flag( "WET" ) > 0 ) ) {
         // Some hot/cold items from legacy saves may be inactive
         active = true;
     }
@@ -2410,7 +2457,7 @@ void item::io( Archive &archive )
 
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save
-    if( item_tags.count( "FROZEN" ) && current_phase == phase_id::LIQUID ) {
+    if( has_own_flag( "FROZEN" ) && current_phase == phase_id::LIQUID ) {
         current_phase = phase_id::SOLID;
     }
 
@@ -2603,7 +2650,9 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "mount_dx", mount.x );
     data.read( "mount_dy", mount.y );
     data.read( "open", open );
-    data.read( "direction", direction );
+    int direction_int;
+    data.read( "direction", direction_int );
+    direction = units::from_degrees( direction_int );
     data.read( "blood", blood );
     data.read( "enabled", enabled );
     data.read( "flags", flags );
@@ -2658,7 +2707,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "mount_dx", mount.x );
     json.member( "mount_dy", mount.y );
     json.member( "open", open );
-    json.member( "direction", direction );
+    json.member( "direction", std::lround( to_degrees( direction ) ) );
     json.member( "blood", blood );
     json.member( "enabled", enabled );
     json.member( "flags", flags );
@@ -2743,7 +2792,9 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "om_id", om_id );
     data.read( "faceDir", fdir );
     data.read( "moveDir", mdir );
-    data.read( "turn_dir", turn_dir );
+    int turn_dir_int;
+    data.read( "turn_dir", turn_dir_int );
+    turn_dir = units::from_degrees( turn_dir_int );
     data.read( "velocity", velocity );
     data.read( "falling", is_falling );
     data.read( "floating", is_floating );
@@ -2762,8 +2813,9 @@ void vehicle::deserialize( JsonIn &jsin )
         last_update = calendar::turn;
     }
 
-    face.init( fdir );
-    move.init( mdir );
+    units::angle fdir_angle = units::from_degrees( fdir );
+    face.init( fdir_angle );
+    move.init( units::from_degrees( mdir ) );
     data.read( "name", name );
     std::string temp_id;
     std::string temp_old_id;
@@ -2790,7 +2842,7 @@ void vehicle::deserialize( JsonIn &jsin )
     // is what they're expecting.
     data.read( "pivot", pivot_anchor[0] );
     pivot_anchor[1] = pivot_anchor[0];
-    pivot_rotation[1] = pivot_rotation[0] = fdir;
+    pivot_rotation[1] = pivot_rotation[0] = fdir_angle;
     data.read( "is_following", is_following );
     data.read( "is_patrolling", is_patrolling );
     data.read( "autodrive_local_target", autodrive_local_target );
@@ -2904,9 +2956,9 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "posx", pos.x );
     json.member( "posy", pos.y );
     json.member( "om_id", om_id );
-    json.member( "faceDir", face.dir() );
-    json.member( "moveDir", move.dir() );
-    json.member( "turn_dir", turn_dir );
+    json.member( "faceDir", std::lround( to_degrees( face.dir() ) ) );
+    json.member( "moveDir", std::lround( to_degrees( move.dir() ) ) );
+    json.member( "turn_dir", std::lround( to_degrees( turn_dir ) ) );
     json.member( "velocity", velocity );
     json.member( "falling", is_falling );
     json.member( "floating", is_floating );

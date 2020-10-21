@@ -183,7 +183,7 @@
     "skill": "fabrication",
     "required_level": 9,
     "max_level": 10,
-    "intelligence": 12,
+    "intelligence": 13,
     "time": "45 m",
     "fun": -1
   },

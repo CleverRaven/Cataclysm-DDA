@@ -498,6 +498,7 @@
     "category": "container",
     "name": { "str": "bucket" },
     "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, French fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
+    "ascii_picture": "bucket",
     "weight": "725 g",
     "volume": "5 L",
     "price": 300,
@@ -1619,5 +1620,71 @@
     "symbol": ")",
     "color": "green",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]
+  },
+  {
+    "id": "1st_aid_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "first aid kit box" },
+    "looks_like": "1st_aid",
+    "description": "A plastic box that used to contain a first aid kit.  Can hold 1.25 liters of liquid.",
+    "weight": "50 g",
+    "volume": "1250 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "material": [ "plastic" ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1250 ml", "max_contains_weight": "3 kg", "moves": 400 } ],
+    "symbol": ")",
+    "color": "red"
+  },
+  {
+    "id": "ifak_pouch",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "IFAK pouch" },
+    "looks_like": "1st_aid",
+    "description": "A fabric pouch that used to contain an IFAK.",
+    "weight": "5 g",
+    "volume": "1250 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "material": [ "cotton", "neoprene" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "moves": 400,
+        "rigid": false
+      }
+    ],
+    "symbol": ")",
+    "color": "red"
+  },
+  {
+    "id": "rc_car_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "radio car box", "str_pl": "radio car boxes" },
+    "description": "An RC car, with radio-control and batteries included!  Unpack and enjoy.",
+    "weight": "400 g",
+    "volume": "3200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2900 ml",
+        "max_contains_weight": "4 kg",
+        "rigid": true,
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "red"
   }
 ]

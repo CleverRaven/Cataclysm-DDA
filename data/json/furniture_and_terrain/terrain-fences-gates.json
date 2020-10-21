@@ -399,7 +399,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_null",
-      "items": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "pipe_fittings", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 3, 6 ] }
+      ]
     }
   },
   {

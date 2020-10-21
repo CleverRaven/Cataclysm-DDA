@@ -6,6 +6,7 @@
     "durability": 400,
     "damage_modifier": 80,
     "location": "on_roof",
+    "categories": [ "warfare" ],
     "requirements": { "install": { "time": "100 s" }, "removal": { "time": "50 s" } },
     "flags": [ "TURRET" ]
   },

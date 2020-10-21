@@ -85,7 +85,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         return item( null_item_id, birthday );
     }
     if( one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
-        tmp.item_tags.insert( "FIT" );
+        tmp.set_flag( "FIT" );
     }
     if( modifier ) {
         modifier->modify( tmp );
@@ -453,7 +453,7 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    for( const std::string &flag : custom_flags ) {
+    for( const flag_str_id &flag : custom_flags ) {
         new_item.set_flag( flag );
     }
 }

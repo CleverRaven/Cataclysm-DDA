@@ -672,7 +672,7 @@
       [ "football", 20 ],
       [ "frisbee", 40 ],
       [ "disc_golf", 20 ],
-      [ "radio_car_box", 10 ],
+      { "group": "toy_radio_car", "prob": 10 },
       [ "orangesoda", 30 ],
       [ "magic_8_ball", 10 ],
       [ "hairpin", 30 ],
@@ -936,7 +936,7 @@
       [ "45_casing", 20 ],
       { "item": "inhaler", "prob": 20, "charges-min": 10, "charges-max": 100 },
       [ "hairpin", 20 ],
-      [ "lighter", 20 ],
+      { "item": "lighter", "prob": 20, "charges": [ 0, 100 ] },
       [ "matches", 20 ],
       [ "jersey", 20 ],
       [ "fanny", 20 ],
@@ -1201,7 +1201,7 @@
       [ "money_bundle", 10 ],
       [ "pretzels", 5 ],
       [ "chips", 5 ],
-      { "item": "cash_card", "prob": 1, "charges-min": 25000, "charges-max": 100000 }
+      { "group": "wallet_stylish_full", "prob": 1 }
     ]
   },
   {
@@ -1530,7 +1530,7 @@
       { "group": "mansion_ammo", "prob": 40 },
       { "group": "tools_lighting", "prob": 30 },
       { "group": "softdrugs", "prob": 30 },
-      [ "lighter", 20 ],
+      { "item": "lighter", "prob": 20, "charges": [ 0, 100 ] },
       [ "matches", 20 ],
       [ "pocket_survival", 5 ]
     ]

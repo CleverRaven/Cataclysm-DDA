@@ -92,7 +92,7 @@
       { "item": "candle", "prob": 25, "charges": [ 0, 100 ] },
       [ "hammer", 20 ],
       [ "screwdriver", 20 ],
-      [ "lighter", 25 ],
+      { "item": "lighter", "prob": 25, "charges": [ 0, 100 ] },
       [ "pockknife", 15 ],
       [ "metal_file", 15 ],
       [ "pin_reamer", 10 ],
@@ -547,7 +547,7 @@
       [ "rifle_flintlock", 1 ],
       [ "pistol_flintlock", 1 ],
       [ "survnote", 5 ],
-      [ "radio_car_box", 1 ],
+      { "group": "toy_radio_car", "prob": 1 },
       [ "radiocontrol", 3 ],
       [ "peephole", 1 ],
       [ "magnifying_glass", 2 ],
@@ -1582,7 +1582,7 @@
       { "item": "cell_phone", "prob": 30, "charges": 150 },
       { "item": "smart_phone", "prob": 65, "charges": 120 },
       { "item": "mp3", "prob": 65, "charges": 100 },
-      [ "radio_car_box", 35 ],
+      { "group": "toy_radio_car", "prob": 35 },
       { "item": "vibrator", "prob": 1, "charges": 100 }
     ]
   },

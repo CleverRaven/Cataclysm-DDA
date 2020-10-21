@@ -199,7 +199,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 
     for( item &e : worn ) {
         if( e.has_flag( "VARSIZE" ) ) {
-            e.item_tags.insert( "FIT" );
+            e.set_flag( "FIT" );
         }
     }
 }
@@ -577,7 +577,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     who.worn.clear();
     for( item &it : ret ) {
         if( it.has_flag( "VARSIZE" ) ) {
-            it.item_tags.insert( "FIT" );
+            it.set_flag( "FIT" );
         }
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
@@ -631,7 +631,7 @@ void starting_inv( npc &who, const npc_class_id &type )
         item tmp = random_item_from( type, "misc" ).in_its_container();
         if( !tmp.is_null() ) {
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
-                tmp.item_tags.insert( "FIT" );
+                tmp.set_flag( "FIT" );
             }
             if( who.can_pickVolume( tmp ) ) {
                 res.push_back( tmp );
@@ -1144,7 +1144,7 @@ bool npc::wield( item &it )
 
     invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
-    if( is_armed() ) {
+    if( has_wield_conflicts( it ) ) {
         stow_item( weapon );
     }
 
@@ -1155,10 +1155,20 @@ bool npc::wield( item &it )
     }
 
     moves -= 15;
+    bool combine_stacks = it.can_combine( weapon );
     if( has_item( it ) ) {
-        weapon = remove_item( it );
+        item removed = remove_item( it );
+        if( combine_stacks ) {
+            weapon.combine( removed );
+        } else {
+            weapon = removed;
+        }
     } else {
-        weapon = it;
+        if( combine_stacks ) {
+            weapon.combine( it );
+        } else {
+            weapon = it;
+        }
     }
 
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
@@ -1216,12 +1226,19 @@ void npc::form_opinion( const player &u )
         op_of_u.fear -= 1;
     }
 
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+    // is your health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {
         const int hp_max = elem.second.get_hp_max();
         const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear--;
         }
+    }
+
+    // is my health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const int hp_max = elem.second.get_hp_max();
+        const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear++;
         }
@@ -1289,7 +1306,7 @@ void npc::form_opinion( const player &u )
         }
     }
     decide_needs();
-    for( auto &i : needs ) {
+    for( const npc_need &i : needs ) {
         if( i == need_food || i == need_drink ) {
             op_of_u.value += 2;
         }
@@ -1357,11 +1374,11 @@ float npc::vehicle_danger( int radius ) const
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
             // FIXME: this can't be the right way to do this
-            float facing = wrapped_veh.v->face.dir();
+            units::angle facing = wrapped_veh.v->face.dir();
 
             point a( wrapped_veh.v->global_pos3().xy() );
-            point b( static_cast<int>( a.x + std::cos( facing * M_PI / 180.0 ) * radius ),
-                     static_cast<int>( a.y + std::sin( facing * M_PI / 180.0 ) * radius ) );
+            point b( static_cast<int>( a.x + units::cos( facing ) * radius ),
+                     static_cast<int>( a.y + units::sin( facing ) * radius ) );
 
             // fake size
             /* This will almost certainly give the wrong size/location on customized
@@ -3247,11 +3264,6 @@ void npc_follower_rules::toggle_specific_override_state( ally_rule rule, bool st
     } else {
         set_specific_override_state( rule, state );
     }
-}
-
-bool npc::is_hallucination() const
-{
-    return hallucination;
 }
 
 bool npc_follower_rules::has_override_enable( ally_rule test ) const

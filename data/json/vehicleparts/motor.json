@@ -4,6 +4,7 @@
     "type": "vehicle_part",
     "name": { "str": "electric motor" },
     "item": "motor",
+    "categories": [ "movement" ],
     "location": "engine_block",
     "description": "An electric motor.",
     "noise_factor": 5,

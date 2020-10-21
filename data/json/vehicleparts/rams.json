@@ -2,6 +2,7 @@
   {
     "abstract": "ram_blaze",
     "type": "vehicle_part",
+    "categories": [ "warfare" ],
     "location": "structure",
     "symbol": "X",
     "broken_symbol": "*",
@@ -177,6 +178,7 @@
     "location": "structure",
     "symbol": "*",
     "broken_symbol": "x",
+    "categories": [ "warfare" ],
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "durability": 450,

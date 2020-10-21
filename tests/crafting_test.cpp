@@ -558,39 +558,39 @@ static void verify_inventory( const std::vector<std::string> &has,
 TEST_CASE( "total crafting time with or without interruption", "[crafting][time][resume]" )
 {
     GIVEN( "a recipe and all the required tools and materials to craft it" ) {
-        recipe_id test_recipe( "crude_picklock" );
+        recipe_id test_recipe( "razor_shaving" );
         int expected_time_taken = test_recipe->batch_time( get_player_character(), 1, 1, 0 );
         int expected_turns_taken = divide_round_up( expected_time_taken, 100 );
 
         std::vector<item> tools;
-        tools.emplace_back( "hammer" );
-        tools.emplace_back( "wrench" );
-        tools.emplace_back( "hacksaw" );
+        tools.emplace_back( "pockknife" );
 
         // Will interrupt after 2 turns, so craft needs to take at least that long
         REQUIRE( expected_turns_taken > 2 );
         int actual_turns_taken;
 
         WHEN( "crafting begins, and continues until the craft is completed" ) {
-            tools.emplace_back( "scrap", -1, 1 );
+            tools.emplace_back( "razor_blade", -1, 1 );
+            tools.emplace_back( "plastic_chunk", -1, 1 );
             actual_turns_taken = actually_test_craft( test_recipe, tools, INT_MAX );
 
             THEN( "it should take the expected number of turns" ) {
                 CHECK( actual_turns_taken == expected_turns_taken );
 
                 AND_THEN( "the finished item should be in the inventory" ) {
-                    verify_inventory( { "crude_picklock" }, { "scrap" } );
+                    verify_inventory( { "razor_shaving" }, { "razor_blade" } );
                 }
             }
         }
 
         WHEN( "crafting begins, but is interrupted after 2 turns" ) {
-            tools.emplace_back( "scrap", -1, 1 );
+            tools.emplace_back( "razor_blade", -1, 1 );
+            tools.emplace_back( "plastic_chunk", -1, 1 );
             actual_turns_taken = actually_test_craft( test_recipe, tools, 2 );
             REQUIRE( actual_turns_taken == 3 );
 
             THEN( "the in-progress craft should be in the inventory" ) {
-                verify_inventory( { "craft" }, { "crude_picklock" } );
+                verify_inventory( { "craft" }, { "razor_shaving" } );
 
                 AND_WHEN( "crafting resumes until the craft is finished" ) {
                     actual_turns_taken = resume_craft();
@@ -599,7 +599,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
                         CHECK( actual_turns_taken == expected_turns_taken - 2 );
 
                         AND_THEN( "the finished item should be in the inventory" ) {
-                            verify_inventory( { "crude_picklock" }, { "craft" } );
+                            verify_inventory( { "razor_shaving" }, { "craft" } );
                         }
                     }
                 }

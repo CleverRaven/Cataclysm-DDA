@@ -103,10 +103,8 @@ cata::optional<zone_type_id> item_category::priority_zone( const item &it ) cons
                 continue;
             }
         }
-        for( const std::string &flag : zone_dat.flags ) {
-            if( it.has_flag( flag ) ) {
-                return zone_dat.id;
-            }
+        if( it.has_any_flag( zone_dat.flags ) ) {
+            return zone_dat.id;
         }
     }
     return cata::nullopt;

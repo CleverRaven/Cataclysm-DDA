@@ -16,6 +16,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
+#include "effect_source.h"
 
 class effect_type;
 class player;
@@ -94,6 +95,9 @@ class effect_type
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
 
+        /** Check if the effect type has the specified flag */
+        bool has_flag( const flag_id &flag ) const;
+
     protected:
         int max_intensity = 0;
         int max_effective_intensity = 0;
@@ -106,7 +110,8 @@ class effect_type
         int int_decay_tick = 0 ;
         time_duration int_dur_factor = 0_turns;
 
-        std::set<std::string> flags;
+        std::set<flag_str_id> flags;
+        mutable cata::flat_set<flag_id> int_flags;
 
         bool main_parts_only = false;
 
@@ -159,12 +164,14 @@ class effect
 {
     public:
         effect() : eff_type( nullptr ), duration( 0_turns ), bp( bodypart_str_id( "bp_null" ) ),
-            permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ) {
+            permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ),
+            source( effect_source::empty() ) {
         }
-        effect( const effect_type *peff_type, const time_duration &dur, bodypart_str_id part,
-                bool perm, int nintensity, const time_point &nstart_time ) :
+        effect( const effect_source &source, const effect_type *peff_type, const time_duration &dur,
+                bodypart_str_id part, bool perm, int nintensity, const time_point &nstart_time ) :
             eff_type( peff_type ), duration( dur ), bp( part ),
-            permanent( perm ), intensity( nintensity ), start_time( nstart_time ) {
+            permanent( perm ), intensity( nintensity ), start_time( nstart_time ),
+            source( source ) {
         }
         effect( const effect & ) = default;
         effect &operator=( const effect & ) = default;
@@ -207,7 +214,7 @@ class effect
         /** Returns the turn the effect was applied. */
         time_point get_start_time() const;
 
-        /** Returns the targeted body_part of the effect. This is num_bp for untargeted effects. */
+        /** Returns the targeted body_part of the effect. This is bp_null for untargeted effects. */
         bodypart_id get_bp() const;
         /** Sets the targeted body_part of an effect. */
         void set_bp( const bodypart_str_id &part );
@@ -270,6 +277,7 @@ class effect
 
         /** Check if the effect has the specified flag */
         bool has_flag( const std::string &flag ) const;
+        bool has_flag( const flag_id &flag ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod( const std::string &arg, int addict_level ) const;
@@ -296,6 +304,8 @@ class effect
             return eff_type->id;
         }
 
+        const effect_source &get_source() const;
+
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
@@ -306,6 +316,7 @@ class effect
         bool permanent;
         int intensity;
         time_point start_time;
+        effect_source source;
 
 };
 

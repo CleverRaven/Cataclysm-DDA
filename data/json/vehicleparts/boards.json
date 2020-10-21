@@ -3,6 +3,7 @@
     "abstract": "base_board_abstract",
     "type": "vehicle_part",
     "location": "center",
+    "categories": [ "hull" ],
     "standard_symbols": true,
     "symbols": {
       "horizontal_front": "T",
@@ -98,7 +99,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "extend": { "flags": [ "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "LOCKABLE_CARGO" ] },
+    "extend": { "categories": [ "cargo" ], "flags": [ "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "LOCKABLE_CARGO" ] },
     "damage_reduction": { "all": 28 }
   },
   {

@@ -136,7 +136,7 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
-    optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<flag_str_id> {} );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
@@ -484,7 +484,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
 
 bool ma_requirements::is_valid_weapon( const item &i ) const
 {
-    for( const std::string &flag : req_flags ) {
+    for( const flag_str_id &flag : req_flags ) {
         if( !i.has_flag( flag ) ) {
             return false;
         }
@@ -515,8 +515,8 @@ std::string ma_requirements::get_description( bool buff ) const
             if( u.has_active_bionic( bio_cqb ) ) {
                 player_skill = BIO_CQB_LEVEL;
             }
-            return string_format( "%s: <stat>%d</stat>/<stat>%d</stat>", pr.first->name(), pr.second,
-                                  player_skill );
+            return string_format( "%s: <stat>%d</stat>/<stat>%d</stat>", pr.first->name(), player_skill,
+                                  pr.second );
         }, enumeration_conjunction::none ) + "\n";
     }
 
@@ -1466,7 +1466,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             } else if( ma.arm_block != 99 ) {
                 buffer += string_format(
                               _( "You can <info>arm block</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
-                              ma.arm_block, unarmed_skill ) + "\n";
+                              unarmed_skill, ma.arm_block ) + "\n";
             }
 
             if( ma.leg_block_with_bio_armor_legs ) {
@@ -1475,7 +1475,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             } else if( ma.leg_block != 99 ) {
                 buffer += string_format(
                               _( "You can <info>leg block</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
-                              ma.leg_block, unarmed_skill );
+                              unarmed_skill, ma.leg_block );
                 buffer += "\n";
             }
             buffer += "--\n";

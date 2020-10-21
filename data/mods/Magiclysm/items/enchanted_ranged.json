@@ -60,7 +60,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 6, "9x18": 6, "380": 6, "357mag": 6, "38": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 6, "380": 6, "357mag": 6, "38": 6 } } ]
   },
   {
     "id": "gunblade",

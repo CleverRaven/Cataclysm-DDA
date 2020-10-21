@@ -190,6 +190,7 @@ class item_pocket
         // returns all allowable ammotypes
         std::set<ammotype> ammo_types() const;
         int ammo_capacity( const ammotype &ammo ) const;
+        int remaining_ammo_capacity( const ammotype &ammo ) const;
         void casings_handle( const std::function<bool( item & )> &func );
         bool use_amount( const itype_id &it, int &quantity, std::list<item> &used );
         bool will_explode_in_a_fire() const;
@@ -323,6 +324,8 @@ struct sealable_data {
 class pocket_data
 {
     public:
+        using FlagsSetType = std::set<flag_id>;
+
         bool was_loaded = false;
 
         pocket_data() = default;
@@ -368,7 +371,10 @@ class pocket_data
         cata::value_ptr<sealable_data> sealed_data;
         // allows only items with at least one of the following flags to be stored inside
         // empty means no restriction
-        std::vector<std::string> flag_restriction;
+        const FlagsSetType &get_flag_restrictions() const;
+        // flag_restrictions are not supposed to be modifiable, but sometimes there is a need to
+        // add some, i.e. for tests.
+        void add_flag_restriction( const flag_str_id &flag );
         // items stored are restricted to these ammo types:
         // the pocket can only contain one of them since the amount is also defined for each ammotype
         std::map<ammotype, int> ammo_restriction;
@@ -389,6 +395,12 @@ class pocket_data
 
         void load( const JsonObject &jo );
         void deserialize( JsonIn &jsin );
+    private:
+        // `flag_restrictions_str` is filled on load and might be changed by `add_flag_restriction`
+        // when the accessor, `get_flag_restrictions`, is called, flags are moved from
+        // `flag_restrictions_str` into `flag_restrictions_int` and `flag_restrictions_str` is cleared.
+        mutable std::set<flag_str_id> flag_restrictions_str;
+        mutable FlagsSetType flag_restrictions_int;
 };
 
 template<>

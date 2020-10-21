@@ -225,37 +225,6 @@ static std::string moves_to_string( const int moves )
 
 void spell_type::load( const JsonObject &jo, const std::string & )
 {
-    static const
-    std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
-    effect_map{
-        { "pain_split", spell_effect::pain_split },
-        { "attack", spell_effect::attack },
-        { "targeted_polymorph", spell_effect::targeted_polymorph },
-        { "teleport_random", spell_effect::teleport_random },
-        { "spawn_item", spell_effect::spawn_ethereal_item },
-        { "recover_energy", spell_effect::recover_energy },
-        { "summon", spell_effect::spawn_summoned_monster },
-        { "summon_vehicle", spell_effect::spawn_summoned_vehicle },
-        { "translocate", spell_effect::translocate },
-        { "area_pull", spell_effect::area_pull },
-        { "area_push", spell_effect::area_push },
-        { "timed_event", spell_effect::timed_event },
-        { "ter_transform", spell_effect::transform_blast },
-        { "noise", spell_effect::noise },
-        { "vomit", spell_effect::vomit },
-        { "explosion", spell_effect::explosion },
-        { "flashbang", spell_effect::flashbang },
-        { "mod_moves", spell_effect::mod_moves },
-        { "map", spell_effect::map },
-        { "morale", spell_effect::morale },
-        { "charm_monster", spell_effect::charm_monster },
-        { "mutate", spell_effect::mutate },
-        { "bash", spell_effect::bash },
-        { "dash", spell_effect::dash },
-        { "banishment", spell_effect::banishment },
-        { "none", spell_effect::none }
-    };
-
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -268,8 +237,8 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "sound_id", sound_id, sound_id_default );
     optional( jo, was_loaded, "sound_variant", sound_variant, sound_variant_default );
     mandatory( jo, was_loaded, "effect", effect_name );
-    const auto found_effect = effect_map.find( effect_name );
-    if( found_effect == effect_map.cend() ) {
+    const auto found_effect = spell_effect::effect_map.find( effect_name );
+    if( found_effect == spell_effect::effect_map.cend() ) {
         effect = spell_effect::none;
         debugmsg( "ERROR: spell %s has invalid effect %s", id.c_str(), effect_name );
     } else {
@@ -1794,7 +1763,7 @@ static std::string enumerate_spell_data( const spell &sp )
     if( !sp.has_flag( spell_flag::NO_LEGS ) ) {
         spell_data.emplace_back( _( "requires mobility" ) );
     }
-    if( sp.effect() == "target_attack" && sp.range() > 1 ) {
+    if( sp.effect() == "attack" && sp.range() > 1 && sp.has_flag( spell_flag::NO_PROJECTILE ) ) {
         spell_data.emplace_back( _( "can be cast through walls" ) );
     }
     return enumerate_as_string( spell_data );
@@ -1896,8 +1865,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     std::string range_string;
     std::string aoe_string;
     // if it's any type of attack spell, the stats are normal.
-    if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
-        fx == "line_attack" ) {
+    if( fx == "attack" ) {
         if( damage > 0 ) {
             std::string dot_string;
             if( sp.damage_dot() != 0 ) {
@@ -1914,10 +1882,10 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         if( sp.aoe() > 0 ) {
             std::string aoe_string_temp = _( "Spell Radius" );
             std::string degree_string;
-            if( fx == "cone_attack" ) {
+            if( sp.shape() == spell_shape::cone ) {
                 aoe_string_temp = _( "Cone Arc" );
                 degree_string = _( "degrees" );
-            } else if( fx == "line_attack" ) {
+            } else if( sp.shape() == spell_shape::line ) {
                 aoe_string_temp = _( "Line Width" );
             }
             aoe_string = string_format( "%s: %d %s", aoe_string_temp, sp.aoe(), degree_string );
@@ -1965,7 +1933,6 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         damage_string = string_format( "%s: %s %s", _( "Damage" ), sp.damage_string(),
                                        sp.damage_type_string() );
         if( sp.aoe() > 0 ) {
-            ;
             aoe_string = string_format( _( "Spell Radius: %d" ), sp.aoe() );
         }
     }
@@ -2172,8 +2139,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     std::string damage_string;
     std::string aoe_string;
     bool has_damage_type = false;
-    if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
-        fx == "line_attack" ) {
+    if( fx == "attack" ) {
         damage_string = _( "Damage" );
         aoe_string = _( "AoE" );
         has_damage_type = sp.min_damage > 0 && sp.max_damage > 0;

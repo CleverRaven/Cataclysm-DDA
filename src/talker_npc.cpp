@@ -888,3 +888,8 @@ void talker_npc::set_first_topic( const std::string &chat_topic )
 {
     me_npc->chatbin.first_topic = chat_topic;
 }
+
+bool talker_npc::is_safe() const
+{
+    return me_npc->is_safe();
+}

@@ -128,7 +128,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 item obj( e );
                 if( bp == bp_null || obj.covers( bp ) ) {
                     if( obj.has_flag( flag_VARSIZE ) ) {
-                        obj.item_tags.insert( "FIT" );
+                        obj.set_flag( "FIT" );
                     }
                     dump( obj );
                 }

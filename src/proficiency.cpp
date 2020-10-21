@@ -40,13 +40,25 @@ void proficiency::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "description", _description );
     mandatory( jo, was_loaded, "can_learn", _can_learn );
 
+    optional( jo, was_loaded, "default_time_multiplier", _default_time_multiplier );
+    optional( jo, was_loaded, "default_fail_multiplier", _default_fail_multiplier );
     optional( jo, was_loaded, "time_to_learn", _time_to_learn );
     optional( jo, was_loaded, "required_proficiencies", _required );
+}
+
+const std::vector<proficiency> &proficiency::get_all()
+{
+    return proficiency_factory.get_all();
 }
 
 bool proficiency::can_learn() const
 {
     return _can_learn;
+}
+
+proficiency_id proficiency::prof_id() const
+{
+    return id;
 }
 
 std::string proficiency::name() const
@@ -57,6 +69,16 @@ std::string proficiency::name() const
 std::string proficiency::description() const
 {
     return _description.translated();
+}
+
+float proficiency::default_time_multiplier() const
+{
+    return _default_time_multiplier;
+}
+
+float proficiency::default_fail_multiplier() const
+{
+    return _default_fail_multiplier;
 }
 
 time_duration proficiency::time_to_learn() const
@@ -216,6 +238,25 @@ void proficiency_set::remove( const proficiency_id &lost )
     for( const proficiency_id &gone : to_remove ) {
         known.erase( gone );
     }
+}
+
+void proficiency_set::direct_learn( const proficiency_id &learned )
+{
+    // Player might be learning proficiency
+    for( std::vector<learning_proficiency>::iterator it = learning.begin(); it != learning.end(); ) {
+        if( it->id == learned ) {
+            it = learning.erase( it );
+        } else {
+            ++it;
+        }
+    }
+
+    known.insert( learned );
+}
+
+void proficiency_set::direct_remove( const proficiency_id &lost )
+{
+    known.erase( lost );
 }
 
 bool proficiency_set::has_learned( const proficiency_id &query ) const

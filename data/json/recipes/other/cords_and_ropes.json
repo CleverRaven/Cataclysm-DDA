@@ -9,7 +9,7 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_fibers", "required": false, "time_multiplier": 4 } ],
+    "proficiencies": [ { "proficiency": "prof_fibers" } ],
     "components": [ [ [ "filament", 50, "LIST" ] ] ]
   },
   {
@@ -22,7 +22,7 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_fibers", "required": false, "time_multiplier": 4 } ],
+    "proficiencies": [ { "proficiency": "prof_fibers" } ],
     "components": [ [ [ "string_6", 6 ], [ "filament", 300, "LIST" ] ] ]
   },
   {
@@ -36,10 +36,7 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_fibers" }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "string_36", 6 ], [ "string_6", 36 ], [ "filament", 1800, "LIST" ] ] ]
   },
   {
@@ -53,10 +50,7 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_fibers", "required": false, "time_multiplier": 4, "fail_multiplier": 5 },
-      { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_fibers", "fail_multiplier": 5 }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "filament", 1800, "LIST" ] ] ]
   },
   {
@@ -71,10 +65,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_fibers" }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "rag", 30 ], [ "leather", 30 ], [ "felt_patch", 30 ], [ "tanned_hide", 5 ] ] ]
   },
   {
@@ -102,10 +93,7 @@
     "time": "5 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_fibers" }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "rag", 150 ], [ "leather", 150 ], [ "felt_patch", 150 ], [ "tanned_hide", 25 ] ] ]
   },
   {
@@ -119,10 +107,7 @@
     "time": "2h 30 m",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_fibers" }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "string_36", 30 ], [ "string_6", 180 ] ] ]
   },
   {
@@ -136,10 +121,7 @@
     "time": "10 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_fibers", "required": false, "time_multiplier": 4, "fail_multiplier": 5 },
-      { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_fibers", "fail_multiplier": 5 }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "filament", 10800, "LIST" ] ] ]
   },
   {
@@ -152,10 +134,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_fibers" }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "cordage_36", 6 ], [ "plant_cordage", 36, "LIST" ] ] ]
   },
   {
@@ -168,10 +147,7 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_fibers" }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "rope_makeshift_6", 5 ], [ "cordage_36", 30 ], [ "plant_cordage", 180, "LIST" ] ] ]
   }
 ]

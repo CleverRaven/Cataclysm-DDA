@@ -322,6 +322,8 @@ struct weariness_tracker {
     int tick_counter = 0;
 
     void clear();
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
@@ -947,9 +949,9 @@ class Character : public Creature, public visitable<Character>
 
         bool can_power_mutation( const trait_id &mut );
         /** Generates and handles the UI for player interaction with installed bionics */
-        virtual void power_bionics() {};
+        virtual void power_bionics() {}
         // TODO: Implement NPCs activating mutations
-        virtual void power_mutations() {};
+        virtual void power_mutations() {}
 
         /**Trigger reflex activation if the mutation has one*/
         void mutation_reflex_trigger( const trait_id &mut );
@@ -1624,6 +1626,7 @@ class Character : public Creature, public visitable<Character>
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
+        bool can_pickWeight_partial( const item &it, bool safe = true ) const;
         /**
          * Checks if character stats and skills meet minimum requirements for the item.
          * Prints an appropriate message if requirements not met.
@@ -1642,6 +1645,12 @@ class Character : public Creature, public visitable<Character>
          * Note: this item may not actually be used to attack.
          */
         bool is_armed() const;
+
+        /**
+        * Returns true if the character is wielding something and it can't be combined with the item
+        * passed as a parameter
+        */
+        bool has_wield_conflicts( const item &it ) const;
 
         /**
          * Removes currently wielded item (if any) and replaces it with the target item.
@@ -1734,8 +1743,8 @@ class Character : public Creature, public visitable<Character>
 
         // --------------- Proficiency Stuff ----------------
         bool has_proficiency( const proficiency_id &prof ) const;
-        void add_proficiency( const proficiency_id &prof );
-        void lose_proficiency( const proficiency_id &prof );
+        void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
+        void lose_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         void practice_proficiency( const proficiency_id &prof, const time_duration &amount,
                                    const cata::optional<time_duration> &max = cata::nullopt );
         time_duration proficiency_training_needed( const proficiency_id &prof ) const;
@@ -1758,9 +1767,8 @@ class Character : public Creature, public visitable<Character>
         // magic mod
         pimpl<known_magic> magic;
 
-        void make_bleed( const bodypart_id &bp, time_duration duration, int intensity = 1,
-                         bool permanent = false,
-                         bool force = false, bool defferred = false );
+        void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
+                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
 
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
@@ -1965,6 +1973,7 @@ class Character : public Creature, public visitable<Character>
                                    const player_activity &act_back = player_activity() );
         bool has_stashed_activity() const;
         bool can_stash( const item &it );
+        bool can_stash_partial( const item &it );
         void initialize_stomach_contents();
 
         /** Stable base metabolic rate due to traits */
@@ -2577,6 +2586,18 @@ class Character : public Creature, public visitable<Character>
         void try_reduce_weariness( float exertion );
         float maximum_exertion_level() const;
         std::string debug_weary_info() const;
+        // returns empty because this is avatar specific
+        void add_pain_msg( int, const bodypart_id & ) const {}
+        /** Returns the modifier value used for vomiting effects. */
+        double vomit_mod();
+        /** Checked each turn during "lying_down", returns true if the player falls asleep */
+        bool can_sleep();
+        /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
+        int sleep_spot( const tripoint &p ) const;
+        /** Processes human-specific effects of effects before calling Creature::process_effects(). */
+        void process_effects() override;
+        /** Handles the still hard-coded effects. */
+        void hardcoded_effects( effect &it );
 
     protected:
         Character();
@@ -2690,6 +2711,8 @@ class Character : public Creature, public visitable<Character>
         std::map<vitamin_id, int> vitamin_levels;
 
         pimpl<player_morale> morale;
+        /** Processes human-specific effects of an effect. */
+        void process_one_effect( effect &it, bool is_new ) override;
 
     public:
         /**

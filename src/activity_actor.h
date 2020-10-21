@@ -326,7 +326,7 @@ class gunmod_remove_activity_actor : public activity_actor
             int moves_total,
             const item_location &gun,
             int gunmod_idx
-        ) : moves_total( moves_total ), gun( gun ), gunmod_idx( gunmod_idx ) {};
+        ) : moves_total( moves_total ), gun( gun ), gunmod_idx( gunmod_idx ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_GUNMOD_REMOVE" );
@@ -588,6 +588,7 @@ class consume_activity_actor : public activity_actor
         std::vector<item_location> consume_menu_selected_items;
         std::string consume_menu_filter;
         bool canceled = false;
+        activity_id type;
         /**
          * @pre @p other is a consume_activity_actor
          */
@@ -600,10 +601,11 @@ class consume_activity_actor : public activity_actor
         consume_activity_actor( const item_location &consume_location,
                                 std::vector<int> consume_menu_selections,
                                 const std::vector<item_location> &consume_menu_selected_items,
-                                const std::string &consume_menu_filter ) :
+                                const std::string &consume_menu_filter, activity_id type ) :
             consume_location( consume_location ), consume_menu_selections( consume_menu_selections ),
             consume_menu_selected_items( consume_menu_selected_items ),
-            consume_menu_filter( consume_menu_filter ) {}
+            consume_menu_filter( consume_menu_filter ),
+            type( type ) {}
 
         consume_activity_actor( const item_location &consume_location ) :
             consume_location( consume_location ), consume_menu_selections( std::vector<int>() ) {}
@@ -765,7 +767,7 @@ class drop_or_stash_item_info
 {
     public:
         drop_or_stash_item_info()
-            : _loc( item_location::nowhere ), _count( 0 ) {}
+            : _loc( item_location::nowhere ) {}
         drop_or_stash_item_info( const item_location &_loc, const int _count )
             : _loc( _loc ), _count( _count ) {}
 

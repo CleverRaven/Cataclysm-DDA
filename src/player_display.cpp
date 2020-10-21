@@ -342,9 +342,10 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
         if( !cur.known && cur.id->can_learn() ) {
             static_assert( grid_width == 26, "Reminder to update formatting"
                            "for this string when grid width changes" );
-            name = string_format( "%-22s%2.0f%%", cur.id->name(), cur.practice * 100 );
+            name = string_format( "%-22s%2.0f%%", trim_by_length( cur.id->name(), width - 2 ),
+                                  cur.practice * 100 );
         } else {
-            name = cur.id->name();
+            name = trim_by_length( cur.id->name(), width );
         }
         const nc_color col = focused && i == line ? hilite( cur.color ) : cur.color;
         y += fold_and_print( win, point( 0, y ), width, col, name );
@@ -1016,9 +1017,11 @@ static void draw_tip( const catacurses::window &w_tip, const player &you,
                    you.male ? _( "Male" ) : _( "Female" ), you.custom_profession );
     }
 
-    right_print( w_tip, 0, 1, c_white, string_format(
+    right_print( w_tip, 0, 1, c_light_gray, string_format(
                      _( "[<color_yellow>%s</color>]" ),
                      ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
+
+    right_print( w_tip, 0, 0, c_light_gray, string_format( "%s", LINE_XOXO_S ) );
 
     wnoutrefresh( w_tip );
 }

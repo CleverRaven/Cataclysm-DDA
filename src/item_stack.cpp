@@ -138,6 +138,20 @@ const item *item_stack::stacks_with( const item &it ) const
     return nullptr;
 }
 
+std::list<item> item_stack::use_charges( const itype_id &type, int &quantity, const tripoint &pos,
+        const std::function<bool( const item & )> &filter )
+{
+    std::list<item> ret;
+    for( auto a = this->begin(); a != this->end() && quantity > 0; ) {
+        if( !a->made_of( phase_id::LIQUID ) && a->use_charges( type, quantity, ret, pos, filter ) ) {
+            a = this->erase( a );
+        } else {
+            ++a;
+        }
+    }
+    return ret;
+}
+
 units::volume item_stack::free_volume() const
 {
     return max_volume() - stored_volume();
