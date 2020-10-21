@@ -268,7 +268,7 @@ static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
-static const trait_id trait_NODEAF( "DEBUG_NODEAF" );
+static const trait_id trait_DEBUG_NODEAF( "DEBUG_NODEAF" );
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blaster( "bio_blaster" );
@@ -7283,7 +7283,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
         return worn_with_flag( flag_DEAF ) || worn_with_flag( flag_PARTIAL_DEAF ) ||
                has_bionic( bio_ears ) ||
                is_wearing( itype_rm13_armor_on ) ||
-               has_trait( trait_NODEAF ) ;
+               has_trait( trait_DEBUG_NODEAF ) ;
     } else if( eff == effect_mute ) {
         return has_bionic( bio_voice );
     } else if( eff == effect_corroding ) {
