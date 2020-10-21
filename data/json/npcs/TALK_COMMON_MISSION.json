@@ -324,5 +324,22 @@
       { "text": "Thank you.", "topic": "TALK_NONE", "effect": "clear_mission" },
       { "text": "Thanks, bye.", "topic": "TALK_DONE", "effect": "clear_mission" }
     ]
+  },
+  {
+	"//":"MISSION_PYROMANIAC mission set this topic as starting topic for mission giver.",
+    "type": "talk_topic",
+    "id": "MISSION_PYROMANIAC",
+    "dynamic_line": "Are we there? I can't wait to burn that house!",
+    "responses": [
+	  { "text": "We're here. Let's do it!", "topic": "TALK_MISSION_INQUIRE",
+		"condition":{
+		  "and":[
+			"mission_complete",
+			{"u_has_item":"gasoline", "count":200}
+		  ]
+		}
+	  },
+	  { "text": "Not yet.", "topic": "TALK_DONE"}
+    ]
   }
 ]
