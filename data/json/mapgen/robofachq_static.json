@@ -60,8 +60,8 @@
         ",,|,____________________ss,|?        2  YY           5   eeeeeeeeeee  |,,,,,,,,,,,,,,,,,,,,,,|,,",
         ",,|,____________________ss,|^a a     2               5   eeeeeeeeeee  |,,,,,,,,,,,,,,,,,,,,,,|,,",
         ",,|,____________________ss,|||||||||||||55GI||||55||||   eeeeeeeeeee  |,,,,,,,,,,,,,,,,,,,,,,|,,",
-        ",,|,____________________ss,|hhhhhhhhh|      |  |  |; |   eeeeeeeeeee. |,,,,,,,,,,,,,,,,,,,,,,|,,",
-        ",,|,__________yyyyyyyyyyss,|         2      |  |  2 i|   eeeeeeeeeee  |,,,,,,,,,,,,,,,,,,,,,,|,,",
+        ",,|,____________________ss,|hhhhhhhhh|      | ;|  |; |   eeeeeeeeeee. |,,,,,,,,,,,,,,,,,,,,,,|,,",
+        ",,|,__________yyyyyyyyyyss,|         2      |i 2  2 i|   eeeeeeeeeee  |,,,,,,,,,,,,,,,,,,,,,,|,,",
         ",,|,____________________ss,| lllllll |      ||||55||||   eeeeeeeeeee  |,,,,,,,,,,,,,,,,,,,,,,|,,",
         ",,|,____________________ss,|2|||||||2|Eeeeee(d      d(   eeeeeeeeeee  |,,,,,,,,,,,,,,,,,,,,,,|,,",
         ",,|,____________________ss,|  2~|~2  |eeeeee(6h 66 h6(   eeeeeeeeeee  |,,,,,,,,,,,,,,,,,,,,,,|,,",
@@ -106,8 +106,7 @@
         "l": [ { "item": "NC_ROBOFAC_FIELD_RESEARCHER_worn", "chance": 50 }, { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 } ],
         "i": { "item": "cleaning", "chance": 50 },
         "B": [ { "item": "textbooks", "chance": 50 }, { "item": "manuals", "chance": 50 } ]
-      },
-      "place_npcs": [ { "class": "robofac_intercom", "x": 46, "y": 17 } ]
+      }
     }
   },
   {

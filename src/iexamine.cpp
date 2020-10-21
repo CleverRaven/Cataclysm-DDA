@@ -1098,6 +1098,11 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
     }
 }
 
+/**
+ * Talks to the item in the tile of the furniture piece.
+ * Assumes exactly 1 item, and that this item has "talker_name" set to a valid NPC ID.
+ * If no items are found, the default "intercom_transceiver" will be created, which allows talking to Hub 01 intercom guy.
+ */
 void iexamine::intercom( player &p, const tripoint &examp )
 {
     map& here = get_map();

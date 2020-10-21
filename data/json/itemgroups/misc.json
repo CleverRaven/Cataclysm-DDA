@@ -193,5 +193,14 @@
     "type": "item_group",
     "id": "spiral",
     "items": [ [ "spiral_stone", 20 ], [ "vortex_stone", 2 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "brain_cylinder_group",
+    "//": "Brain cylinders to spawn in mi-go towers",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "brain_cylinder", "prob": 100 }
+    ]
   }
 ]

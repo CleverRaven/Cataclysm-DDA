@@ -122,5 +122,16 @@
     "mission_offered": "MISSION_JOIN_TRACKER",
     "chat": "TALK_STRANGER_FRIENDLY",
     "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "brain_cylinder_talker",
+    "//": "A poor guy's brain stuck in a cruel mi-go contraption",
+    "name_suffix": "cylinder",
+    "class": "NC_BRAIN_CYLINDER",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_BRAIN_CYLINDER",
+    "faction": "no_faction"
   }
 ]
