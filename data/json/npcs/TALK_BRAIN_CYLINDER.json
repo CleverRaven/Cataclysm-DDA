@@ -14,7 +14,7 @@
         "context": "brain_cylinder",
         "value": "yes",
         "no": [
-          "… sheep, Have you any wool?  Yes, sir, yes … *mumble mumble*",
+          "…sheep, Have you any wool?  Yes, sir, yes … *mumble mumble*",
           "So dark, so dark, so dark, so dark, so dark…",
           "HELLO!?  CAN ANYONE HEAR ME!?",
           "What did we ever do to you?"
@@ -24,7 +24,7 @@
           "Is that you, <name_g>?  I can't see…",
           "<name_g>?  Are you there?",
           "<name_g>?  Is that you?",
-          "<name_g>?  Is that you? Please be you.",
+          "<name_g>?  Is that you?  Please be you.",
           "Still here.",
           "Can you hear me?",
           "Testing, testing.  Is this thing on?"
