@@ -1331,6 +1331,14 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                     debugmsg( "Failed to place %s into %s!", itm->display_name(), container->display_name() );
                     return false;
                 }
+            } else if( srcarea == AIM_WORN ) {
+                if( !player_character.takeoff( put ) ||
+                    !container->put_in( player_character.i_rem( &put ),
+                                        item_pocket::pocket_type::CONTAINER ).success() ) {
+                    debugmsg( "Failed to place %s into %s!", itm->display_name(), container->display_name() );
+                    return false;
+                }
+                ;
             } else if( spane.viewing_container() ) {
                 if( !container->put_in( const_cast<const item &>( put ),
                                         item_pocket::pocket_type::CONTAINER ).success() ) {
