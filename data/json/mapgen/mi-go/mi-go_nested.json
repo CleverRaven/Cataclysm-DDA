@@ -151,7 +151,7 @@
         "6": { "class": "mi-go_prisoner" },
         "7": { "class": "mi-go_prisoner" }
       },
-	  "place_items": [ { "item": "brain_cylinder_group", "x": [ 6, 6 ], "y": [ 7, 7 ], "chance": 100, "repeat": [ 1, 1 ] } ],
+      "place_items": [ { "item": "brain_cylinder_group", "x": [ 6, 6 ], "y": [ 7, 7 ], "chance": 100, "repeat": [ 1, 1 ] } ],
       "place_monsters": [
         { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 2, 12 ], "y": [ 5, 10 ], "density": 0.02, "repeat": [ 2, 3 ] },
         { "monster": "GROUP_MI-GO_BASE_BOSS", "x": [ 12, 13 ], "y": [ 7, 8 ], "density": 0.01, "repeat": [ 0, 1 ] }
@@ -432,7 +432,7 @@
         "6": { "class": "mi-go_prisoner" },
         "7": { "class": "mi-go_prisoner" }
       },
-	  "place_items": [ { "item": "brain_cylinder_group", "x": [ 6, 6 ], "y": [ 7, 7 ], "chance": 100, "repeat": [ 1, 1 ] } ]
+      "place_items": [ { "item": "brain_cylinder_group", "x": [ 6, 6 ], "y": [ 7, 7 ], "chance": 100, "repeat": [ 1, 1 ] } ]
     }
   }
 ]
