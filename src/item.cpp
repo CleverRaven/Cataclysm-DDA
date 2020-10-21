@@ -5212,43 +5212,42 @@ int item::lift_strength() const
 shared_ptr_fast<npc> item::get_talker()
 {
     shared_ptr_fast<npc> talker = make_shared_fast<npc>();
-    std::string talker_string = get_var("Talker", "");
-    if (talker_string._Equal("")) {
+    std::string talker_string = get_var( "Talker", "" );
+    if( talker_string.compare("") == 0 ) { // Empty string
         // No talker saved since before, creating new.
-        const string_id<npc_template> test_talker(this->type->talker_name);
-        
-        talker->normalize();
-        talker->load_npc_template(test_talker);
+        const string_id<npc_template> test_talker( this->type->talker_name );
 
-        for (const trait_id& tr : talker->get_mutations()) {
-            talker->unset_mutation(tr);
+        talker->normalize();
+        talker->load_npc_template( test_talker );
+
+        for( const trait_id& tr : talker->get_mutations() ) {
+            talker->unset_mutation( tr );
         }
         talker->name = type_name();
         // A hack to prevent NPC falling asleep during talking due to massive fatigue
-        talker->set_mutation(trait_id("WEB_WEAVER"));
-    }
-    else {
+        talker->set_mutation(trait_id( "WEB_WEAVER" ));
+    } else {
         // Load saved talker
-        std::istringstream myistream(talker_string);
-        JsonIn jsin(myistream);
-        talker->deserialize(jsin);
+        std::istringstream myistream( talker_string );
+        JsonIn jsin( myistream );
+        talker->deserialize( jsin );
     }
 
-    talker->set_hunger(0);
-    talker->set_thirst(0);
-    talker->set_fatigue(0);
-    talker->remove_effect(efftype_id("sleep"));
+    talker->set_hunger( 0 );
+    talker->set_thirst( 0 );
+    talker->set_fatigue( 0 );
+    talker->remove_effect( efftype_id( "sleep" ) );
 
     return talker;
 }
 
-void item::set_talker(shared_ptr_fast<npc> talker)
+void item::set_talker( shared_ptr_fast<npc> talker )
 {
     // TODO: Make sure the NPC's inventory does not contain the item that contains the NPC
     std::ostringstream myostream;
-    JsonOut jsout(myostream);
-    talker->serialize(jsout);
-    set_var("Talker", myostream.str());
+    JsonOut jsout( myostream );
+    talker->serialize( jsout );
+    set_var( "Talker", myostream.str() );
 }
 
 int item::attack_time() const

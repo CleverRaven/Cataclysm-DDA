@@ -1105,16 +1105,16 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
  */
 void iexamine::intercom( player &p, const tripoint &examp )
 {
-    map& here = get_map();
-    map_stack items = here.i_at(examp);
-    if (items.empty()) {
-        item talking_dummy("intercom_transceiver", calendar::turn);
-        here.add_item_or_charges(examp, talking_dummy);
-        map_stack items = here.i_at(examp);
+    map &here = get_map();
+    map_stack items = here.i_at( examp );
+    if( items.empty() ) {
+        item talking_dummy( "intercom_transceiver", calendar::turn );
+        here.add_item_or_charges( examp, talking_dummy );
+        map_stack items = here.i_at( examp );
     }
     shared_ptr_fast<npc> talker = items.only_item().get_talker();
-    get_avatar().talk_to( get_talker_for(talker.get()), false, false );
-    items.only_item().set_talker(talker); // Saves changes done to the NPC
+    get_avatar().talk_to( get_talker_for( talker.get() ), false, false );
+    items.only_item().set_talker( talker ); // Saves changes done to the NPC
 
 }
 

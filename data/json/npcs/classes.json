@@ -443,10 +443,6 @@
         "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
       }
     ],
-    "traits": [
-      { "group": "BG_survival_story_EVACUEE" },
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" }
-    ]
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
   }
 ]

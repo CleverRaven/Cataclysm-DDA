@@ -575,7 +575,7 @@ class item : public visitable<item>
         /** Remember to use set_talker() after modifications to the NPC to save changes. */
         shared_ptr_fast<npc> get_talker();
 
-        void set_talker(shared_ptr_fast<npc> talker);
+        void set_talker( shared_ptr_fast<npc> talker );
 
         /**
          * @name Melee

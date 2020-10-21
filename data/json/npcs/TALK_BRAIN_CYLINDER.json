@@ -7,29 +7,27 @@
       "type": "dialogue",
       "context": "brain_cylinder",
       "value": "yes",
-      "yes": [
-        "…"
-      ],
+      "yes": [ "…" ],
       "no": {
         "u_has_var": "talked_to_brain_cylinder",
         "type": "dialogue",
         "context": "brain_cylinder",
-        "value": "yes",   
+        "value": "yes",
         "no": [
-          "… sheep, Have you any wool? Yes, sir, yes … *mumble mumble*",
+          "… sheep, Have you any wool?  Yes, sir, yes … *mumble mumble*",
           "So dark, so dark, so dark, so dark, so dark…",
-          "HELLO!? CAN ANYONE HEAR ME!?",
+          "HELLO!?  CAN ANYONE HEAR ME!?",
           "What did we ever do to you?"
         ],
         "yes": [
-          "Hello? Are you back?",
-          "Is that you, <name_g>? I can't see…",
-          "<name_g>? Are you there?",
-          "<name_g>? Is that you?",
-          "<name_g>? Is that you? Please be you.",
+          "Hello?  Are you back?",
+          "Is that you, <name_g>?  I can't see…",
+          "<name_g>?  Are you there?",
+          "<name_g>?  Is that you?",
+          "<name_g>?  Is that you? Please be you.",
           "Still here.",
           "Can you hear me?",
-          "Testing, testing. Is this thing on?"
+          "Testing, testing.  Is this thing on?"
         ]
       }
     },
@@ -64,7 +62,6 @@
         "effect": { "u_add_var": "talked_to_brain_cylinder", "type": "dialogue", "context": "brain_cylinder", "value": "yes" },
         "condition": { "u_has_var": "brain_cylinder_hates_you", "value": "yes", "type": "dialogue", "context": "brain_cylinder" }
       },
-
       { "text": "(Turn off)", "topic": "TALK_DONE" }
     ]
   },
@@ -74,24 +71,24 @@
     "dynamic_line": "Is someone there?",
     "responses": [
       {
-        "text": "I'm a friend. Perhaps I can help you.",
+        "text": "I'm a friend.  Perhaps I can help you.",
         "trial": { "type": "PERSUADE", "difficulty": 0 },
         "success": { "topic": "TALK_BRAIN_CYLINDER_FRIENDLY", "opinion": { "trust": 1, "value": 1 } },
         "failure": { "topic": "TALK_BRAIN_CYLINDER_WARY", "opinion": { "anger": 1, "fear": 1 } }
       },
       {
-        "text": "You sure are a wierd thing. Do what I say or I'll smash you open like a jar of jam.",
+        "text": "You sure are a wierd thing.  Do what I say or I'll smash you open like a jar of jam.",
         "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "AGGRESSION", -2 ], [ "BRAVERY", -2 ] ] },
         "success": { "topic": "TALK_BRAIN_CYLINDER_FEARFUL", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
         "failure": { "topic": "TALK_BRAIN_CYLINDER_BREAKDOWN", "opinion": { "trust": -4, "value": -5, "anger": 10 } }
       },
-      { "text": "Nope. Goodbye!", "topic": "TALK_DONE" }
+      { "text": "Nope.  Goodbye!", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_BRAIN_CYLINDER_FRIENDLY",
     "type": "talk_topic",
-    "dynamic_line": "It's so dark. Why can't I see you?",
+    "dynamic_line": "It's so dark.  Why can't I see you?",
     "responses": [
       {
         "text": "I'm afraid those things removed your brain and put it in a jar.",
@@ -106,7 +103,7 @@
         "failure": { "topic": "TALK_BRAIN_CYLINDER_DENY", "opinion": { "fear": 1 } }
       },
       {
-        "text": "I'm sorry. I'm so sorry.",
+        "text": "I'm sorry.  I'm so sorry.",
         "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "value", 2 ] ] },
         "success": { "topic": "TALK_BRAIN_CYLINDER_DENY", "opinion": { "trust": 1, "value": 1 } },
         "failure": { "topic": "TALK_BRAIN_CYLINDER_DENY", "opinion": { "trust": -1, "fear": 1 } }
@@ -117,9 +114,12 @@
   {
     "id": "TALK_BRAIN_CYLINDER_UNDERSTAND",
     "type": "talk_topic",
-    "dynamic_line": "I see. That is terrible, but… I suppose deep down, I already knew.",
+    "dynamic_line": "I see.  That is terrible, but…  I suppose deep down, I already knew.",
     "responses": [
-      { "text": "Perhaps we can help each other. I'll look for ways to give you a body. In the meanwhile, perhaps you have some knowledge to share?", "topic": "TALK_AGREE_FOLLOW", "effect": "follow" },
+      {
+	    "text": "Perhaps we can help each other.  I'll look for ways to give you a body.  In the meanwhile, perhaps you have some knowledge to share?",
+		"topic": "TALK_AGREE_FOLLOW",
+		"effect": "follow" },
       { "text": "Well I need to go.", "topic": "TALK_DONE" },
       { "text": "Well I need to go, but I promise I'll be back.", "topic": "TALK_DONE" }
     ]
@@ -127,7 +127,7 @@
   {
     "id": "TALK_BRAIN_CYLINDER_DENY",
     "type": "talk_topic",
-    "dynamic_line": "I can't feel my arms. Why can't I feel my arms? What's happening?",
+    "dynamic_line": "I can't feel my arms.  Why can't I feel my arms?  What's happening?",
     "responses": [
       {
         "text": "I'm sorry, but you are realy a brain in a jar.",
@@ -136,7 +136,7 @@
         "failure": { "topic": "TALK_BRAIN_CYLINDER_LEAVES", "opinion": { "trust": -1, "fear": 1 } }
       },
       {
-        "text": "Big deal. Do what I say, or you are of no use to me.",
+        "text": "Big deal.  Do what I say, or you are of no use to me.",
         "trial": { "type": "INTIMIDATE", "difficulty": 10, "mod": [ [ "AGGRESSION", -2 ], [ "BRAVERY", -2 ] ] },
         "success": { "topic": "TALK_BRAIN_CYLINDER_FEARFUL", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
         "failure": { "topic": "TALK_BRAIN_CYLINDER_BREAKDOWN", "opinion": { "trust": -4, "value": -5, "anger": 10 } }
@@ -147,10 +147,10 @@
   {
     "id": "TALK_BRAIN_CYLINDER_WARY",
     "type": "talk_topic",
-    "dynamic_line": "You're probably just another one of those unholy abominations. Say something only a human would say.",
+    "dynamic_line": "You're probably just another one of those unholy abominations.  Say something only a human would say.",
     "responses": [
       {
-        "text": "I'm not one of those things. I'm a survivor of the cataclysm, a human. You can trust me.",
+        "text": "I'm not one of those things.  I'm a survivor of the cataclysm, a human.  You can trust me.",
         "trial": { "type": "PERSUADE", "difficulty": 5, "mod": [ [ "TRUST", 2 ], [ "VALUE", 2 ] ] },
         "success": { "topic": "TALK_BRAIN_CYLINDER_FRIENDLY", "opinion": { "trust": 1, "value": 1 } },
         "failure": { "topic": "TALK_BRAIN_CYLINDER_LEAVES" }
@@ -162,9 +162,9 @@
         "failure": { "topic": "TALK_BRAIN_CYLINDER_LEAVES" }
       },
       {
-        "text": "Eh… Yes hi I am human. I fold bedsheets and get bruises and drink water and all that stuff, and I quite enjoy being made out of meat.",
+        "text": "Eh… Yes hi I am human.  I fold bedsheets and get bruises and drink water and all that stuff, and I quite enjoy being made out of meat.",
         "trial": { "type": "PERSUADE", "difficulty": 4 },
-        "success": { "topic": "TALK_BRAIN_CYLINDER_LEAVES" , "opinion": { "trust": 1, "value": 1 } },
+        "success": { "topic": "TALK_BRAIN_CYLINDER_LEAVES", "opinion": { "trust": 1, "value": 1 } },
         "failure": { "topic": "TALK_BRAIN_CYLINDER_LEAVES" }
       },
       {
@@ -203,10 +203,11 @@
   {
     "id": "TALK_BRAIN_CYLINDER_BREAKDOWN",
     "type": "talk_topic",
-    "dynamic_line": "Screw you. I'm done talking to you.",
+    "dynamic_line": "Screw you.  I'm done talking to you.",
     "responses": [
       {
-        "text": "Be that way then.", "topic": "TALK_DONE", 
+        "text": "Be that way then.",
+		"topic": "TALK_DONE", 
         "effect": { "u_add_var": "brain_cylinder_hates_you", "type": "dialogue", "context": "brain_cylinder", "value": "yes" }
       },
       {
@@ -223,7 +224,7 @@
   {
     "id": "TALK_BRAIN_CYLINDER_LEAVES",
     "type": "talk_topic",
-    "dynamic_line": "Yeah, I don't think so. You're one of them. Leave me alone.",
+    "dynamic_line": "Yeah, I don't think so.  You're one of them.  Leave me alone.",
     "responses": [ { "text": "Suit yourself.", "topic": "TALK_DONE" } ]
   }
 ]

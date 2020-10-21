@@ -5761,14 +5761,14 @@ int iuse::contacts( player *p, item *it, bool, const tripoint & )
 
 int iuse::talk_to(player *p, item *it, bool, const tripoint &)
 {
-    if (!it->units_sufficient(*p)) {
-        p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->tname());
+    if( !it->units_sufficient( *p ) ) {
+        p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     }
 
     shared_ptr_fast<npc> talker = it->get_talker();
-    get_avatar().talk_to(get_talker_for(talker.get()));
-    it->set_talker(talker); // Saves changes done to the NPC
+    get_avatar().talk_to( get_talker_for( talker.get() ) );
+    it->set_talker( talker ); // Saves changes done to the NPC
 
     return it->type->charges_to_use();
 }
