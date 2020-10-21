@@ -5576,7 +5576,14 @@
     "autolearn": true,
     "components": [
       [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "mayonnaise", 1 ], [ "ketchup", 1 ], [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "mustard", 1 ], [ "any_butter", 1, "LIST" ] ]
+      [
+        [ "mayonnaise", 1 ],
+        [ "ketchup", 1 ],
+        [ "sauce_pesto", 1 ],
+        [ "sauce_red", 1 ],
+        [ "mustard", 1 ],
+        [ "any_butter", 1, "LIST" ]
+      ]
     ]
   },
   {
