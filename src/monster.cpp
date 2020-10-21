@@ -2441,7 +2441,8 @@ void monster::process_one_effect( effect &it, bool is_new )
         effect_cache[FLEEING] = true;
     } else if( id == effect_no_sight || id == effect_blind ) {
         effect_cache[VISION_IMPAIRED] = true;
-    } else if( id == effect_bleed && x_in_y( it.get_intensity(), it.get_max_intensity() ) ) {
+    } else if( id == effect_bleed && x_in_y( it.get_intensity(), it.get_max_intensity() ) &&
+               get_option<bool>( "MONSTERS_TAKE_DIRECT_DAMAGE_FROM_BLEEDING" ) ) {
         // monsters are simplified so they just take damage from bleeding
         apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), 1 );
         // this is for balance only
