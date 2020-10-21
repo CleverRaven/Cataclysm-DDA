@@ -190,5 +190,5 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Ignore Favorites",
     "description": "Favorite items inside of this zone are ignored by \"sort out loot\" zone-action."
-  }  
+  }
 ]
