@@ -2515,9 +2515,9 @@ int vehicle::find_part( const item &it ) const
 
 item_group::ItemList vehicle_part::pieces_for_broken_part() const
 {
-    const std::string &group = info().breaks_into_group;
+    const item_group_id &group = info().breaks_into_group;
     // TODO: make it optional? Or use id of empty item group?
-    if( group.empty() ) {
+    if( group.is_empty() ) {
         return {};
     }
 
@@ -5491,8 +5491,9 @@ void vehicle::place_spawn_items()
                 for( const itype_id &e : spawn.item_ids ) {
                     created.emplace_back( item( e ).in_its_container() );
                 }
-                for( const std::string &e : spawn.item_groups ) {
-                    item_group::ItemList group_items = item_group::items_from( e, calendar::start_of_cataclysm );
+                for( const item_group_id &e : spawn.item_groups ) {
+                    item_group::ItemList group_items =
+                        item_group::items_from( e, calendar::start_of_cataclysm );
                     for( const auto &spawn_item : group_items ) {
                         created.emplace_back( spawn_item );
                     }

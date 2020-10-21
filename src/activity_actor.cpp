@@ -357,10 +357,13 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             here.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
             here.furn_set( location, f_coffin_c );
         }
-        std::vector<item *> dropped = here.place_items( "allclothes", 50, location, location, false,
-                                      calendar::turn );
-        here.place_items( "grave", 25, location, location, false, calendar::turn );
-        here.place_items( "jewelry_front", 20, location, location, false, calendar::turn );
+        std::vector<item *> dropped =
+            here.place_items( item_group_id( "allclothes" ), 50, location, location, false,
+                              calendar::turn );
+        here.place_items( item_group_id( "grave" ), 25, location, location, false,
+                          calendar::turn );
+        here.place_items( item_group_id( "jewelry_front" ), 20, location, location, false,
+                          calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
                 it->set_flag( "FILTHY" );
