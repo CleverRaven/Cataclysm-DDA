@@ -799,9 +799,7 @@
   {
     "id": "MISSION_PYROMANIAC",
     "type": "mission_definition",
-    "name": {
-      "str": "Angry pyromaniac"
-    },
+    "name": { "str": "Angry pyromaniac" },
     "goal": "MGOAL_GO_TO",
     "difficulty": 0,
     "value": 0,
@@ -823,9 +821,7 @@
     "end": {
       "effect": [ "follow", { "u_consume_item": "gasoline", "count": 200 }, { "mapgen_update": "MISSION_PYROMANIAC_BURN" } ]
     },
-    "origins": [
-      "ORIGIN_OPENER_NPC"
-    ],
+    "origins": [ "ORIGIN_OPENER_NPC" ],
     "dialogue": {
       "describe": "Oh man, I want to burn it so bad…",
       "offer": "I'm so infuriated! I've got an enemy that ruined my life, and now I want to get revenge! I don't care about <the_cataclysm>, I just want to burn his house! Would you help me?",
