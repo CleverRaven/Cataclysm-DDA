@@ -967,8 +967,8 @@
     "speed_name": "Heat slowdown",
     "max_intensity": 3,
     "part_descs": true,
-    "base_mods": { "speed_mod": [ -1 ] },
-    "scaling_mods": { "speed_mod": [ -2 ] }
+    "base_mods": { "speed_mod": [ -2 ] },
+    "scaling_mods": { "speed_mod": [ -4 ] }
   },
   {
     "type": "effect_type",
