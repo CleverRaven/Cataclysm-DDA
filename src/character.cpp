@@ -12556,27 +12556,12 @@ bool Character::unload( item_location &loc, bool bypass_activity )
             return false;
         }
 
-        bool changed = false;
+        int moves = 0;
         for( item *contained : it.contents.all_items_top() ) {
-            int old_charges = contained->charges;
-            const bool consumed = this->add_or_drop_with_msg( *contained, true, &it );
-            if( consumed || contained->charges != old_charges ) {
-                changed = true;
-                item_pocket *const parent_pocket = it.contained_where( *contained );
-                if( parent_pocket ) {
-                    parent_pocket->unseal();
-                }
-            }
-            if( consumed ) {
-                this->mod_moves( -this->item_handling_cost( *contained ) );
-                it.remove_item( *contained );
-            }
+            moves += this->item_handling_cost( *contained );
         }
+        assign_activity( player_activity( unload_activity_actor( moves, loc ) ) );
 
-        if( changed ) {
-            it.on_contents_changed();
-            invalidate_weight_carried_cache();
-        }
         return true;
     }
 

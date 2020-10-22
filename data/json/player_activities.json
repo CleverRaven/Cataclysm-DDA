@@ -747,7 +747,7 @@
     "suspendable": false
   },
   {
-    "id": "ACT_UNLOAD_MAG",
+    "id": "ACT_UNLOAD",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "unloading",
