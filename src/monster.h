@@ -331,7 +331,7 @@ class monster : public Creature
         void set_hp( int hp );
 
         /** Processes monster-specific effects before calling Creature::process_effects(). */
-        void process_effects() override;
+        void process_effects_internal() override;
 
         /** Returns true if the monster has its movement impaired */
         bool movement_impaired();

@@ -1133,7 +1133,7 @@ void player::disp_info()
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const std::string tmp = _effect_it.second.disp_name();
-            if( tmp.empty() ) {
+            if( _effect_it.second.is_removed() || tmp.empty() ) {
                 continue;
             }
             effect_name_and_text.push_back( { tmp, _effect_it.second.disp_desc() } );
@@ -1361,6 +1361,9 @@ void player::disp_info()
     for( auto &elem : *effects ) {
         for( std::pair<const body_part, effect> &_effect_it : elem.second ) {
             effect &it = _effect_it.second;
+            if( it.is_removed() ) {
+                continue;
+            }
             bool reduced = resists_effect( it );
             int move_adjust = it.get_mod( "SPEED", reduced );
             if( move_adjust != 0 ) {

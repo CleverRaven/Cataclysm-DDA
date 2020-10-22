@@ -3017,7 +3017,9 @@ std::vector<std::string> Character::get_overlay_ids() const
 
     // first get effects
     for( const auto &eff_pr : *effects ) {
-        rval.push_back( "effect_" + eff_pr.first.str() );
+        if( !eff_pr.second.begin()->second.is_removed() ) {
+            rval.push_back( "effect_" + eff_pr.first.str() );
+        }
     }
 
     // then get mutations
@@ -7476,16 +7478,9 @@ void Character::vomit()
     }
 
     moves -= 100;
-    for( auto &elem : *effects ) {
-        for( auto &_effect_it : elem.second ) {
-            auto &it = _effect_it.second;
-            if( it.get_id() == effect_foodpoison ) {
-                it.mod_duration( -30_minutes );
-            } else if( it.get_id() == effect_drunk ) {
-                it.mod_duration( rng( -10_minutes, -50_minutes ) );
-            }
-        }
-    }
+    // TODO: Is it safe to modify sentinel?
+    get_effect( effect_foodpoison ).mod_duration( -30_minutes );
+    get_effect( effect_drunk ).mod_duration( rng( -10_minutes, -50_minutes ) );
     remove_effect( effect_pkill1 );
     remove_effect( effect_pkill2 );
     remove_effect( effect_pkill3 );
@@ -8781,7 +8776,9 @@ void Character::check_and_recover_morale()
     for( const auto &elem : *effects ) {
         for( const std::pair<const body_part, effect> &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
-            test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
+            if( !e.is_removed() ) {
+                test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
+            }
         }
     }
 

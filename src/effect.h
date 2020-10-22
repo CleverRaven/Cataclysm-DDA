@@ -144,18 +144,23 @@ class effect
 {
     public:
         effect() : eff_type( nullptr ), duration( 0_turns ), bp( num_bp ),
-            permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ) {
+            permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ),
+            removed( true ) {
         }
         effect( const effect_type *peff_type, const time_duration &dur, body_part part,
                 bool perm, int nintensity, const time_point &nstart_time ) :
             eff_type( peff_type ), duration( dur ), bp( part ),
-            permanent( perm ), intensity( nintensity ), start_time( nstart_time ) {
+            permanent( perm ), intensity( nintensity ), start_time( nstart_time ),
+            removed( false ) {
         }
         effect( const effect & ) = default;
         effect &operator=( const effect & ) = default;
 
         /** Returns true if the effect is the result of `effect()`, ie. an effect that doesn't exist. */
         bool is_null() const;
+        operator bool() const {
+            return !is_null() && !is_removed();
+        }
 
         /** Dummy used for "reference to effect()" */
         static effect null_effect;
@@ -172,11 +177,10 @@ class effect
         /** Returns the effect's matching effect_type. */
         const effect_type *get_effect_type() const;
 
-        /** Decays effect durations, pushing their id and bp's back to rem_ids and rem_bps for removal later
-         *  if their duration is <= 0. This is called in the middle of a loop through all effects, which is
+        /** Decays effect durations, returning true if duration <= 0.
+         *  This is called in the middle of a loop through all effects, which is
          *  why we aren't allowed to remove the effects here. */
-        void decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
-                    const time_point &time, bool player );
+        bool decay( const time_point &time, bool player );
 
         /** Returns the remaining duration of an effect. */
         time_duration get_duration() const;
@@ -224,6 +228,16 @@ class effect
          * @return new intensity of the effect after modification and capping
          */
         int mod_intensity( int mod, bool alert = false );
+
+        /**
+         * Returns if the effect is disabled and set up for removal.
+         */
+        bool is_removed() const {
+            return removed;
+        }
+        void set_removed() {
+            removed = true;
+        }
 
         /** Returns the string id of the resist trait to be used in has_trait("id"). */
         const std::vector<trait_id> &get_resist_traits() const;
@@ -273,7 +287,7 @@ class effect
         /** Returns the value used for display on the speed modifier window in the player status menu. */
         std::string get_speed_name() const;
 
-        /** Returns if the effect is supposed to be handed in Creature::movement */
+        /** Returns if the effect is supposed to be handled in Creature::movement */
         bool impairs_movement() const;
 
         /** Returns the effect's matching effect_type id. */
@@ -291,6 +305,7 @@ class effect
         bool permanent;
         int intensity;
         time_point start_time;
+        bool removed;
 
 };
 
@@ -303,7 +318,7 @@ std::string texitify_healing_power( int power );
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON
 class effects_map : public
-    std::map<efftype_id, std::map<body_part, effect>>
+    std::unordered_map<efftype_id, std::unordered_map<body_part, effect, std::hash<int>>>
 {
 };
 

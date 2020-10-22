@@ -370,8 +370,13 @@ class Creature
 
         virtual units::mass get_weight() const = 0;
 
-        /** Processes through all the effects on the Creature. */
-        virtual void process_effects();
+        /**
+         * Processes through all the effects on the Creature.
+         * This is the only function that is allowed to remove effects.
+         */
+        void process_effects();
+        /** Processes effects according to class (monster, player) */
+        virtual void process_effects_internal() = 0;
 
         /** Returns true if the player has the entered trait, returns false for non-humans */
         virtual bool has_trait( const trait_id &flag ) const;
@@ -730,7 +735,6 @@ class Creature
 
         /**
          * Processes one effect on the Creature.
-         * Must not remove the effect, but can set it up for removal.
          */
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
 

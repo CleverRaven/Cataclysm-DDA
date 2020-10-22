@@ -1272,6 +1272,9 @@ void avatar::reset_stats()
     for( const auto &maps : *effects ) {
         for( auto i : maps.second ) {
             const auto &it = i.second;
+            if( it.is_removed() ) {
+                continue;
+            }
             bool reduced = resists_effect( it );
             mod_str_bonus( it.get_mod( "STR", reduced ) );
             mod_dex_bonus( it.get_mod( "DEX", reduced ) );

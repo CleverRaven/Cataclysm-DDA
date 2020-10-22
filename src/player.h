@@ -126,7 +126,7 @@ class player : public Character
         }
 
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
-        void process_effects() override;
+        void process_effects_internal() override;
         /** Handles the still hard-coded effects. */
         void hardcoded_effects( effect &it );
         /** Returns the modifier value used for vomiting effects. */

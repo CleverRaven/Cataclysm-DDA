@@ -725,8 +725,7 @@ std::string effect::disp_short_desc( bool reduced ) const
     }
 }
 
-void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
-                    const time_point &time, const bool player )
+bool effect::decay( const time_point &time, const bool player )
 {
     // Decay intensity if supposed to do so
     // TODO: Remove effects that would decay to 0 intensity?
@@ -736,14 +735,13 @@ void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &re
         set_intensity( intensity + eff_type->int_decay_step, player );
     }
 
-    // Add to removal list if duration is <= 0
-    // Decay duration if not permanent
     if( duration <= 0_turns ) {
-        rem_ids.push_back( get_id() );
-        rem_bps.push_back( bp );
+        return true;
     } else if( !is_permanent() ) {
         mod_duration( -1_turns, player );
     }
+
+    return false;
 }
 
 bool effect::use_part_descs() const

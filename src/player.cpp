@@ -504,7 +504,10 @@ void player::recalc_speed_bonus()
     mod_speed_bonus( kcal_speed_penalty() );
 
     for( const auto &maps : *effects ) {
-        for( auto i : maps.second ) {
+        for( auto &i : maps.second ) {
+            if( i.second.is_removed() ) {
+                continue;
+            }
             bool reduced = resists_effect( i.second );
             mod_speed_bonus( i.second.get_mod( "SPEED", reduced ) );
         }
@@ -1677,7 +1680,7 @@ void player::process_one_effect( effect &it, bool is_new )
     // Speed and stats are handled in recalc_speed_bonus and reset_stats respectively
 }
 
-void player::process_effects()
+void player::process_effects_internal()
 {
     //Special Removals
     if( has_effect( effect_darkness ) && g->is_in_sunlight( pos() ) ) {
@@ -1720,11 +1723,11 @@ void player::process_effects()
     //Human only effects
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
-            process_one_effect( _effect_it.second, false );
+            if( !_effect_it.second.is_removed() ) {
+                process_one_effect( _effect_it.second, false );
+            }
         }
     }
-
-    Creature::process_effects();
 }
 
 double player::vomit_mod()

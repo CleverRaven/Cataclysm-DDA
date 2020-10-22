@@ -1787,7 +1787,7 @@ std::string monster::get_effect_status() const
     std::vector<std::string> effect_status;
     for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
-            if( elem.first->is_show_in_info() ) {
+            if( !_it.second.is_removed() && elem.first->is_show_in_info() ) {
                 effect_status.push_back( _it.second.disp_name() );
             }
         }
@@ -2416,12 +2416,14 @@ void monster::process_one_effect( effect &it, bool is_new )
     }
 }
 
-void monster::process_effects()
+void monster::process_effects_internal()
 {
     // Monster only effects
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
-            process_one_effect( _effect_it.second, false );
+            if( !_effect_it.second.is_removed() ) {
+                process_one_effect( _effect_it.second, false );
+            }
         }
     }
 
@@ -2485,8 +2487,6 @@ void monster::process_effects()
             hp = 0;
         }
     }
-
-    Creature::process_effects();
 }
 
 bool monster::make_fungus()
