@@ -11,8 +11,8 @@ GG_DIR = os.path.normpath(os.path.join(
 # We might want to also warn about grenades and rockets, but leaving them
 # whitelisted for now.
 AMMO_TYPE_WHITELIST = {
-    '40x46mm', # Grenade
-    'atgm', # Rocket
+    '40x46mm',  # Grenade
+    'atgm',  # Rocket
     'barb',
     'battery',
     'BB',
@@ -22,7 +22,7 @@ AMMO_TYPE_WHITELIST = {
     'chemical_spray',
     'fishspear',
     'flammable',
-    'm235', # Rocket
+    'm235',  # Rocket
     'metal_rail',
     'nail',
     'paintball',
@@ -52,12 +52,14 @@ ID_WHITELIST = {
     '223_speedloader5',
 }
 
+
 def items_of_type(data, type):
     result = []
     for i in data:
         if i['type'] == type:
             result.append(i)
     return result
+
 
 def get_ids(items):
     result = set()
@@ -69,6 +71,7 @@ def get_ids(items):
             result.update(id)
     return result
 
+
 def get_id(i):
     if 'id' in i:
         return i['id']
@@ -76,16 +79,18 @@ def get_id(i):
         return i['abstract']
     raise RuntimeError('item lacks id: %r' % i)
 
+
 def get_ancestors(items_by_id, item):
     result = [item]
     while 'copy-from' in item and item['copy-from'] in items_by_id:
         item = items_by_id[item['copy-from']]
         if item in result:
             raise RuntimeError(
-                    'Cyclic dependency in copy-from involving %s' %
-                    item['copy-from'])
+                'Cyclic dependency in copy-from involving %s' %
+                item['copy-from'])
         result.append(item)
     return result
+
 
 def items_for_which_any_ancestor(items, pred):
     items_by_id = {get_id(i): i for i in items}
@@ -95,6 +100,7 @@ def items_for_which_any_ancestor(items, pred):
             result.append(i)
     return result
 
+
 def items_for_which_all_ancestors(items, pred):
     items_by_id = {get_id(i): i for i in items}
     result = []
@@ -102,6 +108,7 @@ def items_for_which_all_ancestors(items, pred):
         if all(pred(ancestor) for ancestor in get_ancestors(items_by_id, i)):
             result.append(i)
     return result
+
 
 def main():
     core_data, core_errors = util.import_data()
@@ -126,8 +133,9 @@ def main():
         return 'pocket_data' in i
 
     def lacks_whitelisted_pocket(i):
-        return not any(pocket.get('ammo_restriction', {}).keys() & AMMO_TYPE_WHITELIST
-                       for pocket in i.get('pocket_data', []))
+        return not any(
+            pocket.get('ammo_restriction', {}).keys() & AMMO_TYPE_WHITELIST
+            for pocket in i.get('pocket_data', []))
 
     def can_be_unwielded(i):
         return 'NO_UNWIELD' not in i.get('flags', [])
@@ -159,7 +167,8 @@ def main():
     core_bullets = items_for_which_any_ancestor(
         core_bullets, is_not_whitelisted_ammo_type)
 
-    if not gg_migrations or not core_guns or not core_magazines or not core_ammo:
+    if (not gg_migrations or not core_guns or not core_magazines or
+            not core_ammo):
         print('One of the collections is empty; something has gone wrong with '
               'data collection')
         return 1
@@ -171,7 +180,8 @@ def main():
 
         missing_migrations = ids - gg_migrations
         if missing_migrations:
-            print('Missing Generic Guns migrations for these types of %s:' % name)
+            print('Missing Generic Guns migrations for these types of %s:' %
+                  name)
             print('\n'.join(sorted(missing_migrations)))
             print()
             nonlocal returncode
@@ -188,6 +198,7 @@ def main():
               'tools/json_tools/generic_guns_validator.py')
 
     return returncode
+
 
 if __name__ == '__main__':
     sys.exit(main())
