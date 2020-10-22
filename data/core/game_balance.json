@@ -197,9 +197,9 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "MONSTERS_TAKE_DIRECT_DAMAGE_FROM_BLEEDING",
-    "info": "If false, warmblooded monsters won't take direct damage to the torso when they get bleeding effect.",
+    "name": "ZOMBIES_DONT_BLEED",
+    "info": "If true, zombies won't bleed and won't take direct damage to the torso when they get bleeding effect.",
     "stype": "bool",
-    "value": true
+    "value": false
   }
 ]

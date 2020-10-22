@@ -1282,7 +1282,8 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 
     if( effect == effect_bleed ) {
         return !has_flag( MF_WARM ) ||
-               !made_of( material_id( "flesh" ) );
+               !made_of( material_id( "flesh" ) ) ||
+               ( get_option<bool>( "ZOMBIES_DONT_BLEED" ) && in_species( species_ZOMBIE ) );
     }
 
     if( effect == effect_paralyzepoison ||
@@ -2443,9 +2444,7 @@ void monster::process_one_effect( effect &it, bool is_new )
         effect_cache[VISION_IMPAIRED] = true;
     } else if( id == effect_bleed && x_in_y( it.get_intensity(), it.get_max_intensity() ) ) {
         // monsters are simplified so they just take damage from bleeding
-        if( get_option<bool>( "MONSTERS_TAKE_DIRECT_DAMAGE_FROM_BLEEDING" ) ) {
-            apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), 1 );
-        }
+        apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), 1 );
         // this is for balance only
         it.mod_duration( -rng( 1_turns, it.get_int_dur_factor() / 2 ) );
         bleed();
