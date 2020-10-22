@@ -122,5 +122,14 @@
         "item_restriction": [ "rifle_rail_mag" ]
       }
     ]
+  },
+  {
+    "id": "rifle_shotgun_combination",
+    "copy-from": "combination_gun",
+    "type": "GUN",
+    "name": "combination rifle shotgun",
+    "description": "A break action firearm comprised of a rifle barrel over two smooth bore shotgun barrels.  Historically used by egomaniac hunters in Africa, now used by their egomaniac descendants in New England.",
+    "built_in_mods": [ "rifle_shotgun_combination_shotgun" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_rifle": 1 } } ]
   }
 ]

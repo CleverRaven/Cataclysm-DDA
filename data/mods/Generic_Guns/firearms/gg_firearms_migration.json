@@ -301,6 +301,11 @@
     "replace": "rifle_assault_foreign"
   },
   {
+    "id": [ "combination_gun", "pipe_combination_gun" ],
+    "type": "MIGRATION",
+    "replace": "rifle_shotgun_combination"
+  },
+  {
     "id": [ "hk_g80" ],
     "type": "MIGRATION",
     "replace": "rifle_rail"
