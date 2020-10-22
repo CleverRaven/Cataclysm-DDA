@@ -76,21 +76,22 @@ def get_id(i):
         return i['abstract']
     raise RuntimeError('item lacks id: %r' % i)
 
+def get_ancestors(items_by_id, item):
+    result = [item]
+    while 'copy-from' in item and item['copy-from'] in items_by_id:
+        item = items_by_id[item['copy-from']]
+        if item in result:
+            raise RuntimeError(
+                    'Cyclic dependency in copy-from involving %s' %
+                    item['copy-from'])
+        result.append(item)
+    return result
+
 def items_for_which_any_ancestor(items, pred):
     items_by_id = {get_id(i): i for i in items}
     result = []
     for i in items:
-        this_i = i
-        matches = False
-        while True:
-            if pred(this_i):
-                matches = True
-                break
-            if 'copy-from' in this_i and this_i['copy-from'] in items_by_id:
-                this_i = items_by_id[this_i['copy-from']]
-            else:
-                break
-        if matches:
+        if any(pred(ancestor) for ancestor in get_ancestors(items_by_id, i)):
             result.append(i)
     return result
 
@@ -98,17 +99,7 @@ def items_for_which_all_ancestors(items, pred):
     items_by_id = {get_id(i): i for i in items}
     result = []
     for i in items:
-        this_i = i
-        matches = True
-        while True:
-            if not pred(this_i):
-                matches = False
-                break
-            if 'copy-from' in this_i and this_i['copy-from'] in items_by_id:
-                this_i = items_by_id[this_i['copy-from']]
-            else:
-                break
-        if matches:
+        if all(pred(ancestor) for ancestor in get_ancestors(items_by_id, i)):
             result.append(i)
     return result
 
