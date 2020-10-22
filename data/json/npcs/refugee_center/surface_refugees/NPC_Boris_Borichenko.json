@@ -94,7 +94,12 @@
       {
         "text": "Hi, Boris.  What's up?",
         "topic": "TALK_REFUGEE_Boris_2",
-        "condition": { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": [ { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" }, { "not": { "u_has_var": "Boris_CLEANUP", "type": "mission", "context": "flag", "value": "yes" } ]
+      },
+      {
+        "text": "Good to see you, Boris.  Are things looking up for you at all?",
+        "topic": "TALK_REFUGEE_Boris_3",
+        "condition": { "u_has_var": "Boris_CLEANUP", "type": "mission", "context": "flag", "value": "yes" },
       },
       {
         "text": "Hi Boris, nice to meet you.  I gotta go though.",
@@ -125,7 +130,14 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_2",
     "dynamic_line": "What is \"up\"?  Less than I would like, it seems.  I am better when I am busy, and I am not at all busy.",
-    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "You don't seem to be doing great.", "topic": "TALK_REFUGEE_Boris_Background_B" }, { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_3",
+    "//": "This option is Boris' start point after you've finished his first mission and got to know him a bit.",
+    "dynamic_line": "It is good to see you too.  I would not say things are looking \"up\" yet, but they are not so much looking down perhaps.  I am keeping a bit busier.",
+    "responses": [ { "text": "Want to talk about it a little?", "topic": "TALK_REFUGEE_Boris_Son" }, { "text": "Got anything else I can help out with?", "topic": "TALK_MISSION_LIST" }, { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -135,8 +147,24 @@
       { "text": "What have you lost, if it's okay for me to ask?", "topic": "TALK_REFUGEE_Boris_Background_loss" },
       {
         "text": "It seems like carpentry work would be something the Free Merchants need.  Why are you so bored?",
-        "topic": "TALK_REFUGEE_Boris_Work1"
+        "topic": "TALK_REFUGEE_Boris_Work1",
+        "condition": { "not": { "u_has_var": "Boris_CLEANUP", "type": "mission", "context": "flag", "value": "yes" } },
       },
+      {
+        "text": "Now that things are cleaned up in the back, is there anything holding you back from working?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "u_has_var": "Boris_CLEANUP", "type": "mission", "context": "flag", "value": "yes" },
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Background_B",
+    "dynamic_line": "No, not great.  Like all here, I have lost too much.  I do not feel I can ever come back from it.  Can anyone be strong enough?",
+    "responses": [
+      { "text": "What have you lost, if it's okay for me to ask?", "topic": "TALK_REFUGEE_Boris_Background_loss" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -152,18 +180,37 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Son",
+    "dynamic_line": "…Ash.  His name was Ash, and he was ten years old.  Such a light, a spark.  I wanted to see the man he would grow into.  I… now I can barely say his name.  I miss him so much, every instant.  If I did not have Stan, I would walk out through the barbed wire and join the walking dead.",
+    "responses": [
+      TK obviously need some responses here. "That's rough, buddy"
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Work1",
     "dynamic_line": {
       "u_has_var": "FMShopkeep_Mission1",
       "type": "mission",
       "context": "flag",
       "value": "yes",
-      "yes": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I'll think about it, get back to me later.",
-      "//yes-for-later": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I don't know if I can handle it.  The last time I was back there was the last time I saw Ash… my son.  If… if someone were to clean up back there, wipe away some memories, then I could start renovating it into a better living space.",
+      "yes": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I don't know if I can handle it.  The last time I was back there was the last time I saw…  If… if someone were to clean up back there, wipe away some memories, then I could start renovating it into a better living space.",
       "no": "There isn't much to do with a hammer and a saw here indoors, and working outside is too dangerous.  If we had enough space for me to do some shuffling around, I could build some privacy walls in here.  I tried to set up a bit of a shop in the garage space, but I had to keep taking everything down for caravan loading and unloading and couldn't get anything done.  The caravans bring food, so they get priority, I can't argue with that."
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "What do you need to get things cleaned up?  Can I help?", "topic": "TALK_REFUGEE_Boris_Work2" },
+      { "text": "I'm sorry.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Work2",
+    "dynamic_line": "We could put together a little clean up group, but everyone here has terrible memories of that place.  I could not ask anyone here to go back and see the leftovers of people we knew.  Still, it's a big job.  Who here might be able to do it?",
+    "responses": [
+      { "text": "I'm sure there's someone.  Would you like me to ask around?", "TALK_MISSION_LIST" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -175,5 +222,56 @@
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "MISSION_REFUGEE_Boris_CLEANUP",
+    "type": "mission_definition",
+    "name": { "str": "Find someone to clean up the back bay." },
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_CONDITION",
+    TK: Add condition - track down 3 people willing to help. Mercenary will do it for cash, arsonist will do it for cash or a plea, some beggars might help, old guard might help.
+    TK: add update mapgen when done.
+    "followup": "MISSION_REFUGEE_Boris_WORKSPACE",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Find a few people able to help clean the back, people without too much trauma there.",
+      "offer": "Yes, please.  If you can ask around for someone who can help, I can gather the tools they will need and some payment for them.",
+      "accepted": "You are a kind soul.",
+      "rejected": "Ah well.  I can ask around myself, perhaps.",
+      "advice": "Those of us here in the back have too many bad memories, but perhaps someone who didn't come with the original refugee groups would be less burdened.",
+      "inquire": "Greetings, my friend.  Have you found anyone?",
+      "success": "This has great promise.  Perhaps something to keep me busy will help.  Here, I found some small money to thank you.",
+      "success_lie": "I see...  Well I shall get things in order!",
+      "failure": "No worries.  Let me know if you want to try again."
+    },
+    "end": {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_add_var": "Boris_CLEANUP", "type": "mission", "context": "flag", "value": "yes" }
+      ]
+  },
+  {
+    "id": "MISSION_REFUGEE_Boris_WORKSPACE",
+    "type": "mission_definition",
+    "name": { "str": "Bring Boris some tools." },
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_ITEM",
+    "item": "motor",
+    "followup": "MISSION_REFUGEE_Boris_LAPTOP",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Find a circular saw and extension cord for Boris.",
+      "offer": "We now have a space to work in, and I have wood and nails to spare.  All I need is a saw.  I would love tablesaw and mitre saw, but I can work with a hand held circular saw for now.  I have looked, and what we have is garbage.  Can you bring me a good one?",
+      "accepted": "You are a kind soul.",
+      "rejected": "Ah well.  I can ask around myself, perhaps.",
+      "advice": "It is not hard to find.  I have even seen them for sale at the merchants, but they save them as trade goods and will not give me as a gift.",
+      "inquire": "Greetings, my friend.  Have you found a saw I can use?",
+      "success": "Ah, good.  VonWalt is good brand, I had a saw like this at home.  Now I shall set to work, and make myself a shop back there.",
+      "success_lie": "I see...",
+      "failure": "No worries.  Let me know if you want to try again."
+    }
+  TK add update mapgen.
   }
 ]
