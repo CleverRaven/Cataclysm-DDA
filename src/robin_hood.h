@@ -330,7 +330,7 @@ inline T reinterpret_cast_no_cast_align_warning( void const *ptr ) noexcept
 template <typename E, typename... Args>
 ROBIN_HOOD( NOINLINE )
 #if ROBIN_HOOD(HAS_EXCEPTIONS)
-void doThrow( Args &&... args )
+void doThrow [[noreturn]]( Args &&... args )
 {
     // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
     throw E( std::forward<Args>( args )... );
