@@ -217,6 +217,7 @@
     "looks_like": "t_pedestal_temple",
     "required_str": 30,
     "flags": [ "BASHABLE" ],
+    "examine_action": "attunement_altar",
     "description": "An ancient stone plinth covered in symbols that appear to be combinations and variations of the eight magic classes.  Eight depressions are on the top with the original symbols of the classes, each look as though they can hold an item.",
     "bash": {
       "str_min": 30,
