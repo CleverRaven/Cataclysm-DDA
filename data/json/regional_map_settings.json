@@ -886,7 +886,7 @@
       }
     },
     "weather": {
-      "base_temperature": 1.0,
+      "base_temperature": 0.0,
       "base_humidity": 70.0,
       "base_pressure": 1015.0,
       "base_acid": 0.0,
