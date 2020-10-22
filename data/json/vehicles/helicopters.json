@@ -1508,7 +1508,7 @@
       { "x": -3, "y": 0, "chance": 7, "items": [ "knife_combat" ] },
       { "x": -1, "y": 0, "chance": 7, "items": [ "aspirin" ] },
       { "x": -1, "y": 0, "chance": 7, "items": [ "bandages" ] },
-      { "x": -1, "y": 0, "chance": 10, "item_grops": [ "full_ifak" ] },
+      { "x": -1, "y": 0, "chance": 10, "item_groups": [ "full_ifak" ] },
       { "x": -1, "y": 0, "chance": 10, "items": [ "pocket_firstaid" ] },
       { "x": -1, "y": 2, "chance": 7, "items": [ "screwdriver" ] },
       { "x": -1, "y": 2, "chance": 7, "items": [ "wrench" ] },
