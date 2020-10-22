@@ -2244,48 +2244,52 @@
         "freq": 50,
         "cost_multiplier": 1,
         "pack_size": [ 1, 3 ],
+		"ends": 168,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_mosquito_small",
-        "freq": 5,
+        "freq": 60,
         "cost_multiplier": 1,
-        "pack_size": [ 1, 3 ],
-        "starts": 72,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_mosquito_small",
-        "freq": 5,
-        "cost_multiplier": 1,
-        "pack_size": [ 1, 3 ],
+        "pack_size": [ 1, 5 ],
         "starts": 168,
+		"ends": 336,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_mosquito_small",
-        "freq": 5,
+        "freq": 70,
         "cost_multiplier": 1,
-        "pack_size": [ 1, 3 ],
+        "pack_size": [ 2, 6 ],
         "starts": 336,
+		"ends": 720,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_mosquito_small",
-        "freq": 5,
+        "monster": "mon_mosquito_giant",
+        "freq": 70,
         "cost_multiplier": 1,
-        "pack_size": [ 1, 3 ],
-        "starts": 504,
+        "pack_size": [ 2, 5 ],
+        "starts": 720,
+		"ends": 1440,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
-      {
-        "monster": "mon_mosquito_small",
-        "freq": 5,
-        "cost_multiplier": 1,
-        "pack_size": [ 1, 3 ],
-        "starts": 672,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
+	  {
+		"monster": "mon_mosquito_giant",
+		"freq": 80,
+		"cost_multiplier": 1,
+		"pack_size": [ 2, 6 ],
+		"starts": 1440,
+		"ends": 2160,
+		"conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+	  },	  {
+		"monster": "mon_mosquito_giant",
+		"freq": 80,
+		"cost_multiplier": 1,
+		"pack_size": [ 3, 7 ],
+		"starts": 2160,
+		"conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+	  },
       {
         "monster": "mon_dragonfly_small",
         "freq": 40,
@@ -2397,12 +2401,19 @@
         "starts": 792,
         "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
       },
-      { "monster": "mon_fly_small", "freq": 100, "cost_multiplier": 1, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+	  "monster": "mon_fly_small", 
+	  "freq": 100, 
+	  "cost_multiplier": 1, 
+	  "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
+	  "//": "No scaling, since they don't add challenge"
+	  },
       {
         "monster": "mon_fly_small",
-        "freq": 2,
+        "freq": 100,
         "cost_multiplier": 1,
-        "starts": 24,
+        "starts": 168,
+		"ends": 336,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -3223,7 +3234,7 @@
         "starts": 792,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
-      { "monster": "mon_mutant_experimental", "freq": 5, "cost_multiplier": 5 }
+      { "monster": "mon_mutant_experimental", "freq": 2, "cost_multiplier": 6 }
     ]
   },
   {
