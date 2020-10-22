@@ -1,0 +1,11 @@
+[
+  {
+    "id": "BGSS_METEOROLOGIST_1",
+    "type": "talk_topic",
+    "dynamic_line": "Before the cataclysm, I was just a regular meteorologist. In recent years, I have worked at meteostation, monitored the weather, state of air, read and wrote reports, made schedules… In general, ordinary boredom. In my free time I was studying electronics and radio engineering, making various devices, some for work, some just for fun. When the first riots began, I gathered all my things that I managed to carry with me and settled in some radiostation. I lived there for a while, doing all sorts of nonsense, until I met you. Then you helped me make a drone, find out what happened to our state, and you persuaded me to go with you. Since then, I have followed you, trusting you with my life.",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]
