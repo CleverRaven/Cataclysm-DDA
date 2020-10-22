@@ -13,7 +13,7 @@ Widgets have the following "style" options:
 - "graph": Show a bar graph of the value with colored text characters
 - "layout": Special style; this widget will be a layout container for other widgets
 
-Each widget is bound to a special "var" name, referring to where its value should come from.
+Widgets that show data (number, phrase, or graph) may be bound to variables with the "var" field.
 
 
 ## Widget variables
@@ -22,16 +22,29 @@ The "var" field of a widget tells what variable data gives the widget its value.
 are given by the `widget_var` enum defined in `widget.h`. In the widget's `show` method, these var
 enums determine which avatar method(s) to get their values from.
 
-Below are a few examples of vars and what they mean. See the `widget_var` list in `widget.h` for the
-definitive list of vars.
+Here are most vars and what they mean. See `widget_var` in `widget.h` for the definitive list.
 
-- `bp_hp`: HP of given "bodypart", like "arm_l" or "torso", scale of 0-max HP
-- `bp_encumb`: encumbrance given "bodypart", scale of 0-??
-- `bp_warmth`: warmth of given "bodypart", scale of 0-10000
-- `stat_(str|dex|int|per)`: base character stat values
-- `stamina`: 0-10000, greater is fuller stamina reserves
-- `fatigue`: 0-1000, greater is more fatigued/tired
-- `move`, `pain`, `speed`, `mana`: other numeric avatar attributes
+| var           | description
+|--             |--
+| `bp_hp`       | HP of given "bodypart", like "arm_l" or "torso", 0-MAX_HP
+| `bp_encumb`   | encumbrance given "bodypart", 0-50+
+| `bp_warmth`   | warmth of given "bodypart", 0-10000
+| `stat_str`    | strength stat, 0-20+
+| `stat_dex`    | dexterity stat, 0-20+
+| `stat_int`    | intelligence stat, 0-20+
+| `stat_per`    | perception stat, 0-20+
+| `stamina`     | stamina reserves, 0-10000
+| `fatigue`     | tiredness, 0-1000
+| `move`        | movement counter, 0-100+
+| `pain`        | perceived pain, 0+
+| `focus`       | focus level, 0-100+
+| `speed`       | speed, 0-500+
+| `sound`       | sound, 0-20+
+| `mana`        | available mana, 0-MAX_MANA
+
+In the `widget.cpp` code, `get_var_value` returns the numeric value of the widget's "var" variable,
+which in turn is used for rendering numeric widgets as well as graphs of that value. Graphs are
+rendered with reference to the maximum value for the variable, or "var_max" if none is known.
 
 
 ### var_max
@@ -46,6 +59,8 @@ provide an explicit "var_max" that indicates where the top / full point of the g
 This helps the graph widget know whether it needs to show values up to 10000 (like stamina) or only
 up to 100 or 200 (like focus). For a stat that usually varies within a range `[low, high]`, select a
 "var_max" greater than `high` to be sure the normal variance is captured in the graph's range.
+
+You may also define "var_min" if it's relevant. By default this is 0.
 
 
 ## Number widget
@@ -103,34 +118,53 @@ More familiar in-game are hunger, thirst, body temperature and pain indicators.
 The graph shows an arrangement of symbols. It has two important parameters:
 
 - "width": how many characters wide is the graph
-- "symbols": single-character strings to map to 0-N
+- "symbols": single-character strings to map to 0-N values
 
 Given a graph of width 3 with two symbols, "-" and "=":
 
-```
-"width": 3,
-"symbols": "-="
-```
-
-Each symbol is mapped to a numeric value, starting with 0, so a graph can be represented numerically
-by replacing each symbol with its numerical index:
-
-```
---- 000
-=-- 100
-==- 110
-=== 111
+```json
+{
+    "width": 3,
+    "symbols": "-="
+}
 ```
 
-With three symbols, "-", "=", and "#":
-
+The first symbol is the zero or blank filler symbol, and remaining symbols are cycled through to
+fill the width of the graph. This simple graph uses the "-" symbol for its zero-filler, leaving one
+symbol "=" that expands to fill the width from left to right. The graph has four possible states -
+the all-zero state, and one state as each position up to "width" (3) is filled by the "=" symbol:
 
 ```
-"width": 3,
-"symbols": "-=#"
+---
+=--
+==-
+===
 ```
 
-The numeric values range from 0 to 2:
+With three symbols, "-", "=", and "#", using the same width:
+
+```json
+{
+    "width": 3,
+    "symbols": "-=#"
+}
+```
+
+The number of states increases to 7 - the zero state with all "-", plus two layers of filling with
+"=" and "#":
+
+```
+---
+=--
+==-
+===
+#==
+##=
+###
+```
+
+Each symbol corresponds to a numeric value, starting with 0, so a graph can be visualized
+numerically by replacing each symbol with its numerical index:
 
 ```
 --- 000
@@ -142,8 +176,8 @@ The numeric values range from 0 to 2:
 ### 222
 ```
 
-When using more than two sybols, different ways of filling up the graph become possible. This is
-specified with the "fill" field.
+When using more than two sybols, different ways of filling up the graph become possible. The method
+can be specified with the "fill" field.
 
 
 ### fill
@@ -151,11 +185,15 @@ specified with the "fill" field.
 With "bucket" fill, positions are filled like a row of buckets, using all symbols in the first
 position before beginning to fill the next position.  This is like the classic 5-bar HP meter.
 
+```json
+{
+    "width": 5,
+    "symbols": ".\\|",
+    "fill": "bucket"
+}
 ```
-"width": 5,
-"symbols": ".\\|",
-"fill": "bucket"
 
+```
 ..... 00000
 \.... 10000
 |.... 20000
@@ -172,11 +210,15 @@ position before beginning to fill the next position.  This is like the classic 5
 Using "pool" fill, positions are filled like a swimming pool, with each symbol filling all positions
 before the next symbol appears.
 
+```json
+{
+    "width": 5,
+    "symbols": "-=#",
+    "fill": "pool"
+}
 ```
-"width": 5,
-"symbols": "-=#",
-"fill": "pool"
 
+```
 ----- 00000
 =---- 10000
 ==--- 11000
@@ -190,54 +232,17 @@ before the next symbol appears.
 ##### 22222
 ```
 
-The total number of possible graphs is the same in each case, so both have the same resolution.
-
-
-### start
-
-*Wishlist*
-
-Use the "start" field to change which side the bar starts filling from
-
-```
-"start": "left" (default)
-
---- 000
-x-- 100
-xx- 110
-xxx 111
-
-"start": "right"
-
---- 000
---x 001
--xx 011
-xxx 111
-```
-
-The simplest graph is one character wide, with one symbol:
-
-```
-"width": 1,
-"symbols": "-"
-```
-
-The simplest *useful* graph is one character wide, with two symbols:
-
-```
-"width": 1,
-"symbols": "-="
-```
+The total number of graph states is the same for both fills, so they have the same resolution.
 
 
 ## Layout widget
 
-Lay out widgets with "style": "layout" widgets, providing a "widgets" list of widget ids or a
-"layout" object with row ids mapping to widget id lists. Widgets in the same row will have their
-horizontal space split equally if possible.
+Use widgets with "style": "layout" to arrange child widgets in sidebar panels, giving widget ids in
+the "widgets" list field.
 
-The arrangement of widgets is defined by the "arrange" field, which may be "columns" (default) to
-array widgets horizontally, or "rows" to arrange them vertically, one widget per row.
+The arrangement of child widgets is defined by the "arrange" field, which may be "columns" (default)
+to array widgets horizontally, or "rows" to arrange them vertically, one widget per row.  Widgets in
+the same row will have their horizontal space split as equally as possible.
 
 ```json
 [
@@ -276,5 +281,45 @@ Str: 8  Dex: 9  Int: 7  Per: 11
 ```
 
 The widget with id "root_layout" defines the top-level layout widget for all sidebar customization.
+
+
+## Colors
+
+Widgets with "number" or "graph" style may define "colors", which will be used as a spectrum across
+the widget's values ("var_min" to "var_max"), applying the appropriate color at each level.
+
+For example, a lower movement number (move cost) is better, while higher numbers are worse. Around
+500 is quite bad, while less than 100 is ideal. This range might be colored with green, white, and
+red, given in a "colors" list:
+
+```json
+{
+  "id": "move_num",
+  "type": "widget",
+  "label": "Move",
+  "var": "move",
+  "style": "number",
+  "var_max": 500,
+  "colors": [ "c_green", "c_white", "c_red" ]
+}
+```
+
+Graphs can be colorized in the same way. For example, the classic stamina graph is a 5-character
+bar, a dark green `|||||` when full. As stamina diminishes, the bar's color goes to light green,
+yellow, light red, and red. Such coloration could be represented with "colors" like so:
+
+```json
+{
+  "id": "stamina_graph_classic",
+  "type": "widget",
+  "label": "Stam",
+  "var": "stamina",
+  "var_max": 10000,
+  "style": "graph",
+  "width": 5,
+  "symbols": ".\\|",
+  "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+}
+```
 
 
