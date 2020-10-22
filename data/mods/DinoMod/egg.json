@@ -184,10 +184,31 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_dyoplosaurus",
+    "name": "dyoplosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_dyoplosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_ankylosaurus",
     "name": "ankylosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_ankylosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_nodosaurus",
+    "name": "nodosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_nodosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_edmontonia",
+    "name": "edmontonia egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_edmontonia"
   },
   {
     "type": "COMESTIBLE",
