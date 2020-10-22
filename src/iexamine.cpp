@@ -68,6 +68,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -381,6 +382,98 @@ void iexamine::gaspump( player &p, const tripoint &examp )
         }
     }
     add_msg( m_info, _( "Out of order." ) );
+}
+
+static bool has_attunement_spell_prereqs( player &p, const trait_id &attunement )
+{
+    // for each prereq we need to check that the player has 2 level 15 spells
+    for( const trait_id &prereq : attunement->prereqs ) {
+        int spells_known = 0;
+        for( const spell &sp : p.spells_known_of_class( prereq ) ) {
+            if( sp.get_level() >= 15 ) {
+                spells_known++;
+            }
+        }
+        if( spells_known < 2 ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void iexamine::attunement_altar( player &p, const tripoint & )
+{
+    std::set<trait_id> attunements;
+    for( const mutation_branch &mut : mutation_branch::get_all() ) {
+        if( mut.flags.count( "ATTUNEMENT" ) ) {
+            attunements.emplace( mut.id );
+        }
+    }
+    // remove the attunements the player does not have prereqs for
+    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
+        bool has_prereq = true;
+        // the normal usage of prereqs only needs one, but attunements put all their prereqs into the same array
+        // each prereqs is required for it as well
+        for( const trait_id &prereq : ( *iter )->prereqs ) {
+            if( !p.has_trait( prereq ) ) {
+                has_prereq = false;
+                break;
+            }
+        }
+        if( has_prereq ) {
+            ++iter;
+        } else {
+            iter = attunements.erase( iter );
+        }
+    }
+    if( attunements.empty() ) {
+        // the player doesn't have at least two base classes
+        p.add_msg_if_player( _( "This altar gives you the creeps." ) );
+        return;
+    }
+    // remove the attunements the player has conflicts for
+    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
+        if( !p.has_opposite_trait( *iter ) && p.mutation_ok( *iter, false, false ) ) {
+            ++iter;
+        } else {
+            iter = attunements.erase( iter );
+        }
+    }
+    if( attunements.empty() ) {
+        p.add_msg_if_player( _( "You've attained what you can for now." ) );
+        return;
+    }
+    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
+        if( has_attunement_spell_prereqs( p, *iter ) ) {
+            ++iter;
+        } else {
+            iter = attunements.erase( iter );
+        }
+    }
+    if( attunements.empty() ) {
+        p.add_msg_if_player( _( "You feel that the altar does not deem you worthy, yet." ) );
+        return;
+    }
+    uilist attunement_list;
+    attunement_list.title = _( "Pick an Attunement to show the world your Worth." );
+    for( const trait_id &attunement : attunements ) {
+        attunement_list.addentry( attunement->name() );
+    }
+    attunement_list.query();
+    if( attunement_list.ret == UILIST_CANCEL ) {
+        p.add_msg_if_player( _( "Maybe later." ) );
+        return;
+    }
+    auto attunement_iter = attunements.begin();
+    std::advance( attunement_iter, attunement_list.ret );
+    const trait_id &attunement = *attunement_iter;
+    if( query_yn( string_format( _( "Are you sure you want to pick %s?  This selection is permanent." ),
+                                 attunement->name() ) ) ) {
+        p.toggle_trait( attunement );
+        p.add_msg_if_player( m_info, attunement->desc() );
+    } else {
+        p.add_msg_if_player( _( "Maybe later." ) );
+    }
 }
 
 void iexamine::translocator( player &, const tripoint &examp )
@@ -6136,6 +6229,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
 {
     static const std::map<std::string, iexamine_function> function_map = {{
             { "none", &iexamine::none },
+            { "attunement_altar", &iexamine::attunement_altar },
             { "deployed_furniture", &iexamine::deployed_furniture },
             { "cvdmachine", &iexamine::cvdmachine },
             { "nanofab", &iexamine::nanofab },
