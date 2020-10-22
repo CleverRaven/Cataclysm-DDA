@@ -37,8 +37,8 @@ enum class widget_var : int {
     hunger,         // TODO
     thirst,         // TODO
     mood,           // TODO
-    cardio_fit,
-    cardio_acc,
+    cardio_fit,     // Cardio fitness, integer near BMR
+    cardio_acc,     // Cardio accumulator, integer
     // Text vars
     activity_text,  // Activity level text, color string
     body_temp_text, // Felt body temperature, color string
