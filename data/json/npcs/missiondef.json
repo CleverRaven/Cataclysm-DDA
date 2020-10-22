@@ -657,17 +657,20 @@
     "goal": "MGOAL_FIND_MONSTER",
     "difficulty": 3,
     "value": 100000,
-    "place": "near_town",
-    "start": "place_dog",
+    "start": {
+      "effect": { "u_buy_item": "dog_whistle" },
+      "assign_mission_target": { "om_terrain": "house", "om_terrain_match_type": "PREFIX", "reveal_radius": 1, "search_range": 75, "z": 0 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_dog", "x": 10, "y": 10, "target": true, "friendly": true } ] }
+    },
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "dialogue": {
       "describe": "Oh, my poor puppy…",
-      "offer": "I left my poor dog in a house, not far from here.  Can you retrieve it?",
-      "accepted": "Thank you!  Please hurry back!",
+      "offer": "I lost my poor dog, not far from here. Can you retrieve it?",
+      "accepted": "Thank you! Please hurry back!",
       "rejected": "Please, think of my poor little puppy!",
       "advice": "Take my dog whistle; if the dog starts running off, blow it and he'll return to your side.",
       "inquire": "Have you found my dog yet?",
-      "success": "Thank you so much for finding him!",
+      "success": "Thank you so much for finding him! I think he likes you. Maybe you should bring him with you, so you can keep him safe…",
       "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
       "failure": "Oh no!  My poor puppy…"
     }
