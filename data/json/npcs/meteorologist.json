@@ -6,7 +6,7 @@
     "name_suffix": "meteorologist",
     "attitude": 0,
     "mission": 7,
-    "chat": "meteorologist_1",
+    "chat": "TALK_meteorologist_1",
     "faction": "no_faction",
     "mission_offered": "MISSION_meteorologist_1"
   },
@@ -66,10 +66,10 @@
     "speaker_effect": { "effect": { "npc_add_var": "u_met_meteorologist", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "About that job…", "condition": "has_assigned_mission", "topic": "TALK_MISSION_INQUIRE" },
-      { "text": "What's your story?", "topic": "meteorologist_Background" },
+      { "text": "What's your story?", "topic": "TALK_meteorologist_Background" },
       {
         "text": "Maybe I can help you with your problem?",
-        "topic": "meteorologist_safety",
+        "topic": "TALK_meteorologist_safety",
         "condition": { "npc_has_var": "u_helped_meteorologist", "type": "flag", "context": "mission", "value": "yes" },
         "switch": true
       },
@@ -92,26 +92,26 @@
           "effect": [ { "npc_lose_var": "meteorologist_wait", "type": "time", "context": "mission" } ],
           "topic": "TALK_MISSION_LIST"
         },
-        "failure": { "topic": "meteorologist_wait" }
+        "failure": { "topic": "TALK_meteorologist_wait" }
       },
       { "text": "Goodbye.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "meteorologist_wait",
+    "id": "TALK_meteorologist_wait",
     "dynamic_line": "I need more time. Come back later.",
     "responses": [ { "text": "No problem.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
-    "id": "meteorologist_safety",
+    "id": "TALK_meteorologist_safety",
     "dynamic_line": "Help? Help with what? Oh, yes, yes. If you know a place with many survivors, can you take me there? I doubt I can survive alone…",
     "responses": [
       {
         "text": "Let's go.",
         "topic": "TALK_DONE",
-        "effect": [ "follow_only", { "npc_first_topic": "meteorologist_safety_lead" } ]
+        "effect": [ "follow_only", { "npc_first_topic": "TALK_meteorologist_safety_lead" } ]
       },
       { "text": "Want to travel with me?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Maybe later.", "topic": "TALK_NONE" }
@@ -119,12 +119,12 @@
   },
   {
     "type": "talk_topic",
-    "id": "meteorologist_safety_lead",
+    "id": "TALK_meteorologist_safety_lead",
     "dynamic_line": "Are we there yet, my friend?",
     "responses": [
       {
         "text": "Yes, you can relax now.",
-        "topic": "meteorologist_safety_done",
+        "topic": "TALK_meteorologist_safety_done",
         "condition": {
           "or": [
             { "npc_at_om_location": "FACTION_CAMP_ANY" },
@@ -138,25 +138,25 @@
   },
   {
     "type": "talk_topic",
-    "id": "meteorologist_safety_done",
+    "id": "TALK_meteorologist_safety_done",
     "dynamic_line": "Thank you. I will never forget your kindness. Take this book as token of my gratitude.",
     "responses": [
       {
         "text": "Bye.",
         "topic": "TALK_DONE",
-        "effect": [ { "u_buy_item": "adv_chemistry" }, "stop_following", { "npc_first_topic": "meteorologist_safe" } ]
+        "effect": [ { "u_buy_item": "adv_chemistry" }, "stop_following", { "npc_first_topic": "TALK_meteorologist_safe" } ]
       }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "meteorologist_safe",
+    "id": "TALK_meteorologist_safe",
     "dynamic_line": "I'm glad you still alive.",
     "responses": [ { "text": "Me too.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
-    "id": "meteorologist_Background",
+    "id": "TALK_meteorologist_Background",
     "dynamic_line": "I'm just a regular meteorologist. In recent years I have worked at meteostation, monitored the weather, state of air, read and wrote reports, drew up schedules… In general, complete boredom. In my free time I was studying electronics and radio engineering, making various devices, some for work, some just for fun. When the first riots began, I gathered all my things that I managed to take with me and settled here. Since then I've been sitting here, wasting my time doing all sorts of nonsense.",
     "responses": [ { "text": "Interesting.", "topic": "TALK_NONE" } ]
   },
