@@ -457,7 +457,7 @@
   {
     "type": "item_action",
     "id": "EINKTABLETPC",
-    "name": { "str": "Use SD-Card Apps" }
+    "name": { "str": "Use SD-Card apps" }
   },
   {
     "type": "item_action",
