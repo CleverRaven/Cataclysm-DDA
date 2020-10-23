@@ -2876,7 +2876,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist,
         return;
     }
 
-    int tmp_provocative = provocative || volume >= normal_roll( 30, 10 );
+    int tmp_provocative = provocative || volume >= normal_roll( 30, 5 );
     // already following a more interesting sound
     if( provocative_sound && !tmp_provocative && wandf > 0 ) {
         return;
