@@ -22,6 +22,7 @@
     "id": "pyromaniac",
     "name": "Pyromaniac Kelvinist",
     "description": "You have loved fire all of your life.  You have now discovered your inner fire, and want to exercise that upon the world.",
+    "spells": [ { "id": "create_lighter", "level": 0 } ],
     "points": 2,
     "items": {
       "both": [ "lighter", "sneakers", "pants", "tshirt", "jacket_light", "pyro" ],
@@ -36,6 +37,9 @@
     "name": "Druid",
     "description": "The ancient circle of druids is gone with the Cataclysm.  Nature must thrive.",
     "points": 4,
+    "skills": [ { "level": 1, "name": "spellcraft" }, { "level": 1, "name": "survival" } ],
+    "proficiencies": [ "prof_fibers" ],
+    "spells": [ { "id": "druid_woodshaft", "level": 2 } ],
     "items": {
       "both": [ "druid_spellbook", "leathersandals", "robe", "rope_makeshift_30", "hide_bag", "hat_fur", "gloves_wraps_fur" ]
     },
@@ -362,6 +366,7 @@
     "name": "Academy Wizard",
     "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells.  With the teachers converted into the undead and classes cancelled, the final lesson has begun.",
     "points": 4,
+    "proficiencies": [ "prof_alchemy" ],
     "spells": [
       { "id": "magic_missile", "level": 6 },
       { "id": "magus_mana_bolt", "level": 2 },
