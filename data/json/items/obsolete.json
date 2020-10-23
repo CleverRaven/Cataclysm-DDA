@@ -2615,6 +2615,7 @@
       {
         "target": "control_laptop_screen_lit",
         "msg": "You light up the screen.",
+        "menu_text": "Light up the screen",
         "active": true,
         "need_charges": 1,
         "need_charges_msg": "The laptop's batteries need more charge.",
