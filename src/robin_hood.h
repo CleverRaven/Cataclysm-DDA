@@ -459,10 +459,12 @@ class BulkPoolAllocator
         // This ignores the fact that memory blocks might have been added manually with addOrFree. In
         // practice, this should not matter much.
         ROBIN_HOOD( NODISCARD ) size_t calcNumElementsToAlloc() const noexcept {
+            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto tmp = mListForFree;
             size_t numAllocs = MinNumAllocs;
 
             while( numAllocs * 2 <= MaxNumAllocs && tmp ) {
+                // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
                 auto x = reinterpret_cast<T ** *>( tmp );
                 tmp = *x;
                 numAllocs *= 2;
@@ -475,9 +477,11 @@ class BulkPoolAllocator
         void add( void *ptr, const size_t numBytes ) noexcept {
             const size_t numElements = ( numBytes - ALIGNMENT ) / ALIGNED_SIZE;
 
+            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto data = reinterpret_cast<T **>( ptr );
 
             // link free list
+            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto x = reinterpret_cast<T ** *>( data );
             *x = mListForFree;
             mListForFree = data;
@@ -710,6 +714,7 @@ inline size_t hash_bytes( void const *ptr, size_t const len ) noexcept
 
     size_t const n_blocks = len / 8;
     for( size_t i = 0; i < n_blocks; ++i ) {
+        // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
         auto k = detail::unaligned_load<uint64_t>( data64 + i );
 
         k *= m;
@@ -763,8 +768,11 @@ inline size_t hash_int( uint64_t x ) noexcept
     //
     // Added a final multiplcation with a constant for more mixing. It is most important that the
     // lower bits are well mixed.
+    // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
     auto h1 = x * UINT64_C( 0xA24BAED4963EE407 );
+    // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
     auto h2 = detail::rotr( x, 32U ) * UINT64_C( 0x9FB21C651E98DF25 );
+    // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
     auto h = detail::rotr( h1 + h2, 32U );
     return static_cast<size_t>( h );
 }
@@ -842,10 +850,10 @@ ROBIN_HOOD_HASH_INT( short );
 ROBIN_HOOD_HASH_INT( unsigned short );
 ROBIN_HOOD_HASH_INT( int );
 ROBIN_HOOD_HASH_INT( unsigned int );
-ROBIN_HOOD_HASH_INT( long );
-ROBIN_HOOD_HASH_INT( long long );
-ROBIN_HOOD_HASH_INT( unsigned long );
-ROBIN_HOOD_HASH_INT( unsigned long long );
+ROBIN_HOOD_HASH_INT( long );  // NOLINT third-party library style
+ROBIN_HOOD_HASH_INT( long long ); // NOLINT third-party library style
+ROBIN_HOOD_HASH_INT( unsigned long ); // NOLINT third-party library style
+ROBIN_HOOD_HASH_INT( unsigned long long ); // NOLINT third-party library style
 #if defined(__GNUC__) && !defined(__clang__)
 #    pragma GCC diagnostic pop
 #endif
@@ -1315,8 +1323,10 @@ class Table
                         mKeyVals += sizeof( size_t );
                     }
 #if ROBIN_HOOD(LITTLE_ENDIAN)
+                    // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
                     auto inc = ROBIN_HOOD_COUNT_TRAILING_ZEROES( n ) / 8;
 #else
+                    // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
                     auto inc = ROBIN_HOOD_COUNT_LEADING_ZEROES( n ) / 8;
 #endif
                     mInfo += inc;
@@ -1365,6 +1375,7 @@ class Table
         void
         shiftUp( size_t startIdx,
                  size_t const insertion_idx ) noexcept( std::is_nothrow_move_assignable<Node>::value ) {
+            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto idx = startIdx;
             ::new( static_cast<void *>( mKeyVals + idx ) ) Node( std::move( mKeyVals[idx - 1] ) );
             while( --idx != insertion_idx ) {
@@ -1454,7 +1465,9 @@ class Table
             }
 
             // key not found, so we are now exactly where we want to insert it.
+            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto const insertion_idx = idx;
+            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto const insertion_info = static_cast<uint8_t>( info );
             if( ROBIN_HOOD_UNLIKELY( insertion_info + mInfoInc > 0xFF ) ) {
                 mMaxNumElementsAllowed = 0;
@@ -1931,6 +1944,7 @@ class Table
         iterator erase( iterator pos ) {
             ROBIN_HOOD_TRACE( this )
             // we assume that pos always points to a valid entry, and not end().
+            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto const idx = static_cast<size_t>( pos.mKeyVals - mKeyVals );
 
             shiftDown( idx );
@@ -1976,6 +1990,7 @@ class Table
         void reserve( size_t c ) {
             ROBIN_HOOD_TRACE( this )
             auto const minElementsAllowed = ( std::max )( c, mNumElements );
+            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto newSize = InitialNumElements;
             while( calcMaxNumElementsAllowed( newSize ) < minElementsAllowed && newSize != 0 ) {
                 newSize *= 2;
@@ -2035,6 +2050,7 @@ class Table
 
         ROBIN_HOOD( NODISCARD )
         size_t calcNumElementsWithBuffer( size_t numElements ) const noexcept {
+            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto maxNumElementsAllowed = calcMaxNumElementsAllowed( numElements );
             return numElements + ( std::min )( maxNumElementsAllowed, ( static_cast<size_t>( 0xFF ) ) );
         }
