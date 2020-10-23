@@ -473,8 +473,8 @@
     "type": "profession",
     "id": "fleshmender",
     "name": "Illicit Fleshmender",
-    "description": "After failing out of medical school, you took their mundane methods and combined it with magic to save your patients. Now that they all want to kill you, the lack of a license is the least of your worries.",
-    "points": 5,
+    "description": "After failing out of medical school, you took their mundane methods and combined it with magic to save your patients.  Now that they all want to kill you, the lack of a license is the least of your worries.",
+    "points": 4,
     "spells": [ { "id": "light_healing", "level": 3 }, { "id": "create_rune_biomancer", "level": 1 } ],
     "skills": [ { "level": 3, "name": "firstaid" }, { "level": 2, "name": "spellcraft" } ],
     "items": {
@@ -497,7 +497,7 @@
     "name": "Wildborne Rider",
     "description": "Abandoned at a young age and raised by moose, you had to master the wilds to survive.  While the modern world has been devoured, you and your steed are no stranger to hardship.",
     "points": 6,
-    "proficiencies": [ "prof_bowyery", "prof_fletching", "prof_fibers", "prof_knapping" ],
+    "proficiencies": [ "prof_bowyery", "prof_fibers", "prof_knapping" ],
     "spells": [
       { "id": "druidic_healing", "level": 4 },
       { "id": "purify_seed", "level": 4 },
@@ -536,7 +536,7 @@
     "type": "profession",
     "id": "whitedeath_expy",
     "name": "Deep-Cold Marksman",
-    "description": "You were a special operative conducting covert sniper ops in sub-zero temperatures, and had just finished your tour when society was destroyed. Having retained your gear, it's time to join the new war.",
+    "description": "You were a special operative conducting covert sniper ops in sub-zero temperatures, and had just finished your tour when society was destroyed.  Having retained your gear, it's time to join the new war.",
     "points": 7,
     "spells": [
       { "id": "create_lighter", "level": 4 },
@@ -567,7 +567,8 @@
           "attached_ear_plugs_off",
           "helmet_army",
           "hatchet",
-          "balclava"
+          "balclava",
+          "rifle_case_soft"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
@@ -575,14 +576,13 @@
             "item": "boreal_mosin",
             "ammo-item": "762_51",
             "charges": 5,
-            "contents-item": [ "improve_sights", "suppressor", "bipod" ],
-            "container-item": "rifle_case_soft"
+            "contents-item": [ "improve_sights", "suppressor", "bipod" ]
           },
           { "item": "borealmosin_clip", "ammo-item": "762_51", "charges": 5 },
           { "item": "borealmosin_clip", "ammo-item": "762_51", "charges": 5 },
           { "item": "m18", "ammo-item": "9mmfmj", "charges": 10, "container-item": "holster" },
           { "item": "p320mag_10rd_9x19mm", "ammo-item": "9mmfmj", "charges": 10 },
-          { "item": "canteen", "ammo-item": "water_clean", "charges": 6 }
+          { "-item": "water_clean", "charges": 6, "container-item": "canteen" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -592,7 +592,7 @@
   {
     "type": "profession",
     "id": "convict_arsonist",
-    "name": { "male": "Arsonist" },
+    "name": "Arsonist",
     "description": "Penned in a cell without fuel, you've been extinguished for years for setting buildings on fire.  In your escape, you grabbed your familiar tool to reignite the embers.",
     "points": 3,
     "spells": [
@@ -612,11 +612,11 @@
   {
     "type": "profession",
     "id": "convict_ecoterrorist",
-    "name": { "male": "Ecoterrorist" },
-    "description": "These bastards were destroying Earth far before the undead came, and mauling those execs was worth the federal charges. Now, you may have greater priorities than pollution.",
+    "name": "Ecoterrorist",
+    "description": "These bastards were destroying Earth far before the undead came, and mauling those execs was worth the federal charges.  Now, you may have greater priorities than pollution.",
     "points": 5,
     "spells": [
-      { "id": "druidic_regrowth", "level": 2 },
+      { "id": "druidic_regrowth", "level": 3 },
       { "id": "druid_feralform", "level": 2 },
       { "id": "druid_veggrasp", "level": 2 },
       { "id": "create_rune_druid", "level": 1 }
@@ -629,7 +629,7 @@
     ],
     "traits": [ "DRUID", "PSYCHOPATH" ],
     "items": {
-      "both": { "items": [ "striped_shirt", "striped_pants", "sneakers", "socks", "sugar" ] },
+      "both": { "items": [ "striped_shirt", "striped_pants", "sneakers", "socks" ] },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -642,15 +642,20 @@
     "description": "You learned Kelvinist spells to keep equipment costs down on your ice cream truck.  While their tastes have changed, the kids still scream for you.",
     "points": 4,
     "spells": [ { "id": "chilling_touch", "level": 3 }, { "id": "frost_spray", "level": 3 } ],
-    "skills": [ { "level": 3, "name": "speech" }, { "level": 2, "name": "cooking" }, { "level": 2, "name": "spellcraft" } ],
+    "skills": [
+      { "level": 2, "name": "speech" },
+      { "level": 2, "name": "cooking" },
+      { "level": 2, "name": "spellcraft" },
+      { "level": 2, "name": "driving" }
+    ],
     "vehicle": "icecream_truck",
     "items": {
       "both": {
         "items": [ "pants", "socks", "sneakers", "apron_leather", "wristwatch", "dress_shirt", "spoon" ],
         "entries": [
-          { "item": "plastic_bucket", "ammo-item": "icecream_choc", "charges": 17, "custom-flags": [ "auto_wield" ] },
-          { "item": "plastic_bowl_kids", "charges": 5 },
-          { "item": "plastic_spoon", "charges": 5 },
+          { "item": "icecream_choc", "charges": 17, "container-item": "plastic_bucket", "custom-flags": [ "auto_wield" ] },
+          { "item": "plastic_bowl_kids", "count": 5 },
+          { "item": "plastic_spoon", "count": 5 },
           { "group": "charged_cell_phone" }
         ]
       },
@@ -658,5 +663,21 @@
       "female": [ "bra", "panties" ]
     },
     "traits": [ "KELVINIST" ]
+  },
+  {
+    "type": "profession",
+    "id": "magic_knifethrower",
+    "name": "Knife Thrower",
+    "description": "You entertained the masses, displaying an expert hand tossing knives conjured from nowhere.  Now, you're bringing the show to them.",
+    "points": 4,
+    "skills": [ { "level": 3, "name": "throw" }, { "level": 1, "name": "stabbing" } ],
+    "items": {
+      "both": {
+        "items": [ "socks", "sneakers", "unitard", "wristwatch", "vest_leather" ],
+        "entries": [ { "item": "mring_blades_lesser", "charges": 5 } ]
+      },
+      "male": [ "under_armor_shorts" ],
+      "female": [ "sports_bra", "panties" ]
+    }
   }
 ]

@@ -190,7 +190,7 @@
     "id": "borealmosin_clip",
     "looks_like": "762R_clip",
     "type": "MAGAZINE",
-    "name": { "str": "7.62x51 Boreal Mosin clip" },
+    "name": { "str": "91/30 Boreal clip" },
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load a bolt-action rifle.",
     "weight": "40 g",
     "volume": "50ml",
