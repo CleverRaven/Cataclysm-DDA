@@ -91,8 +91,7 @@
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <LinkStatus>true</LinkStatus>
       <AdditionalOptions>/LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>winmm.lib;imm32.lib;version.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;setupapi.lib;Netapi32.lib;userenv.lib;Ws2_32.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Qt\5.15.0\msvc2019\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>winmm.lib;imm32.lib;version.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;setupapi.lib;Netapi32.lib;userenv.lib;Ws2_32.lib;Wtsapi32.lib;Dwmapi.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;qwindows.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>prebuild.cmd</Command>
@@ -129,28 +128,26 @@
     <ClCompile>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>.\vcpkg_installed\x86-windows-static\plugins\platforms;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
+    <Link>
+      <AdditionalLibraryDirectories>.\vcpkg_installed\x64-windows-static\plugins\platforms;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\object_creator\creator_main_window.h" />
-    <ClInclude Include="..\object_creator\fake_spell_listbox.h" />
-    <ClInclude Include="..\object_creator\fake_spell_window.h" />
-    <ClInclude Include="..\object_creator\moc_predefs.h" />
-    <ClInclude Include="..\object_creator\spell_window.h" />
     <ClInclude Include="..\src\messages.h" />
+    <ClInclude Include="..\object_creator\*.h" />
     <ClInclude Include="stdafx.h" />
-    <ClCompile Include="..\object_creator\fake_spell_listbox.cpp" />
-    <ClCompile Include="..\object_creator\fake_spell_window.cpp" />
-    <ClCompile Include="..\object_creator\moc_fake_spell_listbox.cpp" />
-    <ClCompile Include="..\object_creator\moc_fake_spell_window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\messages.cpp" />
+    <ClCompile Include="..\object_creator\*.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\object_creator\creator_main.cpp" />
-    <ClCompile Include="..\object_creator\creator_main_window.cpp" />
-    <ClCompile Include="..\object_creator\spell_window.cpp" />
-    <ClCompile Include="..\src\messages.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Cataclysm-lib-vcpkg-static.vcxproj">
