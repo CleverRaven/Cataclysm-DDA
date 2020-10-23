@@ -2660,7 +2660,7 @@
     "//": "Item for meteorologist mission.",
     "id": "module_meteorologist",
     "name": { "str": "drone memory bank" },
-    "description": "Allows for storage and recovery of information. Found in meteorologist drone.",
+    "description": "Allows for storage and recovery of information.  Found in meteorologist drone.",
     "copy-from": "robot_module_abstract",
     "flags": [ "TRADER_AVOID" ]
   },
