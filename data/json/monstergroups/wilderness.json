@@ -2814,7 +2814,7 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_crayfish_giant",
+        "monster": "mon_giant_crayfish",
         "freq": 50,
         "cost_multiplier": 1,
         "starts": 2160,
