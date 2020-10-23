@@ -9,6 +9,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_Boris_1",
+    "mission_offered": "MISSION_REFUGEE_Boris_CLEANUP",
     "faction": "free_merchants"
   },
   {
@@ -183,9 +184,31 @@
     "id": "TALK_REFUGEE_Boris_Son",
     "dynamic_line": "…Ash.  His name was Ash, and he was ten years old.  Such a light, a spark.  I wanted to see the man he would grow into.  I… now I can barely say his name.  I miss him so much, every instant.  If I did not have Stan, I would walk out through the barbed wire and join the walking dead.",
     "responses": [
-      TK obviously need some responses here. "That's rough, buddy"
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "I'm sorry for your loss.  Tell me more about Ash.", "topic": "TALK_REFUGEE_Boris_Son_Remember" },
+      { "text": "We've all lost a lot of people.  You can either let yourself die, or learn to survive.", "topic": "TALK_REFUGEE_Boris_Son_Tough" },
+      { "text": "I'm so sorry, man.  Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "I'm sorry for your loss.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Son_Remember",
+    "dynamic_line": "I could talk forever, but it's hard to make the words come.  He was so *smart*.  Always on the computer, writing stories and programming silly games in Scratch.  He had a little robotics toy he made walk around and do funny dances.  It was a challenge to make him play with his friends sometimes, he would get so far into himself and buried in that thing.  So tough to be a parent, you know?  It is good for him to write, to learn, but he also needs to socialize and have friends.  He'll grow out… he…",
+    "responses": [
+      { "text": "Do you have any of his writing?", "topic": "TALK_REFUGEE_Boris_Son_Writing" },
+      { "text": "We've all lost a lot of people.  You can either let yourself die, or learn to survive.", "topic": "TALK_REFUGEE_Boris_Son_Tough" },
+      { "text": "I'm so sorry, man.  Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "I'm sorry for your loss.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Son_Writing",
+    "dynamic_line": "No.  When we fled, he forgot his laptop in the evacuation shelter.  It is all saved on the hard drive, we thought we could download it from the cloud when we arrived but, well, there is no cloud now.  Even if there were, it would only have his writing, not his little games, his silly voice recordings.",
+    TK add a quest.
+    "responses": [
+      { "text": "I'm so sorry, man.  Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "I'm sorry for your loss.  I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
