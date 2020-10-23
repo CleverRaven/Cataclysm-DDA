@@ -9,6 +9,10 @@
           "features": [ "dynamic-load", "libflac", "mpg123", "libmodplug", "libvorbis" ]
         },
         "sdl2-ttf",
-        "gettext"
+        "gettext",
+        {
+          "name": "qt5-base",
+          "features": [ "latest" ]
+        }
     ]
 }
