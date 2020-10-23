@@ -47,7 +47,7 @@
   },
   {
     "type": "talk_topic",
-    "id": [ "meteorologist_1" ],
+    "id": [ "TALK_meteorologist_1" ],
     "dynamic_line": {
       "npc_has_var": "u_helped_meteorologist",
       "type": "flag",
