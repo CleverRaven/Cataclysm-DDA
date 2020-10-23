@@ -6257,17 +6257,17 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
                 something_downloaded = true;
                 eink.set_var( "EIPC_RECIPES", "," + rident.str() + "," );
 
-                p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
+                p.add_msg_if_player( m_good, _( "You download a recipe for %s into the memory." ),
                                      r->result_name() );
             } else {
                 if( old_recipes.find( "," + rident.str() + "," ) == std::string::npos ) {
                     something_downloaded = true;
                     eink.set_var( "EIPC_RECIPES", old_recipes + rident.str() + "," );
 
-                    p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
+                    p.add_msg_if_player( m_good, _( "You download a recipe for %s into the memory." ),
                                          r->result_name() );
                 } else {
-                    p.add_msg_if_player( m_good, _( "Your tablet already has a recipe for %s." ),
+                    p.add_msg_if_player( m_good, _( "The recipe for %s is already stored in the memory." ),
                                          r->result_name() );
                 }
             }
@@ -6422,7 +6422,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( !it->get_var( "EIPC_RECIPES" ).empty() ) {
-            amenu.addentry( ei_recipe, true, 'r', _( "View recipes on E-ink screen" ) );
+            amenu.addentry( ei_recipe, true, 'r', _( "List stored recipes" ) );
         }
 
         if( !it->get_var( "EIPC_EXTENDED_PHOTOS" ).empty() ) {
