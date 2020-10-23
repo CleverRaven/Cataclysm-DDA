@@ -479,8 +479,8 @@ void veh_interact::cache_tool_availability()
         mech_jack = g->u.mounted_creature->mech_str_addition() + 10;
     }
     max_jack = std::max( { g->u.max_quality( qual_JACK ), mech_jack,
-                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( qual_JACK ),
-                           vehicle_selector( g->u.pos(), 2, true, *veh ).max_quality( qual_JACK )
+                           map_selector( g->u.pos(), PICKUP_RANGE, false ).max_quality( qual_JACK ),
+                           vehicle_selector( g->u.pos(), PICKUP_RANGE, false, *veh ).max_quality( qual_JACK )
                          } );
 }
 

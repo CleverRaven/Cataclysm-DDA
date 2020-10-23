@@ -2583,8 +2583,8 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
         }
     }
     return std::max( { this->max_quality( LIFT ), mech_lift,
-                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
-                       vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
+                       map_selector( this->pos(), PICKUP_RANGE, false ).max_quality( LIFT ),
+                       vehicle_selector( world_pos, PICKUP_RANGE, false ).max_quality( LIFT )
                      } );
 }
 
