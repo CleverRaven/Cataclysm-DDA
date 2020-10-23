@@ -1767,6 +1767,10 @@ class Character : public Creature, public visitable<Character>
         // magic mod
         pimpl<known_magic> magic;
 
+        // gets all the spells known by this character that have this spell class
+        // spells returned are a copy, do not try to edit them from here, instead use known_magic::get_spell
+        std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
+
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
 
