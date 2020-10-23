@@ -1391,17 +1391,20 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
 
-    map &here = get_map();
-    bool can_bash = here.is_bashable( p ) && bash_skill() > 0;
-    if( !can_bash ) {
+    if( bash_skill() == 0 ) {
         return false;
     }
 
-    bool flat_ground = here.has_flag( "ROAD", p ) || here.has_flag( "FLAT", p );
-    if( flat_ground ) {
-        bool can_bash_ter = here.is_bashable_ter( p );
-        bool try_bash_ter = one_in( 50 );
-        if( !( can_bash_ter && try_bash_ter ) ) {
+    map &here = get_map();
+    if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() ) ) {
+        bool flat_ground = here.has_flag( "ROAD", p ) || here.has_flag( "FLAT", p );
+        if( flat_ground ) {
+            bool can_bash_ter = here.is_bashable_ter( p );
+            bool try_bash_ter = one_in( 50 );
+            if( !( can_bash_ter && try_bash_ter ) ) {
+                return false;
+            }
+        } else {
             return false;
         }
     }
