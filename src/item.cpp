@@ -60,6 +60,7 @@
 #include "line.h"
 #include "magic.h"
 #include "magic_enchantment.h"
+#include "make_static.h"
 #include "map.h"
 #include "martialarts.h"
 #include "material.h"
@@ -680,7 +681,11 @@ bool item::is_frozen_liquid() const
 
 bool item::covers( const bodypart_id &bp ) const
 {
-    return get_covered_body_parts().test( bp.id() );
+    bool does_cover = false;
+    iterate_covered_body_parts_internal( get_side(), [&]( const bodypart_str_id & covered ) {
+        does_cover = does_cover || bp == covered;
+    } );
+    return does_cover;
 }
 
 body_part_set item::get_covered_body_parts() const
@@ -691,48 +696,68 @@ body_part_set item::get_covered_body_parts() const
 body_part_set item::get_covered_body_parts( const side s ) const
 {
     body_part_set res;
+    iterate_covered_body_parts_internal( s, [&]( const bodypart_str_id & bp ) {
+        res.set( bp );
+    } );
+    return res;
+}
+
+namespace
+{
+
+const std::array<bodypart_str_id, 4> left_side_parts{ {
+        bodypart_str_id{"arm_l"},
+        bodypart_str_id{"hand_l"},
+        bodypart_str_id{"leg_l"},
+        bodypart_str_id{"foot_l"}
+    }
+};
+
+const std::array<bodypart_str_id, 4> right_side_parts{ {
+        bodypart_str_id{"arm_r"},
+        bodypart_str_id{"hand_r"},
+        bodypart_str_id{"leg_r"},
+        bodypart_str_id{"foot_r"}
+    }
+};
+
+} // namespace
+
+void item::iterate_covered_body_parts_internal( const side s,
+        std::function<void( const bodypart_str_id & )> cb ) const
+{
 
     if( is_gun() ) {
         // Currently only used for guns with the should strap mod, other guns might
         // go on another bodypart.
-        res.set( bodypart_str_id( "torso" ) );
+        cb( STATIC( bodypart_str_id( "torso" ) ) );
     }
 
     const islot_armor *armor = find_armor_data();
     if( armor == nullptr ) {
-        return res;
+        return;
     }
+
+    // If we are querying for only one side of the body, we ignore coverage
+    // for parts on the opposite side of the body.
+    const auto &opposite_side_parts = s == side::LEFT ? right_side_parts : left_side_parts;
+
     for( const armor_portion_data &data : armor->data ) {
         if( data.covers.has_value() ) {
-            res.unify_set( data.covers.value() );
+            if( !armor->sided || s == side::BOTH || s == side::num_sides ) {
+                for( const bodypart_str_id &bpid : data.covers.value() ) {
+                    cb( bpid );
+                }
+                continue;
+            }
+            for( const bodypart_str_id &bpid : data.covers.value() ) {
+                if( std::find( opposite_side_parts.begin(), opposite_side_parts.end(),
+                               bpid ) == opposite_side_parts.end() ) {
+                    cb( bpid );
+                }
+            }
         }
     }
-
-    if( !armor->sided ) {
-        return res; // Just ignore the side.
-    }
-
-    switch( s ) {
-        case side::BOTH:
-        case side::num_sides:
-            break;
-
-        case side::LEFT:
-            res.reset( bodypart_str_id( "arm_r" ) );
-            res.reset( bodypart_str_id( "hand_r" ) );
-            res.reset( bodypart_str_id( "leg_r" ) );
-            res.reset( bodypart_str_id( "foot_r" ) );
-            break;
-
-        case side::RIGHT:
-            res.reset( bodypart_str_id( "arm_l" ) );
-            res.reset( bodypart_str_id( "hand_l" ) );
-            res.reset( bodypart_str_id( "leg_l" ) );
-            res.reset( bodypart_str_id( "foot_l" ) );
-            break;
-    }
-
-    return res;
 }
 
 bool item::is_sided() const
@@ -744,7 +769,7 @@ bool item::is_sided() const
 side item::get_side() const
 {
     // MSVC complains if directly cast double to enum
-    return static_cast<side>( static_cast<int>( get_var( "lateral",
+    return static_cast<side>( static_cast<int>( get_var( STATIC( std::string{ "lateral" } ),
                               static_cast<int>( side::BOTH ) ) ) );
 }
 
