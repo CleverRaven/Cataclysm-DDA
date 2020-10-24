@@ -434,7 +434,7 @@
     "description": "A small cardboard box.  No bigger than half a foot in dimension.",
     "weight": "151 g",
     "volume": "3500 ml",
-	"longest_side": "15 cm",
+    "longest_side": "15 cm",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "3500 ml", "max_contains_weight": "4 kg" } ],
     "price": 0,
     "price_postapoc": 0,
@@ -451,7 +451,7 @@
     "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.",
     "weight": "850 g",
     "volume": "13600 ml",
-	"longest_side": "30 cm",
+    "longest_side": "30 cm",
     "//": "Nested containers are a thing now so these need to be actual volume (30x30x15)",
     "price": 0,
     "price_postapoc": 0,
@@ -477,7 +477,7 @@
     "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.",
     "weight": "1250 g",
     "volume": "60850 ml",
-	"longest_side": "45 cm",
+    "longest_side": "45 cm",
     "//": "Nested containers are a thing now so these need to be actual volume. Also a box that children could hide in should be big enough to cram a (un)dead child in (45x45x30)",
     "price": 0,
     "price_postapoc": 10,
@@ -504,18 +504,11 @@
     "description": "A flat cardboard box, as commonly used to transport pizza in.",
     "weight": "200 g",
     "volume": "2520 ml",
-	"longest_side": "22 cm",
+    "longest_side": "22 cm",
     "//": "Nested containers are a thing now so these need to be actual volume (22x22x5)",
     "price": 0,
     "price_postapoc": 0,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "2420 ml",
-        "max_contains_weight": "20 kg"
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "2420 ml", "max_contains_weight": "20 kg" } ],
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
