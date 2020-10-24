@@ -264,5 +264,138 @@
     "category": "VEHICLE",
     "name": "Set turret targeting modes",
     "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "id": "EXAMINE_VEHICLE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Examine vehicle",
+    "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
+  },
+  {
+    "id": "PULL_HANDBRAKE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Pull handbrake",
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "id": "USE_AUTOCLAVE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Autoclave",
+    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
+  },
+  {
+    "id": "USE_WASHMACHINE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Washing machine",
+    "bindings": [ { "input_method": "keyboard_any", "key": "W" } ]
+  },
+  {
+    "id": "USE_DISHWASHER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Dishwasher",
+    "bindings": [ { "input_method": "keyboard_any", "key": "D" } ]
+  },
+  {
+    "id": "PICKUP_ITEMS",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Get items",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "id": "PICKUP_ITEMS_FROM_GROUND",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Get items on the ground",
+    "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
+  },
+  {
+    "id": "FOLD_VEHICLE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Fold vehicle",
+    "bindings": [ { "input_method": "keyboard_any", "key": "f" } ]
+  },
+  {
+    "id": "TURRET_UNLOAD",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Unload turret",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "id": "TURRET_RELOAD",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Reload turret",
+    "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
+  },
+  {
+    "id": "CURTAIN_PEEK",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Peek through curtain",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "id": "FILL_WATER_CONTAINER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Fill a container with water",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "id": "DRINK_WATER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Drink water",
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+  },
+  {
+    "id": "PURIFY_TANK",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Purify water in vehicle tank",
+    "bindings": [ { "input_method": "keyboard_any", "key": "P" } ]
+  },
+  {
+    "id": "CAPTURE_CREATURE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Capture creature",
+    "bindings": [ { "input_method": "keyboard_any", "key": "G" } ]
+  },
+  {
+    "id": "BIKE_RACK",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Load or unload a vehicle",
+    "bindings": [ { "input_method": "keyboard_any", "key": "R" } ]
+  },
+  {
+    "id": "ANIMAL_HARNESS",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Harness an animal",
+    "bindings": [ { "input_method": "keyboard_any", "key": "H" } ]
+  },
+  {
+    "id": "RELOAD_SEED_DRILL",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Reload seed drill",
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "id": "USE_WORKBENCH",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Use workbench",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
   }
 ]

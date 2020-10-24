@@ -870,10 +870,6 @@ class vehicle
          */
         void use_controls( const tripoint &pos );
 
-        // build controls menu, true returned from std::function tells the menu should close
-        void build_controls_menu( const tripoint &pos,
-                                  std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions );
-
         // Fold up the vehicle
         bool fold_up();
 
@@ -1628,6 +1624,29 @@ class vehicle
         npc get_targeting_npc( const vehicle_part &pt );
         /*@}*/
 
+        // Next functions are building interaction menus
+
+        // Utility function used by menu builders
+        void add_menu_item( std::vector<uilist_entry> &options,
+                            std::vector<std::function<bool()>> &actions,
+                            bool enabled, std::string text, input_event hotkey,
+                            std::function<bool()> action, bool check_theft = true );
+
+        // true returned from std::function calls below tells the menu should close
+
+        // Build controls menu
+        void build_controls_menu( const tripoint &pos,
+                                  std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions );
+        // Builds interaction (`e`xamine) menu for the method below
+        void build_interact_menu( const tripoint &pos,
+                                  std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions );
+        // Builds electronics controls menu for controls and interaction menus
+        void build_electronics_menu( std::vector<uilist_entry> &options,
+                                     std::vector<std::function<bool()>> &actions );
+        // Builds vehicle tools menu for the method below
+        void build_veh_tools_menu( const vpart_position &vp,
+                                   std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions );
+
     public:
         /**
          *  Try to assign a crew member (who must be a player ally) to a specific seat
@@ -1689,8 +1708,6 @@ class vehicle
                                  const std::string &name,
                                  const input_event &key,
                                  const std::string &flag );
-        void set_electronics_menu_options( std::vector<uilist_entry> &options,
-                                           std::vector<std::function<bool()>> &actions );
         //main method for the control of individual engines
         void control_engines();
         // shows ui menu to select an engine
@@ -1773,14 +1790,6 @@ class vehicle
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
         void use_harness( int part, const tripoint &pos );
-
-        // Builds a menu for the method below
-        void build_veh_tools_menu( const vpart_position &pos,
-                                   std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions );
-
-        // Builds a menu for the method below
-        void build_interact_menu( const tripoint &pos,
-                                  std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions );
 
         void interact_with( const vpart_position &vp );
 

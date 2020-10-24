@@ -101,6 +101,18 @@ static input_event keybind( const std::string &opt,
     return keys.empty() ? input_event() : keys.front();
 }
 
+static void add_menu_title( std::vector<uilist_entry> &options,
+                            std::vector<std::function<bool()>> &actions, std::string text, nc_color color = c_cyan )
+{
+    // Add title
+    options.push_back( uilist_entry( -1, false, 0, "  " + text ) );
+    options.back().force_color = true;
+    options.back().text_color = color;
+    actions.push_back( []() {
+        return false;
+    } );
+}
+
 void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
                                   std::vector<std::function<bool()>> &actions,
                                   const std::string &name,
@@ -267,9 +279,11 @@ void vehicle::control_doors()
     }
 }
 
-void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
-        std::vector<std::function<bool()>> &actions )
+void vehicle::build_electronics_menu( std::vector<uilist_entry> &options,
+                                      std::vector<std::function<bool()>> &actions )
 {
+    add_menu_title( options, actions, _( "Control multiple electronics" ) );
+
     auto add_toggle = [&]( const std::string & name, const input_event & key,
     const std::string & flag ) {
         add_toggle_to_opts( options, actions, name, key, flag );
@@ -602,24 +616,18 @@ void vehicle::release_controls( bool turn_engines_off )
 
 void vehicle::use_controls( const tripoint &pos )
 {
-    avatar &player_character = get_avatar();
-    std::vector<uilist_entry> options;
-    std::vector<std::function<bool()>> actions;
-
-    build_controls_menu( pos, options, actions );
-
-    uilist menu;
-    menu.text = _( "Vehicle controls" );
-    menu.entries = options;
-    menu.query();
-    if( menu.ret >= 0 ) {
-        // allow player to turn off engine without triggering another warning
-        if( menu.ret != 0 && menu.ret != 1 && menu.ret != 2 && menu.ret != 3 ) {
-            if( !handle_potential_theft( player_character ) ) {
-                return;
-            }
-        }
-        actions[menu.ret]();
+    bool keep_open = true;
+    int ret = 0; // keeps menu selection across query() calls
+    while( keep_open ) {
+        uilist menu;
+        std::vector<std::function<bool()>> actions;
+        build_controls_menu( pos, menu.entries, actions );
+        menu.text = _( "Vehicle controls" );
+        menu.selected = clamp( ret, 0, static_cast<int>( menu.entries.size() - 1 ) );
+        menu.query();
+        ret = menu.ret;
+        keep_open = ret >= 0 && static_cast<size_t>( ret ) < actions.size()
+                    && !actions[ret]();
         // Don't access `this` from here on, one of the actions above is to call
         // fold_up(), which may have deleted `this` object.
     }
@@ -633,23 +641,29 @@ void vehicle::build_controls_menu( const tripoint &pos,
     avatar &player_character = get_avatar();
 
     if( remote ) {
-        options.emplace_back( _( "Stop controlling" ), keybind( "RELEASE_CONTROLS" ) );
-        actions.push_back( [&] { release_controls( false ); return true; } );
+        add_menu_item( options, actions, true, _( "Stop controlling" ), keybind( "RELEASE_CONTROLS" ),
+        [&]() {
+            release_controls( false );
+            return true;
+        }, false ); // false - don't check theft
 
         has_electronic_controls = has_part( "CTRL_ELECTRONIC" ) || has_part( "REMOTE_CONTROLS" );
-
     } else if( veh_pointer_or_null( get_map().veh_at( pos ) ) == this ) {
         if( player_character.controlling_vehicle ) {
-            options.emplace_back( _( "Let go of controls" ), keybind( "RELEASE_CONTROLS" ) );
-            actions.push_back( [&] { release_controls( false ); return true; } );
+            add_menu_item( options, actions, true, _( "Let go of controls" ), keybind( "RELEASE_CONTROLS" ),
+            [&]() {
+                release_controls( false );
+                return true;
+            }, false );
         }
-        has_electronic_controls = !get_parts_at( pos, "CTRL_ELECTRONIC",
-                                  part_status_flag::any ).empty();
+        has_electronic_controls = !get_parts_at( pos, "CTRL_ELECTRONIC", part_status_flag::any ).empty();
     }
 
     if( get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() && !has_electronic_controls ) {
-        options.emplace_back( uilist_entry( -1, false, 0, _( "No controls there" ) ) );
-        return;
+        add_menu_item( options, actions, true, _( "No controls there" ), keybind( "" ),
+        []() {
+            return true;
+        } );
     }
 
     // exit early if you can't control the vehicle
@@ -659,78 +673,93 @@ void vehicle::build_controls_menu( const tripoint &pos,
 
     if( has_part( "ENGINE" ) ) {
         if( player_character.controlling_vehicle || ( remote && engine_on ) ) {
-            options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
-            actions.push_back( [&] { release_controls( true ); return true; } );
-
+            add_menu_item( options, actions, true, _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ),
+            [&]() {
+                release_controls( true );
+                return true;
+            }, false ); // false - don't check theft
         } else if( has_engine_type_not( fuel_type_muscle, true ) ) {
-            options.emplace_back( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ),
-                                  keybind( "TOGGLE_ENGINE" ) );
-            actions.push_back( [&] {
-                if( engine_on )
-                {
+            add_menu_item( options, actions, true,
+                           engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ),
+                           keybind( "TOGGLE_ENGINE" ),
+            [&]() {
+                if( engine_on ) {
                     add_msg( _( "You turn the engine off." ) );
                     stop_engines();
-                } else
-                {
+                } else {
                     start_engines();
                 }
                 return true;
-            } );
+            }, false ); // false - don't check theft
         }
     }
 
     if( has_part( "HORN" ) ) {
-        options.emplace_back( _( "Honk horn" ), keybind( "SOUND_HORN" ) );
-        actions.push_back( [&] { honk_horn(); refresh(); return true; } );
+        add_menu_item( options, actions, true, _( "Honk horn" ), keybind( "SOUND_HORN" ),
+        [&]() {
+            honk_horn();
+            refresh();
+            return true;
+        } );
     }
     if( has_part( "AUTOPILOT" ) && ( has_part( "CTRL_ELECTRONIC" ) ||
                                      has_part( "REMOTE_CONTROLS" ) ) ) {
-        options.emplace_back( _( "Control autopilot" ), keybind( "CONTROL_AUTOPILOT" ) );
-        actions.push_back( [&] { toggle_autopilot(); refresh(); return true; } );
+        add_menu_item( options, actions, true, _( "Control autopilot" ), keybind( "CONTROL_AUTOPILOT" ),
+        [&]() {
+            toggle_autopilot();
+            refresh();
+            return true;
+        } );
     }
 
-    options.emplace_back( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ),
-                          keybind( "TOGGLE_CRUISE_CONTROL" ) );
-    actions.emplace_back( [&] {
+    add_menu_item( options, actions, true,
+                   cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ),
+                   keybind( "TOGGLE_CRUISE_CONTROL" ),
+    [&]() {
         cruise_on = !cruise_on;
         add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
         refresh();
         return true;
     } );
 
-    if( has_electronic_controls ) {
-        set_electronics_menu_options( options, actions );
-    }
-
-    options.emplace_back( tracking_on ? _( "Forget vehicle position" ) :
-                          _( "Remember vehicle position" ),
-                          keybind( "TOGGLE_TRACKING" ) );
-    actions.push_back( [&] { toggle_tracking(); return false; } );
+    add_menu_item( options, actions, true,
+                   tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ),
+                   keybind( "TOGGLE_TRACKING" ),
+    [&]() {
+        toggle_tracking();
+        return false;
+    } );
 
     if( ( is_foldable() || tags.count( "convertible" ) ) && !remote ) {
-        options.emplace_back( string_format( _( "Fold %s" ), name ), keybind( "FOLD_VEHICLE" ) );
-        actions.push_back( [&] { fold_up(); return true; } );
+        add_menu_item( options, actions, true, string_format( _( "Fold %s" ), name ),
+                       keybind( "FOLD_VEHICLE" ),
+        [&]() {
+            fold_up();
+            return true;
+        } );
     }
 
     if( has_part( "ENGINE" ) ) {
-        options.emplace_back( _( "Control individual engines" ), keybind( "CONTROL_ENGINES" ) );
-        actions.push_back( [&] { control_engines(); refresh(); return true; } );
+        add_menu_item( options, actions, true, _( "Control individual engines" ),
+                       keybind( "CONTROL_ENGINES" ),
+        [&]() {
+            control_engines();
+            return true;
+        } );
     }
 
     if( has_part( "SMART_ENGINE_CONTROLLER" ) ) {
-        options.emplace_back( _( "Smart controller settings" ),
-                              keybind( "TOGGLE_SMART_ENGINE_CONTROLLER" ) );
-        actions.push_back( [&] {
-            if( !smart_controller_cfg )
-            {
+        add_menu_item( options, actions, true, _( "Smart controller settings" ),
+                       keybind( "TOGGLE_SMART_ENGINE_CONTROLLER" ),
+        [&]() {
+            if( !smart_controller_cfg ) {
                 smart_controller_cfg = smart_controller_config();
             }
 
             smart_controller_settings cfg_view = smart_controller_settings( has_enabled_smart_controller,
-                    smart_controller_cfg -> battery_lo, smart_controller_cfg -> battery_hi );
+                                                 smart_controller_cfg -> battery_lo, smart_controller_cfg -> battery_hi );
             smart_controller_ui( cfg_view ).control();
-            for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) )
-            {
+            for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
                 vp.part().enabled = cfg_view.enabled;
             }
             refresh();
@@ -740,12 +769,15 @@ void vehicle::build_controls_menu( const tripoint &pos,
 
     if( is_alarm_on ) {
         if( velocity == 0 && !remote ) {
-            options.emplace_back( _( "Try to disarm alarm." ), keybind( "TOGGLE_ALARM" ) );
-            actions.push_back( [&] { smash_security_system(); refresh(); return true; } );
-
+            add_menu_item( options, actions, true, _( "Try to disarm alarm." ), keybind( "TOGGLE_ALARM" ),
+            [&]() {
+                smash_security_system();
+                refresh();
+                return true;
+            } );
         } else if( has_electronic_controls && has_part( "SECURITY" ) ) {
-            options.emplace_back( _( "Trigger alarm" ), keybind( "TOGGLE_ALARM" ) );
-            actions.push_back( [&] {
+            add_menu_item( options, actions, true, _( "Trigger alarm" ), keybind( "TOGGLE_ALARM" ),
+            [&]() {
                 is_alarm_on = true;
                 add_msg( _( "You trigger the alarm" ) );
                 refresh();
@@ -755,22 +787,53 @@ void vehicle::build_controls_menu( const tripoint &pos,
     }
 
     if( has_part( "TURRET" ) ) {
-        options.emplace_back( _( "Set turret targeting modes" ), keybind( "TURRET_TARGET_MODE" ) );
-        actions.push_back( [&] { turrets_set_targeting(); refresh(); return true; } );
+        add_menu_title( options, actions, _( "Control turrets" ) );
 
-        options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
-        actions.push_back( [&] { turrets_set_mode(); refresh(); return true; } );
+        add_menu_item( options, actions, true, _( "Set turret targeting modes" ),
+                       keybind( "TURRET_TARGET_MODE" ),
+        [&]() {
+            turrets_set_targeting();
+            refresh();
+            return true;
+        } );
+
+        add_menu_item( options, actions, true, _( "Set turret firing modes" ),
+                       keybind( "TURRET_FIRE_MODE" ),
+        [&]() {
+            turrets_set_mode();
+            refresh();
+            return true;
+        } );
 
         // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
-        options.emplace_back( _( "Aim turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
-        actions.push_back( [&] { turrets_aim_and_fire_all_manual( true ); refresh(); return true; } );
+        add_menu_item( options, actions, true, _( "Aim turrets manually" ),
+                       keybind( "TURRET_MANUAL_AIM" ),
+        [&]() {
+            turrets_aim_and_fire_all_manual( true );
+            refresh();
+            return true;
+        } );
 
         // This lets us manually override and set the target for the automatic turrets instead.
-        options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
-        actions.push_back( [&] { turrets_override_automatic_aim(); refresh(); return true; } );
+        add_menu_item( options, actions, true, _( "Aim automatic turrets" ),
+                       keybind( "TURRET_MANUAL_OVERRIDE" ),
+        [&]() {
+            turrets_override_automatic_aim();
+            refresh();
+            return true;
+        } );
 
-        options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
-        actions.push_back( [&] { turrets_aim_and_fire_single(); refresh(); return true; } );
+        add_menu_item( options, actions, true, _( "Aim individual turret" ),
+                       keybind( "TURRET_SINGLE_FIRE" ),
+        [&]() {
+            turrets_aim_and_fire_single();
+            refresh();
+            return true;
+        } );
+    }
+
+    if( has_electronic_controls ) {
+        build_electronics_menu( options, actions );
     }
 }
 
@@ -1930,11 +1993,29 @@ void vpart_position::form_inventory( inventory &inv )
     }
 }
 
+void vehicle::add_menu_item( std::vector<uilist_entry> &options,
+                             std::vector<std::function<bool()>> &actions,
+                             bool enabled, std::string text, input_event hotkey,
+                             std::function<bool()> action, bool check_theft )
+{
+    options.push_back( uilist_entry( -1, enabled, hotkey, text ) );
+
+    if( check_theft ) {
+        actions.push_back( [this, action]() {
+            if( !handle_potential_theft( dynamic_cast<player &>( get_avatar() ) ) ) {
+                return true;
+            }
+            return action();
+        } );
+    } else {
+        actions.push_back( action );
+    }
+}
+
 // Builds a menu for the method below
 void vehicle::build_veh_tools_menu( const vpart_position &vp,
                                     std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions )
 {
-
     auto tool_wants_battery = []( const itype_id & type ) {
         item tool( type, 0 );
         item mag( tool.magazine_default() );
@@ -1944,23 +2025,21 @@ void vehicle::build_veh_tools_menu( const vpart_position &vp,
                tool.ammo_capacity( ammotype( "battery" ) ) > 0;
     };
 
-    auto use_vehicle_tool = [&]( const itype_id & tool_type ) {
+    auto use_vehicle_tool = [&tool_wants_battery, vp]( const itype_id & tool_type ) {
         item pseudo( tool_type, 0 );
-        pseudo.set_flag( "PSEUDO" );
+        pseudo.set_flag( STATIC( flag_str_id( "PSEUDO" ) ) );
         if( !tool_wants_battery( tool_type ) ) {
             get_avatar().invoke_item( &pseudo );
             return true;
         }
-        if( fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
+        if( vp.vehicle().fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
             return false;
         }
-
-        // TODO: Figure out this comment: Pseudo items don't have a magazine in it, and they don't need it anymore.
         item pseudo_magazine( pseudo.magazine_default() );
         pseudo_magazine.contents.clear_items(); // no initial ammo
         pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
         const int capacity = pseudo.ammo_capacity( ammotype( "battery" ) );
-        const int qty = capacity - discharge_battery( capacity );
+        const int qty = capacity - vp.vehicle().discharge_battery( capacity );
         pseudo.ammo_set( itype_battery, qty );
         get_avatar().invoke_item( &pseudo );
         player_activity &act = get_avatar().activity;
@@ -1973,31 +2052,19 @@ void vehicle::build_veh_tools_menu( const vpart_position &vp,
             act.str_values.push_back( tool_type.str() ); // specific tool on the rig
         }
 
-        charge_battery( pseudo.ammo_remaining() );
+        vp.vehicle().charge_battery( pseudo.ammo_remaining() );
         return true;
     };
 
-    auto add_entry = [this, &options, &actions]( bool enabled, std::string text,
-    input_event hotkey, std::function<bool()> action, bool check_theft = true ) {
-        options.push_back( uilist_entry( -1, enabled, hotkey, text ) );
-
-        if( check_theft ) {
-            actions.push_back( [this, action]() {
-                if( !handle_potential_theft( dynamic_cast<player &>( get_avatar() ) ) ) {
-                    return true;
-                }
-                return action();
-            } );
-        } else {
-            actions.push_back( action );
-        }
-    };
     // retrieves a list of tools at that vehicle part
     // first is tool itype_id, second is the hotkey
     const std::vector<std::pair<itype_id, int>> veh_tools = vp.get_tools();
 
-    for( size_t i = 0; i < veh_tools.size(); i++ ) {
-        const std::pair<itype_id, int> pair = veh_tools[i];
+    if( !veh_tools.empty() ) {
+        add_menu_title( options, actions, _( "Use tool" ) );
+    }
+
+    for( const std::pair<itype_id, int> &pair : veh_tools ) {
         const itype_id tool_type = pair.first;
         const itype &tool = tool_type.obj();
         if( pair.second == -1 || !tool.has_use() ) {
@@ -2005,7 +2072,7 @@ void vehicle::build_veh_tools_menu( const vpart_position &vp,
         }
 
         const bool enabled = fuel_left( itype_battery, true ) >= tool.charges_to_use();
-        add_entry( enabled, _( "Use " ) + tool.nname( 1 ), keybind( "" ),
+        add_menu_item( options, actions, enabled, _( "Use " ) + tool.nname( 1 ), keybind( "" ),
         [tool_type, use_vehicle_tool]() {
             use_vehicle_tool( tool_type );
             return true;
@@ -2044,40 +2111,24 @@ void vehicle::build_interact_menu( const tripoint &pos,
     const bool has_planter = vp.avail_part_with_feature( "PLANTER" ) ||
                              vp.avail_part_with_feature( "ADVANCED_PLANTER" );
 
-    auto add_entry = [this, &options, &actions]( bool enabled, std::string text,
-    input_event hotkey, std::function<bool()> action, bool check_theft = true ) {
-        options.push_back( uilist_entry( -1, enabled, hotkey, text ) );
-
-        if( check_theft ) {
-            actions.push_back( [this, action]() {
-                if( !handle_potential_theft( dynamic_cast<player &>( get_avatar() ) ) ) {
-                    return true;
-                }
-                return action();
-            } );
-        } else {
-            actions.push_back( action );
-        }
-    };
-    uilist selectmenu;
-
-    add_entry( true, _( "Examine vehicle" ), keybind( "EXAMINE_VEHICLE" ),
+    add_menu_item( options, actions, true, _( "Examine vehicle" ), keybind( "EXAMINE_VEHICLE" ),
     [this]() {
         g->exam_vehicle( *this );
         return true;
     }, false ); // no theft check
 
-    add_entry( true, tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ),
-               keybind( "TOGGLE_TRACKING" ),
+    add_menu_item( options, actions, true,
+                   tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ),
+                   keybind( "TOGGLE_TRACKING" ),
     [this]() {
         toggle_tracking();
-        return true;
+        return false;
     }, false ); // false - no theft check
 
     if( vp_controls ) {
         build_controls_menu( pos, options, actions );
 
-        add_entry( true, _( "Pull handbrake" ), keybind( "PULL_HANDBRAKE" ),
+        add_menu_item( options, actions, true, _( "Pull handbrake" ), keybind( "PULL_HANDBRAKE" ),
         []() {
             handbrake();
             return true;
@@ -2087,27 +2138,27 @@ void vehicle::build_interact_menu( const tripoint &pos,
     build_veh_tools_menu( vp, options, actions );
 
     if( vp_autoclave ) {
-        add_entry( true, vp_autoclave->part().enabled
-                   ? _( "Deactivate the autoclave" )
-                   : _( "Activate the autoclave (1.5 hours)" ), keybind( "USE_AUTOCLAVE" ),
+        add_menu_item( options, actions, true, vp_autoclave->part().enabled
+                       ? _( "Deactivate the autoclave" )
+                       : _( "Activate the autoclave (1.5 hours)" ), keybind( "USE_AUTOCLAVE" ),
         [this, vp_autoclave]() {
             use_autoclave( vp_autoclave->part_index() );
             return true;
         } );
     }
     if( vp_washing_machine ) {
-        add_entry( true, vp_washing_machine->part().enabled
-                   ? _( "Deactivate the washing machine" )
-                   : _( "Activate the washing machine (1.5 hours)" ), keybind( "USE_WASHMACHINE" ),
+        add_menu_item( options, actions, true, vp_washing_machine->part().enabled
+                       ? _( "Deactivate the washing machine" )
+                       : _( "Activate the washing machine (1.5 hours)" ), keybind( "USE_WASHMACHINE" ),
         [this, vp_washing_machine]() {
             use_washing_machine( vp_washing_machine->part_index() );
             return true;
         } );
     }
     if( vp_dishwasher ) {
-        add_entry( true, vp_dishwasher->part().enabled
-                   ? _( "Deactivate the dishwasher" )
-                   : _( "Activate the dishwasher (1.5 hours)" ), keybind( "USE_DISHWASHER" ),
+        add_menu_item( options, actions, true, vp_dishwasher->part().enabled
+                       ? _( "Deactivate the dishwasher" )
+                       : _( "Activate the dishwasher (1.5 hours)" ), keybind( "USE_DISHWASHER" ),
         [this, vp_dishwasher]() {
             use_dishwasher( vp_dishwasher->part_index() );
             return true;
@@ -2117,7 +2168,7 @@ void vehicle::build_interact_menu( const tripoint &pos,
         ( !vp_autoclave || !vp_autoclave->part().enabled ) &&
         ( !vp_washing_machine || !vp_washing_machine->part().enabled ) &&
         ( !vp_dishwasher || !vp_dishwasher->part().enabled ) ) {
-        add_entry( true, _( "Get items" ), keybind( "PICKUP_ITEMS" ),
+        add_menu_item( options, actions, true, _( "Get items" ), keybind( "PICKUP_ITEMS" ),
         [has_cargo, pos]() {
             if( has_cargo ) {
                 Pickup::pick_up( pos, 0, Pickup::from_cargo );
@@ -2129,21 +2180,24 @@ void vehicle::build_interact_menu( const tripoint &pos,
     }
 
     if( has_items_on_ground && !items_are_sealed ) {
-        add_entry( true, _( "Get items on the ground" ), keybind( "PICKUP_ITEMS_FROM_GROUND" ),
+        add_menu_item( options, actions, true, _( "Get items on the ground" ),
+                       keybind( "PICKUP_ITEMS_FROM_GROUND" ),
         [pos]() {
             Pickup::pick_up( pos, 0, Pickup::from_ground );
             return true;
         }, false ); // false - no theft check
     }
     if( ( is_foldable() || tags.count( "convertible" ) > 0 ) && g->remoteveh() != this ) {
-        add_entry( true, _( "Fold vehicle" ), keybind( "FOLD_VEHICLE" ),
+        add_menu_item( options, actions, true, _( "Fold vehicle" ), keybind( "FOLD_VEHICLE" ),
         [this]() {
             fold_up();
             return true;
         } );
     }
+
     if( turret.can_unload() ) {
-        add_entry( true, string_format( _( "Unload %s" ), turret.name() ), keybind( "UNLOAD_TURRET" ),
+        add_menu_item( options, actions, true, string_format( _( "Unload %s" ), turret.name() ),
+                       keybind( "UNLOAD_TURRET" ),
         [this, pos]() {
             const turret_data turret = turret_query( pos );
             item_location loc = turret.base();
@@ -2152,7 +2206,8 @@ void vehicle::build_interact_menu( const tripoint &pos,
         } );
     }
     if( turret.can_reload() ) {
-        add_entry( true, string_format( _( "Reload %s" ), turret.name() ), keybind( "RELOAD_TURRET" ),
+        add_menu_item( options, actions, true, string_format( _( "Reload %s" ), turret.name() ),
+                       keybind( "RELOAD_TURRET" ),
         [this, pos]() {
             const turret_data turret = turret_query( pos );
             avatar &player_character = get_avatar();
@@ -2165,8 +2220,10 @@ void vehicle::build_interact_menu( const tripoint &pos,
             return true;
         } );
     }
+
     if( vp_curtain && !vp_curtain->part().open ) {
-        add_entry( true, _( "Peek through the closed curtains" ), keybind( "CURTAIN_PEEK" ),
+        add_menu_item( options, actions, true, _( "Peek through the closed curtains" ),
+                       keybind( "CURTAIN_PEEK" ),
         [pos]() {
             add_msg( _( "You carefully peek through the curtains." ) );
             g->peek( pos );
@@ -2174,12 +2231,13 @@ void vehicle::build_interact_menu( const tripoint &pos,
         } );
     }
     if( vp_faucet && fuel_left( itype_water_clean ) > 0 ) {
-        add_entry( true, _( "Fill a container with water" ), keybind( "FILL_CONTAINER" ),
+        add_menu_item( options, actions, true, _( "Fill a container with water" ),
+                       keybind( "FILL_WATER_CONTAINER" ),
         [this]() {
             get_avatar().siphon( *this, itype_water_clean );
             return true;
         } );
-        add_entry( true, _( "Have a drink" ), keybind( "DRINK" ),
+        add_menu_item( options, actions, true, _( "Have a drink" ), keybind( "DRINK_WATER" ),
         [this]() {
             item water( itype_water_clean, 0 );
             if( get_avatar().can_consume( water ) ) {
@@ -2192,7 +2250,8 @@ void vehicle::build_interact_menu( const tripoint &pos,
     if( vp_purify ) {
         bool can_purify = fuel_left( itype_water ) &&
                           fuel_left( itype_battery, true ) >= itype_water_purifier.obj().charges_to_use();
-        add_entry( can_purify, _( "Purify water in vehicle tank" ), keybind( "PURIFY_TANK" ),
+        add_menu_item( options, actions, can_purify, _( "Purify water in vehicle tank" ),
+                       keybind( "PURIFY_TANK" ),
         [this]() {
             auto sel = []( const vehicle_part & pt ) {
                 return pt.is_tank() && pt.ammo_current() == itype_water;
@@ -2217,36 +2276,38 @@ void vehicle::build_interact_menu( const tripoint &pos,
         } );
     }
     if( vp_monster_capture ) {
-        add_entry( true, _( "Capture or release a creature" ), keybind( "USE_MONSTER_CAPTURE" ),
+        add_menu_item( options, actions, true, _( "Capture or release a creature" ),
+                       keybind( "USE_MONSTER_CAPTURE" ),
         [this, vp_monster_capture, pos]() {
             use_monster_capture( vp_monster_capture->part_index(), pos );
             return true;
         } );
     }
     if( vp_bike_rack ) {
-        add_entry( true, _( "Load or unload a vehicle" ), keybind( "USE_BIKE_RACK" ),
+        add_menu_item( options, actions, true, _( "Load or unload a vehicle" ), keybind( "USE_BIKE_RACK" ),
         [this, vp_bike_rack]() {
             use_bike_rack( vp_bike_rack->part_index() );
             return true;
         } );
     }
     if( vp_harness ) {
-        add_entry( true, _( "Harness an animal" ), keybind( "USE_HARNESS" ),
+        add_menu_item( options, actions, true, _( "Harness an animal" ), keybind( "USE_HARNESS" ),
         [this, vp_harness, pos]() {
             use_harness( vp_harness->part_index(), pos );
             return true;
         } );
     }
     if( has_planter ) {
-        add_entry( true, _( "Reload seed drill with seeds" ), keybind( "RELOAD_PLANTER" ),
+        add_menu_item( options, actions, true, _( "Reload seed drill with seeds" ),
+                       keybind( "RELOAD_PLANTER" ),
         [this, pos]() {
             reload_seeds( pos );
             return true;
         } );
     }
     if( vp_workbench ) {
-        add_entry( true, string_format( _( "Craft at the %s" ), vp_workbench->part().name() ),
-                   keybind( "USE_WORKBENCH" ),
+        add_menu_item( options, actions, true, string_format( _( "Craft at the %s" ),
+                       vp_workbench->part().name() ), keybind( "USE_WORKBENCH" ),
         [pos, vp_workbench]() {
             iexamine::workbench_internal( get_avatar(), pos, vp_workbench );
             return true;
@@ -2257,17 +2318,17 @@ void vehicle::build_interact_menu( const tripoint &pos,
 // Handles interactions with a vehicle in the examine menu.
 void vehicle::interact_with( const vpart_position &vp )
 {
-    //std::vector<uilist_entry> options;
-    std::vector<std::function<bool()>> actions;
-
-    uilist selectmenu;
-    build_interact_menu( vp.pos(), selectmenu.entries, actions );
-
-    selectmenu.text = _( "Select an action" );
-    //selectmenu.entries = options;
-    selectmenu.query();
-
-    if( selectmenu.ret >= 0 && static_cast<size_t>( selectmenu.ret ) < actions.size() ) {
-        actions[selectmenu.ret]();
+    bool keep_open = true;
+    int ret = 0; // keeps menu selection across query() calls
+    while( keep_open ) {
+        uilist menu;
+        std::vector<std::function<bool()>> actions;
+        build_interact_menu( vp.pos(), menu.entries, actions );
+        menu.text = _( "Select an action" );
+        menu.selected = clamp( ret, 0, static_cast<int>( menu.entries.size() - 1 ) );
+        menu.query();
+        ret = menu.ret;
+        keep_open = ret >= 0 && static_cast<size_t>( ret ) < actions.size() &&
+                    !actions[ret]();
     }
 }
