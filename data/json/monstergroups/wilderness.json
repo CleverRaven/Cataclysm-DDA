@@ -2641,7 +2641,7 @@
       },
       {
         "monster": "mon_dermatik",
-        "freq": 20,
+        "freq": 30,
         "cost_multiplier": 2,
         "starts": 1440,
         "ends": 2160,
@@ -2649,7 +2649,7 @@
       },
       {
         "monster": "mon_dermatik",
-        "freq": 30,
+        "freq": 40,
         "cost_multiplier": 2,
         "starts": 2160,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
