@@ -1397,12 +1397,9 @@ bool monster::bash_at( const tripoint &p )
 
     map &here = get_map();
     if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() ) ) {
-        if( !here.is_bashable_ter( p ) ) {
-            return false;
-        }
         // if the only thing here is road or flat, rarely bash it
         bool flat_ground = here.has_flag( "ROAD", p ) || here.has_flag( "FLAT", p );
-        if( flat_ground && !one_in( 50 ) ) {
+        if( !here.is_bashable_ter( p ) || ( flat_ground && !one_in( 50 ) ) ) {
             return false;
         }
     }
