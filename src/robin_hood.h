@@ -9,7 +9,6 @@
 //                                      _/_____/
 //
 // Fast & memory efficient hashtable based on robin hood hashing for C++11/14/17/20
-// version 3.8.0
 // https://github.com/martinus/robin-hood-hashing
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
@@ -38,7 +37,7 @@
 
 // see https://semver.org/
 #define ROBIN_HOOD_VERSION_MAJOR 3 // for incompatible API changes
-#define ROBIN_HOOD_VERSION_MINOR 8 // for adding functionality in a backwards-compatible manner
+#define ROBIN_HOOD_VERSION_MINOR 9 // for adding functionality in a backwards-compatible manner
 #define ROBIN_HOOD_VERSION_PATCH 0 // for backwards-compatible bug fixes
 
 #include <algorithm>
@@ -137,46 +136,32 @@ static Counts &counts()
 #endif
 
 // count leading/trailing bits
-#if ((defined __i386 || defined __x86_64__) && defined __BMI__) || defined _M_IX86 || defined _M_X64
+#if !defined(ROBIN_HOOD_DISABLE_INTRINSICS)
 #    ifdef _MSC_VER
+#        if ROBIN_HOOD(BITNESS) == 32
+#            define ROBIN_HOOD_PRIVATE_DEFINITION_BITSCANFORWARD() _BitScanForward
+#        else
+#            define ROBIN_HOOD_PRIVATE_DEFINITION_BITSCANFORWARD() _BitScanForward64
+#        endif
 #        include <intrin.h>
-#    else
-#        include <x86intrin.h>
-#    endif
-#    if ROBIN_HOOD(BITNESS) == 32
-#        define ROBIN_HOOD_PRIVATE_DEFINITION_CTZ() _tzcnt_u32
-#    else
-#        define ROBIN_HOOD_PRIVATE_DEFINITION_CTZ() _tzcnt_u64
-#    endif
-#    if defined __AVX2__ || defined __BMI__
-#        define ROBIN_HOOD_COUNT_TRAILING_ZEROES(x) ROBIN_HOOD(CTZ)(x)
-#    else
-#        define ROBIN_HOOD_COUNT_TRAILING_ZEROES(x) ROBIN_HOOD(CTZ)(x)
-#    endif
-#elif defined _MSC_VER
-#    if ROBIN_HOOD(BITNESS) == 32
-#        define ROBIN_HOOD_PRIVATE_DEFINITION_BITSCANFORWARD() _BitScanForward
-#    else
-#        define ROBIN_HOOD_PRIVATE_DEFINITION_BITSCANFORWARD() _BitScanForward64
-#    endif
-#    include <intrin.h>
-#    pragma intrinsic(ROBIN_HOOD(BITSCANFORWARD))
-#    define ROBIN_HOOD_COUNT_TRAILING_ZEROES(x)                                       \
+#        pragma intrinsic(ROBIN_HOOD(BITSCANFORWARD))
+#        define ROBIN_HOOD_COUNT_TRAILING_ZEROES(x)                                       \
     [](size_t mask) noexcept -> int {                                             \
         unsigned long index;                                                      \
         return ROBIN_HOOD(BITSCANFORWARD)(&index, mask) ? static_cast<int>(index) \
                : ROBIN_HOOD(BITNESS);    \
     }(x)
-#else
-#    if ROBIN_HOOD(BITNESS) == 32
-#        define ROBIN_HOOD_PRIVATE_DEFINITION_CTZ() __builtin_ctzl
-#        define ROBIN_HOOD_PRIVATE_DEFINITION_CLZ() __builtin_clzl
 #    else
-#        define ROBIN_HOOD_PRIVATE_DEFINITION_CTZ() __builtin_ctzll
-#        define ROBIN_HOOD_PRIVATE_DEFINITION_CLZ() __builtin_clzll
+#        if ROBIN_HOOD(BITNESS) == 32
+#            define ROBIN_HOOD_PRIVATE_DEFINITION_CTZ() __builtin_ctzl
+#            define ROBIN_HOOD_PRIVATE_DEFINITION_CLZ() __builtin_clzl
+#        else
+#            define ROBIN_HOOD_PRIVATE_DEFINITION_CTZ() __builtin_ctzll
+#            define ROBIN_HOOD_PRIVATE_DEFINITION_CLZ() __builtin_clzll
+#        endif
+#        define ROBIN_HOOD_COUNT_LEADING_ZEROES(x) ((x) ? ROBIN_HOOD(CLZ)(x) : ROBIN_HOOD(BITNESS))
+#        define ROBIN_HOOD_COUNT_TRAILING_ZEROES(x) ((x) ? ROBIN_HOOD(CTZ)(x) : ROBIN_HOOD(BITNESS))
 #    endif
-#    define ROBIN_HOOD_COUNT_LEADING_ZEROES(x) ((x) ? ROBIN_HOOD(CLZ)(x) : ROBIN_HOOD(BITNESS))
-#    define ROBIN_HOOD_COUNT_TRAILING_ZEROES(x) ((x) ? ROBIN_HOOD(CTZ)(x) : ROBIN_HOOD(BITNESS))
 #endif
 
 // fallthrough
@@ -198,6 +183,17 @@ static Counts &counts()
 #else
 #    define ROBIN_HOOD_LIKELY(condition) __builtin_expect(condition, 1)
 #    define ROBIN_HOOD_UNLIKELY(condition) __builtin_expect(condition, 0)
+#endif
+
+// detect if native wchar_t type is availiable in MSVC
+#ifdef _MSC_VER
+#    ifdef _NATIVE_WCHAR_T_DEFINED
+#        define ROBIN_HOOD_PRIVATE_DEFINITION_HAS_NATIVE_WCHART() 1
+#    else
+#        define ROBIN_HOOD_PRIVATE_DEFINITION_HAS_NATIVE_WCHART() 0
+#    endif
+#else
+#    define ROBIN_HOOD_PRIVATE_DEFINITION_HAS_NATIVE_WCHART() 1
 #endif
 
 // workaround missing "is_trivially_copyable" in g++ < 5.0
@@ -304,6 +300,13 @@ using index_sequence_for = make_index_sequence<sizeof...( T )>;
 namespace detail
 {
 
+// make sure we static_cast to the correct type for hash_int
+#if ROBIN_HOOD(BITNESS) == 64
+using SizeT = uint64_t;
+#else
+using SizeT = uint32_t;
+#endif
+
 template <typename T>
 T rotr( T x, unsigned k )
 {
@@ -406,7 +409,7 @@ class BulkPoolAllocator
         void reset() noexcept {
             while( mListForFree ) {
                 T *tmp = *mListForFree;
-                free( mListForFree );
+                std::free( mListForFree );
                 mListForFree = reinterpret_cast_no_cast_align_warning<T **>( tmp );
             }
             mHead = nullptr;
@@ -441,7 +444,7 @@ class BulkPoolAllocator
             // calculate number of available elements in ptr
             if( numBytes < ALIGNMENT + ALIGNED_SIZE ) {
                 // not enough data for at least one element. Free and return.
-                free( ptr );
+                std::free( ptr );
             } else {
                 add( ptr, numBytes );
             }
@@ -459,12 +462,10 @@ class BulkPoolAllocator
         // This ignores the fact that memory blocks might have been added manually with addOrFree. In
         // practice, this should not matter much.
         ROBIN_HOOD( NODISCARD ) size_t calcNumElementsToAlloc() const noexcept {
-            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto tmp = mListForFree;
             size_t numAllocs = MinNumAllocs;
 
             while( numAllocs * 2 <= MaxNumAllocs && tmp ) {
-                // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
                 auto x = reinterpret_cast<T ** *>( tmp );
                 tmp = *x;
                 numAllocs *= 2;
@@ -477,11 +478,9 @@ class BulkPoolAllocator
         void add( void *ptr, const size_t numBytes ) noexcept {
             const size_t numElements = ( numBytes - ALIGNMENT ) / ALIGNED_SIZE;
 
-            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto data = reinterpret_cast<T **>( ptr );
 
             // link free list
-            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto x = reinterpret_cast<T ** *>( data );
             *x = mListForFree;
             mListForFree = data;
@@ -512,7 +511,7 @@ class BulkPoolAllocator
             // alloc new memory: [prev |T, T, ... T]
             // std::cout << (sizeof(T*) + ALIGNED_SIZE * numElementsToAlloc) << " bytes" << std::endl;
             size_t const bytes = ALIGNMENT + ALIGNED_SIZE * numElementsToAlloc;
-            add( assertNotNull<std::bad_alloc>( malloc( bytes ) ), bytes );
+            add( assertNotNull<std::bad_alloc>( std::malloc( bytes ) ), bytes );
             return mHead;
         }
 
@@ -548,7 +547,7 @@ struct NodeAllocator<T, MinSize, MaxSize, true> {
 
     // we are not using the data, so just free it.
     void addOrFree( void *ptr, size_t ROBIN_HOOD_UNUSED( numBytes ) /*unused*/ ) noexcept {
-        free( ptr );
+        std::free( ptr );
     }
 };
 
@@ -703,7 +702,7 @@ inline constexpr bool operator>=( pair<A, B> const &x, pair<A, B> const &y )
     return !( x < y );
 }
 
-inline size_t hash_bytes( void const *ptr, size_t const len ) noexcept
+inline size_t hash_bytes( void const *ptr, size_t len ) noexcept
 {
     static constexpr uint64_t m = UINT64_C( 0xc6a4a7935bd1e995 );
     static constexpr uint64_t seed = UINT64_C( 0xe17a1465 );
@@ -714,7 +713,6 @@ inline size_t hash_bytes( void const *ptr, size_t const len ) noexcept
 
     size_t const n_blocks = len / 8;
     for( size_t i = 0; i < n_blocks; ++i ) {
-        // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
         auto k = detail::unaligned_load<uint64_t>( data64 + i );
 
         k *= m;
@@ -766,26 +764,23 @@ inline size_t hash_int( uint64_t x ) noexcept
     //
     // Instead of shifts, we use rotations so we don't lose any bits.
     //
-    // Added a final multiplcation with a constant for more mixing. It is most important that the
-    // lower bits are well mixed.
-    // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
+    // Added a final multiplcation with a constant for more mixing. It is most important that
+    // the lower bits are well mixed.
     auto h1 = x * UINT64_C( 0xA24BAED4963EE407 );
-    // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
     auto h2 = detail::rotr( x, 32U ) * UINT64_C( 0x9FB21C651E98DF25 );
-    // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
     auto h = detail::rotr( h1 + h2, 32U );
     return static_cast<size_t>( h );
 }
 
 // A thin wrapper around std::hash, performing an additional simple mixing step of the result.
-template <typename T>
+template <typename T, typename Enable = void>
 struct hash : public std::hash<T> {
     size_t operator()( T const &obj ) const
     noexcept( noexcept( std::declval<std::hash<T>>().operator()( std::declval<T const &>() ) ) ) {
         // call base hash
         auto result = std::hash<T>::operator()( obj );
         // return mixed of that, to be save against identity has
-        return hash_int( static_cast<uint64_t>( result ) );
+        return hash_int( static_cast<detail::SizeT>( result ) );
     }
 };
 
@@ -808,21 +803,29 @@ struct hash<std::basic_string_view<CharT>> {
 template <class T>
 struct hash<T *> {
     size_t operator()( T *ptr ) const noexcept {
-        return hash_int( reinterpret_cast<size_t>( ptr ) );
+        return hash_int( reinterpret_cast<detail::SizeT>( ptr ) );
     }
 };
 
 template <class T>
 struct hash<std::unique_ptr<T>> {
     size_t operator()( std::unique_ptr<T> const &ptr ) const noexcept {
-        return hash_int( reinterpret_cast<size_t>( ptr.get() ) );
+        return hash_int( reinterpret_cast<detail::SizeT>( ptr.get() ) );
     }
 };
 
 template <class T>
 struct hash<std::shared_ptr<T>> {
     size_t operator()( std::shared_ptr<T> const &ptr ) const noexcept {
-        return hash_int( reinterpret_cast<size_t>( ptr.get() ) );
+        return hash_int( reinterpret_cast<detail::SizeT>( ptr.get() ) );
+    }
+};
+
+template <typename Enum>
+struct hash<Enum, typename std::enable_if<std::is_enum<Enum>::value>::type> {
+    size_t operator()( Enum e ) const noexcept {
+        using Underlying = typename std::underlying_type<Enum>::type;
+        return hash<Underlying> {}( static_cast<Underlying>( e ) );
     }
 };
 
@@ -845,15 +848,17 @@ ROBIN_HOOD_HASH_INT( signed char );
 ROBIN_HOOD_HASH_INT( unsigned char );
 ROBIN_HOOD_HASH_INT( char16_t );
 ROBIN_HOOD_HASH_INT( char32_t );
+#if ROBIN_HOOD(HAS_NATIVE_WCHART)
 ROBIN_HOOD_HASH_INT( wchar_t );
+#endif
 ROBIN_HOOD_HASH_INT( short );
 ROBIN_HOOD_HASH_INT( unsigned short );
 ROBIN_HOOD_HASH_INT( int );
 ROBIN_HOOD_HASH_INT( unsigned int );
-ROBIN_HOOD_HASH_INT( long );  // NOLINT third-party library style
-ROBIN_HOOD_HASH_INT( long long ); // NOLINT third-party library style
-ROBIN_HOOD_HASH_INT( unsigned long ); // NOLINT third-party library style
-ROBIN_HOOD_HASH_INT( unsigned long long ); // NOLINT third-party library style
+ROBIN_HOOD_HASH_INT( long );
+ROBIN_HOOD_HASH_INT( long long );
+ROBIN_HOOD_HASH_INT( unsigned long );
+ROBIN_HOOD_HASH_INT( unsigned long long );
 #if defined(__GNUC__) && !defined(__clang__)
 #    pragma GCC diagnostic pop
 #endif
@@ -955,7 +960,8 @@ class Table
         static constexpr size_t InitialNumElements = sizeof( uint64_t );
         static constexpr uint32_t InitialInfoNumBits = 5;
         static constexpr uint8_t InitialInfoInc = 1U << InitialInfoNumBits;
-        static constexpr uint8_t InitialInfoHashShift = sizeof( size_t ) * 8 - InitialInfoNumBits;
+        static constexpr size_t InfoMask = InitialInfoInc - 1U;
+        static constexpr uint8_t InitialInfoHashShift = 0;
         using DataPool = detail::NodeAllocator<value_type, 4, 16384, IsFlat>;
 
         // type needs to be wider than uint8_t.
@@ -1291,7 +1297,7 @@ class Table
                 Iter operator++( int ) noexcept {
                     Iter tmp = *this;
                     ++( *this );
-                    return std::move( tmp );
+                    return tmp;
                 }
 
                 reference operator*() const {
@@ -1322,15 +1328,29 @@ class Table
                         mInfo += sizeof( size_t );
                         mKeyVals += sizeof( size_t );
                     }
-#if ROBIN_HOOD(LITTLE_ENDIAN)
-                    // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
-                    auto inc = ROBIN_HOOD_COUNT_TRAILING_ZEROES( n ) / 8;
+#if defined(ROBIN_HOOD_DISABLE_INTRINSICS)
+                    // we know for certain that within the next 8 bytes we'll find a non-zero one.
+                    if( ROBIN_HOOD_UNLIKELY( 0U == detail::unaligned_load<uint32_t>( mInfo ) ) ) {
+                        mInfo += 4;
+                        mKeyVals += 4;
+                    }
+                    if( ROBIN_HOOD_UNLIKELY( 0U == detail::unaligned_load<uint16_t>( mInfo ) ) ) {
+                        mInfo += 2;
+                        mKeyVals += 2;
+                    }
+                    if( ROBIN_HOOD_UNLIKELY( 0U == *mInfo ) ) {
+                        mInfo += 1;
+                        mKeyVals += 1;
+                    }
 #else
-                    // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
+#    if ROBIN_HOOD(LITTLE_ENDIAN)
+                    auto inc = ROBIN_HOOD_COUNT_TRAILING_ZEROES( n ) / 8;
+#    else
                     auto inc = ROBIN_HOOD_COUNT_LEADING_ZEROES( n ) / 8;
-#endif
+#    endif
                     mInfo += inc;
                     mKeyVals += inc;
+#endif
                 }
 
                 friend class Table<IsFlat, MaxLoadFactor100, key_type, mapped_type, hasher, key_equal>;
@@ -1352,10 +1372,11 @@ class Table
                 typename std::conditional<std::is_same<::robin_hood::hash<key_type>, hasher>::value,
                 ::robin_hood::detail::identity_hash<size_t>,
                 ::robin_hood::hash<size_t>>::type;
-            *idx = Mix{}( WHash::operator()( key ) );
 
-            *info = mInfoInc + static_cast<InfoType>( *idx >> mInfoHashShift );
-            *idx &= mMask;
+            // the lower InitialInfoNumBits are reserved for info.
+            auto h = Mix{}( WHash::operator()( key ) );
+            *info = mInfoInc + static_cast<InfoType>( ( h & InfoMask ) >> mInfoHashShift );
+            *idx = ( h >> InitialInfoNumBits ) & mMask;
         }
 
         // forwards the index by one, wrapping around at the end
@@ -1375,7 +1396,6 @@ class Table
         void
         shiftUp( size_t startIdx,
                  size_t const insertion_idx ) noexcept( std::is_nothrow_move_assignable<Node>::value ) {
-            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto idx = startIdx;
             ::new( static_cast<void *>( mKeyVals + idx ) ) Node( std::move( mKeyVals[idx - 1] ) );
             while( --idx != insertion_idx ) {
@@ -1465,9 +1485,7 @@ class Table
             }
 
             // key not found, so we are now exactly where we want to insert it.
-            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto const insertion_idx = idx;
-            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto const insertion_info = static_cast<uint8_t>( info );
             if( ROBIN_HOOD_UNLIKELY( insertion_info + mInfoInc > 0xFF ) ) {
                 mMaxNumElementsAllowed = 0;
@@ -1497,13 +1515,19 @@ class Table
         using iterator = Iter<false>;
         using const_iterator = Iter<true>;
 
+        Table() noexcept( noexcept( Hash() ) &&noexcept( KeyEqual() ) )
+            : WHash()
+            , WKeyEqual() {
+            ROBIN_HOOD_TRACE( this )
+        }
+
         // Creates an empty hash map. Nothing is allocated yet, this happens at the first insert.
         // This tremendously speeds up ctor & dtor of a map that never receives an element. The
         // penalty is payed at the first insert, and not before. Lookup of this empty map works
         // because everybody points to DummyInfoByte::b. parameter bucket_count is dictated by the
         // standard, but we can ignore it.
         explicit Table(
-            size_t ROBIN_HOOD_UNUSED( bucket_count ) /*unused*/ = 0, const Hash &h = Hash{},
+            size_t ROBIN_HOOD_UNUSED( bucket_count ) /*unused*/, const Hash &h = Hash{},
             const KeyEqual &equal = KeyEqual{} ) noexcept( noexcept( Hash( h ) ) &&noexcept( KeyEqual(
                         equal ) ) )
             : WHash( h )
@@ -1585,7 +1609,7 @@ class Table
 
                 auto const numElementsWithBuffer = calcNumElementsWithBuffer( o.mMask + 1 );
                 mKeyVals = static_cast<Node *>( detail::assertNotNull<std::bad_alloc>(
-                                                    malloc( calcNumBytesTotal( numElementsWithBuffer ) ) ) );
+                                                    std::malloc( calcNumBytesTotal( numElementsWithBuffer ) ) ) );
                 // no need for calloc because clonData does memcpy
                 mInfo = reinterpret_cast<uint8_t *>( mKeyVals + numElementsWithBuffer );
                 mNumElements = o.mNumElements;
@@ -1633,12 +1657,12 @@ class Table
                 // no luck: we don't have the same array size allocated, so we need to realloc.
                 if( 0 != mMask ) {
                     // only deallocate if we actually have data!
-                    free( mKeyVals );
+                    std::free( mKeyVals );
                 }
 
                 auto const numElementsWithBuffer = calcNumElementsWithBuffer( o.mMask + 1 );
                 mKeyVals = static_cast<Node *>( detail::assertNotNull<std::bad_alloc>(
-                                                    malloc( calcNumBytesTotal( numElementsWithBuffer ) ) ) );
+                                                    std::malloc( calcNumBytesTotal( numElementsWithBuffer ) ) ) );
 
                 // no need for calloc here because cloneData performs a memcpy.
                 mInfo = reinterpret_cast<uint8_t *>( mKeyVals + numElementsWithBuffer );
@@ -1944,7 +1968,6 @@ class Table
         iterator erase( iterator pos ) {
             ROBIN_HOOD_TRACE( this )
             // we assume that pos always points to a valid entry, and not end().
-            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto const idx = static_cast<size_t>( pos.mKeyVals - mKeyVals );
 
             shiftDown( idx );
@@ -1990,7 +2013,6 @@ class Table
         void reserve( size_t c ) {
             ROBIN_HOOD_TRACE( this )
             auto const minElementsAllowed = ( std::max )( c, mNumElements );
-            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto newSize = InitialNumElements;
             while( calcMaxNumElementsAllowed( newSize ) < minElementsAllowed && newSize != 0 ) {
                 newSize *= 2;
@@ -2050,7 +2072,6 @@ class Table
 
         ROBIN_HOOD( NODISCARD )
         size_t calcNumElementsWithBuffer( size_t numElements ) const noexcept {
-            // NOLINTNEXTLINE(cata-almost-never-auto) third-party library style
             auto maxNumElementsAllowed = calcMaxNumElementsAllowed( numElements );
             return numElements + ( std::min )( maxNumElementsAllowed, ( static_cast<size_t>( 0xFF ) ) );
         }
@@ -2157,7 +2178,7 @@ class Table
 
             // calloc also zeroes everything
             mKeyVals = reinterpret_cast<Node *>( detail::assertNotNull<std::bad_alloc>(
-                    calloc( 1, calcNumBytesTotal( numElementsWithBuffer ) ) ) );
+                    std::calloc( 1, calcNumBytesTotal( numElementsWithBuffer ) ) ) );
             mInfo = reinterpret_cast<uint8_t *>( mKeyVals + numElementsWithBuffer );
 
             // set sentinel
@@ -2344,7 +2365,7 @@ class Table
             // reports a compile error: attempt to free a non-heap object ‘fm’
             // [-Werror=free-nonheap-object]
             if( mKeyVals != reinterpret_cast_no_cast_align_warning<Node *>( &mMask ) ) {
-                free( mKeyVals );
+                std::free( mKeyVals );
             }
         }
 
