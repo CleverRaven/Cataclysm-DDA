@@ -480,7 +480,7 @@
     "name": "Illicit Fleshmender",
     "description": "After failing out of medical school, you took their mundane methods and combined it with magic to save your patients.  Now that they all want to kill you, the lack of a license is the least of your worries.",
     "points": 4,
-    "spells": [ { "id": "light_healing", "level": 3 }, { "id": "create_rune_biomancer", "level": 1 } ],
+    "spells": [ { "id": "light_healing", "level": 3 } ],
     "skills": [ { "level": 3, "name": "firstaid" }, { "level": 2, "name": "spellcraft" } ],
     "items": {
       "both": {
@@ -506,8 +506,7 @@
     "spells": [
       { "id": "druidic_healing", "level": 4 },
       { "id": "purify_seed", "level": 4 },
-      { "id": "druid_woodshaft", "level": 3 },
-      { "id": "create_rune_druid", "level": 1 }
+      { "id": "druid_woodshaft", "level": 3 }
     ],
     "skills": [
       { "level": 4, "name": "survival" },
@@ -543,12 +542,7 @@
     "name": "Deep-Cold Marksman",
     "description": "You were a special operative conducting covert sniper ops in sub-zero temperatures, and had just finished your tour when society was destroyed.  Having retained your gear, it's time to join the new war.",
     "points": 7,
-    "spells": [
-      { "id": "create_lighter", "level": 4 },
-      { "id": "glide_ice", "level": 4 },
-      { "id": "frost_armor", "level": 3 },
-      { "id": "create_rune_kelvinist", "level": 1 }
-    ],
+    "spells": [ { "id": "create_lighter", "level": 4 }, { "id": "glide_ice", "level": 4 }, { "id": "frost_armor", "level": 3 } ],
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 4, "name": "rifle" },
@@ -600,11 +594,7 @@
     "name": "Arsonist",
     "description": "Penned in a cell without fuel, you've been extinguished for years for setting buildings on fire.  In your escape, you grabbed your familiar tool to reignite the embers.",
     "points": 3,
-    "spells": [
-      { "id": "kelvinist_flamebreath", "level": 2 },
-      { "id": "burning_hands", "level": 2 },
-      { "id": "create_rune_kelvinist", "level": 1 }
-    ],
+    "spells": [ { "id": "kelvinist_flamebreath", "level": 2 }, { "id": "burning_hands", "level": 2 } ],
     "skills": [ { "level": 3, "name": "spellcraft" } ],
     "traits": [ "KELVINIST" ],
     "items": {
@@ -623,8 +613,7 @@
     "spells": [
       { "id": "druidic_regrowth", "level": 3 },
       { "id": "druid_feralform", "level": 2 },
-      { "id": "druid_veggrasp", "level": 2 },
-      { "id": "create_rune_druid", "level": 1 }
+      { "id": "druid_veggrasp", "level": 2 }
     ],
     "skills": [
       { "level": 3, "name": "spellcraft" },
