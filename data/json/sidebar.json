@@ -22,7 +22,7 @@
     "type": "widget",
     "style": "number",
     "var_max": 10000,
-    "colors": [ "c_blue", "c_cyan", "c_light_blue", "c_green", "c_yellow", "c_light_red", "c_red" ]
+    "colors": [ "c_blue", "c_cyan", "c_light_blue", "c_white", "c_green", "c_yellow", "c_light_red", "c_red" ]
   },
   {
     "id": "hp_head_graph",
@@ -182,7 +182,7 @@
   {
     "id": "stamina_graph",
     "type": "widget",
-    "label": "Stam",
+    "label": "Stamina",
     "var": "stamina",
     "var_max": 10000,
     "style": "graph",
@@ -221,14 +221,33 @@
   {
     "id": "fatigue_graph",
     "type": "widget",
-    "label": "Fatig",
+    "label": "Fatigue",
     "var": "fatigue",
-    "var_max": 1000,
+    "var_max": 600,
     "style": "graph",
-    "fill": "bucket",
+    "fill": "pool",
     "width": 5,
     "symbols": "-fF",
-    "colors": [ "c_green", "c_yellow", "c_red" ]
+    "colors": [ "c_white", "c_yellow", "c_light_red", "c_red" ]
+  },
+  {
+    "id": "weariness_num",
+    "type": "widget",
+    "label": "Weariness",
+    "var": "weariness",
+    "style": "number"
+  },
+  {
+    "id": "weariness_graph",
+    "type": "widget",
+    "label": "Weariness",
+    "var": "weariness",
+    "var_max": 10,
+    "style": "graph",
+    "fill": "pool",
+    "width": 5,
+    "symbols": "-wW",
+    "colors": [ "c_white", "c_yellow", "c_red" ]
   },
   {
     "id": "sound_num",
@@ -250,6 +269,18 @@
     "label": "Pain",
     "var": "pain",
     "style": "number"
+  },
+  {
+    "id": "pain_graph",
+    "type": "widget",
+    "label": "Pain",
+    "var": "pain",
+    "style": "graph",
+    "var_max": 80,
+    "fill": "pool",
+    "width": 5,
+    "symbols": "-pP",
+    "colors": [ "c_white", "c_yellow", "c_light_red", "c_red" ]
   },
   {
     "id": "str_num",
@@ -322,11 +353,18 @@
     "widgets": [ "warmth_left_leg_num", "warmth_torso_num", "warmth_right_leg_num" ]
   },
   {
-    "id": "stamina_fatigue_layout",
+    "id": "stamina_focus_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "stamina_graph", "fatigue_graph" ]
+    "widgets": [ "stamina_graph", "focus_num" ]
+  },
+  {
+    "id": "weariness_fatigue_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "weariness_graph", "fatigue_graph" ]
   },
   {
     "id": "stamina_fatigue_focus_layout",
@@ -364,6 +402,13 @@
     "widgets": [ "str_num", "dex_num", "int_num", "per_num" ]
   },
   {
+    "id": "pain_num_graph_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "pain_num", "pain_graph" ]
+  },
+  {
     "id": "pain_thirst_layout",
     "type": "widget",
     "style": "layout",
@@ -385,9 +430,10 @@
     "widgets": [
       "hitpoints_top_layout",
       "hitpoints_bottom_layout",
-      "stamina_fatigue_focus_layout",
       "sound_speed_move_layout",
       "stats_layout",
+      "stamina_focus_layout",
+      "weariness_fatigue_layout",
       "pain_thirst_layout",
       "rest_hunger_layout",
       "warmth_top_layout",
