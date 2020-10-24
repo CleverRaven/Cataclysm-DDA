@@ -568,9 +568,6 @@ void inline_requirements( std::vector<std::vector<T>> &list,
 void requirement_data::finalize()
 {
     for( auto &r : const_cast<std::map<requirement_id, requirement_data> &>( all() ) ) {
-        if( r.first.str() == "filament" || r.first.str() == "cordage_short" ) {
-            r.first.str();
-        }
         inline_requirements<tool_comp>( r.second.tools, []( const requirement_data & d ) -> const auto & {
             return d.get_tools();
         } );
