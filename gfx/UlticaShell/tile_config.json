@@ -946,20 +946,6 @@
         { "id": "wood_panel", "fg": 756 },
         { "id": "wood_sheet", "fg": 757 },
         { "id": "corpse_mon_troll", "fg": 758 },
-        { "id": "mon_bat", "fg": 759, "bg": 875 },
-        { "id": "mon_crow", "fg": 760, "bg": 875 },
-        { "id": "mon_duck", "fg": 761, "bg": 875 },
-        { "id": "mon_fish_blinky", "fg": 762 },
-        {
-          "id": "mon_cat",
-          "fg": [
-            { "weight": 1, "sprite": 763 },
-            { "weight": 1, "sprite": 764 },
-            { "weight": 1, "sprite": 788 },
-            { "weight": 1, "sprite": 787 }
-          ],
-          "bg": 875
-        },
         {
           "id": "mon_cat_bengal",
           "fg": [ { "weight": 1, "sprite": 767 }, { "weight": 1, "sprite": 766 } ],
@@ -1017,15 +1003,6 @@
         { "id": "mon_cat_siamese_kitten", "fg": 789, "bg": 875 },
         { "id": "mon_cat_sphynx_kitten", "fg": 792, "bg": 875 },
         { "id": "mon_cat_tabby_kitten", "fg": 795, "bg": 875 },
-        { "id": "mon_coyote", "fg": 798, "bg": 874 },
-        { "id": "mon_coyote_wolf", "fg": 799, "bg": 874 },
-        { "id": "mon_dog", "fg": 800, "bg": 874 },
-        { "id": "mon_dog_skeleton", "fg": 805, "bg": 874 },
-        {
-          "id": "mon_zombie_dog",
-          "fg": [ { "weight": 1, "sprite": 806 }, { "weight": 1, "sprite": 807 } ],
-          "bg": 874
-        },
         { "id": "mon_dog_beagle", "fg": 801, "bg": 875 },
         { "id": "mon_dog_gshepherd", "fg": 804, "bg": 874 },
         { "id": "mon_dog_boxer", "fg": 802, "bg": 874 },
@@ -1034,7 +1011,6 @@
         { "id": "mon_fish_small", "fg": 810 },
         { "id": "mon_fish_medium", "fg": 809 },
         { "id": [ "mon_fish_large", "mon_fish_huge" ], "fg": 808 },
-        { "id": "mon_sewer_fish", "fg": 812 },
         { "id": "mon_goose_canadian", "fg": 813, "bg": 875 },
         {
           "id": "mon_pig",
@@ -1042,69 +1018,27 @@
           "bg": 874
         },
         { "id": "mon_pig_piglet", "fg": 817, "bg": 875 },
-        { "id": "mon_mink", "fg": 818, "bg": 875 },
         { "id": "mon_duck_chick", "fg": 819, "bg": 875 },
         { "id": "mon_goose_canadian_chick", "fg": 820, "bg": 875 },
         { "id": "mon_cockatrice_chick", "fg": 822, "bg": 875 },
         { "id": "mon_cockatrice", "fg": 821, "bg": 875 },
-        { "id": "mon_sewer_rat", "fg": 823, "bg": 875 },
-        { "id": "mon_bear_cub", "fg": 824, "bg": 875 },
         { "id": [ "mon_fox", "mon_fox_red", "mon_fox_gray" ], "fg": 825, "bg": 874 },
-        { "id": "mon_wolf", "fg": 826, "bg": 874 },
-        { "id": "mon_rattlesnake", "fg": 827, "bg": 875 },
-        { "id": "mon_sewer_snake", "fg": 828, "bg": 875 },
-        { "id": "mon_chipmunk", "fg": 833, "bg": 875 },
-        { "id": "mon_groundhog", "fg": 835, "bg": 875 },
-        { "id": "mon_lemming", "fg": 829, "bg": 830 },
         { "id": "mon_beaver", "fg": 831, "bg": 875 },
-        { "id": "mon_black_rat", "fg": 832, "bg": 875 },
-        { "id": "mon_deer_mouse", "fg": 834, "bg": 875 },
-        { "id": "mon_muskrat", "fg": 836, "bg": 875 },
-        { "id": "mon_otter", "fg": 838, "bg": 875 },
-        { "id": "mon_rabbit", "fg": 839, "bg": 875 },
-        { "id": "mon_squirrel", "fg": 840, "bg": 875 },
-        { "id": "mon_squirrel_red", "fg": 841, "bg": 875 },
         { "id": "mon_opossum", "fg": 837, "bg": 875 },
-        { "id": "mon_centipede_giant", "fg": 842, "bg": 874 },
         { "id": "mon_dragonfly", "fg": 843, "bg": 875 },
         { "id": "mon_locust", "fg": 844, "bg": 874 },
         { "id": "mon_locust_nymph", "fg": 845, "bg": 875 },
-        { "id": "mon_mosquito", "fg": 846, "bg": 875 },
-        { "id": "mon_ant", "fg": 851, "bg": 874 },
-        { "id": "mon_ant_acid", "fg": 852, "bg": 874 },
         { "id": "corpse_mon_ant", "fg": 847 },
         { "id": "corpse_mon_ant_acid", "fg": 848 },
-        { "id": "mon_ant_larva", "fg": 854, "bg": 875 },
-        { "id": "mon_ant_acid_larva", "fg": 853, "bg": 875 },
         { "id": "corpse_mon_ant_larva", "fg": 850 },
         { "id": "corpse_mon_ant_acid_larva", "fg": 849 },
-        { "id": "mon_dermatik_larva", "fg": 855, "bg": 875 },
-        { "id": "mon_wasp_small", "fg": 856, "bg": 875 },
-        { "id": "mon_giant_cockroach", "fg": 857, "bg": 874 },
-        { "id": "mon_giant_cockroach_nymph", "fg": 858, "bg": 875 },
         { "id": "mon_plague_nymph", "fg": 859, "bg": 875 },
         { "id": "mon_plague_vector", "fg": 860, "bg": 874 },
-        { "id": "mon_pregnant_giant_cockroach", "fg": 861, "bg": 874 },
         { "id": "mon_skittering_plague", "fg": 862, "bg": 874 },
-        { "id": "mon_blob", "fg": 863, "bg": 874 },
-        {
-          "id": "mon_blob_small",
-          "fg": [ { "weight": 1, "sprite": 864 }, { "weight": 1, "sprite": 865 } ],
-          "bg": 875
-        },
         { "id": "mon_spawn_raptor", "fg": 866, "bg": 874 },
-        { "id": "mon_zolf", "fg": 867, "bg": 874 },
         { "id": "mon_zombeaver", "fg": 868, "bg": 875 },
-        {
-          "id": "mon_zombie_child",
-          "fg": [ { "weight": 1, "sprite": 869 }, { "weight": 1, "sprite": 870 } ],
-          "bg": 875
-        },
         { "id": "mon_zombie_pig", "fg": 871, "bg": 874 },
         { "id": "mon_dog_rottweiler", "fg": 872, "bg": 874 },
-        { "id": "mon_dog_zombie_rot", "fg": 873, "bg": 874 },
-        { "id": "mon_skitterbot", "fg": 876, "bg": 874 },
-        { "id": "mon_dog_zombie_cop", "fg": 877, "bg": 874 },
         { "id": "animation_hit", "fg": 878 },
         { "id": "cursor", "fg": 880 },
         { "id": "highlight", "fg": 882 },
@@ -3547,7 +3481,6 @@
         { "id": "f_wind_mill", "fg": 2380 },
         { "id": "f_woodstove", "fg": 2381 },
         { "id": "f_workbench", "fg": 2382 },
-        { "id": "mon_biollante", "fg": 2383, "bg": 2461 },
         {
           "id": "mon_exodii_worker",
           "fg": [
@@ -3573,88 +3506,19 @@
           "fg": [ { "weight": 100, "sprite": 2388 }, { "weight": 50, "sprite": 2389 } ],
           "bg": 2461
         },
-        { "id": "mon_zombie_kevlar_1", "fg": 2394, "bg": 2461 },
-        { "id": "mon_bee", "fg": 2395, "bg": 2461 },
-        { "id": "mon_blank", "fg": 2396, "bg": 2461 },
-        { "id": "mon_cougar", "fg": 2397, "bg": 2461 },
-        { "id": "mon_dermatik", "fg": 2398, "bg": 2461 },
         { "id": "mon_dragonfly_giant", "fg": 2399, "bg": 2461 },
-        { "id": "mon_fly", "fg": 2400, "bg": 2461 },
-        { "id": "mon_fungaloid", "fg": 2401, "bg": 2461 },
-        { "id": "mon_fungal_tendril", "fg": 2402, "bg": 2461 },
         {
           "id": "mon_hunting_horror",
           "fg": [ { "weight": 1, "sprite": 2403 }, { "weight": 1, "sprite": 2404 }, { "weight": 1, "sprite": 2405 } ],
           "bg": 2461
         },
-        { "id": "mon_mosquito_giant", "fg": 2406, "bg": 2461 },
-        { "id": "mon_skeleton", "fg": 2407, "bg": 2461 },
         { "id": "mon_skeleton_brute", "fg": 2408, "bg": 2461 },
         { "id": [ "corpse_mon_skeleton", "mon_skeleton_brute" ], "fg": 2424 },
-        { "id": "mon_zombie_crawler", "fg": 2409, "bg": 2461 },
-        {
-          "id": "mon_zombie_fat",
-          "fg": [ { "weight": 1, "sprite": 2410 }, { "weight": 1, "sprite": 2411 } ],
-          "bg": 2461
-        },
-        {
-          "id": "mon_zombie_brainless",
-          "fg": [ { "weight": 100, "sprite": 2412 }, { "weight": 100, "sprite": 2413 } ],
-          "bg": 2461
-        },
-        { "id": "mon_zombie_hollow", "fg": 2414, "bg": 2461 },
-        { "id": "mon_zombie_hunter", "fg": 2415, "bg": 2461 },
-        { "id": "mon_zombie_predator", "fg": 2416, "bg": 2461 },
-        {
-          "id": "mon_zombie_mancroc",
-          "fg": [ { "weight": 100, "sprite": 2417 }, { "weight": 100, "sprite": 2418 } ],
-          "bg": 2461
-        },
-        { "id": "mon_zombie_necro", "fg": 2421, "bg": 2461 },
-        { "id": "mon_zombie_master", "fg": 2420, "bg": 2461 },
         { "id": [ "corpse_mon_zombie_necro", "corpse_mon_zombie_master" ], "fg": 2419 },
         { "id": "mon_zombie_crawler_pupa", "fg": 2422, "bg": 2461 },
         { "id": "mon_zombie_pupa", "fg": 2423, "bg": 2461 },
-        { "id": "mon_zombie_rot", "fg": 2425, "bg": 2461 },
         { "id": [ "corpse_mon_zombie_rot" ], "fg": 2424 },
-        {
-          "id": "mon_zombie_soldier",
-          "fg": [ { "weight": 100, "sprite": 2427 }, { "weight": 100, "sprite": 2428 } ],
-          "bg": 2461
-        },
-        { "id": "mon_zombie_military_pilot", "fg": 2426, "bg": 2461 },
         { "id": "mon_zombie_static", "fg": 2429, "bg": 2461 },
-        { "id": "mon_zombie_swimmer", "fg": 2430, "bg": 2461 },
-        {
-          "id": "mon_zombie",
-          "fg": [
-            { "weight": 100, "sprite": 2436 },
-            { "weight": 150, "sprite": 2437 },
-            { "weight": 100, "sprite": 2438 },
-            { "weight": 100, "sprite": 2439 },
-            { "weight": 150, "sprite": 2440 }
-          ],
-          "bg": 2461
-        },
-        { "id": "mon_zombie_hazmat", "fg": 2443, "bg": 2461 },
-        { "id": "mon_zombie_fireman", "fg": 2442, "bg": 2461 },
-        {
-          "id": "mon_zombie_scientist",
-          "fg": [ { "weight": 1, "sprite": 2445 }, { "weight": 1, "sprite": 2446 } ],
-          "bg": 2461
-        },
-        { "id": "mon_zombie_cop", "fg": 2441, "bg": 2461 },
-        { "id": "mon_zombie_labsecurity", "fg": 2444, "bg": 2461 },
-        {
-          "id": "mon_zombie_tough",
-          "fg": [ { "weight": 1, "sprite": 2449 }, { "weight": 1, "sprite": 2450 } ],
-          "bg": 2461
-        },
-        {
-          "id": "mon_zombie_technician",
-          "fg": [ { "weight": 1, "sprite": 2447 }, { "weight": 1, "sprite": 2448 } ],
-          "bg": 2461
-        },
         {
           "id": [
             "corpse_mon_zombie",
@@ -3716,11 +3580,6 @@
           ],
           "fg": 2435
         },
-        { "id": "mon_zougar", "fg": 2451, "bg": 2461 },
-        { "id": "mon_copbot", "fg": 2452, "bg": 2461 },
-        { "id": "mon_zombie_screecher", "fg": 2453, "bg": 2461 },
-        { "id": "mon_zombie_shrieker", "fg": 2454, "bg": 2461 },
-        { "id": "mon_zombie_survivor", "fg": 2455, "bg": 2461 },
         { "id": "mon_zombie_thorny", "fg": 2456, "bg": 2461 },
         {
           "id": "mon_triffid",
@@ -3767,7 +3626,6 @@
         { "id": "f_MRI", "fg": 2498 },
         { "id": "f_rotary_clothesline", "fg": 2499 },
         { "id": "mon_troll", "fg": 2500, "bg": 2578 },
-        { "id": "mon_albino_penguin", "fg": 2501, "bg": 2579 },
         {
           "id": "mon_exodii_quad",
           "fg": [
@@ -3791,88 +3649,26 @@
         { "id": "mon_gas_zombie", "fg": 2510, "bg": 2580 },
         { "id": "mon_giant_crayfish", "fg": 2511, "bg": 2580 },
         { "id": "mon_slug_giant", "fg": 2512, "bg": 2578 },
-        { "id": "mon_spider_web", "fg": 2514, "bg": 2580 },
         { "id": "corpse_mon_spider_web", "fg": 2513 },
-        { "id": "mon_zhark", "fg": 2515 },
-        { "id": "mon_ant_soldier", "fg": 2523, "bg": 2578 },
-        { "id": "mon_ant_acid_soldier", "fg": 2521, "bg": 2578 },
         { "id": "corpse_mon_ant_soldier", "fg": 2519 },
         { "id": "corpse_mon_ant_acid_soldier", "fg": 2517 },
-        { "id": "mon_ant_queen", "fg": 2522, "bg": 2578 },
-        { "id": "mon_ant_acid_queen", "fg": 2520, "bg": 2578 },
         { "id": "corpse_mon_ant_queen", "fg": 2518 },
         { "id": "corpse_mon_ant_acid_queen", "fg": 2516 },
-        { "id": "mon_bear", "fg": 2524, "bg": 2579 },
-        { "id": "mon_blob_large", "fg": 2525, "bg": 2578 },
-        { "id": "mon_boomer", "fg": 2526, "bg": 2580 },
-        { "id": "mon_boomer_huge", "fg": 2527, "bg": 2579 },
-        { "id": "mon_gator", "fg": 2528, "bg": 2578 },
-        { "id": "mon_human_snail", "fg": 2529, "bg": 2578 },
-        { "id": "mon_jabberwock", "fg": 2530, "bg": 2578 },
-        { "id": "mon_mi_go", "fg": 2531, "bg": 2579 },
-        { "id": "mon_mi_go_slaver", "fg": 2535, "bg": 2579 },
-        { "id": "mon_mi_go_surgeon", "fg": 2536, "bg": 2579 },
         { "id": "mon_mi_go_scout", "fg": 2534, "bg": 2579 },
-        { "id": "mon_mi_go_guard", "fg": 2532, "bg": 2578 },
-        { "id": "mon_mi_go_myrmidon", "fg": 2533, "bg": 2578 },
-        { "id": "mon_moose", "fg": [ { "weight": 2, "sprite": 2537 }, { "weight": 2, "sprite": 2538 } ], "bg": 2578 },
-        { "id": "mon_wasp", "fg": 2539, "bg": 2579 },
-        { "id": "mon_darkman", "fg": 2540 },
-        { "id": "mon_zombear", "fg": 2541, "bg": 2579 },
-        { "id": "mon_zombie_acidic", "fg": 2543, "bg": 2580 },
-        { "id": "mon_zombie_corrosive", "fg": 2544, "bg": 2580 },
-        { "id": "mon_zombie_spitter", "fg": 2545, "bg": 2580 },
         { "id": "corpse_mon_zombie_spitter", "fg": 2542 },
-        { "id": "mon_zombie_biter", "fg": 2546, "bg": 2579 },
-        {
-          "id": "mon_zombie_brute",
-          "fg": [
-            { "weight": 100, "sprite": 2547 },
-            { "weight": 100, "sprite": 2548 },
-            { "weight": 50, "sprite": 2549 },
-            { "weight": 50, "sprite": 2550 }
-          ],
-          "bg": 2579
-        },
-        {
-          "id": "mon_zombie_electric",
-          "fg": [ { "weight": 1, "sprite": 2552 }, { "weight": 1, "sprite": 2551 } ],
-          "bg": 2580
-        },
         {
           "id": "mon_zombie_nullfield",
           "fg": [ { "weight": 1, "sprite": 2554 }, { "weight": 1, "sprite": 2553 } ],
           "bg": 2580
         },
-        {
-          "id": "mon_zombie_gasbag",
-          "fg": [ { "weight": 1, "sprite": 2555 }, { "weight": 1, "sprite": 2556 } ],
-          "bg": 2580
-        },
-        {
-          "id": "mon_zombie_grappler",
-          "fg": [ { "weight": 1, "sprite": 2557 }, { "weight": 1, "sprite": 2558 } ],
-          "bg": 2580
-        },
-        { "id": "mon_zombie_runner", "fg": 2559, "bg": 2580 },
-        { "id": "mon_zombie_shady", "fg": 2560, "bg": 2580 },
-        { "id": "mon_zombie_smoker", "fg": 2561, "bg": 2580 },
-        { "id": "mon_zoose", "fg": 2562, "bg": 2578 },
         { "id": "mon_nursebot_defective", "fg": 2564, "bg": 2580 },
         { "id": "mon_nursebot", "fg": 2563, "bg": 2580 },
-        { "id": "mon_zombie_brute_shocker", "fg": 2565, "bg": 2579 },
-        { "id": "mon_sludge_crawler", "fg": 2566, "bg": 2578 },
-        { "id": "mon_spider_jumping_giant", "fg": 2569, "bg": 2580 },
         { "id": "corpse_mon_spider_jumping_giant", "fg": 2567 },
-        { "id": "mon_spider_wolf_giant", "fg": 2570, "bg": 2580 },
         { "id": "corpse_mon_spider_wolf_giant", "fg": 2568 },
         { "id": "mon_dog_thing", "fg": 2571, "bg": 2579 },
         { "id": "mon_headless_dog_thing", "fg": 2572, "bg": 2579 },
         { "id": "mon_thing", "fg": 2573, "bg": 2578 },
         { "id": "mon_triffid_queen", "fg": 2574, "bg": 2578 },
-        { "id": "mon_vinebeast", "fg": 2575, "bg": 2578 },
-        { "id": "mon_zombie_brute_ninja", "fg": 2576, "bg": 2579 },
-        { "id": "mon_zombie_brute_grappler", "fg": 2577, "bg": 2579 },
         {
           "id": "t_tree_young",
           "fg": [ { "weight": 100, "sprite": 2587 }, { "weight": 100, "sprite": 2588 } ],
@@ -3906,11 +3702,6 @@
     {
       "file": "huge.png",
       "tiles": [
-        { "id": "mon_flaming_eye", "fg": 2609 },
-        { "id": "mon_zombie_hulk", "fg": 2611, "bg": 2614 },
-        { "id": "mon_skeleton_hulk", "fg": 2610, "bg": 2614 },
-        { "id": "mon_amigara_horror", "fg": 2612 },
-        { "id": "mon_zombie_kevlar_2", "fg": 2613 },
         { "id": "mon_triffid_heart", "fg": 2615 }
       ],
       "//": "range 2609 to 2624",
@@ -4441,23 +4232,12 @@
         { "id": "zweihander", "fg": 2837 },
         { "id": "zweihander_inferior", "fg": 2839 },
         { "id": "zweihander_fake", "fg": 2838 },
-        { "id": "mon_grenade_hack", "fg": 2846, "bg": 875 },
-        { "id": "mon_mininuke_hack", "fg": 2848, "bg": 875 },
         { "id": "bot_grenade_hack", "fg": 2840 },
         { "id": "bot_mininuke_hack", "fg": 2841 },
-        { "id": "mon_manhack", "fg": 2847, "bg": 875 },
-        { "id": "mon_gasbomb_hack", "fg": 2845, "bg": 875 },
-        { "id": "mon_flashbang_hack", "fg": 2844, "bg": 875 },
-        { "id": "mon_c4_hack", "fg": 2842, "bg": 875 },
-        { "id": "mon_EMP_hack", "fg": 2843, "bg": 875 },
-        { "id": "mon_chicken", "fg": 2849, "bg": 875 },
         { "id": "mon_cow", "fg": 2850, "bg": 874 },
-        { "id": "mon_deer", "fg": 2851, "bg": 874 },
-        { "id": "mon_frog_giant", "fg": 2852, "bg": 874 },
         { "id": "mon_grocerybot", "fg": 2853, "bg": 875 },
         { "id": "mon_grocerybot_busted", "fg": 2854, "bg": 875 },
         { "id": "mon_horse", "fg": 2855, "bg": 874 },
-        { "id": "mon_spider_widow_giant", "fg": 2856, "bg": 874 },
         { "id": [ "t_card_science", "t_card_robofac" ], "fg": 2861 },
         { "id": "t_card_reader_broken", "fg": 2860 },
         { "id": "t_card_military", "fg": 2859 },
@@ -5595,9 +5375,6 @@
     {
       "file": "incomplete_large.png",
       "tiles": [
-        { "id": "mon_alpha_razorclaw", "fg": 3537, "bg": 2580 },
-        { "id": "mon_chickenbot", "fg": 3538, "bg": 2580 },
-        { "id": "mon_razorclaw", "fg": 3539, "bg": 2580 },
         { "id": "mon_science_bot", "fg": 3540, "bg": 2580 }
       ],
       "//": "range 3537 to 3552",
