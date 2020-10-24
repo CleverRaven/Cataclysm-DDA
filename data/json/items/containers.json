@@ -431,10 +431,11 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small cardboard box", "str_pl": "small cardboard boxes" },
-    "description": "A small cardboard box.  No bigger than a foot in dimension.",
+    "description": "A small cardboard box.  No bigger than half a foot in dimension.",
     "weight": "151 g",
-    "volume": "1010 ml",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "1 L", "max_contains_weight": "4 kg" } ],
+    "volume": "3500 ml",
+	"longest_side": "15 cm",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "3500 ml", "max_contains_weight": "4 kg" } ],
     "price": 0,
     "price_postapoc": 0,
     "material": [ "cardboard" ],
@@ -449,15 +450,16 @@
     "looks_like": "box_small",
     "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.",
     "weight": "850 g",
-    "volume": "2100 ml",
-    "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
+    "volume": "13600 ml",
+	"longest_side": "30 cm",
+    "//": "Nested containers are a thing now so these need to be actual volume (30x30x15)",
     "price": 0,
     "price_postapoc": 0,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": false,
-        "max_contains_volume": "2990 ml",
+        "rigid": true,
+        "max_contains_volume": "13500 ml",
         "max_contains_weight": "20 kg",
         "magazine_well": "2 L"
       }
@@ -474,8 +476,9 @@
     "looks_like": "box_medium",
     "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.",
     "weight": "1250 g",
-    "volume": "3150 ml",
-    "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
+    "volume": "60850 ml",
+	"longest_side": "45 cm",
+    "//": "Nested containers are a thing now so these need to be actual volume. Also a box that children could hide in should be big enough to cram a (un)dead child in (45x45x30)",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "cardboard" ],
@@ -484,13 +487,38 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": false,
-        "max_contains_volume": "4990 ml",
+        "rigid": true,
+        "max_contains_volume": "60750 ml",
         "max_contains_weight": "50 kg",
         "magazine_well": "3 L"
       }
     ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
+  },
+  {
+    "id": "box_flat",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "flat cardboard box", "str_pl": "flat cardboard boxes" },
+    "looks_like": "box_small",
+    "description": "A flat cardboard box, as commonly used to transport pizza in.",
+    "weight": "200 g",
+    "volume": "2520 ml",
+	"longest_side": "22 cm",
+    "//": "Nested containers are a thing now so these need to be actual volume (22x22x5)",
+    "price": 0,
+    "price_postapoc": 0,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "2420 ml",
+        "max_contains_weight": "20 kg"
+      }
+    ],
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown"
   },
   {
     "id": "bucket",
