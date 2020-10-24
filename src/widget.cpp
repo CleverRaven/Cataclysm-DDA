@@ -59,6 +59,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "thirst";
         case widget_var::fatigue:
             return "fatigue";
+        case widget_var::weariness:
+            return "weariness";
         case widget_var::mana:
             return "mana";
         // Base stats
@@ -199,6 +201,9 @@ int widget::get_var_value( const avatar &ava )
             break;
         case widget_var::fatigue:
             value = ava.get_fatigue();
+            break;
+        case widget_var::weariness:
+            value = ava.weariness_level();
             break;
         case widget_var::stat_str:
             value = ava.get_str();

@@ -35,6 +35,7 @@ Here are most vars and what they mean. See `widget_var` in `widget.h` for the de
 | `stat_per`    | perception stat, 0-20+
 | `stamina`     | stamina reserves, 0-10000
 | `fatigue`     | tiredness, 0-1000
+| `weariness`   | weariness level, 0-6+
 | `move`        | movement counter, 0-100+
 | `pain`        | perceived pain, 0+
 | `focus`       | focus level, 0-100+

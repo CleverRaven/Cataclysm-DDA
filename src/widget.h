@@ -29,6 +29,7 @@ enum class widget_var : int {
     stamina,
     thirst,
     fatigue,
+    weariness,
     mana,
     stat_str,
     stat_dex,
