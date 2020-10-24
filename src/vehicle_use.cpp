@@ -606,6 +606,22 @@ void vehicle::toggle_tracking()
     }
 }
 
+void vehicle::release_controls( bool turn_engines_off )
+{
+    avatar &player_character = get_avatar();
+    if( g->remoteveh() == this ) {
+        add_msg( _( "You stop controlling the vehicle." ) );
+    } else if( turn_engines_off && engine_on && has_engine_type_not( fuel_type_muscle, true ) ) {
+        stop_engines();
+        add_msg( _( "You turn the engine off and let go of the controls." ) );
+    } else {
+        add_msg( _( "You let go of the controls." ) );
+    }
+    g->setremoteveh( nullptr );
+    player_character.controlling_vehicle = false;
+    refresh();
+}
+
 void vehicle::use_controls( const tripoint &pos )
 {
     std::vector<uilist_entry> options;
@@ -617,23 +633,14 @@ void vehicle::use_controls( const tripoint &pos )
 
     if( remote ) {
         options.emplace_back( _( "Stop controlling" ), keybind( "RELEASE_CONTROLS" ) );
-        actions.push_back( [&] {
-            player_character.controlling_vehicle = false;
-            g->setremoteveh( nullptr );
-            add_msg( _( "You stop controlling the vehicle." ) );
-            refresh();
-        } );
+        actions.push_back( [&] { release_controls( false ); } );
 
         has_electronic_controls = has_part( "CTRL_ELECTRONIC" ) || has_part( "REMOTE_CONTROLS" );
 
     } else if( veh_pointer_or_null( get_map().veh_at( pos ) ) == this ) {
         if( player_character.controlling_vehicle ) {
             options.emplace_back( _( "Let go of controls" ), keybind( "RELEASE_CONTROLS" ) );
-            actions.push_back( [&] {
-                player_character.controlling_vehicle = false;
-                add_msg( _( "You let go of the controls." ) );
-                refresh();
-            } );
+            actions.push_back( [&] { release_controls( false ); } );
         }
         has_electronic_controls = !get_parts_at( pos, "CTRL_ELECTRONIC",
                                   part_status_flag::any ).empty();
@@ -652,18 +659,7 @@ void vehicle::use_controls( const tripoint &pos )
     if( has_part( "ENGINE" ) ) {
         if( player_character.controlling_vehicle || ( remote && engine_on ) ) {
             options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
-            actions.push_back( [&] {
-                if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
-                {
-                    add_msg( _( "You turn the engine off and let go of the controls." ) );
-                } else
-                {
-                    add_msg( _( "You let go of the controls." ) );
-                }
-                stop_engines();
-                player_character.controlling_vehicle = false;
-                g->setremoteveh( nullptr );
-            } );
+            actions.push_back( [&] { release_controls( true ); } );
 
         } else if( has_engine_type_not( fuel_type_muscle, true ) ) {
             options.emplace_back( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ),

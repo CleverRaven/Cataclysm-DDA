@@ -879,6 +879,8 @@ class vehicle
         bool start_engine( int e );
         // stop all engines
         void stop_engines();
+        // release controls / remote controls, optionally shut down engines (if not muscle)
+        void release_controls( bool turn_engines_off );
         // Attempt to start the vehicle's active engines
         void start_engines( bool take_control = false, bool autodrive = false );
 
