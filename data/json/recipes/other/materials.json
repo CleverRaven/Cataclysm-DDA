@@ -605,5 +605,19 @@
       [ [ "forge", 60 ] ]
     ],
     "components": [ [ [ "glass_shard", 2 ] ], [ [ "chem_sulphur", 1 ] ], [ [ "scrap", 1 ] ], [ [ "charcoal", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "button_wood",
+    "category": "CC_WEAPON",
+    "skill_used": "fabrication",
+    "skills_required": [ "fabrication", 1 ],
+    "difficulty": 3,
+    "time": "2 h",
+    "charges": 50,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "FILE", "level": 1 } ],
+    "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ], [ [ "wax", 1 ] ] ]
   }
 ]

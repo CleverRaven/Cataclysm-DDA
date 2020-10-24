@@ -2,7 +2,7 @@
   {
     "type": "SPECIES",
     "id": "DINOSAUR",
-    "//": "Capping these at 1000 L and kg to prevent bodies and meat disappearing",
+    "//": "Capping these at 1000 L and kg to prevent bodies and meat disappearing and vision at 50 for less aggro",
     "fear_triggers": [ "FIRE" ]
   },
   {
@@ -13,6 +13,7 @@
     "default_faction": "coelophysis",
     "volume": "20 L",
     "weight": "20 kg",
+    "material": [ "flesh" ],
     "aggression": 20,
     "morale": 40,
     "speed": 100,
@@ -39,7 +40,7 @@
       "SWARMS",
       "GROUP_MORALE"
     ],
-    "vision_day": 80,
+    "vision_day": 50,
     "harvest": "dino_feather_leather"
   },
   {
@@ -89,8 +90,8 @@
     "color": "brown_white",
     "volume": "540 L",
     "weight": "540 kg",
-    "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "bodytype": "ostrich",
     "aggression": 30,
     "morale": 70,
     "speed": 250,
@@ -579,7 +580,7 @@
     "armor_bash": 6,
     "armor_cut": 2,
     "armor_bullet": 2,
-    "vision_day": 100,
+    "vision_day": 50,
     "hp": 1000,
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zapatosaurus",
@@ -717,10 +718,48 @@
     "reproduction": { "baby_egg": "egg_stegosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "ATTACKMON" ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "BASHES",
+      "WARM",
+      "ATTACKMON",
+      "CATTLEFODDER"
+    ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dyoplosaurus",
+    "name": { "str_sp": "Dyoplosaurus" },
+    "copy-from": "mon_ankylosaurus",
+    "hp": 200,
+    "zombify_into": "mon_zyoplosaurus",
+    "special_attacks": [
+      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "SMASH", 30 ],
+      [ "EAT_CROP", 40 ]
+    ],
+    "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone.",
+    "reproduction": { "baby_egg": "egg_dyoplosaurus", "baby_count": 3, "baby_timer": 24 },
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "ATTACKMON",
+      "PET_MOUNTABLE",
+      "CATTLEFODDER"
+    ]
   },
   {
     "type": "MONSTER",
@@ -753,14 +792,79 @@
       [ "SMASH", 30 ],
       [ "EAT_CROP", 40 ]
     ],
-    "description": "This dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a massive spiked club of bone.",
+    "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a massive spiked club of bone.",
     "reproduction": { "baby_egg": "egg_ankylosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "ATTACKMON" ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "BASHES",
+      "WARM",
+      "ATTACKMON",
+      "PET_MOUNTABLE",
+      "CATTLEFODDER"
+    ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_nodosaurus",
+    "name": { "str_sp": "Nodosaurus" },
+    "copy-from": "mon_ankylosaurus",
+    "hp": 400,
+    "zombify_into": "mon_zodosaurus",
+    "armor_bash": 20,
+    "armor_cut": 20,
+    "armor_bullet": 10,
+    "special_attacks": [ [ "EAT_CROP", 40 ] ],
+    "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo.",
+    "reproduction": { "baby_egg": "egg_nodosaurus", "baby_count": 3, "baby_timer": 24 },
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "ATTACKMON",
+      "PET_MOUNTABLE",
+      "CATTLEFODDER"
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_edmontonia",
+    "name": { "str_sp": "Edmontonia" },
+    "copy-from": "mon_ankylosaurus",
+    "hp": 350,
+    "zombify_into": "mon_zedmontonia",
+    "melee_cut": 10,
+    "armor_bash": 20,
+    "armor_cut": 20,
+    "armor_bullet": 10,
+    "special_attacks": [ [ "EAT_CROP", 40 ] ],
+    "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo with long bony spikes.",
+    "reproduction": { "baby_egg": "egg_edmontonia", "baby_count": 3, "baby_timer": 24 },
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "ATTACKMON",
+      "PET_MOUNTABLE",
+      "CATTLEFODDER"
+    ]
   },
   {
     "type": "MONSTER",
