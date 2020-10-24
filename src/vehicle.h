@@ -870,6 +870,10 @@ class vehicle
          */
         void use_controls( const tripoint &pos );
 
+        // build controls menu, true returned from std::function tells the menu should close
+        void build_controls_menu( const tripoint &pos,
+                                  std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions );
+
         // Fold up the vehicle
         bool fold_up();
 
@@ -1681,12 +1685,12 @@ class vehicle
         void crash_terrain_around();
         void transform_terrain();
         void add_toggle_to_opts( std::vector<uilist_entry> &options,
-                                 std::vector<std::function<void()>> &actions,
+                                 std::vector<std::function<bool()>> &actions,
                                  const std::string &name,
                                  const input_event &key,
                                  const std::string &flag );
         void set_electronics_menu_options( std::vector<uilist_entry> &options,
-                                           std::vector<std::function<void()>> &actions );
+                                           std::vector<std::function<bool()>> &actions );
         //main method for the control of multiple electronics
         void control_electronics();
         //main method for the control of individual engines
