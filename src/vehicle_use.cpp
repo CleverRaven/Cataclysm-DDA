@@ -588,7 +588,6 @@ void vehicle::toggle_autopilot()
             is_patrolling = false;
             is_autodriving = true;
             start_engines();
-            refresh();
         default:
             return;
     }
@@ -664,7 +663,6 @@ void vehicle::use_controls( const tripoint &pos )
                 stop_engines();
                 player_character.controlling_vehicle = false;
                 g->setremoteveh( nullptr );
-                refresh();
             } );
 
         } else if( has_engine_type_not( fuel_type_muscle, true ) ) {
@@ -678,7 +676,6 @@ void vehicle::use_controls( const tripoint &pos )
                 {
                     start_engines();
                 }
-                refresh();
             } );
         }
     }
@@ -1072,6 +1069,7 @@ void vehicle::stop_engines()
         }
     }
     sfx::do_vehicle_engine_sfx();
+    refresh();
 }
 
 void vehicle::start_engines( const bool take_control, const bool autodrive )
@@ -1122,6 +1120,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
         player_character.activity.placement = starting_engine_position - player_character.pos();
         player_character.activity.values.push_back( take_control );
     }
+    refresh();
 }
 
 void vehicle::enable_patrol()
@@ -1130,7 +1129,6 @@ void vehicle::enable_patrol()
     autopilot_on = true;
     autodrive_local_target = tripoint_zero;
     start_engines();
-    refresh();
 }
 
 void vehicle::honk_horn()
