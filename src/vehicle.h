@@ -1691,8 +1691,6 @@ class vehicle
                                  const std::string &flag );
         void set_electronics_menu_options( std::vector<uilist_entry> &options,
                                            std::vector<std::function<bool()>> &actions );
-        //main method for the control of multiple electronics
-        void control_electronics();
         //main method for the control of individual engines
         void control_engines();
         // shows ui menu to select an engine
@@ -1775,6 +1773,14 @@ class vehicle
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
         void use_harness( int part, const tripoint &pos );
+
+        // Builds a menu for the method below
+        void build_veh_tools_menu( const vpart_position &pos,
+                                   std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions );
+
+        // Builds a menu for the method below
+        void build_interact_menu( const tripoint &pos,
+                                  std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions );
 
         void interact_with( const vpart_position &vp );
 
