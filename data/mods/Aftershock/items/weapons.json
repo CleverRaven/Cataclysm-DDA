@@ -272,7 +272,6 @@
     "price_postapoc": 1200
   },
   {
-    "type": "GENERIC",
     "id": "laser_cannon_xray",
     "looks_like": "ar15",
     "type": "GUN",
