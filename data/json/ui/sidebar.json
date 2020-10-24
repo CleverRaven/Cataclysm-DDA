@@ -231,6 +231,25 @@
     "colors": [ "c_green", "c_yellow", "c_red" ]
   },
   {
+    "id": "weariness_num",
+    "type": "widget",
+    "label": "Weariness",
+    "var": "weariness_level",
+    "style": "number"
+  },
+  {
+    "id": "weariness_graph",
+    "type": "widget",
+    "label": "Weariness",
+    "var": "weariness_level",
+    "var_max": 10,
+    "style": "graph",
+    "fill": "pool",
+    "width": 5,
+    "symbols": "-wW",
+    "colors": [ "c_white", "c_yellow", "c_red" ]
+  },
+  {
     "id": "sound_num",
     "type": "widget",
     "label": "Sound",

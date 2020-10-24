@@ -25,6 +25,7 @@ enum class widget_var : int {
     fatigue,        // Current fatigue, integer
     mana,           // Current available mana, integer
     morale_level,   // Current morale level, integer (may be negative)
+    weariness_level, // Current weariness level, integer
     stat_str,       // Base STR (strength) stat, integer
     stat_dex,       // Base DEX (dexterity) stat, integer
     stat_int,       // Base INT (intelligence) stat, integer

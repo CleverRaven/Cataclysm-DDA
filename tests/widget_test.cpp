@@ -315,6 +315,13 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         // NOLINTNEXTLINE(cata-text-style): suppress "unnecessary space" warning before commas
         CHECK( head_graph_w.layout( ava ) == "HEAD: ,,,,," );
     }
+
+    SECTION( "weariness" ) {
+        widget weariness_w = widget_id( "test_weariness_num" ).obj();
+
+        CHECK( weariness_w.layout( ava ) == "WEARINESS: 0" );
+        // TODO: Check weariness set to other levels
+    }
 }
 
 TEST_CASE( "layout widgets", "[widget][layout]" )

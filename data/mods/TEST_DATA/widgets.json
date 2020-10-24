@@ -146,6 +146,13 @@
     "style": "number"
   },
   {
+    "id": "test_weariness_num",
+    "type": "widget",
+    "label": "WEARINESS",
+    "var": "weariness_level",
+    "style": "number"
+  },
+  {
     "id": "test_hp_head_graph",
     "type": "widget",
     "label": "HEAD",
