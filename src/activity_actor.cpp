@@ -1684,7 +1684,8 @@ void craft_activity_actor::finish( player_activity &act, Character & )
 std::string craft_activity_actor::get_progress_message( const player_activity & ) const
 {
     if( !craft_item ) {
-        return "";//We have somehow lost the craft item.  This will be handled in do_turn in the check_if_craft_is_ok call.
+        //We have somehow lost the craft item.  This will be handled in do_turn in the check_if_craft_is_ok call.
+        return "";
     }
     return craft_item.get_item()->tname();
 }
