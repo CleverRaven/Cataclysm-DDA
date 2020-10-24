@@ -581,6 +581,7 @@ void vehicle::toggle_autopilot()
             is_autodriving = false;
             autodrive_local_target = tripoint_zero;
             stop_engines();
+            add_msg( _( "You turn the engine off." ) );
             break;
         case FOLLOW:
             autopilot_on = true;
@@ -667,6 +668,7 @@ void vehicle::use_controls( const tripoint &pos )
             actions.push_back( [&] {
                 if( engine_on )
                 {
+                    add_msg( _( "You turn the engine off." ) );
                     stop_engines();
                 } else
                 {
@@ -1038,7 +1040,6 @@ void vehicle::stop_engines()
 {
     vehicle_noise = 0;
     engine_on = false;
-    add_msg( _( "You turn the engine off." ) );
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( !is_engine_on( e ) ) {
             continue;
