@@ -1456,14 +1456,14 @@
     "id": "SCROLL_STAGE_UP",
     "category": "CONSTRUCTION",
     "name": "Scroll to previous stage",
-    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "<" } ]
   },
   {
     "type": "keybinding",
     "id": "SCROLL_STAGE_DOWN",
     "category": "CONSTRUCTION",
     "name": "Scroll to next stage",
-    "bindings": [ { "input_method": "keyboard_any", "key": "n" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": ">" } ]
   },
   {
     "type": "keybinding",
