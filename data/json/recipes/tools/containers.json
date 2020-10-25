@@ -55,11 +55,7 @@
     "time": "20 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic" },
-      { "proficiency": "prof_welding" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 1 ] ] ]
   },
