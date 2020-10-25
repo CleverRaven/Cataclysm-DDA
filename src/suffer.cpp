@@ -1465,23 +1465,25 @@ static void apply_weariness( Character &you, int level, int old )
 
 void Character::suffer_from_exertion()
 {
-    int new_weary_level = weariness_level();
-    float max_activity = maximum_exertion_level();
+    if (get_option<bool>("WEARINESS_ENABLED")) {
+        int new_weary_level = weariness_level();
+        float max_activity = maximum_exertion_level();
 
-    // Only if there are changes (duh)
-    if( new_weary_level != old_weary_level ) {
-        apply_weariness( *this, new_weary_level, old_weary_level );
+        // Only if there are changes (duh)
+        if (new_weary_level != old_weary_level) {
+            apply_weariness(*this, new_weary_level, old_weary_level);
+        }
+
+        // Significantly slow the rate of messaging when in an activity
+        int chance = activity ? 2000 : 60;
+        if (attempted_activity_level > max_activity && one_in(chance) && !in_sleep_state()) {
+            add_msg_if_player(m_bad,
+                _("You're tiring out, continuing to work at this rate will be slower."));
+        }
+
+        // This must happen at the end, for hopefully obvious reasons
+        old_weary_level = new_weary_level;
     }
-
-    // Significantly slow the rate of messaging when in an activity
-    int chance = activity ? 2000 : 60;
-    if( attempted_activity_level > max_activity && one_in( chance ) && !in_sleep_state() ) {
-        add_msg_if_player( m_bad,
-                           _( "You're tiring out, continuing to work at this rate will be slower." ) );
-    }
-
-    // This must happen at the end, for hopefully obvious reasons
-    old_weary_level = new_weary_level;
 }
 
 void Character::suffer_without_sleep( const int sleep_deprivation )

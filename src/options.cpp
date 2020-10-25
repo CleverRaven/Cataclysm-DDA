@@ -2160,6 +2160,13 @@ void options_manager::add_options_world_default()
     { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Multi-pool only" ) }, { "no_freeform", to_translation( "No freeform" ) } },
     "any"
        );
+
+    add_empty_line();
+
+    add("WEARINESS_ENABLED", "world_default", to_translation("Enable weariness"),
+        to_translation("Emulates physical exertion."),
+        true
+    );
 }
 
 void options_manager::add_options_debug()
