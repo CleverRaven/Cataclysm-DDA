@@ -79,7 +79,7 @@
     "items": [
       [ "adhesive_bandages", 25 ],
       [ "1st_aid", 15 ],
-      [ "ifak", 15 ],
+      { "group": "full_ifak", "prob": 15 },
       [ "vitamins", 75 ],
       [ "calcium_tablet", 75 ],
       [ "aspirin", 45 ],

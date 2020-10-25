@@ -3505,7 +3505,6 @@
           "wristwatch",
           "thermometer",
           "bandages",
-          "ifak",
           "scalpel",
           "syringe",
           "morphine",
@@ -3513,6 +3512,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "full_ifak" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "gloves_medical", "custom-flags": [ "no_auto_equip" ] },
