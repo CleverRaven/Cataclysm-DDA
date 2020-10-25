@@ -958,7 +958,7 @@
       [ [ "hose", 2 ] ],
       [ [ "vac_pump", 1 ] ],
       [ [ "gasket_plastic", 2 ] ],
-      [ [ "element", 3 ] ],
+      [ [ "element", 3 ], [ "crude_heating_element", 3 ] ],
       [ [ "sheet_metal", 3 ] ],
       [ [ "glass_sheet", 1 ] ]
     ]

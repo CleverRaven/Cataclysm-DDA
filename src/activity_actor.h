@@ -200,7 +200,7 @@ class dig_activity_actor : public activity_actor
         std::string result_terrain;
         tripoint byproducts_location;
         int byproducts_count;
-        std::string byproducts_item_group;
+        item_group_id byproducts_item_group;
 
         /**
          * Returns true if @p other and `this` are "equivalent" in the sense that
@@ -261,7 +261,7 @@ class dig_channel_activity_actor : public activity_actor
         std::string result_terrain;
         tripoint byproducts_location;
         int byproducts_count;
-        std::string byproducts_item_group;
+        item_group_id byproducts_item_group;
 
         /**
          * Returns true if @p other and `this` are "equivalent" in the sense that

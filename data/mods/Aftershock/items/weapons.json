@@ -252,6 +252,26 @@
     "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE", "STAB" ]
   },
   {
+    "type": "GENERIC",
+    "id": "trident",
+    "name": { "str": "trident" },
+    "category": "tools",
+    "description": "A three pronged spear that is surface treated to be used confidently above and below water.",
+    "weight": "1200 g",
+    "color": "brown",
+    "symbol": "/",
+    "material": [ "steel", "ceramic" ],
+    "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
+    "volume": "1750 ml",
+    "longest_side": "140 cm",
+    "bashing": 5,
+    "cutting": 28,
+    "qualities": [ [ "COOK", 1 ] ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ],
+    "price": 7500,
+    "price_postapoc": 1200
+  },
+  {
     "id": "laser_cannon_xray",
     "looks_like": "ar15",
     "type": "GUN",

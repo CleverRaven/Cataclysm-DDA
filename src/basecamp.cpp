@@ -22,6 +22,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "npc.h"
@@ -377,17 +378,17 @@ std::map<recipe_id, translation> basecamp::recipe_deck( const std::string &bldg 
     return recipes;
 }
 
-std::string basecamp::get_gatherlist() const
+item_group_id basecamp::get_gatherlist() const
 {
     const auto &e = expansions.find( base_camps::base_dir );
     if( e != expansions.end() ) {
-        const std::string gatherlist = "gathering_" +
-                                       base_camps::faction_encode_abs( e->second, 4 );
+        const item_group_id gatherlist(
+            "gathering_" + base_camps::faction_encode_abs( e->second, 4 ) );
         if( item_group::group_is_defined( gatherlist ) ) {
             return gatherlist;
         }
     }
-    return "forest";
+    return item_group_id( "forest" );
 }
 
 void basecamp::add_resource( const itype_id &camp_resource )
@@ -646,7 +647,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     for( basecamp_resource &bcp_r : resources ) {
         bcp_r.consumed = 0;
         item camp_item( bcp_r.fake_id, 0 );
-        camp_item.set_flag( "PSEUDO" );
+        camp_item.set_flag( STATIC( flag_str_id( "PSEUDO" ) ) );
         if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {

@@ -42,6 +42,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
@@ -115,7 +116,6 @@ static const itype_id itype_vac_sealer( "vac_sealer" );
 static const itype_id itype_welder( "welder" );
 static const itype_id itype_water_purifier( "water_purifier" );
 
-static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
@@ -1188,7 +1188,7 @@ bool vehicle::is_combustion_engine_type( const int e ) const
 bool vehicle::is_perpetual_type( const int e ) const
 {
     const itype_id  &ft = part_info( engines[e] ).fuel_type;
-    return item( ft ).has_flag( "PERPETUAL" );
+    return item( ft ).has_flag( flag_PERPETUAL );
 }
 
 bool vehicle::is_engine_on( const int e ) const
@@ -2517,9 +2517,9 @@ int vehicle::find_part( const item &it ) const
 
 item_group::ItemList vehicle_part::pieces_for_broken_part() const
 {
-    const std::string &group = info().breaks_into_group;
+    const item_group_id &group = info().breaks_into_group;
     // TODO: make it optional? Or use id of empty item group?
-    if( group.empty() ) {
+    if( group.is_empty() ) {
         return {};
     }
 
@@ -3400,7 +3400,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
             }
         }
         // As do any other engine flagged as perpetual
-    } else if( item( ftype ).has_flag( "PERPETUAL" ) ) {
+    } else if( item( ftype ).has_flag( flag_PERPETUAL ) ) {
         fl += 10;
     }
 
@@ -3519,7 +3519,7 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
 int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) const
 {
     item fuel = item( ftype );
-    if( fuel_rate_w == 0 || fuel.has_flag( "PERPETUAL" ) || !engine_on ) {
+    if( fuel_rate_w == 0 || fuel.has_flag( flag_PERPETUAL ) || !engine_on ) {
         return 0;
     }
     // consume this fuel type's share of alternator load for 3600 seconds
@@ -4941,7 +4941,7 @@ void vehicle::power_parts()
             const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
             if( parts[ elem ].is_unavailable() ) {
                 continue;
-            } else if( parts[ elem ].info().has_flag( flag_PERPETUAL ) ) {
+            } else if( parts[ elem ].info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ) {
                 reactor_working = true;
                 delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
             } else if( parts[elem].ammo_remaining() > 0 ) {
@@ -5279,8 +5279,6 @@ void vehicle::on_move()
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
     }
-
-    occupied_cache_time = calendar::before_time_starts;
 }
 
 void vehicle::slow_leak()
@@ -5495,8 +5493,9 @@ void vehicle::place_spawn_items()
                 for( const itype_id &e : spawn.item_ids ) {
                     created.emplace_back( item( e ).in_its_container() );
                 }
-                for( const std::string &e : spawn.item_groups ) {
-                    item_group::ItemList group_items = item_group::items_from( e, calendar::start_of_cataclysm );
+                for( const item_group_id &e : spawn.item_groups ) {
+                    item_group::ItemList group_items =
+                        item_group::items_from( e, calendar::start_of_cataclysm );
                     for( const auto &spawn_item : group_items ) {
                         created.emplace_back( spawn_item );
                     }
@@ -5835,6 +5834,7 @@ void vehicle::refresh()
     insides_dirty = true;
     zones_dirty = true;
     invalidate_mass();
+    occupied_cache_pos = { -1, -1, -1 };
 }
 
 const point &vehicle::pivot_point() const
@@ -6797,11 +6797,13 @@ bool vehicle::restore( const std::string &data )
 
 std::set<tripoint> &vehicle::get_points( const bool force_refresh )
 {
-    if( force_refresh || occupied_cache_time != calendar::turn ) {
-        occupied_cache_time = calendar::turn;
+    if( force_refresh || occupied_cache_pos != global_pos3() ||
+        occupied_cache_direction != face.dir() ) {
+        occupied_cache_pos = global_pos3();
+        occupied_cache_direction = face.dir();
         occupied_points.clear();
-        for( const vehicle_part &p : parts ) {
-            occupied_points.insert( global_part_pos3( p ) );
+        for( const std::pair<const point, std::vector<int>> &part_location : relative_parts ) {
+            occupied_points.insert( global_part_pos3( part_location.second.front() ) );
         }
     }
 
@@ -7254,8 +7256,7 @@ std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripo
         }
         pos = new_pos;
     }
-    // Invalidate vehicle's point cache
-    occupied_cache_time = calendar::before_time_starts;
+    occupied_cache_pos = { -1, -1, -1 };
     return smzs;
 }
 

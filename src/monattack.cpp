@@ -32,6 +32,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -817,7 +818,7 @@ bool mattack::pull_metal_weapon( monster *z )
     Character *foe = dynamic_cast< Character * >( target );
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
-        if( !foe->weapon.has_flag( "NO_UNWIELD" ) &&
+        if( !foe->weapon.has_flag( flag_NO_UNWIELD ) &&
             ( foe->weapon.made_of( material_id( "iron" ) ) ||
               foe->weapon.made_of( material_id( "hardsteel" ) ) ||
               foe->weapon.made_of( material_id( "steel" ) ) ||
@@ -2866,8 +2867,8 @@ bool mattack::stare( monster *z )
     Character &player_character = get_player_character();
     if( z->sees( player_character ) ) {
         //dimensional effects don't take against dimensionally anchored foes.
-        if( player_character.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
-            player_character.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
+        if( player_character.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
+            player_character.has_effect_with_flag( flag_DIMENSIONAL_ANCHOR ) ) {
             add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }
@@ -2904,7 +2905,7 @@ bool mattack::fear_paralyze( monster *z )
     }
     Character &player_character = get_player_character();
     if( player_character.sees( *z ) && !player_character.has_effect( effect_fearparalyze ) ) {
-        if( player_character.worn_with_flag( "PSYSHIELD_PARTIAL" ) && one_in( 4 ) ) {
+        if( player_character.worn_with_flag( flag_PSYSHIELD_PARTIAL ) && one_in( 4 ) ) {
             add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name() );
             ///\EFFECT_INT decreases chance of being paralyzed by fear attack
         } else if( rng( 0, 20 ) > player_character.get_int() ) {
@@ -4791,7 +4792,7 @@ bool mattack::riotbot( monster *z )
                          _( "You deftly slip out of the handcuffs just as the robot closes them.  The robot didn't seem to notice!" ) );
                 foe->i_add( handcuffs );
             } else {
-                handcuffs.set_flag( "NO_UNWIELD" );
+                handcuffs.set_flag( flag_NO_UNWIELD );
                 foe->wield( foe->i_add( handcuffs ) );
                 foe->moves -= 300;
                 add_msg( _( "The robot puts handcuffs on you." ) );
@@ -5379,7 +5380,7 @@ bool mattack::bio_op_disarm( monster *z )
 
     target->add_msg_if_player( m_bad, _( "The zombie grabs your %s…" ), it.tname() );
 
-    if( my_roll >= their_roll && !it.has_flag( "NO_UNWIELD" ) ) {
+    if( my_roll >= their_roll && !it.has_flag( flag_NO_UNWIELD ) ) {
         target->add_msg_if_player( m_bad, _( "and throws it to the ground!" ) );
         const tripoint tp = foe->pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
         get_map().add_item_or_charges( tp, foe->i_rem( &it ) );

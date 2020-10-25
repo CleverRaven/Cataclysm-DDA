@@ -17,6 +17,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "gates.h"
@@ -68,10 +69,6 @@ static const skill_id skill_traps( "traps" );
 
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
-
-static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
-static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
@@ -360,13 +357,16 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             here.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
             here.furn_set( location, f_coffin_c );
         }
-        std::vector<item *> dropped = here.place_items( "allclothes", 50, location, location, false,
-                                      calendar::turn );
-        here.place_items( "grave", 25, location, location, false, calendar::turn );
-        here.place_items( "jewelry_front", 20, location, location, false, calendar::turn );
+        std::vector<item *> dropped =
+            here.place_items( item_group_id( "allclothes" ), 50, location, location, false,
+                              calendar::turn );
+        here.place_items( item_group_id( "grave" ), 25, location, location, false,
+                          calendar::turn );
+        here.place_items( item_group_id( "jewelry_front" ), 20, location, location, false,
+                          calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
-                it->set_flag( "FILTHY" );
+                it->set_flag( flag_FILTHY );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }
@@ -533,7 +533,7 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
 
 bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
 {
-    if( gunmod.has_flag( "BRASS_CATCHER" ) ) {
+    if( gunmod.has_flag( flag_BRASS_CATCHER ) ) {
         // Exclude brass catchers so that removing them wouldn't spill the casings
         return true;
     }
@@ -1351,12 +1351,12 @@ void consume_activity_actor::finish( player_activity &act, Character & )
             player_character.assign_activity( new_act );
             player_character.activity.values = temp_selections;
             player_character.activity.targets = temp_selected_items;
-            player_character.activity.str_values = { temp_filter };
+            player_character.activity.str_values = { temp_filter, "true" };
         } else {
             player_activity eat_menu( new_act );
             eat_menu.values = temp_selections;
             eat_menu.targets = temp_selected_items;
-            eat_menu.str_values = { temp_filter };
+            eat_menu.str_values = { temp_filter, "true" };
             player_character.backlog.push_back( eat_menu );
         }
     }
@@ -1708,6 +1708,10 @@ void craft_activity_actor::finish( player_activity &act, Character & )
 
 std::string craft_activity_actor::get_progress_message( const player_activity & ) const
 {
+    if( !craft_item ) {
+        //We have somehow lost the craft item.  This will be handled in do_turn in the check_if_craft_is_ok call.
+        return "";
+    }
     return craft_item.get_item()->tname();
 }
 

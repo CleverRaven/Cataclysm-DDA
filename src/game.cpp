@@ -68,6 +68,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "filesystem.h"
+#include "flag.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "game_ui.h"
@@ -2078,7 +2079,7 @@ static hint_rating rate_action_read( const avatar &you, const item &it )
 
 static hint_rating rate_action_take_off( const avatar &you, const item &it )
 {
-    if( !it.is_armor() || it.has_flag( "NO_TAKEOFF" ) ) {
+    if( !it.is_armor() || it.has_flag( flag_NO_TAKEOFF ) ) {
         return hint_rating::cant;
     }
 
@@ -2158,7 +2159,7 @@ int game::inventory_item_menu( item_location locThisItem,
         std::vector<iteminfo> vDummy;
 
         const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
-        const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? hint_rating::cant :
+        const hint_rating rate_drop_item = u.weapon.has_flag( flag_NO_UNWIELD ) ? hint_rating::cant :
                                            hint_rating::good;
 
         uilist action_menu;
@@ -4922,7 +4923,7 @@ void game::use_computer( const tripoint &p )
         add_msg( m_info, _( "You can not see a computer screen!" ) );
         return;
     }
-    if( u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.worn_with_flag( "FIX_FARSIGHT" ) &&
+    if( u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
         !u.has_effect( effect_contacts ) && !u.has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
@@ -5323,8 +5324,8 @@ bool game::revive_corpse( const tripoint &p, item &it )
         // Failed reanimation due to corpse being too burned
         return false;
     }
-    if( it.has_flag( "FIELD_DRESS" ) || it.has_flag( "FIELD_DRESS_FAILED" ) ||
-        it.has_flag( "QUARTERED" ) ) {
+    if( it.has_flag( flag_FIELD_DRESS ) || it.has_flag( flag_FIELD_DRESS_FAILED ) ||
+        it.has_flag( flag_QUARTERED ) ) {
         // Failed reanimation due to corpse being butchered
         return false;
     }
@@ -6386,7 +6387,7 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
         return;
     } else if( m.has_flag( "CONTAINER", lp ) && !m.could_see_items( lp, u ) ) {
         mvwprintw( w_look, point( column, ++line ), _( "You cannot see what is inside of it." ) );
-    } else if( u.has_effect( effect_blind ) || u.worn_with_flag( "BLIND" ) ) {
+    } else if( u.has_effect( effect_blind ) || u.worn_with_flag( flag_BLIND ) ) {
         mvwprintz( w_look, point( column, ++line ), c_yellow,
                    _( "There's something there, but you can't see what it is." ) );
         return;
@@ -8885,7 +8886,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     item *it = loc.get_item();
 
     // bows etc. do not need to reload. select favorite ammo for them instead
-    if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
+    if( it->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         item::reload_option opt = u.select_ammo( *it, prompt );
         if( !opt ) {
             return;
@@ -8928,7 +8929,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     bool use_loc = true;
-    if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+    if( !it->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         it = loc.obtain( u ).get_item();
         use_loc = false;
     }
@@ -10107,7 +10108,8 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
         //add 1 to tunnel distance for each impassable tile in the line
         tunneldist += 1;
         //Being dimensionally anchored prevents quantum shenanigans.
-        if( u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) || u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
+        if( u.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
+            u.has_effect_with_flag( flag_DIMENSIONAL_ANCHOR ) ) {
             u.add_msg_if_player( m_info, _( "You are repelled by the barrier!" ) );
             u.mod_power_level( -250_kJ ); //cost of tunneling one tile.
             return false;
@@ -10613,7 +10615,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 add_msg( m_info, _( "You are already underwater!" ) );
                 return;
             }
-            if( u.worn_with_flag( "FLOTATION" ) ) {
+            if( u.worn_with_flag( flag_FLOTATION ) ) {
                 add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
                 return;
             }
@@ -11725,26 +11727,16 @@ void game::perhaps_add_random_npc()
 
 bool game::display_overlay_state( const action_id action )
 {
-    const auto it = displaying_overlays.find( action );
-    if( it == displaying_overlays.end() ) {
-        return false;
-    }
-
-    return displaying_overlays[action];
+    return displaying_overlays && *displaying_overlays == action;
 }
 
 void game::display_toggle_overlay( const action_id action )
 {
-    const auto it = displaying_overlays.find( action );
-    if( it == displaying_overlays.end() ) {
-        return;
+    if( display_overlay_state( action ) ) {
+        displaying_overlays.reset();
+    } else {
+        displaying_overlays = action;
     }
-
-    const bool action_flag = it->second;
-    std::for_each( displaying_overlays.begin(), displaying_overlays.end(), []( auto & p ) {
-        p.second = false;
-    } );
-    displaying_overlays[action] = !action_flag;
 }
 
 void game::display_scent()

@@ -1900,8 +1900,10 @@ class vehicle
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0;
-        /// Time occupied points were calculated.
-        time_point occupied_cache_time = calendar::before_time_starts;
+        // Global location when cache was last refreshed.
+        tripoint occupied_cache_pos = { -1, -1, -1 };
+        // Vehicle facing when cache was last refreshed.
+        units::angle occupied_cache_direction = 0_degrees;
         // Turn the vehicle was last processed
         time_point last_update = calendar::before_time_starts;
         // save values

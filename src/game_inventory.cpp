@@ -23,6 +23,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
@@ -71,14 +72,6 @@ static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
-
-static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_IN_CBM( "IN_CBM" );
-static const std::string flag_MUSHY( "MUSHY" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
-static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
@@ -765,10 +758,11 @@ item_location game_menus::inv::consume( player &p )
     if( !player_character.has_activity( ACT_EAT_MENU ) ) {
         player_character.assign_activity( ACT_EAT_MENU );
     }
-
+    std::string none_message = player_character.activity.str_values.size() == 2 ?
+                               _( "You have nothing else to consume." ) : _( "You have nothing to consume." );
     return inv_internal( p, comestible_inventory_preset( p ),
                          _( "Consume item" ), 1,
-                         _( "You have nothing to consume." ),
+                         none_message,
                          get_consume_needs_hint( p ) );
 }
 
@@ -793,13 +787,14 @@ item_location game_menus::inv::consume_food( player &p )
     if( !player_character.has_activity( ACT_CONSUME_FOOD_MENU ) ) {
         player_character.assign_activity( ACT_CONSUME_FOOD_MENU );
     }
-
+    std::string none_message = player_character.activity.str_values.size() == 2 ?
+                               _( "You have nothing else to eat." ) : _( "You have nothing to eat." );
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
         return ( it.is_comestible() && it.get_comestible()->comesttype == "FOOD" ) ||
                it.has_flag( flag_USE_EAT_VERB );
     } ),
     _( "Consume food" ), 1,
-    _( "You have no food to consume." ),
+    none_message,
     get_consume_needs_hint( p ) );
 }
 
@@ -809,13 +804,14 @@ item_location game_menus::inv::consume_drink( player &p )
     if( !player_character.has_activity( ACT_CONSUME_DRINK_MENU ) ) {
         player_character.assign_activity( ACT_CONSUME_DRINK_MENU );
     }
-
+    std::string none_message = player_character.activity.str_values.size() == 2 ?
+                               _( "You have nothing else to drink." ) : _( "You have nothing to drink." );
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
         return it.is_comestible() && it.get_comestible()->comesttype == "DRINK" &&
                !it.has_flag( flag_USE_EAT_VERB );
     } ),
     _( "Consume drink" ), 1,
-    _( "You have no drink to consume." ),
+    none_message,
     get_consume_needs_hint( p ) );
 }
 
@@ -825,12 +821,13 @@ item_location game_menus::inv::consume_meds( player &p )
     if( !player_character.has_activity( ACT_CONSUME_MEDS_MENU ) ) {
         player_character.assign_activity( ACT_CONSUME_MEDS_MENU );
     }
-
+    std::string none_message = player_character.activity.str_values.size() == 2 ?
+                               _( "You have no more medication to consume." ) : _( "You have no medication to consume." );
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
         return it.is_medication();
     } ),
     _( "Consume medication" ), 1,
-    _( "You have no medication to consume." ),
+    none_message,
     get_consume_needs_hint( p ) );
 }
 
