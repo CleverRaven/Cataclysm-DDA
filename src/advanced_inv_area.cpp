@@ -203,12 +203,6 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
     return id == other.id;
 }
 
-bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
-{
-    ( void )advitem;
-    return canputitemsloc;
-}
-
 item *advanced_inv_area::get_container( bool in_vehicle )
 {
     item *container = nullptr;

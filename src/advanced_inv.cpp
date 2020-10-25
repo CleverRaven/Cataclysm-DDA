@@ -557,7 +557,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
                             data_location <= AIM_NORTHEAST );
         nc_color bcolor = c_red;
         nc_color kcolor = c_red;
-        if( squares[data_location].canputitems( pane.get_cur_item_ptr() ) ) {
+        if( squares[data_location].canputitems() ) {
             bcolor = in_vehicle ? c_light_blue :
                      area == data_location || all_brackets ? c_light_gray : c_dark_gray;
             kcolor = area == data_location ? c_white : sel == data_location ? c_light_gray : c_dark_gray;
@@ -1147,7 +1147,7 @@ void advanced_inventory::change_square( const aim_location changeSquare,
             swap_panes();
         }
         // we need to check the original area if we can place items in vehicle storage
-    } else if( squares[changeSquare].canputitems( spane.get_cur_item_ptr() ) ) {
+    } else if( squares[changeSquare].canputitems() ) {
         bool in_vehicle_cargo = false;
         if( squares[changeSquare].can_store_in_vehicle() && spane.get_area() != changeSquare ) {
             if( changeSquare == AIM_DRAGGED ) {
