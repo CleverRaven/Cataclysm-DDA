@@ -29,6 +29,7 @@
 #include "enums.h"
 #include "faction.h"
 #include "fault.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -1416,7 +1417,7 @@ void veh_interact::calc_overview()
                 // but item::display_name tags use a space so this prevents
                 // needing *second* translation for the same thing with a
                 // space in front of it
-                if( it.has_own_flag( "FROZEN" ) ) {
+                if( it.has_own_flag( flag_FROZEN ) ) {
                     specials += _( " (frozen)" );
                 } else if( it.rotten() ) {
                     specials += _( " (rotten)" );
@@ -3006,15 +3007,7 @@ void veh_interact::complete_vehicle( player &p )
                 // Restore previous view offsets.
                 p.view_offset = old_view_offset;
 
-                int dir = static_cast<int>( atan2( static_cast<float>( delta.y ),
-                                                   static_cast<float>( delta.x ) ) * 180.0 / M_PI );
-                dir -= veh->face.dir();
-                while( dir < 0 ) {
-                    dir += 360;
-                }
-                while( dir > 360 ) {
-                    dir -= 360;
-                }
+                units::angle dir = normalize( atan2( delta ) - veh->face.dir() );
 
                 veh->part( partnum ).direction = dir;
             }

@@ -336,7 +336,7 @@
       { "item": "caff_gum", "prob": 8 },
       { "group": "tools_toolbox", "prob": 1 },
       { "item": "nic_gum", "prob": 5 },
-      { "item": "radio_car_box", "prob": 2 },
+      { "group": "toy_radio_car", "prob": 2 },
       { "item": "radiocontrol", "prob": 15 },
       { "item": "thermometer", "prob": 10 },
       { "item": "hygrometer", "prob": 10 },

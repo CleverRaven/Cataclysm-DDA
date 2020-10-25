@@ -395,9 +395,31 @@ inline void deserialize( T &obj, const std::string &data )
 bool string_starts_with( const std::string &s1, const std::string &s2 );
 
 /**
+ * Returns true iff s1 starts with s2.
+ * This version accepts constant string literals and is ≈1.5 times faster than std::string version.
+ * Note: N is (size+1) for null-terminated strings.
+ */
+template <std::size_t N>
+inline bool string_starts_with( const std::string &s1, const char( &s2 )[N] )
+{
+    return s1.compare( 0, N - 1, s2, N - 1 ) == 0;
+}
+
+/**
  * \brief Returns true iff s1 ends with s2
  */
 bool string_ends_with( const std::string &s1, const std::string &s2 );
+
+/**
+ *  Returns true iff s1 ends with s2.
+ *  This version accepts constant string literals and is ≈1.5 times faster than std::string version.
+ *  Note: N is (size+1) for null-terminated strings.
+ */
+template <std::size_t N>
+inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )
+{
+    return s1.size() >= N - 1 && s1.compare( s1.size() - ( N - 1 ), std::string::npos, s2, N - 1 ) == 0;
+}
 
 /** Used as a default filter in various functions */
 template<typename T>

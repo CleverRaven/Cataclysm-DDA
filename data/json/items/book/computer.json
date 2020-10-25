@@ -15,7 +15,7 @@
     "skill": "computer",
     "required_level": 5,
     "max_level": 8,
-    "intelligence": 13,
+    "intelligence": 12,
     "time": "50 m",
     "fun": -1
   },
@@ -35,7 +35,7 @@
     "skill": "computer",
     "required_level": 3,
     "max_level": 5,
-    "intelligence": 11,
+    "intelligence": 10,
     "time": "35 m",
     "fun": -2
   },
@@ -107,7 +107,7 @@
     "skill": "computer",
     "required_level": 3,
     "max_level": 6,
-    "intelligence": 11,
+    "intelligence": 10,
     "time": "35 m",
     "fun": -2
   }

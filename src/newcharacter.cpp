@@ -33,6 +33,7 @@
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"
+#include "make_static.h"
 #include "mapsharing.h"
 #include "martialarts.h"
 #include "monster.h"
@@ -66,7 +67,9 @@
 static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
-static const std::string flag_WET( "WET" );
+
+static const flag_str_id json_flag_no_auto_equip( "no_auto_equip" );
+static const flag_str_id json_flag_auto_wield( "auto_wield" );
 
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
@@ -377,16 +380,16 @@ void avatar::add_profession_items()
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
-        if( it.has_flag( flag_WET ) ) {
+        if( it.has_flag( STATIC( flag_str_id( "WET" ) ) ) ) {
             it.active = true;
             it.item_counter = 450; // Give it some time to dry off
         }
         // TODO: debugmsg if food that isn't a seed is inedible
-        if( it.has_flag( "no_auto_equip" ) ) {
-            it.unset_flag( "no_auto_equip" );
+        if( it.has_flag( json_flag_no_auto_equip ) ) {
+            it.unset_flag( json_flag_no_auto_equip );
             inv->push_back( it );
-        } else if( it.has_flag( "auto_wield" ) ) {
-            it.unset_flag( "auto_wield" );
+        } else if( it.has_flag( json_flag_auto_wield ) ) {
+            it.unset_flag( json_flag_auto_wield );
             if( !has_wield_conflicts( it ) ) {
                 wield( it );
             } else {
@@ -1554,9 +1557,9 @@ tab_direction set_profession( avatar &u, points_left &points,
                 std::string buffer_worn;
                 std::string buffer_inventory;
                 for( const auto &it : prof_items ) {
-                    if( it.has_flag( "no_auto_equip" ) ) {
+                    if( it.has_flag( json_flag_no_auto_equip ) ) {
                         buffer_inventory += it.display_name() + "\n";
-                    } else if( it.has_flag( "auto_wield" ) ) {
+                    } else if( it.has_flag( json_flag_auto_wield ) ) {
                         buffer_wielded += it.display_name() + "\n";
                     } else if( it.is_armor() ) {
                         buffer_worn += it.display_name() + "\n";
@@ -3097,6 +3100,7 @@ std::vector<trait_id> Character::get_base_traits() const
 std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 {
     std::vector<trait_id> result;
+    result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
         if( include_hidden || t.first.obj().player_display ) {
             result.push_back( t.first );

@@ -561,7 +561,7 @@ int item_pocket::ammo_consume( int qty )
     int used = 0;
     std::list<item>::iterator it;
     for( it = contents.begin(); it != contents.end(); ) {
-        if( it->has_flag( "CASING" ) ) {
+        if( it->has_flag( flag_CASING ) ) {
             it++;
             continue;
         }
@@ -619,14 +619,14 @@ std::set<ammotype> item_pocket::ammo_types() const
 void item_pocket::casings_handle( const std::function<bool( item & )> &func )
 {
     for( auto it = contents.begin(); it != contents.end(); ) {
-        if( it->has_flag( "CASING" ) ) {
-            it->unset_flag( "CASING" );
+        if( it->has_flag( flag_CASING ) ) {
+            it->unset_flag( flag_CASING );
             if( func( *it ) ) {
                 it = contents.erase( it );
                 continue;
             }
             // didn't handle the casing so reset the flag ready for next call
-            it->set_flag( "CASING" );
+            it->set_flag( flag_CASING );
         }
         ++it;
     }
@@ -985,7 +985,7 @@ void item_pocket::favorite_info( std::vector<iteminfo> &info )
 ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) const
 {
     // To prevent debugmsg. Casings can only be inserted in a magazine during firing.
-    if( data->type == item_pocket::pocket_type::MAGAZINE && it.has_flag( "CASING" ) ) {
+    if( data->type == item_pocket::pocket_type::MAGAZINE && it.has_flag( flag_CASING ) ) {
         return ret_val<item_pocket::contain_code>::make_success();
     }
 
@@ -1057,8 +1057,9 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_LIQUID, _( "can't mix liquid with contained item" ) );
         }
-    } else if( size() == 1 && ( contents.front().made_of( phase_id::LIQUID ) ||
-                                contents.front().is_frozen_liquid() ) ) {
+    } else if( size() == 1 && !it.is_frozen_liquid() &&
+               ( contents.front().made_of( phase_id::LIQUID ) ||
+                 contents.front().is_frozen_liquid() ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_LIQUID, _( "can't put non liquid into pocket with liquid" ) );
     }

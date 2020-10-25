@@ -356,7 +356,7 @@ class vpart_info
         std::map<skill_id, int> removal_skills;
 
         /** @ref item_group this part breaks into when destroyed */
-        std::string breaks_into_group = "EMPTY_GROUP";
+        item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );
 
         /** Flat decrease of damage of a given type. */
         std::array<float, static_cast<int>( damage_type::NUM )> damage_reduction = {};
@@ -477,7 +477,7 @@ struct vehicle_item_spawn {
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;
     std::vector<itype_id> item_ids;
-    std::vector<std::string> item_groups;
+    std::vector<item_group_id> item_groups;
 };
 
 /**

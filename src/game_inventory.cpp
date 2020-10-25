@@ -23,6 +23,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
@@ -71,14 +72,6 @@ static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
-
-static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_IN_CBM( "IN_CBM" );
-static const std::string flag_MUSHY( "MUSHY" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
-static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
@@ -765,10 +758,11 @@ item_location game_menus::inv::consume( player &p )
     if( !player_character.has_activity( ACT_EAT_MENU ) ) {
         player_character.assign_activity( ACT_EAT_MENU );
     }
-
+    std::string none_message = player_character.activity.str_values.size() == 2 ?
+                               _( "You have nothing else to consume." ) : _( "You have nothing to consume." );
     return inv_internal( p, comestible_inventory_preset( p ),
                          _( "Consume item" ), 1,
-                         _( "You have nothing to consume." ),
+                         none_message,
                          get_consume_needs_hint( p ) );
 }
 
@@ -793,13 +787,14 @@ item_location game_menus::inv::consume_food( player &p )
     if( !player_character.has_activity( ACT_CONSUME_FOOD_MENU ) ) {
         player_character.assign_activity( ACT_CONSUME_FOOD_MENU );
     }
-
+    std::string none_message = player_character.activity.str_values.size() == 2 ?
+                               _( "You have nothing else to eat." ) : _( "You have nothing to eat." );
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
         return ( it.is_comestible() && it.get_comestible()->comesttype == "FOOD" ) ||
                it.has_flag( flag_USE_EAT_VERB );
     } ),
     _( "Consume food" ), 1,
-    _( "You have no food to consume." ),
+    none_message,
     get_consume_needs_hint( p ) );
 }
 
@@ -809,13 +804,14 @@ item_location game_menus::inv::consume_drink( player &p )
     if( !player_character.has_activity( ACT_CONSUME_DRINK_MENU ) ) {
         player_character.assign_activity( ACT_CONSUME_DRINK_MENU );
     }
-
+    std::string none_message = player_character.activity.str_values.size() == 2 ?
+                               _( "You have nothing else to drink." ) : _( "You have nothing to drink." );
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
         return it.is_comestible() && it.get_comestible()->comesttype == "DRINK" &&
                !it.has_flag( flag_USE_EAT_VERB );
     } ),
     _( "Consume drink" ), 1,
-    _( "You have no drink to consume." ),
+    none_message,
     get_consume_needs_hint( p ) );
 }
 
@@ -825,12 +821,13 @@ item_location game_menus::inv::consume_meds( player &p )
     if( !player_character.has_activity( ACT_CONSUME_MEDS_MENU ) ) {
         player_character.assign_activity( ACT_CONSUME_MEDS_MENU );
     }
-
+    std::string none_message = player_character.activity.str_values.size() == 2 ?
+                               _( "You have no more medication to consume." ) : _( "You have no medication to consume." );
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
         return it.is_medication();
     } ),
     _( "Consume medication" ), 1,
-    _( "You have no medication to consume." ),
+    none_message,
     get_consume_needs_hint( p ) );
 }
 
@@ -1662,8 +1659,7 @@ void game_menus::inv::swap_letters( player &p )
 }
 
 static item_location autodoc_internal( player &u, player &patient,
-                                       const inventory_selector_preset &preset,
-                                       int radius, bool uninstall = false, bool surgeon = false )
+                                       const inventory_selector_preset &preset, int radius, bool surgeon = false )
 {
     inventory_pick_selector inv_s( u, preset );
     std::string hint;
@@ -1688,11 +1684,7 @@ static item_location autodoc_internal( player &u, player &patient,
         }
     }
 
-    if( uninstall ) {
-        inv_s.set_title( string_format( _( "Bionic removal patient: %s" ), patient.get_name() ) );
-    } else {
-        inv_s.set_title( string_format( _( "Bionic installation patient: %s" ), patient.get_name() ) );
-    }
+    inv_s.set_title( string_format( _( "Bionic installation patient: %s" ), patient.get_name() ) );
 
     inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
@@ -1910,96 +1902,11 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
 item_location game_menus::inv::install_bionic( player &p, player &patient, bool surgeon )
 {
     if( surgeon ) {
-        return autodoc_internal( p, patient, bionic_install_surgeon_preset( p, patient ), 5, false,
-                                 surgeon );
+        return autodoc_internal( p, patient, bionic_install_surgeon_preset( p, patient ), 5, surgeon );
     } else {
         return autodoc_internal( p, patient, bionic_install_preset( p, patient ), 5 );
     }
 
-}
-// Menu used by autodoc when uninstalling a bionic
-class bionic_uninstall_preset : public inventory_selector_preset
-{
-    public:
-        bionic_uninstall_preset( player &pl, player &patient ) :
-            p( pl ), pa( patient ) {
-            append_cell( [this]( const item_location & loc ) {
-                return get_failure_chance( loc );
-            }, _( "FAILURE CHANCE" ) );
-
-            append_cell( [this]( const item_location & loc ) {
-                return get_operation_duration( loc );
-            }, _( "OPERATION DURATION" ) );
-
-            append_cell( [this]( const item_location & loc ) {
-                return get_anesth_amount( loc );
-            }, _( "ANESTHETIC REQUIRED" ) );
-        }
-
-        bool is_shown( const item_location &loc ) const override {
-            return loc->has_flag( flag_IN_CBM );
-        }
-
-        std::string get_denial( const item_location &loc ) const override {
-            const itype *itemtype = loc.get_item()->type;
-
-            if( !p.has_enough_anesth( *itemtype, pa ) ) {
-                const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
-                const int duration = loc.get_item()->type->bionic->difficulty * 2;
-                const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                    duration * weight;
-                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
-            }
-
-            return std::string();
-        }
-
-    protected:
-        player &p;
-        player &pa;
-
-    private:
-        // Returns a formatted string of how long the operation will take.
-        std::string get_operation_duration( const item_location &loc ) {
-            const int difficulty = loc.get_item()->type->bionic->difficulty;
-            // 20 minutes per bionic difficulty.
-            return to_string( time_duration::from_minutes( difficulty * 20 ) );
-        }
-
-        // Failure chance for bionic uninstall. Combines multiple other functions together.
-        std::string get_failure_chance( const item_location &loc ) {
-
-            // Uninstall difficulty gets a +2
-            const int difficulty = loc.get_item()->type->bionic->difficulty + 2;
-            int chance_of_failure = 100;
-            player &installer = p;
-
-            if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ) {
-                chance_of_failure = 0;
-            } else {
-                chance_of_failure = 100 - bionic_success_chance( true, -1, difficulty, installer );
-            }
-
-            return string_format( _( "%i%%" ), chance_of_failure );
-        }
-
-        std::string get_anesth_amount( const item_location &loc ) {
-
-            const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
-            const int duration = loc.get_item()->type->bionic->difficulty * 2;
-            const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                duration * weight;
-            int count = 0;
-            if( !req_anesth.get_tools().empty() && !req_anesth.get_tools().front().empty() ) {
-                count = req_anesth.get_tools().front().front().count;
-            }
-            return string_format( _( "%i mL" ), count );
-        }
-};
-
-item_location game_menus::inv::uninstall_bionic( player &p, player &patient )
-{
-    return autodoc_internal( p, patient, bionic_uninstall_preset( p, patient ), 0, true );
 }
 
 // Menu used by autoclave when sterilizing a bionic

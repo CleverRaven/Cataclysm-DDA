@@ -276,7 +276,6 @@ class effect
                         bool reduced = false, double mod = 1 ) const;
 
         /** Check if the effect has the specified flag */
-        bool has_flag( const std::string &flag ) const;
         bool has_flag( const flag_id &flag ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */

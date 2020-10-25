@@ -417,11 +417,12 @@ void test_scenario::run()
             break;
         }
         case container_location::vehicle: {
-            vehicle *veh = here.add_vehicle( vproto_id( "test_cargo_space" ), guy.pos(), -90, 0, 0 );
+            vehicle *veh = here.add_vehicle( vproto_id( "test_cargo_space" ), guy.pos(),
+                                             -90_degrees, 0, 0 );
             REQUIRE( veh );
             here.board_vehicle( guy.pos(), &guy );
-            cata::optional<vpart_reference> vp = here.veh_at( guy.pos() )
-                                                 .part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
+            cata::optional<vpart_reference> vp =
+                here.veh_at( guy.pos() ).part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
             REQUIRE( vp.has_value() );
             cata::optional<vehicle_stack::iterator> added = veh->add_item( vp->part(), it );
             REQUIRE( added.has_value() );

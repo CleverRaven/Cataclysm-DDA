@@ -68,6 +68,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -167,6 +168,11 @@ static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
+static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
+static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
+static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
@@ -209,29 +215,10 @@ static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
 static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
-static const std::string flag_COOKED( "COOKED" );
-static const std::string flag_DIAMOND( "DIAMOND" );
-static const std::string flag_FERTILIZER( "FERTILIZER" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_FIRE( "FIRE" );
-static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
-static const std::string flag_IN_CBM( "IN_CBM" );
-static const std::string flag_NO_CVD( "NO_CVD" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
-static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
 static const std::string flag_PICKABLE( "PICKABLE" );
-static const std::string flag_PROCESSING( "PROCESSING" );
-static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
-static const std::string flag_SAFECRACK( "SAFECRACK" );
-static const std::string flag_SMOKABLE( "SMOKABLE" );
-static const std::string flag_SMOKED( "SMOKED" );
-static const std::string flag_SPLINT( "SPLINT" );
-static const std::string flag_VARSIZE( "VARSIZE" );
 static const std::string flag_WALL( "WALL" );
-static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -280,7 +267,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     p.invalidate_crafting_inventory();
 
     // Apply flag to item
-    loc->set_flag( "DIAMOND" );
+    loc->set_flag( flag_DIAMOND );
     add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name() );
     p.mod_moves( -to_turns<int>( 10_seconds ) );
 }
@@ -333,7 +320,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     p.invalidate_crafting_inventory();
 
     if( new_item.is_armor() && new_item.has_flag( flag_VARSIZE ) ) {
-        new_item.set_flag( "FIT" );
+        new_item.set_flag( flag_FIT );
     }
 
     here.add_item_or_charges( spawn_point, new_item );
@@ -376,6 +363,98 @@ void iexamine::gaspump( player &p, const tripoint &examp )
         }
     }
     add_msg( m_info, _( "Out of order." ) );
+}
+
+static bool has_attunement_spell_prereqs( player &p, const trait_id &attunement )
+{
+    // for each prereq we need to check that the player has 2 level 15 spells
+    for( const trait_id &prereq : attunement->prereqs ) {
+        int spells_known = 0;
+        for( const spell &sp : p.spells_known_of_class( prereq ) ) {
+            if( sp.get_level() >= 15 ) {
+                spells_known++;
+            }
+        }
+        if( spells_known < 2 ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void iexamine::attunement_altar( player &p, const tripoint & )
+{
+    std::set<trait_id> attunements;
+    for( const mutation_branch &mut : mutation_branch::get_all() ) {
+        if( mut.flags.count( "ATTUNEMENT" ) ) {
+            attunements.emplace( mut.id );
+        }
+    }
+    // remove the attunements the player does not have prereqs for
+    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
+        bool has_prereq = true;
+        // the normal usage of prereqs only needs one, but attunements put all their prereqs into the same array
+        // each prereqs is required for it as well
+        for( const trait_id &prereq : ( *iter )->prereqs ) {
+            if( !p.has_trait( prereq ) ) {
+                has_prereq = false;
+                break;
+            }
+        }
+        if( has_prereq ) {
+            ++iter;
+        } else {
+            iter = attunements.erase( iter );
+        }
+    }
+    if( attunements.empty() ) {
+        // the player doesn't have at least two base classes
+        p.add_msg_if_player( _( "This altar gives you the creeps." ) );
+        return;
+    }
+    // remove the attunements the player has conflicts for
+    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
+        if( !p.has_opposite_trait( *iter ) && p.mutation_ok( *iter, false, false ) ) {
+            ++iter;
+        } else {
+            iter = attunements.erase( iter );
+        }
+    }
+    if( attunements.empty() ) {
+        p.add_msg_if_player( _( "You've attained what you can for now." ) );
+        return;
+    }
+    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
+        if( has_attunement_spell_prereqs( p, *iter ) ) {
+            ++iter;
+        } else {
+            iter = attunements.erase( iter );
+        }
+    }
+    if( attunements.empty() ) {
+        p.add_msg_if_player( _( "You feel that the altar does not deem you worthy, yet." ) );
+        return;
+    }
+    uilist attunement_list;
+    attunement_list.title = _( "Pick an Attunement to show the world your Worth." );
+    for( const trait_id &attunement : attunements ) {
+        attunement_list.addentry( attunement->name() );
+    }
+    attunement_list.query();
+    if( attunement_list.ret == UILIST_CANCEL ) {
+        p.add_msg_if_player( _( "Maybe later." ) );
+        return;
+    }
+    auto attunement_iter = attunements.begin();
+    std::advance( attunement_iter, attunement_list.ret );
+    const trait_id &attunement = *attunement_iter;
+    if( query_yn( string_format( _( "Are you sure you want to pick %s?  This selection is permanent." ),
+                                 attunement->name() ) ) ) {
+        p.toggle_trait( attunement );
+        p.add_msg_if_player( m_info, attunement->desc() );
+    } else {
+        p.add_msg_if_player( _( "Maybe later." ) );
+    }
 }
 
 void iexamine::translocator( player &, const tripoint &examp )
@@ -1403,44 +1482,54 @@ void iexamine::slot_machine( player &p, const tripoint & )
  * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
  * Small chance of just guessing the combo without listening device.
  */
-void iexamine::safe( player &p, const tripoint &examp )
+void iexamine::safe( player &guy, const tripoint &examp )
 {
-    auto cracking_tool = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+    auto cracking_tool = guy.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
         return temporary_item.has_flag( flag_SAFECRACK );
     } );
 
-    if( !( !cracking_tool.empty() || p.has_bionic( bio_ears ) ) ) {
-        p.moves -= to_turns<int>( 10_seconds );
-        // one_in(30^3) chance of guessing
-        if( one_in( 27000 ) ) {
-            p.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
+    if( !( !cracking_tool.empty() || guy.has_bionic( bio_ears ) ) ) {
+        guy.moves -= to_turns<int>( 10_seconds );
+        // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
+        // so 1/20^3, or 1/8,000 odds.
+        // Additionally, safes can be left-handed or right-handed, doubling the problem space.
+        // The dialing procedures for safes vary, I'm estimating 5 procedures.
+        // See https://hoogerhydesafe.com/resources/combination-lock-dialing-procedures/
+        // At the end of the day, that means a 1 / 80,000 chance per attempt.
+        // If someone is interested, they can feel free to add a proficiency for
+        // "safe recognition" to mitigate or eliminate this 2x and 5x factor.
+        if( one_in( 80000 ) ) {
+            guy.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
             get_map().furn_set( examp, f_safe_o );
             return;
         } else {
-            p.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
+            guy.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
             return;
         }
     }
 
-    if( p.is_deaf() ) {
+    if( guy.is_deaf() ) {
         add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
         return;
-    } else if( p.has_effect( effect_earphones ) ) {
+    } else if( guy.has_effect( effect_earphones ) ) {
         add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
         return;
     } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
         add_msg( m_info, _( "You start cracking the safe." ) );
-        // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
-        // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
-        ///\EFFECT_PER speeds up safe cracking
+        // 150 minutes +/- 20 minutes per devices point away from 3 +/- 10 minutes per
+        // perception point away from 8; capped at 30 minutes minimum. Multiply by 3 if you
+        // don't have safecracking proficiency.
 
-        ///\EFFECT_MECHANICS speeds up safe cracking
-        const time_duration time = std::max( 150_minutes - 20_minutes * ( p.get_skill_level(
-                skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
+        time_duration time_base = std::max( 150_minutes - 20_minutes * ( guy.get_skill_level(
+                                                skill_traps ) - 3 ) - 10_minutes * ( guy.get_per() - 8 ), 30_minutes );
+        int time = to_moves<int>( time_base );
+        if( !guy.has_proficiency( proficiency_prof_safecracking ) ) {
+            time = time * 3;
+        }
+        guy.assign_activity( ACT_CRACKING, time );
+        guy.activity.placement = examp;
 
-        p.assign_activity( ACT_CRACKING, to_moves<int>( time ) );
-        p.activity.placement = examp;
     }
 }
 
@@ -3815,8 +3904,8 @@ void trap::examine( const tripoint &examp ) const
     }
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
-        const int tSkillLevel = player_character.get_skill_level( skill_traps );
-        int roll = rng( tSkillLevel, 4 * tSkillLevel );
+        const int traps_skill_level = player_character.get_skill_level( skill_traps );
+        int roll = rng( traps_skill_level, 4 * traps_skill_level );
 
         ///\EFFECT_PER increases chance of disarming trap
 
@@ -3833,16 +3922,16 @@ void trap::examine( const tripoint &examp ) const
             player_character.rem_morale( MORALE_FAILURE );
             player_character.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
             on_disarmed( here, examp );
-            if( difficulty > 1.25 * tSkillLevel ) { // failure might have set off trap
-                player_character.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
+            if( difficulty > 1.25 * traps_skill_level ) { // failure might have set off trap
+                player_character.practice( skill_traps, 1.5 * ( difficulty - traps_skill_level ) );
             }
         } else if( roll >= difficulty * .8 ) {
             add_msg( _( "You fail to disarm the trap." ) );
             const int morale_debuff = -rng( 6, 18 );
             player_character.rem_morale( MORALE_ACCOMPLISHMENT );
             player_character.add_morale( MORALE_FAILURE, morale_debuff, -40 );
-            if( difficulty > 1.25 * tSkillLevel ) {
-                player_character.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
+            if( difficulty > 1.25 * traps_skill_level ) {
+                player_character.practice( skill_traps, 1.5 * ( difficulty - traps_skill_level ) );
             }
         } else {
             add_msg( m_bad, _( "You fail to disarm the trap, and you set it off!" ) );
@@ -4152,7 +4241,7 @@ static int findBestGasDiscount( player &p )
     for( size_t i = 0; i < p.inv->size(); i++ ) {
         item &it = p.inv->find_item( i );
 
-        if( it.has_flag( "GAS_DISCOUNT" ) ) {
+        if( it.has_flag( flag_GAS_DISCOUNT ) ) {
 
             int q = getGasDiscountCardQuality( it );
             if( q > discount ) {
@@ -4865,40 +4954,22 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            Character &player_character = get_player_character();
+            std::vector<bionic_id> bio_list;
+            std::vector<std::string> bionic_names;
             for( const bionic &bio : installed_bionics ) {
                 if( bio.id != bio_power_storage ||
                     bio.id != bio_power_storage_mkII ) {
-                    if( item::type_is_defined( bio.info().itype() ) ) {// put cbm items in your inventory
-                        item bionic_to_uninstall( bio.id.str(), calendar::turn );
-                        bionic_to_uninstall.set_flag( flag_IN_CBM );
-                        bionic_to_uninstall.set_flag( flag_NO_STERILE );
-                        bionic_to_uninstall.set_flag( flag_NO_PACKED );
-                        // TODO: refactor this whole bit. adding items to the inventory will
-                        // cause major issues when inv gets removed. this is a shim for now
-                        // in order to reduce lines of change for nested containers.
-                        player_character.inv->push_back( bionic_to_uninstall );
-                    }
+                    bio_list.emplace_back( bio.id );
+                    bionic_names.emplace_back( bio.info().name.translated() );
                 }
             }
-
-            const item_location bionic = game_menus::inv::uninstall_bionic( p, patient );
-            if( !bionic ) {
-                player_character.remove_items_with( []( const item & it ) {// remove cbm items from inventory
-                    return it.has_flag( flag_IN_CBM );
-                } );
+            int bionic_index = uilist( _( "Choose bionic to uninstall" ), bionic_names );
+            if( bionic_index < 0 ) {
                 return;
             }
-            const item *it = bionic.get_item();
-            const itype *itemtype = it->type;
-            const bionic_id &bid = itemtype->bionic->id;
 
-            player_character.remove_items_with( []( const item & it ) {// remove cbm items from inventory
-                return it.has_flag( flag_IN_CBM );
-            } );
-
-            // Malfunctioning bionics that don't have associated items and get a difficulty of 12
-            const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
+            const bionic_id &bid = bio_list[bionic_index];
+            const int difficulty =  bid->itype()->bionic->difficulty;
             const float volume_anesth = difficulty * 20 * 2; // 2ml/min
 
             player &installer = best_installer( p, null_player, difficulty );
@@ -5040,9 +5111,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.add_effect( effect_pblue, 1_hours );
                 }
             }
-            if( patient.leak_level( "RADIOACTIVE" ) ) {
+            if( patient.leak_level( flag_RADIOACTIVE ) ) {
                 popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's posession.  Urgent decontamination procedures highly recommended." ),
-                       patient.leak_level( "RADIOACTIVE" ) );
+                       patient.leak_level( flag_RADIOACTIVE ) );
             }
             break;
         }
@@ -6139,6 +6210,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
 {
     static const std::map<std::string, iexamine_function> function_map = {{
             { "none", &iexamine::none },
+            { "attunement_altar", &iexamine::attunement_altar },
             { "deployed_furniture", &iexamine::deployed_furniture },
             { "cvdmachine", &iexamine::cvdmachine },
             { "nanofab", &iexamine::nanofab },

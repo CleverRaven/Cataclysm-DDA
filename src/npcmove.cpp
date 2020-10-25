@@ -28,6 +28,7 @@
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gates.h"
@@ -1757,7 +1758,7 @@ bool npc::recharge_cbm()
     if( use_bionic_by_id( bio_furnace ) ) {
         const std::function<bool( const item & )> furnace_filter = []( const item & it ) {
             return it.typeId() == itype_id( "withered" ) || it.typeId() == itype_id( "file" ) ||
-                   it.has_flag( "FIREWOOD" );
+                   it.has_flag( flag_FIREWOOD );
         };
         if( consume_cbm_items( furnace_filter ) ) {
             return true;
@@ -2126,10 +2127,10 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         return true;    // If we're *really* sure that our aim is dead-on
     }
 
-    int target_angle = coord_to_angle( pos(), tar );
+    units::angle target_angle = coord_to_angle( pos(), tar );
 
     // TODO: Base on dispersion
-    int safe_angle = 30;
+    units::angle safe_angle = 30_degrees;
 
     for( const auto &fr : ai_cache.friends ) {
         const shared_ptr_fast<Creature> ally_p = fr.lock();
@@ -2139,15 +2140,15 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         const Creature &ally = *ally_p;
 
         // TODO: Extract common functions with turret target selection
-        int safe_angle_ally = safe_angle;
+        units::angle safe_angle_ally = safe_angle;
         int ally_dist = rl_dist( pos(), ally.pos() );
         if( ally_dist < 3 ) {
-            safe_angle_ally += ( 3 - ally_dist ) * 30;
+            safe_angle_ally += ( 3 - ally_dist ) * 30_degrees;
         }
 
-        int ally_angle = coord_to_angle( pos(), ally.pos() );
-        int angle_diff = std::abs( ally_angle - target_angle );
-        angle_diff = std::min( 360 - angle_diff, angle_diff );
+        units::angle ally_angle = coord_to_angle( pos(), ally.pos() );
+        units::angle angle_diff = units::fabs( ally_angle - target_angle );
+        angle_diff = std::min( 360_degrees - angle_diff, angle_diff );
         if( angle_diff < safe_angle_ally ) {
             // TODO: Disable NPC whining is it's other NPC who prevents aiming
             return false;
@@ -3503,17 +3504,15 @@ bool npc::alt_attack()
     // Remember if we have an item that is dangerous to hold
     bool used_dangerous = false;
 
-    static const std::string danger_string( "NPC_THROW_NOW" );
-    static const std::string alt_string( "NPC_ALT_ATTACK" );
     // TODO: The active bomb with shortest fuse should be thrown first
     const auto check_alt_item = [&used, &used_dangerous, dist, this]( item & it ) {
-        const bool dangerous = it.has_flag( danger_string );
+        const bool dangerous = it.has_flag( flag_NPC_THROW_NOW );
         if( !dangerous && used_dangerous ) {
             return;
         }
 
         // Not alt attack
-        if( !dangerous && !it.has_flag( alt_string ) ) {
+        if( !dangerous && !it.has_flag( flag_NPC_ALT_ATTACK ) ) {
             return;
         }
 
@@ -3545,7 +3544,7 @@ bool npc::alt_attack()
     }
 
     // Are we going to throw this item?
-    if( !used->active && used->has_flag( "NPC_ACTIVATE" ) ) {
+    if( !used->active && used->has_flag( flag_NPC_ACTIVATE ) ) {
         activate_item( *used );
         // Note: intentional lack of return here
         // We want to ignore player-centric rules to avoid carrying live explosives
@@ -3748,7 +3747,7 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
-    if( food->parasites && !it.has_flag( "NO_PARASITES" ) ) {
+    if( food->parasites && !it.has_flag( flag_NO_PARASITES ) ) {
         return 0.0;
     }
 
@@ -4050,8 +4049,8 @@ void npc::reach_omt_destination()
             Character &player_character = get_player_character();
             talk_function::assign_guard( *this );
             if( rl_dist( player_character.pos(), pos() ) > SEEX * 2 ) {
-                if( player_character.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
-                    has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
+                if( player_character.has_item_with_flag( flag_TWO_WAY_RADIO, true ) &&
+                    has_item_with_flag( flag_TWO_WAY_RADIO, true ) ) {
                     add_msg_if_player_sees( pos(), m_info, _( "From your two-way radio you hear %s reporting in, "
                                             "'I've arrived, boss!'" ), disp_name() );
                 }
@@ -4624,7 +4623,7 @@ bool npc::adjust_worn()
     };
 
     for( auto &elem : worn ) {
-        if( !elem.has_flag( "SPLINT" ) ) {
+        if( !elem.has_flag( flag_SPLINT ) ) {
             continue;
         }
 

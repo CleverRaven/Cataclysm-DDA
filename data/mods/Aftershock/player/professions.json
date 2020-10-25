@@ -302,5 +302,22 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "afs_cecaelia_scientist",
+    "name": "Engineered Deep Sea Explorer",
+    "description": "Created with the exploration of the deep sea in mind Cecaelia are hybridized from cephalopod and fish dna.  While you were mostly spared from the corporate wars by your scientific proclivities, the polite niceties of the surface are mostly forgotten underwater.  You were on dry land when the Cataclysm occured and you have no idea if it's safer here or beneath the seas.",
+    "points": 7,
+    "skills": [
+      { "level": 4, "name": "chemistry" },
+      { "level": 3, "name": "computer" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "stabbing" }
+    ],
+    "traits": [ "PROF_MED", "UPLIFTED", "THRESH_CEPHALOPOD", "CEPH_EYES", "GILLS", "INT_UP_2", "LEG_TENTACLES", "SLIMY" ],
+    "//": "Need to add underwater gear for this.  See extended leg_tentacles mutation.",
+    "items": { "both": { "items": [ "wetsuit_cecalia", "trident", "dive_bag" ] } }
   }
 ]

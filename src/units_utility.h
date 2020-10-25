@@ -1,4 +1,5 @@
 #pragma once
+#include <type_traits>
 #ifndef CATA_SRC_UNITS_UTILITY_H
 #define CATA_SRC_UNITS_UTILITY_H
 
@@ -15,6 +16,20 @@ template<typename T, typename U>
 T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
 {
     return divide_round_up( num.value(), den.value() );
+}
+
+/** Given an angle, add or subtract multiples of 360_degrees until it's in the
+ * range [0, 360_degrees).
+ *
+ * With a second argument, can use a different maximum.
+ */
+units::angle normalize( units::angle, units::angle mod = 360_degrees );
+
+template<typename T, typename U, std::enable_if_t<std::is_floating_point<T>::value>* = nullptr>
+units::quantity<T, U> round_to_multiple_of( units::quantity<T, U> val, units::quantity<T, U> of )
+{
+    int multiple = std::lround( val / of );
+    return multiple * of;
 }
 
 /**

@@ -27,7 +27,10 @@
       { "monster": "mon_alamosaurus_hatchling", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_scutellosaurus_hatchling", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_stegosaurus_hatchling", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_dyoplosaurus_hatchling", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_ankylosaurus_hatchling", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_nodosaurus_hatchling", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_edmontonia_hatchling", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_camptosaurus_hatchling", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_maiasaura_hatchling", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_parasaurolophus_hatchling", "freq": 20, "cost_multiplier": 1 },
@@ -183,10 +186,28 @@
     "monsters": [ { "monster": "mon_stegosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
+    "name": "GROUP_EGG_dyoplosaurus",
+    "type": "monstergroup",
+    "default": "mon_dyoplosaurus_hatchling",
+    "monsters": [ { "monster": "mon_dyoplosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
     "name": "GROUP_EGG_ankylosaurus",
     "type": "monstergroup",
     "default": "mon_ankylosaurus_hatchling",
     "monsters": [ { "monster": "mon_ankylosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_nodosaurus",
+    "type": "monstergroup",
+    "default": "mon_nodosaurus_hatchling",
+    "monsters": [ { "monster": "mon_nodosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_edmontonia",
+    "type": "monstergroup",
+    "default": "mon_edmontonia_hatchling",
+    "monsters": [ { "monster": "mon_edmontonia_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_camptosaurus",
