@@ -163,6 +163,9 @@
       "2farm_2",
       "2farm_5",
       "2farm_6",
+      "2farm_6_1",
+      "2farm_6_2",
+      "2farm_6_3",
       "2farm_9",
       "2farm_roof_15",
       "farm_1",
@@ -241,7 +244,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "2farm_3", "2farm_roof_3", "2farm_4", "2farm_roof_4", "2farm_7", "2farm_8" ],
+    "id": [ "2farm_3", "2farm_roof_3", "2farm_loft_3", "2farm_4", "2farm_roof_4", "2farm_7", "2farm_8" ],
     "copy-from": "generic_rural_building",
     "name": "farm"
   },
