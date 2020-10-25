@@ -48,7 +48,7 @@
     "dispersion": 510,
     "durability": 8,
     "blackpowder_tolerance": 48,
-    "min_cycle_recoil": 380,
+    "min_cycle_recoil": 570,
     "pocket_data": [
       {
         "magazine_well": "99 ml",
@@ -83,7 +83,7 @@
     "dispersion": 480,
     "durability": 8,
     "blackpowder_tolerance": 48,
-    "min_cycle_recoil": 380,
+    "min_cycle_recoil": 570,
     "pocket_data": [
       {
         "magazine_well": "103 ml",
@@ -119,7 +119,7 @@
     "sight_dispersion": 440,
     "durability": 8,
     "blackpowder_tolerance": 48,
-    "min_cycle_recoil": 380,
+    "min_cycle_recoil": 570,
     "pocket_data": [
       {
         "magazine_well": "103 ml",
@@ -144,6 +144,7 @@
     "price": 360000,
     "price_postapoc": 2300,
     "durability": 7,
+    "min_cycle_recoil": 675,
     "ammo": "10mm",
     "skill": "rifle",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
@@ -182,7 +183,7 @@
     "dispersion": 480,
     "built_in_mods": [ "match_trigger" ],
     "durability": 6,
-    "min_cycle_recoil": 540,
+    "min_cycle_recoil": 570,
     "blackpowder_tolerance": 48,
     "pocket_data": [
       {
@@ -215,6 +216,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -6 },
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 675,
     "pocket_data": [
       {
         "magazine_well": "84 ml",
@@ -247,6 +249,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 410,
     "durability": 7,
+    "min_cycle_recoil": 675,
     "pocket_data": [
       {
         "magazine_well": "60 ml",
@@ -279,6 +282,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 675,
     "pocket_data": [
       {
         "magazine_well": "81 ml",
@@ -305,6 +309,7 @@
     "skill": "pistol",
     "ammo": "10mm",
     "ranged_damage": { "damage_type": "bullet", "amount": -4 },
+    "min_cycle_recoil": 675,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "pocket_data": [
       {
