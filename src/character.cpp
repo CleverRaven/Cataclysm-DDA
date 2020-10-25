@@ -12520,9 +12520,9 @@ bool Character::unload( item_location &loc, bool bypass_activity )
     std::vector<item *> opts( 1, &it );
 
     for( item *e : it.gunmods() ) {
-        if( ( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+        if( ( e->is_gun() && !e->has_flag( flag_NO_UNLOAD ) &&
               ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) ||
-            ( e->has_flag( "BRASS_CATCHER" ) && !e->is_container_empty() ) ) {
+            ( e->has_flag( flag_BRASS_CATCHER ) && !e->is_container_empty() ) ) {
             msgs.emplace_back( e->tname() );
             opts.emplace_back( e );
         }
@@ -12546,14 +12546,14 @@ bool Character::unload( item_location &loc, bool bypass_activity )
     }
 
     // Next check for any reasons why the item cannot be unloaded
-    if( !target->has_flag( "BRASS_CATCHER" ) ) {
+    if( !target->has_flag( flag_BRASS_CATCHER ) ) {
         if( target->ammo_types().empty() && target->magazine_compatible().empty() ) {
             add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
             return false;
         }
 
-        if( target->has_flag( "NO_UNLOAD" ) ) {
-            if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
+        if( target->has_flag( flag_NO_UNLOAD ) ) {
+            if( target->has_flag( flag_RECHARGE ) || target->has_flag( flag_USE_UPS ) ) {
                 add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname() );
             } else {
                 add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
@@ -12609,7 +12609,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );
         if( target->is_filthy() ) {
-            ammo.set_flag( "FILTHY" );
+            ammo.set_flag( flag_FILTHY );
         }
 
         if( ammo.made_of_from_type( phase_id::LIQUID ) ) {
@@ -12628,7 +12628,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
 
         target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
-    } else if( target->has_flag( "BRASS_CATCHER" ) ) {
+    } else if( target->has_flag( flag_BRASS_CATCHER ) ) {
         target->spill_contents( get_player_character() );
     }
 
@@ -12639,7 +12639,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
 
     add_msg( _( "You unload your %s." ), target->tname() );
 
-    if( it.has_flag( "MAG_DESTROY" ) && it.ammo_remaining() == 0 ) {
+    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
         loc.remove_item();
     }
 
@@ -12679,7 +12679,7 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
     // We have the ammo in our hands right now
     int mv = item_handling_cost( obj, true, 0 );
 
-    if( ammo.has_flag( "MAG_BULKY" ) ) {
+    if( ammo.has_flag( flag_MAG_BULKY ) ) {
         mv *= 1.5; // bulky magazines take longer to insert
     }
 
@@ -12706,7 +12706,7 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
     mv += cost / ( 1.0f + std::min( get_skill_level( sk ) * 0.1f, 1.0f ) );
 
-    if( it.has_flag( "STR_RELOAD" ) ) {
+    if( it.has_flag( flag_STR_RELOAD ) ) {
         /** @EFFECT_STR reduces reload time of some weapons */
         mv -= get_str() * 20;
     }
