@@ -881,7 +881,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     }
     avatar &player_character = get_avatar();
     if( player_character.can_wear( granted ).success() ) {
-        granted.set_flag( "FIT" );
+        granted.set_flag( flag_id( "FIT" ) );
         player_character.wear_item( granted, false );
     } else if( !player_character.has_wield_conflicts( granted ) &&
                player_character.wield( granted, 0 ) ) {
