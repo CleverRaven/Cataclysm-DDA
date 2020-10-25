@@ -1115,6 +1115,7 @@
     "points": 4,
     "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "pistol" }, { "level": 2, "name": "survival" } ],
     "traits": [ "PROF_POLICE" ],
+    "proficiencies": [ "prof_spotting" ],
     "pets": [ { "name": "mon_dog_gshepherd", "amount": 1 } ],
     "items": {
       "both": {
@@ -1172,6 +1173,7 @@
     "points": 2,
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" } ],
     "traits": [ "PROF_POLICE" ],
+    "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
         "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "wristwatch" ],
@@ -1194,6 +1196,7 @@
     "description": "You were on the brink of a major breakthrough in your latest homicide case when the Cataclysm struck.  Now your prime suspect is dead.  Everyone's dead.  You could really use a smoke.",
     "points": 4,
     "traits": [ "PROF_PD_DET" ],
+    "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
         "items": [
@@ -1232,7 +1235,7 @@
     "name": "SWAT Officer",
     "description": "As a member of the police force's most elite division, you are more than adequately trained and equipped to survive the brutal onslaught of the apocalypse.  Unfortunately, the chain of command has broken down; your only mission now is to stay alive.",
     "points": 5,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 3, "name": "smg" } ],
     "traits": [ "PROF_SWAT" ],
     "items": {
@@ -1270,6 +1273,7 @@
       { "level": 1, "name": "bashing" }
     ],
     "traits": [ "PROF_SWAT" ],
+    "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
         "items": [ "socks", "swat_armor", "tac_fullhelmet", "boots_combat", "gloves_tactical", "badge_swat", "wristwatch" ],
@@ -1294,7 +1298,7 @@
     "name": "Police Sniper",
     "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well-placed bullet.  Now survival itself is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
     "points": 5,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
     "skills": [ { "level": 5, "name": "gun" }, { "level": 4, "name": "rifle" }, { "level": 1, "name": "pistol" } ],
     "traits": [ "PROF_POLICE" ],
     "items": {
@@ -1339,6 +1343,7 @@
       { "level": 1, "name": "throw" }
     ],
     "traits": [ "PROF_POLICE" ],
+    "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
         "items": [
@@ -3391,7 +3396,7 @@
       { "level": 3, "name": "mechanics" },
       { "level": 3, "name": "gun" }
     ],
-    "proficiencies": [ "prof_helicopter_pilot" ],
+    "proficiencies": [ "prof_helicopter_pilot", "prof_spotting" ],
     "items": {
       "both": {
         "items": [
@@ -3490,6 +3495,7 @@
       { "level": 4, "name": "firstaid" }
     ],
     "traits": [ "PROF_MED" ],
+    "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
         "items": [

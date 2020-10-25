@@ -121,6 +121,10 @@ static const itype_id itype_syringe( "syringe" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
+static const skill_id skill_traps( "traps" );
+
+static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
@@ -3650,8 +3654,23 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     const auto &data = bury ? buried_data : unburied_data;
 
     p.add_msg_if_player( m_info, data.done_message.translated(), distance_to_trap_center );
-    p.practice( skill_id( "traps" ), data.practice );
-    p.mod_moves( -data.moves );
+    p.practice( skill_traps, data.practice );
+    p.practice_proficiency( proficiency_prof_traps, time_duration::from_seconds( data.practice * 30 ) );
+    p.practice_proficiency( proficiency_prof_trapsetting,
+                            time_duration::from_seconds( data.practice * 30 ) );
+
+    //Total time to set the trap will be determined by player's skills and proficiencies
+    int move_cost_final = std::round( ( data.moves * std::min( 1,
+                                        ( data.practice ^ 2 ) ) ) / std::min( 1, p.get_skill_level( skill_traps ) ) );
+    if( !p.has_proficiency( proficiency_prof_trapsetting ) ) {
+        move_cost_final = move_cost_final * 2;
+    }
+    if( !p.has_proficiency( proficiency_prof_traps ) ) {
+        move_cost_final = move_cost_final * 4;
+    }
+
+    //This probably needs to be done via assign_activity
+    p.mod_moves( -move_cost_final );
 
     place_and_add_as_known( p, pos, data.trap );
     for( const tripoint &t : here.points_in_radius( pos, data.trap.obj().get_trap_radius(), 0 ) ) {
