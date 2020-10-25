@@ -666,8 +666,14 @@ void advanced_inventory::redraw_pane( side p )
                            square.off == squares[AIM_DRAGGED].off;
     const advanced_inv_area &sq = same_as_dragged ? squares[AIM_DRAGGED] : square;
     bool car = square.can_store_in_vehicle() && panes[p].in_vehicle() && sq.id != AIM_DRAGGED;
-    std::string name = utf8_truncate( car ? sq.veh->name : sq.name, width );
-    std::string desc = utf8_truncate( sq.desc[car], width );
+    bool in_container = pane.viewing_container() && sq.id != AIM_DRAGGED;
+    std::string name = utf8_truncate( ( car ? sq.veh->name : sq.name ), width );
+    std::string desc;
+    if( in_container ) {
+        desc = utf8_truncate( pane.get_container_location().get_item()->type_name(), width );
+    } else {
+        desc = utf8_truncate( sq.desc[car], width );
+    }
     // starts at offset 2, plus space between the header and the text
     width -= 2 + 1;
     mvwprintz( w, point( 2, 1 ), active ? c_green  : c_light_gray, name );
