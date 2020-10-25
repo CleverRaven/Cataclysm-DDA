@@ -60,6 +60,34 @@ std::string pocket_data::check_definition() const
         type == item_pocket::pocket_type::MIGRATION ) {
         return "";
     }
+    for( const itype_id &it : item_id_restriction ) {
+        if( !it.is_valid() ) {
+            return string_format( "item_id %s used in restriction invalid\n", it.str() );
+        }
+        if( it->phase == phase_id::LIQUID && !watertight ) {
+            return string_format( "restricted to liquid item %s but not watertight\n",
+                                  it->get_id().str() );
+        }
+        if( it->phase == phase_id::GAS && !airtight ) {
+            return string_format( "restricted to gas item %s but not airtight\n",
+                                  it->get_id().str() );
+        }
+    }
+    for( const std::pair<const ammotype, int> &ammo_res : ammo_restriction ) {
+        const ammotype &at = ammo_res.first;
+        if( !at.is_valid() ) {
+            return string_format( "invalid ammotype %s", at.str() );
+        }
+        const itype_id &it = at->default_ammotype();
+        if( it->phase == phase_id::LIQUID && !watertight ) {
+            return string_format( "restricted to liquid item %s but not watertight\n",
+                                  it->get_id().str() );
+        }
+        if( it->phase == phase_id::GAS && !airtight ) {
+            return string_format( "restricted to gas item %s but not airtight\n",
+                                  it->get_id().str() );
+        }
+    }
     if( max_contains_volume() == 0_ml ) {
         return "has zero max volume\n";
     }
@@ -78,30 +106,6 @@ std::string pocket_data::check_definition() const
     }
     if( ( watertight || airtight ) && min_item_volume > 0_ml ) {
         return "watertight or gastight is incompatible with min_item_volume\n";
-    }
-    for( const itype_id &it : item_id_restriction ) {
-        if( !it.is_valid() ) {
-            return string_format( "item_id %s used in restriction invalid\n", it.str() );
-        }
-        if( it->phase == phase_id::LIQUID && !watertight ) {
-            return string_format( "restricted to liquid item %s but not watertight\n",
-                                  it->get_id().str() );
-        }
-        if( it->phase == phase_id::GAS && !airtight ) {
-            return string_format( "restricted to gas item %s but not airtight\n",
-                                  it->get_id().str() );
-        }
-    }
-    for( const std::pair<const ammotype, int> &ammo_res : ammo_restriction ) {
-        const itype_id &it = ammo_res.first->default_ammotype();
-        if( it->phase == phase_id::LIQUID && !watertight ) {
-            return string_format( "restricted to liquid item %s but not watertight\n",
-                                  it->get_id().str() );
-        }
-        if( it->phase == phase_id::GAS && !airtight ) {
-            return string_format( "restricted to gas item %s but not airtight\n",
-                                  it->get_id().str() );
-        }
     }
     return "";
 }
