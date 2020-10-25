@@ -1561,8 +1561,24 @@
     "components": [ [ [ "hi_q_distillate", 10 ] ], [ [ "element", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "glass_shard", 1 ] ] ]
   },
   {
-    "result": "conc_venom",
     "type": "recipe",
+    "result": "cocaine_topical",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "time": "5 m",
+    "charges": 50,
+    "batch_time_factors": [ 80, 1 ],
+    "book_learn": [ [ "reference_cooking", 4 ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "chem_citric_acid", 9 ] ], [ [ "coke", 1 ] ], [ [ "bottle_plastic_small", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "conc_venom",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
