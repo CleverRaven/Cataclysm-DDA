@@ -455,14 +455,7 @@
     "//": "Nested containers are a thing now so these need to be actual volume (30x30x15)",
     "price": 0,
     "price_postapoc": 0,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "13500 ml",
-        "max_contains_weight": "20 kg"
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "13500 ml", "max_contains_weight": "20 kg" } ],
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
@@ -483,14 +476,7 @@
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "60000 ml",
-        "max_contains_weight": "50 kg"
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "60000 ml", "max_contains_weight": "50 kg" } ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
   },
   {
