@@ -15,7 +15,6 @@
     "material": [ "flesh" ],
     "symbol": "B",
     "color": "dark_gray",
-    "aggression": 0,
     "morale": 60,
     "melee_skill": 4,
     "melee_dice": 4,
