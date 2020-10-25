@@ -1283,7 +1283,8 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 
     if( effect == effect_bleed ) {
         return !has_flag( MF_WARM ) ||
-               !made_of( material_id( "flesh" ) );
+               !made_of( material_id( "flesh" ) ) ||
+               ( get_option<bool>( "ZOMBIES_DONT_BLEED" ) && in_species( species_ZOMBIE ) );
     }
 
     if( effect == effect_paralyzepoison ||
