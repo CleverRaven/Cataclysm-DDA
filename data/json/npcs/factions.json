@@ -599,7 +599,7 @@
         "share my stuff": false,
         "guard your stuff": false,
         "lets you in": true,
-        "defends your space": true,
+        "defends your space": false,
         "knows your voice": true
       },
       "old_guard": {
@@ -613,17 +613,17 @@
       },
       "tacoma_commune": {
         "kill on sight": false,
-        "watch your back": true,
-        "share my stuff": true,
-        "guard your stuff": true,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
         "lets you in": true,
-        "defends your space": true
+        "defends your space": false
       },
       "lobby_beggars": {
         "kill on sight": false,
         "watch your back": false,
         "share my stuff": false,
-        "guard your stuff": true,
+        "guard your stuff": false,
         "lets you in": true,
         "defends your space": false
       },
@@ -638,20 +638,20 @@
       },
       "wasteland_scavengers": {
         "kill on sight": false,
-        "watch your back": true,
+        "watch your back": false,
         "share my stuff": false,
-        "guard your stuff": true,
+        "guard your stuff": false,
         "lets you in": true,
         "defends your space": false,
         "knows your voice": true
       },
       "isherwood_family": {
         "kill on sight": false,
-        "watch your back": true,
+        "watch your back": false,
         "share my stuff": false,
-        "guard your stuff": true,
+        "guard your stuff": false,
         "lets you in": true,
-        "defends your space": true,
+        "defends your space": false,
         "knows your voice": true
       },
       "hells_raiders": { "kill on sight": true },
