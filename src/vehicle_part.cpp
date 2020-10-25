@@ -377,8 +377,11 @@ bool vehicle_part::can_reload( const item &obj ) const
         return true;
     }
 
-    return is_fuel_store() &&
-           ammo_remaining() <= ammo_capacity( item::find_type( ammo_current() )->ammo->type );
+    if( ammo_current().is_null() ) {
+        return true; // empty tank
+    }
+
+    return ammo_remaining() < ammo_capacity( ammo_current().obj().ammo->type );
 }
 
 void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
