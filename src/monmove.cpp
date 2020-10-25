@@ -914,6 +914,7 @@ void monster::move()
                 bad_choice = true;
             }
 
+            map &here = g->m;
             // is there an openable door?
             if( can_open_doors &&
                 here.open_door( candidate, !here.is_outside( pos() ), true ) ) {
