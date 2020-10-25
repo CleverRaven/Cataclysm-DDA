@@ -255,16 +255,27 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
                                             volume_units_abbr() );
         } else {
             units::volume maxvolume = 0_ml;
+            units::mass cur_weight;
+            units::volume cur_volume;
             advanced_inv_area &s = squares[pane.get_area()];
             if( pane.in_vehicle() ) {
                 maxvolume = s.veh->max_volume( s.vstor );
+                cur_weight = s.weight_veh;
+                cur_volume = s.volume_veh;
+            } else if( pane.viewing_container() ) {
+                item *container = pane.get_container_location().get_item();
+                maxvolume = container->get_total_capacity();
+                cur_weight = container->weight();
+                cur_volume = container->volume();
             } else {
                 maxvolume = get_map().max_volume( s.pos );
+                cur_weight = s.weight;
+                cur_volume = s.volume;
             }
             formatted_head = string_format( "%3.1f %s  %s/%s %s",
-                                            convert_weight( pane.in_vehicle() ? s.weight_veh : s.weight ),
+                                            convert_weight( cur_weight ),
                                             weight_units(),
-                                            format_volume( pane.in_vehicle() ? s.volume_veh : s.volume ),
+                                            format_volume( cur_volume ),
                                             format_volume( maxvolume ),
                                             volume_units_abbr() );
         }
@@ -550,15 +561,18 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
     int ofs = wwidth - 25 - 2 - 14;
     for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
         int data_location = screen_relative_location( static_cast<aim_location>( i ) );
-        const char *bracket = squares[data_location].can_store_in_vehicle() ? "<>" : "[]";
+        bool in_container = pane.viewing_container() && squares[data_location].id == area && sel == area &&
+                            area != AIM_ALL;
         bool in_vehicle = pane.in_vehicle() && squares[data_location].id == area && sel == area &&
                           area != AIM_ALL;
+        const char *bracket = ( squares[data_location].can_store_in_vehicle() ||
+                                in_container ) ? "<>" : "[]";
         bool all_brackets = area == AIM_ALL && ( data_location >= AIM_SOUTHWEST &&
                             data_location <= AIM_NORTHEAST );
         nc_color bcolor = c_red;
         nc_color kcolor = c_red;
         if( squares[data_location].canputitems() ) {
-            bcolor = in_vehicle ? c_light_blue :
+            bcolor = ( in_vehicle || in_container ) ? c_light_blue :
                      area == data_location || all_brackets ? c_light_gray : c_dark_gray;
             kcolor = area == data_location ? c_white : sel == data_location ? c_light_gray : c_dark_gray;
         }
@@ -566,7 +580,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         const std::string key = get_location_key( static_cast<aim_location>( i ) );
         const point p( squares[i].hscreen + point( ofs, 0 ) );
         mvwprintz( window, p, bcolor, "%c", bracket[0] );
-        wprintz( window, kcolor, "%s", in_vehicle && sel != AIM_DRAGGED ? "V" : key );
+        wprintz( window, kcolor, "%s", in_vehicle && sel != AIM_DRAGGED ? "V" : in_container ? "C" : key );
         wprintz( window, bcolor, "%c", bracket[1] );
     }
     return squares[AIM_INVENTORY].hscreen.y + ofs;
@@ -912,7 +926,6 @@ bool advanced_inventory::move_all_items( bool nested_call )
         do_return_entry();
 
         const tripoint placement = darea.off;
-
         // in case there is vehicle cargo space at dest but the player wants to drop to ground
         const bool force_ground = !dpane.in_vehicle();
         std::vector<drop_or_stash_item_info> to_drop;
@@ -1718,7 +1731,7 @@ void advanced_inventory::display()
                     container_location = item_location::nowhere;
                     changed = true;
                 } else {
-                    if( sitem != nullptr && !sitem->items.empty() ) {
+                    if( !sitem->items.empty() ) {
                         // Find container TODO better checking the item stack
                         item *container = sitem->items.front();
                         // TODO add support for liquids
