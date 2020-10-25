@@ -36,10 +36,7 @@
     "book_learn": [ [ "black_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 250 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "black_dragon_tanned_hide", 40 ] ], [ [ "dragon_black_scale", 150 ] ], [ [ "dragon_essence", 15 ] ] ]
   },
   {
@@ -54,10 +51,7 @@
     "time": "340 h",
     "book_learn": [ [ "black_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "using": [ [ "sewing_standard", 250 ], [ "welding_standard", 50 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 40 ] ], [ [ "dragon_black_scale", 1500 ] ], [ [ "dragon_essence", 15 ] ] ]
   },
@@ -114,10 +108,7 @@
     "book_learn": [ [ "black_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 100 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "black_dragon_tanned_hide", 3 ] ], [ [ "dragon_black_scale", 8 ] ], [ [ "dragon_essence", 2 ] ] ]
   },
   {
@@ -133,10 +124,7 @@
     "book_learn": [ [ "black_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 100 ], [ "welding_standard", 10 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "black_dragon_tanned_hide", 1 ] ], [ [ "dragon_black_scale", 90 ] ], [ [ "dragon_essence", 4 ] ] ]
   },
   {
@@ -192,10 +180,7 @@
     "book_learn": [ [ "black_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 350 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "black_dragon_tanned_hide", 60 ] ], [ [ "dragon_black_scale", 250 ] ], [ [ "dragon_essence", 20 ] ] ]
   },
   {
@@ -211,10 +196,7 @@
     "book_learn": [ [ "black_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 350 ], [ "welding_standard", 100 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "black_dragon_tanned_hide", 60 ] ], [ [ "dragon_black_scale", 2250 ] ], [ [ "dragon_essence", 25 ] ] ]
   },
   {
@@ -270,10 +252,7 @@
     "book_learn": [ [ "black_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "black_dragon_tanned_hide", 4 ] ], [ [ "dragon_black_scale", 12 ] ], [ [ "dragon_essence", 3 ] ] ]
   },
   {
@@ -289,10 +268,7 @@
     "book_learn": [ [ "black_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ], [ "welding_standard", 20 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "black_dragon_tanned_hide", 2 ] ], [ [ "dragon_black_scale", 140 ] ], [ [ "dragon_essence", 6 ] ] ]
   },
   {
