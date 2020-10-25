@@ -72,6 +72,8 @@ class veh_interact
         /* starting offset for the overview and the max offset for scrolling */
         int overview_offset = 0;
         int overview_limit = 0;
+        // starting offset for installation scrolling
+        int w_msg_scroll_offset = 0;
 
         const vpart_info *sel_vpart_info = nullptr;
         std::string sel_vpart_variant;
