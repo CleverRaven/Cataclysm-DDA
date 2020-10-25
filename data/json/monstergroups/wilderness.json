@@ -88,6 +88,17 @@
         "ends": 2160,
         "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
       },
+      {
+        "monster": "mon_bear_mutant",
+        "freq": 1,
+        "cost_multiplier": 10
+      },
+      {
+        "monster": "mon_bear_mutant",
+        "freq": 2,
+        "cost_multiplier": 10,
+        "starts": 672
+      },
       { "monster": "mon_zombear", "freq": 1, "cost_multiplier": 10, "starts": 72 },
       { "monster": "mon_zombear", "freq": 2, "cost_multiplier": 10, "starts": 168 },
       { "monster": "mon_zombear", "freq": 3, "cost_multiplier": 10, "starts": 672 },
