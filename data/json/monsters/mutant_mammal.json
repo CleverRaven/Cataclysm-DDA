@@ -154,7 +154,6 @@
     "symbol": "c",
     "color": "light_gray",
     "looks_like": "mon_cat_kitten",
-    "aggression": -99,
     "melee_cut": 2,
     "dodge": 14,
     "special_attacks": [ [ "scratch", 10 ] ],
