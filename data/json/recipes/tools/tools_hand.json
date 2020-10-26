@@ -198,7 +198,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chipper",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -211,7 +211,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "paint_brush",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1083,7 +1083,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "washboard",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
