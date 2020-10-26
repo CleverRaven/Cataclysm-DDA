@@ -109,6 +109,11 @@ class Item_spawn_data
         using ItemList = std::vector<item>;
         using RecursionList = std::vector<item_group_id>;
 
+        enum class spawn_flags {
+            none = 0,
+            maximized = 1,
+        };
+
         Item_spawn_data( int _probability, const std::string &context ) :
             probability( _probability ), context_( context ) { }
         virtual ~Item_spawn_data() = default;
@@ -118,8 +123,9 @@ class Item_spawn_data
          * @param[in] birthday All items have that value as birthday.
          * @param[out] rec Recursion list, output goes here
          */
-        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const = 0;
-        ItemList create( const time_point &birthday ) const;
+        virtual ItemList create( const time_point &birthday, RecursionList &rec,
+                                 spawn_flags = spawn_flags::none ) const = 0;
+        ItemList create( const time_point &birthday, spawn_flags = spawn_flags::none ) const;
         /**
          * The same as create, but create a single item only.
          * The returned item might be a null item!
@@ -171,6 +177,12 @@ class Item_spawn_data
         // messages
         std::string context_;
 };
+
+template<>
+struct enum_traits<Item_spawn_data::spawn_flags> {
+    static constexpr bool is_flag_enum = true;
+};
+
 /**
  * Creates a single item, but can change various aspects
  * of the created item.
@@ -265,7 +277,7 @@ class Single_item_creator : public Item_spawn_data
 
         void inherit_ammo_mag_chances( int ammo, int mag );
 
-        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        ItemList create( const time_point &birthday, RecursionList &rec, spawn_flags ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( const std::string &context ) const override;
         bool remove_item( const itype_id &itemid ) override;
@@ -312,7 +324,7 @@ class Item_group : public Item_spawn_data
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
 
-        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        ItemList create( const time_point &birthday, RecursionList &rec, spawn_flags ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( const std::string &context ) const override;
         bool remove_item( const itype_id &itemid ) override;

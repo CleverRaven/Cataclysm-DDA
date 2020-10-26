@@ -24,10 +24,11 @@
 static const std::string null_item_id( "null" );
 
 
-Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
+Item_spawn_data::ItemList Item_spawn_data::create(
+    const time_point &birthday, spawn_flags flags ) const
 {
     RecursionList rec;
-    return create( birthday, rec );
+    return create( birthday, rec, flags );
 }
 
 item Item_spawn_data::create_single( const time_point &birthday ) const
@@ -120,15 +121,19 @@ static item_pocket::pocket_type guess_pocket_for( const item &container, const i
     return item_pocket::pocket_type::CONTAINER;
 }
 
-Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthday,
-        RecursionList &rec ) const
+Item_spawn_data::ItemList Single_item_creator::create(
+    const time_point &birthday, RecursionList &rec, spawn_flags flags ) const
 {
     ItemList result;
     int cnt = 1;
     if( modifier ) {
         auto modifier_count = modifier->count;
-        cnt = ( modifier_count.first == modifier_count.second ) ? modifier_count.first : rng(
-                  modifier_count.first, modifier_count.second );
+        if( flags & spawn_flags::maximized ) {
+            cnt = modifier_count.second;
+        } else {
+            cnt = ( modifier_count.first == modifier_count.second ) ? modifier_count.first : rng(
+                      modifier_count.first, modifier_count.second );
+        }
     }
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
@@ -148,7 +153,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
                 debugmsg( "unknown item spawn list %s", id.c_str() );
                 return result;
             }
-            ItemList tmplist = isd->create( birthday, rec );
+            ItemList tmplist = isd->create( birthday, rec, flags );
             rec.erase( rec.end() - 1 );
             if( modifier ) {
                 for( auto &elem : tmplist ) {
@@ -554,15 +559,16 @@ void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
     items.push_back( std::move( ptr ) );
 }
 
-Item_spawn_data::ItemList Item_group::create( const time_point &birthday, RecursionList &rec ) const
+Item_spawn_data::ItemList Item_group::create(
+    const time_point &birthday, RecursionList &rec, spawn_flags flags ) const
 {
     ItemList result;
     if( type == G_COLLECTION ) {
         for( const auto &elem : items ) {
-            if( rng( 0, 99 ) >= ( elem )->probability ) {
+            if( !( flags & spawn_flags::maximized ) && rng( 0, 99 ) >= ( elem )->probability ) {
                 continue;
             }
-            ItemList tmp = ( elem )->create( birthday, rec );
+            ItemList tmp = ( elem )->create( birthday, rec, flags );
             result.insert( result.end(), tmp.begin(), tmp.end() );
         }
     } else if( type == G_DISTRIBUTION ) {
@@ -572,7 +578,7 @@ Item_spawn_data::ItemList Item_group::create( const time_point &birthday, Recurs
             if( p >= 0 ) {
                 continue;
             }
-            ItemList tmp = ( elem )->create( birthday, rec );
+            ItemList tmp = ( elem )->create( birthday, rec, flags );
             result.insert( result.end(), tmp.begin(), tmp.end() );
             break;
         }
