@@ -114,7 +114,7 @@
       {
         "max_contains_volume": "3750 ml",
         "max_contains_weight": "5 kg",
-        "max_item_length": "140 cm",
+        "max_item_length": "180 cm",
         "holster": true,
         "moves": 20,
         "flag_restriction": [ "SHEATH_SWORD" ]
