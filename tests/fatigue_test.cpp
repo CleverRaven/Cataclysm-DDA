@@ -14,8 +14,12 @@ static const efftype_id effect_sleep( "sleep" );
 
 static void update_body_for( Character &dude, time_duration time )
 {
-    const time_point start = calendar::turn_zero;
+    constexpr time_point start = time_point::from_turn( 0 );
     const time_point end = start + time;
+    if( end < start ) {
+        // Just to fix warnings
+        return;
+    }
     for( time_point now = start; now < end; now += 5_minutes ) {
         dude.update_body( now, now + 5_minutes );
     }
