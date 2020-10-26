@@ -1109,7 +1109,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     add_msg( m_debug, _( "Rolled %i. Mean_roll %g. Difficulty %i." ), pick_roll, mean_roll, lock_roll );
 
     // Your base skill XP gain is derived from the lock difficulty (which is currently random but shouldn't be).
-    int xp_gain = ( 3 * lock_roll );
+    int xp_gain = 3 * lock_roll;
     if( perfect || ( pick_roll >= lock_roll ) ) {
         if( !perfect ) {
             // Increase your XP if you successfully pick the lock, unless you were using a Perfect Lockpick.
