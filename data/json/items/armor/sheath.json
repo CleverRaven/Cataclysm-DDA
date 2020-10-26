@@ -116,7 +116,7 @@
         "max_contains_weight": "5 kg",
         "max_item_length": "180 cm",
         "holster": true,
-        "moves": 20,
+        "moves": 60,
         "flag_restriction": [ "SHEATH_SWORD" ]
       }
     ],
