@@ -1082,5 +1082,14 @@
     "looks_like": "spoon",
     "flags": [ "SHEATH_KNIFE" ],
     "copy-from": "base_silverware"
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "cheese_grater",
+    "name": { "str": "cheese grater" },
+    "description": "A stainless steel cheese grater with a plastic grip.  It is used to shred cheese.",
+    "looks_like": "spoon",
+    "copy-from": "base_silverware"
   }
 ]
