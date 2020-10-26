@@ -738,7 +738,7 @@
           { "item": "adhesive_bandages", "prob": 40 },
           { "item": "bandages", "prob": 20 },
           { "item": "medical_gauze", "prob": 20 },
-          { "item": "1st_aid", "prob": 10 }
+          { "group": "full_1st_aid", "prob": 10 }
         ],
         "prob": 20
       },

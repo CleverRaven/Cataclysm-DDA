@@ -78,7 +78,7 @@
     "type": "item_group",
     "items": [
       [ "adhesive_bandages", 25 ],
-      [ "1st_aid", 15 ],
+      { "group": "full_1st_aid", "prob": 15 },
       { "group": "full_ifak", "prob": 15 },
       [ "vitamins", 75 ],
       [ "calcium_tablet", 75 ],

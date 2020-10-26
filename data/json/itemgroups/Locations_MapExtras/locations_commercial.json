@@ -1728,7 +1728,7 @@
     "items": [
       [ "bandages", 30 ],
       [ "adhesive_bandages", 30 ],
-      [ "1st_aid", 10 ],
+      { "group": "full_1st_aid", "prob": 10 },
       [ "saline", 20 ],
       [ "vitamins", 15 ],
       [ "calcium_tablet", 15 ],
@@ -1795,7 +1795,7 @@
       [ "codeine", 15 ],
       [ "saline", 15 ],
       [ "smoxygen_tank", 10 ],
-      [ "1st_aid", 30 ],
+      { "group": "full_1st_aid", "prob": 30 },
       [ "medical_tape", 35 ],
       [ "blood", 5 ],
       [ "vaccine_shot", 15 ],

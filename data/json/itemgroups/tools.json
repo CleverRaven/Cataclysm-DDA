@@ -300,6 +300,38 @@
     ]
   },
   {
+    "id": "full_1st_aid",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "1st_aid_box",
+    "items": [
+      { "item": "medical_tape", "charges": 20 },
+      { "item": "aspirin", "charges": 10 },
+      { "item": "disinfectant" },
+      { "item": "saline" },
+      { "item": "adhesive_bandages", "charges": 6 },
+      { "item": "bandages", "charges": 3 },
+      { "item": "medical_gauze", "count": 6 },
+      { "item": "booklet_firstaid" }
+    ]
+  },
+  {
+    "id": "used_1st_aid",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "1st_aid_box",
+    "items": [
+      { "item": "medical_tape", "charges": [ 0, 20 ] },
+      { "item": "aspirin", "charges": [ 0, 10 ] },
+      { "item": "disinfectant", "prob": 20 },
+      { "item": "saline", "prob": 60 },
+      { "item": "adhesive_bandages", "charges": [ 0, 6 ] },
+      { "item": "bandages", "charges": [ 0, 3 ] },
+      { "item": "medical_gauze", "count": [ 0, 6 ] },
+      { "item": "booklet_firstaid", "prob": 50 }
+    ]
+  },
+  {
     "id": "tools_medical",
     "type": "item_group",
     "//": "Portable medical equipment for doctors and paramedics (excludes consumables)",

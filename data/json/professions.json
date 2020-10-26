@@ -867,10 +867,9 @@
           "bandages",
           "adhesive_bandages",
           "aspirin",
-          "1st_aid",
           "stethoscope"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "full_1st_aid" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -2823,11 +2822,10 @@
           "water_clean",
           "scissors",
           "magnifying_glass",
-          "1st_aid",
           "wristwatch",
           "whistle"
         ],
-        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "full_1st_aid" }, { "group": "charged_flashlight" } ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
@@ -2968,11 +2966,11 @@
           "knife_swissarmy",
           "granola",
           "pur_tablets",
-          "wristwatch",
-          "1st_aid"
+          "wristwatch"
         ],
         "entries": [
           { "group": "charged_cell_phone" },
+          { "group": "full_1st_aid" },
           { "group": "charged_ref_lighter" },
           { "item": "gasoline_lantern", "charges": 500 },
           { "item": "water_clean", "container-item": "canteen" },
@@ -3470,11 +3468,10 @@
           "bandages",
           "stethoscope",
           "scissors",
-          "1st_aid",
           "syringe",
           "morphine"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "full_1st_aid" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]

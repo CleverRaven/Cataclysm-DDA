@@ -252,7 +252,7 @@
       { "x": -7, "y": 2, "parts": [ "frame_cover", "halfboard_ne" ] }
     ],
     "items": [
-      { "x": -1, "y": 0, "chance": 100, "items": [ "1st_aid" ] },
+      { "x": -1, "y": 0, "chance": 100, "item_groups": [ "full_1st_aid" ] },
       { "x": -1, "y": 0, "chance": 100, "items": [ "mag_firstaid" ] },
       { "x": -1, "y": 2, "chance": 100, "item_groups": [ "full_ifak" ] },
       { "x": -1, "y": 2, "chance": 100, "items": [ "gloves_medical" ] },
@@ -318,7 +318,7 @@
     ],
     "items": [
       { "x": -1, "y": 0, "chance": 100, "items": [ "mag_firstaid" ] },
-      { "x": -1, "y": 0, "chance": 100, "items": [ "1st_aid" ] },
+      { "x": -1, "y": 0, "chance": 100, "item_groups": [ "full_1st_aid" ] },
       { "x": -1, "y": 2, "chance": 100, "item_groups": [ "full_ifak" ] },
       { "x": -1, "y": 2, "chance": 100, "items": [ "gloves_medical" ] },
       { "x": -1, "y": 2, "chance": 100, "items": [ "ampoule" ] },
@@ -502,7 +502,7 @@
       { "x": -2, "y": 0, "chance": 100, "items": [ "human_flesh" ] },
       { "x": -2, "y": 0, "chance": 100, "items": [ "hstomach" ] },
       { "x": -2, "y": 0, "chance": 100, "items": [ "bone_human" ] },
-      { "x": -1, "y": 0, "chance": 100, "items": [ "1st_aid" ] },
+      { "x": -1, "y": 0, "chance": 100, "item_groups": [ "full_1st_aid" ] },
       { "x": -1, "y": 0, "chance": 100, "items": [ "mag_firstaid" ] },
       { "x": -1, "y": 2, "chance": 100, "item_groups": [ "full_ifak" ] },
       { "x": -1, "y": 2, "chance": 100, "items": [ "gloves_medical" ] },
@@ -567,7 +567,7 @@
       { "x": -2, "y": 2, "chance": 100, "items": [ "hstomach" ] },
       { "x": -2, "y": 2, "chance": 100, "items": [ "bone_human" ] },
       { "x": -1, "y": 0, "chance": 100, "items": [ "mag_firstaid" ] },
-      { "x": -1, "y": 0, "chance": 100, "items": [ "1st_aid" ] },
+      { "x": -1, "y": 0, "chance": 100, "item_groups": [ "full_1st_aid" ] },
       { "x": -1, "y": 2, "chance": 100, "item_groups": [ "full_ifak" ] },
       { "x": -1, "y": 2, "chance": 100, "items": [ "gloves_medical" ] },
       { "x": -1, "y": 2, "chance": 100, "items": [ "ampoule" ] },

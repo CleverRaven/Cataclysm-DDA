@@ -10,7 +10,7 @@
     "type": "item_group",
     "//": "Common healing items found almost everywhere",
     "items": [
-      [ "1st_aid", 5 ],
+      { "group": "used_1st_aid", "prob": 5 },
       [ "aspirin", 50 ],
       [ "bandages", 30 ],
       [ "adhesive_bandages", 30 ],
@@ -142,7 +142,7 @@
       [ "bandages", 30 ],
       [ "adhesive_bandages", 30 ],
       [ "cotton_ball", 50 ],
-      [ "1st_aid", 35 ],
+      { "group": "used_1st_aid", "prob": 35 },
       [ "saline", 25 ],
       [ "contacts", 10 ],
       [ "vitamins", 75 ],
