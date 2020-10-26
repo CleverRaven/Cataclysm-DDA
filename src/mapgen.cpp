@@ -1165,7 +1165,7 @@ class jmapgen_loot : public jmapgen_piece
     public:
         jmapgen_loot( const JsonObject &jsi ) :
             result_group( Item_group::Type::G_COLLECTION, 100, jsi.get_int( "ammo", 0 ),
-                          jsi.get_int( "magazine", 0 ) )
+                          jsi.get_int( "magazine", 0 ), "mapgen loot entry" )
             , chance( jsi.get_int( "chance", 100 ) ) {
             const item_group_id group( jsi.get_string( "group", std::string() ) );
             itype_id ity;

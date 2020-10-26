@@ -109,7 +109,8 @@ class Item_spawn_data
         using ItemList = std::vector<item>;
         using RecursionList = std::vector<item_group_id>;
 
-        Item_spawn_data( int _probability ) : probability( _probability ) { }
+        Item_spawn_data( int _probability, const std::string &context ) :
+            probability( _probability ), context_( context ) { }
         virtual ~Item_spawn_data() = default;
         /**
          * Create a list of items. The create list might be empty.
@@ -141,6 +142,10 @@ class Item_spawn_data
 
         virtual std::set<const itype *> every_item() const = 0;
 
+        const std::string &context() const {
+            return context_;
+        }
+
         /** probability, used by the parent object. */
         int probability;
         /**
@@ -160,6 +165,11 @@ class Item_spawn_data
         };
 
         cata::value_ptr<relic_generator> artifact;
+
+    protected:
+        // A description of where this group was defined, for use in error
+        // messages
+        std::string context_;
 };
 /**
  * Creates a single item, but can change various aspects
@@ -207,7 +217,7 @@ class Item_modifier
         Item_modifier();
         Item_modifier( Item_modifier && ) = default;
 
-        void modify( item &new_item ) const;
+        void modify( item &new_item, const std::string &context ) const;
         void check_consistency( const std::string &context ) const;
         bool remove_item( const itype_id &itemid );
         bool replace_item( const itype_id &itemid, const itype_id &replacementid );
@@ -242,7 +252,8 @@ class Single_item_creator : public Item_spawn_data
             S_NONE,
         };
 
-        Single_item_creator( const std::string &id, Type type, int probability );
+        Single_item_creator( const std::string &id, Type type, int probability,
+                             const std::string &context );
         ~Single_item_creator() override = default;
 
         /**
@@ -277,7 +288,8 @@ class Item_group : public Item_spawn_data
             G_DISTRIBUTION
         };
 
-        Item_group( Type type, int probability, int ammo_chance, int magazine_chance );
+        Item_group( Type type, int probability, int ammo_chance, int magazine_chance,
+                    const std::string &context );
         ~Item_group() override = default;
 
         const Type type;

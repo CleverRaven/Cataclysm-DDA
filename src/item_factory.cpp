@@ -1058,7 +1058,7 @@ void Item_factory::init()
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups[item_group_id( "EMPTY_GROUP" )] =
-        std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0, 0 );
+        std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0, 0, "EMPTY_GROUP" );
 }
 
 bool Item_factory::check_ammo_type( std::string &msg, const ammotype &ammo ) const
@@ -3195,7 +3195,7 @@ static Item_group *make_group_or_throw( const item_group_id &group_id,
 {
     Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
     if( ig == nullptr ) {
-        isd.reset( ig = new Item_group( t, 100, ammo_chance, magazine_chance ) );
+        isd.reset( ig = new Item_group( t, 100, ammo_chance, magazine_chance, group_id.str() ) );
     } else if( ig->type != t ) {
         throw std::runtime_error(
             "item group \"" + group_id.str() + "\" already defined with type \"" +
@@ -3257,13 +3257,16 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
         entries.push_back( std::make_pair( obj.get_string( gname ), true ) );
     }
 
+    const std::string subcontext = name + " of " + parent.context();
+
     if( entries.size() > 1 && name != "contents" ) {
         obj.throw_error( string_format( "You can only use one of '%s' and '%s'", iname, gname ) );
     } else if( entries.size() == 1 ) {
         const Single_item_creator::Type type = entries.front().second ?
                                                Single_item_creator::Type::S_ITEM_GROUP :
                                                Single_item_creator::Type::S_ITEM;
-        Single_item_creator *result = new Single_item_creator( entries.front().first, type, prob );
+        Single_item_creator *result =
+            new Single_item_creator( entries.front().first, type, prob, subcontext );
         result->inherit_ammo_mag_chances( parent.with_ammo, parent.with_magazine );
         ptr.reset( result );
         return true;
@@ -3271,7 +3274,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
         return false;
     }
     Item_group *result = new Item_group( Item_group::Type::G_COLLECTION, prob, parent.with_ammo,
-                                         parent.with_magazine );
+                                         parent.with_magazine, subcontext );
     ptr.reset( result );
     for( const auto &elem : entries ) {
         if( elem.second ) {
@@ -3302,23 +3305,24 @@ bool Item_factory::load_string( std::vector<std::string> &vec, const JsonObject 
     return result;
 }
 
-void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
+void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::string &context )
 {
     std::unique_ptr<Item_group> gptr;
     int probability = obj.get_int( "prob", 100 );
+    std::string subcontext = "entry within " + context;
     JsonArray jarr;
     if( obj.has_member( "collection" ) ) {
         gptr = std::make_unique<Item_group>( Item_group::G_COLLECTION, probability, ig.with_ammo,
-                                             ig.with_magazine );
+                                             ig.with_magazine, context );
         jarr = obj.get_array( "collection" );
     } else if( obj.has_member( "distribution" ) ) {
         gptr = std::make_unique<Item_group>( Item_group::G_DISTRIBUTION, probability, ig.with_ammo,
-                                             ig.with_magazine );
+                                             ig.with_magazine, context );
         jarr = obj.get_array( "distribution" );
     }
     if( gptr ) {
         for( const JsonObject job2 : jarr ) {
-            add_entry( *gptr, job2 );
+            add_entry( *gptr, job2, subcontext );
         }
         ig.add_entry( std::move( gptr ) );
         return;
@@ -3327,10 +3331,11 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     std::unique_ptr<Single_item_creator> sptr;
     if( obj.has_member( "item" ) ) {
         sptr = std::make_unique<Single_item_creator>(
-                   obj.get_string( "item" ), Single_item_creator::S_ITEM, probability );
+                   obj.get_string( "item" ), Single_item_creator::S_ITEM, probability, context );
     } else if( obj.has_member( "group" ) ) {
         sptr = std::make_unique<Single_item_creator>(
-                   obj.get_string( "group" ), Single_item_creator::S_ITEM_GROUP, probability );
+                   obj.get_string( "group" ), Single_item_creator::S_ITEM_GROUP, probability,
+                   context );
     }
     if( !sptr ) {
         return;
@@ -3385,7 +3390,7 @@ void Item_factory::load_item_group( const JsonArray &entries, const item_group_i
     Item_group *const ig = make_group_or_throw( group_id, isd, type, ammo_chance, magazine_chance );
 
     for( const JsonObject subobj : entries ) {
-        add_entry( *ig, subobj );
+        add_entry( *ig, subobj, "entry within " + ig->context() );
     }
 }
 
@@ -3407,7 +3412,7 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
         for( const JsonValue entry : jsobj.get_array( "items" ) ) {
             if( entry.test_object() ) {
                 JsonObject subobj = entry.get_object();
-                add_entry( *ig, subobj );
+                add_entry( *ig, subobj, "item within " + ig->context() );
             } else {
                 JsonArray pair = entry.get_array();
                 ig->add_item_entry( itype_id( pair.get_string( 0 ) ), pair.get_int( 1 ) );
@@ -3418,7 +3423,7 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
 
     if( jsobj.has_member( "entries" ) ) {
         for( const JsonObject subobj : jsobj.get_array( "entries" ) ) {
-            add_entry( *ig, subobj );
+            add_entry( *ig, subobj, "entry within " + ig->context() );
         }
     }
     if( jsobj.has_member( "items" ) ) {
@@ -3430,7 +3435,7 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
                 ig->add_item_entry( itype_id( subitem.get_string( 0 ) ), subitem.get_int( 1 ) );
             } else {
                 JsonObject subobj = entry.get_object();
-                add_entry( *ig, subobj );
+                add_entry( *ig, subobj, "item within " + ig->context() );
             }
         }
     }
@@ -3444,7 +3449,7 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
                                      subitem.get_int( 1 ) );
             } else {
                 JsonObject subobj = entry.get_object();
-                add_entry( *ig, subobj );
+                add_entry( *ig, subobj, "group within " + ig->context() );
             }
         }
     }

@@ -47,8 +47,9 @@ relic Item_spawn_data::relic_generator::generate_relic( const itype_id &it_id ) 
     return id->generate( rules, it_id );
 }
 
-Single_item_creator::Single_item_creator( const std::string &_id, Type _type, int _probability )
-    : Item_spawn_data( _probability )
+Single_item_creator::Single_item_creator( const std::string &_id, Type _type, int _probability,
+        const std::string &context )
+    : Item_spawn_data( _probability, context )
     , id( _id )
     , type( _type )
 {
@@ -84,7 +85,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         tmp.set_flag( flag_FIT );
     }
     if( modifier ) {
-        modifier->modify( tmp );
+        modifier->modify( tmp, "modifier for " + context() );
     } else {
         int qty = tmp.charges;
         if( modifier ) {
@@ -151,7 +152,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
             rec.erase( rec.end() - 1 );
             if( modifier ) {
                 for( auto &elem : tmplist ) {
-                    modifier->modify( elem );
+                    modifier->modify( elem, "modifier for " + context() );
                 }
             }
             result.insert( result.end(), tmplist.begin(), tmplist.end() );
@@ -284,7 +285,7 @@ Item_modifier::Item_modifier()
 {
 }
 
-void Item_modifier::modify( item &new_item ) const
+void Item_modifier::modify( item &new_item, const std::string &context ) const
 {
     if( new_item.is_null() ) {
         return;
@@ -375,8 +376,8 @@ void Item_modifier::modify( item &new_item ) const
             } else if( new_item.is_magazine() ) {
                 new_item.ammo_set( new_item.ammo_default(), ch );
             } else {
-                debugmsg( "tried to set ammo for %s which does not have ammo or a magazine",
-                          new_item.typeId().c_str() );
+                debugmsg( "in %s: tried to set ammo for %s which does not have ammo or a magazine",
+                          context, new_item.typeId().str() );
             }
         } else if( new_item.type->can_have_charges() ) {
             new_item.charges = ch;
@@ -500,8 +501,9 @@ bool Item_modifier::replace_item( const itype_id &itemid, const itype_id &replac
     return false;
 }
 
-Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance )
-    : Item_spawn_data( probability )
+Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance,
+                        const std::string &context )
+    : Item_spawn_data( probability, context )
     , type( t )
     , with_ammo( ammo_chance )
     , with_magazine( magazine_chance )
@@ -520,14 +522,16 @@ Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_c
 
 void Item_group::add_item_entry( const itype_id &itemid, int probability )
 {
+    std::string entry_context = "item " + itemid.str() + " within " + context();
     add_entry( std::make_unique<Single_item_creator>(
-                   itemid.str(), Single_item_creator::S_ITEM, probability ) );
+                   itemid.str(), Single_item_creator::S_ITEM, probability, entry_context ) );
 }
 
 void Item_group::add_group_entry( const item_group_id &groupid, int probability )
 {
     add_entry( std::make_unique<Single_item_creator>(
-                   groupid.str(), Single_item_creator::S_ITEM_GROUP, probability ) );
+                   groupid.str(), Single_item_creator::S_ITEM_GROUP, probability,
+                   "item_group id " + groupid.str() ) );
 }
 
 void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )

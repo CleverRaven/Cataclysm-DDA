@@ -342,7 +342,7 @@ class Item_factory
         bool load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const JsonObject &obj,
                            const std::string &name, const Item_group &parent );
         bool load_string( std::vector<std::string> &vec, const JsonObject &obj, const std::string &name );
-        void add_entry( Item_group &ig, const JsonObject &obj );
+        void add_entry( Item_group &ig, const JsonObject &obj, const std::string &context );
 
         void load_basic_info( const JsonObject &jo, itype &def, const std::string &src );
         void set_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );
