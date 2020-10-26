@@ -1709,7 +1709,7 @@ void advanced_inventory::display()
                     container_location = item_location::nowhere;
                     changed = true;
                 } else {
-                    if( !sitem->items.empty() ) {
+                    if( sitem != nullptr && !sitem->items.empty() ) {
                         // Find container TODO better checking the item stack
                         item *container = sitem->items.front();
                         // TODO add support for liquids
