@@ -125,7 +125,7 @@
     "description": "A yellow drum meant for the storage of hazardous substances.",
     "material": [ "steel", "lead" ],
     "symbol": "0",
-	"contains": "200 L",
+    "contains": "200 L",
     "color": "yellow"
   },
   {

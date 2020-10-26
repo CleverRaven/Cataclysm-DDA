@@ -19,7 +19,8 @@
       "hostile_msg": "The brain blaster swivels towards you.  You feel a buzzing in the air.",
       "difficulty": 6,
       "moves": 100,
-      "skills": [ "cooking", "computer" ]
+      "skill1": "cooking",
+      "skill2": "computer"
     }
   },
   {
@@ -43,7 +44,8 @@
       "//": "Milspec, but was deployed in active service implying a reliable IFF",
       "difficulty": 9,
       "moves": 250,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   },
   {
@@ -69,7 +71,8 @@
       "//": "Milspec, clearly designed with little concern for collateral damage. What did you expect of a robo-tank?",
       "difficulty": 10,
       "moves": 500,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   },
   {
@@ -95,7 +98,8 @@
       "//": "Milspec, clearly designed with little concern for collateral damage.  What did you expect of a chicken walker?",
       "difficulty": 10,
       "moves": 500,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   },
   {
@@ -120,7 +124,8 @@
       "//": "No observed open deployment, likely a prototype or secret project",
       "difficulty": 15,
       "moves": 500,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   },
   {
@@ -187,13 +192,7 @@
     "material": [ "alien_resin" ],
     "symbol": ";",
     "color": "green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "afs_mon_sentinel_lx",
-      "difficulty": 4,
-      "moves": 100,
-      "skills": [ "computer" ]
-    }
+    "use_action": { "type": "place_monster", "monster_id": "afs_mon_sentinel_lx", "difficulty": 4, "moves": 100, "skill2": "computer" }
   },
   {
     "id": "bot_bloodhound_drone",
@@ -217,7 +216,8 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   },
   {
@@ -239,7 +239,8 @@
       "monster_id": "mon_laserturret_x-ray",
       "difficulty": 6,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   },
   {
@@ -254,7 +255,8 @@
       "monster_id": "mon_utilibot_beehive",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   },
   {
@@ -276,7 +278,8 @@
       "monster_id": "mon_medibot",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
   },
@@ -328,7 +331,8 @@
       "difficulty": 1,
       "moves": 60,
       "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   },
   {
@@ -359,7 +363,8 @@
       "monster_id": "mon_milbot_308",
       "difficulty": 0,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   },
   {
@@ -374,7 +379,8 @@
       "monster_id": "mon_eyebot_heater",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   },
   {
@@ -421,7 +427,8 @@
       "monster_id": "mon_skitterbot_rat",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   },
   {
@@ -436,7 +443,8 @@
       "monster_id": "mon_skitterbot_grab",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   },
   {
@@ -451,7 +459,8 @@
       "monster_id": "mon_skitterbot_hunter",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   },
   {
@@ -483,7 +492,8 @@
       "monster_id": "mon_eyebot_heater",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   },
   {
@@ -505,7 +515,8 @@
       "monster_id": "mon_laserturret_xray",
       "difficulty": 6,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skill1": "electronics",
+      "skill2": "computer"
     }
   }
 ]
