@@ -1061,5 +1061,35 @@
     "bashing": 2,
     "to_hit": -1,
     "qualities": [ [ "COOK", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "pizza_cutter",
+    "name": { "str": "pizza cutter" },
+    "description": "A utensil used for cutting pizza.  Practically useless in combat.",
+    "bashing": 1,
+    "cutting": 2,
+    "to_hit": -2,
+    "copy-from": "base_silverware"
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "icecream_scoop",
+    "name": { "str": "icecream scoop" },
+    "description": "A utensil used for scooping icecream into bowls.  It has a spring powered lever to assist.",
+    "looks_like": "spoon",
+    "flags": [ "SHEATH_KNIFE" ],
+    "copy-from": "base_silverware"
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "cheese_grater",
+    "name": { "str": "cheese grater" },
+    "description": "A stainless steel cheese grater with a plastic grip.  It is used to shred cheese.",
+    "looks_like": "spoon",
+    "copy-from": "base_silverware"
   }
 ]

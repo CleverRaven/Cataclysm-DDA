@@ -5021,5 +5021,23 @@
     "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "splinter", 3 ] ] ]
+  },
+  {
+    "result": "icecream_scoop",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "12 s",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "spoon", 1 ] ] ]
+  },
+  {
+    "result": "cheese_grater",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "12 s",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "scrap", 1 ] ] ]
   }
 ]
