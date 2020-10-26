@@ -312,7 +312,7 @@
     "material": [ "flesh" ],
     "symbol": "D",
     "color": "brown",
-    "looks_like": "mon_deer",
+    "looks_like": "mon_deer_mutant",
     "aggression": -99,
     "morale": -15,
     "melee_skill": 2,
