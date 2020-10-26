@@ -201,5 +201,43 @@
     "valid_targets": [ "hostile", "ally", "self", "ground" ],
     "shape": "blast",
     "effect": "attack"
+  },
+  {
+    "type": "SPELL",
+    "id": "phase_skulker_teleport",
+    "name": { "str": "Phase Skulker Teleport" },
+    "description": "Teleports the monster.",
+    "effect": "teleport_random",
+    "shape": "blast",
+    "valid_targets": [ "none" ],
+    "flags": [ "SOMATIC", "SILENT", "NO_LEGS" ],
+    "min_range": 2,
+    "max_range": 12,
+    "min_aoe": 2,
+    "max_aoe": 12,
+    "base_casting_time": 100
+  },
+  {
+    "type": "SPELL",
+    "id": "phase_shrike_teleport",
+    "name": { "str": "Phase Skulker Teleport" },
+    "description": "Electric explosion followed by a teleport.",
+    "extra_effects": [ { "id": "phase_skulker_teleport", "hit_self": true } ],
+    "valid_targets": [ "hostile", "ground", "self", "ally" ],
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "RANDOM_AOE", "NO_PROJECTILE" ],
+    "base_casting_time": 100,
+    "min_damage": 5,
+    "max_damage": 10,
+    "damage_type": "electric",
+    "min_aoe": 4,
+    "max_aoe": 8,
+    "min_range": 2,
+    "max_range": 6,
+    "field_id": "fd_electricity",
+    "field_chance": 3,
+    "min_field_intensity": 1,
+    "max_field_intensity": 3
   }
 ]
