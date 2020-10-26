@@ -37,6 +37,14 @@ item Item_spawn_data::create_single( const time_point &birthday ) const
     return create_single( birthday, rec );
 }
 
+void Item_spawn_data::check_consistency( const std::string &/*context*/ ) const
+{
+    // Spawn ourselves with all possible items being definitely spawned, so as
+    // to verify e.g. that if a container item was specified it can actually
+    // contain what was wanted.
+    create( calendar::turn_zero, spawn_flags::maximized );
+}
+
 void Item_spawn_data::relic_generator::load( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "rules", rules );
@@ -197,6 +205,7 @@ void Single_item_creator::check_consistency( const std::string &context ) const
     if( modifier ) {
         modifier->check_consistency( context );
     }
+    Item_spawn_data::check_consistency( context );
 }
 
 bool Single_item_creator::remove_item( const itype_id &itemid )
@@ -622,6 +631,7 @@ void Item_group::check_consistency( const std::string &context ) const
     for( const auto &elem : items ) {
         ( elem )->check_consistency( "item in " + context );
     }
+    Item_spawn_data::check_consistency( context );
 }
 
 void Item_spawn_data::set_container_item( const itype_id &container )

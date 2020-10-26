@@ -136,7 +136,7 @@ class Item_spawn_data
          * Check item / spawn settings for consistency. Includes
          * checking for valid item types and valid settings.
          */
-        virtual void check_consistency( const std::string &context ) const = 0;
+        virtual void check_consistency( const std::string &context ) const;
         /**
          * For item blacklisted, remove the given item from this and
          * all linked groups.
