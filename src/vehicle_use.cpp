@@ -616,21 +616,16 @@ void vehicle::release_controls( bool turn_engines_off )
 
 void vehicle::use_controls( const tripoint &pos )
 {
-    bool keep_open = true;
-    int ret = 0; // keeps menu selection across query() calls
-    while( keep_open ) {
-        uilist menu;
-        std::vector<std::function<bool()>> actions;
-        build_controls_menu( pos, menu.entries, actions );
-        menu.text = _( "Vehicle controls" );
-        menu.selected = clamp( ret, 0, static_cast<int>( menu.entries.size() - 1 ) );
-        menu.query();
-        ret = menu.ret;
-        keep_open = ret >= 0 && static_cast<size_t>( ret ) < actions.size()
-                    && !actions[ret]();
-        // Don't access `this` from here on, one of the actions above is to call
-        // fold_up(), which may have deleted `this` object.
+    const optional_vpart_position veh = get_map().veh_at( pos );
+
+    if( g->remoteveh() != this &&
+        get_parts_at( pos, "CONTROLS", part_status_flag::available ).empty() &&
+        get_parts_at( pos, "REMOTE_CONTROLS", part_status_flag::available ).empty() ) {
+        add_msg( _( "No controls there" ) );
+        return;
     }
+
+    interact_with( *veh );
 }
 
 void vehicle::build_controls_menu( const tripoint &pos,
@@ -657,13 +652,6 @@ void vehicle::build_controls_menu( const tripoint &pos,
             }, false );
         }
         has_electronic_controls = !get_parts_at( pos, "CTRL_ELECTRONIC", part_status_flag::any ).empty();
-    }
-
-    if( get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() && !has_electronic_controls ) {
-        add_menu_item( options, actions, true, _( "No controls there" ), keybind( "" ),
-        []() {
-            return true;
-        } );
     }
 
     // exit early if you can't control the vehicle
@@ -694,6 +682,12 @@ void vehicle::build_controls_menu( const tripoint &pos,
         }
     }
 
+    add_menu_item( options, actions, true, _( "Pull handbrake" ), keybind( "PULL_HANDBRAKE" ),
+    []() {
+        handbrake();
+        return true;
+    }, false ); // false - no theft check
+
     if( has_part( "HORN" ) ) {
         add_menu_item( options, actions, true, _( "Honk horn" ), keybind( "SOUND_HORN" ),
         [&]() {
@@ -720,14 +714,6 @@ void vehicle::build_controls_menu( const tripoint &pos,
         add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
         refresh();
         return true;
-    } );
-
-    add_menu_item( options, actions, true,
-                   tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ),
-                   keybind( "TOGGLE_TRACKING" ),
-    [&]() {
-        toggle_tracking();
-        return false;
     } );
 
     if( ( is_foldable() || tags.count( "convertible" ) ) && !remote ) {
@@ -2127,12 +2113,6 @@ void vehicle::build_interact_menu( const tripoint &pos,
 
     if( vp_controls ) {
         build_controls_menu( pos, options, actions );
-
-        add_menu_item( options, actions, true, _( "Pull handbrake" ), keybind( "PULL_HANDBRAKE" ),
-        []() {
-            handbrake();
-            return true;
-        }, false ); // false - no theft check
     }
 
     build_veh_tools_menu( vp, options, actions );
