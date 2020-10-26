@@ -121,7 +121,7 @@ class unpack_actor : public iuse_actor
 {
     public:
         /** The itemgroup from which we unpack items from */
-        std::string unpack_group;
+        item_group_id unpack_group;
 
         /** Whether or not the items from the group should spawn fitting */
         bool items_fit = false;
@@ -905,7 +905,7 @@ class heal_actor : public iuse_actor
         itype_id used_up_item_id;
         int used_up_item_quantity = 1;
         int used_up_item_charges = 1;
-        std::set<std::string> used_up_item_flags;
+        std::set<flag_str_id> used_up_item_flags;
 
         /** How much hp would `healer` heal using this actor on `healed` body part. */
         int get_heal_value( const Character &healer, bodypart_id healed ) const;

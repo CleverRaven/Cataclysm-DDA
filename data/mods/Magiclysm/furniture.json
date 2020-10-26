@@ -208,6 +208,27 @@
   },
   {
     "type": "furniture",
+    "id": "f_attunement_altar",
+    "name": "attunement altar",
+    "move_cost_mod": 10,
+    "symbol": "H",
+    "color": "light_gray",
+    "coverage": 40,
+    "looks_like": "t_pedestal_temple",
+    "required_str": 30,
+    "flags": [ "BASHABLE" ],
+    "examine_action": "attunement_altar",
+    "description": "An ancient stone plinth covered in symbols that appear to be combinations and variations of the eight magic classes.  Eight depressions are on the top with the original symbols of the classes, each look as though they can hold an item.",
+    "bash": {
+      "str_min": 30,
+      "str_max": 160,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_demon_forge",
     "name": "demon forge",
     "description": "This is a forge made of the chitin of a huge, red spider that has a penchant for flames.  Custom made to withstand the heat from alumentum, this forge can resmelt the magical metals into their workable, ingot form.",

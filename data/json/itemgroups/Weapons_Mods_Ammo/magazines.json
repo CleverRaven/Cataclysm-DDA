@@ -35,7 +35,13 @@
       [ "stanag100", 2 ],
       [ "hk417mag_20rd", 30 ],
       [ "hk417mag_10rd", 20 ],
-      [ "p320mag_17rd_9x19mm", 60 ]
+      [ "p320mag_17rd_9x19mm", 60 ],
+      [ "p226mag_15rd_9x19mm", 5 ],
+      [ "sp2022mag_15rd_9mm", 5 ],
+      [ "btmp9mag_9x19mm_15", 1 ],
+      [ "btmp9mag_9x19mm_20", 1 ],
+      [ "btmp9mag_9x19mm_25", 1 ],
+      [ "btmp9mag_9x19mm_30", 1 ]
     ]
   },
   {
@@ -223,7 +229,11 @@
       [ "mp5bigmag", 2 ],
       [ "mp5_10_mag", 1 ],
       [ "thompson_bigmag", 5 ],
-      [ "thompson_drum", 98 ]
+      [ "thompson_drum", 98 ],
+      [ "btmp9mag_9x19mm_15", 1 ],
+      [ "btmp9mag_9x19mm_20", 1 ],
+      [ "btmp9mag_9x19mm_25", 1 ],
+      [ "btmp9mag_9x19mm_30", 1 ]
     ]
   },
   {
@@ -373,9 +383,15 @@
     "items": [
       [ "762x39_clip", 10 ],
       [ "762R_clip", 10 ],
+      [ "clip9mm_10rd", 5 ],
       [ "af2011a1mag", 1 ],
       [ "ak74mag", 10 ],
       [ "makarovmag", 10 ],
+      [ "mausermag_10rd", 3 ],
+      [ "mausermag_20rd", 2 ],
+      [ "mp40mag_32rd", 5 ],
+      [ "p08mag_32rd", 1 ],
+      [ "p08mag_8rd", 10 ],
       [ "ppshmag", 10 ],
       [ "ppshdrum", 10 ],
       [ "rpk74mag", 10 ],

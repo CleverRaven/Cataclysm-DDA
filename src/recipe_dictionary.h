@@ -148,10 +148,13 @@ class recipe_subset
         std::vector<const recipe *> hidden() const;
 
         /** Find recipes matching query (left anchored partial matches are supported) */
-        std::vector<const recipe *> search( const std::string &txt,
-                                            search_type key = search_type::name ) const;
+        std::vector<const recipe *> search(
+            const std::string &txt, search_type key = search_type::name,
+            const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Find recipes matching query and return a new recipe_subset */
-        recipe_subset reduce( const std::string &txt, search_type key = search_type::name ) const;
+        recipe_subset reduce(
+            const std::string &txt, search_type key = search_type::name,
+            const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Set intersection between recipe_subsets */
         recipe_subset intersection( const recipe_subset &subset ) const;
         /** Set difference between recipe_subsets */

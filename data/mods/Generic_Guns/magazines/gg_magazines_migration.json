@@ -8,9 +8,12 @@
     "id": [
       "20x66_10_mag",
       "20x66_20_mag",
+      "af2011a1mag",
       "ppkmag",
       "sigp230mag",
+      "p226mag_12rd_357sig",
       "p226mag_15rd_357sig",
+      "p320mag_13rd_357sig",
       "p320mag_14rd_357sig",
       "kp3atmag",
       "fn1910mag",
@@ -37,7 +40,9 @@
       "glock17_17",
       "usp9mag",
       "kpf9mag",
+      "p320mag_10rd_9x19mm",
       "p320mag_17rd_9x19mm",
+      "p320mag_21rd_9x19mm",
       "bhp9mag_13rd",
       "bhp9mag_15rd",
       "p38mag",
@@ -49,6 +54,10 @@
       "hptc9mag_15rd",
       "cz75mag_12rd",
       "cz75mag_20rd",
+      "p08mag_8rd",
+      "clip9mm_10rd",
+      "mausermag_10rd",
+      "mausermag_20rd",
       "ccpmag",
       "px4mag",
       "90two40mag",
@@ -58,7 +67,19 @@
       "m1911_10mag",
       "p220_10_mag",
       "xd_10_mag",
-      "witness_mag_10"
+      "witness_mag_10",
+      "btmp9mag_9x19mm_15",
+      "btmp9mag_9x19mm_20",
+      "btmp9mag_9x19mm_25",
+      "btmp9mag_9x19mm_30",
+      "p226mag_10rd_9x19mm",
+      "p228mag_13rd_9x19mm",
+      "p226mag_15rd_9x19mm",
+      "p226mag_10rd_9mm",
+      "p226mag_15rd_9mm",
+      "sp2022mag_10rd_9mm",
+      "sp2022mag_12rd_9mm",
+      "sp2022mag_15rd_9mm"
     ],
     "type": "MIGRATION",
     "replace": "pistol_mag"
@@ -100,6 +121,8 @@
       "m9bigmag",
       "mp5bigmag",
       "mp5mag",
+      "p08mag_32rd",
+      "mp40mag_32rd",
       "stenmag",
       "survivor9mm_mag",
       "tec9mag",
@@ -117,9 +140,11 @@
       "22_speedloader8",
       "38_speedloader",
       "38_speedloader5",
+      "38_speedloader6",
       "40_speedloader6",
       "44_speedloader6",
       "454_speedloader5",
+      "454_speedloader6",
       "460_speedloader6",
       "500_speedloader5",
       "8x40_speedloader5",
@@ -225,6 +250,21 @@
     ],
     "type": "MIGRATION",
     "replace": "rifle_sniper_mag"
+  },
+  {
+    "id": [ "exodiiBRmag" ],
+    "type": "MIGRATION",
+    "replace": "rifle_mag_foreign"
+  },
+  {
+    "id": [ "exodiiminimag" ],
+    "type": "MIGRATION",
+    "replace": "rifle_sniper_mag_foreign"
+  },
+  {
+    "id": [ "hk_g80mag" ],
+    "type": "MIGRATION",
+    "replace": "rifle_rail_mag"
   },
   {
     "id": [ "saiga410mag_10rd", "saiga410mag_30rd", "saiga10mag", "saiga30mag", "USAS10mag", "USAS20mag", "shotbelt_20" ],

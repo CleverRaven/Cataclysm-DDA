@@ -881,13 +881,14 @@
     ]
   },
   {
-    "id": "triffid_large",
+    "id": "triffid_paralytic",
     "type": "harvest",
     "entries": [
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.4 },
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 },
-      { "drop": "stick", "type": "bone", "mass_ratio": 0.05 }
+      { "drop": "stick", "type": "bone", "mass_ratio": 0.05 },
+      { "drop": "venom_paralytic", "type": "offal", "mass_ratio": 0.0075 }
     ]
   },
   {
@@ -897,7 +898,8 @@
       { "drop": "log", "type": "bone", "mass_ratio": 0.35 },
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.15 },
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
-      { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 }
+      { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 },
+      { "drop": "venom_paralytic", "type": "offal", "mass_ratio": 0.02 }
     ]
   }
 ]

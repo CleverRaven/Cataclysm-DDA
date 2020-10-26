@@ -27,6 +27,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -281,11 +282,6 @@ void monster::setpos( const tripoint &p )
     if( wandering ) {
         unset_dest();
     }
-}
-
-const tripoint &monster::pos() const
-{
-    return position;
 }
 
 void monster::poly( const mtype_id &id )
@@ -690,6 +686,14 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
                    size_names.at( get_size() ) );
     }
 
+    if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
+        const ascii_art_id art = type->get_picture_id();
+        if( art.is_valid() ) {
+            for( const std::string &line : art->picture ) {
+                fold_and_print( w, point( column, ++vStart ), max_width, c_white, line );
+            }
+        }
+    }
     return ++vStart;
 }
 
@@ -1279,7 +1283,8 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 
     if( effect == effect_bleed ) {
         return !has_flag( MF_WARM ) ||
-               !made_of( material_id( "flesh" ) );
+               !made_of( material_id( "flesh" ) ) ||
+               ( get_option<bool>( "ZOMBIES_DONT_BLEED" ) && in_species( species_ZOMBIE ) );
     }
 
     if( effect == effect_paralyzepoison ||
@@ -1402,7 +1407,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                 if( target_dodging ) {
                     add_msg( _( "You dodge %s." ), disp_name() );
                 } else {
-                    add_msg( _( "The %s misses you." ), disp_name() );
+                    add_msg( _( "The %s misses you." ), name() );
                 }
             } else if( target.is_npc() && target_dodging ) {
                 add_msg( _( "%1$s dodges %2$s attack." ),
@@ -2355,7 +2360,7 @@ void monster::drop_items_on_death()
     if( is_hallucination() ) {
         return;
     }
-    if( type->death_drops.empty() ) {
+    if( type->death_drops.is_empty() ) {
         return;
     }
 
@@ -2368,7 +2373,7 @@ void monster::drop_items_on_death()
         std::vector<item> remaining;
         for( const item &it : items ) {
             // Mission items are not affected by item spawn rate
-            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( "MISSION_ITEM" ) ) {
+            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( STATIC( flag_str_id( "MISSION_ITEM" ) ) ) ) {
                 remaining.push_back( it );
             }
         }
@@ -2385,7 +2390,7 @@ void monster::drop_items_on_death()
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
-                it->set_flag( "FILTHY" );
+                it->set_flag( STATIC( flag_str_id( "FILTHY" ) ) );
             }
         }
     }

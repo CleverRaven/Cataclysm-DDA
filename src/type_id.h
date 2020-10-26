@@ -74,6 +74,9 @@ using harvest_id = string_id<harvest_list>;
 class item_category;
 using item_category_id = string_id<item_category>;
 
+class Item_spawn_data;
+using item_group_id = string_id<Item_spawn_data>;
+
 struct itype;
 using itype_id = string_id<itype>;
 

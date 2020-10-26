@@ -10,7 +10,7 @@
     "durability": 75,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 2000,
-    "categories": [ "Internal" ],
+    "categories": [ "movement" ],
     "damage_modifier": 80,
     "folded_volume": "2 L",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
@@ -37,7 +37,7 @@
     "durability": 100,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 10000,
-    "categories": [ "Internal" ],
+    "categories": [ "movement" ],
     "damage_modifier": 80,
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 40 ] } ],
     "requirements": {
@@ -63,7 +63,7 @@
     "durability": 120,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 20000,
-    "categories": [ "Internal" ],
+    "categories": [ "movement" ],
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 1, 2 ] },
@@ -93,7 +93,7 @@
     "durability": 150,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 60000,
-    "categories": [ "Internal" ],
+    "categories": [ "movement" ],
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 2 ] },
@@ -123,7 +123,7 @@
     "durability": 150,
     "description": "A 60L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
     "size": 600500,
-    "categories": [ "Util", "Internal" ],
+    "categories": [ "cargo" ],
     "damage_modifier": 80,
     "epower": -40,
     "breaks_into": [
@@ -154,7 +154,7 @@
     "durability": 160,
     "description": "A storage space for holding liquids, mounted outside the vehicle's walls and armor.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 100000,
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "damage_modifier": 80,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
@@ -201,7 +201,7 @@
     "item": "wooden_barrel",
     "location": "center",
     "symbol": "O",
-    "categories": [ "Other" ],
+    "categories": [ "movement" ],
     "color": "brown",
     "broken_color": "brown",
     "durability": 120,
@@ -228,7 +228,7 @@
     "item": "30gal_drum",
     "location": "fuel_source",
     "symbol": "0",
-    "categories": [ "Internal" ],
+    "categories": [ "movement" ],
     "color": "dark_gray",
     "broken_color": "red",
     "durability": 160,
@@ -260,7 +260,6 @@
       { "item": "scrap", "count": [ 2, 10 ] }
     ],
     "flags": [ "FLUIDTANK", "OPAQUE", "OBSTACLE" ],
-    "extend": { "categories": [ "Hull", "Internal" ] },
     "damage_reduction": { "all": 30, "stab": 12 }
   },
   {
@@ -270,7 +269,7 @@
     "item": "fuel_bunker",
     "location": "fuel_source",
     "symbol": "O",
-    "categories": [ "Internal" ],
+    "categories": [ "movement" ],
     "color": "brown",
     "broken_color": "brown",
     "looks_like": "tank",

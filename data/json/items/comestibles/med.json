@@ -5,6 +5,11 @@
     "category": "drugs",
     "name": { "str": "IFAK" },
     "description": "An IFAK, or individual first aid kit, is a specialized set of wound dressings and accessories, and being of military origin focuses on combat trauma and preventing blood loss.  Disassemble to get its content.",
+    "id": "1st_aid",
+    "type": "GENERIC",
+    "category": "drugs",
+    "name": { "str": "first aid kit" },
+    "description": "A typical universal first aid kit, one you'd see in a car or in a household.  It contains a variety of common medical items stored in case of accidents and injuries.  Disassemble to get its content.",
     "weight": "1750 g",
     "volume": "1250 ml",
     "price": 3000,
@@ -15,6 +20,10 @@
     "symbol": "!",
     "color": "red",
     "use_action": [ "DISASSEMBLE" ],
+    "material": "plastic",
+    "symbol": "!",
+    "color": "red",
+    "use_action": "DISASSEMBLE",
     "flags": [ "NO_REPAIR" ]
   },
   {
@@ -1946,5 +1955,26 @@
     "healthy": -10,
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ],
     "use_action": { "type": "STRONG_ANTIBIOTIC" }
+  },
+  {
+    "id": "cocaine_topical",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "cocaine topical cream" },
+    "description": "A medical cream that provides both vascular restriction and anesthetic properties.",
+    "weight": "5 g",
+    "volume": "250 ml",
+    "price": 550,
+    "price_postapoc": 3000,
+    "charges": 6,
+    "stack_size": 60,
+    "symbol": "u",
+    "color": "light_gray",
+    "material": [ "powder" ],
+    "container": "bottle_plastic_small",
+    "addiction_potential": 5,
+    "addiction_type": "cocaine",
+    "flags": [ "NO_INGEST" ],
+    "use_action": { "type": "heal", "bleed": 20, "move_cost": 100, "effects": [ { "id": "pkill1", "duration": 720 } ] }
   }
 ]

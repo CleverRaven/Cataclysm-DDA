@@ -316,36 +316,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_firestation1_living_quarters",
-    "object": {
-      "mapgensize": [ 13, 13 ],
-      "rows": [
-        "    |        ",
-        "    |        ",
-        "    |        ",
-        "    d        ",
-        "    |        ",
-        "   ||||| ||||",
-        "   |   | |   ",
-        "   |   d d   ",
-        "   |   | |   ",
-        "   ||||| ||||",
-        "   |   | |   ",
-        "   |   d d   ",
-        "   |   | |   "
-      ],
-      "palettes": [ "fbmc_firestation1_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_firestation1_living_area",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_living_quarters" ], "x": 10, "y": 9 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_living_quarters_SW",
     "object": {
       "mapgensize": [ 3, 3 ],

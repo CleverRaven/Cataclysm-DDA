@@ -10,7 +10,7 @@
     "replace": "black_powder_revolver"
   },
   {
-    "id": [ "rifle_flintlock", "carbine_flintlock", "carbine_flintlock_double" ],
+    "id": [ "rifle_flintlock", "carbine_flintlock", "carbine_flintlock_double", "longrifle_flintlock" ],
     "type": "MIGRATION",
     "replace": "black_powder_rifle"
   },
@@ -94,6 +94,9 @@
       "glock_19",
       "m9",
       "usp_9mm",
+      "p08",
+      "mauser_c96",
+      "mauser_m714",
       "m17",
       "hi_power_9mm",
       "p226_357sig",
@@ -125,13 +128,17 @@
       "m1911_10",
       "witness_10",
       "p220_10",
-      "xd_10"
+      "xd_10",
+      "m11",
+      "m18",
+      "p226_9mm",
+      "sp2022"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
   },
   {
-    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10" ],
+    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10", "mp40semi" ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
@@ -157,7 +164,22 @@
     "replace": "pistol_revolver"
   },
   {
-    "id": [ "ppsh", "hk_mp5", "hk_mp5sd", "uzi", "TDI", "hk_ump45", "fn_p90", "needlegun", "rm2000_smg", "sten" ],
+    "id": [
+      "ppsh",
+      "hk_mp5",
+      "hk_mp5sd",
+      "uzi",
+      "TDI",
+      "hk_ump45",
+      "fn_p90",
+      "needlegun",
+      "rm2000_smg",
+      "sten",
+      "bt_apc9k",
+      "colt_ro635",
+      "mp40",
+      "mp18"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_smg"
   },
@@ -184,9 +206,14 @@
       "hk417_13",
       "acr",
       "m4a1",
+      "m16a3",
       "m16a4",
+      "m38dmr",
+      "m4_cqbr",
+      "m231pfw",
       "scar_l",
       "scar_h",
+      "sig_mcx_rattler_sbr",
       "rm51_assault_rifle",
       "an94",
       "rm88_battle_rifle"
@@ -269,6 +296,21 @@
     "replace": "rifle_sporter"
   },
   {
+    "id": [ "pamd68", "pamd71z" ],
+    "type": "MIGRATION",
+    "replace": "rifle_assault_foreign"
+  },
+  {
+    "id": [ "combination_gun", "pipe_combination_gun" ],
+    "type": "MIGRATION",
+    "replace": "rifle_shotgun_combination"
+  },
+  {
+    "id": [ "hk_g80" ],
+    "type": "MIGRATION",
+    "replace": "rifle_rail"
+  },
+  {
     "id": [ "AT4", "LAW_Packed", "LAW" ],
     "type": "MIGRATION",
     "replace": "rocket_disposable"
@@ -279,7 +321,7 @@
     "replace": "rocket_recoilless"
   },
   {
-    "id": [ "shotgun_d", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
+    "id": [ "lever_shotgun", "shotgun_d", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
     "type": "MIGRATION",
     "replace": "shot_double"
   },

@@ -388,7 +388,7 @@ Trap example:
     "difficulty": 99,
     "action": "map_regen",
     "map_regen": "magic_door_appear",
-    "benign": true
+    "benign": false
   }
   ```
 

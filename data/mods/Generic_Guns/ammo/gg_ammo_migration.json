@@ -81,6 +81,7 @@
       "bp_38_fmj",
       "bp_380_FMJ",
       "bp_40ball",
+      "bp_40fmj",
       "bp_44ball",
       "bp_45_acp",
       "bp_46mm",
@@ -175,11 +176,17 @@
       "545",
       "762_54R",
       "762_m87",
+      "8mm_bootleg",
       "8mm_civilian",
       "8mm_jhp"
     ],
     "type": "MIGRATION",
     "replace": "rifle_ball"
+  },
+  {
+    "id": [ "123ln" ],
+    "type": "MIGRATION",
+    "replace": "rifle_ball_foreign"
   },
   {
     "id": [
@@ -262,6 +269,11 @@
     "id": [ "reloaded_50ss", "reloaded_700nx" ],
     "type": "MIGRATION",
     "replace": "reloaded_rifle_huge_AP"
+  },
+  {
+    "id": [ "12mm" ],
+    "type": "MIGRATION",
+    "replace": "rifle_rail_ammo"
   },
   {
     "id": [ "36navy", "44army", "flintlock_ammo" ],
@@ -348,6 +360,11 @@
     "replace": "shot_pyro"
   },
   {
+    "id": [ "shot_he" ],
+    "type": "MIGRATION",
+    "replace": "shot_explosive"
+  },
+  {
     "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette", "shot_scrap" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_buck"
@@ -373,7 +390,7 @@
     "replace": "reloaded_shot_pyro"
   },
   {
-    "id": [ "reloaded_shot_flechette" ],
+    "id": [ "shot_flechette", "reloaded_shot_flechette" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_dart"
   },

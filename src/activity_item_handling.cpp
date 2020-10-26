@@ -24,6 +24,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "fire.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -127,15 +128,11 @@ static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
 static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
-static const std::string flag_DIG_TOOL( "DIG_TOOL" );
 static const std::string flag_FISHABLE( "FISHABLE" );
-static const std::string flag_FISH_GOOD( "FISH_GOOD" );
-static const std::string flag_FISH_POOR( "FISH_POOR" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLANTABLE( "PLANTABLE" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
-static const std::string flag_POWERED( "POWERED" );
 static const std::string flag_TREE( "TREE" );
 
 //Generic activity: maximum search distance for zones, constructions, etc.
@@ -506,7 +503,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     for( const act_item &ait : items ) {
         item *filthy_item = const_cast<item *>( &*ait.loc );
-        filthy_item->unset_flag( "FILTHY" );
+        filthy_item->unset_flag( flag_FILTHY );
         p->on_worn_item_washed( *filthy_item );
     }
 
@@ -963,20 +960,19 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     // use nearby welding rig without needing to drag it or position yourself on the right side of the vehicle.
     if( !found_welder ) {
         for( const tripoint &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
-            const optional_vpart_position vp = here.veh_at( elem );
+            const cata::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( itype_welder );
+
             if( vp ) {
-                vehicle &veh = vp->vehicle();
-                const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
-                if( weldpart ) {
-                    item welder( itype_welder, 0 );
-                    welder.charges = veh.fuel_left( itype_battery, true );
-                    welder.set_flag( "PSEUDO" );
-                    temp_inv.add_item( welder );
-                    item soldering_iron( itype_soldering_iron, 0 );
-                    soldering_iron.charges = veh.fuel_left( itype_battery, true );
-                    soldering_iron.set_flag( "PSEUDO" );
-                    temp_inv.add_item( soldering_iron );
-                }
+                const int veh_battery = vp->vehicle().fuel_left( itype_battery, true );
+
+                item welder( itype_welder, 0 );
+                welder.charges = veh_battery;
+                welder.set_flag( flag_PSEUDO );
+                temp_inv.add_item( welder );
+                item soldering_iron( itype_soldering_iron, 0 );
+                soldering_iron.charges = veh_battery;
+                soldering_iron.set_flag( flag_PSEUDO );
+                temp_inv.add_item( soldering_iron );
             }
         }
     }
@@ -2142,8 +2138,8 @@ static bool mine_activity( player &p, const tripoint &src_loc )
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
     }
-    p.assign_activity( powered ? ACT_JACKHAMMER : ACT_PICKAXE, moves, -1,
-                       p.get_item_position( chosen_item ) );
+    p.assign_activity( powered ? ACT_JACKHAMMER : ACT_PICKAXE, moves );
+    p.activity.targets.push_back( item_location( p, chosen_item ) );
     p.activity.placement = here.getabs( src_loc );
     return true;
 
@@ -2874,7 +2870,7 @@ int get_auto_consume_moves( player &p, const bool food )
                 // not good eatings.
                 continue;
             }
-            if( !p.can_consume( it ) ) {
+            if( !p.can_consume( comest ) ) {
                 continue;
             }
             if( food && p.compute_effective_nutrients( comest ).kcal < 50 ) {

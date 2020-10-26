@@ -29,6 +29,7 @@
 #include "enums.h"
 #include "faction.h"
 #include "fault.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -344,7 +345,7 @@ struct veh_interact::install_info_t {
     int pos = 0;
     size_t tab = 0;
     std::vector<const vpart_info *> tab_vparts;
-    std::vector<std::string> tab_list;
+    std::vector<vpart_category> tab_list;
 };
 
 struct veh_interact::remove_info_t {
@@ -377,8 +378,27 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
             if( !msg.has_value() ) {
                 veh->print_vparts_descs( w_msg, getmaxy( w_msg ), getmaxx( w_msg ), cpart, start_at, start_limit );
             } else {
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red, msg.value() );
+                const int height = catacurses::getmaxy( w_msg );
+
+                // the following contraption is splitting buffer into separate lines for scrolling
+                // since earlier code relies on msg already being folded
+                std::vector<std::string> buffer;
+                std::istringstream msg_stream( msg.value() );
+                while( !msg_stream.eof() ) {
+                    std::string line;
+                    getline( msg_stream, line );
+                    buffer.push_back( line );
+                }
+
+                const int pages = static_cast<int>( buffer.size() / ( height - 2 ) );
+                w_msg_scroll_offset = clamp( w_msg_scroll_offset, 0, pages );
+                for( int line = 0; line < height; ++line ) {
+                    const int idx = w_msg_scroll_offset * ( height - 1 ) + line;
+                    if( static_cast<size_t>( idx ) >= buffer.size() ) {
+                        break;
+                    }
+                    fold_and_print( w_msg, point( 1, line ), getmaxx( w_msg ) - 2, c_unset, buffer[idx] );
+                }
             }
             wnoutrefresh( w_msg );
 
@@ -699,7 +719,7 @@ bool veh_interact::can_self_jack()
     return false;
 }
 
-bool veh_interact::can_install_part()
+bool veh_interact::update_part_requirements()
 {
     if( sel_vpart_info == nullptr ) {
         return false;
@@ -904,27 +924,26 @@ void veh_interact::do_install()
                 install_info ) );
     install_info = std::make_unique<install_info_t>();
 
-    std::vector<std::string> &tab_list = install_info->tab_list = {};
-    tab_list.push_back( pgettext( "Vehicle Parts|", "All" ) );
-    for( const std::string &cat : vpart_info::categories_all() ) {
-        tab_list.push_back( pgettext( "Vehicle Parts|", cat.c_str() ) );
-    }
-    tab_list.push_back( pgettext( "Vehicle Parts|", "Filter" ) );
-
-    std::vector <std::function<bool( const vpart_info * )>> tab_filters;
-    tab_filters.push_back( [&]( const vpart_info * ) {
-        return true;
-    } );
-    for( const std::string &cat : vpart_info::categories_all() ) {
-        tab_filters.push_back( [&]( const vpart_info * p ) {
-            return p->has_category( cat );
-        } );
-    }
-
     std::string filter; // The user specified filter
-    tab_filters.push_back( [&]( const vpart_info * p ) {
-        return !filter.empty() && lcmatch( p->name(), filter );
-    } );
+    std::vector<vpart_category> &tab_list = install_info->tab_list = {};
+    std::vector <std::function<bool( const vpart_info * )>> tab_filters;
+
+    for( const vpart_category &cat : vpart_category::all() ) {
+        tab_list.push_back( cat );
+        if( cat.get_id() == "_all" ) {
+            tab_filters.push_back( []( const vpart_info * ) {
+                return true;
+            } );
+        } else if( cat.get_id() == "_filter" ) {
+            tab_filters.push_back( [&filter]( const vpart_info * p ) {
+                return lcmatch( p->name(), filter );
+            } );
+        } else {
+            tab_filters.push_back( [ &, cat = cat.get_id()]( const vpart_info * p ) {
+                return p->has_category( cat );
+            } );
+        }
+    }
 
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
@@ -934,9 +953,6 @@ void veh_interact::do_install()
     std::vector<const vpart_info *> &tab_vparts = install_info->tab_vparts;
     auto refresh_parts_list = [&]( std::vector<const vpart_info *> parts ) {
         std::copy_if( parts.begin(), parts.end(), std::back_inserter( tab_vparts ), tab_filters[tab] );
-        std::sort( tab_vparts.begin(), tab_vparts.end(), []( const vpart_info * a, const vpart_info * b ) {
-            return localized_compare( a->name(), b->name() );
-        } );
     };
     refresh_parts_list( can_mount );
 
@@ -944,6 +960,7 @@ void veh_interact::do_install()
         // filtered list can be empty
         sel_vpart_info = tab_vparts.empty() ? nullptr : tab_vparts[pos];
 
+        bool can_install = update_part_requirements();
         ui_manager::redraw();
 
         const std::string action = main_context.handle_input();
@@ -962,7 +979,7 @@ void veh_interact::do_install()
             tab = 0;
         }
         if( action == "INSTALL" || action == "CONFIRM" ) {
-            if( can_install_part() ) {
+            if( can_install ) {
                 switch( reason ) {
                     case task_reason::LOW_MORALE:
                         msg = _( "Your morale is too low to construct…" );
@@ -1079,6 +1096,10 @@ void veh_interact::do_install()
             }
 
             refresh_parts_list( can_mount );
+        } else if( action == "DESC_LIST_DOWN" ) {
+            w_msg_scroll_offset++;
+        } else if( action == "DESC_LIST_UP" ) {
+            w_msg_scroll_offset--;
         } else {
             move_in_list( pos, action, tab_vparts.size(), 2 );
         }
@@ -1419,7 +1440,7 @@ void veh_interact::calc_overview()
                 // but item::display_name tags use a space so this prevents
                 // needing *second* translation for the same thing with a
                 // space in front of it
-                if( it.has_own_flag( "FROZEN" ) ) {
+                if( it.has_own_flag( flag_FROZEN ) ) {
                     specials += _( " (frozen)" );
                 } else if( it.rotten() ) {
                     specials += _( " (rotten)" );
@@ -2061,7 +2082,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
 
     can_mount.clear();
     if( !obstruct ) {
-        int divider_index = 0;
+        std::vector<const vpart_info *> req_missing;
         for( const auto &e : vpart_info::all() ) {
             const vpart_info &vp = e.second;
             if( has_critter && vp.has_flag( VPFLAG_OBSTACLE ) ) {
@@ -2073,12 +2094,18 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
                     continue;
                 }
                 if( can_potentially_install( vp ) ) {
-                    can_mount.insert( can_mount.begin() + divider_index++, &vp );
-                } else {
                     can_mount.push_back( &vp );
+                } else {
+                    req_missing.push_back( &vp );
                 }
             }
         }
+        auto vpart_localized_sort = []( const vpart_info * a, const vpart_info * b ) {
+            return localized_compare( a->name(), b->name() );
+        };
+        std::sort( can_mount.begin(), can_mount.end(), vpart_localized_sort );
+        std::sort( req_missing.begin(), req_missing.end(), vpart_localized_sort );
+        can_mount.insert( can_mount.end(), req_missing.cbegin(), req_missing.cend() );
     }
 
     need_repair.clear();
@@ -2605,7 +2632,7 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
         int tab_x = 0;
         for( size_t i = 0; i < tab_list.size(); i++ ) {
             bool active = tab == i; // current tab is active
-            std::string tab_name = active ? tab_list[i] : utf8_truncate( tab_list[i], 1 );
+            std::string tab_name = active ? tab_list[i].name() : tab_list[i].short_name();
             tab_x += active; // add a space before selected tab
             draw_subtab( w_list, tab_x, tab_name, active, false );
             // one space padding and add a space after selected tab
@@ -3003,15 +3030,7 @@ void veh_interact::complete_vehicle( player &p )
                 // Restore previous view offsets.
                 p.view_offset = old_view_offset;
 
-                int dir = static_cast<int>( atan2( static_cast<float>( delta.y ),
-                                                   static_cast<float>( delta.x ) ) * 180.0 / M_PI );
-                dir -= veh->face.dir();
-                while( dir < 0 ) {
-                    dir += 360;
-                }
-                while( dir > 360 ) {
-                    dir -= 360;
-                }
+                units::angle dir = normalize( atan2( delta ) - veh->face.dir() );
 
                 veh->part( partnum ).direction = dir;
             }

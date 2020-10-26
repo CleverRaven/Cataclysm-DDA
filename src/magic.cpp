@@ -1654,6 +1654,23 @@ int known_magic::get_spellname_max_width()
     return width;
 }
 
+std::vector<spell> Character::spells_known_of_class( const trait_id &spell_class ) const
+{
+    std::vector<spell> ret;
+
+    if( !has_trait( spell_class ) ) {
+        return ret;
+    }
+
+    for( const spell_id &sp : magic->spells() ) {
+        if( sp->spell_class == spell_class ) {
+            ret.push_back( magic->get_spell( sp ) );
+        }
+    }
+
+    return ret;
+}
+
 class spellcasting_callback : public uilist_callback
 {
     private:
@@ -1763,7 +1780,7 @@ static std::string enumerate_spell_data( const spell &sp )
     if( !sp.has_flag( spell_flag::NO_LEGS ) ) {
         spell_data.emplace_back( _( "requires mobility" ) );
     }
-    if( sp.effect() == "target_attack" && sp.range() > 1 ) {
+    if( sp.effect() == "attack" && sp.range() > 1 && sp.has_flag( spell_flag::NO_PROJECTILE ) ) {
         spell_data.emplace_back( _( "can be cast through walls" ) );
     }
     return enumerate_as_string( spell_data );
@@ -1865,8 +1882,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     std::string range_string;
     std::string aoe_string;
     // if it's any type of attack spell, the stats are normal.
-    if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
-        fx == "line_attack" ) {
+    if( fx == "attack" ) {
         if( damage > 0 ) {
             std::string dot_string;
             if( sp.damage_dot() != 0 ) {
@@ -1883,10 +1899,10 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         if( sp.aoe() > 0 ) {
             std::string aoe_string_temp = _( "Spell Radius" );
             std::string degree_string;
-            if( fx == "cone_attack" ) {
+            if( sp.shape() == spell_shape::cone ) {
                 aoe_string_temp = _( "Cone Arc" );
                 degree_string = _( "degrees" );
-            } else if( fx == "line_attack" ) {
+            } else if( sp.shape() == spell_shape::line ) {
                 aoe_string_temp = _( "Line Width" );
             }
             aoe_string = string_format( "%s: %d %s", aoe_string_temp, sp.aoe(), degree_string );
@@ -2140,8 +2156,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     std::string damage_string;
     std::string aoe_string;
     bool has_damage_type = false;
-    if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
-        fx == "line_attack" ) {
+    if( fx == "attack" ) {
         damage_string = _( "Damage" );
         aoe_string = _( "AoE" );
         has_damage_type = sp.min_damage > 0 && sp.max_damage > 0;
