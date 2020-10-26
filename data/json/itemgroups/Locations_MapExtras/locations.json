@@ -2174,8 +2174,6 @@
       [ "adhesive_bandages", 50 ],
       [ "cotton_ball", 50 ],
       { "group": "used_1st_aid", "prob": 35 },
-      [ "ifak", 35 ],
-      [ "1st_aid", 35 ],
       { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 35 },
       [ "survival_kit", 35 ],
       [ "premium_survival_kit", 8 ],
