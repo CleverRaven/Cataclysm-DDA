@@ -52,6 +52,7 @@
     "autolearn": true,
     "time": "120 m",
     "using": [ [ "sewing_standard", 100 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [
       [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
@@ -69,6 +70,7 @@
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_carpentry", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
       [ [ "2x4", 4 ] ],
@@ -209,6 +211,7 @@
       [ "textbook_anarch", 3 ]
     ],
     "using": [ [ "soldering_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -312,6 +315,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "soldering_standard", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "components": [ [ [ "autoclave", 1 ] ], [ [ "cable", 2 ] ], [ [ "power_supply", 2 ] ] ]
   },
   {
@@ -539,6 +543,7 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "welding_standard", 3 ], [ "steel_standard", 2 ], [ "soldering_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -559,6 +564,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "soldering_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "laptop", -1 ] ] ],
     "components": [
@@ -907,6 +913,7 @@
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
     "using": [ [ "soldering_standard", 4 ], [ "steel_tiny", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "cable", 4 ] ], [ [ "e_scrap", 1 ] ] ]
   },
@@ -924,6 +931,7 @@
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
     "using": [ [ "soldering_standard", 8 ], [ "steel_standard", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "e_scrap", 4 ] ], [ [ "cable", 30 ] ] ]
   }

@@ -1591,6 +1591,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
     "components": [ [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
@@ -1913,7 +1914,7 @@
   {
     "result": "bundle_rag",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -1929,7 +1930,7 @@
   {
     "result": "bundle_leather",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -1945,7 +1946,7 @@
   {
     "result": "bundle_wool",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -2078,11 +2079,12 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 30 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
     "components": [ [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "result": "fiber_mat",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
