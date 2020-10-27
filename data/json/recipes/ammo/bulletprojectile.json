@@ -1,0 +1,497 @@
+[
+  {
+    "result": "223projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 1 ] ] ]
+  },
+  {
+    "result": "22projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 1 ] ] ]
+  },
+  {
+    "result": "3006projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 4 ] ] ]
+  },
+  {
+    "result": "270projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 3 ] ] ]
+  },
+  {
+    "result": "300projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 4 ] ] ]
+  },
+  {
+    "result": "308projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 3 ] ] ]
+  },
+  {
+    "result": "762_51projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 3 ] ] ]
+  },
+  {
+    "result": "32projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 1 ] ] ]
+  },
+  {
+    "result": "38_s_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 3 ] ] ]
+  },
+  {
+    "result": "38_s2_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 2 ] ] ]
+  },
+  {
+    "result": "40_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 4 ] ] ]
+  },
+  {
+    "result": "10mm_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 3 ] ] ]
+  },
+  {
+    "result": "44_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 4 ] ] ]
+  },
+  {
+    "result": "454_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 6 ] ] ]
+  },
+  {
+    "result": "45_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 4 ] ] ]
+  },
+  {
+    "result": "45colt_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 5 ] ] ]
+  },
+  {
+    "result": "4570_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 5 ] ] ]
+  },
+  {
+    "result": "46mm_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 1 ] ] ]
+  },
+  {
+    "result": "460_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 3 ] ] ]
+  },
+  {
+    "result": "500_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 8 ] ] ]
+  },
+  {
+    "result": "50_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 12 ] ] ]
+  },
+  {
+    "result": "545_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 1 ] ] ]
+  },
+  {
+    "result": "57mm_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 1 ] ] ]
+  },
+  {
+    "result": "700nx_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 18 ] ] ]
+  },
+  {
+    "result": "762R_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 3 ] ] ]
+  },
+  {
+    "result": "762_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 3 ] ] ]
+  },
+  {
+    "result": "762_25_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 2 ] ] ]
+  },
+  {
+    "result": "9mm_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 2 ] ] ]
+  },
+  {
+    "result": "357sig_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 7 ] ] ]
+  },
+  {
+    "result": "357mag_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 4 ] ] ]
+  },
+  {
+    "result": "9x18_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 2 ] ] ]
+  },
+  {
+    "result": "380_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 2 ] ] ]
+  },
+  {
+    "result": "300blk_projectile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "deluxe_handloader", -1 ] ] ],
+	"components": [ [ [ "lead", 3 ] ] ]
+  }
+]
