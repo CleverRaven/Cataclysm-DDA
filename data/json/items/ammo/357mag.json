@@ -16,7 +16,7 @@
     "stack_size": 50,
     "ammo_type": "357mag",
     "casing": "357mag_casing",
-    "range": 16,
+    "range": 75,
     "damage": { "damage_type": "bullet", "amount": 28, "armor_penetration": 4 },
     "dispersion": 30,
     "recoil": 700,
@@ -71,5 +71,21 @@
     "type": "AMMO",
     "name": { "str_sp": ".357 Magnum JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
+  },
+  {
+    "id": "custom_357mag_fmj",
+    "copy-from": "357mag_fmj",
+    "type": "AMMO",
+    "name": { "str_sp": ".357 Magnum FMJ, custom" },
+	"description": "Jacketed .357 magnum ammunition.  The .357 magnum round is derived from the earlier .38 special, with a marginally longer case and generating greater pressure. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 }
+  },
+  {
+    "id": "custom_357mag_jhp",
+    "copy-from": "357mag_jhp",
+    "type": "AMMO",
+    "name": { "str_sp": ".357 Magnum JHP, custom" },
+	"description": "Jacketed hollow point .357 magnum ammunition.  The .357 magnum round is derived from the earlier .38 special, with a marginally longer case and generating greater pressure. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 }
   }
 ]
