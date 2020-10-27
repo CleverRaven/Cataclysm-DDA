@@ -1213,5 +1213,25 @@
     "id": "woodgreatbow",
     "type": "MIGRATION",
     "replace": "compgreatbow"
+  },
+  {
+    "id": "ballistic_vest_empty",
+    "type": "MIGRATION",
+    "replace": "modularvest"
+  },
+  {
+    "id": "ballistic_vest_esapi",
+    "type": "MIGRATION",
+    "replace": "modularvestceramic"
+  },
+  {
+    "id": "esapi_plate",
+    "type": "MIGRATION",
+    "replace": "kevlar_plate"
+  },
+  {
+    "id": "esbi_plate",
+    "type": "MIGRATION",
+    "replace": "ceramic_armor"
   }
 ]

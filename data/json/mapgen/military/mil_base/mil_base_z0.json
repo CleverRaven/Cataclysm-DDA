@@ -480,7 +480,7 @@
         { "item": "tac_helmet", "x": 42, "y": 65, "chance": 75, "repeat": [ 25, 50 ] },
         { "item": "gloves_tactical", "x": 41, "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "kevlar", "x": 40, "y": 65, "chance": 75, "repeat": [ 50, 100 ] },
-        { "item": "ballistic_vest_esapi", "x": [ 38, 39 ], "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
+        { "item": "modularvestceramic", "x": [ 38, 39 ], "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "elbow_pads", "x": 37, "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "knee_pads", "x": 36, "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "light_disposable_cell", "x": 46, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },

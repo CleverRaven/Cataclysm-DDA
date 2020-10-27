@@ -2407,36 +2407,6 @@
   },
   {
     "type": "recipe",
-    "result": "modularvest",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "modularvestsuper",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "modularveststeel",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "modularvestkevlar",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "modularvesthard",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "modularvestceramic",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "shotcanister_scrap",
     "obsolete": true
   },
@@ -2453,6 +2423,21 @@
   {
     "type": "recipe",
     "result": "shotcanister_pebble",
+    "obsolete": true
+  },
+  {
+    "result": "ballistic_vest_esapi",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "modularvestkevlar",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "modularvest",
+    "type": "recipe",
     "obsolete": true
   }
 ]

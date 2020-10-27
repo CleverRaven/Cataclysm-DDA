@@ -41,7 +41,8 @@
       { "item": "null", "prob": 10 },
       { "item": "jacket_army", "prob": 50 },
       { "item": "kevlar", "prob": 10 },
-      { "item": "ballistic_vest_esapi", "prob": 25 }
+      { "item": "modularvest", "prob": 15 },
+      { "item": "modularvestceramic", "prob": 25 }
     ]
   },
   {

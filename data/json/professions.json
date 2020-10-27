@@ -742,7 +742,6 @@
           "pants_army",
           "undershirt",
           "jacket_army",
-          "ballistic_vest_esapi",
           "helmet_army",
           "mask_ski",
           "gloves_liner",
@@ -754,7 +753,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "legpouch_large", "contents-group": "army_mags_m4" },
+          { "item": "modularvest", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight" ] }
@@ -1969,8 +1968,7 @@
             "charges": 30,
             "contents-item": [ "shoulder_strap", "acog_scope" ]
           },
-          { "item": "ballistic_vest_esapi" },
-          { "item": "legpouch_large", "contents-group": "army_mags_m4" }
+          { "item": "modularvestceramic", "contents-group": "army_mags_m4" }
         ]
       },
       "male": [ "boxer_shorts" ],
