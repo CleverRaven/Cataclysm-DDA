@@ -16,7 +16,7 @@
     "stack_size": 80,
     "ammo_type": "32",
     "casing": "32_casing",
-    "range": 12,
+    "range": 75,
     "damage": { "damage_type": "bullet", "amount": 16 },
     "dispersion": 70,
     "recoil": 150,
@@ -43,6 +43,15 @@
     "name": { "str": ".32 ACP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_32_acp",
+    "copy-from": "32_acp",
+    "type": "AMMO",
+    "name": { "str": ".32 ACP, custom" },
+	"description": "The .32 ACP was a popular handgun cartridge in the 20th century.  Not so powerful as the .38 or the 9x19mm though. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]
