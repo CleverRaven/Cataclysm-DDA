@@ -16,7 +16,7 @@
     "stack_size": 15,
     "ammo_type": "300",
     "casing": "300_casing",
-    "range": 65,
+    "range": 75,
     "damage": { "damage_type": "bullet", "amount": 70, "armor_penetration": 8 },
     "dispersion": 15,
     "recoil": 5300,
@@ -44,6 +44,15 @@
     "description": "The .300 Winchester Magnum is extremely versatile and has been adopted by many shooting disciplines.  The cartridge has found use by hunters, military units, and law enforcement departments.  This one has been hand-reloaded.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_300_winmag",
+    "copy-from": "300_winmag",
+    "type": "AMMO",
+    "name": { "str": ".300 Winchester Magnum, custom" },
+    "description": "The .300 Winchester Magnum is extremely versatile and has been adopted by many shooting disciplines.  The cartridge has found use by hunters, military units, and law enforcement departments.  This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]
