@@ -273,6 +273,46 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
+    "id": "brass_lump",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "lump of brass", "str_pl": "lumps of brass" },
+    "description": "A heavy formed piece of brass.  Useful for some crafting recipes.",
+    "weight": "1000 g",
+    "volume": "250 ml",
+    "price": 2000,
+    "price_postapoc": 50,
+    "bashing": 12,
+    "to_hit": -4,
+    "stack_size": 2,
+    "//": "Density 7.60g/cm³ ~ 1.9kg/250ml @ 1000g/unit ~ stack 2 and formed as a solid ingot so 100% of this",
+    "material": [ "brass" ],
+    "symbol": ",",
+    "color": "yellow",
+    "ammo_type": "components",
+    "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "id": "sheet_brass",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "brass sheet" },
+    "description": "A sheet of brass.",
+    "looks_like": "sheet_metal",
+    "weight": "1000 g",
+    "volume": "250 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "bashing": 5,
+    "to_hit": -3,
+    "stack_size": 8,
+    "//": "Roughly in the 15cm×15cm to 20cm×20cm range. Compact and stacks well, so equally dense as a solid block.",
+    "material": [ "brass" ],
+    "symbol": "]",
+    "color": "yellow",
+    "ammo_type": "components"
+  },
+  {
     "id": "hinge",
     "type": "AMMO",
     "category": "spare_parts",
@@ -341,5 +381,19 @@
     "//": "Density ~ 8g/cm³ ~ 2000kg/250ml @ stack 1000 = 2g/unit",
     "ammo_type": "components",
     "count": 200
+  },
+  {
+    "type": "GENERIC",
+    "id": "small_spring",
+    "category": "spare_parts",
+    "price": 500,
+    "price_postapoc": 50,
+    "name": { "str_sp": "small spring" },
+    "symbol": "*",
+    "color": "light_gray",
+    "description": "A small spring for use in small projects.",
+    "material": [ "steel" ],
+    "volume": "500ml",
+    "weight": "10 g"
   }
 ]
