@@ -86,6 +86,7 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "string_id_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
