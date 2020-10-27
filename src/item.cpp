@@ -3670,10 +3670,12 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
 
             if( contents_item->made_of_from_type( phase_id::LIQUID ) ) {
                 units::volume contents_volume = contents_item->volume() * batch;
-                info.emplace_back( "DESCRIPTION", contents_item->display_name() );
+                info.emplace_back( "DESCRIPTION", colorize( contents_item->display_name(),
+                                   contents_item->color_in_inventory() ) );
                 info.emplace_back( vol_to_info( "CONTAINER", description + space, contents_volume ) );
             } else {
-                info.emplace_back( "DESCRIPTION", contents_item->display_name() );
+                info.emplace_back( "DESCRIPTION", colorize( contents_item->display_name(),
+                                   contents_item->color_in_inventory() ) );
                 info.emplace_back( "DESCRIPTION", description.translated() );
             }
         }
