@@ -4361,6 +4361,9 @@ int vehicle::static_drag( bool actual ) const
 
 float vehicle::strain() const
 {
+    if( velocity == 0.0 ) {
+        return 0.0f;
+    }
     int mv = max_velocity();
     int sv = safe_velocity();
     if( mv <= sv ) {
