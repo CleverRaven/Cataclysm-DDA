@@ -1,0 +1,20 @@
+[
+  {
+    "color": "brown",
+    "id": "dinoexhibit",
+    "mondensity": 2,
+    "name": "Dinosaur Exhibit",
+    "see_cost": 5,
+    "sym": "^",
+    "type": "overmap_terrain"
+  },
+  {
+    "color": "brown",
+    "id": "dinoexhibit_roof",
+    "mondensity": 2,
+    "name": "Dinosaur Exhibit roof",
+    "see_cost": 5,
+    "sym": "^",
+    "type": "overmap_terrain"
+  }
+]

@@ -1,0 +1,678 @@
+[
+  {
+    "id": "mon_coelophysis_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "magenta and green hatchling",
+    "default_faction": "coelophysis",
+    "upgrades": { "age_grow": 30, "into": "mon_coelophysis" }
+  },
+  {
+    "id": "mon_dilophosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "magenta and green hatchling",
+    "default_faction": "dilophosaurus",
+    "upgrades": { "age_grow": 20, "into": "mon_dilophosaurus_juvenile" }
+  },
+  {
+    "id": "mon_ceratosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and white hatchling",
+    "default_faction": "ceratosaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_ceratosaurus_juvenile" }
+  },
+  {
+    "id": "mon_spinosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "red and white hatchling",
+    "default_faction": "spinosaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_spinosaurus_juvenile" }
+  },
+  {
+    "id": "mon_allosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and white hatchling",
+    "default_faction": "allosaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_allosaurus_juvenile" }
+  },
+  {
+    "id": "mon_acrocanthosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and white hatchling",
+    "default_faction": "acrocanthosaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_acrocanthosaurus_juvenile" }
+  },
+  {
+    "id": "mon_siats_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and white hatchling",
+    "default_faction": "siats",
+    "upgrades": { "age_grow": 30, "into": "mon_siats_juvenile" }
+  },
+  {
+    "id": "mon_tyrannosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light red and white hatchling",
+    "default_faction": "tyrannosaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_tyrannosaurus_juvenile" }
+  },
+  {
+    "id": "mon_albertosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light red and white hatchling",
+    "default_faction": "albertosaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_albertosaurus_juvenile" }
+  },
+  {
+    "id": "mon_compsognathus_hatchling",
+    "type": "MONSTER",
+    "name": "greenish yellow hatchling",
+    "description": "A tiny dinosaur hatchling with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "compsognathus",
+    "categories": [ "DINOSAUR" ],
+    "species": [ "DINOSAUR" ],
+    "diff": 10,
+    "volume": "2 L",
+    "weight": "2 kg",
+    "hp": 2,
+    "speed": 60,
+    "material": [ "flesh" ],
+    "symbol": "v",
+    "color": "green_yellow",
+    "looks_like": "mon_compsognathus",
+    "aggression": -99,
+    "morale": -8,
+    "melee_skill": 1,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_cut": 1,
+    "dodge": 1,
+    "death_function": [ "NORMAL" ],
+    "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ],
+    "harvest": "mammal_tiny"
+  },
+  {
+    "id": "mon_gallimimus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light green and yellow hatchling",
+    "default_faction": "herbivore_dino",
+    "color": "light_green_yellow",
+    "upgrades": { "age_grow": 20, "into": "mon_gallimimus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_velociraptor_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "dark gray and yellow hatchling",
+    "default_faction": "velociraptor",
+    "upgrades": { "age_grow": 20, "into": "mon_velociraptor" }
+  },
+  {
+    "id": "mon_deinonychus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "red and green hatchling",
+    "default_faction": "deinonychus",
+    "upgrades": { "age_grow": 20, "into": "mon_deinonychus_juvenile" }
+  },
+  {
+    "id": "mon_utahraptor_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "dark gray and white hatchling",
+    "default_faction": "utahraptor",
+    "upgrades": { "age_grow": 20, "into": "mon_utahraptor_juvenile" }
+  },
+  {
+    "id": "mon_eoraptor_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "dark gray and yellow hatchling",
+    "default_faction": "eoraptor",
+    "upgrades": { "age_grow": 14, "into": "mon_eoraptor" }
+  },
+  {
+    "id": "mon_apatosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 50, "into": "mon_apatosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_brontosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 50, "into": "mon_brontosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_diplodocus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 40, "into": "mon_diplodocus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_camarasaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 50, "into": "mon_camarasaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_brachiosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 50, "into": "mon_brachiosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_alamosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 50, "into": "mon_alamosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_scutellosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "green and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_scutellosaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_stegosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "green and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_stegosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_dyoplosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_dyoplosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_ankylosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_ankylosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_nodosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_nodosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_edmontonia_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_edmontonia_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_camptosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light green and yellow hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 20, "into": "mon_camptosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_maiasaura_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "dark gray and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_maiasaura_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_parasaurolophus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "dark gray and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_parasaurolophus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_corythosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "dark gray and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 40, "into": "mon_corythosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_edmontosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "dark gray and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 50, "into": "mon_edmontosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_pachycephalosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light green and yellow hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 20, "into": "mon_pachycephalosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_pachyrhinosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light green and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_pachyrhinosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_pentaceratops_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light green and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_pentaceratops_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_torosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light green and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_torosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_triceratops_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light green and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_triceratops_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_dimorphodon_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light gray and yellow hatchling",
+    "default_faction": "dimorphodon",
+    "upgrades": { "age_grow": 20, "into": "mon_dimorphodon" }
+  },
+  {
+    "id": "mon_pteranodon_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light gray and yellow hatchling",
+    "default_faction": "pteranodon",
+    "upgrades": { "age_grow": 30, "into": "mon_pteranodon_juvenile" }
+  },
+  {
+    "id": "mon_quetzalcoatlus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light gray and yellow hatchling",
+    "default_faction": "quetzalcoatlus",
+    "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus_juvenile" }
+  },
+  {
+    "id": "mon_mosasaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "red and white hatchling",
+    "default_faction": "mosasaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY",
+      "SWIMS",
+      "AQUATIC"
+    ]
+  }
+]

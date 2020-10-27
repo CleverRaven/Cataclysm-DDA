@@ -1,0 +1,214 @@
+[
+  {
+    "//": "These groups are called by the exhibit, zoo, and science basements, and NPC missions",
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_coelophysis", "freq": 4, "cost_multiplier": 5, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_dilophosaurus", "freq": 1, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ceratosaurus", "freq": 1, "cost_multiplier": 30 },
+      { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_allosaurus", "freq": 8, "cost_multiplier": 30 },
+      { "monster": "mon_acrocanthosaurus", "freq": 8, "cost_multiplier": 40 },
+      { "monster": "mon_siats", "freq": 8, "cost_multiplier": 40 },
+      { "monster": "mon_tyrannosaurus", "freq": 8, "cost_multiplier": 40 },
+      { "monster": "mon_albertosaurus", "freq": 4, "cost_multiplier": 35 },
+      { "monster": "mon_compsognathus", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_gallimimus", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_velociraptor", "freq": 15, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_utahraptor", "freq": 5, "cost_multiplier": 30 },
+      { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_apatosaurus", "freq": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_brontosaurus", "freq": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_diplodocus", "freq": 10, "cost_multiplier": 20, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_camarasaurus", "freq": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_brachiosaurus", "freq": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_alamosaurus", "freq": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_scutellosaurus", "freq": 5, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_stegosaurus", "freq": 5, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_dyoplosaurus", "freq": 5, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ankylosaurus", "freq": 5, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nodosaurus", "freq": 5, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_edmontonia", "freq": 5, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_camptosaurus", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_maiasaura", "freq": 20, "cost_multiplier": 10, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_parasaurolophus", "freq": 20, "cost_multiplier": 10, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_corythosaurus", "freq": 20, "cost_multiplier": 10, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_edmontosaurus", "freq": 20, "cost_multiplier": 10, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_pachycephalosaurus", "freq": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_pachyrhinosaurus", "freq": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_pentaceratops", "freq": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_torosaurus", "freq": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_triceratops", "freq": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_dimorphodon", "freq": 20, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_pteranodon", "freq": 20, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_quetzalcoatlus", "freq": 5, "cost_multiplier": 0, "pack_size": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_HARMLESS",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_compsognathus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_scutellosaurus", "freq": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_dyoplosaurus", "freq": 20, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_camptosaurus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_pachycephalosaurus", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_DANGEROUS",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_coelophysis", "freq": 4, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_dilophosaurus", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ceratosaurus", "freq": 1, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_allosaurus", "freq": 8, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_velociraptor", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_utahraptor", "freq": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_HARMLESS_HATCHLING",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_compsognathus_hatchling", "freq": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_gallimimus_hatchling", "freq": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_eoraptor_hatchling", "freq": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_apatosaurus_hatchling", "freq": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_brontosaurus_hatchling", "freq": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_diplodocus_hatchling", "freq": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_camarasaurus_hatchling", "freq": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_brachiosaurus_hatchling", "freq": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_alamosaurus_hatchling", "freq": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_scutellosaurus_hatchling", "freq": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_stegosaurus_hatchling", "freq": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_dyoplosaurus_hatchling", "freq": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ankylosaurus_hatchling", "freq": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nodosaurus_hatchling", "freq": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_edmontonia_hatchling", "freq": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_camptosaurus_hatchling", "freq": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_maiasaura_hatchling", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_parasaurolophus_hatchling", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_corythosaurus_hatchling", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_edmontosaurus_hatchling", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_pachycephalosaurus_hatchling", "freq": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_pachyrhinosaurus_hatchling", "freq": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_pentaceratops_hatchling", "freq": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_torosaurus_hatchling", "freq": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_triceratops_hatchling", "freq": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_DANGEROUS_HATCHLING",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_coelophysis_hatchling", "freq": 4, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_dilophosaurus_hatchling", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ceratosaurus_hatchling", "freq": 1, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_spinosaurus_hatchling", "freq": 1, "cost_multiplier": 50, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_allosaurus_hatchling", "freq": 8, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_acrocanthosaurus_hatchling", "freq": 8, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_siats_hatchling", "freq": 8, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_tyrannosaurus_hatchling", "freq": 8, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_albertosaurus_hatchling", "freq": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_velociraptor_hatchling", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_deinonychus_hatchling", "freq": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_utahraptor_hatchling", "freq": 5, "cost_multiplier": 30 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_HARMLESS_JUVENILE",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_gallimimus_juvenile", "freq": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_stegosaurus_juvenile", "freq": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_dyoplosaurus_juvenile", "freq": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ankylosaurus_juvenile", "freq": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nodosaurus_juvenile", "freq": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_edmontonia_juvenile", "freq": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_camptosaurus_juvenile", "freq": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_maiasaura_juvenile", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_parasaurolophus_juvenile", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_corythosaurus_juvenile", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_edmontosaurus_juvenile", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_pachycephalosaurus_juvenile", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_DANGEROUS_JUVENILE",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_dilophosaurus_juvenile", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ceratosaurus_juvenile", "freq": 1, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_spinosaurus_juvenile", "freq": 1, "cost_multiplier": 50, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_allosaurus_juvenile", "freq": 8, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_deinonychus_juvenile", "freq": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_utahraptor_juvenile", "freq": 5, "cost_multiplier": 30 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_MEGA_HERBIVORE",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_apatosaurus", "freq": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_brontosaurus", "freq": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_diplodocus", "freq": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_camarasaurus", "freq": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_brachiosaurus", "freq": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_alamosaurus", "freq": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_stegosaurus", "freq": 5, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ankylosaurus", "freq": 5, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nodosaurus", "freq": 5, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_edmontonia", "freq": 5, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_maiasaura", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_parasaurolophus", "freq": 3, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_corythosaurus", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_edmontosaurus", "freq": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_pachyrhinosaurus", "freq": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_pentaceratops", "freq": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_torosaurus", "freq": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_triceratops", "freq": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_MEGA_CARNIVORE",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_acrocanthosaurus", "freq": 8, "cost_multiplier": 40 },
+      { "monster": "mon_siats", "freq": 8, "cost_multiplier": 40 },
+      { "monster": "mon_tyrannosaurus", "freq": 8, "cost_multiplier": 40 },
+      { "monster": "mon_albertosaurus", "freq": 4, "cost_multiplier": 35 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_FLY",
+    "default": "mon_pteranodon",
+    "monsters": [
+      { "monster": "mon_dimorphodon", "freq": 10, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_pteranodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_quetzalcoatlus", "freq": 5, "cost_multiplier": 0, "pack_size": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_SWIM",
+    "default": "mon_mosasaurus",
+    "monsters": [ { "monster": "mon_mosasaurus", "freq": 4, "cost_multiplier": 60 } ]
+  }
+]

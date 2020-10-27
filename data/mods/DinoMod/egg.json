@@ -3,9 +3,9 @@
     "type": "COMESTIBLE",
     "id": "egg_dino",
     "name": "dinosaur egg",
-    "weight": 75,
+    "weight": "75 g",
     "color": "green",
-    "spoils_in": "14 days",
+    "spoils_in": "4 days",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
@@ -13,8 +13,8 @@
     "calories": 113,
     "description": "Pale, football-shaped egg laid by a dinosaur.",
     "price": 500,
-    "material": "egg",
-    "volume": 1,
+    "material": [ "egg" ],
+    "volume": "250 ml",
     "stack_size": 4,
     "fun": -6,
     "flags": [ "FREEZERBURN" ],
@@ -23,98 +23,289 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_compsognathus",
-    "name": "compsognathus egg",
-    "copy-from": "egg_dino"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_gallimimus",
-    "name": "gallimimus egg",
-    "copy-from": "egg_dino"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_pachycephalosaurus",
-    "name": "pachycephalosaurus egg",
-    "copy-from": "egg_dino"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_spinosaurus",
-    "name": "spinosaurus egg",
-    "copy-from": "egg_dino"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_tyrannosaurus",
-    "name": "tyrannosaurus egg",
-    "copy-from": "egg_dino"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_triceratops",
-    "name": "triceratops egg",
-    "copy-from": "egg_dino"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_stegosaurus",
-    "name": "stegosaurus egg",
-    "copy-from": "egg_dino"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_ankylosaurus",
-    "name": "ankylosaurus egg",
-    "copy-from": "egg_dino"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_allosaurus",
-    "name": "allosaurus egg",
-    "copy-from": "egg_dino"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_eoraptor",
-    "name": "eoraptor egg",
-    "copy-from": "egg_dino"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_velociraptor",
-    "name": "velociraptor egg",
-    "copy-from": "egg_dino"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_deinonychus",
-    "name": "deinonychus egg",
-    "copy-from": "egg_dino"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_utahraptor",
-    "name": "utahraptor egg",
-    "copy-from": "egg_dino"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_parasaurolophus",
-    "name": "parasaurolophus egg",
-    "copy-from": "egg_dino"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_dimorphodon",
-    "name": "dimorphodon egg",
-    "copy-from": "egg_dino"
+    "id": "egg_coelophysis",
+    "name": "coelophysis egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_coelophysis"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_dilophosaurus",
     "name": "dilophosaurus egg",
-    "copy-from": "egg_dino"
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_dilophosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_ceratosaurus",
+    "name": "ceratosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_ceratosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_spinosaurus",
+    "name": "spinosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_spinosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_allosaurus",
+    "name": "allosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_allosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_acrocanthosaurus",
+    "name": "acrocanthosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_acrocanthosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_siats",
+    "name": "siats egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_siats"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tyrannosaurus",
+    "name": "tyrannosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_tyrannosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_albertosaurus",
+    "name": "albertosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_albertosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_compsognathus",
+    "name": "compsognathus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_compsognathus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_gallimimus",
+    "name": "gallimimus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_gallimimus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_velociraptor",
+    "name": "velociraptor egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_velociraptor"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_deinonychus",
+    "name": "deinonychus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_deinonychus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_utahraptor",
+    "name": "utahraptor egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_utahraptor"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_eoraptor",
+    "name": "eoraptor egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_eoraptor"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_apatosaurus",
+    "name": "apatosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_apatosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_brontosaurus",
+    "name": "brontosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_brontosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_diplodocus",
+    "name": "diplodocus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_diplodocus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_camarasaurus",
+    "name": "camarasaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_camarasaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_brachiosaurus",
+    "name": "brachiosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_brachiosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_alamosaurus",
+    "name": "alamosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_alamosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_scutellosaurus",
+    "name": "scutellosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_scutellosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_stegosaurus",
+    "name": "stegosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_stegosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_dyoplosaurus",
+    "name": "dyoplosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_dyoplosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_ankylosaurus",
+    "name": "ankylosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_ankylosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_nodosaurus",
+    "name": "nodosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_nodosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_edmontonia",
+    "name": "edmontonia egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_edmontonia"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_camptosaurus",
+    "name": "camptosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_camptosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_maiasaura",
+    "name": "maiasaura egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_maiasaura"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_parasaurolophus",
+    "name": "parasaurolophus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_parasaurolophus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_corythosaurus",
+    "name": "corythosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_corythosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_edmontosaurus",
+    "name": "edmontosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_edmontosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pachycephalosaurus",
+    "name": "pachycephalosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_pachycephalosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pachyrhinosaurus",
+    "name": "pachyrhinosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_pachyrhinosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pentaceratops",
+    "name": "pentaceratops egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_pentaceratops"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_torosaurus",
+    "name": "torosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_torosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_triceratops",
+    "name": "triceratops egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_triceratops"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_dimorphodon",
+    "name": "dimorphodon egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_dimorphodon"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pteranodon",
+    "name": "pteranodon egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_pteranodon"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_quetzalcoatlus",
+    "name": "quetzalcoatlus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_quetzalcoatlus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_mosasaurus",
+    "name": "mosasaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_mosasaurus"
   }
 ]
