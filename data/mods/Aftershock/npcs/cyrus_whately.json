@@ -203,7 +203,6 @@
     "item": "living_brain_jar",
     "count": 2,
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_LAST_ASSISTANT",
     "dialogue": {
       "describe": "I need some brains, but brains that are still living.  We've got our own brain blasters, but I won't risk them in experiments.",
       "offer": "If this works I may be able to give some of these poor souls bodies again.  Six should do.",
