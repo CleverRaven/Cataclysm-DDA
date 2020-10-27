@@ -537,7 +537,7 @@
 	"vision_day": 15,
 	"dodge": 2,
 	"harvest": "arachnid",
-	"death_drops": { "items": [ [ "egg_firefly", 1 ] ] },
+	"death_drops": { "items": [ [ "egg_firefly", 2 ] ] },
 	"fear_triggers": [ "HURT" ],
 	"flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
   },
