@@ -42,7 +42,7 @@
   {
     "result": "shears",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
@@ -50,7 +50,7 @@
   {
     "result": "elec_shears",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
@@ -657,7 +657,7 @@
   {
     "result": "blade",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ] ]
@@ -1869,7 +1869,7 @@
   {
     "result": "cantilever_small",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "20 m",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "scrap", 10 ] ], [ [ "pipe", 8 ] ], [ [ "wire", 8 ] ] ]
@@ -1953,7 +1953,7 @@
     "result": "copper_bracelet",
     "type": "uncraft",
     "time": "30 s",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 43 ] ] ]
   },
@@ -1984,7 +1984,7 @@
   {
     "result": "crown_golden_survivor",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "crown_golden"
   },
   {
@@ -2673,31 +2673,31 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "knife_butcher",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
+    "components": [ [ [ "blade", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
   },
   {
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "knife_carving",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "blade", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "knife_chef",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "blade", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "knife_folding",
     "time": "3 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -2705,15 +2705,15 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "knife_meat_cleaver",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 2 ], [ "scrap", 10 ] ] ]
+    "components": [ [ [ "blade", 1 ], [ "scrap", 10 ] ] ]
   },
   {
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "knife_paring",
     "time": "3 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -2724,17 +2724,17 @@
     "type": "uncraft",
     "time": "3 m",
     "//": "Another odd one",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "components": [ [ [ "spike", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "knife_vegetable_cleaver",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "blade", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "result": "laptop",
@@ -3365,7 +3365,7 @@
   {
     "result": "vehicle_controls",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "mechanics",
     "difficulty": 3,
     "time": "15 m",
@@ -3387,14 +3387,14 @@
   {
     "result": "sewing_kit",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "scrap", 2 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "steel_pan",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "5 m",
@@ -3704,7 +3704,7 @@
   {
     "result": "spring",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 30 ] ] ]
@@ -4102,7 +4102,7 @@
   {
     "result": "washing_machine",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "1 h 30 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -4121,7 +4121,7 @@
   {
     "result": "dishwasher",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "1 h 30 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -4141,7 +4141,7 @@
     "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "solarpack",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 8,
     "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
@@ -4292,7 +4292,7 @@
   {
     "result": "pot",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "5 m",
@@ -4302,7 +4302,7 @@
   {
     "result": "pot_canning",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "5 m",

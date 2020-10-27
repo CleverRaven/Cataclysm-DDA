@@ -2,7 +2,7 @@
   {
     "result": "steam_watts_small",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -29,7 +29,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "fuel_bunker",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -80,7 +80,7 @@
   {
     "result": "hd_tow_cable",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -94,7 +94,7 @@
   {
     "result": "bike_rack",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -113,7 +113,7 @@
   {
     "result": "rebar_plate",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "//": "sawing it down doesn't teach anything useful",
@@ -129,7 +129,7 @@
   {
     "result": "spring_plate",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -143,7 +143,7 @@
   {
     "result": "tearer",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -163,7 +163,7 @@
   {
     "result": "minifreezer",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
@@ -263,7 +263,7 @@
   {
     "result": "mountable_heater",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -278,7 +278,7 @@
   {
     "result": "mountable_cooler",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "mechanics",
@@ -321,7 +321,7 @@
   {
     "result": "washing_machine",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -347,7 +347,7 @@
   {
     "result": "dishwasher",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -373,7 +373,7 @@
   {
     "result": "wheel_caster",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -474,7 +474,7 @@
   {
     "result": "cargo_aisle",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -519,7 +519,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_mount_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -533,7 +533,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "turret_mount",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -579,7 +579,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "basket",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -593,7 +593,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "folding_basket",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -607,7 +607,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bike_basket",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -621,7 +621,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "foldframe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -649,7 +649,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_wheelchair",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -664,7 +664,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_rail_small_pair",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -679,7 +679,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "hand_rims",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -847,7 +847,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "spiked_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
