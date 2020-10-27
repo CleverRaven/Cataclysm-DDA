@@ -893,7 +893,7 @@
   {
     "id": "achievement_lvl_7_shotgun",
     "type": "achievement",
-    "name": "Double Barrel, Double Fun",
+    "name": "Double the gun, Double the fun.",
     "description": "When you want to hit your target nine times with one shot.",
     "requirements": [ { "event_statistic": "num_gains_shotgun_level_7", "is": ">=", "target": 1 } ]
   },
