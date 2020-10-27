@@ -16,7 +16,7 @@
     "stack_size": 20,
     "ammo_type": "308",
     "casing": "308_casing",
-    "range": 65,
+    "range": 75,
     "damage": { "damage_type": "bullet", "amount": 60, "armor_penetration": 2 },
     "dispersion": 15,
     "recoil": 3000,
@@ -108,6 +108,33 @@
     "name": { "str": "7.62x51mm incendiary, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_308",
+    "copy-from": "308",
+    "type": "AMMO",
+    "name": { "str": ".308 Winchester, custom" },
+	"description": ".308 Winchester ammunition with 168gr hollow point bullets.  The .308 round is one of the most popular hunting cartridges in the world due to its accuracy and power. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_762_51",
+    "copy-from": "762_51",
+    "type": "AMMO",
+    "name": { "str": "7.62x51mm, custom" },
+	"description": "A 7.62x51mm NATO round with a 147gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_762_51_incendiary",
+    "copy-from": "762_51_incendiary",
+    "type": "AMMO",
+    "name": { "str": "7.62x51mm incendiary, custom" },
+	"description": "This ammunition is a one-in-five mix of M80 and M62 tracer rounds to help keep the weapon they are fired from on target. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]
