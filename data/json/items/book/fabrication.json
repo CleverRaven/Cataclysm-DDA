@@ -461,6 +461,9 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
+	"skill": "fabrication",
+    "required_level": 8,
+    "max_level": 10,
     "intelligence": 4,
     "time": "30 m",
     "fun": -2
