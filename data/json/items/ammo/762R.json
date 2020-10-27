@@ -30,5 +30,14 @@
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_762_54R",
+    "copy-from": "762_54R",
+    "type": "AMMO",
+    "name": { "str": "7.62x54mmR, custom" },
+	"description": "7.62x54mmR ammunition with 150gr FMJ bullets.  The 7.62x54mmR round is one of the oldest still in common use, primarily due to the popularity of the Mosin-Nagant rifle.  Although it has not been used by militaries for several decades it remains popular with civilians.  It is a powerful cartridge capable of killing most targets with one shot. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]
