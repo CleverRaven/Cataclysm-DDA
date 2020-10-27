@@ -2,13 +2,34 @@
   {
     "abstract": "casing",
     "type": "GENERIC",
-    "category": "spare_parts",
+    "category": "CC_AMMO",
     "name": { "str": "Casing from ammunition cartridge" },
     "stackable": true,
     "material": [ "brass" ],
     "symbol": "=",
     "color": "yellow",
     "damage_states": [ 0, 0 ]
+  },
+  {
+    "id": "casing_blanks",
+    "copy-from": "casing",
+    "type": "AMMO",
+    "name": { "str": "casing blanks" },
+    "description": "An empty casing blank that's been drawn in a press. Needs to be given profile and taper in a lathe, and annealed.",
+    "weight": "5 g",
+	"ammo_type": "pebble",
+    "volume": "5ml",
+	"count": 200
+  },
+  {
+    "id": "casing_scrap",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": { "str": "casing scrap" },
+    "description": "An empty casing that's been crumpled up for easier storage prior to melting.",
+    "weight": "5 g",
+    "volume": "2ml",
+	"count": 200
   },
   {
     "id": "223_casing",
@@ -25,7 +46,7 @@
     "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": { "str": ".22 LR casing" },
-    "description": "An empty casing from a .22 LR round.  These can't be hand-reloaded.",
+    "description": "An empty casing from a .22 LR round.  These can't be hand-reloaded without specialized equipment.",
     "weight": "2 g",
     "volume": "3 ml"
   },
