@@ -225,6 +225,7 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_winded( "winded" );
@@ -9237,7 +9238,7 @@ bool game::disable_robot( const tripoint &p )
         return false;
     }
     monster &critter = *mon_ptr;
-    if( ( critter.friendly == 0 && !critter.has_effect( effect_stunned ) ) ||
+    if( ( critter.friendly == 0 && !critter.has_effect( effect_sensor_stun ) ) ||
         critter.has_flag( MF_RIDEABLE_MECH ) ||
         ( critter.has_flag( MF_PAY_BOT ) && critter.has_effect( effect_paid ) ) ) {
         // Can only disable / reprogram friendly or stunned monsters
