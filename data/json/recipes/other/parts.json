@@ -338,7 +338,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "ugl_buttstock",
     "category": "CC_WEAPON",
     "skill_used": "fabrication",

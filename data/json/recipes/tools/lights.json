@@ -182,7 +182,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "wearable_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -247,7 +247,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "oil_lamp",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -265,7 +265,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "gasoline_lantern",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

@@ -92,7 +92,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "result": "bead_bracelet",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
@@ -111,7 +111,7 @@
     "reversible": true,
     "autolearn": true,
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "components": [ [ [ "wooden_bead", 30 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
@@ -215,7 +215,7 @@
   {
     "result": "basket_laundry",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
@@ -428,7 +428,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "towel",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
