@@ -16,7 +16,7 @@
     "stack_size": 5,
     "ammo_type": "700nx",
     "casing": "700nx_casing",
-    "range": 42,
+    "range": 75,
     "damage": { "damage_type": "bullet", "amount": 110, "armor_penetration": 30 },
     "dispersion": 15,
     "recoil": 12100,
@@ -29,6 +29,15 @@
     "name": { "str": ".700 NX, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_700nx",
+    "copy-from": "700nx",
+    "type": "AMMO",
+    "name": { "str": ".700 NX, custom" },
+	"description": "The .700 Nitro Express is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]
