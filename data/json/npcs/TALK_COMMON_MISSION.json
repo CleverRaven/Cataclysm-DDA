@@ -329,12 +329,12 @@
     "//": "MISSION_PYROMANIAC mission set this topic as starting topic for mission giver.",
     "type": "talk_topic",
     "id": "MISSION_PYROMANIAC",
-    "dynamic_line": "Are we there yet? I can't wait to burn that house!",
+    "dynamic_line": "Are we there yet?  I can't wait to burn that house!",
     "responses": [
       {
-        "text": "We're here. Let's do it!",
+        "text": "We're here.  Let's do it!",
         "topic": "TALK_MISSION_INQUIRE",
-        "condition": { "and": [ "mission_complete", { "u_has_item": "gasoline", "count": 200 } ] }
+        "condition": { "and": [ "mission_complete", { "u_has_items": "gasoline", "count": 200 } ] }
       },
       { "text": "Be patient, we're getting there soon.", "topic": "TALK_DONE" }
     ]

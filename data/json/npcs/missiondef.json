@@ -824,9 +824,9 @@
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "dialogue": {
       "describe": "Oh man, I want to burn it so bad…",
-      "offer": "I'm so infuriated! I've got an enemy that ruined my life, and now I want to get revenge! I don't care about <the_cataclysm>, I just want to burn his house! Would you help me?",
-      "accepted": "Good. Let's go to his house and burn it down! Oh, by the way, could you bring gasoline with you? I was so angry I forgot to bring it with me…",
-      "rejected": "Seriously? It's such an easy job…",
+      "offer": "I'm so infuriated!  I've got an enemy that ruined my life, and now I want to get revenge!  I don't care about <the_cataclysm>, I just want to burn his house!  Would you help me?",
+      "accepted": "Good.  Let's go to his house and burn it down!  Oh, by the way, could you bring gasoline with you?  I was so angry I forgot to bring it with me…",
+      "rejected": "Seriously?  It's such an easy job…",
       "advice": "Maybe we can find some gasoline at gas station.",
       "inquire": "Are you ready?",
       "success": "Sweet, sweet revenge! Ah, smells so nice! Feels like the smell of napalm in the morning! All his stuff, and probably even himself, will burn to ashes in a matter of minutes.  You helped me get my revenge, so I'll follow you to the end, my friend!",
