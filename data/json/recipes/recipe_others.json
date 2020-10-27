@@ -2229,5 +2229,162 @@
       [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ],
       [ [ "stopcock", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "small_spring",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "20 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "forge", 10 ] ] ],
+    "components": [
+      [ [ "scrap", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "deluxe_handloader",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "20 h",
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+	"using": [ [ "forging_standard", 2 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 300 ], [ "toolset", 300 ], [ "soldering_iron", 300 ], [ "oxy_torch", 100 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
+	 ],
+    "components": [
+      [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
+      [ [ "plastic_chunk", 2 ] ]
+	]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "induction_annealer",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+	"skills_required": [ "electronics", 3 ],
+    "difficulty": 4,
+    "time": "4 h",
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [
+      [ "reference_fabrication1", 10 ]
+    ],
+	"using": [ [ "forging_standard", 2 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 100 ], [ "toolset", 100 ], [ "soldering_iron", 100 ], [ "oxy_torch", 50 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 2 }
+	 ],
+    "components": [
+      [ [ "alarmclock", 1 ] ],
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+	  [ [ "circuit", 1 ] ]
+	]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "lathe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "20 h",
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [
+      [ "reference_fabrication1", 1 ]
+    ],
+	"using": [ [ "forging_standard", 2 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "tools": [ [ [ "welder", 400 ], [ "welder_crude", 300 ], [ "toolset", 300 ], [ "soldering_iron", 300 ], [ "oxy_torch", 700 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
+	 ],
+    "components": [
+      [ [ "motor", 1 ] ],
+      [ [ "steel_lump", 12 ], [ "steel_chunk", 48 ], [ "scrap", 144 ] ],
+      [ [ "cable", 8 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "plastic_chunk", 4 ] ]
+	]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "mechanical_press",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "20 h",
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [
+      [ "reference_fabrication1", 2 ]
+    ],
+	"using": [ [ "forging_standard", 2 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "tools": [ [ [ "welder", 200 ], [ "welder_crude", 300 ], [ "toolset", 300 ], [ "soldering_iron", 300 ], [ "oxy_torch", 400 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding" }
+	 ],
+    "components": [
+      [ [ "motor", 1 ] ],
+      [ [ "steel_lump", 6 ], [ "steel_chunk", 24 ], [ "scrap", 72 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "plastic_chunk", 4 ] ]
+	]
   }
 ]
