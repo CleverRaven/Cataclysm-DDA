@@ -897,14 +897,14 @@
       },
       {
         "distribution": [
-          { "item": "cola", "count": [ 1, 2 ],"prob": 75 },
-          { "item": "colamdew", "count": [ 1, 2 ],"prob": 50 },
-          { "item": "creamsoda", "count": [ 1, 2 ],"prob": 40 },
-          { "item": "lemonlime", "count": [ 1, 2 ],"prob": 40 },
-          { "item": "orangesoda", "count": [ 1, 2 ],"prob": 50 },
-          { "item": "crispycran", "count": [ 1, 2 ],"prob": 30 },
-          { "item": "purple_drink", "count": [ 1, 2 ],"prob": 20 },
-          { "item": "choc_drink", "count": [ 1, 2 ],"prob": 20 },
+          { "item": "cola", "count": [ 1, 2 ], "prob": 75 },
+          { "item": "colamdew", "count": [ 1, 2 ], "prob": 50 },
+          { "item": "creamsoda", "count": [ 1, 2 ], "prob": 40 },
+          { "item": "lemonlime", "count": [ 1, 2 ], "prob": 40 },
+          { "item": "orangesoda", "count": [ 1, 2 ], "prob": 50 },
+          { "item": "crispycran", "count": [ 1, 2 ], "prob": 30 },
+          { "item": "purple_drink", "count": [ 1, 2 ], "prob": 20 },
+          { "item": "choc_drink", "count": [ 1, 2 ], "prob": 20 },
           { "item": "oj", "count": [ 1, 2 ], "prob": 30 },
           { "item": "cranberry_juice", "count": [ 1, 2 ], "prob": 15 },
           { "item": "juice", "count": [ 1, 2 ], "prob": 15 },
@@ -917,7 +917,13 @@
       {
         "distribution": [
           { "item": "water_clean", "container-item": "bottle_plastic", "prob": 90, "count": [ 1, 2 ], "sealed": false },
-          { "item": "water_mineral", "container-item": "bottle_plastic", "prob": 50, "count": [ 1, 2 ], "sealed": false }
+          {
+            "item": "water_mineral",
+            "container-item": "bottle_plastic",
+            "prob": 50,
+            "count": [ 1, 2 ],
+            "sealed": false
+          }
         ],
         "count": [ 1, 2 ],
         "prob": 75
