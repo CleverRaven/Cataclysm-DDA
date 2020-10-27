@@ -75,8 +75,8 @@ struct component {
     }
     // lexicographic comparison
     bool operator<( const component &rhs ) const {
-        return std::forward_as_tuple( type, requirement, count, recoverable )
-               < std::forward_as_tuple( rhs.type, rhs.requirement, rhs.count, rhs.recoverable );
+        return std::forward_as_tuple( type.str(), requirement, count, recoverable )
+               < std::forward_as_tuple( rhs.type.str(), rhs.requirement, rhs.count, rhs.recoverable );
     }
 
     component() = default;

@@ -1174,8 +1174,8 @@ static std::vector<std::vector<T>> consolidate( std::vector<std::vector<T>> old_
                                 const Accum &accum )
 {
     const auto type_lt = []( const T & lhs, const T & rhs ) -> bool {
-        return std::forward_as_tuple( lhs.type, lhs.requirement )
-        < std::forward_as_tuple( rhs.type, rhs.requirement );
+        return std::forward_as_tuple( lhs.type.str(), lhs.requirement )
+        < std::forward_as_tuple( rhs.type.str(), rhs.requirement );
     };
     // in order to simplify blueprint requirements, we merge a longer requirement
     // list into a shorter requirement list whose types are a subsequence of the
