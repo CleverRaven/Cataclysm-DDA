@@ -189,7 +189,7 @@ class string_id
         // Beautiful C++11: enable_if makes sure that S is always something that can be used to constructor
         // a std::string, otherwise a "no matching function to call..." error is generated.
         template<typename S, class = typename std::enable_if< std::is_convertible<S, std::string >::value>::type >
-        explicit string_id( S && id ) : _id( std::forward<S>( id ) ) {};
+        explicit string_id( S && id ) : _id( std::forward<S>( id ) ) {}
         /**
          * Default constructor constructs an empty id string.
          * Note that this id class does not enforce empty id strings (or any specific string at all)
