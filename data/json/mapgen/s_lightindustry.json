@@ -186,7 +186,7 @@
         "t": { "item": "cleaning_bulk", "chance": 30, "repeat": [ 2, 3 ] },
         "n": { "item": "kitchen_nonfood", "chance": 30, "repeat": [ 1, 2 ] },
         "l": { "item": "oven", "chance": 30, "repeat": [ 1, 3 ] },
-        "m": { "item": "fridge", "chance": 30, "repeat": [ 2, 5 ] },
+        "m": { "item": "SUS_fridge_breakroom", "chance": 30 },
         "x": { "item": "magazines", "chance": 30, "repeat": [ 2, 5 ] },
         "N": { "item": "magazines", "chance": 30, "repeat": [ 0, 2 ] },
         "P": { "item": "office_paper", "chance": 30 },
