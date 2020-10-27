@@ -141,7 +141,7 @@
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 25,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
