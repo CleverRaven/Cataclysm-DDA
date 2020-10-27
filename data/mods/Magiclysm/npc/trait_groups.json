@@ -64,7 +64,7 @@
       { "trait": "THIRST2", "prob": 40 },
       { "trait": "CARNIVORE", "prob": 70 },
       { "trait": "DRAGONBLOOD", "prob": 40 },
-      { "trait": "HISS", "prob": 60 },
+      { "trait": "HISS", "prob": 60 }
     ]
   },
   {
@@ -78,7 +78,7 @@
       { "trait": "POISRESIST", "prob": 50 },
       { "trait": "TOE_CLAWS", "prob": 50 },
       { "trait": "SCALES", "prob": 50 }
-     ]
+    ]
   },
   {
     "type": "trait_group",
@@ -92,6 +92,6 @@
       { "trait": "DRAGON_FEET", "prob": 50 },
       { "trait": "LARGE_OK_DRAGON", "prob": 50 },
       { "trait": "DRAGON_BREATH_BLACK", "prob": 50 }
-     ]
+    ]
   }
 ]
