@@ -1,0 +1,2882 @@
+[
+  {
+    "result": "5x50_100_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 3 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "5x50_50_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "8x40_100_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 3 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "8x40_10_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "8x40_250_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 6 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "8x40_25_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "8x40_500_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 8 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "8x40_50_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "calicomag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "glockbigmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "glockmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "glock17_17",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "glock17_22",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "glock_drum_50rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "glock_drum_100rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 3 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "m9bigmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "m9mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "mp5bigmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "mp5mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "p08mag_8rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "p08mag_32rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "clip9mm_10rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "mausermag_10rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "mausermag_20rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "mp40mag_32rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "px4mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "stenmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "tec9mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "usp9mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "uzimag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "kpf9mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "p226mag_10rd_9x19mm",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "p226mag_15rd_9x19mm",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "p228mag_13rd_9x19mm",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "p320mag_10rd_9x19mm",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "p320mag_17rd_9x19mm",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "p320mag_21rd_9x19mm",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "sp2022mag_10rd_9mm",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "sp2022mag_12rd_9mm",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "sp2022mag_15rd_9mm",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "bhp9mag_13rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "bhp9mag_15rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "p38mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ppq9mag_10rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ppq9mag_15rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ppq9mag_17rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "hptc9mag_8rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "hptc9mag_10rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "hptc9mag_15rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "cz75mag_12rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "cz75mag_20rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "cz75mag_26rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ccpmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "makarovmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "skorpion82mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "40_speedloader6",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "glock_20mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ], [ [ "hotplate", 15 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "glock_29mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ], [ [ "hotplate", 15 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "btmp9mag_9x19mm_30",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ], [ [ "hotplate", 15 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "btmp9mag_9x19mm_25",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ], [ [ "hotplate", 15 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "btmp9mag_9x19mm_20",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ], [ [ "hotplate", 15 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "btmp9mag_9x19mm_15",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ], [ [ "hotplate", 15 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "m1911_10mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "mp5_10_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "p220_10_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "tdi_10mm_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ], [ [ "hotplate", 15 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "witness_mag_10",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "xd_10_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "hk_g80mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "20x66_10_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "20x66_20_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "20x66_40_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "22_speedloader8",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "a180mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 3 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "marlin_tubeloader",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "mosquitomag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ruger1022bigmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ruger1022mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "sw22mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "j22mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "wp22mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ppkmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "sigp230mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "skorpion61mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "kp32mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "38_speedloader",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "38_speedloader5",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "38_speedloader6",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "af2011a1mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "m1911mag_10rd_38super",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "90two40mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "glock40bigmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "glock40mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "px4_40mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "sig40mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "smg_40_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "bhp40mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ppq40mag_10rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ppq40mag_12rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ppq40mag_14rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "hptjcpmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "44_speedloader6",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "deaglemag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "mac10mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "tdi_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ], [ [ "hotplate", 15 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "thompson_bigmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "thompson_drum",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 3 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "thompson_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ump45mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "usp45mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ppq45mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "hptjhpmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "hk46bigmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "hk46mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "m107a1mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "as50mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "tac50mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "tac50mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "fn57mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "fnp90mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ], [ [ "hotplate", 15 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ], [ [ "plastic_chunk", 2 ] ] ]
+  },
+  {
+    "result": "fn57mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "famasmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ruger5",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "stanag10",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ruger10",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ruger20",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ruger30",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ruger90",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 3 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ruger100",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 3 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "stanag5",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "stanag20",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "stanag30",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "stanag40",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "stanag50",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "stanag60",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "stanag60drum",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "stanag90",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 3 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "stanag100",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 3 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "stanag100drum",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 3 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "stanag150",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "g36mag_30rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "g36mag_100rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 3 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "augmag_10rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "augmag_30rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "augmag_42rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "augmag_100rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 3 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "m2010mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "falbigmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "falmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "g3bigmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "g3mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "m14mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "m14smallmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "scarhbigmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "scarhmag_30rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "scarhmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "hk417mag_20rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "hk417mag_10rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ar10mag_20rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "p226mag_12rd_357sig",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "p320mag_13rd_357sig",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "kp3atmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "fn1910mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "rugerlcpmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "mac11mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "hptcf380mag_8rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "hptcf380mag_10rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "taurus_spectrum_mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "saiga410mag_10rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ], [ [ "hotplate", 15 ] ] ],
+	"components": [ [ [ "plastic_chunk", 4 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "saiga410mag_30rd",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ], [ [ "hotplate", 15 ] ] ],
+	"components": [ [ [ "plastic_chunk", 12 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "454_speedloader5",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "454_speedloader6",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "m1911bigmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "m1911mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "500_speedloader5",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "ak74mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "rpk74mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "762x39_clip",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "akmag10",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "akmag20",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "akmag30",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "akmag40",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "akdrum75",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "762R_clip",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "ppshdrum",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "ppshmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "tokarevmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "3006_clip",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "blrmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "garandclip",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "m1918bigmag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "small_spring", 1 ] ] ]
+  },
+  {
+    "result": "m1918mag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 m",
+    "book_learn": [
+      [ "recipe_bullets", 1 ]
+    ],
+    "tools": [ [ [ "mechanical_press", 5 ] ], [ [ "welder", 5 ] ] ],
+	"components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "small_spring", 1 ] ] ]
+  }
+]
