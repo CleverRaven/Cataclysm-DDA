@@ -16,7 +16,7 @@
     "stack_size": 47,
     "ammo_type": "300blk",
     "casing": "300blk_casing",
-    "range": 45,
+    "range": 75,
     "damage": { "damage_type": "bullet", "amount": 43, "armor_penetration": 5 },
     "dispersion": 30,
     "recoil": 2000,
@@ -55,6 +55,15 @@
     "description": ".300 AAC Blackout is an intermediate cartridge that achieves ballistics similar to the 7.62x39 but allows use on the AR-15 platform.  The round is necked-up from the 5.56mm NATO, but feeds from a STANAG magazine.  It requires a specific barrel, so will not work in a standard M4 or similar carbine.  This one has been hand-reloaded.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_300blk",
+    "copy-from": "300blk",
+    "type": "AMMO",
+    "name": { "str": ".300 AAC Blackout, custom" },
+    "description": ".300 AAC Blackout is an intermediate cartridge that achieves ballistics similar to the 7.62x39 but allows use on the AR-15 platform.  The round is necked-up from the 5.56mm NATO, but feeds from a STANAG magazine.  It requires a specific barrel, so will not work in a standard M4 or similar carbine. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]
