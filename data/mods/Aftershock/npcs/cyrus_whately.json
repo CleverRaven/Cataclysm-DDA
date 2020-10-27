@@ -216,30 +216,5 @@
       "failure": "I can't be Dr Frankenstein unless you get me these."
     },
     "end": { "effect": [ { "u_buy_item": "inactive_frankenstein", "count": 1 } ] }
-  },
-  {
-    "id": "MISSION_LAST_ASSISTANT",
-    "type": "mission_definition",
-    "name": "The last lab assistant",
-    "description": "Find the missing lab assistant.",
-    "goal": "MGOAL_TALK_TO_NPC",
-    "difficulty": 5,
-    "value": 0,
-    "start": {
-      "assign_mission_target": { "om_terrain": "warehouse_north", "om_special": "warehouse", "reveal_radius": 3, "random": true, "search_range": 180 },
-      "update_mapgen": { "place_npcs": [ { "class": "sadie", "x": 19, "y": 20, "target": true } ] }
-    },
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "dialogue": {
-      "describe": "My previous lab assistant Willsworth was charged with getting some important medicine back from storage, but they are late, more than usual.  Go to the storage unit and find them.",
-      "offer": "I need my medicine.  Maybe you could find the courier?",
-      "accepted": "Perfect, I am sure all is well, but best to be dead certain.",
-      "rejected": "You are refusing vital medicine for those in need.  I demand you reconsider.",
-      "advice": "Willsworth, sort of a shortish, tallish, maybe mediumish, mostly human probably, probably some kind of gender.  It doesn't matter, they should be there.",
-      "inquire": "Yes, where is my medicine?",
-      "success": "Well that's fine I suppose, I already went ahead and made more.  Do tell me if you ever find Willsworth, there are some good bionics in there I'd like back.",
-      "success_lie": "Thanks for trying…  I guess.",
-      "failure": "Disappointing.  Of course I knew this would happen and have already prepared a replacement.  And perhaps I should make a replacement for you as well?"
-    }
   }
 ]
