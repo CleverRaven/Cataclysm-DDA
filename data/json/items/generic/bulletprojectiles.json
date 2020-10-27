@@ -1,0 +1,343 @@
+[
+  {
+    "abstract": "bulletprojectile",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "The part of the gun that goes pow out of the end. You shouldn't be seeing this." },
+    "stackable": true,
+    "material": [ "lead" ],
+    "symbol": "=",
+    "color": "yellow",
+    "damage_states": [ 0, 0 ]
+  },
+  {
+    "id": "223projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".223 bullet projectile" },
+    "description": "The projectile part of a .223 bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "22projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".22 bullet projectile" },
+    "description": "The projectile part of a .22 bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "3006projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".30-06 bullet projectile" },
+    "description": "The projectile part of a .30-06 bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "270projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".270 Winchester bullet projectile" },
+    "description": "The projectile part of a .270 Winchester bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "300projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".300 Win Mag bullet projectile" },
+    "description": "The projectile part of a .300 Winchester Magnum bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "308projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".308 bullet projectile" },
+    "description": "The projectile part of a .308 bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "762_51projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": "7.62x51mm bullet projectile" },
+    "description": "The projectile part of a 7.62x51mm bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "32projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".32 ACP bullet projectile" },
+    "description": "The projectile part of a .32 ACP bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "38_s_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".38 Special bullet projectile" },
+    "description": "The projectile part of a .38 Special bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "38_s2_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".38 Super bullet projectile" },
+    "description": "The projectile part of a .38 Super bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "40_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".40 S&W bullet projectile" },
+    "description": "The projectile part of a .40 S&W bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "10mm_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": "10mm Auto bullet projectile" },
+    "description": "The projectile part of a 10mm Auto bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "44_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".44 Magnum bullet projectile" },
+    "description": "The projectile part of a .44 Magnum bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "454_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".454 Casull bullet projectile" },
+    "description": "The projectile part of a .454 Casull bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "45_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".45 ACP bullet projectile" },
+    "description": "The projectile part of a .45 ACP bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "45colt_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".45 Colt bullet projectile" },
+    "description": "The projectile part of a .45 Colt bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "4570_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".45-70 Government bullet projectile" },
+    "description": "The projectile part of a .45-70 Government bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "46mm_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": "4.6x30mm bullet projectile" },
+    "description": "The projectile part of a 4.6x30mm bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "460_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".460 Rowland bullet projectile" },
+    "description": "The projectile part of a .460 Rowland bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "500_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".500 S&W bullet projectile" },
+    "description": "The projectile part of a .500 S&W bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "50_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".50 BMG bullet projectile" },
+    "description": "The projectile part of a .50 BMG bullet. Needs to be loaded at a proper station. Be very, very careful while reloading.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "545_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": "5.45x39mm bullet projectile" },
+    "description": "The projectile part of a 5.45x39mm bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "57mm_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": "5.7x28mm bullet projectile" },
+    "description": "The projectile part of a 5.7x28mm bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "700nx_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".700 NX bullet projectile" },
+    "description": "The projectile part of a .700 NX bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "762R_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": "7.62x54mmR bullet projectile" },
+    "description": "The projectile part of a 7.62x54mmR bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "762_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": "7.62x39mm bullet projectile" },
+    "description": "The projectile part of a 7.62x39mm bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "762_25_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": "7.62x25mm bullet projectile" },
+    "description": "The projectile part of a 7.62x25mm bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "9mm_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": "9x19mm bullet projectile" },
+    "description": "The projectile part of a 9x19mm bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "357sig_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".357 SIG bullet projectile" },
+    "description": "The projectile part of a .357 SIG bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "357mag_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".357 Magnum bullet projectile" },
+    "description": "The projectile part of a .357 Magnum bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "9x18_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": "9x18mm bullet projectile" },
+    "description": "The projectile part of a 9x18mm bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "380_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".380 ACP bullet projectile" },
+    "description": "The projectile part of a .380 ACP bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  },
+  {
+    "id": "300blk_projectile",
+    "copy-from": "bulletprojectile",
+    "type": "GENERIC",
+    "name": { "str": ".380 ACP bullet projectile" },
+    "description": "The projectile part of a .300 AAC Blackout bullet. Needs to be loaded at a proper station.",
+    "weight": "5 g",
+    "volume": "5ml",
+	"count": 1
+  }
+]
