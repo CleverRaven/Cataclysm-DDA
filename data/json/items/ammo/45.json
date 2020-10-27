@@ -24,7 +24,7 @@
     "stack_size": 30,
     "ammo_type": "45",
     "casing": "45_casing",
-    "range": 16,
+    "range": 75,
     "damage": { "damage_type": "bullet", "amount": 30, "armor_penetration": 2 },
     "dispersion": 50,
     "recoil": 600,
@@ -95,6 +95,33 @@
     "name": { "str": ".45 ACP +P, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_45_acp",
+    "copy-from": "45_acp",
+    "type": "AMMO",
+    "name": { "str": ".45 FMJ, custom" },
+	"description": ".45 ACP ammunition with 230gr FMJ bullets.  Noted for its stopping power, the .45 ACP round has been common for over a century. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_45_jhp",
+    "copy-from": "45_jhp",
+    "type": "AMMO",
+    "name": { "str": ".45 ACP JHP, custom" },
+	"description": ".45 ACP ammunition with 185gr JHP bullets.  The .45 ACP round was developed to replace the .38 Long Colt cartridge in the early 20th century.  It has good stopping power but above average recoil. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_45_super",
+    "copy-from": "45_super",
+    "type": "AMMO",
+    "name": { "str": ".45 ACP +P, custom" },
+	"description": "Overpressure .45 ACP ammunition with 185gr JHP bullets.  This +P ammunition has higher muzzle energy than typical loads leading to greater damage, accuracy and recoil. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]
