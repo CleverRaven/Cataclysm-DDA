@@ -152,7 +152,7 @@
     "melee_skill": 6,
     "melee_dice_sides": 9,
     "melee_cut": 1,
-    "dodge": 6,
+    "dodge": 10,
     "armor_bash": 40,
     "armor_cut": 40,
     "armor_bullet": 30,
@@ -167,6 +167,6 @@
         "monster_message": "The shrike shifts and disappears amidst an electric surge!"
       }
     ],
-    "extend": { "flags": [ "ELECTRIC" ] }
+    "extend": { "flags": [ "ELECTRIC", "HARDTOSHOOT" ] }
   }
 ]
