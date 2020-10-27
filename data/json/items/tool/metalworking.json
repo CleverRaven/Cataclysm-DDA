@@ -294,5 +294,101 @@
     "symbol": "`",
     "color": "brown",
     "qualities": [ [ "FILE", 1 ] ]
+  },
+  {
+    "id": "mechanical_press",
+    "type": "TOOL",
+    "name": { "str": "shop press with die set" },
+    "description": "This is a strong mechanical shop press with a variety of dies for setting shapes into metal. Commonly used by nutcase preppers in the drawing process for homemade bullet casings and setting patterns into magazines.",
+    "weight": "20000 g",
+    "volume": "20 L",
+    "price": 80000,
+    "price_postapoc": 4000,
+    "to_hit": -2,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+      }
+    ]
+  },
+  {
+    "id": "lathe",
+    "type": "TOOL",
+    "name": { "str": "mechanical lathe" },
+    "description": "A large mechanical lathe with a set of cutters used for a variety of projects, some relating to wood, some relating to homemade bullet casing production.",
+    "weight": "40000 g",
+    "volume": "40 L",
+    "price": 80000,
+    "price_postapoc": 4000,
+    "to_hit": -2,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+      }
+    ]
+  },
+  {
+    "id": "induction_annealer",
+    "type": "TOOL",
+    "name": { "str": "induction annealer" },
+    "description": "A bullet smith's heating tool. Utilizing magnetic fields, it allows perfect consistency and perfect temperature control in its heating processes. Most often used for shaping brass casings and removing stresses in the metal, making them far less likely to break when fired.",
+    "weight": "5000 g",
+    "volume": "5 L",
+    "price": 80000,
+    "price_postapoc": 4000,
+    "to_hit": -2,
+    "bashing": 2,
+    "material": [ "steel", "plastic", "copper" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+      }
+    ]
+  },
+  {
+    "id": "deluxe_handloader",
+    "type": "TOOL",
+    "name": { "str": "rc supreme home loader kit" },
+    "description": "With a hand priming tool, a case load block, deburring tool, hex key set, powder funnel, mechanical scale and a cutting edge state of the art progressive press, this hand loading set could produce ammunition of a superior quality to that of factory loads in skilled hands. It even comes with caliber sleeves to form your own bullet projectiles from raw lead and copper, and a bullet comparator with an OAL gauge for consistent measurement.",
+    "weight": "10000 g",
+    "volume": "10 L",
+    "price": 80000,
+    "price_postapoc": 4000,
+    "to_hit": -2,
+    "bashing": 1,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+      }
+    ]
   }
 ]
