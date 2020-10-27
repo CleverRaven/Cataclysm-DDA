@@ -24,7 +24,7 @@
     "stack_size": 40,
     "ammo_type": "38",
     "casing": "38_casing",
-    "range": 14,
+    "range": 75,
     "damage": { "damage_type": "bullet", "amount": 22 },
     "dispersion": 30,
     "recoil": 250,
@@ -96,6 +96,33 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_38_fmj",
+    "copy-from": "38_fmj",
+    "type": "AMMO",
+    "name": { "str": ".38 FMJ, custom" },
+	"description": ".38 Special ammunition with brass jacketed 130gr bullets.  The .38 Special round has been known from its inception for its accuracy and low recoil. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_38_special",
+    "copy-from": "38_special",
+    "type": "AMMO",
+    "name": { "str": ".38 Special, custom" },
+	"description": ".38 Special ammunition with 130gr FMJ bullets.  The .38 Special round was extremely common among US police forces during the 20th century. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_38_super",
+    "copy-from": "38_super",
+    "type": "AMMO",
+    "name": { "str": ".38 Super, custom" },
+	"description": ".38 Super ammunition with 90gr JHP bullets.  Designed in 1929, the .38 super cartridge was designed to penetrate body armor and vehicles. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]
