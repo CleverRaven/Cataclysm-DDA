@@ -16,7 +16,7 @@
     "stack_size": 10,
     "ammo_type": "500",
     "casing": "500_casing",
-    "range": 16,
+    "range": 75,
     "damage": { "damage_type": "bullet", "amount": 55, "armor_penetration": 8 },
     "dispersion": 30,
     "recoil": 3000,
@@ -43,6 +43,15 @@
     "name": { "str": ".500 S&W Magnum, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_500_Magnum",
+    "copy-from": "500_Magnum",
+    "type": "AMMO",
+    "name": { "str": ".500 S&W Magnum, custom" },
+	"description": ".500 S&W Magnum ammunition with 500gr bullets.  The .500 S&W Magnum round is a colossally powerful handgun cartridge capable of killing almost any target with one hit.  It has extremely high damage and recoil to match. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]
