@@ -39,7 +39,7 @@
     "stack_size": 100,
     "ammo_type": "22",
     "casing": "22_casing",
-    "range": 13,
+    "range": 75,
     "damage": { "damage_type": "bullet", "amount": 12 },
     "dispersion": 60,
     "recoil": 150,
@@ -101,6 +101,24 @@
     "name": { "str": ".22 FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_22_lr",
+    "copy-from": "22_lr",
+    "type": "AMMO",
+    "name": { "str": ".22 LR, custom" },
+	"description": ".22 Long Rifle ammunition with 40gr unjacketed bullets.  The .22LR round is extremely weak with very low stopping power, short range, and negligible recoil.  It is most useful for rifle training, and hunting small animals. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_22_fmj",
+    "copy-from": "22_fmj",
+    "type": "AMMO",
+    "name": { "str": ".22 FMJ, custom" },
+	"description": ".22 Long Rifle ammunition with 30gr FMJ bullets.  The .22LR round is extremely weak with very low stopping power, short range, and negligible recoil.  It is most useful for rifle training, and hunting small animals. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]
