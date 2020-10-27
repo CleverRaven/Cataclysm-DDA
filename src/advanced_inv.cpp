@@ -821,6 +821,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
     advanced_inv_area &sarea = squares[spane.get_area()];
     advanced_inv_area &darea = squares[dpane.get_area()];
 
+    bool from_container = spane.viewing_container();
+    bool to_container = dpane.viewing_container();
     // Make sure source and destination are different, otherwise items will disappear
     // Need to check actual position to account for dragged vehicles
     if( dpane.get_area() == AIM_DRAGGED && sarea.pos == darea.pos &&
@@ -842,6 +844,12 @@ bool advanced_inventory::move_all_items( bool nested_call )
         // completing, both activities are canceled.
         // Thanks to kevingranade for the explanation.
         do_return_entry();
+    }
+
+    //TODO Implement container move all, maybe make container moving into an activity?
+    if( to_container || from_container ) {
+        popup( _( "Cannot move all to/from container!" ) );
+        return false;
     }
 
     map &here = get_map();
@@ -904,6 +912,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
         do_return_entry();
 
         const tripoint placement = darea.off;
+
         // in case there is vehicle cargo space at dest but the player wants to drop to ground
         const bool force_ground = !dpane.in_vehicle();
         std::vector<drop_or_stash_item_info> to_drop;
