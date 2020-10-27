@@ -537,7 +537,8 @@
 	"vision_day": 15,
 	"dodge": 2,
 	"harvest": "arachnid",
-	"death_drops": { "items": [ [ "egg_firefly", 2 ] ] },
+	"reproduction": { "baby_egg": "egg_firefly", "baby_count": 1, "baby_timer": 30 },
+	"baby_flags": [ "SPRING", "SUMMER" ],
 	"fear_triggers": [ "HURT" ],
 	"flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
   },
