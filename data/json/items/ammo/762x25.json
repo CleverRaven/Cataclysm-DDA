@@ -16,7 +16,7 @@
     "stack_size": 40,
     "ammo_type": "762x25",
     "casing": "762_25_casing",
-    "range": 13,
+    "range": 75,
     "damage": { "damage_type": "bullet", "amount": 24, "armor_penetration": 2 },
     "dispersion": 120,
     "recoil": 540,
@@ -67,5 +67,13 @@
     "type": "AMMO",
     "name": { "str": "7.62x25mm, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.9 }, "dispersion": 1.1 }
+  },
+  {
+    "id": "custom_762_25",
+    "copy-from": "762_25hot",
+    "type": "AMMO",
+    "name": { "str": "7.62x25mm, custom" },
+	"description": "A commercial version of the 7.62x25mm cartridge created for the armed forces of Soviet Russia.  It was derived from the 7.63x25mm cartridge used by the C96 pistol. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 }
   }
 ]
