@@ -1234,7 +1234,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     }
 
     std::string label_m = _( "Moves" );
-    std::vector<std::string> t_aims( 4 ), t_confidence( 16 );
+    std::vector<std::string> t_aims( 4 ), t_confidence( 20 );
     int aim_iter = 0, conf_iter = 0;
 
     nc_color col = c_dark_gray;
@@ -1268,11 +1268,11 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         line_number++;
     }
     if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type == "numbers" ) {
-        std::string symbols = _( " <color_green>Great</color> - <color_light_gray>Normal</color>"
-                                 " - <color_magenta>Graze</color> - <color_light_blue>Moves</color>" );
+        std::string symbols = _( " <color_green>Great</color> <color_light_gray>Normal</color>"
+                                 " <color_magenta>Graze</color> <color_dark_gray>Miss</color> <color_light_blue>Moves</color>" );
         fold_and_print( w, point( 1, line_number++ ), window_width + bars_pad,
                         c_dark_gray, symbols );
-        int len = utf8_width( symbols ) - 96; // 96 to subtract color codes
+        int len = utf8_width( symbols ) - 121; // to subtract color codes
         if( len > window_width + bars_pad ) {
             line_number++;
         }
@@ -1311,7 +1311,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         if( ( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
             if( display_type == "numbers" ) {
                 t_aims[aim_iter] = string_format( "<color_dark_gray>%s:</color>", label );
-                t_confidence[( aim_iter * 4 ) + 3] = string_format( "<color_light_blue>%d</color>", moves_to_fire );
+                t_confidence[( aim_iter * 5 ) + 4] = string_format( "<color_light_blue>%d</color>", moves_to_fire );
             } else {
                 print_colored_text( w, point( 1, line_number ), col, col, string_format( _( "%s %s:" ), label,
                                     aim_l ) );
@@ -1330,13 +1330,16 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         if( display_type == "numbers" ) {
             if( panel_type == "compact" || panel_type == "labels-narrow" ) {
                 int last_chance = 0;
+                conf_iter = 0;
                 for( const confidence_rating &cr : confidence_config ) {
                     int chance = std::min<int>( 100, 100.0 * ( cr.aim_level ) * confidence ) - last_chance;
                     last_chance += chance;
-                    t_confidence[conf_iter] = string_format( "<color_%s>%3d%%</color>", cr.color, chance );
+                    t_confidence[conf_iter + ( aim_iter * 5 )] = string_format( "<color_%s>%3d%%</color>", cr.color,
+                            chance );
                     conf_iter++;
-                    if( conf_iter == ( aim_iter * 4 ) + 3 ) {
-                        conf_iter++;
+                    if( conf_iter == 3 ) {
+                        t_confidence[conf_iter + ( aim_iter * 5 )] = string_format( "<color_%s>%3d%%</color>", "dark_gray",
+                                100 - last_chance );
                     }
                 }
                 aim_iter++;
@@ -1350,6 +1353,8 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                     return string_format( "%s: <color_%s>%3d%%</color>", pgettext( "aim_confidence",
                                           config.label.c_str() ), config.color, chance );
                 }, enumeration_conjunction::none );
+                confidence_s.append( string_format( ", Miss: <color_light_gray>%3d%%</color>",
+                                                    ( 100 - last_chance ) ) );
                 line_number += fold_and_print_from( w, point( 1, line_number ), window_width, 0,
                                                     c_dark_gray, confidence_s );
             }
@@ -1373,7 +1378,8 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     if( ( panel_type == "compact" || panel_type == "labels-narrow" )
         && display_type == "numbers" ) {
         const std::string divider = "|";
-        int left_pad = 10, columns = 4;
+        int left_pad = 8;
+        int columns = 5;
         insert_table( w, left_pad, ++line_number, columns, c_light_gray, divider, true, t_confidence );
         insert_table( w, 0, line_number, 1, c_light_gray, "", false, t_aims );
         line_number = line_number + 4; // 4 to account for the tables

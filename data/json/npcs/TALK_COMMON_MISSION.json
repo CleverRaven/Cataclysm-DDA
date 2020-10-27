@@ -51,7 +51,7 @@
           }
         },
         "no": {
-          "has_no_assigned_mission": "I have another job for you.  Want to hear about it?",
+          "has_no_assigned_mission": "I have a job for you.  Want to hear about it?",
           "no": {
             "has_many_assigned_missions": "I just have one job for you.  Want to hear about it?",
             "no": "I just have one job for you.  Want to hear about it?"

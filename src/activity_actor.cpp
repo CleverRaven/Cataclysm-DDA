@@ -1108,9 +1108,13 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     add_msg( m_debug, _( "Rolled %i. Mean_roll %g. Difficulty %i." ), pick_roll, mean_roll, lock_roll );
 
-    int xp_gain = 0;
+    // Your base skill XP gain is derived from the lock difficulty (which is currently random but shouldn't be).
+    int xp_gain = 3 * lock_roll;
     if( perfect || ( pick_roll >= lock_roll ) ) {
-        xp_gain += lock_roll;
+        if( !perfect ) {
+            // Increase your XP if you successfully pick the lock, unless you were using a Perfect Lockpick.
+            xp_gain = xp_gain * 2;
+        }
         here.has_furn( target ) ?
         here.furn_set( target, new_furn_type ) :
         static_cast<void>( here.ter_set( target, new_ter_type ) );
@@ -1132,9 +1136,13 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( avatar *you = dynamic_cast<avatar *>( &who ) ) {
-        if( !perfect ) {
-            // You don't gain much skill since the item does all the hard work for you
-            xp_gain += std::pow( 2, you->get_skill_level( skill_traps ) ) + 1;
+        // Gives another boost to XP, reduced by your skill level.
+        // Higher skill levels require more difficult locks to gain a meaningful amount of xp.
+        // Again, we're using randomized lock_roll until a defined lock difficulty is implemented.
+        if( lock_roll > you->get_skill_level( skill_traps ) ) {
+            xp_gain += lock_roll + ( xp_gain / ( you->get_skill_level( skill_traps ) + 1 ) );
+        } else {
+            xp_gain += xp_gain / ( you->get_skill_level( skill_traps ) + 1 );
         }
         you->practice( skill_traps, xp_gain );
     }

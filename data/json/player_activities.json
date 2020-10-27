@@ -240,7 +240,7 @@
   {
     "id": "ACT_VEHICLE",
     "type": "activity_type",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "verb": "interacting with the vehicle",
     "based_on": "speed"
   },
