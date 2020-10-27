@@ -5,6 +5,11 @@
 #include "flag.h"
 #include "generic_factory.h"
 
+#ifdef _MSC_VER
+#  include <intrin.h>
+#  define __builtin_popcount __popcnt
+#endif
+
 namespace
 {
 struct test_obj;
