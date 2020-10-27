@@ -92,7 +92,9 @@
       { "group": "trait_mutant_npc_common" },
       { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_manatouched" },
-      { "distribution": [ { "group": "trait_group_manatouched_nonthres" }, { "group": "trait_group_manatouched_postthres" } ] }
+      {
+        "distribution": [ { "group": "trait_group_manatouched_nonthres" }, { "group": "trait_group_manatouched_postthres" } ]
+      }
     ]
   },
   {
@@ -100,10 +102,7 @@
     "id": "NC_NPC_MUTANT_BDRAGON",
     "name": "Black Dragon Mutant",
     "job_description": "I've got the blood of dragons in my veins.  I need more.",
-    "skills": [
-      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
-    ],
+    "skills": [ { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } }, { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } } ],
     "traits": [
       { "group": "trait_mutant_npc_common" },
       { "group": "BG_survival_story_MUTANTS" },
