@@ -68,18 +68,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_lot",
-    "name": "parking lot",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 1,
-    "extras": "build",
-    "mondensity": 2,
-    "mapgen": [ { "method": "builtin", "name": "parking_lot" } ],
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "temple",
     "name": "strange temple",
     "sym": "T",
