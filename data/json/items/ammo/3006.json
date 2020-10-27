@@ -16,7 +16,7 @@
     "stack_size": 20,
     "ammo_type": "3006",
     "casing": "3006_casing",
-    "range": 61,
+    "range": 85,
     "damage": { "damage_type": "bullet", "amount": 62, "armor_penetration": 10 },
     "dispersion": 20,
     "recoil": 3800,
@@ -105,6 +105,33 @@
     "name": { "str": ".30-06 M2 AP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_3006",
+    "copy-from": "3006",
+    "type": "AMMO",
+    "name": { "str": ".30-06 Springfield, custom" },
+	"description": ".30-06 Springfield rounds with 165gr soft point bullets.  The .30-06 cartridge has excellent accuracy, range, and stopping power making it popular with hunters and snipers for well over a century. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_3006_incendiary",
+    "copy-from": "3006_incendiary",
+    "type": "AMMO",
+    "name": { "str": ".30-06 incendiary, custom" },
+	"description": "Armor piercing incendiary .30-06 M14A1 ammunition containing tracer rounds to help keep the weapon they are fired from on target.  It penetrates all but the strongest body armor with ease. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_3006fmj",
+    "copy-from": "3006fmj",
+    "type": "AMMO",
+    "name": { "str": ".30-06 M2 AP, custom" },
+	"description": "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an extremely powerful and accurate cartridge but pays for its armor penetration abilities with lowered damage. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]
