@@ -95,5 +95,32 @@
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_50_incendiary",
+    "copy-from": "50_incendiary",
+    "type": "AMMO",
+    "name": { "str": ".50 BMG tracer, custom" },
+    "description": "A tracer variant of the powerful .50 BMG round.  Tracer rounds help to keep the weapon they are fired from on target at the risk of igniting flammable substances.  This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_50bmg",
+    "copy-from": "50match",
+    "type": "AMMO",
+    "name": { "str": ".50 BMG Match, custom" },
+    "description": ".50 BMG ammunition with lead-cored FMJ bullets.  The .50 BMG is a very powerful rifle round designed for anti-aircraft use, later adapted to anti-vehicular and anti-personnel roles.  Its stupendous energy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise. This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "custom_50ss",
+    "copy-from": "50ss",
+    "type": "AMMO",
+    "name": { "str": ".50 BMG AP, custom" },
+    "description": "Variant of the .50 BMG round that uses a core hardened steel.  Penetration is increased, but damage is reduced.  This round has been given great care and attention during its hand loading by a knowledgeable individual, and its performance is increased.",
+    "proportional": { "price": 1.5, "damage": { "damage_type": "bullet", "amount": 1.1 }, "dispersion": 0.9 },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]
