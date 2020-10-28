@@ -265,7 +265,7 @@
     "reversible": true,
     "using": [ [ "ammo_shot", 2 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "//": "1166 mg gunpowder rounded to 12 100 mg 'pieces'; recipes makes two shells",
+    "//": "1166 mg gunpowder rounded to 12 100 mg 'pieces'; recipe makes two shells",
     "components": [
       [ [ "gunpowder", 23 ], [ "gunpowder_pistol", 23 ], [ "gunpowder_shotgun", 23 ] ],
       [
