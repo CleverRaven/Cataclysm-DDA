@@ -13,7 +13,7 @@ static const activity_schedule task_dig( dig_actor, 5_minutes );
 static const activity_schedule task_wait( activity_id( "ACT_WAIT" ), 5_minutes );
 static const activity_schedule task_firstaid( activity_id( "ACT_FIRSTAID" ), 5_minutes );
 static const activity_schedule task_plant( activity_id( "ACT_PLANT_SEED" ), 5_minutes );
-static const activity_schedule task_weld( activity_id( "ACT_VEHICLE" ), 5_minutes );
+static const activity_schedule task_weld( activity_id( "ACT_VEHICLE_REPAIR" ), 5_minutes );
 static const activity_schedule task_read( activity_id( "ACT_READ" ), 5_minutes );
 
 static const meal_schedule sausage( itype_id( "sausage" ) );
