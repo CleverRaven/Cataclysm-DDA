@@ -3457,6 +3457,7 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     if( jsobj.has_string( "container-item" ) ) {
         ig->set_container_item( itype_id( jsobj.get_string( "container-item" ) ) );
     }
+    jsobj.read( "on_overflow", ig->on_overflow, false );
     if( jsobj.has_member( "sealed" ) ) {
         ig->sealed = jsobj.get_bool( "sealed" );
     }

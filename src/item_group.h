@@ -114,6 +114,13 @@ class Item_spawn_data
             maximized = 1,
         };
 
+        enum class overflow_behaviour {
+            none,
+            spill,
+            discard,
+            last
+        };
+
         Item_spawn_data( int _probability, const std::string &context ) :
             probability( _probability ), context_( context ) { }
         virtual ~Item_spawn_data() = default;
@@ -158,6 +165,7 @@ class Item_spawn_data
          * The group spawns contained in this item
          */
         cata::optional<itype_id> container_item;
+        overflow_behaviour on_overflow = overflow_behaviour::none;
         bool sealed = true;
 
         struct relic_generator {
@@ -181,6 +189,12 @@ class Item_spawn_data
 template<>
 struct enum_traits<Item_spawn_data::spawn_flags> {
     static constexpr bool is_flag_enum = true;
+};
+
+template<>
+struct enum_traits<Item_spawn_data::overflow_behaviour> {
+    static constexpr Item_spawn_data::overflow_behaviour last =
+        Item_spawn_data::overflow_behaviour::last;
 };
 
 /**

@@ -39,6 +39,9 @@ item Item_spawn_data::create_single( const time_point &birthday ) const
 
 void Item_spawn_data::check_consistency( const std::string &/*context*/ ) const
 {
+    if( on_overflow != overflow_behaviour::none && !container_item ) {
+        debugmsg( "item group %s specifies overflow behaviour but not container", context() );
+    }
     // Spawn ourselves with all possible items being definitely spawned, so as
     // to verify e.g. that if a container item was specified it can actually
     // contain what was wanted.
@@ -55,6 +58,26 @@ relic Item_spawn_data::relic_generator::generate_relic( const itype_id &it_id ) 
 {
     return id->generate( rules, it_id );
 }
+
+namespace io
+{
+template<>
+std::string enum_to_string<Item_spawn_data::overflow_behaviour>(
+    Item_spawn_data::overflow_behaviour data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case Item_spawn_data::overflow_behaviour::none: return "none";
+        case Item_spawn_data::overflow_behaviour::spill: return "spill";
+        case Item_spawn_data::overflow_behaviour::discard: return "discard";
+        // *INDENT-ON*
+        case Item_spawn_data::overflow_behaviour::last:
+            break;
+    }
+    debugmsg( "Invalid overflow_behaviour" );
+    abort();
+}
+} // namespace io
 
 static item_pocket::pocket_type guess_pocket_for( const item &container, const item &payload )
 {
@@ -75,7 +98,8 @@ static item_pocket::pocket_type guess_pocket_for( const item &container, const i
 
 static void put_into_container(
     Item_spawn_data::ItemList &items, const cata::optional<itype_id> container_type,
-    time_point birthday )
+    time_point birthday, Item_spawn_data::overflow_behaviour on_overflow,
+    const std::string &context )
 {
     if( !container_type ) {
         return;
@@ -86,11 +110,33 @@ static void put_into_container(
     std::shuffle( items.begin(), items.end(), rng_get_engine() );
 
     item ctr( *container_type, birthday );
+    Item_spawn_data::ItemList excess;
     for( const item &it : items ) {
-        const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
-        ctr.put_in( it, pk_type );
+        if( ctr.can_contain( it ) ) {
+            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
+            ctr.put_in( it, pk_type );
+        } else {
+            switch( on_overflow ) {
+                case Item_spawn_data::overflow_behaviour::none:
+                    debugmsg( "item %s does not fit in container %s when spawning item group %s.  "
+                              "This can be resolved either by changing the container or contents "
+                              "to ensure that they fit, or by specifying an overflow behaviour via "
+                              "\"on_overflow\" on the item group.",
+                              it.typeId().str(), container_type->str(), context );
+                    break;
+                case Item_spawn_data::overflow_behaviour::spill:
+                    excess.push_back( it );
+                    break;
+                case Item_spawn_data::overflow_behaviour::discard:
+                    break;
+                case Item_spawn_data::overflow_behaviour::last:
+                    debugmsg( "Invalid overflow_behaviour" );
+                    break;
+            }
+        }
     }
-    items = Item_spawn_data::ItemList{ ctr };
+    excess.push_back( ctr );
+    items = std::move( excess );
 }
 
 Single_item_creator::Single_item_creator( const std::string &_id, Type _type, int _probability,
@@ -196,7 +242,7 @@ Item_spawn_data::ItemList Single_item_creator::create(
             it.overwrite_relic( artifact->generate_relic( it.typeId() ) );
         }
     }
-    put_into_container( result, container_item, birthday );
+    put_into_container( result, container_item, birthday, on_overflow, context() );
     return result;
 }
 
@@ -605,7 +651,7 @@ Item_spawn_data::ItemList Item_group::create(
             break;
         }
     }
-    put_into_container( result, container_item, birthday );
+    put_into_container( result, container_item, birthday, on_overflow, context() );
 
     return result;
 }
