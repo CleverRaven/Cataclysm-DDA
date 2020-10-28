@@ -1,0 +1,19 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "immolate_transform",
+    "furniture": [
+      { "result": [ [ "f_ash", 2 ], [ "f_null", 5 ] ], "valid_furniture": [ "f_null" ] },
+      { "result": "f_ash", "valid_flags": [ "FLAMMABLE_ASH" ] }
+    ],
+    "terrain": [
+      {
+        "result": [ [ "t_dirt", 3 ], "t_grass_dead" ],
+        "valid_terrain": [ "t_grass", "t_grass_long", "t_grass_tall", "t_grass_white", "t_grass_dead", "t_moss", "t_grass_golf" ],
+        "message": "The earth is scorched clean!"
+      },
+      { "result": [ "t_dirtmound", "t_dirt" ], "valid_flags": [ "SHRUB" ] },
+      { "result": [ [ "t_stump", 3 ], [ "t_tree_dead", 2 ], "t_dirtmound" ], "valid_flags": [ "TREE" ] }
+    ]
+  }
+]
