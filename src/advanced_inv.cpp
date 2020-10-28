@@ -3,12 +3,14 @@
 #include <algorithm>
 #include <cstddef>
 #include <initializer_list>
+#include <iterator>
 #include <list>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "advuilist.h"
 #include "activity_actor.h"
 #include "activity_type.h"
 #include "advanced_inv_listitem.h"
@@ -65,10 +67,84 @@
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 
+namespace
+{
+struct myadvinv_entry {
+    // entries are stacks of items
+    using stack_t = std::vector<item_location>;
+    stack_t stack;
+};
+
+using myadvinv_stack_t = std::vector<myadvinv_entry>;
+
+myadvinv_stack_t get_stacks( map_cursor &cursor )
+{
+    myadvinv_stack_t stacks;
+    map_stack items = get_map().i_at( tripoint( cursor ) );
+    std::unordered_map<itype_id, std::set<int>> cache;
+    for( item &elem : items ) {
+        const auto id = elem.typeId();
+        auto iter = cache.find( id );
+        bool got_stacked = false;
+        if( iter != cache.end() ) {
+            for( auto const &idx : iter->second ) {
+                got_stacked = stacks[idx].stack.front()->display_stacked_with( elem );
+                if( got_stacked ) {
+                    stacks[idx].stack.emplace_back( cursor, &elem );
+                    break;
+                }
+            }
+        }
+        if( !got_stacked ) {
+            cache[id].insert( stacks.size() );
+            stacks.emplace_back( myadvinv_entry{ { item_location{ cursor, &elem } } } );
+        }
+    }
+
+    return stacks;
+}
+} // namespace
+
 void create_advanced_inv()
 {
-    advanced_inventory advinv;
-    advinv.display();
+    // advanced_inventory advinv;
+    // advinv.display();
+
+    myadvinv_stack_t itemlist;
+    for( map_cursor &cursor : map_selector( get_player_character().pos(), PICKUP_RANGE ) ) {
+        myadvinv_stack_t const &stacks = get_stacks( cursor );
+        itemlist.insert( itemlist.end(), std::make_move_iterator( stacks.begin() ),
+                         std::make_move_iterator( stacks.end() ) );
+    }
+
+    using myuilist_t = advuilist<std::vector<myadvinv_entry>>;
+    myuilist_t myadvuilist( &itemlist );
+    myadvuilist.setColumns(
+        { { "item", []( myadvinv_entry const &it ) { return it.stack[0]->display_name(); }, 8.F },
+          { "count",
+            []( myadvinv_entry const &it ) {
+                std::size_t const itsize =
+                    it.stack[0]->count_by_charges() ? it.stack[0]->charges : it.stack.size();
+                return std::to_string( itsize );
+            },
+            2.F } } );
+    myadvuilist.addSorter( { "count", []( myadvinv_entry const &l, myadvinv_entry const &r ) {
+                                std::size_t const lsize = l.stack[0]->count_by_charges()
+                                                              ? l.stack[0]->charges
+                                                              : l.stack.size();
+                                std::size_t const rsize = r.stack[0]->count_by_charges()
+                                                              ? r.stack[0]->charges
+                                                              : r.stack.size();
+                                return lsize < rsize;
+                            } } );
+
+    myadvuilist.get_ctxt()->register_action( "EXAMINE" );
+    myadvuilist.setctxthandler( []( std::string const &action ) {
+        if( action == "EXAMINE" ) {
+            debugmsg( "examine placeholder" );
+        }
+    } );
+    myadvuilist.select();
 }
 
 // *INDENT-OFF*
