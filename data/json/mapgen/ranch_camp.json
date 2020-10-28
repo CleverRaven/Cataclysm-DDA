@@ -552,9 +552,9 @@
         "..%.................................................<...................",
         "..%................................................2222..WWWWwWWWwWWW...",
         "..%..............................................222//222W;;;;rrr;;;W...",
-        "..%.............................................22//////22H;;;;;;;;rW...",
+        "..%.............................................22//////222;;;;;;;;rW...",
         "..%.............................................2////////A;;;;;;;;;rW...",
-        "..%.............................................22//////22H;;;;;;;;rW...",
+        "..%.............................................22//////222;;;;;;;;rW...",
         "..%..............................................222//222W;;;;;;;;;;w...",
         "..%................................................2222..W;;;;;;;5;;W...",
         "..%......................................................WWWW====WWWW...",
@@ -596,6 +596,7 @@
         "..%..................................../W;;;;W;;;;W;;;;W;;;;W;;;;W;;;;W."
       ],
       "palettes": [ "ranch_camp" ],
+      "terrain": { "r": "t_dirtfloor" },
       "items": { ";": { "item": "farming_tools", "chance": 1 } },
       "place_item": [
         { "item": "cattlefodder", "x": [ 41, 44 ], "y": [ 25, 29 ], "amount": [ 0, 2 ] },
@@ -634,7 +635,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_floor",
       "rows": [
         "................................................x.............x.........",
         "................................................xxxx.......xxxx.........",
@@ -668,33 +669,63 @@
         "../#################/............../..............%.....................",
         "../#################/............../..............%.....................",
         "..///////////////////............../..............%.....................",
-        "../#################/............../....|---|+-|4.%.....................",
-        "../#################/...........sssssss.|t B| r|..%.....................",
-        "..///////////////////...........sssssss.|S B| r|..%.....................",
-        "......WWWWWWWWWwwWWWW...|--www--|-w+w---|-+-|--|..%.....................",
-        "......W;;;rrr;;;;;;rW...|       |       |  @@d |..%.....................",
-        "......W;;;;;;;;;;;;rW...| hnnnh         +  @@  |..%.....................",
-        "......W;;;;;;;;;;;;rW..s| hnnnh         |      w..%.....................",
-        "......w;;;;;;;;;;;;;Wsss+       |     |-|      |..%.....................",
-        "......w;;;;;;;;;;;;;+sss|D     f|E    |d+  dd  |..%.....................",
-        "......W;;;;;;;;;;;;;Ws..|c     c|-w+w-|-|--ww--|..%.....................",
-        "......Wr;;;;;;;;;;;;w...|cOccccc|sssssssssssssss..%.....................",
-        "......Wr;;;;;;;;;;;;W...|--www--|sssssssssssssss..%.....................",
+        "../#################/............../....|||||+||4.%.....................",
+        "../#################/...........sssssss.|t B- ±|..%.....................",
+        "..///////////////////...|ƃ|.....sssssss.|Ŧ B- ±|..%.....................",
+        "......WWWWWWWWWwwWWWW...|||www||||w+w||||-+----|..%.....................",
+        "......W;;;rrr;;;;;;rW...|  hnh  -‡      -  @@  |..%.....................",
+        "......W;;;;;;;;;;;;rW...|  hnh       Y  +  @@ Δ|..%.....................",
+        "......W;;;;;;;;;;;;rW..s|  hnh     YYY  -      w..%.....................",
+        "......w;;;;;;;;;;;;;Wsss+       -E    ---     Δ|..%.....................",
+        "......w;;;;;;;;;;;;;+sss|D     f-E    -Ʌ+  dd  |..%.....................",
+        "......W;;;;;;;;;;;;;Ws..|c     ♣||w+w||||||ww|||..%.....................",
+        "......Wr;;;;;;;;;;;;w...|cOcc♥♠♦|sssssssssssssss..%.....................",
+        "......Wr;;;;;;;;;;;;W...|||www|||sssssssssssssss..%.....................",
         "......Wr;;;;;;;;;;;;W..........sssssssssssssssss..%.....................",
         "///...W;;;;;;;;;;;5;W..........sssssssssssssssss..%.....................",
         "..///.WWW=========WWW.............................%.....................",
         "....//////////////5...............................%....................."
       ],
       "palettes": [ "ranch_camp" ],
+      "sealed_item": { "#": { "items": { "item": "farming_seeds", "chance": 60 }, "furniture": "f_plant_seedling" } },
+      "terrain": { "r": "t_dirtfloor", ";": "t_dirtfloor", "ƃ": "t_ramp_down_low", "|": "t_brick_wall", "-": "t_wall_w" },
+      "furniture": { "±": "f_rack_wood" },
       "items": {
+        "d": [
+          { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
+        "Ʌ": [
+          { "item": "SUS_wardrobe_mens", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
+        "n": [
+          { "item": "dishes_dining", "chance": 30 },
+          { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "baked_goods", "chance": 5 },
+          { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dining", "chance": 10 }
+        ],
+        "r": [
+          { "item": "tools_home", "chance": 40 },
+          { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "mechanics", "chance": 1, "repeat": [ 1, 2 ] },
+          { "item": "camping", "chance": 10 },
+          { "item": "tools_survival", "chance": 5, "repeat": [ 1, 2 ] }
+        ],
+        "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
         "@": { "item": "bed", "chance": 60 },
-        "E": { "item": "homebooks", "chance": 50 },
-        "O": { "item": "oven", "chance": 30 },
-        "c": { "item": "kitchen", "chance": 40 },
-        "d": { "item": "allclothes", "chance": 60 },
-        "f": { "item": "fridge", "chance": 60 },
-        "n": { "item": "hardware", "chance": 30 },
-        "r": { "item": "home_hw", "chance": 60 }
+        "E": [ { "item": "homebooks", "chance": 40, "repeat": [ 1, 4 ] }, { "item": "games", "chance": 5, "repeat": [ 1, 2 ] } ],
+        "O": { "item": "SUS_oven", "chance": 30 },
+        "♣": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
+        "♦": { "item": "SUS_cookware", "chance": 100 },
+        "♠": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+        "♥": { "item": "SUS_junk_drawer", "chance": 100 },
+        "f": { "item": "SUS_fridge", "chance": 60 },
+        "±": { "item": "home_hw", "chance": 60 },
+        "Ŧ": [ { "item": "SUS_bathroom_sink", "chance": 70 }, { "item": "SUS_bathroom_medicine", "chance": 40 } ],
+        "‡": { "item": "fireplace_fill", "chance": 30, "repeat": [ 2, 5 ] },
+        "c": [ { "item": "SUS_breakfast_cupboard", "chance": 10 }, { "item": "SUS_coffee_cupboard", "chance": 10 } ]
       },
       "toilets": { "t": {  } },
       "place_vehicles": [ { "vehicle": "farm_vehicles", "x": 13, "y": 41, "chance": 100, "rotation": 180 } ]
@@ -1013,6 +1044,64 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof", "_": "t_tar_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "ranch_camp_68_basement",
+    "object": {
+      "fill_ter": "t_dirtfloor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "|||                     ",
+        "|ƃ|                     ",
+        "|.|||||||               ",
+        "|......X|               ",
+        "|..a.r.H|               ",
+        "|..a.r.b|               ",
+        "|..a.r.b|               ",
+        "|..a.r.l|               ",
+        "|@.e.c.l|               ",
+        "|@@e.cPl|               ",
+        "|||||||||               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "terrain": { "ƃ": "t_ramp_up_high", ".": "t_dirtfloor", "|": "t_brick_wall" },
+      "furniture": {
+        "a": "f_rack_wood",
+        "r": "f_rack_wood",
+        "c": "f_rack_wood",
+        "l": "f_rack_wood",
+        "e": "f_rack_wood",
+        "H": "f_fvat_empty",
+        "b": "f_bench",
+        "@": "f_hay",
+        "P": [ "f_still", "f_null" ],
+        "X": "f_wood_keg"
+      },
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 1, "y": 13, "chance": 30, "rotation": 90 } ],
+      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 10, 100 ] } },
+      "items": {
+        "a": { "item": "dry_goods", "chance": 30, "repeat": [ 2, 8 ] },
+        "r": { "item": "preserved_food", "chance": 30, "repeat": [ 2, 8 ] },
+        "c": { "item": "condiments", "chance": 30, "repeat": [ 2, 8 ] },
+        "e": { "item": "pantry_liquids", "chance": 30, "repeat": [ 2, 8 ] },
+        "l": { "item": "farming_seeds", "chance": 30, "repeat": [ 2, 8 ] },
+        "b": [ { "item": "supplies_farming", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "tools_earthworking", "chance": 30 } ]
+      }
     }
   },
   {
