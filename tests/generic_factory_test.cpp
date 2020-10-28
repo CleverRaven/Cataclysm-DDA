@@ -255,7 +255,9 @@ using dyn_str_id = string_id<dyn_test_obj>;
 } // namespace
 
 // mark string_id<dyn_test_obj> as dynamic/non-interned
-template<> struct string_id_params<dyn_test_obj> : abstract_string_id_params<true> {};
+template<> struct string_id_params<dyn_test_obj> {
+    static constexpr bool dynamic = true;
+};
 
 // compares the lookup performance of different flag container implementations
 TEST_CASE( "flags_benchmark", "[.][generic_factory][int_id][string_id][benchmark]" )

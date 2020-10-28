@@ -72,11 +72,6 @@ class generic_factory;
  *     `::obj` call is relatively fast (array read by int index), a bit slower than on int_id
  */
 
-/** @relates string_id_params */
-template<bool IsDynamic>
-struct abstract_string_id_params {
-    static constexpr bool dynamic = IsDynamic;
-};
 /**
  *  Type marker that specifies whether string ids of a specific type
  *  are "static" (i.e. "interned", having a single pointer inside) or
@@ -84,19 +79,27 @@ struct abstract_string_id_params {
  *
  *  By default all string ids are static/interned.
  *  To make a specific string_id type dynamic, add the following specialization:
- *      template<> struct string_id_params<Trait_group>: abstract_string_id_params<true> {};
- *  Replace `T` above with concrete type of the string id  (see type_id.h for examples)
+ *      template<> struct string_id_params<T> {
+ *           static constexpr bool dynamic = true;
+ *      };
+ *  Replace `T` above with concrete type of the string id (see below for examples)
  */
 template<typename T>
-struct string_id_params: abstract_string_id_params<false> {};
+struct string_id_params {
+    static constexpr bool dynamic = false;
+};
 
 // mark string_ids of certain classes as "dynamic"
 // NOTE: string_id.h is the safest place for these markers, because they MUST be declared
-//  before any usage of corresponding string_id type in cpp files
+// before any usage of corresponding string_id type in cpp files
 class Item_spawn_data;
-template<> struct string_id_params<Item_spawn_data>: abstract_string_id_params<true> {};
+template<> struct string_id_params<Item_spawn_data> {
+    static constexpr bool dynamic = true;
+};
 class Trait_group;
-template<> struct string_id_params<Trait_group>: abstract_string_id_params<true> {};
+template<> struct string_id_params<Trait_group> {
+    static constexpr bool dynamic = true;
+};
 
 // Two different implementations of the "identity" part of string_id.
 /**
@@ -105,9 +108,12 @@ template<> struct string_id_params<Trait_group>: abstract_string_id_params<true>
  */
 class string_identity_static
 {
+    private:
+        int _id;
+
         string_identity_static(): _id( empty_interned_string() ) {}
 
-        template<typename S, class = typename std::enable_if<std::is_convertible<S, std::string>::value>::type>
+        template<typename S, class = std::enable_if_t<std::is_convertible<S, std::string>::value>>
         explicit string_identity_static( S && id ): _id( string_id_intern( std::forward<S>( id ) ) )  {}
 
         inline const std::string &str() const {
@@ -117,9 +123,6 @@ class string_identity_static
         inline bool is_empty() const {
             return _id == empty_interned_string();
         }
-
-        // private fields
-        int _id;
 
         /** Returns unique int identifier for this string */
         static int string_id_intern( std::string &&s );
@@ -147,11 +150,12 @@ class string_identity_static
  */
 class string_identity_dynamic
 {
+    private:
         std::string _id;
 
         string_identity_dynamic() = default;
 
-        template<typename S, class = typename std::enable_if<std::is_convertible<S, std::string>::value>::type>
+        template<typename S, class = std::enable_if_t<std::is_convertible<S, std::string>::value>>
         explicit string_identity_dynamic( S && id ) : _id( std::forward<S>( id ) )  {}
 
         inline const std::string &str() const {
@@ -176,8 +180,8 @@ class string_id
         using value_type = T;
         using This = string_id<T>;
         // type of internal identity representation
-        using Identity = typename std::conditional<string_id_params<T>::dynamic,
-              string_identity_dynamic, string_identity_static>::type;
+        using Identity = std::conditional_t<string_id_params<T>::dynamic,
+              string_identity_dynamic, string_identity_static>;
         // type of lexicographic comparator for this string_id
         using LexCmp = lexicographic<T>;
 
@@ -188,7 +192,7 @@ class string_id
          */
         // Beautiful C++11: enable_if makes sure that S is always something that can be used to constructor
         // a std::string, otherwise a "no matching function to call..." error is generated.
-        template<typename S, class = typename std::enable_if< std::is_convertible<S, std::string >::value>::type >
+        template<typename S, class = std::enable_if_t<std::is_convertible<S, std::string>::value>>
         explicit string_id( S && id ) : _id( std::forward<S>( id ) ) {}
         /**
          * Default constructor constructs an empty id string.
@@ -342,7 +346,7 @@ struct hash<string_id<T>> {
 
 /** Lexicographic order comparator for string_ids */
 template<typename T>
-struct lexicographic : std::binary_function<string_id<T>, string_id<T>, bool> {
+struct lexicographic {
     bool operator()( const string_id<T> &x, const string_id<T> &y ) const {
         //TODO change to use localized sorting
         // NOLINTNEXTLINE cata-use-localized-sorting
