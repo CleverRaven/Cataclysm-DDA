@@ -22,8 +22,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -49,8 +48,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -76,8 +74,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -103,8 +100,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -130,8 +126,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -153,8 +148,7 @@
       "monster_id": "mon_laserturret",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -176,8 +170,7 @@
       "monster_id": "mon_turret_bmg",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -203,8 +196,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -230,8 +222,7 @@
       "difficulty": 5,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -253,8 +244,7 @@
       "monster_id": "mon_turret_rifle",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -276,8 +266,7 @@
       "monster_id": "mon_crows_m240",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -299,8 +288,7 @@
       "monster_id": "mon_turret_riot",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -322,8 +310,7 @@
       "monster_id": "mon_turret",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -347,8 +334,7 @@
       "hostile_msg": "You misprogram the security bot and it trains its gun on you. RUN!",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -372,8 +358,7 @@
       "hostile_msg": "You misprogram the security bot and it trains its gun on you. RUN!",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -397,8 +382,7 @@
       "hostile_msg": "You misprogram the nurse bot. It's looking at you funny.",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -422,8 +406,7 @@
       "hostile_msg": "You misprogram the grocery bot. It's looking at you funny.",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -447,8 +430,7 @@
       "hostile_msg": "You misprogram the grocery bot. It's looking at you funny.",
       "difficulty": 4,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -474,8 +456,7 @@
       "//": "Very difficult due to organic interference and failed components",
       "difficulty": 9,
       "moves": 250,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -501,8 +482,7 @@
       "//": "Very difficult due to organic interference and failed components",
       "difficulty": 9,
       "moves": 250,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -528,8 +508,7 @@
       "//": "Wheeled and must be easy-to-use for police deployment",
       "difficulty": 3,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -555,8 +534,7 @@
       "//": "Like most surveillance tech these likely have poor security. Secure the wifi!",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -581,8 +559,7 @@
       "//": "Currently has no higher functions",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -608,8 +585,7 @@
       "//": "Digging parameters need special attention but no (intentional) lethal weapons",
       "difficulty": 3,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -635,8 +611,7 @@
       "//": "Pretty easy but you want to be careful with the gas",
       "difficulty": 4,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -662,8 +637,7 @@
       "//": "Same as hacks",
       "difficulty": 4,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -689,8 +663,7 @@
       "//": "Not as lethal as a secubot but far more fiddly and complex with its implied assembly and sub-deployment systems",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -715,8 +688,7 @@
       "//": "Milspec but immobile and no lethal weaponry",
       "difficulty": 4,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -740,8 +712,7 @@
       "hostile_msg": "The dispatch turns on you, whacking at you with its arms!",
       "difficulty": 1,
       "moves": 300,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -765,8 +736,7 @@
       "hostile_msg": "The dispatch turns on you, slashing at you with its arms!",
       "difficulty": 1,
       "moves": 300,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   }
 ]

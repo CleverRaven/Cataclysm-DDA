@@ -1053,8 +1053,7 @@
       "//": "Milspec, but was deployed in active service implying a reliable IFF",
       "difficulty": 9,
       "moves": 250,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -1080,8 +1079,7 @@
       "//": "Milspec, clearly designed with little concern for collateral damage. What did you expect of a robo-tank?",
       "difficulty": 10,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -1108,8 +1106,7 @@
       "//": "Milspec, clearly designed with little concern for collateral damage.  What did you expect of a chicken walker?",
       "difficulty": 10,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -1134,8 +1131,7 @@
       "//": "No observed open deployment, likely a prototype or secret project",
       "difficulty": 15,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {

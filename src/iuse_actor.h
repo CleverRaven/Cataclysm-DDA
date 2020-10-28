@@ -326,8 +326,7 @@ class place_monster_iuse : public iuse_actor
         /** Shown when programming the monster failed and it's hostile. Can be empty. */
         std::string hostile_msg;
         /** Skills used to make the monster not hostile when activated. **/
-        skill_id skill1 = skill_id::NULL_ID();
-        skill_id skill2 = skill_id::NULL_ID();
+        std::set<skill_id> skills;
 
         place_monster_iuse() : iuse_actor( "place_monster" ) { }
         ~place_monster_iuse() override = default;
