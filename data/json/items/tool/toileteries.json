@@ -150,7 +150,17 @@
     "symbol": "s",
     "color": "yellow",
     "use_action": [ "WASH_HARD_ITEMS" ],
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "snippet_category": [
+      { "id": "sponge1", "text": "A round smiley face sponge." },
+      { "id": "sponge2", "text": "A rectangular sponge with a green abrasive back." },
+      { "id": "sponge3", "text": "A natural sea sponge. It looks kind of lumpy." },
+      { "id": "sponge4", "text": "A dolphin shaped sponge. It looks at home in the water." },
+      { "id": "sponge5", "text": "A rectangular sponge." },
+      { "id": "sponge6", "text": "A sponge cake shaped sponge, the abrasive pad looks like frosting." },
+      { "id": "sponge7", "text": "A sponge in the shape of a beloved character from a children's cartoon." },
+      { "id": "sponge8", "text": "A cat shaped sponge." }
+    ]
   },
   {
     "id": "survivor_hairtrimmer",
