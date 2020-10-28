@@ -1264,7 +1264,7 @@ int Character::compute_calories_per_effective_volume( const item &food,
     } else {
         kcalories = compute_effective_nutrients( food ).kcal;
     }
-    units::volume food_vol = masticated_volume( food );
+    units::volume food_vol = masticated_volume( food ) * food.count();
     // Divide by 1000 to convert to L. Final quantity is essentially dimensionless, so unit of measurement does not matter.
     const double converted_volume = round_up( ( static_cast<float>( food_vol.value() ) / food.count() )
                                     * 0.001, 2 );
