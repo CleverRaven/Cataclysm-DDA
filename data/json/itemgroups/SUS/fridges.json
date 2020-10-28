@@ -889,7 +889,7 @@
           { "item": "fish_sandwich", "charges-min": 1, "prob": 6 }
         ]
       },
-      { "group": "softdrinks_canned", "count": [1, 5], "prob": 75 },
+      { "group": "softdrinks_canned", "count": [ 1, 5 ], "prob": 75 },
       {
         "collection": [
           { "item": "water_clean", "container-item": "bottle_plastic", "prob": 65, "count": [ 1, 3 ], "sealed": false },
