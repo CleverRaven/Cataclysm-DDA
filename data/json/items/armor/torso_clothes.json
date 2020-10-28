@@ -96,7 +96,7 @@
     "volume": "750 ml",
     "price": 1500,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": [ "cotton", "mat_button_plastic" ],
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "white",

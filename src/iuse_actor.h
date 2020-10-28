@@ -512,7 +512,8 @@ class salvage_actor : public iuse_actor
             material_id( "plastic" ),
             material_id( "rubber" ),
             material_id( "wood" ),
-            material_id( "wool" )
+            material_id( "wool" ),
+            material_id( "mat_button_plastic" )
         };
 
         bool try_to_cut_up( player &p, item &it ) const;
