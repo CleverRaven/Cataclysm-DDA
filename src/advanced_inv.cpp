@@ -356,11 +356,13 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         }
 
         std::string item_name;
-        std::string stolen_string;
-        bool stolen = false;
+        std::string stolen_string = "";
+        std::string container_string = "";
         if( !it.is_owned_by( player_character, true ) ) {
-            stolen_string = "<color_light_red>!</color>";
-            stolen = true;
+            stolen_string = "<color_light_red>!</color> ";
+        }
+        if( it.is_container() && !it.is_watertight_container() ) {
+            container_string = "<color_light_blue>c</color> ";
         }
         if( it.is_money() ) {
             //Count charges
@@ -369,18 +371,10 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             for( const item *item : sitem.items ) {
                 charges_total += item->ammo_remaining();
             }
-            if( stolen ) {
-                item_name = string_format( "%s %s", stolen_string, it.display_money( sitem.items.size(),
-                                           charges_total ) );
-            } else {
-                item_name = it.display_money( sitem.items.size(), charges_total );
-            }
+            item_name = string_format( "%s%s", stolen_string, it.display_money( sitem.items.size(),
+                                       charges_total ) );
         } else {
-            if( stolen ) {
-                item_name = string_format( "%s %s", stolen_string, it.display_name() );
-            } else {
-                item_name = it.display_name();
-            }
+            item_name = string_format( "%s%s%s", stolen_string, container_string, it.display_name() );
         }
         if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
             item_name = string_format( "%s %s", it.symbol(), item_name );
