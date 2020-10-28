@@ -1,6 +1,7 @@
 #ifndef CATA_OBJECT_CREATOR_SPELL_WINDOW_H
 #define CATA_OBJECT_CREATOR_SPELL_WINDOW_H
 
+#include "dual_list_box.h"
 #include "fake_spell_listbox.h"
 #include "magic.h"
 
@@ -155,6 +156,9 @@ class spell_window : public QMainWindow
         QCheckBox sound_ambient_box;
 
         fake_spell_listbox additional_spells_box;
+
+        QLabel targeted_monster_ids_label;
+        dual_list_box targeted_monster_ids_box;
 };
 }
 
