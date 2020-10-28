@@ -344,6 +344,8 @@ struct hash<string_id<T>> {
 template<typename T>
 struct lexicographic : std::binary_function<string_id<T>, string_id<T>, bool> {
     bool operator()( const string_id<T> &x, const string_id<T> &y ) const {
+        //TODO change to use localized sorting
+        // NOLINTNEXTLINE cata-use-localized-sorting
         return x.str() < y.str();
     }
 };
