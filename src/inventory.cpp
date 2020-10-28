@@ -29,6 +29,7 @@
 #include "optional.h"
 #include "options.h"
 #include "point.h"
+#include "proficiency.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "translations.h"
@@ -355,6 +356,16 @@ item *inventory::provide_pseudo_item( const itype_id &id, int battery )
     it.put_in( it_batt, item_pocket::pocket_type::MAGAZINE_WELL );
 
     return &it;
+}
+
+book_proficiency_bonuses inventory::get_book_proficiency_bonuses() const
+{
+    book_proficiency_bonuses ret;
+    std::set<itype_id> ids_used;
+    for( const std::list<item> &it : this->items ) {
+        ret += it.front().get_book_proficiency_bonuses();
+        ids_used.emplace( it.front().typeId() );
+    }
 }
 
 void inventory::restack( Character &p )

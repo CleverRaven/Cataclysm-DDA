@@ -718,25 +718,27 @@ std::set<proficiency_id> recipe::assist_proficiencies() const
     return ret;
 }
 
-float recipe::proficiency_time_maluses( const Character &guy ) const
+float recipe::proficiency_time_maluses( Character &guy ) const
 {
     float malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {
         if( !guy.has_proficiency( prof.id ) &&
             !helpers_have_proficiencies( guy, prof.id ) ) {
-            malus *= prof.time_multiplier;
+            malus *= prof.time_multiplier *
+                     guy.crafting_inventory().get_book_proficiency_bonuses().time_factor( prof.id );
         }
     }
     return malus;
 }
 
-float recipe::proficiency_failure_maluses( const Character &guy ) const
+float recipe::proficiency_failure_maluses( Character &guy ) const
 {
     float malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {
         if( !guy.has_proficiency( prof.id ) &&
             !helpers_have_proficiencies( guy, prof.id ) ) {
-            malus *= prof.fail_multiplier;
+            malus *= prof.fail_multiplier *
+                     guy.crafting_inventory().get_book_proficiency_bonuses().fail_factor( prof.id );
         }
     }
     return malus;
