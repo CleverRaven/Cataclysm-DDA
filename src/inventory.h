@@ -237,6 +237,8 @@ class inventory : public visitable<inventory>
 
         int count_item( const itype_id &item_type ) const;
 
+        book_proficiency_bonuses get_book_proficiency_bonuses() const;
+
     private:
         invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const itype_id &item_type );

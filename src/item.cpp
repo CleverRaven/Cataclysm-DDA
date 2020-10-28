@@ -76,6 +76,7 @@
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
+#include "proficiency.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "recipe.h"
@@ -7170,6 +7171,18 @@ bool item::spill_contents( const tripoint &pos )
         return true;
     }
     return contents.spill_contents( pos );
+}
+
+book_proficiency_bonuses item::get_book_proficiency_bonuses() const
+{
+    book_proficiency_bonuses ret;
+    if( !type->book ) {
+        return ret;
+    }
+    for( const book_proficiency_bonus &bonus : type->book->proficiencies ) {
+        ret.add( bonus );
+    }
+    return ret;
 }
 
 int item::get_chapters() const
