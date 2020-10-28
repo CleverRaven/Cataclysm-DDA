@@ -65,7 +65,7 @@
       "target": "afs_energy_saber_off",
       "msg": "The blade dissipates into particles."
     },
-	"magazine_well": 1
+    "magazine_well": 1
   },
   {
     "id": "afs_hardlight_longbow",
@@ -259,7 +259,7 @@
     "symbol": "(",
     "color": "magenta",
     "skill": "rifle",
-	"clip_size": 1,
+    "clip_size": 1,
     "range": 30,
     "ammo": "xray_laser_barrel",
     "ranged_damage": { "damage_type": "heat", "amount": 40, "armor_penetration": 30 },

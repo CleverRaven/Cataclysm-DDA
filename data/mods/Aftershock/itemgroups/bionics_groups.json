@@ -20,10 +20,7 @@
   {
     "id": "bionics_mil",
     "type": "item_group",
-    "items": [
-      [ "bio_blaster", 5 ],
-      [ "afs_bio_skullgun", 2 ]
-    ]
+    "items": [ [ "bio_blaster", 5 ], [ "afs_bio_skullgun", 2 ] ]
   },
   {
     "id": "bionics_sci",

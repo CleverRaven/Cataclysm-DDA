@@ -21,7 +21,7 @@
       ">": "t_stairs_down",
       "<": "t_stairs_up",
       "~": "t_sidewalk",
-	  "%": "t_console_broken",
+      "%": "t_console_broken",
       "5": "t_console"
     },
     "furniture": {

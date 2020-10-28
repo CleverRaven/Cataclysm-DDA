@@ -16,9 +16,7 @@
     ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
     "items": {
-      "both": {
-        "items": [ "hat_hard", "jumpsuit", "socks", "rope_30", "boots", "afs_herc_rig" ]
-      },
+      "both": { "items": [ "hat_hard", "jumpsuit", "socks", "rope_30", "boots", "afs_herc_rig" ] },
       "male": [ "briefs" ],
       "female": [ "bra", "boy_shorts" ]
     }
