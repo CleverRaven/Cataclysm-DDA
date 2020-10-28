@@ -56,6 +56,39 @@ relic Item_spawn_data::relic_generator::generate_relic( const itype_id &it_id ) 
     return id->generate( rules, it_id );
 }
 
+static item_pocket::pocket_type guess_pocket_for( const item &container, const item &payload )
+{
+    if( ( container.is_gun() && payload.is_gunmod() ) || ( container.is_tool() &&
+            payload.is_toolmod() ) ) {
+        return item_pocket::pocket_type::MOD;
+    }
+    if( container.is_software_storage() && payload.is_software() ) {
+        return item_pocket::pocket_type::SOFTWARE;
+    }
+    if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
+        return item_pocket::pocket_type::MAGAZINE_WELL;
+    } else if( ( container.is_magazine() ) && payload.is_ammo() ) {
+        return item_pocket::pocket_type::MAGAZINE;
+    }
+    return item_pocket::pocket_type::CONTAINER;
+}
+
+static void put_into_container(
+    Item_spawn_data::ItemList &items, const cata::optional<itype_id> container_type,
+    time_point birthday )
+{
+    if( !container_type ) {
+        return;
+    }
+
+    item ctr( *container_type, birthday );
+    for( const item &it : items ) {
+        const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
+        ctr.put_in( it, pk_type );
+    }
+    items = Item_spawn_data::ItemList{ ctr };
+}
+
 Single_item_creator::Single_item_creator( const std::string &_id, Type _type, int _probability,
         const std::string &context )
     : Item_spawn_data( _probability, context )
@@ -112,23 +145,6 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     return tmp;
 }
 
-static item_pocket::pocket_type guess_pocket_for( const item &container, const item &payload )
-{
-    if( ( container.is_gun() && payload.is_gunmod() ) || ( container.is_tool() &&
-            payload.is_toolmod() ) ) {
-        return item_pocket::pocket_type::MOD;
-    }
-    if( container.is_software_storage() && payload.is_software() ) {
-        return item_pocket::pocket_type::SOFTWARE;
-    }
-    if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
-        return item_pocket::pocket_type::MAGAZINE_WELL;
-    } else if( ( container.is_magazine() ) && payload.is_ammo() ) {
-        return item_pocket::pocket_type::MAGAZINE;
-    }
-    return item_pocket::pocket_type::CONTAINER;
-}
-
 Item_spawn_data::ItemList Single_item_creator::create(
     const time_point &birthday, RecursionList &rec, spawn_flags flags ) const
 {
@@ -176,14 +192,7 @@ Item_spawn_data::ItemList Single_item_creator::create(
             it.overwrite_relic( artifact->generate_relic( it.typeId() ) );
         }
     }
-    if( container_item ) {
-        item ctr( *container_item, birthday );
-        for( const item &it : result ) {
-            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
-            ctr.put_in( it, pk_type );
-        }
-        result = ItemList{ ctr };
-    }
+    put_into_container( result, container_item, birthday );
     return result;
 }
 
@@ -592,14 +601,7 @@ Item_spawn_data::ItemList Item_group::create(
             break;
         }
     }
-    if( container_item ) {
-        item ctr( *container_item, birthday );
-        for( const item &it : result ) {
-            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
-            ctr.put_in( it, pk_type );
-        }
-        result = ItemList{ ctr };
-    }
+    put_into_container( result, container_item, birthday );
 
     return result;
 }
