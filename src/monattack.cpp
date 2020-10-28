@@ -4048,8 +4048,8 @@ bool mattack::upgrade( monster *z )
     const bool can_see = player_view.sees( *target );
     if( player_view.sees( *z ) ) {
         if( could_see ) {
-            //~ %1$s is the name of the zombie upgrading the other, %2$s is the zombie being upgraded.
             add_msg( m_warning,
+                     //~ %1$s is the name of the zombie upgrading the other, %2$s is the zombie being upgraded.
                      _( "You feel a sudden, intense burst of energy in the air between the %1$s and the %2$s." ),
                      z->name(), old_name );
         } else {
