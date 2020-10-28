@@ -81,6 +81,10 @@ static void put_into_container(
         return;
     }
 
+    // Randomly permute the list of items so that when some don't fit it's
+    // not always the ones at the end which are rejected.
+    std::shuffle( items.begin(), items.end(), rng_get_engine() );
+
     item ctr( *container_type, birthday );
     for( const item &it : items ) {
         const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
