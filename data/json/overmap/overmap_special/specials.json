@@ -443,10 +443,14 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "farm_stills_4_north" },
       { "point": [ 1, 0, 0 ], "overmap": "farm_stills_3_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "farm_stills_3_2nd_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "farm_stills_3_roof_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "farm_stills_3_basement_north" },
       { "point": [ 2, 0, 0 ], "overmap": "farm_stills_2_north" },
       { "point": [ 3, 0, 0 ], "overmap": "farm_stills_1_north" },
       { "point": [ 0, 1, 0 ], "overmap": "farm_stills_8_north" },
       { "point": [ 1, 1, 0 ], "overmap": "farm_stills_7_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "farm_stills_7_roof_north" },
       { "point": [ 2, 1, 0 ], "overmap": "farm_stills_6_north" },
       { "point": [ 3, 1, 0 ], "overmap": "farm_stills_5_north" },
       { "point": [ 0, 2, 0 ], "overmap": "farm_stills_12_north" },
@@ -610,6 +614,8 @@
       { "point": [ 1, 0, 0 ], "overmap": "farm_dairy_twd_2_north" },
       { "point": [ 2, 0, 0 ], "overmap": "farm_dairy_twd_3_north" },
       { "point": [ 3, 0, 0 ], "overmap": "farm_dairy_twd_4_north" },
+      { "point": [ 2, 0, 2 ], "overmap": "farm_dairy_twd_3_roof_north" },
+      { "point": [ 3, 0, 2 ], "overmap": "farm_dairy_twd_4_roof_north" },
       { "point": [ 0, 1, 0 ], "overmap": "farm_dairy_twd_5_north" },
       { "point": [ 1, 1, 0 ], "overmap": "farm_dairy_twd_6_north" },
       { "point": [ 2, 1, 0 ], "overmap": "farm_dairy_twd_7_north" },
@@ -628,7 +634,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
-    "occurrences": [ 5, 100 ],
+    "occurrences": [ 10, 100 ],
     "flags": [ "UNIQUE", "FARM" ]
   },
   {
