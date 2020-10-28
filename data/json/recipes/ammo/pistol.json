@@ -14,7 +14,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_9mmfmj",
@@ -31,7 +31,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_40fmj",
@@ -48,7 +48,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 4 ] ],
-    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_40sw",
@@ -64,7 +64,7 @@
     "book_learn": [ [ "manual_pistol", 2 ], [ "recipe_bullets", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 4 ] ],
     "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ], [ [ "copper", 1 ] ] ]
   },
   {
@@ -82,7 +82,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "32_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "32_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 2 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_38_fmj",
@@ -116,7 +116,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
-    "components": [ [ [ "44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 9 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 7 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "bp_45_acp",
@@ -133,7 +133,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 4 ] ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 3 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "bp_45_jhp",
@@ -150,7 +150,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 4 ] ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 5 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_46mm",
@@ -167,7 +167,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 1 ] ],
-    "components": [ [ [ "46mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "46mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_460_fmj",
@@ -184,7 +184,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [ [ [ "460_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 9 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "460_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 8 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "bp_460_rowland",
@@ -201,7 +201,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [ [ [ "460_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 9 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "460_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 8 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "bp_500_Magnum",
@@ -218,7 +218,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 6 ], [ "ammo_bullet", 8 ] ],
-    "components": [ [ [ "500_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 12 ] ], [ [ "copper", 5 ] ] ]
+    "components": [ [ [ "500_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 19 ] ], [ [ "copper", 5 ] ] ]
   },
   {
     "result": "bp_762_25",
@@ -235,7 +235,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_762_25", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_9x18mm",
@@ -320,7 +320,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 1 ], [ "ammo_57", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "36navy",
@@ -531,7 +531,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 3 ], [ "ammo_357mag", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 8 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_357mag_jhp",
@@ -548,7 +548,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 4 ], [ "ammo_357mag", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 8 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_38_special",
@@ -668,7 +668,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 3 ], [ "ammo_10mm", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 8 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_44fmj",
@@ -731,7 +731,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
-    "components": [ [ [ "44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 9 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 7 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_45_acp",
@@ -840,7 +840,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 6 ] ],
-    "components": [ [ [ "454_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 9 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "454_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 16 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_45colt_jhp",
