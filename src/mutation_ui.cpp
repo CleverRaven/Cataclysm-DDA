@@ -338,7 +338,7 @@ void player::power_mutations()
                                 // Action done, leave screen
                                 exit = true;
                             } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
-                                       ( !mut_data.thirst || get_thirst() <= 400 ) &&
+                                       ( !mut_data.thirst || get_thirst() <= thirst_levels::dehydrated ) &&
                                        ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
                                 if( trans && !trans->msg_transform.empty() ) {
                                     add_msg_if_player( m_neutral, trans->msg_transform );

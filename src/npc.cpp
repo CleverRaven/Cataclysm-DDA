@@ -1751,8 +1751,8 @@ int npc::value( const item &it, int market_price ) const
         if( get_hunger() > 40 ) {
             comestval += ( nutrition_for( it ) + get_hunger() - 40 ) / 6;
         }
-        if( get_thirst() > 40 ) {
-            comestval += ( it.get_comestible()->quench + get_thirst() - 40 ) / 4;
+        if( get_thirst() > thirst_levels::thirsty ) {
+            comestval += ( it.get_comestible()->quench + get_thirst() - thirst_levels::thirsty ) / 4;
         }
         if( comestval > 0 && will_eat( it ).success() ) {
             ret += comestval;
@@ -2790,7 +2790,7 @@ void npc::process_turn()
     }
 
     if( is_player_ally() && calendar::once_every( 1_hours ) &&
-        get_hunger() < 200 && get_thirst() < 100 && op_of_u.trust < 5 ) {
+        get_hunger() < 200 && get_thirst() < thirst_levels::very_thirsty && op_of_u.trust < 5 ) {
         // Friends who are well fed will like you more
         // 24 checks per day, best case chance at trust 0 is 1 in 48 for +1 trust per 2 days
         float trust_chance = 5 - op_of_u.trust;

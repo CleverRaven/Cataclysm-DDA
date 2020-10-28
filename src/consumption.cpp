@@ -1120,7 +1120,7 @@ bool Character::consume_effects( item &food )
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( trait_SLIMESPAWNER ) &&
-        max_stored_calories() < get_stored_kcal() + 4000 && get_thirst() < 40 ) {
+        max_stored_calories() < get_stored_kcal() + 4000 && get_thirst() < thirst_levels::slaked ) {
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
         mod_pain( 5 );

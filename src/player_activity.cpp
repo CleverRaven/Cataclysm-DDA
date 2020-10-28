@@ -257,7 +257,7 @@ void player_activity::do_turn( player &p )
                 no_food_nearby_for_auto_consume = true;
             }
         }
-        if( p.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
+        if( p.get_thirst() > thirst_levels::thirsty && !no_drink_nearby_for_auto_consume ) {
             if( !find_auto_consume( p, false ) ) {
                 no_drink_nearby_for_auto_consume = true;
             }

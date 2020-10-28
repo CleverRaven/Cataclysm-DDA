@@ -477,10 +477,10 @@ int player::thirst_speed_penalty( int thirst )
     // We die at 1200 thirst
     // Start by dropping speed really fast, but then level it off a bit
     static const std::vector<std::pair<float, float>> thirst_thresholds = {{
-            std::make_pair( 120.0f, 0.0f ),
-            std::make_pair( 300.0f, -25.0f ),
-            std::make_pair( 600.0f, -50.0f ),
-            std::make_pair( 1200.0f, -75.0f )
+            std::make_pair( +thirst_levels::very_thirsty, 0.0f ),
+            std::make_pair( +thirst_levels::dehydrated, -25.0f ),
+            std::make_pair( +thirst_levels::parched, -50.0f ),
+            std::make_pair( +thirst_levels::dead, -75.0f )
         }
     };
     return static_cast<int>( multi_lerp( thirst_thresholds, thirst ) );
@@ -497,7 +497,7 @@ void player::recalc_speed_bonus()
 
     mod_speed_bonus( -get_pain_penalty().speed );
 
-    if( get_thirst() > 120 ) {
+    if( get_thirst() > thirst_levels::very_thirsty ) {
         mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
     }
     // when underweight, you get slower. cumulative with hunger

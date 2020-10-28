@@ -4117,27 +4117,26 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
     int thirst = get_thirst();
     std::string hydration_string;
     nc_color hydration_color = c_white;
-    if( thirst > 520 ) {
+    if( thirst > thirst_levels::parched ) {
         hydration_color = c_light_red;
         hydration_string = _( "Parched" );
-    } else if( thirst > 240 ) {
+    } else if( thirst > thirst_levels::dehydrated ) {
         hydration_color = c_light_red;
         hydration_string = _( "Dehydrated" );
-    } else if( thirst > 120 ) {
+    } else if( thirst > thirst_levels::very_thirsty ) {
         hydration_color = c_yellow;
         hydration_string = _( "Very thirsty" );
-    } else if( thirst > 60 ) {
+    } else if( thirst > thirst_levels::thirsty ) {
         hydration_color = c_yellow;
         hydration_string = _( "Thirsty" );
-    } else if( thirst < -60 ) {
-        hydration_color = c_green;
-        hydration_string = _( "Turgid" );
-    } else if( thirst < -20 ) {
+    } else if( thirst > thirst_levels::slaked ) {
+        // Nothing
+    } else if( thirst > thirst_levels::hydrated ) {
         hydration_color = c_green;
         hydration_string = _( "Hydrated" );
-    } else if( thirst < 0 ) {
+    } else if( thirst > thirst_levels::turgid ) {
         hydration_color = c_green;
-        hydration_string = _( "Slaked" );
+        hydration_string = _( "Turgid" );
     }
     return std::make_pair( hydration_string, hydration_color );
 }
@@ -4791,14 +4790,16 @@ void Character::check_needs_extremes()
     }
 
     // Check if we're dying of thirst
-    if( is_player() && get_thirst() >= 600 ) {
-        if( get_thirst() >= 1200 ) {
+    if( is_player() && get_thirst() >= thirst_levels::parched ) {
+        if( get_thirst() >= thirst_levels::dead ) {
             add_msg_if_player( m_bad, _( "You have died of dehydration." ) );
             g->events().send<event_type::dies_of_thirst>( getID() );
             hp_cur[hp_torso] = 0;
-        } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
+        } else if( get_thirst() >= lerp( +thirst_levels::parched, +thirst_levels::dead, 0.333f ) &&
+                   calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "Even your eyes feel dry…" ) );
-        } else if( get_thirst() >= 800 && calendar::once_every( 30_minutes ) ) {
+        } else if( get_thirst() >= lerp( +thirst_levels::parched, +thirst_levels::dead, 0.666f ) &&
+                   calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "You are THIRSTY!" ) );
         } else if( calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "Your mouth feels so dry…" ) );
@@ -4916,7 +4917,7 @@ void Character::check_needs_extremes()
 bool Character::is_hibernating() const
 {
     return has_effect( effect_sleep ) && get_kcal_percent() > 0.5f &&
-           get_thirst() <= 200 && has_active_mutation( trait_HIBERNATE );
+           get_thirst() <= thirst_levels::very_thirsty && has_active_mutation( trait_HIBERNATE );
 }
 
 /* Here lies the intended effects of body temperature
@@ -8473,7 +8474,7 @@ void Character::rooted()
             vitamin_mod( vitamin_id( "iron" ), 1, true );
             vitamin_mod( vitamin_id( "calcium" ), 1, true );
         }
-        if( get_thirst() <= -2000 && x_in_y( 75, 425 ) ) {
+        if( get_thirst() <= thirst_levels::turgid && x_in_y( 75, 425 ) ) {
             mod_thirst( -1 );
         }
         mod_healthy_mod( 5, 50 );
@@ -8896,7 +8897,8 @@ void Character::fall_asleep()
         }
     }
     if( has_active_mutation( trait_HIBERNATE ) ) {
-        if( get_stored_kcal() > max_stored_calories() - bmr() / 4 && get_thirst() < -60 ) {
+        if( get_stored_kcal() > max_stored_calories() - bmr() / 4 &&
+            get_thirst() < thirst_levels::thirsty ) {
             if( is_avatar() ) {
                 g->memorial().add( pgettext( "memorial_male", "Entered hibernation." ),
                                    pgettext( "memorial_female", "Entered hibernation." ) );

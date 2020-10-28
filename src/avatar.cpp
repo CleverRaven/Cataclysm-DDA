@@ -91,6 +91,7 @@ static const efftype_id effect_sleep_deprived( "sleep_deprived" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 static const efftype_id effect_stim( "stim" );
 static const efftype_id effect_stim_overdose( "stim_overdose" );
+static const efftype_id effect_thirsty( "thirsty" );
 
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -1214,15 +1215,7 @@ void avatar::reset_stats()
         mod_int_bonus( -( str_penalty / 2 ) );
     }
     // Thirst
-    if( get_thirst() >= 200 ) {
-        // We die at 1200
-        const int dex_mod = -get_thirst() / 200;
-        add_miss_reason( _( "You're weak from thirst." ), static_cast<unsigned>( -dex_mod ) );
-        mod_str_bonus( -get_thirst() / 200 );
-        mod_dex_bonus( dex_mod );
-        mod_int_bonus( -get_thirst() / 200 );
-        mod_per_bonus( -get_thirst() / 200 );
-    }
+    set_fake_effect_dur( effect_thirsty, 1_turns * ( get_thirst() - thirst_levels::very_thirsty ) );
     if( get_sleep_deprivation() >= sleep_deprivation_levels::harmless ) {
         set_fake_effect_dur( effect_sleep_deprived, 1_turns * get_sleep_deprivation() );
     } else if( has_effect( effect_sleep_deprived ) ) {

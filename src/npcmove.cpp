@@ -1807,7 +1807,7 @@ npc_action npc::address_needs( float danger )
     }
 
     // Extreme thirst or hunger, bypass safety check.
-    if( get_thirst() > 80 ||
+    if( get_thirst() > thirst_levels::dehydrated ||
         get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.75 ) {
         if( consume_food_from_camp() ) {
             return npc_noop;
@@ -1827,7 +1827,7 @@ npc_action npc::address_needs( float danger )
         return npc_undecided;
     }
 
-    if( one_in( 3 ) && ( get_thirst() > 40 ||
+    if( one_in( 3 ) && ( get_thirst() > thirst_levels::thirsty ||
                          get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.95 ) ) {
         if( consume_food_from_camp() ) {
             return npc_noop;
@@ -3784,7 +3784,7 @@ bool npc::consume_food_from_camp()
         return false;
     }
     basecamp *bcp = *potential_bc;
-    if( get_thirst() > 40 && bcp->has_water() ) {
+    if( get_thirst() > thirst_levels::thirsty && bcp->has_water() ) {
         set_thirst( 0 );
         return true;
     }
@@ -4441,7 +4441,8 @@ bool npc::complain()
 
     // Thirst every 2 hours
     // Since NPCs can't dry to death, respect the rules
-    if( get_thirst() > 80 && complain_about( thirst_string, 2_hours, _( "<thirsty>" ) ) ) {
+    if( get_thirst() > thirst_levels::very_thirsty &&
+        complain_about( thirst_string, 2_hours, _( "<thirsty>" ) ) ) {
         return true;
     }
 

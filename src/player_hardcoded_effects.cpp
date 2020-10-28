@@ -1066,7 +1066,7 @@ void player::hardcoded_effects( effect &it )
                     if( get_hunger() >= -30 ) {
                         mod_hunger( -5 );
                     }
-                    if( get_thirst() >= -30 ) {
+                    if( get_thirst() >= thirst_levels::turgid ) {
                         mod_thirst( -5 );
                     }
                 }

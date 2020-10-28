@@ -1551,7 +1551,7 @@ void Character::process_bionic( int b )
             mod_thirst( -water_available );
         }
 
-        if( get_thirst() < -40 ) {
+        if( get_thirst() <= thirst_levels::hydrated ) {
             add_msg_if_player( m_good,
                                _( "You are properly hydrated.  Your %s chirps happily." ),
                                bio.info().name );

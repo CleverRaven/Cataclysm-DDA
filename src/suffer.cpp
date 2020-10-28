@@ -217,7 +217,7 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
         if( mdata.thirst ) {
             mod_thirst( mdata.cost );
             // Well into Dehydrated
-            if( get_thirst() >= 260 ) {
+            if( get_thirst() >= thirst_levels::dehydrated ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too dehydrated to keep your %s going." ),
                                    mdata.name() );
@@ -258,7 +258,7 @@ void Character::suffer_while_underwater()
         }
     }
     if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) &&
-        get_thirst() > -60 ) {
+        get_thirst() > thirst_levels::turgid ) {
         mod_thirst( -1 );
     }
 }
@@ -893,7 +893,7 @@ void Character::suffer_from_other_mutations()
     int root_water = 0;
     if( has_trait( trait_ROOTS3 ) && g->m.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
         root_vitamins += 1;
-        if( get_thirst() <= -2000 ) {
+        if( get_thirst() <= thirst_levels::turgid ) {
             root_water += 51;
         }
     }
@@ -1589,8 +1589,9 @@ void Character::mend( int rate_multiplier )
     // square rooting the value makes the numbers drop off faster when below 1
     healing_factor *= std::sqrt( static_cast<float>( get_stored_kcal() ) / static_cast<float>
                                  ( get_healthy_kcal() ) );
-    // Similar for thirst - starts at very thirsty, drops to 0 ~halfway between two last statuses
-    healing_factor *= 1.0f - clamp( ( get_thirst() - 80.0f ) / 300.0f, 0.0f, 1.0f );
+    // Similar for thirst - starts at very thirsty, drops to 0 at parched
+    healing_factor *= 1.0f - clamp( 1.0f * ( get_thirst() - thirst_levels::very_thirsty ) /
+                                    +thirst_levels::parched, 0.0f, 1.0f );
 
     // Mutagenic healing factor!
     bool needs_splint = true;

@@ -1095,8 +1095,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             info += "\n" + how_tired;
         }
         if( ability >= 100 ) {
-            if( p->get_thirst() < 100 ) {
-                time_duration thirst_at = 5_minutes * ( 100 - p->get_thirst() ) / rates.thirst;
+            if( p->get_thirst() < thirst_levels::thirsty ) {
+                time_duration thirst_at = 5_minutes * ( thirst_levels::thirsty - p->get_thirst() ) / rates.thirst;
                 if( thirst_at > 1_hours ) {
                     info += _( "\nWill need water in " ) + to_string_approx( thirst_at );
                 }

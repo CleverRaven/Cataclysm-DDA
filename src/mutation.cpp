@@ -486,7 +486,7 @@ void Character::activate_mutation( const trait_id &mut )
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
     if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
-            get_thirst() >= 260 ) ||
+            get_thirst() >= thirst_levels::dehydrated ) ||
         ( mdata.fatigue && get_fatigue() >= fatigue_levels::exhausted ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),

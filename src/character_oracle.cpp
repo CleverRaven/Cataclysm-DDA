@@ -38,7 +38,7 @@ status_t character_oracle_t::needs_warmth_badly() const
 status_t character_oracle_t::needs_water_badly() const
 {
     // Check thirst threshold.
-    if( subject->get_thirst() > 520 ) {
+    if( subject->get_thirst() > thirst_levels::parched ) {
         return running;
     }
     return success;

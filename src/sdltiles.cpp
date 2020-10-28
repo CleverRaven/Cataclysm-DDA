@@ -2761,7 +2761,7 @@ static void CheckMessages()
                 }
 
                 // Check if we're significantly hungry or thirsty - if so, add eat
-                if( g->u.get_hunger() > 100 || g->u.get_thirst() > 40 ) {
+                if( g->u.get_hunger() > 100 || g->u.get_thirst() > thirst_levels::thirsty ) {
                     actions.insert( ACTION_EAT );
                 }
 

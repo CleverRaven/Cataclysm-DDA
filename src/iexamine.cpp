@@ -2133,7 +2133,8 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
     } else if( seedType == "marloss_seed" ) {
         fungus( p, examp );
         g->m.i_clear( examp );
-        if( p.has_trait( trait_M_DEPENDENT ) && ( p.get_kcal_percent() < 0.8f || p.get_thirst() > 300 ) ) {
+        if( p.has_trait( trait_M_DEPENDENT ) && ( p.get_kcal_percent() < 0.8f ||
+                p.get_thirst() > thirst_levels::very_thirsty ) ) {
             g->m.ter_set( examp, t_marloss );
             add_msg( m_info,
                      _( "We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides." ) );
