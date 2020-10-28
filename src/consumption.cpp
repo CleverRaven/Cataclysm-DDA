@@ -1244,7 +1244,7 @@ units::volume Character::masticated_volume( const item &food ) const
     units::volume food_dry_volume = ( food.volume() - water_vol ) / food.count();
 
     if( units::to_milliliter( food_dry_volume ) != 0 &&
-        units::to_gram( food_dry_weight ) / units::to_milliliter( food_dry_volume ) < 1.0 ) {
+        units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
         food_dry_volume = units::from_milliliter( units::to_gram( food_dry_weight ) );
     }
 
