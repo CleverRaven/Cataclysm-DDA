@@ -356,8 +356,8 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         }
 
         std::string item_name;
-        std::string stolen_string = "";
-        std::string container_string = "";
+        std::string stolen_string;
+        std::string container_string;
         if( !it.is_owned_by( player_character, true ) ) {
             stolen_string = "<color_light_red>!</color> ";
         }
@@ -568,7 +568,8 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         if( squares[data_location].canputitems() ) {
             bcolor = ( in_vehicle || in_container ) ? c_light_blue :
                      area == data_location || all_brackets ? c_light_gray : c_dark_gray;
-            kcolor = area == data_location ? c_white : sel == data_location ? c_light_gray : c_dark_gray;
+            kcolor = in_container ? c_light_blue : area == data_location ? c_white : sel == data_location ?
+                     c_light_gray : c_dark_gray;
         }
 
         const std::string key = get_location_key( static_cast<aim_location>( i ) );
