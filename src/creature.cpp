@@ -1042,8 +1042,7 @@ void Creature::clear_effects()
 }
 bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
 {
-    effect &e = get_effect( eff_id, bp );
-    if( !e ) {
+    if( !has_effect( eff_id, bp ) ) {
         //Effect doesn't exist, so do nothing
         return false;
     }
@@ -1068,13 +1067,26 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
         }
     } else {
         on_effect_int_change( eff_id, 0, bp );
-        e.set_removed();
+        get_effect( eff_id, bp ).set_removed();
     }
     return true;
 }
 bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
 {
-    return get_effect( eff_id, bp );
+    // num_bp means anything targeted or not
+    if( bp == num_bp ) {
+        auto got = effects->find( eff_id );
+        return got != effects->end() && !got->second.begin()->second.is_removed();
+    } else {
+        auto got_outer = effects->find( eff_id );
+        if( got_outer != effects->end() ) {
+            auto got_inner = got_outer->second.find( bp );
+            if( got_inner != got_outer->second.end() && !got_inner->second.is_removed() ) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) const
