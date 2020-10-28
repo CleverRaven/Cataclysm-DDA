@@ -53,18 +53,33 @@
       },
       {
         "text": "Can you inject me with whatever that was again?",
-        "condition": { "u_has_var": "sadie_nuts", "type": "general", "context": "nuts", "value": "yes" },
+        "condition": { "u_has_var": "sadie_heart", "type": "general", "context": "heart", "value": "yes" },
         "topic": "TALK_sadie_ask_injection2"
       },
       {
         "text": "How did you get here?",
-        "condition": { "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "sadie_heart", "type": "general", "context": "heart", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_sadie_ask_past"
       },
       {
         "text": "How are things here?",
-        "condition": { "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "sadie_heart", "type": "general", "context": "heart", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_sadie_ask_mood"
+      },
+      {
+        "text": "What do you think of this place?",
+        "condition": { "u_has_var": "sadie_heart", "type": "general", "context": "heart", "value": "yes" },
+        "topic": "TALK_sadie_ask_place"
       },
       {
         "text": "Can I do anything for you?",
@@ -81,7 +96,7 @@
     "responses": [
       { "text": "I'd like to understand more about you first.  Are you human, more or less?", "topic": "TALK_sadie_what" },
       { "text": "You are aware of the Cataclysm?", "topic": "TALK_sadie_cataclysm" },
-      { "text": "I am your new friend and I'm here to help you.", "topic": "TALK_sadie_1" }
+      { "text": "I am your new friend and I'm here to help you.", "topic": "TALK_Sadie_1" }
     ]
   },
   {
@@ -94,19 +109,61 @@
     "type": "talk_topic",
     "id": "TALK_sadie_ask_past",
     "dynamic_line": "I have so many memories, but they feel like they belong to other people?  And animals too I think?  It makes me dizzy and I have to sit down.",
-    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_sadie_1" } ]
+    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_Sadie_1" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_sadie_cataclysm",
     "dynamic_line": "I don't know her.",
-    "responses": [ { "text": "Yes.  Let's talk about something else.", "topic": "TALK_sadie_1" } ]
+    "responses": [ { "text": "Yes.  Let's talk about something else.", "topic": "TALK_Sadie_1" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_sadie_ask_mood",
     "dynamic_line": "Things stay pretty much the same here.  Sometimes I feel bad, and that feels good, and sometimes I feel good, and that feels good too.  Overall things are better than you might expect, but this may be a common experience, in which case things are exactly as you might expect.  Does that make sense?",
-    "responses": [ { "text": "Perfect sense.", "topic": "TALK_sadie_1" } ]
+    "responses": [ { "text": "Perfect sense.", "topic": "TALK_Sadie_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_ask_place",
+    "dynamic_line": {
+      "and": [
+        { "is_outside": true, "yes": "It's nice being out here.  ", "no": "" },
+        "",
+        {
+          "at_safe_space": true,
+          "no": "This might not be a very private place.",
+          "yes": "This feels like a good place to relax.  Want to play doctor with real scalpels?"
+        },
+        "  ",
+        {
+          "npc_at_om_location": "field",
+          "no": "",
+          "yes": "This place is so boring.  We should take people and kill some drugs."
+        },
+        {
+          "npc_at_om_location": "water",
+          "no": "",
+          "yes": "Water water everywhere.  Let's go skinny dipping.  I bet you'll attract some leeches.  I need them for something I want to do to you.  It'll be so weird."
+        },
+        {
+          "npc_at_om_location": "subterranean",
+          "no": "",
+          "yes": "I like it down here.  This reminds me of that time I was down in a place like this and someone creeped up behind me and hit me in the back of the head with a shovel.  *shiver*  It still gives me goosebumps."
+        },
+        {
+          "npc_at_om_location": "forest",
+          "no": "",
+          "yes": "I love nature.  It smells so good out here, like living things growing and multiplying and dying and returning from the dead with horrifying new powers and trying to slowly rip us apart and eat us.  It brings back really happy memories for me."
+        },
+        {
+          "npc_at_om_location": "swamp",
+          "no": "",
+          "yes": "I love swampy places like this.  The smell of the pussywillows, the sound of the crickets, the giant mutant mosquitoes hungry for our blood.  It's like we're in a sexy vampire romance novel."
+        }
+      ]
+    },
+    "responses": [ { "text": "I feel the same Sadie.", "topic": "TALK_Sadie_1" } ]
   },
   {
     "type": "talk_topic",
@@ -119,7 +176,7 @@
           { "u_lose_var": "sadie_injection", "type": "general", "context": "injection" },
           { "u_add_var": "sadie_heart", "type": "general", "context": "heart", "value": "yes" }
         ],
-        "topic": "TALK_sadie_1"
+        "topic": "TALK_Sadie_1"
       }
     ]
   },
@@ -135,7 +192,7 @@
           { "u_add_effect": "morale_chat", "duration": 2000 },
           { "u_add_effect": "sadie_injection", "duration": 2000 }
         ],
-        "topic": "TALK_sadie_1"
+        "topic": "TALK_Sadie_1"
       }
     ]
   },
@@ -151,11 +208,7 @@
     "count": 1,
     "start": {
       "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 18, "min_distance": 5, "z": 0 },
-      "update_mapgen": {
-        "place_monster": [
-          { "monster": "mon_flesh_golem", "x": 11, "y": 11, "target": true, "name": "Billy", "death_drops": "flesh_golem_heart" }
-        ]
-      }
+      "update_mapgen": { "place_monster": [ { "monster": "mon_flesh_golem", "x": 11, "y": 11, "target": true, "name": "Billy" } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -163,7 +216,7 @@
       "offer": "I've been feeling really yummy since the last time Billy came to work on me, and I think it's because my heart is gone.  Like literally gone.  I checked.  Billy did a really good job taking it out, but I want to leave this storage unit with you and if I'm going to do that I need a working heart.  My first idea was to take yours, but you probably need it even more.  You know who has a nice big juicy heart?  Billy does.  And I bet I know where Billy is.",
       "accepted": "Aw, I heart that you're going to help me get that big organ.",
       "rejected": "This makes me sad.  Which makes me happy.  So thanks?  Let me know if you change your mind.  I probably shouldn't go without a heart for too too long but I'm kind of enjoying it.  It's like always being on the edge of something horrible, but in a nice way.",
-      "advice": "Please be careful cutting that heart out.  If you ruin it I don't know about another good one nearby.",
+      "advice": "Please be careful cutting that heart out.  If you ruin it I don't know about another good one nearby.  Maybe practice on some friends and neighbors first, you really want to be sure and get it right.  If you break Billy's heart I can use a heart from another of whatever Billy is, but I can't use regular hearts, and I don't know where to find more Billy types.",
       "inquire": "Do you have my heart?",
       "success": "Ooh, Billy had a really good heart.  Can you turn away please?  I just need to do some quick open chest surgery here.  Just a quick cut here *ooh* and I need to break this and this *SNAP* *oh!* and just sew some little things together here quickly.  Not as much blood as you'd think.  I should probably look into that later, there should be more blood in there.  Ah, good enough, I can do a better job closing up later.  Kind of tingly, feeling everything moving again in there.  See, heart surgery isn't hard if you have the right attitude.  Well now, you need a good reward for everything you've done for me.  Here, let me inject you with this.",
       "success_lie": "I don't know why, but I feel better.  Also worse.  Maybe I'm good without it.",
@@ -174,7 +227,8 @@
         { "u_add_effect": "give_aid", "duration": 2000 },
         { "u_add_effect": "morale_chat", "duration": 2000 },
         { "u_add_effect": "sadie_injection", "duration": 2000 },
-        { "u_add_var": "sadie_injection", "type": "general", "context": "injection", "value": "yes" }
+        { "u_add_var": "sadie_injection", "type": "general", "context": "injection", "value": "yes" },
+        { "npc_add_effect": "follow" }
       ]
     }
   }
