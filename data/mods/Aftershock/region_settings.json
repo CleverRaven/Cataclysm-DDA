@@ -1,0 +1,20 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "river_scale": 2.0,
+    "city": {
+      "shop_radius": 1,
+      "shop_sigma": 300,
+      "shops": {
+        "afs_augmentation_clinic_1": 400,
+        "city_block_2": 700,
+        "hospital": 875,
+        "office_tower_large": 800,
+        "office_tower_hiddenlab": 800,
+        "mall": 700
+      }
+    },
+    "overmap_lake_settings": { "noise_threshold_lake": 0.12 }
+  }
+]

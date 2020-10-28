@@ -94,7 +94,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PrepNet_gardener_ask_goods",
-    "dynamic_line": "Here? Fruits and berries.  Maybe the occasional piece of farm equipment, but you need crypto coins",
+    "dynamic_line": "Here?  Fruits and berries.  Maybe the occasional piece of farm equipment, but you need crypto coins",
     "responses": [
       { "text": "Ok.", "topic": "TALK_PrepNet_gardener_1" },
       {

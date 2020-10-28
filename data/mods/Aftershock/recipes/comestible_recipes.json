@@ -4,7 +4,7 @@
     "result": "butter",
     "result_mult": 1,
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_DAIRY",
+    "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "15 m",
@@ -27,7 +27,7 @@
     "type": "recipe",
     "result": "afs_sungel",
     "category": "CC_OTHER",
-    "subcategory": "CC_OTHER_MEDICAL",
+    "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "firstaid",
     "difficulty": 2,
     "time": 20000,
@@ -36,20 +36,5 @@
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "afs_sundew", 1 ] ], [ [ "morphine", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "afs_sunesthesia",
-    "category": "CC_OTHER",
-    "subcategory": "CC_OTHER_MEDICAL",
-    "skill_used": "firstaid",
-    "difficulty": 2,
-    "time": 5000,
-    "autolearn": true,
-    "batch_time_factors": [ 99, 1 ],
-    "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "charges": 4,
-    "components": [ [ [ "afs_sungel", 2 ] ], [ [ "heroin", 5 ] ], [ [ "meth", 5 ] ] ]
   }
 ]

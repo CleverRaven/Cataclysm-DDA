@@ -45,14 +45,15 @@
   {
     "type": "npc",
     "id": "millyficent_whately",
-    "name_unique": "Millyficen Whately",
+    "name_unique": "Millyficent Whately",
     "name_suffix": "Xenobiologist, madwoman",
     "class": "afs_xenobiologist_madwoman",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_Millyficent_1",
     "mission_offered": "MISSION_migo_biology_1",
-    "faction": "whately_family"
+    "faction": "whately_family",
+    "gender": "female"
   },
   {
     "type": "npc_class",
@@ -66,8 +67,7 @@
       [ "WARM_NATURED", 100 ],
       [ "INT_UP_3", 100 ],
       [ "DEX_UP_2", 100 ],
-      [ "STR_UP", 100 ],
-      { "group": "Appearance_demographics", "prob": 100 }
+      [ "STR_UP", 100 ]
     ],
     "bonus_dex": { "rng": [ -1, 0 ] },
     "bonus_int": { "rng": [ 2, 5 ] },
@@ -78,5 +78,86 @@
       { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
       { "skill": "cooking", "bonus": { "rng": [ 6, 8 ] } }
     ]
+  },
+  {
+    "type": "npc_class",
+    "id": "whately_cousin",
+    "name": "Whately Cousin",
+    "common": false,
+    "job_description": "Our family has been through hard times before.  We know how to survive.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_str": 2,
+    "bonus_dex": 2,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "trait_group_migo" },
+      { "distribution": [ { "group": "trait_group_migo_nonthres" }, { "group": "trait_group_migo_postthres" } ] },
+      [ "BGSS_Whately", 100 ]
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "cyrus_whately",
+    "name_unique": "Cyrus Whately",
+    "name_suffix": "Patriarch, doomseer",
+    "class": "afs_whately_patriarch",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_CYRUS_1",
+    "mission_offered": "MISSION_FRANKENSTEIN_1",
+    "faction": "whately_family",
+    "gender": "male"
+  },
+  {
+    "type": "npc_class",
+    "id": "afs_whately_patriarch",
+    "name": "Aspiring Frankenstein",
+    "job_description": "Friend to outsiders…",
+    "common": false,
+    "traits": [
+      [ "SKIN_LIGHT", 100 ],
+      [ "MIGO_HEAT_RESIST", 100 ],
+      [ "ALIEN_INT", 100 ],
+      [ "THRESH_YUGGOTH", 100 ],
+      [ "OTHERWORLDLY_GRACE", 100 ],
+      [ "MIGO_BREATHE", 100 ]
+    ],
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
+      { "skill": "computer", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 6, 8 ] } }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "wilhemina_whately",
+    "name_unique": "Wilhemina Whately",
+    "name_suffix": "Shopkeeper",
+    "class": "whately_cousin",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_WHATELY_GENERIC1",
+    "faction": "whately_family",
+    "gender": "female"
+  },
+  {
+    "type": "npc",
+    "id": "nicodemus_whately",
+    "name_unique": "Nicodemus Whately",
+    "name_suffix": "Whately, Hatchetman",
+    "class": "whately_cousin",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_WHATELY_GENERIC1",
+    "faction": "whately_family",
+    "gender": "male"
   }
 ]

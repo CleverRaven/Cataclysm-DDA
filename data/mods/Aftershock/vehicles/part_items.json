@@ -1,22 +1,6 @@
 [
   {
     "type": "GENERIC",
-    "id": "afs_hauling_space",
-    "name": { "str": "hauling space" },
-    "description": "A huge metal space used in conjunction with extension of a vehicle's roof to create a very large amount of space for transporting goods.",
-    "weight": "120 kg",
-    "to_hit": -6,
-    "color": "cyan",
-    "symbol": "]",
-    "looks_like": "cargo_aisle",
-    "material": [ "steel" ],
-    "volume": "100 L",
-    "bashing": 2,
-    "category": "veh_parts",
-    "price": 50000
-  },
-  {
-    "type": "GENERIC",
     "id": "afs_titanium_frame",
     "name": { "str": "ultralight frame" },
     "description": "A sturdy, lightweight frame made from titanium.  Useful for crafting.",
@@ -31,6 +15,13 @@
     "bashing": 15,
     "category": "veh_parts",
     "price": 4000
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_titanium_foldable_frame",
+    "copy-from": "afs_titanium_frame",
+    "name": { "str": "ultralight foldable frame" },
+    "description": "A sturdy, lightweight foldable frame made from titanium."
   },
   {
     "type": "GENERIC",

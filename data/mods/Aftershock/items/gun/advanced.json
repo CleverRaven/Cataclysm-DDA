@@ -1,0 +1,37 @@
+[
+  {
+    "abstract": "robogun_base",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": "base robogun",
+    "description": "This is a pseudo item for monster attacks.  If you see this, it's a bug.",
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "weight": "5 kg",
+    "volume": "2500 ml",
+    "price": 0,
+    "durability": 10,
+    "reload": 100,
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
+  },
+  {
+    "id": "plasma_ejector",
+    "type": "GUN",
+    "copy-from": "plasma_gun",
+    "name": "integral plasma ejector",
+    "skill": "rifle",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ],
+    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "STREAM_BIG", "WIDE", "FLAME" ]
+  },
+  {
+    "id": "railgun",
+    "type": "GUN",
+    "copy-from": "plasma_gun",
+    "name": "integral railgun",
+    "ammo": "metal_rail",
+    "skill": "rifle",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ],
+    "ammo_effects": [ "TRAIL" ]
+  }
+]

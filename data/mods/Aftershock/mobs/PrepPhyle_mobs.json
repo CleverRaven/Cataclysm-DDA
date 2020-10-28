@@ -24,7 +24,7 @@
     "vision_night": 8,
     "harvest": "CBM_DOG",
     "reproduction": { "baby_monster": "afs_mon_cyber_mastiff_pup", "baby_count": 7, "baby_timer": 320 },
-    "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
+    "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
     "flags": [ "ANIMAL", "PET_MOUNTABLE", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ]
   },

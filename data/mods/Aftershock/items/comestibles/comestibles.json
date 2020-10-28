@@ -1,0 +1,37 @@
+[
+  {
+    "id": "afs_sungel",
+    "type": "COMESTIBLE",
+    "name": "sungel",
+    "copy-from": "afs_sundew",
+    "description": "Mixed with morphine, this sundew has congealed, and has an immense stimulative and pain-numbing effect.  With sufficient tools, it could be used to create anesthesia.",
+    "stim": 50,
+    "phase": "solid",
+    "charges": 2,
+    "fun": 20,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "Your vision sharpens and your eyes widen as the sungel slams your senses.",
+      "effects": [
+        { "id": "pkill3", "duration": 120 },
+        { "id": "pkill2", "duration": 1200 },
+        { "id": "cough_suppress", "duration": 1000 }
+      ]
+    }
+  },
+  {
+    "id": "panacea",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Panaceus", "str_pl": "Panaceii" },
+    "symbol": "!",
+    "color": "red",
+    "copy-from": "panacea",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You feel AMAZING!",
+      "effects": [ { "id": "panacea", "duration": "1 m" }, { "id": "cureall" } ]
+    },
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
+  }
+]

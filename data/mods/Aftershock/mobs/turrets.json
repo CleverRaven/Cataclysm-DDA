@@ -1,0 +1,37 @@
+[
+  {
+    "id": "mon_laserturret_xray",
+    "type": "MONSTER",
+    "name": { "str": "x-ray laser turret" },
+    "description": "The TX-5LR Cerberus is an upgrade to its predecessors.  It features a state of the x-ray laser cannon system with three barrels.  Each barrel will fire once and be exhausted until the part can be replaced.",
+    "default_faction": "military",
+    "species": [ "ROBOT" ],
+    "diff": 20,
+    "volume": "30000 ml",
+    "weight": "40750 g",
+    "hp": 30,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "2",
+    "color": "white",
+    "aggression": 50,
+    "morale": 100,
+    "armor_bash": 14,
+    "armor_cut": 16,
+    "vision_day": 50,
+    "revert_to_itype": "bot_laserturret_xray",
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "gun_type": "laser_cannon_xray",
+        "fake_skills": [ [ "gun", 4 ], [ "rifle", 8 ] ],
+        "ranges": [ [ 0, 30, "DEFAULT" ] ]
+      }
+    ],
+    "special_when_hit": [ "RETURN_FIRE", 100 ],
+    "death_drops": {  },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ]
+  }
+]

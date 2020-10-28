@@ -131,6 +131,26 @@
     "copy-from": "schematics_generic"
   },
   {
+    "id": "cyrus'_notes",
+    "type": "BOOK",
+    "name": { "str": "Cyrus Whateley's Notes on Repurposing mi-go victims", "str_pl": "copies of Cyrus Whateley's Notes" },
+    "description": "A folio of notes written by a madman.  They seem to suggestion ways to re-animate the dead and create various affronts to the natural order.",
+    "weight": "2063 g",
+    "volume": "2 L",
+    "price": 929200,
+    "bashing": 8,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "adv_chemistry",
+    "color": "light_green",
+    "skill": "firstaid",
+    "required_level": 8,
+    "max_level": 9,
+    "intelligence": 13,
+    "fun": -3,
+    "time": "50 m"
+  },
+  {
     "id": "recipe_uplift",
     "type": "BOOK",
     "name": { "str": "Dr Moreau and You", "str_pl": "copies of Dr Moreau and You" },
@@ -156,7 +176,27 @@
     "required_level": 10,
     "max_level": 10,
     "intelligence": 16,
-    "time": "15 m",
+    "time": "35 m",
     "fun": -3
+  },
+  {
+    "id": "recipe_unusual_ammos",
+    "type": "BOOK",
+    "name": { "str": "Unusual Ammunitions of the Corporations", "str_pl": "copies of Unusual Ammunitions of the Corporations" },
+    "description": "A lab book dedicated to reverse engineering various ammunitions found throughout the solar system.  Written in a format to allow barely trained technicians to *safely* replicate these rounds.",
+    "weight": "2063 g",
+    "volume": "2 L",
+    "price": 9200,
+    "bashing": 8,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "adv_chemistry",
+    "color": "light_green",
+    "skill": "cooking",
+    "required_level": 2,
+    "max_level": 3,
+    "intelligence": 9,
+    "fun": 1,
+    "time": "50 m"
   }
 ]

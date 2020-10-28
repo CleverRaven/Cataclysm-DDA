@@ -11,9 +11,10 @@
     "symbol": "[",
     "color": "light_red",
     "covers": [ "TORSO" ],
+    "charges_per_use": 1,
     "coverage": 0,
     "warmth": 0,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ONLY_ONE", "TORSO" ]
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ONLY_ONE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "afs_holo_transposition_caster",

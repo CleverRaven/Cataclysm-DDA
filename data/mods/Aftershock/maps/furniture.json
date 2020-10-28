@@ -64,5 +64,349 @@
       ]
     },
     "looks_like": "f_fridge"
+  },
+  {
+    "type": "furniture",
+    "id": "f_autodoc_super",
+    "name": "chirurgic suite",
+    "symbol": "&",
+    "color": "light_cyan",
+    "copy-from": "f_autodoc",
+    "flags": [ "TRANSPARENT", "AUTODOC" ],
+    "description": "A multitude of surgical arms seamlessly meld with the chromed ceiling.  They expectantly unravel with your approach, animated by an AI whose performances blur the lines between medicine and art.",
+    "examine_action": "autodoc",
+    "//": "Easy installation",
+    "surgery_skill_multiplier": 999999,
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_4", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_3", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "afs_material_2", "count": [ 6, 10 ] },
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_3", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "afs_material_4", "count": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "afs_circuitry_3", "prob": 25 },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "afs_circuitry_1", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "afs_energy_storage_2", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "afs_material_2", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_autodoc",
+    "name": "Autodoc Mk. XVI",
+    "symbol": "&",
+    "color": "light_red",
+    "copy-from": "f_autodoc",
+    "description": "A commercial surgical robot often found within licensed clinics and corporate hospitals.  Its various AI routines assist during surgery, but they are no replacement for the actual operator's skill.",
+    "flags": [ "TRANSPARENT", "AUTODOC" ],
+    "examine_action": "autodoc",
+    "surgery_skill_multiplier": 1.6,
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "afs_material_2", "count": [ 6, 10 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
+        { "item": "afs_energy_storage_3", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "afs_material_2", "count": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "afs_circuitry_2", "prob": 25 },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "afs_energy_storage_2", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "afs_material_2", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_autodoc_cheap",
+    "name": "salvaged autodoc",
+    "symbol": "&",
+    "color": "light_red",
+    "copy-from": "f_autodoc",
+    "description": "The kind of worn-down and dubiously safe surgical device that is perfectly at home in a back alley clinic.  It would take great skill to safely operate this.",
+    "flags": [ "TRANSPARENT", "AUTODOC" ],
+    "examine_action": "autodoc",
+    "surgery_skill_multiplier": 0.6,
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_2", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_1", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "afs_material_2", "count": [ 6, 10 ] },
+        { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
+        { "item": "afs_energy_storage_2", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "afs_material_1", "count": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "afs_circuitry_2", "prob": 25 },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "afs_energy_storage_2", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "afs_material_1", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sleep_pod",
+    "name": "sleep pod",
+    "symbol": "#",
+    "description": "This is a climate controlled sleep pod.  An easy way to reduce energy costs in dense urban environments.",
+    "color": "light_blue",
+    "move_cost_mod": 15,
+    "coverage": 80,
+    "comfort": 8,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "looks_like": "f_bed_frame",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "rag", "count": [ 40, 55 ] },
+        { "item": "afs_material_1", "count": [ 10, 20 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cryo_pod",
+    "name": "cryo pod",
+    "symbol": "#",
+    "description": "This is a long term sleep pod.  Cryo pods are mostly used by people waiting a short term for organs or criminals avoiding heat right after a crime.",
+    "color": "light_blue",
+    "move_cost_mod": 15,
+    "coverage": 80,
+    "comfort": 2,
+    "floor_bedding_warmth": 500,
+    "required_str": -1,
+    "looks_like": "f_bed_frame",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "rag", "count": [ 40, 55 ] },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_magnet_2", "count": [ 1, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_crispr",
+    "name": "CRISPR Biolab",
+    "symbol": "&",
+    "description": "A boxy looking device of arms, droppers and pipettes.  It was used pre-Cataclysm to do expirements in gene editing.",
+    "color": "light_cyan",
+    "looks_like": "f_robotic_arm",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "afs_circuitry_1", "count": [ 6, 10 ] },
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_1", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "afs_material_1", "count": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "afs_circuitry_3", "prob": 25 },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "afs_circuitry_1", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "afs_energy_storage_1", "prob": 25 },
+        { "item": "afs_energy_storage_2", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "afs_material_1", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_3dprinter",
+    "name": "3D printer",
+    "symbol": "?",
+    "description": "This box was used for rapid prototyping of products and for general entertainment purposes in the masses.",
+    "color": "light_cyan",
+    "looks_like": "f_robotic_arm",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "afs_circuitry_1", "count": [ 6, 10 ] },
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_1", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "afs_material_1", "count": [ 6, 8 ] },
+        { "item": "afs_material_2", "count": [ 3, 7 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "afs_circuitry_3", "prob": 25 },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "afs_circuitry_1", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "afs_energy_storage_1", "prob": 25 },
+        { "item": "afs_energy_storage_2", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "afs_material_1", "count": [ 2, 6 ], "prob": 50 },
+        { "item": "afs_material_2", "count": [ 1, 4 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_neuralnet_inserter",
+    "name": "neural net inserter",
+    "looks_like": "f_drill_press",
+    "description": "This device looks like a cross between some kind of nightmare dentistry equipment and socketing tool mounted on a slide that lets it drop precisely down.  Useful for those project that require putting delicate items into hard to reach spaces.",
+    "symbol": "7",
+    "color": "yellow_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "afs_circuitry_1", "charges": [ 0, 4 ] },
+        { "item": "afs_material_1", "count": [ 8, 12 ] },
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_magnet_1", "count": [ 4, 10 ] },
+        { "item": "afs_material_3", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_1", "charges": [ 4, 8 ] },
+        { "item": "afs_material_2", "count": [ 4, 6 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 12, 16 ] },
+        { "item": "afs_material_3", "count": [ 2, 4 ] },
+        { "item": "spike", "count": 1 },
+        { "item": "afs_magnet_1", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_monomolecularsaw",
+    "name": "monomolecular saw",
+    "looks_like": "f_bandsaw",
+    "description": "A wire the size of a cheescutter runs in a single direction in this tool, allowing atomically precise cuts at almost any angle.  Even unpowered it gives off a visual distortion for several inches around it to prevent you from losing a hand.  It is impossible to deconstruct this device without the wire self destructing.",
+    "symbol": "7",
+    "color": "yellow_cyan",
+    "move_cost_mod": -2,
+    "coverage": 40,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "afs_circuitry_1", "charges": [ 0, 4 ] },
+        { "item": "afs_material_1", "count": [ 8, 12 ] },
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_magnet_1", "count": [ 4, 10 ] },
+        { "item": "afs_material_3", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_1", "charges": [ 4, 8 ] },
+        { "item": "afs_material_2", "count": [ 4, 6 ] },
+        { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 12, 16 ] },
+        { "item": "afs_material_3", "count": [ 2, 4 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 2 ] },
+        { "item": "afs_magnet_1", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
   }
 ]

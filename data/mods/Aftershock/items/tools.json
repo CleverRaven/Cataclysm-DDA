@@ -31,7 +31,7 @@
     "name": { "str": "atomic smartphone - music", "str_pl": "atomic smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": "MP3_ON",
+    "use_action": [ "MP3_ON" ],
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -46,7 +46,7 @@
       "menu_text": "Turn off flashlight",
       "type": "transform"
     },
-    "flags": [ "WATCH", "LIGHT_25", "CHARGEDIM", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATCH", "LIGHT_25", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "afs_wraitheon_smartphone",
@@ -76,7 +76,7 @@
     "name": { "str": "Wraitheon executive's smartphone - music", "str_pl": "Wraitheon executive's smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": "MP3_ON",
+    "use_action": [ "MP3_ON" ],
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -118,7 +118,7 @@
     "price_postapoc": 1200,
     "to_hit": 1,
     "bashing": 9,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ] ],
@@ -141,7 +141,7 @@
     "symbol": "/",
     "looks_like": "circsaw_off",
     "color": "light_red",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "max_charges": 500,
     "charges_per_use": 1,
     "use_action": { "target": "afs_power_cutter_on", "msg": "You rev up the power cutter!", "active": true, "type": "transform" },
@@ -176,7 +176,7 @@
     "symbol": "/",
     "looks_like": "circsaw_off",
     "color": "yellow",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "max_charges": 500,
     "charges_per_use": 1,
     "use_action": { "target": "afs_murdersaw_on", "msg": "You rev up the murdersaw!", "active": true, "type": "transform" },
@@ -249,6 +249,14 @@
     "qualities": [ [ "BIONIC_ASSEMBLY", 1 ], [ "SAW_M_FINE", 1 ] ]
   },
   {
+    "id": "afs_complete_bionic_toolkit",
+    "copy-from": "screwdriver_set",
+    "type": "TOOL",
+    "name": { "str": "complete bionic toolkit" },
+    "description": "A set of very small robotic tools and encrypted digital keys originally designed to disassemble and test the quality of industrially produced bionics.  A highly skilled and patient engineer could use them to manually assemble new cybernetics.",
+    "qualities": [ [ "BIONIC_ASSEMBLY", 2 ], [ "SAW_M_FINE", 1 ] ]
+  },
+  {
     "id": "afs_bionic_power_mod",
     "copy-from": "mod_battery",
     "type": "TOOLMOD",
@@ -257,5 +265,33 @@
     "description": "This device replaces standard power connections and battery ports for electronic devices with a carefully-shaped port that hooks into bionic implants.  When applied, it will convert an item to run directly off of bionic power.",
     "ammo_modifier": "battery",
     "flags": [ "USES_BIONIC_POWER", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "control_laptop",
+    "type": "TOOL",
+    "name": { "str": "control laptop" },
+    "description": "A modified laptop, now capable of transmitting in the ultra-high frequencies utilized by robots.  Activate it to command robots from afar.",
+    "weight": "2721 g",
+    "volume": "1 L",
+    "price": 10000,
+    "price_postapoc": 8000,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ",",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "charges_per_use": 2,
+    "use_action": [ "ROBOTCONTROL" ],
+	"magazines": [
+      [
+        "battery",
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
   }
 ]

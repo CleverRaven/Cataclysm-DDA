@@ -1,0 +1,27 @@
+[
+  {
+    "id": "afs_generic_free_turn",
+    "type": "SPELL",
+    "name": "Aftershock Extra Turn",
+    "description": "Grants you an extra turn.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "effect": "mod_moves",
+    "min_damage": 100,
+    "max_damage": 100,
+    "base_casting_time": 1
+  },
+  {
+    "id": "afs_generic_speed_bonus",
+    "type": "SPELL",
+    "name": "Aftershock Stacking Speed Bonus",
+    "description": "Grants you a stackable speed bonus.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "effect": "target_attack",
+    "effect_str": "afs_generic_speed_bonus",
+    "base_casting_time": 1,
+    "min_duration": 100,
+    "max_duration": 100
+  }
+]

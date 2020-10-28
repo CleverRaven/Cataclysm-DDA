@@ -72,6 +72,52 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
   },
   {
+    "id": "xl_jeans",
+    "type": "ARMOR",
+    "name": { "str": "XL jeans", "str_pl": "pairs of XL jeans" },
+    "description": "A pair of XL blue jeans with two deep pockets.",
+    "weight": "900 g",
+    "volume": "3 L",
+    "copy-from": "jeans",
+	"storage": "750 ml",
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
+  },
+  {
+    "id": "xl_technician_pants_gray",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "name": { "str": "XL work pants", "str_pl": "pairs of XL work pants" },
+    "description": "A pair of gray work pants.",
+    "copy-from": "technician_pants_gray",
+    "weight": "770 g",
+    "volume": "3 L",
+	"storage": "1700 ml",
+    "material_thickness": 2,
+    "snippet_category": [
+      { "id": "xl_technician_pants_blue", "text": "A pair of XL blue work pants." },
+      { "id": "xl_technician_pants_gray", "text": "A pair of XL gray work pants." },
+      { "id": "xl_technician_pants_lightblue", "text": "A pair of XL light-blue work pants." }
+    ],
+    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
+  },
+  {
+    "id": "xl_technician_shirt_gray",
+    "repairs_like": "tshirt",
+    "type": "ARMOR",
+    "name": { "str": "XL work t-shirt" },
+    "description": "A gray XL work t-shirt with a small front pocket.",
+    "weight": "84 g",
+    "volume": "350 ml",
+    "copy-from": "technician_shirt_gray",
+    "snippet_category": [
+      { "id": "xl_technician_shirt_blue", "text": "An XL blue work t-shirt with a small front pocket." },
+      { "id": "xl_technician_shirt_gray", "text": "An XL gray work t-shirt with a small front pocket." },
+      { "id": "xl_technician_shirt_lightblue", "text": "An XL light-blue work t-shirt with a small front pocket." }
+    ],
+    "flags": [ "VARSIZE", "OVERSIZE" ]
+  },
+  {
     "id": "q_solarpack",
     "type": "TOOL_ARMOR",
     "name": { "str": "quantum solar backpack (folded)", "str_pl": "quantum solar backpacks (folded)" },
@@ -88,7 +134,7 @@
     "coverage": 40,
     "encumbrance": 12,
     "material_thickness": 3,
-    "use_action": "SOLARPACK",
+    "use_action": [ "SOLARPACK" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
   },
   {
@@ -109,7 +155,7 @@
     "coverage": 40,
     "encumbrance": 20,
     "material_thickness": 1,
-    "use_action": "SOLARPACK_OFF",
+    "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.3,
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
   },
@@ -247,5 +293,76 @@
     "warmth": 20,
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "xlleather_belt",
+    "type": "ARMOR",
+    "name": { "str": "XL leather belt" },
+    "description": "An XL leather belt.  Useful for making your pair of pants fit if you need really big pants.",
+    "weight": "150 g",
+    "volume": "350 ml",
+    "copy-from": "leather_belt",
+    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+  },
+  {
+    "id": "xlpolice_belt",
+    "type": "ARMOR",
+    "name": { "str": "XL police duty belt" },
+    "description": "An XL black leather belt used by extremely large uplifted police officers.  It has several pouches and a holder for a baton.",
+    "weight": "450 g",
+    "volume": "2500 ml",
+    "copy-from": "police_belt",
+    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+  },
+  {
+    "id": "xltac_fullhelmet",
+    "repairs_like": "xlkevlar",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "XL tactical full helmet" },
+    "description": "An all-encompassing massive black helmet that covers your entire face and neck, providing excellent protection from all sorts of damage.",
+    "weight": "1324 g",
+    "volume": "2 L",
+    "copy-from": "tac_fullhelmet",
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "OVERSIZE" ]
+  },
+  {
+    "type": "ARMOR",
+    "id": "xllegpouch_large",
+    "name": { "str": "XL leg ammo pouch", "str_pl": "XL leg ammo pouches" },
+    "description": "An XL fabric ammo pouch that can be strapped to your leg and capable of holding two magazine close at hand.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "copy-from": "legpouch_large",
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "afs_herc_rig",
+    "type": "ARMOR",
+    "name": { "str": "HERC rig" },
+    "description": "A lightweight steel-reinforced tool carrier.  Keeps your tools safe and about in zero-g, Mars, the bottom of the Pacific, or other generally inhospitable environments.  It has several deep pockets, and two mounting points for pressurized canisters or other large magazines.",
+    "weight": "600 g",
+    "volume": "10 L",
+    "looks_like": "tacvest",
+    "price": 7400,
+    "price_postapoc": 5000,
+    "material": [ "steel", "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 20,
+    "encumbrance": 8,
+    "material_thickness": 2,
+	"storage": "9 L",
+	"use_action": {
+      "type": "holster",
+      "holster_prompt": "Stash ammo",
+      "holster_msg": "You stash your %s.",
+      "max_volume": "4 L",
+      "max_weight": "12 kg",
+      "draw_cost": 50,
+      "flags": [ "BELT_CLIP" ]
+    },
+    "flags": [ "WATER_FRIENDLY", "BELTED" ]
   }
 ]
