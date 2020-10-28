@@ -5,7 +5,7 @@
 NAME: MshockXottoplus
 
 #Viewing (Option) name of the tileset
-VIEW: MXotto+
+VIEW: MSXotto+
 
 #JSON Path - Default of tile_config.json
 JSON: tile_config.json
