@@ -2021,7 +2021,6 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                 continue;
             }
 
-
             // Only if it's from a vehicle do we use the vehicle source location information.
             vehicle *this_veh = it->second ? src_veh : nullptr;
             const int this_part = it->second ? src_part : -1;
