@@ -68,9 +68,11 @@ class advuilist
     /// sorters)
     ///@param sorter
     void addSorter( sorter_t const &sorter );
-    /// sets a handler for input_context actions. this is executed after all internal actions are
+    /// sets a handler for input_context actions. this is executed before any internal actions are
     /// handled
     void setctxthandler( fctxt_t const &func );
+    /// sets the filtering function
+    void setfilterf( ffilter_t const &func );
     select_t select();
     void sort( std::string const &name );
     void rebuild( Container *list );
@@ -106,6 +108,7 @@ class advuilist
     std::string _filter;
     typename sortcont_t::size_type _csort = 0;
     typename list_t::size_type _cidx = 0;
+    /// total column width weights
     cwidth_t _tweight = 0;
     bool _exit = false;
 
@@ -189,7 +192,8 @@ void advuilist<Container, T>::setColumns( std::vector<col_t> const &columns )
     _sorters.erase( _sorters.begin() + 1,
                     _sorters.begin() + 1 +
                         static_cast<typename sortcont_t::difference_type>( ncols_old ) );
-    _sorters.insert( _sorters.begin() + 1, tmp.begin(), tmp.end() );
+    _sorters.insert( _sorters.begin() + 1, std::make_move_iterator( tmp.begin() ),
+                     std::make_move_iterator( tmp.end() ) );
 }
 
 template <class Container, typename T>
@@ -212,12 +216,23 @@ void advuilist<Container, T>::setctxthandler( fctxt_t const &func )
 }
 
 template <class Container, typename T>
+void advuilist<Container, T>::setfilterf( ffilter_t const &func )
+{
+    _ffilter = func;
+}
+
+template <class Container, typename T>
 typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
 {
     while( !_exit ) {
 
         ui_manager::redraw();
         std::string const action = _ctxt.handle_input();
+
+        if( _fctxt ) {
+            _fctxt( action );
+        }
+
         if( action == "UP" ) {
             _cidx = _cidx == 0 ? _list.size() - 1 : _cidx - 1;
         } else if( action == "DOWN" ) {
@@ -238,10 +253,6 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
             _exit = true;
         }
         // FIXME: add SELECT_ALL and maybe SELECT_MARKED (or expand SELECT)
-
-        if( _fctxt ) {
-            _fctxt( action );
-        }
     }
 
     return select_t();
@@ -268,6 +279,7 @@ void advuilist<Container, T>::rebuild( Container *list )
             _list.emplace_back( idx++, it );
         }
     }
+    _cidx = _cidx > _list.size() - 1 ? _list.size() - 1 : _cidx;
     // FIXME?: use a set for _list
     _sort( _csort );
 }
@@ -306,7 +318,7 @@ template <class Container, typename T>
 void advuilist<Container, T>::_initui()
 {
     _ui->on_screen_resize( [&]( ui_adaptor &ui ) {
-        _w = _w = catacurses::newwin( _size.y, _size.x, _origin );
+        _w = catacurses::newwin( _size.y, _size.x, _origin );
         ui.position_from_window( _w );
     } );
     _ui->mark_resize();
@@ -463,7 +475,6 @@ void advuilist<Container, T>::_setfilter( std::string const &filter )
 {
     _filter = filter;
     rebuild( _olist );
-    _cidx = _cidx > _list.size() - 1 ? _list.size() - 1 : _cidx;
 }
 
 template <class Container, typename T>

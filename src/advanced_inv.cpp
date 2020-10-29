@@ -47,6 +47,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "ret_val.h"
+#include "src/item_search.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -144,6 +145,11 @@ void create_advanced_inv()
             debugmsg( "examine placeholder" );
         }
     } );
+    myadvuilist.setfilterf( [](myadvinv_entry const &it, std::string const &filter) {
+        // FIXME: salvage filter caching from old AIM code
+        auto const filterf = item_filter_from_string( filter );
+        return filterf(*it.stack[0]);
+    });
     myadvuilist.select();
 }
 
