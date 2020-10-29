@@ -101,17 +101,37 @@ static input_event keybind( const std::string &opt,
     return keys.empty() ? input_event() : keys.front();
 }
 
-static void add_menu_title( std::vector<uilist_entry> &options,
-                            std::vector<std::function<bool()>> &actions, std::string text, nc_color color = c_cyan )
-{
-    // Add title
-    options.push_back( uilist_entry( -1, false, 0, "  " + text ) );
-    options.back().force_color = true;
-    options.back().text_color = color;
-    actions.push_back( []() {
-        return false;
-    } );
-}
+// if items were added to options/actions during lifetime of this struct
+// it adds a non-selectable title above them
+struct menu_group_title {
+    std::vector<uilist_entry> &options;
+    std::vector<std::function<bool()>> &actions;
+    size_t index;
+    std::string text;
+    nc_color color = c_cyan;
+    menu_group_title( std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions,
+                      std::string text, nc_color color = c_cyan )
+        : options( options ), actions( actions ), text( text ), color( color ) {
+        index = options.size();
+    }
+
+    ~menu_group_title() {
+        if( index == options.size() ) {
+            return; // skip if no menu items were added
+        }
+        auto options_idx = options.begin();
+        auto actions_idx = actions.begin();
+        std::advance( options_idx, index );
+        std::advance( actions_idx, index );
+        uilist_entry title_entry( -1, false, 0, "  " + text );
+        title_entry.force_color = true;
+        title_entry.text_color = color;
+        options.insert( options_idx, title_entry );
+        actions.insert( actions_idx, []() {
+            return false;
+        } );
+    }
+};
 
 void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
                                   std::vector<std::function<bool()>> &actions,
@@ -282,7 +302,7 @@ void vehicle::control_doors()
 void vehicle::build_electronics_menu( std::vector<uilist_entry> &options,
                                       std::vector<std::function<bool()>> &actions )
 {
-    add_menu_title( options, actions, _( "Control multiple electronics" ) );
+    menu_group_title title( options, actions, _( "Control multiple electronics" ) );
 
     auto add_toggle = [&]( const std::string & name, const input_event & key,
     const std::string & flag ) {
@@ -773,7 +793,7 @@ void vehicle::build_controls_menu( const tripoint &pos,
     }
 
     if( has_part( "TURRET" ) ) {
-        add_menu_title( options, actions, _( "Control turrets" ) );
+        menu_group_title title( options, actions, _( "Control turrets" ) );
 
         add_menu_item( options, actions, true, _( "Set turret targeting modes" ),
                        keybind( "TURRET_TARGET_MODE" ),
@@ -2002,6 +2022,7 @@ void vehicle::add_menu_item( std::vector<uilist_entry> &options,
 void vehicle::build_veh_tools_menu( const vpart_position &vp,
                                     std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions )
 {
+    menu_group_title title( options, actions, _( "Use tool" ) );
     auto tool_wants_battery = []( const itype_id & type ) {
         item tool( type, 0 );
         item mag( tool.magazine_default() );
@@ -2046,10 +2067,6 @@ void vehicle::build_veh_tools_menu( const vpart_position &vp,
     // first is tool itype_id, second is the hotkey
     const std::vector<std::pair<itype_id, int>> veh_tools = vp.get_tools();
 
-    if( !veh_tools.empty() ) {
-        add_menu_title( options, actions, _( "Use tool" ) );
-    }
-
     for( const std::pair<itype_id, int> &pair : veh_tools ) {
         const itype_id tool_type = pair.first;
         const itype &tool = tool_type.obj();
@@ -2070,30 +2087,18 @@ void vehicle::build_interact_menu( const tripoint &pos,
                                    std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions )
 {
     map &here = get_map();
-    avatar &player_character = get_avatar();
     const optional_vpart_position ovp = here.veh_at( pos );
     if( !ovp ) {
         return;
     }
     const vpart_position vp = *ovp;
-    const bool has_items_on_ground = here.sees_some_items( pos, player_character );
-    const bool items_are_sealed = here.has_flag( "SEALED", pos );
     const turret_data turret = turret_query( pos );
     const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
     const cata::optional<vpart_reference> vp_faucet = vp.part_with_tool( itype_water_faucet );
     const cata::optional<vpart_reference> vp_purify = vp.part_with_tool( itype_water_purifier );
     const cata::optional<vpart_reference> vp_controls = vp.avail_part_with_feature( "CONTROLS" );
-    const cata::optional<vpart_reference> vp_autoclave = vp.avail_part_with_feature( "AUTOCLAVE" );
-    const cata::optional<vpart_reference> vp_washing_machine =
-        vp.avail_part_with_feature( "WASHING_MACHINE" );
-    const cata::optional<vpart_reference> vp_dishwasher = vp.avail_part_with_feature( "DISHWASHER" );
-    const cata::optional<vpart_reference> vp_monster_capture =
-        vp.avail_part_with_feature( "CAPTURE_MONSTER_VEH" );
-    const cata::optional<vpart_reference> vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );
     const cata::optional<vpart_reference> vp_harness = vp.avail_part_with_feature( "ANIMAL_CTRL" );
     const cata::optional<vpart_reference> vp_workbench = vp.avail_part_with_feature( "WORKBENCH" );
-    const cata::optional<vpart_reference> vp_cargo = vp.part_with_feature( "CARGO", false );
-    const bool has_cargo = vp_cargo && !get_items( vp_cargo->part_index() ).empty();
     const bool has_planter = vp.avail_part_with_feature( "PLANTER" ) ||
                              vp.avail_part_with_feature( "ADVANCED_PLANTER" );
 
@@ -2113,66 +2118,6 @@ void vehicle::build_interact_menu( const tripoint &pos,
 
     if( vp_controls ) {
         build_controls_menu( pos, options, actions );
-    }
-
-    build_veh_tools_menu( vp, options, actions );
-
-    if( vp_autoclave ) {
-        add_menu_item( options, actions, true, vp_autoclave->part().enabled
-                       ? _( "Deactivate the autoclave" )
-                       : _( "Activate the autoclave (1.5 hours)" ), keybind( "USE_AUTOCLAVE" ),
-        [this, vp_autoclave]() {
-            use_autoclave( vp_autoclave->part_index() );
-            return true;
-        } );
-    }
-    if( vp_washing_machine ) {
-        add_menu_item( options, actions, true, vp_washing_machine->part().enabled
-                       ? _( "Deactivate the washing machine" )
-                       : _( "Activate the washing machine (1.5 hours)" ), keybind( "USE_WASHMACHINE" ),
-        [this, vp_washing_machine]() {
-            use_washing_machine( vp_washing_machine->part_index() );
-            return true;
-        } );
-    }
-    if( vp_dishwasher ) {
-        add_menu_item( options, actions, true, vp_dishwasher->part().enabled
-                       ? _( "Deactivate the dishwasher" )
-                       : _( "Activate the dishwasher (1.5 hours)" ), keybind( "USE_DISHWASHER" ),
-        [this, vp_dishwasher]() {
-            use_dishwasher( vp_dishwasher->part_index() );
-            return true;
-        } );
-    }
-    if( has_cargo &&
-        ( !vp_autoclave || !vp_autoclave->part().enabled ) &&
-        ( !vp_washing_machine || !vp_washing_machine->part().enabled ) &&
-        ( !vp_dishwasher || !vp_dishwasher->part().enabled ) ) {
-        add_menu_item( options, actions, true, _( "Get items" ), keybind( "PICKUP_ITEMS" ),
-        [has_cargo, pos]() {
-            if( has_cargo ) {
-                Pickup::pick_up( pos, 0, Pickup::from_cargo );
-            } else {
-                Pickup::pick_up( pos, 0, Pickup::from_ground );
-            }
-            return true;
-        } );
-    }
-
-    if( has_items_on_ground && !items_are_sealed ) {
-        add_menu_item( options, actions, true, _( "Get items on the ground" ),
-                       keybind( "PICKUP_ITEMS_FROM_GROUND" ),
-        [pos]() {
-            Pickup::pick_up( pos, 0, Pickup::from_ground );
-            return true;
-        }, false ); // false - no theft check
-    }
-    if( ( is_foldable() || tags.count( "convertible" ) > 0 ) && g->remoteveh() != this ) {
-        add_menu_item( options, actions, true, _( "Fold vehicle" ), keybind( "FOLD_VEHICLE" ),
-        [this]() {
-            fold_up();
-            return true;
-        } );
     }
 
     if( turret.can_unload() ) {
@@ -2200,13 +2145,19 @@ void vehicle::build_interact_menu( const tripoint &pos,
             return true;
         } );
     }
-
     if( vp_curtain && !vp_curtain->part().open ) {
         add_menu_item( options, actions, true, _( "Peek through the closed curtains" ),
                        keybind( "CURTAIN_PEEK" ),
         [pos]() {
             add_msg( _( "You carefully peek through the curtains." ) );
             g->peek( pos );
+            return true;
+        } );
+    }
+    if( vp_harness ) {
+        add_menu_item( options, actions, true, _( "Harness an animal" ), keybind( "USE_HARNESS" ),
+        [this, vp_harness, pos]() {
+            use_harness( vp_harness->part_index(), pos );
             return true;
         } );
     }
@@ -2255,28 +2206,6 @@ void vehicle::build_interact_menu( const tripoint &pos,
             return true;
         } );
     }
-    if( vp_monster_capture ) {
-        add_menu_item( options, actions, true, _( "Capture or release a creature" ),
-                       keybind( "USE_MONSTER_CAPTURE" ),
-        [this, vp_monster_capture, pos]() {
-            use_monster_capture( vp_monster_capture->part_index(), pos );
-            return true;
-        } );
-    }
-    if( vp_bike_rack ) {
-        add_menu_item( options, actions, true, _( "Load or unload a vehicle" ), keybind( "USE_BIKE_RACK" ),
-        [this, vp_bike_rack]() {
-            use_bike_rack( vp_bike_rack->part_index() );
-            return true;
-        } );
-    }
-    if( vp_harness ) {
-        add_menu_item( options, actions, true, _( "Harness an animal" ), keybind( "USE_HARNESS" ),
-        [this, vp_harness, pos]() {
-            use_harness( vp_harness->part_index(), pos );
-            return true;
-        } );
-    }
     if( has_planter ) {
         add_menu_item( options, actions, true, _( "Reload seed drill with seeds" ),
                        keybind( "RELOAD_PLANTER" ),
@@ -2292,6 +2221,105 @@ void vehicle::build_interact_menu( const tripoint &pos,
             iexamine::workbench_internal( get_avatar(), pos, vp_workbench );
             return true;
         } );
+    }
+
+    build_veh_tools_menu( vp, options, actions );
+    build_cargo_menu( pos, options, actions );
+}
+
+void vehicle::build_cargo_menu( const tripoint &pos,
+                                std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions )
+{
+    menu_group_title title( options, actions, _( "Cargo" ) );
+    map &here = get_map();
+    avatar &player_character = get_avatar();
+    const optional_vpart_position ovp = here.veh_at( pos );
+    if( !ovp ) {
+        return;
+    }
+    const cata::optional<vpart_reference> vp_autoclave = ovp->avail_part_with_feature( "AUTOCLAVE" );
+    const cata::optional<vpart_reference> vp_washing_machine =
+        ovp->avail_part_with_feature( "WASHING_MACHINE" );
+    const cata::optional<vpart_reference> vp_dishwasher = ovp->avail_part_with_feature( "DISHWASHER" );
+    const cata::optional<vpart_reference> vp_monster_capture =
+        ovp->avail_part_with_feature( "CAPTURE_MONSTER_VEH" );
+    const cata::optional<vpart_reference> vp_bike_rack =
+        ovp->avail_part_with_feature( "BIKE_RACK_VEH" );
+    const cata::optional<vpart_reference> vp_cargo = ovp->part_with_feature( "CARGO", false );
+    const bool has_cargo = vp_cargo && !get_items( vp_cargo->part_index() ).empty();
+    const bool has_items_on_ground = here.sees_some_items( pos, player_character );
+    const bool items_are_sealed = here.has_flag( "SEALED", pos );
+
+    if( vp_autoclave ) {
+        add_menu_item( options, actions, true, vp_autoclave->part().enabled
+                       ? _( "Deactivate the autoclave" )
+                       : _( "Activate the autoclave (1.5 hours)" ), keybind( "USE_AUTOCLAVE" ),
+        [this, vp_autoclave]() {
+            use_autoclave( vp_autoclave->part_index() );
+            return true;
+        } );
+    }
+    if( vp_washing_machine ) {
+        add_menu_item( options, actions, true, vp_washing_machine->part().enabled
+                       ? _( "Deactivate the washing machine" )
+                       : _( "Activate the washing machine (1.5 hours)" ), keybind( "USE_WASHMACHINE" ),
+        [this, vp_washing_machine]() {
+            use_washing_machine( vp_washing_machine->part_index() );
+            return true;
+        } );
+    }
+    if( vp_dishwasher ) {
+        add_menu_item( options, actions, true, vp_dishwasher->part().enabled
+                       ? _( "Deactivate the dishwasher" )
+                       : _( "Activate the dishwasher (1.5 hours)" ), keybind( "USE_DISHWASHER" ),
+        [this, vp_dishwasher]() {
+            use_dishwasher( vp_dishwasher->part_index() );
+            return true;
+        } );
+    }
+    if( vp_monster_capture ) {
+        add_menu_item( options, actions, true, _( "Capture or release a creature" ),
+                       keybind( "USE_MONSTER_CAPTURE" ),
+        [this, vp_monster_capture, pos]() {
+            use_monster_capture( vp_monster_capture->part_index(), pos );
+            return true;
+        } );
+    }
+    if( vp_bike_rack ) {
+        add_menu_item( options, actions, true, _( "Load or unload a vehicle" ), keybind( "USE_BIKE_RACK" ),
+        [this, vp_bike_rack]() {
+            use_bike_rack( vp_bike_rack->part_index() );
+            return true;
+        } );
+    }
+    if( ( is_foldable() || tags.count( "convertible" ) > 0 ) && g->remoteveh() != this ) {
+        add_menu_item( options, actions, true, _( "Fold vehicle" ), keybind( "FOLD_VEHICLE" ),
+        [this]() {
+            fold_up();
+            return true;
+        } );
+    }
+    if( has_cargo &&
+        ( !vp_autoclave || !vp_autoclave->part().enabled ) &&
+        ( !vp_washing_machine || !vp_washing_machine->part().enabled ) &&
+        ( !vp_dishwasher || !vp_dishwasher->part().enabled ) ) {
+        add_menu_item( options, actions, true, _( "Get items" ), keybind( "PICKUP_ITEMS" ),
+        [has_cargo, pos]() {
+            if( has_cargo ) {
+                Pickup::pick_up( pos, 0, Pickup::from_cargo );
+            } else {
+                Pickup::pick_up( pos, 0, Pickup::from_ground );
+            }
+            return true;
+        } );
+    }
+    if( has_items_on_ground && !items_are_sealed ) {
+        add_menu_item( options, actions, true, _( "Get items on the ground" ),
+                       keybind( "PICKUP_ITEMS_FROM_GROUND" ),
+        [pos]() {
+            Pickup::pick_up( pos, 0, Pickup::from_ground );
+            return true;
+        }, false ); // false - no theft check
     }
 }
 

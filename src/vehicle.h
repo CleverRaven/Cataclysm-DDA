@@ -1640,6 +1640,9 @@ class vehicle
         // Builds interaction (`e`xamine) menu for the method below
         void build_interact_menu( const tripoint &pos,
                                   std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions );
+        // Builds cargo menu (also autoclave and such / bike rack etc) for the method below
+        void build_cargo_menu( const tripoint &pos,
+                               std::vector<uilist_entry> &options, std::vector<std::function<bool()>> &actions );
         // Builds electronics controls menu for controls and interaction menus
         void build_electronics_menu( std::vector<uilist_entry> &options,
                                      std::vector<std::function<bool()>> &actions );
