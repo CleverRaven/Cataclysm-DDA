@@ -227,7 +227,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_meteorologist_4",
     "dialogue": {
-      "describe": "We need to assemble a drone…",
+      "describe": "We need high quality lenses for our drone…",
       "offer": "Well, what's next on the list…  Yeah, lenses.  5 small high-quality lenses would be enough.",
       "accepted": "I'm waiting for you.",
       "rejected": "Maybe another time…",
