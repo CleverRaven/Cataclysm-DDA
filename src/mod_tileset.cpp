@@ -21,9 +21,11 @@ void load_mod_tileset( const JsonObject &jsobj, const std::string &, const std::
 
     all_mod_tilesets.emplace_back( base_path, full_path, new_num_in_file );
     std::vector<std::string> compatibility = jsobj.get_string_array( "compatibility" );
+#if defined(TILES)
     for( const std::string &compatible_tileset_id : compatibility ) {
         all_mod_tilesets.back().add_compatible_tileset( compatible_tileset_id );
     }
+#endif
     if( jsobj.has_member( "tiles-new" ) ) {
         // tiles-new is read when initializing graphics, inside `tileset_loader::load`.
         // calling get_array here to suppress warnings in the unit test.

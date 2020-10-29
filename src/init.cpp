@@ -400,12 +400,8 @@ void DynamicDataLoader::initialize()
     add( "event_statistic", &event_statistic::load_statistic );
     add( "score", &score::load_score );
     add( "achievement", &achievement::load_achievement );
-#if defined(TILES)
+    // Read the jsons even if we can't use tiles, to make init consistent
     add( "mod_tileset", &load_mod_tileset );
-#else
-    // Dummy function
-    add( "mod_tileset", []( const JsonObject &, const std::string & ) { } );
-#endif
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src,
