@@ -194,12 +194,5 @@
     "info": "If false, examining workbench-type furniture will auto-execute pickup and undeploy (where applicable) actions, no crafting-related options will be listed.",
     "stype": "bool",
     "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "ZOMBIES_DONT_BLEED",
-    "info": "If true, zombies won't bleed and won't take direct damage to the torso when they get bleeding effect.",
-    "stype": "bool",
-    "value": false
   }
 ]
