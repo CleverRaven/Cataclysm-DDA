@@ -36,7 +36,7 @@
     "min_aoe": 3,
     "max_aoe": 5,
     "aoe_increment": 0.07,
-    "base_energy_cost": 390,
+    "base_energy_cost": 520,
     "spell_class": "CLEANSING_FLAME",
     "difficulty": 4,
     "max_level": 35,
