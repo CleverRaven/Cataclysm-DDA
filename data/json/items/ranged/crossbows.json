@@ -375,7 +375,6 @@
     "skill": "rifle",
     "min_strength": 8,
     "longest_side": "86 cm",
-    "//3": "34 inches, converted to metric.",
     "ammo": [ "bolt" ],
     "weight": "2728 g",
     "volume": "1500 ml",
