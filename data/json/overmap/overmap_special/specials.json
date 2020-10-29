@@ -3372,6 +3372,7 @@
       { "point": [ 3, 7, 1 ], "overmap": "ranch_camp_67_roof_north" },
       { "point": [ 4, 7, 0 ], "overmap": "ranch_camp_68_north" },
       { "point": [ 4, 7, 1 ], "overmap": "ranch_camp_68_roof_north" },
+      { "point": [ 4, 7, -1 ], "overmap": "ranch_camp_68_basement_north" },
       { "point": [ 5, 7, 0 ], "overmap": "ranch_camp_69_north" },
       { "point": [ 6, 7, 0 ], "overmap": "ranch_camp_70_north" },
       { "point": [ 7, 7, 0 ], "overmap": "ranch_camp_71_north" },
