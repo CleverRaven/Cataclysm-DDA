@@ -10,7 +10,7 @@
     "volume": "2250 ml",
     "price": 25000,
     "price_postapoc": 3000,
-    "bashing": 65,
+    "bashing": 50,
     "material": [ "wood", "steel" ],
     "symbol": "\\",
     "color": "dark_gray",
