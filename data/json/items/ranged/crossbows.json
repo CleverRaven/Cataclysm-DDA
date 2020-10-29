@@ -299,7 +299,6 @@
     "weight": "1906 g",
     "volume": "1250 ml",
     "longest_side": "86 cm",
-    "//": "34 inches, converted to metric.",
     "bashing": 9,
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "range": 10,
