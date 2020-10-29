@@ -331,9 +331,9 @@ inline T reinterpret_cast_no_cast_align_warning( void const *ptr ) noexcept
 // make sure this is not inlined as it is slow and dramatically enlarges code, thus making other
 // inlinings more difficult. Throws are also generally the slow path.
 template <typename E, typename... Args>
-ROBIN_HOOD( NOINLINE )
+[[noreturn]] ROBIN_HOOD( NOINLINE )
 #if ROBIN_HOOD(HAS_EXCEPTIONS)
-void doThrow [[noreturn]]( Args &&... args )
+void doThrow( Args &&... args )
 {
     // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
     throw E( std::forward<Args>( args )... );
@@ -462,10 +462,12 @@ class BulkPoolAllocator
         // This ignores the fact that memory blocks might have been added manually with addOrFree. In
         // practice, this should not matter much.
         ROBIN_HOOD( NODISCARD ) size_t calcNumElementsToAlloc() const noexcept {
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto tmp = mListForFree;
             size_t numAllocs = MinNumAllocs;
 
             while( numAllocs * 2 <= MaxNumAllocs && tmp ) {
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto x = reinterpret_cast<T ** *>( tmp );
                 tmp = *x;
                 numAllocs *= 2;
@@ -478,17 +480,21 @@ class BulkPoolAllocator
         void add( void *ptr, const size_t numBytes ) noexcept {
             const size_t numElements = ( numBytes - ALIGNMENT ) / ALIGNED_SIZE;
 
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto data = reinterpret_cast<T **>( ptr );
 
             // link free list
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto x = reinterpret_cast<T ** *>( data );
             *x = mListForFree;
             mListForFree = data;
 
             // create linked list for newly allocated data
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto *const headT =
                 reinterpret_cast_no_cast_align_warning<T *>( reinterpret_cast<char *>( ptr ) + ALIGNMENT );
 
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto *const head = reinterpret_cast<char *>( headT );
 
             // Visual Studio compiler automatically unrolls this loop, which is pretty cool
@@ -708,11 +714,13 @@ inline size_t hash_bytes( void const *ptr, size_t len ) noexcept
     static constexpr uint64_t seed = UINT64_C( 0xe17a1465 );
     static constexpr unsigned int r = 47;
 
+    // NOLINTNEXTLINE auto: thirdparty code style
     auto const *const data64 = static_cast<uint64_t const *>( ptr );
     uint64_t h = seed ^ ( len * m );
 
     size_t const n_blocks = len / 8;
     for( size_t i = 0; i < n_blocks; ++i ) {
+        // NOLINTNEXTLINE auto: thirdparty code style
         auto k = detail::unaligned_load<uint64_t>( data64 + i );
 
         k *= m;
@@ -723,6 +731,7 @@ inline size_t hash_bytes( void const *ptr, size_t len ) noexcept
         h *= m;
     }
 
+    // NOLINTNEXTLINE auto: thirdparty code style
     auto const *const data8 = reinterpret_cast<uint8_t const *>( data64 + n_blocks );
     switch( len & 7U ) {
         case 7:
@@ -766,8 +775,11 @@ inline size_t hash_int( uint64_t x ) noexcept
     //
     // Added a final multiplcation with a constant for more mixing. It is most important that
     // the lower bits are well mixed.
+    // NOLINTNEXTLINE auto: thirdparty code style
     auto h1 = x * UINT64_C( 0xA24BAED4963EE407 );
+    // NOLINTNEXTLINE auto: thirdparty code style
     auto h2 = detail::rotr( x, 32U ) * UINT64_C( 0x9FB21C651E98DF25 );
+    // NOLINTNEXTLINE auto: thirdparty code style
     auto h = detail::rotr( h1 + h2, 32U );
     return static_cast<size_t>( h );
 }
@@ -778,6 +790,7 @@ struct hash : public std::hash<T> {
     size_t operator()( T const &obj ) const
     noexcept( noexcept( std::declval<std::hash<T>>().operator()( std::declval<T const &>() ) ) ) {
         // call base hash
+        // NOLINTNEXTLINE auto: thirdparty code style
         auto result = std::hash<T>::operator()( obj );
         // return mixed of that, to be save against identity has
         return hash_int( static_cast<detail::SizeT>( result ) );
@@ -1166,8 +1179,11 @@ class Table
         template <typename M>
         struct Cloner<M, true> {
             void operator()( M const &source, M &target ) const {
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto const *const src = reinterpret_cast<char const *>( source.mKeyVals );
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto *tgt = reinterpret_cast<char *>( target.mKeyVals );
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto const numElementsWithBuffer = target.calcNumElementsWithBuffer( target.mMask + 1 );
                 std::copy( src, src + target.calcNumBytesTotal( numElementsWithBuffer ), tgt );
             }
@@ -1176,6 +1192,7 @@ class Table
         template <typename M>
         struct Cloner<M, false> {
             void operator()( M const &s, M &t ) const {
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto const numElementsWithBuffer = t.calcNumElementsWithBuffer( t.mMask + 1 );
                 std::copy( s.mInfo, s.mInfo + t.calcNumBytesInfo( numElementsWithBuffer ), t.mInfo );
 
@@ -1208,6 +1225,7 @@ class Table
             void nodes( M &m ) const noexcept {
                 m.mNumElements = 0;
                 // clear also resets mInfo to 0, that's sometimes not necessary.
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto const numElementsWithBuffer = m.calcNumElementsWithBuffer( m.mMask + 1 );
 
                 for( size_t idx = 0; idx < numElementsWithBuffer; ++idx ) {
@@ -1222,6 +1240,7 @@ class Table
             void nodesDoNotDeallocate( M &m ) const noexcept {
                 m.mNumElements = 0;
                 // clear also resets mInfo to 0, that's sometimes not necessary.
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto const numElementsWithBuffer = m.calcNumElementsWithBuffer( m.mMask + 1 );
                 for( size_t idx = 0; idx < numElementsWithBuffer; ++idx ) {
                     if( 0 != m.mInfo[idx] ) {
@@ -1344,8 +1363,10 @@ class Table
                     }
 #else
 #    if ROBIN_HOOD(LITTLE_ENDIAN)
+                    // NOLINTNEXTLINE auto: thirdparty code style
                     auto inc = ROBIN_HOOD_COUNT_TRAILING_ZEROES( n ) / 8;
 #    else
+                    // NOLINTNEXTLINE auto: thirdparty code style
                     auto inc = ROBIN_HOOD_COUNT_LEADING_ZEROES( n ) / 8;
 #    endif
                     mInfo += inc;
@@ -1374,6 +1395,7 @@ class Table
                 ::robin_hood::hash<size_t>>::type;
 
             // the lower InitialInfoNumBits are reserved for info.
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto h = Mix{}( WHash::operator()( key ) );
             *info = mInfoInc + static_cast<InfoType>( ( h & InfoMask ) >> mInfoHashShift );
             *idx = ( h >> InitialInfoNumBits ) & mMask;
@@ -1396,6 +1418,7 @@ class Table
         void
         shiftUp( size_t startIdx,
                  size_t const insertion_idx ) noexcept( std::is_nothrow_move_assignable<Node>::value ) {
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto idx = startIdx;
             ::new( static_cast<void *>( mKeyVals + idx ) ) Node( std::move( mKeyVals[idx - 1] ) );
             while( --idx != insertion_idx ) {
@@ -1485,7 +1508,9 @@ class Table
             }
 
             // key not found, so we are now exactly where we want to insert it.
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto const insertion_idx = idx;
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto const insertion_info = static_cast<uint8_t>( info );
             if( ROBIN_HOOD_UNLIKELY( insertion_info + mInfoInc > 0xFF ) ) {
                 mMaxNumElementsAllowed = 0;
@@ -1496,6 +1521,7 @@ class Table
                 next( &info, &idx );
             }
 
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto &l = mKeyVals[insertion_idx];
             if( idx == insertion_idx ) {
                 ::new( static_cast<void *>( &l ) ) Node( std::move( keyval ) );
@@ -1607,6 +1633,7 @@ class Table
                 // not empty: create an exact copy. it is also possible to just iterate through all
                 // elements and insert them, but copying is probably faster.
 
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto const numElementsWithBuffer = calcNumElementsWithBuffer( o.mMask + 1 );
                 mKeyVals = static_cast<Node *>( detail::assertNotNull<std::bad_alloc>(
                                                     std::malloc( calcNumBytesTotal( numElementsWithBuffer ) ) ) );
@@ -1660,6 +1687,7 @@ class Table
                     std::free( mKeyVals );
                 }
 
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto const numElementsWithBuffer = calcNumElementsWithBuffer( o.mMask + 1 );
                 mKeyVals = static_cast<Node *>( detail::assertNotNull<std::bad_alloc>(
                                                     std::malloc( calcNumBytesTotal( numElementsWithBuffer ) ) ) );
@@ -1699,6 +1727,7 @@ class Table
 
             Destroyer < Self, IsFlat &&std::is_trivially_destructible<Node>::value > {} .nodes( *this );
 
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto const numElementsWithBuffer = calcNumElementsWithBuffer( mMask + 1 );
             // clear everything, then set the sentinel again
             uint8_t const z = 0;
@@ -1721,6 +1750,7 @@ class Table
             if( other.size() != size() ) {
                 return false;
             }
+            // NOLINTNEXTLINE auto: thirdparty code style
             for( auto const &otherEntry : other ) {
                 if( !has( otherEntry ) ) {
                     return false;
@@ -1759,6 +1789,7 @@ class Table
         std::pair<iterator, bool> emplace( Args &&... args ) {
             ROBIN_HOOD_TRACE( this )
             Node n{*this, std::forward<Args>( args )...};
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto r = doInsert( std::move( n ) );
             if( !r.second ) {
                 // insertion not possible: destroy node
@@ -1826,6 +1857,7 @@ class Table
         // Returns 1 if key is found, 0 otherwise.
         size_t count( const key_type &key ) const { // NOLINT(modernize-use-nodiscard)
             ROBIN_HOOD_TRACE( this )
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto kv = mKeyVals + findIdx( key );
             if( kv != reinterpret_cast_no_cast_align_warning<Node *>( mInfo ) ) {
                 return 1;
@@ -1837,6 +1869,7 @@ class Table
         // NOLINTNEXTLINE(modernize-use-nodiscard)
         typename std::enable_if<Self_::is_transparent, size_t>::type count( const OtherKey &key ) const {
             ROBIN_HOOD_TRACE( this )
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto kv = mKeyVals + findIdx( key );
             if( kv != reinterpret_cast_no_cast_align_warning<Node *>( mInfo ) ) {
                 return 1;
@@ -1860,6 +1893,7 @@ class Table
         // NOLINTNEXTLINE(modernize-use-nodiscard)
         typename std::enable_if < !std::is_void<Q>::value, Q & >::type at( key_type const &key ) {
             ROBIN_HOOD_TRACE( this )
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto kv = mKeyVals + findIdx( key );
             if( kv == reinterpret_cast_no_cast_align_warning<Node *>( mInfo ) ) {
                 doThrow<std::out_of_range>( "key not found" );
@@ -1874,6 +1908,7 @@ class Table
         typename std::enable_if < !std::is_void<Q>::value,
         Q const & >::type at( key_type const &key ) const {
             ROBIN_HOOD_TRACE( this )
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto kv = mKeyVals + findIdx( key );
             if( kv == reinterpret_cast_no_cast_align_warning<Node *>( mInfo ) ) {
                 doThrow<std::out_of_range>( "key not found" );
@@ -1968,6 +2003,7 @@ class Table
         iterator erase( iterator pos ) {
             ROBIN_HOOD_TRACE( this )
             // we assume that pos always points to a valid entry, and not end().
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto const idx = static_cast<size_t>( pos.mKeyVals - mKeyVals );
 
             shiftDown( idx );
@@ -2012,7 +2048,9 @@ class Table
         // Exactly the same as resize(c). Use resize(0) to shrink to fit.
         void reserve( size_t c ) {
             ROBIN_HOOD_TRACE( this )
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto const minElementsAllowed = ( std::max )( c, mNumElements );
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto newSize = InitialNumElements;
             while( calcMaxNumElementsAllowed( newSize ) < minElementsAllowed && newSize != 0 ) {
                 newSize *= 2;
@@ -2072,6 +2110,7 @@ class Table
 
         ROBIN_HOOD( NODISCARD )
         size_t calcNumElementsWithBuffer( size_t numElements ) const noexcept {
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto maxNumElementsAllowed = calcMaxNumElementsAllowed( numElements );
             return numElements + ( std::min )( maxNumElementsAllowed, ( static_cast<size_t>( 0xFF ) ) );
         }
@@ -2082,11 +2121,16 @@ class Table
             return numElements * sizeof( Node ) + calcNumBytesInfo( numElements );
 #else
             // make sure we're doing 64bit operations, so we are at least safe against 32bit overflows.
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto const ne = static_cast<uint64_t>( numElements );
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto const s = static_cast<uint64_t>( sizeof( Node ) );
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto const infos = static_cast<uint64_t>( calcNumBytesInfo( numElements ) );
 
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto const total64 = ne * s + infos;
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto const total = static_cast<size_t>( total64 );
 
             if( ROBIN_HOOD_UNLIKELY( static_cast<uint64_t>( total ) != total64 ) ) {
@@ -2101,6 +2145,7 @@ class Table
         ROBIN_HOOD( NODISCARD )
         typename std::enable_if < !std::is_void<Q>::value, bool >::type has( const value_type &e ) const {
             ROBIN_HOOD_TRACE( this )
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto it = find( e.first );
             return it != end() && it->second == e.second;
         }
@@ -2133,8 +2178,13 @@ class Table
                     }
                 }
 
-                // don't destroy old data: put it into the pool instead
-                DataPool::addOrFree( oldKeyVals, calcNumBytesTotal( oldMaxElementsWithBuffer ) );
+                // this check is not necessary as it's guarded by the previous if, but it helps silence
+                // g++'s overeager "attempt to free a non-heap object 'map'
+                // [-Werror=free-nonheap-object]" warning.
+                if( oldKeyVals != reinterpret_cast_no_cast_align_warning<Node *>( &mMask ) ) {
+                    // don't destroy old data: put it into the pool instead
+                    DataPool::addOrFree( oldKeyVals, calcNumBytesTotal( oldMaxElementsWithBuffer ) );
+                }
             }
         }
 
@@ -2149,6 +2199,7 @@ class Table
         template <typename OtherKey, typename... Args>
         std::pair<iterator, bool> try_emplace_impl( OtherKey &&key, Args &&... args ) {
             ROBIN_HOOD_TRACE( this )
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto it = find( key );
             if( it == end() ) {
                 return emplace( std::piecewise_construct,
@@ -2161,6 +2212,7 @@ class Table
         template <typename OtherKey, typename Mapped>
         std::pair<iterator, bool> insert_or_assign_impl( OtherKey &&key, Mapped &&obj ) {
             ROBIN_HOOD_TRACE( this )
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto it = find( key );
             if( it == end() ) {
                 return emplace( std::forward<OtherKey>( key ), std::forward<Mapped>( obj ) );
@@ -2174,6 +2226,7 @@ class Table
             mMask = max_elements - 1;
             mMaxNumElementsAllowed = calcMaxNumElementsAllowed( max_elements );
 
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto const numElementsWithBuffer = calcNumElementsWithBuffer( max_elements );
 
             // calloc also zeroes everything
@@ -2213,7 +2266,9 @@ class Table
                 }
 
                 // key not found, so we are now exactly where we want to insert it.
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto const insertion_idx = idx;
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto const insertion_info = info;
                 if( ROBIN_HOOD_UNLIKELY( insertion_info + mInfoInc > 0xFF ) ) {
                     mMaxNumElementsAllowed = 0;
@@ -2224,6 +2279,7 @@ class Table
                     next( &info, &idx );
                 }
 
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto &l = mKeyVals[insertion_idx];
                 if( idx == insertion_idx ) {
                     // put at empty spot. This forwards all arguments into the node where the object
@@ -2272,7 +2328,9 @@ class Table
                 }
 
                 // key not found, so we are now exactly where we want to insert it.
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto const insertion_idx = idx;
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto const insertion_info = info;
                 if( ROBIN_HOOD_UNLIKELY( insertion_info + mInfoInc > 0xFF ) ) {
                     mMaxNumElementsAllowed = 0;
@@ -2283,6 +2341,7 @@ class Table
                     next( &info, &idx );
                 }
 
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto &l = mKeyVals[insertion_idx];
                 if( idx == insertion_idx ) {
                     ::new( static_cast<void *>( &l ) ) Node( *this, std::forward<Arg>( keyval ) );
@@ -2313,9 +2372,11 @@ class Table
             // remove one bit of the hash, leaving more space for the distance info.
             // This is extremely fast because we can operate on 8 bytes at once.
             ++mInfoHashShift;
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto const numElementsWithBuffer = calcNumElementsWithBuffer( mMask + 1 );
 
             for( size_t i = 0; i < numElementsWithBuffer; i += 8 ) {
+                // NOLINTNEXTLINE auto: thirdparty code style
                 auto val = unaligned_load<uint64_t>( mInfo + i );
                 val = ( val >> 1U ) & UINT64_C( 0x7f7f7f7f7f7f7f7f );
                 std::memcpy( mInfo + i, &val, sizeof( val ) );
@@ -2334,6 +2395,7 @@ class Table
                 return;
             }
 
+            // NOLINTNEXTLINE auto: thirdparty code style
             auto const maxNumElementsAllowed = calcMaxNumElementsAllowed( mMask + 1 );
             if( mNumElements < maxNumElementsAllowed && try_increase_info() ) {
                 return;
@@ -2362,7 +2424,7 @@ class Table
 
             // This protection against not deleting mMask shouldn't be needed as it's sufficiently
             // protected with the 0==mMask check, but I have this anyways because g++ 7 otherwise
-            // reports a compile error: attempt to free a non-heap object ‘fm’
+            // reports a compile error: attempt to free a non-heap object 'fm'
             // [-Werror=free-nonheap-object]
             if( mKeyVals != reinterpret_cast_no_cast_align_warning<Node *>( &mMask ) ) {
                 std::free( mKeyVals );
