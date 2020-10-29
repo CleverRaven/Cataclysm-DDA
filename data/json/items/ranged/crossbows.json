@@ -338,7 +338,6 @@
     "weight": "900 g",
     "volume": "500 ml",
     "longest_side": "70 cm",
-    "//2": "Basically a pistol.",
     "bashing": 4,
     "ranged_damage": { "damage_type": "stab", "amount": 3 },
     "range": 6,
