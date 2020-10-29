@@ -1680,8 +1680,13 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
                 line_number = critter->print_info( w_target, line_number, available_lines, 1 );
             } else {
-                mvwputch( g->w_terrain, -center.xy() + dst.xy() + point( POSX, POSY ),
-                          c_red, '*' );
+                if( use_tiles ) {
+                    if( dst.z == center.z ) {
+                        g->draw_cursor( dst );
+                    }
+                } else {
+                    mvwputch( g->w_terrain, -center.xy() + dst.xy() + point( POSX, POSY ), c_red, '*' );
+                }
             }
 
             // Assumes that relevant == null means firing turrets (maybe even multiple at once),
