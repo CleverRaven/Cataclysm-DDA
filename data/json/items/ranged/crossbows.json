@@ -410,7 +410,6 @@
     "weight": "3500 g",
     "volume": "1750 ml",
     "longest_side": "86 cm",
-    "//3": "34 inches, converted to metric.",
     "bashing": 11,
     "to_hit": 1,
     "ranged_damage": { "damage_type": "stab", "amount": 6 },
