@@ -297,7 +297,7 @@
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "We need to assemble a drone…",
+      "describe": "I've lost the drone, we should find out what happened…",
       "offer": "I'm glad that you are alive and that you haven't forgot about me.  The drone turned out to be great, it managed to take off and even was able to fly several hundred meters!  Unfortunately, after that, I lost control of it…  I don't know what happened to it, though.  Maybe you can check?  I'm a little afraid to go out there…",
       "accepted": "I'm waiting for you.",
       "rejected": "Maybe another time…",
