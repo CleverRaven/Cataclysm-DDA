@@ -22,7 +22,7 @@
     "name": "Immolate",
     "description": "A purifying blast of raw elemental heat wipes the slate clean, searing the Earth back to her most original state: a barren ball of burning rock.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "SOMATIC" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "LOUD", "CONCENTRATE", "IGNITE_FLAMMABLE" ],
     "effect": "attack",
     "shape": "blast",
     "extra_effects": [ { "id": "immolate_transform" }, { "id": "immolate_push" } ],
