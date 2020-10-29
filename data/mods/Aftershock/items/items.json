@@ -120,7 +120,7 @@
   {
     "id": "hazardous_waste_drum",
     "copy-from": "55gal_drum",
-    "type": "GENERIC",
+    "type": "CONTAINER",
     "name": { "str": "hazardous waste drum" },
     "description": "A yellow drum meant for the storage of hazardous substances.",
     "material": [ "steel", "lead" ],

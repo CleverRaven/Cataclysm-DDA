@@ -430,6 +430,10 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         load_workbench( def.workbench_info, jo );
     }
 
+    // Dummy
+    // TODO: Implement
+    jo.get_string_array( "categories" );
+
     if( jo.has_string( "abstract" ) ) {
         abstract_parts[def.id] = def;
     } else {
