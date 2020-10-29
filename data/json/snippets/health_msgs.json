@@ -156,18 +156,8 @@
   },
   {
     "type": "snippet",
-    "category": "starving",
-    "text": "Even though you've eaten not too long ago you still feel drained of energy.  It will take more than that to get you back up."
-  },
-  {
-    "type": "snippet",
     "category": "empty_emaciated",
     "text": "Your empty stomach gnaws at you.  You really need something to eat."
-  },
-  {
-    "type": "snippet",
-    "category": "emaciated",
-    "text": "You are EMACIATED!"
   },
   {
     "type": "snippet",
@@ -176,17 +166,7 @@
   },
   {
     "type": "snippet",
-    "category": "malnutrition",
-    "text": "Despite having something in your stomach, you still feel like you haven't eaten in days…"
-  },
-  {
-    "type": "snippet",
     "category": "empty_low_cal",
-    "text": "You've lost quite a bit of weight recently.  You might want to eat richer food."
-  },
-  {
-    "type": "snippet",
-    "category": "low_cal",
-    "text": "You feel that you need to eat more calorie-dense food."
+    "text": "You haven't been eating enough lately."
   }
 ]

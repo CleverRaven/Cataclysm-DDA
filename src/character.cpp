@@ -4779,7 +4779,7 @@ void Character::check_needs_extremes()
                 category = "empty_emaciated";
             } else if( get_kcal_percent() < 0.5f ) {
                 category = "empty_malnutrition";
-            } else if( get_kcal_percent() < 0.8f ) {
+            } else if( get_kcal_percent() < 0.7f ) {
                 category = "empty_low_cal";
             }
             if( !category.empty() ) {
