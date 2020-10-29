@@ -119,6 +119,13 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_aircraft_mechanic",
+    "name": { "str": "Power and Aircraft Mechanic" },
+    "description": "The knowledge and skill to maintain pre-cataclysm aircraft.",
+    "can_learn": false
+  },
+  {
+    "type": "proficiency",
     "id": "prof_gem_setting",
     "name": { "str": "Gem Setting" },
     "description": "How to add gemstones to jewelry.",
