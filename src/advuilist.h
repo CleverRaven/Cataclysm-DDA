@@ -2,7 +2,6 @@
 #define CATA_SRC_ADVUILIST_H
 
 #include <algorithm>   // for max, find_if, stable_sort
-#include <cmath>       // for ceil
 #include <cstddef>     // for size_t
 #include <functional>  // for function
 #include <iterator>    // for distance
@@ -26,7 +25,6 @@
 #include "ui_manager.h"             // for redraw, ui_adaptor
 
 // TODO:
-//     fix pagination with grouping
 //     select all
 //     mark element & expand SELECT
 //
@@ -101,11 +99,14 @@ class advuilist
     using list_t = std::vector<entry_t>;
     using colscont_t = std::vector<col_t>;
     using sortcont_t = std::vector<sorter_t>;
-    /// groups are pairs of begin and end iterators for indices of the internal list
+    /// groups are pairs of begin and end iterators of the internal list
     /// NOTE: this only works well with RandomAccessIterator
     using group_t = std::pair<typename list_t::iterator, typename list_t::iterator>;
+    /// pages are pairs of direct indices of the internal list
+    using page_t = std::pair<typename list_t::size_type, typename list_t::size_type>;
     using groupcont_t = std::vector<group_t>;
     using groupercont_t = std::vector<grouper_t>;
+    using pagecont_t = std::vector<page_t>;
 
     point _size;
     point _origin;
@@ -115,12 +116,14 @@ class advuilist
     sortcont_t _sorters;
     groupercont_t _groupers;
     groupcont_t _groups;
+    pagecont_t _pages;
     ffilter_t _ffilter;
     fctxt_t _fctxt;
     std::string _filter;
     typename sortcont_t::size_type _csort = 0;
     typename groupercont_t::size_type _cgroup = 0;
     typename list_t::size_type _cidx = 0;
+    typename pagecont_t::size_type _cpage = 0;
     /// total column width weights
     cwidth_t _tweight = 0;
     bool _exit = false;
@@ -155,6 +158,7 @@ class advuilist
     void _queryfilter();
     void _setfilter( std::string const &filter );
     bool _basicfilter( T const &it, std::string const &filter ) const;
+    typename pagecont_t::size_type _idxtopage( typename list_t::size_type idx );
 };
 
 // *INDENT-OFF*
@@ -165,8 +169,8 @@ advuilist<Container, T>::advuilist( Container *list, point size, point origin,
       _origin( origin.x >= 0 ? origin.x : TERMX / 2 - _size.x / 2,
                origin.y >= 0 ? origin.y : TERMY / 2 - _size.y / 2 ),
       // leave space for decorations and column headers
-      _pagesize( std::min( list->size(), static_cast<std::size_t>( std::max(
-                                             0, _size.y - ( _headersize + _footersize + 1 ) ) ) ) ),
+      _pagesize(
+          static_cast<std::size_t>( std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) ) ),
       // insert dummy sorter for "none" sort mode
       _sorters{ { "none", []( T const & /**/, T const & /**/ ) { return false; } } },
       // insert dummy grouper for "none" grouping mode
@@ -267,12 +271,16 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
 
         if( action == "UP" ) {
             _cidx = _cidx == 0 ? _list.size() - 1 : _cidx - 1;
+            _cpage = _idxtopage( _cidx );
         } else if( action == "DOWN" ) {
             _cidx = _cidx >= _list.size() - 1 ? 0 : _cidx + 1;
+            _cpage = _idxtopage( _cidx );
         } else if( action == "PAGE_UP" ) {
             _cidx = _cidx > _pagesize ? _cidx - _pagesize : 0;
+            _cpage = _idxtopage( _cidx );
         } else if( action == "PAGE_DOWN" ) {
             _cidx = _cidx < _list.size() - _pagesize ? _cidx + _pagesize : _list.size() - 1;
+            _cpage = _idxtopage( _cidx );
         } else if( action == "SORT" ) {
             _querysort();
         } else if( action == "FILTER" ) {
@@ -391,16 +399,15 @@ void advuilist<Container, T>::_print()
     lpos.y += 1;
 
     // print entries
-    std::size_t const cpagebegin = ( _cidx / _pagesize ) * _pagesize;
-    std::size_t const cpageend = std::min( cpagebegin + _pagesize, _list.size() );
-    gid_t gid = -1;
+    std::size_t const cpagebegin = _pages[_cpage].first;
+    std::size_t const cpageend = _pages[_cpage].second;
     fgid_t const &fgid = std::get<1>( _groupers[_cgroup] );
+    gid_t gid = -1;
     fglabel_t const &fglabel = std::get<2>( _groupers[_cgroup] );
     for( std::size_t idx = cpagebegin; idx < cpageend; idx++ ) {
         T const &it = *_list[idx].second;
 
         // print group header if appropriate
-        // FIXME: this messes up pagination
         gid_t const ngid = fgid( it );
         if( _cgroup != 0 and ngid != gid ) {
             gid = ngid;
@@ -437,8 +444,8 @@ void advuilist<Container, T>::_printheaders()
                _sorters[_csort].first );
 
     // page index
-    std::size_t const cpage = _cidx / _pagesize + 1;
-    std::size_t const npages = std::ceil( _list.size() / static_cast<float>( _pagesize ) );
+    std::size_t const cpage = _cpage + 1;
+    std::size_t const npages = _pages.size();
     std::string const msg2 = string_format( _( "[<] page %1$d of %2$d [>]" ), cpage, npages );
     trim_and_print( _w, { _firstcol, 1 }, _size.x, c_light_blue, msg2 );
 
@@ -496,11 +503,10 @@ template <class Container, typename T>
 void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
 {
     _groups.clear();
-    if( idx == 0 ) {
-        // skip grouping logic for "none" group mode
-        _groups.emplace_back( _list.begin(), _list.end() );
-    } else {
-        // first sort the list by group id
+    _pages.clear();
+
+    // first sort the list by group id. don't bother sorting for "none" grouping mode
+    if( idx != 0 ) {
         struct cmp {
             fgid_t const &fgid;
             cmp( grouper_t const &_f ) : fgid( std::get<1>( _f ) ) {}
@@ -510,19 +516,38 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
             }
         };
         std::sort( _list.begin(), _list.end(), cmp( _groupers[idx] ) );
+    }
 
-        // build group index pairs
-        typename list_t::iterator gbegin = _list.begin();
-        fgid_t &fgid = std::get<1>( _groupers[idx] );
-        for( auto it = _list.begin(); it != _list.end(); ++it ) {
-            if( fgid( *it->second ) != fgid( *gbegin->second ) ) {
-                _groups.emplace_back( gbegin, it );
-                gbegin = it + 1;
-            }           
+    // build group and page index pairs
+    typename list_t::iterator gbegin = _list.begin();
+    typename list_t::size_type pbegin = 0;
+    // reserve extra space for the first group header;
+    std::size_t lpagesize = _pagesize - ( idx != 0 ? 1 : 0);
+    std::size_t cpentries = 0;
+    fgid_t &fgid = std::get<1>( _groupers[idx] );
+    for( auto it = _list.begin(); it != _list.end(); ++it ) {
+        if( cpentries >= lpagesize ) {
+            // avoid printing group headers on the last line of the page
+            auto const ci = std::distance( _list.begin(), it ) - (cpentries > lpagesize ? 1 : 0 );
+            _pages.emplace_back( pbegin, ci );
+            pbegin = ci;
+            cpentries = 0;
         }
-        if( gbegin != _list.end() ) {
-            _groups.emplace_back( gbegin, _list.end() );
+
+        if( fgid( *it->second ) != fgid( *gbegin->second ) ) {
+            _groups.emplace_back( gbegin, it );
+            gbegin = it + 1;
+            // group header takes up the space of one entry
+            cpentries++;
         }
+
+        cpentries++;
+    }
+    if( gbegin != _list.end() ) {
+        _groups.emplace_back( gbegin, _list.end() );
+    }
+    if( pbegin < _list.size() ) {
+        _pages.emplace_back( pbegin, _list.size() );
     }
     _cgroup = idx;
 }
@@ -584,6 +609,18 @@ bool advuilist<Container, T>::_basicfilter( T const &it, std::string const &filt
     }
 
     return false;
+}
+
+template <class Container, typename T>
+typename advuilist<Container, T>::pagecont_t::size_type
+advuilist<Container, T>::_idxtopage( typename list_t::size_type idx )
+{
+    // FIXME: this hack me no likey
+    typename pagecont_t::size_type cpage = 0;
+    while( idx >= _pages[cpage].second ) {
+        cpage++;
+    }
+    return cpage;
 }
 
 #endif // CATA_SRC_ADVUILIST_H
