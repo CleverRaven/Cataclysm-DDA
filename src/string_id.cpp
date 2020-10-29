@@ -24,7 +24,7 @@ template<typename S>
 inline static int universal_string_id_intern( S &&s )
 {
     int next_id = get_reverse_lookup_vec().size();
-    const auto &pair = get_intern_map().insert( std::make_pair( std::forward<S>( s ), next_id ) );
+    const auto &pair = get_intern_map().emplace( std::forward<S>( s ), next_id );
     if( pair.second ) { // inserted
         get_reverse_lookup_vec().push_back( &pair.first->first );
     }
