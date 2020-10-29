@@ -942,6 +942,12 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_TURRET_LINES",
+    "name": "Toggle turret lines",
+    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SELECT",
     "name": "Select",
     "bindings": [ { "input_method": "mouse", "key": "MOUSE_LEFT" } ]

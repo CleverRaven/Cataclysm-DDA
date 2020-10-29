@@ -883,6 +883,8 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     // Reserve lines for aiming and firing instructions.
     if( mode == TARGET_MODE_FIRE ) {
         text_y -= ( 3 + aim_types.size() );
+    } else if( mode == TARGET_MODE_TURRET ) {
+        text_y -= 3;
     } else {
         text_y -= 2;
     }
@@ -951,6 +953,11 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
                    front_or( "SWITCH_MODE", ' ' ) );
         mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to reload/switch ammo." ),
                    front_or( "SWITCH_AMMO", ' ' ) );
+    }
+
+    if( mode == TARGET_MODE_TURRET ) {
+        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to show/hide approx. lines of fire." ),
+                   front_or( "TOGGLE_TURRET_LINES", ' ' ) );
     }
 
     if( is_mouse_enabled() ) {
@@ -1410,6 +1417,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     }
 
     const bool allow_zlevel_shift = g->m.has_zlevels() && get_option<bool>( "FOV_3D" );
+    bool draw_turret_lines = ( mode == TARGET_MODE_TURRET ) ? ( vturrets.size() < 4 ) : false;
 
     const tripoint src = pc.pos();
     tripoint dst = pc.pos();
@@ -1474,6 +1482,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     if( mode == TARGET_MODE_FIRE ) {
         ctxt.register_action( "AIM" );
         ctxt.register_action( "SWITCH_AIM" );
+    }
+    if( mode == TARGET_MODE_TURRET ) {
+        ctxt.register_action( "TOGGLE_TURRET_LINES" );
     }
 
     std::vector<aim_type> aim_types;
@@ -1581,15 +1592,33 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             std::string label_range;
             if( dst != src ) {
                 // Only draw those tiles which are on current z-level
-                auto ret_this_zlevel = ret;
-                ret_this_zlevel.erase( std::remove_if( ret_this_zlevel.begin(), ret_this_zlevel.end(),
-                [&center]( const tripoint & pt ) {
-                    return pt.z != center.z;
-                } ), ret_this_zlevel.end() );
-                // Only draw a highlighted trajectory if we can see the endpoint.
-                // Provides feedback to the player, and avoids leaking information
-                // about tiles they can't see.
-                g->draw_line( dst, center, ret_this_zlevel );
+                std::vector<tripoint> ret_this_zlevel;
+                if( mode == TARGET_MODE_TURRET ) {
+                    // TODO: TILES version doesn't know how to draw more than 1 line at a time.
+                    //       We merge all lines together and draw them as a big malformed one
+                    if( draw_turret_lines ) {
+                        for( const vehicle_part *t : vturrets ) {
+                            turret_data td = veh->turret_query( *t );
+                            if( td.in_range( dst ) ) {
+                                tripoint src = veh->global_part_pos3( *t );
+                                std::vector<tripoint> traj = line_to( src, dst );
+                                for( const tripoint &p : traj ) {
+                                    if( p.z == center.z ) {
+                                        ret_this_zlevel.push_back( p );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    ret_this_zlevel = ret;
+                    ret_this_zlevel.erase( std::remove_if( ret_this_zlevel.begin(), ret_this_zlevel.end(),
+                    [&center]( const tripoint & pt ) {
+                        return pt.z != center.z;
+                    } ), ret_this_zlevel.end() );
+                }
+
+                g->draw_line( dst, center, ret_this_zlevel, true );
                 label_range = string_format( "%d/%d", rl_dist( src, dst ), range );
             } else {
                 label_range = string_format( "%d", range );
@@ -1953,6 +1982,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                     dst += edge_scroll;
                 }
             }
+        } else if( action == "TOGGLE_TURRET_LINES" ) {
+            draw_turret_lines = !draw_turret_lines;
         }
 
         int new_dx = dst.x - src.x;
