@@ -17,11 +17,16 @@
  *    // is an equivalent of:
  *    static const V v = expr;
  *
+ *    Note: `expr` being char* (i.e. "a string literal") is a special case:
+ *      for such type of argument,  STATIC(expr) has `const std::string &` result type.
+ *      This is to support expressions like STATIC("...") instead of STATIC(std::string("..."))
  */
 #define STATIC(expr) \
-    ([]()-> const auto &{ \
-        static const auto __ret = expr; \
+    (([]()-> const auto &{ \
+        using __T = std::conditional_t<std::is_same<std::decay_t<decltype(expr)>, const char*>::value, \
+                    std::string, std::decay_t<decltype(expr)>>; \
+        static const __T __ret = (expr); \
         return __ret; \
-    })()
+    })())
 
 #endif // CATA_SRC_MAKE_STATIC_H
