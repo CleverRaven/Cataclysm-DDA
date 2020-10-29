@@ -160,7 +160,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_meteorologist_Background",
-    "dynamic_line": "I'm just a regular meteorologist.  In recent years I have worked at meteostation, monitored the weather, state of air, read and wrote reports, drew up schedules…  In general, complete boredom.  In my free time I was studying electronics and radio engineering, making various devices, some for work, some just for fun.  When the first riots began, I gathered all my things that I managed to take with me and settled here.  Since then I've been sitting here, wasting my time doing all sorts of nonsense.",
+    "dynamic_line": "I'm just a regular meteorologist.  In recent years I have worked at a weather station, monitored the weather, state of air, read and wrote reports, drew up schedules…  In general, complete boredom.  In my free time I was studying electronics and radio engineering, making various devices, some for work, some just for fun.  When the first riots began, I gathered all my things that I managed to take with me and settled here.  Since then I've been sitting here, wasting my time doing all sorts of nonsense.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
   },
   {
