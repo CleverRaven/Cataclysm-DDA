@@ -1,8 +1,8 @@
 [
   {
     "type": "npc",
-    "id": "meteorologist",
-    "class": "meteorologist",
+    "id": "NPC_meteorologist",
+    "class": "NC_meteorologist",
     "name_suffix": "meteorologist",
     "attitude": 0,
     "mission": 7,
@@ -12,7 +12,7 @@
   },
   {
     "type": "npc_class",
-    "id": "meteorologist",
+    "id": "NC_meteorologist",
     "name": { "str": "Meteorologist" },
     "job_description": "Meteorologist.",
     "common": false,
@@ -20,7 +20,7 @@
     "bonus_dex": { "rng": [ -2, 2 ] },
     "bonus_int": { "rng": [ 2, 5 ] },
     "bonus_per": { "rng": [ -1, 3 ] },
-    "worn_override": "meteorologist_worn",
+    "worn_override": "NC_meteorologist_worn",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "BGSS_METEOROLOGIST" } ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
@@ -31,7 +31,7 @@
   },
   {
     "type": "item_group",
-    "id": "meteorologist_worn",
+    "id": "NC_meteorologist_worn",
     "subtype": "collection",
     "entries": [
       { "item": "briefs" },
@@ -59,14 +59,17 @@
         "type": "general",
         "context": "meeting",
         "value": "yes",
-        "yes": "Air temperature, precipitation, but what about… Oh, I'm sorry, I didn't notice you. Hello.",
-        "no": "I have not seen living people for a long time. Glad to see another survivor. Greetings."
+        "yes": "Air temperature, precipitation, but what about…  Oh, I'm sorry, I didn't notice you.  Hello.",
+        "no": "I have not seen living people for a long time.  Glad to see another survivor.  Greetings, <name_g>."
       }
     },
-    "speaker_effect": { "effect": { "npc_add_var": "u_met_meteorologist", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": {
+      "sentinel": "u_met_meteorologist",
+      "effect": [ { "npc_add_var": "u_met_meteorologist", "type": "general", "context": "meeting", "value": "yes" } ]
+    },
     "responses": [
       { "text": "About that job…", "condition": "has_assigned_mission", "topic": "TALK_MISSION_INQUIRE" },
-      { "text": "What's your story?", "topic": "TALK_meteorologist_Background" },
+      { "text": "<BGSS_intro_question>", "topic": "TALK_meteorologist_Background" },
       {
         "text": "Maybe I can help you with your problem?",
         "topic": "TALK_meteorologist_safety",
@@ -100,13 +103,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_meteorologist_wait",
-    "dynamic_line": "I need more time. Come back later.",
+    "dynamic_line": "I need more time.  Come back later.",
     "responses": [ { "text": "No problem.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_meteorologist_safety",
-    "dynamic_line": "Help? Help with what? Oh, yes, yes. If you know a place with many survivors, can you take me there? I doubt I can survive alone…",
+    "dynamic_line": "Help?  Help with what?  Oh, yes, yes.  If you know a place with many survivors, can you take me there?  I doubt I can survive alone…",
     "responses": [
       {
         "text": "Let's go.",
@@ -120,7 +123,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_meteorologist_safety_lead",
-    "dynamic_line": "Are we there yet, my friend?",
+    "dynamic_line": "Are we there yet, <name_g>?",
     "responses": [
       {
         "text": "Yes, you can relax now.",
@@ -139,7 +142,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_meteorologist_safety_done",
-    "dynamic_line": "Thank you. I will never forget your kindness. Take this book as token of my gratitude.",
+    "dynamic_line": "Thank you.  I will never forget your kindness, <name_g>.  Take this book as token of my gratitude.",
     "responses": [
       {
         "text": "Bye.",
@@ -157,8 +160,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_meteorologist_Background",
-    "dynamic_line": "I'm just a regular meteorologist. In recent years I have worked at meteostation, monitored the weather, state of air, read and wrote reports, drew up schedules… In general, complete boredom. In my free time I was studying electronics and radio engineering, making various devices, some for work, some just for fun. When the first riots began, I gathered all my things that I managed to take with me and settled here. Since then I've been sitting here, wasting my time doing all sorts of nonsense.",
-    "responses": [ { "text": "Interesting.", "topic": "TALK_NONE" } ]
+    "dynamic_line": "I'm just a regular meteorologist.  In recent years I have worked at meteostation, monitored the weather, state of air, read and wrote reports, drew up schedules…  In general, complete boredom.  In my free time I was studying electronics and radio engineering, making various devices, some for work, some just for fun.  When the first riots began, I gathered all my things that I managed to take with me and settled here.  Since then I've been sitting here, wasting my time doing all sorts of nonsense.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
   },
   {
     "id": "MISSION_meteorologist_1",
@@ -175,8 +178,8 @@
     "followup": "MISSION_meteorologist_2",
     "dialogue": {
       "describe": "We need to assemble a drone…",
-      "offer": "I've been sitting here for a long time, and all that time I was wondering how bad everything is outside. I want to build a drone that I can use to fly over New England, check the air condition, take a few pictures from above to get a glimpse of how is it. There were a lot of things in our back room that could be useful, but still I'm missing a lot of things. You look like an experienced survivalist. Can you help me?",
-      "accepted": "Good. I just need a little stuff: 50 scrap, 6 medium batteries, 5 small high-quality lenses and a radio remote control. Bring the scrap for now, but don't forget about the rest.",
+      "offer": "I've been sitting here for a long time, and all that time I was wondering how bad everything is outside.  I want to build a drone that I can use to fly over New England, check the air condition, take a few pictures from above to get a glimpse of how is it.  There were a lot of things in our back room that could be useful, but still I'm missing a lot of things.  You look like an experienced survivalist.  Can you help me?",
+      "accepted": "Good.  I just need a little stuff: 50 scrap, 6 medium batteries, 5 small high-quality lenses and a radio remote control.  Bring the scrap for now, but don't forget about the rest.",
       "rejected": "Maybe another time…",
       "advice": "I don't think this is a difficult task. Surely there is a lot of it underfoot.",
       "inquire": "How's it going?",
@@ -200,7 +203,7 @@
     "followup": "MISSION_meteorologist_3",
     "dialogue": {
       "describe": "We need to assemble a drone…",
-      "offer": "Well, what's next on the list… Yeah, batteries. 6 medium batteries would be enough.",
+      "offer": "Well, what's next on the list…  Yeah, batteries.  6 medium batteries would be enough.",
       "accepted": "I'm waiting for you.",
       "rejected": "Maybe another time…",
       "advice": "Try looking for some battery-powered trinkets and take them apart.",
@@ -225,7 +228,7 @@
     "followup": "MISSION_meteorologist_4",
     "dialogue": {
       "describe": "We need to assemble a drone…",
-      "offer": "Well, what's next on the list … Yeah, lenses. 5 small high-quality lenses would be enough.",
+      "offer": "Well, what's next on the list…  Yeah, lenses.  5 small high-quality lenses would be enough.",
       "accepted": "I'm waiting for you.",
       "rejected": "Maybe another time…",
       "advice": "Try looking for some battery-powered trinkets and take them apart.",
@@ -255,12 +258,12 @@
     "followup": "MISSION_meteorologist_5",
     "dialogue": {
       "describe": "We need to assemble a drone…",
-      "offer": "Well, what's next on the list … Yeah, radio control. Any kind will do, but the simplest one is better, so I can easily reconfigure it for my drone.",
+      "offer": "Well, what's next on the list…  Yeah, radio control.  Any kind will do, but the simplest one is better, so I can easily reconfigure it for my drone.",
       "accepted": "I'm waiting for you.",
       "rejected": "Maybe another time…",
       "advice": "I advise you to search in a store, such as electronics or toy store.",
       "inquire": "How's it going?",
-      "success": "Great, very little work left. I need a few days to finish all this, and to try it in work. I hope everything will work fine! While I'm working on the drone, you can read this book. Maybe you can learn something new from it.",
+      "success": "Great, very little work left.  I need a few days to finish all this, and to try it in work.  I hope everything will work fine!  While I'm working on the drone, you can read this book.  Maybe you can learn something new from it.",
       "success_lie": "Why do you say that?",
       "failure": "…"
     }
@@ -295,12 +298,12 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "We need to assemble a drone…",
-      "offer": "I'm glad that you are alive and that you haven't forgot about me. The drone turned out to be great, it managed to take off and even was able to fly several hundred meters! Unfortunately, after that, I lost control of it… I don't know what happened to it, though. Maybe you can check? I'm a little afraid to go out there…",
+      "offer": "I'm glad that you are alive and that you haven't forgot about me.  The drone turned out to be great, it managed to take off and even was able to fly several hundred meters!  Unfortunately, after that, I lost control of it…  I don't know what happened to it, though.  Maybe you can check?  I'm a little afraid to go out there…",
       "accepted": "I'm waiting for you.",
       "rejected": "Maybe another time…",
-      "advice": "I don't know why something like this happened. Maybe one of that things noticed my drone and tried to bring it down. Be careful.",
+      "advice": "I don't know why something like this happened.  Maybe one of that <monster> noticed my drone and tried to bring it down.  Be careful.",
       "inquire": "How's it going?",
-      "success": "Hmm, I see that the drone is not with you. Maybe at least the memory module remains? Okay, show it to me … \nHmm, situation is worse than I expected, much, much worse… \nI'm not feeling good. I don't feel safe in this place anymore. I have to run, run somewhere. But where to run if these creatures are everywhere…",
+      "success": "Hmm, I see that the drone is not with you.  Maybe at least the memory module remains?  Okay, show it to me … \nHmm, situation is worse than I expected, much, much worse… \nI'm not feeling good.  I don't feel safe in this place anymore.  I have to run, run somewhere.  But where to run if these <monster>s are everywhere…",
       "success_lie": "Why do you say that?",
       "failure": "…"
     }
