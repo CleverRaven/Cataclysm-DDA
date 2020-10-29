@@ -202,7 +202,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_meteorologist_3",
     "dialogue": {
-      "describe": "We need to assemble a drone…",
+      "describe": "We need batteries to assemble a drone…",
       "offer": "Well, what's next on the list…  Yeah, batteries.  6 medium batteries would be enough.",
       "accepted": "I'm waiting for you.",
       "rejected": "Maybe another time…",
