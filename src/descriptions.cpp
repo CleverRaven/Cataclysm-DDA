@@ -17,6 +17,8 @@
 #include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "item_group.h"
+#include "itype.h"
 
 static const skill_id skill_survival( "survival" );
 
@@ -196,6 +198,18 @@ std::string map_data_common_t::extended_description() const
         }
 
         ss << std::endl;
+    }
+
+    if( deconstruct.can_do ) {
+        const auto items = item_group::every_possible_item_from( deconstruct.drop_group );
+        if( items.size() > 0 ) {
+            ss << std::endl << _( "You could deconstruct it to get some of those items:" ) << std::endl;
+            for( const itype *it : items ) {
+                ss << "<good>" << item::nname( it->get_id() ) << "</good>" << std::endl;
+            }
+        } else {
+            ss << _( "It can be deconstructed, but won't yield any resources." ) << std::endl;
+        }
     }
 
     return replace_colors( ss.str() );
