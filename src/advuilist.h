@@ -26,8 +26,9 @@
 #include "ui_manager.h"             // for redraw, ui_adaptor
 
 // TODO:
-//     grouping
+//     fix pagination with grouping
 //     select all
+//     mark element & expand SELECT
 //
 //     advuilist_sourced wrapper
 //     rewrite AIM to use advuilist_sourced
@@ -49,10 +50,13 @@ class advuilist
     using ffilter_t = std::function<bool( T const &, std::string const & )>;
     /// ctxt handler function for adding extra functionality
     using fctxt_t = std::function<void( std::string const & )>;
-
-    // using fgid_t = std::function<std::size_t( T const & )>;
-    // using fglabel_t = std::function<std::string( std::size_t )>;
-    // using grouper_t = std::tuple<std::string, fgid_t, fglabel_t>;
+    using gid_t = std::size_t;
+    /// group ID function. used for sorting groups - IDs must be unique
+    using fgid_t = std::function<gid_t( T const & )>;
+    /// group label printer
+    using fglabel_t = std::function<std::string( T const & )>;
+    /// group name, ID function, label printer
+    using grouper_t = std::tuple<std::string, fgid_t, fglabel_t>;
 
     using ptr_t = typename Container::iterator;
     using select_t = std::vector<ptr_t>;
@@ -68,6 +72,9 @@ class advuilist
     /// sorters)
     ///@param sorter
     void addSorter( sorter_t const &sorter );
+    /// adds a new grouper. replaces existing grouper with same name
+    ///@param grouper
+    void addGrouper( grouper_t const &grouper );
     /// sets a handler for input_context actions. this is executed before any internal actions are
     /// handled
     void setctxthandler( fctxt_t const &func );
@@ -83,8 +90,6 @@ class advuilist
     /// setctxthandler()
     void suspend();
 
-    // addGroup
-
     input_context *get_ctxt();
     catacurses::window *get_window();
     std::shared_ptr<ui_adaptor> get_ui();
@@ -96,6 +101,11 @@ class advuilist
     using list_t = std::vector<entry_t>;
     using colscont_t = std::vector<col_t>;
     using sortcont_t = std::vector<sorter_t>;
+    /// groups are pairs of begin and end iterators for indices of the internal list
+    /// NOTE: this only works well with RandomAccessIterator
+    using group_t = std::pair<typename list_t::iterator, typename list_t::iterator>;
+    using groupcont_t = std::vector<group_t>;
+    using groupercont_t = std::vector<grouper_t>;
 
     point _size;
     point _origin;
@@ -103,10 +113,13 @@ class advuilist
     list_t _list;
     colscont_t _columns;
     sortcont_t _sorters;
+    groupercont_t _groupers;
+    groupcont_t _groups;
     ffilter_t _ffilter;
     fctxt_t _fctxt;
     std::string _filter;
     typename sortcont_t::size_type _csort = 0;
+    typename groupercont_t::size_type _cgroup = 0;
     typename list_t::size_type _cidx = 0;
     /// total column width weights
     cwidth_t _tweight = 0;
@@ -137,6 +150,7 @@ class advuilist
     void _printheaders();
     void _printfooters();
     void _sort( typename sortcont_t::size_type idx );
+    void _group( typename groupercont_t::size_type idx );
     void _querysort();
     void _queryfilter();
     void _setfilter( std::string const &filter );
@@ -155,6 +169,9 @@ advuilist<Container, T>::advuilist( Container *list, point size, point origin,
                                              0, _size.y - ( _headersize + _footersize + 1 ) ) ) ) ),
       // insert dummy sorter for "none" sort mode
       _sorters{ { "none", []( T const & /**/, T const & /**/ ) { return false; } } },
+      // insert dummy grouper for "none" grouping mode
+      _groupers{ { "none", []( T const & /**/ ) { return 0; },
+                   []( T const & /**/ ) { return std::string(); } } },
       // ugly hack that lets us use our implicit basic filter if one isn't supplied
       _ffilter{ [this]( T const &it, std::string const &filter ) {
           return this->_basicfilter( it, filter );
@@ -206,6 +223,21 @@ void advuilist<Container, T>::addSorter( sorter_t const &sorter )
         *it = sorter;
     } else {
         _sorters.emplace_back( sorter );
+    }
+}
+
+// FIXME: can I deduplicate this with addSorter?
+template <class Container, typename T>
+void advuilist<Container, T>::addGrouper( grouper_t const &grouper )
+{
+    auto it = std::find_if( _groupers.begin(), _groupers.end(), [&]( auto const &v ) {
+        return std::get<0>( v ) == std::get<0>( grouper );
+    } );
+    // replace grouper with same name
+    if( it != _groupers.end() ) {
+        *it = grouper;
+    } else {
+        _groupers.emplace_back( grouper );
     }
 }
 
@@ -280,7 +312,7 @@ void advuilist<Container, T>::rebuild( Container *list )
         }
     }
     _cidx = _cidx > _list.size() - 1 ? _list.size() - 1 : _cidx;
-    // FIXME?: use a set for _list
+    _group( _cgroup );
     _sort( _csort );
 }
 
@@ -361,8 +393,21 @@ void advuilist<Container, T>::_print()
     // print entries
     std::size_t const cpagebegin = ( _cidx / _pagesize ) * _pagesize;
     std::size_t const cpageend = std::min( cpagebegin + _pagesize, _list.size() );
+    gid_t gid = -1;
+    fgid_t const &fgid = std::get<1>( _groupers[_cgroup] );
+    fglabel_t const &fglabel = std::get<2>( _groupers[_cgroup] );
     for( std::size_t idx = cpagebegin; idx < cpageend; idx++ ) {
         T const &it = *_list[idx].second;
+
+        // print group header if appropriate
+        // FIXME: this messes up pagination
+        gid_t const ngid = fgid( it );
+        if( _cgroup != 0 and ngid != gid ) {
+            gid = ngid;
+            center_print( _w, lpos.y, c_yellow, string_format( "[%s]", fglabel( it ) ) );
+            lpos.y += 1;
+        }
+
         lpos.x = _firstcol;
         for( auto const &col : _columns ) {
             lpos.x += _printcol( col, std::get<1>( col )( it ), lpos,
@@ -418,6 +463,7 @@ void advuilist<Container, T>::_printfooters()
 template <class Container, typename T>
 void advuilist<Container, T>::_sort( typename sortcont_t::size_type idx )
 {
+    // FIXME: deduplicate
     if( idx > 0 ) {
         struct cmp {
             fsort_t const &sorter;
@@ -428,7 +474,9 @@ void advuilist<Container, T>::_sort( typename sortcont_t::size_type idx )
                 return sorter( *lhs.second, *rhs.second );
             }
         };
-        std::stable_sort( _list.begin(), _list.end(), cmp( _sorters[idx] ) );
+        for( auto const &v : _groups ) {
+            std::stable_sort( v.first, v.second, cmp( _sorters[idx] ) );
+        }
     } else {
         // "none" sort mode needs special handling unfortunately
         struct cmp {
@@ -437,21 +485,70 @@ void advuilist<Container, T>::_sort( typename sortcont_t::size_type idx )
                 return lhs.first < rhs.first;
             }
         };
-        std::stable_sort( _list.begin(), _list.end(), cmp() );
+        for( auto const &v : _groups ) {
+            std::stable_sort( v.first, v.second, cmp() );
+        }
     }
     _csort = idx;
 }
+
+template <class Container, typename T>
+void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
+{
+    _groups.clear();
+    if( idx == 0 ) {
+        // skip grouping logic for "none" group mode
+        _groups.emplace_back( _list.begin(), _list.end() );
+    } else {
+        // first sort the list by group id
+        struct cmp {
+            fgid_t const &fgid;
+            cmp( grouper_t const &_f ) : fgid( std::get<1>( _f ) ) {}
+            constexpr bool operator()( entry_t const &lhs, entry_t const &rhs ) const
+            {
+                return std::less<>()( fgid( *lhs.second ), fgid( *rhs.second ) );
+            }
+        };
+        std::sort( _list.begin(), _list.end(), cmp( _groupers[idx] ) );
+
+        // build group index pairs
+        typename list_t::iterator gbegin = _list.begin();
+        fgid_t &fgid = std::get<1>( _groupers[idx] );
+        for( auto it = _list.begin(); it != _list.end(); ++it ) {
+            if( fgid( *it->second ) != fgid( *gbegin->second ) ) {
+                _groups.emplace_back( gbegin, it );
+                gbegin = it + 1;
+            }           
+        }
+        if( gbegin != _list.end() ) {
+            _groups.emplace_back( gbegin, _list.end() );
+        }
+    }
+    _cgroup = idx;
+}
+
 template <class Container, typename T>
 void advuilist<Container, T>::_querysort()
 {
     uilist menu;
     menu.text = _( "Sort by…" );
-    for( int i = 0; i < static_cast<int>( _sorters.size() ); i++ ) {
-        menu.addentry( i, true, _sorters[i].first.front(), _sorters[i].first );
+    int const nsorters = static_cast<int>( _sorters.size() );
+    int const ngroupers = static_cast<int>( _groupers.size() );
+    for( int i = 0; i < nsorters; i++ ) {
+        menu.addentry( i, true, MENU_AUTOASSIGN, _sorters[i].first );
+    }
+    menu.addentry( nsorters, false, 0, _( "Group by…" ), '-' );
+    for( int i = 0; i < ngroupers; i++ ) {
+        menu.addentry( nsorters + i, true, MENU_AUTOASSIGN, std::get<0>( _groupers[i] ) );
     }
     menu.query();
     if( menu.ret >= 0 ) {
-        _sort( menu.ret );
+        if( menu.ret < nsorters ) {
+            _sort( menu.ret );
+        } else {
+            _group( menu.ret - nsorters );
+            _sort( _csort );
+        }
     }
 }
 

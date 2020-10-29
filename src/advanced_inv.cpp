@@ -139,6 +139,11 @@ void create_advanced_inv()
                                 return lsize < rsize;
                             } } );
 
+    myadvuilist.addGrouper( { "category", []( myadvinv_entry const&it) {
+            return it.stack[0]->get_category_shallow().sort_rank();
+    }, []( myadvinv_entry const &it) {
+            return it.stack[0]->get_category_shallow().name();
+    } } );
     myadvuilist.get_ctxt()->register_action( "EXAMINE" );
     myadvuilist.setctxthandler( []( std::string const &action ) {
         if( action == "EXAMINE" ) {
