@@ -242,7 +242,7 @@
     "id": "MISSION_meteorologist_4",
     "type": "mission_definition",
     "name": { "str": "Find radiocontrol" },
-    "description": "The meteorologist asked to bring him RC control.",
+    "description": "The meteorologist asked to bring him a radio controller.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "radiocontrol",
     "count": 1,
