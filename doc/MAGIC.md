@@ -204,7 +204,7 @@ You can assign a spell as a special attack for a monster.
 |---                          |---
 | id                          | Unique ID. Must be one continuous word, use underscores if necessary.
 | has                         | How an enchantment determines if it is in the right location in order to qualify for being active. "WIELD" - when wielded in your hand * "WORN" - when worn as armor * "HELD" - when in your inventory
-| condition                   | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "UNDERGROUND" - When the owner of the item is below Z-level 0 * "UNDERWATER" - When the owner is in swimmable terrain
+| condition                   | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "UNDERGROUND" - When the owner of the item is below Z-level 0 * "UNDERWATER" - When the owner is in swimmable terrain * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active.
 | hit_you_effect              | A spell that activates when you melee_attack a creature.  The spell is centered on the location of the creature unless self = true, then it is centered on your location.  Follows the template for defining "fake_spell"
 | hit_me_effect               | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining "fake_spell"
 | intermittent_activation     | Spells that activate centered on you depending on the duration.  The spells follow the "fake_spell" template.

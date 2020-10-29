@@ -2,7 +2,7 @@
   {
     "type": "enchantment",
     "id": "ENCH_INVISIBILITY",
-    "condition": "ALWAYS",
+    "condition": "ACTIVE",
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ]
   }
 ]

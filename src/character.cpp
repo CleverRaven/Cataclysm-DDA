@@ -7634,14 +7634,9 @@ void Character::recalculate_enchantment_cache()
     for( const std::pair<const trait_id, trait_data> &mut_map : my_mutations ) {
         const mutation_branch &mut = mut_map.first.obj();
 
-        // only add the passive or powered active mutations
-        if( mut.activated && !mut_map.second.powered ) {
-            continue;
-        }
-
         for( const enchantment_id &ench_id : mut.enchantments ) {
             const enchantment &ench = ench_id.obj();
-            if( ench.is_active( *this ) ) {
+            if( ench.is_active( *this, mut.activated && mut_map.second.powered ) ) {
                 enchantment_cache.force_add( ench );
             }
         }
@@ -7649,13 +7644,10 @@ void Character::recalculate_enchantment_cache()
 
     for( const bionic &bio : *my_bionics ) {
         const bionic_id &bid = bio.id;
-        if( bid->toggled && !bio.powered ) {
-            continue;
-        }
 
         for( const enchantment_id &ench_id : bid->enchantments ) {
             const enchantment &ench = ench_id.obj();
-            if( ench.is_active( *this ) ) {
+            if( ench.is_active( *this, bio.powered && bid->toggled ) ) {
                 enchantment_cache.force_add( ench );
             }
         }

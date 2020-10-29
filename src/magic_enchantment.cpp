@@ -60,6 +60,7 @@ namespace io
         case enchantment::condition::ALWAYS: return "ALWAYS";
         case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
         case enchantment::condition::UNDERWATER: return "UNDERWATER";
+        case enchantment::condition::ACTIVE: return "ACTIVE";
         case enchantment::condition::NUM_CONDITION: break;
         }
         debugmsg( "Invalid enchantment::condition" );
@@ -180,11 +181,14 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
         return false;
     }
 
-    return is_active( guy );
+    return is_active( guy, parent.active );
 }
 
-bool enchantment::is_active( const Character &guy ) const
+bool enchantment::is_active( const Character &guy, const bool active ) const
 {
+    if( active_conditions.second == condition::ACTIVE ) {
+        return active;
+    }
 
     if( active_conditions.second == condition::ALWAYS ) {
         return true;
