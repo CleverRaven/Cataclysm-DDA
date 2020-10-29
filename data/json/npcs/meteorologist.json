@@ -257,7 +257,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_meteorologist_5",
     "dialogue": {
-      "describe": "We need to assemble a drone…",
+      "describe": "We need an RC to assemble a drone…",
       "offer": "Well, what's next on the list…  Yeah, radio control.  Any kind will do, but the simplest one is better, so I can easily reconfigure it for my drone.",
       "accepted": "I'm waiting for you.",
       "rejected": "Maybe another time…",
