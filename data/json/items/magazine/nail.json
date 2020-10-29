@@ -3,7 +3,7 @@
     "id": "nailmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "coilgun magazine" },
+    "name": { "str": "coilgun 50-round makeshift magazine" },
     "description": "An improvised magazine for use with a coilgun.  Little more than a metal box, spring and some duct tape it is awkward to reload.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -12,7 +12,6 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": "nail",
-    "capacity": 50,
     "reload_time": 300,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nail": 50 } } ]
