@@ -37,7 +37,7 @@ item Item_spawn_data::create_single( const time_point &birthday ) const
     return create_single( birthday, rec );
 }
 
-void Item_spawn_data::check_consistency( const std::string &/*context*/ ) const
+void Item_spawn_data::check_consistency() const
 {
     if( on_overflow != overflow_behaviour::none && !container_item ) {
         debugmsg( "item group %s specifies overflow behaviour but not container", context() );
@@ -246,15 +246,15 @@ Item_spawn_data::ItemList Single_item_creator::create(
     return result;
 }
 
-void Single_item_creator::check_consistency( const std::string &context ) const
+void Single_item_creator::check_consistency() const
 {
     if( type == S_ITEM ) {
         if( !item::type_is_defined( itype_id( id ) ) ) {
-            debugmsg( "item id %s is unknown (in %s)", id, context );
+            debugmsg( "item id %s is unknown (in %s)", id, context() );
         }
     } else if( type == S_ITEM_GROUP ) {
         if( !item_group::group_is_defined( item_group_id( id ) ) ) {
-            debugmsg( "item group id %s is unknown (in %s)", id, context );
+            debugmsg( "item group id %s is unknown (in %s)", id, context() );
         }
     } else if( type == S_NONE ) {
         // this is okay, it will be ignored
@@ -262,9 +262,9 @@ void Single_item_creator::check_consistency( const std::string &context ) const
         debugmsg( "Unknown type of Single_item_creator: %d", static_cast<int>( type ) );
     }
     if( modifier ) {
-        modifier->check_consistency( context );
+        modifier->check_consistency( context() );
     }
-    Item_spawn_data::check_consistency( context );
+    Item_spawn_data::check_consistency();
 }
 
 bool Single_item_creator::remove_item( const itype_id &itemid )
@@ -532,16 +532,17 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 void Item_modifier::check_consistency( const std::string &context ) const
 {
     if( ammo != nullptr ) {
-        ammo->check_consistency( "ammo of " + context );
+        ammo->check_consistency();
     }
     if( container != nullptr ) {
-        container->check_consistency( "container of " + context );
+        container->check_consistency();
     }
     if( with_ammo < 0 || with_ammo > 100 ) {
-        debugmsg( "Item modifier's ammo chance %d is out of range", with_ammo );
+        debugmsg( "in %s: Item modifier's ammo chance %d is out of range", context, with_ammo );
     }
     if( with_magazine < 0 || with_magazine > 100 ) {
-        debugmsg( "Item modifier's magazine chance %d is out of range", with_magazine );
+        debugmsg( "in %s: Item modifier's magazine chance %d is out of range",
+                  context, with_magazine );
     }
 }
 
@@ -678,12 +679,12 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
     return item( null_item_id, birthday );
 }
 
-void Item_group::check_consistency( const std::string &context ) const
+void Item_group::check_consistency() const
 {
     for( const auto &elem : items ) {
-        ( elem )->check_consistency( "item in " + context );
+        ( elem )->check_consistency();
     }
-    Item_spawn_data::check_consistency( context );
+    Item_spawn_data::check_consistency();
 }
 
 void Item_spawn_data::set_container_item( const itype_id &container )

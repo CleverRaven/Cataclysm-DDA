@@ -147,7 +147,7 @@ class Item_spawn_data
          * Check item / spawn settings for consistency. Includes
          * checking for valid item types and valid settings.
          */
-        virtual void check_consistency( const std::string &context ) const;
+        virtual void check_consistency() const;
         /**
          * For item blacklisted, remove the given item from this and
          * all linked groups.
@@ -297,7 +297,7 @@ class Single_item_creator : public Item_spawn_data
 
         ItemList create( const time_point &birthday, RecursionList &rec, spawn_flags ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
-        void check_consistency( const std::string &context ) const override;
+        void check_consistency() const override;
         bool remove_item( const itype_id &itemid ) override;
         bool replace_item( const itype_id &itemid, const itype_id &replacementid ) override;
 
@@ -344,7 +344,7 @@ class Item_group : public Item_spawn_data
 
         ItemList create( const time_point &birthday, RecursionList &rec, spawn_flags ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
-        void check_consistency( const std::string &context ) const override;
+        void check_consistency() const override;
         bool remove_item( const itype_id &itemid ) override;
         bool replace_item( const itype_id &itemid, const itype_id &replacementid ) override;
         bool has_item( const itype_id &itemid ) const override;
