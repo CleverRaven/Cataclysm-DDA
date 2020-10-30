@@ -28,7 +28,6 @@
 //     select all
 //     mark element & expand SELECT
 //
-//     advuilist_sourced wrapper
 //     rewrite AIM to use advuilist_sourced
 
 template <class Container, typename T = typename Container::value_type>
@@ -549,7 +548,7 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
     if( gbegin != _list.end() ) {
         _groups.emplace_back( gbegin, _list.end() );
     }
-    if( pbegin < _list.size() ) {
+    if( pbegin < _list.size() or _list.empty() ) {
         _pages.emplace_back( pbegin, _list.size() );
     }
     _cgroup = idx;
@@ -620,7 +619,7 @@ advuilist<Container, T>::_idxtopage( typename list_t::size_type idx )
 {
     // FIXME: this hack me no likey
     typename pagecont_t::size_type cpage = 0;
-    while( idx >= _pages[cpage].second ) {
+    while( _pages[cpage].first < idx and idx >= _pages[cpage].second ) {
         cpage++;
     }
     return cpage;
