@@ -1041,7 +1041,7 @@ tab_direction set_traits( avatar &u, points_left &points )
     for( auto &vStartingTrait : vStartingTraits ) {
         std::sort( vStartingTrait.begin(), vStartingTrait.end(), []( const trait_entry & a,
         const trait_entry & b ) {
-            return trait_display_sort( a.id, b.id );
+            return trait_display_nocolor_sort( a.id, b.id );
         } );
     }
 
