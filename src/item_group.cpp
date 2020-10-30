@@ -808,7 +808,7 @@ static item_group_id get_unique_group_id()
 }
 
 item_group_id item_group::load_item_group( const JsonValue &value,
-        const std::string &default_subtype )
+        const std::string &default_subtype, const std::string &context )
 {
     if( value.test_string() ) {
         return item_group_id( value.get_string() );
@@ -817,7 +817,7 @@ item_group_id item_group::load_item_group( const JsonValue &value,
 
         JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
-        item_controller->load_item_group( jo, group, subtype );
+        item_controller->load_item_group( jo, group, subtype, context );
 
         return group;
     } else if( value.test_array() ) {
@@ -829,7 +829,8 @@ item_group_id item_group::load_item_group( const JsonValue &value,
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
             debugmsg( "invalid subtype for item group: %s", default_subtype.c_str() );
         }
-        item_controller->load_item_group( jarr, group, default_subtype == "collection", 0, 0 );
+        item_controller->load_item_group( jarr, group, default_subtype == "collection", 0, 0,
+                                          context );
 
         return group;
     }

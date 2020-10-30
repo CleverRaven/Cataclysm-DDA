@@ -121,7 +121,7 @@ class Item_factory
          * @throw JsonError if the json object contains invalid data.
          */
         void load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
-                              const std::string &subtype );
+                              const std::string &subtype, std::string context = {} );
         /**
          * Like above, but the above loads data from several members of the object, this function
          * assume the given array is the "entries" member of the item group.
@@ -141,7 +141,8 @@ class Item_factory
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
         void load_item_group( const JsonArray &entries, const item_group_id &group_id,
-                              bool is_collection, int ammo_chance, int magazine_chance );
+                              bool is_collection, int ammo_chance, int magazine_chance,
+                              std::string context = {} );
         /**
          * Get the item group object. Returns null if the item group does not exists.
          */
