@@ -344,8 +344,8 @@
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 20 },
-        "success": { "topic": "TALK_REFUGEE_Dana_Background_baking2_nobarter" },
-        "failure": { "topic": "TALK_REFUGEE_Dana_Background_baking2_yesbarter" }
+        "failure": { "topic": "TALK_REFUGEE_Dana_Background_baking2_nobarter" },
+        "success": { "topic": "TALK_REFUGEE_Dana_Background_baking2_yesbarter" }
       },
       {
         "text": "[BARTER] Aw, c'mon.  I rescued Landough, can't you cut me a little deal?",
@@ -358,8 +358,8 @@
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 5 },
-        "success": { "topic": "TALK_REFUGEE_Dana_Background_baking2_nobarter" },
-        "failure": { "topic": "TALK_REFUGEE_Dana_Background_baking2_yesbarter" }
+        "failure": { "topic": "TALK_REFUGEE_Dana_Background_baking2_nobarter" },
+        "success": { "topic": "TALK_REFUGEE_Dana_Background_baking2_yesbarter" }
       },
       { "text": "Thanks, can we talk about something else?", "topic": "TALK_REFUGEE_Dana_2" },
       { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }

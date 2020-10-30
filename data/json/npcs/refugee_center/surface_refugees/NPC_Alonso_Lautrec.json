@@ -76,6 +76,18 @@
     "//": "common talk responses",
     "id": [ "TALK_REFUGEE_Alonso_2", "TALK_REFUGEE_Alonso_Background", "TALK_REFUGEE_Alonso_Situation" ],
     "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Alonso_Refuse_Boris_Mission_1"
+      },
       { "text": "You seem a little forward…", "topic": "TALK_REFUGEE_Alonso_Forward" },
       {
         "text": "[PERCEPTION 10] What is up with you?  What's with the fake accent, and speaking in the third person?",
@@ -377,34 +389,6 @@
     "responses": [
       { "text": "Sigh.  What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Yeah, I'd better get going.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "//": "This option will add mission-specific questions to Alonso's dialogue where appropriate.",
-    "id": [
-      "TALK_REFUGEE_Alonso_2",
-      "TALK_REFUGEE_Alonso_Forward",
-      "TALK_REFUGEE_Alonso_Situation",
-      "TALK_REFUGEE_Alonso_CalledOut1",
-      "TALK_REFUGEE_Alonso_CalledOut2",
-      "TALK_REFUGEE_Alonso_CalledOut3",
-      "TALK_REFUGEE_Alonso_Background",
-      "TALK_REFUGEE_Alonso_Pants1"
-    ],
-    "responses": [
-      {
-        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
-        "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
-          ]
-        },
-        "topic": "TALK_REFUGEE_Alonso_Refuse_Boris_Mission_1"
-      }
     ]
   },
   {

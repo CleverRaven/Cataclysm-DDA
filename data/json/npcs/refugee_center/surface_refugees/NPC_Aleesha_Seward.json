@@ -64,6 +64,18 @@
       "TALK_REFUGEE_Aleesha_Situation"
     ],
     "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
+      },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Aleesha_Background" },
       { "text": "What's your take on the situation here?", "topic": "TALK_REFUGEE_Aleesha_Situation" }
     ]
@@ -150,39 +162,6 @@
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_Situation",
-    "dynamic_line": "I don't have much of a hot take besides what I just said.  It's shit.  Not enough to do to stay busy, not enough to eat, and even if I had internet, all the YouTubers I follow are dead.",
-    "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "//": "This option will add mission-specific questions to Aleesha's dialogue where appropriate.",
-    "id": [
-      "TALK_REFUGEE_Aleesha_Situation",
-      "TALK_REFUGEE_Aleesha_2",
-      "TALK_REFUGEE_Aleesha_Background",
-      "TALK_REFUGEE_Aleesha_Background_caretaker"
-    ],
-    "responses": [
-      {
-        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
-        "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
-          ]
-        },
-        "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
-      }
     ]
   }
 ]

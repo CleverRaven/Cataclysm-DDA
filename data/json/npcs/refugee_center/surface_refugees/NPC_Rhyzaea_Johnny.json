@@ -63,6 +63,20 @@
     ],
     "dynamic_line": "What brings you around here?  We don't see a lot of new faces.",
     "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 15 },
+        "success": { "topic": "TALK_REFUGEE_Accept_Boris_Mission_1" },
+        "failure": {  "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1" }
+      },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Rhyzaea_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Rhyzaea_Situation" },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
