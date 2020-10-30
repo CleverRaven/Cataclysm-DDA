@@ -50,6 +50,13 @@ bool string_id<start_location>::is_valid() const
     return all_start_locations.is_valid( *this );
 }
 
+/** @relates string_id */
+template<>
+int_id<start_location> string_id<start_location>::id() const
+{
+    return all_start_locations.convert( *this, int_id<start_location>( INVALID_CID ) );
+}
+
 std::string start_location::name() const
 {
     return _name.translated();

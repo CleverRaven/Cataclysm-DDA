@@ -24,6 +24,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_id_utils.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
@@ -524,32 +525,22 @@ std::string recipe::primary_skill_string( const Character *c, bool print_skill_l
 std::string recipe::required_skills_string( const Character *c, bool include_primary_skill,
         bool print_skill_level ) const
 {
-    // There is no primary skill used or it shouldn't be included then we can just use the required_skills directly.
-    if( skill_used.is_null() || !include_primary_skill ) {
-        return required_skills_as_string( required_skills.begin(), required_skills.end(), c,
-                                          print_skill_level );
+    std::vector<std::pair<skill_id, int>> skillList = sorted_lex( required_skills );
+
+    // There is primary skill used and it should be included: add it to the beginning
+    if( !skill_used.is_null() && include_primary_skill ) {
+        skillList.insert( skillList.begin(), std::pair<skill_id, int>( skill_used, difficulty ) );
     }
-
-    std::vector< std::pair<skill_id, int> > skillList;
-    skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
-    std::copy( required_skills.begin(), required_skills.end(),
-               std::back_inserter<std::vector<std::pair<skill_id, int> > >( skillList ) );
-
     return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
 }
 
 std::string recipe::required_all_skills_string() const
 {
-    // There is no primary skill used, we can just use the required_skills directly.
-    if( skill_used.is_null() ) {
-        return required_skills_as_string( required_skills.begin(), required_skills.end() );
+    std::vector<std::pair<skill_id, int>> skillList = sorted_lex( required_skills );
+    // There is primary skill used, add it to the front
+    if( !skill_used.is_null() ) {
+        skillList.insert( skillList.begin(), std::pair<skill_id, int>( skill_used, difficulty ) );
     }
-
-    std::vector< std::pair<skill_id, int> > skillList;
-    skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
-    std::copy( required_skills.begin(), required_skills.end(),
-               std::back_inserter<std::vector<std::pair<skill_id, int> > >( skillList ) );
-
     return required_skills_as_string( skillList.begin(), skillList.end() );
 }
 

@@ -8909,13 +8909,18 @@ void Character::fall_asleep()
 void Character::fall_asleep( const time_duration &duration )
 {
     if( activity ) {
-        if( activity.id() == "ACT_TRY_SLEEP" ) {
+        if( activity.id() == ACT_TRY_SLEEP ) {
             activity.set_to_null();
         } else {
             cancel_activity();
         }
     }
     add_effect( effect_sleep, duration );
+}
+
+bool Character::in_sleep_state() const
+{
+    return Creature::in_sleep_state() || activity.id() == ACT_TRY_SLEEP;
 }
 
 std::string Character::is_snuggling() const
