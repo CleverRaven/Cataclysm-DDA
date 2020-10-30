@@ -23,10 +23,10 @@
  */
 #define STATIC(expr) \
     (([]()-> const auto &{ \
-        using __T = std::conditional_t<std::is_same<std::decay_t<decltype(expr)>, const char*>::value, \
-                    std::string, std::decay_t<decltype(expr)>>; \
-        static const __T __ret = (expr); \
-        return __ret; \
+        using CachedType = std::conditional_t<std::is_same<std::decay_t<decltype(expr)>, const char*>::value, \
+                           std::string, std::decay_t<decltype(expr)>>; \
+        static const CachedType _cached_expr = (expr); \
+        return _cached_expr; \
     })())
 
 #endif // CATA_SRC_MAKE_STATIC_H
