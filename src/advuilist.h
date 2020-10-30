@@ -27,6 +27,7 @@
 // TODO:
 //     select all
 //     mark element & expand SELECT
+//     public function to move UI to top. probably just call _initui()
 //
 //     rewrite AIM to use advuilist_sourced
 
@@ -92,7 +93,9 @@ class advuilist
     std::shared_ptr<ui_adaptor> get_ui();
 
   protected:
+    // semi-hacks: functions needed due to initialization order in advuilist_sourced
     void _init();
+    void _resize( point size, point origin );
 
   private:
     /// pair of index, pointer. index is used for "none" sorting mode and is not meant to represent
@@ -180,7 +183,7 @@ advuilist<Container, T>::advuilist( Container *list, point size, point origin,
       _ffilter{ [this]( T const &it, std::string const &filter ) {
           return this->_basicfilter( it, filter );
       } },
-      _ctxt( ctxtname ), _ui( std::make_shared<ui_adaptor>() ),
+      _ctxt( ctxtname ),
       // remember constructor list so we can rebuild internal list when filtering
       _olist( list )
 // *INDENT-ON*
@@ -367,8 +370,18 @@ void advuilist<Container, T>::_init()
 }
 
 template <class Container, typename T>
+void advuilist<Container, T>::_resize( point size, point origin )
+{
+    _size = size;
+    _origin = origin;
+    _pagesize =
+        static_cast<std::size_t>( std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) );
+}
+
+template <class Container, typename T>
 void advuilist<Container, T>::_initui()
 {
+    _ui = std::make_shared<ui_adaptor>();
     _ui->on_screen_resize( [&]( ui_adaptor &ui ) {
         _w = catacurses::newwin( _size.y, _size.x, _origin );
         ui.position_from_window( _w );

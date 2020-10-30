@@ -112,17 +112,34 @@ void create_advanced_inv()
     // advinv.display();
 
     using myuilist_t = advuilist_sourced<std::vector<myadvinv_entry>>;
-    myuilist_t myadvuilist( { 1, 1 } );
+    myuilist_t myadvuilist( { 6, 3 } );
     myuilist_t::fsource_t source_all = []() {
         myadvinv_stack_t itemlist;
-        for( map_cursor &cursor : map_selector( get_player_character().pos(), PICKUP_RANGE ) ) {
+        for( map_cursor &cursor : map_selector( get_player_character().pos(), 1 ) ) {
             myadvinv_stack_t const &stacks = get_stacks( cursor );
             itemlist.insert( itemlist.end(), std::make_move_iterator( stacks.begin() ),
                              std::make_move_iterator( stacks.end() ) );
         }
         return itemlist;
     };
-    myadvuilist.addSource( { "All", 'A', { 0, 0 }, source_all } );
+    myuilist_t::fsource_t source_dummy = []() {
+        return myadvinv_stack_t();
+    };
+    myadvuilist.addSource( { "NW", '7', { 3, 0 }, source_dummy, [](){ return false;} } );
+    myadvuilist.addSource( { "N", '8', { 4, 0 }, source_dummy, [](){ return false;} } );
+    myadvuilist.addSource( { "NE", '9', { 5, 0 }, source_dummy, [](){ return false;} } );
+    myadvuilist.addSource( { "W", '4', { 3, 1 }, source_dummy, [](){ return false;} } );
+    myadvuilist.addSource( { ".", '5', { 4, 1 }, source_dummy, [](){ return false;} } );
+    myadvuilist.addSource( { "E", '6', { 5, 1 }, source_dummy, [](){ return false;} } );
+    myadvuilist.addSource( { "SW", '1', { 3, 2 }, source_dummy, [](){ return false;} } );
+    myadvuilist.addSource( { "S", '2', { 4, 2 }, source_dummy, [](){ return false;} } );
+    myadvuilist.addSource( { "SE", '3', { 5, 2 }, source_dummy, [](){ return false;} } );
+    myadvuilist.addSource( { "Container", 'C', { 0, 0 }, source_dummy, [](){ return false;} } );
+    myadvuilist.addSource( { "Dragged vehicle", 'D', { 1, 0 }, source_dummy, [](){ return false;} } );
+    myadvuilist.addSource( { "Inventory", 'I', { 1, 1 }, source_dummy, [](){ return false;} } );
+    myadvuilist.addSource( { "All", 'A', { 0, 2 }, source_all, [](){ return true;} } );
+    myadvuilist.addSource( { "Worn", 'W', { 1, 2 }, source_dummy, [](){ return false;} } );
+    
     myadvuilist.setColumns( std::vector<myuilist_t::col_t>{
         { "item", []( myadvinv_entry const &it ) { return it.stack[0]->display_name(); }, 8.F },
         { "count",
