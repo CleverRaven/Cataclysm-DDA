@@ -84,11 +84,6 @@
         "topic": "TALK_sadie_ask_mood"
       },
       {
-        "text": "What do you think of this place?",
-        "condition": { "u_has_var": "sadie_heart", "type": "general", "context": "heart", "value": "yes" },
-        "topic": "TALK_sadie_ask_place"
-      },
-      {
         "text": "Can I do anything for you?",
         "condition": { "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_MISSION_LIST"
@@ -129,53 +124,6 @@
     "id": "TALK_sadie_ask_mood",
     "dynamic_line": "Things stay pretty much the same here.  Sometimes I feel bad, and that feels good, and sometimes I feel good, and that feels good too.  Overall things are better than you might expect, but this may be a common experience, in which case things are exactly as you might expect.  Does that make sense?",
     "responses": [ { "text": "Perfect sense.", "topic": "TALK_Sadie_1" } ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_sadie_ask_place",
-    "dynamic_line": {
-      "and": [
-        { "is_outside": true, "yes": "It's nice being out here.", "no": "" },
-        "  ",
-        {
-          "at_safe_space": true,
-          "no": "This might not be a very private place.",
-          "yes": "This feels like a good place to relax.  Want to play doctor with real scalpels?"
-        },
-        "  ",
-        {
-          "npc_at_om_location": "field",
-          "no": "",
-          "yes": "This place is so boring.  We should take people and kill some drugs."
-        },
-        {
-          "npc_at_om_location": "water",
-          "no": "",
-          "yes": "Water water everywhere.  Let's go skinny dipping.  I bet you'll attract some leeches.  I need them for something I want to do to you.  It'll be so weird."
-        },
-        {
-          "npc_at_om_location": "subterranean",
-          "no": "",
-          "yes": "I like it down here.  This reminds me of that time I was down in a place like this and someone creeped up behind me and hit me in the back of the head with a shovel.  *shiver*  It still gives me goosebumps."
-        },
-        {
-          "npc_at_om_location": "forest",
-          "no": "",
-          "yes": "I love nature.  It smells so good out here, like living things growing and multiplying and dying and returning from the dead with horrifying new powers and trying to slowly rip us apart and eat us.  It brings back really happy memories for me."
-        },
-        {
-          "npc_at_om_location": "swamp",
-          "no": "",
-          "yes": "I love swampy places like this.  The smell of the pussywillows, the sound of the crickets, the giant mutant mosquitoes hungry for our blood.  It's like we're in a sexy vampire romance novel."
-        },
-        {
-          "npc_at_om_location": "Lab",
-          "no": "",
-          "yes": "What a beautiful facility.  I bet they have all kinds of lovely toys to play with.  We should kill everyone here and do some creative self-experimentation."
-        }
-      ]
-    },
-    "responses": [ { "text": "I feel the same Sadie.", "topic": "TALK_Sadie_1" } ]
   },
   {
     "type": "talk_topic",
