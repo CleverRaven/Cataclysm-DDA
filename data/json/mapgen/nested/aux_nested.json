@@ -1,0 +1,23 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bile_field",
+    "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_bile", "x": 0, "y": 0, "intensity": 1, "age": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "destroyed_rack",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_null", "x": 0, "y": 0 } ],
+      "place_item": [
+        { "item": "scrap", "x": 0, "y": 0, "repeat": [ 2, 8 ], "chance": 100 },
+        { "item": "steel_chunk", "x": 0, "y": 0, "repeat": [ 2, 4 ], "chance": 100 },
+        { "item": "sheet_metal_small", "x": 0, "y": 0, "repeat": [ 6, 10 ], "chance": 100 },
+        { "item": "pipe", "x": 0, "y": 0, "chance": 100 }
+      ]
+    }
+  }
+]
