@@ -397,7 +397,8 @@ book_proficiency_bonus book_proficiency_bonus::operator+=( const book_proficienc
 
 void book_proficiency_bonuses::add( const book_proficiency_bonus &bonus )
 {
-    add( bonus, std::set<proficiency_id> {} );
+    std::set<proficiency_id> ret;
+    add( bonus, ret );
 }
 
 void book_proficiency_bonuses::add( const book_proficiency_bonus &bonus,
