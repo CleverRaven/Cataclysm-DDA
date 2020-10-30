@@ -669,7 +669,14 @@
         "conditions": [ "NIGHT" ]
       },
       { "monster": "mon_wolf_mutant_huge", "freq": 1, "cost_multiplier": 0, "starts": 504 },
-      { "monster": "mon_wolf_mutant_huge", "freq": 2, "cost_multiplier": 0, "starts": 504, "pack_size": [ 1, 2 ], "conditions": [ "NIGHT" ] },
+      {
+        "monster": "mon_wolf_mutant_huge",
+        "freq": 2,
+        "cost_multiplier": 0,
+        "starts": 504,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "NIGHT" ]
+      },
       { "monster": "mon_coyote", "freq": 1, "cost_multiplier": 2, "pack_size": [ 1, 6 ] },
       { "monster": "mon_coyote", "freq": 2, "cost_multiplier": 2, "pack_size": [ 1, 6 ], "conditions": [ "NIGHT" ] },
       { "monster": "mon_coyote", "freq": 1, "cost_multiplier": 2, "ends": 72, "pack_size": [ 1, 6 ] },
