@@ -179,6 +179,9 @@
     "name": "forgotten experiment",
     "job_description": "What a magical world to explore…",
     "common": false,
+    "worn_override": "NC_CYBORG_worn",
+    "carry_override": "NC_DOCTOR_misc",
+    "weapon_override": "EMPTY_GROUP",
     "traits": [
       [ "PRETTY", 100 ],
       [ "OPTIMISTIC", 100 ],
@@ -189,7 +192,8 @@
       { "group": "trait_group_medical" },
       {
         "distribution": [ { "group": "trait_group_medical_nonthres" }, { "group": "trait_group_medical_postthres" } ]
-      }
+      },
+      [ "BGSS_Sadie", 100 ]
     ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
