@@ -49,12 +49,12 @@
       {
         "text": "What did you just inject me with?",
         "condition": { "u_has_var": "sadie_injection", "type": "general", "context": "injection", "value": "yes" },
-        "topic": "TALK_sadie_ask_injection"
+        "topic": "TALK_sadie_injection"
       },
       {
         "text": "Can you inject me with whatever that was again?",
         "condition": { "u_has_var": "sadie_heart", "type": "general", "context": "heart", "value": "yes" },
-        "topic": "TALK_sadie_ask_injection2"
+        "topic": "TALK_sadie_injection2"
       },
       {
         "text": "How did you get here?",
@@ -160,6 +160,11 @@
           "npc_at_om_location": "swamp",
           "no": "",
           "yes": "I love swampy places like this.  The smell of the pussywillows, the sound of the crickets, the giant mutant mosquitoes hungry for our blood.  It's like we're in a sexy vampire romance novel."
+        },
+        {
+          "npc_at_om_location": "Lab",
+          "no": "",
+          "yes": "What a beautiful facility.  I bet they have all kinds of lovely toys to play with.  We should kill everyone here and do some creative self-experimentation."
         }
       ]
     },
@@ -187,11 +192,7 @@
     "responses": [
       {
         "text": "I'm glad we get along so well Sadie.",
-        "effect": [
-          { "u_add_effect": "give_aid", "duration": 2000 },
-          { "u_add_effect": "morale_chat", "duration": 2000 },
-          { "u_add_effect": "sadie_injection", "duration": 2000 }
-        ],
+        "effect": [ "give_aid", { "u_add_effect": "sadie_injection", "duration": 200000 } ],
         "topic": "TALK_Sadie_1"
       }
     ]
@@ -208,7 +209,11 @@
     "count": 1,
     "start": {
       "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 18, "min_distance": 5, "z": 0 },
-      "update_mapgen": { "place_monster": [ { "monster": "mon_flesh_golem", "x": 11, "y": 11, "target": true, "name": "Billy" } ] }
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_flesh_golem", "x": 11, "y": 11, "target": true, "name": "Billy", "death_drops": "flesh_golem_heart" }
+        ]
+      }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -224,11 +229,10 @@
     },
     "end": {
       "effect": [
-        { "u_add_effect": "give_aid", "duration": 2000 },
-        { "u_add_effect": "morale_chat", "duration": 2000 },
-        { "u_add_effect": "sadie_injection", "duration": 2000 },
+        "give_aid",
+        { "u_add_effect": "sadie_injection", "duration": 200000 },
         { "u_add_var": "sadie_injection", "type": "general", "context": "injection", "value": "yes" },
-        { "npc_add_effect": "follow" }
+        "follow"
       ]
     }
   }
