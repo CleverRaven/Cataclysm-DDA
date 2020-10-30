@@ -2549,9 +2549,36 @@ void Item_factory::npc_implied_flags( itype &item_template )
     }
 }
 
+static bool has_pocket_type( const std::vector<pocket_data> &data, item_pocket::pocket_type pk )
+{
+    for( const pocket_data &pocket : data ) {
+        if( pocket.type == pk ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+static bool has_only_special_pockets( const itype &def )
+{
+    // There are some places where we need to know whether any non-special
+    // pockets have been added.  There might be no pockets, or there might be
+    // just the special ones, depending on whether the definition is
+    // copied-from another or not.
+    if( def.pockets.empty() ) {
+        return true;
+    }
+    if( def.pockets.size() != 3 ) {
+        return false;
+    }
+    return has_pocket_type( def.pockets, item_pocket::pocket_type::CORPSE ) &&
+           has_pocket_type( def.pockets, item_pocket::pocket_type::MOD ) &&
+           has_pocket_type( def.pockets, item_pocket::pocket_type::MIGRATION );
+}
+
 void Item_factory::check_and_create_magazine_pockets( itype &def )
 {
-    if( !def.pockets.empty() ) {
+    if( !has_only_special_pockets( def ) ) {
         // this means pockets were defined in json already
         // we assume they're good to go, or error elsewhere
         return;
@@ -2560,9 +2587,12 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
     if( def.magazines.empty() && !( def.gun || def.magazine || def.tool ) ) {
         return;
     }
-    if( def.tool && ( def.tool->max_charges == 0 || def.tool->ammo_id.empty() ) ) {
-        // If a tool has no max charges, it doesn't need an ammo.
-        // Likewise, if tool has charges, but no ammo type it needs no magazine.
+    if( def.tool && def.tool->ammo_id.empty() ) {
+        // If tool has no ammo type it needs no magazine.
+        return;
+    }
+    if( def.tool && def.tool->max_charges == 0 && def.magazines.empty() ) {
+        // If tool has no charges nor magazines, it needs no magazine.
         return;
     }
 
@@ -2575,6 +2605,19 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
     if( !def.magazines.empty() ) {
         mag_data.type = item_pocket::pocket_type::MAGAZINE_WELL;
         mag_data.rigid = false;
+        ammotype default_ammo = ammotype::NULL_ID();
+        if( def.tool ) {
+            default_ammo = *def.tool->ammo_id.begin();
+        }
+        if( !default_ammo.is_null() ) {
+            auto magazines_for_default_ammo = def.magazines.find( default_ammo );
+            if( magazines_for_default_ammo == def.magazines.end() ) {
+                debugmsg( "item %s defines magazines but no magazine for its default ammo type" );
+            } else {
+                cata_assert( !magazines_for_default_ammo->second.empty() );
+                mag_data.default_magazine = *magazines_for_default_ammo->second.begin();
+            }
+        }
         for( const std::pair<const ammotype, std::set<itype_id>> &mag_pair : def.magazines ) {
             for( const itype_id &mag_type : mag_pair.second ) {
                 mag_data.item_id_restriction.insert( mag_type );
@@ -2600,16 +2643,6 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         }
     }
     def.pockets.push_back( mag_data );
-}
-
-static bool has_pocket_type( const std::vector<pocket_data> &data, item_pocket::pocket_type pk )
-{
-    for( const pocket_data &pocket : data ) {
-        if( pocket.type == pk ) {
-            return true;
-        }
-    }
-    return false;
 }
 
 void Item_factory::add_special_pockets( itype &def )
