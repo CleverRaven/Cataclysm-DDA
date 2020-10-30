@@ -366,9 +366,15 @@ void map::vehmove()
     VehicleList vehicle_list;
     int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+    tripoint player_pos = get_player_location().pos();
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
         level_cache &cache = get_cache( zlev );
         for( vehicle *veh : cache.vehicle_list ) {
+            if( veh->is_following ) {
+                veh->drive_to_local_target( getabs( player_pos ), true );
+            } else if( veh->is_patrolling ) {
+                veh->autopilot_patrol();
+            }
             veh->gain_moves();
             veh->slow_leak();
             wrapped_vehicle w;

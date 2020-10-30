@@ -86,6 +86,7 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "string_id_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
@@ -1594,7 +1595,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( type->min_per > 0 ) {
             req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
         }
-        for( const std::pair<const skill_id, int> &sk : type->min_skills ) {
+        for( const std::pair<const skill_id, int> sk : sorted_lex( type->min_skills ) ) {
             req.push_back( string_format( "%s %d", skill_id( sk.first )->name(), sk.second ) );
         }
         if( !req.empty() ) {
@@ -1807,16 +1808,17 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         return string_format( format, v.first->name(), min_value, max_value );
     };
 
+    const auto max_nutr_vitamins = sorted_lex( max_nutr.vitamins );
     const std::string required_vits = enumerate_as_string(
-                                          max_nutr.vitamins.begin(),
-                                          max_nutr.vitamins.end(),
+                                          max_nutr_vitamins.begin(),
+                                          max_nutr_vitamins.end(),
     [&]( const std::pair<vitamin_id, int> &v ) {
         return format_vitamin( v, true );
     } );
 
     const std::string effect_vits = enumerate_as_string(
-                                        max_nutr.vitamins.begin(),
-                                        max_nutr.vitamins.end(),
+                                        max_nutr_vitamins.begin(),
+                                        max_nutr_vitamins.end(),
     [&]( const std::pair<vitamin_id, int> &v ) {
         return format_vitamin( v, false );
     } );
@@ -2325,8 +2327,9 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         insert_separation_line( info );
         const std::set<itype_id> compat = magazine_compatible();
         if( !compat.empty() ) {
+            const std::vector<itype_id> compat_sorted = sorted_lex( compat );
             info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines</bold>: " ) +
-            enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
+            enumerate_as_string( compat_sorted.begin(), compat_sorted.end(), []( const itype_id & id ) {
                 return item::nname( id );
             } ) );
         }
@@ -2695,7 +2698,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     bool active = false;
                 };
 
-                std::map<bodypart_str_id, body_part_display_info> to_display_data;
+                std::map<bodypart_str_id, body_part_display_info, bodypart_str_id::LexCmp> to_display_data;
 
                 for( const armor_portion_data &piece : t->data ) {
                     if( piece.covers.has_value() ) {
@@ -3141,8 +3144,9 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         if( parts->test( iteminfo_parts::TOOL_MAGAZINE_COMPATIBLE ) ) {
             const std::set<itype_id> compat = magazine_compatible();
             if( !compat.empty() ) {
+                const std::vector<itype_id> compat_sorted = sorted_lex( compat );
                 info.emplace_back( "TOOL", _( "Compatible magazines: " ),
-                enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
+                enumerate_as_string( compat_sorted.begin(), compat_sorted.end(), []( const itype_id & id ) {
                     return item::nname( id );
                 } ) );
             }
@@ -3233,7 +3237,7 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         return;
     }
     insert_separation_line( info );
-    const std::set<itype_id> &rep = repaired_with();
+    const std::vector<itype_id> rep = sorted_lex( repaired_with() );
     if( !rep.empty() ) {
         info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Repair</bold> using %s." ),
         enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
@@ -3322,7 +3326,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
 
     if( parts->test( iteminfo_parts::QUALITIES ) ) {
         insert_separation_line( info );
-        for( const std::pair<const quality_id, int> &q : type->qualities ) {
+        for( const std::pair<const quality_id, int> q : sorted_lex( type->qualities ) ) {
             name_quality( q );
         }
     }
@@ -3333,7 +3337,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     }, item_pocket::pocket_type::CONTAINER ) ) {
 
         info.emplace_back( "QUALITIES", "", _( "Contains items with qualities:" ) );
-        std::map<quality_id, int> most_quality;
+        std::map<quality_id, int, quality_id::LexCmp> most_quality;
         for( const item *e : contents.all_items_top() ) {
             for( const std::pair<const quality_id, int> &q : e->type->qualities ) {
                 auto emplace_result = most_quality.emplace( q );
@@ -3393,10 +3397,11 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     insert_separation_line( info );
 
+    // TODO refactor these almost identical blocks
     if( !bid->encumbrance.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
+        for( const std::pair<const bodypart_str_id, int> element : sorted_lex( bid->encumbrance ) ) {
             info.push_back(
                 iteminfo( "CBM", " " + body_part_name_as_heading( element.first.id(), 1 ),
                           " <num>", iteminfo::no_newline, element.second ) );
@@ -3407,7 +3412,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Environmental Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > &element : bid->env_protec ) {
+        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->env_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3417,7 +3422,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Bash Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > &element : bid->bash_protec ) {
+        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->bash_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3427,7 +3432,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Cut Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > &element : bid->cut_protec ) {
+        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->cut_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3436,7 +3441,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->bullet_protec.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Ballistic Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair<const bodypart_str_id, size_t > &element : bid->bullet_protec ) {
+        for( const std::pair<const bodypart_str_id, size_t > element : sorted_lex( bid->bullet_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3536,9 +3541,10 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         all_techniques.insert( techniques.begin(), techniques.end() );
 
         if( !all_techniques.empty() ) {
+            const std::vector<matec_id> all_tec_sorted = sorted_lex( all_techniques );
             insert_separation_line( info );
             info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
-            enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id & tid ) {
+            enumerate_as_string( all_tec_sorted.begin(), all_tec_sorted.end(), []( const matec_id & tid ) {
                 return string_format( "<stat>%s</stat>: <info>%s</info>", tid.obj().name,
                                       tid.obj().description );
             } ) ) );

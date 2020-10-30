@@ -1569,7 +1569,6 @@ bool game::do_turn()
     m.build_floor_caches();
 
     m.process_falling();
-    autopilot_vehicles();
     m.vehmove();
     m.process_fields();
     m.process_items();
@@ -1687,18 +1686,6 @@ void game::process_activity()
 
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
-    }
-}
-
-void game::autopilot_vehicles()
-{
-    for( wrapped_vehicle &veh : m.get_vehicles() ) {
-        vehicle *&v = veh.v;
-        if( v->is_following ) {
-            v->drive_to_local_target( m.getabs( u.pos() ), true );
-        } else if( v->is_patrolling ) {
-            v->autopilot_patrol();
-        }
     }
 }
 
