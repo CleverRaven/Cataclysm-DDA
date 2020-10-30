@@ -128,8 +128,6 @@ class advuilist
     cwidth_t _tweight = 0;
     bool _exit = false;
 
-    // groups
-
     input_context _ctxt;
     catacurses::window _w;
     std::shared_ptr<ui_adaptor> _ui;
@@ -200,13 +198,14 @@ void advuilist<Container, T>::setColumns( std::vector<col_t> const &columns )
     sortcont_t tmp;
     for( auto const &v : columns ) {
         _columns.emplace_back( v );
-        _tweight += std::get<2>( v );
+        _tweight += std::get<cwidth_t>( v );
         // build new implicit column sorters
         std::size_t const idx = _columns.size() - 1;
-        tmp.emplace_back( std::get<0>( v ), [this, idx]( T const &lhs, T const &rhs ) -> bool {
-            return localized_compare( std::get<1>( _columns[idx] )( lhs ),
-                                      std::get<1>( _columns[idx] )( rhs ) );
-        } );
+        tmp.emplace_back( std::get<std::string>( v ),
+                          [this, idx]( T const &lhs, T const &rhs ) -> bool {
+                              return localized_compare( std::get<fcol_t>( _columns[idx] )( lhs ),
+                                                        std::get<fcol_t>( _columns[idx] )( rhs ) );
+                          } );
     }
 
     // replace old implicit column sorters (keep "none" and additional sorters added with addSorter)
@@ -220,8 +219,9 @@ void advuilist<Container, T>::setColumns( std::vector<col_t> const &columns )
 template <class Container, typename T>
 void advuilist<Container, T>::addSorter( sorter_t const &sorter )
 {
-    auto it = std::find_if( _sorters.begin(), _sorters.end(),
-                            [&]( auto const &v ) { return v.first == sorter.first; } );
+    auto it = std::find_if( _sorters.begin(), _sorters.end(), [&]( auto const &v ) {
+        return std::get<std::string>( v ) == std::get<std::string>( sorter );
+    } );
     // replace sorter with same name if it already exists (including implicit sorters)
     if( it != _sorters.end() ) {
         *it = sorter;
@@ -235,7 +235,7 @@ template <class Container, typename T>
 void advuilist<Container, T>::addGrouper( grouper_t const &grouper )
 {
     auto it = std::find_if( _groupers.begin(), _groupers.end(), [&]( auto const &v ) {
-        return std::get<0>( v ) == std::get<0>( grouper );
+        return std::get<std::string>( v ) == std::get<std::string>( grouper );
     } );
     // replace grouper with same name
     if( it != _groupers.end() ) {
@@ -288,7 +288,7 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
         } else if( action == "RESET_FILTER" ) {
             _setfilter( std::string() );
         } else if( action == "SELECT" ) {
-            return { _list[_cidx].second };
+            return peek();
         } else if( action == "QUIT" ) {
             _exit = true;
         }
@@ -301,8 +301,9 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
 template <class Container, typename T>
 void advuilist<Container, T>::sort( std::string const &name )
 {
-    auto const it = std::find_if( _sorters.begin(), _sorters.end(),
-                                  [&]( auto const &v ) { return v.first == name; } );
+    auto const it = std::find_if( _sorters.begin(), _sorters.end(), [&]( auto const &v ) {
+        return std::get<std::string>( v ) == name;
+    } );
     if( it != _sorters.end() ) {
         _sort(
             static_cast<typename sortcont_t::size_type>( std::distance( _sorters.begin(), it ) ) );
@@ -322,12 +323,13 @@ void advuilist<Container, T>::rebuild( Container *list )
     _cidx = _cidx > _list.size() - 1 ? _list.size() - 1 : _cidx;
     _group( _cgroup );
     _sort( _csort );
+    _cpage = _idxtopage( _cidx );
 }
 
 template <class Container, typename T>
 typename advuilist<Container, T>::select_t advuilist<Container, T>::peek()
 {
-    return { _list[_cidx].second };
+    return { std::get<ptr_t>( _list[_cidx] ) };
 }
 
 template <class Container, typename T>
@@ -394,18 +396,18 @@ void advuilist<Container, T>::_print()
 
     // print column headers
     for( auto const &col : _columns ) {
-        lpos.x += _printcol( col, std::get<0>( col ), lpos, c_white );
+        lpos.x += _printcol( col, std::get<std::string>( col ), lpos, c_white );
     }
     lpos.y += 1;
 
     // print entries
     std::size_t const cpagebegin = _pages[_cpage].first;
     std::size_t const cpageend = _pages[_cpage].second;
-    fgid_t const &fgid = std::get<1>( _groupers[_cgroup] );
+    fgid_t const &fgid = std::get<fgid_t>( _groupers[_cgroup] );
     gid_t gid = -1;
-    fglabel_t const &fglabel = std::get<2>( _groupers[_cgroup] );
+    fglabel_t const &fglabel = std::get<fglabel_t>( _groupers[_cgroup] );
     for( std::size_t idx = cpagebegin; idx < cpageend; idx++ ) {
-        T const &it = *_list[idx].second;
+        T const &it = *std::get<ptr_t>( _list[idx] );
 
         // print group header if appropriate
         gid_t const ngid = fgid( it );
@@ -417,7 +419,7 @@ void advuilist<Container, T>::_print()
 
         lpos.x = _firstcol;
         for( auto const &col : _columns ) {
-            lpos.x += _printcol( col, std::get<1>( col )( it ), lpos,
+            lpos.x += _printcol( col, std::get<fcol_t>( col )( it ), lpos,
                                  idx == _cidx ? hilite( c_dark_gray ) : c_dark_gray );
         }
         lpos.y += 1;
@@ -431,7 +433,7 @@ int advuilist<Container, T>::_printcol( col_t const &col, std::string const &str
                                         nc_color const &color )
 {
     constexpr int const borderwidth = _firstcol * 2;
-    int const colwidth = std::get<2>( col ) * ( _size.x - borderwidth ) / _tweight;
+    int const colwidth = std::get<cwidth_t>( col ) * ( _size.x - borderwidth ) / _tweight;
     trim_and_print( _w, p, colwidth - _colspacing, color, str );
     return colwidth;
 }
@@ -441,7 +443,7 @@ void advuilist<Container, T>::_printheaders()
 {
     // sort mode
     mvwprintw( _w, { _firstcol, 0 }, _( "< [%s] Sort: %s >" ), _ctxt.get_desc( "SORT" ),
-               _sorters[_csort].first );
+               std::get<std::string>( _sorters[_csort] ) );
 
     // page index
     std::size_t const cpage = _cpage + 1;
@@ -474,11 +476,11 @@ void advuilist<Container, T>::_sort( typename sortcont_t::size_type idx )
     if( idx > 0 ) {
         struct cmp {
             fsort_t const &sorter;
-            cmp( sorter_t const &_s ) : sorter( _s.second ) {}
+            cmp( sorter_t const &_s ) : sorter( std::get<fsort_t>( _s ) ) {}
 
             constexpr bool operator()( entry_t const &lhs, entry_t const &rhs ) const
             {
-                return sorter( *lhs.second, *rhs.second );
+                return sorter( *std::get<ptr_t>( lhs ), *std::get<ptr_t>( rhs ) );
             }
         };
         for( auto const &v : _groups ) {
@@ -489,7 +491,7 @@ void advuilist<Container, T>::_sort( typename sortcont_t::size_type idx )
         struct cmp {
             constexpr bool operator()( entry_t const &lhs, entry_t const &rhs ) const
             {
-                return lhs.first < rhs.first;
+                return std::get<std::size_t>( lhs ) < std::get<std::size_t>( rhs );
             }
         };
         for( auto const &v : _groups ) {
@@ -509,10 +511,11 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
     if( idx != 0 ) {
         struct cmp {
             fgid_t const &fgid;
-            cmp( grouper_t const &_f ) : fgid( std::get<1>( _f ) ) {}
+            cmp( grouper_t const &_f ) : fgid( std::get<fgid_t>( _f ) ) {}
             constexpr bool operator()( entry_t const &lhs, entry_t const &rhs ) const
             {
-                return std::less<>()( fgid( *lhs.second ), fgid( *rhs.second ) );
+                return std::less<>()( fgid( *std::get<ptr_t>( lhs ) ),
+                                      fgid( *std::get<ptr_t>( rhs ) ) );
             }
         };
         std::sort( _list.begin(), _list.end(), cmp( _groupers[idx] ) );
@@ -522,13 +525,13 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
     typename list_t::iterator gbegin = _list.begin();
     typename list_t::size_type pbegin = 0;
     // reserve extra space for the first group header;
-    std::size_t lpagesize = _pagesize - ( idx != 0 ? 1 : 0);
+    std::size_t lpagesize = _pagesize - ( idx != 0 ? 1 : 0 );
     std::size_t cpentries = 0;
-    fgid_t &fgid = std::get<1>( _groupers[idx] );
+    fgid_t &fgid = std::get<fgid_t>( _groupers[idx] );
     for( auto it = _list.begin(); it != _list.end(); ++it ) {
         if( cpentries >= lpagesize ) {
             // avoid printing group headers on the last line of the page
-            auto const ci = std::distance( _list.begin(), it ) - (cpentries > lpagesize ? 1 : 0 );
+            auto const ci = std::distance( _list.begin(), it ) - ( cpentries > lpagesize ? 1 : 0 );
             _pages.emplace_back( pbegin, ci );
             pbegin = ci;
             cpentries = 0;
@@ -560,11 +563,11 @@ void advuilist<Container, T>::_querysort()
     int const nsorters = static_cast<int>( _sorters.size() );
     int const ngroupers = static_cast<int>( _groupers.size() );
     for( int i = 0; i < nsorters; i++ ) {
-        menu.addentry( i, true, MENU_AUTOASSIGN, _sorters[i].first );
+        menu.addentry( i, true, MENU_AUTOASSIGN, std::get<std::string>( _sorters[i] ) );
     }
     menu.addentry( nsorters, false, 0, _( "Group by…" ), '-' );
     for( int i = 0; i < ngroupers; i++ ) {
-        menu.addentry( nsorters + i, true, MENU_AUTOASSIGN, std::get<0>( _groupers[i] ) );
+        menu.addentry( nsorters + i, true, MENU_AUTOASSIGN, std::get<std::string>( _groupers[i] ) );
     }
     menu.query();
     if( menu.ret >= 0 ) {
@@ -603,7 +606,7 @@ template <class Container, typename T>
 bool advuilist<Container, T>::_basicfilter( T const &it, std::string const &filter ) const
 {
     for( auto const &col : _columns ) {
-        if( lcmatch( std::get<1>( col )( it ), filter ) ) {
+        if( lcmatch( std::get<fcol_t>( col )( it ), filter ) ) {
             return true;
         }
     }
