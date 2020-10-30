@@ -160,5 +160,29 @@
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "This option will add mission-specific questions to Aleesha's dialogue where appropriate.",
+    "id": [
+      "TALK_REFUGEE_Aleesha_Situation",
+      "TALK_REFUGEE_Aleesha_2",
+      "TALK_REFUGEE_Aleesha_Background",
+      "TALK_REFUGEE_Aleesha_Background_caretaker"
+    ],
+    "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
+      }
+    ]
   }
 ]

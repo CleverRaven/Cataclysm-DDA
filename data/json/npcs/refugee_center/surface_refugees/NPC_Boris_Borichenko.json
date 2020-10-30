@@ -97,13 +97,13 @@
         "//": "Subsequent meetings with Boris before you have helped him finish some of his quests",
         "text": "Hi, Boris.  What's up?",
         "topic": "TALK_REFUGEE_Boris_2",
-        "condition": [ { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" }, { "not": { "u_has_var": "Boris_CLEANUP", "type": "mission", "context": "flag", "value": "yes" } } ]
+        "condition": [ { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" }, { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } } ]
       },
       {
         "//": "Later meetings with Boris, after you've started doing quests for him",
         "text": "Good to see you, Boris.  Are things looking up for you at all?",
         "topic": "TALK_REFUGEE_Boris_3",
-        "condition": { "u_has_var": "Boris_CLEANUP", "type": "mission", "context": "flag", "value": "yes" },
+        "condition": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
       },
       {
         "text": "Hi Boris, nice to meet you.  I gotta go though.",
@@ -152,12 +152,12 @@
       {
         "text": "It seems like carpentry work would be something the Free Merchants need.  Why are you so bored?",
         "topic": "TALK_REFUGEE_Boris_Work1",
-        "condition": { "not": { "u_has_var": "Boris_CLEANUP", "type": "mission", "context": "flag", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } },
       },
       {
         "text": "Now that things are cleaned up in the back, is there anything holding you back from working?",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "u_has_var": "Boris_CLEANUP", "type": "mission", "context": "flag", "value": "yes" },
+        "condition": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -250,6 +250,39 @@
     ]
   },
   {
+    "type": "talk_topic",
+    "//": "This option will add mission-specific questions to Boris' dialogue where appropriate.",
+    "id": [
+      "TALK_REFUGEE_Boris_2",
+      "TALK_REFUGEE_Boris_Situation",
+      "TALK_REFUGEE_Boris_Background"
+    ],
+    "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Boris_Refuse_Boris_Mission_1"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Refuse_Boris_Mission_1",
+    "dynamic_line": "Have you had a problem with memory, friend?  I was the one who asked you this, I thought I explained why I could not.",
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "responses": [
+      { "text": "Oh.  Right.  It's been a long apocalypse.  What were you saying?", "topic": "TALK_NONE" },
+      { "text": "Sorry.  I didn't notice which dialogue option I was selecting.  I'll just back away slowly now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "MISSION_REFUGEE_Boris_CLEANUP",
     "type": "mission_definition",
     "name": { "str": "Find someone to clean up the back bay." },
@@ -258,6 +291,9 @@
     "goal": "MGOAL_CONDITION",
     TK: Add condition - track down 3 people willing to help. Mercenary will do it for cash, arsonist will do it for cash or a plea, some beggars might help, old guard might help.
     TK: add update mapgen when done.
+    "goal_condition": {
+        { "u_compare_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "op": ">=", "value": 3 },
+    },
     "followup": "MISSION_REFUGEE_Boris_WORKSPACE",
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -274,7 +310,7 @@
     "end": {
       "effect": [
         { "u_buy_item": "FMCNote", "count": 25 },
-        { "u_add_var": "Boris_CLEANUP", "type": "mission", "context": "flag", "value": "yes" }
+        { "u_add_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" }
       ]
   },
   {
