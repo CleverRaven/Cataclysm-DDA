@@ -1938,23 +1938,11 @@
     "type": "effect_type",
     "id": "thirsty",
     "name": [ "Thirsty", "Thirsty" ],
-    "desc": [
-      "You're weakened by thirst."
-    ],
+    "desc": [ "You're weakened by thirst." ],
     "miss_messages": [ [ "You're weak from thirst.", 1 ] ],
     "//": "Speed penalty hardcoded, because it's not linear",
-    "base_mods": {
-      "str_mod": [ -1 ],
-      "dex_mod": [ -1 ],
-      "int_mod": [ -1 ],
-      "per_mod": [ -1 ]
-    },
-    "scaling_mods": {
-      "str_mod": [ -0.005 ],
-      "dex_mod": [ -0.005 ],
-      "int_mod": [ -0.005 ],
-      "per_mod": [ -0.005 ]
-    },
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "int_mod": [ -1 ], "per_mod": [ -1 ] },
+    "scaling_mods": { "str_mod": [ -0.005 ], "dex_mod": [ -0.005 ], "int_mod": [ -0.005 ], "per_mod": [ -0.005 ] },
     "max_intensity": 1000,
     "int_dur_factor": "1 s",
     "rating": "bad"
