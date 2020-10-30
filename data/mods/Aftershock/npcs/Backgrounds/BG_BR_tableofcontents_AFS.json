@@ -140,6 +140,12 @@
         "topic": "BGSS_CYBERNINJA_STORY1",
         "condition": { "npc_has_trait": "BGSS_CYBERNINJA" },
         "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_Sadie_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Sadie" },
+        "switch": true
       }
     ]
   }
