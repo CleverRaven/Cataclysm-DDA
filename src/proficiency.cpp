@@ -392,6 +392,7 @@ book_proficiency_bonus book_proficiency_bonus::operator+=( const book_proficienc
     fail_factor += rhs.fail_factor;
     time_factor += rhs.time_factor;
     // includ_prereqs is not included
+    return *this;
 }
 
 void book_proficiency_bonuses::add( const book_proficiency_bonus &bonus )
