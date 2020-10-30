@@ -152,7 +152,6 @@ Spells may have any number of flags, for example:
 | `HOSTILE_50` | summoned monster spawns friendly 50% of the time
 | `FRIENDLY_POLY` | the target of a `targeted_polymorph` spell will become friendly to the caster if the spell resolves successfully.
 | `POLYMORPH_GROUP` | a `targeted_polymorph` spell will transform the target into random monster from the monster group ID matching `effect_str`.
-| `HOSTILE_SUMMON` | summon spell always spawns a hostile monster
 | `SILENT` | spell makes no noise at target
 | `LOUD` | spell makes extra noise at target
 | `VERBAL` | spell makes noise at caster location, mouth encumbrance affects fail %
