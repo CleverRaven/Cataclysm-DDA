@@ -4257,10 +4257,35 @@ int vehicle::get_z_change() const
     return requested_z_change;
 }
 
-bool vehicle::would_prevent_flyable( const vpart_info &vpinfo, Character &pc ) const
+bool vehicle::would_install_prevent_flyable( const vpart_info &vp, Character &pc ) const
 {
-    if( flyable && !rotors.empty() && !( vpinfo.has_flag( "SIMPLE_PART" ) ||
-                                         vpinfo.has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) ) {
+    if( flyable && !rotors.empty() && !( vp.has_flag( "SIMPLE_PART" ) ||
+                                         vp.has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) ) {
+        return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
+    } else {
+        return false;
+    }
+}
+
+bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) const
+{
+    if( flyable && !rotors.empty() ) {
+        if( vp.info().has_flag( "SIMPLE_PART" ) ||
+            vp.info().has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) {
+            vpart_position vppos = vpart_position( const_cast<vehicle &>( *this ),
+                                                   index_of_part( const_cast<vehicle_part *>( &vp ) ) );
+            return !vppos.is_inside();
+        } else {
+            return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
+        }
+    } else {
+        return false;
+    }
+}
+
+bool vehicle::would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const
+{
+    if( flyable && !rotors.empty() && !vp.info().has_flag( "SIMPLE_PART" ) ) {
         return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
     } else {
         return false;

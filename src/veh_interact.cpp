@@ -999,7 +999,7 @@ void veh_interact::do_install()
                 // Modifying a vehicle with rotors will make in not flightworthy
                 // (until we've got a better model)
                 // It can only be the player doing this - an npc won't work well with query_yn
-                if( veh->would_prevent_flyable( *sel_vpart_info, player_character ) ) {
+                if( veh->would_install_prevent_flyable( *sel_vpart_info, player_character ) ) {
                     if( query_yn(
                             _( "Installing this part will mean that this vehicle is no longer "
                                "flightworthy.  Continue?" ) ) ) {
@@ -1204,7 +1204,7 @@ void veh_interact::do_repair()
             }
         }
 
-        bool would_prevent_flying = veh->would_prevent_flyable( vp, player_character );
+        bool would_prevent_flying = veh->would_repair_prevent_flyable( pt, player_character );
         if( would_prevent_flying &&
             !player_character.has_proficiency( proficiency_prof_aircraft_mechanic ) ) {
             nmsg += colorize(
@@ -1891,7 +1891,7 @@ void veh_interact::do_remove()
 
             // Modifying a vehicle with rotors will make in not flightworthy (until we've got a better model)
             // It can only be the player doing this - an npc won't work well with query_yn
-            if( veh->would_prevent_flyable( veh->part( part ).info(), player_character ) ) {
+            if( veh->would_removal_prevent_flyable( veh->part( part ), player_character ) ) {
                 if( query_yn(
                         _( "Removing this part will mean that this vehicle is no longer flightworthy.  Continue?" ) ) ) {
                     veh->set_flyable( false );
