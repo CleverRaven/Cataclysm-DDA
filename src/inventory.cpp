@@ -366,6 +366,7 @@ book_proficiency_bonuses inventory::get_book_proficiency_bonuses() const
         ret += it.front().get_book_proficiency_bonuses();
         ids_used.emplace( it.front().typeId() );
     }
+    return ret;
 }
 
 void inventory::restack( Character &p )
