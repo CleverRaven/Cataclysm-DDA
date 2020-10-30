@@ -4257,10 +4257,10 @@ int vehicle::get_z_change() const
     return requested_z_change;
 }
 
-bool vehicle::would_install_prevent_flyable( const vpart_info &vp, Character &pc ) const
+bool vehicle::would_install_prevent_flyable( const vpart_info &vp_info, Character &pc ) const
 {
-    if( flyable && !rotors.empty() && !( vp.has_flag( "SIMPLE_PART" ) ||
-                                         vp.has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) ) {
+    if( flyable && !rotors.empty() && !( vp_info.has_flag( "SIMPLE_PART" ) ||
+                                         vp_info.has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) ) {
         return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
     } else {
         return false;

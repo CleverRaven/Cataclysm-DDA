@@ -120,8 +120,8 @@
   {
     "type": "proficiency",
     "id": "prof_aircraft_mechanic",
-    "name": { "str": "Power and Aircraft Mechanic" },
-    "description": "The knowledge and skill to maintain pre-cataclysm aircraft.",
+    "name": { "str": "Airframe and Powerplant Mechanic" },
+    "description": "You've been trained and certified to repair aircraft. You're not really sure how that could help you survive now.",
     "can_learn": false
   },
   {
