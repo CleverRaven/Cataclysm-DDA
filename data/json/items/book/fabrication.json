@@ -15,6 +15,7 @@
     "skill": "fabrication",
     "required_level": 4,
     "max_level": 7,
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "time_factor": 0.4, "fail_factor": 0.5 } ],
     "intelligence": 8,
     "time": "30 m"
   },
@@ -38,6 +39,7 @@
     "skill": "fabrication",
     "required_level": 4,
     "max_level": 7,
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "time_factor": 0.4, "fail_factor": 0.5 } ],
     "intelligence": 8,
     "time": "30 m"
   },
@@ -56,6 +58,10 @@
     "skill": "fabrication",
     "required_level": 6,
     "max_level": 6,
+    "proficiencies": [
+      { "proficiency": "prof_fine_metalsmithing", "time_factor": 0.1, "fail_factor": 0.4, "include_prereqs": false },
+      { "proficiency": "prof_gem_setting", "time_factor": 0.1, "fail_factor": 0.3, "include_prereqs": false }
+    ],
     "intelligence": 8,
     "time": "60 m"
   },
@@ -73,6 +79,7 @@
     "color": "pink",
     "skill": "fabrication",
     "max_level": 1,
+    "proficiencies": [ { "proficiency": "prof_knitting", "time_factor": 0.15, "fail_factor": 0.35 } ],
     "intelligence": 5,
     "time": "8 m",
     "fun": 2
@@ -110,6 +117,7 @@
     "skill": "fabrication",
     "required_level": 2,
     "max_level": 4,
+    "proficiencies": [ { "proficiency": "prof_fletching", "time_factor": 0.25, "fail_factor": 0.25 } ],
     "intelligence": 8,
     "time": "30 m"
   },
@@ -128,6 +136,7 @@
     "skill": "fabrication",
     "required_level": 3,
     "max_level": 5,
+    "proficiencies": [ { "proficiency": "prof_bowyery", "time_factor": 0.25, "fail_factor": 0.25 } ],
     "intelligence": 8,
     "time": "30 m"
   },
@@ -220,6 +229,7 @@
     "skill": "fabrication",
     "required_level": 5,
     "max_level": 10,
+    "proficiencies": [ { "proficiency": "prof_armorsmithing", "time_factor": 0.15, "fail_factor": 0.2, "include_prereqs": false } ],
     "intelligence": 9,
     "time": "60 m",
     "fun": -1
@@ -239,6 +249,7 @@
     "skill": "fabrication",
     "required_level": 5,
     "max_level": 10,
+    "proficiencies": [ { "proficiency": "prof_redsmithing", "time_factor": 0.35, "fail_factor": 0.4, "include_prereqs": false } ],
     "intelligence": 9,
     "time": "55 m",
     "fun": -1
@@ -258,6 +269,7 @@
     "skill": "fabrication",
     "required_level": 5,
     "max_level": 10,
+    "proficiencies": [ { "proficiency": "prof_armorsmithing", "time_factor": 0.25, "fail_factor": 0.3 } ],
     "intelligence": 9,
     "time": "60 m",
     "fun": -1
@@ -314,6 +326,7 @@
     "skill": "fabrication",
     "required_level": 5,
     "max_level": 10,
+    "proficiencies": [ { "proficiency": "prof_bladesmithing", "time_factor": 0.35, "fail_factor": 0.4, "include_prereqs": false } ],
     "intelligence": 9,
     "time": "55 m",
     "fun": -1
@@ -333,6 +346,7 @@
     "skill": "fabrication",
     "required_level": 5,
     "max_level": 10,
+    "proficiencies": [ { "proficiency": "prof_bladesmithing", "time_factor": 0.25, "fail_factor": 0.25, "include_prereqs": true } ],
     "intelligence": 9,
     "time": "55 m",
     "fun": -1
@@ -353,6 +367,7 @@
     "skill": "fabrication",
     "required_level": 4,
     "max_level": 7,
+    "proficiencies": [ { "proficiency": "prof_welding", "time_factor": 0.25, "fail_factor": 0.3, "include_prereqs": true } ],
     "intelligence": 9,
     "time": "30 m"
   },
