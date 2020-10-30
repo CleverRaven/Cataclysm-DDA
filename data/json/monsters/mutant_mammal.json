@@ -170,7 +170,7 @@
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CATFOOD", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ],
     "upgrades": { "age_grow": 120, "into": "mon_cat_mutant_prism" }
   },
-   {
+  {
     "id": "mon_coyote_mutant_shark",
     "type": "MONSTER",
     "name": { "str": "grinning coyote" },
@@ -243,7 +243,18 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "harvest": "mutant_mammal_fur",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BADVENOM", "GROUP_MORALE" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "BADVENOM",
+      "GROUP_MORALE"
+    ]
   },
   {
     "id": "mon_wolf_mutant_huge",
