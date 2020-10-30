@@ -10,18 +10,18 @@
     "species": [ "MAMMAL" ],
     "volume": "154250 ml",
     "weight": "154250 g",
-    "hp": 125,
+    "hp": 180,
     "speed": 120,
     "material": [ "flesh" ],
     "symbol": "B",
     "color": "dark_gray",
     "looks_like": "mon_bear",
     "morale": 60,
-    "melee_skill": 4,
+    "melee_skill": 6,
     "melee_dice": 4,
-    "melee_dice_sides": 6,
+    "melee_dice_sides": 8,
     "melee_cut": 8,
-    "dodge": 2,
+    "dodge": 3,
     "armor_bash": 2,
     "vision_day": 30,
     "vision_night": 10,
@@ -30,7 +30,7 @@
       {
         "type": "bite",
         "cooldown": 10,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 8, "armor_multiplier": 0.2 } ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_penetration": 8 } ]
       }
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
@@ -170,7 +170,7 @@
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CATFOOD", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ],
     "upgrades": { "age_grow": 120, "into": "mon_cat_mutant_prism" }
   },
-  {
+   {
     "id": "mon_coyote_mutant_shark",
     "type": "MONSTER",
     "name": { "str": "grinning coyote" },
@@ -181,7 +181,7 @@
     "species": [ "MAMMAL" ],
     "volume": "13250 ml",
     "weight": "13250 g",
-    "hp": 20,
+    "hp": 40,
     "speed": 155,
     "material": [ "flesh" ],
     "symbol": "d",
@@ -191,19 +191,25 @@
     "morale": 12,
     "melee_skill": 6,
     "melee_dice": 2,
-    "melee_dice_sides": 3,
+    "melee_dice_sides": 8,
     "melee_cut": 8,
-    "dodge": 3,
+    "dodge": 6,
     "armor_bash": 1,
     "vision_night": 5,
-    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 5,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 10 } ]
+      }
+    ],
     "harvest": "mutant_mammal_fur",
-    "path_settings": { "max_dist": 10 },
+    "path_settings": { "max_dist": 7 },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "GROUP_MORALE" ]
   },
   {
     "id": "mon_coyote_mutant_venom",
@@ -216,7 +222,7 @@
     "species": [ "MAMMAL" ],
     "volume": "13250 ml",
     "weight": "13250 g",
-    "hp": 22,
+    "hp": 30,
     "speed": 155,
     "material": [ "flesh" ],
     "symbol": "d",
@@ -226,18 +232,18 @@
     "morale": 20,
     "melee_skill": 6,
     "melee_dice": 2,
-    "melee_dice_sides": 3,
-    "melee_cut": 2,
+    "melee_dice_sides": 8,
+    "melee_cut": 4,
     "dodge": 3,
     "armor_bash": 1,
     "vision_night": 5,
-    "path_settings": { "max_dist": 10 },
+    "path_settings": { "max_dist": 7 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "harvest": "mutant_mammal_fur",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BADVENOM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BADVENOM", "GROUP_MORALE" ]
   },
   {
     "id": "mon_wolf_mutant_huge",
@@ -250,21 +256,21 @@
     "species": [ "MAMMAL" ],
     "volume": "600000 ml",
     "weight": "600000 g",
-    "hp": 220,
-    "speed": 120,
+    "hp": 300,
+    "speed": 150,
     "material": [ "flesh" ],
     "symbol": "W",
     "color": "light_gray",
     "looks_like": "mon_wolf",
     "aggression": 50,
-    "morale": 65,
+    "morale": 70,
     "melee_skill": 8,
     "melee_dice": 3,
-    "melee_dice_sides": 6,
-    "melee_cut": 8,
-    "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 1,
+    "melee_dice_sides": 12,
+    "melee_cut": 12,
+    "dodge": 2,
+    "armor_bash": 6,
+    "armor_cut": 2,
     "vision_day": 50,
     "vision_night": 5,
     "harvest": "mutant_mammal_large_fur",
@@ -273,7 +279,7 @@
       {
         "type": "bite",
         "cooldown": 5,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.5 } ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 10 } ]
       }
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
