@@ -73,7 +73,7 @@
             }
           ]
         },
-        "trial": { "type": "PERSUADE", "difficulty": 5 },
+        "trial": { "type": "PERSUADE", "difficulty": 15 },
         "success": { "topic": "TALK_REFUGEE_Accept_Boris_Mission_1" },
         "failure": {  "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1" }
       },
