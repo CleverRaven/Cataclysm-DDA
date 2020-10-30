@@ -992,17 +992,6 @@ tab_direction set_traits( avatar &u, points_left &points )
 {
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
 
-    ui_adaptor ui;
-    catacurses::window w;
-    catacurses::window w_description;
-    const auto init_windows = [&]( ui_adaptor & ui ) {
-        w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
-        ui.position_from_window( w );
-    };
-    init_windows( ui );
-    ui.on_screen_resize( init_windows );
-
     // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0;
     int num_bad = 0;
@@ -1045,9 +1034,7 @@ tab_direction set_traits( avatar &u, points_left &points )
         std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_sort );
     }
 
-    const size_t iContentHeight = TERMY - 9;
     int iCurWorkingPage = 0;
-
     int iStartPos[3] = { 0, 0, 0 };
     int iCurrentLine[3] = { 0, 0, 0 };
     size_t traits_size[3];
@@ -1055,7 +1042,28 @@ tab_direction set_traits( avatar &u, points_left &points )
         traits_size[i] = vStartingTraits[i].size();
     }
 
-    const size_t page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
+    size_t iContentHeight;
+    size_t page_width;
+
+    ui_adaptor ui;
+    catacurses::window w;
+    catacurses::window w_description;
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        w = catacurses::newwin( TERMY, TERMX, point_zero );
+        w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
+        ui.position_from_window( w );
+        page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
+        iContentHeight = TERMY - 9;
+
+        for( int i = 0; i < 3; i++ ) {
+            // Shift start position to avoid iterating beyond end
+            int total = static_cast<int>( traits_size[i] );
+            int heigth = static_cast<int>( iContentHeight );
+            iStartPos[i] = std::min( iStartPos[i], std::max( 0, total - heigth ) );
+        }
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
 
     input_context ctxt( "NEW_CHAR_TRAITS" );
     ctxt.register_cardinal();
@@ -1066,6 +1074,9 @@ tab_direction set_traits( avatar &u, points_left &points )
     ctxt.register_action( "QUIT" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w );
+        werase( w_description );
+
         draw_character_tabs( w, _( "TRAITS" ) );
 
         draw_points( w, points );
@@ -1082,10 +1093,7 @@ tab_direction set_traits( avatar &u, points_left &points )
             full_string_length = remaining_points_length + 3;
         }
 
-        // Clear the bottom of the screen.
-        werase( w_description );
-
-        for( int iCurrentPage = 0; iCurrentPage < 3; iCurrentPage++ ) { //Good/Bad
+        for( int iCurrentPage = 0; iCurrentPage < 3; iCurrentPage++ ) {
             nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off, col_tr;
             switch( iCurrentPage ) {
                 case 0:
@@ -1116,29 +1124,22 @@ tab_direction set_traits( avatar &u, points_left &points )
                     hi_off = hilite( col_off_act );
                     break;
             }
-            int start_y = iStartPos[iCurrentPage];
-            int cur_line_y = iCurrentLine[iCurrentPage];
-            calcStartPos( start_y, cur_line_y, iContentHeight,
-                          traits_size[iCurrentPage] );
 
-            //Draw Traits
-            for( int i = start_y; i < static_cast<int>( traits_size[iCurrentPage] ); i++ ) {
-                if( i < start_y ||
-                    i >= start_y + static_cast<int>( std::min( traits_size[iCurrentPage], iContentHeight ) ) ) {
-                    continue;
-                }
-                auto &cur_trait = vStartingTraits[iCurrentPage][i];
-                auto &mdata = cur_trait.obj();
-                if( cur_line_y == i && iCurrentPage == iCurWorkingPage ) {
-                    // Clear line beginning from end of (remaining points + positive/negative traits) text to end of line (minus border)
-                    mvwprintz( w, point( full_string_length, 3 ), c_light_gray,
-                               std::string( getmaxx( w ) - full_string_length - 1, ' ' ) );
+            int &start = iStartPos[iCurrentPage];
+            int current = iCurrentLine[iCurrentPage];
+            calcStartPos( start, current, iContentHeight, traits_size[iCurrentPage] );
+            int end = start + static_cast<int>( std::min( traits_size[iCurrentPage], iContentHeight ) );
+
+            for( int i = start; i < end; i++ ) {
+                const trait_id &cur_trait = vStartingTraits[iCurrentPage][i];
+                const mutation_branch &mdata = cur_trait.obj();
+                if( current == i && iCurrentPage == iCurWorkingPage ) {
                     int points = mdata.points;
                     bool negativeTrait = points < 0;
                     if( negativeTrait ) {
                         points *= -1;
                     }
-                    mvwprintz( w,  point( full_string_length + 3, 3 ), col_tr,
+                    mvwprintz( w, point( full_string_length + 3, 3 ), col_tr,
                                ngettext( "%s %s %d point", "%s %s %d points", points ),
                                mdata.name(),
                                negativeTrait ? _( "earns" ) : _( "costs" ),
@@ -1151,7 +1152,7 @@ tab_direction set_traits( avatar &u, points_left &points )
                 nc_color cLine = col_off_pas;
                 if( iCurWorkingPage == iCurrentPage ) {
                     cLine = col_off_act;
-                    if( cur_line_y == i ) {
+                    if( current == i ) {
                         cLine = hi_off;
                         if( u.has_conflicting_trait( cur_trait ) ) {
                             cLine = hilite( c_dark_gray );
@@ -1173,17 +1174,14 @@ tab_direction set_traits( avatar &u, points_left &points )
                     cLine = c_light_gray;
                 }
 
-                // Clear the line
-                int cur_line_y = 5 + i - start_y;
+                int cur_line_y = 5 + i - start;
                 int cur_line_x = 2 + iCurrentPage * page_width;
-                mvwprintz( w, point( cur_line_x, cur_line_y ), c_light_gray, std::string( page_width, ' ' ) );
                 mvwprintz( w, point( cur_line_x, cur_line_y ), cLine, utf8_truncate( mdata.name(),
                            page_width - 2 ) );
             }
 
-            for( int i = 0; i < used_pages; i++ ) {
-                draw_scrollbar( w, iCurrentLine[i], iContentHeight, traits_size[i], point( page_width * i, 5 ) );
-            }
+            draw_scrollbar( w, iCurrentLine[iCurrentPage], iContentHeight, traits_size[iCurrentPage],
+                            point( page_width * iCurrentPage, 5 ) );
         }
 
         wrefresh( w );
