@@ -268,8 +268,7 @@
       "effect": [
         "give_aid",
         { "u_add_effect": "sadie_injection", "duration": 200000 },
-        { "u_add_var": "sadie_injection", "type": "general", "context": "injection", "value": "yes" },
-        "follow"
+        { "u_add_var": "sadie_injection", "type": "general", "context": "injection", "value": "yes" }
       ]
     }
   }
