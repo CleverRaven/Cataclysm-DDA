@@ -222,7 +222,7 @@
     "responses": [
       {
         "text": "Yes, everyone left is exactly like Billy and me, or worse.",
-        "condition": [ { "not": { "u_has_var": "u_freed_sadie", "type": "general", "context": "free", "value": "yes" } } ],
+        "condition": { "not": { "u_has_var": "u_freed_sadie", "type": "general", "context": "free", "value": "yes" } },
         "effect": [ "follow", { "u_add_var": "u_freed_sadie", "type": "general", "context": "free", "value": "yes" } ],
         "topic": "TALK_DONE"
       },
