@@ -14,6 +14,7 @@
     "carry_override": "REFUGEE_Jenny_carried",
     "weapon_override": "REFUGEE_Jenny_wield",
     "traits": [ { "trait": "PACIFIST" }, { "group": "Appearance_Caucasian" } ],
+    "proficiencies": [ "prof_elec_soldering" ],
     "skills": [
       { "skill": "mechanics", "bonus": { "rng": [ 5, 7 ] } },
       { "skill": "computer", "bonus": { "rng": [ 2, 5 ] } },
