@@ -7457,9 +7457,15 @@ void Character::vomit()
     }
 
     moves -= 100;
-    // TODO: Is it safe to modify sentinel?
-    get_effect( effect_foodpoison ).mod_duration( -30_minutes );
-    get_effect( effect_drunk ).mod_duration( rng( -10_minutes, -50_minutes ) );
+    // get_effect is more correct than has_effect because of body parts
+    effect &eff_foodpoison = get_effect( effect_foodpoison );
+    if( eff_foodpoison ) {
+        eff_foodpoison.mod_duration( -30_minutes );
+    }
+    effect &eff_drunk = get_effect( effect_drunk );
+    if( eff_drunk ) {
+        eff_drunk.mod_duration( rng( -10_minutes, -50_minutes ) );
+    }
     remove_effect( effect_pkill1 );
     remove_effect( effect_pkill2 );
     remove_effect( effect_pkill3 );
