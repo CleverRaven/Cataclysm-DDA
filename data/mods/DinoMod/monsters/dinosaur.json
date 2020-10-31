@@ -1259,9 +1259,9 @@
      "name": { "str": "Qianzhousaurus", },
      "species": "DINOSAUR",
       "default_faction": "carnivore_dino"
-    "symbol": "d",
+    "symbol" :"d",
      "color": "white_brown"
-   "volume":"5000 L",
+   "volume" : "5000 L",
     "weight": 1669,
     "material": "flesh",
     "aggression": "300",
