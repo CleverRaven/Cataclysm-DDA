@@ -39,7 +39,7 @@ class mapgen_function
     public:
         virtual ~mapgen_function() = default;
         virtual void setup() { } // throws
-        virtual void check( const std::string & /*oter_name*/ ) const { }
+        virtual void check() const { }
         virtual void generate( mapgendata & ) = 0;
 };
 
@@ -159,7 +159,7 @@ class jmapgen_piece
         jmapgen_piece() : repeat( 1, 1 ) { }
     public:
         /** Sanity-check this piece */
-        virtual void check( const std::string &/*oter_name*/ ) const { }
+        virtual void check( const std::string &/*context*/ ) const { }
         /** Place something on the map from mapgendata &dat, at (x,y). */
         virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                           ) const = 0;
@@ -290,7 +290,7 @@ struct jmapgen_objects {
         void load_objects( const JsonObject &jsi, const std::string &member_name,
                            const std::string &context );
 
-        void check( const std::string &oter_name ) const;
+        void check( const std::string &context ) const;
 
         void apply( const mapgendata &dat ) const;
         void apply( const mapgendata &dat, const point &offset ) const;
@@ -333,7 +333,7 @@ class mapgen_function_json_base
         virtual bool setup_internal( const JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { }
 
-        void check_common( const std::string &oter_name ) const;
+        void check_common() const;
 
         void formatted_set_incredibly_simple( map &m, const point &offset ) const;
 
@@ -352,7 +352,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
 {
     public:
         void setup() override;
-        void check( const std::string &oter_name ) const override;
+        void check() const override;
         void generate( mapgendata & ) override;
         mapgen_function_json( const std::string &s, int w, const std::string &context,
                               const point &grid_offset = point_zero );
@@ -376,7 +376,7 @@ class update_mapgen_function_json : public mapgen_function_json_base
 
         void setup();
         bool setup_update( const JsonObject &jo );
-        void check( const std::string &oter_name ) const;
+        void check() const;
         bool update_map( const tripoint_abs_omt &omt_pos, const point &offset,
                          mission *miss, bool verify = false ) const;
         bool update_map( const mapgendata &md, const point &offset = point_zero,
@@ -391,7 +391,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
 {
     public:
         void setup();
-        void check( const std::string &oter_name ) const;
+        void check() const;
         mapgen_function_json_nested( const std::string &s, const std::string &context );
         ~mapgen_function_json_nested() override = default;
 
