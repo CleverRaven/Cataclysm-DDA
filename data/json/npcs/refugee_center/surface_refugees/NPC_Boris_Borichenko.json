@@ -128,10 +128,10 @@
         "//": "Subsequent meetings with Boris before you have helped him finish some of his quests",
         "text": "Hi, Boris.  What's up?",
         "topic": "TALK_REFUGEE_Boris_2",
-        "condition": [
+        "condition": { "and": [
           { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
           { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } }
-        ]
+        ] }
       },
       {
         "//": "Later meetings with Boris, after you've started doing quests for him",
@@ -339,35 +339,15 @@
     }
   },
   {
-    "id": "MISSION_REFUGEE_Boris_LAPTOP",
-    "type": "mission_definition",
-    "name": { "str": "Bring Boris his son's lost writing." },
-    "difficulty": 1,
-    "value": 0,
-    "goal": "MGOAL_ITEM",
-    "item": "laptop_boris",
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "dialogue": {
-      "describe": "Find a circular saw for Boris.",
-      "offer": "We now have a space to work in, and I have wood and nails to spare.  All I need is a saw.  I would love tablesaw and mitre saw, but I can work with a hand held circular saw for now.  I have looked, and what we have is garbage.  Can you bring me a good one?",
-      "accepted": "You are a kind soul.",
-      "rejected": "Ah well.  I can ask around myself, perhaps.",
-      "advice": "It is not hard to find.  I have even seen them for sale at the merchants, but they save them as trade goods and will not give me as a gift.",
-      "inquire": "Greetings, my friend.  Have you found a saw I can use?",
-      "success": "Ah, good.  VonWalt is good brand, I had a saw like this at home.  Now I shall set to work, and make myself a shop back there.",
-      "success_lie": "I see...",
-      "failure": "No worries.  Let me know if you want to try again."
-    }
-  },
-  {
     "id": "MISSION_REFUGEE_Boris_WORKSPACE",
     "type": "mission_definition",
     "name": { "str": "Bring Boris some tools." },
     "difficulty": 1,
     "value": 0,
-    "goal": "MGOAL_ITEM",
+    "goal": "MGOAL_FIND_ITEM",
     "item": "circsaw_off",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_REFUGEE_Boris_LAPTOP",
     "dialogue": {
       "describe": "Find a circular saw for Boris.",
       "offer": "We now have a space to work in, and I have wood and nails to spare.  All I need is a saw.  I would love tablesaw and mitre saw, but I can work with a hand held circular saw for now.  I have looked, and what we have is garbage.  Can you bring me a good one?",
@@ -380,5 +360,30 @@
       "failure": "No worries.  Let me know if you want to try again."
     },
     "//": "TK add update mapgen."
+  },
+  {
+    "id": "MISSION_REFUGEE_Boris_LAPTOP",
+    "type": "mission_definition",
+    "name": { "str": "Bring Boris his son's lost writing." },
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "laptop",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "start": {
+      "assign_mission_target": { "om_terrain": "shelter_2_vandal", "reveal_radius": 1, "random": true, "search_range": 120 },
+      "update_mapgen": { "om_terrain": "shelter_2_vandal", "place_item": [ { "item": "laptop", "x": 15, "y": 12 } ] }
+    },
+    "dialogue": {
+      "describe": "Find a circular saw for Boris.",
+      "offer": "We now have a space to work in, and I have wood and nails to spare.  All I need is a saw.  I would love tablesaw and mitre saw, but I can work with a hand held circular saw for now.  I have looked, and what we have is garbage.  Can you bring me a good one?",
+      "accepted": "You are a kind soul.",
+      "rejected": "Ah well.  I can ask around myself, perhaps.",
+      "advice": "It is not hard to find.  I have even seen them for sale at the merchants, but they save them as trade goods and will not give me as a gift.",
+      "inquire": "Greetings, my friend.  Have you found a saw I can use?",
+      "success": "Ah, good.  VonWalt is good brand, I had a saw like this at home.  Now I shall set to work, and make myself a shop back there.",
+      "success_lie": "I see...",
+      "failure": "No worries.  Let me know if you want to try again."
+    }
   }
 ]
