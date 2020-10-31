@@ -1382,8 +1382,8 @@ class vehicle
         void set_flyable( bool val );
         // Would interacting with this part prevent the vehicle from being flyable?
         bool would_install_prevent_flyable( const vpart_info &vpinfo, Character &pc ) const;
-        bool would_removal_prevent_flyable( vehicle_part &vpinfo, Character &pc ) const;
-        bool would_repair_prevent_flyable( vehicle_part &vpinfo, Character &pc ) const;
+        bool would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const;
+        bool would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
