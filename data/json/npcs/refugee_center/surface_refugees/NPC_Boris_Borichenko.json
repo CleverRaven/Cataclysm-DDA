@@ -128,10 +128,12 @@
         "//": "Subsequent meetings with Boris before you have helped him finish some of his quests",
         "text": "Hi, Boris.  What's up?",
         "topic": "TALK_REFUGEE_Boris_2",
-        "condition": { "and": [
-          { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
-          { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } }
-        ] }
+        "condition": {
+          "and": [
+            { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } }
+          ]
+        }
       },
       {
         "//": "Later meetings with Boris, after you've started doing quests for him",
