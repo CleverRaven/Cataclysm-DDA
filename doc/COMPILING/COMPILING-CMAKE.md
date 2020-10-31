@@ -94,7 +94,7 @@ Obtain packages specified above with your system package manager.
  is done using CMake itself, and the actual build is done using either `make`
  (for Makefiles generator) or build-system agnostic `cmake --build . ` .
 
- There are two ways to build Cataclysm-DDA with CMake: inside the source tree or
+ There are two ways to build Cataclysm: DDA with CMake: inside the source tree or
  outside of it. Out-of-source builds have the advantage that you can have
  multiple builds with different options from one source directory.
 
@@ -213,7 +213,7 @@ At the moment only a limited combination of options is supported (tiles only, no
 
 Get the tools:
   * CMake from the official site - https://cmake.org/download/.
-  * Microsoft compiler - https://visualstudio.microsoft.com/downloads/?q=build+tools , choose "Build Tools for Visual Studio 2017". When installing, choose the "Visual C++ Build Tools" options.
+  * [Microsoft compiler](https://visualstudio.microsoft.com/downloads/?q=build+tools), choose "Build Tools for Visual Studio 2017". When installing, choose the "Visual C++ Build Tools" options.
     * Alternatively, you can download and install the complete Visual Studio, but that's not required.
 
 Get the required libraries:
