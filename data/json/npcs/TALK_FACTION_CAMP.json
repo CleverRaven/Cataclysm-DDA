@@ -21,6 +21,13 @@
         "default": true
       },
       {
+        "text": "Since we can't build a camp here, where can we build a camp?",
+        "topic": "TALK_CAMP_SITES",
+        "condition": { "not": { "npc_at_om_location": "FACTION_CAMP_START" } },
+        "switch": true,
+        "default": true
+      },
+      {
         "text": "We need to abandon this camp.",
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
         "topic": "TALK_DONE",
@@ -35,6 +42,16 @@
       { "text": "Nothing.  Let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Never mind, let's talk about other things you can do", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Nothing.  Lets' get back to work.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CAMP_SITES",
+    "type": "talk_topic",
+    "dynamic_line": { "list_faction_camp_sites": true },
+    "responses": [
+      { "text": "Interesting.  Let's talk about something else.", "topic": "TALK_FRIEND" },
+      { "text": "Well, until we go there, let's talk about camps more.", "topic": "TALK_NONE" },
+      { "text": "Well, then.  Lets' get back to work.", "topic": "TALK_DONE" }
     ]
   },
   {
