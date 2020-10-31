@@ -1673,6 +1673,14 @@ class jmapgen_sealed_item : public jmapgen_piece
                                   "one.", summary, count );
                         return;
                     }
+                    int item_chance = item_spawner->chance.get();
+                    if( item_chance != 100 ) {
+                        debugmsg( "%s (with flag PLANT) spawns an item with probability %d%%; "
+                                  "it should always spawn.  You can move the \"chance\" up to the "
+                                  "sealed_item instead of the \"item\" within.",
+                                  summary, item_chance );
+                        return;
+                    }
                     const itype *spawned_type = item::find_type( item_spawner->type );
                     if( !spawned_type->seed ) {
                         debugmsg( "%s (with flag PLANT) spawns item type %s which is not a seed.",
