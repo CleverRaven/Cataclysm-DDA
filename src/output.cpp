@@ -1846,7 +1846,7 @@ get_bar( float cur, float max, int width, bool extra_resolution,
         col = c_red_red;
     } else {
         int ind = static_cast<int>( ( 1 - status ) * colors.size() );
-        ind = clamp<int>( ind, 0, colors.size() - 1 );
+        ind = clamp( ind, 0, colors.size() - 1 );
         col = colors[ind];
     }
     if( !std::isfinite( sw ) || sw <= 0 ) {
