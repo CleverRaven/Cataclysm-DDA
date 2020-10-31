@@ -71,8 +71,11 @@
     "type": "talk_topic",
     "//": "common talk responses",
     "id": [
+      "TALK_REFUGEE_JENNY_2",
       "TALK_REFUGEE_JENNY_Personal1",
       "TALK_REFUGEE_JENNY_Project1",
+      "TALK_REFUGEE_JENNY_Project2",
+      "TALK_REFUGEE_JENNY_Project3",
       "TALK_REFUGEE_JENNY_Refugees1",
       "TALK_REFUGEE_JENNY_FreeMerchants",
       "TALK_REFUGEE_JENNY_Refugees2_Fatima",
@@ -95,9 +98,14 @@
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
       },
       {
-        "text": "Let's talk about your project again.",
-        "condition": { "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+        "text": "What are you working on?",
+        "condition": { "not": { "u_has_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" } },
         "topic": "TALK_REFUGEE_JENNY_Project1"
+      },
+      {
+        "text": "How's everything going with that defense system?",
+        "condition": { "u_has_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" },
+        "topic": "TALK_REFUGEE_JENNY_Project3"
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_JENNY_Personal1" },
       { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_JENNY_Refugees1" }
@@ -116,12 +124,12 @@
         "text": "Nice meeting you.  What are you doing on that computer?",
         "effect": { "u_add_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" },
         "condition": { "not": { "u_has_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_JENNY_Project1"
+        "topic": "TALK_REFUGEE_JENNY_2"
       },
       {
         "text": "Hi, Jenny.  What are you up to these days?",
         "condition": { "u_has_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_REFUGEE_JENNY_Project1"
+        "topic": "TALK_REFUGEE_JENNY_2"
       },
       {
         "text": "Nice meeting you.  I'd best get going, though.",
@@ -138,6 +146,15 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_2",
+    "dynamic_line": "I'm puttering around, I always have stuff on the go.  Gotta keep busy, keep my mind off stuff, you know?",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Project1",
     "dynamic_line": {
       "days_since_cataclysm": 60,
@@ -147,6 +164,49 @@
     "responses": [
       { "text": "Tell me more about your project.", "topic": "TALK_REFUGEE_JENNY_Project2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Project2",
+    "dynamic_line": {
+      "days_since_cataclysm": 60,
+      "no": "Well, these things are a standard .30 caliber.  They should be compatible with any similar rifle barrel.  It would be pretty easy to repurpose some rifle parts into large air weapons that we could use without relying on gunpowder, and without so much noise.  I'm still drawing up an actual design though, I have a bunch of features I want.  Ask me again in a couple weeks and I'll give you some more info.",
+      "yes": "They're pretty big.  This isn't something you'd carry around with you.  They fire .30 cal bullets using compressed air that we'd make inside the basement and then pipe up to individual storage tanks for the guns that would be good for a few hundred shots each.  The design should be capable of auto or semi-auto fire, at a range that's pretty comparable to a gunpowder-based weapon.  It takes out some of the most limited parts of ranged weapons: no gunpowder, no brass casings, just lead that we melt into my mold.  It's not soundless, but it's not as loud as a chemical weapon.  There are tons of advantages.  Only trouble is, I can't convince the Free Merchants to give me the parts I need."
+    },
+    "responses": [
+      {
+        "text": "Is there some way I can help you get the stuff you need?",
+        "condition": { "days_since_cataclysm": 60 },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "What were you saying before?.", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Project3",
+    "dynamic_line": {
+      "npc_compare_time_since_var": "Jenny_project_timer",
+      "type": "timer",
+      "context": "flag",
+      "op": ">=",
+      "time": "7 d",
+      "no": "Things are coming along.  I have a lot of studying to do before I know how to fix my design issues, but the book you brought definitely has everything I need. Now that I've got some progress to show, administration is much more willing to help me get the parts I need.  You've been a great gofer, but I can probably handle the rest on my own.  Check back in a week or two!",
+      "yes": {
+        "npc_compare_time_since_var": "Jenny_project_timer",
+        "type": "timer",
+        "context": "flag",
+        "op": ">=",
+        "time": "14 d",
+        "no": "I'm really making headway.  We've done some live demonstrations with a working device, and now it's just a matter of manufacturing a few of them.  We should be ready for release in a week or two.",
+        "yes": "TK"
+      }
+    },
+    "responses": [
+      { "text": "What were you saying before?.", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -167,24 +227,6 @@
       }
     },
     "responses": [
-      { "text": "What were you saying before?.", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_REFUGEE_JENNY_Project2",
-    "dynamic_line": {
-      "days_since_cataclysm": 60,
-      "no": "Well, these things are a standard .30 caliber.  They should be compatible with any similar rifle barrel.  It would be pretty easy to repurpose some rifle parts into large air weapons that we could use without relying on gunpowder, and without so much noise.  I'm still drawing up an actual design though, I have a bunch of features I want.  Ask me again in a couple weeks and I'll give you some more info.",
-      "yes": "They're pretty big.  This isn't something you'd carry around with you.  They fire .30 cal bullets using compressed air that we'd make inside the basement and then pipe up to individual storage tanks for the guns that would be good for a few hundred shots each.  The design should be capable of auto or semi-auto fire, at a range that's pretty comparable to a gunpowder-based weapon.  It takes out some of the most limited parts of ranged weapons: no gunpowder, no brass casings, just lead that we melt into my mold.  It's not soundless, but it's not as loud as a chemical weapon.  There are tons of advantages.  Only trouble is, I can't convince the Free Merchants to give me the parts I need."
-    },
-    "responses": [
-      {
-        "text": "Is there some way I can help you get the stuff you need?",
-        "condition": { "days_since_cataclysm": 60 },
-        "topic": "TALK_MISSION_LIST"
-      },
       { "text": "What were you saying before?.", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -373,9 +415,8 @@
       "effect": [
         { "u_buy_item": "FMCNote", "count": 30 },
         { "u_add_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" },
-        { "npc_add_var": "Jenny_project_timer", "type": "timer", "time": true }
+        { "npc_add_var": "Jenny_project_timer", "type": "timer", "context": "flag", "time": true }
       ]
     }
   }
 ]
-
