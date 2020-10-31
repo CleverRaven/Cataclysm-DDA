@@ -1256,10 +1256,10 @@
      "name": { "str": "Qianzhousaurus", },
      "species": "DINOSAUR",
       "default_faction": "carnivore_dino"
-    "symbol": "d",
+    "symbol":"d",
      "color":"purple"
-      "volume": "5000 ml",
-       "weight": 1669,
+    "volume": "5000 ml",
+    "weight": 1669,
     "material": "flesh",
     "aggression": "300",
      "morale": 80,
@@ -1283,6 +1283,6 @@
      "SWARMS",
      "ATTACKMON",
      "GROUP_MORALE"
-    },
+  },
   
 ]
