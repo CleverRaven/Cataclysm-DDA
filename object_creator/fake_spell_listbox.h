@@ -31,7 +31,7 @@ class fake_spell_listbox : public QListWidget
         void setText( const QString &str ) {
             id_label.setText( str );
         }
-    signals:
+    Q_SIGNALS:
         // emits a signal if any attached windows are modified
         void modified();
     private:

@@ -40,7 +40,7 @@ class fake_spell_window : public QMainWindow
 
         // the index of this window in the windows vector in fake_spell_listbox
         int index = 0;
-    signals:
+    Q_SIGNALS:
         // emits a signal if any attached data is modified
         void modified();
     private:
