@@ -89,6 +89,11 @@
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Fatima_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Fatima_Situation" },
       { "text": "How did you wind up here at the center?", "topic": "TALK_REFUGEE_Fatima_Cataclysm" },
+      {
+        "text": "Hey, you free for a bit of teaching?",
+        "topic": "TALK_REFUGEE_Fatima_Teach",
+        "condition": { "u_add_var": "Fatima_Teacher", "type": "knowledge", "context": "trade", "value": "yes" }
+      },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
@@ -146,32 +151,86 @@
     "id": "TALK_REFUGEE_Fatima_Welding",
     "dynamic_line": "You'd be surprised actually!  Metal art has been part of Muslim traditions for years, although that's not why I got into it.  I'm not a very traditional girl.  My parents aren't very traditional either, but my grandparents are really old fashioned and strict.  My sister came out as gay and they made her life really hard; mom and dad thought she should keep it secret, but she didn't believe in that.  I always loved mechanics and working with my hands, so when they started harassing my parents about getting my sister and I married off to nice men so we'd stop being so immoral, I decided to pick a job I liked that would bother them as much as possible.  It was a good choice, not only did it make them livid but I love welding.  I love the feel of standing back and looking at my work, knowing I took a few chunks of scrap metal and made them into something useful.  I love how it feels to make it fit together perfectly.  It just puts me at peace.\n\nI… I do hope my grandparents are okay though.  They were old fashioned, and they made choices I didn't like, but they were family and I still have sweet memories of them from when I was little.  I've had to do a lot more thinking about God since <the_cataclysm>, and while I'd never agree with the decisions they made, I understand more why they thought they had to make them.  They just wanted the whole family to share their relationship with God, in their messed up way.",
     "responses": [
-      { "text": "Welding comes up a lot in my life.  Do you think you could teach me?", "topic": "TALK_REFUGEE_Fatima_Welding2" }
+      { "text": "Welding comes up a lot in my life.  Do you think you could teach me?", "topic": "TALK_REFUGEE_Fatima_Teach" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Fatima_Welding2",
-    "dynamic_line": "Sure, I could teach you the basics, it'll cost you merch though.  Let's say, 200 merch for a teaching session?",
+    "id": "TALK_REFUGEE_Fatima_Teach",
+    "dynamic_line": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes",
+    "yes": "Sure.  As agreed, a hundred merch, .",
+    "no": { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes",
+    "no": "Sure, I could teach you the basics, it'll cost you merch though.  Let's say, 200 merch for a teaching session?",
+    "yes": "Sure, I could teach you the basics, it'll cost you merch though.  Since you helped me out, I can shave a bit off the price, let's say 150 merch?"
+    },
+    "speaker_effect": { "effect": { "u_add_var": "Fatima_Teacher", "type": "knowledge", "context": "trade", "value": "yes" } },
     "responses": [
-      { "text": "All right, here's your money.", "topic": "TALK_DONE",
+      {
+        "//": "200 merch if player has not bartered nor finished mission",
+        "text": "All right, here's your money.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [ { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } }, { "not": { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" } }, { "u_has_items": { "item": "fmcnote", "count": 200 } } ]
+        },
+        "effect": [ { "u_sell_item": "fmcnote", "count": 200 }, { "effect": "start_training" } ]
+      },
+      {
+        "//": "150 merch if player has not bartered but has done the mission",
+        "text": "All right, here's your money.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [ { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } }, { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" }, { "u_has_items": { "item": "fmcnote", "count": 150 } } ]
+        },
+        "effect": [ { "u_sell_item": "fmcnote", "count": 150 }, { "effect": "start_training" } ]
+      },
+      {
+        "//": "100 merch if player has successfully bartered price down",
+        "text": "All right, here's your money.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [ { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" }, { "u_has_items": { "item": "fmcnote", "count": 100 } } ]
+        },
+        "effect": [ { "u_sell_item": "fmcnote", "count": 100 }, { "effect": "start_training" } ]
+      },
+      { "text": "[BARTER] Come on, I'm serious here.",
         "condition": {
           "and": [
-            { "not": { "npc_has_effect": "fatima_barter_success" } },
-            { "u_has_items": { "item": "fmcnote", "count": 200 } } ]
-  },
-        "effect": [ { "u_sell_item": "fmcnote", "count": 200 }, "start_training" ],
-      }, }
-      { "text": "[BARTER] Come on, I'm serious here.", "topic": "TALK_REFUGEE_Fatima_Welding2_Barter" }
+            { "not": { "u_compare_time_since_var": "Fatima_barter_fail", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" } },
+            { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
+            { "not": { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" } }
+          ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 25 },
+        "failure": { "topic": "TALK_REFUGEE_Fatima_Teach_nobarter" },
+        "success": { "topic": "TALK_REFUGEE_Fatima_Teach_yesbarter" }
+      },
+      { "text": "[BARTER] That's still pretty steep, I risked my neck out there for your book.  Can't you manage a little lower?",
+        "condition": {
+          "and": [
+            { "not": { "u_compare_time_since_var": "Fatima_barter_fail", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" } },
+            { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
+            { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+          ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 15 },
+        "failure": { "topic": "TALK_REFUGEE_Fatima_Teach_nobarter" },
+        "success": { "topic": "TALK_REFUGEE_Fatima_Teach_yesbarter" }
+      }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Fatima_Welding2_Barter",
-    "dynamic_line": "Sure, I could teach you the basics, it'll cost you merch though.  Let's say, 100 merch for a teaching session?",
-    "responses": [
-      { "text": "[BARTER] Come on, I'm serious here.", "topic": "TALK_REFUGEE_Fatima_Welding2_Barter" }
-    ]
+    "id": "TALK_REFUGEE_Fatima_Teach_nobarter",
+    "dynamic_line": "Hey, I appreciate that, but I know what I've got, and I can make good money with that time.  Sorry, my price stands.",
+    "speaker_effect": { "effect": { "u_add_var": "Fatima_barter_fail", "type": "timer", "context": "flag", "time": true } },
+    "responses": [  ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Fatima_Teach_yesbarter",
+    "dynamic_line": "Oh, fine, you weasel.  I suppose I can manage for a hundred notes.  I seriously can't go lower though, we'll be using up my resources and time and I gotta pay for the gas and the food somehow.",
+    "speaker_effect": { "effect": { "u_add_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
+    "responses": [  ]
   },
   {
     "type": "talk_topic",
