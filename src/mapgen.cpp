@@ -2154,6 +2154,37 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
 
 static std::map<std::string, mapgen_palette> palettes;
 
+static bool check_furn( const furn_id &id, const std::string &context )
+{
+    const furn_t &furn = id.obj();
+    if( furn.has_flag( "PLANT" ) ) {
+        debugmsg( "json mapgen for %s specifies furniture %s, which has flag "
+                  "PLANT.  Such furniture must be specified in a \"sealed_item\" special.",
+                  context, furn.id.str() );
+        // Only report once per mapgen object, otherwise the reports are
+        // very repetitive
+        return true;
+    }
+    return false;
+}
+
+void mapgen_palette::check()
+{
+    std::string context = "palette " + id;
+    for( const std::pair<const map_key, furn_id> &p : format_furniture ) {
+        if( check_furn( p.second, context ) ) {
+            return;
+        }
+    }
+
+    for( const std::pair<const map_key, std::vector<shared_ptr_fast<const jmapgen_piece>>> &p :
+         format_placings ) {
+        for( const shared_ptr_fast<const jmapgen_piece> &j : p.second ) {
+            j->check( context );
+        }
+    }
+}
+
 mapgen_palette mapgen_palette::load_temp( const JsonObject &jo, const std::string &src )
 {
     return load_internal( jo, src, false, true );
@@ -2179,6 +2210,13 @@ const mapgen_palette &mapgen_palette::get( const palette_id &id )
     debugmsg( "Requested palette with unknown id %s", id.c_str() );
     static mapgen_palette dummy;
     return dummy;
+}
+
+void mapgen_palette::check_definitions()
+{
+    for( auto &p : palettes ) {
+        p.second.check();
+    }
 }
 
 void mapgen_palette::add( const palette_id &rh )
@@ -2511,21 +2549,8 @@ void mapgen_function_json_nested::check( const std::string &oter_name ) const
 
 void mapgen_function_json_base::check_common( const std::string &oter_name ) const
 {
-    auto check_furn = [&]( const furn_id & id ) {
-        const furn_t &furn = id.obj();
-        if( furn.has_flag( "PLANT" ) ) {
-            debugmsg( "json mapgen for overmap terrain %s specifies furniture %s, which has flag "
-                      "PLANT.  Such furniture must be specified in a \"sealed_item\" special.",
-                      oter_name, furn.id.str() );
-            // Only report once per mapgen object, otherwise the reports are
-            // very repetitive
-            return true;
-        }
-        return false;
-    };
-
     for( const ter_furn_id &id : format ) {
-        if( check_furn( id.furn ) ) {
+        if( check_furn( id.furn, "oter " + oter_name ) ) {
             return;
         }
     }
@@ -2537,7 +2562,7 @@ void mapgen_function_json_base::check_common( const std::string &oter_name ) con
             continue;
         }
         furn_id id( setmap.val.get() );
-        if( check_furn( id ) ) {
+        if( check_furn( id, "oter " + oter_name ) ) {
             return;
         }
     }
