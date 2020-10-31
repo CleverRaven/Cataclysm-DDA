@@ -40,6 +40,8 @@ class advuilist
     using cwidth_t = float;
     /// name, column printer function, width weight
     using col_t = std::tuple<std::string, fcol_t, cwidth_t>;
+    /// counting function. used only for partial selection
+    using fcounter_t = std::function<std::size_t( T const & )>;
     /// sorting function
     using fsort_t = std::function<bool( T const &, T const & )>;
     /// name, sorting function
@@ -57,7 +59,9 @@ class advuilist
     using grouper_t = std::tuple<std::string, fgid_t, fglabel_t>;
 
     using ptr_t = typename Container::iterator;
-    using select_t = std::vector<ptr_t>;
+    /// count, pointer. count > 0 means partial selection
+    using selection_t = std::pair<std::size_t, ptr_t>;
+    using select_t = std::vector<selection_t>;
 
     advuilist( Container *list, point size = { -1, -1 }, point origin = { -1, -1 },
                std::string const &ctxtname = "default", bool init = true );
@@ -76,6 +80,8 @@ class advuilist
     /// sets a handler for input_context actions. this is executed before any internal actions are
     /// handled
     void setctxthandler( fctxt_t const &func );
+    /// sets the element counting function. enables partial selection
+    void setcountingf( fcounter_t const &func );
     /// sets the filtering function
     void setfilterf( ffilter_t const &func );
     select_t select();
@@ -123,6 +129,7 @@ class advuilist
     groupcont_t _groups;
     pagecont_t _pages;
     ffilter_t _ffilter;
+    fcounter_t _fcounter;
     fctxt_t _fctxt;
     std::string _filter;
     typename sortcont_t::size_type _csort = 0;
@@ -148,6 +155,7 @@ class advuilist
     /// minimum whitespace between columns
     static constexpr int const _colspacing = 1;
 
+    select_t _peek( std::size_t amount );
     void _initui();
     void _initctxt();
     void _print();
@@ -159,6 +167,7 @@ class advuilist
     void _group( typename groupercont_t::size_type idx );
     void _querysort();
     void _queryfilter();
+    std::size_t _querypartial( std::size_t max);
     void _setfilter( std::string const &filter );
     bool _basicfilter( T const &it, std::string const &filter ) const;
     typename pagecont_t::size_type _idxtopage( typename list_t::size_type idx );
@@ -257,6 +266,12 @@ void advuilist<Container, T>::setctxthandler( fctxt_t const &func )
 }
 
 template <class Container, typename T>
+void advuilist<Container, T>::setcountingf( fcounter_t const &func )
+{
+    _fcounter = func;
+}
+
+template <class Container, typename T>
 void advuilist<Container, T>::setfilterf( ffilter_t const &func )
 {
     _ffilter = func;
@@ -294,6 +309,14 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
             _setfilter( std::string() );
         } else if( action == "SELECT" ) {
             return peek();
+        } else if( action == "SELECT_PARTIAL" ) {
+            if( _fcounter ) {
+                std::size_t const count = _fcounter( *std::get<ptr_t>( _list[_cidx] ) );
+                std::size_t const input = _querypartial( count );
+                if( input > 0 ) {
+                    return _peek( input );
+                }
+            }
         } else if( action == "QUIT" ) {
             _exit = true;
         }
@@ -334,7 +357,7 @@ void advuilist<Container, T>::rebuild( Container *list )
 template <class Container, typename T>
 typename advuilist<Container, T>::select_t advuilist<Container, T>::peek()
 {
-    return { std::get<ptr_t>( _list[_cidx] ) };
+    return _peek( 0 );
 }
 
 template <class Container, typename T>
@@ -359,6 +382,12 @@ template <class Container, typename T>
 std::shared_ptr<ui_adaptor> advuilist<Container, T>::get_ui()
 {
     return _ui;
+}
+
+template <class Container, typename T>
+typename advuilist<Container, T>::select_t advuilist<Container, T>::_peek( std::size_t amount)
+{
+    return select_t{ selection_t{ amount, std::get<ptr_t>( _list[_cidx] ) } };
 }
 
 template <class Container, typename T>
@@ -406,6 +435,7 @@ void advuilist<Container, T>::_initctxt()
     _ctxt.register_action( "FILTER" );
     _ctxt.register_action( "RESET_FILTER" );
     _ctxt.register_action( "SELECT" );
+    _ctxt.register_action( "SELECT_PARTIAL" );
     _ctxt.register_action( "QUIT" );
     _ctxt.register_action( "HELP_KEYBINDINGS" );
 }
@@ -606,16 +636,29 @@ void advuilist<Container, T>::_querysort()
 template <class Container, typename T>
 void advuilist<Container, T>::_queryfilter()
 {
-    auto spopup = std::make_unique<string_input_popup>();
-    spopup->max_length( 256 ).text( _filter );
+    string_input_popup spopup;
+    spopup.max_length( 256 ).text( _filter );
 
     do {
         ui_manager::redraw();
-        std::string const nfilter = spopup->query_string( false );
-        if( !spopup->canceled() && nfilter != _filter ) {
+        std::string const nfilter = spopup.query_string( false );
+        if( !spopup.canceled() && nfilter != _filter ) {
             _setfilter( nfilter );
         }
-    } while( !spopup->canceled() && !spopup->confirmed() );
+    } while( !spopup.canceled() && !spopup.confirmed() );
+}
+
+template <class Container, typename T>
+std::size_t advuilist<Container, T>::_querypartial( std::size_t max )
+{
+    string_input_popup spopup;
+    spopup.title( string_format( _( "How many do you want to select?  [Max %d] (0 to cancel)" ),
+                                  max ) );
+    spopup.width( 20 );
+    spopup.only_digits( true );
+    std::size_t amount = spopup.query_int64_t();
+
+    return spopup.canceled() ? 0 : std::min( max, amount );
 }
 
 template <class Container, typename T>

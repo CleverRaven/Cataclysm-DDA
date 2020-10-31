@@ -104,6 +104,11 @@ myadvinv_stack_t get_stacks( map_cursor &cursor )
 
     return stacks;
 }
+
+std::size_t myadvinv_entry_counter( myadvinv_entry const &it )
+{
+    return it.stack[0]->count_by_charges() ? it.stack[0]->charges : it.stack.size();
+}
 } // namespace
 
 void create_advanced_inv()
@@ -139,24 +144,22 @@ void create_advanced_inv()
     myadvuilist.addSource( { "Inventory", 'I', { 1, 1 }, source_dummy, [](){ return false;} } );
     myadvuilist.addSource( { "All", 'A', { 0, 2 }, source_all, [](){ return true;} } );
     myadvuilist.addSource( { "Worn", 'W', { 1, 2 }, source_dummy, [](){ return false;} } );
-    
+
     myadvuilist.setColumns( std::vector<myuilist_t::col_t>{
         { "item", []( myadvinv_entry const &it ) { return it.stack[0]->display_name(); }, 8.F },
         { "count",
           []( myadvinv_entry const &it ) {
-              std::size_t const itsize =
-                  it.stack[0]->count_by_charges() ? it.stack[0]->charges : it.stack.size();
+              std::size_t const itsize = myadvinv_entry_counter( it );
               return std::to_string( itsize );
           },
           2.F } } );
-    myadvuilist.addSorter( myuilist_t::sorter_t{
-        "count", []( myadvinv_entry const &l, myadvinv_entry const &r ) {
-            std::size_t const lsize =
-                l.stack[0]->count_by_charges() ? l.stack[0]->charges : l.stack.size();
-            std::size_t const rsize =
-                r.stack[0]->count_by_charges() ? r.stack[0]->charges : r.stack.size();
-            return lsize < rsize;
-        } } );
+    myadvuilist.setcountingf( myadvinv_entry_counter );
+    myadvuilist.addSorter(
+        myuilist_t::sorter_t{ "count", []( myadvinv_entry const &l, myadvinv_entry const &r ) {
+                                 std::size_t const lsize = myadvinv_entry_counter( l );
+                                 std::size_t const rsize = myadvinv_entry_counter( r );
+                                 return lsize < rsize;
+                             } } );
 
     myadvuilist.addGrouper( myuilist_t::grouper_t{
         "category",
