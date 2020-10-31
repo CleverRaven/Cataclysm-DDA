@@ -95,6 +95,7 @@
       },
       {
         "text": "Let's talk about your project again.",
+        "condition": { "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
         "topic": "TALK_REFUGEE_JENNY_Project1"
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_JENNY_Personal1" },
@@ -370,7 +371,8 @@
     "end": {
       "effect": [
         { "u_buy_item": "FMCNote", "count": 30 },
-        { "u_add_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" }
+        { "u_add_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" },
+        { "npc_add_var": "Jenny_project_timer", "type": "timer", "time": true }
       ]
     }
   }
