@@ -4409,11 +4409,12 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
     } else if( overflow ) {
         // ...otherwise try to overflow to adjacent tiles (if permitted)
-        std::vector<tripoint> tiles = closest_points_first( pos, OVERFLOW_RANGE );
+        const int max_dist = 2;
+        std::vector<tripoint> tiles = closest_points_first( pos, max_dist );
         tiles.erase( tiles.begin() ); // we already tried this position
-        const int max_path_length = 4 * OVERFLOW_RANGE;
-        const pathfinding_settings setting( 0, OVERFLOW_RANGE, max_path_length, 0, false, true, false,
-                                            false, false );
+        const int max_path_length = 4 * max_dist;
+        const pathfinding_settings setting( 0, max_dist, max_path_length, 0, false, true, false, false,
+                                            false );
         for( const tripoint &e : tiles ) {
             if( !inbounds( e ) ) {
                 continue;
