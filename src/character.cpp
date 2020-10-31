@@ -1571,8 +1571,6 @@ void Character::process_turn()
     }
 
     Creature::process_turn();
-
-    enchantment_cache.activate_passive( *this );
 }
 
 void Character::recalc_hp()
