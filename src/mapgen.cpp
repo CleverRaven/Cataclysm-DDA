@@ -1653,9 +1653,10 @@ class jmapgen_sealed_item : public jmapgen_piece
 
         void check( const std::string &oter_name ) const override {
             const furn_t &furn = furniture.obj();
-            std::string summary = string_format(
-                                      "sealed_item special in json mapgen for overmap terrain %s using furniture %s",
-                                      oter_name, furn.id.str() );
+            std::string summary =
+                string_format(
+                    "sealed_item special in json mapgen for overmap terrain %s using furniture %s",
+                    oter_name, furn.id.str() );
 
             if( !furniture.is_valid() ) {
                 debugmsg( "%s which is not valid furniture", summary );
