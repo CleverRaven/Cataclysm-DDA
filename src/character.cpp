@@ -7917,43 +7917,43 @@ std::string Character::get_weight_string() const
     const float bmi = get_bmi();
     if( get_option<bool>( "CRAZY" ) ) {
         if( bmi > character_weight_category::morbidly_obese + 10.0f ) {
-            return _( "AW HELL NAH" );
+            return colorize( _( "AW HELL NAH" ), c_red );
         } else if( bmi > character_weight_category::morbidly_obese + 5.0f ) {
-            return _( "DAYUM" );
+            return colorize( _( "DAYUM" ), c_red );
         } else if( bmi > character_weight_category::morbidly_obese ) {
-            return _( "Fluffy" );
+            return colorize( _( "Fluffy" ), c_red );
         } else if( bmi > character_weight_category::very_obese ) {
-            return _( "Husky" );
+            return colorize( _( "Husky" ), c_red );
         } else if( bmi > character_weight_category::obese ) {
-            return _( "Healthy" );
+            return colorize( _( "Healthy" ), c_light_red );
         } else if( bmi > character_weight_category::overweight ) {
-            return _( "Big" );
+            return colorize( _( "Big" ), c_yellow );
         } else if( bmi > character_weight_category::normal ) {
             return _( "Normal" );
         } else if( bmi > character_weight_category::underweight ) {
-            return _( "Bean Pole" );
+            return colorize( _( "Bean Pole" ), c_yellow );
         } else if( bmi > character_weight_category::emaciated ) {
-            return _( "Emaciated" );
+            return colorize( _( "Emaciated" ), c_light_red );
         } else {
-            return _( "Spooky Scary Skeleton" );
+            return colorize( _( "Spooky Scary Skeleton" ), c_red );
         }
     } else {
         if( bmi > character_weight_category::morbidly_obese ) {
-            return _( "Morbidly Obese" );
+            return colorize( _( "Morbidly Obese" ), c_red );
         } else if( bmi > character_weight_category::very_obese ) {
-            return _( "Very Obese" );
+            return colorize( _( "Very Obese" ), c_red );
         } else if( bmi > character_weight_category::obese ) {
-            return _( "Obese" );
+            return colorize( _( "Obese" ), c_light_red );
         } else if( bmi > character_weight_category::overweight ) {
-            return _( "Overweight" );
+            return colorize( _( "Overweight" ), c_yellow );
         } else if( bmi > character_weight_category::normal ) {
             return _( "Normal" );
         } else if( bmi > character_weight_category::underweight ) {
-            return _( "Underweight" );
+            return colorize( _( "Underweight" ), c_yellow );
         } else if( bmi > character_weight_category::emaciated ) {
-            return _( "Emaciated" );
+            return colorize( _( "Emaciated" ), c_light_red );
         } else {
-            return _( "Skeletal" );
+            return colorize( _( "Skeletal" ), c_red );
         }
     }
 }

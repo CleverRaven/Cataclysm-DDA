@@ -95,6 +95,8 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
+static const proficiency_id proficiency_aircraft_mechanic( "aircraft_mechanic" );
+
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
@@ -4255,9 +4257,39 @@ int vehicle::get_z_change() const
     return requested_z_change;
 }
 
-bool vehicle::would_prevent_flyable( const vpart_info &vpinfo ) const
+bool vehicle::would_install_prevent_flyable( const vpart_info &vpinfo, Character &pc ) const
 {
-    return flyable && !rotors.empty() && !vpinfo.has_flag( "SIMPLE_PART" );
+    if( flyable && !rotors.empty() && !( vpinfo.has_flag( "SIMPLE_PART" ) ||
+                                         vpinfo.has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) ) {
+        return !pc.has_proficiency( proficiency_aircraft_mechanic );
+    } else {
+        return false;
+    }
+}
+
+bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) const
+{
+    if( flyable && !rotors.empty() ) {
+        if( vp.info().has_flag( "SIMPLE_PART" ) ||
+            vp.info().has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) {
+            vpart_position vppos = vpart_position( const_cast<vehicle &>( *this ),
+                                                   index_of_part( const_cast<vehicle_part *>( &vp ) ) );
+            return !vppos.is_inside();
+        } else {
+            return !pc.has_proficiency( proficiency_aircraft_mechanic );
+        }
+    } else {
+        return false;
+    }
+}
+
+bool vehicle::would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const
+{
+    if( flyable && !rotors.empty() && !vp.info().has_flag( "SIMPLE_PART" ) ) {
+        return !pc.has_proficiency( proficiency_aircraft_mechanic );
+    } else {
+        return false;
+    }
 }
 
 bool vehicle::is_flying_in_air() const

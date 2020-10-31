@@ -65,6 +65,7 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sap( "sap" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
@@ -764,7 +765,9 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     if( proj.proj_effects.count( "ROBOT_DAZZLE" ) ) {
         if( goodhit < accuracy_critical && in_species( species_ROBOT ) ) {
-            add_effect( source, effect_stunned, rng( 6_turns, 8_turns ) );
+            time_duration duration = rng( 6_turns, 8_turns );
+            add_effect( source, effect_stunned, duration );
+            add_effect( source, effect_sensor_stun, duration );
             add_msg( source->is_player() ?
                      _( "You land a clean shot on the %1$s sensors, stunning it." ) :
                      _( "The %1$s is stunned!" ),
