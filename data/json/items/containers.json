@@ -433,18 +433,18 @@
     "name": { "str": "small cardboard box", "str_pl": "small cardboard boxes" },
     "description": "A small cardboard box.  No bigger than a foot in dimension.",
     "weight": "151 g",
-    "volume": "1600 ml",
+    "volume": "2100 ml",
     "longest_side": "22 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "2000 ml",
         "max_contains_weight": "4 kg",
         "max_item_length": "20 cm"
       }
     ],
-    "//": "5x20x15 or ~3x22x22",
+    "//": "~7x20x15 or ~4x22x22",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "cardboard" ],
