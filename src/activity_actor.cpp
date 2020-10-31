@@ -2179,13 +2179,13 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
     return actor.clone();
 }
 
-void burrow_activity_actor::start( player_activity &act, Character& )
+void burrow_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves_total;
     act.moves_left = moves_total;
 }
 
-void burrow_activity_actor::do_turn( player_activity &act, Character& )
+void burrow_activity_actor::do_turn( player_activity &act, Character & )
 {
     sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( act.placement ) );
     if( calendar::once_every( 1_minutes ) ) {
@@ -2218,9 +2218,9 @@ void burrow_activity_actor::finish( player_activity &act, Character &who )
     here.destroy( pos, true );
 
     act.set_to_null();
-} 
+}
 
-void burrow_activity_actor::serialize( JsonOut &jsonout ) const 
+void burrow_activity_actor::serialize( JsonOut &jsonout ) const
 {
     jsonout.write_null();
 }

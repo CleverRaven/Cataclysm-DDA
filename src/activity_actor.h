@@ -851,7 +851,7 @@ class burrow_activity_actor: public activity_actor
 {
     public:
         burrow_activity_actor() = default;
-        burrow_activity_actor(int moves) : moves_total(moves) {
+        burrow_activity_actor( int moves ) : moves_total( moves ) {
 
         }
 
@@ -859,7 +859,7 @@ class burrow_activity_actor: public activity_actor
             return activity_id( "ACT_BURROW" );
         }
 
-        void start( player_activity &act, Character& /*who*/ ) override;
+        void start( player_activity &act, Character & /*who*/ ) override;
         void do_turn( player_activity &act, Character &/*who*/ ) override;
         void finish( player_activity &act, Character &who ) override;
         void canceled( player_activity &/*act*/, Character &/*who*/ ) override {};
@@ -870,10 +870,10 @@ class burrow_activity_actor: public activity_actor
 
         void serialize( JsonOut &jsonout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
-    
+
     private:
         int moves_total;
-        
+
 };
 
 namespace activity_actors
