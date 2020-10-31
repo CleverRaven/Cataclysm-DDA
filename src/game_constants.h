@@ -61,6 +61,11 @@ static constexpr int SEG_SIZE = 32;
 */
 static constexpr int PICKUP_RANGE = 6;
 
+/*
+* Items dropped on the map can overflow up to this distance if the target tile can't hold them
+*/
+static constexpr int OVERFLOW_RANGE = 2;
+
 // Number of z-levels below 0 (not including 0).
 static constexpr int OVERMAP_DEPTH = 10;
 // Number of z-levels above 0 (not including 0).

@@ -1143,7 +1143,7 @@ bool npc::wield( item &it )
     }
 
     item *copy = &it;
-    map_cursor cur = map_cursor( pos() );
+    map_selector selector = map_selector( pos(), OVERFLOW_RANGE );
 
     invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
@@ -1166,8 +1166,8 @@ bool npc::wield( item &it )
     item to_wield = *copy;
     if( has_item( *copy ) ) {
         to_wield = remove_item( *copy );
-    } else if( cur.has_item( *copy ) ) {
-        to_wield = cur.remove_item( *copy );
+    } else if( selector.has_item( *copy ) ) {
+        to_wield = selector.remove_item( *copy );
     }
 
     if( to_wield.can_combine( weapon ) ) {
