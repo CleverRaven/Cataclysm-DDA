@@ -2892,33 +2892,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "broken_turret_rifle",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "broken M249 autonomous CROWS II", "str_pl": "broken M249 autonomous CROWS II turrets" },
-    "weight": "75 kg",
-    "copy-from": "broken_turret"
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_crows_m240",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "broken M240 autonomous CROWS II", "str_pl": "broken M240 autonomous CROWS II turrets" },
-    "weight": "75 kg",
-    "copy-from": "broken_turret"
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_turret_bmg",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "broken M2 autonomous CROWS II", "str_pl": "broken M2 autonomous CROWS II turrets" },
-    "weight": "100 kg",
-    "copy-from": "broken_turret"
-  },
-  {
-    "type": "GENERIC",
     "id": "broken_laserturret",
     "symbol": ",",
     "color": "green",
@@ -3040,5 +3013,32 @@
     "symbol": ".",
     "color": "white",
     "flags": [ "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_light",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken light turret" },
+    "weight": "30 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_medium",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken medium milspec turret" },
+    "weight": "40 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_longrange",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken longrange milspec turret" },
+    "weight": "50 kg",
+    "copy-from": "broken_turret"
   }
 ]

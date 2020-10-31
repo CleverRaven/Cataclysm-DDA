@@ -387,6 +387,16 @@
     ]
   },
   {
+    "id": "m16a4_turret_fake",
+    "copy-from": "m16a4",
+    "type": "GUN",
+    "name": { "str": "M16A4" },
+    "description": "If you see it - it is bug!",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "2 rd.", 2 ] ],
+    "clip_size": 300,
+    "magazines": [  ]
+  },
+  {
     "id": "oa93",
     "copy-from": "rifle_semi",
     "looks_like": "skorpion_61",

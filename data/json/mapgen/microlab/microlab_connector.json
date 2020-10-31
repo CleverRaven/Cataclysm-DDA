@@ -191,7 +191,7 @@
         "l": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
         "t": { "item": "magazines", "chance": 90 }
       },
-      "monster": { "T": { "monster": "mon_turret_rifle" } }
+      "monster": { "T": { "monster": "mon_turret_light" } }
     }
   },
   {

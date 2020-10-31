@@ -131,7 +131,7 @@
       ],
       "palettes": [ "lab_palette", "lab_palette_map_computer" ],
       "terrain": { "c": [ "t_thconc_floor" ] },
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 2, 3 ], "y": [ 3, 3 ] } ]
+      "place_monster": [ { "monster": "mon_turret_light", "x": [ 2, 3 ], "y": [ 3, 3 ] } ]
     }
   },
   {
@@ -154,7 +154,7 @@
       ],
       "palettes": [ "lab_palette", "lab_palette_map_computer" ],
       "terrain": { "c": [ "t_thconc_floor" ] },
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 4, 4 ], "y": [ 1, 4 ] } ]
+      "place_monster": [ { "monster": "mon_turret_light", "x": [ 4, 4 ], "y": [ 1, 4 ] } ]
     }
   },
   {

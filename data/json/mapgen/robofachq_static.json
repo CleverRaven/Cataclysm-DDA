@@ -211,7 +211,7 @@
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
         ]
       },
-      "monster": { "T": { "monster": "mon_turret_rifle" } },
+      "monster": { "T": { "monster": "mon_turret_light" } },
       "npcs": { "G": { "class": "hub_security" }, "Q": { "class": "hub_security_head" } }
     }
   },

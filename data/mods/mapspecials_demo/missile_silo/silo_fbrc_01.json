@@ -37,7 +37,7 @@
       "palettes": [ "missile_silo" ],
       "terrain": { "*": "t_metal_floor" },
       "fields": { "*": { "field": "fd_nuke_gas", "intensity": 2, "age": 0 } },
-      "monster": { "Z": { "monster": "mon_turret_rifle" } }
+      "monster": { "Z": { "monster": "mon_turret_medium" } }
     }
   }
 ]

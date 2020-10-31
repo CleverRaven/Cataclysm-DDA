@@ -36,7 +36,7 @@
       "rotation": 0,
       "palettes": [ "missile_silo" ],
       "terrain": { "z": "t_dirt", ",": "t_grass", "_": "t_pavement_y", "*": "t_door_metal_locked", "%": "t_fence_barbed" },
-      "monster": { "Z": { "monster": "mon_zombie_soldier" }, "z": { "monster": "mon_turret_rifle" } }
+      "monster": { "Z": { "monster": "mon_zombie_soldier" }, "z": { "monster": "mon_turret_medium" } }
     }
   }
 ]

@@ -1257,43 +1257,6 @@
   },
   {
     "type": "recipe",
-    "result": "bot_turret",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_OTHER",
-    "skill_used": "electronics",
-    "skills_required": [ [ "mechanics", 6 ], [ "computer", 6 ], [ "fabrication", 6 ] ],
-    "difficulty": 7,
-    "time": "6 h",
-    "reversible": true,
-    "decomp_learn": 8,
-    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
-    "using": [ [ "steel_standard", 1 ], [ "welding_standard", 20 ], [ "soldering_standard", 14 ] ],
-    "qualities": [
-      { "id": "SCREW", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH", "level": 2 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 }
-    ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "targeting_module", 1 ] ],
-      [ [ "gun_module", 1 ] ],
-      [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "omnicamera", 1 ], [ "sensor_module", 1 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "hk_mp5", 1 ] ],
-      [ [ "mp5mag", 1 ] ],
-      [ [ "sheet_metal", 2 ] ],
-      [ [ "pipe", 4 ] ],
-      [ [ "spring", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "bot_laserturret",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1320,70 +1283,6 @@
       [ [ "laser_cannon", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "solar_cell", 4 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "turret_chassis", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "bot_rifleturret",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_OTHER",
-    "skill_used": "electronics",
-    "skills_required": [ [ "mechanics", 6 ], [ "computer", 5 ] ],
-    "difficulty": 8,
-    "time": "30 m",
-    "reversible": true,
-    "decomp_learn": 8,
-    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
-    "using": [ [ "soldering_standard", 14 ] ],
-    "qualities": [
-      { "id": "SCREW", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH", "level": 2 },
-      { "id": "WRENCH_FINE", "level": 1 }
-    ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "gun_module", 1 ] ],
-      [ [ "targeting_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "m249", 1 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "turret_chassis", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "bot_crows_m240",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_OTHER",
-    "skill_used": "electronics",
-    "skills_required": [ [ "mechanics", 6 ], [ "computer", 5 ] ],
-    "difficulty": 8,
-    "time": "30 m",
-    "reversible": true,
-    "decomp_learn": 8,
-    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
-    "using": [ [ "soldering_standard", 14 ] ],
-    "qualities": [
-      { "id": "SCREW", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH", "level": 2 },
-      { "id": "WRENCH_FINE", "level": 1 }
-    ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "gun_module", 1 ] ],
-      [ [ "targeting_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "m240", 1 ] ],
-      [ [ "small_storage_battery", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "robot_controls", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
@@ -1743,38 +1642,6 @@
       [ [ "scrap", 6 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "steel_chunk", 6 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "bot_antimateriel",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_OTHER",
-    "skill_used": "electronics",
-    "skills_required": [ [ "mechanics", 6 ], [ "computer", 5 ] ],
-    "reversible": true,
-    "decomp_learn": 5,
-    "book_learn": [ [ "schematics_antimateriel", 7 ] ],
-    "difficulty": 5,
-    "time": "1 h 15 m",
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [
-      { "id": "SCREW", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH", "level": 2 },
-      { "id": "WRENCH_FINE", "level": 1 }
-    ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "gun_module", 1 ] ],
-      [ [ "targeting_module", 1 ] ],
-      [ [ "m2browning", 1 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -2402,6 +2269,106 @@
       [ [ "chem_potassium_hydroxide", 170 ] ],
       [ [ "water_clean", 25 ] ],
       [ [ "steel_chunk", 25 ], [ "scrap", 50 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bot_turret_light",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 6 ], [ "computer", 6 ], [ "fabrication", 6 ] ],
+    "difficulty": 7,
+    "time": "6 h",
+    "reversible": true,
+    "decomp_learn": 8,
+    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
+    "using": [ [ "steel_standard", 1 ], [ "welding_standard", 20 ], [ "soldering_standard", 14 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "omnicamera", 1 ], [ "sensor_module", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "ksub2000", 1 ] ],
+      [ [ "sheet_metal", 2 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "spring", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bot_turret_medium",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 6 ], [ "computer", 5 ] ],
+    "difficulty": 8,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 8,
+    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "m16a4", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bot_turret_longrange",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 6 ], [ "computer", 5 ] ],
+    "reversible": true,
+    "decomp_learn": 5,
+    "book_learn": [ [ "schematics_antimateriel", 7 ] ],
+    "difficulty": 5,
+    "time": "1 h 15 m",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "m14ebr", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
     ]
   }
 ]

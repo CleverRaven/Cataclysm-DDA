@@ -87,7 +87,7 @@
       { "monster": "mon_skitterbot", "freq": 85, "cost_multiplier": 0 },
       { "monster": "mon_skitterbot", "freq": 85, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
       { "monster": "mon_skitterbot", "freq": 1, "cost_multiplier": 0, "pack_size": [ 8, 12 ] },
-      { "monster": "mon_turret", "freq": 85, "cost_multiplier": 0 },
+      { "monster": "mon_turret_light", "freq": 85, "cost_multiplier": 0 },
       { "monster": "mon_secubot", "freq": 1, "cost_multiplier": 10 },
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 8 },

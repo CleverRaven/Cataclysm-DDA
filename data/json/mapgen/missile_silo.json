@@ -60,7 +60,7 @@
       },
       "furniture": { "s": "f_sign_warning", "v": "f_vent_pipe" },
       "signs": { "s": { "signage": "Restricted area!  Violators will be shot!" } },
-      "monster": { "S": { "monster": "mon_turret_searchlight" }, "T": { "monster": "mon_turret_rifle" } }
+      "monster": { "S": { "monster": "mon_turret_searchlight" }, "T": { "monster": "mon_turret_medium" } }
     }
   },
   {
@@ -448,7 +448,7 @@
         ]
       },
       "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ],
-      "monster": { ",": { "monster": "mon_turret_rifle" } }
+      "monster": { ",": { "monster": "mon_turret_light" } }
     }
   },
   {

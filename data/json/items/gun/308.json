@@ -105,6 +105,15 @@
     ]
   },
   {
+    "id": "m14ebr_turret_fake",
+    "copy-from": "m14ebr",
+    "type": "GUN",
+    "name": { "str_sp": "M14 EBR-RI" },
+    "description": "If you see it - it is bug!",
+    "clip_size": 300,
+    "magazines": [  ]
+  },
+  {
     "id": "m1a",
     "copy-from": "rifle_semi",
     "looks_like": "ar15",

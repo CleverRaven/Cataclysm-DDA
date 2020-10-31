@@ -1,7 +1,7 @@
 [
   {
     "id": "mon_turret",
-    "copy-from": "mon_turret",
+    "copy-from": "mon_turret_medium",
     "type": "MONSTER",
     "name": { "str": "improvised SMG turret" },
     "default_faction": "defense_bot",
@@ -29,7 +29,7 @@
   },
   {
     "id": "mon_turret_bmg",
-    "copy-from": "mon_turret_bmg",
+    "copy-from": "mon_turret_longrange",
     "type": "MONSTER",
     "name": { "str": "CROWS II, heavy machinegun" },
     "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging anything up to light vehicles at long range without exposing the operator.  This one is fitted with a heavy machinegun.",
@@ -58,7 +58,7 @@
   },
   {
     "id": "mon_turret_rifle",
-    "copy-from": "mon_turret_rifle",
+    "copy-from": "mon_turret_medium",
     "type": "MONSTER",
     "name": { "str": "CROWS II, light machinegun" },
     "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging infantry without exposing the operator.  This one is fitted with a light machine gun.",

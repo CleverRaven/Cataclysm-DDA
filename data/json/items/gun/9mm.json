@@ -312,6 +312,16 @@
     "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
   },
   {
+    "id": "ksub2000_turret_fake",
+    "copy-from": "ksub2000",
+    "type": "GUN",
+    "name": { "str_sp": "Kel-Tec SUB-2000" },
+    "description": "If you see it - it is bug!",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "clip_size": 300,
+    "magazines": [  ]
+  },
+  {
     "id": "m9",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",

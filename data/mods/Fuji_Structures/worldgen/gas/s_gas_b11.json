@@ -66,7 +66,7 @@
         { "group": "bed", "chance": 60, "repeat": [ 2 ], "x": [ 13, 14 ], "y": [ 12, 12 ] },
         { "group": "bed", "chance": 60, "repeat": [ 2 ], "x": [ 13, 14 ], "y": [ 15, 15 ] }
       ],
-      "monster": { "q": { "monster": "mon_turret_rifle" }, "r": { "monster": "mon_zombie_soldier" } }
+      "monster": { "q": { "monster": "mon_turret_light" }, "r": { "monster": "mon_zombie_soldier" } }
     }
   }
 ]

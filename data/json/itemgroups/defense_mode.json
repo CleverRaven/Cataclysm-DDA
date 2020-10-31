@@ -158,7 +158,7 @@
       { "item": "EMPbomb" },
       { "item": "smokebomb" },
       { "item": "bot_manhack" },
-      { "item": "bot_turret" },
+      { "item": "bot_turret_light" },
       { "item": "UPS_off" },
       { "item": "mininuke" }
     ]

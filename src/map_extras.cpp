@@ -94,9 +94,9 @@ static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_web( "mon_spider_web" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
-static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
+static const mtype_id mon_turret_medium( "mon_turret_medium" );
 static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
-static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
+static const mtype_id mon_turret_longrange( "mon_turret_longrange" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
 static const mtype_id mon_wasp( "mon_wasp" );
 static const mtype_id mon_wolf( "mon_wolf" );
@@ -567,9 +567,9 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
 
     const auto spawn_turret = [&]( const point & p ) {
         if( one_in( 3 ) ) {
-            m.add_spawn( mon_turret_bmg, 1, { p, abs_sub.z } );
+            m.add_spawn( mon_turret_longrange, 1, { p, abs_sub.z } );
         } else if( one_in( 2 ) ) {
-            m.add_spawn( mon_turret_rifle, 1, { p, abs_sub.z } );
+            m.add_spawn( mon_turret_medium, 1, { p, abs_sub.z } );
         } else {
             m.add_spawn( mon_turret_riot, 1, { p, abs_sub.z } );
         }

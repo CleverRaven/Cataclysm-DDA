@@ -2439,5 +2439,45 @@
     "result": "modularvest",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bot_rifleturret",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bot_crows_m240",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bot_antimateriel",
+    "obsolete": true
+  },
+  {
+    "result": "broken_turret_rifleuncraft",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "broken_crows_m240uncraft",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "broken_turret_bmguncraft",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bot_turret",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "broken_turretuncraft",
+    "type": "recipe",
+    "obsolete": true
   }
 ]

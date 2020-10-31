@@ -35,7 +35,7 @@
       ],
       "palettes": [ "mil_outpost_underground" ],
       "items": { "$": { "item": "bots", "chance": 60 } },
-      "monster": { "t": { "monster": "mon_turret_rifle" } },
+      "monster": { "t": { "monster": "mon_turret_light" } },
       "vehicles": { "v": { "vehicle": "swivel_chair", "chance": 100, "fuel": 50, "status": 3 } }
     }
   }

@@ -35,7 +35,7 @@
       ],
       "rotation": 1,
       "palettes": [ "missile_silo" ],
-      "monster": { "z": { "monster": "mon_turret_rifle" } }
+      "monster": { "z": { "monster": "mon_turret_medium" } }
     }
   }
 ]

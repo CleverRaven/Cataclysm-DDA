@@ -48,12 +48,12 @@
       },
       "furniture": { "#": "f_table" },
       "place_monster": [
-        { "monster": "mon_turret_rifle", "x": 9, "y": 10 },
-        { "monster": "mon_turret_rifle", "x": 14, "y": 10 },
-        { "monster": "mon_turret_rifle", "x": 9, "y": 12 },
-        { "monster": "mon_turret_rifle", "x": 14, "y": 12 },
-        { "monster": "mon_turret_rifle", "x": 9, "y": 14 },
-        { "monster": "mon_turret_rifle", "x": 14, "y": 14 }
+        { "monster": "mon_turret_medium", "x": 9, "y": 10 },
+        { "monster": "mon_turret_medium", "x": 14, "y": 10 },
+        { "monster": "mon_turret_medium", "x": 9, "y": 12 },
+        { "monster": "mon_turret_medium", "x": 14, "y": 12 },
+        { "monster": "mon_turret_medium", "x": 9, "y": 14 },
+        { "monster": "mon_turret_medium", "x": 14, "y": 14 }
       ]
     }
   },
@@ -204,7 +204,7 @@
         { "item": "television", "x": 17, "y": 13, "chance": 95 },
         { "item": "stereo", "x": 19, "y": 15, "chance": 80 }
       ],
-      "monster": { "~": { "monster": "mon_turret_rifle" } }
+      "monster": { "~": { "monster": "mon_turret_light" } }
     }
   },
   {
@@ -299,7 +299,7 @@
         { "item": "television", "x": 17, "y": 13, "chance": 95 },
         { "item": "stereo", "x": 19, "y": 15, "chance": 80 }
       ],
-      "monster": { "~": { "monster": "mon_turret_rifle" } }
+      "monster": { "~": { "monster": "mon_turret_light" } }
     }
   },
   {

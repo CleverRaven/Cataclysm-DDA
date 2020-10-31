@@ -34,7 +34,7 @@
         ",,,,                ,,,,"
       ],
       "palettes": [ "factory" ],
-      "monster": { "t": { "monster": "mon_turret_rifle" }, "Z": { "monster": "mon_secubot" }, "z": { "monster": "mon_skitterbot" } },
+      "monster": { "t": { "monster": "mon_turret_light" }, "Z": { "monster": "mon_secubot" }, "z": { "monster": "mon_skitterbot" } },
       "place_signs": [
         { "x": 11, "y": 21, "snippet": "robot_protest" },
         { "x": 14, "y": 21, "snippet": "robot protest" },

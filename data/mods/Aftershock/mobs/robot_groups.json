@@ -20,7 +20,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_TURRET",
-    "default": "mon_turret_rifle",
+    "default": "mon_turret_light",
     "monsters": [ { "monster": "mon_laserturret_xray", "freq": 50, "cost_multiplier": 2 } ]
   },
   {

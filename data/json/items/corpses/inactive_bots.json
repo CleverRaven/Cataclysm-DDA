@@ -152,28 +152,6 @@
     }
   },
   {
-    "id": "bot_antimateriel",
-    "type": "TOOL",
-    "name": { "str": "inactive M2HB autonomous CROWS II", "str_pl": "inactive M2HB autonomous CROWS II turrets" },
-    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded .50 BMG rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its M2HB.",
-    "weight": "172 kg",
-    "volume": "30 L",
-    "price": 500500,
-    "price_postapoc": 8000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "red",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_turret_bmg",
-      "difficulty": 6,
-      "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    }
-  },
-  {
     "id": "bot_manhack",
     "type": "TOOL",
     "name": { "str": "inactive manhack" },
@@ -226,50 +204,6 @@
     }
   },
   {
-    "id": "bot_rifleturret",
-    "type": "TOOL",
-    "name": { "str": "inactive autonomous M249 CROWS II", "str_pl": "inactive autonomous M249 CROWS II turrets" },
-    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 5.56x45mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56x45mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its M249.",
-    "weight": "172 kg",
-    "volume": "30 L",
-    "price": 500000,
-    "to_hit": -3,
-    "price_postapoc": 5000,
-    "bashing": 8,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_turret_rifle",
-      "difficulty": 6,
-      "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    }
-  },
-  {
-    "id": "bot_crows_m240",
-    "type": "TOOL",
-    "name": { "str": "inactive autonomous M240 CROWS II", "str_pl": "inactive autonomous M240 CROWS II turrets" },
-    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 7.62x51mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 7.62x51mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its M240.",
-    "weight": "172 kg",
-    "volume": "30 L",
-    "price": 500000,
-    "price_postapoc": 6000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_crows_m240",
-      "difficulty": 6,
-      "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    }
-  },
-  {
     "id": "bot_turret_riot",
     "type": "TOOL",
     "name": { "str": "inactive riot control turret" },
@@ -286,28 +220,6 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_turret_riot",
-      "difficulty": 6,
-      "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    }
-  },
-  {
-    "id": "bot_turret",
-    "type": "TOOL",
-    "name": { "str": "inactive turret" },
-    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 9x19mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9x19mm you do NOT want to give the turret) turning it on, and placing it on the ground.  If reprogrammed and rewired successfully the turret will then identify you as a friendly, and attack all enemies with its SMG.",
-    "weight": "40750 g",
-    "volume": "30 L",
-    "price": 400000,
-    "price_postapoc": 3000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_turret",
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
@@ -736,6 +648,72 @@
       "hostile_msg": "The dispatch turns on you, slashing at you with its arms!",
       "difficulty": 1,
       "moves": 300,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_turret_light",
+    "type": "TOOL",
+    "name": { "str": "inactive autonomous light turret" },
+    "description": "This is an inactive light turret.  Using this item involves loading the unit with the factory-loaded 9x19mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9x19mm you do NOT want to give the turret) turning it on, and placing it on the ground.  If reprogrammed and rewired successfully the turret will then identify you as a friendly, and attack all enemies with its SMG.",
+    "weight": "30 kg",
+    "volume": "30 L",
+    "price": 400000,
+    "price_postapoc": 3000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_turret_light",
+      "difficulty": 6,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_turret_medium",
+    "type": "TOOL",
+    "name": { "str": "inactive autonomous medium milspec turret" },
+    "description": "This is an inactive medium milspec turret.  Using this item involves loading the unit with the factory-loaded 5.56x45mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56x45mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its gun.",
+    "weight": "40 kg",
+    "volume": "30 L",
+    "price": 500000,
+    "price_postapoc": 6000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_turret_medium",
+      "difficulty": 6,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_turret_longrange",
+    "type": "TOOL",
+    "name": { "str": "inactive autonomous longrange milspec turret" },
+    "description": "This is an inactive longrange milspec turret.  Using this item involves loading the unit with the factory-loaded 7.62x51mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 77.62x51mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its gun.",
+    "weight": "50 kg",
+    "volume": "30 L",
+    "price": 500000,
+    "price_postapoc": 6000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_turret_longrange",
+      "difficulty": 6,
+      "moves": 100,
       "skills": [ "electronics", "computer" ]
     }
   }

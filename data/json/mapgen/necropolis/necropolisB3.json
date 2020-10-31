@@ -101,10 +101,10 @@
         { "monster": "GROUP_NECROPOLIS_ROBOT", "x": [ 49, 70 ], "y": [ 38, 41 ], "density": 0.05 }
       ],
       "place_monster": [
-        { "monster": "mon_turret_rifle", "x": 42, "y": 13 },
-        { "monster": "mon_turret_rifle", "x": 44, "y": 39 },
-        { "monster": "mon_turret_rifle", "x": 47, "y": 28 },
-        { "monster": "mon_turret_rifle", "x": 41, "y": 28 }
+        { "monster": "mon_turret_light", "x": 42, "y": 13 },
+        { "monster": "mon_turret_light", "x": 44, "y": 39 },
+        { "monster": "mon_turret_light", "x": 47, "y": 28 },
+        { "monster": "mon_turret_light", "x": 41, "y": 28 }
       ]
     },
     "om_terrain": [
