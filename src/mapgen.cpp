@@ -1624,10 +1624,12 @@ class jmapgen_sealed_item : public jmapgen_piece
 {
     public:
         furn_id furniture;
+        jmapgen_int chance;
         cata::optional<jmapgen_spawn_item> item_spawner;
         cata::optional<jmapgen_item_group> item_group_spawner;
-        jmapgen_sealed_item( const JsonObject &jsi ) :
-            furniture( jsi.get_string( "furniture" ) ) {
+        jmapgen_sealed_item( const JsonObject &jsi )
+            : furniture( jsi.get_string( "furniture" ) )
+            , chance( jsi, "chance", 100, 100 ) {
             if( jsi.has_object( "item" ) ) {
                 JsonObject item_obj = jsi.get_object( "item" );
                 item_spawner = jmapgen_spawn_item( item_obj );
@@ -1704,6 +1706,15 @@ class jmapgen_sealed_item : public jmapgen_piece
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
+            const int c = chance.get();
+
+            // 100% chance = always generate, otherwise scale by item spawn rate.
+            // (except is capped at 1)
+            const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+            if( !x_in_y( ( c == 100 ) ? 1 : c * spawn_rate / 100.0f, 1 ) ) {
+                return;
+            }
+
             dat.m.furn_set( point( x.get(), y.get() ), f_null );
             if( item_spawner ) {
                 item_spawner->apply( dat, x, y );
