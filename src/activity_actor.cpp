@@ -2179,6 +2179,62 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
     return actor.clone();
 }
 
+void burrow_activity_actor::start( player_activity &act, Character& )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void burrow_activity_actor::do_turn( player_activity &act, Character& )
+{
+    sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( act.placement ) );
+    if( calendar::once_every( 1_minutes ) ) {
+        sounds::sound( act.placement, 10, sounds::sound_t::movement,
+                       //~ Sound of a Rat mutant burrowing!
+                       _( "ScratchCrunchScrabbleScurry." ) );
+    }
+
+}
+void burrow_activity_actor::finish( player_activity &act, Character &who )
+{
+    const tripoint &pos = act.placement;
+    map &here = get_map();
+    if( here.is_bashable( pos ) && here.has_flag( "SUPPORTS_ROOF", pos ) &&
+        here.ter( pos ) != t_tree ) {
+        // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
+        // Not quite as bad as the pickaxe, though
+        who.mod_stored_nutr( 10 );
+        who.mod_thirst( 10 );
+        who.mod_fatigue( 15 );
+        who.mod_pain( 3 * rng( 1, 3 ) );
+    } else if( here.move_cost( pos ) == 2 && here.get_abs_sub().z == 0 &&
+               here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
+        //Breaking up concrete on the surface? not nearly as bad
+        who.mod_stored_nutr( 5 );
+        who.mod_thirst( 5 );
+        who.mod_fatigue( 10 );
+    }
+    who.add_msg_if_player( m_good, _( "You finish burrowing." ) );
+    here.destroy( pos, true );
+
+    act.set_to_null();
+} 
+
+void burrow_activity_actor::serialize( JsonOut &jsonout ) const 
+{
+    jsonout.write_null();
+}
+
+std::unique_ptr<activity_actor> burrow_activity_actor::deserialize( JsonIn &jsin )
+{
+    burrow_activity_actor actor = burrow_activity_actor( 0 );
+
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -2186,6 +2242,7 @@ namespace activity_actors
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
+    { activity_id( "ACT_BURROW" ), &burrow_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },

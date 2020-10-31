@@ -3554,7 +3554,7 @@ int iuse::burrow( player *p, item *it, bool, const tripoint &pos )
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
     }
-    p->assign_activity( ACT_BURROW, moves, -1, 0 );
+    p->assign_activity( player_activity( burrow_activity_actor( moves ) ) );
     p->activity.placement = pnt;
     p->add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
                           here.tername( pnt ), it->tname() );
