@@ -73,15 +73,8 @@
   {
     "type": "mutation",
     "id": "NIGHTVISION",
-    "name": "Night Vision",
-    "points": 2,
-    "description": "You possess natural night vision, and can see further in the dark than most.  Activate to toggle NV-visible areas on or off.",
-    "starting_trait": true,
-    "changes_to": [ "NIGHTVISION2" ],
-    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
-    "category": [ "BIRD", "CATTLE", "INSECT", "VAMP" ],
-    "active": true,
-    "starts_active": true
+    "copy-from": "NIGHTVISION",
+    "extend": { "category": [ "VAMP" ] }
   },
   {
     "type": "mutation",
@@ -207,28 +200,14 @@
   {
     "type": "mutation",
     "id": "NIGHTVISION2",
-    "name": "High Night Vision",
-    "points": 4,
-    "description": "You can see incredibly well in the dark!  Activate to toggle NV-visible areas on or off.",
-    "prereqs": [ "NIGHTVISION" ],
-    "changes_to": [ "NIGHTVISION3" ],
-    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
-    "category": [ "FISH", "BEAST", "INSECT", "RAT", "CHIMERA", "LUPINE", "MOUSE", "VAMP" ],
-    "active": true,
-    "starts_active": true
+    "copy-from": "NIGHTVISION2",
+    "extend": { "category": [ "VAMP" ] }
   },
   {
     "type": "mutation",
     "id": "NIGHTVISION3",
-    "name": "Full Night Vision",
-    "points": 6,
-    "description": "You can see in pitch blackness as if you were wearing night-vision goggles.  Activate to toggle NV-visible areas on or off.",
-    "prereqs": [ "NIGHTVISION2" ],
-    "leads_to": [ "INFRARED" ],
-    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
-    "category": [ "FISH", "TROGLOBITE", "SPIDER", "VAMP" ],
-    "active": true,
-    "starts_active": true
+    "copy-from": "NIGHTVISION3",
+    "extend": { "category": [ "VAMP" ] }
   },
   {
     "type": "mutation",
