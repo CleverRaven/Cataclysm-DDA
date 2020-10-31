@@ -95,7 +95,7 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
-static const proficiency_id proficiency_prof_aircraft_mechanic( "aircraft_mechanic" );
+static const proficiency_id proficiency_aircraft_mechanic( "aircraft_mechanic" );
 
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
@@ -4257,11 +4257,11 @@ int vehicle::get_z_change() const
     return requested_z_change;
 }
 
-bool vehicle::would_install_prevent_flyable( const vpart_info &vp_info, Character &pc ) const
+bool vehicle::would_install_prevent_flyable( const vpart_info &vpinfo, Character &pc ) const
 {
-    if( flyable && !rotors.empty() && !( vp_info.has_flag( "SIMPLE_PART" ) ||
-                                         vp_info.has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) ) {
-        return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
+    if( flyable && !rotors.empty() && !( vpinfo.has_flag( "SIMPLE_PART" ) ||
+                                         vpinfo.has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) ) {
+        return !pc.has_proficiency( proficiency_aircraft_mechanic );
     } else {
         return false;
     }
@@ -4276,7 +4276,7 @@ bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) co
                                                    index_of_part( const_cast<vehicle_part *>( &vp ) ) );
             return !vppos.is_inside();
         } else {
-            return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
+            return !pc.has_proficiency( proficiency_aircraft_mechanic );
         }
     } else {
         return false;
@@ -4286,7 +4286,7 @@ bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) co
 bool vehicle::would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const
 {
     if( flyable && !rotors.empty() && !vp.info().has_flag( "SIMPLE_PART" ) ) {
-        return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
+        return !pc.has_proficiency( proficiency_aircraft_mechanic );
     } else {
         return false;
     }
