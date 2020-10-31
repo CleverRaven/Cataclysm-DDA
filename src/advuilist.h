@@ -48,6 +48,8 @@ class advuilist
     using sorter_t = std::pair<std::string, fsort_t>;
     /// filter function. params are element, filter string
     using ffilter_t = std::function<bool( T const &, std::string const & )>;
+    /// filter description, filter function
+    using filter_t = std::pair<std::string, ffilter_t>;
     /// ctxt handler function for adding extra functionality
     using fctxt_t = std::function<void( std::string const & )>;
     using gid_t = std::size_t;
@@ -83,7 +85,7 @@ class advuilist
     /// sets the element counting function. enables partial selection
     void setcountingf( fcounter_t const &func );
     /// sets the filtering function
-    void setfilterf( ffilter_t const &func );
+    void setfilterf( filter_t const &func );
     select_t select();
     void sort( std::string const &name );
     void rebuild( Container *list );
@@ -132,6 +134,7 @@ class advuilist
     fcounter_t _fcounter;
     fctxt_t _fctxt;
     std::string _filter;
+    std::string _filterdsc;
     typename sortcont_t::size_type _csort = 0;
     typename groupercont_t::size_type _cgroup = 0;
     typename list_t::size_type _cidx = 0;
@@ -272,9 +275,10 @@ void advuilist<Container, T>::setcountingf( fcounter_t const &func )
 }
 
 template <class Container, typename T>
-void advuilist<Container, T>::setfilterf( ffilter_t const &func )
+void advuilist<Container, T>::setfilterf( filter_t const &func )
 {
-    _ffilter = func;
+    _filterdsc = std::get<std::string>( func );
+    _ffilter = std::get<ffilter_t>( func );
 }
 
 template <class Container, typename T>
@@ -638,6 +642,9 @@ void advuilist<Container, T>::_queryfilter()
 {
     string_input_popup spopup;
     spopup.max_length( 256 ).text( _filter );
+    if( !_filterdsc.empty() ) {
+        spopup.description( _filterdsc );
+    }
 
     do {
         ui_manager::redraw();

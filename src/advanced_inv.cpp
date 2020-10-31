@@ -109,6 +109,20 @@ std::size_t myadvinv_entry_counter( myadvinv_entry const &it )
 {
     return it.stack[0]->count_by_charges() ? it.stack[0]->charges : it.stack.size();
 }
+
+// FIXME: this string is duplicated from draw_item_filter_rules() because that function doesn't fit
+// anywhere in the current implementation of advuilist
+std::string const desc = string_format(
+    "%s\n\n%s\n %s\n\n%s\n %s\n\n%s\n %s", _( "Type part of an item's name to filter it." ),
+    _( "Separate multiple items with [<color_yellow>,</color>]." ),
+    _( "Example: back,flash,aid, ,band" ),
+    _( "To exclude items, place [<color_yellow>-</color>] in front." ),
+    _( "Example: -pipe,-chunk,-steel" ),
+    _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
+       "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes or "
+       "[<color_yellow>d</color>]isassembled components." ),
+    _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
+
 } // namespace
 
 void create_advanced_inv()
@@ -171,11 +185,11 @@ void create_advanced_inv()
             debugmsg( "examine placeholder" );
         }
     } );
-    myadvuilist.setfilterf( []( myadvinv_entry const &it, std::string const &filter ) {
-        // FIXME: salvage filter caching from old AIM code
-        auto const filterf = item_filter_from_string( filter );
-        return filterf( *it.stack[0] );
-    } );
+    myadvuilist.setfilterf( { desc, []( myadvinv_entry const &it, std::string const &filter ) {
+                                 // FIXME: salvage filter caching from old AIM code
+                                 auto const filterf = item_filter_from_string( filter );
+                                 return filterf( *it.stack[0] );
+                             } } );
     // myadvuilist.setSource( 'A' );
     myadvuilist.select();
 }
