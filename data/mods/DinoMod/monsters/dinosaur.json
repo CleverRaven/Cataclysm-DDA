@@ -1252,6 +1252,7 @@
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ],
     "type": "MONSTER",
+  },
     "id": "mon_Qianzhousaurus",
      "name": { "str": "Qianzhousaurus", },
      "species": "DINOSAUR",
