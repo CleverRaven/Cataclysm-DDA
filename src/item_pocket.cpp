@@ -60,6 +60,34 @@ std::string pocket_data::check_definition() const
         type == item_pocket::pocket_type::MIGRATION ) {
         return "";
     }
+    for( const itype_id &it : item_id_restriction ) {
+        if( !it.is_valid() ) {
+            return string_format( "item_id %s used in restriction invalid\n", it.str() );
+        }
+        if( it->phase == phase_id::LIQUID && !watertight ) {
+            return string_format( "restricted to liquid item %s but not watertight\n",
+                                  it->get_id().str() );
+        }
+        if( it->phase == phase_id::GAS && !airtight ) {
+            return string_format( "restricted to gas item %s but not airtight\n",
+                                  it->get_id().str() );
+        }
+    }
+    for( const std::pair<const ammotype, int> &ammo_res : ammo_restriction ) {
+        const ammotype &at = ammo_res.first;
+        if( !at.is_valid() ) {
+            return string_format( "invalid ammotype %s", at.str() );
+        }
+        const itype_id &it = at->default_ammotype();
+        if( it->phase == phase_id::LIQUID && !watertight ) {
+            return string_format( "restricted to liquid item %s but not watertight\n",
+                                  it->get_id().str() );
+        }
+        if( it->phase == phase_id::GAS && !airtight ) {
+            return string_format( "restricted to gas item %s but not airtight\n",
+                                  it->get_id().str() );
+        }
+    }
     if( max_contains_volume() == 0_ml ) {
         return "has zero max volume\n";
     }
@@ -78,30 +106,6 @@ std::string pocket_data::check_definition() const
     }
     if( ( watertight || airtight ) && min_item_volume > 0_ml ) {
         return "watertight or gastight is incompatible with min_item_volume\n";
-    }
-    for( const itype_id &it : item_id_restriction ) {
-        if( !it.is_valid() ) {
-            return string_format( "item_id %s used in restriction invalid\n", it.str() );
-        }
-        if( it->phase == phase_id::LIQUID && !watertight ) {
-            return string_format( "restricted to liquid item %s but not watertight\n",
-                                  it->get_id().str() );
-        }
-        if( it->phase == phase_id::GAS && !airtight ) {
-            return string_format( "restricted to gas item %s but not airtight\n",
-                                  it->get_id().str() );
-        }
-    }
-    for( const std::pair<const ammotype, int> &ammo_res : ammo_restriction ) {
-        const itype_id &it = ammo_res.first->default_ammotype();
-        if( it->phase == phase_id::LIQUID && !watertight ) {
-            return string_format( "restricted to liquid item %s but not watertight\n",
-                                  it->get_id().str() );
-        }
-        if( it->phase == phase_id::GAS && !airtight ) {
-            return string_format( "restricted to gas item %s but not airtight\n",
-                                  it->get_id().str() );
-        }
     }
     return "";
 }
@@ -561,7 +565,7 @@ int item_pocket::ammo_consume( int qty )
     int used = 0;
     std::list<item>::iterator it;
     for( it = contents.begin(); it != contents.end(); ) {
-        if( it->has_flag( "CASING" ) ) {
+        if( it->has_flag( flag_CASING ) ) {
             it++;
             continue;
         }
@@ -619,14 +623,14 @@ std::set<ammotype> item_pocket::ammo_types() const
 void item_pocket::casings_handle( const std::function<bool( item & )> &func )
 {
     for( auto it = contents.begin(); it != contents.end(); ) {
-        if( it->has_flag( "CASING" ) ) {
-            it->unset_flag( "CASING" );
+        if( it->has_flag( flag_CASING ) ) {
+            it->unset_flag( flag_CASING );
             if( func( *it ) ) {
                 it = contents.erase( it );
                 continue;
             }
             // didn't handle the casing so reset the flag ready for next call
-            it->set_flag( "CASING" );
+            it->set_flag( flag_CASING );
         }
         ++it;
     }
@@ -967,11 +971,13 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
             const translation &description = contents_item.type->description;
 
             if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
-                info.emplace_back( "DESCRIPTION", contents_item.display_name() );
+                info.emplace_back( "DESCRIPTION", colorize( contents_item.display_name(),
+                                   contents_item.color_in_inventory() ) );
                 info.emplace_back( vol_to_info( "CONTAINER", description + space,
                                                 contents_item.volume() ) );
             } else {
-                info.emplace_back( "DESCRIPTION", contents_item.display_name() );
+                info.emplace_back( "DESCRIPTION", colorize( contents_item.display_name(),
+                                   contents_item.color_in_inventory() ) );
             }
         }
     }
@@ -985,7 +991,7 @@ void item_pocket::favorite_info( std::vector<iteminfo> &info )
 ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) const
 {
     // To prevent debugmsg. Casings can only be inserted in a magazine during firing.
-    if( data->type == item_pocket::pocket_type::MAGAZINE && it.has_flag( "CASING" ) ) {
+    if( data->type == item_pocket::pocket_type::MAGAZINE && it.has_flag( flag_CASING ) ) {
         return ret_val<item_pocket::contain_code>::make_success();
     }
 

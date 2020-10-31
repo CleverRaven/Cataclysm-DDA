@@ -17,6 +17,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "gates.h"
@@ -68,10 +69,6 @@ static const skill_id skill_traps( "traps" );
 
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
-
-static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
-static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
@@ -360,13 +357,16 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             here.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
             here.furn_set( location, f_coffin_c );
         }
-        std::vector<item *> dropped = here.place_items( "allclothes", 50, location, location, false,
-                                      calendar::turn );
-        here.place_items( "grave", 25, location, location, false, calendar::turn );
-        here.place_items( "jewelry_front", 20, location, location, false, calendar::turn );
+        std::vector<item *> dropped =
+            here.place_items( item_group_id( "allclothes" ), 50, location, location, false,
+                              calendar::turn );
+        here.place_items( item_group_id( "grave" ), 25, location, location, false,
+                          calendar::turn );
+        here.place_items( item_group_id( "jewelry_front" ), 20, location, location, false,
+                          calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
-                it->set_flag( "FILTHY" );
+                it->set_flag( flag_FILTHY );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }
@@ -533,7 +533,7 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
 
 bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
 {
-    if( gunmod.has_flag( "BRASS_CATCHER" ) ) {
+    if( gunmod.has_flag( flag_BRASS_CATCHER ) ) {
         // Exclude brass catchers so that removing them wouldn't spill the casings
         return true;
     }
@@ -1108,9 +1108,13 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     add_msg( m_debug, _( "Rolled %i. Mean_roll %g. Difficulty %i." ), pick_roll, mean_roll, lock_roll );
 
-    int xp_gain = 0;
+    // Your base skill XP gain is derived from the lock difficulty (which is currently random but shouldn't be).
+    int xp_gain = 3 * lock_roll;
     if( perfect || ( pick_roll >= lock_roll ) ) {
-        xp_gain += lock_roll;
+        if( !perfect ) {
+            // Increase your XP if you successfully pick the lock, unless you were using a Perfect Lockpick.
+            xp_gain = xp_gain * 2;
+        }
         here.has_furn( target ) ?
         here.furn_set( target, new_furn_type ) :
         static_cast<void>( here.ter_set( target, new_ter_type ) );
@@ -1132,9 +1136,13 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( avatar *you = dynamic_cast<avatar *>( &who ) ) {
-        if( !perfect ) {
-            // You don't gain much skill since the item does all the hard work for you
-            xp_gain += std::pow( 2, you->get_skill_level( skill_traps ) ) + 1;
+        // Gives another boost to XP, reduced by your skill level.
+        // Higher skill levels require more difficult locks to gain a meaningful amount of xp.
+        // Again, we're using randomized lock_roll until a defined lock difficulty is implemented.
+        if( lock_roll > you->get_skill_level( skill_traps ) ) {
+            xp_gain += lock_roll + ( xp_gain / ( you->get_skill_level( skill_traps ) + 1 ) );
+        } else {
+            xp_gain += xp_gain / ( you->get_skill_level( skill_traps ) + 1 );
         }
         you->practice( skill_traps, xp_gain );
     }
@@ -1683,6 +1691,10 @@ void craft_activity_actor::finish( player_activity &act, Character & )
 
 std::string craft_activity_actor::get_progress_message( const player_activity & ) const
 {
+    if( !craft_item ) {
+        //We have somehow lost the craft item.  This will be handled in do_turn in the check_if_craft_is_ok call.
+        return "";
+    }
     return craft_item.get_item()->tname();
 }
 

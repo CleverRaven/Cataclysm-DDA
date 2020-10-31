@@ -13,7 +13,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing", "required": false, "time_multiplier": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
@@ -31,7 +31,7 @@
     "time": "20 m",
     "book_learn": [ [ "alchemy_basic", 3 ], [ "necro_basic", 4 ], [ "techno_basic", 4 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing", "required": false, "time_multiplier": 3 }
     ],
     "qualities": [ { "id": "CHISEL", "level": 1 } ],
@@ -49,7 +49,7 @@
     "time": "20 m",
     "book_learn": [ [ "alchemy_basic", 3 ], [ "necro_basic", 4 ], [ "techno_basic", 4 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 }
     ],
     "qualities": [ { "id": "CHISEL", "level": 1 } ],

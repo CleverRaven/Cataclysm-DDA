@@ -71,6 +71,13 @@ struct key_from_json_string<string_id<T>, void> {
     }
 };
 
+template<typename T>
+struct key_from_json_string<int_id<T>, void> {
+    int_id<T> operator()( const std::string &s ) {
+        return int_id<T>( s );
+    }
+};
+
 template<typename Enum>
 struct key_from_json_string<Enum, std::enable_if_t<std::is_enum<Enum>::value>> {
     Enum operator()( const std::string &s ) {
@@ -677,6 +684,11 @@ class JsonOut
         template<typename T>
         void write_as_string( const string_id<T> &s ) {
             write( s );
+        }
+
+        template<typename T>
+        void write_as_string( const int_id<T> &s ) {
+            write( s.id() );
         }
 
         template<typename T, typename U>
