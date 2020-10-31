@@ -1258,8 +1258,8 @@
       "default_faction": "Qianzhousaurus"
     "symbol": "D",
      "color":"purple"
-        "volume": "5000 ml",
-        "weight": 1669,
+       "volume": "5000 ml",,
+       "weight": 1669,
     "material": "flesh",
     "aggression": "300",
      "morale": 80,
