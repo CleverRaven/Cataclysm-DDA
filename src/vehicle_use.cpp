@@ -2031,7 +2031,7 @@ void vehicle::interact_with( const vpart_position &vp )
             continue;
         }
 
-        const bool enabled = fuel_left( itype_battery, true ) > tool.charges_to_use();
+        const bool enabled = fuel_left( itype_battery, true ) >= tool.charges_to_use();
         selectmenu.addentry( TOOLS_OFFSET + i, enabled, pair.second, _( "Use " ) + tool.nname( 1 ) );
     }
 
