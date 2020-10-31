@@ -112,5 +112,6 @@ class MonsterGenerator
 };
 
 void load_monster_adjustment( const JsonObject &jsobj );
+void reset_monster_adjustment();
 
 #endif // CATA_SRC_MONSTERGENERATOR_H

@@ -59,3 +59,10 @@ cata::optional<tripoint> random_point( const tripoint_range &range,
     }
     return random_entry( suitable );
 }
+
+map_cursor::map_cursor( const tripoint &pos ) : pos_( g ? g->m.getabs( pos ) : pos ) { }
+
+map_cursor::operator tripoint() const
+{
+    return g ? g->m.getlocal( pos_ ) : pos_;
+}

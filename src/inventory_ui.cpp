@@ -1832,6 +1832,18 @@ const navigation_mode_data &inventory_selector::get_navigation_data( navigation_
     return mode_data.at( m );
 }
 
+std::string inventory_selector::action_bound_to_key( char key ) const
+{
+    for( const std::string &action_descriptor : ctxt.get_registered_actions_copy() ) {
+        for( char bound_key : ctxt.keys_bound_to( action_descriptor ) ) {
+            if( key == bound_key ) {
+                return action_descriptor;
+            }
+        }
+    }
+    return std::string();
+}
+
 item_location inventory_pick_selector::execute()
 {
     // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
