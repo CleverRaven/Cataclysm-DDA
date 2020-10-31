@@ -1254,7 +1254,8 @@
     "type": "MONSTER",
   }, 
   { 
-  "id": "mon_Qianzhousaurus",
+    "type": "MONSTER"
+   "id": "mon_Qianzhousaurus",
      "name": { "str": "Qianzhousaurus", },
      "species": "DINOSAUR",
       "default_faction": "carnivore_dino"
