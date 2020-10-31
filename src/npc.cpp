@@ -1109,29 +1109,31 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
 
 item &npc::stow_item( item &it )
 {
+    item &ret = null_item_reference();
     bool avatar_sees = get_player_view().sees( pos() );
     if( cata::optional<std::list<item>::iterator> worn_it = wear_item( it, false ) ) {
         // Wearing the item was successful, remove weapon and post message.
+        ret = *worn_it.value();
         if( avatar_sees ) {
             add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), it.tname() );
         }
         remove_item( it );
         moves -= 15;
-        return *worn_it.value();
         // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
         // otherwise drop it.
     } else if( can_stash( it ) ) {
+        ret = i_add( remove_item( it ), true, nullptr, true, false );
         if( avatar_sees ) {
-            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), it.tname() );
+            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), ret.tname() );
         }
         moves -= 15;
-        return i_add( remove_item( it ), true, nullptr, true, false );
     } else { // No room for weapon, so we drop it
         if( avatar_sees ) {
             add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), it.tname() );
         }
-        return get_map().add_item_or_charges( pos(), remove_item( it ) );
+        ret = get_map().add_item_or_charges( pos(), remove_item( it ) );
     }
+    return ret;
 }
 
 bool npc::wield( item &it )
@@ -1142,7 +1144,7 @@ bool npc::wield( item &it )
         return true;
     }
 
-    item *copy = &it;
+    item copy = it;
     map_cursor cur = map_cursor( pos() );
 
     invalidate_inventory_validity_cache();
@@ -1150,30 +1152,39 @@ bool npc::wield( item &it )
     if( has_wield_conflicts( it ) ) {
         //stow_item destroys the reference to `it` if it's contained in the wielded item
         if( weapon.has_item( it ) ) {
-            copy = &stow_item( it );
+            copy = stow_item( it );
         }
         stow_item( weapon );
     }
 
-    if( copy->is_null() ) {
+    if( copy.is_null() ) {
         weapon = item();
         get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
         return true;
     }
 
     moves -= 15;
-
-    item to_wield = *copy;
-    if( has_item( *copy ) ) {
-        to_wield = remove_item( *copy );
-    } else if( cur.has_item( *copy ) ) {
-        to_wield = cur.remove_item( *copy );
-    }
-
-    if( to_wield.can_combine( weapon ) ) {
-        weapon.combine( to_wield );
+    bool combine_stacks = copy.can_combine( weapon );
+    if( has_item( copy ) ) {
+        item removed = remove_item( copy );
+        if( combine_stacks ) {
+            weapon.combine( removed );
+        } else {
+            weapon = removed;
+        }
+    } else if( cur.has_item( copy ) ) {
+        item removed = cur.remove_item( copy );
+        if( combine_stacks ) {
+            weapon.combine( removed );
+        } else {
+            weapon = removed;
+        }
     } else {
-        weapon = to_wield;
+        if( combine_stacks ) {
+            weapon.combine( copy );
+        } else {
+            weapon = copy;
+        }
     }
 
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
