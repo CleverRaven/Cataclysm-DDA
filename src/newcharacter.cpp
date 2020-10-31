@@ -1077,7 +1077,7 @@ tab_direction set_traits( avatar &u, points_left &points )
     const int used_pages = vStartingTraits[2].empty() ? 2 : 3;
 
     for( auto &vStartingTrait : vStartingTraits ) {
-        std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_sort );
+        std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_nocolor_sort );
     }
 
     int iCurWorkingPage = 0;
