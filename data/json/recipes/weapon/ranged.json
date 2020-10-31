@@ -721,6 +721,7 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
     "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
     "time": "45 m",
     "reversible": true,
     "autolearn": true,
