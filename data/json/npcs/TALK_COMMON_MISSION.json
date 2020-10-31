@@ -334,7 +334,7 @@
       {
         "text": "We're here.  Let's do it!",
         "topic": "TALK_MISSION_INQUIRE",
-        "condition": { "and": [ "mission_complete", { "u_has_items":  { "item": "gasoline", "count": 200 } } ] }
+        "condition": { "and": [ "mission_complete", { "u_has_items": { "item": "gasoline", "count": 200 } } ] }
       },
       { "text": "Be patient, <name_g>, we're getting there soon.", "topic": "TALK_DONE" }
     ]
