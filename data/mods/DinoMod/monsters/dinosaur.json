@@ -1262,7 +1262,7 @@
       "default_faction": "carnivore_dino"
    "symbol": "d",
      "color": "white_brown"
-   "volume" : "5000 L",
+   "volume": "5000 L",
     "weight": "767 kg",
     "material": "flesh",
     "aggression": "300",
@@ -1286,20 +1286,22 @@
      "SWARMS",
      "ATTACKMON",
      "GROUP_MORALE"],
-     
+	        },
    
-   },
-   
-   
- 
-  
-   
-  
-   
+	       
+	
+    ]
    
    
  
   
    
   
-]
+   
+   
+   
+ 
+  
+   
+  
+
