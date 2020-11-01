@@ -470,7 +470,8 @@
       "WARM"
     ],
     "harvest": "dino_feather_leather",
-    "fear_triggers": [ "SOUND", "HURT", "FIRE" ],
+    "fear_triggers": [ "SOUND", "FIRE" ],
+    "anger_triggers": [ "HURT" ],
     "categories": [ "DINOSAUR" ]
   },
   {

@@ -142,7 +142,7 @@
     "default_faction": "velociraptor",
     "upgrades": { "age_grow": 20, "into": "mon_velociraptor" }
   },
-    {
+  {
     "id": "mon_nothronychus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
