@@ -1253,7 +1253,7 @@
     "categories": [ "DINOSAUR" ],
     "type": "MONSTER",
   }, 
- {
+{
 
 "id":"mon_Qianzhousaurus",
 "name":{"str":"Qianzhousaurus",
@@ -1275,14 +1275,14 @@
 "death_function":[ "NORMAL"],
 "description":"Also known as pinnochio rex, this bipedal dinosaur is slower than most and covered in fur, it also looks very hungry.",
 "flags":[ "SEES", "SMELLS","HEARS","HIT_AND_RUN","ANIMAL","PATH_AVOID_DANGER_1","BLEED","WARM","CATFOOD","SWARMS","ATTACKMON","GROUP_MORALE"],
+}
+
+ ]
 
 
 
 
 
- },
-
- ],
    
  
   
