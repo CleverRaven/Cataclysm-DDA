@@ -886,6 +886,9 @@ void Character::mutate()
 {
     if( get_option<bool>( "BALANCED_MUTATIONS" ) ) {
         effect &mutagen = get_effect( effect_accumulated_mutagen );
+        if( !mutagen ) {
+            return;
+        }
         float mut_power = to_turns<float>( mutagen.get_duration() ) / to_turns<float>
                           ( mutagen.get_int_dur_factor() );
         add_msg_if_player( m_debug, "Mutation accumulation: %.1f", mut_power );
