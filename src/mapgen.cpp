@@ -278,8 +278,8 @@ class mapgen_basic_container
             mapgens_.clear();
         }
         void check_consistency( const std::string &key ) {
-            for( auto &mapgen_function_ptr : mapgens_ ) {
-                mapgen_function_ptr->check( key );
+            for( auto &mapgen_function_ptr : weights_ ) {
+                mapgen_function_ptr.obj->check( key );
             }
         }
 };
