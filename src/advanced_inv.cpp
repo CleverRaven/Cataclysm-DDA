@@ -12,7 +12,7 @@
 void create_advanced_inv()
 {
     using mytrui_t = transaction_ui<std::vector<advuilist_helpers::iloc_entry>>;
-    mytrui_t mytrui( { 6, 3 }, { 6, 3 } );
+    mytrui_t mytrui( { 6, 3 } );
     advuilist_helpers::setup_for_aim<>( mytrui.left() );
     advuilist_helpers::setup_for_aim<>( mytrui.right() );
     advuilist_helpers::add_aim_sources<>( mytrui.left() );

@@ -19,8 +19,8 @@ class transaction_ui
 
     enum class event { QUIT = 0, SWITCH = 1, NEVENTS = 2 };
 
-    transaction_ui( point const &llayout, point const &rlayout, point size = { -1, -1 },
-                    point origin = { -1, -1 }, std::string const &ctxtname = CTXT_DEFAULT );
+    transaction_ui( point const &srclayout, point size = { -1, -1 }, point origin = { -1, -1 },
+                    std::string const &ctxtname = CTXT_DEFAULT );
 
     advuilist_t *left();
     advuilist_t *right();
@@ -54,13 +54,12 @@ class transaction_ui
 
 // *INDENT-OFF*
 template <class Container, typename T>
-transaction_ui<Container, T>::transaction_ui( point const &llayout, point const &rlayout,
-                                              point size, point origin,
+transaction_ui<Container, T>::transaction_ui( point const &srclayout, point size, point origin,
                                               std::string const &ctxtname )
     : _size( size.x > 0 ? size.x : ( TERMX * 3 ) / 4, size.y > 0 ? size.y : TERMY ),
       _origin( origin.x >= 0 ? origin.x : TERMX / 2 - _size.x / 2, origin.y >= 0 ? origin.y : 0 ),
-      _panes{ advuilist_t{ llayout, { _size.x / 2, _size.y }, _origin, ctxtname },
-              advuilist_t{ rlayout,
+      _panes{ advuilist_t{ srclayout, { _size.x / 2, _size.y }, _origin, ctxtname },
+              advuilist_t{ srclayout,
                            { _size.x / 2, _size.y },
                            { _origin.x + _size.x / 2, _origin.y },
                            ctxtname } }
