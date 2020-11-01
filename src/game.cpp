@@ -7947,12 +7947,12 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         } else if( action == "PAGE_DOWN" ) {
             iScrollPos = 0;
             page_num = 0;
-            if( iActive == iItemNum - 1 ) {// fine
-                iActive = mSortCategory[0].empty() ? 0 : 1;// fine
-            } else if( iActive + scroll_rate >= iItemNum ) {// fine
-                iActive = iItemNum - 1;// fine
+            if( iActive == iItemNum - 1 ) {
+                iActive = mSortCategory[0].empty() ? 0 : 1;
+            } else if( iActive + scroll_rate >= iItemNum ) {
+                iActive = iItemNum - 1;
             } else {
-                iActive += +scroll_rate - 1; //NFINE
+                iActive += +scroll_rate - 1;
                 do {
                     iActive++;
                 } while( !mSortCategory[iActive].empty() );
@@ -7960,12 +7960,12 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         } else if( action == "PAGE_UP" ) {
             iScrollPos = 0;
             page_num = 0;
-            if( mSortCategory[0].empty() ? iActive == 0 : iActive == 1 ) {// fine
-                iActive = iItemNum - 1;// fine
-            } else if( iActive <= scroll_rate ) {// fine
-                iActive = mSortCategory[0].empty() ? 0 : 1; // fine
+            if( mSortCategory[0].empty() ? iActive == 0 : iActive == 1 ) {
+                iActive = iItemNum - 1;
+            } else if( iActive <= scroll_rate ) {
+                iActive = mSortCategory[0].empty() ? 0 : 1;
             } else {
-                iActive += -scroll_rate + 1; //NFINE
+                iActive += -scroll_rate + 1;
                 do {
                     iActive--;
                 } while( !mSortCategory[iActive].empty() );
