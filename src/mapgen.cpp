@@ -1675,10 +1675,10 @@ class jmapgen_sealed_item : public jmapgen_piece
                     }
                     int item_chance = item_spawner->chance.get();
                     if( item_chance != 100 ) {
-                        debugmsg( "%s (with flag PLANT) spawns an item with probability %d%%; "
+                        debugmsg( "%s (with flag PLANT) spawns an item (%s) with probability %d%%; "
                                   "it should always spawn.  You can move the \"chance\" up to the "
                                   "sealed_item instead of the \"item\" within.",
-                                  summary, item_chance );
+                                  summary, item_spawner->type.str(), item_chance );
                         return;
                     }
                     const itype *spawned_type = item::find_type( item_spawner->type );
@@ -1690,11 +1690,12 @@ class jmapgen_sealed_item : public jmapgen_piece
                 }
 
                 if( item_group_spawner ) {
-                    int chance = item_group_spawner->chance.get();
-                    if( chance != 100 ) {
-                        debugmsg( "%s (with flag PLANT) spawns an item group with chance %d.  "
-                                  "It should have chance 100.",
-                                  summary, chance );
+                    int ig_chance = item_group_spawner->chance.get();
+                    if( ig_chance != 100 ) {
+                        debugmsg( "%s (with flag PLANT) spawns item group %s with chance %d.  "
+                                  "It should have chance 100.  You can move the \"chance\" up to the "
+                                  "sealed_item instead of the \"items\" within.",
+                                  summary, item_group_spawner->group_id.str(), ig_chance );
                         return;
                     }
                     item_group_id group_id = item_group_spawner->group_id;
