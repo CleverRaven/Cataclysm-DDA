@@ -75,13 +75,13 @@ advuilist_sourced<Container, T>::advuilist_sourced( point const &srclayout, poin
 {
     // leave room for source map window
     point const offset( 0, _headersize + _footersize + _map_size.y );
-    this->_resize( _size - offset, _origin + offset );
+    advuilist<Container, T>::_resize( _size - offset, _origin + offset );
 
-    this->_init();
+    advuilist<Container, T>::_init();
 
     advuilist<Container, T>::setctxthandler(
         [this]( advuilist<Container, T> *ui, std::string const &action ) {
-            this->_ctxthandler( ui, action );
+            advuilist_sourced<Container, T>::_ctxthandler( ui, action );
         } );
 
     _initui();
@@ -101,7 +101,7 @@ void advuilist_sourced<Container, T>::setSource( icon_t c )
     source_t const &src = _sources[c];
     if( std::get<fsourceb_t>( src )() ) {
         _container = std::get<fsource_t>( src )();
-        this->rebuild( &_container );
+        advuilist<Container, T>::rebuild( &_container );
         _csrc = c;
         _ui->invalidate_ui();
     }
@@ -133,7 +133,8 @@ void advuilist_sourced<Container, T>::_initui()
 template <class Container, typename T>
 void advuilist_sourced<Container, T>::_registerSrc( icon_t c )
 {
-    this->get_ctxt()->register_action( string_format( "%s%c", ACTION_SOURCE_PRFX, c ) );
+    advuilist<Container, T>::get_ctxt()->register_action(
+        string_format( "%s%c", ACTION_SOURCE_PRFX, c ) );
 }
 
 template <class Container, typename T>

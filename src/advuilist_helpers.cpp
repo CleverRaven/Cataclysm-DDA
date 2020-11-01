@@ -103,11 +103,6 @@ void setup_for_aim( advuilist<Container, iloc_entry> *myadvuilist )
         []( iloc_entry const &it ) { return it.stack[0]->get_category_shallow().sort_rank(); },
         []( iloc_entry const &it ) { return it.stack[0]->get_category_shallow().name(); } } );
     myadvuilist->get_ctxt()->register_action( ACTION_EXAMINE );
-    myadvuilist->setctxthandler( []( aim_advuilist_t * /**/, std::string const &action ) {
-        if( action == "EXAMINE" ) {
-            debugmsg( "examine placeholder" );
-        }
-    } );
     myadvuilist->setfilterf( filter_t{ desc, []( iloc_entry const &it, std::string const &filter ) {
                                           // FIXME: salvage filter caching from old AIM code
                                           auto const filterf = item_filter_from_string( filter );

@@ -17,6 +17,12 @@ void create_advanced_inv()
     advuilist_helpers::setup_for_aim<>( mytrui.right() );
     advuilist_helpers::add_aim_sources<>( mytrui.left() );
     advuilist_helpers::add_aim_sources<>( mytrui.right() );
+    // FIXME: maybe add an examine callback to advuilist?
+    mytrui.setctxthandler( []( mytrui_t * /**/, std::string const &action ) {
+        if( action == "EXAMINE" ) {
+            debugmsg( "examine placeholder" );
+        }
+    } );
     mytrui.show();
 }
 
