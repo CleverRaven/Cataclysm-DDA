@@ -628,8 +628,9 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
             item_name = ammo.tname();
             item_type = ammo.typeId();
         }
-
-        if( get_fuel_capacity( item_type ) <= 0 ) {
+        itype_id mat_to_burn( food.get_base_material().id.c_str() );
+        if( get_fuel_capacity( item_type ) <= 0 && !( mat_to_burn.is_valid() &&
+                get_fuel_capacity( mat_to_burn ) > 0 ) ) {
             return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
         } else {
             return ret_val<edible_rating>::make_success();
@@ -1562,6 +1563,12 @@ bool Character::fuel_bionic_with( item &it )
         item_type = ammo.typeId();
         loadable = std::min( it.ammo_remaining(), get_fuel_capacity( item_type ) );
         it.ammo_set( item_type, it.ammo_remaining() - loadable );
+    } else if( it.flammable() ) {
+        //The fuel is actually the material the item is made of and not the item itself here.
+        item_type = itype_id( it.get_base_material().id.c_str() );
+
+        loadable = std::min( units::to_milliliter( it.volume() ), get_fuel_capacity( item_type ) );
+        it.charges -= it.charges_per_volume( units::from_milliliter( loadable ) );
     } else {
         loadable = std::min( it.charges, get_fuel_capacity( item_type ) );
         it.charges -= loadable;
@@ -1585,6 +1592,7 @@ bool Character::fuel_bionic_with( item &it )
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
                            ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
                                      "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, item_name, bio->name );
+    //TODO: This should be an activity
     mod_moves( -250 );
     // Return false for magazines because only their ammo is consumed
     return !is_magazine;

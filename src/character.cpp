@@ -2196,7 +2196,7 @@ bionic_id Character::get_remote_fueled_bionic() const
 
 bool Character::can_fuel_bionic_with( const item &it ) const
 {
-    if( !it.is_fuel() && !it.type->magazine ) {
+    if( !it.is_fuel() && !it.type->magazine && !it.flammable() ) {
         return false;
     }
 
@@ -2206,8 +2206,14 @@ bool Character::can_fuel_bionic_with( const item &it ) const
                 return true;
             } else if( it.type->magazine && fuel == it.ammo_current() ) {
                 return true;
+            } else if( it.flammable() ) {
+                itype_id mat_to_burn( it.get_base_material().id.c_str() );
+                if( mat_to_burn.is_valid() && fuel == mat_to_burn ) {
+                    return true;
+                }
             }
         }
+
     }
     return false;
 }
@@ -2222,6 +2228,11 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
                 bionics.emplace_back( bid );
             } else if( it.type->magazine && fuel == it.ammo_current() ) {
                 bionics.emplace_back( bid );
+            } else if( it.flammable() ) {
+                itype_id mat_to_burn( it.get_base_material().id.c_str() );
+                if( mat_to_burn.is_valid() && fuel == mat_to_burn ) {
+                    bionics.emplace_back( bid );
+                }
             }
         }
     }
