@@ -16,7 +16,7 @@
     "components": [
       [ [ "jug_plastic", 1 ], [ "bottle_plastic", 3 ], [ "bottle_plastic_small", 6 ] ],
       [ [ "lightstrip_inactive", 1 ] ],
-	  [ [ "light_battery_cell", 1 ] ],
+      [ [ "light_battery_cell", 1 ] ],
       [ [ "y_paint", 1 ] ]
     ]
   },
@@ -62,9 +62,6 @@
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-	[ [ "pumpkin", 12 ], [ "irradiated_pumpkin", 12 ] ],
-	[ [ "candle", 1 ] ]
-	]
+    "components": [ [ [ "pumpkin", 12 ], [ "irradiated_pumpkin", 12 ] ], [ [ "candle", 1 ] ] ]
   }
 ]
