@@ -85,13 +85,13 @@
       },
       "liquids": { "O": { "liquid": "water", "amount": [ 0, 100 ] }, "t": { "liquid": "fertilizer_liquid", "amount": [ 0, 100 ] } },
       "sealed_item": {
-        "1": { "item": { "item": "seed_tomato", "chance": 70 }, "furniture": "f_plant_seedling" },
-        "2": { "item": { "item": "seed_lettuce", "chance": 70 }, "furniture": "f_plant_seedling" },
-        "3": { "item": { "item": "seed_cucumber", "chance": 70 }, "furniture": "f_plant_seedling" },
-        "4": { "item": { "item": "seed_carrot", "chance": 70 }, "furniture": "f_plant_seedling" },
-        "5": { "item": { "item": "seed_zucchini", "chance": 70 }, "furniture": "f_plant_seedling" },
-        "8": { "item": { "item": "seed_celery", "chance": 70 }, "furniture": "f_plant_seedling" },
-        "6": { "item": { "item": "seed_pumpkin", "chance": 70 }, "furniture": "f_plant_seedling" }
+        "1": { "item": { "item": "seed_tomato" }, "furniture": "f_plant_seedling", "chance": 70 },
+        "2": { "item": { "item": "seed_lettuce" }, "furniture": "f_plant_seedling", "chance": 70 },
+        "3": { "item": { "item": "seed_cucumber" }, "furniture": "f_plant_seedling", "chance": 70 },
+        "4": { "item": { "item": "seed_carrot" }, "furniture": "f_plant_seedling", "chance": 70 },
+        "5": { "item": { "item": "seed_zucchini" }, "furniture": "f_plant_seedling", "chance": 70 },
+        "8": { "item": { "item": "seed_celery" }, "furniture": "f_plant_seedling", "chance": 70 },
+        "6": { "item": { "item": "seed_pumpkin" }, "furniture": "f_plant_seedling", "chance": 70 }
       },
       "items": { "C": { "item": "ga_items_1", "chance": 80 } },
       "place_items": [
