@@ -261,7 +261,7 @@
     "hp": 650,
     "special_attacks": [ [ "LONGSWIPE", 30 ] ],
     "description": "The shuffling corpse of a large-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Sharp curved claws protrude from its hands.",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zothronychus_UPGRADE" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zothronychus_UPGRADE" }
   },
   {
     "type": "MONSTER",

@@ -92,6 +92,16 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_zothronychus_UPGRADE",
+    "default": "mon_sothronychus",
+    "monsters": [
+      { "monster": "mon_sothronychus", "freq": 45, "cost_multiplier": 5 },
+      { "monster": "mon_zothronychus_shady", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zothronychus_brute", "freq": 23, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_zeinonychus_UPGRADE",
     "default": "mon_seinonychus",
     "monsters": [
