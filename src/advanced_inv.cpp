@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "advuilist_helpers.h"
 #include "advuilist_sourced.h"
 #include "activity_actor.h"
 #include "activity_type.h"
@@ -50,6 +51,7 @@
 #include "src/item_search.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "transaction_ui.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -68,130 +70,23 @@
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 
-namespace
-{
-struct myadvinv_entry {
-    // entries are stacks of items
-    using stack_t = std::vector<item_location>;
-    stack_t stack;
-};
-
-using myadvinv_stack_t = std::vector<myadvinv_entry>;
-
-myadvinv_stack_t get_stacks( map_cursor &cursor )
-{
-    myadvinv_stack_t stacks;
-    map_stack items = get_map().i_at( tripoint( cursor ) );
-    std::unordered_map<itype_id, std::set<int>> cache;
-    for( item &elem : items ) {
-        const auto id = elem.typeId();
-        auto iter = cache.find( id );
-        bool got_stacked = false;
-        if( iter != cache.end() ) {
-            for( auto const &idx : iter->second ) {
-                got_stacked = stacks[idx].stack.front()->display_stacked_with( elem );
-                if( got_stacked ) {
-                    stacks[idx].stack.emplace_back( cursor, &elem );
-                    break;
-                }
-            }
-        }
-        if( !got_stacked ) {
-            cache[id].insert( stacks.size() );
-            stacks.emplace_back( myadvinv_entry{ { item_location{ cursor, &elem } } } );
-        }
-    }
-
-    return stacks;
-}
-
-std::size_t myadvinv_entry_counter( myadvinv_entry const &it )
-{
-    return it.stack[0]->count_by_charges() ? it.stack[0]->charges : it.stack.size();
-}
-
-// FIXME: this string is duplicated from draw_item_filter_rules() because that function doesn't fit
-// anywhere in the current implementation of advuilist
-std::string const desc = string_format(
-    "%s\n\n%s\n %s\n\n%s\n %s\n\n%s\n %s", _( "Type part of an item's name to filter it." ),
-    _( "Separate multiple items with [<color_yellow>,</color>]." ),
-    _( "Example: back,flash,aid, ,band" ),
-    _( "To exclude items, place [<color_yellow>-</color>] in front." ),
-    _( "Example: -pipe,-chunk,-steel" ),
-    _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
-       "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes or "
-       "[<color_yellow>d</color>]isassembled components." ),
-    _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
-
-} // namespace
-
 void create_advanced_inv()
 {
     // advanced_inventory advinv;
     // advinv.display();
 
-    using myuilist_t = advuilist_sourced<std::vector<myadvinv_entry>>;
-    myuilist_t myadvuilist( { 6, 3 } );
-    myuilist_t::fsource_t source_all = []() {
-        myadvinv_stack_t itemlist;
-        for( map_cursor &cursor : map_selector( get_player_character().pos(), 1 ) ) {
-            myadvinv_stack_t const &stacks = get_stacks( cursor );
-            itemlist.insert( itemlist.end(), std::make_move_iterator( stacks.begin() ),
-                             std::make_move_iterator( stacks.end() ) );
-        }
-        return itemlist;
-    };
-    myuilist_t::fsource_t source_dummy = []() {
-        return myadvinv_stack_t();
-    };
-    myadvuilist.addSource( { "NW", '7', { 3, 0 }, source_dummy, [](){ return false;} } );
-    myadvuilist.addSource( { "N", '8', { 4, 0 }, source_dummy, [](){ return false;} } );
-    myadvuilist.addSource( { "NE", '9', { 5, 0 }, source_dummy, [](){ return false;} } );
-    myadvuilist.addSource( { "W", '4', { 3, 1 }, source_dummy, [](){ return false;} } );
-    myadvuilist.addSource( { ".", '5', { 4, 1 }, source_dummy, [](){ return false;} } );
-    myadvuilist.addSource( { "E", '6', { 5, 1 }, source_dummy, [](){ return false;} } );
-    myadvuilist.addSource( { "SW", '1', { 3, 2 }, source_dummy, [](){ return false;} } );
-    myadvuilist.addSource( { "S", '2', { 4, 2 }, source_dummy, [](){ return false;} } );
-    myadvuilist.addSource( { "SE", '3', { 5, 2 }, source_dummy, [](){ return false;} } );
-    myadvuilist.addSource( { "Container", 'C', { 0, 0 }, source_dummy, [](){ return false;} } );
-    myadvuilist.addSource( { "Dragged vehicle", 'D', { 1, 0 }, source_dummy, [](){ return false;} } );
-    myadvuilist.addSource( { "Inventory", 'I', { 1, 1 }, source_dummy, [](){ return false;} } );
-    myadvuilist.addSource( { "All", 'A', { 0, 2 }, source_all, [](){ return true;} } );
-    myadvuilist.addSource( { "Worn", 'W', { 1, 2 }, source_dummy, [](){ return false;} } );
-
-    myadvuilist.setColumns( std::vector<myuilist_t::col_t>{
-        { "item", []( myadvinv_entry const &it ) { return it.stack[0]->display_name(); }, 8.F },
-        { "count",
-          []( myadvinv_entry const &it ) {
-              std::size_t const itsize = myadvinv_entry_counter( it );
-              return std::to_string( itsize );
-          },
-          2.F } } );
-    myadvuilist.setcountingf( myadvinv_entry_counter );
-    myadvuilist.addSorter(
-        myuilist_t::sorter_t{ "count", []( myadvinv_entry const &l, myadvinv_entry const &r ) {
-                                 std::size_t const lsize = myadvinv_entry_counter( l );
-                                 std::size_t const rsize = myadvinv_entry_counter( r );
-                                 return lsize < rsize;
-                             } } );
-
-    myadvuilist.addGrouper( myuilist_t::grouper_t{
-        "category",
-        []( myadvinv_entry const &it ) { return it.stack[0]->get_category_shallow().sort_rank(); },
-        []( myadvinv_entry const &it ) { return it.stack[0]->get_category_shallow().name(); } } );
-    myadvuilist.get_ctxt()->register_action( "EXAMINE" );
-    myadvuilist.setctxthandler( []( std::string const &action ) {
+    using mytrui_t = transaction_ui<std::vector<advuilist_helpers::iloc_entry>>;
+    mytrui_t mytrui( { 6, 3 }, { 6, 3 } );
+    advuilist_helpers::setup_for_aim<>( &*mytrui.left() );
+    advuilist_helpers::setup_for_aim<>( &*mytrui.right() );
+    advuilist_helpers::add_aim_sources<>( &*mytrui.left() );
+    advuilist_helpers::add_aim_sources<>( &*mytrui.right() );
+    mytrui.setctxthandler( []( mytrui_t * /**/, std::string const &action ) {
         if( action == "EXAMINE" ) {
             debugmsg( "examine placeholder" );
         }
     } );
-    myadvuilist.setfilterf( { desc, []( myadvinv_entry const &it, std::string const &filter ) {
-                                 // FIXME: salvage filter caching from old AIM code
-                                 auto const filterf = item_filter_from_string( filter );
-                                 return filterf( *it.stack[0] );
-                             } } );
-    // myadvuilist.setSource( 'A' );
-    myadvuilist.select();
+    mytrui.show();
 }
 
 // *INDENT-OFF*

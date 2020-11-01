@@ -27,9 +27,7 @@
 // TODO:
 //     select all
 //     mark element & expand SELECT
-//     public function to move UI to top. probably just call _initui()
-//
-//     rewrite AIM to use advuilist_sourced
+//     change borders and hilight color on suspend
 
 template <class Container, typename T = typename Container::value_type>
 class advuilist
@@ -95,6 +93,8 @@ class advuilist
     /// breaks internal loop in select(). meant to be called from the external ctxt handler added by
     /// setctxthandler()
     void suspend();
+    /// moves internal ui_adaptor to top of stack
+    void totop();
 
     input_context *get_ctxt();
     catacurses::window *get_window();
@@ -284,6 +284,9 @@ void advuilist<Container, T>::setfilterf( filter_t const &func )
 template <class Container, typename T>
 typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
 {
+    // reset exit variable in case suspend() was called earlier
+    _exit = false;
+
     while( !_exit ) {
 
         ui_manager::redraw();
@@ -368,6 +371,13 @@ template <class Container, typename T>
 void advuilist<Container, T>::suspend()
 {
     _exit = true;
+}
+
+template <class Container, typename T>
+void advuilist<Container, T>::totop()
+{
+    // FIXME: is there a better way? Ask Qrox
+    _initui();
 }
 
 template <class Container, typename T>
