@@ -8169,14 +8169,15 @@ bool item::reload( Character &u, item_location ammo, int qty )
         }
         ammo->charges -= qty;
     } else {
+        item magazine_removed;
+        bool allow_wield = false;
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
             // we don't want to replace wielded `ammo` with ejected magazine
-            // as it will invalidate `ammo`
-            bool allow_wield = !u.is_wielding( *ammo );
-
-            // eject magazine to player inventory
-            u.i_add( *magazine_current(), true, nullptr, true, allow_wield );
+            // as it will invalidate `ammo`. Also keep wielding the item being reloaded.
+            allow_wield = ( !u.is_wielding( *ammo ) && !u.is_wielding( *this ) );
+            // Defer placing the magazine into inventory until new magazine is installed.
+            magazine_removed = *magazine_current();
             remove_item( *magazine_current() );
         }
 
@@ -8189,6 +8190,9 @@ bool item::reload( Character &u, item_location ammo, int qty )
         ammo.remove_item();
         if( ammo_from_map ) {
             u.invalidate_weight_carried_cache();
+        }
+        if( magazine_removed.type != nullitem() ) {
+            u.i_add( magazine_removed, true, nullptr, true, allow_wield );
         }
         return true;
     }
