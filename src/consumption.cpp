@@ -1380,6 +1380,10 @@ bool Character::consume_effects( item &food )
     units::volume water_vol = ( food.type->comestible->quench > 0 ) ? food.type->comestible->quench *
                               5_ml : 0_ml;
     units::volume food_vol = food.base_volume() - water_vol;
+    if( food.count() == 0 ) {
+        debugmsg( "Tried to eat food with count of zero." );
+        return false;
+    }
     units::mass food_weight = ( food.weight() / food.count() );
     const double ratio = compute_effective_food_volume_ratio( food );
     food_summary ingested{
