@@ -1374,6 +1374,8 @@ void effect::deserialize( JsonIn &jsin )
     intensity = jo.get_int( "intensity" );
     start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );
+    // Removed effects should never be saved
+    removed = false;
 }
 
 std::string texitify_base_healing_power( const int power )
