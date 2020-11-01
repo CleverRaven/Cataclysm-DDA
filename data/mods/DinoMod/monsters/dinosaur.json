@@ -1253,7 +1253,7 @@
     "categories": [ "DINOSAUR" ],
     "type": "MONSTER",
   }, 
- {
+{
     
    "id": "mon_Qianzhousaurus",
      "name": { "str": "Qianzhousaurus", 
@@ -1288,8 +1288,14 @@
      "GROUP_MORALE"],
      
    
+   },
+   
+   
  
-  },
+  
+   
+  
+   
    
    
  
