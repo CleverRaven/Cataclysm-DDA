@@ -1254,27 +1254,27 @@
     "type": "MONSTER",
   }, 
   {
-   "id":  "mon_Qianzhousaurus",
-"name": {"str": "Qianzhousaurus",
-"species": "DINOSAUR",
-"default_faction": "carnivore_dino"
-"symbol": "d",
-"color": "white_brown"
-"volume": "5000L",
-"weight": "767kg",
-"material": "flesh",
-"aggression": "300",
-"morale": "80",
-"speed": "110",
-"melee_skill": "10",
-"dodge": "6",
-"vision_day": "36",
-"hp": "45",
-"death_function": ["NORMAL"],
-"description": "Also known as pinnochio rex, this bipedal dinosaur is slower than most and covered in fur, it also looks very hungry.",
-"flags": ["SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "BLEED", "WARM", "CATFOOD", "SWARMS", "ATTACKMON", "GROUP_MORALE"],
-},
-]
+ 	"id": "mon_Qianzhousaurus",
+ 	"name": {"str": "Qianzhousaurus",
+ 		"species": "DINOSAUR",
+ 		"default_faction":  "carnivore_dino"
+ 		"symbol": "d",
+ 		"color": "white_brown"
+ 		"volume": "5000L",
+ 		"weight": "767kg",
+ 		"material": "flesh",
+ 		"aggression": "300",
+ 		"morale": "80",
+ 		"speed": "110",
+ 		"melee_skill": "10",
+ 		"dodge": "6",
+ 		"vision_day": "36",
+ 		"hp": "45",
+ 		"death_function": ["NORMAL"],
+ 		"description": "Also known as pinnochio rex, this bipedal dinosaur is slower than most and covered in fur, it also looks very hungry.",
+ 		"flags": ["SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "BLEED", "WARM", "CATFOOD", "SWARMS", "ATTACKMON", "GROUP_MORALE"],
+ 	},
+ ]
 
 
 
