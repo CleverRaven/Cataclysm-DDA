@@ -50,7 +50,7 @@ class advuilist
     /// filter description, filter function
     using filter_t = std::pair<std::string, ffilter_t>;
     /// ctxt handler function for adding extra functionality
-    using fctxt_t = std::function<void( std::string const & )>;
+    using fctxt_t = std::function<void( advuilist<Container, T> *, std::string const & )>;
     using gid_t = std::size_t;
     /// group ID function. used for sorting groups - IDs must be unique
     using fgid_t = std::function<gid_t( T const & )>;
@@ -327,7 +327,7 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
         // FIXME: add SELECT_ALL and maybe SELECT_MARKED (or expand SELECT)
 
         if( _fctxt ) {
-            _fctxt( action );
+            _fctxt( this, action );
         }
     }
 

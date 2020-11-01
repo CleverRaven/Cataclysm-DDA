@@ -55,7 +55,7 @@ class advuilist_sourced : public advuilist<Container, T>
 
     void _initui();
     void _registerSrc( icon_t c );
-    void _ctxthandler( std::string const &action );
+    void _ctxthandler( advuilist<Container, T> *ui, std::string const &action );
     void _printmap();
 
     // used only for source map window
@@ -80,7 +80,9 @@ advuilist_sourced<Container, T>::advuilist_sourced( point const &srclayout, poin
     this->_init();
 
     advuilist<Container, T>::setctxthandler(
-        [this]( std::string const &action ) { this->_ctxthandler( action ); } );
+        [this]( advuilist<Container, T> *ui, std::string const &action ) {
+            this->_ctxthandler( ui, action );
+        } );
 
     _initui();
 }
@@ -135,7 +137,8 @@ void advuilist_sourced<Container, T>::_registerSrc( icon_t c )
 }
 
 template <class Container, typename T>
-void advuilist_sourced<Container, T>::_ctxthandler( std::string const &action )
+void advuilist_sourced<Container, T>::_ctxthandler( advuilist<Container, T> * /*ui*/,
+                                                    std::string const &action )
 {
     // where is c++20 when you need it?
     if( action.substr( 0, ACTION_SOURCE_PRFX_len ) == ACTION_SOURCE_PRFX ) {
@@ -144,7 +147,7 @@ void advuilist_sourced<Container, T>::_ctxthandler( std::string const &action )
     }
 
     if( _fctxt ) {
-        _fctxt( action );
+        _fctxt( this, action );
     }
 }
 

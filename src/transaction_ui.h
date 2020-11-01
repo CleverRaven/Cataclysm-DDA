@@ -48,7 +48,7 @@ class transaction_ui
     typename panecont_t::size_type _cpane = 0;
     bool _exit = false;
 
-    void _ctxthandler( std::string const &action );
+    void _ctxthandler( advuilist<Container, T> *ui, std::string const &action );
     void _process( event const &ev );
 };
 
@@ -67,7 +67,9 @@ transaction_ui<Container, T>::transaction_ui( point const &srclayout, point size
 {
     for( auto &v : _panes ) {
         v.get_ctxt()->register_action( ACTION_SWITCH_PANES );
-        v.setctxthandler( [this]( std::string const &action ) { this->_ctxthandler( action ); } );
+        v.setctxthandler( [this]( advuilist<Container, T> *ui, std::string const &action ) {
+            this->_ctxthandler( ui, action );
+        } );
     }
 }
 
@@ -123,7 +125,8 @@ void transaction_ui<Container, T>::show()
 }
 
 template <class Container, typename T>
-void transaction_ui<Container, T>::_ctxthandler( std::string const &action )
+void transaction_ui<Container, T>::_ctxthandler( advuilist<Container, T> *ui,
+                                                 std::string const &action )
 {
     if( action == ACTION_QUIT ) {
         _queue.emplace( event::QUIT );
@@ -131,7 +134,7 @@ void transaction_ui<Container, T>::_ctxthandler( std::string const &action )
 
     if( action == ACTION_SWITCH_PANES ) {
         _queue.emplace( event::SWITCH );
-        _panes[_cpane].suspend();
+        ui->suspend();
     }
 
     if( _fctxt ) {

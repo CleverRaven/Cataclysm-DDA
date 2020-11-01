@@ -103,7 +103,7 @@ void setup_for_aim( advuilist<Container, iloc_entry> *myadvuilist )
         []( iloc_entry const &it ) { return it.stack[0]->get_category_shallow().sort_rank(); },
         []( iloc_entry const &it ) { return it.stack[0]->get_category_shallow().name(); } } );
     myadvuilist->get_ctxt()->register_action( ACTION_EXAMINE );
-    myadvuilist->setctxthandler( []( std::string const &action ) {
+    myadvuilist->setctxthandler( []( aim_advuilist_t * /**/, std::string const &action ) {
         if( action == "EXAMINE" ) {
             debugmsg( "examine placeholder" );
         }
