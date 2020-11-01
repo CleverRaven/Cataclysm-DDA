@@ -278,27 +278,27 @@
     "categories": [ "DINOSAUR" ]
   },
   {
-      "type": "MONSTER",
-      "id": "mon_zothronychus_brute",
-      "name": { "str": "Nefarious Nothronychus" },
-      "copy-from": "mon_zothronychus",
-      "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Long curved claws protude from its hands.  Its entire body bulges with distended muscles and swollen, festering wounds.",
-      "diff": 2,
-      "color": "red",
-      "proportional": { "hp": 1.5, "speed": 1.5 },
-      "relative": {
-        "melee_dice": 1,
-        "melee_dice_sides": 5,
-        "melee_cut": 2,
-        "armor_bash": 4,
-        "armor_cut": 6,
-        "armor_bullet": 5,
-        "vision_night": 1
-      },
-      "upgrades": {  },
-      "special_attacks": [ [ "SMASH", 30 ] ],
-      "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-      "categories": [ "DINOSAUR" ]
+    "type": "MONSTER",
+    "id": "mon_zothronychus_brute",
+    "name": { "str": "Nefarious Nothronychus" },
+    "copy-from": "mon_zothronychus",
+    "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Long curved claws protude from its hands.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "upgrades": {  },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
   },
   {
     "type": "MONSTER",
