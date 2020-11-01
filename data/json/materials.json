@@ -1,6 +1,23 @@
 [
   {
     "type": "material",
+    "id": "pseudo_fuel",
+    "name": "Pseudo fuel",
+    "density": 1,
+    "bash_resist": 0,
+    "cut_resist": 0,
+    "bullet_resist": 0,
+    "acid_resist": 0,
+    "fire_resist": 0,
+    "elec_resist": 0,
+    "chip_resist": 0,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "gouged",
+    "fuel": { "energy": 1 }
+  },
+  {
+    "type": "material",
     "id": "alcohol",
     "name": "Alcohol",
     "density": 1,
@@ -18,6 +35,10 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "fuel": {
+      "energy": 15.6,
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    },
     "burn_data": [
       { "fuel": 150, "smoke": 0, "burn": 1 },
       { "fuel": 300, "smoke": 0, "burn": 2 },
@@ -689,6 +710,80 @@
       { "fuel": 600, "smoke": 6, "burn": 2 },
       { "fuel": 900, "smoke": 6, "burn": 3 }
     ]
+  },
+  {
+    "type": "material",
+    "id": "diesel",
+    "name": "Diesel",
+    "copy-from": "hydrocarbons",
+    "fuel": {
+      "energy": 35.8,
+      "pump_terrain": "t_diesel_pump",
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
+    "id": "jp8",
+    "name": "JP8",
+    "copy-from": "hydrocarbons",
+    "fuel": {
+      "energy": 34.7,
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
+    "id": "avgas",
+    "name": "avgas fuel",
+    "copy-from": "hydrocarbons",
+    "fuel": {
+      "energy": 45.8,
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
+    "id": "biodiesel",
+    "name": "Biodiesel",
+    "copy-from": "hydrocarbons",
+    "fuel": {
+      "energy": 29.6,
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
+    "id": "gasoline",
+    "name": "Gasoline",
+    "copy-from": "hydrocarbons",
+    "fuel": {
+      "energy": 34.2,
+      "pump_terrain": "t_gas_pump",
+      "explosion_data": { "chance_hot": 2, "chance_cold": 5, "factor": 1, "fiery": true, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
+    "id": "lamp_oil",
+    "name": "Lamp oil",
+    "copy-from": "hydrocarbons",
+    "fuel": {
+      "//": "Roughly equivalent to LPG",
+      "energy": 26,
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
+    "id": "motor_oil",
+    "name": "Motor oil",
+    "copy-from": "hydrocarbons",
+    "fuel": {
+      "//": "Roughly equivalent to LPG",
+      "energy": 26,
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    }
   },
   {
     "type": "material",
