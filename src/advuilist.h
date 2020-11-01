@@ -142,7 +142,7 @@ class advuilist
     typename pagecont_t::size_type _cpage = 0;
     /// total column width weights
     cwidth_t _tweight = 0;
-    bool _exit = false;
+    bool _exit = true;
 
     input_context _ctxt;
     catacurses::window _w;
@@ -434,7 +434,7 @@ void advuilist<Container, T>::_initui()
 
     _ui->on_redraw( [&]( const ui_adaptor & ) {
         werase( _w );
-        draw_border( _w );
+        draw_border( _w, _exit ? c_dark_gray : c_light_gray );
         _print();
         wnoutrefresh( _w );
     } );
@@ -462,9 +462,10 @@ void advuilist<Container, T>::_print()
 
     point lpos( _firstcol, _headersize );
 
+    nc_color const colcolor = _exit ? c_light_gray : c_white;
     // print column headers
     for( auto const &col : _columns ) {
-        lpos.x += _printcol( col, std::get<std::string>( col ), lpos, c_white );
+        lpos.x += _printcol( col, std::get<std::string>( col ), lpos, colcolor );
     }
     lpos.y += 1;
 
@@ -486,9 +487,10 @@ void advuilist<Container, T>::_print()
         }
 
         lpos.x = _firstcol;
+        nc_color const basecolor = _exit ? c_dark_gray : c_light_gray;
+        nc_color const color = ( idx == _cidx and !_exit ) ? hilite( basecolor ) : basecolor;
         for( auto const &col : _columns ) {
-            lpos.x += _printcol( col, std::get<fcol_t>( col )( it ), lpos,
-                                 idx == _cidx ? hilite( c_dark_gray ) : c_dark_gray );
+            lpos.x += _printcol( col, std::get<fcol_t>( col )( it ), lpos, color );
         }
         lpos.y += 1;
     }

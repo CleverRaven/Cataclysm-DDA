@@ -151,6 +151,9 @@ void transaction_ui<Container, T>::_process( event const &ev )
             break;
         }
         case event::SWITCH: {
+            // redraw darker borders, etc
+            _panes[_cpane].get_ui()->redraw();
+
             _cpane = -_cpane + 1;
             _panes[_cpane].totop();
             break;
