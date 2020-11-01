@@ -14,7 +14,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "gouged",
-    "fuel": { "energy": 1 }
+    "fuel_data": { "energy": 1 }
   },
   {
     "type": "material",
@@ -35,7 +35,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
-    "fuel": {
+    "fuel_data": {
       "energy": 15.6,
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
     },
@@ -716,7 +716,7 @@
     "id": "diesel",
     "name": "Diesel",
     "copy-from": "hydrocarbons",
-    "fuel": {
+    "fuel_data": {
       "energy": 35.8,
       "pump_terrain": "t_diesel_pump",
       "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
@@ -727,7 +727,7 @@
     "id": "jp8",
     "name": "JP8",
     "copy-from": "hydrocarbons",
-    "fuel": {
+    "fuel_data": {
       "energy": 34.7,
       "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
     }
@@ -737,7 +737,7 @@
     "id": "avgas",
     "name": "avgas fuel",
     "copy-from": "hydrocarbons",
-    "fuel": {
+    "fuel_data": {
       "energy": 45.8,
       "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
     }
@@ -747,7 +747,7 @@
     "id": "biodiesel",
     "name": "Biodiesel",
     "copy-from": "hydrocarbons",
-    "fuel": {
+    "fuel_data": {
       "energy": 29.6,
       "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
     }
@@ -757,7 +757,7 @@
     "id": "gasoline",
     "name": "Gasoline",
     "copy-from": "hydrocarbons",
-    "fuel": {
+    "fuel_data": {
       "energy": 34.2,
       "pump_terrain": "t_gas_pump",
       "explosion_data": { "chance_hot": 2, "chance_cold": 5, "factor": 1, "fiery": true, "size_factor": 0.1 }
@@ -768,7 +768,7 @@
     "id": "lamp_oil",
     "name": "Lamp oil",
     "copy-from": "hydrocarbons",
-    "fuel": {
+    "fuel_data": {
       "//": "Roughly equivalent to LPG",
       "energy": 26,
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
@@ -779,7 +779,7 @@
     "id": "motor_oil",
     "name": "Motor oil",
     "copy-from": "hydrocarbons",
-    "fuel": {
+    "fuel_data": {
       "//": "Roughly equivalent to LPG",
       "energy": 26,
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
@@ -1261,7 +1261,8 @@
     "chip_resist": 0,
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
-    "cut_dmg_verb": "damaged"
+    "cut_dmg_verb": "damaged",
+    "fuel_data": { "energy": 5.2 }
   },
   {
     "type": "material",
@@ -1358,6 +1359,54 @@
     "burn_products": [ [ "scrap", 1 ] ],
     "compact_accepts": [ "budget_steel", "hardsteel", "iron" ],
     "compacts_into": [ "sheet_metal", "steel_lump", "steel_chunk", "scrap" ]
+  },
+  {
+    "type": "material",
+    "id": "plut_cell",
+    "name": "Energetic Nanocompound",
+    "density": 30,
+    "bash_resist": 6,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "cut_resist": 6,
+    "bullet_resist": 3,
+    "acid_resist": 7,
+    "fire_resist": 3,
+    "elec_resist": 0,
+    "chip_resist": 20,
+    "repaired_with": "scrap",
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 1 ] ],
+    "fuel_data": { "energy": 10 }
+  },
+  {
+    "type": "material",
+    "id": "hydrogen_cell",
+    "name": "Pressurized hydrogen",
+    "density": 30,
+    "bash_resist": 6,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "cut_resist": 6,
+    "bullet_resist": 3,
+    "acid_resist": 7,
+    "fire_resist": 3,
+    "elec_resist": 0,
+    "chip_resist": 20,
+    "repaired_with": "scrap",
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 1 ] ],
+    "fuel_data": {
+      "//": "Compressed gaseous hydrogen has 9.2 MJ/L.  This stuff has a very high energy density but is also bulky and explosive.",
+      "energy": 4000,
+      "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 1, "fiery": true, "size_factor": 0.15 }
+    }
   },
   {
     "type": "material",
@@ -1712,6 +1761,20 @@
       { "fuel": 3, "smoke": 1, "burn": 0.03 }
     ],
     "burn_products": [ [ "ash", 0.018 ] ]
+  },
+  {
+    "type": "material",
+    "id": "charcoal",
+    "name": "Charcoal",
+    "copy-from": "wood",
+    "fuel_data": { "energy": 1.6 }
+  },
+  {
+    "type": "material",
+    "id": "coal",
+    "name": "Coal",
+    "copy-from": "wood",
+    "fuel_data": { "energy": 30 }
   },
   {
     "type": "material",
