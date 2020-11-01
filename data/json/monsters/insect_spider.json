@@ -533,7 +533,7 @@
 	"volume": "5 L",
 	"weight": "6 kg",
 	"hp": 25,
-	"speed": 85,
+	"speed": 95,
 	"vision_day": 15,
 	"dodge": 2,
 	"harvest": "arachnid",
