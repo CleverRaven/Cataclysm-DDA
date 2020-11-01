@@ -41,6 +41,11 @@ class advuilist
     using col_t = std::tuple<std::string, fcol_t, cwidth_t>;
     /// counting function. used only for partial selection
     using fcounter_t = std::function<std::size_t( T const & )>;
+    /// examine function
+    using fexamine_t = std::function<void( T const & )>;
+    /// on_rebuild function. params are first_item, element
+    using frebuild_t = std::function<void( bool, T const & )>;
+    using fdraw_t = std::function<void( catacurses::window * )>;
     /// sorting function
     using fsort_t = std::function<bool( T const &, T const & )>;
     /// name, sorting function
@@ -83,6 +88,14 @@ class advuilist
     void setctxthandler( fctxt_t const &func );
     /// sets the element counting function. enables partial selection
     void setcountingf( fcounter_t const &func );
+    /// sets the examine function
+    void setexaminef( fexamine_t const &func );
+    /// if set, func gets called for every element that gets added to the internal list. This is
+    /// meant to be used for collecting stats
+    void on_rebuild( frebuild_t const &func );
+    /// if set, func gets called after all internal printing calls and before wnoutrefresh(). This
+    /// is meant to be used for drawing extra decorations or stats
+    void on_redraw( fdraw_t const &func );
     /// sets the filtering function
     void setfilterf( filter_t const &func );
     select_t select();
@@ -133,6 +146,9 @@ class advuilist
     pagecont_t _pages;
     ffilter_t _ffilter;
     fcounter_t _fcounter;
+    fexamine_t _fexamine;
+    frebuild_t _frebuild;
+    fdraw_t _fdraw;
     fctxt_t _fctxt;
     std::string _filter;
     std::string _filterdsc;
@@ -276,6 +292,24 @@ void advuilist<Container, T>::setcountingf( fcounter_t const &func )
 }
 
 template <class Container, typename T>
+void advuilist<Container, T>::setexaminef( fexamine_t const &func )
+{
+    _fexamine = func;
+}
+
+template <class Container, typename T>
+void advuilist<Container, T>::on_rebuild( frebuild_t const &func )
+{
+    _frebuild = func;
+}
+
+template <class Container, typename T>
+void advuilist<Container, T>::on_redraw( fdraw_t const &func )
+{
+    _fdraw = func;
+}
+
+template <class Container, typename T>
 void advuilist<Container, T>::setfilterf( filter_t const &func )
 {
     _filterdsc = std::get<std::string>( func );
@@ -321,6 +355,8 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
                     return _peek( input );
                 }
             }
+        } else if( action == ACTION_EXAMINE and _fexamine ) {
+            _fexamine( *std::get<ptr_t>( _list[_cidx] ) );
         } else if( action == ACTION_QUIT ) {
             _exit = true;
         }
@@ -353,6 +389,9 @@ void advuilist<Container, T>::rebuild( Container *list )
     std::size_t idx = 0;
     for( auto it = list->begin(); it != list->end(); ++it ) {
         if( !_ffilter or _filter.empty() or _ffilter( *it, _filter ) ) {
+            if( _frebuild ) {
+                _frebuild( _list.empty(), *it );
+            }
             _list.emplace_back( idx++, it );
         }
     }
@@ -436,6 +475,9 @@ void advuilist<Container, T>::_initui()
         werase( _w );
         draw_border( _w, _exit ? c_dark_gray : c_light_gray );
         _print();
+        if( _fdraw ) {
+            _fdraw( &_w );
+        }
         wnoutrefresh( _w );
     } );
 }
@@ -451,6 +493,7 @@ void advuilist<Container, T>::_initctxt()
     _ctxt.register_action( ACTION_RESET_FILTER );
     _ctxt.register_action( ACTION_SELECT );
     _ctxt.register_action( ACTION_SELECT_PARTIAL );
+    _ctxt.register_action( ACTION_EXAMINE );
     _ctxt.register_action( ACTION_QUIT );
     _ctxt.register_action( ACTION_HELP_KEYBINDINGS );
 }

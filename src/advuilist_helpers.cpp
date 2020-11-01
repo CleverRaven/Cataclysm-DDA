@@ -1,28 +1,34 @@
 #include "advuilist_helpers.h"
 
-#include "item.h"        // for item
 #include <algorithm>     // for __niter_base, max
 #include <functional>    // for equal_to, function
 #include <iterator>      // for operator!=, operator==, make_move...
 #include <memory>        // for _Destroy, allocator_traits<>::val...
 #include <set>           // for set
+#include <string>        // for allocator, basic_string, operator==
 #include <tuple>         // for pair::pair<_T1, _T2>
 #include <unordered_map> // for unordered_map, unordered_map<>::i...
 #include <utility>       // for move, get, pair
 #include <vector>        // for vector
 
 #include "advuilist.h"         // for advuilist
-#include "advuilist_const.h"   // for ACTION_*
+#include "advuilist_const.h"   // for ACTION_EXAMINE
 #include "advuilist_sourced.h" // for advuilist_sourced
 #include "character.h"         // for get_player_character, Character
+#include "color.h"             // for c_white, color_manager
+#include "item.h"              // for item, iteminfo
 #include "item_category.h"     // for item_category
 #include "item_location.h"     // for item_location
 #include "item_search.h"       // for item_filter_from_string
 #include "map.h"               // for get_map, map_stack, map
 #include "map_selector.h"      // for map_cursor, map_selector
+#include "output.h"            // for format_volume, right_print, item_...
 #include "point.h"             // for tripoint
+#include "string_formatter.h"  // for string_format
 #include "translations.h"      // for _
 #include "type_id.h"           // for itype_id, hash
+#include "units.h"             // for quantity, operator""_kilogram
+#include "units_utility.h"     // for convert_weight, volume_units_abbr
 
 namespace
 {
@@ -74,8 +80,16 @@ std::size_t iloc_entry_counter( iloc_entry const &it )
     return it.stack[0]->count_by_charges() ? it.stack[0]->charges : it.stack.size();
 }
 
+void collect_stats( aim_stats_t *stats, iloc_entry const &it )
+{
+    for( auto const &v : it.stack ) {
+        stats->first += v->weight();
+        stats->second += v->volume();
+    }
+}
+
 template <class Container>
-void setup_for_aim( advuilist<Container, iloc_entry> *myadvuilist )
+void setup_for_aim( advuilist<Container, iloc_entry> *myadvuilist, aim_stats_t *stats )
 {
     using myuilist_t = advuilist<Container, iloc_entry>;
     using col_t = typename myuilist_t::col_t;
@@ -97,7 +111,20 @@ void setup_for_aim( advuilist<Container, iloc_entry> *myadvuilist )
                                          std::size_t const rsize = iloc_entry_counter( r );
                                          return lsize < rsize;
                                      } } );
+    // FIXME: this might be better in the ctxt handler of the top transaction_ui so we can show the
+    // info on the opposite pane
+    myadvuilist->setexaminef( [myadvuilist]( advuilist_helpers::iloc_entry const &it ) {
+        // FIXME: apparently inventory examine needs special handling
+        item const &_it = *it.stack.front();
+        std::vector<iteminfo> vThisItem;
+        std::vector<iteminfo> vDummy;
+        _it.info( true, vThisItem );
 
+        item_info_data data( _it.tname(), _it.type_name(), vThisItem, vDummy );
+        data.handle_scrolling = true;
+
+        draw_item_info( *myadvuilist->get_window(), data ).get_first_input();
+    } );
     myadvuilist->addGrouper( grouper_t{
         "category",
         []( iloc_entry const &it ) { return it.stack[0]->get_category_shallow().sort_rank(); },
@@ -108,6 +135,19 @@ void setup_for_aim( advuilist<Container, iloc_entry> *myadvuilist )
                                           auto const filterf = item_filter_from_string( filter );
                                           return filterf( *it.stack[0] );
                                       } } );
+    myadvuilist->on_rebuild( [stats]( bool first, advuilist_helpers::iloc_entry const &it ) {
+        if( first ) {
+            stats->first = 0_kilogram;
+            stats->second = 0_liter;
+        }
+        collect_stats( stats, it );
+    } );
+    myadvuilist->on_redraw( [stats]( catacurses::window *w ) {
+        right_print( *w, 1, 2, c_white,
+                     string_format( "%3.1f %s  %s %s", convert_weight( stats->first ),
+                                    weight_units(), format_volume( stats->second ),
+                                    volume_units_abbr() ) );
+    } );
 }
 
 template <class Container>
@@ -160,7 +200,7 @@ void add_aim_sources( advuilist_sourced<Container, iloc_entry> *myadvuilist )
         { _( SOURCE_WORN ), SOURCE_WORN_i, { 1, 2 }, source_dummy, []() { return false; } } );
 }
 
-template void setup_for_aim( aim_advuilist_t *myadvuilist );
+template void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats );
 template aim_container_t source_all( int radius );
 template void add_aim_sources( aim_advuilist_sourced_t *myadvuilist );
 

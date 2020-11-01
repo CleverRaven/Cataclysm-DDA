@@ -25,6 +25,7 @@ using iloc_stack_t = std::vector<iloc_entry>;
 using aim_container_t = std::vector<iloc_entry>;
 using aim_advuilist_t = advuilist<aim_container_t, iloc_entry>;
 using aim_advuilist_sourced_t = advuilist_sourced<aim_container_t, iloc_entry>;
+using aim_stats_t = std::pair<units::mass, units::volume>;
 
 constexpr auto const SOURCE_ALL = "Surrounding";
 constexpr auto const SOURCE_ALL_i = 'A';
@@ -59,8 +60,10 @@ iloc_stack_t get_stacks( map_cursor &cursor );
 
 std::size_t iloc_entry_counter( iloc_entry const &it );
 
+void collect_stats( aim_stats_t *stats, iloc_entry const &it );
+
 template <class Container = aim_container_t>
-void setup_for_aim( advuilist<Container, iloc_entry> *myadvuilist );
+void setup_for_aim( advuilist<Container, iloc_entry> *myadvuilist, aim_stats_t *stats );
 
 template <class Container = aim_container_t>
 Container source_all( int radius = 1 );
@@ -68,7 +71,7 @@ Container source_all( int radius = 1 );
 template <class Container = aim_container_t>
 void add_aim_sources( advuilist_sourced<Container, iloc_entry> *myadvuilist );
 
-extern template void setup_for_aim( aim_advuilist_t *myadvuilist );
+extern template void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats );
 extern template aim_container_t source_all( int radius );
 extern template void add_aim_sources( aim_advuilist_sourced_t *myadvuilist );
 
