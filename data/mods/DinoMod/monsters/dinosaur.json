@@ -1253,12 +1253,13 @@
     "categories": [ "DINOSAUR" ],
     "type": "MONSTER",
   }, 
-  {
+ {
     "id": "mon_Qianzhousaurus",
-     "name": { "str": "Qianzhousaurus", },
+     "name": { "str": "Qianzhousaurus", 
+	 },
      "species": "DINOSAUR",
       "default_faction": "carnivore_dino"
-    "symbol": "d",
+   "symbol": "d",
      "color": "white_brown"
    "volume" : "5000 L",
     "weight": "767 kg",
@@ -1288,6 +1289,7 @@
    
  
   },
+   
    
  
   
