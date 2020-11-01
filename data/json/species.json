@@ -76,7 +76,7 @@
     "type": "SPECIES",
     "id": "INSECT_FLYING",
     "description": "a flying insect",
-	"footsteps": "BZZZZZZZZZZZZZZZZZ",
+    "footsteps": "BZZZZZZZZZZZZZZZZZ",
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ]
   },
