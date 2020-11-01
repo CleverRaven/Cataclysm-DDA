@@ -1260,9 +1260,9 @@
 
 "species":"DINOSAUR",
 "default_faction":"carnivore_dino"
-"symbol":"d",
+"symbol": "d",
 "color":"white_brown"
-"volume":"5000L",
+"volume": "5000L",
 "weight":"767kg",
 "material": "flesh",
 "aggression": "300",
