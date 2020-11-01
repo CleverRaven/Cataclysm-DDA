@@ -106,6 +106,18 @@
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
+    "id": "bio_wood_burner",
+    "type": "bionic",
+    "name": { "str": "Wood Burner CBM" },
+    "description": "You have wood burner embedded into your chest.  Crazy, right?",
+    "occupied_bodyparts": [ [ "torso", 25 ] ],
+    "fuel_options": [ "wood" ],
+    "fuel_efficiency": 1,
+    "fuel_capacity": 2000,
+    "time": 1,
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
+  },
+  {
     "id": "bio_blade",
     "type": "bionic",
     "name": { "str": "Monomolecular Blade" },
