@@ -535,7 +535,7 @@
       { "monster": "mon_zalbertosaurus", "freq": 1, "cost_multiplier": 35, "starts": 168 },
       { "monster": "mon_zalbertosaurus", "freq": 1, "cost_multiplier": 35, "starts": 672 },
       { "monster": "mon_zalbertosaurus", "freq": 1, "cost_multiplier": 35, "starts": 2160 },
-       {
+      {
         "monster": "mon_nothronychus",
         "freq": 10,
         "cost_multiplier": 30,
