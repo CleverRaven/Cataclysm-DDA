@@ -1255,9 +1255,10 @@
   }, 
   {
  	"id": "mon_Qianzhousaurus",
- 	"name": {"str": "Qianzhousaurus",
+ 	"name": {
+ 		"str": "Qianzhousaurus",
  		"species": "DINOSAUR",
- 		"default_faction":  "carnivore_dino"
+ 		"default_faction": "carnivore_dino"
  		"symbol": "d",
  		"color": "white_brown"
  		"volume": "5000L",
@@ -1275,8 +1276,6 @@
  		"flags": ["SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "BLEED", "WARM", "CATFOOD", "SWARMS", "ATTACKMON", "GROUP_MORALE"],
  	},
  ]
-
-
 
 
 
