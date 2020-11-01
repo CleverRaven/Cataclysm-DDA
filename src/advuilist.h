@@ -12,17 +12,18 @@
 #include <utility>     // for pair
 #include <vector>      // for vector
 
-#include "color.h"                  // for color_manager, hilite, c_dark_gray
-#include "cursesdef.h"              // for mvwprintw, newwin, werase, window
-#include "input.h"                  // for input_context
-#include "output.h"                 // for trim_and_print, draw_border, rig...
-#include "point.h"                  // for point
-#include "src/cata_utility.h"       // for lcmatch
-#include "src/string_formatter.h"   // for string_format
-#include "src/string_input_popup.h" // for string_input_popup
-#include "translations.h"           // for _, localized_compare
-#include "ui.h"                     // for uilist
-#include "ui_manager.h"             // for redraw, ui_adaptor
+#include "advuilist_const.h"    // for ACTION_
+#include "cata_utility.h"       // for lcmatch
+#include "color.h"              // for color_manager, hilite, c_dark_gray
+#include "cursesdef.h"          // for mvwprintw, newwin, werase, window
+#include "input.h"              // for input_context
+#include "output.h"             // for trim_and_print, draw_border, rig...
+#include "point.h"              // for point
+#include "string_formatter.h"   // for string_format
+#include "string_input_popup.h" // for string_input_popup
+#include "translations.h"       // for _, localized_compare
+#include "ui.h"                 // for uilist
+#include "ui_manager.h"         // for redraw, ui_adaptor
 
 // TODO:
 //     select all
@@ -64,7 +65,7 @@ class advuilist
     using select_t = std::vector<selection_t>;
 
     advuilist( Container *list, point size = { -1, -1 }, point origin = { -1, -1 },
-               std::string const &ctxtname = "default", bool init = true );
+               std::string const &ctxtname = CTXT_DEFAULT, bool init = true );
 
     /// sets up columns and replaces implicit column sorters (does not affect additional sorters
     /// added with addSorter())
@@ -77,7 +78,7 @@ class advuilist
     /// adds a new grouper. replaces existing grouper with same name
     ///@param grouper
     void addGrouper( grouper_t const &grouper );
-    /// sets a handler for input_context actions. this is executed before any internal actions are
+    /// sets a handler for input_context actions. this is executed after all internal actions are
     /// handled
     void setctxthandler( fctxt_t const &func );
     /// sets the element counting function. enables partial selection
@@ -170,7 +171,7 @@ class advuilist
     void _group( typename groupercont_t::size_type idx );
     void _querysort();
     void _queryfilter();
-    std::size_t _querypartial( std::size_t max);
+    std::size_t _querypartial( std::size_t max );
     void _setfilter( std::string const &filter );
     bool _basicfilter( T const &it, std::string const &filter ) const;
     typename pagecont_t::size_type _idxtopage( typename list_t::size_type idx );
@@ -292,31 +293,27 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
         ui_manager::redraw();
         std::string const action = _ctxt.handle_input();
 
-        if( _fctxt ) {
-            _fctxt( action );
-        }
-
-        if( action == "UP" ) {
+        if( action == ACTION_UP ) {
             _cidx = _cidx == 0 ? _list.size() - 1 : _cidx - 1;
             _cpage = _idxtopage( _cidx );
-        } else if( action == "DOWN" ) {
+        } else if( action == ACTION_DOWN ) {
             _cidx = _cidx >= _list.size() - 1 ? 0 : _cidx + 1;
             _cpage = _idxtopage( _cidx );
-        } else if( action == "PAGE_UP" ) {
+        } else if( action == ACTION_PAGE_UP ) {
             _cidx = _cidx > _pagesize ? _cidx - _pagesize : 0;
             _cpage = _idxtopage( _cidx );
-        } else if( action == "PAGE_DOWN" ) {
+        } else if( action == ACTION_PAGE_DOWN ) {
             _cidx = _cidx < _list.size() - _pagesize ? _cidx + _pagesize : _list.size() - 1;
             _cpage = _idxtopage( _cidx );
-        } else if( action == "SORT" ) {
+        } else if( action == ACTION_SORT ) {
             _querysort();
-        } else if( action == "FILTER" ) {
+        } else if( action == ACTION_FILTER ) {
             _queryfilter();
-        } else if( action == "RESET_FILTER" ) {
+        } else if( action == ACTION_RESET_FILTER ) {
             _setfilter( std::string() );
-        } else if( action == "SELECT" ) {
+        } else if( action == ACTION_SELECT ) {
             return peek();
-        } else if( action == "SELECT_PARTIAL" ) {
+        } else if( action == ACTION_SELECT_PARTIAL ) {
             if( _fcounter ) {
                 std::size_t const count = _fcounter( *std::get<ptr_t>( _list[_cidx] ) );
                 std::size_t const input = _querypartial( count );
@@ -324,10 +321,14 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
                     return _peek( input );
                 }
             }
-        } else if( action == "QUIT" ) {
+        } else if( action == ACTION_QUIT ) {
             _exit = true;
         }
         // FIXME: add SELECT_ALL and maybe SELECT_MARKED (or expand SELECT)
+
+        if( _fctxt ) {
+            _fctxt( action );
+        }
     }
 
     return select_t();
@@ -399,7 +400,7 @@ std::shared_ptr<ui_adaptor> advuilist<Container, T>::get_ui()
 }
 
 template <class Container, typename T>
-typename advuilist<Container, T>::select_t advuilist<Container, T>::_peek( std::size_t amount)
+typename advuilist<Container, T>::select_t advuilist<Container, T>::_peek( std::size_t amount )
 {
     return select_t{ selection_t{ amount, std::get<ptr_t>( _list[_cidx] ) } };
 }
@@ -443,15 +444,15 @@ template <class Container, typename T>
 void advuilist<Container, T>::_initctxt()
 {
     _ctxt.register_updown();
-    _ctxt.register_action( "PAGE_UP" );
-    _ctxt.register_action( "PAGE_DOWN" );
-    _ctxt.register_action( "SORT" );
-    _ctxt.register_action( "FILTER" );
-    _ctxt.register_action( "RESET_FILTER" );
-    _ctxt.register_action( "SELECT" );
-    _ctxt.register_action( "SELECT_PARTIAL" );
-    _ctxt.register_action( "QUIT" );
-    _ctxt.register_action( "HELP_KEYBINDINGS" );
+    _ctxt.register_action( ACTION_PAGE_UP );
+    _ctxt.register_action( ACTION_PAGE_DOWN );
+    _ctxt.register_action( ACTION_SORT );
+    _ctxt.register_action( ACTION_FILTER );
+    _ctxt.register_action( ACTION_RESET_FILTER );
+    _ctxt.register_action( ACTION_SELECT );
+    _ctxt.register_action( ACTION_SELECT_PARTIAL );
+    _ctxt.register_action( ACTION_QUIT );
+    _ctxt.register_action( ACTION_HELP_KEYBINDINGS );
 }
 
 template <class Container, typename T>
@@ -509,7 +510,7 @@ template <class Container, typename T>
 void advuilist<Container, T>::_printheaders()
 {
     // sort mode
-    mvwprintw( _w, { _firstcol, 0 }, _( "< [%s] Sort: %s >" ), _ctxt.get_desc( "SORT" ),
+    mvwprintw( _w, { _firstcol, 0 }, _( "< [%s] Sort: %s >" ), _ctxt.get_desc( ACTION_SORT ),
                std::get<std::string>( _sorters[_csort] ) );
 
     // page index
@@ -520,7 +521,7 @@ void advuilist<Container, T>::_printheaders()
 
     // keybinding hint
     std::string const msg3 = string_format( _( "< [<color_yellow>%s</color>] keybindings >" ),
-                                            _ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+                                            _ctxt.get_desc( ACTION_HELP_KEYBINDINGS ) );
     right_print( _w, 0, 0, c_white, msg3 );
 }
 
@@ -528,7 +529,7 @@ template <class Container, typename T>
 void advuilist<Container, T>::_printfooters()
 {
     // filter
-    std::string fprefix = string_format( _( "[%s] Filter" ), _ctxt.get_desc( "FILTER" ) );
+    std::string fprefix = string_format( _( "[%s] Filter" ), _ctxt.get_desc( ACTION_FILTER ) );
     if( !_filter.empty() ) {
         mvwprintw( _w, { _firstcol, _size.y - 1 }, "< %s: %s >", fprefix, _filter );
     } else {
@@ -669,8 +670,8 @@ template <class Container, typename T>
 std::size_t advuilist<Container, T>::_querypartial( std::size_t max )
 {
     string_input_popup spopup;
-    spopup.title( string_format( _( "How many do you want to select?  [Max %d] (0 to cancel)" ),
-                                  max ) );
+    spopup.title(
+        string_format( _( "How many do you want to select?  [Max %d] (0 to cancel)" ), max ) );
     spopup.width( 20 );
     spopup.only_digits( true );
     std::size_t amount = spopup.query_int64_t();

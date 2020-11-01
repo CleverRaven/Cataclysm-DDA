@@ -9,6 +9,7 @@
 #include <type_traits> // for declval
 
 #include "advuilist.h"        // for advuilist
+#include "advuilist_const.h"  // for ACTION_*
 #include "color.h"            // for color_manager, c_dark_gray, c_ligh...
 #include "cursesdef.h"        // for newwin, werase, wnoutrefresh, window
 #include "output.h"           // for draw_border, right_print, TERMX
@@ -31,7 +32,7 @@ class advuilist_sourced : public advuilist<Container, T>
     using fctxt_t = typename advuilist<Container, T>::fctxt_t;
 
     advuilist_sourced( point const &srclayout, point size = { -1, -1 }, point origin = { -1, -1 },
-                       std::string const &ctxtname = "default" );
+                       std::string const &ctxtname = CTXT_DEFAULT );
 
     void addSource( source_t const &src );
     void setSource( icon_t c );
@@ -130,14 +131,14 @@ void advuilist_sourced<Container, T>::_initui()
 template <class Container, typename T>
 void advuilist_sourced<Container, T>::_registerSrc( icon_t c )
 {
-    this->get_ctxt()->register_action( string_format( "%s%c", "SOURCE_", c ) );
+    this->get_ctxt()->register_action( string_format( "%s%c", ACTION_SOURCE_PRFX, c ) );
 }
 
 template <class Container, typename T>
 void advuilist_sourced<Container, T>::_ctxthandler( std::string const &action )
 {
     // where is c++20 when you need it?
-    if( action.substr( 0, 7 ) == "SOURCE_" ) {
+    if( action.substr( 0, ACTION_SOURCE_PRFX_len ) == ACTION_SOURCE_PRFX ) {
         icon_t c = action.back();
         setSource( c );
     }

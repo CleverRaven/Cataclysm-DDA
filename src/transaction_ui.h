@@ -4,6 +4,7 @@
 #include <array>
 #include <queue>
 
+#include "advuilist_const.h" // for ACTION_*
 #include "advuilist_sourced.h"
 
 /// two-pane transaction ui based on advuilist_sourced
@@ -19,7 +20,7 @@ class transaction_ui
     enum class event { QUIT = 0, SWITCH = 1, NEVENTS = 2 };
 
     transaction_ui( point const &llayout, point const &rlayout, point size = { -1, -1 },
-                    point origin = { -1, -1 }, std::string const &ctxtname = "default" );
+                    point origin = { -1, -1 }, std::string const &ctxtname = CTXT_DEFAULT );
 
     advuilist_t *left();
     advuilist_t *right();
@@ -66,7 +67,7 @@ transaction_ui<Container, T>::transaction_ui( point const &llayout, point const 
 // *INDENT-ON*
 {
     for( auto &v : _panes ) {
-        v.get_ctxt()->register_action( "SWITCH_PANES" );
+        v.get_ctxt()->register_action( ACTION_SWITCH_PANES );
         v.setctxthandler( [this]( std::string const &action ) { this->_ctxthandler( action ); } );
     }
 }
@@ -125,11 +126,11 @@ void transaction_ui<Container, T>::show()
 template <class Container, typename T>
 void transaction_ui<Container, T>::_ctxthandler( std::string const &action )
 {
-    if( action == "QUIT" ) {
+    if( action == ACTION_QUIT ) {
         _queue.emplace( event::QUIT );
     }
 
-    if( action == "SWITCH_PANES" ) {
+    if( action == ACTION_SWITCH_PANES ) {
         _queue.emplace( event::SWITCH );
         _panes[_cpane].suspend();
     }

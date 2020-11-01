@@ -12,6 +12,7 @@
 #include <vector>        // for vector
 
 #include "advuilist.h"         // for advuilist
+#include "advuilist_const.h"   // for ACTION_*
 #include "advuilist_sourced.h" // for advuilist_sourced
 #include "character.h"         // for get_player_character, Character
 #include "item_category.h"     // for item_category
@@ -101,7 +102,12 @@ void setup_for_aim( advuilist<Container, iloc_entry> *myadvuilist )
         "category",
         []( iloc_entry const &it ) { return it.stack[0]->get_category_shallow().sort_rank(); },
         []( iloc_entry const &it ) { return it.stack[0]->get_category_shallow().name(); } } );
-    myadvuilist->get_ctxt()->register_action( "EXAMINE" );
+    myadvuilist->get_ctxt()->register_action( ACTION_EXAMINE );
+    myadvuilist->setctxthandler( []( std::string const &action ) {
+        if( action == "EXAMINE" ) {
+            debugmsg( "examine placeholder" );
+        }
+    } );
     myadvuilist->setfilterf( filter_t{ desc, []( iloc_entry const &it, std::string const &filter ) {
                                           // FIXME: salvage filter caching from old AIM code
                                           auto const filterf = item_filter_from_string( filter );
@@ -129,21 +135,34 @@ void add_aim_sources( advuilist_sourced<Container, iloc_entry> *myadvuilist )
 
     fsource_t _source_all = []() { return source_all<Container>(); };
     fsource_t source_dummy = []() { return Container(); };
-    myadvuilist->addSource( { "NW", '7', { 3, 0 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource( { "N", '8', { 4, 0 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource( { "NE", '9', { 5, 0 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource( { "W", '4', { 3, 1 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource( { ".", '5', { 4, 1 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource( { "E", '6', { 5, 1 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource( { "SW", '1', { 3, 2 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource( { "S", '2', { 4, 2 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource( { "SE", '3', { 5, 2 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource( { "Container", 'C', { 0, 0 }, source_dummy, []() { return false; } } );
     myadvuilist->addSource(
-        { "Dragged vehicle", 'D', { 1, 0 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource( { "Inventory", 'I', { 1, 1 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource( { "All", 'A', { 0, 2 }, _source_all, []() { return true; } } );
-    myadvuilist->addSource( { "Worn", 'W', { 1, 2 }, source_dummy, []() { return false; } } );
+        { _( SOURCE_NW ), SOURCE_NW_i, { 3, 0 }, source_dummy, []() { return false; } } );
+    myadvuilist->addSource(
+        { _( SOURCE_N ), SOURCE_N_i, { 4, 0 }, source_dummy, []() { return false; } } );
+    myadvuilist->addSource(
+        { _( SOURCE_NE ), SOURCE_NE_i, { 5, 0 }, source_dummy, []() { return false; } } );
+    myadvuilist->addSource(
+        { _( SOURCE_W ), SOURCE_W_i, { 3, 1 }, source_dummy, []() { return false; } } );
+    myadvuilist->addSource(
+        { _( SOURCE_CENTER ), SOURCE_CENTER_i, { 4, 1 }, source_dummy, []() { return false; } } );
+    myadvuilist->addSource(
+        { _( SOURCE_E ), SOURCE_E_i, { 5, 1 }, source_dummy, []() { return false; } } );
+    myadvuilist->addSource(
+        { _( SOURCE_SW ), SOURCE_SW_i, { 3, 2 }, source_dummy, []() { return false; } } );
+    myadvuilist->addSource(
+        { _( SOURCE_S ), SOURCE_S_i, { 4, 2 }, source_dummy, []() { return false; } } );
+    myadvuilist->addSource(
+        { _( SOURCE_SE ), SOURCE_SE_i, { 5, 2 }, source_dummy, []() { return false; } } );
+    myadvuilist->addSource(
+        { _( SOURCE_CONT ), SOURCE_CONT_i, { 0, 0 }, source_dummy, []() { return false; } } );
+    myadvuilist->addSource(
+        { _( SOURCE_DRAGGED ), SOURCE_DRAGGED_i, { 1, 0 }, source_dummy, []() { return false; } } );
+    myadvuilist->addSource(
+        { _( SOURCE_INV ), SOURCE_INV_i, { 1, 1 }, source_dummy, []() { return false; } } );
+    myadvuilist->addSource(
+        { _( SOURCE_ALL ), SOURCE_ALL_i, { 0, 2 }, _source_all, []() { return true; } } );
+    myadvuilist->addSource(
+        { _( SOURCE_WORN ), SOURCE_WORN_i, { 1, 2 }, source_dummy, []() { return false; } } );
 }
 
 template void setup_for_aim( aim_advuilist_t *myadvuilist );
