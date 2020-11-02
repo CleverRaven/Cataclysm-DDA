@@ -230,7 +230,7 @@
     "description": "A 4 pound cannonball.  With some gunpowder, wadding, and a fuse, it could be prepared to load into a cannon.",
     "material": [ "steel" ],
     "weight": "1814 g",
-    "volume": "2000 ml",
+    "volume": "200 ml",
     "bashing": 15,
     "to_hit": -5,
     "flags": [ "TRADER_AVOID" ]
