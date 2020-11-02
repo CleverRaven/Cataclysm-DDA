@@ -536,8 +536,8 @@
 	"speed": 95,
 	"vision_day": 15,
 	"dodge": 2,
-	"harvest": "arachnid",
-	"reproduction": { "baby_egg": "egg_firefly", "baby_count": 1, "baby_timer": 30 },
+	"harvest": "arachnid_firefly",
+	"reproduction": { "baby_egg": "egg_firefly", "baby_count": 1, "baby_timer": 15 },
 	"baby_flags": [ "SPRING", "SUMMER" ],
 	"fear_triggers": [ "HURT" ],
 	"flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
