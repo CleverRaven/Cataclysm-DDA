@@ -1963,5 +1963,15 @@
     "id": "auto_wield",
     "type": "json_flag",
     "context": [  ]
+  },
+  {
+    "id": "SOFT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "HARD",
+    "type": "json_flag",
+    "context": [  ]
   }
 ]
