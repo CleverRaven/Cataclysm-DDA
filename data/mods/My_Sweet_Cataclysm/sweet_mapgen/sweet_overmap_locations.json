@@ -74,40 +74,11 @@
           "t_tree",
           "t_tree_willow"
         ],
-        "*": [
-          [ "t_chocolate_sh", 8 ],
-          "t_dirt",
-          "t_grass",
-          "t_underbrush",
-          "t_tree_willow"
-        ],
-        "?": [
-          [ "t_chocolate_sh", 3 ],
-          [ "t_dirt", 5 ],
-          [ "t_grass", 6 ],
-          "t_shrub",
-          "t_tree_young",
-          "t_tree",
-          "t_tree_willow"
-        ],
-        "[": [
-          [ "t_chocolate_dp", 4 ],
-          [ "t_chocolate_sh", 4 ],
-          "t_underbrush"
-        ],
-        "]": [
-          [ "t_chocolate_sh", 8 ],
-          "t_dirt",
-          "t_grass",
-          "t_tree_willow"
-        ],
-        "~": [
-          [ "t_chocolate_dp", 8 ],
-          "t_dirt",
-          "t_grass",
-          "t_underbrush",
-          "t_tree_willow"
-        ]
+        "*": [ [ "t_chocolate_sh", 8 ], "t_dirt", "t_grass", "t_underbrush", "t_tree_willow" ],
+        "?": [ [ "t_chocolate_sh", 3 ], [ "t_dirt", 5 ], [ "t_grass", 6 ], "t_shrub", "t_tree_young", "t_tree", "t_tree_willow" ],
+        "[": [ [ "t_chocolate_dp", 4 ], [ "t_chocolate_sh", 4 ], "t_underbrush" ],
+        "]": [ [ "t_chocolate_sh", 8 ], "t_dirt", "t_grass", "t_tree_willow" ],
+        "~": [ [ "t_chocolate_dp", 8 ], "t_dirt", "t_grass", "t_underbrush", "t_tree_willow" ]
       },
       "place_monsters": [
         { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
@@ -190,13 +161,7 @@
           "t_tree",
           "t_tree_willow"
         ],
-        "*": [
-          [ "t_chocolate_sh", 8 ],
-          "t_dirt",
-          "t_grass",
-          "t_underbrush",
-          "t_tree_willow"
-        ],
+        "*": [ [ "t_chocolate_sh", 8 ], "t_dirt", "t_grass", "t_underbrush", "t_tree_willow" ],
         "?": [
           [ "t_chocolate_sh", 3 ],
           [ "t_dirt", 4 ],
@@ -206,24 +171,9 @@
           "t_tree",
           "t_tree_willow"
         ],
-        "[": [
-          [ "t_chocolate_dp", 4 ],
-          [ "t_chocolate_sh", 4 ],
-          "t_underbrush"
-        ],
-        "]": [
-          [ "t_chocolate_sh", 8 ],
-          "t_dirt",
-          "t_grass",
-          "t_tree_willow"
-        ],
-        "~": [
-          [ "t_chocolate_dp", 8 ],
-          "t_dirt",
-          "t_grass",
-          "t_underbrush",
-          "t_tree_willow"
-        ]
+        "[": [ [ "t_chocolate_dp", 4 ], [ "t_chocolate_sh", 4 ], "t_underbrush" ],
+        "]": [ [ "t_chocolate_sh", 8 ], "t_dirt", "t_grass", "t_tree_willow" ],
+        "~": [ [ "t_chocolate_dp", 8 ], "t_dirt", "t_grass", "t_underbrush", "t_tree_willow" ]
       },
       "place_monsters": [
         { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },

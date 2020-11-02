@@ -4520,7 +4520,7 @@ item map::water_from( const tripoint &p )
     }
 
     if( has_flag( "CHOCOLATE", p ) ) {
-        item ret( "milk_raw_choc", calendar::turn, item::INFINITE_CHARGES );
+        item ret( "salted_chocolate", calendar::turn, item::INFINITE_CHARGES );
         ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
                                   temperatures::cold ) ) );
         return ret;
