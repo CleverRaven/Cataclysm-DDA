@@ -2238,7 +2238,8 @@
         "cost_multiplier": 0,
         "pack_size": [ 2, 7 ],
         "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
-      },      {
+      },
+      {
         "monster": "mon_firefly",
         "freq": 30,
         "cost_multiplier": 1,

@@ -198,16 +198,16 @@
     "rot_spawn": "GROUP_EGG_LOCUST"
   },
   {
-	"type": "COMESTIBLE",
-	"id": "egg_firefly",
-	"name": "firefly egg",
-	"copy-from": "spider_egg",
-	"color": "yellow",
-	"symbol": "o",
-	"spoils_in": "1 day",
-	"description": "The fist-sized egg of a mutant firefly. Glows faintly in the dark.",
-	"material": [ "egg" ],
-	"rot_spawn": "GROUP_EGG_FIREFLY"
+    "type": "COMESTIBLE",
+    "id": "egg_firefly",
+    "name": "firefly egg",
+    "copy-from": "spider_egg",
+    "color": "yellow",
+    "symbol": "o",
+    "spoils_in": "1 day",
+    "description": "The fist-sized egg of a mutant firefly. Glows faintly in the dark.",
+    "material": [ "egg" ],
+    "rot_spawn": "GROUP_EGG_FIREFLY"
   },
   {
     "type": "COMESTIBLE",
