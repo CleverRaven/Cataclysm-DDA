@@ -4,7 +4,7 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "3-inch ordnance rifle", "str_pl": "3-inch ordnance rifles" },
+    "name": { "str": "3-inch ordnance rifle" },
     "description": "A cannon widely used in the American Civil War, noted for its reliability.",
     "weight": "371946 g",
     "volume": "134 L",
