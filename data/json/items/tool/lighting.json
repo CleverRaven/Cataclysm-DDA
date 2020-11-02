@@ -664,7 +664,7 @@
     "description": "This is a smart lamp, this smart lamp is turned on.  It can be deactivated remotely.",
     "power_draw": 10000,
     "revert_to": "smart_lamp",
-    "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
+    "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ]
   },
   {
