@@ -30,7 +30,7 @@
     {
     "type": "MONSTER_FACTION",
     "name": "orcs",
-    "hate": [ "dragon_black", "lizardfolk", "ooze", "zombie", "fungus", "migo" ]
+    "hate": [ "dragon_black", "lizardfolk", "ooze", "zombie", "fungus", "migo", "goblin", "orc" ]
   },
   }
 ]
