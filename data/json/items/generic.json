@@ -2235,7 +2235,7 @@
     "id": "blue_topaz",
     "copy-from": "garnet",
     "color": "light_blue",
-    "name": { "str_sp": "topaz" },
+    "name": { "str": "topaz", "str_pl": "topazes" },
     "description": "A sparkling blue topaz."
   },
   {
