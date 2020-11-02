@@ -59,7 +59,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy3gator",
-    "name": { "str": "chewy candy", "str_pl": "chewy candies" },
+    "name": { "str": "chewy reptilian candy", "str_pl": "chewy reptilian candies" },
     "description": "A handful of colorful fruit-flavored chewy candy shaped in a reptilian fashion.  They're warm to the touch and you can feel a slow beat coming from them.  How odd…",
     "symbol": "%",
     "container": "null",
@@ -110,7 +110,7 @@
     "name": "cookie egg",
     "symbol": "%",
     "container": "null",
-    "description": "Sweet and delicious cookies, just like grandma used to bake.  They shiver under your touch and are shaped like an egg.  Weird!",
+    "description": "Sweet and delicious cookies, shaped like eggs.  They shiver under your touch and are shaped like an egg.  Weird!",
     "copy-from": "cookies",
     "rot_spawn": "GROUP_EGG_COOKIE_EGG",
     "rot_spawn_chance": 100,

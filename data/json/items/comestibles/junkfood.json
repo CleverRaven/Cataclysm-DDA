@@ -318,6 +318,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "candy3gator",
+    "name": { "str": "chewy reptilian candy", "str_pl": "chewy reptilian candies" },
+    "copy-from": "candy3",
+    "description": "A handful of colorful fruit-flavored chewy candy shaped in a reptilian fashion.  Made by SugarRush."
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "powder_candy",
     "name": { "str_sp": "powder candy sticks" },
     "weight": "46 g",
@@ -383,6 +390,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "grahmcrackers_roe",
+    "name": "graham cracker chunk",
+    "copy-from": "grahmcrackers",
+    "description": "Dry and sugary, these cracker pellets will leave you thirsty, but go well with some chocolate and marshmallows.  Made by SugarRush!"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "cookies",
     "name": "cookie",
     "weight": "33 g",
@@ -403,6 +417,13 @@
     "stack_size": 20,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
     "fun": 7
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "cookies_egg",
+    "name": "cookie egg",
+    "copy-from": "cookies",
+    "description": "Sweet and delicious cookies, shaped like eggs.  Made by SugarRush!"
   },
   {
     "type": "COMESTIBLE",
