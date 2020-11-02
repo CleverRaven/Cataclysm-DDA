@@ -1,17 +1,24 @@
 #ifndef CATA_SRC_ADVUILIST_HELPERS_H
 #define CATA_SRC_ADVUILIST_HELPERS_H
 
-#include <cstddef> // for size_t
-#include <string>  // for string, allocator
-#include <utility> // for pair
-#include <vector>  // for vector
+#include <cstddef>    // for size_t
+#include <functional> // for function
+#include <string>     // for string, allocator
+#include <utility>    // for pair
+#include <vector>     // for vector
 
 #include "advuilist.h"         // for advuilist
 #include "advuilist_sourced.h" // for advuilist_sourced
 #include "item_location.h"     // for item_location
 #include "units_fwd.h"         // for mass, volume
 
+class Character;
+class item;
 class map_cursor;
+class vehicle_cursor;
+class map_stack;
+class vehicle_stack;
+struct tripoint;
 namespace catacurses
 {
 class window;
@@ -61,7 +68,13 @@ constexpr auto const SOURCE_W_i = '4';
 constexpr auto const SOURCE_WORN = "Worn Items";
 constexpr auto const SOURCE_WORN_i = 'W';
 
-iloc_stack_t get_stacks( map_cursor &cursor );
+using filoc_t = std::function<item_location( item * )>;
+item_location iloc_map_cursor( map_cursor const &cursor, item *it );
+item_location iloc_tripoint( tripoint const &loc, item *it );
+item_location iloc_character( Character *guy, item *it );
+item_location iloc_vehicle( vehicle_cursor const &cursor, item *it );
+template <class Iterable>
+iloc_stack_t get_stacks( Iterable items, filoc_t const &iloc_helper );
 
 std::size_t iloc_entry_counter( iloc_entry const &it );
 std::string iloc_entry_count( iloc_entry const &it );
@@ -84,18 +97,19 @@ void iloc_entry_stats_printer( aim_stats_t *stats, catacurses::window *w );
 
 void iloc_entry_examine( catacurses::window *w, iloc_entry const &it );
 
-template <class Container = aim_container_t>
-void setup_for_aim( advuilist<Container, iloc_entry> *myadvuilist, aim_stats_t *stats );
+aim_container_t source_ground_all( Character *guy, int radius );
+aim_container_t source_ground( tripoint const &loc );
+aim_container_t source_vehicle( tripoint const &loc );
+aim_container_t source_char_inv( Character *guy );
+aim_container_t source_char_worn( Character *guy );
 
-template <class Container = aim_container_t>
-Container source_all( int radius = 1 );
+void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats );
+void add_aim_sources( aim_advuilist_sourced_t *myadvuilist );
 
-template <class Container = aim_container_t>
-void add_aim_sources( advuilist_sourced<Container, iloc_entry> *myadvuilist );
-
-extern template void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats );
-extern template aim_container_t source_all( int radius );
-extern template void add_aim_sources( aim_advuilist_sourced_t *myadvuilist );
+// for map::i_at()
+extern template iloc_stack_t get_stacks<>( map_stack items, filoc_t const &iloc_helper );
+// for vehicle::get_items()
+extern template iloc_stack_t get_stacks<>( vehicle_stack items, filoc_t const &iloc_helper );
 
 } // namespace advuilist_helpers
 

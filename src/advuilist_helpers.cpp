@@ -1,34 +1,39 @@
 #include "advuilist_helpers.h"
 
-#include <algorithm>     // for __niter_base, max
-#include <functional>    // for equal_to, function
-#include <iterator>      // for operator!=, operator==, make_move...
+#include <algorithm>     // for __niter_base, max, copy
+#include <functional>    // for function
+#include <iterator>      // for move_iterator, operator!=, __nite...
+#include <list>          // for list
 #include <memory>        // for _Destroy, allocator_traits<>::val...
 #include <set>           // for set
 #include <string>        // for allocator, basic_string, string
-#include <tuple>         // for pair::pair<_T1, _T2>
 #include <unordered_map> // for unordered_map, unordered_map<>::i...
 #include <utility>       // for move, get, pair
 #include <vector>        // for vector
 
-#include "advuilist.h"         // for advuilist
-#include "advuilist_sourced.h" // for advuilist_sourced
-#include "character.h"         // for get_player_character, Character
-#include "color.h"             // for c_white, color_manager
-#include "input.h"             // for input_event
-#include "item.h"              // for item, iteminfo
-#include "item_category.h"     // for item_category
-#include "item_location.h"     // for item_location
-#include "item_search.h"       // for item_filter_from_string
-#include "map.h"               // for get_map, map_stack, map
-#include "map_selector.h"      // for map_cursor, map_selector
-#include "output.h"            // for format_volume, draw_item_info
-#include "point.h"             // for tripoint
-#include "string_formatter.h"  // for string_format
-#include "translations.h"      // for _, localized_compare
-#include "type_id.h"           // for itype_id, hash
-#include "units.h"             // for quantity, operator""_kilogram
-#include "units_utility.h"     // for convert_weight, volume_units_abbr
+#include "avatar.h"           // for avatar, get_avatar
+#include "character.h"        // for get_player_character, Character
+#include "color.h"            // for get_all_colors, color_manager
+#include "enums.h"            // for object_type, object_type::VEHICLE
+#include "input.h"            // for input_event
+#include "item.h"             // for item, iteminfo
+#include "item_category.h"    // for item_category
+#include "item_contents.h"    // for item_contents
+#include "item_location.h"    // for item_location
+#include "item_search.h"      // for item_filter_from_string
+#include "map.h"              // for get_map, map, map_stack
+#include "map_selector.h"     // for map_cursor, map_selector
+#include "optional.h"         // for optional
+#include "output.h"           // for format_volume, draw_item_info
+#include "point.h"            // for tripoint
+#include "string_formatter.h" // for string_format
+#include "translations.h"     // for _, localized_comparator, localize...
+#include "type_id.h"          // for hash, itype_id
+#include "units.h"            // for quantity, operator""_kilogram
+#include "units_utility.h"    // for convert_weight, volume_units_abbr
+#include "vehicle.h"          // for vehicle
+#include "vehicle_selector.h" // for vehicle_cursor
+#include "vpart_position.h"   // for vpart_reference, optional_vpart_p...
 
 namespace catacurses
 {
@@ -67,32 +72,132 @@ units::volume _iloc_entry_volume( advuilist_helpers::iloc_entry const &it )
     }
     return ret;
 }
+
+using stack_cache_t = std::unordered_map<itype_id, std::set<int>>;
+void _get_stacks( item *elem, advuilist_helpers::iloc_stack_t *stacks, stack_cache_t *cache,
+                  advuilist_helpers::filoc_t const &iloc_helper )
+{
+    const auto id = elem->typeId();
+    auto iter = cache->find( id );
+    bool got_stacked = false;
+    if( iter != cache->end() ) {
+        for( auto const &idx : iter->second ) {
+            got_stacked = ( *stacks )[idx].stack.front()->display_stacked_with( *elem );
+            if( got_stacked ) {
+                ( *stacks )[idx].stack.emplace_back( iloc_helper( elem ) );
+                break;
+            }
+        }
+    }
+    if( !got_stacked ) {
+        ( *cache )[id].insert( stacks->size() );
+        stacks->emplace_back( advuilist_helpers::iloc_entry{ { iloc_helper( elem ) } } );
+    }
+}
+
+advuilist_helpers::aim_container_t source_ground_player_all()
+{
+    return advuilist_helpers::source_ground_all( &get_player_character(), 1 );
+}
+
+advuilist_helpers::aim_container_t source_player_ground( tripoint const &offset )
+{
+    Character &u = get_player_character();
+    return advuilist_helpers::source_ground( u.pos() + offset );
+}
+
+bool source_player_ground_avail( tripoint const &offset )
+{
+    Character &u = get_player_character();
+    return get_map().can_put_items_ter_furn( u.pos() + offset );
+}
+
+bool source_player_dragged_avail()
+{
+    avatar &u = get_avatar();
+    if( u.get_grab_type() == object_type::VEHICLE ) {
+        tripoint const pos = u.pos() + u.grab_point;
+        cata::optional<vpart_reference> vp =
+            get_map().veh_at( pos ).part_with_feature( "CARGO", false );
+        return vp.has_value();
+    }
+
+    return false;
+}
+
+advuilist_helpers::aim_container_t source_player_dragged()
+{
+    avatar &u = get_avatar();
+    return advuilist_helpers::source_vehicle( u.pos() + u.grab_point );
+}
+
+advuilist_helpers::aim_container_t source_player_inv()
+{
+    return advuilist_helpers::source_char_inv( &get_player_character() );
+}
+
+advuilist_helpers::aim_container_t source_player_worn()
+{
+    return advuilist_helpers::source_char_worn( &get_player_character() );
+}
+
+constexpr tripoint const off_NW = { -1, -1, 0 };
+constexpr tripoint const off_N = { 0, -1, 0 };
+constexpr tripoint const off_NE = { 1, -1, 0 };
+constexpr tripoint const off_W = { -1, 0, 0 };
+constexpr tripoint const off_C = { 0, 0, 0 };
+constexpr tripoint const off_E = { 1, 0, 0 };
+constexpr tripoint const off_SW = { -1, 1, 0 };
+constexpr tripoint const off_S = { 0, 1, 0 };
+constexpr tripoint const off_SE = { 1, 1, 0 };
+
 } // namespace
 
 namespace advuilist_helpers
 {
-iloc_stack_t get_stacks( map_cursor &cursor )
+
+item_location iloc_map_cursor( map_cursor const &cursor, item *it )
+{
+    return item_location( cursor, it );
+}
+
+item_location iloc_tripoint( tripoint const &loc, item *it )
+{
+    return iloc_map_cursor( map_cursor( loc ), it );
+}
+
+item_location iloc_character( Character *guy, item *it )
+{
+    return item_location( *guy, it );
+}
+
+item_location iloc_vehicle( vehicle_cursor const &cursor, item *it )
+{
+    return item_location( cursor, it );
+}
+
+template <class Iterable>
+iloc_stack_t get_stacks( Iterable items, filoc_t const &iloc_helper )
 {
     iloc_stack_t stacks;
-    map_stack items = get_map().i_at( tripoint( cursor ) );
-    std::unordered_map<itype_id, std::set<int>> cache;
+    stack_cache_t cache;
     for( item &elem : items ) {
-        const auto id = elem.typeId();
-        auto iter = cache.find( id );
-        bool got_stacked = false;
-        if( iter != cache.end() ) {
-            for( auto const &idx : iter->second ) {
-                got_stacked = stacks[idx].stack.front()->display_stacked_with( elem );
-                if( got_stacked ) {
-                    stacks[idx].stack.emplace_back( cursor, &elem );
-                    break;
-                }
-            }
-        }
-        if( !got_stacked ) {
-            cache[id].insert( stacks.size() );
-            stacks.emplace_back( iloc_entry{ { item_location{ cursor, &elem } } } );
-        }
+        _get_stacks( &elem, &stacks, &cache, iloc_helper );
+    }
+
+    return stacks;
+}
+
+// all_items_top() returns an Iterable of element pointers unlike map::i_at() and friends (which
+// return an Iterable of elements) so we need this specialization and minor code duplication.
+// where is c++17 when you need it?
+template <>
+iloc_stack_t get_stacks<std::list<item *>>( std::list<item *> items, filoc_t const &iloc_helper )
+{
+    iloc_stack_t stacks;
+    stack_cache_t cache;
+    for( item *elem : items ) {
+        _get_stacks( elem, &stacks, &cache, iloc_helper );
     }
 
     return stacks;
@@ -195,14 +300,65 @@ void iloc_entry_examine( catacurses::window *w, iloc_entry const &it )
     draw_item_info( *w, data ).get_first_input();
 }
 
-template <class Container>
-void setup_for_aim( advuilist<Container, iloc_entry> *myadvuilist, aim_stats_t *stats )
+aim_container_t source_ground_all( Character *guy, int radius )
 {
-    using myuilist_t = advuilist<Container, iloc_entry>;
-    using col_t = typename myuilist_t::col_t;
-    using sorter_t = typename myuilist_t::sorter_t;
-    using grouper_t = typename myuilist_t::grouper_t;
-    using filter_t = typename myuilist_t::filter_t;
+    aim_container_t itemlist;
+    for( map_cursor &cursor : map_selector( guy->pos(), radius ) ) {
+        aim_container_t const &stacks =
+            get_stacks<>( get_map().i_at( tripoint( cursor ) ),
+                          [&]( item *it ) { return iloc_map_cursor( cursor, it ); } );
+        itemlist.insert( itemlist.end(), std::make_move_iterator( stacks.begin() ),
+                         std::make_move_iterator( stacks.end() ) );
+    }
+    return itemlist;
+}
+
+aim_container_t source_ground( tripoint const &loc )
+{
+    return get_stacks<>( get_map().i_at( loc ),
+                         [&]( item *it ) { return iloc_tripoint( loc, it ); } );
+}
+
+aim_container_t source_vehicle( tripoint const &loc )
+{
+    cata::optional<vpart_reference> vp =
+        get_map().veh_at( loc ).part_with_feature( "CARGO", false );
+
+    return get_stacks( vp->vehicle().get_items( vp->part_index() ), [&]( item *it ) {
+        return iloc_vehicle( vehicle_cursor( vp->vehicle(), vp->part_index() ), it );
+    } );
+}
+
+aim_container_t source_char_inv( Character *guy )
+{
+    aim_container_t ret;
+    for( item &worn_item : guy->worn ) {
+        aim_container_t temp =
+            get_stacks<>( worn_item.contents.all_standard_items_top(),
+                          [guy]( item *it ) { return iloc_character( guy, it ); } );
+        ret.insert( ret.end(), std::make_move_iterator( temp.begin() ),
+                    std::make_move_iterator( temp.end() ) );
+    }
+
+    return ret;
+}
+
+aim_container_t source_char_worn( Character *guy )
+{
+    aim_container_t ret;
+    for( item &worn_item : guy->worn ) {
+        ret.emplace_back( iloc_entry{ { item_location( *guy, &worn_item ) } } );
+    }
+
+    return ret;
+}
+
+void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
+{
+    using col_t = typename aim_advuilist_t::col_t;
+    using sorter_t = typename aim_advuilist_t::sorter_t;
+    using grouper_t = typename aim_advuilist_t::grouper_t;
+    using filter_t = typename aim_advuilist_t::filter_t;
 
     myadvuilist->setColumns( std::vector<col_t>{ { "Name", iloc_entry_name, 8.F },
                                                  { "count", iloc_entry_count, 1.F },
@@ -227,58 +383,74 @@ void setup_for_aim( advuilist<Container, iloc_entry> *myadvuilist, aim_stats_t *
         [stats]( catacurses::window *w ) { iloc_entry_stats_printer( stats, w ); } );
 }
 
-template <class Container>
-Container source_all( int radius )
+void add_aim_sources( aim_advuilist_sourced_t *myadvuilist )
 {
-    Container itemlist;
-    for( map_cursor &cursor : map_selector( get_player_character().pos(), radius ) ) {
-        Container const &stacks = get_stacks( cursor );
-        itemlist.insert( itemlist.end(), std::make_move_iterator( stacks.begin() ),
-                         std::make_move_iterator( stacks.end() ) );
-    }
-    return itemlist;
+    using fsource_t = typename aim_advuilist_sourced_t::fsource_t;
+    using fsourceb_t = typename aim_advuilist_sourced_t::fsourceb_t;
+
+    fsource_t source_dummy = []() { return aim_container_t(); };
+    fsourceb_t _always = []() { return true; };
+    fsourceb_t _never = []() { return false; };
+    myadvuilist->addSource( { _( SOURCE_NW ),
+                              SOURCE_NW_i,
+                              { 3, 0 },
+                              []() { return source_player_ground( off_NW ); },
+                              []() { return source_player_ground_avail( off_NW ); } } );
+    myadvuilist->addSource( { _( SOURCE_N ),
+                              SOURCE_N_i,
+                              { 4, 0 },
+                              []() { return source_player_ground( off_N ); },
+                              []() { return source_player_ground_avail( off_N ); } } );
+    myadvuilist->addSource( { _( SOURCE_NE ),
+                              SOURCE_NE_i,
+                              { 5, 0 },
+                              []() { return source_player_ground( off_NE ); },
+                              []() { return source_player_ground_avail( off_NE ); } } );
+    myadvuilist->addSource( { _( SOURCE_W ),
+                              SOURCE_W_i,
+                              { 3, 1 },
+                              []() { return source_player_ground( off_W ); },
+                              []() { return source_player_ground_avail( off_W ); } } );
+    myadvuilist->addSource( { _( SOURCE_CENTER ),
+                              SOURCE_CENTER_i,
+                              { 4, 1 },
+                              []() { return source_player_ground( off_C ); },
+                              []() { return source_player_ground_avail( off_C ); } } );
+    myadvuilist->addSource( { _( SOURCE_E ),
+                              SOURCE_E_i,
+                              { 5, 1 },
+                              []() { return source_player_ground( off_E ); },
+                              []() { return source_player_ground_avail( off_E ); } } );
+    myadvuilist->addSource( { _( SOURCE_SW ),
+                              SOURCE_SW_i,
+                              { 3, 2 },
+                              []() { return source_player_ground( off_SW ); },
+                              []() { return source_player_ground_avail( off_SW ); } } );
+    myadvuilist->addSource( { _( SOURCE_S ),
+                              SOURCE_S_i,
+                              { 4, 2 },
+                              []() { return source_player_ground( off_S ); },
+                              []() { return source_player_ground_avail( off_S ); } } );
+    myadvuilist->addSource( { _( SOURCE_SE ),
+                              SOURCE_SE_i,
+                              { 5, 2 },
+                              []() { return source_player_ground( off_SE ); },
+                              []() { return source_player_ground_avail( off_SE ); } } );
+    myadvuilist->addSource( { _( SOURCE_CONT ), SOURCE_CONT_i, { 0, 0 }, source_dummy, _never } );
+    myadvuilist->addSource( { _( SOURCE_DRAGGED ),
+                              SOURCE_DRAGGED_i,
+                              { 1, 0 },
+                              source_player_dragged,
+                              source_player_dragged_avail } );
+    myadvuilist->addSource(
+        { _( SOURCE_INV ), SOURCE_INV_i, { 1, 1 }, source_player_inv, _always } );
+    myadvuilist->addSource(
+        { _( SOURCE_ALL ), SOURCE_ALL_i, { 0, 2 }, source_ground_player_all, _always } );
+    myadvuilist->addSource(
+        { _( SOURCE_WORN ), SOURCE_WORN_i, { 1, 2 }, source_player_worn, _always } );
 }
 
-template <class Container>
-void add_aim_sources( advuilist_sourced<Container, iloc_entry> *myadvuilist )
-{
-    using myuilist_t = advuilist_sourced<Container, iloc_entry>;
-    using fsource_t = typename myuilist_t::fsource_t;
-
-    fsource_t _source_all = []() { return source_all<Container>(); };
-    fsource_t source_dummy = []() { return Container(); };
-    myadvuilist->addSource(
-        { _( SOURCE_NW ), SOURCE_NW_i, { 3, 0 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource(
-        { _( SOURCE_N ), SOURCE_N_i, { 4, 0 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource(
-        { _( SOURCE_NE ), SOURCE_NE_i, { 5, 0 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource(
-        { _( SOURCE_W ), SOURCE_W_i, { 3, 1 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource(
-        { _( SOURCE_CENTER ), SOURCE_CENTER_i, { 4, 1 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource(
-        { _( SOURCE_E ), SOURCE_E_i, { 5, 1 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource(
-        { _( SOURCE_SW ), SOURCE_SW_i, { 3, 2 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource(
-        { _( SOURCE_S ), SOURCE_S_i, { 4, 2 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource(
-        { _( SOURCE_SE ), SOURCE_SE_i, { 5, 2 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource(
-        { _( SOURCE_CONT ), SOURCE_CONT_i, { 0, 0 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource(
-        { _( SOURCE_DRAGGED ), SOURCE_DRAGGED_i, { 1, 0 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource(
-        { _( SOURCE_INV ), SOURCE_INV_i, { 1, 1 }, source_dummy, []() { return false; } } );
-    myadvuilist->addSource(
-        { _( SOURCE_ALL ), SOURCE_ALL_i, { 0, 2 }, _source_all, []() { return true; } } );
-    myadvuilist->addSource(
-        { _( SOURCE_WORN ), SOURCE_WORN_i, { 1, 2 }, source_dummy, []() { return false; } } );
-}
-
-template void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats );
-template aim_container_t source_all( int radius );
-template void add_aim_sources( aim_advuilist_sourced_t *myadvuilist );
+template iloc_stack_t get_stacks<>( map_stack items, filoc_t const &iloc_helper );
+template iloc_stack_t get_stacks<>( vehicle_stack items, filoc_t const &iloc_helper );
 
 } // namespace advuilist_helpers
