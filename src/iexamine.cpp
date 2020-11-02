@@ -4528,7 +4528,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
+            const int weight = 7;
             const int surgery_duration = itemtype->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                 surgery_duration * weight;

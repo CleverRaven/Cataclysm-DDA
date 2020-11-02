@@ -1729,7 +1729,7 @@ bool Character::has_enough_anesth( const itype *cbm, player &patient )
         return true;
     }
 
-    const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
+    const int weight = 7;
     const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                         cbm->bionic->difficulty * 2 * weight;
 
