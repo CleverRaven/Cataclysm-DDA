@@ -2235,7 +2235,7 @@
     "id": "blue_topaz",
     "copy-from": "garnet",
     "color": "light_blue",
-    "name": { "str": "topaz" },
+    "name": { "str_sp": "topaz" },
     "description": "A sparkling blue topaz."
   },
   {
@@ -2791,7 +2791,7 @@
   {
     "id": "shrapnel",
     "type": "AMMO",
-    "name": { "str": "shrapnel" },
+    "name": { "str_sp": "shrapnel" },
     "description": "A twisted shard of jagged metal.",
     "weight": "5 g",
     "volume": "250 ml",
