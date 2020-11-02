@@ -1,16 +1,40 @@
 #include "dual_list_box.h"
 
-creator::dual_list_box::dual_list_box( const QStringList &items )
+void creator::dual_list_box::initialize( const QStringList &items, const QSize &default_text_box_size )
 {
     this->items = items;
 
-    addWidget( &included_box, 0, 0 );
-    addWidget( &excluded_box, 2, 0 );
+    const double button_width = 0.2;
+    const double box_width = 0.9;
+    const QSize box_size( box_width * default_text_box_size.width(), 4 * default_text_box_size.height() );
+    const QSize button_size( button_width * default_text_box_size.width(), default_text_box_size.height() );
 
-    addWidget( &include_all_button, 1, 0 );
-    addWidget( &include_sel_button, 1, 1 );
-    addWidget( &exclude_sel_button, 1, 2 );
-    addWidget( &exclude_all_button, 1, 3 );
+    included_box.resize( box_size );
+    excluded_box.resize( box_size );
+
+    include_all_button.resize( button_size );
+    exclude_all_button.resize( button_size );
+    include_sel_button.resize( button_size );
+    exclude_sel_button.resize( button_size );
+
+    included_box.setParent( this );
+    excluded_box.setParent( this );
+
+    include_all_button.setParent( this );
+    exclude_all_button.setParent( this );
+    include_sel_button.setParent( this );
+    exclude_sel_button.setParent( this );
+
+    QGridLayout *listbox_layout = new QGridLayout();
+    setLayout( listbox_layout );
+    
+    listbox_layout->addWidget( &included_box, 0, 0 );
+    listbox_layout->addWidget( &excluded_box, 0, 2 );
+
+    listbox_layout->addWidget( &include_all_button, 0, 1 );
+    listbox_layout->addWidget( &include_sel_button, 1, 1 );
+    listbox_layout->addWidget( &exclude_sel_button, 2, 1 );
+    listbox_layout->addWidget( &exclude_all_button, 3, 1 );
 
     // initialize the list as all excluded first
     exclude_all();
@@ -18,9 +42,9 @@ creator::dual_list_box::dual_list_box( const QStringList &items )
     QObject::connect( &include_all_button, &QPushButton::click, this, &dual_list_box::include_all );
     QObject::connect( &exclude_all_button, &QPushButton::click, this, &dual_list_box::exclude_all );
     QObject::connect( &include_sel_button, &QPushButton::click, this,
-                      &dual_list_box::include_selected );
+        &dual_list_box::include_selected );
     QObject::connect( &exclude_sel_button, &QPushButton::click, this,
-                      &dual_list_box::exclude_selected );
+        &dual_list_box::exclude_selected );
 
     include_all_button.setText( QString( "<<" ) );
     exclude_all_button.setText( QString( ">>" ) );
@@ -31,6 +55,14 @@ creator::dual_list_box::dual_list_box( const QStringList &items )
     QObject::connect( &exclude_all_button, &QPushButton::click, this, &dual_list_box::click );
     QObject::connect( &include_sel_button, &QPushButton::click, this, &dual_list_box::click );
     QObject::connect( &exclude_sel_button, &QPushButton::click, this, &dual_list_box::click );
+
+    included_box.show();
+    excluded_box.show();
+
+    include_all_button.show();
+    exclude_all_button.show();
+    include_sel_button.show();
+    exclude_sel_button.show();
 }
 
 void creator::dual_list_box::include_all()

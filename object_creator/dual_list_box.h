@@ -8,12 +8,13 @@
 
 namespace creator
 {
-class dual_list_box : public QGridLayout
+class dual_list_box : public QWidget
 {
         Q_OBJECT
     public:
         dual_list_box() {}
-        dual_list_box( const QStringList &items );
+
+        void initialize( const QStringList &items, const QSize &default_text_box_size );
 
         QStringList get_included() const;
     Q_SIGNALS:

@@ -5,6 +5,7 @@
 #include "format.h"
 #include "json.h"
 #include "magic.h"
+#include "monstergenerator.h"
 #include "mutation.h"
 #include "skill.h"
 
@@ -870,6 +871,16 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     sound_ambient_label.resize( default_text_box_size );
     sound_ambient_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     sound_ambient_label.show();
+
+    QStringList all_mtypes;
+    for( const mtype &mon : MonsterGenerator::generator().get_all_mtypes() ) {
+        all_mtypes.append( mon.id.c_str() );
+    }
+
+    targeted_monster_ids_box.initialize( all_mtypes, default_text_box_size );
+    targeted_monster_ids_box.setParent( this );
+    targeted_monster_ids_box.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    targeted_monster_ids_box.show();
 
     // =========================================================================================
     // sixth column of boxes
