@@ -2,15 +2,20 @@
 #define CATA_SRC_ADVUILIST_HELPERS_H
 
 #include <cstddef> // for size_t
-#include <string>  // for allocator, basic_string, string
+#include <string>  // for string, allocator
+#include <utility> // for pair
 #include <vector>  // for vector
 
 #include "advuilist.h"         // for advuilist
 #include "advuilist_sourced.h" // for advuilist_sourced
 #include "item_location.h"     // for item_location
-#include "string_formatter.h"  // for string_format
+#include "units_fwd.h"         // for mass, volume
 
 class map_cursor;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 
 namespace advuilist_helpers
 {
@@ -27,7 +32,7 @@ using aim_advuilist_t = advuilist<aim_container_t, iloc_entry>;
 using aim_advuilist_sourced_t = advuilist_sourced<aim_container_t, iloc_entry>;
 using aim_stats_t = std::pair<units::mass, units::volume>;
 
-constexpr auto const SOURCE_ALL = "Surrounding";
+constexpr auto const SOURCE_ALL = "Surrounding area";
 constexpr auto const SOURCE_ALL_i = 'A';
 constexpr auto const SOURCE_CENTER = "Directly below you";
 constexpr auto const SOURCE_CENTER_i = '5';
@@ -59,8 +64,25 @@ constexpr auto const SOURCE_WORN_i = 'W';
 iloc_stack_t get_stacks( map_cursor &cursor );
 
 std::size_t iloc_entry_counter( iloc_entry const &it );
+std::string iloc_entry_count( iloc_entry const &it );
+std::string iloc_entry_weight( iloc_entry const &it );
+std::string iloc_entry_volume( iloc_entry const &it );
+std::string iloc_entry_name( iloc_entry const &it );
 
-void collect_stats( aim_stats_t *stats, iloc_entry const &it );
+bool iloc_entry_count_sorter( iloc_entry const &l, iloc_entry const &r );
+bool iloc_entry_weight_sorter( iloc_entry const &l, iloc_entry const &r );
+bool iloc_entry_volume_sorter( iloc_entry const &l, iloc_entry const &r );
+bool iloc_entry_name_sorter( iloc_entry const &l, iloc_entry const &r );
+
+std::size_t iloc_entry_gid( iloc_entry const &it );
+std::string iloc_entry_glabel( iloc_entry const &it );
+
+bool iloc_entry_filter( iloc_entry const &it, std::string const &filter );
+
+void iloc_entry_stats( aim_stats_t *stats, bool first, advuilist_helpers::iloc_entry const &it );
+void iloc_entry_stats_printer( aim_stats_t *stats, catacurses::window *w );
+
+void iloc_entry_examine( catacurses::window *w, iloc_entry const &it );
 
 template <class Container = aim_container_t>
 void setup_for_aim( advuilist<Container, iloc_entry> *myadvuilist, aim_stats_t *stats );
