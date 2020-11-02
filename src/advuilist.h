@@ -29,7 +29,6 @@
 // TODO:
 //     select all
 //     mark element & expand SELECT
-//     change borders and hilight color on suspend
 
 template <class Container, typename T = typename Container::value_type>
 class advuilist
@@ -66,7 +65,7 @@ class advuilist
     using grouper_t = std::tuple<std::string, fgid_t, fglabel_t>;
 
     using ptr_t = typename Container::iterator;
-    /// count, pointer. count > 0 means partial selection
+    /// count, pointer. count is always > 0
     using selection_t = std::pair<std::size_t, ptr_t>;
     using select_t = std::vector<selection_t>;
 
@@ -101,7 +100,7 @@ class advuilist
     void setfilterf( filter_t const &func );
     select_t select();
     void sort( std::string const &name );
-    void rebuild( Container *list );
+    void rebuild( Container *list = nullptr );
     /// returns the currently hilighted element. meant to be called from the external ctxt handler
     /// added by setctxthandler()
     select_t peek();
@@ -387,8 +386,9 @@ template <class Container, typename T>
 void advuilist<Container, T>::rebuild( Container *list )
 {
     _list.clear();
+    Container *rlist = list == nullptr ? _olist : list;
     std::size_t idx = 0;
-    for( auto it = list->begin(); it != list->end(); ++it ) {
+    for( auto it = rlist->begin(); it != rlist->end(); ++it ) {
         if( !_ffilter or _filter.empty() or _ffilter( *it, _filter ) ) {
             if( _frebuild ) {
                 _frebuild( _list.empty(), *it );
@@ -405,7 +405,7 @@ void advuilist<Container, T>::rebuild( Container *list )
 template <class Container, typename T>
 typename advuilist<Container, T>::select_t advuilist<Container, T>::peek()
 {
-    return _peek( 0 );
+    return _peek( 1 );
 }
 
 template <class Container, typename T>

@@ -36,6 +36,7 @@ class advuilist_sourced : public advuilist<Container, T>
 
     void addSource( source_t const &src );
     void setSource( icon_t c );
+    icon_t getSource();
 
     void setctxthandler( fctxt_t const &func );
 
@@ -105,6 +106,12 @@ void advuilist_sourced<Container, T>::setSource( icon_t c )
         _csrc = c;
         _ui->invalidate_ui();
     }
+}
+
+template <class Container, typename T>
+typename advuilist_sourced<Container, T>::icon_t advuilist_sourced<Container, T>::getSource()
+{
+    return _csrc;
 }
 
 template <class Container, typename T>

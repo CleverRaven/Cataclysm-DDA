@@ -40,6 +40,9 @@ namespace catacurses
 class window;
 } // namespace catacurses
 
+static const activity_id ACT_WEAR( "ACT_WEAR" );
+static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
+
 namespace
 {
 // FIXME: this string is duplicated from draw_item_filter_rules() because that function doesn't fit
@@ -54,6 +57,51 @@ std::string const desc = string_format(
        "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes or "
        "[<color_yellow>d</color>]isassembled components." ),
     _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
+
+constexpr tripoint const off_NW = { -1, -1, 0 };
+constexpr tripoint const off_N = { 0, -1, 0 };
+constexpr tripoint const off_NE = { 1, -1, 0 };
+constexpr tripoint const off_W = { -1, 0, 0 };
+constexpr tripoint const off_C = { 0, 0, 0 };
+constexpr tripoint const off_E = { 1, 0, 0 };
+constexpr tripoint const off_SW = { -1, 1, 0 };
+constexpr tripoint const off_S = { 0, 1, 0 };
+constexpr tripoint const off_SE = { 1, 1, 0 };
+
+// pretty hacky
+constexpr tripoint icon_to_offset( char icon )
+{
+    switch( icon ) {
+        case advuilist_helpers::SOURCE_NW_i:
+            return off_NW;
+        case advuilist_helpers::SOURCE_N_i:
+            return off_N;
+        case advuilist_helpers::SOURCE_NE_i:
+            return off_NE;
+        case advuilist_helpers::SOURCE_W_i:
+            return off_W;
+        case advuilist_helpers::SOURCE_CENTER_i:
+            return off_C;
+        case advuilist_helpers::SOURCE_E_i:
+            return off_E;
+        case advuilist_helpers::SOURCE_SW_i:
+            return off_SW;
+        case advuilist_helpers::SOURCE_S_i:
+            return off_S;
+        case advuilist_helpers::SOURCE_SE_i:
+            return off_SE;
+        case advuilist_helpers::SOURCE_DRAGGED_i:
+            return get_avatar().grab_point;
+    }
+    debugmsg( "\"%c\" is not a valid directional source", icon );
+    return off_C;
+}
+
+// more hacky stuff
+constexpr bool is_vehicle( char icon )
+{
+    return icon == advuilist_helpers::SOURCE_DRAGGED_i;
+}
 
 units::mass _iloc_entry_weight( advuilist_helpers::iloc_entry const &it )
 {
@@ -141,15 +189,74 @@ advuilist_helpers::aim_container_t source_player_worn()
     return advuilist_helpers::source_char_worn( &get_player_character() );
 }
 
-constexpr tripoint const off_NW = { -1, -1, 0 };
-constexpr tripoint const off_N = { 0, -1, 0 };
-constexpr tripoint const off_NE = { 1, -1, 0 };
-constexpr tripoint const off_W = { -1, 0, 0 };
-constexpr tripoint const off_C = { 0, 0, 0 };
-constexpr tripoint const off_E = { 1, 0, 0 };
-constexpr tripoint const off_SW = { -1, 1, 0 };
-constexpr tripoint const off_S = { 0, 1, 0 };
-constexpr tripoint const off_SE = { 1, 1, 0 };
+void player_wear( advuilist_helpers::aim_advuilist_t::selection_t const &it )
+{
+    avatar &u = get_avatar();
+    u.assign_activity( ACT_WEAR );
+    u.activity.values.insert( u.activity.values.end(), it.first, 0 );
+    u.activity.targets.insert( u.activity.targets.end(), it.second->stack.begin(),
+                               it.second->stack.begin() + it.first );
+}
+
+void player_take_off( advuilist_helpers::aim_advuilist_t::selection_t const &it )
+{
+    avatar &u = get_avatar();
+    u.takeoff( *it.second->stack[0] );
+}
+
+void player_drop( advuilist_helpers::aim_advuilist_t::selection_t const &it, tripoint const pos,
+                  bool to_vehicle )
+{
+    avatar &u = get_avatar();
+    std::size_t count = it.first;
+    std::vector<drop_or_stash_item_info> to_drop;
+    if( it.second->stack.front()->count_by_charges() ) {
+        to_drop.emplace_back( it.second->stack.front(), count );
+    } else {
+        for( auto v = it.second->stack.begin(); v != it.second->stack.begin() + count; ++v ) {
+            to_drop.emplace_back( *v, count );
+        }
+    }
+    u.assign_activity( player_activity( drop_activity_actor( to_drop, pos, !to_vehicle ) ) );
+}
+
+void get_selection_amount( advuilist_helpers::aim_advuilist_t::selection_t const &it,
+                           std::vector<item_location> *targets, std::vector<int> *quantities )
+{
+    if( it.second->stack.front()->count_by_charges() ) {
+        targets->emplace_back( *it.second->stack.begin() );
+        quantities->emplace_back( it.first );
+    } else {
+        targets->insert( targets->end(), it.second->stack.begin(),
+                         it.second->stack.begin() + it.first );
+        quantities->insert( quantities->end(), it.first, 0 );
+    }
+}
+
+void player_pick_up( advuilist_helpers::aim_advuilist_t::selection_t const &it, bool from_vehicle )
+{
+    avatar &u = get_avatar();
+
+    std::vector<item_location> targets;
+    std::vector<int> quantities;
+    get_selection_amount( it, &targets, &quantities );
+
+    u.assign_activity( player_activity( pickup_activity_actor(
+        targets, quantities,
+        from_vehicle ? cata::nullopt : cata::optional<tripoint>( u.pos() ) ) ) );
+}
+
+void player_move_items( advuilist_helpers::aim_advuilist_t::selection_t const &it,
+                        tripoint const pos, bool to_vehicle )
+{
+    avatar &u = get_avatar();
+    std::vector<item_location> targets;
+    std::vector<int> quantities;
+    get_selection_amount( it, &targets, &quantities );
+
+    u.assign_activity(
+        player_activity( move_items_activity_actor( targets, quantities, to_vehicle, pos ) ) );
+}
 
 } // namespace
 
@@ -448,6 +555,36 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist )
         { _( SOURCE_ALL ), SOURCE_ALL_i, { 0, 2 }, source_ground_player_all, _always } );
     myadvuilist->addSource(
         { _( SOURCE_WORN ), SOURCE_WORN_i, { 1, 2 }, source_player_worn, _always } );
+}
+
+void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t select )
+{
+    using icon_t = aim_advuilist_sourced_t::icon_t;
+    icon_t const src = ui->curpane()->getSource();
+    icon_t const dst = ui->otherpane()->getSource();
+
+    // return to the AIM after player activities finish
+    avatar &u = get_avatar();
+    player_activity act_return( ACT_ADV_INVENTORY );
+    act_return.auto_resume = true;
+    u.assign_activity( act_return );
+
+    for( aim_advuilist_t::selection_t const &sel : select ) {
+        if( dst == SOURCE_WORN_i ) {
+            player_wear( sel );
+        } else if( src == SOURCE_WORN_i and dst == SOURCE_INV_i ) {
+            player_take_off( sel );
+        } else if( src == SOURCE_WORN_i or src == SOURCE_INV_i ) {
+            player_drop( sel, icon_to_offset( dst ), is_vehicle( dst ) );
+        } else if( dst == SOURCE_INV_i ) {
+            player_pick_up( sel, is_vehicle( src ) );
+        } else {
+            player_move_items( sel, icon_to_offset( dst ), is_vehicle( dst ) );
+        }
+    }
+
+    // close the transaction_ui so that player activities can run
+    ui->pushevent( aim_transaction_ui_t::event::QUIT );
 }
 
 template iloc_stack_t get_stacks<>( map_stack items, filoc_t const &iloc_helper );

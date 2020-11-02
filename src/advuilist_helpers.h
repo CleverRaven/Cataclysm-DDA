@@ -10,6 +10,7 @@
 #include "advuilist.h"         // for advuilist
 #include "advuilist_sourced.h" // for advuilist_sourced
 #include "item_location.h"     // for item_location
+#include "transaction_ui.h"    // for transaction_ui
 #include "units_fwd.h"         // for mass, volume
 
 class Character;
@@ -37,6 +38,7 @@ using iloc_stack_t = std::vector<iloc_entry>;
 using aim_container_t = std::vector<iloc_entry>;
 using aim_advuilist_t = advuilist<aim_container_t, iloc_entry>;
 using aim_advuilist_sourced_t = advuilist_sourced<aim_container_t, iloc_entry>;
+using aim_transaction_ui_t = transaction_ui<aim_container_t, iloc_entry>;
 using aim_stats_t = std::pair<units::mass, units::volume>;
 
 constexpr auto const SOURCE_ALL = "Surrounding area";
@@ -105,6 +107,8 @@ aim_container_t source_char_worn( Character *guy );
 
 void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats );
 void add_aim_sources( aim_advuilist_sourced_t *myadvuilist );
+
+void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t select );
 
 // for map::i_at()
 extern template iloc_stack_t get_stacks<>( map_stack items, filoc_t const &iloc_helper );

@@ -14,7 +14,7 @@ class transaction_ui
   public:
     using advuilist_t = advuilist_sourced<Container, T>;
     using select_t = typename advuilist_t::select_t;
-    using fselect_t = std::function<void( select_t & )>;
+    using fselect_t = std::function<void( transaction_ui<Container, T> *, select_t)>;
     using fctxt_t = std::function<void( transaction_ui<Container, T> *, std::string const & )>;
 
     enum class event { QUIT = 0, SWITCH = 1, NEVENTS = 2 };
@@ -24,6 +24,8 @@ class transaction_ui
 
     advuilist_t *left();
     advuilist_t *right();
+    advuilist_t *curpane();
+    advuilist_t *otherpane();
 
     void setctxthandler( fctxt_t const &func );
     void on_select( fselect_t const &func );
@@ -86,6 +88,18 @@ typename transaction_ui<Container, T>::advuilist_t *transaction_ui<Container, T>
 }
 
 template <class Container, typename T>
+typename transaction_ui<Container, T>::advuilist_t *transaction_ui<Container, T>::curpane()
+{
+    return &_panes[_cpane];
+}
+
+template <class Container, typename T>
+typename transaction_ui<Container, T>::advuilist_t *transaction_ui<Container, T>::otherpane()
+{
+    return &_panes[1 - _cpane];
+}
+
+template <class Container, typename T>
 void transaction_ui<Container, T>::setctxthandler( fctxt_t const &func )
 {
     _fctxt = func;
@@ -100,7 +114,7 @@ void transaction_ui<Container, T>::on_select( fselect_t const &func )
 template <class Container, typename T>
 void transaction_ui<Container, T>::pushevent( event const &ev )
 {
-    _queue.emplace_back( ev );
+    _queue.emplace( ev );
 }
 
 template <class Container, typename T>
@@ -114,8 +128,8 @@ void transaction_ui<Container, T>::show()
 
     while( !_exit ) {
         auto selection = _panes[_cpane].select();
-        if( _fselect ) {
-            _fselect( selection );
+        if( _fselect and !selection.empty() ) {
+            _fselect( this, selection );
         }
 
         while( !_queue.empty() ) {

@@ -18,6 +18,7 @@ void create_advanced_inv()
     advuilist_helpers::setup_for_aim( mytrui.right(), &stats );
     advuilist_helpers::add_aim_sources( mytrui.left() );
     advuilist_helpers::add_aim_sources( mytrui.right() );
+    mytrui.on_select( advuilist_helpers::aim_transfer );
     mytrui.show();
 }
 
