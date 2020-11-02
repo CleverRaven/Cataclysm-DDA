@@ -55,10 +55,9 @@
     "id": "jackolantern",
     "type": "TOOL",
     "name": { "str": "jack o' lantern" },
-    "description": "A carved pumpkin with a candle inside it. You could light it to really set the spooky mood.",
+    "description": "A carved pumpkin with a candle inside it.  You could light it to really set the spooky mood.",
     "weight": "123 g",
     "color": "light_red",
-    "spoils_in": "60 days",
     "volume": "3 L",
     "price": 250,
     "price_postapoc": 50,
@@ -83,14 +82,9 @@
     "type": "TOOL",
     "copy-from": "jackolantern",
     "name": { "str": "lit jack o' lantern" },
-    "description": "A carved pumpkin with a lit candle inside. Spooky and festive!",
+    "description": "A carved pumpkin with a lit candle inside.  Spooky and festive!",
     "turns_per_charge": 1350,
-	"use_action": {
-      "type": "transform",
-      "target": "jackolantern",
-      "msg": "You blow out the jack o' lantern.",
-      "menu_text": "Extinguish"
-    },
+    "use_action": { "type": "transform", "target": "jackolantern", "msg": "You blow out the jack o' lantern.", "menu_text": "Extinguish" },
     "extend": { "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH" ] }
   },
   {
