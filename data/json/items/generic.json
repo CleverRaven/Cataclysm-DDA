@@ -3210,7 +3210,7 @@
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
         "moves": 100,
-        "item_restriction": [ "FMCNote", "signed_chit", "family_photo", "money_one", "money_ten", "money_twenty" ]
+        "item_restriction": [ "FMCNote", "signed_chit", "family_photo", "money_one", "money_ten", "money_twenty", "condom" ]
       },
       {
         "//": "Card Sleeves",
