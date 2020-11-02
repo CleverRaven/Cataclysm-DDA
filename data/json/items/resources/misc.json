@@ -232,7 +232,7 @@
     "weight": "1814 g",
     "volume": "2000 ml",
     "bashing": 15,
-    "to_hit": -3,
+    "to_hit": -5,
     "flags": [ "TRADER_AVOID" ]
   }
 ]
