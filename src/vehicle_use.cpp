@@ -57,7 +57,6 @@
 #include "vpart_range.h"
 #include "weather.h"
 
-static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 
@@ -2225,7 +2224,7 @@ void vehicle::interact_with( const vpart_position &vp )
         case RELOAD_TURRET: {
             item::reload_option opt = player_character.select_ammo( *turret.base(), true );
             if( opt ) {
-                player_character.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+                player_character.assign_activity( player_activity( reload_activity_actor( opt.moves(), opt.qty() ) ) );
                 player_character.activity.targets.emplace_back( turret.base() );
                 player_character.activity.targets.push_back( std::move( opt.ammo ) );
             }

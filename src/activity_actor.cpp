@@ -2179,6 +2179,107 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
     return actor.clone();
 }
 
+bool reload_activity_actor::can_reload( player_activity &act ) const
+{
+    if( act.targets.size() != 2 || act.index <= 0 ) {
+        debugmsg( "invalid arguments to ACT_RELOAD" );
+        return false;
+    }
+
+    if( !act.targets[0] ) {
+        debugmsg( "reload target is null, failed to reload" );
+        return false;
+    }
+
+    if( !act.targets[1] ) {
+        debugmsg( "ammo target is null, failed to reload" );
+        return false;
+    }
+
+    return true;
+}
+
+void reload_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void reload_activity_actor::reload_gun( Character &who, item &reloadable, item &ammo ) const 
+{
+    const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
+    who.recoil = MAX_RECOIL;
+    if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
+            for( int i = 0; i != qty; ++i ) {
+                add_msg( m_neutral, _( "You insert one %2$s into the %1$s." ), reloadable.tname(), ammo.tname() );
+            }
+        }
+    make_reload_sound(who, reloadable);
+}
+
+void reload_activity_actor::make_reload_sound( Character &who, item &reloadable ) const
+{
+    if( reloadable.type->gun->reload_noise_volume > 0 ) {
+            sfx::play_variant_sound( "reload", reloadable.typeId().str(),
+                                     sfx::get_heard_volume( who.pos() ) );
+            sounds::ambient_sound( who.pos(), reloadable.type->gun->reload_noise_volume,
+                                   sounds::sound_t::activity, reloadable.type->gun->reload_noise.translated() );
+        }
+}
+
+void reload_activity_actor::finish( player_activity &act, Character &who ) 
+{
+    act.set_to_null();
+
+    if(!can_reload( act )) {
+        return;
+    }
+    
+    item &reloadable = *act->targets[ 0 ];
+    item &ammo = *act->targets[ 1 ];
+    std::string reloadable_name = reloadable.tname();
+    std::string ammo_name = ammo.tname();
+    // cache check results because reloading deletes the ammo item
+    const bool ammo_is_filthy = ammo.is_filthy();
+
+    if( !reloadable.reload( who, std::move( act.targets[ 1 ] ), qty ) ) {
+        add_msg( m_info, _( "Can't reload the %s." ), reloadable_name );
+        return;
+    }
+
+    if( ammo_is_filthy ) {
+        reloadable.set_flag( flag_FILTHY );
+    }
+
+    if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
+        add_msg( m_neutral, _( "You manage to loosen some debris and make your %s somewhat operational." ),
+                 reloadable_name );
+        reloadable.set_var( "dirt", ( reloadable.get_var( "dirt", 0 ) - rng( 790, 2750 ) ) );
+    }
+
+    if( reloadable.is_gun() ) {
+        reload_gun(who, reloadable, ammo);
+    } else if( reloadable.is_watertight_container() ) {
+        add_msg( m_neutral, _( "You refill the %s." ), reloadable_name );
+    } else {
+        add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
+    }
+}
+
+
+void reload_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
+}
+
+std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonIn &jsin )
+{
+    reload_activity_actor actor;
+    JsonObject jsobj = jsin.get_object();
+    return actor.clone();
+}
+
+
 namespace activity_actors
 {
 
@@ -2199,6 +2300,7 @@ deserialize_functions = {
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
+    { activity_id( "ACT_RELOAD" ), &reload_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
     { activity_id( "ACT_UNLOAD_MAG" ), &unload_mag_activity_actor::deserialize },

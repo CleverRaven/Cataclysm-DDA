@@ -8942,7 +8942,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
             moves += 2500;
         }
 
-        u.assign_activity( activity_id( "ACT_RELOAD" ), moves, opt.qty() );
+        u.assign_activity( player_activity ( reload_activity_actor( moves, opt.qty() ) ) );
         if( use_loc ) {
             u.activity.targets.emplace_back( loc );
         } else {
