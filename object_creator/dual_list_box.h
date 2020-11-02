@@ -8,13 +8,16 @@
 
 namespace creator
 {
-    class dual_list_box : public QGridLayout
-    {
+class dual_list_box : public QGridLayout
+{
+        Q_OBJECT
     public:
         dual_list_box() {}
         dual_list_box( const QStringList &items );
 
         QStringList get_included() const;
+    Q_SIGNALS:
+        void click();
     private:
         // the entire list of acceptable strings
         QStringList items;
@@ -33,6 +36,6 @@ namespace creator
         void exclude_all();
         void include_selected();
         void exclude_selected();
-    };
+};
 }
 #endif

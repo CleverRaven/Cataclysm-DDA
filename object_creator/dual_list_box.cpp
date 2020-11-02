@@ -17,13 +17,20 @@ creator::dual_list_box::dual_list_box( const QStringList &items )
 
     QObject::connect( &include_all_button, &QPushButton::click, this, &dual_list_box::include_all );
     QObject::connect( &exclude_all_button, &QPushButton::click, this, &dual_list_box::exclude_all );
-    QObject::connect( &include_sel_button, &QPushButton::click, this, &dual_list_box::include_selected );
-    QObject::connect( &exclude_sel_button, &QPushButton::click, this, &dual_list_box::exclude_selected );
+    QObject::connect( &include_sel_button, &QPushButton::click, this,
+                      &dual_list_box::include_selected );
+    QObject::connect( &exclude_sel_button, &QPushButton::click, this,
+                      &dual_list_box::exclude_selected );
 
     include_all_button.setText( QString( "<<" ) );
     exclude_all_button.setText( QString( ">>" ) );
     include_sel_button.setText( QString( "<" ) );
     exclude_sel_button.setText( QString( ">" ) );
+
+    QObject::connect( &include_all_button, &QPushButton::click, this, &dual_list_box::click );
+    QObject::connect( &exclude_all_button, &QPushButton::click, this, &dual_list_box::click );
+    QObject::connect( &include_sel_button, &QPushButton::click, this, &dual_list_box::click );
+    QObject::connect( &exclude_sel_button, &QPushButton::click, this, &dual_list_box::click );
 }
 
 void creator::dual_list_box::include_all()
