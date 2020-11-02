@@ -17,6 +17,7 @@
       { "monster": "mon_compsognathus", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_gallimimus", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_velociraptor", "freq": 15, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_nothronychus", "freq": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
       { "monster": "mon_utahraptor", "freq": 5, "cost_multiplier": 30 },
       { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
@@ -82,6 +83,7 @@
     "monsters": [
       { "monster": "mon_compsognathus_hatchling", "freq": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gallimimus_hatchling", "freq": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nothronychus_hatchling", "freq": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor_hatchling", "freq": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_apatosaurus_hatchling", "freq": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_brontosaurus_hatchling", "freq": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },

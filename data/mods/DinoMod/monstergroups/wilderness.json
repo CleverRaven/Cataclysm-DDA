@@ -536,6 +536,17 @@
       { "monster": "mon_zalbertosaurus", "freq": 1, "cost_multiplier": 35, "starts": 672 },
       { "monster": "mon_zalbertosaurus", "freq": 1, "cost_multiplier": 35, "starts": 2160 },
       {
+        "monster": "mon_nothronychus",
+        "freq": 10,
+        "cost_multiplier": 30,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_zothronychus", "freq": 3, "cost_multiplier": 30, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zothronychus", "freq": 3, "cost_multiplier": 30, "starts": 168, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zothronychus", "freq": 3, "cost_multiplier": 30, "starts": 672, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zothronychus", "freq": 3, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 1, 2 ] },
+      {
         "monster": "mon_deinonychus",
         "freq": 10,
         "cost_multiplier": 15,
