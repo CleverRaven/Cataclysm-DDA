@@ -14,3 +14,20 @@
     "speed": 110
   }
 ]
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_orc_blood_warrior",
+    "name":	{ "str": "orc blood warrior" },
+    "description": "This green brute is a orc warrior, it stares at you menacingly, club in hand, this one seems to have bathed himself in the blood of his enemies.",
+    "default_faction": "orcs",
+    "volume": "70 L",
+    "weight": "120 kg",
+    "hp": 97,
+    "symbol": "O",
+    "color": "red",
+    "bodytype": "human",
+    "speed": 113
+  }
+]
+
