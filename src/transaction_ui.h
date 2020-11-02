@@ -46,7 +46,7 @@ class transaction_ui
     std::queue<event> _queue;
     fctxt_t _fctxt;
     typename panecont_t::size_type _cpane = 0;
-    bool _exit = false;
+    bool _exit = true;
 
     void _ctxthandler( advuilist<Container, T> *ui, std::string const &action );
     void _process( event const &ev );
@@ -109,6 +109,8 @@ void transaction_ui<Container, T>::show()
     // ensure that our current pane is on top
     // FXIME: find a better solution (or improve totop() )
     _panes[_cpane].totop();
+
+    _exit = false;
 
     while( !_exit ) {
         auto selection = _panes[_cpane].select();
