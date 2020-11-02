@@ -1584,7 +1584,6 @@
     "reproduction": { "baby_monster": "mon_dog_samoyed_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "delete": { "flags": ["GROUP_MORALE"], "flags": ["SWARMS"]}
-    ]
   },
   {
     "id": "mon_dog_samoyed_pup",
