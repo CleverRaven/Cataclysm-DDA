@@ -1219,11 +1219,11 @@
         "_": [ [ "t_dirt", 5 ], [ "t_grass_long", 5 ], [ "t_grass", 16 ] ]
       },
       "sealed_item": {
-        "♥": { "item": { "item": "seed_tomato", "chance": 70 }, "furniture": "f_plant_seedling" },
-        "♠": { "item": { "item": "seed_lettuce", "chance": 70 }, "furniture": "f_plant_seedling" },
-        "♦": { "item": { "item": "seed_cucumber", "chance": 70 }, "furniture": "f_plant_seedling" },
-        "♣": { "item": { "item": "seed_carrot", "chance": 70 }, "furniture": "f_plant_seedling" },
-        "Ʌ": { "item": { "item": "seed_zucchini", "chance": 70 }, "furniture": "f_plant_seedling" }
+        "♥": { "item": { "item": "seed_tomato" }, "furniture": "f_plant_seedling", "chance": 70 },
+        "♠": { "item": { "item": "seed_lettuce" }, "furniture": "f_plant_seedling", "chance": 70 },
+        "♦": { "item": { "item": "seed_cucumber" }, "furniture": "f_plant_seedling", "chance": 70 },
+        "♣": { "item": { "item": "seed_carrot" }, "furniture": "f_plant_seedling", "chance": 70 },
+        "Ʌ": { "item": { "item": "seed_zucchini" }, "furniture": "f_plant_seedling", "chance": 70 }
       }
     }
   },
@@ -1276,11 +1276,11 @@
         "_": [ [ "t_dirt", 5 ], [ "t_grass_long", 5 ], [ "t_grass", 16 ] ]
       },
       "sealed_item": {
-        "♥": { "item": { "item": "seed_tomato", "chance": 70 }, "furniture": "f_plant_seedling" },
-        "♠": { "item": { "item": "seed_lettuce", "chance": 70 }, "furniture": "f_plant_seedling" },
-        "♦": { "item": { "item": "seed_cucumber", "chance": 70 }, "furniture": "f_plant_seedling" },
-        "♣": { "item": { "item": "seed_carrot", "chance": 70 }, "furniture": "f_plant_seedling" },
-        "Ʌ": { "item": { "item": "seed_zucchini", "chance": 70 }, "furniture": "f_plant_seedling" }
+        "♥": { "item": { "item": "seed_tomato" }, "furniture": "f_plant_seedling", "chance": 70 },
+        "♠": { "item": { "item": "seed_lettuce" }, "furniture": "f_plant_seedling", "chance": 70 },
+        "♦": { "item": { "item": "seed_cucumber" }, "furniture": "f_plant_seedling", "chance": 70 },
+        "♣": { "item": { "item": "seed_carrot" }, "furniture": "f_plant_seedling", "chance": 70 },
+        "Ʌ": { "item": { "item": "seed_zucchini" }, "furniture": "f_plant_seedling", "chance": 70 }
       }
     }
   },

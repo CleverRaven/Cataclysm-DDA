@@ -42,7 +42,7 @@
         "&": "t_shrub_strawberry"
       },
       "furniture": { ";": "f_rack", "'": "f_table" },
-      "sealed_item": { "!": { "items": { "item": "farming_seeds", "chance": 80 }, "furniture": "f_plant_seedling" } },
+      "sealed_item": { "!": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling", "chance": 80 } },
       "place_loot": [
         { "group": "farming_tools", "x": [ 16, 20 ], "y": 11, "chance": 65, "repeat": [ 1, 2 ] },
         { "group": "farming_seeds", "x": [ 16, 20 ], "y": 13, "chance": 85, "repeat": [ 1, 5 ] }
