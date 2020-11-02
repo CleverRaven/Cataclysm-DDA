@@ -231,8 +231,6 @@
     "default_faction": "herbivore_dino",
     "copy-from": "mon_gallimimus_juvenile",
     "color": "green_magenta",
-    "volume": "800 L",
-    "weight": "800 kg",
     "upgrades": { "age_grow": 365, "into": "mon_nothronychus" },
     "flags": [
       "SEES",
