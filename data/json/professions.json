@@ -304,11 +304,11 @@
   },
   {
     "type": "profession_item_substitutions",
-    "item": "grahmcrackers",
+    "item": "pudding",
     "sub": [
-      { "present": [ "ANTIJUNK" ], "absent": [ "ANTIWHEAT" ], "new": [ "crackers" ] },
+      { "present": [ "ANTIJUNK" ], "absent": [ "LACTOSE" ], "new": [ "yoghurt" ] },
       { "present": [ "ANTIWHEAT" ], "absent": [ "ANTIJUNK" ], "new": [ "neccowafers" ] },
-      { "present": [ "ANTIJUNK", "ANTIWHEAT" ], "new": [ "boiled_egg" ] }
+      { "present": [ "ANTIJUNK", "LACTOSE" ], "new": [ "boiled_egg" ] }
     ]
   },
   {
@@ -964,8 +964,8 @@
         "bandages",
         "adhesive_bandages",
         "aspirin",
-        "grahmcrackers",
-        "stethoscope"
+        "stethoscope",
+        "pudding"
       ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
