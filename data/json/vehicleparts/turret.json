@@ -275,5 +275,16 @@
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
+  },
+  {
+    "id": "mounted_3in_ordnance_rifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "3-inch ordnance rifle" },
+    "item": "cannon_3in_ordnance",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "scrap", "count": 72 }, { "item": "steel_chunk", "count": 30 }, { "item": "steel_lump", "count": 10 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   }
 ]
