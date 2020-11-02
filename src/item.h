@@ -2248,6 +2248,10 @@ class item : public visitable<item>
         std::set<fault_id> faults;
 
     private:
+        /** `true` if item has any of the flags that require processing in item::process_internal.
+         * This flag is reset to `true` if item tags are changed.
+         */
+        bool requires_tags_processing = true;
         FlagsSetType item_tags; // generic item specific flags
         safe_reference_anchor anchor;
         const itype *curammo = nullptr;
