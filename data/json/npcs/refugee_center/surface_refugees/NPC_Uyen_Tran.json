@@ -160,7 +160,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_buy_item": "FMCNote", "count": 15 },
         { "u_add_var": "Uyen_Mission1", "type": "mission", "context": "flag", "value": "yes" }
       ]
     }
@@ -188,7 +188,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_buy_item": "FMCNote", "count": 5 },
         { "u_add_var": "Uyen_Mission2", "type": "mission", "context": "flag", "value": "yes" }
       ]
     }

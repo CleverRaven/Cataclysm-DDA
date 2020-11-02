@@ -358,7 +358,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 15 },
+        { "u_buy_item": "FMCNote", "count": 4 },
         { "u_add_var": "Jenny_mission_2", "type": "mission", "context": "completed", "value": "yes" }
       ]
     }
@@ -386,7 +386,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_buy_item": "FMCNote", "count": 5 },
         { "u_add_var": "Jenny_mission_2", "type": "mission", "context": "completed", "value": "yes" }
       ]
     }
@@ -413,7 +413,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 30 },
+        { "u_buy_item": "FMCNote", "count": 5 },
         { "u_add_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" },
         { "npc_add_var": "Jenny_project_timer", "type": "timer", "context": "flag", "time": true }
       ]
