@@ -266,7 +266,7 @@
     "symbol": "C",
     "color": "light_red",
     "harvest": "gummy_bear",
-    "reproduction": { "baby_egg": "", "baby_count": 1, "baby_timer": 10 },
+    "reproduction": { "baby_egg": "candy3gator", "baby_count": 1, "baby_timer": 10 },
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "ATTACKMON", "SWIMS" ]
   },
   {
