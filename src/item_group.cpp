@@ -466,7 +466,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
         } else if( new_item.magazine_default() && new_item.magazine_default()->magazine->default_ammo ) {
             ammo_id = new_item.magazine_default()->magazine->default_ammo;
         }
-        if( ammo_id ) {
+        if( ammo_id && !ammo_id.is_empty() ) {
             new_item.ammo_set( ammo_id, ch );
         } else {
             debugmsg( "tried to set ammo for %s which does not have ammo or a magazine",
