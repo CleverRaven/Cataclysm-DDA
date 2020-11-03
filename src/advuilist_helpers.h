@@ -41,6 +41,7 @@ using aim_advuilist_sourced_t = advuilist_sourced<aim_container_t, iloc_entry>;
 using aim_transaction_ui_t = transaction_ui<aim_container_t, iloc_entry>;
 using aim_stats_t = std::pair<units::mass, units::volume>;
 
+constexpr auto const aim_nsources = 18;
 constexpr point const aimlayout(6, 3);
 
 constexpr auto const SOURCE_ALL = "Surrounding area";
@@ -73,6 +74,9 @@ constexpr auto const SOURCE_WORN = "Worn Items";
 constexpr auto const SOURCE_WORN_i = 'W';
 constexpr auto const SOURCE_VEHICLE = "Vehicle";
 constexpr auto const SOURCE_VEHICLE_i = 'V';
+
+using pane_mutex_t = std::vector<bool>;
+void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex );
 
 using filoc_t = std::function<item_location( item * )>;
 item_location iloc_map_cursor( map_cursor const &cursor, item *it );
@@ -112,9 +116,10 @@ aim_container_t source_char_worn( Character *guy );
 bool source_vehicle_avail( tripoint const &loc );
 
 void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats );
-void add_aim_sources( aim_advuilist_sourced_t *myadvuilist );
+void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *mutex );
 
 void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t select );
+void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_mutex_t *mutex);
 
 // for map::i_at()
 extern template iloc_stack_t get_stacks<>( map_stack items, filoc_t const &iloc_helper );

@@ -62,7 +62,7 @@ std::string const desc = string_format(
 // Cataclysm: Hacky Stuff Ahead
 // this is actually an attempt to make the code more readable and reduce duplication
 using _sourcetuple = std::tuple<char const *, aim_advuilist_sourced_t::icon_t, tripoint>;
-using _sourcearray = std::array<_sourcetuple, 18>;
+using _sourcearray = std::array<_sourcetuple, aim_nsources>;
 constexpr tripoint const off_C = { 0, 0, 0 };
 constexpr auto const _error = "error";
 constexpr _sourcearray const aimsources = {
@@ -87,6 +87,9 @@ constexpr _sourcearray const aimsources = {
 };
 
 constexpr auto const DRAGGED_IDX = 1;
+constexpr auto const INV_IDX = 7;
+constexpr auto const ALL_IDX = 12;
+constexpr auto const WORN_IDX = 13;
 constexpr tripoint slotidx_to_offset( aim_advuilist_sourced_t::slotidx_t idx )
 {
     switch( idx ) {
@@ -271,6 +274,32 @@ void player_move_items( aim_advuilist_t::selection_t const &it,
 
 namespace advuilist_helpers
 {
+
+void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
+{
+    using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
+    using icon_t = aim_advuilist_sourced_t::icon_t;
+    slotidx_t lsrc, rsrc;
+    icon_t licon, ricon;
+
+    std::tie( lsrc, licon ) = ui->left()->getSource();
+    std::tie( rsrc, ricon ) = ui->right()->getSource();
+    mutex->clear();
+    mutex->insert( mutex->end(), aim_nsources * 2, false );
+    mutex->at( licon == SOURCE_VEHICLE_i ? lsrc + aim_nsources : lsrc ) = true;
+    mutex->at( ricon == SOURCE_VEHICLE_i ? rsrc + aim_nsources : rsrc ) = true;
+    // dragged vehicle needs more checks...
+    if( lsrc == DRAGGED_IDX or rsrc == DRAGGED_IDX or licon == SOURCE_VEHICLE_i or
+        ricon == SOURCE_VEHICLE_i ) {
+        tripoint const off = get_avatar().grab_point;
+        const auto *it = std::find_if( aimsources.begin(), aimsources.end(), [&]( auto const &v ) {
+            return std::get<tripoint>( v ) == off;
+        } );
+        std::size_t const idx = std::distance( aimsources.begin(), it );
+        mutex->at( idx + aim_nsources ) = true;
+        mutex->at( DRAGGED_IDX ) = true;
+    }
+}
 
 item_location iloc_map_cursor( map_cursor const &cursor, item *it )
 {
@@ -506,14 +535,13 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
         [stats]( catacurses::window *w ) { iloc_entry_stats_printer( stats, w ); } );
 }
 
-void add_aim_sources( aim_advuilist_sourced_t *myadvuilist )
+void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *mutex )
 {
     using fsource_t = aim_advuilist_sourced_t::fsource_t;
     using fsourceb_t = aim_advuilist_sourced_t::fsourceb_t;
     using icon_t = aim_advuilist_sourced_t::icon_t;
 
     fsource_t source_dummy = []() { return aim_container_t(); };
-    fsourceb_t _always = []() { return true; };
     fsourceb_t _never = []() { return false; };
 
     // Cataclysm: Hacky Stuff Redux
@@ -535,29 +563,36 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist )
                 }
                 case SOURCE_DRAGGED_i: {
                     _fs = source_player_dragged;
-                    _fsb = source_player_dragged_avail;
+                    _fsb = [=]() {
+                        return !mutex->at( DRAGGED_IDX ) and source_player_dragged_avail();
+                    };
                     break;
                 }
                 case SOURCE_INV_i: {
                     _fs = source_player_inv;
-                    _fsb = _always;
+                    _fsb = [=]() { return !mutex->at( INV_IDX ); };
                     break;
                 }
                 case SOURCE_ALL_i: {
                     _fs = source_ground_player_all;
-                    _fsb = _always;
+                    _fsb = [=]() { return !mutex->at( ALL_IDX ); };
                     break;
                 }
                 case SOURCE_WORN_i: {
                     _fs = source_player_worn;
-                    _fsb = _always;
+                    _fsb = [=]() { return !mutex->at( WORN_IDX ); };
                     break;
                 }
                 default: {
                     _fs = [=]() { return source_player_ground( off ); };
-                    _fsb = [=]() { return source_player_ground_avail( off ); };
+                    _fsb = [=]() {
+                        return !mutex->at( idx ) and source_player_ground_avail( off );
+                    };
                     _fsv = [=]() { return source_player_vehicle( off ); };
-                    _fsvb = [=]() { return source_player_vehicle_avail( off ); };
+                    _fsvb = [=]() {
+                        return !mutex->at( idx + aim_nsources ) and
+                               source_player_vehicle_avail( off );
+                    };
                     break;
                 }
             }
@@ -602,6 +637,15 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t sele
 
     // close the transaction_ui so that player activities can run
     ui->pushevent( aim_transaction_ui_t::event::QUIT );
+}
+
+void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_mutex_t *mutex )
+{
+    // reset pane mutex on any source change
+    if( action == ACTION_CYCLE_SOURCES or
+        action.substr( 0, ACTION_SOURCE_PRFX_len ) == ACTION_SOURCE_PRFX ) {
+        reset_mutex( ui, mutex );
+    }
 }
 
 template iloc_stack_t get_stacks<>( map_stack items, filoc_t const &iloc_helper );

@@ -16,20 +16,26 @@ void create_advanced_inv()
     using mytrui_t = transaction_ui<aim_container_t>;
 
     static std::unique_ptr<mytrui_t> mytrui;
+    static pane_mutex_t pane_mutex( aim_nsources * 2, false);
     static aim_stats_t lstats{ 0_kilogram, 0_liter };
     static aim_stats_t rstats{ 0_kilogram, 0_liter };
     if( !mytrui ) {
         mytrui = std::make_unique<mytrui_t>( aimlayout );
         setup_for_aim( mytrui->left(), &lstats );
         setup_for_aim( mytrui->right(), &rstats );
-        add_aim_sources( mytrui->left() );
-        add_aim_sources( mytrui->right() );
+        add_aim_sources( mytrui->left(), &pane_mutex );
+        add_aim_sources( mytrui->right(), &pane_mutex );
         mytrui->on_select( aim_transfer );
+        mytrui->setctxthandler( [&]( aim_transaction_ui_t *ui, std::string const &action ) {
+            aim_ctxthandler( ui, action, &pane_mutex );
+        } );
         mytrui->loadstate( &uistate.transfer_save );
     } else {
+        pane_mutex = pane_mutex_t(aim_nsources *2, false );
         mytrui->left()->rebuild();
         mytrui->right()->rebuild();
     }
+    reset_mutex( &*mytrui, &pane_mutex );
     mytrui->show();
     mytrui->savestate( &uistate.transfer_save );
 }
