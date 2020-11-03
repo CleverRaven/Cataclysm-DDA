@@ -216,7 +216,7 @@
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
   },
-    {
+  {
     "id": "mammal_large_pig",
     "//": "drops large stomach & pork belly",
     "type": "harvest",
