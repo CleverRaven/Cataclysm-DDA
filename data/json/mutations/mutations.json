@@ -1074,7 +1074,7 @@
     "id": "JITTERY",
     "name": { "str": "Jittery" },
     "points": -3,
-    "description": "During moments of great stress or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your Dexterity.",
+    "description": "When very hungry or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your Dexterity.",
     "starting_trait": true,
     "valid": false,
     "category": [ "MEDICAL", "MOUSE" ]
