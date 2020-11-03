@@ -152,7 +152,7 @@
   {
     "id": "debug_active_relic_test",
     "type": "TOOL",
-    "name": { "str": "Cube of Shame", "str_pl": "Cubes of Shame" },
+    "name": { "str_sp": "Cube of Shame" },
     "description": "This is a debug-only item for testing relic properties, powered by batteries.  Turn it on to lose intelligence and perception, but gain clairvoyance",
     "material": [ "steel" ],
     "symbol": ";",
@@ -200,7 +200,7 @@
     "id": "debug_active_relic_test_on",
     "copy-from": "debug_active_relic_test",
     "type": "TOOL",
-    "name": { "str": "Cube of Shame (on)", "str_pl": "Cube of Shame (on)" },
+    "name": { "str_sp": "Cube of Shame (on)" },
     "description": "This is a debug-only item for testing relic properties, powered by batteries.  Drop it or turn it off to retrieve your mind.",
     "power_draw": 10000,
     "revert_to": "debug_active_relic_test",
