@@ -50,7 +50,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "FAL 5-round makeshift magazine" },
-    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with FN FAL rifle.",
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the FN FAL rifle.",
     "weight": "80 g",
     "volume": "250 ml",
     "price": 1200,
@@ -146,7 +146,7 @@
     "type": "MAGAZINE",
     "price_postapoc": 50,
     "name": { "str": "M14 5-round makeshift magazine" },
-    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with M14 rifle."
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with M14 pattern rifles."
   },
   {
     "id": "scarhbigmag",
@@ -197,7 +197,7 @@
     "type": "MAGAZINE",
     "price_postapoc": 50,
     "name": { "str": "SCAR-H 5-round makeshift magazine" },
-    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with FN SCAR-H rifle."
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the FN SCAR-H rifle."
   },
   {
     "id": "hk417mag_20rd",
@@ -239,7 +239,7 @@
     "type": "MAGAZINE",
     "price_postapoc": 50,
     "name": { "str": "HK417 5-round makeshift magazine" },
-    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with HK417 rifle."
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the HK417 rifle."
   },
   {
     "id": "ar10mag_20rd",
@@ -265,6 +265,6 @@
     "type": "MAGAZINE",
     "price_postapoc": 50,
     "name": { "str": "AR-10 5-round makeshift magazine" },
-    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with AR-10 rifle."
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the AR-10 rifle."
   }
 ]
