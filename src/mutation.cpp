@@ -103,7 +103,12 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    return my_mutations.count( b ) > 0;
+    for( const trait_id &mut : get_mutations() ) {
+        if( mut == b ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Character::has_trait_flag( const std::string &b ) const
@@ -160,7 +165,7 @@ void Character::set_mutation( const trait_id &trait )
     }
     my_mutations.emplace( trait, trait_data{} );
     cached_mutations.push_back( &trait.obj() );
-    mutation_effect( trait );
+    mutation_effect( trait, false );
     recalc_sight_limits();
     reset_encumbrance();
 }
@@ -192,7 +197,7 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
 
     set_mutation( target );
     my_mutations[target].powered = start_powered;
-    mutation_effect( target );
+    mutation_effect( target, false );
 }
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
@@ -259,7 +264,7 @@ m_size calculate_size( const Character &c )
     return MS_MEDIUM;
 }
 
-void Character::mutation_effect( const trait_id &mut )
+void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
 {
     if( mut == "GLASSJAW" ) {
         recalc_hp();
@@ -308,7 +313,7 @@ void Character::mutation_effect( const trait_id &mut )
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
         }
-        if( branch.destroys_gear ) {
+        if( !worn_destroyed_override && branch.destroys_gear ) {
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
