@@ -2179,19 +2179,19 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
     return actor.clone();
 }
 
-bool reload_activity_actor::can_reload( player_activity &act ) const
+bool reload_activity_actor::can_reload() const
 {
-    if( act.targets.size() != 2 || act.index <= 0 ) {
+    if( reload_targets.size() != 2 || quantity <= 0 ) {
         debugmsg( "invalid arguments to ACT_RELOAD" );
         return false;
     }
 
-    if( !act.targets[0] ) {
+    if( !reload_targets[0] ) {
         debugmsg( "reload target is null, failed to reload" );
         return false;
     }
 
-    if( !act.targets[1] ) {
+    if( !reload_targets[1] ) {
         debugmsg( "ammo target is null, failed to reload" );
         return false;
     }
@@ -2210,7 +2210,7 @@ void reload_activity_actor::reload_gun( Character &who, item &reloadable, item &
     const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
     who.recoil = MAX_RECOIL;
     if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
-            for( int i = 0; i != qty; ++i ) {
+            for( int i = 0; i != quantity; ++i ) {
                 add_msg( m_neutral, _( "You insert one %2$s into the %1$s." ), reloadable.tname(), ammo.tname() );
             }
         }
@@ -2227,26 +2227,21 @@ void reload_activity_actor::make_reload_sound( Character &who, item &reloadable 
         }
 }
 
-void reload_activity_actor::do_turn( player_activity &act, Character &/*who*/ )
-{
-    act.set_to_null();
-}
-
-
 void reload_activity_actor::finish( player_activity &act, Character &who ) 
 {
-    if(!can_reload( act )) {
+    act.set_to_null();
+    if(!can_reload()) {
         return;
     }
     
-    item &reloadable = *act.targets[ 0 ];
-    item &ammo = *act.targets[ 1 ];
+    item &reloadable = *reload_targets[ 0 ];
+    item &ammo = *reload_targets[ 1 ];
     std::string reloadable_name = reloadable.tname();
     std::string ammo_name = ammo.tname();
     // cache check results because reloading deletes the ammo item
     const bool ammo_is_filthy = ammo.is_filthy();
 
-    if( !reloadable.reload( who, std::move( act.targets[ 1 ] ), qty ) ) {
+    if( !reloadable.reload( who, std::move( reload_targets[ 1 ] ), quantity ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable_name );
         return;
     }
@@ -2278,13 +2273,25 @@ void reload_activity_actor::canceled( player_activity &act, Character &/*who*/ )
 
 void reload_activity_actor::serialize( JsonOut &jsout ) const
 {
-    jsout.write_null();
+    jsout.start_object();
+    
+    jsout.member("moves_total", moves_total);
+    jsout.member("qty", quantity);
+    jsout.member("reload_targets", reload_targets);
+
+    jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonIn &jsin )
 {
     reload_activity_actor actor;
-    JsonObject jsobj = jsin.get_object();
+    
+    JsonObject data = jsin.get_object();
+
+    data.read("moves_total", actor.moves_total );
+    data.read("qty", actor.quantity );
+    data.read("reload_targets", actor.reload_targets );
+
     return actor.clone();
 }
 

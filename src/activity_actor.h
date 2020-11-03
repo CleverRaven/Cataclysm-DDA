@@ -851,7 +851,7 @@ class reload_activity_actor : public activity_actor
 {
     public:
         reload_activity_actor() = default;
-        reload_activity_actor(int moves, int quantity) : moves_total(moves), qty(quantity) {
+        reload_activity_actor(int moves, int qty, std::vector<item_location>& targets) : moves_total(moves), quantity(qty), reload_targets(targets) {
         };
 
         activity_id get_type() const override {
@@ -859,7 +859,7 @@ class reload_activity_actor : public activity_actor
         }
 
         void start( player_activity &/*act*/, Character &/*who*/ ) override;
-        void do_turn( player_activity &act, Character &/*who*/ ) override;
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {};
         void finish( player_activity &act, Character &who ) override;
         void canceled( player_activity &act, Character &/*who*/ ) override;
 
@@ -872,9 +872,10 @@ class reload_activity_actor : public activity_actor
 
     private:
         int moves_total{};
-        int qty{};
+        int quantity{};
+        std::vector<item_location> reload_targets{};
 
-        bool can_reload( player_activity &act ) const;
+        bool can_reload() const;
         void reload_gun( Character &who, item &reloadable, item &ammo ) const;
         void make_reload_sound( Character &who, item &reloadable ) const;
 
