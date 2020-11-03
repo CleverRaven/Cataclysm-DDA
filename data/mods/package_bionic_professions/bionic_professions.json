@@ -219,12 +219,12 @@
           "socks",
           "dress_shoes",
           "coat_lab",
+          "mbag",
           "bandages",
-          "1st_aid",
           "wristwatch",
           "stethoscope"
         ],
-        "entries": [ { "group": "charged_cell_phone" }, { "item": "anesthetic_kit", "charges": 3000 } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "full_1st_aid" }, { "item": "anesthetic_kit", "charges": 3000 } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -253,10 +253,9 @@
           "bfipowder",
           "antibiotics",
           "oxycodone",
-          "1st_aid",
           "wristwatch"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "medium_battery_cell", "charges": 500 } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "full_1st_aid" }, { "item": "medium_battery_cell", "charges": 500 } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]

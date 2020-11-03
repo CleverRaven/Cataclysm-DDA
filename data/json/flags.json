@@ -1489,11 +1489,6 @@
     "context": [  ]
   },
   {
-    "id": "NO_DISPLAY",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "NO_DROP",
     "type": "json_flag",
     "context": [  ]
@@ -1966,6 +1961,16 @@
   },
   {
     "id": "auto_wield",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SOFT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "HARD",
     "type": "json_flag",
     "context": [  ]
   }

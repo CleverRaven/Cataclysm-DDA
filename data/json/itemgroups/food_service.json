@@ -221,6 +221,7 @@
       { "item": "water_mineral", "prob": 20 },
       { "item": "oj", "prob": 40 },
       { "item": "juice", "prob": 35 },
+      { "item": "tomato_juice", "prob": 25 },
       { "item": "cranberry_juice", "prob": 35 },
       { "group": "softdrinks_canned", "prob": 95 },
       { "item": "V8", "prob": 15 },
@@ -580,6 +581,7 @@
       { "item": "sugar", "prob": 40 },
       { "item": "artificial_sweetener", "prob": 10 },
       { "item": "soysauce", "prob": 10 },
+      { "item": "hot_sauce", "prob": 10 },
       { "item": "flour", "prob": 40 },
       { "item": "curry_powder", "prob": 40 },
       { "item": "cornmeal", "prob": 52 }
@@ -730,9 +732,11 @@
       { "item": "milk_powder", "prob": 45 },
       { "item": "salt", "prob": 50 },
       { "item": "soysauce", "prob": 25 },
+      { "item": "hot_sauce", "prob": 25 },
       { "item": "sugar", "prob": 60 },
       { "item": "artificial_sweetener", "prob": 15 },
-      { "item": "dry_rice", "prob": 65 }
+      { "item": "dry_rice", "prob": 65 },
+      { "item": "chem_citric_acid", "prob": 5 }
     ]
   },
   {
@@ -782,6 +786,7 @@
       { "item": "salt", "prob": 50 },
       { "item": "pepper", "prob": 50 },
       { "item": "soysauce", "prob": 50 },
+      { "item": "hot_sauce", "prob": 50 },
       { "item": "cinnamon", "prob": 20 },
       { "item": "syrup", "prob": 50 },
       { "item": "seasoning_salt", "prob": 45 },
@@ -937,6 +942,7 @@
       [ "sugar", 5 ],
       [ "flour", 17 ],
       [ "soysauce", 25 ],
+      [ "hot_sauce", 25 ],
       [ "cooking_oil", 20 ],
       [ "cooking_oil2", 20 ],
       [ "cookbook", 8 ],

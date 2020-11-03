@@ -42,6 +42,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
@@ -94,6 +95,8 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
+static const proficiency_id proficiency_aircraft_mechanic( "aircraft_mechanic" );
+
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
@@ -115,7 +118,6 @@ static const itype_id itype_vac_sealer( "vac_sealer" );
 static const itype_id itype_welder( "welder" );
 static const itype_id itype_water_purifier( "water_purifier" );
 
-static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
@@ -1188,7 +1190,7 @@ bool vehicle::is_combustion_engine_type( const int e ) const
 bool vehicle::is_perpetual_type( const int e ) const
 {
     const itype_id  &ft = part_info( engines[e] ).fuel_type;
-    return item( ft ).has_flag( "PERPETUAL" );
+    return item( ft ).has_flag( flag_PERPETUAL );
 }
 
 bool vehicle::is_engine_on( const int e ) const
@@ -2517,9 +2519,9 @@ int vehicle::find_part( const item &it ) const
 
 item_group::ItemList vehicle_part::pieces_for_broken_part() const
 {
-    const std::string &group = info().breaks_into_group;
+    const item_group_id &group = info().breaks_into_group;
     // TODO: make it optional? Or use id of empty item group?
-    if( group.empty() ) {
+    if( group.is_empty() ) {
         return {};
     }
 
@@ -3400,7 +3402,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
             }
         }
         // As do any other engine flagged as perpetual
-    } else if( item( ftype ).has_flag( "PERPETUAL" ) ) {
+    } else if( item( ftype ).has_flag( flag_PERPETUAL ) ) {
         fl += 10;
     }
 
@@ -3519,7 +3521,7 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
 int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) const
 {
     item fuel = item( ftype );
-    if( fuel_rate_w == 0 || fuel.has_flag( "PERPETUAL" ) || !engine_on ) {
+    if( fuel_rate_w == 0 || fuel.has_flag( flag_PERPETUAL ) || !engine_on ) {
         return 0;
     }
     // consume this fuel type's share of alternator load for 3600 seconds
@@ -4255,9 +4257,39 @@ int vehicle::get_z_change() const
     return requested_z_change;
 }
 
-bool vehicle::would_prevent_flyable( const vpart_info &vpinfo ) const
+bool vehicle::would_install_prevent_flyable( const vpart_info &vpinfo, Character &pc ) const
 {
-    return flyable && !rotors.empty() && !vpinfo.has_flag( "SIMPLE_PART" );
+    if( flyable && !rotors.empty() && !( vpinfo.has_flag( "SIMPLE_PART" ) ||
+                                         vpinfo.has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) ) {
+        return !pc.has_proficiency( proficiency_aircraft_mechanic );
+    } else {
+        return false;
+    }
+}
+
+bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) const
+{
+    if( flyable && !rotors.empty() ) {
+        if( vp.info().has_flag( "SIMPLE_PART" ) ||
+            vp.info().has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) {
+            vpart_position vppos = vpart_position( const_cast<vehicle &>( *this ),
+                                                   index_of_part( const_cast<vehicle_part *>( &vp ) ) );
+            return !vppos.is_inside();
+        } else {
+            return !pc.has_proficiency( proficiency_aircraft_mechanic );
+        }
+    } else {
+        return false;
+    }
+}
+
+bool vehicle::would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const
+{
+    if( flyable && !rotors.empty() && !vp.info().has_flag( "SIMPLE_PART" ) ) {
+        return !pc.has_proficiency( proficiency_aircraft_mechanic );
+    } else {
+        return false;
+    }
 }
 
 bool vehicle::is_flying_in_air() const
@@ -4361,6 +4393,9 @@ int vehicle::static_drag( bool actual ) const
 
 float vehicle::strain() const
 {
+    if( velocity == 0.0 ) {
+        return 0.0f;
+    }
     int mv = max_velocity();
     int sv = safe_velocity();
     if( mv <= sv ) {
@@ -4726,8 +4761,11 @@ std::vector<vehicle_part *> vehicle::lights( bool active )
 int vehicle::total_accessory_epower_w() const
 {
     int epower = 0;
-    for( const vpart_reference &vp : get_enabled_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
-        epower += vp.info().epower;
+    for( int part : accessories ) {
+        const vehicle_part &vp = parts[part];
+        if( vp.enabled ) {
+            epower += vp.info().epower;
+        }
     }
     return epower;
 }
@@ -4941,7 +4979,7 @@ void vehicle::power_parts()
             const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
             if( parts[ elem ].is_unavailable() ) {
                 continue;
-            } else if( parts[ elem ].info().has_flag( flag_PERPETUAL ) ) {
+            } else if( parts[ elem ].info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ) {
                 reactor_working = true;
                 delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
             } else if( parts[elem].ammo_remaining() > 0 ) {
@@ -5060,6 +5098,9 @@ void vehicle::enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
 template <typename Func, typename Vehicle>
 int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action )
 {
+    if( start_veh->loose_parts.empty() ) {
+        return amount;
+    }
     // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
     std::queue< std::pair<Vehicle *, int> > connected_vehs;
     std::set<Vehicle *> visited_vehs;
@@ -5233,10 +5274,13 @@ void vehicle::idle( bool on_map )
     }
 
     if( !warm_enough_to_plant( player_character.pos() ) ) {
-        for( const vpart_reference &vp : get_enabled_parts( "PLANTER" ) ) {
-            add_msg_if_player_sees( global_pos3(), _( "The %s's planter turns off due to low temperature." ),
-                                    name );
-            vp.part().enabled = false;
+        for( int i : planters ) {
+            vehicle_part &vp = parts[ i ];
+            if( vp.enabled ) {
+                add_msg_if_player_sees( global_pos3(), _( "The %s's planter turns off due to low temperature." ),
+                                        name );
+                vp.enabled = false;
+            }
         }
     }
 
@@ -5279,20 +5323,19 @@ void vehicle::on_move()
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
     }
-
-    occupied_cache_time = calendar::before_time_starts;
 }
 
 void vehicle::slow_leak()
 {
     map &here = get_map();
     // for each badly damaged tanks (lower than 50% health), leak a small amount
-    for( vehicle_part &p : parts ) {
-        double health = p.health_percent();
+    for( int part : fuel_containers ) {
+        vehicle_part &p = parts[part];
         if( !p.is_leaking() || p.ammo_remaining() <= 0 ) {
             continue;
         }
 
+        double health = p.health_percent();
         itype_id fuel = p.ammo_current();
         int qty = std::max( ( 0.5 - health ) * ( 0.5 - health ) * p.ammo_remaining() / 10, 1.0 );
         point q = coord_translate( p.mount );
@@ -5495,8 +5538,9 @@ void vehicle::place_spawn_items()
                 for( const itype_id &e : spawn.item_ids ) {
                     created.emplace_back( item( e ).in_its_container() );
                 }
-                for( const std::string &e : spawn.item_groups ) {
-                    item_group::ItemList group_items = item_group::items_from( e, calendar::start_of_cataclysm );
+                for( const item_group_id &e : spawn.item_groups ) {
+                    item_group::ItemList group_items =
+                        item_group::items_from( e, calendar::start_of_cataclysm );
                     for( const auto &spawn_item : group_items ) {
                         created.emplace_back( spawn_item );
                     }
@@ -5672,6 +5716,10 @@ void vehicle::refresh()
     floating.clear();
     batteries.clear();
     fuel_containers.clear();
+    turret_locations.clear();
+    mufflers.clear();
+    planters.clear();
+    accessories.clear();
 
     alternator_load = 0;
     extra_drag = 0;
@@ -5751,6 +5799,9 @@ void vehicle::refresh()
         if( vp.part().is_fuel_store( false ) ) {
             fuel_containers.push_back( p );
         }
+        if( vp.part().is_turret() ) {
+            turret_locations.push_back( p );
+        }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {
             wind_turbines.push_back( p );
         }
@@ -5815,6 +5866,15 @@ void vehicle::refresh()
         if( vpi.has_flag( "TURRET" ) && !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
             vp.part().enabled = false;
         }
+        if( vpi.has_flag( "MUFFLER" ) ) {
+            mufflers.push_back( p );
+        }
+        if( vpi.has_flag( "PLANTER" ) ) {
+            planters.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
+            accessories.push_back( p );
+        }
     }
 
     rail_wheel_bounding_box.p1 = point( railwheel_xmin, railwheel_ymin );
@@ -5835,6 +5895,7 @@ void vehicle::refresh()
     insides_dirty = true;
     zones_dirty = true;
     invalidate_mass();
+    occupied_cache_pos = { -1, -1, -1 };
 }
 
 const point &vehicle::pivot_point() const
@@ -6797,11 +6858,13 @@ bool vehicle::restore( const std::string &data )
 
 std::set<tripoint> &vehicle::get_points( const bool force_refresh )
 {
-    if( force_refresh || occupied_cache_time != calendar::turn ) {
-        occupied_cache_time = calendar::turn;
+    if( force_refresh || occupied_cache_pos != global_pos3() ||
+        occupied_cache_direction != face.dir() ) {
+        occupied_cache_pos = global_pos3();
+        occupied_cache_direction = face.dir();
         occupied_points.clear();
-        for( const vehicle_part &p : parts ) {
-            occupied_points.insert( global_part_pos3( p ) );
+        for( const std::pair<const point, std::vector<int>> &part_location : relative_parts ) {
+            occupied_points.insert( global_part_pos3( part_location.second.front() ) );
         }
     }
 
@@ -7254,8 +7317,7 @@ std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripo
         }
         pos = new_pos;
     }
-    // Invalidate vehicle's point cache
-    occupied_cache_time = calendar::before_time_starts;
+    occupied_cache_pos = { -1, -1, -1 };
     return smzs;
 }
 
@@ -7295,11 +7357,12 @@ std::pair<int, double> vehicle::get_exhaust_part() const
     double muffle = 1.0;
     double m = 0.0;
     int exhaust_part = -1;
-    for( const vpart_reference &vp : get_avail_parts( "MUFFLER" ) ) {
-        m = 1.0 - ( 1.0 - vp.info().bonus / 100.0 ) * vp.part().health_percent();
+    for( int part : mufflers ) {
+        const vehicle_part &vp = parts[ part ];
+        m = 1.0 - ( 1.0 - vp.info().bonus / 100.0 ) * vp.health_percent();
         if( m < muffle ) {
             muffle = m;
-            exhaust_part = static_cast<int>( vp.part_index() );
+            exhaust_part = part;
         }
     }
     return std::make_pair( exhaust_part, muffle );

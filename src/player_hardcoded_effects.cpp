@@ -16,6 +16,7 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "int_id.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -126,8 +127,6 @@ static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-
-static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 
 static void eff_fun_onfire( Character &u, effect &it )
 {
@@ -272,7 +271,7 @@ static void eff_fun_bleed( Character &u, effect &it )
     // QuikClot or bandages per the recipe.)
     const int intense = it.get_intensity();
     // tourniquet reduces effective bleeding by 2/3 but doesn't modify the effect's intensity
-    bool tourniquet = u.worn_with_flag( flag_TOURNIQUET,  it.get_bp() );
+    bool tourniquet = u.worn_with_flag( STATIC( flag_str_id( "TOURNIQUET" ) ),  it.get_bp() );
     if( !( tourniquet && one_in( 3 ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
         u.vitamin_mod( vitamin_redcells, -intense );

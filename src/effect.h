@@ -163,7 +163,7 @@ class effect_type
 class effect
 {
     public:
-        effect() : eff_type( nullptr ), duration( 0_turns ), bp( bodypart_str_id( "bp_null" ) ),
+        effect() : eff_type( nullptr ), duration( 0_turns ), bp( bodypart_str_id::NULL_ID() ),
             permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ),
             source( effect_source::empty() ) {
         }
@@ -276,7 +276,6 @@ class effect
                         bool reduced = false, double mod = 1 ) const;
 
         /** Check if the effect has the specified flag */
-        bool has_flag( const std::string &flag ) const;
         bool has_flag( const flag_id &flag ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
@@ -328,9 +327,9 @@ std::string texitify_healing_power( int power );
 std::string texitify_bandage_power( int power );
 
 // Inheritance here allows forward declaration of the map in class Creature.
-// Storing body_part as an int to make things easier for hash and JSON
+// Storing body_part as an int_id to make things easier for hash and JSON
 class effects_map : public
-    std::unordered_map<efftype_id, std::unordered_map<bodypart_str_id, effect, std::hash<bodypart_str_id>>>
+    std::map<efftype_id, std::map<bodypart_id, effect>>
 {
 };
 

@@ -59,7 +59,9 @@ static const itype_id itype_water( "water" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
-static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
+static const flag_str_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
+static const flag_str_id json_flag_RAINPROOF( "RAINPROOF" );
+static const flag_str_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -97,7 +99,7 @@ void glare( const weather_type_id &w )
     if( !is_creature_outside( player_character ) ||
         !g->is_in_sunlight( player_character.pos() ) ||
         player_character.in_sleep_state() ||
-        player_character.worn_with_flag( flag_SUN_GLASSES ) ||
+        player_character.worn_with_flag( json_flag_SUN_GLASSES ) ||
         player_character.has_bionic( bio_sunglasses ) ||
         player_character.is_blind() ) {
         return;
@@ -405,8 +407,8 @@ void wet( Character &target, int amount )
     if( !is_creature_outside( target ) ||
         amount <= 0 ||
         target.has_trait( trait_FEATHERS ) ||
-        target.weapon.has_flag( "RAIN_PROTECT" ) ||
-        ( !one_in( 50 ) && target.worn_with_flag( "RAINPROOF" ) ) ) {
+        target.weapon.has_flag( json_flag_RAIN_PROTECT ) ||
+        ( !one_in( 50 ) && target.worn_with_flag( json_flag_RAINPROOF ) ) ) {
         return;
     }
     // Coarse correction to get us back to previously intended soaking rate.
@@ -511,11 +513,11 @@ void handle_weather_effects( const weather_type_id &w )
             } else if( w->precip >= precip_class::heavy ) {
                 chance = 4;
             }
-            if( player_character.weapon.has_flag( "RAIN_PROTECT" ) && one_in( chance ) ) {
+            if( player_character.weapon.has_flag( json_flag_RAIN_PROTECT ) && one_in( chance ) ) {
                 add_msg( _( "Your %s protects you from the weather." ), player_character.weapon.tname() );
                 continue;
             } else {
-                if( player_character.worn_with_flag( "RAINPROOF" ) && one_in( chance * 2 ) ) {
+                if( player_character.worn_with_flag( json_flag_RAINPROOF ) && one_in( chance * 2 ) ) {
                     add_msg( _( "Your clothing protects you from the weather." ) );
                     continue;
                 } else {

@@ -1121,7 +1121,6 @@ struct itype {
         bool has_use() const;
 
         bool has_flag( const flag_id &flag ) const;
-        bool has_flag( const std::string &flag ) const;
         bool has_flag( const flag_str_id &flag ) const;
 
         // returns read-only set of all item tags/flags

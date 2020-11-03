@@ -469,7 +469,7 @@ void vehicle::thrust( int thd, int z )
         load = ( thrusting ? 1000 : 0 );
     }
     // rotorcraft need to spend 15% of load to hover, 30% to change z
-    if( is_rotorcraft() && is_flying_in_air() ) {
+    if( is_rotorcraft() && ( z > 0 || is_flying_in_air() ) ) {
         load = std::max( load, z > 0 ? 300 : 150 );
         thrusting = true;
     }
@@ -1960,7 +1960,7 @@ void vehicle::check_falling_or_floating()
     }
     // TODO: Make the vehicle "slide" towards its center of weight
     //  when it's not properly supported
-    const std::set<tripoint> &pts = get_points( true );
+    const std::set<tripoint> &pts = get_points();
     if( pts.empty() ) {
         // Dirty vehicle with no parts
         is_falling = false;

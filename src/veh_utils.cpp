@@ -67,6 +67,10 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
             continue;
         }
 
+        if( veh.would_repair_prevent_flyable( vpr.part(), who ) ) {
+            continue;
+        }
+
         if( vpr.part().is_broken() ) {
             if( info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
                 repairable_cache[ &vpr.part()] = repairable_status::need_replacement;

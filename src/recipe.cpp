@@ -16,6 +16,7 @@
 #include "construction.h"
 #include "debug.h"
 #include "enum_traits.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "generic_factory.h"
@@ -30,6 +31,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_id_utils.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
@@ -549,8 +551,8 @@ std::vector<item> recipe::create_byproducts( int batch ) const
     std::vector<item> bps;
     for( const auto &e : byproducts ) {
         item obj( e.first, calendar::turn, item::default_charges_tag{} );
-        if( obj.has_flag( "VARSIZE" ) ) {
-            obj.set_flag( "FIT" );
+        if( obj.has_flag( flag_VARSIZE ) ) {
+            obj.set_flag( flag_FIT );
         }
 
         if( obj.count_by_charges() ) {
@@ -797,31 +799,22 @@ std::string recipe::primary_skill_string( const Character *c, bool print_skill_l
 std::string recipe::required_skills_string( const Character *c, bool include_primary_skill,
         bool print_skill_level ) const
 {
-    // There is no primary skill used or it shouldn't be included then we can just use the required_skills directly.
-    if( skill_used.is_null() || !include_primary_skill ) {
-        return required_skills_as_string( required_skills.begin(), required_skills.end(), c,
-                                          print_skill_level );
+    std::vector<std::pair<skill_id, int>> skillList = sorted_lex( required_skills );
+
+    // There is primary skill used and it should be included: add it to the beginning
+    if( !skill_used.is_null() && include_primary_skill ) {
+        skillList.insert( skillList.begin(), std::pair<skill_id, int>( skill_used, difficulty ) );
     }
-
-    std::vector< std::pair<skill_id, int> > skillList;
-    skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
-    std::copy( required_skills.begin(), required_skills.end(),
-               std::back_inserter<std::vector<std::pair<skill_id, int> > >( skillList ) );
-
     return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
 }
 
 std::string recipe::required_all_skills_string() const
 {
-    // There is no primary skill used, we can just use the required_skills directly.
-    if( skill_used.is_null() ) {
-        return required_skills_as_string( required_skills.begin(), required_skills.end() );
+    std::vector<std::pair<skill_id, int>> skillList = sorted_lex( required_skills );
+    // There is primary skill used, add it to the front
+    if( !skill_used.is_null() ) {
+        skillList.insert( skillList.begin(), std::pair<skill_id, int>( skill_used, difficulty ) );
     }
-
-    std::vector< std::pair<skill_id, int> > skillList;
-    skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
-    std::copy( required_skills.begin(), required_skills.end(), std::back_inserter( skillList ) );
-
     return required_skills_as_string( skillList.begin(), skillList.end() );
 }
 
@@ -883,7 +876,7 @@ std::function<bool( const item & )> recipe::get_component_filter(
     std::function<bool( const item & )> frozen_filter = return_true<item>;
     if( result.is_food() && !hot_result() ) {
         frozen_filter = []( const item & component ) {
-            return !component.has_flag( "FROZEN" ) || component.has_flag( "EDIBLE_FROZEN" );
+            return !component.has_flag( flag_FROZEN ) || component.has_flag( flag_EDIBLE_FROZEN );
         };
     }
 

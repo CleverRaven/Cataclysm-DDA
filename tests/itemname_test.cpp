@@ -4,6 +4,7 @@
 #include <string>
 
 #include "character.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "item.h"
 #include "item_pocket.h"
@@ -33,8 +34,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.set_flag( "UNDERSIZE" );
-            i.set_flag( "FIT" );
+            i.set_flag( flag_UNDERSIZE );
+            i.set_flag( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
@@ -69,8 +70,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.set_flag( "UNDERSIZE" );
-            i.set_flag( "FIT" );
+            i.set_flag( flag_UNDERSIZE );
+            i.set_flag( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
@@ -105,8 +106,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.set_flag( "UNDERSIZE" );
-            i.set_flag( "FIT" );
+            i.set_flag( flag_UNDERSIZE );
+            i.set_flag( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
