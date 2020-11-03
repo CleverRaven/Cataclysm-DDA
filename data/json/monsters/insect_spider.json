@@ -379,7 +379,7 @@
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_bee_mega" },
-    "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE", "LOUDMOVES" ]
   },
   {
     "id": "mon_bee_mega",
@@ -603,7 +603,7 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_fly_mega" },
-    "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE", "LOUDMOVES" ]
   },
   {
     "id": "mon_fly_mega",
@@ -659,7 +659,7 @@
     "harvest": "arachnid_flying",
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_mosquito_mega" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE", "LOUDMOVES" ]
   },
   {
     "id": "mon_mosquito_mega",
