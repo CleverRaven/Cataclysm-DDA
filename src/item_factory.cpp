@@ -3453,7 +3453,20 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
         for( const JsonValue entry : jsobj.get_array( "items" ) ) {
             if( entry.test_object() ) {
                 JsonObject subobj = entry.get_object();
-                add_entry( *ig, subobj, "item within " + ig->context() );
+                std::string subcontext;
+                if( subobj.has_string( "item" ) ) {
+                    subcontext = "item " + subobj.get_string( "item" ) + " within " + ig->context();
+                } else if( subobj.has_string( "group" ) ) {
+                    subcontext = "group " + subobj.get_string( "group" ) + " within " + ig->context();
+                } else if( subobj.has_member( "distribution" ) ) {
+                    subcontext = "distribution within " + ig->context();
+                } else if( subobj.has_member( "collection" ) ) {
+                    subcontext = "collection within " + ig->context();
+                } else {
+                    debugmsg( "couldn't determine subcontext for " + subobj.str() );
+                    subcontext = "item within " + ig->context();
+                }
+                add_entry( *ig, subobj, subcontext );
             } else {
                 JsonArray pair = entry.get_array();
                 ig->add_item_entry( itype_id( pair.get_string( 0 ) ), pair.get_int( 1 ) );
