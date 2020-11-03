@@ -246,7 +246,8 @@
       "hk417_makeshiftmag",
       "ar10_makeshiftmag",
       "762x39_clip",
-      "762R_clip"
+      "762R_clip",
+      "borealmosin_clip"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sniper_mag"

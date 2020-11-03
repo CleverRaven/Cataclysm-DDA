@@ -542,13 +542,14 @@
     "name": "Deep-Cold Marksman",
     "description": "You were a special operative conducting covert sniper ops in sub-zero temperatures, and had just finished your tour when society was destroyed.  Having retained your gear, it's time to join the new war.",
     "points": 7,
-    "spells": [ { "id": "create_lighter", "level": 4 }, { "id": "glide_ice", "level": 4 }, { "id": "frost_armor", "level": 3 } ],
+    "spells": [ { "id": "create_lighter", "level": 4 }, { "id": "glide_ice", "level": 3 }, { "id": "frost_armor", "level": 3 } ],
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 4, "name": "rifle" },
       { "level": 3, "name": "spellcraft" },
       { "level": 2, "name": "pistol" },
-      { "level": 2, "name": "survival" }
+      { "level": 2, "name": "survival" },
+      { "level": 1, "name": "fabrication" }
     ],
     "traits": [ "KELVINIST" ],
     "items": {
@@ -567,7 +568,9 @@
           "helmet_army",
           "hatchet",
           "balclava",
-          "rifle_case_soft"
+          "rifle_case_soft",
+          "emer_blanket",
+          "mess_tin"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
@@ -575,13 +578,13 @@
             "item": "boreal_mosin",
             "ammo-item": "762_51",
             "charges": 5,
-            "contents-item": [ "improve_sights", "suppressor", "bipod" ]
+            "contents-item": [ "improve_sights", "suppressor" ]
           },
           { "item": "borealmosin_clip", "ammo-item": "762_51", "charges": 5 },
           { "item": "borealmosin_clip", "ammo-item": "762_51", "charges": 5 },
           { "item": "m18", "ammo-item": "9mmfmj", "charges": 10, "container-item": "holster" },
           { "item": "p320mag_10rd_9x19mm", "ammo-item": "9mmfmj", "charges": 10 },
-          { "-item": "water_clean", "charges": 6, "container-item": "canteen" }
+          { "item": "water_clean", "charges": 6, "container-item": "canteen" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -645,7 +648,7 @@
     "vehicle": "icecream_truck",
     "items": {
       "both": {
-        "items": [ "pants", "socks", "sneakers", "apron_leather", "wristwatch", "dress_shirt", "spoon" ],
+        "items": [ "pants", "socks", "sneakers", "apron_leather", "wristwatch", "dress_shirt", "icecream_scoop" ],
         "entries": [
           { "item": "icecream_choc", "charges": 17, "container-item": "plastic_bucket", "custom-flags": [ "auto_wield" ] },
           { "item": "plastic_bowl_kids", "count": 5 },
