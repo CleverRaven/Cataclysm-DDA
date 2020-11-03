@@ -41,6 +41,8 @@ using aim_advuilist_sourced_t = advuilist_sourced<aim_container_t, iloc_entry>;
 using aim_transaction_ui_t = transaction_ui<aim_container_t, iloc_entry>;
 using aim_stats_t = std::pair<units::mass, units::volume>;
 
+constexpr point const aimlayout(6, 3);
+
 constexpr auto const SOURCE_ALL = "Surrounding area";
 constexpr auto const SOURCE_ALL_i = 'A';
 constexpr auto const SOURCE_CENTER = "Directly below you";

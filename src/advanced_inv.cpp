@@ -11,14 +11,16 @@
 
 void create_advanced_inv()
 {
-    using mytrui_t = transaction_ui<advuilist_helpers::aim_container_t>;
-    mytrui_t mytrui( { 6, 3 } );
-    advuilist_helpers::aim_stats_t stats;
-    advuilist_helpers::setup_for_aim( mytrui.left(), &stats );
-    advuilist_helpers::setup_for_aim( mytrui.right(), &stats );
-    advuilist_helpers::add_aim_sources( mytrui.left() );
-    advuilist_helpers::add_aim_sources( mytrui.right() );
-    mytrui.on_select( advuilist_helpers::aim_transfer );
+    using namespace advuilist_helpers;
+    using mytrui_t = transaction_ui<aim_container_t>;
+    
+    mytrui_t mytrui( aimlayout );
+    aim_stats_t stats;
+    setup_for_aim( mytrui.left(), &stats );
+    setup_for_aim( mytrui.right(), &stats );
+    add_aim_sources( mytrui.left() );
+    add_aim_sources( mytrui.right() );
+    mytrui.on_select( aim_transfer );
     mytrui.show();
 }
 

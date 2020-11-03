@@ -45,6 +45,7 @@ static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 
 namespace
 {
+using namespace advuilist_helpers;
 // FIXME: this string is duplicated from draw_item_filter_rules() because that function doesn't fit
 // anywhere in the current implementation of advuilist
 std::string const desc = string_format(
@@ -58,50 +59,48 @@ std::string const desc = string_format(
        "[<color_yellow>d</color>]isassembled components." ),
     _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
 
-constexpr tripoint const off_NW = { -1, -1, 0 };
-constexpr tripoint const off_N = { 0, -1, 0 };
-constexpr tripoint const off_NE = { 1, -1, 0 };
-constexpr tripoint const off_W = { -1, 0, 0 };
+// Cataclysm: Hacky Stuff Ahead
+// this is actually an attempt to make the code more readable and reduce duplication
+using _sourcetuple = std::tuple<char const *, aim_advuilist_sourced_t::icon_t, tripoint>;
+using _sourcearray = std::array<_sourcetuple, 18>;
 constexpr tripoint const off_C = { 0, 0, 0 };
-constexpr tripoint const off_E = { 1, 0, 0 };
-constexpr tripoint const off_SW = { -1, 1, 0 };
-constexpr tripoint const off_S = { 0, 1, 0 };
-constexpr tripoint const off_SE = { 1, 1, 0 };
+constexpr auto const _error = "error";
+constexpr _sourcearray const aimsources = {
+    _sourcetuple{ SOURCE_CONT, SOURCE_CONT_i, off_C },
+    _sourcetuple{ SOURCE_DRAGGED, SOURCE_DRAGGED_i, off_C },
+    _sourcetuple{ _error, 0, off_C },
+    _sourcetuple{ SOURCE_NW, SOURCE_NW_i, tripoint{ -1, -1, 0 } },
+    _sourcetuple{ SOURCE_N, SOURCE_N_i, tripoint{ 0, -1, 0 } },
+    _sourcetuple{ SOURCE_NE, SOURCE_NE_i, tripoint{ 1, -1, 0 } },
+    _sourcetuple{ _error, 0, off_C },
+    _sourcetuple{ SOURCE_INV, SOURCE_INV_i, off_C },
+    _sourcetuple{ _error, 0, off_C },
+    _sourcetuple{ SOURCE_W, SOURCE_W_i, tripoint{ -1, 0, 0 } },
+    _sourcetuple{ SOURCE_CENTER, SOURCE_CENTER_i, off_C },
+    _sourcetuple{ SOURCE_E, SOURCE_E_i, tripoint{ 1, 0, 0 } },
+    _sourcetuple{ SOURCE_ALL, SOURCE_ALL_i, off_C },
+    _sourcetuple{ SOURCE_WORN, SOURCE_WORN_i, off_C },
+    _sourcetuple{ _error, 0, off_C },
+    _sourcetuple{ SOURCE_SW, SOURCE_SW_i, tripoint{ -1, 1, 0 } },
+    _sourcetuple{ SOURCE_S, SOURCE_S_i, tripoint{ 0, 1, 0 } },
+    _sourcetuple{ SOURCE_SE, SOURCE_SE_i, tripoint{ 1, 1, 0 } },
+};
 
-// pretty hacky
-constexpr tripoint icon_to_offset( char icon )
+constexpr tripoint slotidx_to_offset( aim_advuilist_sourced_t::slotidx_t idx )
 {
-    switch( icon ) {
-        case advuilist_helpers::SOURCE_NW_i:
-            return off_NW;
-        case advuilist_helpers::SOURCE_N_i:
-            return off_N;
-        case advuilist_helpers::SOURCE_NE_i:
-            return off_NE;
-        case advuilist_helpers::SOURCE_W_i:
-            return off_W;
-        case advuilist_helpers::SOURCE_CENTER_i:
-            return off_C;
-        case advuilist_helpers::SOURCE_E_i:
-            return off_E;
-        case advuilist_helpers::SOURCE_SW_i:
-            return off_SW;
-        case advuilist_helpers::SOURCE_S_i:
-            return off_S;
-        case advuilist_helpers::SOURCE_SE_i:
-            return off_SE;
-        case advuilist_helpers::SOURCE_DRAGGED_i:
+    switch( idx ) {
+        case SOURCE_DRAGGED_i:
             return get_avatar().grab_point;
+        default:
+            return std::get<tripoint>( aimsources[idx] );
     }
-    debugmsg( "\"%c\" is not a valid directional source", icon );
-    return off_C;
 }
 
-// more hacky stuff
-constexpr bool is_vehicle( char icon )
+constexpr bool is_vehicle( aim_advuilist_sourced_t::icon_t icon )
 {
-    return icon == advuilist_helpers::SOURCE_DRAGGED_i;
+    return icon == SOURCE_DRAGGED_i;
 }
+// end hacky stuff
 
 units::mass _iloc_entry_weight( advuilist_helpers::iloc_entry const &it )
 {
@@ -492,76 +491,71 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
 
 void add_aim_sources( aim_advuilist_sourced_t *myadvuilist )
 {
-    using fsource_t = typename aim_advuilist_sourced_t::fsource_t;
-    using fsourceb_t = typename aim_advuilist_sourced_t::fsourceb_t;
+    using fsource_t = aim_advuilist_sourced_t::fsource_t;
+    using fsourceb_t = aim_advuilist_sourced_t::fsourceb_t;
+    using icon_t = aim_advuilist_sourced_t::icon_t;
 
     fsource_t source_dummy = []() { return aim_container_t(); };
     fsourceb_t _always = []() { return true; };
     fsourceb_t _never = []() { return false; };
-    myadvuilist->addSource( { _( SOURCE_NW ),
-                              SOURCE_NW_i,
-                              { 3, 0 },
-                              []() { return source_player_ground( off_NW ); },
-                              []() { return source_player_ground_avail( off_NW ); } } );
-    myadvuilist->addSource( { _( SOURCE_N ),
-                              SOURCE_N_i,
-                              { 4, 0 },
-                              []() { return source_player_ground( off_N ); },
-                              []() { return source_player_ground_avail( off_N ); } } );
-    myadvuilist->addSource( { _( SOURCE_NE ),
-                              SOURCE_NE_i,
-                              { 5, 0 },
-                              []() { return source_player_ground( off_NE ); },
-                              []() { return source_player_ground_avail( off_NE ); } } );
-    myadvuilist->addSource( { _( SOURCE_W ),
-                              SOURCE_W_i,
-                              { 3, 1 },
-                              []() { return source_player_ground( off_W ); },
-                              []() { return source_player_ground_avail( off_W ); } } );
-    myadvuilist->addSource( { _( SOURCE_CENTER ),
-                              SOURCE_CENTER_i,
-                              { 4, 1 },
-                              []() { return source_player_ground( off_C ); },
-                              []() { return source_player_ground_avail( off_C ); } } );
-    myadvuilist->addSource( { _( SOURCE_E ),
-                              SOURCE_E_i,
-                              { 5, 1 },
-                              []() { return source_player_ground( off_E ); },
-                              []() { return source_player_ground_avail( off_E ); } } );
-    myadvuilist->addSource( { _( SOURCE_SW ),
-                              SOURCE_SW_i,
-                              { 3, 2 },
-                              []() { return source_player_ground( off_SW ); },
-                              []() { return source_player_ground_avail( off_SW ); } } );
-    myadvuilist->addSource( { _( SOURCE_S ),
-                              SOURCE_S_i,
-                              { 4, 2 },
-                              []() { return source_player_ground( off_S ); },
-                              []() { return source_player_ground_avail( off_S ); } } );
-    myadvuilist->addSource( { _( SOURCE_SE ),
-                              SOURCE_SE_i,
-                              { 5, 2 },
-                              []() { return source_player_ground( off_SE ); },
-                              []() { return source_player_ground_avail( off_SE ); } } );
-    myadvuilist->addSource( { _( SOURCE_CONT ), SOURCE_CONT_i, { 0, 0 }, source_dummy, _never } );
-    myadvuilist->addSource( { _( SOURCE_DRAGGED ),
-                              SOURCE_DRAGGED_i,
-                              { 1, 0 },
-                              source_player_dragged,
-                              source_player_dragged_avail } );
-    myadvuilist->addSource(
-        { _( SOURCE_INV ), SOURCE_INV_i, { 1, 1 }, source_player_inv, _always } );
-    myadvuilist->addSource(
-        { _( SOURCE_ALL ), SOURCE_ALL_i, { 0, 2 }, source_ground_player_all, _always } );
-    myadvuilist->addSource(
-        { _( SOURCE_WORN ), SOURCE_WORN_i, { 1, 2 }, source_player_worn, _always } );
+
+    // Cataclysm: Hacky Stuff Redux
+    std::size_t idx = 0;
+    for( auto const &src : aimsources ) {
+        fsource_t _fs;
+        fsourceb_t _fsb;
+        char const *str = nullptr;
+        icon_t icon = 0;
+        tripoint off;
+        std::tie( str, icon, off ) = src;
+
+        if( icon != 0 ) {
+            switch( icon ) {
+                case SOURCE_CONT_i: {
+                    _fs = source_dummy;
+                    _fsb = _never;
+                    break;
+                }
+                case SOURCE_DRAGGED_i: {
+                    _fs = source_player_dragged;
+                    _fsb = source_player_dragged_avail;
+                    break;
+                }
+                case SOURCE_INV_i: {
+                    _fs = source_player_inv;
+                    _fsb = _always;
+                    break;
+                }
+                case SOURCE_ALL_i: {
+                    _fs = source_ground_player_all;
+                    _fsb = _always;
+                    break;
+                }
+                case SOURCE_WORN_i: {
+                    _fs = source_player_worn;
+                    _fsb = _always;
+                    break;
+                }
+                default: {
+                    _fs = [=]() { return source_player_ground( off ); };
+                    _fsb = [=]() { return source_player_ground_avail( off ); };
+                    break;
+                }
+            }
+            myadvuilist->addSource( idx, { _( str ), icon, _fs, _fsb } );
+        }
+        idx++;
+    }
 }
 
 void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t select )
 {
+    using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
     using icon_t = aim_advuilist_sourced_t::icon_t;
-    icon_t const src = ui->curpane()->getSource();
-    icon_t const dst = ui->otherpane()->getSource();
+    slotidx_t src, dst;
+    icon_t srci, dsti;
+    std::tie( src, srci ) = ui->curpane()->getSource();
+    std::tie( dst, dsti ) = ui->otherpane()->getSource();
 
     // return to the AIM after player activities finish
     avatar &u = get_avatar();
@@ -575,11 +569,11 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t sele
         } else if( src == SOURCE_WORN_i and dst == SOURCE_INV_i ) {
             player_take_off( sel );
         } else if( src == SOURCE_WORN_i or src == SOURCE_INV_i ) {
-            player_drop( sel, icon_to_offset( dst ), is_vehicle( dst ) );
+            player_drop( sel, slotidx_to_offset( dst ), is_vehicle( dsti ) );
         } else if( dst == SOURCE_INV_i ) {
-            player_pick_up( sel, is_vehicle( src ) );
+            player_pick_up( sel, is_vehicle( srci ) );
         } else {
-            player_move_items( sel, icon_to_offset( dst ), is_vehicle( dst ) );
+            player_move_items( sel, slotidx_to_offset( dst ), is_vehicle( dsti ) );
         }
     }
 
