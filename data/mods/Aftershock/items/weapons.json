@@ -151,7 +151,7 @@
     "looks_like": "bio_int_enhancer",
     "color": "magenta",
     "skill": "launcher",
-    "ammo": [ "40x46mm" ],
+    "ammo": [ "40x46mm", "40x53mm" ],
     "dispersion": 290,
     "durability": 6,
     "clip_size": 1,
