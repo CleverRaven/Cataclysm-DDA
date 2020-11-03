@@ -124,7 +124,7 @@ void advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon )
     source_t const &src = std::get<slotcont_t>( _slot )[_icon];
     if( std::get<fsourceb_t>( src )() ) {
         _container = std::get<fsource_t>( src )();
-        advuilist<Container, T>::rebuild( &_container );
+        advuilist<Container, T>::rebuild();
         _cslot = slot;
         _ui->invalidate_ui();
     }
@@ -238,7 +238,7 @@ void advuilist_sourced<Container, T>::_cycleslot( slotidx_t idx )
     // set active icon for this slot
     slot.first = it->first;
 
-    _ui->invalidate_ui();
+    setSource( _cslot, it->first );
 }
 
 template <class Container, typename T>
