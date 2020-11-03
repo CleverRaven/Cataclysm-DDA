@@ -2316,6 +2316,13 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_firefly",
+        "freq": 30,
+        "cost_multiplier": 1,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_mosquito_small",
         "freq": 50,
         "cost_multiplier": 1,

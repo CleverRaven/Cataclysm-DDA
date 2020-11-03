@@ -86,6 +86,12 @@
     "monsters": [ { "monster": "mon_locust_nymph", "freq": 10, "cost_multiplier": 1 } ]
   },
   {
+    "name": "GROUP_EGG_FIREFLY",
+    "type": "monstergroup",
+    "default": "mon_firefly",
+    "monsters": [ { "monster": "mon_firefly", "freq": 1000, "cost_multiplier": 1 } ]
+  },
+  {
     "name": "GROUP_EGG_ANT",
     "type": "monstergroup",
     "default": "mon_ant_larva",

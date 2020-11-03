@@ -151,6 +151,16 @@
   },
   {
     "type": "snippet",
+    "category": "<bug_harvest_firefly>",
+    "text": [
+      "The light of its abdomen flickers with each cut, growing ever dimmer",
+      "An errant cut coats your tools with foul-smelling, glowing goop",
+      "What you saw as a homogenous light from a distance was the result of myriad strands of glowing chitin criscrossing just beneath the carapace",
+      "This one's very flesh is glowing with a blinding intensity, lighting up your gruesome work"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<bug_harvest_acid_chitin>",
     "text": [
       "<bug_harvest_general_chitin>",
@@ -187,6 +197,14 @@
       "<bug_harvest_general_chitin>.",
       "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.",
       "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.  <bug_harvest_general_descriptive>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<firefly_harvest>",
+    "text": [
+      "<bug_harvest_flying_chitin>.",
+      "<bug_harvest_flying_chitin>.  <bug_harvest_general_descriptive>.  <bug_harvest_firefly>."
     ]
   },
   {
