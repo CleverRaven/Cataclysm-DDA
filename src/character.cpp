@@ -1691,11 +1691,14 @@ void Character::recalc_sight_limits()
         vision_mode_cache.set( IR_VISION );
     }
 
-    if( has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) || has_effect_with_flag( "EFFECT_SUPER_CLAIRVOYANCE" ) ) {
+    if( has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ||
+        has_effect_with_flag( "EFFECT_SUPER_CLAIRVOYANCE" ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE_SUPER );
-    } else if( has_artifact_with( AEP_CLAIRVOYANCE_PLUS ) || has_effect_with_flag( "EFFECT_CLAIRVOYANCE_PLUS" ) ) {
+    } else if( has_artifact_with( AEP_CLAIRVOYANCE_PLUS ) ||
+               has_effect_with_flag( "EFFECT_CLAIRVOYANCE_PLUS" ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE_PLUS );
-    } else if( has_artifact_with( AEP_CLAIRVOYANCE ) || has_effect_with_flag( "EFFECT_CLAIRVOYANCE" ) ) {
+    } else if( has_artifact_with( AEP_CLAIRVOYANCE ) ||
+               has_effect_with_flag( "EFFECT_CLAIRVOYANCE" ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE );
     }
 }

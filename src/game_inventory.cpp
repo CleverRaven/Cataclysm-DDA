@@ -1679,7 +1679,7 @@ class bionic_install_preset: public inventory_selector_preset
             } else if( !p.has_enough_anesth( itemtype, pa ) ) {
                 const int weight = 7;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
-                return string_format( _( "%i mL" ), anesthetic_requirement(duration*weight) );
+                return string_format( _( "%i mL" ), anesthetic_requirement( duration * weight ) );
             }
 
             return std::string();
@@ -1722,7 +1722,7 @@ class bionic_install_preset: public inventory_selector_preset
 
             const int weight = 7;
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
-            return string_format( _( "%i mL" ), anesthetic_requirement(duration*weight) );
+            return string_format( _( "%i mL" ), anesthetic_requirement( duration * weight ) );
         }
 };
 
@@ -1856,7 +1856,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
             if( !p.has_enough_anesth( itemtype, pa ) ) {
                 const int weight = 7;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
-                return string_format( _( "%i mL" ), anesthetic_requirement(duration*weight) );
+                return string_format( _( "%i mL" ), anesthetic_requirement( duration * weight ) );
             }
 
             return std::string();
@@ -1899,7 +1899,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
         std::string get_anesth_amount( const item_location &loc ) {
             const int weight = 7;
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
-            return string_format( _( "%i mL" ), anesthetic_requirement(duration*weight) );
+            return string_format( _( "%i mL" ), anesthetic_requirement( duration * weight ) );
         }
 };
 
