@@ -1,5 +1,6 @@
 #include "advanced_inv.h"
 
+#include <memory>  // for unique_ptr
 #include <string>  // for operator==, basic_string, string
 #include <utility> // for move
 #include <vector>  // for vector
@@ -14,16 +15,23 @@ void create_advanced_inv()
     using namespace advuilist_helpers;
     using mytrui_t = transaction_ui<aim_container_t>;
 
-    mytrui_t mytrui( aimlayout );
-    aim_stats_t stats;
-    setup_for_aim( mytrui.left(), &stats );
-    setup_for_aim( mytrui.right(), &stats );
-    add_aim_sources( mytrui.left() );
-    add_aim_sources( mytrui.right() );
-    mytrui.on_select( aim_transfer );
-    mytrui.loadstate( &uistate.transfer_save );
-    mytrui.show();
-    mytrui.savestate( &uistate.transfer_save );
+    static std::unique_ptr<mytrui_t> mytrui;
+    static aim_stats_t lstats{ 0_kilogram, 0_liter };
+    static aim_stats_t rstats{ 0_kilogram, 0_liter };
+    if( !mytrui ) {
+        mytrui = std::make_unique<mytrui_t>( aimlayout );
+        setup_for_aim( mytrui->left(), &lstats );
+        setup_for_aim( mytrui->right(), &rstats );
+        add_aim_sources( mytrui->left() );
+        add_aim_sources( mytrui->right() );
+        mytrui->on_select( aim_transfer );
+        mytrui->loadstate( &uistate.transfer_save );
+    } else {
+        mytrui->left()->rebuild();
+        mytrui->right()->rebuild();
+    }
+    mytrui->show();
+    mytrui->savestate( &uistate.transfer_save );
 }
 
 void cancel_aim_processing()

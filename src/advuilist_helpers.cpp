@@ -587,13 +587,13 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t sele
     u.assign_activity( act_return );
 
     for( aim_advuilist_t::selection_t const &sel : select ) {
-        if( dst == SOURCE_WORN_i ) {
+        if( dsti == SOURCE_WORN_i ) {
             player_wear( sel );
-        } else if( src == SOURCE_WORN_i and dst == SOURCE_INV_i ) {
+        } else if( srci == SOURCE_WORN_i and dsti == SOURCE_INV_i ) {
             player_take_off( sel );
-        } else if( src == SOURCE_WORN_i or src == SOURCE_INV_i ) {
+        } else if( srci == SOURCE_WORN_i or srci == SOURCE_INV_i ) {
             player_drop( sel, slotidx_to_offset( dst ), is_vehicle( dsti ) );
-        } else if( dst == SOURCE_INV_i ) {
+        } else if( dsti == SOURCE_INV_i ) {
             player_pick_up( sel, is_vehicle( srci ) );
         } else {
             player_move_items( sel, slotidx_to_offset( dst ), is_vehicle( dsti ) );
