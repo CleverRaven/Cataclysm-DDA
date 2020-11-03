@@ -513,6 +513,10 @@ class wish_item_callback: public uilist_callback
                                 tmp.info( true ) );
             }
 
+            if( spawn_everything ) {
+                mvwprintz( menu->window, point( startx, menu->w_height - 4 ), c_green,
+                           _( "Select any item to spawn everything (ignores filters)." ) );
+            }
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
             msg.erase();
             input_context ctxt( menu->input_category );
@@ -569,7 +573,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     }
     do {
         wmenu.query();
-        if( cb.spawn_everything ) {
+        if( cb.spawn_everything && wmenu.ret != UILIST_CANCEL ) {
             wmenu.ret = opts.size() - 1;
         }
         bool did_amount_prompt = false;
@@ -591,10 +595,19 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
             bool canceled = false;
             if( p != nullptr && !did_amount_prompt ) {
                 string_input_popup popup;
-                popup
-                .title( _( "How many?" ) )
-                .width( 20 )
-                .description( granted.tname() )
+                if( cb.spawn_everything ) {
+                    popup.title( _( "How many of each?" ) );
+                    if( cb.incontainer ) {
+                        popup.description( "Spawning items in containers." );
+                    } else {
+                        popup.description( "Spawning items without containers." );
+                    }
+                } else {
+                    popup
+                    .title( _( "How many?" ) )
+                    .description( granted.tname() );
+                }
+                popup.width( 20 )
                 .edit( amount );
                 canceled = popup.canceled();
             }
@@ -604,11 +617,11 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                     if( granted.count_by_charges() ) {
                         if( amount > 0 ) {
                             granted.charges = amount;
-                            p->i_add( granted );
+                            p->i_add_or_drop( granted );
                         }
                     } else {
                         for( int i = 0; i < amount; i++ ) {
-                            p->i_add( granted );
+                            p->i_add_or_drop( granted );
                         }
                     }
                     p->invalidate_crafting_inventory();
