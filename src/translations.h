@@ -118,7 +118,7 @@ class local_translation_cache<const char *>
         }
 };
 
-}; // namespace details
+} // namespace details
 
 // Note: in case of std::string argument, the result is copied, this is intended (for safety)
 #define _( msg ) \
