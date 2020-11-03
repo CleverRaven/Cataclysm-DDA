@@ -3946,7 +3946,7 @@ void npc::mug_player( Character &mark )
     }
     double best_value = minimum_item_value() * value_mod;
     item *to_steal = nullptr;
-    const auto inv_valuables = items_with( [this]( const item & itm ) {
+    const auto inv_valuables = mark.items_with( [this]( const item & itm ) {
         return value( itm ) > 0;
     } );
     for( item *it : inv_valuables ) {

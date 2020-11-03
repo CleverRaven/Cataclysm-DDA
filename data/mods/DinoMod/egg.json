@@ -107,6 +107,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_nothronychus",
+    "name": "nothronychus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_nothronychus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_deinonychus",
     "name": "deinonychus egg",
     "copy-from": "egg_dino",

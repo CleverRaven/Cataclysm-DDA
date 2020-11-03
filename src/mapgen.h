@@ -236,6 +236,9 @@ class mapgen_palette
          */
         void load_place_mapings( const JsonObject &jo, const std::string &member_name,
                                  placing_map &format_placings );
+
+        void check();
+
         /**
          * Loads a palette object and returns it. Doesn't save it anywhere.
          */
@@ -251,6 +254,7 @@ class mapgen_palette
          */
         static const mapgen_palette &get( const palette_id &id );
 
+        static void check_definitions();
     private:
         static mapgen_palette load_internal( const JsonObject &jo, const std::string &src, bool require_id,
                                              bool allow_recur );
