@@ -710,7 +710,7 @@ construction_id construction_menu( const bool blueprint )
 
         const std::string action = ctxt.handle_input();
         int recmax = static_cast<int>( constructs.size() );
-
+        int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "FILTER" ) {
             string_input_popup popup;
             popup
@@ -746,25 +746,25 @@ construction_id construction_menu( const bool blueprint )
             if( select > 0 ) {
                 select--;
             } else {
-                select = constructs.size() - 1;
+                select = recmax - 1;
             }
         } else if( action == "PAGE_DOWN" ) {
             update_info = true;
             if( select == recmax - 1 ) {
                 select = 0;
-            } else if( select + 10 >= recmax ) {
+            } else if( select + scroll_rate >= recmax ) {
                 select = recmax - 1;
             } else {
-                select += +10;
+                select += +scroll_rate;
             }
         } else if( action == "PAGE_UP" ) {
             update_info = true;
             if( select == 0 ) {
                 select = recmax - 1;
-            } else if( select <= 9 ) {
+            } else if( select <= scroll_rate ) {
                 select = 0;
             } else {
-                select += -10;
+                select += -scroll_rate;
             }
         } else if( action == "LEFT" ) {
             update_info = true;

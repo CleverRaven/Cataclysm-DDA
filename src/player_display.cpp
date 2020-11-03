@@ -342,7 +342,7 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
         if( !cur.known && cur.id->can_learn() ) {
             static_assert( grid_width == 26, "Reminder to update formatting"
                            "for this string when grid width changes" );
-            name = string_format( "%-22s%2.0f%%", trim_by_length( cur.id->name(), width - 2 ),
+            name = string_format( "%-22s%2.0f%%", trim_by_length( cur.id->name(), width - 4 ),
                                   cur.practice * 100 );
         } else {
             name = trim_by_length( cur.id->name(), width );
@@ -434,18 +434,17 @@ static void draw_stats_tab( const catacurses::window &w_stats,
     display_stat( _( "Intelligence:" ), you.get_int(), you.get_int_base(), 3, line_color( 2 ) );
     display_stat( _( "Perception:" ), you.get_per(), you.get_per_base(), 4, line_color( 3 ) );
     mvwprintz( w_stats, point( 1, 5 ), line_color( 4 ), _( "Weight:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 5 ), line_color( 4 ),
-               you.get_weight_string() );
+    right_print( w_stats, 5, 1, c_light_gray, you.get_weight_string() );
     mvwprintz( w_stats, point( 1, 6 ), line_color( 5 ), _( "Height:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), line_color( 5 ),
+    mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), c_light_gray,
                you.height_string() );
     mvwprintz( w_stats, point( 1, 7 ), line_color( 6 ), _( "Age:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), line_color( 6 ),
+    mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), c_light_gray,
                you.age_string() );
     mvwprintz( w_stats, point( 1, 8 ), line_color( 7 ), _( "Blood type:" ) );
     mvwprintz( w_stats, point( 25 - utf8_width( io::enum_to_string( you.my_blood_type ) +
                                ( you.blood_rh_factor ? "+" : "-" ) ), 8 ),
-               line_color( 7 ),
+               c_light_gray,
                io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" : "-" ) );
 
     wnoutrefresh( w_stats );
@@ -1333,7 +1332,7 @@ void player::disp_info()
 
     std::map<std::string, int> speed_effects;
     for( auto &elem : *effects ) {
-        for( std::pair<const bodypart_str_id, effect> &_effect_it : elem.second ) {
+        for( std::pair<const bodypart_id, effect> &_effect_it : elem.second ) {
             effect &it = _effect_it.second;
             bool reduced = resists_effect( it );
             int move_adjust = it.get_mod( "SPEED", reduced );

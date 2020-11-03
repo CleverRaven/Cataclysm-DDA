@@ -140,7 +140,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "pottery_cottage_basement", "farm_stills_3_basement" ],
+    "id": [ "pottery_cottage_basement", "farm_stills_3_basement", "ranch_camp_68_basement" ],
     "copy-from": "generic_city_house_basement"
   },
   {

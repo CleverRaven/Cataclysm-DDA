@@ -593,7 +593,7 @@ void zone_manager::cache_vzones()
         }
 
         const std::string &type_hash = elem->get_type_hash();
-        auto &cache = area_cache[type_hash];
+        auto &cache = vzone_cache[type_hash];
 
         // TODO: looks very similar to the above cache_data - maybe merge it?
 
@@ -1189,6 +1189,7 @@ void zone_manager::load_zones()
     removed_vzones.clear();
 
     cache_data();
+    cache_vzones();
 }
 
 void zone_manager::zone_edited( zone_data &zone )

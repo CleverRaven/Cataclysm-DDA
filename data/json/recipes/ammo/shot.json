@@ -124,9 +124,9 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
+    "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 11 ], [ "ammo_shot", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 6 ] ] ]
+    "components": [ [ [ "chem_black_powder", 12 ] ] ]
   },
   {
     "result": "bp_shot_bird",
@@ -145,7 +145,7 @@
     "//": "assumes 1 oz load",
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ] ]
+    "components": [ [ [ "chem_black_powder", 15 ] ] ]
   },
   {
     "result": "bp_shot_dragon",
@@ -163,7 +163,7 @@
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
+    "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
     "result": "bp_shot_flechette",
@@ -181,7 +181,7 @@
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "combatnail", 10 ] ] ]
+    "components": [ [ [ "chem_black_powder", 8 ] ], [ [ "combatnail", 10 ] ] ]
   },
   {
     "result": "bp_shot_slug",
@@ -198,7 +198,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 6 ] ] ]
+    "components": [ [ [ "chem_black_powder", 17 ] ] ]
   },
   {
     "result": "bp_shot_00",
@@ -209,7 +209,7 @@
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": "40 s",
     "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 6 ] ] ]
+    "components": [ [ [ "chem_black_powder", 12 ] ] ]
   },
   {
     "result": "bp_shot_bird",
@@ -220,7 +220,7 @@
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": "40 s",
     "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ] ]
+    "components": [ [ [ "chem_black_powder", 15 ] ] ]
   },
   {
     "result": "bp_shot_dragon",
@@ -231,7 +231,7 @@
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": "40 s",
     "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
+    "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
     "result": "bp_shot_slug",
@@ -241,13 +241,13 @@
     "copy-from": "bp_shot_slug",
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": "40 s",
-    "using": [ [ "ammo_bullet", 20 ], [ "ammo_shot", 1 ] ],
+    "using": [ [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
     "tools": [
       [ [ "press_dowel", -1 ] ],
       [ [ "pipe", -1 ], [ "cu_pipe", -1 ], [ "material_sand", -1 ], [ "material_soil", -1 ], [ "clay_lump", -1 ] ],
       [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
     ],
-    "components": [ [ [ "chem_black_powder", 6 ] ] ]
+    "components": [ [ [ "chem_black_powder", 17 ] ] ]
   },
   {
     "result": "shot_scrap",
@@ -265,9 +265,9 @@
     "reversible": true,
     "using": [ [ "ammo_shot", 2 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "//": "1166 mg gunpowder rounded to 12 100 mg 'pieces'",
+    "//": "1166 mg gunpowder rounded to 12 100 mg 'pieces'; recipe makes two shells",
     "components": [
-      [ [ "gunpowder", 12 ], [ "gunpowder_pistol", 12 ], [ "gunpowder_shotgun", 12 ] ],
+      [ [ "gunpowder", 23 ], [ "gunpowder_pistol", 23 ], [ "gunpowder_shotgun", 23 ] ],
       [
         [ "scrap", 1 ],
         [ "nail", 10 ],
@@ -300,7 +300,7 @@
     "using": [ [ "ammo_shot", 2 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
     "components": [
-      [ [ "chem_black_powder", 6 ] ],
+      [ [ "chem_black_powder", 23 ] ],
       [
         [ "scrap", 1 ],
         [ "nail", 10 ],
@@ -326,7 +326,7 @@
     "time": 4000,
     "tools": [ [ [ "press_dowel", -1 ] ] ],
     "components": [
-      [ [ "chem_black_powder", 6 ] ],
+      [ [ "chem_black_powder", 23 ] ],
       [
         [ "scrap", 1 ],
         [ "nail", 10 ],
@@ -375,7 +375,7 @@
     "reversible": true,
     "using": [ [ "ammo_bullet", 8 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },
   {
     "result": "shot_paper_slug",
@@ -393,7 +393,7 @@
     "reversible": true,
     "using": [ [ "ammo_bullet", 16 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },
   {
     "result": "shot_paper_dragon",
@@ -412,7 +412,7 @@
     "using": [ [ "ammo_bullet", 16 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "chem_black_powder", 4 ] ],
+      [ [ "chem_black_powder", 12 ] ],
       [ [ "magnesium", 4 ] ],
       [ [ "shotgun_primer", 1 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
@@ -434,6 +434,6 @@
     "reversible": true,
     "using": [ [ "ammo_bullet", 8 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   }
 ]

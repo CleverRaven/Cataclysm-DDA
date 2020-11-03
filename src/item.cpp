@@ -86,6 +86,7 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "string_id_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
@@ -430,6 +431,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 item &item::convert( const itype_id &new_type )
 {
     type = find_type( new_type );
+    requires_tags_processing = true; // new type may have "active" flags
     item temp( *this );
     temp.contents = item_contents( type->pockets );
     for( const item *it : contents.mods() ) {
@@ -1594,7 +1596,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( type->min_per > 0 ) {
             req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
         }
-        for( const std::pair<const skill_id, int> &sk : type->min_skills ) {
+        for( const std::pair<const skill_id, int> sk : sorted_lex( type->min_skills ) ) {
             req.push_back( string_format( "%s %d", skill_id( sk.first )->name(), sk.second ) );
         }
         if( !req.empty() ) {
@@ -1807,16 +1809,17 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         return string_format( format, v.first->name(), min_value, max_value );
     };
 
+    const auto max_nutr_vitamins = sorted_lex( max_nutr.vitamins );
     const std::string required_vits = enumerate_as_string(
-                                          max_nutr.vitamins.begin(),
-                                          max_nutr.vitamins.end(),
+                                          max_nutr_vitamins.begin(),
+                                          max_nutr_vitamins.end(),
     [&]( const std::pair<vitamin_id, int> &v ) {
         return format_vitamin( v, true );
     } );
 
     const std::string effect_vits = enumerate_as_string(
-                                        max_nutr.vitamins.begin(),
-                                        max_nutr.vitamins.end(),
+                                        max_nutr_vitamins.begin(),
+                                        max_nutr_vitamins.end(),
     [&]( const std::pair<vitamin_id, int> &v ) {
         return format_vitamin( v, false );
     } );
@@ -2325,8 +2328,9 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         insert_separation_line( info );
         const std::set<itype_id> compat = magazine_compatible();
         if( !compat.empty() ) {
+            const std::vector<itype_id> compat_sorted = sorted_lex( compat );
             info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines</bold>: " ) +
-            enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
+            enumerate_as_string( compat_sorted.begin(), compat_sorted.end(), []( const itype_id & id ) {
                 return item::nname( id );
             } ) );
         }
@@ -2695,7 +2699,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     bool active = false;
                 };
 
-                std::map<bodypart_str_id, body_part_display_info> to_display_data;
+                std::map<bodypart_str_id, body_part_display_info, bodypart_str_id::LexCmp> to_display_data;
 
                 for( const armor_portion_data &piece : t->data ) {
                     if( piece.covers.has_value() ) {
@@ -3141,8 +3145,9 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         if( parts->test( iteminfo_parts::TOOL_MAGAZINE_COMPATIBLE ) ) {
             const std::set<itype_id> compat = magazine_compatible();
             if( !compat.empty() ) {
+                const std::vector<itype_id> compat_sorted = sorted_lex( compat );
                 info.emplace_back( "TOOL", _( "Compatible magazines: " ),
-                enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
+                enumerate_as_string( compat_sorted.begin(), compat_sorted.end(), []( const itype_id & id ) {
                     return item::nname( id );
                 } ) );
             }
@@ -3233,7 +3238,7 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         return;
     }
     insert_separation_line( info );
-    const std::set<itype_id> &rep = repaired_with();
+    const std::vector<itype_id> rep = sorted_lex( repaired_with() );
     if( !rep.empty() ) {
         info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Repair</bold> using %s." ),
         enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
@@ -3322,7 +3327,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
 
     if( parts->test( iteminfo_parts::QUALITIES ) ) {
         insert_separation_line( info );
-        for( const std::pair<const quality_id, int> &q : type->qualities ) {
+        for( const std::pair<const quality_id, int> q : sorted_lex( type->qualities ) ) {
             name_quality( q );
         }
     }
@@ -3333,7 +3338,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     }, item_pocket::pocket_type::CONTAINER ) ) {
 
         info.emplace_back( "QUALITIES", "", _( "Contains items with qualities:" ) );
-        std::map<quality_id, int> most_quality;
+        std::map<quality_id, int, quality_id::LexCmp> most_quality;
         for( const item *e : contents.all_items_top() ) {
             for( const std::pair<const quality_id, int> &q : e->type->qualities ) {
                 auto emplace_result = most_quality.emplace( q );
@@ -3393,10 +3398,11 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     insert_separation_line( info );
 
+    // TODO refactor these almost identical blocks
     if( !bid->encumbrance.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
+        for( const std::pair<const bodypart_str_id, int> element : sorted_lex( bid->encumbrance ) ) {
             info.push_back(
                 iteminfo( "CBM", " " + body_part_name_as_heading( element.first.id(), 1 ),
                           " <num>", iteminfo::no_newline, element.second ) );
@@ -3407,7 +3413,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Environmental Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > &element : bid->env_protec ) {
+        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->env_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3417,7 +3423,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Bash Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > &element : bid->bash_protec ) {
+        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->bash_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3427,7 +3433,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Cut Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > &element : bid->cut_protec ) {
+        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->cut_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3436,7 +3442,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->bullet_protec.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Ballistic Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair<const bodypart_str_id, size_t > &element : bid->bullet_protec ) {
+        for( const std::pair<const bodypart_str_id, size_t > element : sorted_lex( bid->bullet_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3536,9 +3542,10 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         all_techniques.insert( techniques.begin(), techniques.end() );
 
         if( !all_techniques.empty() ) {
+            const std::vector<matec_id> all_tec_sorted = sorted_lex( all_techniques );
             insert_separation_line( info );
             info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
-            enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id & tid ) {
+            enumerate_as_string( all_tec_sorted.begin(), all_tec_sorted.end(), []( const matec_id & tid ) {
                 return string_format( "<stat>%s</stat>: <info>%s</info>", tid.obj().name,
                                       tid.obj().description );
             } ) ) );
@@ -5284,6 +5291,7 @@ int item::current_reach_range( const Character &guy ) const
 void item::unset_flags()
 {
     item_tags.clear();
+    requires_tags_processing = true;
 }
 
 bool item::has_fault( const fault_id &fault ) const
@@ -5338,6 +5346,7 @@ item &item::set_flag( const flag_id &flag )
 {
     if( flag.is_valid() ) {
         item_tags.insert( flag );
+        requires_tags_processing = true;
     } else {
         debugmsg( "Attempted to set invalid flag_id %d", flag.to_i() );
     }
@@ -5347,6 +5356,7 @@ item &item::set_flag( const flag_id &flag )
 item &item::unset_flag( const flag_id &flag )
 {
     item_tags.erase( flag );
+    requires_tags_processing = true;
     return *this;
 }
 
@@ -8159,14 +8169,15 @@ bool item::reload( Character &u, item_location ammo, int qty )
         }
         ammo->charges -= qty;
     } else {
+        item magazine_removed;
+        bool allow_wield = false;
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
             // we don't want to replace wielded `ammo` with ejected magazine
-            // as it will invalidate `ammo`
-            bool allow_wield = !u.is_wielding( *ammo );
-
-            // eject magazine to player inventory
-            u.i_add( *magazine_current(), true, nullptr, true, allow_wield );
+            // as it will invalidate `ammo`. Also keep wielding the item being reloaded.
+            allow_wield = ( !u.is_wielding( *ammo ) && !u.is_wielding( *this ) );
+            // Defer placing the magazine into inventory until new magazine is installed.
+            magazine_removed = *magazine_current();
             remove_item( *magazine_current() );
         }
 
@@ -8179,6 +8190,9 @@ bool item::reload( Character &u, item_location ammo, int qty )
         ammo.remove_item();
         if( ammo_from_map ) {
             u.invalidate_weight_carried_cache();
+        }
+        if( magazine_removed.type != nullitem() ) {
+            u.i_add( magazine_removed, true, nullptr, true, allow_wield );
         }
         return true;
     }
@@ -9936,34 +9950,50 @@ bool item::process_internal( player *carrier, const tripoint &pos,
         here.emit_field( pos, e );
     }
 
-    if( has_flag( flag_FAKE_SMOKE ) && process_fake_smoke( carrier, pos ) ) {
-        return true;
+    if( requires_tags_processing ) {
+        // `mark` becomes true if any of the flags that require processing are present
+        bool mark = false;
+        const auto mark_flag = [&mark]() {
+            mark = true;
+            return true;
+        };
+
+        if( has_flag( flag_FAKE_SMOKE ) && mark_flag() && process_fake_smoke( carrier, pos ) ) {
+            return true;
+        }
+        if( has_flag( flag_FAKE_MILL ) && mark_flag() && process_fake_mill( carrier, pos ) ) {
+            return true;
+        }
+        if( is_corpse() && mark_flag() && process_corpse( carrier, pos ) ) {
+            return true;
+        }
+        if( has_flag( flag_WET ) && mark_flag() && process_wet( carrier, pos ) ) {
+            // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
+            return false;
+        }
+        if( has_flag( flag_LITCIG ) && mark_flag()  && process_litcig( carrier, pos ) ) {
+            return true;
+        }
+        if( ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
+            mark_flag()  && process_extinguish( carrier, pos ) ) {
+            return false;
+        }
+        if( has_flag( flag_CABLE_SPOOL ) && mark_flag() ) {
+            // DO NOT process this as a tool! It really isn't!
+            return process_cable( carrier, pos );
+        }
+        if( has_flag( flag_IS_UPS ) && mark_flag() ) {
+            // DO NOT process this as a tool! It really isn't!
+            return process_UPS( carrier, pos );
+        }
+
+        if( !mark ) {
+            // no flag checks above were successful and no additional processing logic
+            // that could've changed flags was executed
+            requires_tags_processing = false;
+        }
     }
-    if( has_flag( flag_FAKE_MILL ) && process_fake_mill( carrier, pos ) ) {
-        return true;
-    }
-    if( is_corpse() && process_corpse( carrier, pos ) ) {
-        return true;
-    }
-    if( has_flag( flag_WET ) && process_wet( carrier, pos ) ) {
-        // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
-        return false;
-    }
-    if( has_flag( flag_LITCIG ) && process_litcig( carrier, pos ) ) {
-        return true;
-    }
-    if( ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
-        process_extinguish( carrier, pos ) ) {
-        return false;
-    }
-    if( has_flag( flag_CABLE_SPOOL ) ) {
-        // DO NOT process this as a tool! It really isn't!
-        return process_cable( carrier, pos );
-    }
-    if( has_flag( flag_IS_UPS ) ) {
-        // DO NOT process this as a tool! It really isn't!
-        return process_UPS( carrier, pos );
-    }
+
     if( is_tool() ) {
         return process_tool( carrier, pos );
     }
@@ -10047,8 +10077,14 @@ bool item::is_tainted() const
 
 bool item::is_soft() const
 {
+    if( has_flag( flag_SOFT ) ) {
+        return true;
+    } else if( has_flag( flag_HARD ) ) {
+        return false;
+    }
+
     const std::vector<material_id> mats = made_of();
-    return std::any_of( mats.begin(), mats.end(), []( const material_id & mid ) {
+    return std::all_of( mats.begin(), mats.end(), []( const material_id & mid ) {
         return mid.obj().soft();
     } );
 }

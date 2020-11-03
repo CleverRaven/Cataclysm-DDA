@@ -242,7 +242,7 @@
     "type": "profession",
     "id": "afs_bio_operator",
     "name": "Bionic Operator",
-    "description": "You worked as a mercenary across six continents for a dozen corps.  A VP at the last corp decided he wanted to put you on retainer and you agreed to a three month gig in return for some additional bionics.  You woke up with an extra bionic, a cranial bomb that needed to be reset every month or so or it blows up.  Now you're free until the bomb goes off.  Maybe you'll find someone who can remove it.",
+    "description": "You worked as a mercenary across six continents for a dozen corps.  A VP at the last corp decided he wanted to put you on retainer and you agreed to a three month gig in return for some additional bionics.  You woke up with an extra bionic, a cranial bomb that needed to be reset every month or so or it blows up.  Now you have days until the bomb goes off.  Maybe you'll find someone who can remove it.  Can you even sleep, for fear of death?",
     "points": 2,
     "CBMs": [
       "bio_carbon",

@@ -318,6 +318,9 @@ const flag_str_id flag_ZOOM( "ZOOM" );
 const flag_str_id flag_wooled( "wooled" );
 const flag_str_id flag_MUTE( "MUTE" );
 const flag_str_id flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
+const flag_str_id flag_SOFT( "SOFT" );
+const flag_str_id flag_HARD( "HARD" );
+
 
 namespace
 {

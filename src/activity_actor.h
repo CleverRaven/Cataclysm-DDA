@@ -660,20 +660,20 @@ class try_sleep_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
-class unload_mag_activity_actor : public activity_actor
+class unload_activity_actor : public activity_actor
 {
     private:
         int moves_total;
         item_location target;
     public:
-        unload_mag_activity_actor( int moves_total, const item_location &target ) :
+        unload_activity_actor( int moves_total, const item_location &target ) :
             moves_total( moves_total ), target( target ) {}
         activity_id get_type() const override {
-            return activity_id( "ACT_UNLOAD_MAG" );
+            return activity_id( "ACT_UNLOAD" );
         }
 
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
-            const unload_mag_activity_actor &act = static_cast<const unload_mag_activity_actor &>( other );
+            const unload_activity_actor &act = static_cast<const unload_activity_actor &>( other );
             return target == act.target;
         }
 
@@ -685,7 +685,7 @@ class unload_mag_activity_actor : public activity_actor
         static void unload( Character &who, item_location &target );
 
         std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<unload_mag_activity_actor>( *this );
+            return std::make_unique<unload_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;

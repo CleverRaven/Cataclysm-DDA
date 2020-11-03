@@ -11,7 +11,6 @@
 class JsonObject;
 
 extern const flag_str_id flag_NULL;
-
 extern const flag_str_id flag_ACID;
 extern const flag_str_id flag_ACID_IMMUNE;
 extern const flag_str_id flag_ACTIVE_CLOAKING;
@@ -321,6 +320,8 @@ extern const flag_str_id flag_ZOOM;
 extern const flag_str_id flag_wooled;
 extern const flag_str_id flag_MUTE;
 extern const flag_str_id flag_NOT_FOOTWEAR;
+extern const flag_str_id flag_SOFT;
+extern const flag_str_id flag_HARD;
 
 /**
  * Flags: json entity with "type": "json_flag", defined in flags.json, vp_flags.json
