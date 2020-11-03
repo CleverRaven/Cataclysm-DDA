@@ -12,6 +12,15 @@
 #include <vector>
 
 #include "optional.h"
+#include "value_ptr.h"
+
+constexpr int INVALID_LANGUAGE_VERSION = 0;
+
+namespace details
+{
+// returns current language generation/version
+int get_current_language_version();
+} // namespace details
 
 #if !defined(translate_marker)
 /**
@@ -50,15 +59,45 @@
 #  define ATTRIBUTE_FORMAT_ARG(a)
 #endif
 
-const char *_( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
-inline const char *_( const char *msg )
+namespace details
+{
+// same as _(), but without local cache
+const char *_translate_internal( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
+
+inline const char *_translate_internal( const char *msg )
 {
     return msg[0] == '\0' ? msg : gettext( msg );
 }
-inline std::string _( const std::string &msg )
+
+// same as _(), but without local cache
+inline std::string _translate_internal( const std::string &msg )
 {
-    return _( msg.c_str() );
+    return _translate_internal( msg.c_str() );
 }
+} // namespace details
+
+// Implementation note:
+// _cached_arg_ptr is needed to safeguard against invalid _cached_translation in the
+// scenario when `msg` is `char *` that doesn't have translation
+// (in this case `_cached_translation` becomes equal to `msg`, according to `gettext` specs).
+// If original `msg` later is invalidated, then `_cached_translation` consequently becomes invalid.
+// Comparing address of the argument will catch that situation and ensure that invalid `_cached_translation`
+// is never returned.
+#define _( msg ) \
+    ( ( []( const auto & arg )-> const auto & { \
+        static int _cached_lang_version = details::get_current_language_version(); \
+        static auto * _cached_arg_ptr = &arg; \
+        static std::string _cached_arg = std::string( arg ); \
+        static auto _cached_translation = details::_translate_internal( arg ); \
+        if ( _cached_lang_version != details::get_current_language_version() ||    \
+             _cached_arg_ptr != &arg || _cached_arg != arg ) { \
+            _cached_arg_ptr = &arg; \
+            _cached_lang_version = details::get_current_language_version(); \
+            _cached_arg = std::string( arg ); \
+            _cached_translation = details::_translate_internal( arg ); \
+        } \
+        return _cached_translation; \
+    } )( msg ) )
 
 // ngettext overload taking an unsigned long long so that people don't need
 // to cast at call sites.  This is particularly relevant on 64-bit Windows where
@@ -86,6 +125,19 @@ const char *npgettext( const char *context, const char *msgid, const char *msgid
 #include <locale>
 
 #define _(STRING) (STRING)
+
+namespace details
+{
+// _translate_internal avoids static cache
+inline const char *_translate_internal( const char *msg )
+{
+    return msg;
+}
+inline std::string _translate_internal( const std::string &msg )
+{
+    return msg;
+}
+} // namespace details
 
 #define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)
@@ -122,7 +174,7 @@ class translation
     public:
         struct plural_tag {};
 
-        translation();
+        translation() = default;
         /**
          * Same as `translation()`, but with plural form enabled.
          **/
@@ -217,10 +269,14 @@ class translation
         struct no_translation_tag {};
         translation( const std::string &str, no_translation_tag );
 
-        cata::optional<std::string> ctxt;
+        cata::value_ptr<std::string> ctxt = nullptr;
         std::string raw;
-        cata::optional<std::string> raw_pl;
+        cata::value_ptr<std::string> raw_pl = nullptr;
         bool needs_translation = false;
+        // translation cache. For "plural" translation only latest `num` is optimistically cached
+        mutable int cached_language_version = INVALID_LANGUAGE_VERSION;
+        mutable int cached_num = 0; // `num`, which `cached_translation` corresponds to
+        mutable cata::value_ptr<std::string> cached_translation;
 };
 
 /**
