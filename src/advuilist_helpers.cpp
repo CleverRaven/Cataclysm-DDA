@@ -86,10 +86,11 @@ constexpr _sourcearray const aimsources = {
     _sourcetuple{ SOURCE_SE, SOURCE_SE_i, tripoint{ 1, 1, 0 } },
 };
 
+constexpr auto const DRAGGED_IDX = 1;
 constexpr tripoint slotidx_to_offset( aim_advuilist_sourced_t::slotidx_t idx )
 {
     switch( idx ) {
-        case SOURCE_DRAGGED_i:
+        case DRAGGED_IDX:
             return get_avatar().grab_point;
         default:
             return std::get<tripoint>( aimsources[idx] );
@@ -102,7 +103,7 @@ constexpr bool is_vehicle( aim_advuilist_sourced_t::icon_t icon )
 }
 // end hacky stuff
 
-units::mass _iloc_entry_weight( advuilist_helpers::iloc_entry const &it )
+units::mass _iloc_entry_weight( iloc_entry const &it )
 {
     units::mass ret = 0_kilogram;
     for( auto const &v : it.stack ) {
@@ -111,7 +112,7 @@ units::mass _iloc_entry_weight( advuilist_helpers::iloc_entry const &it )
     return ret;
 }
 
-units::volume _iloc_entry_volume( advuilist_helpers::iloc_entry const &it )
+units::volume _iloc_entry_volume( iloc_entry const &it )
 {
     units::volume ret = 0_liter;
     for( auto const &v : it.stack ) {
@@ -121,8 +122,8 @@ units::volume _iloc_entry_volume( advuilist_helpers::iloc_entry const &it )
 }
 
 using stack_cache_t = std::unordered_map<itype_id, std::set<int>>;
-void _get_stacks( item *elem, advuilist_helpers::iloc_stack_t *stacks, stack_cache_t *cache,
-                  advuilist_helpers::filoc_t const &iloc_helper )
+void _get_stacks( item *elem, iloc_stack_t *stacks, stack_cache_t *cache,
+                  filoc_t const &iloc_helper )
 {
     const auto id = elem->typeId();
     auto iter = cache->find( id );
@@ -138,19 +139,19 @@ void _get_stacks( item *elem, advuilist_helpers::iloc_stack_t *stacks, stack_cac
     }
     if( !got_stacked ) {
         ( *cache )[id].insert( stacks->size() );
-        stacks->emplace_back( advuilist_helpers::iloc_entry{ { iloc_helper( elem ) } } );
+        stacks->emplace_back( iloc_entry{ { iloc_helper( elem ) } } );
     }
 }
 
-advuilist_helpers::aim_container_t source_ground_player_all()
+aim_container_t source_ground_player_all()
 {
-    return advuilist_helpers::source_ground_all( &get_player_character(), 1 );
+    return source_ground_all( &get_player_character(), 1 );
 }
 
-advuilist_helpers::aim_container_t source_player_ground( tripoint const &offset )
+aim_container_t source_player_ground( tripoint const &offset )
 {
     Character &u = get_player_character();
-    return advuilist_helpers::source_ground( u.pos() + offset );
+    return source_ground( u.pos() + offset );
 }
 
 bool source_player_ground_avail( tripoint const &offset )
@@ -172,23 +173,23 @@ bool source_player_dragged_avail()
     return false;
 }
 
-advuilist_helpers::aim_container_t source_player_dragged()
+aim_container_t source_player_dragged()
 {
     avatar &u = get_avatar();
-    return advuilist_helpers::source_vehicle( u.pos() + u.grab_point );
+    return source_vehicle( u.pos() + u.grab_point );
 }
 
-advuilist_helpers::aim_container_t source_player_inv()
+aim_container_t source_player_inv()
 {
-    return advuilist_helpers::source_char_inv( &get_player_character() );
+    return source_char_inv( &get_player_character() );
 }
 
-advuilist_helpers::aim_container_t source_player_worn()
+aim_container_t source_player_worn()
 {
-    return advuilist_helpers::source_char_worn( &get_player_character() );
+    return source_char_worn( &get_player_character() );
 }
 
-void player_wear( advuilist_helpers::aim_advuilist_t::selection_t const &it )
+void player_wear( aim_advuilist_t::selection_t const &it )
 {
     avatar &u = get_avatar();
     u.assign_activity( ACT_WEAR );
@@ -197,13 +198,13 @@ void player_wear( advuilist_helpers::aim_advuilist_t::selection_t const &it )
                                it.second->stack.begin() + it.first );
 }
 
-void player_take_off( advuilist_helpers::aim_advuilist_t::selection_t const &it )
+void player_take_off( aim_advuilist_t::selection_t const &it )
 {
     avatar &u = get_avatar();
     u.takeoff( *it.second->stack[0] );
 }
 
-void player_drop( advuilist_helpers::aim_advuilist_t::selection_t const &it, tripoint const pos,
+void player_drop( aim_advuilist_t::selection_t const &it, tripoint const pos,
                   bool to_vehicle )
 {
     avatar &u = get_avatar();
@@ -219,7 +220,7 @@ void player_drop( advuilist_helpers::aim_advuilist_t::selection_t const &it, tri
     u.assign_activity( player_activity( drop_activity_actor( to_drop, pos, !to_vehicle ) ) );
 }
 
-void get_selection_amount( advuilist_helpers::aim_advuilist_t::selection_t const &it,
+void get_selection_amount( aim_advuilist_t::selection_t const &it,
                            std::vector<item_location> *targets, std::vector<int> *quantities )
 {
     if( it.second->stack.front()->count_by_charges() ) {
@@ -232,7 +233,7 @@ void get_selection_amount( advuilist_helpers::aim_advuilist_t::selection_t const
     }
 }
 
-void player_pick_up( advuilist_helpers::aim_advuilist_t::selection_t const &it, bool from_vehicle )
+void player_pick_up( aim_advuilist_t::selection_t const &it, bool from_vehicle )
 {
     avatar &u = get_avatar();
 
@@ -245,7 +246,7 @@ void player_pick_up( advuilist_helpers::aim_advuilist_t::selection_t const &it, 
         from_vehicle ? cata::nullopt : cata::optional<tripoint>( u.pos() ) ) ) );
 }
 
-void player_move_items( advuilist_helpers::aim_advuilist_t::selection_t const &it,
+void player_move_items( aim_advuilist_t::selection_t const &it,
                         tripoint const pos, bool to_vehicle )
 {
     avatar &u = get_avatar();
@@ -373,7 +374,7 @@ bool iloc_entry_filter( iloc_entry const &it, std::string const &filter )
     return filterf( *it.stack[0] );
 }
 
-void iloc_entry_stats( aim_stats_t *stats, bool first, advuilist_helpers::iloc_entry const &it )
+void iloc_entry_stats( aim_stats_t *stats, bool first, iloc_entry const &it )
 {
     if( first ) {
         stats->first = 0_kilogram;
