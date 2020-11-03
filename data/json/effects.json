@@ -626,6 +626,13 @@
   },
   {
     "type": "effect_type",
+    "id": "debug_clairvoyance",
+    "name": [ "Debug Clairvoyance" ],
+    "desc": [ "You can see through everything!" ],
+    "flags": [ "EFFECT_SUPER_CLAIRVOYANCE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "took_flumed"
   },
   {

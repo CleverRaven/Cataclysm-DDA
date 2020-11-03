@@ -734,6 +734,24 @@
     "type": "json_flag"
   },
   {
+    "id": "EFFECT_CLAIRVOYANCE",
+    "context": [  ],
+    "type": "json_flag",
+    "//": "Effect flag, grants same abilities as a source of AEP_CLAIRVOYANCE would."
+  },
+  {
+    "id": "EFFECT_CLAIRVOYANCE_PLUS",
+    "context": [  ],
+    "type": "json_flag",
+    "//": "Effect flag, grants same abilities as a source of VISION_CLAIRVOYANCE_PLUS would."
+  },
+  {
+    "id": "EFFECT_SUPER_CLAIRVOYANCE",
+    "context": [  ],
+    "type": "json_flag",
+    "//": "Effect flag, grants same abilities as a source of AEP_SUPER_CLAIRVOYANCE would."
+  },
+  {
     "id": "ELECTRIC_IMMUNE",
     "context": [  ],
     "type": "json_flag"

@@ -250,6 +250,8 @@ void enchantment::load( const JsonObject &jo, const std::string & )
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
 
+    optional( jo, was_loaded, "mutations", mutations );
+
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchantment::mod value = io::string_to_enum<mod>( value_obj.get_string( "value" ) );
@@ -303,6 +305,8 @@ void enchantment::serialize( JsonOut &jsout ) const
         }
         jsout.end_object();
     }
+
+    jsout.member( "mutations", mutations );
 
     jsout.member( "values" );
     jsout.start_array();
@@ -359,6 +363,10 @@ void enchantment::force_add( const enchantment &rhs )
 
     if( rhs.emitter ) {
         emitter = rhs.emitter;
+    }
+
+    for( const trait_id &branch : rhs.mutations ) {
+        mutations.emplace( branch );
     }
 
     for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :

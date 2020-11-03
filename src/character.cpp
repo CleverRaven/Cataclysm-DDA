@@ -1691,15 +1691,11 @@ void Character::recalc_sight_limits()
         vision_mode_cache.set( IR_VISION );
     }
 
-    if( has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) {
+    if( has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) || has_effect_with_flag( "EFFECT_SUPER_CLAIRVOYANCE" ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE_SUPER );
-    }
-
-    if( has_artifact_with( AEP_CLAIRVOYANCE_PLUS ) ) {
+    } else if( has_artifact_with( AEP_CLAIRVOYANCE_PLUS ) || has_effect_with_flag( "EFFECT_CLAIRVOYANCE_PLUS" ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE_PLUS );
-    }
-
-    if( has_artifact_with( AEP_CLAIRVOYANCE ) ) {
+    } else if( has_artifact_with( AEP_CLAIRVOYANCE ) || has_effect_with_flag( "EFFECT_CLAIRVOYANCE" ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE );
     }
 }
@@ -7622,19 +7618,14 @@ void Character::recalculate_enchantment_cache()
     // start by resetting the cache to all inventory items
     enchantment_cache = inv.get_active_enchantment_cache( *this );
 
-    for( const enchantment &ench : weapon.get_enchantments() ) {
-        if( ench.is_active( *this, weapon ) ) {
-            enchantment_cache.force_add( ench );
-        }
-    }
-
-    for( const item &worn_it : worn ) {
-        for( const enchantment &ench : worn_it.get_enchantments() ) {
-            if( ench.is_active( *this, worn_it ) ) {
+    visit_items( [&]( const item * it ) {
+        for( const enchantment &ench : it->get_enchantments() ) {
+            if( ench.is_active( *this, *it ) ) {
                 enchantment_cache.force_add( ench );
             }
         }
-    }
+        return VisitResponse::NEXT;
+    } );
 
     // get from traits/ mutations
     for( const std::pair<const trait_id, trait_data> &mut_map : my_mutations ) {
@@ -9384,11 +9375,29 @@ void Character::on_worn_item_washed( const item &it )
 
 void Character::on_item_wear( const item &it )
 {
+    for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
+        mutation_effect( mut, true );
+        recalc_sight_limits();
+        calc_encumbrance();
+
+        // If the stamina is higher than the max (Languorous), set it back to max
+        if( get_stamina() > get_stamina_max() ) {
+            set_stamina( get_stamina_max() );
+        }
+    }
     morale->on_item_wear( it );
 }
 
 void Character::on_item_takeoff( const item &it )
 {
+    for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
+        mutation_loss_effect( mut );
+        recalc_sight_limits();
+        calc_encumbrance();
+        if( get_stamina() > get_stamina_max() ) {
+            set_stamina( get_stamina_max() );
+        }
+    }
     morale->on_item_takeoff( it );
 }
 

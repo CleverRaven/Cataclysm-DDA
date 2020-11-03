@@ -150,6 +150,68 @@
     }
   },
   {
+    "id": "debug_active_relic_test",
+    "type": "TOOL",
+    "name": { "str": "Cube of Shame", "str_pl": "Cubes of Shame" },
+    "description": "This is a debug-only item for testing relic properties, powered by batteries.  Turn it on to lose intelligence and perception, but gain clairvoyance",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "blue",
+    "weight": "400 g",
+    "volume": "500 ml",
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "You inject yourself into the Cube of Shame.",
+      "target": "debug_active_relic_test_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "Batteries not included."
+    },
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1,
+    "relic_data": {
+      "passive_effects": [
+        { "has": "HELD", "condition": "ALWAYS", "mutations": [ "SCHIZOPHRENIC" ] },
+        {
+          "has": "HELD",
+          "condition": "ACTIVE",
+          "values": [ { "value": "INTELLIGENCE", "add": -4 }, { "value": "PERCEPTION", "add": -4 } ],
+          "ench_effects": [ { "effect": "debug_clairvoyance", "intensity": 1 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "debug_active_relic_test_on",
+    "copy-from": "debug_active_relic_test",
+    "type": "TOOL",
+    "name": { "str": "Cube of Shame (on)", "str_pl": "Cube of Shame (on)" },
+    "description": "This is a debug-only item for testing relic properties, powered by batteries.  Drop it or turn it off to retrieve your mind.",
+    "power_draw": 10000,
+    "revert_to": "debug_active_relic_test",
+    "use_action": {
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You extract yourself from the Cube of Shame.",
+      "target": "debug_active_relic_test"
+    }
+  },
+  {
     "id": "e_tool",
     "type": "TOOL",
     "name": { "str": "entrenching tool" },

@@ -1280,6 +1280,8 @@ class item : public visitable<item>
          */
         void on_damage( int qty, damage_type dt );
 
+        std::vector<trait_id> mutations_from_wearing( const Character &guy ) const;
+
         /**
          * Name of the item type (not the item), with proper plural.
          * This is only special when the item itself has a special name ("name" entry in
