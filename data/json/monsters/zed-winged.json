@@ -173,7 +173,7 @@
   {
     "type": "MONSTER",
     "id": "mon_spawn_raptor_electric",
-    "name": { "str_sp": "shocker flesh-raptor" },
+    "name": { "str": "zaptor" },
     "copy-from": "mon_spawn_raptor",
     "color": "light_cyan",
     "description": "This small winged predator darts through the air on three thinly haired wings that look like stretched human hands.  Where the wings meet juts a jagged spike with a pulsing electrical glow.",
