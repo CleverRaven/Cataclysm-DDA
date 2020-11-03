@@ -1,11 +1,18 @@
 #ifndef CATA_SRC_TRANSACTION_UI_H
 #define CATA_SRC_TRANSACTION_UI_H
 
-#include <array>
-#include <queue>
+#include <array>      // for array
+#include <cstddef>    // for size_t
+#include <functional> // for function
+#include <queue>      // for queue
+#include <string>     // for string, operator==, basic_string
 
-#include "advuilist_const.h" // for ACTION_*
-#include "advuilist_sourced.h"
+#include "advuilist.h"         // for advuilist
+#include "advuilist_const.h"   // for ACTION_SWITCH_PANES, CTXT_DEFAULT
+#include "advuilist_sourced.h" // for advuilist_sourced
+#include "output.h"            // for TERMX, TERMY
+#include "point.h"             // for point
+#include "uistate.h"           // for transaction_ui_save_state
 
 /// two-pane transaction ui based on advuilist_sourced
 template <class Container, typename T = typename Container::value_type>
@@ -14,7 +21,7 @@ class transaction_ui
   public:
     using advuilist_t = advuilist_sourced<Container, T>;
     using select_t = typename advuilist_t::select_t;
-    using fselect_t = std::function<void( transaction_ui<Container, T> *, select_t)>;
+    using fselect_t = std::function<void( transaction_ui<Container, T> *, select_t )>;
     using fctxt_t = std::function<void( transaction_ui<Container, T> *, std::string const & )>;
 
     enum class event { QUIT = 0, SWITCH = 1, NEVENTS = 2 };
@@ -32,6 +39,8 @@ class transaction_ui
     void pushevent( event const &ev );
 
     void show();
+    void savestate( transaction_ui_save_state *state );
+    void loadstate( transaction_ui_save_state *state );
 
   private:
     constexpr static std::size_t npanes = 2;
@@ -138,6 +147,22 @@ void transaction_ui<Container, T>::show()
             _process( ev );
         }
     }
+}
+
+template <class Container, typename T>
+void transaction_ui<Container, T>::savestate( transaction_ui_save_state *state )
+{
+    _panes[_left].savestate( &state->left );
+    _panes[_right].savestate( &state->right );
+    state->cpane = _cpane;
+}
+
+template <class Container, typename T>
+void transaction_ui<Container, T>::loadstate( transaction_ui_save_state *state )
+{
+    _panes[_left].loadstate( &state->left );
+    _panes[_right].loadstate( &state->right );
+    _cpane = state->cpane;
 }
 
 template <class Container, typename T>

@@ -14,68 +14,48 @@
 
 class item;
 
-struct advanced_inv_pane_save_state {
+struct advuilist_save_state {
     public:
-        int sort_idx = 1;
+        std::size_t slot = 0, idx = 0, sort = 0, group = 0;
+        char icon = 0;
         std::string filter;
-        int area_idx = 11;
-        int selected_idx = 0;
-
-        bool in_vehicle = false;
 
         template<typename JsonStream>
         void serialize( JsonStream &json, const std::string &prefix ) const {
-            json.member( prefix + "sort_idx", sort_idx );
+            json.member( prefix + "slot", slot );
+            json.member( prefix + "idx", idx );
+            json.member( prefix + "sort", sort );
+            json.member( prefix + "group", group );
+            json.member( prefix + "icon", icon );
             json.member( prefix + "filter", filter );
-            json.member( prefix + "area_idx", area_idx );
-            json.member( prefix + "selected_idx", selected_idx );
-            json.member( prefix + "in_vehicle", in_vehicle );
-        }
-
-        void deserialize( const JsonObject &jo, const std::string &prefix ) {
-            jo.read( prefix + "sort_idx", sort_idx );
-            jo.read( prefix + "filter", filter );
-            jo.read( prefix + "area_idx", area_idx );
-            jo.read( prefix + "selected_idx", selected_idx );
-            jo.read( prefix + "in_vehicle", in_vehicle );
-        }
-};
-
-struct advanced_inv_save_state {
-    public:
-        aim_exit exit_code = aim_exit::none;
-        aim_entry re_enter_move_all = aim_entry::START;
-        int aim_all_location = 1;
-
-        bool active_left = true;
-        int last_popup_dest = 0;
-
-        int saved_area = 11;
-        int saved_area_right = 0;
-        advanced_inv_pane_save_state pane;
-        advanced_inv_pane_save_state pane_right;
-
-        template<typename JsonStream>
-        void serialize( JsonStream &json, const std::string &prefix ) const {
-            json.member( prefix + "active_left", active_left );
-            json.member( prefix + "last_popup_dest", last_popup_dest );
-
-            json.member( prefix + "saved_area", saved_area );
-            json.member( prefix + "saved_area_right", saved_area_right );
-            pane.serialize( json, prefix + "pane_" );
-            pane_right.serialize( json, prefix + "pane_right_" );
         }
 
         void deserialize( JsonObject &jo, const std::string &prefix ) {
-            jo.read( prefix + "active_left", active_left );
-            jo.read( prefix + "last_popup_dest", last_popup_dest );
+            jo.read( prefix + "slot", slot );
+            jo.read( prefix + "idx", idx );
+            jo.read( prefix + "sort", sort );
+            jo.read( prefix + "group", group );
+            jo.read( prefix + "icon", icon );
+            jo.read( prefix + "filter", filter );
+        }
+};
 
-            jo.read( prefix + "saved_area", saved_area );
-            jo.read( prefix + "saved_area_right", saved_area_right );
-            pane.area_idx = saved_area;
-            pane_right.area_idx = saved_area_right;
-            pane.deserialize( jo, prefix + "pane_" );
-            pane_right.deserialize( jo, prefix + "pane_right_" );
+struct transaction_ui_save_state {
+    public:
+        advuilist_save_state left, right;
+        std::size_t cpane = 0;
+
+        template<typename JsonStream>
+        void serialize( JsonStream &json, const std::string &prefix ) const {
+            json.member( prefix + "cpane", cpane );
+            left.serialize( json, prefix + "left_" );
+            right.serialize( json, prefix + "right_" );
+        }
+
+        void deserialize( JsonObject &jo, const std::string &prefix ) {
+            jo.read( prefix + "cpane", cpane );
+            left.deserialize( jo, prefix + "left_" );
+            right.deserialize( jo, prefix + "right_" );
         }
 };
 /*
@@ -104,7 +84,7 @@ class uistatedata
         itype_id adv_inv_container_content_type = itype_id::NULL_ID();
         bool adv_inv_container_in_vehicle = false;
 
-        advanced_inv_save_state transfer_save;
+        transaction_ui_save_state transfer_save;
 
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.

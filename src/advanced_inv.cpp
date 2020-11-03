@@ -13,7 +13,7 @@ void create_advanced_inv()
 {
     using namespace advuilist_helpers;
     using mytrui_t = transaction_ui<aim_container_t>;
-    
+
     mytrui_t mytrui( aimlayout );
     aim_stats_t stats;
     setup_for_aim( mytrui.left(), &stats );
@@ -21,7 +21,9 @@ void create_advanced_inv()
     add_aim_sources( mytrui.left() );
     add_aim_sources( mytrui.right() );
     mytrui.on_select( aim_transfer );
+    mytrui.loadstate( &uistate.transfer_save );
     mytrui.show();
+    mytrui.savestate( &uistate.transfer_save );
 }
 
 void cancel_aim_processing()

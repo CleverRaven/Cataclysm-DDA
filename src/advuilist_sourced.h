@@ -16,6 +16,7 @@
 #include "point.h"            // for point
 #include "string_formatter.h" // for string_format
 #include "ui_manager.h"       // for ui_adaptor
+#include "uistate.h"          // for advuilist_save_state
 
 /// wrapper for advuilist that allows for switching between multiple sources
 template <class Container, typename T = typename Container::value_type>
@@ -43,6 +44,9 @@ class advuilist_sourced : public advuilist<Container, T>
     getsource_t getSource();
 
     void setctxthandler( fctxt_t const &func );
+
+    void savestate( advuilist_save_state *state );
+    void loadstate( advuilist_save_state *state, bool reb = true );
 
   private:
     using slotcont_t = std::map<icon_t, source_t>;
@@ -140,6 +144,37 @@ template <class Container, typename T>
 void advuilist_sourced<Container, T>::setctxthandler( fctxt_t const &func )
 {
     _fctxt = func;
+}
+
+template <class Container, typename T>
+void advuilist_sourced<Container, T>::savestate( advuilist_save_state *state )
+{
+    advuilist<Container, T>::savestate( state );
+    state->slot = _cslot;
+    state->icon = std::get<icon_t>( _sources[_cslot] );
+}
+
+template <class Container, typename T>
+void advuilist_sourced<Container, T>::loadstate( advuilist_save_state *state, bool reb )
+{
+    advuilist<Container, T>::loadstate( state, false );
+    _cslot = state->slot;
+    // only set the slot's active icon if it still exists and its source is available
+    auto const exists = std::get<slotcont_t>( _sources[_cslot] ).count( state->icon );
+    if( exists > 0 ) {
+        fsourceb_t const &fb =
+            std::get<fsourceb_t>( std::get<slotcont_t>( _sources[_cslot] )[state->icon] );
+        if( fb() ) {
+            _sources[_cslot].first = state->icon;
+        }
+    }
+
+    // still need to run this to initialize _container
+    setSource( _cslot );
+
+    if( reb ) {
+        advuilist<Container, T>::rebuild();
+    }
 }
 
 template <class Container, typename T>

@@ -25,6 +25,7 @@
 #include "translations.h"       // for _, localized_compare
 #include "ui.h"                 // for uilist
 #include "ui_manager.h"         // for redraw, ui_adaptor
+#include "uistate.h"            // for advuilist_save_state
 
 // TODO:
 //     select all
@@ -113,6 +114,9 @@ class advuilist
     input_context *get_ctxt();
     catacurses::window *get_window();
     std::shared_ptr<ui_adaptor> get_ui();
+
+    void savestate( advuilist_save_state *state );
+    void loadstate( advuilist_save_state *state, bool reb = true );
 
   protected:
     // semi-hacks: functions needed due to initialization order in advuilist_sourced
@@ -437,6 +441,28 @@ template <class Container, typename T>
 std::shared_ptr<ui_adaptor> advuilist<Container, T>::get_ui()
 {
     return _ui;
+}
+
+template <class Container, typename T>
+void advuilist<Container, T>::savestate( advuilist_save_state *state )
+{
+    state->idx = _cidx;
+    state->sort = _csort;
+    state->group = _cgroup;
+    state->filter = _filter;
+}
+
+template <class Container, typename T>
+void advuilist<Container, T>::loadstate( advuilist_save_state *state, bool reb )
+{
+    _cidx = state->idx > _list.size() - 1 ? _list.size() - 1 : state->idx;
+    _cpage = _idxtopage( _cidx );
+    _csort = state->sort;
+    _cgroup = state->group;
+    _filter = state->filter;
+    if( reb ) {
+        rebuild();
+    }
 }
 
 template <class Container, typename T>
