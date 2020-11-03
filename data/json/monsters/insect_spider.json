@@ -522,7 +522,7 @@
     "id": "mon_firefly",
     "type": "MONSTER",
     "name": { "str": "firefly", "str_pl": "fireflies" },
-    "description": "A mutated firefly grown to the size of a dog, brightly glowing abdomen bobbing up and down as it tries to impress its unseen mate.  It looks strangely uninterested in you and everything else.",
+    "description": "A mutated firefly grown to the size of a large housecat, brightly glowing abdomen bobbing up and down as it tries to impress its unseen mate.  It looks strangely uninterested in you and everything else.",
     "bodytype": "flying insect",
     "species": [ "INSECT" ],
     "default_faction": "insect",
