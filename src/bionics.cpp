@@ -1717,7 +1717,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
     }
 }
 
-bool Character::has_enough_anesth( const itype *cbm, player &patient )
+bool Character::has_enough_anesth( const itype *cbm, player & )
 {
     if( !cbm->bionic ) {
         debugmsg( "has_enough_anesth( const itype *cbm ): %s is not a bionic", cbm->get_id() );
