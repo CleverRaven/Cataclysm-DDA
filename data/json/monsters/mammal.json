@@ -1576,7 +1576,7 @@
     "copy-from": "mon_dog",
     "type": "MONSTER",
     "name": { "str": "samoyed" },
-    "description": "A large, white, fluffy herding dog from Siberia. Samoyeds are rarely aggressive: Their smiley face doesn't help either. They can be agile for their size and can be taught to pull sleds.",
+    "description": "A large, white, fluffy herding dog from Siberia.  Samoyeds are rarely aggressive: Their smiley face doesn't help either.  They can be agile for their size and can be taught to pull sleds.",
     "hp": 32,
     "weight": "24 kg",
     "morale": 10,
