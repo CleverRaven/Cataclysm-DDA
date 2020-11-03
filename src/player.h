@@ -281,14 +281,6 @@ class player : public Character
          */
         void mend_item( item_location &&obj, bool interactive = true );
 
-        /**
-         * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
-         * @param it Item to calculate reload cost for
-         * @param ammo either ammo or magazine to use when reloading the item
-         * @param qty maximum units of ammo to reload. Capped by remaining capacity and ignored if reloading using a magazine.
-         */
-        int item_reload_cost( const item &it, const item &ammo, int qty ) const;
-
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         cata::optional<std::list<item>::iterator>
         wear( int pos, bool interactive = true );
@@ -298,18 +290,6 @@ class player : public Character
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
         bool takeoff( item &it, std::list<item> *res = nullptr );
         bool takeoff( int pos );
-
-        /**
-          * So far only called by unload() from game.cpp
-          * @avoid - do not put @it into @avoid
-          */
-        bool add_or_drop_with_msg( item &it, bool unloading = false, const item *avoid = nullptr );
-
-        /**
-         * Unload item.
-         * @param bypass_activity If item requires an activity for its unloading, unload item immediately instead.
-         */
-        bool unload( item_location &loc, bool bypass_activity = false );
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.

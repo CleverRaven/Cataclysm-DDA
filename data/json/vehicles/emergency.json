@@ -73,8 +73,8 @@
       { "x": -2, "y": 0, "chance": 5, "items": [ "codeine" ] },
       { "x": -2, "y": 0, "chance": 25, "item_groups": [ "ambulance_equipment" ] },
       { "x": -3, "y": 0, "chance": 15, "items": [ "bandages" ] },
-      { "x": -3, "y": 0, "chance": 15, "items": [ "1st_aid" ] },
-      { "x": -3, "y": 0, "chance": 15, "items": [ "ifak" ] },
+      { "x": -3, "y": 0, "chance": 15, "item_groups": [ "full_1st_aid" ] },
+      { "x": -3, "y": 0, "chance": 15, "item_groups": [ "full_ifak" ] },
       { "x": -3, "y": 0, "chance": 5, "items": [ "adrenaline_injector" ] },
       { "x": -3, "y": 0, "chance": 5, "items": [ "oxycodone" ] },
       { "x": -3, "y": 0, "chance": 5, "items": [ "tramadol" ] },
@@ -350,16 +350,12 @@
     ],
     "items": [
       { "x": 0, "y": 1, "chance": 1, "items": [ "roadmap" ] },
-      { "x": -1, "y": 1, "chance": 8, "items": [ "smoxygen_tank", "1st_aid" ] },
+      { "x": -1, "y": 1, "chance": 8, "items": [ "smoxygen_tank" ] },
+      { "x": -1, "y": 1, "chance": 8, "item_groups": [ "full_1st_aid" ] },
       { "x": -1, "y": 1, "chance": 12, "items": [ "extinguisher" ] },
       { "x": -4, "y": 2, "chance": 4, "item_groups": [ "fireman_gear" ] },
-      {
-        "x": -4,
-        "y": 0,
-        "chance": 8,
-        "items": [ "flashlight", "oxygen_tank", "smoxygen_tank", "1st_aid" ],
-        "ammo": 100
-      },
+      { "x": -4, "y": 0, "chance": 8, "items": [ "flashlight", "oxygen_tank", "smoxygen_tank" ], "ammo": 100 },
+      { "x": -4, "y": 0, "chance": 8, "item_groups": [ "full_1st_aid" ] },
       { "x": -4, "y": -1, "chance": 4, "item_groups": [ "fireman_gear" ] },
       {
         "x": -5,

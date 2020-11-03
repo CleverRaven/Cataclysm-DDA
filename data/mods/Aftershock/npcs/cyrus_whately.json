@@ -149,7 +149,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 4,
     "value": 0,
-    "item": "mutagen",
+    "item": "mutagen_alpha",
     "count": 3,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FRANKENSTEIN_4",
@@ -175,7 +175,7 @@
     "difficulty": 6,
     "value": 0,
     "item": "bot_broken_cyborg",
-    "count": 3,
+    "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FRANKENSTEIN_5",
     "dialogue": {

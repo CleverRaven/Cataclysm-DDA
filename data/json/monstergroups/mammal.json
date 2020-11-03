@@ -37,7 +37,8 @@
       { "monster": "mon_dog_rottweiler", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_dog_rottweiler_pup", "freq": 5, "cost_multiplier": 0 },
       { "monster": "mon_dog_auscattle", "freq": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_auscattle_pup", "freq": 5, "cost_multiplier": 0 }
+      { "monster": "mon_dog_auscattle_pup", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_mutant_mongrel", "freq": 10, "cost_multiplier": 0 }
     ]
   },
   {
@@ -66,7 +67,9 @@
       { "monster": "mon_cat_sphynx", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_cat_sphynx_kitten", "freq": 5, "cost_multiplier": 0 },
       { "monster": "mon_cat_chonker", "freq": 50, "cost_multiplier": 0 },
-      { "monster": "mon_cat_chonker_kitten", "freq": 5, "cost_multiplier": 0 }
+      { "monster": "mon_cat_chonker_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_mutant_prism", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_cat_mutant_kitten_prism", "freq": 1, "cost_multiplier": 0 }
     ]
   },
   {

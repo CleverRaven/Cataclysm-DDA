@@ -39,6 +39,7 @@
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "fragment_cloud.h"
 #include "fungal_effects.h"
@@ -365,9 +366,15 @@ void map::vehmove()
     VehicleList vehicle_list;
     int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+    tripoint player_pos = get_player_location().pos();
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
         level_cache &cache = get_cache( zlev );
         for( vehicle *veh : cache.vehicle_list ) {
+            if( veh->is_following ) {
+                veh->drive_to_local_target( getabs( player_pos ), true );
+            } else if( veh->is_patrolling ) {
+                veh->autopilot_patrol();
+            }
             veh->gain_moves();
             veh->slow_leak();
             wrapped_vehicle w;
@@ -2657,7 +2664,7 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
 bool map::tinder_at( const tripoint &p )
 {
     for( const item &i : i_at( p ) ) {
-        if( i.has_flag( "TINDER" ) ) {
+        if( i.has_flag( flag_TINDER ) ) {
             return true;
         }
     }
@@ -4298,8 +4305,8 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     }
     // spawn the item
     item new_item( type_id, birthday );
-    if( one_in( 3 ) && new_item.has_flag( "VARSIZE" ) ) {
-        new_item.set_flag( "FIT" );
+    if( one_in( 3 ) && new_item.has_flag( flag_VARSIZE ) ) {
+        new_item.set_flag( flag_FIT );
     }
 
     if( charges && new_item.charges > 0 ) {
@@ -4384,7 +4391,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
     }
 
     // Some items never exist on map as a discrete item (must be contained by another item)
-    if( obj.has_flag( "NO_DROP" ) ) {
+    if( obj.has_flag( flag_NO_DROP ) ) {
         return null_item_reference();
     }
 
@@ -4397,7 +4404,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
                                           obj.made_of( phase_id::LIQUID ) ) )
         && valid_limits( pos ) ) {
         // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
-        if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
+        if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
             if( obj.on_drop( pos, *this ) ) {
                 return null_item_reference();
             }
@@ -4422,7 +4429,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             if( route( pos, e, setting ).empty() ) {
                 continue;
             }
-            if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
+            if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
                 if( obj.on_drop( e, *this ) ) {
                     return null_item_reference();
                 }
@@ -4470,8 +4477,8 @@ item &map::add_item( const tripoint &p, item new_item )
         return null_item_reference();
     }
 
-    if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, fd_fire ) != nullptr ) {
-        if( new_item.has_flag( "BOMB" ) && new_item.is_transformable() ) {
+    if( new_item.has_flag( flag_ACT_IN_FIRE ) && get_field( p, fd_fire ) != nullptr ) {
+        if( new_item.has_flag( flag_BOMB ) && new_item.is_transformable() ) {
             //Convert a bomb item into its transformable version, e.g. incendiary grenade -> active incendiary grenade
             new_item.convert( dynamic_cast<const iuse_transform *>
                               ( new_item.type->get_use( "transform" )->get_actor_ptr() )->target );
@@ -4620,9 +4627,8 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         for( auto &n : cur_veh.get_items( part ) ) {
             const time_duration washing_time = 90_minutes;
             const time_duration time_left = washing_time - n.age();
-            static const std::string filthy( "FILTHY" );
             if( time_left <= 0_turns ) {
-                n.unset_flag( filthy );
+                n.unset_flag( flag_FILTHY );
                 washing_machine_finished = true;
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
@@ -4647,10 +4653,9 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         for( auto &n : cur_veh.get_items( part ) ) {
             const time_duration cycle_time = 90_minutes;
             const time_duration time_left = cycle_time - n.age();
-            static const std::string no_sterile( "NO_STERILE" );
             if( time_left <= 0_turns ) {
-                if( !n.has_flag( "NO_PACKED" ) ) {
-                    n.unset_flag( no_sterile );
+                if( !n.has_flag( flag_NO_PACKED ) ) {
+                    n.unset_flag( flag_NO_STERILE );
                 }
                 autoclave_finished = true;
                 cur_veh.part( part ).enabled = false;
@@ -4666,31 +4671,32 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     }
 
     const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
-    vehicle_part recharge_part;
-    if( recharge_part_idx >= 0 && ( recharge_part = cur_veh.part( recharge_part_idx ) ) &&
-        !recharge_part.removed && !recharge_part.is_broken() &&
-        ( !recharge_part.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) || recharge_part.enabled ) ) {
-        for( auto &n : cur_veh.get_items( part ) ) {
-            if( !n.has_flag( "RECHARGE" ) && !n.has_flag( "USE_UPS" ) ) {
-                continue;
-            }
-            // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
-            if( n.ammo_capacity( ammotype( "battery" ) ) > n.ammo_remaining() ||
-                ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
-                int power = recharge_part.info().bonus;
-                while( power >= 1000 || x_in_y( power, 1000 ) ) {
-                    const int missing = cur_veh.discharge_battery( 1, false );
-                    // Around 85% efficient; a few of the discharges don't actually recharge
-                    if( missing == 0 && !one_in( 7 ) ) {
-                        if( n.is_battery() ) {
-                            n.set_energy( 1_kJ );
-                        } else {
-                            n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
-                        }
-                    }
-                    power -= 1000;
+    if( recharge_part_idx >= 0 ) {
+        vehicle_part recharge_part = cur_veh.part( recharge_part_idx );
+        if( !recharge_part.removed && !recharge_part.is_broken() &&
+            ( !recharge_part.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) || recharge_part.enabled ) ) {
+            for( auto &n : cur_veh.get_items( part ) ) {
+                if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
+                    continue;
                 }
-                break;
+                // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
+                if( n.ammo_capacity( ammotype( "battery" ) ) > n.ammo_remaining() ||
+                    ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
+                    int power = recharge_part.info().bonus;
+                    while( power >= 1000 || x_in_y( power, 1000 ) ) {
+                        const int missing = cur_veh.discharge_battery( 1, false );
+                        // Around 85% efficient; a few of the discharges don't actually recharge
+                        if( missing == 0 && !one_in( 7 ) ) {
+                            if( n.is_battery() ) {
+                                n.set_energy( 1_kJ );
+                            } else {
+                                n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
+                            }
+                        }
+                        power -= 1000;
+                    }
+                    break;
+                }
             }
         }
     }
@@ -5127,7 +5133,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )
             }
             map_stack items = i_at( pos );
             for( auto &elem : items ) {
-                if( elem.has_flag( "RADIO_ACTIVATION" ) || elem.has_flag( "RADIO_CONTAINER" ) ) {
+                if( elem.has_flag( flag_RADIO_ACTIVATION ) || elem.has_flag( flag_RADIO_CONTAINER ) ) {
                     rc_pairs.push_back( std::make_pair( pos, &elem ) );
                 }
             }
@@ -7021,7 +7027,11 @@ void map::grow_plant( const tripoint &p )
 
     if( seed == items.end() ) {
         // No seed there anymore, we don't know what kind of plant it was.
-        dbg( D_ERROR ) << "a planted item at " << p.x << "," << p.y << "," << p.z << " has no seed data";
+        // TODO: Fix point types
+        const oter_id ot =
+            overmap_buffer.ter( project_to<coords::omt>( tripoint_abs_ms( getabs( p ) ) ) );
+        dbg( D_ERROR ) << "a planted item at " << p.x << "," << p.y << "," << p.z
+                       << " (within overmap terrain " << ot.id().str() << ") has no seed data";
         i_clear( p );
         furn_set( p, f_null );
         return;
@@ -7036,7 +7046,7 @@ void map::grow_plant( const tripoint &p )
 
             // Remove fertilizer if any
             map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.has_flag( "FERTILIZER" );
+                return it.has_flag( flag_FERTILIZER );
             } );
             if( fertilizer != items.end() ) {
                 items.erase( fertilizer );
@@ -7051,7 +7061,7 @@ void map::grow_plant( const tripoint &p )
 
             // Remove fertilizer if any
             map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.has_flag( "FERTILIZER" );
+                return it.has_flag( flag_FERTILIZER );
             } );
             if( fertilizer != items.end() ) {
                 items.erase( fertilizer );
@@ -8297,12 +8307,12 @@ void map::add_corpse( const tripoint &p )
         body = item::make_corpse();
     } else {
         body = item::make_corpse( mon_zombie );
-        body.set_flag( "REVIVE_SPECIAL" );
+        body.set_flag( flag_REVIVE_SPECIAL );
     }
 
-    put_items_from_loc( "default_zombie_clothes", p, 0 );
+    put_items_from_loc( item_group_id( "default_zombie_clothes" ), p, 0 );
     if( one_in( 3 ) ) {
-        put_items_from_loc( "default_zombie_items", p, 0 );
+        put_items_from_loc( item_group_id( "default_zombie_items" ), p, 0 );
     }
 
     add_item_or_charges( p, body );
