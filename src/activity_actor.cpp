@@ -2230,35 +2230,35 @@ void reload_activity_actor::start( player_activity &act, Character &/*who*/ )
     act.moves_left = moves_total;
 }
 
-void reload_activity_actor::reload_gun( Character &who, item &reloadable, item &ammo ) const 
+void reload_activity_actor::reload_gun( Character &who, item &reloadable, item &ammo ) const
 {
     const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
     who.recoil = MAX_RECOIL;
     if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
-            for( int i = 0; i != quantity; ++i ) {
-                add_msg( m_neutral, _( "You insert one %2$s into the %1$s." ), reloadable.tname(), ammo.tname() );
-            }
+        for( int i = 0; i != quantity; ++i ) {
+            add_msg( m_neutral, _( "You insert one %2$s into the %1$s." ), reloadable.tname(), ammo.tname() );
         }
-    make_reload_sound(who, reloadable);
+    }
+    make_reload_sound( who, reloadable );
 }
 
 void reload_activity_actor::make_reload_sound( Character &who, item &reloadable ) const
 {
     if( reloadable.type->gun->reload_noise_volume > 0 ) {
-            sfx::play_variant_sound( "reload", reloadable.typeId().str(),
-                                     sfx::get_heard_volume( who.pos() ) );
-            sounds::ambient_sound( who.pos(), reloadable.type->gun->reload_noise_volume,
-                                   sounds::sound_t::activity, reloadable.type->gun->reload_noise.translated() );
-        }
+        sfx::play_variant_sound( "reload", reloadable.typeId().str(),
+                                 sfx::get_heard_volume( who.pos() ) );
+        sounds::ambient_sound( who.pos(), reloadable.type->gun->reload_noise_volume,
+                               sounds::sound_t::activity, reloadable.type->gun->reload_noise.translated() );
+    }
 }
 
-void reload_activity_actor::finish( player_activity &act, Character &who ) 
+void reload_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
-    if(!can_reload()) {
+    if( !can_reload() ) {
         return;
     }
-    
+
     item &reloadable = *reload_targets[ 0 ];
     item &ammo = *reload_targets[ 1 ];
     std::string reloadable_name = reloadable.tname();
@@ -2282,7 +2282,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( reloadable.is_gun() ) {
-        reload_gun(who, reloadable, ammo);
+        reload_gun( who, reloadable, ammo );
     } else if( reloadable.is_watertight_container() ) {
         add_msg( m_neutral, _( "You refill the %s." ), reloadable_name );
     } else {
@@ -2299,10 +2299,10 @@ void reload_activity_actor::canceled( player_activity &act, Character &/*who*/ )
 void reload_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-    
-    jsout.member("moves_total", moves_total);
-    jsout.member("qty", quantity);
-    jsout.member("reload_targets", reload_targets);
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "qty", quantity );
+    jsout.member( "reload_targets", reload_targets );
 
     jsout.end_object();
 }
@@ -2310,12 +2310,12 @@ void reload_activity_actor::serialize( JsonOut &jsout ) const
 std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonIn &jsin )
 {
     reload_activity_actor actor;
-    
+
     JsonObject data = jsin.get_object();
 
-    data.read("moves_total", actor.moves_total );
-    data.read("qty", actor.quantity );
-    data.read("reload_targets", actor.reload_targets );
+    data.read( "moves_total", actor.moves_total );
+    data.read( "qty", actor.quantity );
+    data.read( "reload_targets", actor.reload_targets );
 
     return actor.clone();
 }

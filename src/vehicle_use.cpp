@@ -2227,7 +2227,8 @@ void vehicle::interact_with( const vpart_position &vp )
             if( opt ) {
                 targets.emplace_back( turret.base() );
                 targets.push_back( std::move( opt.ammo ) );
-                player_character.assign_activity( player_activity( reload_activity_actor( opt.moves(), opt.qty(), targets ) ) );
+                player_character.assign_activity( player_activity( reload_activity_actor( opt.moves(), opt.qty(),
+                                                  targets ) ) );
             }
             return;
         }

@@ -8982,8 +8982,8 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         }
         targets.push_back( std::move( opt.ammo ) );
 
-        u.assign_activity( player_activity ( reload_activity_actor( moves, opt.qty(), targets ) ) );
-        
+        u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
+
     }
 }
 

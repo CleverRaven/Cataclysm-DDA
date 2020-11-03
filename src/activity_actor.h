@@ -851,11 +851,13 @@ class reload_activity_actor : public activity_actor
 {
     public:
         reload_activity_actor() = default;
-        reload_activity_actor(int moves, int qty, std::vector<item_location>& targets) : moves_total(moves), quantity(qty), reload_targets(targets) {
+        reload_activity_actor( int moves, int qty,
+                               std::vector<item_location> &targets ) : moves_total( moves ), quantity( qty ),
+            reload_targets( targets ) {
         };
 
         activity_id get_type() const override {
-            return activity_id ( "ACT_RELOAD" );
+            return activity_id( "ACT_RELOAD" );
         }
 
         void start( player_activity &/*act*/, Character &/*who*/ ) override;
@@ -867,7 +869,7 @@ class reload_activity_actor : public activity_actor
             return std::make_unique<reload_activity_actor>( *this );
         }
 
-        void serialize (JsonOut &jsout) const override;
+        void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 
     private:
