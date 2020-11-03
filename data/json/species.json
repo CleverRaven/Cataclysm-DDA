@@ -74,6 +74,14 @@
   },
   {
     "type": "SPECIES",
+    "id": "INSECT_FLYING",
+    "description": "a flying insect",
+    "footsteps": "BZZZZZZZZZZZZZZZZZ",
+    "anger_triggers": [ "FRIEND_DIED" ],
+    "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "SPIDER",
     "description": "a spider",
     "anger_triggers": [ "FRIEND_DIED" ],

@@ -96,5 +96,14 @@
     "type": "monstergroup",
     "default": "mon_ant_larva",
     "monsters": [ { "monster": "mon_ant_larva", "freq": 10, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_DRAGONFLY",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_dragonfly_naiad", "freq": 500, "cost_multiplier": 1, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "monster": "mon_dragonfly_naiad", "freq": 500, "cost_multiplier": 1, "conditions": [ "SUMMER" ] }
+    ]
   }
 ]
