@@ -33,6 +33,7 @@ class advuilist_sourced : public advuilist<Container, T>
     // label, icon, source function, availability function. icon must be unique and not zero
     using source_t = std::tuple<std::string, icon_t, fsource_t, fsourceb_t>;
     using fctxt_t = typename advuilist<Container, T>::fctxt_t;
+    using select_t = typename advuilist<Container, T>::select_t;
 
     advuilist_sourced( point const &srclayout, point size = { -1, -1 }, point origin = { -1, -1 },
                        std::string const &ctxtname = CTXT_DEFAULT );
@@ -40,8 +41,16 @@ class advuilist_sourced : public advuilist<Container, T>
     /// binds a new source to slot
     void addSource( slotidx_t slot, source_t const &src );
     /// sets active source slot
-    void setSource( slotidx_t slot, icon_t icon = 0 );
+    ///@param slot
+    ///@param icon
+    ///@param fallthrough used internally by rebuild() to ensure that the internal list is valid
+    void setSource( slotidx_t slot, icon_t icon = 0, bool fallthrough = false );
     getsource_t getSource();
+
+    select_t select();
+    void rebuild( Container *list = nullptr );
+    void totop();
+    void hide();
 
     void setctxthandler( fctxt_t const &func );
 
@@ -64,7 +73,7 @@ class advuilist_sourced : public advuilist<Container, T>
     slotidx_t _cslot = 0;
 
     catacurses::window _w;
-    std::shared_ptr<ui_adaptor> _ui;
+    std::shared_ptr<ui_adaptor> _mapui;
 
     void _initui();
     void _registerSrc( slotidx_t c );
@@ -86,7 +95,7 @@ advuilist_sourced<Container, T>::advuilist_sourced( point const &srclayout, poin
     : advuilist<Container, T>( &_container, size, origin, ctxtname, false ),
       _size( size.x > 0 ? size.x : TERMX / 2, size.y > 0 ? size.y : TERMY ),
       _origin( origin.x >= 0 ? origin.x : TERMX / 2 - _size.x / 2, origin.y >= 0 ? origin.y : 0 ),
-      _map_size( srclayout.x, srclayout.y ), _ui( std::make_shared<ui_adaptor>() )
+      _map_size( srclayout.x, srclayout.y )
 {
     // leave room for source map window
     point const offset( 0, _headersize + _footersize + _map_size.y );
@@ -100,8 +109,6 @@ advuilist_sourced<Container, T>::advuilist_sourced( point const &srclayout, poin
         } );
 
     advuilist<Container, T>::get_ctxt()->register_action( ACTION_CYCLE_SOURCES );
-
-    _initui();
 }
 
 template <class Container, typename T>
@@ -120,17 +127,33 @@ void advuilist_sourced<Container, T>::addSource( slotidx_t slot, source_t const 
     }
 }
 
+// FIXME: try to clean this up on a fresh day
 template <class Container, typename T>
-void advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon )
+void advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bool fallthrough )
 {
     slot_t &_slot = _sources[slot];
-    icon_t const _icon = icon == 0 ? std::get<icon_t>( _slot ) : icon;
-    source_t const &src = std::get<slotcont_t>( _slot )[_icon];
+    slotcont_t &slotcont = std::get<slotcont_t>( _slot );
+    icon_t _icon = icon == 0 ? std::get<icon_t>( _slot ) : icon;
+    // only set the icon if it (still) exists in this slot, otherwise use the first one in slot
+    // rebuild() needs to additionally check that the source is available
+    auto const exists = slotcont.count( _icon );
+    if( !exists or ( fallthrough and !std::get<fsourceb_t>( slotcont[_icon] )() ) ) {
+        _icon = std::get<icon_t const>( *slotcont.begin() );
+        _slot.first = _icon;
+    }
+
+    source_t const &src = slotcont[_icon];
     if( std::get<fsourceb_t>( src )() ) {
+        _slot.first = _icon;
         _container = std::get<fsource_t>( src )();
         advuilist<Container, T>::rebuild();
         _cslot = slot;
-        _ui->invalidate_ui();
+        if( _mapui ) {
+            _mapui->invalidate_ui();
+        }
+    } else if( fallthrough ) {
+        // if we still don't have a valid source on rebuild(), empty the internal container
+        _container.clear();
     }
 }
 
@@ -138,6 +161,37 @@ template <class Container, typename T>
 typename advuilist_sourced<Container, T>::getsource_t advuilist_sourced<Container, T>::getSource()
 {
     return { _cslot, std::get<icon_t>( _sources[_cslot] ) };
+}
+
+template <class Container, typename T>
+typename advuilist_sourced<Container, T>::select_t advuilist_sourced<Container, T>::select()
+{
+    if( !_mapui ) {
+        _initui();
+    }
+
+    return advuilist<Container, T>::select();
+}
+
+template <class Container, typename T>
+void advuilist_sourced<Container, T>::rebuild( Container *list )
+{
+    setSource( _cslot, 0, true );
+    advuilist<Container, T>::rebuild( list );
+}
+
+template <class Container, typename T>
+void advuilist_sourced<Container, T>::hide()
+{
+    advuilist<Container, T>::hide();
+    _mapui.reset();
+}
+
+template <class Container, typename T>
+void advuilist_sourced<Container, T>::totop()
+{
+    _initui();
+    advuilist<Container, T>::totop();
 }
 
 template <class Container, typename T>
@@ -159,18 +213,7 @@ void advuilist_sourced<Container, T>::loadstate( advuilist_save_state *state, bo
 {
     advuilist<Container, T>::loadstate( state, false );
     _cslot = state->slot;
-    // only set the slot's active icon if it still exists and its source is available
-    auto const exists = std::get<slotcont_t>( _sources[_cslot] ).count( state->icon );
-    if( exists > 0 ) {
-        fsourceb_t const &fb =
-            std::get<fsourceb_t>( std::get<slotcont_t>( _sources[_cslot] )[state->icon] );
-        if( fb() ) {
-            _sources[_cslot].first = state->icon;
-        }
-    }
-
-    // still need to run this to initialize _container
-    setSource( _cslot );
+    setSource( _cslot, state->icon, true );
 
     if( reb ) {
         advuilist<Container, T>::rebuild();
@@ -180,13 +223,14 @@ void advuilist_sourced<Container, T>::loadstate( advuilist_save_state *state, bo
 template <class Container, typename T>
 void advuilist_sourced<Container, T>::_initui()
 {
-    _ui->on_screen_resize( [&]( ui_adaptor &ui ) {
+    _mapui = std::make_shared<ui_adaptor>();
+    _mapui->on_screen_resize( [&]( ui_adaptor &ui ) {
         _w = catacurses::newwin( _headersize + _footersize + _map_size.y, _size.x, _origin );
         ui.position_from_window( _w );
     } );
-    _ui->mark_resize();
+    _mapui->mark_resize();
 
-    _ui->on_redraw( [&]( const ui_adaptor & ) {
+    _mapui->on_redraw( [&]( const ui_adaptor & ) {
         werase( _w );
         draw_border( _w );
         _printmap();

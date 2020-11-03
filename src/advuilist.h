@@ -110,6 +110,7 @@ class advuilist
     void suspend();
     /// moves internal ui_adaptor to top of stack
     void totop();
+    void hide();
 
     input_context *get_ctxt();
     catacurses::window *get_window();
@@ -326,6 +327,10 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
     // reset exit variable in case suspend() was called earlier
     _exit = false;
 
+    if( !_ui ) {
+        _initui();
+    }
+
     while( !_exit ) {
 
         ui_manager::redraw();
@@ -426,6 +431,12 @@ void advuilist<Container, T>::totop()
 }
 
 template <class Container, typename T>
+void advuilist<Container, T>::hide()
+{
+    _ui.reset();
+}
+
+template <class Container, typename T>
 input_context *advuilist<Container, T>::get_ctxt()
 {
     return &_ctxt;
@@ -475,7 +486,6 @@ template <class Container, typename T>
 void advuilist<Container, T>::_init()
 {
     rebuild( _olist );
-    _initui();
     _initctxt();
 }
 

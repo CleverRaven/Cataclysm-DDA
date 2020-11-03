@@ -129,8 +129,8 @@ void transaction_ui<Container, T>::pushevent( event const &ev )
 template <class Container, typename T>
 void transaction_ui<Container, T>::show()
 {
-    // ensure that our current pane is on top
-    // FXIME: find a better solution (or improve totop() )
+    // ensure that both panes are visible and our current pane is on top
+    _panes[1 - _cpane].totop();
     _panes[_cpane].totop();
 
     _exit = false;
@@ -188,6 +188,8 @@ void transaction_ui<Container, T>::_process( event const &ev )
 {
     switch( ev ) {
         case event::QUIT: {
+            _panes[_left].hide();
+            _panes[_right].hide();
             _exit = true;
             break;
         }
