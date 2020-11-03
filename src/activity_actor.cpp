@@ -59,6 +59,8 @@
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
 
+static const efftype_id effect_tied( "tied" );
+
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
@@ -2320,6 +2322,79 @@ std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonIn &jsin
     return actor.clone();
 }
 
+void milk_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    act.moves_total = total_moves;
+    act.moves_left = total_moves;
+}
+
+
+void milk_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( monster_coords.empty() ) {
+        debugmsg( "milking activity with no position of monster stored" );
+        return;
+    }
+    map &here = get_map();
+    const tripoint source_pos = here.getlocal( monster_coords.at( 0 ) );
+    monster *source_mon = g->critter_at<monster>( source_pos );
+    if( source_mon == nullptr ) {
+        debugmsg( "could not find source creature for liquid transfer" );
+        return;
+    }
+    auto milked_item = source_mon->ammo.find( source_mon->type->starting_ammo.begin()->first );
+    if( milked_item == source_mon->ammo.end() ) {
+        debugmsg( "animal has no milkable ammo type" );
+        return;
+    }
+    if( milked_item->second <= 0 ) {
+        debugmsg( "started milking but udders are now empty before milking finishes" );
+        return;
+    }
+    item milk( milked_item->first, calendar::turn, milked_item->second );
+    milk.set_item_temperature( 311.75 );
+    if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, source_mon ) ) {
+        milked_item->second = 0;
+        if( milk.charges > 0 ) {
+            milked_item->second = milk.charges;
+        } else {
+            who.add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );
+        }
+    }
+    // if the monster was not manually tied up, but needed to be fixed in place temporarily then
+    // remove that now.
+    if( !string_values.empty() && string_values[0] == "temp_tie" ) {
+        source_mon->remove_effect( effect_tied );
+    }
+
+    act.set_to_null();
+}
+
+void milk_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "total_moves", total_moves );
+    jsout.member( "monster_coords", monster_coords );
+    jsout.member( "string_values", string_values );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
+{
+    milk_activity_actor actor;
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.total_moves );
+    data.read( "monster_coords", actor.monster_coords );
+    data.read( "string_values", actor.string_values );
+
+
+    return actor.clone();
+}
+
+
 
 namespace activity_actors
 {
@@ -2338,6 +2413,7 @@ deserialize_functions = {
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
+    { activity_id( "ACT_MILK" ), &milk_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
