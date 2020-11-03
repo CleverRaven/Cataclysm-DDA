@@ -3,6 +3,7 @@
 
 // constants and literals used by advuilist and friends
 
+constexpr auto const ACTION_CYCLE_SOURCES = "CYCLE_SOURCES";
 constexpr auto const ACTION_DOWN = "DOWN";
 constexpr auto const ACTION_EXAMINE = "EXAMINE";
 constexpr auto const ACTION_FILTER = "FILTER";
