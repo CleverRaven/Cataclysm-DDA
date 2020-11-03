@@ -1525,16 +1525,20 @@ item &Character::best_shield()
 
 bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance &dam )
 {
-
     // Shouldn't block if player is asleep
-    if( blocks_left < 1 || in_sleep_state() || has_effect( effect_narcosis ) ) {
+    if( in_sleep_state() || has_effect( effect_narcosis ) ) {
         return false;
     }
-    blocks_left--;
 
     // fire martial arts on-getting-hit-triggered effects
     // these fire even if the attack is blocked (you still got hit)
     martial_arts_data.ma_ongethit_effects( *this );
+
+    if( blocks_left < 1 ) {
+        return false;
+    }
+
+    blocks_left--;
 
     // This bonus absorbs damage from incoming attacks before they land,
     // but it still counts as a block even if it absorbs all the damage.
