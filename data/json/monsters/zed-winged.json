@@ -154,7 +154,7 @@
     "upgrades": {  },
     "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
     "vision_day": 10,
-    "vision_night": 40
+    "vision_night": 25
   },
   {
     "type": "MONSTER",
