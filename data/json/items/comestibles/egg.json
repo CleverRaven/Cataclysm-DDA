@@ -205,7 +205,7 @@
     "color": "yellow",
     "symbol": "o",
     "spoils_in": "1 day",
-    "description": "The fist-sized egg of a mutant firefly. Glows faintly in the dark.",
+    "description": "The fist-sized egg of a mutant firefly.  Glows faintly in the dark.",
     "material": [ "egg" ],
     "rot_spawn": "GROUP_EGG_FIREFLY"
   },
