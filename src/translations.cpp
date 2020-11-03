@@ -543,6 +543,10 @@ std::string translation::translated( const int num ) const
     if( !needs_translation || raw.empty() ) {
         return raw;
     }
+    // Note1: `raw`, `raw_pl` and `ctxt` are effectively immutable for caching purposes:
+    // in the places where they are changed, cache is explicitly invalidated
+    // Note2: if `raw_pl` is defined, `num` becomes part of the "cache key"
+    // otherwise `num` is ignored (for both translation and cache)
     if( cached_language_version != current_language_version ||
         ( raw_pl && cached_num != num ) || !cached_translation ) {
         cached_language_version = current_language_version;
