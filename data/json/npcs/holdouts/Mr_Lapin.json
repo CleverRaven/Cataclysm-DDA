@@ -11,7 +11,7 @@
     "mission": 7,
     "mission_offered": "MISSION_Warrener_LOG_1",
     "chat": "TALK_WARRENER",
-    "faction": "no_faction"
+    "faction": "lapin"
   },
   {
     "type": "npc_class",
@@ -47,6 +47,7 @@
       { "text": "Heard anything about the outside world?", "topic": "TALK_WARRENER_WORLD" },
       { "text": "You look different?", "topic": "TALK_WARRENER_MUTATION" },
       { "text": "Anything I can help with?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Do you need any resources?", "topic": "TALK_LAPIN_RESOURCES" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
@@ -103,6 +104,41 @@
         "text": "…",
         "success": { "effect": "end_conversation", "opinion": { "trust": -1, "fear": -2, "value": -1, "anger": 1 }, "topic": "TALK_DONE" }
       }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LAPIN_RESOURCES",
+    "dynamic_line": "The bunnies and I love adding some diversity to the menu and I always need materials for patching fences.",
+    "repeat_responses": {
+      "for_item": [
+        "log",
+        "2x4",
+        "wood_panel",
+        "wood_sheet",
+        "material_sand",
+        "clay_lump",
+        "nail",
+        "wire",
+        "apple",
+        "banana",
+        "orange",
+        "blueberries",
+        "strawberries",
+        "raspberries",
+        "huckleberries",
+        "mulberries",
+        "plums",
+        "carrot",
+        "cabbage",
+        "lettuce",
+        "onion"
+      ],
+      "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+    },
+    "responses": [
+      { "text": "That's all for now.  Can we discuss something else?", "topic": "TALK_WARRENER" },
+      { "text": "That's all for now.  I'd best get going.", "topic": "TALK_DONE" }
     ]
   },
   {

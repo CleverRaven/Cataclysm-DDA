@@ -2453,6 +2453,20 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_UP",
+    "category": "LIST_ITEMS",
+    "name": "Scroll item info up",
+    "bindings": [ { "input_method": "keyboard_any", "key": "<" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_DOWN",
+    "category": "LIST_ITEMS",
+    "name": "Scroll item info down",
+    "bindings": [ { "input_method": "keyboard_any", "key": ">" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "COMPARE",
     "category": "LIST_ITEMS",
     "name": "Compare",

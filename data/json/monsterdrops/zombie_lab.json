@@ -105,5 +105,19 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [ [ "dress_shirt", 50 ], [ "technician_shirt_gray", 45 ], [ "jacket_windbreaker", 40 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "phase_zombie_death_drops",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "broken_dimensional_anchor", "count": 1, "damage": [ 1, 4 ], "prob": 19 },
+          { "item": "dimensional_anchor", "count": 1, "prob": 1 }
+        ]
+      },
+      { "group": "hazmat_full", "damage": [ 1, 4 ] }
+    ]
   }
 ]

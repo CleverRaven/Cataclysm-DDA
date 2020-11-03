@@ -431,6 +431,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 item &item::convert( const itype_id &new_type )
 {
     type = find_type( new_type );
+    requires_tags_processing = true; // new type may have "active" flags
     item temp( *this );
     temp.contents = item_contents( type->pockets );
     for( const item *it : contents.mods() ) {
@@ -5290,6 +5291,7 @@ int item::current_reach_range( const Character &guy ) const
 void item::unset_flags()
 {
     item_tags.clear();
+    requires_tags_processing = true;
 }
 
 bool item::has_fault( const fault_id &fault ) const
@@ -5344,6 +5346,7 @@ item &item::set_flag( const flag_id &flag )
 {
     if( flag.is_valid() ) {
         item_tags.insert( flag );
+        requires_tags_processing = true;
     } else {
         debugmsg( "Attempted to set invalid flag_id %d", flag.to_i() );
     }
@@ -5353,6 +5356,7 @@ item &item::set_flag( const flag_id &flag )
 item &item::unset_flag( const flag_id &flag )
 {
     item_tags.erase( flag );
+    requires_tags_processing = true;
     return *this;
 }
 
@@ -8165,14 +8169,15 @@ bool item::reload( Character &u, item_location ammo, int qty )
         }
         ammo->charges -= qty;
     } else {
+        item magazine_removed;
+        bool allow_wield = false;
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
             // we don't want to replace wielded `ammo` with ejected magazine
-            // as it will invalidate `ammo`
-            bool allow_wield = !u.is_wielding( *ammo );
-
-            // eject magazine to player inventory
-            u.i_add( *magazine_current(), true, nullptr, true, allow_wield );
+            // as it will invalidate `ammo`. Also keep wielding the item being reloaded.
+            allow_wield = ( !u.is_wielding( *ammo ) && !u.is_wielding( *this ) );
+            // Defer placing the magazine into inventory until new magazine is installed.
+            magazine_removed = *magazine_current();
             remove_item( *magazine_current() );
         }
 
@@ -8185,6 +8190,9 @@ bool item::reload( Character &u, item_location ammo, int qty )
         ammo.remove_item();
         if( ammo_from_map ) {
             u.invalidate_weight_carried_cache();
+        }
+        if( magazine_removed.type != nullitem() ) {
+            u.i_add( magazine_removed, true, nullptr, true, allow_wield );
         }
         return true;
     }
@@ -9942,34 +9950,50 @@ bool item::process_internal( player *carrier, const tripoint &pos,
         here.emit_field( pos, e );
     }
 
-    if( has_flag( flag_FAKE_SMOKE ) && process_fake_smoke( carrier, pos ) ) {
-        return true;
+    if( requires_tags_processing ) {
+        // `mark` becomes true if any of the flags that require processing are present
+        bool mark = false;
+        const auto mark_flag = [&mark]() {
+            mark = true;
+            return true;
+        };
+
+        if( has_flag( flag_FAKE_SMOKE ) && mark_flag() && process_fake_smoke( carrier, pos ) ) {
+            return true;
+        }
+        if( has_flag( flag_FAKE_MILL ) && mark_flag() && process_fake_mill( carrier, pos ) ) {
+            return true;
+        }
+        if( is_corpse() && mark_flag() && process_corpse( carrier, pos ) ) {
+            return true;
+        }
+        if( has_flag( flag_WET ) && mark_flag() && process_wet( carrier, pos ) ) {
+            // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
+            return false;
+        }
+        if( has_flag( flag_LITCIG ) && mark_flag()  && process_litcig( carrier, pos ) ) {
+            return true;
+        }
+        if( ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
+            mark_flag()  && process_extinguish( carrier, pos ) ) {
+            return false;
+        }
+        if( has_flag( flag_CABLE_SPOOL ) && mark_flag() ) {
+            // DO NOT process this as a tool! It really isn't!
+            return process_cable( carrier, pos );
+        }
+        if( has_flag( flag_IS_UPS ) && mark_flag() ) {
+            // DO NOT process this as a tool! It really isn't!
+            return process_UPS( carrier, pos );
+        }
+
+        if( !mark ) {
+            // no flag checks above were successful and no additional processing logic
+            // that could've changed flags was executed
+            requires_tags_processing = false;
+        }
     }
-    if( has_flag( flag_FAKE_MILL ) && process_fake_mill( carrier, pos ) ) {
-        return true;
-    }
-    if( is_corpse() && process_corpse( carrier, pos ) ) {
-        return true;
-    }
-    if( has_flag( flag_WET ) && process_wet( carrier, pos ) ) {
-        // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
-        return false;
-    }
-    if( has_flag( flag_LITCIG ) && process_litcig( carrier, pos ) ) {
-        return true;
-    }
-    if( ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
-        process_extinguish( carrier, pos ) ) {
-        return false;
-    }
-    if( has_flag( flag_CABLE_SPOOL ) ) {
-        // DO NOT process this as a tool! It really isn't!
-        return process_cable( carrier, pos );
-    }
-    if( has_flag( flag_IS_UPS ) ) {
-        // DO NOT process this as a tool! It really isn't!
-        return process_UPS( carrier, pos );
-    }
+
     if( is_tool() ) {
         return process_tool( carrier, pos );
     }
@@ -10053,8 +10077,14 @@ bool item::is_tainted() const
 
 bool item::is_soft() const
 {
+    if( has_flag( flag_SOFT ) ) {
+        return true;
+    } else if( has_flag( flag_HARD ) ) {
+        return false;
+    }
+
     const std::vector<material_id> mats = made_of();
-    return std::any_of( mats.begin(), mats.end(), []( const material_id & mid ) {
+    return std::all_of( mats.begin(), mats.end(), []( const material_id & mid ) {
         return mid.obj().soft();
     } );
 }

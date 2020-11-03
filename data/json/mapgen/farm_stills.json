@@ -139,7 +139,7 @@
         "‡": [ { "item": "moonshine_brew", "chance": 65 } ],
         "♠": { "item": "farming_tools", "chance": 15 }
       },
-      "sealed_item": { ")": { "item": { "item": "seed_corn", "chance": 70 }, "furniture": "f_plant_seedling" } },
+      "sealed_item": { ")": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 70 } },
       "place_item": [
         { "item": "still", "x": 29, "y": 33, "amount": 1 },
         { "item": "fruit_wine", "x": [ 25, 25 ], "y": [ 33, 30 ], "repeat": [ 1, 4 ], "amount": [ 0, 3 ] }

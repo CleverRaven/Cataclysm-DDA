@@ -1141,33 +1141,30 @@ bool npc::wield( item &it )
         return true;
     }
 
+    item to_wield;
+    if( has_item( it ) ) {
+        to_wield = remove_item( it );
+    } else {
+        to_wield = it;
+    }
+
     invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
-    if( has_wield_conflicts( it ) ) {
+    if( has_wield_conflicts( to_wield ) ) {
         stow_item( weapon );
     }
 
-    if( it.is_null() ) {
+    if( to_wield.is_null() ) {
         weapon = item();
         get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
         return true;
     }
 
     moves -= 15;
-    bool combine_stacks = it.can_combine( weapon );
-    if( has_item( it ) ) {
-        item removed = remove_item( it );
-        if( combine_stacks ) {
-            weapon.combine( removed );
-        } else {
-            weapon = removed;
-        }
+    if( to_wield.can_combine( weapon ) ) {
+        weapon.combine( to_wield );
     } else {
-        if( combine_stacks ) {
-            weapon.combine( it );
-        } else {
-            weapon = it;
-        }
+        weapon = to_wield;
     }
 
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );

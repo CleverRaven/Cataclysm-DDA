@@ -9,7 +9,7 @@
     "time": "80 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 35 ] ] ]
+    "components": [ [ [ "rag", 60 ] ] ]
   },
   {
     "result": "electric_blanket",
@@ -125,7 +125,7 @@
     "time": "85 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ]
+    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 160 ] ] ]
   },
   {
     "result": "fur_blanket",
