@@ -2312,7 +2312,7 @@
         "freq": 50,
         "cost_multiplier": 1,
         "pack_size": [ 2, 7 ],
-		"ends": 1440,
+        "ends": 1440,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
