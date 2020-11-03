@@ -2227,16 +2227,20 @@ void reload_activity_actor::make_reload_sound( Character &who, item &reloadable 
         }
 }
 
-void reload_activity_actor::finish( player_activity &act, Character &who ) 
+void reload_activity_actor::do_turn( player_activity &act, Character &/*who*/ )
 {
     act.set_to_null();
+}
 
+
+void reload_activity_actor::finish( player_activity &act, Character &who ) 
+{
     if(!can_reload( act )) {
         return;
     }
     
-    item &reloadable = *act->targets[ 0 ];
-    item &ammo = *act->targets[ 1 ];
+    item &reloadable = *act.targets[ 0 ];
+    item &ammo = *act.targets[ 1 ];
     std::string reloadable_name = reloadable.tname();
     std::string ammo_name = ammo.tname();
     // cache check results because reloading deletes the ammo item
@@ -2266,6 +2270,11 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     }
 }
 
+void reload_activity_actor::canceled( player_activity &act, Character &/*who*/ )
+{
+    act.moves_total = 0;
+    act.moves_left = 0;
+}
 
 void reload_activity_actor::serialize( JsonOut &jsout ) const
 {

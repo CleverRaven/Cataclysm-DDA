@@ -859,12 +859,9 @@ class reload_activity_actor : public activity_actor
         }
 
         void start( player_activity &/*act*/, Character &/*who*/ ) override;
-        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {};
+        void do_turn( player_activity &act, Character &/*who*/ ) override;
         void finish( player_activity &act, Character &who ) override;
-        void canceled( player_activity &act, Character &/*who*/ ) override {
-            act.moves_total = 0;
-            act.moves_left = 0;
-        };
+        void canceled( player_activity &act, Character &/*who*/ ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<reload_activity_actor>( *this );
@@ -874,8 +871,8 @@ class reload_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 
     private:
+        int moves_total{};
         int qty{};
-        int moves_total;
 
         bool can_reload( player_activity &act ) const;
         void reload_gun( Character &who, item &reloadable, item &ammo ) const;
