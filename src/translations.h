@@ -74,29 +74,57 @@ inline std::string _translate_internal( const std::string &msg )
 {
     return _translate_internal( msg.c_str() );
 }
-} // namespace details
 
-// Implementation note:
-// _cached_arg_ptr is needed to safeguard against invalid _cached_translation in the
-// scenario when `msg` is `char *` that doesn't have translation
-// (in this case `_cached_translation` becomes equal to `msg`, according to `gettext` specs).
-// If original `msg` later is invalidated, then `_cached_translation` consequently becomes invalid.
-// Comparing address of the argument will catch that situation and ensure that invalid `_cached_translation`
-// is never returned.
+template<typename T>
+class local_translation_cache;
+
+template<>
+class local_translation_cache<std::string>
+{
+    private:
+        int cached_lang_version = INVALID_LANGUAGE_VERSION;
+        std::string cached_arg;
+        std::string cached_translation;
+    public:
+        const std::string &operator()( const std::string &arg ) {
+            if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
+                cached_lang_version = get_current_language_version();
+                cached_arg = arg;
+                cached_translation = _translate_internal( arg );
+            }
+            return cached_translation;
+        }
+};
+
+template<>
+class local_translation_cache<const char *>
+{
+    private:
+        std::string cached_arg;
+        int cached_lang_version = INVALID_LANGUAGE_VERSION;
+        bool same_as_arg;
+        const char *cached_translation;
+    public:
+        const char *operator()( const char *arg ) {
+            if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
+                cached_lang_version = get_current_language_version();
+                cached_translation = _translate_internal( arg );
+                same_as_arg = cached_translation == arg;
+                cached_arg = arg;
+            }
+            // mimic gettext() behavior: return `arg` if no translation is found
+            // `same_as_arg` is needed to ensure that the current `arg` is returned (not a cached one)
+            return same_as_arg ? arg : cached_translation;
+        }
+};
+
+}; // namespace details
+
+// Note: in case of std::string argument, the result is copied, this is intended (for safety)
 #define _( msg ) \
-    ( ( []( const auto & arg )-> const auto & { \
-        static int _cached_lang_version = details::get_current_language_version(); \
-        static auto * _cached_arg_ptr = &arg; \
-        static std::string _cached_arg = std::string( arg ); \
-        static auto _cached_translation = details::_translate_internal( arg ); \
-        if ( _cached_lang_version != details::get_current_language_version() ||    \
-             _cached_arg_ptr != &arg || _cached_arg != arg ) { \
-            _cached_arg_ptr = &arg; \
-            _cached_lang_version = details::get_current_language_version(); \
-            _cached_arg = std::string( arg ); \
-            _cached_translation = details::_translate_internal( arg ); \
-        } \
-        return _cached_translation; \
+    ( ( []( const auto & arg ) -> auto { \
+        static auto cache = details::local_translation_cache<std::decay_t<decltype( arg )>>(); \
+        return cache( arg ); \
     } )( msg ) )
 
 // ngettext overload taking an unsigned long long so that people don't need
