@@ -297,7 +297,8 @@ void enchantment::serialize( JsonOut &jsout ) const
         jsout.start_object();
         for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
             jsout.member( "duration", pair.first );
-            jsout.start_array( "effects" );
+            jsout.member( "spell_effects" );
+            jsout.start_array();
             for( const fake_spell &sp : pair.second ) {
                 sp.serialize( jsout );
             }
