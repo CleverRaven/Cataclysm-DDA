@@ -2389,7 +2389,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
         } else if( action == "PAGE_UP" ) {
             if( cur_id == 0 ) {
                 cur_id = scens_length - 1;
-            } else if( cur_id <= scroll_rate) {
+            } else if( cur_id <= scroll_rate ) {
                 cur_id = 0;
             } else {
                 cur_id += -scroll_rate;
