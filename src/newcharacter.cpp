@@ -1700,7 +1700,7 @@ tab_direction set_profession( avatar &u, points_left &points,
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         int recmax = static_cast<int>( profs_length );
-        int x = recmax > 20 ? 10 : 2;
+        int scroll_rate = recmax > 20 ? 10 : 2;
         if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > recmax - 1 ) {
@@ -1716,19 +1716,19 @@ tab_direction set_profession( avatar &u, points_left &points,
         } else if( action == "PAGE_DOWN" ) {
             if( cur_id == recmax - 1 ) {
                 cur_id = 0;
-            } else if( cur_id + x >= recmax ) {
+            } else if( cur_id + scroll_rate >= recmax ) {
                 cur_id = recmax - 1;
             } else {
-                cur_id += +x;
+                cur_id += +scroll_rate;
             }
             desc_offset = 0;
         } else if( action == "PAGE_UP" ) {
             if( cur_id == 0 ) {
                 cur_id = recmax - 1;
-            } else if( cur_id <= x ) {
+            } else if( cur_id <= scroll_rate ) {
                 cur_id = 0;
             } else {
-                cur_id += -x;
+                cur_id += -scroll_rate;
             }
             desc_offset = 0;
         } else if( action == "LEFT" ) {
@@ -1979,7 +1979,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        int x = num_skills > 20 ? 5 : 2;
+        int scroll_rate = num_skills > 20 ? 5 : 2;
         if( action == "DOWN" ) {
             cur_pos++;
             if( cur_pos >= num_skills ) {
@@ -1995,19 +1995,19 @@ tab_direction set_skills( avatar &u, points_left &points )
         } else if( action == "PAGE_DOWN" ) {
             if( cur_pos == num_skills - 1 ) {
                 cur_pos = 0;
-            } else if( cur_pos + x >= num_skills ) {
+            } else if( cur_pos + scroll_rate >= num_skills ) {
                 cur_pos = num_skills - 1;
             } else {
-                cur_pos += +x;
+                cur_pos += +scroll_rate;
             }
             currentSkill = sorted_skills[cur_pos];
         } else if( action == "PAGE_UP" ) {
             if( cur_pos == 0 ) {
                 cur_pos = num_skills - 1;
-            } else if( cur_pos <= x ) {
+            } else if( cur_pos <= scroll_rate ) {
                 cur_pos = 0;
             } else {
-                cur_pos += -x;
+                cur_pos += -scroll_rate;
             }
             currentSkill = sorted_skills[cur_pos];
         } else if( action == "LEFT" ) {
@@ -2367,7 +2367,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        int x = scens_length > 20 ? 5 : 2;
+        int scroll_rate = scens_length > 20 ? 5 : 2;
         if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > scens_length - 1 ) {
@@ -2381,18 +2381,18 @@ tab_direction set_scenario( avatar &u, points_left &points,
         } else if( action == "PAGE_DOWN" ) {
             if( cur_id == scens_length - 1 ) {
                 cur_id = 0;
-            } else if( cur_id + x >= scens_length ) {
+            } else if( cur_id + scroll_rate >= scens_length ) {
                 cur_id = scens_length - 1;
             } else {
-                cur_id += +x;
+                cur_id += +scroll_rate;
             }
         } else if( action == "PAGE_UP" ) {
             if( cur_id == 0 ) {
                 cur_id = scens_length - 1;
-            } else if( cur_id <= x ) {
+            } else if( cur_id <= scroll_rate) {
                 cur_id = 0;
             } else {
-                cur_id += -x;
+                cur_id += -scroll_rate;
             }
         } else if( action == "CONFIRM" ) {
             if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
