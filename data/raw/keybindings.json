@@ -1455,8 +1455,7 @@
     "type": "keybinding",
     "name": "Toggle Map Memory",
     "category": "DEFAULTMODE",
-    "id": "toggle_map_memory",
-    "bindings": [ { "input_method": "keyboard", "key": "{" } ]
+    "id": "toggle_map_memory"
   },
   {
     "type": "keybinding",
