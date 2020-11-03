@@ -99,7 +99,7 @@ constexpr tripoint slotidx_to_offset( aim_advuilist_sourced_t::slotidx_t idx )
 
 constexpr bool is_vehicle( aim_advuilist_sourced_t::icon_t icon )
 {
-    return icon == SOURCE_DRAGGED_i;
+    return icon == SOURCE_DRAGGED_i or icon == SOURCE_VEHICLE_i;
 }
 // end hacky stuff
 
@@ -164,13 +164,22 @@ bool source_player_dragged_avail()
 {
     avatar &u = get_avatar();
     if( u.get_grab_type() == object_type::VEHICLE ) {
-        tripoint const pos = u.pos() + u.grab_point;
-        cata::optional<vpart_reference> vp =
-            get_map().veh_at( pos ).part_with_feature( "CARGO", false );
-        return vp.has_value();
+        return source_vehicle_avail( u.pos() + u.grab_point );
     }
 
     return false;
+}
+
+aim_container_t source_player_vehicle( tripoint const &offset )
+{
+    Character &u = get_player_character();
+    return source_vehicle( u.pos() + offset );
+}
+
+bool source_player_vehicle_avail( tripoint const &offset )
+{
+    Character &u = get_player_character();
+    return source_vehicle_avail( u.pos() + offset );
 }
 
 aim_container_t source_player_dragged()
@@ -436,6 +445,13 @@ aim_container_t source_vehicle( tripoint const &loc )
     } );
 }
 
+bool source_vehicle_avail( tripoint const &loc )
+{
+    cata::optional<vpart_reference> vp =
+        get_map().veh_at( loc ).part_with_feature( "CARGO", false );
+    return vp.has_value();
+}
+
 aim_container_t source_char_inv( Character *guy )
 {
     aim_container_t ret;
@@ -503,8 +519,8 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist )
     // Cataclysm: Hacky Stuff Redux
     std::size_t idx = 0;
     for( auto const &src : aimsources ) {
-        fsource_t _fs;
-        fsourceb_t _fsb;
+        fsource_t _fs, _fsv;
+        fsourceb_t _fsb, _fsvb;
         char const *str = nullptr;
         icon_t icon = 0;
         tripoint off;
@@ -540,10 +556,16 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist )
                 default: {
                     _fs = [=]() { return source_player_ground( off ); };
                     _fsb = [=]() { return source_player_ground_avail( off ); };
+                    _fsv = [=]() { return source_player_vehicle( off ); };
+                    _fsvb = [=]() { return source_player_vehicle_avail( off ); };
                     break;
                 }
             }
             myadvuilist->addSource( idx, { _( str ), icon, _fs, _fsb } );
+            if( _fsv ) {
+                myadvuilist->addSource( idx,
+                                        { _( SOURCE_VEHICLE ), SOURCE_VEHICLE_i, _fsv, _fsvb } );
+            }
         }
         idx++;
     }

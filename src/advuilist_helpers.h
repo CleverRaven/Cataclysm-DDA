@@ -71,6 +71,8 @@ constexpr auto const SOURCE_W = "West";
 constexpr auto const SOURCE_W_i = '4';
 constexpr auto const SOURCE_WORN = "Worn Items";
 constexpr auto const SOURCE_WORN_i = 'W';
+constexpr auto const SOURCE_VEHICLE = "Vehicle";
+constexpr auto const SOURCE_VEHICLE_i = 'V';
 
 using filoc_t = std::function<item_location( item * )>;
 item_location iloc_map_cursor( map_cursor const &cursor, item *it );
@@ -106,6 +108,8 @@ aim_container_t source_ground( tripoint const &loc );
 aim_container_t source_vehicle( tripoint const &loc );
 aim_container_t source_char_inv( Character *guy );
 aim_container_t source_char_worn( Character *guy );
+
+bool source_vehicle_avail( tripoint const &loc );
 
 void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats );
 void add_aim_sources( aim_advuilist_sourced_t *myadvuilist );
