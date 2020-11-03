@@ -1583,7 +1583,7 @@
     "aggression": -20,
     "reproduction": { "baby_monster": "mon_dog_samoyed_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
-    "delete": { "flags": ["GROUP_MORALE", "SWARMS"]}
+    "delete": { "flags": [ "GROUP_MORALE", "SWARMS" ] }
   },
   {
     "id": "mon_dog_samoyed_pup",
@@ -1593,7 +1593,7 @@
     "description": "An adorable, defenseless Samoyed puppy.  Much safer to tame than an adult dog.",
     "aggression": -30,
     "upgrades": { "age_grow": 42, "into": "mon_dog_samoyed" },
-    "extend": { "flags": ["NO_BREED"] }
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_fox_gray",
