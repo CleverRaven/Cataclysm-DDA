@@ -79,6 +79,8 @@ transaction_ui<Container, T>::transaction_ui( point const &srclayout, point size
     using namespace advuilist_literals;
     for( auto &v : _panes ) {
         v.get_ctxt()->register_action( ACTION_SWITCH_PANES );
+        v.get_ctxt()->register_action( PANE_LEFT );
+        v.get_ctxt()->register_action( PANE_RIGHT );
         v.setctxthandler( [this]( advuilist<Container, T> *ui, std::string const &action ) {
             this->_ctxthandler( ui, action );
         } );
@@ -173,11 +175,12 @@ void transaction_ui<Container, T>::_ctxthandler( advuilist<Container, T> *ui,
     using namespace advuilist_literals;
     if( action == ACTION_QUIT ) {
         _queue.emplace( event::QUIT );
-    }
-
-    if( action == ACTION_SWITCH_PANES ) {
-        _queue.emplace( event::SWITCH );
-        ui->suspend();
+    } else if( action == ACTION_SWITCH_PANES or action == PANE_LEFT or action == PANE_RIGHT ) {
+        std::size_t check = action == PANE_LEFT ? _right : _left;
+        if( action == ACTION_SWITCH_PANES or _cpane == check ) {
+            _queue.emplace( event::SWITCH );
+            ui->suspend();
+        }
     }
 
     if( _fctxt ) {

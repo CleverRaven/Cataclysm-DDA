@@ -16,11 +16,12 @@ void create_advanced_inv()
     using mytrui_t = transaction_ui<aim_container_t>;
 
     static std::unique_ptr<mytrui_t> mytrui;
-    static pane_mutex_t pane_mutex( aim_nsources * 2, false);
+    static pane_mutex_t pane_mutex( aim_nsources * 2, false );
     static aim_stats_t lstats{ 0_kilogram, 0_liter };
     static aim_stats_t rstats{ 0_kilogram, 0_liter };
     if( !mytrui ) {
-        mytrui = std::make_unique<mytrui_t>( aimlayout );
+        mytrui = std::make_unique<mytrui_t>( aimlayout, point{ -1, -1 }, point{ -1, -1 },
+                                             "ADVANCED_INVENTORY" );
         setup_for_aim( mytrui->left(), &lstats );
         setup_for_aim( mytrui->right(), &rstats );
         add_aim_sources( mytrui->left(), &pane_mutex );

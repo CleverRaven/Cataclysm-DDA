@@ -2787,7 +2787,7 @@
     "type": "keybinding",
     "id": "LEFT",
     "category": "ADVANCED_INVENTORY",
-    "name": "Select left inventory",
+    "name": "Select left pane",
     "bindings": [
       { "input_method": "keyboard_any", "key": "h" },
       { "input_method": "keyboard_any", "key": "LEFT" },
@@ -2798,7 +2798,7 @@
     "type": "keybinding",
     "id": "RIGHT",
     "category": "ADVANCED_INVENTORY",
-    "name": "Select right inventory",
+    "name": "Select right pane",
     "bindings": [
       { "input_method": "keyboard_any", "key": "l" },
       { "input_method": "keyboard_any", "key": "RIGHT" },
@@ -2807,14 +2807,14 @@
   },
   {
     "type": "keybinding",
-    "id": "TOGGLE_TAB",
+    "id": "SWITCH_PANES",
     "category": "ADVANCED_INVENTORY",
-    "name": "Toggle tab",
+    "name": "Switch panes",
     "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]
   },
   {
     "type": "keybinding",
-    "id": "TOGGLE_VEH",
+    "id": "CYCLE_SOURCES",
     "category": "ADVANCED_INVENTORY",
     "name": "Toggle vehicle",
     "bindings": [
@@ -2854,28 +2854,28 @@
   },
   {
     "type": "keybinding",
-    "id": "MOVE_SINGLE_ITEM",
+    "id": "CONFIRM",
     "category": "ADVANCED_INVENTORY",
     "name": "Move a single item",
     "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" }, { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" } ]
   },
   {
     "type": "keybinding",
-    "id": "MOVE_VARIABLE_ITEM",
+    "id": "CONFIRM_PARTIAL",
     "category": "ADVANCED_INVENTORY",
     "name": "Move an amount of item",
     "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
   },
   {
     "type": "keybinding",
-    "id": "MOVE_ITEM_STACK",
+    "id": "CONFIRM_WHOLE",
     "category": "ADVANCED_INVENTORY",
     "name": "Move item stack",
     "bindings": [ { "input_method": "keyboard_char", "key": "M" }, { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
-    "id": "MOVE_ALL_ITEMS",
+    "id": "CONFIRM_ALL",
     "category": "ADVANCED_INVENTORY",
     "name": "Move all items",
     "bindings": [ { "input_method": "keyboard_any", "key": "," } ]
@@ -2907,70 +2907,70 @@
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_NW",
+    "id": "SOURCE_3",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ North-West",
     "bindings": [ { "input_method": "keyboard_any", "key": "7" }, { "input_method": "keyboard_code", "key": "KEYPAD_7" } ]
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_N",
+    "id": "SOURCE_4",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ North",
     "bindings": [ { "input_method": "keyboard_any", "key": "8" }, { "input_method": "keyboard_code", "key": "KEYPAD_8" } ]
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_NE",
+    "id": "SOURCE_5",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ North-East",
     "bindings": [ { "input_method": "keyboard_any", "key": "9" }, { "input_method": "keyboard_code", "key": "KEYPAD_9" } ]
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_W",
+    "id": "SOURCE_9",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ West",
     "bindings": [ { "input_method": "keyboard_any", "key": "4" }, { "input_method": "keyboard_code", "key": "KEYPAD_4" } ]
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_CE",
+    "id": "SOURCE_10",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ center",
     "bindings": [ { "input_method": "keyboard_any", "key": "5" }, { "input_method": "keyboard_code", "key": "KEYPAD_5" } ]
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_E",
+    "id": "SOURCE_11",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ East",
     "bindings": [ { "input_method": "keyboard_any", "key": "6" }, { "input_method": "keyboard_code", "key": "KEYPAD_6" } ]
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_SW",
+    "id": "SOURCE_15",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ South-West",
     "bindings": [ { "input_method": "keyboard_any", "key": "1" }, { "input_method": "keyboard_code", "key": "KEYPAD_1" } ]
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_S",
+    "id": "SOURCE_16",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ South",
     "bindings": [ { "input_method": "keyboard_any", "key": "2" }, { "input_method": "keyboard_code", "key": "KEYPAD_2" } ]
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_SE",
+    "id": "SOURCE_17",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ South-East",
     "bindings": [ { "input_method": "keyboard_any", "key": "3" }, { "input_method": "keyboard_code", "key": "KEYPAD_3" } ]
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_INVENTORY",
+    "id": "SOURCE_7",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items in inventory",
     "bindings": [
@@ -2983,7 +2983,7 @@
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_AROUND",
+    "id": "SOURCE_12",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ all 9 fields",
     "bindings": [
@@ -2994,7 +2994,7 @@
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_DRAGGED_CONTAINER",
+    "id": "SOURCE_1",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items in dragged container",
     "bindings": [
@@ -3005,7 +3005,7 @@
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_CONTAINER",
+    "id": "SOURCE_0",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items in container",
     "bindings": [
@@ -3016,7 +3016,7 @@
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_WORN",
+    "id": "SOURCE_13",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items currently worn",
     "bindings": [
@@ -3024,18 +3024,6 @@
       { "input_method": "keyboard_char", "key": "W" },
       { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] }
     ]
-  },
-  {
-    "type": "keybinding",
-    "id": "ITEMS_DEFAULT",
-    "category": "ADVANCED_INVENTORY",
-    "name": "Restore default layout"
-  },
-  {
-    "type": "keybinding",
-    "id": "SAVE_DEFAULT",
-    "category": "ADVANCED_INVENTORY",
-    "name": "Save default layout"
   },
   {
     "type": "keybinding",
