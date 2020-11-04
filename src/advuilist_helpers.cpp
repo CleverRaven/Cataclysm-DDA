@@ -11,6 +11,7 @@
 #include <utility>       // for move, get, pair
 #include <vector>        // for vector
 
+#include "auto_pickup.h"      // for get_auto_pickup
 #include "avatar.h"           // for avatar, get_avatar
 #include "character.h"        // for get_player_character, Character
 #include "color.h"            // for get_all_colors, color_manager
@@ -392,6 +393,8 @@ std::string iloc_entry_volume( iloc_entry const &it )
 
 std::string iloc_entry_name( iloc_entry const &it )
 {
+    // FIXME: find a way to display autopick. Old AIM set the background to magenta, but that's not
+    // supported by color tags
     item const &i = *it.stack[0];
     return string_format( "<color_%s>%s</color>",
                           get_all_colors().get_name( i.color_in_inventory() ), i.tname() );
@@ -557,6 +560,8 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
     myadvuilist->on_redraw(
         [stats]( catacurses::window *w ) { iloc_entry_stats_printer( stats, w ); } );
     myadvuilist->get_ctxt()->register_action( advuilist_literals::ACTION_EXAMINE );
+    myadvuilist->get_ctxt()->register_action( advuilist_literals::TOGGLE_AUTO_PICKUP );
+    myadvuilist->get_ctxt()->register_action( advuilist_literals::TOGGLE_FAVORITE );
 }
 
 void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *mutex )
@@ -699,6 +704,18 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
         } else {
             iloc_entry_examine( ui->otherpane()->get_window(), entry );
         }
+    } else if( action == TOGGLE_AUTO_PICKUP ) {
+        iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( ui->curpane()->peek().front() );
+        item const *it = entry.stack.front().get_item();
+        bool const has = get_auto_pickup().has_rule( it );
+        if( !has ) {
+            get_auto_pickup().add_rule( it );
+        } else {
+            get_auto_pickup().remove_rule( it );
+        }
+    } else if( action == TOGGLE_FAVORITE ) {
+        iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( ui->curpane()->peek().front() );
+        entry.stack.front()->set_favorite( !entry.stack.front()->is_favorite );
     }
 }
 
