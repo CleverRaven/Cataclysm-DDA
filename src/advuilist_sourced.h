@@ -215,11 +215,7 @@ void advuilist_sourced<Container, T>::loadstate( advuilist_save_state *state, bo
     _cslot = state->slot;
     setSource( _cslot, state->icon, true );
 
-    advuilist<Container, T>::loadstate( state, false );
-
-    if( reb ) {
-        advuilist<Container, T>::rebuild();
-    }
+    advuilist<Container, T>::loadstate( state, reb );
 }
 
 template <class Container, typename T>

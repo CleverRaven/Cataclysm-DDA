@@ -194,6 +194,9 @@ class advuilist
     void _setfilter( std::string const &filter );
     bool _basicfilter( T const &it, std::string const &filter ) const;
     typename pagecont_t::size_type _idxtopage( typename list_t::size_type idx );
+    void _incidx( std::size_t amount );
+    void _decidx( std::size_t amount );
+    void _setidx( std::size_t idx );
 };
 
 // *INDENT-OFF*
@@ -331,17 +334,13 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
         std::string const action = _ctxt.handle_input();
 
         if( action == ACTION_UP ) {
-            _cidx = _cidx == 0 ? _list.size() - 1 : _cidx - 1;
-            _cpage = _idxtopage( _cidx );
+            _decidx( 1 );
         } else if( action == ACTION_DOWN ) {
-            _cidx = _cidx >= _list.size() - 1 ? 0 : _cidx + 1;
-            _cpage = _idxtopage( _cidx );
+            _incidx( 1 );
         } else if( action == ACTION_PAGE_UP ) {
-            _cidx = _cidx > _pagesize ? _cidx - _pagesize : 0;
-            _cpage = _idxtopage( _cidx );
+            _decidx( _pagesize );
         } else if( action == ACTION_PAGE_DOWN ) {
-            _cidx = _cidx < _list.size() - _pagesize ? _cidx + _pagesize : _list.size() - 1;
-            _cpage = _idxtopage( _cidx );
+            _incidx( _pagesize );
         } else if( action == ACTION_SORT ) {
             _querysort();
         } else if( action == ACTION_FILTER ) {
@@ -399,9 +398,9 @@ void advuilist<Container, T>::rebuild( Container *list )
             _list.emplace_back( idx++, it );
         }
     }
-    _cidx = _cidx > _list.size() - 1 ? _list.size() - 1 : _cidx;
     _group( _cgroup );
     _sort( _csort );
+    _setidx( _cidx );    
     _cpage = _idxtopage( _cidx );
 }
 
@@ -466,13 +465,14 @@ void advuilist<Container, T>::savestate( advuilist_save_state *state )
 template <class Container, typename T>
 void advuilist<Container, T>::loadstate( advuilist_save_state *state, bool reb )
 {
-    _cidx = state->idx > _list.size() - 1 ? _list.size() - 1 : state->idx;
-    _cpage = _idxtopage( _cidx );
     _csort = state->sort;
     _cgroup = state->group;
     _filter = state->filter;
     if( reb ) {
         rebuild();
+    } else {
+        _setidx( state->idx );
+        _cpage = _idxtopage( _cidx );
     }
 }
 
@@ -828,6 +828,44 @@ advuilist<Container, T>::_idxtopage( typename list_t::size_type idx )
         cpage++;
     }
     return cpage;
+}
+
+template <class Container, typename T>
+void advuilist<Container, T>::_incidx( std::size_t amount )
+{
+    if( _pages.back().second == 0 ) {
+        _cidx = 0;
+        _cpage = 0;
+        return;
+    }
+    if( _cidx == _pages.back().second - 1 ) {
+        _cidx = _pages.front().first;
+    } else {
+        _cidx = std::min( _cidx + amount, _pages.back().second - 1 );
+    }
+    _cpage = _idxtopage( _cidx );
+}
+
+template <class Container, typename T>
+void advuilist<Container, T>::_decidx( std::size_t amount )
+{
+    if( _pages.back().second == 0 ) {
+        _cidx = 0;
+        _cpage = 0;
+        return;
+    }
+    if( _cidx == _pages.front().first ) {
+        _cidx = _pages.back().second - 1;
+    } else {
+        _cidx = _pages.front().first + amount > _cidx ? _pages.front().first : _cidx - amount;
+    }
+    _cpage = _idxtopage( _cidx );
+}
+
+template <class Container, typename T>
+void advuilist<Container, T>::_setidx( std::size_t idx )
+{
+    _cidx = idx > _pages.back().second - 1 ? _pages.back().second - 1 : idx;
 }
 
 #endif // CATA_SRC_ADVUILIST_H
