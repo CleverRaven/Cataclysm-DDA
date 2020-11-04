@@ -259,5 +259,25 @@
     "int_dur_factor": "30 s",
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -0.17 ], "speed_mod": [ -3 ] },
     "scaling_mods": { "str_mod": [ -0.07 ], "dex_mod": [ -0.17 ], "speed_mod": [ -3 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "tornskin_pain",
+    "name": [ "Sharp Thorns" ],
+    "desc": [ "Thorns are whirling around you, regularly causing cuts into you." ],
+    "apply_message": "Thorns in the wind begin slicing into you!",
+    "remove_message": "The thorns fall to the ground.",
+    "rating": "bad",
+    "max_duration": "12 s",
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 6 ], "speed_mod": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "neuro_boost",
+    "name": [ "Mental Boost" ],
+    "desc": [ "Your mind is working incredibly fast, but your body cannot keep up" ],
+    "rating": "bad",
+    "max_duration": "10 s",
+    "base_mods": { "speed_mod": [ 20 ] }
   }
 ]

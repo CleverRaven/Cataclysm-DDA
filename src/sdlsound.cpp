@@ -29,6 +29,7 @@
 #include "rng.h"
 #include "sdl_wrappers.h"
 #include "sounds.h"
+#include "units.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -44,8 +45,8 @@ struct sound_effect_resource {
     std::unique_ptr<Mix_Chunk, deleter> chunk;
 };
 struct sound_effect {
-    int volume;
-    int resource_id;
+    int volume = 0;
+    int resource_id = 0;
 };
 struct sfx_resources_t {
     std::vector<sound_effect_resource> resource;
@@ -134,7 +135,7 @@ void shutdown_sound()
     Mix_CloseAudio();
 }
 
-void musicFinished();
+static void musicFinished();
 
 static void play_music_file( const std::string &filename, int volume )
 {
@@ -464,7 +465,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
 }
 
 void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume,
-                              int angle, double pitch_min, double pitch_max )
+                              units::angle angle, double pitch_min, double pitch_max )
 {
     if( !check_sound( volume ) ) {
         return;
@@ -490,7 +491,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
                                        effect_to_play ) == 0 );
     }
     if( !failed ) {
-        failed = ( Mix_SetPosition( channel, static_cast<Sint16>( angle ), 1 ) == 0 );
+        failed = Mix_SetPosition( channel, static_cast<Sint16>( to_degrees( angle ) ), 1 ) == 0;
     }
     if( failed ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();

@@ -4,11 +4,13 @@
 #include <cmath>
 #include <iterator>
 #include <map>
+#include <memory>
 
 #include "addiction.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "debug.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "generic_factory.h"
 #include "item.h"
@@ -18,14 +20,16 @@
 #include "json.h"
 #include "magic.h"
 #include "options.h"
+#include "pimpl.h"
 #include "player.h"
 #include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
+#include "visitable.h"
 
 namespace
 {
-generic_factory<profession> all_profs( "profession", "ident" );
+generic_factory<profession> all_profs( "profession" );
 const string_id<profession> generic_profession_id( "unemployed" );
 } // namespace
 
@@ -164,7 +168,8 @@ void profession::load( const JsonObject &jo, const std::string & )
     }
 
     if( !was_loaded || jo.has_member( "description" ) ) {
-        const std::string desc = jo.get_string( "description" );
+        std::string desc;
+        mandatory( jo, false, "description", desc, text_style_check_reader() );
         // These also may differ depending on the language settings!
         _description_male = to_translation( "prof_desc_male", desc );
         _description_female = to_translation( "prof_desc_female", desc );
@@ -221,6 +226,7 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
     // TODO: use string_id<bionic_type> or so
     optional( jo, was_loaded, "CBMs", _starting_CBMs, auto_flags_reader<bionic_id> {} );
+    optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
     // TODO: use string_id<mutation_branch> or so
     optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
@@ -253,7 +259,7 @@ void profession::check_definitions()
 
 void profession::check_item_definitions( const itypedecvec &items ) const
 {
-    for( auto &itd : items ) {
+    for( const auto &itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
             debugmsg( "profession %s: item %s does not exist", id.str(), itd.type_id.str() );
         } else if( !itd.snip_id.is_null() ) {
@@ -299,7 +305,13 @@ void profession::check_definition() const
         }
     }
 
-    for( auto &t : _starting_traits ) {
+    for( const proficiency_id &pid : _starting_proficiencies ) {
+        if( !pid.is_valid() ) {
+            debugmsg( "proficiency %s for profession %s does not exist", pid.str(), id.str() );
+        }
+    }
+
+    for( const auto &t : _starting_traits ) {
         if( !t.is_valid() ) {
             debugmsg( "trait %s for profession %s does not exist", t.c_str(), id.c_str() );
         }
@@ -411,8 +423,8 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
             clear_faults( *it );
             return VisitResponse::NEXT;
         } );
-        if( it.has_flag( "VARSIZE" ) ) {
-            it.item_tags.insert( "FIT" );
+        if( it.has_flag( flag_VARSIZE ) ) {
+            it.set_flag( flag_FIT );
         }
     }
 
@@ -462,6 +474,11 @@ std::vector<bionic_id> profession::CBMs() const
     return _starting_CBMs;
 }
 
+std::vector<proficiency_id> profession::proficiencies() const
+{
+    return _starting_proficiencies;
+}
+
 std::vector<trait_id> profession::get_locked_traits() const
 {
     return _starting_traits;
@@ -506,8 +523,8 @@ std::map<spell_id, int> profession::spells() const
 void profession::learn_spells( avatar &you ) const
 {
     for( const std::pair<spell_id, int> spell_pair : spells() ) {
-        you.magic.learn_spell( spell_pair.first, you, true );
-        spell &sp = you.magic.get_spell( spell_pair.first );
+        you.magic->learn_spell( spell_pair.first, you, true );
+        spell &sp = you.magic->get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
             sp.gain_level();
         }

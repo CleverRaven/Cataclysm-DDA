@@ -331,5 +331,52 @@
     "death_function": [ "BROKEN" ],
     "death_drops": { "groups": [ [ "turret_speaker", 1 ] ] },
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+  },
+  {
+    "id": "mon_exodii_turret",
+    "type": "MONSTER",
+    "name": "upcycled turret",
+    "description": "This hefty turret appears to be bolted together out of various scraps of technology, many of them extremely foreign looking.  It is equipped with a hefty looking machine gun.",
+    "default_faction": "exodii",
+    "weight": "206 kg",
+    "volume": "105 L",
+    "hp": 240,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "2",
+    "color": "light_gray",
+    "aggression": -10,
+    "morale": 100,
+    "armor_bash": 24,
+    "armor_cut": 26,
+    "vision_day": 50,
+    "vision_night": 20,
+    "luminance": 1,
+    "starting_ammo": { "123ln": 3000 },
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "pamd68",
+        "ammo_type": "123ln",
+        "fake_skills": [ [ "gun", 5 ], [ "rifle", 8 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 41, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 400,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Beep.\"",
+        "targeting_volume": 20,
+        "no_ammo_sound": "a chk!"
+      }
+    ],
+    "special_when_hit": [ "RETURN_FIRE", 100 ],
+    "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS", "INTERIOR_AMMO" ]
   }
 ]

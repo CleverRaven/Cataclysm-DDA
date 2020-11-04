@@ -57,6 +57,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -99,6 +100,7 @@
         "holster": true,
         "max_contains_volume": "25 L",
         "max_contains_weight": "200 kg",
+        "//": "this tool is small and has no actual battery compartment, but can connect to large batteries.",
         "item_restriction": [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
       }
     ]
@@ -124,6 +126,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "5 L",
         "max_contains_volume": "50 L",
         "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
@@ -159,6 +162,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "5 L",
         "max_contains_volume": "50 L",
         "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
@@ -197,6 +201,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "5 L",
         "max_contains_volume": "50 L",
         "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
@@ -224,6 +229,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "5 L",
         "max_contains_volume": "50 L",
         "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
@@ -262,6 +268,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "5 L",
         "max_contains_volume": "50 L",
         "max_contains_weight": "400 kg",
         "item_restriction": [
@@ -313,6 +320,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "5 L",
         "max_contains_volume": "50 L",
         "max_contains_weight": "400 kg",
         "item_restriction": [
@@ -363,6 +371,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "5 L",
         "max_contains_volume": "50 L",
         "max_contains_weight": "400 kg",
         "item_restriction": [
@@ -414,6 +423,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "5 L",
         "max_contains_volume": "50 L",
         "max_contains_weight": "400 kg",
         "item_restriction": [
@@ -453,7 +463,7 @@
     "id": "filter_paper_qualitative",
     "type": "TOOL",
     "name": { "str_sp": "qualitative filter paper" },
-    "description": "filter paper for seperating solids from liquids.  This filter paper has a rating of 2 microns, seperating more solids out than quantitative filter paper but the process takes longer.",
+    "description": "Filter paper for separating solids from liquids.  This filter paper has a rating of 2 microns, separating more solids out than quantitative filter paper but the process takes longer.",
     "symbol": "E",
     "color": "dark_gray",
     "looks_like": "paper",
@@ -469,7 +479,7 @@
     "id": "filter_paper_quantitative",
     "type": "TOOL",
     "name": { "str_sp": "quantitative filter paper" },
-    "description": "filter paper for seperating solids from liquids.  This filter paper has a rating of 20 microns, seperating less solids out than qualitative filter paper but the process is much faster.",
+    "description": "Filter paper for separating solids from liquids.  This filter paper has a rating of 20 microns, separating less solids out than qualitative filter paper but the process is much faster.",
     "symbol": "E",
     "color": "dark_gray",
     "looks_like": "paper",
@@ -511,6 +521,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "500 ml",
         "max_contains_volume": "50 L",
         "max_contains_weight": "400 kg",
         "item_restriction": [
@@ -562,6 +573,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "500 ml",
         "max_contains_volume": "50 L",
         "max_contains_weight": "400 kg",
         "item_restriction": [
@@ -585,7 +597,7 @@
     "id": "recovery_pump",
     "type": "TOOL",
     "name": { "str": "recovery pump" },
-    "description": "A medium sized vacuum pump designed to recover solvent (hydrocarbons) from extracted essential oils.",
+    "description": "A medium-sized vacuum pump designed to recover solvent (hydrocarbons) from extracted essential oils.",
     "symbol": "E",
     "color": "dark_gray",
     "looks_like": "well_pump",
@@ -609,11 +621,20 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "initial_charges": 20,
-    "max_charges": 20,
+    "initial_charges": 2000,
+    "max_charges": 2000,
     "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "airtight": true,
+        "ammo_restriction": { "butane": 2000 },
+        "watertight": true
+      }
+    ],
     "looks_like": "oxygen_tank",
-    "flags": [ "EXPLOSIVE", "EXPLODES" ],
+    "flags": [  ],
     "explosion": {
       "power": 90100,
       "distance_factor": 0.5,
@@ -790,6 +811,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -825,6 +847,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -867,6 +890,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -909,6 +933,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -943,6 +968,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -977,6 +1003,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -1190,7 +1217,7 @@
     "to_hit": -5,
     "bashing": 2,
     "material": [ "aluminum", "steel", "plastic" ],
-    "looks_like": "t_centrifuge",
+    "looks_like": "f_centrifuge",
     "symbol": "n",
     "color": "white",
     "ammo": [ "battery" ],
@@ -1198,6 +1225,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",

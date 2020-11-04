@@ -38,7 +38,7 @@
       [ "can_spam", 30 ],
       [ "salt", 10 ],
       [ "seasoning_salt", 5 ],
-      [ "jar_sauerkraut_pickled", 20 ],
+      { "item": "sauerkraut", "prob": 20, "charges": 4, "container-item": "jar_glass_sealed" },
       [ "lutefisk", 20 ],
       [ "pemmican", 20 ]
     ]
@@ -53,8 +53,8 @@
       [ "arrow_fire_hardened_fletched", 20 ],
       [ "quiver_birchbark", 30 ],
       [ "fire_drill", 30 ],
-      [ "lighter", 30 ],
-      [ "matches", 30 ],
+      { "item": "lighter", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "matches", "prob": 30, "charges": [ 0, 20 ] },
       [ "sunglasses", 30 ],
       [ "fitover_sunglasses", 20 ],
       [ "ax", 10 ],
@@ -72,7 +72,14 @@
     "type": "item_group",
     "id": "oa_ig_sb_rare",
     "items": [
-      { "item": "gasoline", "prob": 5, "charges-min": 450, "charges-max": 2000, "container-item": "jug_plastic" },
+      {
+        "item": "gasoline",
+        "prob": 5,
+        "charges-min": 450,
+        "charges-max": 2000,
+        "container-item": "jug_plastic",
+        "sealed": false
+      },
       { "item": "gasoline", "prob": 5, "charges-min": 450, "charges-max": 4000, "container-item": "jerrycan" },
       { "item": "gasoline", "prob": 5, "charges-min": 450, "charges-max": 10000, "container-item": "jerrycan_big" },
       [ "gasoline_lantern", 15 ],
@@ -81,7 +88,7 @@
       [ "lamp_oil", 15 ],
       [ "recurbow", 20 ],
       [ "binoculars", 20 ],
-      [ "ref_lighter", 30 ],
+      { "item": "ref_lighter", "prob": 30, "charges": [ 0, 50 ] },
       [ "e_tool", 30 ],
       [ "jackhammer", 5 ],
       [ "elec_jackhammer", 5 ]

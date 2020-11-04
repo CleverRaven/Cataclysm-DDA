@@ -1,11 +1,12 @@
 #include "kill_tracker.h"
 
-#include <memory>
+#include <algorithm>
 #include <tuple>
 #include <utility>
 
 #include "avatar.h"
 #include "cata_variant.h"
+#include "character.h"
 #include "character_id.h"
 #include "color.h"
 #include "event.h"
@@ -121,7 +122,7 @@ void kill_tracker::notify( const cata::event &e )
     switch( e.type() ) {
         case event_type::character_kills_monster: {
             character_id killer = e.get<character_id>( "killer" );
-            if( killer != get_avatar().getID() ) {
+            if( killer != get_player_character().getID() ) {
                 // TODO: add a kill counter for npcs?
                 break;
             }
@@ -131,7 +132,7 @@ void kill_tracker::notify( const cata::event &e )
         }
         case event_type::character_kills_character: {
             character_id killer = e.get<character_id>( "killer" );
-            if( killer != get_avatar().getID() ) {
+            if( killer != get_player_character().getID() ) {
                 break;
             }
             std::string victim_name = e.get<cata_variant_type::string>( "victim_name" );

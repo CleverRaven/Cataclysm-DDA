@@ -15,7 +15,7 @@
     "ammo_type": [ "46" ],
     "capacity": 40,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "46": 40 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "46": 40 } } ]
   },
   {
     "id": "hk46mag",
@@ -33,6 +33,6 @@
     "ammo_type": [ "46" ],
     "capacity": 20,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "46": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "46": 20 } } ]
   }
 ]

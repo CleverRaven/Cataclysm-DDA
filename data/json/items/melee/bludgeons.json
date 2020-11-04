@@ -6,16 +6,16 @@
     "name": { "str": "war flail" },
     "description": "This is a stout pole with a large steel flanged mace head on a short chain attached to it, based on the peasant flail agricultural tool except now with a metal head and made to thresh people in metal armor rather than grain.",
     "weight": "3550 g",
-    "longest_side": "60 cm",
+    "longest_side": "160 cm",
     "volume": "2250 ml",
     "price": 25000,
     "price_postapoc": 3000,
-    "bashing": 65,
+    "bashing": 50,
     "material": [ "wood", "steel" ],
     "symbol": "\\",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "2h_flail_wood",
@@ -24,7 +24,7 @@
     "name": { "str": "peasant flail" },
     "description": "This is a stout pole with a wooden club on a leather cord attached to it, this is a tool used to thresh wheat and occasionally people when the peasants got angry at their feudal lords.",
     "weight": "1700 g",
-    "longest_side": "60 cm",
+    "longest_side": "160 cm",
     "volume": "2250 ml",
     "price": 4000,
     "price_postapoc": 1000,
@@ -33,7 +33,7 @@
     "symbol": "\\",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
   },
   {
     "type": "GENERIC",
@@ -215,6 +215,7 @@
     "price": 55000,
     "price_postapoc": 2500,
     "material": [ "wood" ],
+    "ascii_picture": "bokken",
     "techniques": [ "RAPID", "WBLOCK_2", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weight": "1133 g",
@@ -237,6 +238,7 @@
     "price": 12500,
     "price_postapoc": 500,
     "material": [ "wood" ],
+    "ascii_picture": "bokken",
     "techniques": [ "RAPID", "WBLOCK_2", "SWEEP" ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weight": "680 g",
@@ -257,6 +259,7 @@
     "price": 12500,
     "price_postapoc": 750,
     "material": [ "wood" ],
+    "ascii_picture": "bokken",
     "techniques": [ "RAPID", "WBLOCK_2", "SWEEP" ],
     "flags": [ "SHEATH_SWORD" ],
     "weight": "1133 g",
@@ -577,9 +580,10 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
+        "max_contains_volume": "525 ml",
+        "max_contains_weight": "1 kg",
         "item_restriction": [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       }
     ]
@@ -741,6 +745,7 @@
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "iron", "wood" ],
+    "ascii_picture": "morningstar",
     "techniques": [ "SWEEP" ],
     "volume": "1500 ml",
     "longest_side": "80 cm",
@@ -762,6 +767,7 @@
     "symbol": "/",
     "looks_like": "morningstar",
     "material": [ "aluminum", "wood" ],
+    "ascii_picture": "morningstar",
     "techniques": [ "SWEEP" ],
     "volume": "1500 ml",
     "longest_side": "80 cm",
@@ -782,6 +788,7 @@
     "symbol": "/",
     "looks_like": "morningstar",
     "material": [ "budget_steel", "wood" ],
+    "ascii_picture": "morningstar",
     "techniques": [ "SWEEP" ],
     "volume": "1500 ml",
     "longest_side": "80 cm",
@@ -1024,6 +1031,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -1055,6 +1063,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",

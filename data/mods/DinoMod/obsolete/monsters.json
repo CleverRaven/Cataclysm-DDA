@@ -1,0 +1,84 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_zimorphodon",
+    "name": { "str_sp": "Dimorphodon zombie" },
+    "copy-from": "mon_zamptosaurus",
+    "looks_like": "mon_dimorphodon",
+    "volume": "30 L",
+    "weight": "40 kg",
+    "bodytype": "bird",
+    "speed": 90,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_cut": 0,
+    "armor_bash": 4,
+    "armor_cut": 4,
+    "armor_bullet": 1,
+    "hp": 50,
+    "description": "The raggedly flying corpse  of a feathered reptile over three feet long, with short wings and a big colorful beak.",
+    "upgrades": { "half_life": 14, "into": "mon_zimorphodon_brute" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zimorphodon_brute",
+    "name": { "str": "Winged Horror" },
+    "copy-from": "mon_zimorphodon",
+    "description": "The flying corpse of a feathered reptile over three feet long, with short wings and a big colorful beak.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "upgrades": {  },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zimorphodon_bio_op",
+    "name": { "str": "Dimorphozombie bio-operator" },
+    "copy-from": "mon_zimorphodon",
+    "diff": 5,
+    "proportional": { "hp": 1.2, "speed": 1.15 },
+    "relative": { "melee_skill": 2, "melee_dice": 1, "dodge": 2, "armor_bash": 3, "armor_cut": 3, "armor_bullet": 3 },
+    "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "vision_day": 100,
+    "luminance": 4,
+    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "description": "The raggedly flying corpse of a feathered reptile, with short wings and a colorful glowing beak.  It has been implanted with crackling bionics and is dripping black goo.",
+    "special_when_hit": [ "ZAPBACK", 75 ],
+    "harvest": "CBM_ZINO_FEATHER"
+  },
+  {
+    "id": "mon_obsoletefaction1",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "mon_obsoletefaction1",
+    "default_faction": "gallimimus"
+  },
+  {
+    "id": "mon_obsoletefaction2",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "mon_obsoletefaction2",
+    "default_faction": "pachycephalosaurus"
+  },
+  {
+    "id": "mon_obsoletefaction3",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "mon_obsoletefaction3",
+    "default_faction": "camptosaurus"
+  }
+]

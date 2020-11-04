@@ -1,25 +1,27 @@
-#include "vehicle.h" // IWYU pragma: associated
-
-#include <cstdlib>
 #include <algorithm>
-#include <set>
+#include <cmath>
+#include <cstdlib>
 #include <memory>
+#include <set>
 
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "itype.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
-#include "veh_type.h"
-#include "vpart_position.h"
 #include "units.h"
-#include "color.h"
-#include "optional.h"
+#include "units_utility.h"
+#include "veh_type.h"
+#include "vehicle.h" // IWYU pragma: associated
+#include "vpart_position.h"
 
 static const std::string part_location_structure( "structure" );
 static const itype_id itype_battery( "battery" );
@@ -38,36 +40,55 @@ char vehicle::part_sym( const int p, const bool exact ) const
 
     const int displayed_part = exact ? p : part_displayed_at( parts[p].mount );
 
-    if( part_flag( displayed_part, VPFLAG_OPENABLE ) && parts[displayed_part].open ) {
+    const vehicle_part &vp = parts.at( displayed_part );
+    const vpart_info &vp_info = part_info( displayed_part );
+
+    if( part_flag( displayed_part, VPFLAG_OPENABLE ) && vp.open ) {
         // open door
         return '\'';
     } else {
-        return parts[ displayed_part ].is_broken() ?
-               part_info( displayed_part ).sym_broken : part_info( displayed_part ).sym;
+        if( vp.is_broken() ) {
+            return vp_info.sym_broken;
+        } else if( vp.variant.empty() ) {
+            return vp_info.sym;
+        } else {
+            const auto vp_symbol = vp_info.symbols.find( vp.variant );
+            if( vp_symbol == vp_info.symbols.end() ) {
+                return vp_info.sym;
+            } else {
+                return vp_symbol->second;
+            }
+        }
     }
 }
 
-// similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles during draw_vpart
-// vector returns at least 1 element, max of 2 elements. If 2 elements the second denotes if it is open or damaged
-vpart_id vehicle::part_id_string( const int p, char &part_mod ) const
+// similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles
+// during draw_vpart vector returns at least 1 element, max of 2 elements. If 2 elements the
+// second denotes if it is open or damaged
+std::string vehicle::part_id_string( const int p, char &part_mod ) const
 {
     part_mod = 0;
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
-        return vpart_id::NULL_ID();
+        return "";
     }
 
     int displayed_part = part_displayed_at( parts[p].mount );
-    const vpart_id idinfo = parts[displayed_part].id;
+    if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
+        parts[ displayed_part ].removed ) {
+        return "";
+    }
 
-    if( part_flag( displayed_part, VPFLAG_OPENABLE ) && parts[displayed_part].open ) {
+    const vehicle_part &vp = parts.at( displayed_part );
+
+    if( part_flag( displayed_part, VPFLAG_OPENABLE ) && vp.open ) {
         // open
         part_mod = 1;
-    } else if( parts[ displayed_part ].is_broken() ) {
+    } else if( vp.is_broken() ) {
         // broken
         part_mod = 2;
     }
 
-    return idinfo;
+    return vp.id.str() + ( vp.variant.empty() ?  "" : "_" + vp.variant );
 }
 
 nc_color vehicle::part_color( const int p, const bool exact ) const
@@ -441,14 +462,18 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
                 tank_color = c_light_red;
                 tank_goal = _( "empty" );
             }
+
+            // promote to double so esimate doesn't overflow for high fuel values
+            // 3600 * tank_use overflows signed 32 bit when tank_use is over ~596523
+            double turns = to_turns<double>( 60_minutes );
+            time_duration estimate = time_duration::from_turns( turns * tank_use / std::abs( rate ) );
+
             if( debug_mode ) {
                 wprintz( win, tank_color, _( ", %d %s(%4.2f%%)/hour, %s until %s" ),
-                         rate, units, 100.0 * rate  / cap,
-                         to_string_clipped( 60_minutes * tank_use / std::abs( rate ) ), tank_goal );
+                         rate, units, 100.0 * rate  / cap, to_string_clipped( estimate ), tank_goal );
             } else {
                 wprintz( win, tank_color, _( ", %3.1f%% / hour, %s until %s" ),
-                         100.0 * rate  / cap,
-                         to_string_clipped( 60_minutes * tank_use / std::abs( rate ) ), tank_goal );
+                         100.0 * rate  / cap, to_string_clipped( estimate ), tank_goal );
             }
         }
     }

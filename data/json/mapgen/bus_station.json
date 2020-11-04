@@ -35,21 +35,14 @@
       "terrain": {
         " ": "t_floor",
         "+": "t_door_c",
-        ".": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ] ],
+        ".": "t_region_groundcover_urban",
         ",": [
-          [ "t_grass_long", 35 ],
-          [ "t_grass", 20 ],
-          [ "t_shrub", 20 ],
-          [ "t_shrub_rose", 20 ],
-          [ "t_shrub_lilac", 20 ],
-          [ "t_tree_young", 20 ],
-          [ "t_grass_tall", 20 ],
-          [ "t_grass_long", 20 ],
-          [ "t_underbrush", 20 ],
-          [ "t_shrub_hydrangea", 20 ],
-          [ "t_shrub_raspberry", 20 ]
+          [ "t_region_groundcover", 35 ],
+          [ "t_region_groundcover_forest", 20 ],
+          [ "t_region_shrub_decorative", 20 ],
+          [ "t_region_shrub_fruit", 10 ]
         ],
-        ";": [ [ "t_tree", 5 ], [ "t_tree_willow", 3 ], [ "t_tree_birch", 3 ], [ "t_tree_maple", 3 ], [ "t_tree_pine", 5 ] ],
+        ";": "t_region_tree_shade",
         "w": "t_window",
         "_": "t_pavement",
         "y": "t_pavement_y",
@@ -64,12 +57,13 @@
         "T": "t_linoleum_white",
         "F": "t_linoleum_white",
         "l": "t_linoleum_white",
-        "x": "t_console_broken",
+        "x": "t_linoleum_white",
         "i": "t_ladder_up",
         "I": "t_column",
         "f": "t_chainfence"
       },
       "furniture": {
+        "x": "f_console_broken",
         "c": "f_counter",
         "S": "f_sink",
         "B": "f_bench",

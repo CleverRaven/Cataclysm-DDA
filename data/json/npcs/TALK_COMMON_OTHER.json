@@ -72,7 +72,7 @@
         "no": "Why should I travel with you?",
         "yes": "You asked me recently; ask again later."
       },
-      "yes": "Not until I get some antibiotics..."
+      "yes": "Not until I get some antibiotics…"
     },
     "responses": [
       {
@@ -122,7 +122,8 @@
         "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
         "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 4, "value": -5, "anger": 10 } }
-      }
+      },
+      { "switch": true, "default": true, "text": "Nevermind.", "topic": "TALK_NONE" }
     ]
   },
   {
@@ -225,7 +226,7 @@
               "no": {
                 "npc_has_effect": "asked_to_train",
                 "no": "I have some reason for denying you training.",
-                "yes": "Give it some time, I'll show you something new later..."
+                "yes": "Give it some time, I'll show you something new later…"
               },
               "yes": "I'm too tired, let me rest first."
             },
@@ -264,7 +265,7 @@
   {
     "id": "TALK_FRIEND_UNCOMFORTABLE",
     "type": "talk_topic",
-    "dynamic_line": "I really don't feel comfortable doing so...",
+    "dynamic_line": "I really don't feel comfortable doing so…",
     "responses": [ { "text": "I'll give you some space.", "topic": "TALK_FRIEND" } ]
   },
   {
@@ -361,7 +362,7 @@
   {
     "id": "TALK_STOLE_ITEM",
     "type": "talk_topic",
-    "dynamic_line": "You picked up something that does not belong to you...",
+    "dynamic_line": "You picked up something that does not belong to you…",
     "responses": [
       {
         "text": "Okay, okay, this is all a misunderstanding.  Sorry, I'll drop it now.",

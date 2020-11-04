@@ -19,6 +19,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "CYBORG",
+    "description": "an alien cyborg",
+    "footsteps": "heavy thuds."
+  },
+  {
+    "type": "SPECIES",
     "id": "REPTILE",
     "description": "a reptile",
     "fear_triggers": [ "HURT", "FIRE" ]
@@ -43,8 +49,8 @@
   },
   {
     "type": "SPECIES",
-    "id": "BLOB",
-    "description": "a blob",
+    "id": "SLIME",
+    "description": "a slime",
     "footsteps": "plop."
   },
   {
@@ -63,6 +69,14 @@
     "type": "SPECIES",
     "id": "INSECT",
     "description": "an insect",
+    "anger_triggers": [ "FRIEND_DIED" ],
+    "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "INSECT_FLYING",
+    "description": "a flying insect",
+    "footsteps": "BZZZZZZZZZZZZZZZZZ",
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ]
   },

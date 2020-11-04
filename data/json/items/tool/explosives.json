@@ -35,6 +35,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 50, "shrapnel": { "casing_mass": 40, "fragment_mass": 1 } },
     "use_action": {
+      "need_wielding": true,
       "target": "can_bomb_act",
       "msg": "You light the fuse on the can bomb.  Throw it before it blows in your face!",
       "target_charges": 5,
@@ -61,7 +62,7 @@
       "type": "explosion",
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "explosion": { "power": 50, "shrapnel": { "casing_mass": 40, "fragment_mass": 1 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
@@ -125,6 +126,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 938 },
     "use_action": {
+      "need_wielding": true,
       "target": "dynamite_act",
       "msg": "You light the dynamite.",
       "target_charges": 20,
@@ -156,7 +158,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 938 }
     },
@@ -181,6 +183,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 1 } },
     "use_action": {
+      "need_wielding": true,
       "target": "dynamite_bomb_act",
       "msg": "You light the dynamite.",
       "target_charges": 20,
@@ -213,7 +216,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 1 } }
     },
@@ -237,6 +240,7 @@
     "explosion": { "power": 600, "shrapnel": { "casing_mass": 3214, "fragment_mass": 0.5 } },
     "color": "light_gray",
     "use_action": {
+      "need_wielding": true,
       "target": "EMPbomb_act",
       "msg": "You activate the EMP bomb.",
       "target_charges": 50,
@@ -297,6 +301,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 1500 },
     "use_action": {
+      "need_wielding": true,
       "target": "primitive_demolition_charge_act",
       "msg": "You light the %s.",
       "target_charges": 20,
@@ -329,7 +334,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 1500 }
     },
@@ -353,6 +358,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 1500 },
     "use_action": {
+      "need_wielding": true,
       "target": "improvised_demolition_charge_act",
       "msg": "You light the %s.",
       "target_charges": 20,
@@ -386,7 +392,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 1500 }
     },
@@ -467,7 +473,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "flashbang" },
-    "description": "This is a military police style flashbang.  Use this item to pull the pin and light the fuse.  You will then have five turns before it detonates with intense light and sound, blinding, deafening and disorienting anyone nearby.",
+    "description": "This is a military police style flashbang.  Use this item to pull the pin and light the fuse.  You will then have five seconds before it detonates with intense light and sound, blinding, deafening and disorienting anyone nearby.",
     "weight": "236 g",
     "volume": "250 ml",
     "price": 2000,
@@ -478,6 +484,7 @@
     "symbol": "*",
     "color": "dark_gray",
     "use_action": {
+      "need_wielding": true,
       "target": "flashbang_act",
       "msg": "You pull the pin on the flashbang.",
       "target_charges": 5,
@@ -522,8 +529,8 @@
     "name": { "str": "fungicidal gas grenade" },
     "price": 3600,
     "price_postapoc": 750,
-    "description": "This is a canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
-    "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_act" }
+    "description": "This is a canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
+    "countdown_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_act" }
   },
   {
     "id": "fungicidalbomb_act",
@@ -545,8 +552,8 @@
     "name": { "str": "makeshift fungicidal gas grenade" },
     "price": 3600,
     "price_postapoc": 500,
-    "description": "This is a makeshift canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
-    "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_makeshift_act" }
+    "description": "This is a makeshift canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
+    "countdown_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_makeshift_act" }
   },
   {
     "id": "fungicidalbomb_makeshift_act",
@@ -565,7 +572,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "makeshift gas canister" },
-    "description": "This is a crude gasbomb using household chemicals.  Use this item to arm it.  In three turns it will begin to expel a highly toxic gas for a short time.  This gas poisons those exposed to it, in addition to obscuring vision and scent.",
+    "description": "This is a crude gasbomb using household chemicals.  Use this item to arm it.  In three seconds it will begin to expel a highly toxic gas for a short time.  This gas poisons those exposed to it, in addition to obscuring vision and scent.",
     "weight": "1264 g",
     "volume": "250 ml",
     "price": 500,
@@ -576,6 +583,7 @@
     "symbol": "*",
     "color": "dark_gray",
     "use_action": {
+      "need_wielding": true,
       "target": "gasbomb_makeshift_act",
       "msg": "You arm the makeshift gas canister.",
       "target_charges": 10,
@@ -621,7 +629,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "grenade" },
-    "description": "This is a military-grade fragmentary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five turns before it explodes; throwing it would be a good idea.",
+    "description": "This is a military-grade fragmentary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five seconds before it explodes; throwing it would be a good idea.",
     "weight": "397 g",
     "volume": "250 ml",
     "price": 1500,
@@ -632,6 +640,7 @@
     "symbol": "*",
     "color": "green",
     "use_action": {
+      "need_wielding": true,
       "target": "grenade_act",
       "msg": "You pull the pin on the grenade.",
       "target_charges": 5,
@@ -673,7 +682,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "EMP grenade" },
-    "description": "This is a grenade that generates an electromagnetic pulse with a low-inductance capacitor bank discharged into a single-loop antenna.  Use this item to pull the pin and light the fuse, turning it into an active EMP grenade.  You will then have three turns before it detonates, creating an EMP field that damages robots and drains bionic energy.",
+    "description": "This is a grenade that generates an electromagnetic pulse with a low-inductance capacitor bank discharged into a single-loop antenna.  It also produces a mild electric shock cloud.  Use this item to pull the pin and light the fuse, turning it into an active EMP grenade.  You will then have three seconds before it detonates, creating an EMP field that damages robots and drains bionic energy.",
     "weight": "400 g",
     "volume": "250 ml",
     "price": 6000,
@@ -686,6 +695,7 @@
     "looks_like": "EMPbomb",
     "color": "cyan",
     "use_action": {
+      "need_wielding": true,
       "target": "grenade_emp_act",
       "msg": "You pull the pin on the EMP grenade.",
       "target_charges": 3,
@@ -700,7 +710,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "active EMP grenade" },
-    "description": "This EMP grenade is active, and will shortly detonate, creating a large EMP field that damages robots and drains bionic energy.  You may not want to be holding it much longer.",
+    "description": "This EMP grenade is active, and will shortly detonate, creating a large EMP field that damages robots and drains bionic energy as well as a mild electric shock cloud.  You may not want to be holding it much longer.",
     "weight": "400 g",
     "volume": "250 ml",
     "price": 0,
@@ -715,8 +725,10 @@
     "turns_per_charge": 1,
     "use_action": {
       "type": "explosion",
-      "draw_explosion_radius": 4,
-      "draw_explosion_color": "light_blue",
+      "fields_type": "fd_electricity",
+      "fields_radius": 2,
+      "fields_min_intensity": 3,
+      "fields_max_intensity": 3,
       "emp_blast_radius": 4,
       "sound_volume": 0,
       "sound_msg": "Tick.",
@@ -729,7 +741,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "incendiary grenade" },
-    "description": "This is a military-grade incendiary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five turns before it explodes into a raging inferno; throwing it would be a good idea.",
+    "description": "This is a military-grade incendiary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five seconds before it explodes into a raging inferno; throwing it would be a good idea.",
     "weight": "180 g",
     "volume": "250 ml",
     "price": 2000,
@@ -740,6 +752,7 @@
     "symbol": "*",
     "color": "light_red",
     "use_action": {
+      "need_wielding": true,
       "target": "grenade_inc_act",
       "msg": "You pull the pin on the grenade.",
       "target_charges": 5,
@@ -792,8 +805,8 @@
     "name": { "str": "tear gas grenade" },
     "price": 3600,
     "price_postapoc": 250,
-    "description": "This is a canister grenade filled with noxious irritant.  Use this item to pull the pin and light the fuse, turning it into an active tear gas grenade.  In five turns it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
-    "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "gasbomb_act" }
+    "description": "This is a canister grenade filled with noxious irritant.  Use this item to pull the pin and light the fuse, turning it into an active tear gas grenade.  In five seconds it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
+    "countdown_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "gasbomb_act" }
   },
   {
     "id": "gasbomb_act",
@@ -815,8 +828,8 @@
     "name": { "str": "insecticidal gas grenade" },
     "price": 3600,
     "price_postapoc": 750,
-    "description": "This is a canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to insect life forms.",
-    "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_act" }
+    "description": "This is a canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to insect life forms.",
+    "countdown_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_act" }
   },
   {
     "id": "insecticidalbomb_act",
@@ -839,8 +852,8 @@
     "name": { "str": "makeshift insecticidal gas grenade" },
     "price": 3600,
     "price_postapoc": 500,
-    "description": "This is a makeshift canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to insect life forms.",
-    "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_makeshift_act" }
+    "description": "This is a makeshift canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to insect life forms.",
+    "countdown_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_makeshift_act" }
   },
   {
     "id": "insecticidalbomb_makeshift_act",
@@ -892,6 +905,7 @@
     "symbol": "*",
     "color": "green",
     "use_action": {
+      "need_wielding": true,
       "target": "bootleg_grenade_act",
       "msg": "You pull the pin on the bootleg grenade.  Throw it before it blows in your face!",
       "target_charges": 5,
@@ -934,6 +948,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 240, "shrapnel": { "casing_mass": 162, "fragment_mass": 0.4 } },
     "use_action": {
+      "need_wielding": true,
       "target": "improvised_grenade_act",
       "msg": "You light the fuse on the improvised grenade.  Throw it before it blows in your face!",
       "target_charges": 5,
@@ -978,6 +993,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 240, "shrapnel": { "casing_mass": 162, "fragment_mass": 0.4 } },
     "use_action": {
+      "need_wielding": true,
       "target": "primitive_grenade_act",
       "msg": "You light the fuse on the primitive grenade.  Throw it before it blows in your face!",
       "target_charges": 5,
@@ -1043,6 +1059,7 @@
     "symbol": "*",
     "color": "light_green",
     "turns_per_charge": 1,
+    "max_charges": 9,
     "use_action": {
       "type": "explosion",
       "fields_type": "fd_nuke_gas",
@@ -1074,6 +1091,7 @@
     "initial_charges": 1,
     "max_charges": 1,
     "use_action": {
+      "need_wielding": true,
       "target": "molotov_lit",
       "msg": "You light the Molotov cocktail!",
       "target_charges": 1,
@@ -1124,6 +1142,7 @@
     "symbol": "*",
     "color": "light_gray",
     "use_action": {
+      "need_wielding": true,
       "target": "bootleg_pipebomb_act",
       "msg": "You pull the pin on the pipe bomb.",
       "target_charges": 6,
@@ -1177,6 +1196,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } },
     "use_action": {
+      "need_wielding": true,
       "target": "improvised_pipebomb_act",
       "msg": "You light the fuse on the pipe bomb.",
       "target_charges": 6,
@@ -1210,7 +1230,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
     },
@@ -1235,6 +1255,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } },
     "use_action": {
+      "need_wielding": true,
       "target": "primitive_pipebomb_act",
       "msg": "You light the fuse on the pipe bomb.",
       "target_charges": 6,
@@ -1269,7 +1290,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
     },
@@ -1292,6 +1313,7 @@
     "symbol": "*",
     "color": "yellow",
     "use_action": {
+      "need_wielding": true,
       "target": "scrambler_act",
       "msg": "You pull the pin on the scrambler grenade.",
       "target_charges": 3,
@@ -1335,11 +1357,11 @@
     "copy-from": "grenade_canister",
     "type": "GENERIC",
     "name": { "str": "smoke bomb" },
-    "description": "This is a canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and light the fuse, turning it into an active smoke bomb.  Five turns after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
+    "description": "This is a canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and light the fuse, turning it into an active smoke bomb.  Five seconds after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
     "price": 1800,
     "price_postapoc": 0,
     "weight": "569 g",
-    "countdown_action": { "type": "transform", "target": "smokebomb_act" }
+    "countdown_action": { "need_wielding": true, "type": "transform", "target": "smokebomb_act" }
   },
   {
     "id": "smokebomb_act",
@@ -1353,77 +1375,12 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "id": "tool_anfo_charge",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "ANFO charge" },
-    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty turns before it explodes and creates a large fireball.",
-    "weight": "77800 g",
-    "volume": "50 L",
-    "price": 75000,
-    "price_postapoc": 4000,
-    "to_hit": -5,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "red",
-    "explode_in_fire": true,
-    "explosion": {
-      "power": 25000,
-      "//": "Fire would burn away/degrade some of the ANFO before the detonator would trigger.",
-      "shrapnel": 12600
-    },
-    "use_action": {
-      "target": "tool_anfo_charge_act",
-      "msg": "You light the fuse on the ANFO charge.  Run survivor, run!",
-      "target_charges": 100,
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light fuse",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
-  },
-  {
-    "id": "tool_anfo_charge_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "active ANFO charge" },
-    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  The fuse has been lit - better run like hell!",
-    "weight": "77800 g",
-    "volume": "50 L",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -5,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "light_red",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "turns_per_charge": 1,
-    "explode_in_fire": true,
-    "explosion": { "power": 25000, "shrapnel": 12600 },
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "Tick.",
-      "no_deactivate_msg": "You've already lit the fuse - run!",
-      "explosion": {
-        "power": 48900,
-        "//": "Fire exposure would burn away/degrade some of the ANFO before the detonator would trigger.",
-        "shrapnel": 12600
-      }
-    },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
-  },
-  {
     "id": "tool_small_bootleg_fragmentation_device",
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "small bootleg frag device" },
     "looks_like": "tool_black_powder_charge",
-    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with military explosives and scrap metal, equipped with a delayed fuze.  Use this item to pull the pin.  Once you do it should explode in about 20 seconds. ",
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with military explosives and scrap metal, equipped with a delayed fuse.  Use this item to pull the pin.  Once you do it should explode in about 20 seconds.",
     "weight": "6500 g",
     "volume": "4 L",
     "price": 20000,
@@ -1432,6 +1389,7 @@
     "symbol": "*",
     "color": "red",
     "use_action": {
+      "need_wielding": true,
       "target": "tool_small_bootleg_fragmentation_device_act",
       "msg": "You pull the pin on the small bootleg fragmentation device.  Get rid of it quickly!",
       "target_charges": 20,
@@ -1471,7 +1429,7 @@
     "category": "weapons",
     "name": { "str": "small improvised frag device" },
     "looks_like": "tool_black_powder_charge",
-    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with stable explosives and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Once you do it should explode in about 20 seconds. ",
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with stable explosives and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Once you do it should explode in about 20 seconds.",
     "weight": "6500 g",
     "volume": "4 L",
     "price": 20000,
@@ -1482,6 +1440,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
     "use_action": {
+      "need_wielding": true,
       "target": "tool_small_improvised_fragmentation_device_act",
       "msg": "You light the fuse on the small improvised fragmentation device.  Get rid of it quickly!",
       "target_charges": 20,
@@ -1525,7 +1484,7 @@
     "category": "weapons",
     "name": { "str": "small primitive frag device" },
     "looks_like": "tool_black_powder_charge",
-    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with volatile explosives and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Once you do it should explode in about 20 seconds. ",
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with volatile explosives and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Once you do it should explode in about 20 seconds.",
     "weight": "6500 g",
     "volume": "4 L",
     "price": 20000,
@@ -1537,6 +1496,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
     "use_action": {
+      "need_wielding": true,
       "target": "tool_small_primitive_fragmentation_device_act",
       "msg": "You light the fuse on the small primitive fragmentation device.  Get rid of it quickly!",
       "target_charges": 20,
@@ -1602,7 +1562,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_improvised_barrel_bomb_act",
@@ -1659,7 +1619,7 @@
       "menu_text": "Activate fuze",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_bootleg_barrel_bomb_act",
@@ -1704,6 +1664,7 @@
     "symbol": "*",
     "color": "green",
     "use_action": {
+      "need_wielding": true,
       "target": "tool_rocket_candy_act",
       "msg": "You light the rocket candy on fire.  Throw it!",
       "target_charges": 2,

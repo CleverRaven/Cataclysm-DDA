@@ -6,8 +6,9 @@
     "type": "GUN",
     "name": { "str_sp": "Big Horn Model 89" },
     "description": "Built in the image of the venerable Winchester Model 1886, Big Horn Armory's Model 89 rifle packs all the power of the .500 S&W Magnum cartridge in to a package less likely to break one's wrist.",
-    "weight": "3447 g",
-    "volume": "3 L",
+    "weight": "3742 g",
+    "volume": "1995 ml",
+    "longest_side": "953 mm",
     "price": 329900,
     "price_postapoc": 4000,
     "to_hit": -1,
@@ -34,7 +35,7 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "500": 7 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "500": 7 } } ]
   },
   {
     "id": "sw_500",
@@ -44,11 +45,12 @@
     "name": { "str_sp": "S&W 500" },
     "description": "The 5-shot Smith and Wesson 500 revolver fires the comparably-named .500 S&W Magnum.  It's an impressive weapon.",
     "weight": "1960 g",
-    "volume": "750 ml",
+    "volume": "1307 ml",
     "price": 90000,
     "price_postapoc": 3500,
     "to_hit": -2,
     "bashing": 12,
+    "longest_side": "407 mm",
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",

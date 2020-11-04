@@ -174,8 +174,7 @@
         "*": "t_thconc_floor_olight",
         "e": "t_elevator",
         "m": "t_door_metal_c",
-        "w": "t_gates_control_brick",
-        "x": "t_console_broken"
+        "w": "t_gates_control_brick"
       },
       "furniture": {
         "&": "f_trashcan",
@@ -186,7 +185,8 @@
         "f": "f_fridge",
         "l": "f_locker",
         "s": "f_stool",
-        "U": "f_utility_shelf"
+        "U": "f_utility_shelf",
+        "x": "f_console_broken"
       },
       "items": {
         "d": { "item": "office", "chance": 60, "repeat": [ 2, 6 ] },

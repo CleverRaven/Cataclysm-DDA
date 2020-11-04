@@ -1,16 +1,18 @@
+#include "catch/catch.hpp"
+#include "bionics.h"
+
 #include <climits>
 #include <list>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
-#include "bionics.h"
-#include "calendar.h"
-#include "catch/catch.hpp"
 #include "item.h"
+#include "item_pocket.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -100,7 +102,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     clear_bionics( dummy );
 
     SECTION( "bio_batteries" ) {
-        give_and_activate_bionic( dummy, bionic_id( "bio_batteries" ) );
+        dummy.add_bionic( bionic_id( "bio_batteries" ) );
 
         static const std::list<std::string> always = {
             "battery" // old-school
@@ -109,11 +111,17 @@ TEST_CASE( "bionics", "[bionics] [item]" )
             test_consumable_charges( dummy, it, true, true );
         }
 
+        static const std::list<std::string> ammo_when_full = {
+            "light_battery_cell", // MAGAZINE, NO_UNLOAD
+        };
+        for( auto it : ammo_when_full ) {
+            test_consumable_ammo( dummy, it, false, true );
+        }
+
         static const std::list<std::string> never = {
             "flashlight",  // !is_magazine()
             "laser_rifle", // NO_UNLOAD, uses ups_charges
-            "UPS_off",     // NO_UNLOAD, !is_magazine()
-            "battery_car"  // NO_UNLOAD, is_magazine()
+            "UPS_off"     // NO_UNLOAD, !is_magazine()
         };
         for( auto it : never ) {
             test_consumable_ammo( dummy, it, false, false );

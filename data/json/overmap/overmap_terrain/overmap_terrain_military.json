@@ -7,7 +7,7 @@
     "color": "blue",
     "see_cost": 5,
     "extras": "build",
-    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -17,7 +17,7 @@
     "color": "i_blue",
     "see_cost": 5,
     "extras": "build",
-    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -41,8 +41,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter", "shelter_1", "shelter_2", "shelter_vandal", "shelter_1_vandal", "shelter_2_vandal" ],
-    "name": "evac shelter",
+    "id": [ "shelter", "shelter_vandal" ],
+    "name": "evac shelter A-23",
     "sym": "+",
     "color": "white",
     "see_cost": 2,
@@ -50,8 +50,42 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_roof", "shelter_roof_1", "shelter_roof_2" ],
-    "name": "evac shelter roof",
+    "id": [ "shelter_1", "shelter_1_vandal" ],
+    "name": "evac shelter B-05",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_2", "shelter_2_vandal" ],
+    "name": "evac shelter C-41",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_roof" ],
+    "name": "evac shelter roof A-23",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_roof_1" ],
+    "name": "evac shelter roof B-05",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "shelter_roof_2" ],
+    "name": "evac shelter roof C-41",
     "sym": "+",
     "color": "white",
     "see_cost": 2

@@ -12,7 +12,7 @@ This is a Python script that will convert a legacy tileset into a compositing ti
 It requires pyvips to do the image processing.
 
 It takes a single mandatory argument, which is the path to the tileset directory.  For example:
-`python tools/gfx_tools/decompose.py gfx/ChestHole16Tileset` will convert the legacy ChestHole16 tileset to a compositing tileset.
+`python3 tools/gfx_tools/decompose.py gfx/ChestHole16Tileset` will convert the legacy ChestHole16 tileset to a compositing tileset.
 
 decompose.py creates a sufficient directory hierarchy and file names for a tileset to be compositing, but it is machine generated and badly organized.  New compositing tilesets should use more sensible file names and a better organization.
 

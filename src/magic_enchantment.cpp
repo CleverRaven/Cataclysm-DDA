@@ -1,7 +1,6 @@
 #include "magic_enchantment.h"
 
 #include <cstdlib>
-#include <memory>
 #include <set>
 
 #include "character.h"
@@ -16,23 +15,6 @@
 #include "rng.h"
 #include "string_id.h"
 #include "units.h"
-
-template <typename E> struct enum_traits;
-
-template<>
-struct enum_traits<enchantment::has> {
-    static constexpr enchantment::has last = enchantment::has::NUM_HAS;
-};
-
-template<>
-struct enum_traits<enchantment::condition> {
-    static constexpr enchantment::condition last = enchantment::condition::NUM_CONDITION;
-};
-
-template<>
-struct enum_traits<enchant_vals::mod> {
-    static constexpr enchant_vals::mod last = enchant_vals::mod::NUM_MOD;
-};
 
 namespace io
 {
@@ -57,6 +39,7 @@ namespace io
         case enchantment::condition::ALWAYS: return "ALWAYS";
         case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
         case enchantment::condition::UNDERWATER: return "UNDERWATER";
+        case enchantment::condition::ACTIVE: return "ACTIVE";
         case enchantment::condition::NUM_CONDITION: break;
         }
         debugmsg( "Invalid enchantment::condition" );
@@ -90,12 +73,10 @@ namespace io
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
             case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
-            case enchant_vals::mod::SPELL_NOISE: return "SPELL_NOISE";
             case enchant_vals::mod::SHOUT_NOISE: return "SHOUT_NOISE";
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
             case enchant_vals::mod::SIGHT_RANGE: return "SIGHT_RANGE";
             case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
-            case enchant_vals::mod::CARRY_VOLUME: return "CARRY_VOLUME";
             case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
             case enchant_vals::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
@@ -180,11 +161,14 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
         return false;
     }
 
-    return is_active( guy );
+    return is_active( guy, parent.active );
 }
 
-bool enchantment::is_active( const Character &guy ) const
+bool enchantment::is_active( const Character &guy, const bool active ) const
 {
+    if( active_conditions.second == condition::ACTIVE ) {
+        return active;
+    }
 
     if( active_conditions.second == condition::ALWAYS ) {
         return true;
@@ -246,6 +230,8 @@ void enchantment::load( const JsonObject &jo, const std::string & )
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
 
+    optional( jo, was_loaded, "mutations", mutations );
+
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
@@ -291,15 +277,13 @@ void enchantment::serialize( JsonOut &jsout ) const
         jsout.member( "intermittent_activation" );
         jsout.start_object();
         for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
-            jsout.member( "duration", pair.first );
-            jsout.start_array( "effects" );
-            for( const fake_spell &sp : pair.second ) {
-                sp.serialize( jsout );
-            }
-            jsout.end_array();
+            jsout.member( "frequency", pair.first );
+            jsout.member( "spell_effects", pair.second );
         }
         jsout.end_object();
     }
+
+    jsout.member( "mutations", mutations );
 
     jsout.member( "values" );
     jsout.start_array();
@@ -358,12 +342,41 @@ void enchantment::force_add( const enchantment &rhs )
         emitter = rhs.emitter;
     }
 
+    for( const trait_id &branch : rhs.mutations ) {
+        mutations.emplace( branch );
+    }
+
     for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
          rhs.intermittent_activation ) {
         for( const fake_spell &fake : act_pair.second ) {
             intermittent_activation[act_pair.first].emplace_back( fake );
         }
     }
+}
+
+void enchantment::set_has( enchantment::has value )
+{
+    active_conditions.first = value;
+}
+
+void enchantment::add_value_add( enchant_vals::mod value, int add_value )
+{
+    values_add[value] = add_value;
+}
+
+void enchantment::add_value_mult( enchant_vals::mod value, float mult_value )
+{
+    values_multiply[value] = mult_value;
+}
+
+void enchantment::add_hit_me( const fake_spell &sp )
+{
+    hit_me_effect.push_back( sp );
+}
+
+void enchantment::add_hit_you( const fake_spell &sp )
+{
+    hit_you_effect.push_back( sp );
 }
 
 int enchantment::get_value_add( const enchant_vals::mod value ) const
@@ -382,6 +395,29 @@ double enchantment::get_value_multiply( const enchant_vals::mod value ) const
         return 0;
     }
     return found->second;
+}
+
+double enchantment::modify_value( const enchant_vals::mod mod_val, double value ) const
+{
+    value += get_value_add( mod_val );
+    value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
+units::energy enchantment::modify_value( const enchant_vals::mod mod_val,
+        units::energy value ) const
+{
+    value += units::from_millijoule<int>( get_value_add( mod_val ) );
+    value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
+units::mass enchantment::modify_value( const enchant_vals::mod mod_val,
+                                       units::mass value ) const
+{
+    value += units::from_gram<int>( get_value_add( mod_val ) );
+    value *= 1.0 + get_value_multiply( mod_val );
+    return value;
 }
 
 int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) const
@@ -413,7 +449,7 @@ void enchantment::activate_passive( Character &guy ) const
         get_map().emit_field( guy.pos(), *emitter );
     }
     for( const std::pair<efftype_id, int> eff : ench_effects ) {
-        guy.add_effect( eff.first, 1_seconds, num_bp, false, eff.second );
+        guy.add_effect( eff.first, 1_seconds, false, eff.second );
     }
     for( const std::pair<const time_duration, std::vector<fake_spell>> &activation :
          intermittent_activation ) {

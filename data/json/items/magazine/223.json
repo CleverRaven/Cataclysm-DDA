@@ -10,7 +10,7 @@
     "count": 100,
     "default_ammo": "556",
     "linkage": "ammolink223",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 500 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 500 } } ]
   },
   {
     "id": "famasmag",
@@ -28,7 +28,7 @@
     "ammo_type": [ "223" ],
     "capacity": 25,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 25 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 25 } } ]
   },
   {
     "id": "ruger5",
@@ -46,7 +46,7 @@
     "ammo_type": [ "223" ],
     "capacity": 5,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 5 } } ]
   },
   {
     "looks_like": "stanag30",
@@ -64,7 +64,7 @@
     "ammo_type": [ "223", "300blk" ],
     "capacity": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 10, "300blk": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 10, "300blk": 10 } } ]
   },
   {
     "id": "ruger10",
@@ -100,7 +100,7 @@
     "ammo_type": [ "223" ],
     "capacity": 30,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 30 } } ]
   },
   {
     "id": "ruger90",
@@ -135,7 +135,7 @@
     "ammo_type": [ "223", "300blk" ],
     "capacity": 5,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 5, "300blk": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 5, "300blk": 5 } } ]
   },
   {
     "id": "stanag20",
@@ -152,7 +152,7 @@
     "ammo_type": [ "223", "300blk" ],
     "capacity": 20,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 20, "300blk": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 20, "300blk": 20 } } ]
   },
   {
     "id": "stanag30",
@@ -170,7 +170,7 @@
     "ammo_type": [ "223", "300blk" ],
     "capacity": 30,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 30, "300blk": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 30, "300blk": 30 } } ]
   },
   {
     "id": "stanag40",
@@ -187,7 +187,7 @@
     "ammo_type": [ "223", "300blk" ],
     "capacity": 40,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 40, "300blk": 40 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 40, "300blk": 40 } } ]
   },
   {
     "id": "stanag50",
@@ -208,7 +208,7 @@
     "capacity": 50,
     "reload_time": 200,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 50, "300blk": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 50, "300blk": 50 } } ]
   },
   {
     "id": "stanag60",
@@ -225,7 +225,7 @@
     "ammo_type": [ "223", "300blk" ],
     "capacity": 60,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 60, "300blk": 60 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 60, "300blk": 60 } } ]
   },
   {
     "id": "stanag60drum",
@@ -245,7 +245,7 @@
     "capacity": 60,
     "reload_time": 200,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 60, "300blk": 60 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 60, "300blk": 60 } } ]
   },
   {
     "id": "stanag90",
@@ -265,7 +265,7 @@
     "capacity": 90,
     "reload_time": 200,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 90, "300blk": 90 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 90, "300blk": 90 } } ]
   },
   {
     "id": "stanag100",
@@ -282,7 +282,7 @@
     "ammo_type": [ "223", "300blk" ],
     "capacity": 100,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 100, "300blk": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100, "300blk": 100 } } ]
   },
   {
     "id": "stanag100drum",
@@ -300,7 +300,7 @@
     "capacity": 100,
     "reload_time": 200,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 100, "300blk": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100, "300blk": 100 } } ]
   },
   {
     "id": "stanag150",
@@ -318,7 +318,7 @@
     "capacity": 150,
     "reload_time": 200,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 150, "300blk": 150 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 150, "300blk": 150 } } ]
   },
   {
     "id": "g36mag_30rd",
@@ -373,7 +373,7 @@
     "ammo_type": [ "223" ],
     "capacity": 42,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 42 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 42 } } ]
   },
   {
     "id": "augmag_100rd",
@@ -402,7 +402,7 @@
     "capacity": 5,
     "reload_time": 150,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 5, "300blk": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 5, "300blk": 5 } } ]
   },
   {
     "id": "ruger_makeshiftmag",

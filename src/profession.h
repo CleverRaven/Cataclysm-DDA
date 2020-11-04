@@ -18,7 +18,6 @@
 template<typename T>
 class generic_factory;
 
-using Group_tag = std::string;
 class item;
 class JsonObject;
 class avatar;
@@ -57,13 +56,14 @@ class profession
         itypedecvec legacy_starting_items;
         itypedecvec legacy_starting_items_male;
         itypedecvec legacy_starting_items_female;
-        Group_tag _starting_items = "EMPTY_GROUP";
-        Group_tag _starting_items_male = "EMPTY_GROUP";
-        Group_tag _starting_items_female = "EMPTY_GROUP";
+        item_group_id _starting_items = item_group_id( "EMPTY_GROUP" );
+        item_group_id _starting_items_male = item_group_id( "EMPTY_GROUP" );
+        item_group_id _starting_items_female = item_group_id( "EMPTY_GROUP" );
         itype_id no_bonus; // See profession::items and class json_item_substitution in profession.cpp
 
         std::vector<addiction> _starting_addictions;
         std::vector<bionic_id> _starting_CBMs;
+        std::vector<proficiency_id> _starting_proficiencies;
         std::vector<trait_id> _starting_traits;
         std::set<trait_id> _forbidden_traits;
         std::vector<mtype_id> _starting_pets;
@@ -105,6 +105,7 @@ class profession
         vproto_id vehicle() const;
         std::vector<mtype_id> pets() const;
         std::vector<bionic_id> CBMs() const;
+        std::vector<proficiency_id> proficiencies() const;
         StartingSkillList skills() const;
 
         std::map<spell_id, int> spells() const;

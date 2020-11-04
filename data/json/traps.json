@@ -1,18 +1,6 @@
 [
   {
     "type": "trap",
-    "id": "tr_null",
-    "name": "none",
-    "color": "white",
-    "symbol": "?",
-    "visibility": 20,
-    "avoidance": 0,
-    "difficulty": 0,
-    "action": "none",
-    "benign": true
-  },
-  {
-    "type": "trap",
     "id": "tr_bubblewrap",
     "name": "bubble wrap",
     "color": "light_cyan",
@@ -121,7 +109,7 @@
     "difficulty": 99,
     "action": "map_regen",
     "map_regen": "microlab_shifting_hall",
-    "benign": true
+    "benign": false
   },
   {
     "type": "trap",
@@ -134,12 +122,12 @@
     "difficulty": 99,
     "action": "map_regen",
     "map_regen": "microlab_shifting_hall_2",
-    "benign": true
+    "benign": false
   },
   {
     "type": "trap",
     "id": "tr_beartrap",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "bear trap",
     "color": "blue",
     "symbol": "^",
@@ -161,7 +149,7 @@
   {
     "type": "trap",
     "id": "tr_beartrap_buried",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "buried bear trap",
     "color": "blue",
     "symbol": "^",
@@ -234,7 +222,7 @@
   {
     "type": "trap",
     "id": "tr_crossbow",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "crossbow trap",
     "color": "green",
     "symbol": "^",
@@ -257,7 +245,7 @@
   {
     "type": "trap",
     "id": "tr_shotgun_2",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "shotgun trap",
     "color": "red",
     "symbol": "^",
@@ -265,7 +253,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
+    "drops": [ "string_36", "slamfire_shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
@@ -279,7 +267,7 @@
   {
     "type": "trap",
     "id": "tr_shotgun_2_1",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "shotgun trap",
     "color": "red",
     "symbol": "^",
@@ -287,7 +275,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "drops": [ "string_36", "slamfire_shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
@@ -296,13 +284,13 @@
       "sound_type": "fire_gun",
       "sound_variant": "shotgun_d",
       "remove_trap": true,
-      "spawn_items": [ "shotgun_d", "string_6" ]
+      "spawn_items": [ "slamfire_shotgun_d", "string_6" ]
     }
   },
   {
     "type": "trap",
     "id": "tr_shotgun_1",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "shotgun trap",
     "color": "red",
     "symbol": "^",
@@ -310,7 +298,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_s", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "drops": [ "string_36", "slamfire_shotgun", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
@@ -319,13 +307,13 @@
       "sound_type": "fire_gun",
       "sound_variant": "shotgun_s",
       "remove_trap": true,
-      "spawn_items": [ "shotgun_s", "string_6" ]
+      "spawn_items": [ "four_winds_shotgun", "string_6" ]
     }
   },
   {
     "type": "trap",
     "id": "tr_engine",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "spinning blade engine",
     "color": "light_red",
     "symbol": "_",
@@ -351,7 +339,7 @@
   {
     "type": "trap",
     "id": "tr_landmine",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "land mine",
     "color": "red",
     "symbol": "^",
@@ -373,7 +361,7 @@
   {
     "type": "trap",
     "id": "tr_landmine_buried",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "buried land mine",
     "color": "red",
     "symbol": "_",
@@ -395,7 +383,7 @@
   {
     "type": "trap",
     "id": "tr_telepad",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "teleport pad",
     "color": "magenta",
     "symbol": "_",
@@ -502,7 +490,7 @@
   {
     "type": "trap",
     "id": "tr_boobytrap",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "booby trap",
     "color": "light_cyan",
     "symbol": "^",

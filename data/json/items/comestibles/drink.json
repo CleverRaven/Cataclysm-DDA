@@ -98,6 +98,7 @@
     "stim": 1,
     "quench": 34,
     "healthy": 1,
+    "calories": 9,
     "description": "A healthy beverage made from bee balm steeped in boiling water.  Can be used to reduce negative effects of common cold or flu.",
     "price": 100,
     "price_postapoc": 25,
@@ -135,6 +136,7 @@
     "fatigue_mod": 9,
     "stim": 3,
     "container": "bottle_plastic",
+    "sealed": false,
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 40,
@@ -146,7 +148,7 @@
     "material": [ "milk", "water" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 14
   },
   {
@@ -159,6 +161,7 @@
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
+    "calories": 0,
     "description": "A healthy beverage made from chamomile flowers steeped in boiling water.  Can be used to treat insomnia.",
     "price": 100,
     "price_postapoc": 25,
@@ -384,14 +387,14 @@
     "symbol": "~",
     "quench": 48,
     "healthy": 1,
-    "calories": 9,
+    "calories": 26,
     "description": "A healthy beverage made from dandelion roots steeped in boiling water.",
     "price": 50,
     "price_postapoc": 25,
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 2
   },
   {
@@ -404,14 +407,14 @@
     "symbol": "~",
     "quench": 48,
     "healthy": 2,
-    "calories": 12,
+    "calories": 77,
     "description": "A healthy beverage made from dandelion and burdock roots steeped in boiling water.  The additional ingredient makes it slightly healthier and fun.",
     "price": 50,
     "price_postapoc": 25,
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 3
   },
   {
@@ -499,9 +502,8 @@
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 4,
-    "vitamins": [ [ "iron", 1 ] ]
+    "flags": [ "EATEN_HOT" ],
+    "fun": 4
   },
   {
     "id": "hot_chocolate",
@@ -526,6 +528,19 @@
     "spoils_in": "1 day",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ],
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "juice_pasteurized",
+    "name": "pasteurized fruit juice",
+    "copy-from": "juice",
+    "spoils_in": "180 days",
+    "healthy": 0,
+    "description": "A sweet liquid with a vaguely fruity taste.  Having been pasteurized, it will last for a long time.",
+    "price": 90,
+    "price_postapoc": 150,
+    "flags": [ "EATEN_COLD", "IRREPLACEABLE_CONSUMABLE" ],
+    "fun": 1
   },
   {
     "type": "COMESTIBLE",
@@ -630,6 +645,7 @@
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
+    "calories": 0,
     "description": "A healthy beverage made from lotus flowers steeped in boiling water.",
     "price": 100,
     "price_postapoc": 25,
@@ -647,6 +663,7 @@
     "price_postapoc": 50,
     "phase": "liquid",
     "container": "bottle_plastic",
+    "sealed": false,
     "material": [ "milk", "junk" ],
     "primary_material": "milk",
     "symbol": "~",
@@ -684,6 +701,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "milk_choc",
+    "name": { "str_sp": "chocolate milk" },
+    "copy-from": "milk",
+    "color": "brown",
+    "description": "Baby cow food, with chocolate added for adult humans.  Spoils rapidly.",
+    "calories": 272,
+    "fun": 6
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "milk_reconstituted",
     "name": { "str_sp": "reconstituted milk" },
     "copy-from": "milk",
@@ -700,6 +727,7 @@
     "fatigue_mod": 24,
     "stim": 8,
     "container": "jug_plastic",
+    "sealed": false,
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 40,
@@ -911,6 +939,7 @@
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
+    "calories": 0,
     "description": "A healthy beverage made from spurge flowers steeped in boiling water.  Can be used to prevent asthma attacks.",
     "price": 100,
     "price_postapoc": 25,
@@ -959,7 +988,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tea",
-    "name": "tea",
+    "name": "black tea",
     "weight": "250 g",
     "color": "brown",
     "fatigue_mod": 9,
@@ -969,13 +998,13 @@
     "symbol": "~",
     "quench": 40,
     "calories": 2,
-    "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant /Camellia sinensis/.",
+    "description": "The beverage of gentlemen everywhere, made from applying hot water to oxidized leaves of the tea plant /Camellia sinensis/.",
     "price": 90,
     "price_postapoc": 25,
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 6
   },
   {
@@ -995,7 +1024,7 @@
     "volume": "500 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": -5
   },
   {
@@ -1023,11 +1052,33 @@
     "vitamins": [ [ "vitA", 60 ], [ "vitC", 180 ], [ "calcium", 4 ], [ "iron", 4 ] ]
   },
   {
+    "id": "water",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "category": "food",
+    "name": { "str_sp": "water" },
+    "description": "Water, the stuff of life, the best thirst-quencher available.  It would be safer to drink once purified.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 50,
+    "symbol": "~",
+    "color": "light_blue",
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "sealed": false,
+    "quench": 50,
+    "ammo_data": { "ammo_type": "water" },
+    "flags": [ "EATEN_COLD" ],
+    "use_action": [ "BLECH_BECAUSE_UNCLEAN" ]
+  },
+  {
     "id": "water_clean",
     "copy-from": "water",
     "type": "COMESTIBLE",
     "name": { "str_sp": "clean water" },
     "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
+    "container": "bottle_plastic",
+    "sealed": true,
     "color": "light_cyan",
     "use_action": [  ]
   },
@@ -1038,9 +1089,33 @@
     "name": { "str_sp": "mineral water" },
     "description": "Fancy mineral water, so fancy it makes you feel fancy just holding it.",
     "container": "bottle_plastic",
+    "sealed": true,
     "proportional": { "quench": 1.2 },
     "relative": { "fun": 1 },
     "use_action": [  ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tea_green",
+    "name": "green tea",
+    "copy-from": "tea",
+    "color": "green",
+    "fatigue_mod": 7,
+    "stim": 2,
+    "calories": 2,
+    "description": "Made from applying hot water to leaves of the tea plant /Camellia sinensis/.  Green tea has a lighter, fresher taste than black and is traditionally preferred in Asian cultures."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tea_fruit",
+    "name": "fruit tea",
+    "copy-from": "tea",
+    "color": "red",
+    "calories": 0,
+    "fatigue_mod": 0,
+    "stim": 0,
+    "description": "A tasty beverage made with herbs and dried fruit from plants other than the tea plant.  While colloquially called 'tea', technically it's an infusion.",
+    "fun": 8
   },
   {
     "type": "COMESTIBLE",
@@ -1099,5 +1174,29 @@
     "price": 490,
     "price_postapoc": 60,
     "fun": 14
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tomato_juice",
+    "name": "tomato juice",
+    "weight": "243 g",
+    "color": "red",
+    "spoils_in": "5 days",
+    "container": "bottle_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 40,
+    "healthy": 2,
+    "calories": 36,
+    "description": "A thick red liquid, made from tomatoes.  Not to everyone's taste, it is a healthy and refreshing drink when chilled.",
+    "price": 90,
+    "price_postapoc": 40,
+    "material": [ "tomato" ],
+    "primary_material": "water",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD" ],
+    "vitamins": [ [ "vitA", 10 ], [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ],
+    "fun": 2
   }
 ]

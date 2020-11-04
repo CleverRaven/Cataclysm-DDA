@@ -5,12 +5,13 @@
     "name": "copper magic ring",
     "description": "A generic copper magic ring.",
     "weight": "4 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 5000,
     "material": [ "copper" ],
     "symbol": "[",
     "color": "light_red",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 0,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
@@ -21,12 +22,13 @@
     "name": "magic ring",
     "description": "A generic silver magic ring.",
     "weight": "5 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 5000,
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 0,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
@@ -37,12 +39,13 @@
     "name": "magic ring",
     "description": "A generic gold magic ring.",
     "weight": "9 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 5000,
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 0,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
@@ -53,15 +56,48 @@
     "name": "magic ring",
     "description": "A generic platinum magic ring.",
     "weight": "11 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 5000,
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 0,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
+  },
+  {
+    "copy-from": "mring_copper",
+    "type": "TOOL_ARMOR",
+    "id": "mring_wizardry_minor",
+    "name": { "str": "minor ring of wizardry", "str_pl": "minor rings of wizardry" },
+    "description": "A thin copper band ring, engraved with a single sealed scroll.  Increases mana capacity slightly.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 200 } ] } ] }
+  },
+  {
+    "copy-from": "mring_silver",
+    "type": "TOOL_ARMOR",
+    "id": "mring_wizardry_lesser",
+    "name": { "str": "lesser ring of wizardry", "str_pl": "lesser rings of wizardry" },
+    "description": "A thin silver band ring, engraved with two sealed scrolls.  Increases mana capacity somewhat.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 400 } ] } ] }
+  },
+  {
+    "copy-from": "mring_gold",
+    "type": "TOOL_ARMOR",
+    "id": "mring_wizardry_moderate",
+    "name": { "str": "ring of wizardry", "str_pl": "rings of wizardry" },
+    "description": "A thin gold band ring, engraved with a bound book.  Increases mana capacity moderately.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 800 } ] } ] }
+  },
+  {
+    "copy-from": "mring_platinum",
+    "type": "TOOL_ARMOR",
+    "id": "mring_wizardry_greater",
+    "name": { "str": "greater ring of wizardry", "str_pl": "greater rings of wizardry" },
+    "description": "A thin platinum band ring, engraved with two bound books.  Increases mana capacity greatly.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 1200 } ] } ] }
   },
   {
     "copy-from": "mring_silver",
@@ -70,10 +106,10 @@
     "name": { "str": "ring of blades", "str_pl": "rings of blades" },
     "description": "An ornate silver ring engraved with daggers that conjures a near perfect throwing knife into your hand on activation.",
     "use_action": { "type": "cast_spell", "spell_id": "conj_throwing_blade1", "no_fail": true, "level": 1, "need_worn": true },
-    "initial_charges": 5,
-    "max_charges": 5,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "charges_per_use": 1,
-    "artifact_data": { "charge_type": "ARTC_TIME" }
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 5 } } ]
   },
   {
     "copy-from": "mring_silver",
@@ -262,7 +298,12 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_CUT", "add": -2 }, { "value": "ARMOR_BASH", "add": -2 }, { "value": "ARMOR_STAB", "add": -2 } ]
+          "values": [
+            { "value": "ARMOR_CUT", "add": -2 },
+            { "value": "ARMOR_BASH", "add": -2 },
+            { "value": "ARMOR_STAB", "add": -2 },
+            { "value": "ARMOR_BULLET", "add": -1 }
+          ]
         }
       ]
     }
@@ -278,7 +319,12 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_CUT", "add": -4 }, { "value": "ARMOR_BASH", "add": -4 }, { "value": "ARMOR_STAB", "add": -4 } ]
+          "values": [
+            { "value": "ARMOR_CUT", "add": -4 },
+            { "value": "ARMOR_BASH", "add": -4 },
+            { "value": "ARMOR_STAB", "add": -4 },
+            { "value": "ARMOR_BULLET", "add": -2 }
+          ]
         }
       ]
     }
@@ -294,7 +340,12 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_CUT", "add": -6 }, { "value": "ARMOR_BASH", "add": -6 }, { "value": "ARMOR_STAB", "add": -6 } ]
+          "values": [
+            { "value": "ARMOR_CUT", "add": -6 },
+            { "value": "ARMOR_BASH", "add": -6 },
+            { "value": "ARMOR_STAB", "add": -6 },
+            { "value": "ARMOR_BULLET", "add": -3 }
+          ]
         }
       ]
     }
@@ -310,7 +361,12 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_CUT", "add": -8 }, { "value": "ARMOR_BASH", "add": -8 }, { "value": "ARMOR_STAB", "add": -8 } ]
+          "values": [
+            { "value": "ARMOR_CUT", "add": -8 },
+            { "value": "ARMOR_BASH", "add": -8 },
+            { "value": "ARMOR_STAB", "add": -8 },
+            { "value": "ARMOR_BULLET", "add": -4 }
+          ]
         }
       ]
     }

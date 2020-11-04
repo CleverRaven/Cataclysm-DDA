@@ -66,4 +66,6 @@ class timed_event_manager
         void process();
 };
 
+timed_event_manager &get_timed_events();
+
 #endif // CATA_SRC_TIMED_EVENT_H

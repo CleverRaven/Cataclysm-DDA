@@ -27,5 +27,21 @@
       { "text": "Thanks for telling me all that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "Thanks for telling me all that.  <end_talking>", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "CWH_LEFT_FOR_DEAD_2_IDEAS1",
+    "type": "talk_topic",
+    "dynamic_line": "You mean what caused the riots and all that?  Well, they told us it was a Chinese bioweapon but I have troubles believing anyone could engineer a bioweapon that could do all this.  The only answer I can come up with, silly though it sounds, is aliens.",
+    "responses": [
+      { "text": "You think this is an invasion?", "topic": "CWH_LEFT_FOR_DEAD_2_IDEAS2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "CWH_LEFT_FOR_DEAD_2_IDEAS2",
+    "type": "talk_topic",
+    "dynamic_line": "Well, maybe, but I'd guess it's too disorganized to be a proper invasion.  If I had to guess, I'd say there was something locked in the polar ice.  Like, remember a few years back there was that big thing online about an alien body found in the ice?  I don't know if you remember but it was all over the news for a while until it turned out to be a hoax.  Only, since then, I've seen some aliens walking around that look a *lot* like that ice body.  Maybe it wasn't a hoax, maybe that was a cover-up.  So, maybe those aliens had some kind of virus.  It went around the world and infected everything silently until, somehow, it activated and caused the violence and monsters and mutations.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]

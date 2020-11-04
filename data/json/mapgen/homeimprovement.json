@@ -40,11 +40,11 @@
         "O": "t_window",
         "r": "t_carpet_red",
         "|": "t_wall_r",
-        "%": "t_console_broken",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up"
       },
       "furniture": {
+        "%": "f_console_broken",
         "A": "f_stool",
         "3": "f_bookcase",
         "U": [ "f_dumpster", "f_recycle_bin" ],

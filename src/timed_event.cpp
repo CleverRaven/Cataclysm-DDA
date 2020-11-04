@@ -5,6 +5,7 @@
 
 #include "avatar.h"
 #include "avatar_action.h"
+#include "character.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -49,73 +50,76 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
 
 void timed_event::actualize()
 {
+    avatar &player_character = get_avatar();
+    map &here = get_map();
     switch( type ) {
         case timed_event_type::HELP:
             debugmsg( "Currently disabled while NPC and monster factions are being rewritten." );
             break;
 
         case timed_event_type::ROBOT_ATTACK: {
-            const auto u_pos = g->u.global_sm_location();
+            const tripoint u_pos = player_character.global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
-                g->events().send<event_type::becomes_wanted>( g->u.getID() );
+                get_event_bus().send<event_type::becomes_wanted>( player_character.getID() );
                 point rob( u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4,
                            u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4 );
-                g->place_critter_at( robot_type, tripoint( rob, g->u.posz() ) );
+                g->place_critter_at( robot_type, tripoint( rob, player_character.posz() ) );
             }
         }
         break;
 
         case timed_event_type::SPAWN_WYRMS: {
-            if( g->get_levz() >= 0 ) {
+            if( here.get_abs_sub().z >= 0 ) {
                 return;
             }
-            g->memorial().add(
+            get_memorial().add(
                 pgettext( "memorial_male", "Drew the attention of more dark wyrms!" ),
                 pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
             int num_wyrms = rng( 1, 4 );
             for( int i = 0; i < num_wyrms; i++ ) {
-                if( monster *const mon = g->place_critter_around( mon_dark_wyrm, g->u.pos(), 2 ) ) {
-                    g->m.ter_set( mon->pos(), t_rock_floor );
+                if( monster *const mon = g->place_critter_around( mon_dark_wyrm, player_character.pos(), 2 ) ) {
+                    here.ter_set( mon->pos(), t_rock_floor );
                 }
             }
             // You could drop the flag, you know.
-            if( g->u.has_amount( itype_petrified_eye, 1 ) ) {
-                sounds::sound( g->u.pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false, "shout",
+            if( player_character.has_amount( itype_petrified_eye, 1 ) ) {
+                sounds::sound( player_character.pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false,
+                               "shout",
                                "scream_tortured" );
-                if( !g->u.is_deaf() ) {
+                if( !player_character.is_deaf() ) {
                     add_msg( _( "The eye you're carrying lets out a tortured scream!" ) );
-                    g->u.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 30_seconds );
+                    player_character.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 30_seconds );
                 }
             }
             // They just keep coming!
             if( !one_in( 25 ) ) {
-                g->timed_events.add( timed_event_type::SPAWN_WYRMS,
-                                     calendar::turn + rng( 1_minutes, 3_minutes ) );
+                get_timed_events().add( timed_event_type::SPAWN_WYRMS,
+                                        calendar::turn + rng( 1_minutes, 3_minutes ) );
             }
         }
         break;
 
         case timed_event_type::AMIGARA: {
-            g->events().send<event_type::angers_amigara_horrors>();
+            get_event_bus().send<event_type::angers_amigara_horrors>();
             int num_horrors = rng( 3, 5 );
             cata::optional<tripoint> fault_point;
             bool horizontal = false;
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                if( g->m.ter( p ) == t_fault ) {
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                if( here.ter( p ) == t_fault ) {
                     fault_point = p;
-                    horizontal = g->m.ter( p + tripoint_east ) == t_fault || g->m.ter( p + tripoint_west ) == t_fault;
+                    horizontal = here.ter( p + tripoint_east ) == t_fault || here.ter( p + tripoint_west ) == t_fault;
                     break;
                 }
             }
             for( int i = 0; fault_point && i < num_horrors; i++ ) {
                 for( int tries = 0; tries < 10; ++tries ) {
-                    tripoint monp = g->u.pos();
+                    tripoint monp = player_character.pos();
                     if( horizontal ) {
                         monp.x = rng( fault_point->x, fault_point->x + 2 * SEEX - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( point( monp.x, fault_point->y + n ) ) == t_rock_floor ) {
+                            if( here.ter( point( monp.x, fault_point->y + n ) ) == t_rock_floor ) {
                                 monp.y = fault_point->y + n;
                             }
                         }
@@ -123,7 +127,7 @@ void timed_event::actualize()
                         // Vertical fault
                         monp.y = rng( fault_point->y, fault_point->y + 2 * SEEY - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( point( fault_point->x + n, monp.y ) ) == t_rock_floor ) {
+                            if( here.ter( point( fault_point->x + n, monp.y ) ) == t_rock_floor ) {
                                 monp.x = fault_point->x + n;
                             }
                         }
@@ -137,21 +141,21 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::ROOTS_DIE:
-            g->events().send<event_type::destroys_triffid_grove>();
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                if( g->m.ter( p ) == t_root_wall && one_in( 3 ) ) {
-                    g->m.ter_set( p, t_underbrush );
+            get_event_bus().send<event_type::destroys_triffid_grove>();
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                if( here.ter( p ) == t_root_wall && one_in( 3 ) ) {
+                    here.ter_set( p, t_underbrush );
                 }
             }
             break;
 
         case timed_event_type::TEMPLE_OPEN: {
-            g->events().send<event_type::opens_temple>();
+            get_event_bus().send<event_type::opens_temple>();
             bool saw_grate = false;
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                if( g->m.ter( p ) == t_grate ) {
-                    g->m.ter_set( p, t_stairs_down );
-                    if( !saw_grate && g->u.sees( p ) ) {
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                if( here.ter( p ) == t_grate ) {
+                    here.ter_set( p, t_stairs_down );
+                    if( !saw_grate && player_character.sees( p ) ) {
                         saw_grate = true;
                     }
                 }
@@ -166,14 +170,14 @@ void timed_event::actualize()
             bool flooded = false;
 
             ter_id flood_buf[MAPSIZE_X][MAPSIZE_Y];
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                flood_buf[p.x][p.y] = g->m.ter( p );
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                flood_buf[p.x][p.y] = here.ter( p );
             }
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                if( g->m.ter( p ) == t_water_sh ) {
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                if( here.ter( p ) == t_water_sh ) {
                     bool deepen = false;
                     for( const tripoint &w : points_in_radius( p, 1 ) ) {
-                        if( g->m.ter( w ) == t_water_dp ) {
+                        if( here.ter( w ) == t_water_dp ) {
                             deepen = true;
                             break;
                         }
@@ -182,10 +186,10 @@ void timed_event::actualize()
                         flood_buf[p.x][p.y] = t_water_dp;
                         flooded = true;
                     }
-                } else if( g->m.ter( p ) == t_rock_floor ) {
+                } else if( here.ter( p ) == t_rock_floor ) {
                     bool flood = false;
                     for( const tripoint &w : points_in_radius( p, 1 ) ) {
-                        if( g->m.ter( w ) == t_water_dp || g->m.ter( w ) == t_water_sh ) {
+                        if( here.ter( w ) == t_water_dp || here.ter( w ) == t_water_sh ) {
                             flood = true;
                             break;
                         }
@@ -201,27 +205,28 @@ void timed_event::actualize()
                 return;
             }
             // Check if we should print a message
-            if( flood_buf[g->u.posx()][g->u.posy()] != g->m.ter( g->u.pos() ) ) {
-                if( flood_buf[g->u.posx()][g->u.posy()] == t_water_sh ) {
+            if( flood_buf[player_character.posx()][player_character.posy()] != here.ter(
+                    player_character.pos() ) ) {
+                if( flood_buf[player_character.posx()][player_character.posy()] == t_water_sh ) {
                     add_msg( m_warning, _( "Water quickly floods up to your knees." ) );
-                    g->memorial().add(
+                    get_memorial().add(
                         pgettext( "memorial_male", "Water level reached knees." ),
                         pgettext( "memorial_female", "Water level reached knees." ) );
                 } else {
                     // Must be deep water!
                     add_msg( m_warning, _( "Water fills nearly to the ceiling!" ) );
-                    g->memorial().add(
+                    get_memorial().add(
                         pgettext( "memorial_male", "Water level reached the ceiling." ),
                         pgettext( "memorial_female", "Water level reached the ceiling." ) );
-                    avatar_action::swim( g->m, g->u, g->u.pos() );
+                    avatar_action::swim( here, player_character, player_character.pos() );
                 }
             }
-            // flood_buf is filled with correct tiles; now copy them back to g->m
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                g->m.ter_set( p, flood_buf[p.x][p.y] );
+            // flood_buf is filled with correct tiles; now copy them back to here
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                here.ter_set( p, flood_buf[p.x][p.y] );
             }
-            g->timed_events.add( timed_event_type::TEMPLE_FLOOD,
-                                 calendar::turn + rng( 2_turns, 3_turns ) );
+            get_timed_events().add( timed_event_type::TEMPLE_FLOOD,
+                                    calendar::turn + rng( 2_turns, 3_turns ) );
         }
         break;
 
@@ -231,7 +236,7 @@ void timed_event::actualize()
                 }
             };
             const mtype_id &montype = random_entry( temple_monsters );
-            g->place_critter_around( montype, g->u.pos(), 2 );
+            g->place_critter_around( montype, player_character.pos(), 2 );
         }
         break;
 
@@ -243,17 +248,19 @@ void timed_event::actualize()
 
 void timed_event::per_turn()
 {
+    Character &player_character = get_player_character();
+    map &here = get_map();
     switch( type ) {
         case timed_event_type::WANTED: {
             // About once every 5 minutes. Suppress in classic zombie mode.
-            if( g->get_levz() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
-                point place = g->m.random_outdoor_tile();
+            if( here.get_abs_sub().z >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
+                point place = here.random_outdoor_tile();
                 if( place.x == -1 && place.y == -1 ) {
                     // We're safely indoors!
                     return;
                 }
-                g->place_critter_at( mon_eyebot, tripoint( place, g->u.posz() ) );
-                if( g->u.sees( tripoint( place, g->u.posz() ) ) ) {
+                g->place_critter_at( mon_eyebot, tripoint( place, player_character.posz() ) );
+                if( player_character.sees( tripoint( place, player_character.posz() ) ) ) {
                     add_msg( m_warning, _( "An eyebot swoops down nearby!" ) );
                 }
                 // One eyebot per trigger is enough, really
@@ -263,11 +270,11 @@ void timed_event::per_turn()
         break;
 
         case timed_event_type::SPAWN_WYRMS:
-            if( g->get_levz() >= 0 ) {
+            if( here.get_abs_sub().z >= 0 ) {
                 when -= 1_turns;
                 return;
             }
-            if( calendar::once_every( 3_turns ) && !g->u.is_deaf() ) {
+            if( calendar::once_every( 3_turns ) && !player_character.is_deaf() ) {
                 add_msg( m_warning, _( "You hear screeches from the rock above and around you!" ) );
             }
             break;
@@ -302,7 +309,7 @@ void timed_event_manager::process()
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
                                const int faction_id )
 {
-    add( type, when, faction_id, g->u.global_sm_location() );
+    add( type, when, faction_id, get_player_character().global_sm_location() );
 }
 
 void timed_event_manager::add( const timed_event_type type, const time_point &when,

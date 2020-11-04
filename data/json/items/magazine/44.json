@@ -15,7 +15,7 @@
     "ammo_type": [ "44" ],
     "capacity": 6,
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 6 } } ]
   },
   {
     "id": "deaglemag",
@@ -33,6 +33,6 @@
     "ammo_type": [ "44" ],
     "capacity": 8,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 8 } } ]
   }
 ]

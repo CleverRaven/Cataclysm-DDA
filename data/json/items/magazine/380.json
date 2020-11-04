@@ -15,7 +15,7 @@
     "ammo_type": [ "380" ],
     "capacity": 6,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "380": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 6 } } ]
   },
   {
     "id": "fn1910mag",
@@ -33,7 +33,7 @@
     "ammo_type": [ "380" ],
     "capacity": 6,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "380": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 6 } } ]
   },
   {
     "id": "rugerlcpmag",
@@ -51,7 +51,7 @@
     "ammo_type": [ "380" ],
     "capacity": 6,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "380": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 6 } } ]
   },
   {
     "id": "mac11mag",
@@ -69,7 +69,7 @@
     "ammo_type": [ "380" ],
     "capacity": 32,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "380": 32 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 32 } } ]
   },
   {
     "id": "hptcf380mag_8rd",
@@ -87,7 +87,7 @@
     "ammo_type": [ "380" ],
     "capacity": 8,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "380": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 8 } } ]
   },
   {
     "id": "hptcf380mag_10rd",
@@ -105,7 +105,7 @@
     "ammo_type": [ "380" ],
     "capacity": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "380": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 10 } } ]
   },
   {
     "id": "taurus_spectrum_mag",
@@ -123,6 +123,6 @@
     "ammo_type": [ "380" ],
     "capacity": 6,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "380": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 6 } } ]
   }
 ]

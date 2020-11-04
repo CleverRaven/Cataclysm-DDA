@@ -82,7 +82,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_FARMER_EXPERTISE",
-    "dynamic_line": "I grew up on the farm, I don't know much about ghosts and goblins,  but I've spent a lot of time growing food and I work hard.  It's better in the country, cleaner.  Not as dangerous.  I hope.",
+    "dynamic_line": "I grew up on the farm, I don't know much about ghosts and goblins, but I've spent a lot of time growing food and I work hard.  It's better in the country, cleaner.  Not as dangerous.  I hope.",
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_NC_FARMER_LEAVE" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },

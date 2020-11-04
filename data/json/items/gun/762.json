@@ -68,7 +68,7 @@
     "dispersion": 160,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "default_mods": [ "folding_stock" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -101,6 +101,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "SKS" },
     "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK47.  However, due to its superb accuracy, low recoil and deployable integrated bayonet, this gun maintains immense popularity.",
+    "ascii_picture": "sks",
     "weight": "3850 g",
     "volume": "2838 ml",
     "longest_side": "103 cm",
@@ -117,7 +118,7 @@
     "dispersion": 90,
     "durability": 8,
     "clip_size": 10,
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "built_in_mods": [ "inter_bayonet" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -134,15 +135,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "762x39_clip" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 10 }, "allowed_speedloaders": [ "762x39_clip" ] } ]
   },
   {
     "id": "aksemi",

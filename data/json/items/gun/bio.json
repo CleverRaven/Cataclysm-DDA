@@ -21,7 +21,7 @@
     "clip_size": 1,
     "reload": 200,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "bio_emp_gun",
@@ -44,7 +44,7 @@
     "loudness": 20,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "ammo_effects": [ "DRAW_AS_LINE", "WIDE", "EMP" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_laser_gun",
@@ -64,7 +64,7 @@
     "durability": 10,
     "loudness": 7,
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "FIRESTARTER", "USES_BIONIC_POWER", "ZERO_WEIGHT" ]
   },
   {
     "id": "bio_lightning",
@@ -84,7 +84,7 @@
     "durability": 10,
     "loudness": 10,
     "ammo_effects": [ "LIGHTNING", "BOUNCE" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "USES_BIONIC_POWER", "ZERO_WEIGHT" ]
   },
   {
     "id": "mut_quills",
@@ -103,6 +103,6 @@
     "durability": 10,
     "loudness": 5,
     "ammo_effects": [ "SHOT" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
+    "flags": [ "PSEUDO", "NEVER_JAMS", "TRADER_AVOID" ]
   }
 ]

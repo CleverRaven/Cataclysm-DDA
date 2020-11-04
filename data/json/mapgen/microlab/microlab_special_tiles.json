@@ -1,5 +1,17 @@
 [
   {
+    "type": "item_group",
+    "id": "altered_object_i",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "altered_item",
+        "artifact": { "procgen_id": "altered_object", "rules": { "power_level": 750, "max_attributes": 4, "max_negative_power": -1000 } },
+        "prob": 100
+      }
+    ]
+  },
+  {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_generic" ] ],
     "method": "json",
@@ -151,7 +163,7 @@
         "  c c|c   |  |    |cc   "
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "A": "t_plut_generator" },
+      "furniture": { "A": "f_compact_ASRG_containment" },
       "item": { "u": { "item": "corpse" }, "k": { "item": "corpse" }, "T": { "item": "corpse" } },
       "monster": {
         "T": { "monster": "mon_leech_blossom" },
@@ -159,6 +171,62 @@
         "u": { "monster": "mon_leech_stalk" }
       },
       "place_monsters": [ { "monster": "GROUP_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "     | cc 2  2 cc |     ",
+        "     |    |^^|    |cccc ",
+        "  ||||||||||||||||||||c ",
+        "  |#---------------#|6  ",
+        "  |#-Y y -   5 y Y-#|r  ",
+        "|||#-  y -5-5-7y  -#|||2",
+        "  |#- my 9 p 9 y  -#|   ",
+        "  |#- Ay 9   9syA -#|c  ",
+        "  |#-Y y 99999 y Y-#|c  ",
+        "  |#-- yü  As  y --#|   ",
+        "2||||Y yyyyyyy76 Y||||||",
+        "    |    y   yh   |     ",
+        "    | dDdy   y   M|     ",
+        "||  |  h y   y   M|   ||",
+        " |  |    y   y   M|   |c",
+        " |  | dDdy   y66 M|   | ",
+        " |  |Y h y   yh  Y|   | ",
+        "c|  |tttt|G55|tttt|   |c",
+        "||  ||((||   ||((||   ||",
+        "c|         YY         |F",
+        " |         YY         |F",
+        " ||||||||||  |||||||||||",
+        " cccc|c   |  |    |  cc ",
+        "    c|c   2  2    |     "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "G": "t_card_science", "9": "t_reinforced_glass_shutter" },
+      "furniture": { "t": "f_counter", "p": "f_counter", "M": "f_server", "A": "f_xedra_antenna", "D": "f_desk" },
+      "item": {
+        "D": [ { "item": "artifact_scp_doc", "chance": 30 }, { "item": "monitoring_equipment_doc", "chance": 30 } ],
+        "m": { "item": "xedra_microphone", "chance": 90 },
+        "s": { "item": "xedra_seismograph", "chance": 90 },
+        "ü": { "item": "UPS_off", "chance": 80 }
+      },
+      "items": { "p": { "item": "altered_object_i", "chance": 100 } },
+      "place_monsters": [ { "monster": "GROUP_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ],
+      "computers": {
+        "7": {
+          "name": "Unstable Matter Isolation Chamber",
+          "security": 0,
+          "options": [
+            { "name": "Toggle safety shutters", "action": "shutters", "security": 0 },
+            { "name": "Unlock isolation chamber", "action": "unlock", "security": 5 }
+          ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
+        }
+      }
     }
   },
   {

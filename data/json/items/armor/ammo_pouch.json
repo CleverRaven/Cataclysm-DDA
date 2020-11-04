@@ -3,7 +3,7 @@
     "id": "ammo_pouch",
     "type": "ARMOR",
     "name": { "str": "ammo pouch", "str_pl": "ammo pouches" },
-    "description": "A small pouch that can be used to store most types of small ammunition, rockets will not fit.  Activate to store ammunition.",
+    "description": "A small pouch that can be used to store most types of small ammunition, rockets will not fit.  Use insert to store ammunition.",
     "weight": "490 g",
     "volume": "500 ml",
     "price": 1000,
@@ -14,7 +14,7 @@
     "symbol": "[",
     "looks_like": "leather_pouch",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 10,
     "encumbrance": 5,
     "material_thickness": 1,
@@ -84,7 +84,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "dark_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 20,
     "encumbrance": 4,
     "material_thickness": 2,
@@ -113,7 +113,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "dark_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 15,
     "material_thickness": 2,
     "pocket_data": [
@@ -141,7 +141,7 @@
     "symbol": "[",
     "looks_like": "tool_belt",
     "color": "dark_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 15,
     "material_thickness": 2,
     "pocket_data": [
@@ -190,7 +190,7 @@
     "symbol": "[",
     "looks_like": "quiver",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 30,
     "encumbrance": 10,
     "material_thickness": 4,
@@ -201,7 +201,8 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       },
       {
         "pocket_type": "CONTAINER",
@@ -209,7 +210,8 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       },
       {
         "pocket_type": "CONTAINER",
@@ -217,7 +219,8 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       },
       {
         "pocket_type": "CONTAINER",
@@ -225,7 +228,8 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       },
       {
         "pocket_type": "CONTAINER",
@@ -233,7 +237,8 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash javelins", "holster_msg": "You stash your %s." },
@@ -252,7 +257,8 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "dark_gray",
-    "covers": [ "FOOT_EITHER" ],
+    "covers": [ "foot_l", "foot_r" ],
+    "sided": true,
     "coverage": 5,
     "encumbrance": 1,
     "material_thickness": 2,
@@ -266,7 +272,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ]
   },
   {
     "type": "ARMOR",
@@ -281,7 +287,8 @@
     "symbol": "[",
     "looks_like": "ammo_satchel",
     "color": "dark_gray",
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 15,
     "material_thickness": 2,
     "pocket_data": [
@@ -307,7 +314,7 @@
     "id": "quiver",
     "type": "ARMOR",
     "name": { "str": "quiver" },
-    "description": "A leather quiver worn at the waist that can hold 20 arrows.  Activate to store arrows.",
+    "description": "A leather quiver worn at the waist that can hold 20 arrows or bolts.  Use insert to store arrows or bolts.",
     "weight": "260 g",
     "volume": "500 ml",
     "price": 6500,
@@ -317,7 +324,8 @@
     "symbol": "[",
     "looks_like": "bscabbard",
     "color": "brown",
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 10,
     "encumbrance": 3,
     "material_thickness": 1,
@@ -328,7 +336,7 @@
     "id": "quiver_birchbark",
     "type": "ARMOR",
     "name": { "str": "birchbark quiver" },
-    "description": "A quiver woven from strips of birch bark, worn at the waist, that can hold 20 arrows.  Activate to store arrows.",
+    "description": "A quiver woven from strips of birch bark, worn at the waist, that can hold 20 arrows or bolts.  Use insert to store arrows or bolts.",
     "weight": "490 g",
     "volume": "500 ml",
     "price": 6500,
@@ -338,7 +346,8 @@
     "symbol": "[",
     "looks_like": "quiver",
     "color": "light_gray",
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 10,
     "encumbrance": 10,
     "material_thickness": 1,
@@ -349,7 +358,7 @@
     "id": "quiver_large",
     "type": "ARMOR",
     "name": { "str": "large quiver" },
-    "description": "A large leather quiver trimmed with metal, worn on the back, that can hold 60 arrows.  Historically used by horse archers, rather than foot archers, but neither of THEM had to fight zombies.  Activate to store arrows.",
+    "description": "A large leather quiver trimmed with metal, worn on the back, that can hold 60 arrows or bolts.  Historically used by horse archers, rather than foot archers, but neither of THEM had to fight zombies.  Use insert to store arrows or bolts.",
     "weight": "920 g",
     "volume": "1500 ml",
     "price": 8800,
@@ -359,7 +368,7 @@
     "symbol": "[",
     "looks_like": "quiver",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 15,
     "encumbrance": 3,
     "material_thickness": 1,
@@ -370,7 +379,7 @@
     "id": "quiver_large_birchbark",
     "type": "ARMOR",
     "name": { "str": "large birchbark quiver" },
-    "description": "A large quiver woven from strips of birchbark, worn on the back, that can hold 60 arrows.  Activate to store arrows.",
+    "description": "A large quiver woven from strips of birchbark, worn on the back, that can hold 60 arrows or bolts.  Use insert to store arrows or bolts.",
     "weight": "1380 g",
     "volume": "1500 ml",
     "price": 8800,
@@ -380,7 +389,7 @@
     "symbol": "[",
     "looks_like": "quiver_birchbark",
     "color": "light_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 15,
     "encumbrance": 14,
     "material_thickness": 1,
@@ -400,7 +409,7 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 20,
     "encumbrance": 2,
     "material_thickness": 2,
@@ -457,7 +466,7 @@
     "material": [ "kevlar_layered" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 85,
     "encumbrance": 17,
     "warmth": 15,

@@ -37,6 +37,7 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -102,6 +103,7 @@
     "reload_noise_volume": 10,
     "name": { "str_sp": "Walther PPK" },
     "description": "One of the most famous handguns of the 20th century.  Your name is not Bond, but you might find this little gun still useful.",
+    "ascii_picture": "ppk",
     "weight": "540 g",
     "volume": "216 ml",
     "longest_side": "173 mm",
@@ -133,6 +135,7 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -148,6 +151,7 @@
     "type": "GUN",
     "name": { "str": "Kel-Tec P32" },
     "description": "One of Kel-tec's oldest designs, the P32 is a popular option for deep concealment and backup usage.  Despite its extreme light weight and small size, its .32 ACP chambering makes for good handling and recoil control.",
+    "ascii_picture": "P3AT",
     "weight": "186 g",
     "volume": "138 ml",
     "longest_side": "147 mm",
@@ -163,6 +167,7 @@
     "min_cycle_recoil": 135,
     "pocket_data": [
       {
+        "magazine_well": "41 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",

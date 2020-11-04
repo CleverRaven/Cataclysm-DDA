@@ -1,20 +1,26 @@
 #include "line.h"
 
-#include <cstdlib>
-#include <cassert>
 #include <algorithm>
 #include <array>
+#include <cstdlib>
 #include <memory>
 #include <tuple>
 #include <utility>
 
-#include "math_defines.h"
-#include "translations.h"
-#include "string_formatter.h"
-#include "output.h"
+#include "cata_assert.h"
 #include "enums.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "units_fwd.h"
 
 bool trigdist;
+
+double iso_tangent( double distance, units::angle vertex )
+{
+    // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
+    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - cos( vertex ) ) );
+}
 
 void bresenham( const point &p1, const point &p2, int t,
                 const std::function<bool( const point & )> &interact )
@@ -158,7 +164,7 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 }
                 cur.z += s.z;
                 cur.x += s.x;
-                t += a.x;
+                t += a.y;
                 if( !interact( cur ) ) {
                     break;
                 }
@@ -171,7 +177,7 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 }
                 cur.y += s.y;
                 cur.z += s.z;
-                t += a.z;
+                t += a.x;
                 if( !interact( cur ) ) {
                     break;
                 }
@@ -264,14 +270,9 @@ int manhattan_dist( const point &loc1, const point &loc2 )
     return d.x + d.y;
 }
 
-double atan2( const point &p )
+units::angle atan2( const point &p )
 {
-    return atan2( static_cast<double>( p.y ), static_cast<double>( p.x ) );
-}
-
-double atan2_degrees( const point &p )
-{
-    return atan2( p ) * 180.0 / M_PI;
+    return units::atan2( p.y, p.x );
 }
 
 // This more general version of this function gives correct values for larger values.
@@ -321,7 +322,7 @@ unsigned make_xyz( const tripoint &p )
 // returns the normalized dx, dy, dz for the current line vector.
 static std::tuple<double, double, double> slope_of( const std::vector<tripoint> &line )
 {
-    assert( !line.empty() && line.front() != line.back() );
+    cata_assert( !line.empty() && line.front() != line.back() );
     const double len = trig_dist( line.front(), line.back() );
     double normDx = ( line.back().x - line.front().x ) / len;
     double normDy = ( line.back().y - line.front().y ) / len;
@@ -467,7 +468,7 @@ std::string direction_name_impl( const direction dir, const bool short_name )
         return result;
     }();
 
-    auto i = static_cast<int>( dir );
+    int i = static_cast<int>( dir );
     if( i < 0 || i >= size ) {
         i = size;
     }
@@ -736,41 +737,41 @@ rl_vec3d rl_vec3d::operator/( const float rhs ) const
     return ret;
 }
 
-void calc_ray_end( int angle, const int range, const tripoint &p, tripoint &out )
+void calc_ray_end( units::angle angle, const int range, const tripoint &p, tripoint &out )
 {
     // forces input angle to be between 0 and 360, calculated from actual input
-    angle %= 360;
-    if( angle < 0 ) {
-        angle += 360;
+    angle = fmod( angle, 360_degrees );
+    if( angle < 0_degrees ) {
+        angle += 360_degrees;
     }
-    const double rad = DEGREES( angle );
     out.z = p.z;
     if( trigdist ) {
-        out.x = p.x + range * std::cos( rad );
-        out.y = p.y + range * std::sin( rad );
+        out.x = p.x + range * cos( angle );
+        out.y = p.y + range * sin( angle );
     } else {
         int mult = 0;
-        if( angle >= 135 && angle <= 315 ) {
+        if( angle >= 135_degrees && angle <= 315_degrees ) {
             mult = -1;
         } else {
             mult = 1;
         }
 
-        if( angle <= 45 || ( 135 <= angle && angle <= 215 ) || 315 < angle ) {
+        if( angle <= 45_degrees || ( 135_degrees <= angle && angle <= 215_degrees ) ||
+            315_degrees < angle ) {
             out.x = p.x + range * mult;
-            out.y = p.y + range * std::tan( rad ) * mult;
+            out.y = p.y + range * tan( angle ) * mult;
         } else {
-            out.x = p.x + range * 1 / std::tan( rad ) * mult;
+            out.x = p.x + range * 1 / tan( angle ) * mult;
             out.y = p.y + range * mult;
         }
     }
 }
 
-double coord_to_angle( const tripoint &a, const tripoint &b )
+units::angle coord_to_angle( const tripoint &a, const tripoint &b )
 {
-    double rad = atan2( b.y - a.y, b.x - a.x );
-    if( rad < 0 ) {
-        rad += 2 * M_PI;
+    units::angle rad = units::atan2( b.y - a.y, b.x - a.x );
+    if( rad < 0_degrees ) {
+        rad += 2_pi_radians;
     }
-    return rad * 180 / M_PI;
+    return rad;
 }

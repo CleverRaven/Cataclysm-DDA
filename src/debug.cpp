@@ -1,7 +1,6 @@
 #include "debug.h"
 
 #include <algorithm>
-#include <cassert>
 #include <cctype>
 #include <cerrno>
 #include <cmath>
@@ -18,11 +17,13 @@
 #include <memory>
 #include <set>
 #include <sstream>
-#include <sys/stat.h>
+#include <sys/stat.h> // IWYU pragma
 #include <type_traits>
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -86,10 +87,51 @@ static int debugLevel = D_ERROR;
 static int debugClass = D_MAIN;
 #endif
 
-extern bool test_mode;
-
 /** Set to true when any error is logged. */
 static bool error_observed = false;
+
+/** If true, debug messages will be captured,
+ * used to test debugmsg calls in the unit tests
+ */
+static bool capturing = false;
+/** сaptured debug messages */
+static std::string captured;
+
+/**
+ * Class for capturing debugmsg,
+ * used by capture_debugmsg_during.
+ */
+class capture_debugmsg
+{
+    public:
+        capture_debugmsg();
+        std::string dmsg();
+        ~capture_debugmsg();
+};
+
+std::string capture_debugmsg_during( const std::function<void()> &func )
+{
+    capture_debugmsg capture;
+    func();
+    return capture.dmsg();
+}
+
+capture_debugmsg::capture_debugmsg()
+{
+    capturing = true;
+    captured.clear();
+}
+
+std::string capture_debugmsg::dmsg()
+{
+    capturing = false;
+    return captured;
+}
+
+capture_debugmsg::~capture_debugmsg()
+{
+    capturing = false;
+}
 
 bool debug_has_error_been_observed()
 {
@@ -98,6 +140,13 @@ bool debug_has_error_been_observed()
 
 bool debug_mode = false;
 
+struct buffered_prompt_info {
+    std::string filename;
+    std::string line;
+    std::string funcname;
+    std::string text;
+};
+
 namespace
 {
 
@@ -105,30 +154,31 @@ std::set<std::string> ignored_messages;
 
 } // namespace
 
-void realDebugmsg( const char *filename, const char *line, const char *funcname,
-                   const std::string &text )
+// debugmsg prompts that could not be shown immediately are buffered and replayed when catacurses::stdscr is available
+// need to use method here to ensure `buffered_prompts` vector is initialized single time
+static std::vector<buffered_prompt_info> &buffered_prompts()
 {
-    assert( filename != nullptr );
-    assert( line != nullptr );
-    assert( funcname != nullptr );
+    static std::vector<buffered_prompt_info> buffered_prompts;
+    return buffered_prompts;
+}
 
-    DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] "
-                                << text << std::flush;
-
-    if( test_mode ) {
-        return;
-    }
+static void debug_error_prompt(
+    const char *filename,
+    const char *line,
+    const char *funcname,
+    const char *text )
+{
+    cata_assert( catacurses::stdscr );
+    cata_assert( filename != nullptr );
+    cata_assert( line != nullptr );
+    cata_assert( funcname != nullptr );
+    cata_assert( text != nullptr );
 
     std::string msg_key( filename );
     msg_key += line;
 
     if( ignored_messages.count( msg_key ) > 0 ) {
         return;
-    }
-
-    if( !catacurses::stdscr ) {
-        std::cerr << text << std::endl;
-        abort();
     }
 
     std::string formatted_report =
@@ -189,7 +239,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     } );
 
 #if defined(__ANDROID__)
-    input_context ctxt( "DEBUG_MSG" );
+    input_context ctxt( "DEBUG_MSG", keyboard_mode::keycode );
     ctxt.register_manual_key( 'C' );
     ctxt.register_manual_key( 'I' );
     ctxt.register_manual_key( ' ' );
@@ -212,6 +262,48 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
                 break;
         }
     }
+}
+
+void replay_buffered_debugmsg_prompts()
+{
+    if( buffered_prompts().empty() || !catacurses::stdscr ) {
+        return;
+    }
+    for( const auto &prompt : buffered_prompts() ) {
+        debug_error_prompt(
+            prompt.filename.c_str(),
+            prompt.line.c_str(),
+            prompt.funcname.c_str(),
+            prompt.text.c_str()
+        );
+    }
+    buffered_prompts().clear();
+}
+
+void realDebugmsg( const char *filename, const char *line, const char *funcname,
+                   const std::string &text )
+{
+    cata_assert( filename != nullptr );
+    cata_assert( line != nullptr );
+    cata_assert( funcname != nullptr );
+
+    if( capturing ) {
+        captured += text;
+    } else {
+        DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] " << text <<
+                                    std::flush;
+    }
+
+    if( test_mode ) {
+        return;
+    }
+
+    if( !catacurses::stdscr ) {
+        buffered_prompts().push_back( {filename, line, funcname, text } );
+        return;
+    }
+
+    debug_error_prompt( filename, line, funcname, text.c_str() );
 }
 
 // Normal functions                                                 {{{1
@@ -286,8 +378,8 @@ static time_info get_time() noexcept
     timeval tv;
     gettimeofday( &tv, nullptr );
 
-    const auto tt      = time_t {tv.tv_sec};
-    const auto current = localtime( &tt );
+    const time_t tt      = time_t {tv.tv_sec};
+    struct tm *const current = localtime( &tt );
 
     return time_info { current->tm_hour, current->tm_min, current->tm_sec,
                        static_cast<int>( std::lround( tv.tv_usec / 1000.0 ) )
@@ -300,6 +392,7 @@ struct DebugFile {
     ~DebugFile();
     void init( DebugOutput, const std::string &filename );
     void deinit();
+    std::ostream &get_file();
 
     // Using shared_ptr for the type-erased deleter support, not because
     // it needs to be shared.
@@ -307,13 +400,19 @@ struct DebugFile {
     std::string filename;
 };
 
-static NullBuf nullBuf;
-static std::ostream nullStream( &nullBuf );
-
 // DebugFile OStream Wrapper                                        {{{2
 // ---------------------------------------------------------------------
 
-static DebugFile debugFile;
+// needs to be inside the method to ensure it's initialized (and only once)
+// NOTE: using non-local static variables (defined at top level in cpp file) here is wrong,
+// because DebugLog (that uses them) might be called from the constructor of some non-local static entity
+// during dynamic initialization phase, when non-local static variables here are
+// only zero-initialized
+static DebugFile &debugFile()
+{
+    static DebugFile debugFile;
+    return debugFile;
+}
 
 DebugFile::DebugFile() = default;
 
@@ -332,12 +431,23 @@ void DebugFile::deinit()
     file.reset();
 }
 
+std::ostream &DebugFile::get_file()
+{
+    if( !file ) {
+        file = std::make_shared<std::ostringstream>();
+    }
+    return *file;
+}
+
 void DebugFile::init( DebugOutput output_mode, const std::string &filename )
 {
+    std::shared_ptr<std::ostringstream> str_buffer = std::dynamic_pointer_cast<std::ostringstream>
+            ( file );
+
     switch( output_mode ) {
         case DebugOutput::std_err:
             file = std::shared_ptr<std::ostream>( &std::cerr, null_deleter() );
-            return;
+            break;
         case DebugOutput::file: {
             this->filename = filename;
             const std::string oldfile = filename + ".prev";
@@ -362,10 +472,15 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
                                             "previous log file.";
             }
         }
-        return;
+        break;
         default:
             std::cerr << "Unexpected debug output mode " << static_cast<int>( output_mode )
                       << std::endl;
+            return;
+    }
+
+    if( str_buffer && file ) {
+        *file << str_buffer->str();
     }
 }
 
@@ -415,12 +530,12 @@ void setupDebug( DebugOutput output_mode )
         limitDebugClass( cl );
     }
 
-    debugFile.init( output_mode, PATH_INFO::debug() );
+    debugFile().init( output_mode, PATH_INFO::debug() );
 }
 
 void deinitDebug()
 {
-    debugFile.deinit();
+    debugFile().deinit();
 }
 
 // OStream Operators                                                {{{2
@@ -483,7 +598,7 @@ static bool debug_is_safe_string( const char *start, const char *finish )
     using std::end;
     const auto is_safe_char =
     [&]( char c ) {
-        auto in_safe = std::find( begin( safe_chars ), end( safe_chars ), c );
+        const char *in_safe = std::find( begin( safe_chars ), end( safe_chars ), c );
         return c && in_safe != end( safe_chars );
     };
     return std::all_of( start, finish, is_safe_char );
@@ -665,7 +780,7 @@ static SYMBOL_INFO &sym = reinterpret_cast<SYMBOL_INFO &>( sym_storage );
 static std::map<DWORD64, backtrace_state *> bt_states;
 #endif
 #else
-constexpr int bt_cnt = 20;
+static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 
@@ -816,9 +931,9 @@ void debug_write_backtrace( std::ostream &out )
             out.write( "    ", 4 );
             // Strip leading directories for source file path
             char search_for[] = "/src/";
-            auto buf_end = buf + strlen( buf );
-            auto src = std::find_end( buf, buf_end,
-                                      search_for, search_for + strlen( search_for ) );
+            char *buf_end = buf + strlen( buf );
+            char *src = std::find_end( buf, buf_end,
+                                       search_for, search_for + strlen( search_for ) );
             if( src == buf_end ) {
                 src = buf;
             } else {
@@ -843,10 +958,10 @@ void debug_write_backtrace( std::ostream &out )
         // extract the address (the last thing) because that's already
         // available in bt.
 
-        auto funcName = funcNames[i];
-        assert( funcName ); // To appease static analysis
-        const auto funcNameEnd = funcName + std::strlen( funcName );
-        const auto binaryEnd = std::find( funcName, funcNameEnd, '(' );
+        char *funcName = funcNames[i];
+        cata_assert( funcName ); // To appease static analysis
+        char *const funcNameEnd = funcName + std::strlen( funcName );
+        char *const binaryEnd = std::find( funcName, funcNameEnd, '(' );
         if( binaryEnd == funcNameEnd ) {
             out << "    backtrace: Could not extract binary name from line\n";
             continue;
@@ -865,12 +980,12 @@ void debug_write_backtrace( std::ostream &out )
         // correct addresses to addr2line
         auto load_offset = load_offsets.find( binary_name );
         if( load_offset == load_offsets.end() ) {
-            const auto symbolNameStart = binaryEnd + 1;
-            const auto symbolNameEnd = std::find( symbolNameStart, funcNameEnd, '+' );
-            const auto offsetEnd = std::find( symbolNameStart, funcNameEnd, ')' );
+            char *const symbolNameStart = binaryEnd + 1;
+            char *const symbolNameEnd = std::find( symbolNameStart, funcNameEnd, '+' );
+            char *const offsetEnd = std::find( symbolNameStart, funcNameEnd, ')' );
 
             if( symbolNameEnd < offsetEnd && offsetEnd < funcNameEnd ) {
-                const auto offsetStart = symbolNameEnd + 1;
+                char *const offsetStart = symbolNameEnd + 1;
                 std::string symbol_name( symbolNameStart, symbolNameEnd );
                 std::string offset_within_symbol( offsetStart, offsetEnd );
 
@@ -914,16 +1029,10 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         error_observed = true;
     }
 
-    // If debugging has not been initialized then stop
-    // (we could instead use std::cerr in this case?)
-    if( !debugFile.file ) {
-        return nullStream;
-    }
-
     // Error are always logged, they are important,
     // Messages from D_MAIN come from debugmsg and are equally important.
     if( ( lev & debugLevel && cl & debugClass ) || lev & D_ERROR || cl & D_MAIN ) {
-        std::ostream &out = *debugFile.file;
+        std::ostream &out = debugFile().get_file();
         out << std::endl;
         out << get_time() << " ";
         out << lev;
@@ -944,11 +1053,15 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
             // Cool down for 60s between backtrace emissions.
             next_backtrace = after + 60;
             out << "Backtrace emission took " << after - now << " seconds." << std::endl;
+            out << "(continued from above) " << lev << ": ";
         }
 #endif
 
         return out;
     }
+
+    static NullBuf nullBuf;
+    static std::ostream nullStream( &nullBuf );
     return nullStream;
 }
 

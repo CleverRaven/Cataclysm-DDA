@@ -794,7 +794,7 @@
     "type": "overmap_terrain",
     "id": "mil_surplus",
     "copy-from": "mil_surplus",
-    "name": "mil. surplus",
+    "name": { "str": "mil. surplus", "//NOLINT(cata-text-style)": "not a period" },
     "sym": "m",
     "color": "magenta"
   },
@@ -4991,7 +4991,7 @@
     "type": "overmap_terrain",
     "id": "necropolis_d_38",
     "copy-from": "necropolis_d_38",
-    "name": "Vault - Maint. Bay",
+    "name": { "str": "Vault - Maint. Bay", "//NOLINT(cata-text-style)": "not a period" },
     "sym": "M",
     "color": "yellow"
   },
@@ -4999,7 +4999,7 @@
     "type": "overmap_terrain",
     "id": "necropolis_d_39",
     "copy-from": "necropolis_d_39",
-    "name": "Vault - Maint. Bay",
+    "name": { "str": "Vault - Maint. Bay", "//NOLINT(cata-text-style)": "not a period" },
     "sym": "M",
     "color": "yellow"
   },

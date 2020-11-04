@@ -233,9 +233,8 @@ You can also set the tracking information at the same time as creating the branc
 
 There is a suite of tests built into the source tree at tests/  
 You should run the test suite after ANY change to the game source.  
-An ordinary invocation of ``make`` will build the test executable at tests/cata_test, and it can be invoked like any ordinary executable, or via `make check`.
-With no arguments it will run the entire test suite.  
-With ``--help`` it will print a number of invocation options you can use to adjust its operation.
+An ordinary invocation of `make` will build the test executable at tests/cata_test, and it can be invoked like any ordinary executable, or via `make check`.
+Running `test/cata_test` with no arguments will run the entire test suite; running it with `--help` will print a number of invocation options you can use to adjust its operation.
 
     $ make
     ... compilation details ...
@@ -247,6 +246,8 @@ With ``--help`` it will print a number of invocation options you can use to adju
     The test took 41.772 seconds
 
 I recommend habitually invoking make like ``make YOUR BUILD OPTIONS && make check``.
+
+If you're working with Visual Studio (and don't have `make`), see [Visual Studio-specific advice](../doc/COMPILING/COMPILING-VS-VCPKG.md#running-unit-tests).
 
 ## In-game testing, test environment and the debug menu
 

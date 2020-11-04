@@ -27,7 +27,7 @@
         "watch your back": false,
         "share my stuff": false,
         "guard your stuff": false,
-        "lets you in": false,
+        "lets you in": true,
         "defends your space": false,
         "knows your voice": false
       },
@@ -43,8 +43,8 @@
         "kill on sight": false,
         "watch your back": false,
         "share my stuff": false,
-        "guard your stuff": true,
-        "lets you in": false,
+        "guard your stuff": false,
+        "lets you in": true,
         "defends your space": false
       },
       "no_faction": {
@@ -54,13 +54,13 @@
         "guard your stuff": false,
         "lets you in": false,
         "defends your space": false,
-        "knows your voice": true
+        "knows your voice": false
       },
       "wasteland_scavengers": {
         "kill on sight": false,
-        "watch your back": true,
+        "watch your back": false,
         "share my stuff": false,
-        "guard your stuff": true,
+        "guard your stuff": false,
         "lets you in": false,
         "defends your space": false,
         "knows your voice": true
@@ -113,8 +113,8 @@
         "kill on sight": false,
         "watch your back": false,
         "share my stuff": false,
-        "guard your stuff": true,
-        "lets you in": false,
+        "guard your stuff": false,
+        "lets you in": true,
         "defends your space": false
       },
       "no_faction": {
@@ -124,7 +124,7 @@
         "guard your stuff": false,
         "lets you in": false,
         "defends your space": false,
-        "knows your voice": true
+        "knows your voice": false
       },
       "wasteland_scavengers": {
         "kill on sight": false,

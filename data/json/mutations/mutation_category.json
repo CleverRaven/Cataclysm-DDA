@@ -18,7 +18,7 @@
     "iv_sleep": true,
     "iv_sleep_message": "You writhe and collapse to the ground.",
     "iv_sleep_dur": 400,
-    "junkie_message": "You quiver with anticipation..."
+    "junkie_message": "You quiver with anticipation…"
   },
   {
     "type": "mutation_category",
@@ -55,7 +55,7 @@
     "mutagen_message": "Your body loses all rigidity for a moment.",
     "iv_message": "This stuff takes you back.  Downright primordial!",
     "memorial_message": "Gave up on rigid human norms.",
-    "junkie_message": "Maybe if you drank enough, you'd become mutagen..."
+    "junkie_message": "Maybe if you drank enough, you'd become mutagen…"
   },
   {
     "type": "mutation_category",
@@ -104,7 +104,7 @@
     "id": "FELINE",
     "name": "Feline",
     "threshold_mut": "THRESH_FELINE",
-    "mutagen_message": "As you lap up the last of the mutagen, you wonder why...",
+    "mutagen_message": "As you lap up the last of the mutagen, you wonder why…",
     "iv_message": "Your back arches as the mutagen takes hold.",
     "memorial_message": "Realized the dream."
   },
@@ -124,7 +124,7 @@
     "//": "~rBGH is a bovine growth hormone, unpopular with consumers",
     "threshold_mut": "THRESH_CATTLE",
     "mutagen_message": "Your mind and body slow down.  You feel peaceful.",
-    "iv_message": "You wonder if this is what rBGH feels like...",
+    "iv_message": "You wonder if this is what rBGH feels like…",
     "memorial_message": "Stopped worrying and learned to love the cowbell."
   },
   {
@@ -161,7 +161,7 @@
     "name": "Troglobite",
     "threshold_mut": "THRESH_TROGLOBITE",
     "mutagen_message": "You yearn for a cool, dark place to hide.",
-    "iv_message": "As you press the plunger, it all goes so bright...",
+    "iv_message": "As you press the plunger, it all goes so bright…",
     "memorial_message": "Adapted to underground living."
   },
   {
@@ -234,7 +234,7 @@
     "id": "ELFA",
     "name": "Fey",
     "threshold_mut": "THRESH_ELFA",
-    "mutagen_message": "Nature is becoming one with you...",
+    "mutagen_message": "Nature is becoming one with you…",
     "iv_message": "Everything goes green for a second.",
     "//": "3-15 pain, morale boost, but no more mutagenic than cat-9s",
     "iv_pain": 3,
@@ -243,7 +243,7 @@
     "iv_sleep": true,
     "//2": "Should be out for two minutes.  Ecstasy Of Green",
     "iv_sleep_dur": 20,
-    "iv_sleep_message": "It's painfully beautiful...",
+    "iv_sleep_message": "It's painfully beautiful…",
     "memorial_message": "Accepted a more natural way of life."
   },
   {

@@ -12,11 +12,13 @@
 
 #include "fire.h"
 #include "optional.h"
+#include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class material_type;
 
-enum damage_type : int;
+enum class damage_type : int;
 class JsonObject;
 
 using mat_burn_products = std::vector<std::pair<itype_id, float>>;
@@ -31,7 +33,7 @@ class material_type
         bool was_loaded = false;
 
     private:
-        std::string _name;
+        translation _name;
         cata::optional<itype_id> _salvaged_into; // this material turns into this item when salvaged
         itype_id _repaired_with = itype_id( "null" ); // this material can be repaired with this item
         int _bash_resist = 0;                         // negative integers means susceptibility
@@ -42,18 +44,18 @@ class material_type
         int _bullet_resist = 0;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         int _density = 1;                             // relative to "powder", which is 1
-        float _specific_heat_liquid = 4.186;
-        float _specific_heat_solid = 2.108;
-        float _latent_heat = 334;
+        float _specific_heat_liquid = 4.186f;
+        float _specific_heat_solid = 2.108f;
+        float _latent_heat = 334.0f;
         int _freeze_point = 32; // Fahrenheit
         bool _edible = false;
         bool _rotting = false;
         bool _soft = false;
         bool _reinforces = false;
 
-        std::string _bash_dmg_verb;
-        std::string _cut_dmg_verb;
-        std::vector<std::string> _dmg_adj;
+        translation _bash_dmg_verb;
+        translation _cut_dmg_verb;
+        std::vector<translation> _dmg_adj;
 
         std::map<vitamin_id, double> _vitamins;
 

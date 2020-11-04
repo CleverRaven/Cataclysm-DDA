@@ -1,7 +1,7 @@
 [
   {
     "type": "material",
-    "ident": "arcane_skin",
+    "id": "arcane_skin",
     "name": "Arcane Skin",
     "density": 38,
     "specific_heat_liquid": 0.82,
@@ -22,7 +22,7 @@
   },
   {
     "type": "material",
-    "ident": "black_dragon_hide",
+    "id": "black_dragon_hide",
     "name": "Black Dragon Hide",
     "density": 20,
     "specific_heat_liquid": 4.186,
@@ -43,7 +43,7 @@
   },
   {
     "type": "material",
-    "ident": "demon_chitin",
+    "id": "demon_chitin",
     "name": "Demon Chitin",
     "density": 15,
     "specific_heat_liquid": 4.186,
@@ -69,7 +69,7 @@
   },
   {
     "type": "material",
-    "ident": "orichalcum_metal",
+    "id": "orichalcum_metal",
     "name": "Orichalcum",
     "density": 40,
     "bash_resist": 13,
@@ -88,5 +88,25 @@
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap_bronze", 1 ] ],
     "compacts_into": [ "orichalcum_lump", "orichalcum_sliver" ]
+  },
+  {
+    "type": "material",
+    "id": "glassteel",
+    "name": "Glassteel",
+    "density": 40,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "bash_resist": 10,
+    "cut_resist": 6,
+    "bullet_resist": 19,
+    "acid_resist": 6,
+    "fire_resist": 0,
+    "elec_resist": 10,
+    "chip_resist": 30,
+    "repaired_with": "scrap",
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "scratched"
   }
 ]

@@ -31,14 +31,12 @@
         "___L***+**************|_",
         "___|------------------|_"
       ],
+      "fill_ter": "t_linoleum_white",
       "terrain": {
         " ": "t_linoleum_white",
-        "#": "t_linoleum_white",
-        "%": "t_console_broken",
         "*": "t_floor",
         "+": "t_door_c",
         "-": "t_wall_w",
-        "7": "t_linoleum_white",
         "=": "t_wall_glass",
         "A": "t_atm",
         "C": "t_floor",
@@ -50,19 +48,15 @@
         "W": "t_chainfence_h",
         "[": "t_door_glass_c",
         "]": "t_floor",
-        "^": "t_linoleum_white",
         "_": "t_pavement",
-        "b": "t_linoleum_white",
-        "f": "t_linoleum_white",
         "l": "t_linoleum_gray",
-        "r": "t_linoleum_white",
         "s": "t_sidewalk",
-        "t": "t_linoleum_white",
-        "w": "t_chainfence_v",
+        "w": "t_chainfence",
         "4": "t_gutter_downspout",
         "|": "t_wall_w"
       },
       "furniture": {
+        "%": "f_console_broken",
         "#": "f_counter",
         "7": "f_bookcase",
         "C": "f_crate_c",
@@ -213,7 +207,7 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": "t_region_groundcover_urban",
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_floor",

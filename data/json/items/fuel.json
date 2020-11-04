@@ -33,7 +33,7 @@
   },
   {
     "id": "chem_methanol",
-    "name": { "str": "methanol" },
+    "name": { "str_sp": "methanol" },
     "copy-from": "chem_ethanol",
     "type": "AMMO",
     "description": "High purity methanol suitable for use in chemical reactions.  Could be used in alcohol-burning stoves.  Very toxic.",
@@ -46,7 +46,7 @@
     "name": { "str_sp": "diesel" },
     "description": "Petroleum-based fuel made from a byproduct of the gasoline making process.",
     "category": "fuel",
-    "weight": "1 g",
+    "weight": "850 mg",
     "volume": "200ml",
     "price": 50,
     "price_postapoc": 500,
@@ -58,7 +58,7 @@
     "symbol": "=",
     "color": "green",
     "ammo_type": "diesel",
-    "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 4 },
+    "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 4 },
     "range": 4,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "fuel": {
@@ -73,7 +73,7 @@
     "name": { "str_sp": "JP8 fuel" },
     "description": "A kerosene-based fuel used mainly by US military vehicles as a replacement for diesel and jet fuel, to simplify logistics.",
     "category": "fuel",
-    "weight": "1 g",
+    "weight": "800 mg",
     "volume": "200ml",
     "price": 50,
     "price_postapoc": 1000,
@@ -86,7 +86,7 @@
     "symbol": "=",
     "color": "green",
     "ammo_type": "jp8",
-    "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 5 },
+    "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "fuel": {
@@ -113,7 +113,7 @@
     "symbol": "=",
     "color": "green",
     "ammo_type": "avgas",
-    "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 5 },
+    "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "fuel": {
@@ -140,7 +140,7 @@
     "name": { "str_sp": "gasoline" },
     "description": "Gasoline is a highly flammable liquid.  When under pressure, it has the potential for violent explosion.",
     "category": "fuel",
-    "weight": "1 g",
+    "weight": "780 mg",
     "volume": "200ml",
     "price": 40,
     "price_postapoc": 800,
@@ -152,7 +152,7 @@
     "symbol": "=",
     "color": "light_red",
     "ammo_type": "gasoline",
-    "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 5 },
+    "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "fuel": {
@@ -175,6 +175,7 @@
     "stack_size": 200,
     "phase": "liquid",
     "container": "bottle_plastic",
+    "sealed": false,
     "symbol": "=",
     "color": "yellow",
     "material": [ "hydrocarbons" ],
@@ -185,7 +186,7 @@
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
     },
     "range": 6,
-    "damage": { "damage_type": "stab", "amount": 2, "armor_penetration": 2 },
+    "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
     "effects": [ "FLAME", "STREAM" ]
   },
   {
@@ -202,6 +203,7 @@
     "stack_size": 200,
     "phase": "liquid",
     "container": "bottle_plastic",
+    "sealed": false,
     "symbol": "=",
     "color": "yellow",
     "material": [ "hydrocarbons" ],
@@ -212,7 +214,7 @@
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
     },
     "range": 6,
-    "damage": { "damage_type": "stab", "amount": 2, "armor_penetration": 2 },
+    "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
     "effects": [ "FLAME", "STREAM" ]
   },
   {
@@ -228,12 +230,12 @@
     "count": 250,
     "stack_size": 200,
     "phase": "liquid",
-    "container": "jerrycan",
+    "container": "pressurized_tank",
     "material": [ "hydrocarbons" ],
     "symbol": "=",
     "color": "light_red",
     "ammo_type": "flammable",
-    "damage": { "damage_type": "stab", "amount": 15, "armor_penetration": 30 },
+    "damage": { "damage_type": "heat", "amount": 15, "armor_penetration": 30 },
     "range": 6,
     "effects": [ "FLAME", "STREAM_BIG", "INCENDIARY", "NEVER_MISFIRES" ]
   },
@@ -246,7 +248,7 @@
     "price": 400,
     "price_postapoc": 500,
     "ammo_type": "flammable",
-    "damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 10 },
+    "damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 10 },
     "range": 3
   },
   {

@@ -28,7 +28,7 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
   {
@@ -66,20 +66,7 @@
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
     "upgrades": { "half_life": 14, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "BLEED",
-      "POISON",
-      "GUILT",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "GUILT", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_creepy",
@@ -110,20 +97,7 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BLEED",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "CLIMBS",
-      "FILTHY"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY" ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
   {
@@ -156,20 +130,7 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BLEED",
-      "GUILT",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "GUILT", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "//": "GUILT because it still looks enough like a child to evoke pity"
   },
   {
@@ -202,7 +163,7 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "BOOMER" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "//": "GUILT because it still looks enough like a child to evoke pity"
   },
   {
@@ -234,20 +195,7 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BLEED",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "CLIMBS",
-      "FILTHY"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY" ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
   {
@@ -282,20 +230,7 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BLEED",
-      "GUILT",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "HARDTOSHOOT",
-      "FILTHY"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "HARDTOSHOOT", "FILTHY" ],
     "//": "GUILT because it still looks enough like a child to evoke pity"
   }
 ]

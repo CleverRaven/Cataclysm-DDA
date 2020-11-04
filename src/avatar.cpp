@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <list>
@@ -37,6 +38,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "kill_tracker.h"
+#include "make_static.h"
 #include "map.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -55,17 +57,19 @@
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
-#include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "talker.h"
+#include "talker_avatar.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -116,21 +120,12 @@ static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 
-static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
-
-class JsonIn;
-class JsonOut;
-
-avatar &get_avatar()
-{
-    return g->u;
-}
-
 avatar::avatar()
 {
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = object_type::NONE;
+    calorie_diary.push_front( daily_calories{} );
 }
 
 void avatar::toggle_map_memory()
@@ -222,7 +217,7 @@ void avatar::reset_all_misions()
     failed_missions.clear();
 }
 
-tripoint avatar::get_active_mission_target() const
+tripoint_abs_omt avatar::get_active_mission_target() const
 {
     if( active_mission == nullptr ) {
         return overmap::invalid_tripoint;
@@ -281,7 +276,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     }
 
     // Check for conditions that immediately disqualify the player from reading:
-    const optional_vpart_position vp = g->m.veh_at( pos() );
+    const optional_vpart_position vp = get_map().veh_at( pos() );
     if( vp && vp->vehicle().player_in_control( *this ) ) {
         reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
         return nullptr;
@@ -303,7 +298,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     // Check for conditions that disqualify us only if no NPCs can read to us
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         reasons.emplace_back( _( "You're illiterate!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
+    } else if( has_trait( trait_HYPEROPIC ) &&
+               !worn_with_flag( STATIC( flag_str_id( "FIX_FARSIGHT" ) ) ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
@@ -333,7 +329,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
                    has_identified( book.typeId() ) ) {
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
-        } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( flag_FIX_FARSIGHT ) &&
+        } else if( elem->has_trait( trait_HYPEROPIC ) &&
+                   !elem->worn_with_flag( STATIC( flag_str_id( "FIX_FARSIGHT" ) ) ) &&
                    !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
                                               elem->disp_name() ) );
@@ -414,9 +411,15 @@ bool avatar::read( item &it, const bool continuous )
         }
         return false;
     }
+
+    if( it.get_use( "learn_spell" ) ) {
+        it.get_use( "learn_spell" )->call( *this, it, it.active, pos() );
+        return true;
+    }
+
     const int time_taken = time_to_read( it, *reader );
 
-    add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );
+    add_msg_debug( "avatar::read: time_taken = %d", time_taken );
     player_activity act( ACT_READ, time_taken, continuous ? activity.index : 0,
                          reader->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &it ) );
@@ -428,6 +431,7 @@ bool avatar::read( item &it, const bool continuous )
             add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         }
         assign_activity( act );
+        get_event_bus().send<event_type::reads_book>( getID(), it.typeId() );
         return true;
     }
 
@@ -439,6 +443,7 @@ bool avatar::read( item &it, const bool continuous )
         } else {
             add_msg( m_info, get_hint() );
         }
+        get_event_bus().send<event_type::reads_book>( getID(), it.typeId() );
         mod_moves( -100 );
         return false;
     }
@@ -560,7 +565,7 @@ bool avatar::read( item &it, const bool continuous )
         }
         if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
-            if( martial_arts_data.has_martialart( martial_art_learned_from( *it.type ) ) ) {
+            if( martial_arts_data->has_martialart( martial_art_learned_from( *it.type ) ) ) {
                 add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
                 activity.set_to_null();
                 return false;
@@ -671,7 +676,7 @@ bool avatar::read( item &it, const bool continuous )
         elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 30_minutes,
                           decay_start, false, it.type );
     }
-
+    get_event_bus().send<event_type::reads_book>( getID(), it.typeId() );
     return true;
 }
 
@@ -740,7 +745,7 @@ void avatar::do_read( item &book )
             if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
                 continue;
             }
-            recipe_list.push_back( elem.name );
+            recipe_list.push_back( elem.name() );
         }
         if( !recipe_list.empty() ) {
             std::string recipe_line =
@@ -825,7 +830,7 @@ void avatar::do_read( item &book )
             std::string skill_name = skill.obj().name();
 
             if( skill_level != originalSkillLevel ) {
-                g->events().send<event_type::gains_skill_level>(
+                get_event_bus().send<event_type::gains_skill_level>(
                     learner->getID(), skill, skill_level.level() );
                 if( learner->is_player() ) {
                     add_msg( m_good, _( "You increase %s to level %d." ), skill.obj().name(),
@@ -846,8 +851,7 @@ void avatar::do_read( item &book )
             }
 
             if( ( skill_level == reading->level || !skill_level.can_train() ) ||
-                ( ( learner->has_trait( trait_SCHIZOPHRENIC ) ||
-                    learner->has_artifact_with( AEP_SCHIZO ) ) && one_in( 25 ) ) ) {
+                ( learner->has_trait( trait_SCHIZOPHRENIC ) && one_in( 25 ) ) ) {
                 if( learner->is_player() ) {
                     add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name() );
                 } else {
@@ -892,7 +896,7 @@ void avatar::do_read( item &book )
         skill_id skill_used = style_to_learn->primary_skill;
         int difficulty = std::max( 1, style_to_learn->learn_difficulty );
         difficulty = std::max( 1, 20 + difficulty * 2 - get_skill_level( skill_used ) * 2 );
-        add_msg( m_debug, _( "Chance to learn one in: %d" ), difficulty );
+        add_msg_debug( _( "Chance to learn one in: %d" ), difficulty );
 
         if( one_in( difficulty ) ) {
             m->second.call( *this, book, false, pos() );
@@ -996,7 +1000,7 @@ nc_color avatar::basic_symbol_color() const
     if( underwater ) {
         return c_blue;
     }
-    if( has_active_bionic( bio_cloak ) || has_artifact_with( AEP_INVISIBLE ) ||
+    if( has_active_bionic( bio_cloak ) ||
         is_wearing_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
         return c_dark_gray;
     }
@@ -1191,7 +1195,8 @@ void avatar::reset_stats()
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bodypart_str_id( "torso" ) ) ) {
+        } else if( !exclusive_flag_coverage( STATIC( flag_str_id( "OVERSIZE" ) ) )
+                   .test( bodypart_str_id( "torso" ) ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
@@ -1203,11 +1208,11 @@ void avatar::reset_stats()
         }
 
         if( eff.is_null() && dur > 0_turns ) {
-            add_effect( type, dur, num_bp, true );
+            add_effect( type, dur, true );
         } else if( dur > 0_turns ) {
             eff.set_duration( dur );
         } else {
-            remove_effect( type, num_bp );
+            remove_effect( type );
         }
     };
     // Painkiller
@@ -1215,7 +1220,7 @@ void avatar::reset_stats()
 
     // Pain
     if( get_perceived_pain() > 0 ) {
-        const auto ppen = get_pain_penalty();
+        const stat_mod ppen = get_pain_penalty();
         mod_str_bonus( -ppen.strength );
         mod_dex_bonus( -ppen.dexterity );
         mod_int_bonus( -ppen.intelligence );
@@ -1268,12 +1273,13 @@ void avatar::reset_stats()
 
     // Dodge-related effects
     mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
+                     ( encumb( bodypart_id( "leg_l" ) ) + encumb( bodypart_id( "leg_r" ) ) ) / 20.0f - encumb(
+                         bodypart_id( "torso" ) ) / 10.0f );
     // Whiskers don't work so well if they're covered
-    if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
+    if( has_trait( trait_WHISKERS ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );
     }
-    if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
+    if( has_trait( trait_WHISKERS_RAT ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 2 );
     }
     // depending on mounts size, attacks will hit the mount and use their dodge rating.
@@ -1283,8 +1289,11 @@ void avatar::reset_stats()
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {
-        static const std::array<bodypart_id, 5> parts{ { bodypart_id( "head" ), bodypart_id( "arm_r" ), bodypart_id( "arm_l" ), bodypart_id( "leg_r" ), bodypart_id( "leg_l" ) } };
-        for( const bodypart_id &bp : parts ) {
+        static const bodypart_str_id parts[] {
+            bodypart_str_id( "head" ), bodypart_str_id( "arm_r" ), bodypart_str_id( "arm_l" ),
+            bodypart_str_id( "leg_r" ), bodypart_str_id( "leg_l" )
+        };
+        for( const bodypart_str_id &bp : parts ) {
             if( !wearing_something_on( bp ) ) {
                 mod_dodge_bonus( +1 );
             }
@@ -1296,7 +1305,7 @@ void avatar::reset_stats()
     }
 
     // Apply static martial arts buffs
-    martial_arts_data.ma_static_effects( *this );
+    martial_arts_data->ma_static_effects( *this );
 
     if( calendar::once_every( 1_minutes ) ) {
         update_mental_focus();
@@ -1304,7 +1313,7 @@ void avatar::reset_stats()
 
     // Effects
     for( const auto &maps : *effects ) {
-        for( auto i : maps.second ) {
+        for( const auto &i : maps.second ) {
             const auto &it = i.second;
             bool reduced = resists_effect( it );
             mod_str_bonus( it.get_mod( "STR", reduced ) );
@@ -1459,6 +1468,9 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
     if( can_switch_to( new_mode ) ) {
         add_msg( new_mode->change_message( true, steed ) );
         move_mode = new_mode;
+        // crouching affects visibility
+        get_map().set_seen_cache_dirty( pos().z );
+
         if( new_mode->stop_hauling() ) {
             stop_hauling();
         }
@@ -1509,6 +1521,7 @@ bool avatar::wield( item_location target )
 
 bool avatar::wield( item &target )
 {
+    invalidate_inventory_validity_cache();
     return wield( target,
                   item_handling_cost( target, true,
                                       is_worn( target ) ? INVENTORY_HANDLING_PENALTY / 2 :
@@ -1521,11 +1534,17 @@ bool avatar::wield( item &target, const int obtain_cost )
         return true;
     }
 
+    if( weapon.has_item( target ) ) {
+        add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
+        return false;
+    }
+
     if( !can_wield( target ).success() ) {
         return false;
     }
 
-    if( !unwield() ) {
+    bool combine_stacks = target.can_combine( weapon );
+    if( !combine_stacks && !unwield() ) {
         return false;
     }
     cached_info.erase( "weapon_value" );
@@ -1554,13 +1573,22 @@ bool avatar::wield( item &target, const int obtain_cost )
         target.on_takeoff( *this );
     }
 
-    add_msg( m_debug, "wielding took %d moves", mv );
+    add_msg_debug( "wielding took %d moves", mv );
     moves -= mv;
 
     if( has_item( target ) ) {
-        weapon = i_rem( &target );
+        item removed = i_rem( &target );
+        if( combine_stacks ) {
+            weapon.combine( removed );
+        } else {
+            weapon = removed;
+        }
     } else {
-        weapon = target;
+        if( combine_stacks ) {
+            weapon.combine( target );
+        } else {
+            weapon = target;
+        }
     }
 
     last_item = weapon.typeId();
@@ -1568,10 +1596,10 @@ bool avatar::wield( item &target, const int obtain_cost )
 
     weapon.on_wield( *this, mv );
 
-    g->events().send<event_type::character_wields_item>( getID(), last_item );
+    get_event_bus().send<event_type::character_wields_item>( getID(), last_item );
 
-    inv.update_invlet( weapon );
-    inv.update_cache_with_item( weapon );
+    inv->update_invlet( weapon );
+    inv->update_cache_with_item( weapon );
 
     return true;
 }
@@ -1579,11 +1607,15 @@ bool avatar::wield( item &target, const int obtain_cost )
 bool avatar::invoke_item( item *used, const tripoint &pt )
 {
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;
+    const int num_methods = use_methods.size();
 
-    if( use_methods.empty() ) {
+    const bool has_relic = used->is_relic();
+    if( use_methods.empty() && !has_relic ) {
         return false;
-    } else if( use_methods.size() == 1 ) {
+    } else if( num_methods == 1 && !has_relic ) {
         return invoke_item( used, use_methods.begin()->first, pt );
+    } else if( num_methods == 0 && has_relic ) {
+        return used->use_relic( *this, pt );
     }
 
     uilist umenu;
@@ -1596,6 +1628,10 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
         umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(),
                              res.str() );
     }
+    if( has_relic ) {
+        umenu.addentry_desc( MENU_AUTOASSIGN, true, MENU_AUTOASSIGN, _( "Use relic" ),
+                             _( "Activate this relic." ) );
+    }
 
     umenu.desc_enabled = std::any_of( umenu.entries.begin(),
     umenu.entries.end(), []( const uilist_entry & elem ) {
@@ -1605,7 +1641,11 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
     umenu.query();
 
     int choice = umenu.ret;
-    if( choice < 0 || choice >= static_cast<int>( use_methods.size() ) ) {
+    // Use the relic
+    if( choice == num_methods ) {
+        return used->use_relic( *this, pt );
+    }
+    if( choice < 0 || choice >= num_methods ) {
         return false;
     }
 
@@ -1627,6 +1667,118 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
 bool avatar::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
+}
+
+void avatar::advance_daily_calories()
+{
+    calorie_diary.push_front( daily_calories{} );
+    if( calorie_diary.size() > 30 ) {
+        calorie_diary.pop_back();
+    }
+}
+
+void avatar::add_spent_calories( int cal )
+{
+    calorie_diary.front().spent += cal;
+}
+
+void avatar::add_gained_calories( int cal )
+{
+    calorie_diary.front().gained += cal;
+}
+
+void avatar::log_activity_level( float level )
+{
+    calorie_diary.front().activity_levels[level]++;
+}
+
+static const std::map<float, std::string> activity_levels_str = {
+    { NO_EXERCISE, "NO_EXERCISE" },
+    { LIGHT_EXERCISE, "LIGHT_EXERCISE" },
+    { MODERATE_EXERCISE, "MODERATE_EXERCISE" },
+    { BRISK_EXERCISE, "BRISK_EXERCISE" },
+    { ACTIVE_EXERCISE, "ACTIVE_EXERCISE" },
+    { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
+};
+void avatar::daily_calories::save_activity( JsonOut &json ) const
+{
+    json.member( "activity" );
+    json.start_object();
+    for( const std::pair<const float, int> &level : activity_levels ) {
+        json.member( activity_levels_str.at( level.first ), level.second );
+    }
+    json.end_object();
+}
+
+void avatar::daily_calories::read_activity( JsonObject &data )
+{
+    JsonObject jo = data.get_object( "activity" );
+    for( const std::pair<const float, std::string> &member : activity_levels_str ) {
+        int times;
+        jo.read( member.second, times );
+        activity_levels.at( member.first ) = times;
+    }
+}
+
+std::string avatar::total_daily_calories_string() const
+{
+    const std::string header_string =
+        colorize( "       Minutes at each exercise level            Calories per day", c_white ) + "\n" +
+        colorize( "  Day  None Light Moderate Brisk Active Extra    Gained  Spent  Total",
+                  c_yellow ) + "\n";
+    const std::string format_string =
+        " %4d  %4d  %4d     %4d  %4d   %4d  %4d    %6d %6d";
+
+    std::string ret = header_string;
+
+    // Start with today in the first row, day number from start of cataclysm
+    int today = day_of_season<int>( calendar::turn ) + 1;
+    int day_offset = 0;
+    for( const daily_calories &day : calorie_diary ) {
+        std::string row_data = string_format( format_string, today + day_offset--,
+                                              5 * day.activity_levels.at( NO_EXERCISE ),
+                                              5 * day.activity_levels.at( LIGHT_EXERCISE ),
+                                              5 * day.activity_levels.at( MODERATE_EXERCISE ),
+                                              5 * day.activity_levels.at( BRISK_EXERCISE ),
+                                              5 * day.activity_levels.at( ACTIVE_EXERCISE ),
+                                              5 * day.activity_levels.at( EXTRA_EXERCISE ),
+                                              day.gained, day.spent );
+        // Alternate gray and white text for row data
+        if( day_offset % 2 == 0 ) {
+            ret += colorize( row_data, c_white );
+        } else {
+            ret += colorize( row_data, c_light_gray );
+        }
+
+        // Color-code each day's net calories
+        std::string total_kcals = string_format( " %6d", day.total() );
+        if( day.total() > 4000 ) {
+            ret += colorize( total_kcals, c_light_cyan );
+        } else if( day.total() > 2000 ) {
+            ret += colorize( total_kcals, c_cyan );
+        } else if( day.total() > 250 ) {
+            ret += colorize( total_kcals, c_light_blue );
+        } else if( day.total() < -4000 ) {
+            ret += colorize( total_kcals, c_pink );
+        } else if( day.total() < -2000 ) {
+            ret += colorize( total_kcals, c_red );
+        } else if( day.total() < -250 ) {
+            ret += colorize( total_kcals, c_light_red );
+        } else {
+            ret += colorize( total_kcals, c_light_gray );
+        }
+        ret += "\n";
+    }
+    return ret;
+}
+
+std::unique_ptr<talker> get_talker_for( avatar &me )
+{
+    return std::make_unique<talker_avatar>( &me );
+}
+std::unique_ptr<talker> get_talker_for( avatar *me )
+{
+    return std::make_unique<talker_avatar>( me );
 }
 
 points_left::points_left()

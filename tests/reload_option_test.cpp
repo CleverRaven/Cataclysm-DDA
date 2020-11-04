@@ -1,8 +1,16 @@
-#include "avatar.h"
 #include "catch/catch.hpp"
+
+#include <list>
+#include <memory>
+
+#include "avatar.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 {
@@ -13,7 +21,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
     const ammotype &gun_ammo_type = item::find_type( gun.ammo_default() )->ammo->type;
     item &ammo = dummy.i_add( item( "38_special", 0, gun.ammo_capacity( gun_ammo_type ) ) );
     item_location ammo_location( dummy, &ammo );
-    REQUIRE( gun.has_flag( "RELOAD_ONE" ) );
+    REQUIRE( gun.has_flag( flag_id( "RELOAD_ONE" ) ) );
     REQUIRE( gun.ammo_remaining() == 0 );
 
     const item::reload_option gun_option( &dummy, &gun, &gun, ammo_location );
@@ -58,6 +66,7 @@ TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
 TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
+    dummy.set_body();
     dummy.worn.push_back( item( "backpack" ) );
 
     item &belt = dummy.i_add( item( "belt308", 0, 0 ) );

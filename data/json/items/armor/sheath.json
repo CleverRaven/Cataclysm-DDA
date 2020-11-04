@@ -12,7 +12,7 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 5,
     "encumbrance": 2,
     "material_thickness": 1,
@@ -43,7 +43,7 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 10,
     "encumbrance": 3,
     "material_thickness": 1,
@@ -74,7 +74,8 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "FOOT_EITHER" ],
+    "covers": [ "foot_l", "foot_r" ],
+    "sided": true,
     "coverage": 5,
     "encumbrance": 3,
     "material_thickness": 1,
@@ -89,7 +90,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ]
   },
   {
     "id": "bscabbard",
@@ -105,7 +106,7 @@
     "symbol": "[",
     "looks_like": "baldric",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 10,
     "encumbrance": 3,
     "material_thickness": 1,
@@ -113,9 +114,9 @@
       {
         "max_contains_volume": "3750 ml",
         "max_contains_weight": "5 kg",
-        "max_item_length": "140 cm",
+        "max_item_length": "180 cm",
         "holster": true,
-        "moves": 20,
+        "moves": 60,
         "flag_restriction": [ "SHEATH_SWORD" ]
       }
     ],
@@ -136,7 +137,8 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 15,
     "encumbrance": 3,
     "material_thickness": 1,
@@ -165,7 +167,8 @@
     "symbol": "|",
     "looks_like": "scabbard",
     "color": "brown",
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 5,
     "material_thickness": 1,
     "pocket_data": [
@@ -195,7 +198,7 @@
     "symbol": "[",
     "looks_like": "bscabbard",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 5,
     "encumbrance": 4,
     "material_thickness": 1,
@@ -204,7 +207,7 @@
         "holster": true,
         "moves": 30,
         "flag_restriction": [ "SHEATH_SPEAR" ],
-        "max_contains_volume": "3500 ml",
+        "max_contains_volume": "4000 ml",
         "max_contains_weight": "4 kg",
         "max_item_length": "200 cm"
       }

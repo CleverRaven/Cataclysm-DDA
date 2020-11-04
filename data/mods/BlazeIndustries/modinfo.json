@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "blazeindustries",
+    "id": "blazeindustries",
     "name": "Blaze Industries",
     "authors": [ "Blaze-whatdoyoumeanitsalreadytaken" ],
     "maintainers": [ "Soup-de-Loop" ],

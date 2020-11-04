@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_BIONICS_H
 #define CATA_SRC_BIONICS_H
 
+#include <algorithm>
 #include <cstddef>
 #include <map>
 #include <set>
@@ -12,15 +13,20 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "flat_set.h"
+#include "magic.h"
 #include "optional.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
+#include "value_ptr.h"
 
+class avatar;
+class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
-class Character;
 class player;
 
 enum class character_stat : char;
@@ -80,9 +86,17 @@ struct bionic_data {
     /**Amount of bullet protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> bullet_protec;
 
+    float vitamin_absorb_mod = 1.0f;
+
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;
 
+    cata::value_ptr<fake_spell> spell_on_activate;
+
+    /**
+     * Proficiencies given on install (and removed on uninstall) of this bionic
+     */
+    std::vector<proficiency_id> proficiencies;
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
@@ -156,7 +170,7 @@ struct bionic {
             : id( "bio_batteries" ), incapacitated_time( 0_turns ) {
         }
         bionic( bionic_id pid, char pinvlet )
-            : id( std::move( pid ) ), invlet( pinvlet ), incapacitated_time( 0_turns ) { }
+            : id( pid ), invlet( pinvlet ), incapacitated_time( 0_turns ) { }
 
         const bionic_data &info() const {
             return *id;
@@ -176,12 +190,18 @@ struct bionic {
         float get_auto_start_thresh() const;
         bool is_auto_start_on() const;
 
+        void set_safe_fuel_thresh( float val );
+        float get_safe_fuel_thresh() const;
+        bool is_safe_fuel_on() const;
+        bool activate_spell( Character &caster );
+
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
     private:
         // generic bionic specific flags
         cata::flat_set<std::string> bionic_tags;
-        float auto_start_threshold = -1.0;
+        float auto_start_threshold = -1.0f;
+        float safe_fuel_threshold = 1.0f;
 };
 
 // A simpler wrapper to allow forward declarations of it. std::vector can not
@@ -195,7 +215,7 @@ std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid );
 
 void reset_bionics();
 
-char get_free_invlet( player &p );
+char get_free_invlet( Character &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );
 

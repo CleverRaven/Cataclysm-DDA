@@ -1,12 +1,12 @@
-#include "game.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <sstream>
 #include <utility>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "color.h"
+#include "game.h" // IWYU pragma: associated
 #include "harvest.h"
 #include "input.h"
 #include "map.h"
@@ -16,6 +16,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "viewer.h"
 
 static const skill_id skill_survival( "survival" );
 
@@ -30,7 +31,7 @@ enum class description_target : int {
 static const Creature *seen_critter( const game &g, const tripoint &p )
 {
     const Creature *critter = g.critter_at( p, true );
-    if( critter != nullptr && g.u.sees( *critter ) ) {
+    if( critter != nullptr && get_player_view().sees( *critter ) ) {
         return critter;
     }
 
@@ -155,7 +156,7 @@ std::string map_data_common_t::extended_description() const
 
     if( has_any_harvest ) {
         ss << "--" << std::endl;
-        int player_skill = get_avatar().get_skill_level( skill_survival );
+        int player_skill = get_player_character().get_skill_level( skill_survival );
         ss << _( "You could harvest the following things from it:" ) << std::endl;
         // Group them by identical ids to avoid repeating same blocks of data
         // First, invert the mapping: season->id to id->seasons

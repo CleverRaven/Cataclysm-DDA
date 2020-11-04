@@ -1,13 +1,25 @@
 #include "catch/catch.hpp"
+#include "projectile.h"
 
-#include "avatar.h"
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "ballistics.h"
+#include "character.h"
+#include "damage.h"
 #include "dispersion.h"
 #include "game.h"
+#include "item.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "projectile.h"
+#include "point.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 static tripoint projectile_end_point( const std::vector<tripoint> &range, const item &gun,
                                       int speed, int proj_range )
@@ -21,7 +33,9 @@ static tripoint projectile_end_point( const std::vector<tripoint> &range, const 
 
     dealt_projectile_attack attack;
 
-    attack = projectile_attack( test_proj, range[0], range[2], dispersion_sources(), &g->u, nullptr );
+    attack = projectile_attack( test_proj, range[0], range[2], dispersion_sources(),
+                                &get_player_character(),
+                                nullptr );
 
     return attack.end_point;
 }
@@ -29,24 +43,25 @@ static tripoint projectile_end_point( const std::vector<tripoint> &range, const 
 TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
 {
     clear_map();
+    map &here = get_map();
 
     // Move the player out of the way of the test area
-    g->u.setpos( { 2, 2, 0 } );
+    get_player_character().setpos( { 2, 2, 0 } );
 
     // Ensure that a projectile fired from a gun can pass through a chain link fence
     // First, set up a test area - three tiles in a row
     // One on either side clear, with a chainlink fence in the middle
     std::vector<tripoint> range = { tripoint_zero, tripoint_east, tripoint( 2, 0, 0 ) };
     for( const tripoint &pt : range ) {
-        REQUIRE( g->m.inbounds( pt ) );
-        g->m.ter_set( pt, ter_id( "t_dirt" ) );
-        g->m.furn_set( pt, furn_id( "f_null" ) );
+        REQUIRE( here.inbounds( pt ) );
+        here.ter_set( pt, ter_id( "t_dirt" ) );
+        here.furn_set( pt, furn_id( "f_null" ) );
         REQUIRE_FALSE( g->critter_at( pt ) );
-        REQUIRE( g->m.is_transparent( pt ) );
+        REQUIRE( here.is_transparent( pt ) );
     }
 
     // Set an obstacle in the way, a chain fence
-    g->m.ter_set( range[1], ter_id( "t_chainfence" ) );
+    here.ter_set( range[1], ter_id( "t_chainfence" ) );
 
     // Create a gun to fire a projectile from
     item gun( itype_id( "m1a" ) );

@@ -18,8 +18,9 @@
         "  A      ",
         "  VVV    "
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor" },
       "furniture": {
+        "?": "f_console_broken",
         "L": "f_table",
         "H": "f_table",
         "G": "f_table",
@@ -88,8 +89,9 @@
         "  A      ",
         "  VVV    "
       ],
-      "terrain": { " ": "t_floor", "L": "t_carpet_yellow", ".": "t_carpet_yellow", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor", "L": "t_carpet_yellow", ".": "t_carpet_yellow", "?": "t_carpet_yellow" },
       "furniture": {
+        "?": "f_console_broken",
         "L": "f_table",
         "H": "f_table",
         "G": "f_table",
@@ -156,9 +158,10 @@
         "A": "t_linoleum_white",
         "y": "t_linoleum_white",
         "Y": "t_linoleum_white",
-        "?": "t_console_broken"
+        "?": "t_linoleum_white"
       },
       "furniture": {
+        "?": "f_console_broken",
         "L": "f_table",
         "H": "f_table",
         "G": "f_table",
@@ -225,9 +228,10 @@
         "H": "t_carpet_green",
         "L": "t_carpet_green",
         ".": "t_carpet_green",
-        "?": "t_console_broken"
+        "?": "t_carpet_green"
       },
       "furniture": {
+        "?": "f_console_broken",
         "L": "f_table",
         "H": "f_table",
         "G": "f_displaycase",
@@ -290,8 +294,9 @@
         "    A    ",
         "y MMMM  Y"
       ],
-      "terrain": { " ": "t_floor", "G": "t_carpet_red", "L": "t_carpet_red", ".": "t_carpet_red", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor", "G": "t_carpet_red", "L": "t_carpet_red", ".": "t_carpet_red", "?": "t_carpet_red" },
       "furniture": {
+        "?": "f_console_broken",
         "L": "f_table",
         "H": "f_table",
         "G": "f_displaycase",
@@ -360,9 +365,10 @@
         "L": "t_carpet_yellow",
         "B": "t_carpet_yellow",
         ".": "t_carpet_yellow",
-        "?": "t_console_broken"
+        "?": "t_carpet_yellow"
       },
       "furniture": {
+        "?": "f_console_broken",
         "L": "f_table",
         "B": "f_table",
         "H": "f_displaycase",
@@ -447,9 +453,10 @@
         "A": "t_linoleum_gray",
         "s": "t_linoleum_gray",
         "i": "t_linoleum_gray",
-        "?": "t_console_broken"
+        "?": "t_linoleum_gray"
       },
       "furniture": {
+        "?": "f_console_broken",
         "L": "f_table",
         "i": "f_oven",
         "s": "f_sink",
@@ -520,8 +527,9 @@
         " C QQVV ",
         "|| |||||"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken", "|": "t_brick_wall" },
+      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
       "furniture": {
+        "?": "f_console_broken",
         "A": "f_stool",
         "B": "f_counter",
         "C": "f_table",
@@ -623,8 +631,9 @@
         " b LLL  ",
         "|| |||||"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken", "|": "t_brick_wall" },
+      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
       "furniture": {
+        "?": "f_console_broken",
         "A": "f_stool",
         "B": "f_counter",
         "C": "f_table",
@@ -721,8 +730,16 @@
         "    ",
         "bb C"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
-      "furniture": { "A": "f_stool", "B": "f_workbench", "C": "f_rack_wood", "d": "f_mannequin", "e": "f_mannequin", "b": "f_bench" },
+      "terrain": { " ": "t_floor", "?": "t_floor" },
+      "furniture": {
+        "?": "f_console_broken",
+        "A": "f_stool",
+        "B": "f_workbench",
+        "C": "f_rack_wood",
+        "d": "f_mannequin",
+        "e": "f_mannequin",
+        "b": "f_bench"
+      },
       "items": {
         "C": [ { "item": "SUS_tailoring_materials", "chance": 30, "repeat": [ 1, 2 ] } ],
         "d": [ { "item": "SUS_mannequin_formal_mens", "chance": 30 } ],
@@ -752,8 +769,9 @@
         " b LLL  ",
         "|| |||||"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken", "|": "t_brick_wall" },
+      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
       "furniture": {
+        "?": "f_console_broken",
         "A": "f_stool",
         "B": "f_counter",
         "C": "f_table",
@@ -843,8 +861,16 @@
         "A   ",
         "BB C"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
-      "furniture": { "A": "f_stool", "B": "f_workbench", "C": "f_rack_wood", "d": "f_mannequin", "e": "f_mannequin", "b": "f_bench" },
+      "terrain": { " ": "t_floor", "?": "t_floor" },
+      "furniture": {
+        "?": "f_console_broken",
+        "A": "f_stool",
+        "B": "f_workbench",
+        "C": "f_rack_wood",
+        "d": "f_mannequin",
+        "e": "f_mannequin",
+        "b": "f_bench"
+      },
       "items": {
         "C": [
           { "item": "SUS_tailoring_materials", "chance": 10, "repeat": [ 1, 2 ] },
@@ -881,8 +907,9 @@
         " b QQQ  ",
         "|| |||||"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken", "|": "t_brick_wall" },
+      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
       "furniture": {
+        "?": "f_console_broken",
         "A": "f_stool",
         "B": "f_counter",
         "C": "f_table",
@@ -967,8 +994,16 @@
         "A   ",
         "BB C"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
-      "furniture": { "A": "f_stool", "B": "f_workbench", "C": "f_rack_wood", "d": "f_mannequin", "e": "f_mannequin", "b": "f_bench" },
+      "terrain": { " ": "t_floor", "?": "t_floor" },
+      "furniture": {
+        "?": "f_console_broken",
+        "A": "f_stool",
+        "B": "f_workbench",
+        "C": "f_rack_wood",
+        "d": "f_mannequin",
+        "e": "f_mannequin",
+        "b": "f_bench"
+      },
       "items": {
         "C": [
           { "item": "SUS_tailoring_materials", "chance": 10, "repeat": [ 1, 2 ] },
@@ -997,8 +1032,9 @@
         "B  zz",
         "Cyz  "
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
+        "?": "f_console_broken",
         "A": "f_chair",
         "B": "f_desk",
         "C": "f_rack",
@@ -1032,8 +1068,9 @@
         "   zz",
         "CDF  "
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
+        "?": "f_console_broken",
         "A": "f_chair",
         "B": "f_desk",
         "C": "f_rack",
@@ -1067,8 +1104,9 @@
         "G   ",
         "ybb "
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
+        "?": "f_console_broken",
         "G": "f_locker",
         "b": "f_bench",
         "d": "f_filing_cabinet",
@@ -1096,14 +1134,15 @@
         "G   ",
         "y C "
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor" },
       "furniture": {
         "C": "f_rack",
         "G": "f_sofa",
         "d": "f_filing_cabinet",
         "D": "f_vending_c",
         "F": "f_vending_c",
-        "y": [ "f_indoor_plant", "f_indoor_plant_y" ]
+        "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "?": "f_console_broken"
       },
       "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "items": {
@@ -1126,8 +1165,9 @@
         "BA  ",
         "y GC"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor" },
       "furniture": {
+        "?": "f_console_broken",
         "A": "f_chair",
         "B": "f_desk",
         "C": "f_rack",
@@ -1158,7 +1198,7 @@
         "G b  ",
         "yz CC"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor" },
       "furniture": {
         "A": "f_chair",
         "B": "f_desk",
@@ -1170,7 +1210,8 @@
         "D": "f_vending_c",
         "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
-        "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
+        "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ],
+        "?": "f_console_broken"
       },
       "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "items": {
@@ -1259,8 +1300,9 @@
         "F      * |    ",
         "YPPQQSY| |j   "
       ],
-      "terrain": { "?": "t_console_broken", "|": "t_brick_wall", "*": "t_door_c" },
+      "terrain": { "|": "t_brick_wall", "*": "t_door_c" },
       "furniture": {
+        "?": "f_console_broken",
         "L": "f_table",
         "H": "f_chair",
         "G": "f_sofa",

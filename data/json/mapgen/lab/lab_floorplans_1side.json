@@ -166,7 +166,7 @@
         },
         { "monster": [ "mon_zombie_soldier" ], "x": [ 1, 21 ], "y": [ 1, 16 ], "pack_size": [ 1, 4 ], "chance": 40 }
       ],
-      "terrain": { "7": "t_console" },
+      "furniture": { "7": "f_console" },
       "mapping": {
         "l": {
           "items": [
@@ -254,8 +254,7 @@
         { "monster": "mon_zombie_grabber", "x": [ 1, 5 ], "y": [ 12, 15 ] },
         { "monster": "mon_zombie_scientist", "x": [ 11, 12 ], "y": [ 5, 10 ], "pack_size": [ 1, 2 ], "chance": 50 }
       ],
-      "furniture": { "^": "f_indoor_plant" },
-      "terrain": { "7": "t_console", "C": "t_centrifuge" },
+      "furniture": { "^": "f_indoor_plant", "7": "f_console", "C": "f_centrifuge" },
       "mapping": {
         "X": { "items": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30 } ] },
         "r": { "items": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30 } ] },

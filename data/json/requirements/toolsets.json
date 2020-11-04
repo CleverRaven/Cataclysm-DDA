@@ -18,7 +18,7 @@
         [ "ceramic_cup", -1 ],
         [ "teapot", -1 ],
         [ "clay_teapot", -1 ],
-        [ "can_food_unsealed", -1 ]
+        [ "can_food", -1 ]
       ],
       [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
     ]
@@ -92,7 +92,7 @@
     "id": "anesthetic",
     "type": "requirement",
     "//": "Rate of anesthetic used for a surgery in 1E-2 mL/kg/min.  Autodoc's interface only supports charges of anesthetic_kit, any other requirement will have unexpected results.",
-    "tools": [ [ [ "anesthetic_kit", 3 ] ] ]
+    "tools": [ [ [ "anesthetic_kit", 6 ] ] ]
   },
   {
     "id": "cutting_wire_standard",

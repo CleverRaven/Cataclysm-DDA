@@ -78,7 +78,7 @@
     "passive_mods": { "str_mod": -2 },
     "points": -1,
     "description": "Your body is unnaturally weak.  -2 Strength.",
-    "category": [ "MANATOUCHED" ],
+    "category": [ "MANATOUCHED", "MOUSE", "RAT", "BIRD", "SLIME" ],
     "cancels": [ "STR_UP_2", "STR_UP_3", "STR_UP_4", "STR_ALPHA" ]
   },
   {
@@ -123,6 +123,12 @@
   },
   {
     "type": "mutation",
+    "id": "BIOLUM0",
+    "copy-from": "BIOLUM0",
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
     "id": "ROT2",
     "copy-from": "ROT2",
     "extend": { "category": [ "MANATOUCHED" ] }
@@ -139,6 +145,7 @@
     "max_level": 35,
     "effect": "recover_energy",
     "effect_str": "MANA",
+    "shape": "blast",
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ]
   },
   {

@@ -76,6 +76,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "afs_augmentation_clinic_n1",
+      "afs_augmentation_clinic_n2",
+      "afs_augmentation_clinic_n3",
+      "afs_augmentation_clinic_n4"
+    ],
+    "name": "augmentation clinic",
+    "spawns": { "group": "AFS_GROUP_AUG_CLINIC", "population": [ 4, 10 ], "chance": 80 },
+    "sym": "A",
+    "color": "yellow",
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mortuary_2story",
     "name": "county mortuary",
     "sym": "M",
@@ -106,5 +120,60 @@
     "sym": "M",
     "color": "light_green",
     "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "whately_lmoe",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "whately_lmoe_roof",
+    "name": "LMOE shelter",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "whately_lmoe_under_first_floor",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "whately_lmoe_under_second_floor",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "robot_dispatch_first",
+    "name": "robot dispatch center",
+    "sym": "R",
+    "color": "i_pink",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "robot_dispatch_second",
+    "name": "robot dispatch center",
+    "sym": "R",
+    "color": "i_pink",
+    "see_cost": 2,
+    "mondensity": 2
   }
 ]

@@ -1,27 +1,30 @@
-#include "vehicle.h" // IWYU pragma: associated
-
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <memory>
 #include <set>
 
-#include "avatar.h"
+#include "cata_assert.h"
+#include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
-#include "flat_set.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
 #include "messages.h"
 #include "npc.h"
+#include "ret_val.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
+#include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -37,11 +40,12 @@ static const itype_id itype_muscle( "muscle" );
 vehicle_part::vehicle_part()
     : id( vpart_id::NULL_ID() ) {}
 
-vehicle_part::vehicle_part( const vpart_id &vp, const point &dp, item &&obj )
-    : mount( dp ), id( vp ), base( std::move( obj ) )
+vehicle_part::vehicle_part( const vpart_id &vp, const std::string &variant_id, const point &dp,
+                            item &&obj )
+    : mount( dp ), id( vp ), variant( variant_id ), base( std::move( obj ) )
 {
     // Mark base item as being installed as a vehicle part
-    base.item_tags.insert( "VEHICLE" );
+    base.set_flag( flag_VEHICLE );
 
     if( base.typeId() != vp->item ) {
         debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
@@ -67,15 +71,16 @@ void vehicle_part::set_base( const item &new_base )
 item vehicle_part::properties_to_item() const
 {
     item tmp = base;
-    tmp.item_tags.erase( "VEHICLE" );
+    tmp.unset_flag( flag_VEHICLE );
 
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
-    if( tmp.has_flag( "CABLE_SPOOL" ) && !tmp.has_flag( "TOW_CABLE" ) ) {
-        const tripoint local_pos = g->m.getlocal( target.first );
-        if( !g->m.veh_at( local_pos ) ) {
+    if( tmp.has_flag( flag_CABLE_SPOOL ) && !tmp.has_flag( flag_TOW_CABLE ) ) {
+        map &here = get_map();
+        const tripoint local_pos = here.getlocal( target.first );
+        if( !here.veh_at( local_pos ) ) {
             // That vehicle ain't there no more.
-            tmp.item_tags.insert( "NO_DROP" );
+            tmp.set_flag( flag_NO_DROP );
         }
 
         tmp.set_var( "source_x", target.first.x );
@@ -87,7 +92,7 @@ item vehicle_part::properties_to_item() const
 
     // force rationalization of damage values to the middle value of each damage level so
     // that parts will stack nicely
-    tmp.set_damage( tmp.damage_level( 4 ) * itype::damage_scale );
+    tmp.set_damage( tmp.damage_level() * itype::damage_scale );
     return tmp;
 }
 
@@ -140,9 +145,9 @@ int vehicle_part::max_damage() const
     return base.max_damage();
 }
 
-int vehicle_part::damage_level( int max ) const
+int vehicle_part::damage_level() const
 {
-    return base.damage_level( max );
+    return base.damage_level();
 }
 
 double vehicle_part::health_percent() const
@@ -208,7 +213,7 @@ itype_id vehicle_part::ammo_current() const
     }
 
     if( is_fuel_store( false ) || is_turret() ) {
-        return base.ammo_current();
+        return base.ammo_current() != itype_id::NULL_ID() ? base.ammo_current() : base.ammo_default();
     }
 
     return itype_id::NULL_ID();
@@ -232,7 +237,6 @@ int vehicle_part::ammo_remaining() const
     if( is_tank() ) {
         return base.contents.empty() ? 0 : base.contents.legacy_front().charges;
     }
-
     if( is_fuel_store( false ) || is_turret() ) {
         return base.ammo_remaining();
     }
@@ -310,7 +314,7 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
 
     item &fuel = base.contents.legacy_front();
     if( fuel.typeId() == ftype ) {
-        assert( fuel.is_fuel() );
+        cata_assert( fuel.is_fuel() );
         // convert energy density in MJ/L to J/ml
         const double energy_p_mL = fuel.fuel_energy() * 1000;
         const int ml_to_use = static_cast<int>( std::floor( energy_j / energy_p_mL ) );
@@ -365,8 +369,19 @@ bool vehicle_part::can_reload( const item &obj ) const
             return false;
         }
     }
+    if( base.is_gun() ) {
+        return false;
+    }
 
-    return ammo_remaining() < ammo_capacity( item::find_type( ammo_current() )->ammo->type );
+    if( is_reactor() ) {
+        return true;
+    }
+
+    if( ammo_current().is_null() ) {
+        return true; // empty tank
+    }
+
+    return ammo_remaining() < ammo_capacity( ammo_current().obj().ammo->type );
 }
 
 void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
@@ -380,23 +395,41 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
         if( e_heater ) {
             flag = temperature_flag::HEATER;
         }
-        base.process( nullptr, pos, false, 1, flag );
+        if( enabled && info().has_flag( VPFLAG_FRIDGE ) ) {
+            flag = temperature_flag::FRIDGE;
+        } else if( enabled && info().has_flag( VPFLAG_FREEZER ) ) {
+            flag = temperature_flag::FREEZER;
+        }
+        base.process( nullptr, pos, 1, flag );
     }
 }
 
 bool vehicle_part::fill_with( item &liquid, int qty )
 {
-    if( !is_tank() || !can_reload( liquid ) ) {
+    if( ( is_tank() && !liquid.made_of( phase_id::LIQUID ) ) || !can_reload( liquid ) ) {
         return false;
     }
 
-    liquid.charges -= base.fill_with( *liquid.type, qty );
+    int charges_max = ammo_capacity( item::find_type( ammo_current() )->ammo->type ) - ammo_remaining();
+    qty = qty < liquid.charges ? qty : liquid.charges;
+
+    if( charges_max < liquid.charges ) {
+        qty = charges_max;
+    }
+
+    liquid.charges -= base.fill_with( liquid, qty );
+
     return true;
 }
 
 const std::set<fault_id> &vehicle_part::faults() const
 {
     return base.faults;
+}
+
+bool vehicle_part::has_fault_flag( const std::string &searched_flag ) const
+{
+    return base.has_fault_flag( searched_flag );
 }
 
 std::set<fault_id> vehicle_part::faults_potential() const
@@ -563,7 +596,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( g->u.pos() ) ) {
+    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( get_player_character().pos() ) ) {
         if( alert ) {
             add_msg( m_bad, _( "It is too cold to plant anything now." ) );
         }

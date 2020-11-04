@@ -1,11 +1,5 @@
 [
   {
-    "id": "fd_null",
-    "type": "field_type",
-    "legacy_enum_id": 0,
-    "intensity_levels": [ { "name": "nothing" } ]
-  },
-  {
     "id": "fd_blood",
     "type": "field_type",
     "legacy_enum_id": 1,
@@ -76,9 +70,32 @@
     "id": "fd_web",
     "type": "field_type",
     "legacy_enum_id": 5,
-    "intensity_levels": [ { "name": "cobwebs", "sym": "}" }, { "name": "webs" }, { "name": "thick webs", "transparent": false } ],
+    "intensity_levels": [
+      {
+        "name": "cobwebs",
+        "sym": "}",
+        "effects": [
+          { "effect_id": "webbed", "intensity": 1, "min_duration": "1 m", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      },
+      {
+        "name": "webs",
+        "effects": [
+          { "effect_id": "webbed", "intensity": 2, "min_duration": "1 m", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      },
+      {
+        "name": "thick webs",
+        "transparent": false,
+        "effects": [
+          { "effect_id": "webbed", "intensity": 3, "min_duration": "1 m", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      }
+    ],
     "description_affix": "covered_in",
     "immunity_data": { "traits": [ "WEB_WALKER" ] },
+    "immune_mtypes": [ "mon_spider_web", "mon_spider_web_s" ],
+    "decrease_intensity_on_contact": true,
     "priority": 2,
     "phase": "solid",
     "display_items": false,
@@ -201,9 +218,22 @@
     "type": "field_type",
     "legacy_enum_id": 9,
     "intensity_levels": [
-      { "name": "thin sludge trail", "sym": "5", "color": "light_gray", "dangerous": true },
-      { "name": "sludge trail", "color": "dark_gray" },
-      { "name": "thick sludge trail" }
+      {
+        "name": "thin sludge trail",
+        "sym": "5",
+        "color": "light_gray",
+        "dangerous": true,
+        "effects": [ { "effect_id": "sludged", "intensity": 1, "immune_in_vehicle": true, "is_environmental": false } ]
+      },
+      {
+        "name": "sludge trail",
+        "color": "dark_gray",
+        "effects": [ { "effect_id": "sludged", "intensity": 2, "immune_in_vehicle": true, "is_environmental": false } ]
+      },
+      {
+        "name": "thick sludge trail",
+        "effects": [ { "effect_id": "sludged", "intensity": 3, "immune_in_vehicle": true, "is_environmental": false } ]
+      }
     ],
     "description_affix": "covered_in",
     "is_splattering": true,
@@ -240,6 +270,93 @@
     "display_field": true
   },
   {
+    "id": "fd_extinguisher",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "extinguisher mist",
+        "sym": "%",
+        "color": "white",
+        "dangerous": true,
+        "translucency": 0.1,
+        "convection_temperature_mod": -10,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "mouth",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the extinguisher mist",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "extinguisher cloud",
+        "color": "white",
+        "convection_temperature_mod": -20,
+        "translucency": 0.4,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "mouth",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the extinguisher cloud",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "thick extinguisher cloud",
+        "color": "white",
+        "convection_temperature_mod": -30,
+        "translucency": 0.7,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "mouth",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "//": "won't be applied outside of vehicles, so it could apply harsher effect",
+            "immune_outside_vehicle": true,
+            "message": "You feel sick from inhaling the thick extinguisher cloud",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "badpoison",
+            "body_part": "mouth",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "//": "won't be applied inside of vehicles, so it could apply lesser effect",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the thick extinguisher cloud",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "description_affix": "on",
+    "decay_amount_factor": 3,
+    "priority": 4,
+    "half_life": "10 seconds",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_fog",
+    "gas_absorption_factor": 15,
+    "has_fume": true,
+    "percent_spread": 90,
+    "dirty_transparency_cache": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
+  },
+  {
     "id": "fd_rubble",
     "type": "field_type",
     "legacy_enum_id": 11,
@@ -249,7 +366,8 @@
     "phase": "solid",
     "display_items": false,
     "display_field": true,
-    "looks_like": "f_rubble"
+    "looks_like": "f_rubble",
+    "legacy_make_rubble": true
   },
   {
     "id": "fd_smoke",
@@ -264,7 +382,7 @@
         "effects": [
           {
             "effect_id": "smoke",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 1,
             "min_duration": "2 seconds",
             "max_duration": "2 seconds",
@@ -280,7 +398,7 @@
         "effects": [
           {
             "effect_id": "smoke",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 2,
             "min_duration": "7 seconds",
             "max_duration": "7 seconds",
@@ -296,7 +414,7 @@
         "effects": [
           {
             "effect_id": "smoke",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 4,
             "min_duration": "15 seconds",
             "max_duration": "15 seconds",
@@ -311,7 +429,7 @@
     "dirty_transparency_cache": true,
     "percent_spread": 10,
     "outdoor_age_speedup": "0 turns",
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 7 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ] },
     "priority": 8,
     "half_life": "2 minutes",
     "phase": "gas",
@@ -333,7 +451,7 @@
         "effects": [
           {
             "effect_id": "poison",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 2,
             "min_duration": "2 minutes",
             "max_duration": "2 minutes",
@@ -351,7 +469,7 @@
         "effects": [
           {
             "effect_id": "poison",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 5,
             "min_duration": "3 minutes",
             "max_duration": "3 minutes",
@@ -368,7 +486,7 @@
         "effects": [
           {
             "effect_id": "poison",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 5,
             "min_duration": "3 minutes",
             "max_duration": "3 minutes",
@@ -379,7 +497,7 @@
           },
           {
             "effect_id": "badpoison",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 5,
             "min_duration": "3 minutes",
             "max_duration": "3 minutes",
@@ -397,7 +515,7 @@
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas",
@@ -426,7 +544,7 @@
     "outdoor_age_speedup": "0 turns",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "5 minutes",
     "phase": "gas",
@@ -472,7 +590,7 @@
     "wandering_field": "fd_toxic_gas",
     "gas_absorption_factor": 15,
     "dirty_transparency_cache": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "phase": "gas",
     "display_items": false,
     "display_field": true,
@@ -670,7 +788,52 @@
     "id": "fd_dazzling",
     "type": "field_type",
     "legacy_enum_id": 27,
-    "intensity_levels": [ { "name": "dazzling", "color": "light_red_yellow", "sym": "#", "light_emitted": 5 } ],
+    "intensity_levels": [
+      {
+        "name": "dazzling",
+        "color": "light_red_yellow",
+        "sym": "#",
+        "light_emitted": 5,
+        "effects": [
+          {
+            "effect_id": "blind",
+            "body_part": "eyes",
+            "intensity": 2,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "chance_in_vehicle": 1,
+            "chance_inside_vehicle": 1,
+            "chance_outside_vehicle": 1
+          },
+          {
+            "effect_id": "blind",
+            "body_part": "eyes",
+            "intensity": 10,
+            "min_duration": "10 seconds",
+            "max_duration": "10 seconds",
+            "chance_in_vehicle": 5,
+            "chance_inside_vehicle": 5,
+            "chance_outside_vehicle": 5
+          }
+        ]
+      },
+      {
+        "//": "repeat last entry",
+        "effects": [
+          {
+            "effect_id": "blind",
+            "body_part": "eyes",
+            "intensity": 10,
+            "min_duration": "10 seconds",
+            "max_duration": "10 seconds",
+            "chance_in_vehicle": 1,
+            "chance_inside_vehicle": 1,
+            "chance_outside_vehicle": 1
+          }
+        ]
+      },
+      { "//": "repeat last entry" }
+    ],
     "description_affix": "illuminated_by",
     "priority": 4,
     "half_life": "1 turns",
@@ -927,7 +1090,7 @@
         "effects": [
           {
             "effect_id": "relax_gas",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 2,
             "min_duration": "3 seconds",
             "max_duration": "3 seconds",
@@ -942,7 +1105,7 @@
         "effects": [
           {
             "effect_id": "relax_gas",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 4,
             "min_duration": "3 seconds",
             "max_duration": "3 seconds",
@@ -956,7 +1119,7 @@
         "effects": [
           {
             "effect_id": "relax_gas",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 6,
             "min_duration": "3 seconds",
             "max_duration": "3 seconds",
@@ -971,7 +1134,7 @@
     "outdoor_age_speedup": "5 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -993,7 +1156,7 @@
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "15 minutes",
     "phase": "gas",
@@ -1011,12 +1174,12 @@
     ],
     "decay_amount_factor": 15,
     "gas_absorption_factor": 5,
-    "percent_spread": 55,
-    "outdoor_age_speedup": "5 minutes",
+    "percent_spread": 30,
+    "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
     "priority": 8,
-    "half_life": "50 minutes",
+    "half_life": "7 minutes",
     "phase": "gas",
     "display_items": false,
     "display_field": true,
@@ -1037,7 +1200,7 @@
     "outdoor_age_speedup": "5 turns",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "traits": [ "M_IMMUNE" ], "body_part_env_resistance": [ [ "MOUTH", 15 ], [ "EYES", 15 ] ] },
+    "immunity_data": { "traits": [ "M_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ], [ "eyes", 15 ] ] },
     "priority": 8,
     "half_life": "4 minutes",
     "phase": "gas",
@@ -1059,8 +1222,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_cold_air2",
@@ -1076,8 +1238,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_cold_air3",
@@ -1093,8 +1254,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_cold_air4",
@@ -1110,8 +1270,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air1",
@@ -1127,8 +1286,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air2",
@@ -1144,8 +1302,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air3",
@@ -1161,8 +1318,7 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air4",
@@ -1178,22 +1334,21 @@
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air_sauna",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "hot air sauna", "sym": "&", "convection_temperature_mod": 65 },
-      { "color": "yellow", "convection_temperature_mod": 68 },
-      { "color": "red", "convection_temperature_mod": 71 }
+      { "name": "hot air sauna", "sym": "&", "convection_temperature_mod": 60 },
+      { "color": "yellow", "convection_temperature_mod": 70 },
+      { "color": "red", "convection_temperature_mod": 80 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
-    "outdoor_age_speedup": "100 minutes",
+    "percent_spread": 40,
+    "outdoor_age_speedup": "30 minutes",
     "priority": -1,
-    "half_life": "50 minutes",
+    "half_life": "5 minutes",
     "phase": "gas",
     "display_field": true
   },
@@ -1208,7 +1363,7 @@
         "effects": [
           {
             "effect_id": "migo_atmosphere",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 1,
             "min_duration": "5 seconds",
             "max_duration": "10 seconds",
@@ -1222,7 +1377,7 @@
         "effects": [
           {
             "effect_id": "migo_atmosphere",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 2,
             "min_duration": "10 seconds",
             "max_duration": "25 seconds"
@@ -1234,7 +1389,7 @@
         "effects": [
           {
             "effect_id": "migo_atmosphere",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 4,
             "min_duration": "15 seconds",
             "max_duration": "25 seconds"
@@ -1248,7 +1403,7 @@
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas"
@@ -1268,7 +1423,7 @@
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "30 minutes",
     "phase": "gas",
@@ -1290,7 +1445,7 @@
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "30 minutes",
     "phase": "gas",

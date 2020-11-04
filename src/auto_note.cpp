@@ -1,19 +1,19 @@
 #include "auto_note.h"
 
+#include <algorithm>
 #include <iostream>
-#include <memory>
 
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "json.h"
 #include "map_extras.h"
 #include "options.h"
 #include "output.h"
+#include "path_info.h"
 #include "point.h"
 #include "translations.h"
 #include "ui_manager.h"
@@ -22,7 +22,7 @@ namespace auto_notes
 {
 std::string auto_note_settings::build_save_path() const
 {
-    return g->get_player_base_save_path() + ".ano.json";
+    return PATH_INFO::player_base_save_path() + ".ano.json";
 }
 
 void auto_note_settings::clear()
@@ -32,7 +32,7 @@ void auto_note_settings::clear()
 
 bool auto_note_settings::save()
 {
-    if( !file_exist( g->get_player_base_save_path() + ".sav" ) ) {
+    if( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
         return true;
     }
 
@@ -101,7 +101,7 @@ void auto_note_settings::default_initialize()
 {
     clear();
 
-    for( auto &extra : MapExtras::mapExtraFactory().get_all() ) {
+    for( const map_extra &extra : MapExtras::mapExtraFactory().get_all() ) {
         if( extra.autonote ) {
             autoNoteEnabled.insert( extra.id );
         }
@@ -147,7 +147,7 @@ auto_note_manager_gui::auto_note_manager_gui()
 {
     const auto_note_settings &settings = get_auto_notes_settings();
 
-    for( auto &extra : MapExtras::mapExtraFactory().get_all() ) {
+    for( const map_extra &extra : MapExtras::mapExtraFactory().get_all() ) {
         // Ignore all extras that have autonote disabled in the JSON.
         // This filters out lots of extras users shouldn't see (like "normal")
         if( !extra.autonote ) {
@@ -289,11 +289,11 @@ void auto_note_manager_gui::show()
                 const string_id<map_extra> &displayCacheEntry = displayCache[i];
                 const auto &cacheEntry = mapExtraCache[displayCacheEntry];
 
-                const auto lineColor = ( i == currentLine ) ? hilite( c_white ) : c_white;
-                const auto statusColor = cacheEntry.second ? c_green : c_red;
-                const auto statusString = cacheEntry.second ? _( "yes" ) : _( "no" );
-                const auto charColor = cacheEntry.first.color;
-                const auto displayChar = cacheEntry.first.get_symbol();
+                const nc_color lineColor = ( i == currentLine ) ? hilite( c_white ) : c_white;
+                const nc_color statusColor = cacheEntry.second ? c_green : c_red;
+                const std::string statusString = cacheEntry.second ? _( "yes" ) : _( "no" );
+                const nc_color charColor = cacheEntry.first.color;
+                const std::string displayChar = cacheEntry.first.get_symbol();
 
                 mvwprintz( w, point( 1, i - startPosition ), lineColor, "" );
 

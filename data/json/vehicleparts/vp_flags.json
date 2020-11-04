@@ -3,7 +3,7 @@
     "id": "ALTERNATOR",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "An alternator.  When mounted on a gasoline or diesel engine and the engine is on, will produce electrical power that can be stored in a battery.",
+    "info": "When mounted on an engine and the engine is on it will provide up to <color_green>%sW</color> of electrical power to the vehicle.",
     "requires_flag": "E_ALTERNATOR"
   },
   {
@@ -22,7 +22,7 @@
     "id": "ARMOR",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "Armor plate.  Will partially protect other components on the same frame from damage."
+    "info": "Armor plate.  Will partially protect other components on the same frame from damage from direct attacks but not from the shock damage of a distant collision."
   },
   {
     "id": "BED",
@@ -55,6 +55,12 @@
     "info": "With a seat or saddle, you drive from here.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^')."
   },
   {
+    "id": "SMART_ENGINE_CONTROLLER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "When active, turns engines on and off automatically."
+  },
+  {
     "id": "COVERED",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
@@ -82,7 +88,13 @@
     "id": "ENABLED_DRAINS_EPOWER",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "When turned on, this device drains power from the vehicle's batteries."
+    "info": "When turned on, this device drains <color_red>%sW</color> from the vehicle's batteries."
+  },
+  {
+    "id": "SOLAR_PANEL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Provides up to <color_green>%sW</color> of electrical power to the vehicle when exposed to the sun.  Weather and clouds will affect power generation."
   },
   {
     "id": "ENGINE",
@@ -134,6 +146,12 @@
     "requires_flag": "BELTABLE"
   },
   {
+    "id": "SHOCK_ABSORBER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Armor plate.  Will partially protect other components on the same frame from the shock damage of a distant collision but not from direct attacks."
+  },
+  {
     "id": "STABLE",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
@@ -163,6 +181,18 @@
     "type": "json_flag",
     "context": [ "vehicle_part" ],
     "info": "If the center of balance of your vehicle is between all the wheels, the vehicle will be able to move, provided it has an active engine or motor with enough power to move the vehicle."
+  },
+  {
+    "id": "WIND_TURBINE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Provides up to <color_green>%sW</color> of electrical power to the vehicle when exposed to the wind."
+  },
+  {
+    "id": "WATER_WHEEL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Provides up to <color_green>%sW</color> of electrical power to the vehicle when built over shallow moving water."
   },
   {
     "id": "FLAT_SURF",

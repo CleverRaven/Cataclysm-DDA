@@ -57,13 +57,12 @@
         "    ________________________sss                 "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "$": "t_shrub",
+        " ": "t_region_groundcover_urban",
+        "$": "t_region_shrub",
         "+": "t_door_c",
         ",": "t_pavement_y",
         "-": "t_wall_w",
         ".": "t_floor",
-        "6": "t_console",
         "=": "t_door_locked",
         "D": "t_door_locked_alarm",
         "F": "t_chainfence_h",
@@ -74,11 +73,12 @@
         "g": "t_chaingate_l",
         "s": "t_sidewalk",
         "w": "t_window",
-        "x": "t_console_broken",
         "|": "t_wall_w",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "x": "f_console_broken",
+        "6": "f_console",
         "C": "f_crate_c",
         "P": "f_pool_table",
         "S": "f_sink",

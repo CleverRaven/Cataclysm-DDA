@@ -1,18 +1,22 @@
-#include <functional>
-#include <memory>
-#include <string>
-
-#include "avatar.h"
 #include "catch/catch.hpp"
-#include "item.h"
-#include "map_helpers.h"
-#include "rng.h"
 #include "item_location.h"
+
+#include <functional>
+#include <list>
+
+#include "character.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_pocket.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "map_selector.h"
 #include "optional.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "type_id.h"
 #include "visitable.h"
 
 TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][item_location]" )
@@ -68,7 +72,7 @@ TEST_CASE( "item_location_doesnt_return_stale_map_item", "[item][item_location]"
 
 TEST_CASE( "item_in_container", "[item][item_location]" )
 {
-    avatar &dummy = get_avatar();
+    Character &dummy = get_player_character();
     clear_avatar();
     item &backpack = dummy.i_add( item( "backpack" ) );
     item jeans( "jeans" );
@@ -77,7 +81,7 @@ TEST_CASE( "item_in_container", "[item][item_location]" )
 
     backpack.put_in( jeans, item_pocket::pocket_type::CONTAINER );
 
-    item_location backpack_loc( dummy, & **dummy.wear( backpack ) );
+    item_location backpack_loc( dummy, & **dummy.wear_item( backpack ) );
 
     REQUIRE( dummy.has_item( *backpack_loc ) );
 

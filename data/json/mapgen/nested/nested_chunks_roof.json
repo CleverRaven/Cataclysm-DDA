@@ -54,9 +54,9 @@
         { "group": "cannedfood", "x": 1, "y": 0, "repeat": [ 2, 3 ] },
         { "group": "camping", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 50, "repeat": [ 2, 3 ] },
         { "item": "blanket", "x": 2, "y": 0, "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "can_drink_unsealed", "x": 1, "y": 1, "chance": 30, "repeat": [ 2, 3 ] },
-        { "item": "can_food_unsealed", "x": 1, "y": 1, "chance": 40, "repeat": [ 2, 3 ] },
-        { "item": "can_food_unsealed", "x": 1, "y": 1, "chance": 40, "repeat": [ 2, 3 ] },
+        { "item": "can_drink", "x": 1, "y": 1, "chance": 30, "repeat": [ 2, 3 ] },
+        { "item": "can_food", "x": 1, "y": 1, "chance": 40, "repeat": [ 2, 3 ] },
+        { "item": "can_food", "x": 1, "y": 1, "chance": 40, "repeat": [ 2, 3 ] },
         { "item": "sleeping_bag", "x": 3, "y": 1, "chance": 40 }
       ]
     }
@@ -321,8 +321,8 @@
         { "group": "bed", "x": 5, "y": 5, "chance": 50, "repeat": [ 1, 2 ] },
         { "group": "bed", "x": 3, "y": 5, "chance": 50, "repeat": [ 1, 2 ] },
         { "item": "jug_plastic", "x": 0, "y": 0 },
-        { "item": "can_drink_unsealed", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 30, "repeat": [ 2, 3 ] },
-        { "item": "can_food_unsealed", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 40, "repeat": [ 2, 3 ] }
+        { "item": "can_drink", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 30, "repeat": [ 2, 3 ] },
+        { "item": "can_food", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 40, "repeat": [ 2, 3 ] }
       ]
     }
   },

@@ -33,7 +33,7 @@
         "..............'U<U''U''."
       ],
       "terrain": {
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": "t_region_groundcover",
         " ": "t_floor",
         "'": "t_pavement",
         "U": "t_pavement",
@@ -45,11 +45,11 @@
         "-": "t_wall_y",
         "~": "t_window_alarm",
         "%": "t_reinforced_glass",
-        "?": "t_console_broken",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up"
       },
       "furniture": {
+        "?": "f_console_broken",
         "U": [ "f_dumpster", "f_recycle_bin" ],
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "X": "f_safe_l",
@@ -508,20 +508,6 @@
     }
   },
   {
-    "id": "my_precious",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "group": "supplies_metal_precious", "prob": 70 },
-      { "item": "money_bundle", "prob": 90 },
-      { "item": "gold_watch", "prob": 30 },
-      { "item": "gold_ear", "prob": 30 },
-      { "item": "gold_bracelet", "prob": 30 },
-      { "item": "diamond_ring", "prob": 20 },
-      { "item": "diamond", "prob": 10 }
-    ]
-  },
-  {
     "id": "pawn_shop_electronics",
     "type": "item_group",
     "subtype": "distribution",
@@ -568,7 +554,7 @@
       [ "boxer_shorts", 30 ],
       [ "mag_porn", 20 ],
       [ "briefs", 30 ],
-      { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
       [ "bikini_top_leather", 25 ],
       [ "skirt_leather", 25 ],
       [ "honey_bottled", 20 ],

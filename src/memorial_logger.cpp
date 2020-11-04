@@ -1,5 +1,6 @@
 #include "memorial_logger.h"
 
+#include <algorithm>
 #include <istream>
 #include <list>
 #include <map>
@@ -14,7 +15,9 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_variant.h"
+#include "character.h"
 #include "character_id.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "debug_menu.h"
 #include "effect.h"
@@ -24,11 +27,12 @@
 #include "filesystem.h"
 #include "game.h"
 #include "get_version.h"
+#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "json.h"
 #include "kill_tracker.h"
 #include "magic.h"
 #include "martialarts.h"
@@ -39,6 +43,8 @@
 #include "omdata.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "past_games_info.h"
+#include "pimpl.h"
 #include "pldata.h"
 #include "profession.h"
 #include "skill.h"
@@ -87,6 +93,50 @@ static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 
+memorial_log_entry::memorial_log_entry( const std::string &preformatted_msg ) :
+    preformatted_( preformatted_msg )
+{}
+
+memorial_log_entry::memorial_log_entry( time_point time, const oter_type_str_id &oter_id,
+                                        const std::string &oter_name, const std::string &msg ) :
+    time_( time ), oter_id_( oter_id ), oter_name_( oter_name ), message_( msg )
+{}
+
+std::string memorial_log_entry::to_string() const
+{
+    if( preformatted_ ) {
+        return *preformatted_;
+    } else {
+        return "| " + ::to_string( time_ ) + " | " + oter_name_ + " | " + message_;
+    }
+}
+
+void memorial_log_entry::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    if( jo.read( "preformatted", preformatted_ ) ) {
+        return;
+    }
+    jo.read( "time", time_, true );
+    jo.read( "oter_id", oter_id_, true );
+    jo.read( "oter_name", oter_name_, true );
+    jo.read( "message", message_, true );
+}
+
+void memorial_log_entry::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    if( preformatted_ ) {
+        jsout.member( "preformatted", preformatted_ );
+    } else {
+        jsout.member( "time", time_ );
+        jsout.member( "oter_id", oter_id_ );
+        jsout.member( "oter_name", oter_name_ );
+        jsout.member( "message", message_ );
+    }
+    jsout.end_object();
+}
+
 void memorial_logger::clear()
 {
     log.clear();
@@ -100,37 +150,53 @@ void memorial_logger::clear()
 void memorial_logger::add( const std::string &male_msg,
                            const std::string &female_msg )
 {
-    const std::string &msg = g->u.male ? male_msg : female_msg;
+    Character &player_character = get_player_character();
+    const std::string &msg = player_character.male ? male_msg : female_msg;
 
     if( msg.empty() ) {
         return;
     }
 
-    const oter_id &cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
-    const std::string &location = cur_ter->get_name();
+    const oter_id &cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
+    const oter_type_str_id cur_oter_type = cur_ter->get_type_id();
+    const std::string &oter_name = cur_ter->get_name();
 
-    std::string log_message = "| " + to_string( calendar::turn ) + " | " + location + " | " + msg;
-
-    log.push_back( log_message );
+    log.push_back( { calendar::turn, cur_oter_type, oter_name, msg } );
 }
 
 /**
- * Loads the data in a memorial file from the given ifstream. All the memorial
- * entry lines begin with a pipe (|).
- * @param fin The ifstream to read the memorial entries from.
+ * Loads the data in a memorial file from the given ifstream.
+ * In legacy format all the memorial entry lines begin with a pipe (|).
+ * (This legacy format stopped being used before 0.F release.)
+ * In new format the entries are stored as json.
+ * @param fin The stream to read the memorial entries from.
  */
 void memorial_logger::load( std::istream &fin )
 {
-    std::string entry;
     log.clear();
-    while( fin.peek() == '|' ) {
-        getline( fin, entry );
-        // strip all \r from end of string
-        while( *entry.rbegin() == '\r' ) {
-            entry.pop_back();
+    if( fin.peek() == '|' ) {
+        // Legacy plain text format
+        while( fin.peek() == '|' ) {
+            std::string entry;
+            getline( fin, entry );
+            // strip all \r from end of string
+            while( *entry.rbegin() == '\r' ) {
+                entry.pop_back();
+            }
+            log.emplace_back( entry );
         }
-        log.push_back( entry );
+    } else {
+        JsonIn jsin( fin );
+        if( !jsin.read( log ) ) {
+            debugmsg( "Error reading JSON memorial log" );
+        }
     }
+}
+
+void memorial_logger::save( std::ostream &os ) const
+{
+    JsonOut jsout( os );
+    jsout.write( log );
 }
 
 /**
@@ -143,17 +209,18 @@ std::string memorial_logger::dump() const
     static const char *eol = cata_files::eol();
     std::string output;
 
-    for( auto &elem : log ) {
-        output += elem;
+    for( const memorial_log_entry &elem : log ) {
+        output += elem.to_string();
         output += eol;
     }
 
     return output;
 }
 
-void memorial_logger::write( std::ostream &file, const std::string &epitaph ) const
+void memorial_logger::write_text_memorial( std::ostream &file,
+        const std::string &epitaph ) const
 {
-    avatar &u = g->u;
+    avatar &u = get_avatar();
     static const char *eol = cata_files::eol();
 
     //Size of indents in the memorial file
@@ -173,7 +240,9 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         profession_name = string_format( _( "a %s" ), u.prof->gender_appropriate_name( u.male ) );
     }
 
-    const std::string locdesc = overmap_buffer.get_description_at( u.global_sm_location() );
+    // TODO: fix point types
+    const std::string locdesc =
+        overmap_buffer.get_description_at( tripoint_abs_sm( u.global_sm_location() ) );
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
     //~ that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
@@ -203,18 +272,18 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     //HP
 
     const auto limb_hp =
-    [&file, &indent, &u]( const std::string & desc, const hp_part bp ) {
+    [&file, &indent, &u]( const std::string & desc, const bodypart_id & bp ) {
         file << indent <<
-             string_format( desc, u.get_hp( bp ), u.get_hp_max( bp ) ) << eol;
+             string_format( desc, u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) ) << eol;
     };
 
     file << _( "Final HP:" ) << eol;
-    limb_hp( _( " Head: %d/%d" ), hp_head );
-    limb_hp( _( "Torso: %d/%d" ), hp_torso );
-    limb_hp( _( "L Arm: %d/%d" ), hp_arm_l );
-    limb_hp( _( "R Arm: %d/%d" ), hp_arm_r );
-    limb_hp( _( "L Leg: %d/%d" ), hp_leg_l );
-    limb_hp( _( "R Leg: %d/%d" ), hp_leg_r );
+    limb_hp( _( " Head: %d/%d" ), bodypart_id( "head" ) );
+    limb_hp( _( "Torso: %d/%d" ), bodypart_id( "torso" ) );
+    limb_hp( _( "L Arm: %d/%d" ), bodypart_id( "arm_l" ) );
+    limb_hp( _( "R Arm: %d/%d" ), bodypart_id( "arm_r" ) );
+    limb_hp( _( "L Leg: %d/%d" ), bodypart_id( "leg_l" ) );
+    limb_hp( _( "R Leg: %d/%d" ), bodypart_id( "leg_r" ) );
     file << eol;
 
     //Stats
@@ -333,8 +402,8 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     //Inventory
     file << _( "Inventory:" ) << eol;
-    u.inv.restack( u );
-    invslice slice = u.inv.slice();
+    u.inv->restack( u );
+    invslice slice = u.inv->slice();
     for( const std::list<item> *elem : slice ) {
         const item &next_item = elem->front();
         file << indent << next_item.invlet << " - " <<
@@ -352,8 +421,8 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     //Lifetime stats
     file << _( "Lifetime Stats and Scores" ) << eol;
 
-    for( const score *scr : g->stats().valid_scores() ) {
-        file << indent << scr->description( g->stats() ) << eol;
+    for( const score *scr : get_stats().valid_scores() ) {
+        file << indent << scr->description( get_stats() ) << eol;
     }
     file << eol;
 
@@ -362,12 +431,37 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     file << dump();
 }
 
+void memorial_logger::write_json_memorial( std::ostream &memorial_file ) const
+{
+    JsonOut jsout( memorial_file, true, 2 );
+    jsout.start_object();
+    jsout.member( "memorial_version", 0 );
+    jsout.member( "log", log );
+    jsout.member( "achievements", get_achievements() );
+    jsout.member( "stats", get_stats() );
+
+    std::map<string_id<score>, cata_variant> scores;
+    for( const score *scr : get_stats().valid_scores() ) {
+        scores.emplace( scr->id, scr->value( get_stats() ) );
+    }
+    jsout.member( "scores", scores );
+
+    jsout.end_object();
+
+    // Having written a new memorial file, we need to ensure that
+    // past_games_info now takes that into account
+    clear_past_games();
+}
+
 void memorial_logger::notify( const cata::event &e )
 {
+    Character &player_character = get_player_character();
+    character_id avatar_id = player_character.getID();
+    std::string &avatar_name = player_character.name;
     switch( e.type() ) {
         case event_type::activates_artifact: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 std::string item_name = e.get<cata_variant_type::string>( "item_name" );
                 //~ %s is artifact name
                 add( pgettext( "memorial_male", "Activated the %s." ),
@@ -378,7 +472,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::activates_mininuke: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Activated a mininuke." ),
                      pgettext( "memorial_female", "Activated a mininuke." ) );
             }
@@ -386,7 +480,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::administers_mutagen: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 mutagen_technique technique = e.get<mutagen_technique>( "technique" );
                 switch( technique ) {
                     case mutagen_technique::consumed_mutagen:
@@ -427,26 +521,37 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::becomes_wanted: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Became wanted by the police!" ),
                      pgettext( "memorial_female", "Became wanted by the police!" ) );
             }
             break;
         }
+        case event_type::broken_bone: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == avatar_id ) {
+                bodypart_id part = e.get<bodypart_id>( "part" );
+                //~ %s is bodypart
+                add( pgettext( "memorial_male", "Broke his %s." ),
+                     pgettext( "memorial_female", "Broke her %s." ),
+                     body_part_name( part ) );
+            }
+            break;
+        }
         case event_type::broken_bone_mends: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
-                body_part part = e.get<body_part>( "part" );
+            if( ch == avatar_id ) {
+                bodypart_id part = e.get<bodypart_id>( "part" );
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broken %s began to mend." ),
                      pgettext( "memorial_female", "Broken %s began to mend." ),
-                     body_part_name( convert_bp( part ).id() ) );
+                     body_part_name( part ) );
             }
             break;
         }
         case event_type::buries_corpse: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 const mtype &corpse_type = e.get<mtype_id>( "corpse_type" ).obj();
                 std::string corpse_name = e.get<cata_variant_type::string>( "corpse_name" );
                 if( corpse_name.empty() ) {
@@ -471,23 +576,25 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::character_gains_effect: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 const effect_type &type = e.get<efftype_id>( "effect" ).obj();
-                const std::string message = type.get_apply_memorial_log();
-                if( !message.empty() ) {
-                    add( pgettext( "memorial_male", message.c_str() ),
-                         pgettext( "memorial_female", message.c_str() ) );
+                const std::string male_message = type.get_apply_memorial_log(
+                                                     effect_type::memorial_gender::male );
+                const std::string female_message = type.get_apply_memorial_log(
+                                                       effect_type::memorial_gender::female );
+                if( !male_message.empty() || !female_message.empty() ) {
+                    add( male_message, female_message );
                 }
             }
             break;
         }
         case event_type::character_kills_character: {
             character_id ch = e.get<character_id>( "killer" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 std::string name = e.get<cata_variant_type::string>( "victim_name" );
-                bool cannibal = g->u.has_trait( trait_CANNIBAL );
-                bool psycho = g->u.has_trait( trait_PSYCHOPATH );
-                if( g->u.has_trait( trait_SAPIOVORE ) ) {
+                bool cannibal = player_character.has_trait( trait_CANNIBAL );
+                bool psycho = player_character.has_trait( trait_PSYCHOPATH );
+                if( player_character.has_trait( trait_SAPIOVORE ) ) {
                     add( pgettext( "memorial_male",
                                    "Caught and killed an ape.  Prey doesn't have a name." ),
                          pgettext( "memorial_female",
@@ -522,7 +629,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::character_kills_monster: {
             character_id ch = e.get<character_id>( "killer" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 mtype_id victim_type = e.get<mtype_id>( "victim_type" );
                 if( victim_type->difficulty >= 30 ) {
                     add( pgettext( "memorial_male", "Killed a %s." ),
@@ -534,19 +641,21 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::character_loses_effect: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 const effect_type &type = e.get<efftype_id>( "effect" ).obj();
-                const std::string message = type.get_remove_memorial_log();
-                if( !message.empty() ) {
-                    add( pgettext( "memorial_male", message.c_str() ),
-                         pgettext( "memorial_female", message.c_str() ) );
+                const std::string male_message = type.get_remove_memorial_log(
+                                                     effect_type::memorial_gender::male );
+                const std::string female_message = type.get_remove_memorial_log(
+                                                       effect_type::memorial_gender::female );
+                if( !male_message.empty() || !female_message.empty() ) {
+                    add( male_message, female_message );
                 }
             }
             break;
         }
         case event_type::character_triggers_trap: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 trap_str_id trap = e.get<trap_str_id>( "trap" );
                 if( trap == tr_bubblewrap ) {
                     add( pgettext( "memorial_male", "Stepped on bubble wrap." ),
@@ -635,7 +744,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::consumes_marloss_item: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 const itype *it = item_controller->find_template(
                                       e.get<cata_variant_type::itype_id>( "itype" ) );
                 std::string itname = it->nname( 1 );
@@ -646,7 +755,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::crosses_marloss_threshold: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Opened the Marloss Gateway." ),
                      pgettext( "memorial_female", "Opened the Marloss Gateway." ) );
             }
@@ -654,8 +763,8 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::crosses_mutation_threshold: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
-                std::string category_id =
+            if( ch == avatar_id ) {
+                mutation_category_id category_id =
                     e.get<cata_variant_type::mutation_category_id>( "category" );
                 const mutation_category_trait &category =
                     mutation_category_trait::get_category( category_id );
@@ -666,7 +775,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::crosses_mycus_threshold: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Became one with the Mycus." ),
                      pgettext( "memorial_female", "Became one with the Mycus." ) );
             }
@@ -674,7 +783,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::dermatik_eggs_hatch: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Dermatik eggs hatched." ),
                      pgettext( "memorial_female", "Dermatik eggs hatched." ) );
             }
@@ -682,7 +791,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::dermatik_eggs_injected: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Injected with dermatik eggs." ),
                      pgettext( "memorial_female", "Injected with dermatik eggs." ) );
             }
@@ -695,7 +804,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::dies_from_asthma_attack: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Succumbed to an asthma attack." ),
                      pgettext( "memorial_female", "Succumbed to an asthma attack." ) );
             }
@@ -703,7 +812,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::dies_from_drug_overdose: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 efftype_id effect = e.get<efftype_id>( "effect" );
                 if( effect == effect_datura ) {
                     add( pgettext( "memorial_male", "Died of datura overdose." ),
@@ -724,9 +833,33 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
+        case event_type::dies_from_bleeding: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == avatar_id ) {
+                add( pgettext( "memorial_male", "Bled to death." ),
+                     pgettext( "memorial_female", "Bled to death." ) );
+            }
+            break;
+        }
+        case event_type::dies_from_hypovolemia: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == avatar_id ) {
+                add( pgettext( "memorial_male", "Died of hypovolemic shock." ),
+                     pgettext( "memorial_female", "Died of hypovolemic shock." ) );
+            }
+            break;
+        }
+        case event_type::dies_from_redcells_loss: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == avatar_id ) {
+                add( pgettext( "memorial_male", "Died from loss of red blood cells." ),
+                     pgettext( "memorial_female", "Died from loss of red blood cells." ) );
+            }
+            break;
+        }
         case event_type::dies_of_infection: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Succumbed to the infection." ),
                      pgettext( "memorial_female", "Succumbed to the infection." ) );
             }
@@ -734,7 +867,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::dies_of_starvation: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Died of starvation." ),
                      pgettext( "memorial_female", "Died of starvation." ) );
             }
@@ -742,7 +875,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::dies_of_thirst: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Died of thirst." ),
                      pgettext( "memorial_female", "Died of thirst." ) );
             }
@@ -765,7 +898,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::evolves_mutation: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 trait_id from = e.get<trait_id>( "from_trait" );
                 trait_id to = e.get<trait_id>( "to_trait" );
                 add( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
@@ -776,7 +909,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::exhumes_grave: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Exhumed a grave." ),
                      pgettext( "memorial_female", "Exhumed a grave." ) );
             }
@@ -784,7 +917,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::fails_to_install_cbm: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Failed install of bionic: %s." ),
                      pgettext( "memorial_female", "Failed install of bionic: %s." ),
@@ -794,7 +927,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::fails_to_remove_cbm: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
                      pgettext( "memorial_female", "Failed to remove bionic: %s." ),
@@ -804,7 +937,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::falls_asleep_from_exhaustion: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Succumbed to lack of sleep." ),
                      pgettext( "memorial_female", "Succumbed to lack of sleep." ) );
             }
@@ -819,7 +952,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::gains_addiction: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add_type type = e.get<add_type>( "add_type" );
                 const std::string &type_name = addiction_type_name( type );
                 //~ %s is addiction name
@@ -831,7 +964,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::gains_mutation: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 trait_id trait = e.get<trait_id>( "trait" );
                 add( pgettext( "memorial_male", "Gained the mutation '%s'." ),
                      pgettext( "memorial_female", "Gained the mutation '%s'." ),
@@ -841,7 +974,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::gains_skill_level: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 int new_level = e.get<int>( "new_level" );
                 if( new_level % 4 == 0 ) {
                     skill_id skill = e.get<skill_id>( "skill" );
@@ -862,11 +995,11 @@ void memorial_logger::notify( const cata::event &e )
             if( suicide ) {
                 add( pgettext( "memorial_male", "%s committed suicide." ),
                      pgettext( "memorial_female", "%s committed suicide." ),
-                     g->u.name );
+                     avatar_name );
             } else {
                 add( pgettext( "memorial_male", "%s was killed." ),
                      pgettext( "memorial_female", "%s was killed." ),
-                     g->u.name );
+                     avatar_name );
             }
             if( !last_words.empty() ) {
                 add( pgettext( "memorial_male", "Last words: %s" ),
@@ -879,12 +1012,12 @@ void memorial_logger::notify( const cata::event &e )
             add( //~ %s is player name
                 pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
                 pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
-                g->u.name );
+                avatar_name );
             break;
         }
         case event_type::installs_cbm: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Installed bionic: %s." ),
                      pgettext( "memorial_female", "Installed bionic: %s." ),
@@ -894,7 +1027,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::installs_faulty_cbm: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Installed bad bionic: %s." ),
                      pgettext( "memorial_female", "Installed bad bionic: %s." ),
@@ -904,7 +1037,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::learns_martial_art: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 matype_id mastyle = e.get<matype_id>( "martial_art" );
                 //~ %s is martial art
                 add( pgettext( "memorial_male", "Learned %s." ),
@@ -915,7 +1048,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::loses_addiction: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add_type type = e.get<add_type>( "add_type" );
                 const std::string &type_name = addiction_type_name( type );
                 //~ %s is addiction name
@@ -958,7 +1091,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::character_forgets_spell: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
                 add( pgettext( "memorial_male", "Forgot the spell %s." ),
                      pgettext( "memorial_female", "Forgot the spell %s." ),
@@ -968,7 +1101,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::character_learns_spell: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
                 add( pgettext( "memorial_male", "Learned the spell %s." ),
                      pgettext( "memorial_female", "Learned the spell %s." ),
@@ -978,7 +1111,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::player_levels_spell: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
                 add( pgettext( "memorial_male", "Gained a spell level on %s." ),
                      pgettext( "memorial_female", "Gained a spell level on %s." ),
@@ -993,7 +1126,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::removes_cbm: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Removed bionic: %s." ),
                      pgettext( "memorial_female", "Removed bionic: %s." ),
@@ -1008,7 +1141,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::telefrags_creature: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 std::string victim_name = e.get<cata_variant_type::string>( "victim_name" );
                 add( pgettext( "memorial_male", "Telefragged a %s." ),
                      pgettext( "memorial_female", "Telefragged a %s." ),
@@ -1018,7 +1151,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::teleglow_teleports: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Spontaneous teleport." ),
                      pgettext( "memorial_female", "Spontaneous teleport." ) );
             }
@@ -1026,7 +1159,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::teleports_into_wall: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 std::string obstacle_name = e.get<cata_variant_type::string>( "obstacle_name" );
                 add( pgettext( "memorial_male", "Teleported into a %s." ),
                      pgettext( "memorial_female", "Teleported into a %s." ),
@@ -1041,7 +1174,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::throws_up: {
             character_id ch = e.get<character_id>( "character" );
-            if( ch == g->u.getID() ) {
+            if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Threw up." ),
                      pgettext( "memorial_female", "Threw up." ) );
             }
@@ -1061,12 +1194,21 @@ void memorial_logger::notify( const cata::event &e )
         // All the events for which we have no memorial log are here
         case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
+        case event_type::character_consumes_item:
+        case event_type::character_eats_item:
         case event_type::character_gets_headshot:
         case event_type::character_heals_damage:
+        case event_type::character_melee_attacks_character:
+        case event_type::character_melee_attacks_monster:
+        case event_type::character_ranged_attacks_character:
+        case event_type::character_ranged_attacks_monster:
+        case event_type::character_smashes_tile:
         case event_type::character_takes_damage:
         case event_type::character_wakes_up:
         case event_type::character_wears_item:
         case event_type::character_wields_item:
+        case event_type::cuts_tree:
+        case event_type::reads_book:
         case event_type::game_load:
         case event_type::game_save:
             break;

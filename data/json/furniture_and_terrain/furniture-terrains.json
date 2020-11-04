@@ -211,7 +211,8 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -231,7 +232,8 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -252,8 +254,9 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "open": "f_canvas_door_o",
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -274,6 +277,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
     "close": "f_canvas_door",
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -293,8 +297,9 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "open": "f_large_canvas_door_o",
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -316,6 +321,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
     "close": "f_large_canvas_door",
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -335,7 +341,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "tent_kit",
     "bash": {
@@ -357,7 +363,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -377,7 +383,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "large_tent_kit",
     "bash": {
@@ -400,7 +406,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "INDOORS", "ORGANIC", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "ORGANIC", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -420,7 +426,8 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -440,8 +447,9 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "open": "f_skin_door_o",
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -462,6 +470,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
     "close": "f_skin_door",
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -480,7 +489,7 @@
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "shelter_kit",
     "bash": {
@@ -589,6 +598,33 @@
       "RUBBLE"
     ],
     "examine_action": "rubble"
+  },
+  {
+    "type": "furniture",
+    "id": "f_reactor_meltdown",
+    "name": "radioactive slag",
+    "description": "A pile of melted slag from a destroyed nuclear reactor.  What are you doing looking at this?  Get the hell out of here, you nutcase!",
+    "looks_like": "f_wreckage",
+    "symbol": "#",
+    "color": "light_green",
+    "move_cost_mod": 6,
+    "max_volume": "750 L",
+    "required_str": -1,
+    "emissions": [ "emit_rad_cloud" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "SHARP",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "RUBBLE",
+      "EMITTER"
+    ]
   },
   {
     "type": "furniture",
@@ -744,6 +780,36 @@
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "scrap", "count": [ 3, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_scrap_bridge",
+    "name": "scrap metal bridge",
+    "description": "A simple bridge made of riveted sheet metal.",
+    "move_cost_mod": 0,
+    "symbol": "]",
+    "color": "light_gray",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOCOLLIDE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": 10 },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "rebar", "count": 2 },
+        { "item": "wire", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 25,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
       ]
     }
   }

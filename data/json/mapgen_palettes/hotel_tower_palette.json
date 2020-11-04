@@ -18,7 +18,7 @@
       "S": "f_sink",
       "&": "f_toilet",
       "b": "f_bathtub",
-      "E": [ "f_exercise", "f_ergometer", "f_treadmill" ],
+      "E": [ "f_exercise", "f_ergometer", "f_ergometer_mechanical", "f_treadmill", "f_treadmill_mechanical" ],
       "e": "f_fridge",
       "l": "f_locker",
       "W": "f_washer",

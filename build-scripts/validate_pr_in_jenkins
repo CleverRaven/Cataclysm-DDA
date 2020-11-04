@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ -z "$ghprbPullId" ]; then exit 0; fi
 

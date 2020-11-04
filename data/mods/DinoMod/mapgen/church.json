@@ -45,6 +45,12 @@
         "o": { "item": "butcher_tools", "chance": 40 }
       },
       "place_nested": [ { "chunks": [ "NC_BO_BARONYX_spawn" ], "x": 11, "y": 5 } ],
+      "place_npcs": [
+        { "class": "guard", "x": 7, "y": 7 },
+        { "class": "guard", "x": 7, "y": 11 },
+        { "class": "guard", "x": 21, "y": 7 },
+        { "class": "guard", "x": 21, "y": 11 }
+      ],
       "computers": {
         "6": {
           "name": "Church Bells 1.2",

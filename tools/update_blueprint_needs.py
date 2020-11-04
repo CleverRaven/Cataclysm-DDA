@@ -1,22 +1,29 @@
 #!/usr/bin/env python3
 
 import getopt
+import glob
 import json
 import os
 import re
 import subprocess
 import sys
 
+
 def print_help():
-    print("\n"
-          "Update faction camp blueprints with autocalculated requirements from unit test log.\n"
-          "This tool requires tools/format/json_formatter.\n"
-          "\n"
-          "    --help              prints this message\n"
-          "    --logfile=<logfile> specify the path to unit test log file\n"
-          "    --action=<value>    what to do with reported inconsistencies. (optional)\n"
-          "                            update: update with suggested requirements (default)\n"
-          "                            suppress: suppress inconsistency warnings\n")
+    print(
+        "\n"
+        "Update faction camp blueprints with autocalculated requirements\n"
+        "from unit test log.\n"
+        "This tool requires tools/format/json_formatter.\n"
+        "\n"
+        "  --help   prints this message\n"
+        "  --logfile=<logfile>\n"
+        "           specify the path to unit test log file\n"
+        "  --action=<value>\n"
+        "           what to do with reported inconsistencies. (optional)\n"
+        "             update: update with suggested requirements (default)\n"
+        "             suppress: suppress inconsistency warnings\n")
+
 
 def main(argv):
     try:
@@ -39,7 +46,7 @@ def main(argv):
             elif arg == "suppress":
                 suppress = True
             else:
-                print_help();
+                print_help()
                 return
     if not test_log:
         print_help()
@@ -49,11 +56,11 @@ def main(argv):
         "data/core",
         "data/json",
         "data/mods",
-    };
+    }
 
     auto_update_blueprint = re.compile("~~~ auto-update-blueprint: (.+)")
     auto_update_blueprint_end = re.compile("~~~ end-auto-update")
-    json_filename = re.compile(".+\\.json")
+    json_filename = re.compile("[^.].*\\.json")
 
     update_blueprints = dict()
 
@@ -78,7 +85,7 @@ def main(argv):
                     else:
                         reqs += line
                 if complete:
-                    update_blueprints[ident] = json.loads(reqs);
+                    update_blueprints[ident] = json.loads(reqs)
                     print("{} needs updating".format(ident))
 
     if len(update_blueprints) == 0:
@@ -93,15 +100,19 @@ def main(argv):
                 content = None
                 changed = False
                 if json_filename.match(file):
-                    with open(json_path, 'r', encoding='utf-8') as fs:
-                        content = json.load(fs)
+                    try:
+                        with open(json_path, 'r', encoding='utf-8') as fs:
+                            content = json.load(fs)
+                    except Exception:
+                        sys.stderr.write('Error parsing %r\n' % json_path)
+                        raise
                 if type(content) is list:
                     for obj in content:
-                        if not (type(obj) is dict
-                          and "type" in obj and obj["type"] == "recipe"
-                          and ("result" in obj or "abstract" in obj)):
+                        if not (type(obj) is dict and
+                                "type" in obj and obj["type"] == "recipe" and
+                                ("result" in obj or "abstract" in obj)):
                             continue
-                        ident = None;
+                        ident = None
                         if "abstract" in obj:
                             ident = obj["abstract"]
                         else:
@@ -112,14 +123,20 @@ def main(argv):
                             if suppress:
                                 obj["check_blueprint_needs"] = False
                             else:
-                                obj["blueprint_needs"] = update_blueprints[ident]
+                                obj["blueprint_needs"] = \
+                                    update_blueprints[ident]
                             if not changed:
                                 changed = True
                                 print("updating {}".format(json_path))
                 if changed:
                     with open(json_path, 'w', encoding='utf-8') as fs:
                         json.dump(content, fs, indent=2)
-                    subprocess.run(["tools/format/json_formatter", json_path], stdout=subprocess.DEVNULL)
+                    json_formatter_name = glob.glob(
+                        'tools/format/json_formatter.[ec]*')
+                    assert len(json_formatter_name) == 1
+                    subprocess.run([json_formatter_name[0], json_path],
+                                   stdout=subprocess.DEVNULL)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])

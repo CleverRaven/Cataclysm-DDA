@@ -119,6 +119,12 @@
       },
       {
         "text": "<BGSS_intro_question>",
+        "topic": "BGSS_LEFT_FOR_DEAD_3_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Left_for_Dead_3" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
         "topic": "BGSS_GUNG_HO_1_STORY1",
         "condition": { "npc_has_trait": "BGSS_Gung_Ho_1" },
         "switch": true

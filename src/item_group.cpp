@@ -1,28 +1,28 @@
 #include "item_group.h"
 
 #include <algorithm>
-#include <cassert>
 #include <set>
 
 #include "calendar.h"
+#include "cata_assert.h"
 #include "compatibility.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "flat_set.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "relic.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "type_id.h"
-#include "value_ptr.h"
 
 static const std::string null_item_id( "null" );
 
-static const std::string flag_NEEDS_NO_LUBE( "NEEDS_NO_LUBE" );
-static const std::string flag_NON_FOULING( "NON-FOULING" );
-static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
-static const std::string flag_VARSIZE( "VARSIZE" );
 
 Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
 {
@@ -34,6 +34,17 @@ item Item_spawn_data::create_single( const time_point &birthday ) const
 {
     RecursionList rec;
     return create_single( birthday, rec );
+}
+
+void Item_spawn_data::relic_generator::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "rules", rules );
+    mandatory( jo, was_loaded, "procgen_id", id );
+}
+
+relic Item_spawn_data::relic_generator::generate_relic( const itype_id &it_id ) const
+{
+    return id->generate( rules, it_id );
 }
 
 Single_item_creator::Single_item_creator( const std::string &_id, Type _type, int _probability )
@@ -53,12 +64,13 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
             tmp = item( id, birthday );
         }
     } else if( type == S_ITEM_GROUP ) {
-        if( std::find( rec.begin(), rec.end(), id ) != rec.end() ) {
+        item_group_id group_id( id );
+        if( std::find( rec.begin(), rec.end(), group_id ) != rec.end() ) {
             debugmsg( "recursion in item spawn list %s", id.c_str() );
             return item( null_item_id, birthday );
         }
-        rec.push_back( id );
-        Item_spawn_data *isd = item_controller->get_group( id );
+        rec.push_back( group_id );
+        Item_spawn_data *isd = item_controller->get_group( group_id );
         if( isd == nullptr ) {
             debugmsg( "unknown item spawn list %s", id.c_str() );
             return item( null_item_id, birthday );
@@ -69,7 +81,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         return item( null_item_id, birthday );
     }
     if( one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
-        tmp.item_tags.insert( "FIT" );
+        tmp.set_flag( flag_FIT );
     }
     if( modifier ) {
         modifier->modify( tmp );
@@ -81,7 +93,30 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         // TODO: change the spawn lists to contain proper references to containers
         tmp = tmp.in_its_container( qty );
     }
+    if( artifact ) {
+        tmp.overwrite_relic( artifact->generate_relic( tmp.typeId() ) );
+    }
+    if( container_item ) {
+        tmp = tmp.in_container( *container_item, tmp.charges, sealed );
+    }
     return tmp;
+}
+
+static item_pocket::pocket_type guess_pocket_for( const item &container, const item &payload )
+{
+    if( ( container.is_gun() && payload.is_gunmod() ) || ( container.is_tool() &&
+            payload.is_toolmod() ) ) {
+        return item_pocket::pocket_type::MOD;
+    }
+    if( container.is_software_storage() && payload.is_software() ) {
+        return item_pocket::pocket_type::SOFTWARE;
+    }
+    if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
+        return item_pocket::pocket_type::MAGAZINE_WELL;
+    } else if( ( container.is_magazine() ) && payload.is_ammo() ) {
+        return item_pocket::pocket_type::MAGAZINE;
+    }
+    return item_pocket::pocket_type::CONTAINER;
 }
 
 Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthday,
@@ -96,17 +131,18 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
     }
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
-            const auto itm = create_single( birthday, rec );
+            const item itm = create_single( birthday, rec );
             if( !itm.is_null() ) {
                 result.push_back( itm );
             }
         } else {
-            if( std::find( rec.begin(), rec.end(), id ) != rec.end() ) {
+            item_group_id group_id( id );
+            if( std::find( rec.begin(), rec.end(), group_id ) != rec.end() ) {
                 debugmsg( "recursion in item spawn list %s", id.c_str() );
                 return result;
             }
-            rec.push_back( id );
-            Item_spawn_data *isd = item_controller->get_group( id );
+            rec.push_back( group_id );
+            Item_spawn_data *isd = item_controller->get_group( group_id );
             if( isd == nullptr ) {
                 debugmsg( "unknown item spawn list %s", id.c_str() );
                 return result;
@@ -121,6 +157,19 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
             result.insert( result.end(), tmplist.begin(), tmplist.end() );
         }
     }
+    if( artifact ) {
+        for( item &it : result ) {
+            it.overwrite_relic( artifact->generate_relic( it.typeId() ) );
+        }
+    }
+    if( container_item ) {
+        item ctr( *container_item, birthday );
+        for( const item &it : result ) {
+            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
+            ctr.put_in( it, pk_type );
+        }
+        result = ItemList{ ctr };
+    }
     return result;
 }
 
@@ -131,7 +180,7 @@ void Single_item_creator::check_consistency( const std::string &context ) const
             debugmsg( "item id %s is unknown (in %s)", id, context );
         }
     } else if( type == S_ITEM_GROUP ) {
-        if( !item_group::group_is_defined( id ) ) {
+        if( !item_group::group_is_defined( item_group_id( id ) ) ) {
             debugmsg( "item group id %s is unknown (in %s)", id, context );
         }
     } else if( type == S_NONE ) {
@@ -158,7 +207,7 @@ bool Single_item_creator::remove_item( const itype_id &itemid )
             return true;
         }
     } else if( type == S_ITEM_GROUP ) {
-        Item_spawn_data *isd = item_controller->get_group( id );
+        Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
         if( isd != nullptr ) {
             isd->remove_item( itemid );
         }
@@ -179,7 +228,7 @@ bool Single_item_creator::replace_item( const itype_id &itemid, const itype_id &
             return true;
         }
     } else if( type == S_ITEM_GROUP ) {
-        Item_spawn_data *isd = item_controller->get_group( id );
+        Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
         if( isd != nullptr ) {
             isd->replace_item( itemid, replacementid );
         }
@@ -198,7 +247,7 @@ std::set<const itype *> Single_item_creator::every_item() const
         case S_ITEM:
             return { item::find_type( itype_id( id ) ) };
         case S_ITEM_GROUP: {
-            Item_spawn_data *isd = item_controller->get_group( id );
+            Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
             if( isd != nullptr ) {
                 return isd->every_item();
             }
@@ -207,7 +256,8 @@ std::set<const itype *> Single_item_creator::every_item() const
         case S_NONE:
             return {};
     }
-    assert( !"Unexpected type" );
+    // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+    cata_assert( !"Unexpected type" );
     return {};
 }
 
@@ -278,7 +328,12 @@ void Item_modifier::modify( item &new_item ) const
 
     if( max_capacity == -1 && !cont.is_null() && ( new_item.made_of( phase_id::LIQUID ) ||
             ( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) ) ) {
-        max_capacity = new_item.charges_per_volume( cont.get_total_capacity() );
+        if( new_item.type->weight == 0_gram ) {
+            max_capacity = new_item.charges_per_volume( cont.get_total_capacity() );
+        } else {
+            max_capacity = std::min( new_item.charges_per_volume( cont.get_total_capacity() ),
+                                     new_item.charges_per_weight( cont.get_total_weight_capacity() ) );
+        }
     }
 
     const bool charges_not_set = charges.first == -1 && charges.second == -1;
@@ -329,20 +384,19 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( ch > 0 && ( new_item.is_gun() || new_item.is_magazine() ) ) {
-        if( ammo == nullptr ) {
-            // In case there is no explicit ammo item defined, use the default ammo
-            if( !new_item.ammo_types().empty() ) {
-                new_item.ammo_set( new_item.ammo_default(), ch );
-            }
+        itype_id ammo_id;
+        if( ammo ) {
+            ammo_id = ammo->create_single( new_item.birthday() ).typeId();
+        } else if( new_item.ammo_default() ) {
+            ammo_id = new_item.ammo_default();
+        } else if( new_item.magazine_default() && new_item.magazine_default()->magazine->default_ammo ) {
+            ammo_id = new_item.magazine_default()->magazine->default_ammo;
+        }
+        if( ammo_id ) {
+            new_item.ammo_set( ammo_id, ch );
         } else {
-            const item am = ammo->create_single( new_item.birthday() );
-            if( !new_item.magazine_default().is_null() ) {
-                item mag( new_item.magazine_default() );
-                mag.ammo_set( am.typeId(), ch );
-                new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
-            } else {
-                new_item.ammo_set( am.typeId(), ch );
-            }
+            debugmsg( "tried to set ammo for %s which does not have ammo or a magazine",
+                      new_item.typeId().c_str() );
         }
         // Make sure the item is in valid state
         if( new_item.magazine_integral() ) {
@@ -377,18 +431,26 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( !cont.is_null() ) {
-        cont.put_in( new_item, item_pocket::pocket_type::CONTAINER );
+        const item_pocket::pocket_type pk_type = guess_pocket_for( cont, new_item );
+        cont.put_in( new_item, pk_type );
         new_item = cont;
+        if( sealed ) {
+            new_item.seal();
+        }
     }
 
     if( contents != nullptr ) {
         Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
         for( const item &it : contentitems ) {
-            new_item.put_in( it, item_pocket::pocket_type::CONTAINER );
+            const item_pocket::pocket_type pk_type = guess_pocket_for( new_item, it );
+            new_item.put_in( it, pk_type );
+        }
+        if( sealed ) {
+            new_item.seal();
         }
     }
 
-    for( auto &flag : custom_flags ) {
+    for( const flag_str_id &flag : custom_flags ) {
         new_item.set_flag( flag );
     }
 }
@@ -462,15 +524,15 @@ void Item_group::add_item_entry( const itype_id &itemid, int probability )
                    itemid.str(), Single_item_creator::S_ITEM, probability ) );
 }
 
-void Item_group::add_group_entry( const Group_tag &groupid, int probability )
+void Item_group::add_group_entry( const item_group_id &groupid, int probability )
 {
     add_entry( std::make_unique<Single_item_creator>(
-                   groupid, Single_item_creator::S_ITEM_GROUP, probability ) );
+                   groupid.str(), Single_item_creator::S_ITEM_GROUP, probability ) );
 }
 
 void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
 {
-    assert( ptr.get() != nullptr );
+    cata_assert( ptr.get() != nullptr );
     if( ptr->probability <= 0 ) {
         return;
     }
@@ -511,6 +573,14 @@ Item_spawn_data::ItemList Item_group::create( const time_point &birthday, Recurs
             break;
         }
     }
+    if( container_item ) {
+        item ctr( *container_item, birthday );
+        for( const item &it : result ) {
+            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
+            ctr.put_in( it, pk_type );
+        }
+        result = ItemList{ ctr };
+    }
 
     return result;
 }
@@ -542,6 +612,11 @@ void Item_group::check_consistency( const std::string &context ) const
     for( const auto &elem : items ) {
         ( elem )->check_consistency( "item in " + context );
     }
+}
+
+void Item_spawn_data::set_container_item( const itype_id &container )
+{
+    container_item = container;
 }
 
 bool Item_group::remove_item( const itype_id &itemid )
@@ -585,49 +660,50 @@ std::set<const itype *> Item_group::every_item() const
     return result;
 }
 
-item_group::ItemList item_group::items_from( const Group_tag &group_id, const time_point &birthday )
+item_group::ItemList item_group::items_from( const item_group_id &group_id,
+        const time_point &birthday )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return ItemList();
     }
     return group->create( birthday );
 }
 
-item_group::ItemList item_group::items_from( const Group_tag &group_id )
+item_group::ItemList item_group::items_from( const item_group_id &group_id )
 {
     return items_from( group_id, 0 );
 }
 
-item item_group::item_from( const Group_tag &group_id, const time_point &birthday )
+item item_group::item_from( const item_group_id &group_id, const time_point &birthday )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return item();
     }
     return group->create_single( birthday );
 }
 
-item item_group::item_from( const Group_tag &group_id )
+item item_group::item_from( const item_group_id &group_id )
 {
     return item_from( group_id, 0 );
 }
 
-bool item_group::group_is_defined( const Group_tag &group_id )
+bool item_group::group_is_defined( const item_group_id &group_id )
 {
     return item_controller->get_group( group_id ) != nullptr;
 }
 
-bool item_group::group_contains_item( const Group_tag &group_id, const itype_id &type_id )
+bool item_group::group_contains_item( const item_group_id &group_id, const itype_id &type_id )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return false;
     }
     return group->has_item( type_id );
 }
 
-std::set<const itype *> item_group::every_possible_item_from( const Group_tag &group_id )
+std::set<const itype *> item_group::every_possible_item_from( const item_group_id &group_id )
 {
     Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
@@ -636,13 +712,13 @@ std::set<const itype *> item_group::every_possible_item_from( const Group_tag &g
     return group->every_item();
 }
 
-void item_group::load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
+void item_group::load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
                                   const std::string &subtype )
 {
     item_controller->load_item_group( jsobj, group_id, subtype );
 }
 
-static Group_tag get_unique_group_id()
+static item_group_id get_unique_group_id()
 {
     // This is just a hint what id to use next. Overflow of it is defined and if the group
     // name is already used, we simply go the next id.
@@ -652,19 +728,20 @@ static Group_tag get_unique_group_id()
     // names should not be seen anywhere.
     static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
-        const Group_tag new_group = unique_prefix + to_string( next_id++ );
+        const item_group_id new_group( unique_prefix + to_string( next_id++ ) );
         if( !item_group::group_is_defined( new_group ) ) {
             return new_group;
         }
     }
 }
 
-Group_tag item_group::load_item_group( const JsonValue &value, const std::string &default_subtype )
+item_group_id item_group::load_item_group( const JsonValue &value,
+        const std::string &default_subtype )
 {
     if( value.test_string() ) {
-        return value.get_string();
+        return item_group_id( value.get_string() );
     } else if( value.test_object() ) {
-        const Group_tag group = get_unique_group_id();
+        const item_group_id group = get_unique_group_id();
 
         JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
@@ -672,7 +749,7 @@ Group_tag item_group::load_item_group( const JsonValue &value, const std::string
 
         return group;
     } else if( value.test_array() ) {
-        const Group_tag group = get_unique_group_id();
+        const item_group_id group = get_unique_group_id();
 
         JsonArray jarr = value.get_array();
         // load_item_group needs a bool, invalid subtypes are unexpected and most likely errors

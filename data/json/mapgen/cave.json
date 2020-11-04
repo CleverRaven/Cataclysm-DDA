@@ -379,6 +379,76 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": [ "cave" ],
+    "weight": 50,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".....%%%%%%%%%%%%%%%....",
+        "....%%||||||||||||||%...",
+        "....%|||,,,,,,||||||%...",
+        "....%|||,,|||,,|||||%...",
+        "....%|||,,||||,,||||%...",
+        "....%||,,,|||||,,|||%...",
+        "....%|@,,,|||||,,|||%...",
+        "....%||||||,,,,,q|||%...",
+        "....%|||||,,||||||||%...",
+        "....%%|||;;||||||||%%...",
+        ".....%;;|;;;;;%%%%%%....",
+        "......~!?~~!RR?R!.......",
+        ".....RR~~RR#?!~~R.......",
+        "....!.??!~~RR~?!!.......",
+        ".....~#RR?RR?~R#?.......",
+        ".....!?RR~~~R!RRR.......",
+        ".....RR~?R!~~?..........",
+        "......!.................",
+        "........................"
+      ],
+      "terrain": {
+        ".": [ [ "t_region_groundcover_forest", 4 ], [ "t_region_tree", 1 ] ],
+        "|": "t_rock",
+        "%": [ "t_rock", "t_region_groundcover_forest" ],
+        ";": "t_rock_floor_no_roof",
+        "!": "t_rock_floor_no_roof",
+        "?": "t_rock_floor_no_roof",
+        "#": "t_rock_floor_no_roof",
+        "~": "t_rock_floor_no_roof",
+        "@": "t_rock_roof",
+        ",": "t_rock_roof",
+        "q": "t_rock_roof",
+        "R": "t_rock_floor_no_roof"
+      },
+      "furniture": { "R": [ [ "f_boulder_small", 1 ], [ "f_null", 10 ] ] },
+      "item": {
+        "#": [
+          { "item": "helmet_plate", "chance": 100 },
+          { "item": "boots_plate", "chance": 100 },
+          { "item": "chainmail_arms", "chance": 100 },
+          { "item": "gloves_plate", "chance": 100 },
+          { "item": "chainmail_legs", "chance": 100 },
+          { "item": "chainmail_hauberk", "chance": 100 },
+          { "item": "longsword", "chance": 100 },
+          { "item": "corpse", "chance": 100 }
+        ],
+        "@": { "item": "mininuke", "chance": 100 },
+        "~": { "item": "bone", "chance": 50, "repeat": [ 1, 3 ] }
+      },
+      "fields": {
+        "!": { "field": "fd_gibs_flesh", "intensity": 2, "age": 10 },
+        "?": { "field": "fd_blood", "intensity": 2, "age": 10 },
+        "#": { "field": "fd_blood", "intensity": 3, "age": 10 }
+      },
+      "monster": { "q": { "monster": "mon_rabbit_dreadful" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 50,
     "object": {
@@ -576,8 +646,15 @@
         "............ ....F.7J G.",
         "............>..........."
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor", ">": "t_slope_up", "7": "t_console_broken" },
-      "furniture": { "f": "f_firering", "c": "f_camp_chair", "C": "f_crate_o", "W": "f_crate_c", "T": "f_tourist_table" },
+      "terrain": { ".": "t_rock", " ": "t_rock_floor", ">": "t_slope_up" },
+      "furniture": {
+        "f": "f_firering",
+        "c": "f_camp_chair",
+        "C": "f_crate_o",
+        "W": "f_crate_c",
+        "T": "f_tourist_table",
+        "7": "f_console_broken"
+      },
       "traps": {
         "F": "tr_rollmat",
         "2": "tr_crossbow",

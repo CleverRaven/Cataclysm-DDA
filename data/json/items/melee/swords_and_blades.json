@@ -111,7 +111,8 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "20 m"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID" ],
@@ -128,7 +129,8 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "20 m"
     },
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
@@ -192,7 +194,8 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "20 m"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID", "WBLOCK_1" ],
@@ -244,9 +247,9 @@
     "type": "TOOL",
     "name": { "str": "makeshift knife", "str_pl": "makeshift knives" },
     "description": "A knife consisting of a long, somewhat sharpened, spike and a tightly wrapped rag as a handle.  It makes a good melee weapon.",
-    "weight": "550 g",
-    "volume": "251 ml",
-    "longest_side": "20 cm",
+    "weight": "575 g",
+    "volume": "260 ml",
+    "longest_side": "7 cm",
     "price": 0,
     "price_postapoc": 50,
     "to_hit": -1,
@@ -265,7 +268,7 @@
     "description": "A femur or other bone, about 20 cm long, which has been broken at one end and sharpened into a cutting tool.  Its jagged edge is wicked but fragile.",
     "symbol": "/",
     "color": "white",
-    "weight": 169,
+    "weight": "169 g",
     "//": "literally 75% of a bone.",
     "volume": "188 ml",
     "longest_side": "20 cm",
@@ -344,8 +347,8 @@
     "longest_side": "50 cm",
     "symbol": "/",
     "color": "green",
-    "weight": 522,
-    "volume": 1,
+    "weight": "522 g",
+    "volume": "250 ml",
     "price": 2300,
     "price_postapoc": 1800,
     "to_hit": 1,
@@ -828,7 +831,8 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "20 m"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
@@ -1113,7 +1117,7 @@
     "looks_like": "fencing_foil",
     "name": { "str": "sharpened foil" },
     "description": "This once mostly harmless fencing foil has had its electrical plunger assembly removed and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now somewhat more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": -25, "cutting": 2 }
+    "relative": { "weight": "-25 g", "cutting": 2 }
   },
   {
     "id": "fencing_epee_sharpened",
@@ -1122,7 +1126,7 @@
     "looks_like": "fencing_epee",
     "name": { "str": "sharpened épée" },
     "description": "This once mostly harmless fencing épée has had its electrical plunger assembly removed and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now considerably more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": -35, "cutting": 5 }
+    "relative": { "weight": "-35 g", "cutting": 5 }
   },
   {
     "id": "fencing_sabre_sharpened",
@@ -1131,7 +1135,7 @@
     "looks_like": "fencing_sabre",
     "name": { "str": "sharpened saber" },
     "description": "This once mostly harmless fencing saber has had its rounded tip snapped off and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now considerably more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": -10, "cutting": 5 }
+    "relative": { "weight": "-10 g", "cutting": 5 }
   },
   {
     "id": "shock_foil",
@@ -1148,6 +1152,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -1171,6 +1176,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -1194,6 +1200,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -1365,6 +1372,7 @@
     "bashing": 5,
     "cutting": 31,
     "material": [ "steel" ],
+    "ascii_picture": "katana",
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2" ],
@@ -1381,6 +1389,7 @@
     "price": 5000,
     "price_postapoc": 50,
     "material": [ "aluminum" ],
+    "ascii_picture": "katana",
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weight": "753 g",
@@ -1401,6 +1410,7 @@
     "price": 98000,
     "price_postapoc": 250,
     "material": [ "budget_steel" ],
+    "ascii_picture": "katana",
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD" ],
     "weight": "1133 g",
@@ -1408,7 +1418,7 @@
     "longest_side": "90 cm",
     "bashing": 17,
     "cutting": 8,
-    "to_hit": 2,
+    "to_hit": 1,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ]
   },
@@ -1426,7 +1436,7 @@
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "weight": "3176 g",
     "volume": "3250 ml",
-    "longest_side": "200 cm",
+    "longest_side": "180 cm",
     "bashing": 17,
     "cutting": 3,
     "to_hit": 2,
@@ -1446,7 +1456,7 @@
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "weight": "3176 g",
     "volume": "3250 ml",
-    "longest_side": "200 cm",
+    "longest_side": "180 cm",
     "bashing": 33,
     "cutting": 10,
     "to_hit": 1,
@@ -1615,7 +1625,7 @@
     "charges_per_use": 5,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": [ "CS_LAJATANG_OFF" ],
-    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "cs_lajatang_on",
@@ -1631,7 +1641,7 @@
     "turns_per_charge": 1,
     "charges_per_use": 0,
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -250 ] ],
-    "flags": [ "MESSY", "HURT_WHEN_PULLED", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "ecs_lajatang_off",
@@ -1652,11 +1662,12 @@
     "charges_per_use": 5,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": [ "ECS_LAJATANG_OFF" ],
-    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "ALWAYS_TWOHAND" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "500 ml",
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
@@ -1676,7 +1687,7 @@
     "charges_per_use": 0,
     "revert_to": "ecs_lajatang_off",
     "use_action": [ "ECS_LAJATANG_ON" ],
-    "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "cutlass",
@@ -1705,10 +1716,11 @@
     "symbol": "/",
     "color": "brown",
     "name": { "str": "lajatang" },
-    "description": "An exotic weapon comprised of a long pole of wood with curved blades on each end.  It can be deadly in skilled hands.",
+    "description": "An impractical exotic weapon comprised of a long pole of wood with curved blades on each end.",
     "price": 12000,
     "price_postapoc": 1250,
     "material": [ "wood", "iron" ],
+    "ascii_picture": "lajatang",
     "techniques": [ "WBLOCK_1", "SPIN" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weight": "2500 g",
@@ -1782,6 +1794,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "200 ml",
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]

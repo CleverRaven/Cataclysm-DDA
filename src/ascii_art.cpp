@@ -1,9 +1,14 @@
 #include "ascii_art.h"
 
-#include "assign.h"
-#include "generic_factory.h"
+#include <set>
 
-static const int ascii_art_width = 42;
+#include "assign.h"
+#include "catacharset.h"
+#include "debug.h"
+#include "generic_factory.h"
+#include "output.h"
+
+static const int ascii_art_width = 41;
 
 namespace
 {

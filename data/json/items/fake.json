@@ -4,6 +4,8 @@
     "type": "GENERIC",
     "name": { "str": "fake item" },
     "description": "Dummy item.  If you see this, then something went wrong.",
+    "weight": "1 g",
+    "volume": "1 ml",
     "symbol": "@",
     "color": "red"
   },
@@ -73,28 +75,13 @@
     "qualities": [ [ "BUTCHER", 8 ] ]
   },
   {
-    "id": "clairvoyance_plus_rod",
-    "type": "TOOL",
-    "symbol": "v",
-    "color": "red",
-    "name": { "str": "clairvoyance rod" },
-    "description": "Item to test aep_clairvoyance_plus flag.  If this spawns randomly, then it's a bug.",
-    "price": 5000,
-    "material": [ "steel" ],
-    "weight": "150 g",
-    "volume": "750 ml",
-    "bashing": 1,
-    "to_hit": -1,
-    "artifact_data": { "effects_wielded": [ "AEP_CLAIRVOYANCE_PLUS" ] }
-  },
-  {
     "id": "acid_spit",
     "type": "GUN",
     "copy-from": "fake_item",
     "name": { "str": "acid spit gun" },
     "description": "Fake gun that fires acid globs.",
     "flags": [ "NEVER_JAMS" ],
-    "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
+    "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING", "NO_PENETRATE_OBSTACLES" ],
     "skill": "rifle",
     "durability": 10,
     "range": 100,
@@ -163,11 +150,25 @@
     "name": { "str": "mi-go bio-gun" },
     "description": "Fake gun that fires some sort of solidified organic matter at very high speed by unknown means of propulsion.",
     "flags": [ "NEVER_JAMS" ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "skill": "rifle",
     "durability": 10,
     "range": 100,
     "dispersion": 1000,
     "ranged_damage": { "damage_type": "stab", "amount": 30 }
+  },
+  {
+    "id": "pseudo_char_smoker",
+    "type": "TOOL",
+    "name": { "str": "smoking rack" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "charcoal" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ],
+    "sub": "char_smoker",
+    "max_charges": 2000,
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   }
 ]

@@ -1,14 +1,14 @@
-#include <algorithm>
-#include <string>
+#include "catch/catch.hpp"
+#include "event.h"
+
 #include <vector>
 
 #include "calendar.h"
 #include "cata_variant.h"
-#include "catch/catch.hpp"
 #include "character_id.h"
-#include "event.h"
 #include "event_bus.h"
-#include "string_id.h"
+#include "event_field_transformations.h"
+#include "event_subscriber.h"
 #include "type_id.h"
 
 TEST_CASE( "construct_event", "[event]" )
@@ -30,6 +30,24 @@ struct test_subscriber : public event_subscriber {
 
     std::vector<cata::event> events;
 };
+
+TEST_CASE( "push_event_on_vector", "[event]" )
+{
+    std::vector<cata::event> test_events;
+    cata::event original_event = cata::event::make<event_type::character_kills_monster>(
+                                     character_id( 5 ), mtype_id( "zombie" ) );
+    test_events.push_back( original_event );
+    REQUIRE( test_events.size() == 1 );
+}
+
+TEST_CASE( "notify_subscriber", "[event]" )
+{
+    test_subscriber sub;
+    cata::event original_event = cata::event::make<event_type::character_kills_monster>(
+                                     character_id( 5 ), mtype_id( "zombie" ) );
+    sub.notify( original_event );
+    REQUIRE( sub.events.size() == 1 );
+}
 
 TEST_CASE( "send_event_through_bus", "[event]" )
 {
@@ -56,4 +74,21 @@ TEST_CASE( "destroy_bus_before_subscriber", "[event]" )
     bus.send( cata::event::make<event_type::character_kills_monster>(
                   character_id( 5 ), mtype_id( "zombie" ) ) );
     CHECK( sub.events.size() == 1 );
+}
+
+struct expect_subscriber : public event_subscriber {
+    void notify( const cata::event & ) override {
+        found = true;
+    }
+    bool found = false;
+};
+
+TEST_CASE( "notify_subscriber_2", "[event]" )
+{
+    cata::event original_event = cata::event::make<event_type::character_kills_monster>(
+                                     character_id( 5 ), mtype_id( "zombie" ) );
+    expect_subscriber sub;
+
+    sub.notify( original_event );
+    REQUIRE( sub.found );
 }

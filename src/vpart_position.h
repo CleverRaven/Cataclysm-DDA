@@ -65,6 +65,10 @@ class vpart_position
         cata::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken ) const;
         /// @see vehicle::part_with_feature
         cata::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken ) const;
+        /// @see vehicle::part_with_feature
+        cata::optional<vpart_reference> avail_part_with_feature( const std::string &f ) const;
+        /// @see vehicle::part_with_feature
+        cata::optional<vpart_reference> avail_part_with_feature( vpart_bitflags f ) const;
         /**
          * Returns the obstacle that exists at this point of the vehicle (if any).
          * Open doors don't count as obstacles, but closed one do.
@@ -75,6 +79,14 @@ class vpart_position
          * Returns the part displayed at this point of the vehicle.
          */
         cata::optional<vpart_reference> part_displayed() const;
+
+        // Finds vpart_reference to inner part with specified tool
+        cata::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
+        // Returns a list of all tools provided by vehicle and their hotkey
+        std::vector<std::pair<itype_id, int>> get_tools() const;
+        // Forms inventory for inventory::form_from_map
+        void form_inventory( inventory &inv );
+
         /**
          * Returns the position of this part in the coordinates system that @ref game::m uses.
          * Postcondition (if the vehicle cache of the map is correct and if there are un-removed
@@ -108,8 +120,12 @@ class optional_vpart_position : public cata::optional<vpart_position>
         }
         cata::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken ) const;
         cata::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken ) const;
+        cata::optional<vpart_reference> avail_part_with_feature( const std::string &f ) const;
+        cata::optional<vpart_reference> avail_part_with_feature( vpart_bitflags f ) const;
         cata::optional<vpart_reference> obstacle_at_part() const;
         cata::optional<vpart_reference> part_displayed() const;
+        cata::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
+        std::vector<std::pair<itype_id, int>> get_tools() const;
 };
 
 /**

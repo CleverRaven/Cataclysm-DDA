@@ -11,7 +11,7 @@
   {
     "id": "BGSS_COP_2_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Eventually yes.  It had been quiet for hours.  I was parched, injured, and terrified.  My training was maybe the only thing that kept me from freaking out.  I decided to try to pull myself out and see how bad my injuries were.  It was <very> easy.  The side of the van was torn open, and it turned out I was basically just lying under a little debris, with the ruins of the van tented around me.  I wasn't even too badly hurt.  I grabbed as much gear as I could, and I slipped out.  It was night.  I could hear fighting farther away in the city, so I went the other way.  I made it a few blocks before I ran into any <zombies>...  I ran from them.  I ran, and I ran, and I ran some more.  And here I am.",
+    "dynamic_line": "Eventually yes.  It had been quiet for hours.  I was parched, injured, and terrified.  My training was maybe the only thing that kept me from freaking out.  I decided to try to pull myself out and see how bad my injuries were.  It was <very> easy.  The side of the van was torn open, and it turned out I was basically just lying under a little debris, with the ruins of the van tented around me.  I wasn't even too badly hurt.  I grabbed as much gear as I could, and I slipped out.  It was night.  I could hear fighting farther away in the city, so I went the other way.  I made it a few blocks before I ran into any <zombies>…  I ran from them.  I ran, and I ran, and I ran some more.  And here I am.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]

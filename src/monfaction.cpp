@@ -1,5 +1,6 @@
 #include "monfaction.h"
 
+#include <algorithm>
 #include <cstddef>
 #include <map>
 #include <queue>
@@ -13,13 +14,11 @@
 #include "json.h"
 #include "string_id.h"
 
-std::unordered_map< mfaction_str_id, mfaction_id > faction_map;
-std::vector< monfaction > faction_list;
+static std::unordered_map< mfaction_str_id, mfaction_id > faction_map;
+static std::vector< monfaction > faction_list;
 
-void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map &map,
-                          mf_attitude value );
-
-void apply_base_faction( const monfaction &base, monfaction &faction );
+static void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map &map,
+                                 mf_attitude value );
 
 /** @relates int_id */
 template<>
@@ -97,9 +96,7 @@ static void apply_base_faction( mfaction_id base, mfaction_id faction_id )
     for( const auto &pair : base.obj().attitude_map ) {
         // Fill in values set in base faction, but not in derived one
         auto &faction = faction_list[faction_id.to_i()];
-        if( faction.attitude_map.count( pair.first ) == 0 ) {
-            faction.attitude_map.insert( pair );
-        }
+        faction.attitude_map.insert( pair );
     }
 }
 
@@ -191,7 +188,7 @@ void monfactions::finalize()
     // Bad json
     if( !unloaded.empty() ) {
         std::string names;
-        for( auto &fac : unloaded ) {
+        for( const auto &fac : unloaded ) {
             names.append( fac.id().str() );
             names.append( " " );
             auto &the_faction = faction_list[fac.to_i()];

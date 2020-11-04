@@ -24,7 +24,6 @@
       "m": "t_door_metal_c",
       "M": "t_door_metal_locked",
       "w": "t_gates_control_brick",
-      "x": "t_console_broken",
       "]": "t_sidewalk",
       "*": "t_region_shrub_decorative",
       "?": [ "t_region_shrub_decorative", "t_region_tree_shade" ],
@@ -52,7 +51,8 @@
       "S": "f_sink",
       "s": "f_stool",
       "t": "f_table",
-      "U": "f_utility_shelf"
+      "U": "f_utility_shelf",
+      "x": "f_console_broken"
     },
     "toilets": { "T": {  } },
     "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
@@ -79,7 +79,6 @@
       "m": "t_door_metal_c",
       "M": "t_door_metal_locked",
       "p": "t_sewage_pipe",
-      "x": "t_console_broken",
       "]": "t_sidewalk",
       "*": "t_region_shrub_decorative",
       "<": "t_stairs_up",
@@ -111,7 +110,8 @@
       "S": "f_sink",
       "s": "f_stool",
       "t": "f_table",
-      "v": "f_vent_pipe"
+      "v": "f_vent_pipe",
+      "x": "f_console_broken"
     },
     "toilets": { "T": {  } },
     "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
@@ -129,9 +129,7 @@
       "-": "t_door_glass_frosted_c",
       "=": "t_door_glass_frosted_lab_c",
       ":": "t_reinforced_glass",
-      "m": "t_door_metal_c",
-      "o": "t_centrifuge",
-      "x": "t_console_broken"
+      "m": "t_door_metal_c"
     },
     "furniture": {
       "&": "f_trashcan",
@@ -165,7 +163,9 @@
       "S": "f_sink",
       "t": "f_table",
       "U": "f_utility_shelf",
-      "v": "f_ventilator"
+      "v": "f_ventilator",
+      "o": "f_centrifuge",
+      "x": "f_console_broken"
     }
   }
 ]

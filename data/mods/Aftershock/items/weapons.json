@@ -85,7 +85,7 @@
     "weight": "113 g",
     "volume": "1500 ml",
     "bashing": 8,
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 7 },
+    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 7 },
     "reload_noise_volume": 0,
     "loudness": 0,
     "ranged_damage": { "damage_type": "heat", "amount": 30, "armor_penetration": 15 },
@@ -161,41 +161,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
-    "id": "laser_rifle_cheap",
-    "type": "GUN",
-    "name": { "str": "shoddy laser rifle" },
-    "description": "This is a cheap laser rifle made from common components.  Weak, but can be powered with rechargeable batteries.",
-    "weight": "8 kg",
-    "volume": "2500 ml",
-    "price": 40000,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "plastic", "copper" ],
-    "symbol": "(",
-    "looks_like": "american_180",
-    "color": "magenta",
-    "ammo": [ "battery" ],
-    "skill": "rifle",
-    "range": 10,
-    "ranged_damage": { "damage_type": "heat", "amount": 10 },
-    "dispersion": 150,
-    "durability": 10,
-    "loudness": 8,
-    "reload": 500,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "ammo_effects": [ "LASER", "DRAW_AS_LINE" ],
-    "flags": [ "NEVER_JAMS", "FIRE_20", "NON-FOULING" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
-      }
-    ]
-  },
-  {
     "id": "TANK",
     "looks_like": "m79",
     "type": "GUN",
@@ -250,5 +215,25 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
     "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE", "STAB" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "trident",
+    "name": { "str": "trident" },
+    "category": "tools",
+    "description": "A three pronged spear that is surface treated to be used confidently above and below water.",
+    "weight": "1200 g",
+    "color": "brown",
+    "symbol": "/",
+    "material": [ "steel", "ceramic" ],
+    "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
+    "volume": "1750 ml",
+    "longest_side": "140 cm",
+    "bashing": 5,
+    "cutting": 28,
+    "qualities": [ [ "COOK", 1 ] ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ],
+    "price": 7500,
+    "price_postapoc": 1200
   }
 ]

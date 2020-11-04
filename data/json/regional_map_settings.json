@@ -44,6 +44,7 @@
           "t_tree_birch": 16,
           "t_tree_elm": 16,
           "t_tree_cottonwood": 16,
+          "t_tree_alder": 16,
           "t_tree_pine": 32,
           "t_tree_maple": 32,
           "t_tree_willow": 32,
@@ -73,6 +74,7 @@
           "t_tree_birch": 16,
           "t_tree_elm": 16,
           "t_tree_cottonwood": 16,
+          "t_tree_alder": 16,
           "t_tree_maple": 32,
           "t_tree_willow": 32,
           "t_tree_hickory": 16,
@@ -114,6 +116,7 @@
           "f_lily": 1,
           "f_flower_tulip": 1,
           "f_flower_spurge": 1,
+          "f_burdock": 1,
           "f_chamomile": 1,
           "f_dandelion": 1,
           "f_datura": 1,
@@ -138,6 +141,7 @@
           "f_chamomile": 4,
           "f_datura": 3,
           "f_bluebell": 2,
+          "f_burdock": 1,
           "f_dahlia": 1,
           "f_black_eyed_susan": 1,
           "f_lily": 1,
@@ -170,6 +174,7 @@
         "t_tree_birch": 0.05,
         "t_tree_elm": 0.05,
         "t_tree_cottonwood": 0.05,
+        "t_tree_alder": 2,
         "t_tree_pine": 0.1,
         "t_tree_maple": 0.1,
         "t_tree_willow": 0.1,
@@ -228,6 +233,7 @@
         { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
       ]
     },
+    "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.2,
       "noise_threshold_forest_thick": 0.25,
@@ -319,6 +325,7 @@
               "t_tree_birch": 20,
               "t_tree_elm": 20,
               "t_tree_cottonwood": 20,
+              "t_tree_alder": 80,
               "t_tree_maple": 40,
               "t_tree_willow": 40,
               "t_tree_walnut": 8,
@@ -499,8 +506,8 @@
           "mx_prison_bus": 15
         }
       },
+      "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "road_nesw_manhole": { "chance": 20, "extras": { "mx_city_trap": 100 } },
-      "bridge": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "build": {
         "chance": 90,
         "extras": {
@@ -546,6 +553,34 @@
           "mx_portal_in": 40,
           "mx_point_burned_ground": 125,
           "mx_casings": 30
+        }
+      },
+      "river": { "chance": 3, "extras": { "mx_reed": 100 } },
+      "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } },
+      "sewer": {
+        "chance": 1,
+        "extras": {
+          "mx_sewer_round": 40,
+          "mx_sewer_grid": 20,
+          "mx_sewer_grid2": 20,
+          "mx_sewer_mntE": 10,
+          "mx_sewer_mntW": 10,
+          "mx_sewer_mntN": 10,
+          "mx_sewer_mntS": 10,
+          "mx_sewer_grateE": 10,
+          "mx_sewer_grateW": 10,
+          "mx_sewer_grateN": 10,
+          "mx_sewer_grateS": 10,
+          "mx_sewer_pipesA": 30,
+          "mx_sewer_pipesB": 30,
+          "mx_sewer_pipesC": 30,
+          "mx_sewer_pipesD": 30,
+          "mx_sewer_pipesE": 30,
+          "mx_sewer_pipesF": 30,
+          "mx_sewer_pipesG": 30,
+          "mx_sewer_pipesH": 30,
+          "mx_sewer_pipesI": 30,
+          "mx_sewer_pipesJ": 30
         }
       }
     },
@@ -662,6 +697,16 @@
         "urban_4_house_basement": 50,
         "urban_5_house": 50,
         "urban_6_house": 50,
+        "urban_7_house_garden": 50,
+        "urban_8_house_brick_garden": 50,
+        "urban_9_house_garage_loft": 50,
+        "urban_10_house_brick_pool": 50,
+        "urban_11_house_brick": 50,
+        "urban_12_house": 50,
+        "urban_15_house": 50,
+        "urban_16_house_ranch": 50,
+        "urban_17_house_ranch": 50,
+        "urban_18_victorian": 50,
         "emptyresidentiallot": 20,
         "house_vacant": 20,
         "house_vacant2": 20,
@@ -685,6 +730,7 @@
         "pool_5": 20,
         "pool_6": 20,
         "skate_park": 100,
+        "park_maze": 50,
         "small_wooded_trail": 300,
         "pavilion": 100,
         "pavilion_1": 100,
@@ -714,6 +760,7 @@
         "s_apt_2": 50,
         "urban_13_dense_house_apt_house": 300,
         "urban_14_dense_house_mart_food": 200,
+        "urban_29_dense_row": 200,
         "town_hall": 150,
         "craft_shop": 200,
         "craft_shop_1": 200,
@@ -882,6 +929,7 @@
         "hotel_2": 75,
         "hotel_3": 75,
         "hospital": 175,
+        "urban_35_hospital": 175,
         "public_works": 200,
         "office_tower_2": 150,
         "office_tower_large": 500,
@@ -913,10 +961,22 @@
       "base_temperature": 6.5,
       "base_humidity": 70.0,
       "base_pressure": 1015.0,
-      "base_acid": 0.0,
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
-      "base_wind_season_variation": 50
+      "base_wind_season_variation": 50,
+      "weather_types": [
+        "clear",
+        "sunny",
+        "cloudy",
+        "light_drizzle",
+        "drizzle",
+        "rain",
+        "thunder",
+        "lightning",
+        "flurries",
+        "snowing",
+        "snowstorm"
+      ]
     },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
   }

@@ -1,42 +1,31 @@
-#ifdef _GLIBCXX_DEBUG
-// Workaround to allow randomly ordered tests.  See
-// https://github.com/catchorg/Catch2/issues/1384
-// https://stackoverflow.com/questions/22915325/avoiding-self-assignment-in-stdshuffle/23691322
-// https://gcc.gnu.org/bugzilla/show_bug.cgi?id=85828
-#include <iosfwd> // Any cheap-to-include stdlib header
-#ifdef __GLIBCXX__
-#include <debug/macros.h> // IWYU pragma: keep
-
-#undef __glibcxx_check_self_move_assign
-#define __glibcxx_check_self_move_assign(x)
-#endif // __GLIBCXX__
-#endif // _GLIBCXX_DEBUG
-
+#ifdef CATA_CATCH_PCH
+#undef TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
+#define CATCH_CONFIG_IMPL_ONLY
+#endif
 #define CATCH_CONFIG_RUNNER
-#include <algorithm>
-#include <cassert>
+#include "catch/catch.hpp"
+
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
-#include <cstring>
 #include <ctime>
-#include <exception>
-#include <memory>
-#include <ostream>
+#include <string>
 #include <string>
 #include <utility>
-#include <vector>
+#include <utility>
 
 #include "avatar.h"
-#include "calendar.h"
+#include "cached_options.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
 #include "color.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "help.h"
 #include "loading_ui.h"
 #include "map.h"
+#include "messages.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -48,6 +37,8 @@
 #include "type_id.h"
 #include "weather.h"
 #include "worldfactory.h"
+
+class map;
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;
@@ -90,7 +81,8 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
                                     const std::string &user_dir )
 {
     if( !assure_dir_exist( user_dir ) ) {
-        assert( !"Unable to make user_dir directory.  Check permissions." );
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_assert( !"Unable to make user_dir directory.  Check permissions." );
     }
 
     PATH_INFO::init_base_path( "" );
@@ -98,15 +90,18 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     PATH_INFO::set_standard_filenames();
 
     if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
-        assert( !"Unable to make config directory.  Check permissions." );
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_assert( !"Unable to make config directory.  Check permissions." );
     }
 
     if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
-        assert( !"Unable to make save directory.  Check permissions." );
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_assert( !"Unable to make save directory.  Check permissions." );
     }
 
     if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
-        assert( !"Unable to make templates directory.  Check permissions." );
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_assert( !"Unable to make templates directory.  Check permissions." );
     }
 
     get_options().init();
@@ -127,12 +122,14 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->new_game = true;
     g->load_static_data();
 
+    get_help().load();
+
     world_generator->set_active_world( nullptr );
     world_generator->init();
     WORLDPTR test_world = world_generator->make_new_world( mods );
-    assert( test_world != nullptr );
+    cata_assert( test_world != nullptr );
     world_generator->set_active_world( test_world );
-    assert( world_generator->active_world != nullptr );
+    cata_assert( world_generator->active_world != nullptr );
 
     calendar::set_eternal_season( get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( get_option<int>( "SEASON_LENGTH" ) );
@@ -141,17 +138,20 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->load_core_data( ui );
     g->load_world_modfiles( ui );
 
-    g->u = avatar();
-    g->u.create( character_type::NOW );
+    get_avatar() = avatar();
+    get_avatar().create( character_type::NOW );
+    get_avatar().setID( g->assign_npc_id(), false );
 
-    g->m = map( get_option<bool>( "ZLEVELS" ) );
+    get_map() = map();
 
-    overmap_special_batch empty_specials( point_zero );
-    overmap_buffer.create_custom_overmap( point_zero, empty_specials );
+    overmap_special_batch empty_specials( point_abs_om{} );
+    overmap_buffer.create_custom_overmap( point_abs_om{}, empty_specials );
 
-    g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
+    map &here = get_map();
+    // TODO: fix point types
+    here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
 
-    g->weather.update_weather();
+    get_weather().update_weather();
 }
 
 // Checks if any of the flags are in container, removes them all
@@ -230,6 +230,24 @@ struct CataListener : Catch::TestEventListenerBase {
         TestEventListenerBase::sectionStarting( sectionInfo );
         // Initialize the cata RNG with the Catch seed for reproducible tests
         rng_set_engine_seed( m_config->rngSeed() );
+        // Clear the message log so on test failures we see only messages from
+        // during that test
+        Messages::clear_messages();
+    }
+
+    void sectionEnded( Catch::SectionStats const &sectionStats ) override {
+        TestEventListenerBase::sectionEnded( sectionStats );
+        if( !sectionStats.assertions.allPassed() ) {
+            std::vector<std::pair<std::string, std::string>> messages =
+                        Messages::recent_messages( 0 );
+            if( !messages.empty() ) {
+                stream << "Log messages during failed test:\n";
+            }
+            for( const std::pair<std::string, std::string> &message : messages ) {
+                stream << message.first << ": " << message.second << '\n';
+            }
+            Messages::clear_messages();
+        }
     }
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
@@ -286,17 +304,20 @@ int main( int argc, const char *argv[] )
     // Set the seed for mapgen (the seed will also be reset before each test)
     const unsigned int seed = session.config().rngSeed();
     if( seed ) {
-        srand( seed );
         rng_set_engine_seed( seed );
+
+        // If the run is terminated due to a crash during initialization, we won't
+        // see the seed unless it's printed out in advance, so do that here.
+        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
     }
 
     try {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
     } catch( const std::exception &err ) {
-        fprintf( stderr, "Terminated: %s\n", err.what() );
-        fprintf( stderr,
-                 "Make sure that you're in the correct working directory and your data isn't corrupted.\n" );
+        DebugLog( D_ERROR, DC_ALL ) << "Terminated:\n" << err.what();
+        DebugLog( D_INFO, DC_ALL ) <<
+                                   "Make sure that you're in the correct working directory and your data isn't corrupted.";
         return EXIT_FAILURE;
     }
 
@@ -306,7 +327,7 @@ int main( int argc, const char *argv[] )
     std::time_t start_time = std::chrono::system_clock::to_time_t( start );
     // Leading newline in case there were debug messages during
     // initialization.
-    printf( "\nStarting the actual test at %s", std::ctime( &start_time ) );
+    DebugLog( D_INFO, DC_ALL ) << "Starting the actual test at " << std::ctime( &start_time );
     result = session.run();
     const auto end = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t( end );
@@ -315,24 +336,30 @@ int main( int argc, const char *argv[] )
     if( result == 0 || dont_save ) {
         world_generator->delete_world( world_name, true );
     } else {
-        printf( "Test world \"%s\" left for inspection.\n", world_name.c_str() );
+        DebugLog( D_INFO, DC_ALL ) << "Test world " << world_name << " left for inspection.";
     }
 
     std::chrono::duration<double> elapsed_seconds = end - start;
-    printf( "Ended test at %sThe test took %.3f seconds\n", std::ctime( &end_time ),
-            elapsed_seconds.count() );
+    DebugLog( D_INFO, DC_ALL ) << "Ended test at " << std::ctime( &end_time );
+    DebugLog( D_INFO, DC_ALL ) << "The test took " << elapsed_seconds.count() << " seconds";
+
+    if( seed ) {
+        // Also print the seed at the end so it can be easily found
+        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
+    }
 
     if( error_during_initialization ) {
-        printf( "\nTreating result as failure due to error logged during initialization.\n" );
-        printf( "Randomness seeded to: %u\n", seed );
+        DebugLog( D_INFO, DC_ALL ) <<
+                                   "Treating result as failure due to error logged during initialization.";
         return 1;
     }
 
     if( debug_has_error_been_observed() ) {
-        printf( "\nTreating result as failure due to error logged during tests.\n" );
-        printf( "Randomness seeded to: %u\n", seed );
+        DebugLog( D_INFO, DC_ALL ) << "Treating result as failure due to error logged during tests.";
         return 1;
     }
+
+    printf( "\n" );
 
     return result;
 }

@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -34,6 +35,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_jabberblood",
     "//": "jabberwocks have a few of these pumping in them, and they can be crushed down for a lot of mutagen",
     "byproducts": [ [ "jabberwock_heart_desiccated" ] ],
@@ -48,6 +50,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -63,6 +66,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_plant",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -82,6 +86,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_plant",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -97,6 +102,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_insect",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -116,6 +122,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_insect",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -131,6 +138,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_spider",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -146,6 +154,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_spider",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -161,6 +170,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_slime",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -176,6 +186,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_slime",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -191,6 +202,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_fish",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -203,13 +215,21 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "fish", 2 ], [ "can_sardine", 1 ], [ "can_tuna", 1 ], [ "can_salmon", 1 ], [ "can_herring", 1 ] ],
+      [
+        [ "fish", 2 ],
+        [ "can_sardine", 1 ],
+        [ "can_tuna", 1 ],
+        [ "can_salmon", 1 ],
+        [ "can_herring", 1 ],
+        [ "fish_pickled", 1 ]
+      ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_fish",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -225,6 +245,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_rat",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -244,6 +265,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_rat",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -259,6 +281,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_beast",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -269,11 +292,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 5 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_beast",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -289,6 +313,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_ursine",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -299,11 +324,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_ursine",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -319,6 +345,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_mouse",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -329,11 +356,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 1 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 1 ], [ "meat_scrap", 10 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_mouse",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -349,6 +377,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_feline",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -359,11 +388,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_feline",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -379,6 +409,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_lupine",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -389,11 +420,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_lupine",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -409,6 +441,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_cattle",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -419,11 +452,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_cattle",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -439,6 +473,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_cephalopod",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -458,6 +493,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_cephalopod",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -473,6 +509,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_bird",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -488,6 +525,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_bird",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -503,6 +541,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_lizard",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -518,6 +557,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_lizard",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -533,6 +573,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_troglobite",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -543,11 +584,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_maiar", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_troglobite",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -563,6 +605,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_medical",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -598,6 +641,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_medical",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -613,6 +657,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "purifier",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -628,6 +673,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_purifier",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -643,6 +689,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_alpha",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -662,6 +709,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_alpha",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -677,6 +725,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_elfa",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -691,6 +740,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_elfa",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -706,6 +756,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_chimera",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -721,6 +772,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_chimera",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -736,6 +788,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_raptor",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -750,6 +803,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_raptor",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",

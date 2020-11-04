@@ -24,6 +24,7 @@ enum scaling_stat : int {
 enum class affected_stat : int {
     NONE = 0,
     HIT,
+    CRITICAL_HIT_CHANCE,
     DODGE,
     BLOCK,
     BLOCK_EFFECTIVENESS,
@@ -54,7 +55,7 @@ struct affected_type {
 
     private:
         affected_stat stat = affected_stat::NONE;
-        damage_type type = damage_type::DT_NULL;
+        damage_type type = damage_type::NONE;
 };
 
 // This is the bonus we are indexing

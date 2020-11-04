@@ -14,6 +14,6 @@
     "color": "light_gray",
     "ammo_type": [ "m235" ],
     "capacity": 4,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "m235": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "m235": 4 } } ]
   }
 ]

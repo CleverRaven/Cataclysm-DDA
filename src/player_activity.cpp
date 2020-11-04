@@ -7,6 +7,7 @@
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "construction.h"
 #include "item.h"
 #include "itype.h"
@@ -20,6 +21,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -33,6 +35,8 @@ static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
+
+static const efftype_id effect_nausea( "nausea" );
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -72,6 +76,13 @@ void player_activity::set_to_null()
 {
     type = activity_id::NULL_ID();
     sfx::end_activity_sounds(); // kill activity sounds when activity is nullified
+}
+
+void player_activity::sychronize_type_with_actor()
+{
+    if( actor && type != activity_id::NULL_ID() ) {
+        type = actor->get_type();
+    }
 }
 
 bool player_activity::rooted() const
@@ -115,12 +126,19 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         return cata::optional<std::string>();
     }
 
+    if( type == activity_id( "ACT_ADV_INVENTORY" ) ||
+        type == activity_id( "ACT_AIM" ) ||
+        type == activity_id( "ACT_ARMOR_LAYERS" ) ||
+        type == activity_id( "ACT_ATM" ) ||
+        type == activity_id( "ACT_CONSUME_DRINK_MENU" ) ||
+        type == activity_id( "ACT_CONSUME_FOOD_MENU" ) ||
+        type == activity_id( "ACT_CONSUME_MEDS_MENU" ) ||
+        type == activity_id( "ACT_EAT_MENU" ) ) {
+        return cata::nullopt;
+    }
+
     std::string extra_info;
-    if( type == activity_id( "ACT_CRAFT" ) ) {
-        if( const item *craft = targets.front().get_item() ) {
-            extra_info = craft->tname();
-        }
-    } else if( type == activity_id( "ACT_READ" ) ) {
+    if( type == activity_id( "ACT_READ" ) ) {
         if( const item *book = targets.front().get_item() ) {
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;
@@ -142,9 +160,8 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             type == activity_id( "ACT_JACKHAMMER" ) ||
             type == activity_id( "ACT_PICKAXE" ) ||
             type == activity_id( "ACT_DISASSEMBLE" ) ||
+            type == activity_id( "ACT_VEHICLE" ) ||
             type == activity_id( "ACT_FILL_PIT" ) ||
-            type == activity_id( "ACT_DIG" ) ||
-            type == activity_id( "ACT_DIG_CHANNEL" ) ||
             type == activity_id( "ACT_CHOP_TREE" ) ||
             type == activity_id( "ACT_CHOP_LOGS" ) ||
             type == activity_id( "ACT_CHOP_PLANKS" )
@@ -165,6 +182,10 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         }
     }
 
+    if( actor ) {
+        extra_info = actor->get_progress_message( *this );
+    }
+
     return extra_info.empty() ? string_format( _( "%s…" ),
             get_verb().translated() ) : string_format( _( "%s: %s" ),
                     get_verb().translated(), extra_info );
@@ -175,13 +196,23 @@ void player_activity::start_or_resume( Character &who, bool resuming )
     if( actor && !resuming ) {
         actor->start( *this, who );
     }
-    if( rooted() ) {
+    if( !type.is_null() && rooted() ) {
         who.rooted_message();
     }
+    // last, as start function may have changed the type
+    sychronize_type_with_actor();
 }
 
 void player_activity::do_turn( player &p )
 {
+    // Specifically call the do turn function for the cancellation activity early
+    // This is because the game can get stuck trying to fuel a fire when it's not...
+    if( type == activity_id( "ACT_MIGRATION_CANCEL" ) ) {
+        actor->do_turn( *this, p );
+        return;
+    }
+    // first to ensure sync with actor
+    sychronize_type_with_actor();
     // Should happen before activity or it may fail du to 0 moves
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
@@ -190,21 +221,30 @@ void player_activity::do_turn( player &p )
         no_food_nearby_for_auto_consume = false;
         no_drink_nearby_for_auto_consume = false;
     }
-    if( *this && !p.is_npc() && type->valid_auto_needs() && !no_food_nearby_for_auto_consume ) {
+    // Only do once every two minutes to loosely simulate consume times,
+    // the exact amount of time is added correctly below, here we just want to prevent eating something every second
+    if( calendar::once_every( 2_minutes ) && *this && !p.is_npc() && type->valid_auto_needs() &&
+        !no_food_nearby_for_auto_consume &&
+        !p.has_effect( effect_nausea ) ) {
         if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f ) {
-            if( !find_auto_consume( p, true ) ) {
+            int consume_moves = get_auto_consume_moves( p, true );
+            moves_left += consume_moves;
+            if( consume_moves == 0 ) {
                 no_food_nearby_for_auto_consume = true;
             }
         }
         if( p.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
-            if( !find_auto_consume( p, false ) ) {
+            int consume_moves = get_auto_consume_moves( p, false );
+            moves_left += consume_moves;
+            if( consume_moves == 0 ) {
                 no_drink_nearby_for_auto_consume = true;
             }
         }
     }
+    const float activity_mult = p.exertion_adjusted_move_multiplier();
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
-            moves_left -= 100;
+            moves_left -= 100 * activity_mult;
             p.moves = 0;
         } else {
             p.moves -= p.moves * moves_left / 100;
@@ -212,7 +252,7 @@ void player_activity::do_turn( player &p )
         }
     } else if( type->based_on() == based_on_type::SPEED ) {
         if( p.moves <= moves_left ) {
-            moves_left -= p.moves;
+            moves_left -= p.moves * activity_mult;
             p.moves = 0;
         } else {
             p.moves -= moves_left;
@@ -229,6 +269,7 @@ void player_activity::do_turn( player &p )
         return;
     }
     const bool travel_activity = id() == ACT_TRAVELLING;
+    p.increase_activity_level( exertion_level() );
     // This might finish the activity (set it to null)
     if( actor ) {
         actor->do_turn( *this, p );
@@ -244,7 +285,13 @@ void player_activity::do_turn( player &p )
     // to simulate that the next step will surely use up some stamina anyway
     // this is to ensure that resting will occur when traveling overburdened
     const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
-    if( adjusted_stamina < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
+    activity_id act_id = actor ? actor->get_type() : type;
+    bool excluded = act_id == activity_id( "ACT_WORKOUT_HARD" ) ||
+                    act_id == activity_id( "ACT_WORKOUT_ACTIVE" ) ||
+                    act_id == activity_id( "ACT_WORKOUT_MODERATE" ) ||
+                    act_id == activity_id( "ACT_WORKOUT_LIGHT" );
+    if( !excluded && adjusted_stamina < previous_stamina &&
+        p.get_stamina() < p.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {
             p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
         }
@@ -289,6 +336,14 @@ void player_activity::canceled( Character &who )
     }
 }
 
+float player_activity::exertion_level() const
+{
+    if( actor ) {
+        return actor->exertion_level();
+    }
+    return type->exertion_level();
+}
+
 template <typename T>
 bool containers_equal( const T &left, const T &right )
 {
@@ -305,6 +360,10 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     // And to forbid resuming now-invalid crafting
 
     if( !*this || !other || type->no_resume() ) {
+        return false;
+    }
+
+    if( id() != other.id() ) {
         return false;
     }
 
@@ -332,9 +391,13 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
+    } else if( id() == activity_id( "ACT_VEHICLE" ) ) {
+        if( values != other.values || str_values != other.str_values ) {
+            return false;
+        }
     }
 
-    return !auto_resume && id() == other.id() && index == other.index &&
+    return !auto_resume && index == other.index &&
            position == other.position && name == other.name && targets == other.targets;
 }
 
@@ -361,7 +424,7 @@ void player_activity::allow_distractions()
 
 void player_activity::inherit_distractions( const player_activity &other )
 {
-    for( auto &type : other.ignored_distractions ) {
+    for( const distraction_type &type : other.ignored_distractions ) {
         ignore_distraction( type );
     }
 }

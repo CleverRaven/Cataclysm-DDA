@@ -2,12 +2,14 @@
 #ifndef CATA_SRC_TRANSLATIONS_H
 #define CATA_SRC_TRANSLATIONS_H
 
+#include <cstddef>
 #include <map>
 #include <ostream>
 #include <string>
-#include <vector>
+#include <tuple>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "optional.h"
 
@@ -284,6 +286,7 @@ struct localized_comparator {
 
     bool operator()( const std::string &, const std::string & ) const;
     bool operator()( const std::wstring &, const std::wstring & ) const;
+    bool operator()( const translation &, const translation & ) const;
 
     template<typename Head, typename... Tail, size_t... Ints>
     auto tie_tail( const std::tuple<Head, Tail...> &t, std::index_sequence<Ints...> ) const {

@@ -35,7 +35,13 @@
       [ "stanag100", 2 ],
       [ "hk417mag_20rd", 30 ],
       [ "hk417mag_10rd", 20 ],
-      [ "p320mag_17rd_9x19mm", 60 ]
+      [ "p320mag_17rd_9x19mm", 60 ],
+      [ "p226mag_15rd_9x19mm", 5 ],
+      [ "sp2022mag_15rd_9mm", 5 ],
+      [ "btmp9mag_9x19mm_15", 1 ],
+      [ "btmp9mag_9x19mm_20", 1 ],
+      [ "btmp9mag_9x19mm_25", 1 ],
+      [ "btmp9mag_9x19mm_30", 1 ]
     ]
   },
   {
@@ -118,12 +124,16 @@
       [ "px4_40mag", 6 ],
       [ "glockmag", 33 ],
       [ "glock40mag", 7 ],
+      [ "glock_20mag", 3 ],
+      [ "glock_29mag", 2 ],
       [ "m1911mag", 25 ],
+      [ "m1911_10mag", 2 ],
       [ "mosquitomag", 10 ],
       [ "kpf9mag", 5 ],
       [ "kp3atmag", 4 ],
       [ "rugerlcpmag", 10 ],
       [ "sw22mag", 10 ],
+      [ "p220_10_mag", 1 ],
       [ "p226mag_15rd_357sig", 25 ],
       [ "p320mag_14rd_357sig", 10 ],
       [ "bhp9mag_13rd", 2 ],
@@ -141,10 +151,12 @@
       [ "hptcf380", 1 ],
       [ "hptjcp", 1 ],
       [ "hptjhp", 1 ],
+      [ "witness_mag_10", 2 ],
       [ "cz75mag_12rd", 9 ],
       [ "cz75mag_20rd", 5 ],
       [ "cz75mag_26rd", 2 ],
       [ "ccpmag", 4 ],
+      [ "xd_10_mag", 1 ],
       [ "wp22mag", 7 ]
     ]
   },
@@ -169,7 +181,8 @@
       [ "90two40mag", 5 ],
       [ "deaglemag", 40 ],
       [ "fn57mag", 80 ],
-      [ "glockbigmag", 60 ],
+      [ "cz75mag_26rd", 2 ],
+      [ "tdi_10mm_mag", 1 ],
       [ "glock40bigmag", 30 ],
       [ "m1911bigmag", 40 ],
       [ "m1911mag_10rd_38super", 10 ],
@@ -209,7 +222,19 @@
     "type": "item_group",
     "id": "mags_smg_rare",
     "//": "Aftermarket or otherwise uncommon SMG magazines excluding milspec.",
-    "items": [ [ "calicomag", 15 ], [ "fnp90mag", 15 ], [ "mp5bigmag", 10 ], [ "thompson_bigmag", 5 ], [ "thompson_drum", 15 ] ]
+    "items": [
+      [ "calicomag", 19 ],
+      [ "fnp90mag", 150 ],
+      [ "tdi_10mm_mag", 65 ],
+      [ "mp5bigmag", 2 ],
+      [ "mp5_10_mag", 1 ],
+      [ "thompson_bigmag", 5 ],
+      [ "thompson_drum", 98 ],
+      [ "btmp9mag_9x19mm_15", 1 ],
+      [ "btmp9mag_9x19mm_20", 1 ],
+      [ "btmp9mag_9x19mm_25", 1 ],
+      [ "btmp9mag_9x19mm_30", 1 ]
+    ]
   },
   {
     "type": "item_group",
@@ -307,7 +332,7 @@
     "type": "item_group",
     "id": "mags_other_makeshift",
     "//": "Makeshift or otherwise poor quality magazines that have no better category.",
-    "items": [ [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ] ]
+    "items": [ [ "nailmag", 20 ], [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ] ]
   },
   {
     "type": "item_group",
@@ -358,9 +383,15 @@
     "items": [
       [ "762x39_clip", 10 ],
       [ "762R_clip", 10 ],
+      [ "clip9mm_10rd", 5 ],
       [ "af2011a1mag", 1 ],
       [ "ak74mag", 10 ],
       [ "makarovmag", 10 ],
+      [ "mausermag_10rd", 3 ],
+      [ "mausermag_20rd", 2 ],
+      [ "mp40mag_32rd", 5 ],
+      [ "p08mag_32rd", 1 ],
+      [ "p08mag_8rd", 10 ],
       [ "ppshmag", 10 ],
       [ "ppshdrum", 10 ],
       [ "rpk74mag", 10 ],

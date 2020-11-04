@@ -29,7 +29,7 @@
         "skill": "ALL",
         "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
       },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "gun", "bonus": { "rng": [ 3, 6 ] } },
@@ -61,14 +61,14 @@
     "responses": [
       {
         "text": "Yeah, I'm a Marshal, what are you going to do about it?",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_MARSHAL",
         "effect": "hostile",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
         "text": "…",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_MARSHAL",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
@@ -174,14 +174,8 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_LEAVE_NOW",
-    "dynamic_line": "You should get off my farm, I won't deal with a government stooge.",
-    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
-  },
-  {
-    "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE_TOPICS",
-    "dynamic_line": "Go on...",
+    "dynamic_line": "Go on…",
     "responses": [
       { "text": "Your son helps with the dairy?", "topic": "TALK_EDDIE_LUKE" },
       { "text": "So, Jesse runs the horse farm?", "topic": "TALK_EDDIE_JESSE" },

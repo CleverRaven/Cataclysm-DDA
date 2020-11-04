@@ -5,25 +5,8 @@
     "terrain": {
       "*": "t_open_air",
       "~": "t_open_air_rooved",
-      ".": [ [ "t_grass_long", 200 ], [ "t_grass", 600 ], [ "t_dirt", 200 ], [ "t_shrub", 1 ] ],
-      ",": [
-        [ "t_grass_long", 75 ],
-        [ "t_grass", 50 ],
-        [ "t_shrub", 20 ],
-        [ "t_shrub_rose", 20 ],
-        [ "t_shrub_lilac", 20 ],
-        [ "t_tree_young", 20 ],
-        [ "t_grass_tall", 20 ],
-        [ "t_grass_long", 20 ],
-        [ "t_underbrush", 20 ],
-        [ "t_shrub_hydrangea", 20 ],
-        [ "t_shrub_raspberry", 20 ],
-        [ "t_tree", 10 ],
-        [ "t_tree_willow", 2 ],
-        [ "t_tree_birch", 2 ],
-        [ "t_tree_maple", 2 ],
-        [ "t_tree_pine", 2 ]
-      ],
+      ".": [ [ "t_region_groundcover_urban", 1000 ], [ "t_region_shrub", 1 ] ],
+      ",": [ [ "t_region_groundcover_urban", 125 ], [ "t_region_shrub", 120 ], [ "t_region_tree_shade", 40 ] ],
       "-": "t_door_locked_interior",
       "<": "t_stairs_down",
       "+": "t_door_c",
@@ -34,12 +17,11 @@
       "i": "t_ladder_up",
       "!": "t_ladder_down",
       "z": "t_flat_roof",
-      "_": "t_carpet_red",
+      "_": "t_carpet_concrete_red",
       "3": "t_concrete",
       "L": "t_thconc_floor",
       "R": "t_thconc_floor",
       "s": "t_concrete",
-      "x": "t_console_broken",
       "|": "t_brick_wall",
       "#": "t_ponywall",
       "=": "t_reinforced_glass",
@@ -54,6 +36,7 @@
       "n": "t_dirtmound"
     },
     "furniture": {
+      "x": "f_console_broken",
       "3": "f_bench",
       "B": "f_bench",
       "S": "f_sink",
@@ -189,7 +172,7 @@
         { "item": "knife_butter", "repeat": [ 5, 10 ], "x": [ 18, 18 ], "y": 32 },
         { "item": "tin_plate", "repeat": [ 7, 15 ], "x": [ 15, 17 ], "y": 32 },
         { "item": "glass_bowl", "repeat": [ 7, 15 ], "x": [ 12, 14 ], "y": 32 },
-        { "item": "cup_plastic_unsealed", "repeat": [ 5, 10 ], "x": [ 11, 11 ], "y": 32 }
+        { "item": "cup_plastic", "repeat": [ 5, 10 ], "x": [ 11, 11 ], "y": 32 }
       ]
     }
   },

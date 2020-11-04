@@ -33,8 +33,7 @@
         "************************"
       ],
       "terrain": {
-        "%": "t_console_broken",
-        "*": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "*": [ [ "t_region_groundcover_urban", 8 ], "t_region_shrub" ],
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_floor",
@@ -47,6 +46,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "%": "f_console_broken",
         "#": "f_counter",
         "@": "f_locker",
         "[": "f_bookcase",
@@ -159,11 +159,11 @@
       ],
       "terrain": {
         "#": "t_wall_w",
-        "'": [ "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_region_groundcover_urban",
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
         ".": "t_floor",
-        "D": "t_dirt",
+        "D": "t_region_groundcover_barren",
         "=": "t_door_c",
         "H": "t_pavement",
         "M": "t_pavement",
@@ -175,7 +175,6 @@
         "W": "t_chainfence_h",
         "_": "t_floor",
         "p": "t_pavement",
-        "r": "t_console_broken",
         "w": "t_chainfence_v",
         "|": "t_chaingate_c",
         "~": "t_sidewalk",
@@ -188,6 +187,7 @@
         "M": { "item": { "item": "seed_flower" }, "furniture": "f_planter_harvest" }
       },
       "furniture": {
+        "r": "f_console_broken",
         "D": "f_dumpster",
         "H": "f_warehouse_shelf",
         "P": "f_rack",
@@ -308,8 +308,7 @@
         "************************"
       ],
       "terrain": {
-        "%": "t_console_broken",
-        "*": "t_grass",
+        "*": "t_region_groundcover_urban",
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_floor",
@@ -325,6 +324,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "%": "f_console_broken",
         "#": "f_counter",
         "]": "f_rack",
         "l": "f_stool",
@@ -442,8 +442,7 @@
         "************************"
       ],
       "terrain": {
-        "%": "t_console_broken",
-        "*": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "*": [ [ "t_region_groundcover_urban", 8 ], "t_region_shrub" ],
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_floor",
@@ -457,6 +456,7 @@
       },
       "toilets": { "&": {  } },
       "furniture": {
+        "%": "f_console_broken",
         "#": "f_counter",
         "[": "f_table",
         "]": "f_rack",

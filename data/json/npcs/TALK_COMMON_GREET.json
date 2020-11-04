@@ -82,7 +82,7 @@
   {
     "id": "TALK_STRANGER_WARY",
     "type": "talk_topic",
-    "dynamic_line": "Okay, no sudden movements...",
+    "dynamic_line": "Okay, no sudden movements…",
     "responses": [ { "text": "Bye.", "topic": "TALK_DONE" } ]
   },
   {

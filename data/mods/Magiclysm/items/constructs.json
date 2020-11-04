@@ -65,5 +65,21 @@
     "bashing": 30,
     "to_hit": -5,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_forgeborn",
+    "symbol": "x",
+    "color": "dark_gray",
+    "name": "broken forge born",
+    "category": "other",
+    "description": "A broken forge born, with all orichalcum you would possibly ever need.  Could be smashed for orichalcum.",
+    "price": 100000,
+    "material": [ "orichalcum_metal" ],
+    "weight": "945 kg",
+    "volume": "120 L",
+    "bashing": 30,
+    "to_hit": -5,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   }
 ]

@@ -13,6 +13,7 @@
 #include "avatar.h"
 #include "creature.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
 #include "enum_conversions.h"
 #include "game.h"
 #include "inventory.h"
@@ -20,16 +21,18 @@
 #include "item_contents.h"
 #include "item_group.h"
 #include "kill_tracker.h"
-#include "line.h"
-#include "material.h"
+#include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "point.h"
 #include "requirements.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -65,7 +68,7 @@ static std::unordered_map<int, mission> world_missions;
 
 mission *mission::reserve_new( const mission_type_id &type, const character_id &npc_id )
 {
-    const auto tmp = mission_type::get( type )->create( npc_id );
+    const mission tmp = mission_type::get( type )->create( npc_id );
     // TODO: Warn about overwrite?
     mission &miss = world_missions[tmp.uid] = tmp;
     return &miss;
@@ -108,8 +111,8 @@ void mission::process_all()
 std::vector<mission *> mission::to_ptr_vector( const std::vector<int> &vec )
 {
     std::vector<mission *> result;
-    for( auto &id : vec ) {
-        const auto miss = find( id );
+    for( const int &id : vec ) {
+        mission *miss = find( id );
         if( miss != nullptr ) {
             result.push_back( miss );
         }
@@ -121,7 +124,7 @@ std::vector<int> mission::to_uid_vector( const std::vector<mission *> &vec )
 {
     std::vector<int> result;
     result.reserve( vec.size() );
-    for( auto &miss : vec ) {
+    for( const mission *miss : vec ) {
         result.push_back( miss->uid );
     }
     return result;
@@ -142,20 +145,20 @@ void mission::on_creature_death( Creature &poor_dead_dude )
         if( mon->mission_id == -1 ) {
             return;
         }
-        const auto mission = mission::find( mon->mission_id );
-        const auto type = mission->type;
+        mission *found_mission = mission::find( mon->mission_id );
+        const mission_type *type = found_mission->type;
         if( type->goal == MGOAL_FIND_MONSTER ) {
-            mission->fail();
+            found_mission->fail();
         }
         if( type->goal == MGOAL_KILL_MONSTER ) {
-            mission->step_complete( 1 );
+            found_mission->step_complete( 1 );
         }
         return;
     }
     npc *p = dynamic_cast<npc *>( &poor_dead_dude );
     if( p == nullptr ) {
         // Must be the player
-        for( auto &miss : g->u.get_active_missions() ) {
+        for( auto &miss : get_avatar().get_active_missions() ) {
             // mission is free and can be reused
             miss->player_id = character_id();
         }
@@ -164,7 +167,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
         // Technically, the active missions could be moved to the failed mission section.
         return;
     }
-    const auto dead_guys_id = p->getID();
+    const character_id dead_guys_id = p->getID();
     for( auto &e : world_missions ) {
         mission &i = e.second;
         if( !i.in_progress() ) {
@@ -200,7 +203,7 @@ void mission::on_talk_with_npc( const character_id &npc_id )
     }
 }
 
-mission *mission::reserve_random( const mission_origin origin, const tripoint &p,
+mission *mission::reserve_random( const mission_origin origin, const tripoint_abs_omt &p,
                                   const character_id &npc_id )
 {
     const auto type = mission_type::get_random_id( origin, p );
@@ -230,6 +233,11 @@ void mission::assign( avatar &u )
         } else if( type->goal == MGOAL_KILL_MONSTER_SPEC ) {
             kill_count_to_reach = kills.kill_count( monster_species ) + monster_kill_goal;
         }
+        if( type->deadline_low != 0_turns || type->deadline_high != 0_turns ) {
+            deadline = calendar::turn + rng( type->deadline_low, type->deadline_high );
+        } else {
+            deadline = 0;
+        }
         type->start( this );
         status = mission_status::in_progress;
     }
@@ -238,8 +246,9 @@ void mission::assign( avatar &u )
 void mission::fail()
 {
     status = mission_status::failure;
-    if( g->u.getID() == player_id ) {
-        g->u.on_mission_finished( *this );
+    avatar &player_character = get_avatar();
+    if( player_character.getID() == player_id ) {
+        player_character.on_mission_finished( *this );
     }
 
     type->fail( this );
@@ -247,7 +256,7 @@ void mission::fail()
 
 void mission::set_target_to_mission_giver()
 {
-    const auto giver = g->find_npc( npc_id );
+    const npc *giver = g->find_npc( npc_id );
     if( giver != nullptr ) {
         target = giver->global_omt_location();
     } else {
@@ -277,23 +286,23 @@ void mission::step_complete( const int _step )
 
 void mission::wrap_up()
 {
-    auto &u = g->u;
-    if( u.getID() != player_id ) {
+    avatar &player_character = get_avatar();
+    if( player_character.getID() != player_id ) {
         // This is called from npctalk.cpp, the npc should only offer the option to wrap up mission
         // that have been assigned to the current player.
         debugmsg( "mission::wrap_up called, player %d was assigned, but current player is %d",
-                  player_id.get_value(), u.getID().get_value() );
+                  player_id.get_value(), player_character.getID().get_value() );
     }
 
     status = mission_status::success;
-    u.on_mission_finished( *this );
+    player_character.on_mission_finished( *this );
     std::vector<item_comp> comps;
     switch( type->goal ) {
         case MGOAL_FIND_ITEM_GROUP: {
-            inventory tmp_inv = u.crafting_inventory();
+            inventory tmp_inv = player_character.crafting_inventory();
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
-            Group_tag grp_type = type->group_id;
+            item_group_id grp_type = type->group_id;
             itype_id container = type->container_id;
             bool specific_container_required = !container.is_null();
             bool remove_container = type->remove_container;
@@ -309,16 +318,16 @@ void mission::wrap_up()
 
             }
 
-            u.consume_items( comps );
+            player_character.consume_items( comps );
 
             if( remove_container ) {
                 std::vector<item_comp> container_comp = std::vector<item_comp>();
                 if( !empty_container.is_null() ) {
                     container_comp.push_back( item_comp( empty_container, type->item_count ) );
-                    u.consume_items( container_comp );
+                    player_character.consume_items( container_comp );
                 } else {
                     container_comp.push_back( item_comp( container, type->item_count ) );
-                    u.consume_items( container_comp );
+                    player_character.consume_items( container_comp );
                 }
             }
         }
@@ -326,10 +335,10 @@ void mission::wrap_up()
 
         case MGOAL_FIND_ITEM:
             comps.push_back( item_comp( type->item_id, item_count ) );
-            u.consume_items( comps );
+            player_character.consume_items( comps );
             break;
         case MGOAL_FIND_ANY_ITEM:
-            u.remove_mission_items( uid );
+            player_character.remove_mission_items( uid );
             break;
         default:
             //Suppress warnings
@@ -345,23 +354,23 @@ bool mission::is_complete( const character_id &_npc_id ) const
         return true;
     }
 
-    auto &u = g->u;
+    avatar &player_character = get_avatar();
     switch( type->goal ) {
         case MGOAL_GO_TO: {
-            const tripoint cur_pos = g->u.global_omt_location();
+            const tripoint_abs_omt cur_pos = player_character.global_omt_location();
             return ( rl_dist( cur_pos, target ) <= 1 );
         }
 
         case MGOAL_GO_TO_TYPE: {
-            const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
+            const auto cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
             return is_ot_match( type->target_id.str(), cur_ter, ot_match_type::type );
         }
 
         case MGOAL_FIND_ITEM_GROUP: {
-            inventory tmp_inv = u.crafting_inventory();
+            inventory tmp_inv = player_character.crafting_inventory();
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
-            Group_tag grp_type = type->group_id;
+            item_group_id grp_type = type->group_id;
             itype_id container = type->container_id;
             bool specific_container_required = !container.is_null();
 
@@ -386,16 +395,46 @@ bool mission::is_complete( const character_id &_npc_id ) const
             if( npc_id.is_valid() && npc_id != _npc_id ) {
                 return false;
             }
-            const inventory &tmp_inv = u.crafting_inventory();
-            // TODO: check for count_by_charges and use appropriate player::has_* function
-            if( !tmp_inv.has_amount( type->item_id, item_count ) ) {
-                return tmp_inv.has_amount( type->item_id, 1 ) && tmp_inv.has_charges( type->item_id, item_count );
+            item item_sought( type->item_id );
+            map &here = get_map();
+            int found_quantity = 0;
+            bool charges = item_sought.count_by_charges();
+            auto count_items = [this, &found_quantity, &player_character, charges]( item_stack && items ) {
+                for( const item &i : items ) {
+                    if( !i.is_owned_by( player_character, true ) ) {
+                        continue;
+                    }
+                    if( charges ) {
+                        found_quantity += i.charges_of( type->item_id, item_count - found_quantity );
+                    } else {
+                        found_quantity += i.amount_of( type->item_id, item_count - found_quantity );
+                    }
+                }
+            };
+            for( const tripoint &p : here.points_in_radius( player_character.pos(), 5 ) ) {
+                if( player_character.sees( p ) ) {
+                    if( here.has_items( p ) && here.accessible_items( p ) ) {
+                        count_items( here.i_at( p ) );
+                    }
+                    if( const cata::optional<vpart_reference> vp =
+                            here.veh_at( p ).part_with_feature( "CARGO", true ) ) {
+                        count_items( vp->vehicle().get_items( vp->part_index() ) );
+                    }
+                    if( found_quantity >= item_count ) {
+                        break;
+                    }
+                }
+            }
+            if( charges ) {
+                return player_character.charges_of( type->item_id ) + found_quantity >= item_count;
+            } else {
+                return player_character.amount_of( type->item_id ) + found_quantity >= item_count;
             }
         }
         return true;
 
         case MGOAL_FIND_ANY_ITEM:
-            return u.has_mission_item( uid ) && ( !npc_id.is_valid() || npc_id == _npc_id );
+            return player_character.has_mission_item( uid ) && ( !npc_id.is_valid() || npc_id == _npc_id );
 
         case MGOAL_FIND_MONSTER:
             if( npc_id.is_valid() && npc_id != _npc_id ) {
@@ -413,7 +452,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
 
         case MGOAL_RECRUIT_NPC_CLASS: {
             const auto npcs = overmap_buffer.get_npcs_near_player( 100 );
-            for( auto &npc : npcs ) {
+            for( const auto &npc : npcs ) {
                 if( npc->myclass == recruit_class && npc->get_attitude() == NPCATT_FOLLOW ) {
                     return true;
                 }
@@ -448,11 +487,11 @@ bool mission::is_complete( const character_id &_npc_id ) const
             }
 
             mission_goal_condition_context cc;
-            cc.alpha = &u;
-            cc.beta = n;
+            cc.alpha = get_talker_for( player_character );
+            cc.beta = get_talker_for( *n );
 
             for( auto &mission : n->chatbin.missions_assigned ) {
-                if( mission->get_assigned_player_id() == g->u.getID() ) {
+                if( mission->get_assigned_player_id() == player_character.getID() ) {
                     cc.missions_assigned.push_back( mission );
                 }
             }
@@ -466,7 +505,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
 }
 
 void mission::get_all_item_group_matches( std::vector<item *> &items,
-        Group_tag &grp_type, std::map<itype_id, int> &matches,
+        item_group_id &grp_type, std::map<itype_id, int> &matches,
         const itype_id &required_container, const itype_id &actual_container,
         bool &specific_container_required )
 {
@@ -526,7 +565,7 @@ bool mission::has_target() const
     return target != overmap::invalid_tripoint;
 }
 
-const tripoint &mission::get_target() const
+const tripoint_abs_omt &mission::get_target() const
 {
     return target;
 }
@@ -604,7 +643,7 @@ bool mission::has_generic_rewards() const
     return type->has_generic_rewards;
 }
 
-void mission::set_target( const tripoint &p )
+void mission::set_target( const tripoint_abs_omt &p )
 {
     target = p;
 }
@@ -616,22 +655,12 @@ void mission::set_target_npc_id( const character_id &npc_id )
 
 bool mission::is_assigned() const
 {
-    return player_id.is_valid() || legacy_no_player_id;
+    return player_id.is_valid();
 }
 
 character_id mission::get_assigned_player_id() const
 {
     return player_id;
-}
-
-void mission::set_player_id_legacy_0c( character_id id )
-{
-    if( !legacy_no_player_id || player_id.is_valid() ) {
-        debugmsg( "Not a legacy mission, tried to set id %d", id.get_value() );
-    } else {
-        player_id = id;
-        legacy_no_player_id = false;
-    }
 }
 
 std::string mission::name()
@@ -686,7 +715,7 @@ mission::mission()
     status = mission_status::yet_to_start;
     value = 0;
     uid = -1;
-    target = tripoint_min;
+    target = tripoint_abs_omt( tripoint_min );
     item_id = itype_id::NULL_ID();
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();

@@ -113,7 +113,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Rhyzaea_Background",
-    "dynamic_line": "It's a long, long story.  I'm not from around here, I'm actually from way out in Western Canada. I'd always wanted to see New England, and I was down here on vacation when, well, you know.  I got evacuated, but because I'm not a US citizen they weren't willing to take me downstairs.  I can understand that, even if I don't like it much.  To tell you the truth I'm still coming to terms with the fact that I'll probably never know how my family and my band are doing.",
+    "dynamic_line": "It's a long, long story.  I'm not from around here, I'm actually from way out in Western Canada.  I'd always wanted to see New England, and I was down here on vacation when, well, you know.  I got evacuated, but because I'm not a US citizen they weren't willing to take me downstairs.  I can understand that, even if I don't like it much.  To tell you the truth I'm still coming to terms with the fact that I'll probably never know how my family and my band are doing.",
     "responses": [
       { "text": "Tell me about yourself.", "topic": "TALK_REFUGEE_Rhyzaea_Background2" },
       { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },

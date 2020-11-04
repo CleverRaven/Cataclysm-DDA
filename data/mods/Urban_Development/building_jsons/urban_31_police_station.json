@@ -5,8 +5,8 @@
     "items": [
       [ "blood", 300 ],
       [ "vacutainer", 100 ],
-      [ "jar_glass", 30 ],
-      [ "jar_3l_glass", 15 ],
+      [ "jar_glass_sealed", 30 ],
+      [ "jar_3l_glass_sealed", 15 ],
       [ "hygrometer", 3 ],
       [ "chem_nitric_acid", 15 ],
       [ "denat_alcohol", 100 ],

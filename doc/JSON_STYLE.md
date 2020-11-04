@@ -44,7 +44,7 @@ Line breaks occur after open brackets, close brackets, or entries.
 
 ## Formatting tool
 
-The formatting tool can be invoked via the Makefile, directly as `tools/format/json_formatter.cgi` (built via (`make json_formatter`), or via cgi at http://dev.narc.ro/cataclysm/format.html
+The formatting tool can be invoked via the Makefile, directly as `tools/format/json_formatter.cgi` (built via `make style-json`), or via cgi at http://dev.narc.ro/cataclysm/format.html
 
 If you're using the Visual Studio solution, you can configure Visual Studio with
 commands to format all of the JSON in the project.
@@ -53,8 +53,8 @@ commands to format all of the JSON in the project.
    just that project. This will create a `tools/format/json_formatter.exe`
    binary.
 2. Add a new external tool entry ( `Tools` > `External Tools..` > `Add` ) and
-   configure it as follows: 
-   * Title: `Lint All JSON` 
+   configure it as follows:
+   * Title: `Lint All JSON`
    * Command: `C:\windows\system32\windowspowershell\v1.0\powershell.exe`
    * Arguments: `-file $(SolutionDir)\style-json.ps1`
    * Initial Directory: `$(SolutionDir)`

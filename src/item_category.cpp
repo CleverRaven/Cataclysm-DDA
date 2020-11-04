@@ -37,6 +37,11 @@ void zone_priority_data::load( JsonObject &jo )
     optional( jo, was_loaded, "filthy", filthy, false );
 }
 
+const std::vector<item_category> &item_category::get_all()
+{
+    return item_category_factory.get_all();
+}
+
 void item_category::load_item_cat( const JsonObject &jo, const std::string &src )
 {
     item_category_factory.load( jo, src );
@@ -98,10 +103,8 @@ cata::optional<zone_type_id> item_category::priority_zone( const item &it ) cons
                 continue;
             }
         }
-        for( const std::string &flag : zone_dat.flags ) {
-            if( it.has_flag( flag ) ) {
-                return zone_dat.id;
-            }
+        if( it.has_any_flag( zone_dat.flags ) ) {
+            return zone_dat.id;
         }
     }
     return cata::nullopt;

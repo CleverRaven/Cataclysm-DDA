@@ -1,0 +1,186 @@
+[
+  {
+    "id": "art_sphere",
+    "type": "GENERIC",
+    "name": { "str": "smooth sphere" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "O",
+    "volume": "1 L",
+    "weight": "1 kg",
+    "to_hit": -1,
+    "bashing": 3
+  },
+  {
+    "id": "art_rod",
+    "type": "GENERIC",
+    "name": { "str": "slim rod" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "|",
+    "volume": "235 ml",
+    "weight": "300 g",
+    "longest_side": "75 cm",
+    "to_hit": 1,
+    "bashing": 5
+  },
+  {
+    "id": "art_teardrop",
+    "type": "GENERIC",
+    "name": { "str": "teardrop-shaped stone" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "O",
+    "volume": "35 ml",
+    "weight": "50 g",
+    "to_hit": -2
+  },
+  {
+    "id": "art_lamp",
+    "type": "GENERIC",
+    "name": { "str": "hollow, transparent cube" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "[",
+    "volume": "1 L",
+    "weight": "80 g",
+    "to_hit": -2
+  },
+  {
+    "id": "art_snake",
+    "type": "GENERIC",
+    "name": { "str": "winding, flexible rod" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "S",
+    "volume": "215 ml",
+    "weight": "300 g",
+    "longest_side": "65 cm",
+    "to_hit": 1,
+    "bashing": 5
+  },
+  {
+    "id": "art_disc",
+    "type": "GENERIC",
+    "name": { "str": "smooth disc" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "O",
+    "volume": "340 ml",
+    "weight": "575 g",
+    "to_hit": -1,
+    "bashing": 3
+  },
+  {
+    "id": "art_beads",
+    "type": "GENERIC",
+    "name": { "str": "string of beads" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "O",
+    "volume": "76 ml",
+    "weight": "125 g",
+    "to_hit": -2
+  },
+  {
+    "id": "art_napkin",
+    "type": "GENERIC",
+    "name": { "str": "very thin sheet" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "[",
+    "volume": "2 ml",
+    "weight": "1 g",
+    "to_hit": -3
+  },
+  {
+    "id": "art_urchin",
+    "type": "GENERIC",
+    "name": { "str": "spiked sphere" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "O",
+    "volume": "1 L",
+    "weight": "800 g",
+    "to_hit": -2,
+    "cutting": 3
+  },
+  {
+    "id": "art_jelly",
+    "type": "GENERIC",
+    "name": { "str": "malleable blob" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "O",
+    "volume": "1 L",
+    "weight": "800 g",
+    "to_hit": -1
+  },
+  {
+    "id": "art_spiral",
+    "type": "GENERIC",
+    "name": { "str": "spiraling rod" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "@",
+    "volume": "3400 ml",
+    "weight": "300 g",
+    "longest_side": "30 cm",
+    "to_hit": -4,
+    "bashing": 4
+  },
+  {
+    "id": "art_pin",
+    "type": "GENERIC",
+    "name": { "str": "small pin" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "|",
+    "volume": "1 ml",
+    "weight": "50 mg",
+    "longest_side": "2 cm",
+    "to_hit": -5,
+    "cutting": 1
+  },
+  {
+    "id": "art_tube",
+    "type": "GENERIC",
+    "name": { "str": "hollow tube" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "|",
+    "volume": "188 ml",
+    "weight": "50 mg",
+    "longest_side": "15 cm",
+    "bashing": 3
+  },
+  {
+    "id": "art_pyramid",
+    "type": "GENERIC",
+    "name": { "str": "regular tetrahedron" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "A",
+    "volume": "1 L",
+    "weight": "1 kg",
+    "to_hit": -1,
+    "bashing": 3
+  },
+  {
+    "id": "art_crystal",
+    "type": "GENERIC",
+    "name": { "str": "transluscent crystal" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "A",
+    "volume": "500 ml",
+    "weight": "400 g",
+    "to_hit": -1,
+    "bashing": 3
+  },
+  {
+    "id": "art_knot",
+    "type": "GENERIC",
+    "name": { "str": "twisted, knotted cord" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "b",
+    "volume": "400 ml",
+    "weight": "400 g",
+    "bashing": 2
+  },
+  {
+    "id": "art_crescent",
+    "type": "GENERIC",
+    "name": { "str": "crescent-shaped stone" },
+    "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "symbol": "C",
+    "volume": "35 ml",
+    "weight": "50 g",
+    "to_hit": -2
+  }
+]

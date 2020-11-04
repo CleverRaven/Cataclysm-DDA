@@ -9,7 +9,6 @@
       "2": "t_door_metal_c",
       "4": "t_door_metal_pickable",
       "5": "t_door_metal_locked",
-      "6": "t_console_broken",
       "[": "t_door_glass_c",
       "-": "t_wall",
       "|": "t_concrete_wall",
@@ -28,11 +27,12 @@
       ">": "t_stairs_down",
       "0": "t_window_empty",
       ":": "t_window_domestic",
-      "u": "t_chainfence_h",
-      "U": "t_chainfence_v",
+      "u": "t_chainfence",
+      "U": "t_chainfence",
       "#": "t_rock"
     },
     "furniture": {
+      "6": "f_console_broken",
       "&": "f_toilet",
       "~": "f_shower",
       "@": "f_bed",

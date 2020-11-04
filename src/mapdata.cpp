@@ -175,9 +175,13 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "BLOCK_WIND",               TFLAG_BLOCK_WIND },     // This tile will partially block the wind.
         { "FLAT",                     TFLAG_FLAT },           // This tile is flat.
         { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
+        { "RAMP_DOWN",                TFLAG_RAMP_DOWN },      // Anything entering this tile moves down a z-level
+        { "RAMP_UP",                  TFLAG_RAMP_UP },        // Anything entering this tile moves up a z-level
         { "RAIL",                     TFLAG_RAIL },           // Rail tile (used heavily)
         { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // Passable by players and monsters. Vehicles destroy it.
-        { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE }   // A small passage, that large or huge things cannot pass through
+        { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
+        { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
+        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE }   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
     }
 };
 
@@ -190,6 +194,8 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "POOLWATER",                TERCONN_POOLWATER },
         { "PAVEMENT",                 TERCONN_PAVEMENT },
         { "RAIL",                     TERCONN_RAIL },
+        { "COUNTER",                  TERCONN_COUNTER },
+        { "CANVAS_WALL",              TERCONN_CANVAS_WALL },
     }
 };
 
@@ -259,7 +265,7 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
     if( j.has_member( "items" ) ) {
         drop_group = item_group::load_item_group( j.get_member( "items" ), "collection" );
     } else {
-        drop_group = "EMPTY_GROUP";
+        drop_group = item_group_id( "EMPTY_GROUP" );
     }
 
     if( j.has_array( "tent_centers" ) ) {
@@ -324,7 +330,7 @@ furn_t null_furniture_t()
 {
     furn_t new_furniture;
     new_furniture.id = furn_str_id::NULL_ID();
-    new_furniture.name_ = translate_marker( "nothing" );
+    new_furniture.name_ = to_translation( "nothing" );
     new_furniture.symbol_.fill( ' ' );
     new_furniture.color_.fill( c_white );
     new_furniture.light_emitted = 0;
@@ -346,7 +352,7 @@ ter_t null_terrain_t()
     ter_t new_terrain;
 
     new_terrain.id = ter_str_id::NULL_ID();
-    new_terrain.name_ = translate_marker( "nothing" );
+    new_terrain.name_ = to_translation( "nothing" );
     new_terrain.symbol_.fill( ' ' );
     new_terrain.color_.fill( c_white );
     new_terrain.light_emitted = 0;
@@ -366,7 +372,7 @@ void load_season_array( const JsonObject &jo, const std::string &key, C &contain
         container.fill( load_func( jo.get_string( key ) ) );
 
     } else if( jo.has_array( key ) ) {
-        auto arr = jo.get_array( key );
+        JsonArray arr = jo.get_array( key );
         if( arr.size() == 1 ) {
             container.fill( load_func( arr.get_string( 0 ) ) );
 
@@ -386,7 +392,7 @@ void load_season_array( const JsonObject &jo, const std::string &key, C &contain
 
 std::string map_data_common_t::name() const
 {
-    return _( name_ );
+    return name_.translated();
 }
 
 void map_data_common_t::load_symbol( const JsonObject &jo )
@@ -526,7 +532,6 @@ ter_id t_null,
        t_reinforced_door_glass_o, t_reinforced_door_glass_c,
        t_bars,
        t_reb_cage,
-       t_wall_r, t_wall_w, t_wall_b, t_wall_g, t_wall_p, t_wall_y,
        t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep, t_rdoor_c, t_rdoor_b,
        t_rdoor_o, t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm,
        t_door_frame,
@@ -584,7 +589,6 @@ ter_id t_null,
        t_vat,
        t_rootcellar,
        t_cvdbody, t_cvdmachine,
-       t_nanofab, t_nanofab_body,
        t_water_pump,
        t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
        t_improvised_shelter,
@@ -609,6 +613,8 @@ ter_id t_null,
        t_railroad_track_d2,
        t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie,
        t_railroad_track_d_on_tie;
+
+static ter_id t_nanofab, t_nanofab_body, t_wall_b, t_wall_g, t_wall_p, t_wall_r, t_wall_w;
 
 // TODO: Put this crap into an inclusion, which should be generated automatically using JSON data
 
@@ -677,7 +683,7 @@ void set_ter_ids()
     t_reinforced_glass_shutter = ter_id( "t_reinforced_glass_shutter" );
     t_reinforced_glass_shutter_open = ter_id( "t_reinforced_glass_shutter_open" );
     t_laminated_glass = ter_id( "t_laminated_glass" );
-    t_ballistic_glass = ter_id( "t_ballistic_glass" ),
+    t_ballistic_glass = ter_id( "t_ballistic_glass" );
     t_reinforced_door_glass_c = ter_id( "t_reinforced_door_glass_c" );
     t_reinforced_door_glass_o = ter_id( "t_reinforced_door_glass_o" );
     t_bars = ter_id( "t_bars" );
@@ -916,7 +922,7 @@ void set_ter_ids()
     t_railroad_track_v_on_tie = ter_id( "t_railroad_track_v_on_tie" );
     t_railroad_track_d_on_tie = ter_id( "t_railroad_track_d_on_tie" );
 
-    for( auto &elem : terrain_data.get_all() ) {
+    for( const ter_t &elem : terrain_data.get_all() ) {
         ter_t &ter = const_cast<ter_t &>( elem );
         if( ter.trap_id_str.empty() ) {
             ter.trap = tr_null;
@@ -937,32 +943,31 @@ furn_id f_null,
         f_rubble, f_rubble_rock, f_wreckage, f_ash,
         f_barricade_road, f_sandbag_half, f_sandbag_wall,
         f_bulletin,
-        f_indoor_plant, f_indoor_plant_y,
+        f_indoor_plant,
         f_bed, f_toilet, f_makeshift_bed, f_straw_bed,
         f_sink, f_oven, f_woodstove, f_fireplace, f_bathtub,
         f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
-        f_ball_mach, f_bench, f_lane, f_table, f_pool_table,
+        f_bench, f_table, f_pool_table,
         f_counter,
         f_fridge, f_glass_fridge, f_dresser, f_locker,
         f_rack, f_bookcase,
         f_washer, f_dryer,
         f_vending_c, f_vending_o, f_dumpster, f_dive_block,
         f_crate_c, f_crate_o, f_coffin_c, f_coffin_o,
-        f_gunsafe_ml,
+        f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el,
         f_large_canvas_wall, f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet,
         f_fema_groundsheet, f_large_groundsheet,
         f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door,
         f_skin_door_o, f_skin_groundsheet,
-        f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump, f_dahlia, f_datura, f_dandelion,
-        f_cattails, f_bluebell,
+        f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
+        f_cattails, f_lotus, f_lilypad,
         f_safe_c, f_safe_l, f_safe_o,
         f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
         f_fvat_empty, f_fvat_full,
         f_wood_keg,
         f_standing_tank,
-        f_statue, f_egg_sackbw, f_egg_sackcs, f_egg_sackws, f_egg_sacke,
+        f_egg_sackbw, f_egg_sackcs, f_egg_sackws, f_egg_sacke,
         f_flower_marloss,
-        f_floor_canvas,
         f_tatami,
         f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
         f_arcfurnace_empty, f_arcfurnace_full,
@@ -975,6 +980,9 @@ furn_id f_null,
         f_tourist_table,
         f_camp_chair,
         f_sign;
+
+static furn_id f_ball_mach, f_bluebell, f_dahlia, f_dandelion, f_datura, f_floor_canvas,
+       f_indoor_plant_y, f_lane, f_statue;
 
 void set_furn_ids()
 {
@@ -1052,6 +1060,8 @@ void set_furn_ids()
     f_datura = furn_id( "f_datura" );
     f_dandelion = furn_id( "f_dandelion" );
     f_cattails = furn_id( "f_cattails" );
+    f_lilypad = furn_id( "f_lilypad" );
+    f_lotus = furn_id( "f_lotus" );
     f_safe_c = furn_id( "f_safe_c" );
     f_safe_l = furn_id( "f_safe_l" );
     f_safe_o = furn_id( "f_safe_o" );
@@ -1091,6 +1101,8 @@ void set_furn_ids()
     f_camp_chair = furn_id( "f_camp_chair" );
     f_sign = furn_id( "f_sign" );
     f_gunsafe_ml = furn_id( "f_gunsafe_ml" );
+    f_gunsafe_mj = furn_id( "f_gunsafe_mj" );
+    f_gun_safe_el = furn_id( "f_gun_safe_el" );
 }
 
 size_t ter_t::count()
@@ -1153,6 +1165,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     }
 
     mandatory( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "curtain_transform", curtain_transform );
 }
 
 void ter_t::load( const JsonObject &jo, const std::string &src )
@@ -1283,8 +1296,14 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "light_emitted", light_emitted );
 
+    // see the comment in ter_id::load for connect_group handling
+    connect_group = TERCONN_NONE;
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
+    }
+
+    if( jo.has_member( "connects_to" ) ) {
+        set_connects( jo.get_string( "connects_to" ) );
     }
 
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
@@ -1308,9 +1327,9 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
 void map_data_common_t::check() const
 {
-    for( auto &harvest : harvest_by_season ) {
+    for( const string_id<harvest_list> &harvest : harvest_by_season ) {
         if( !harvest.is_null() && examine == iexamine::none ) {
-            debugmsg( "Harvest data defined without examine function for %s", name_.c_str() );
+            debugmsg( "Harvest data defined without examine function for %s", name_ );
         }
     }
 }

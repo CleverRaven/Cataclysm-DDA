@@ -15,7 +15,7 @@
   {
     "id": "TALK_SCIENCE_REP",
     "type": "talk_topic",
-    "dynamic_line": { "u_has_any_trait": [ "PROF_FED" ], "yes": "Marshal...", "no": "Citizen..." },
+    "dynamic_line": { "u_has_any_trait": [ "PROF_FED" ], "yes": "Marshal…", "no": "Citizen…" },
     "responses": [
       { "text": "Who are you?", "topic": "TALK_SCIENCE_REP_NEW" },
       { "text": "Heard anything about the outside world?", "topic": "TALK_SCIENCE_REP_WORLD" },

@@ -12,7 +12,8 @@
       [ "towel_soiled", 20 ],
       [ "heatpack", 40 ],
       [ "heatpack_used", 60 ],
-      [ "bandages", 40 ],
+      [ "bandages", 20 ],
+      [ "adhesive_bandages", 20 ],
       [ "mouthpiece", 40 ],
       [ "football", 60 ],
       [ "football_armor", 60 ],
@@ -24,10 +25,10 @@
       [ "duffelbag", 30 ],
       [ "backpack", 40 ],
       [ "energy_drink", 30 ],
-      [ "cell_phone", 20 ],
-      [ "smart_phone", 30 ],
+      { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 30, "charges-min": 0 },
       [ "mp3", 50 ],
-      [ "inhaler", 10 ]
+      { "item": "inhaler", "prob": 10, "charges": [ 0, 100 ] }
     ]
   },
   {

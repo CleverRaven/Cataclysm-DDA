@@ -127,6 +127,7 @@
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
       "shore_extendable_overmap_terrain_aliases": [  ]
     },
+    "overmap_ravine_settings": { "num_ravines": 5, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.5,
       "noise_threshold_forest_thick": 0.55,
@@ -698,7 +699,6 @@
       "base_temperature": 16.0,
       "base_humidity": 20.0,
       "base_pressure": 1025.0,
-      "base_acid": 0.0,
       "base_wind": 5.7,
       "base_wind_distrib_peaks": 20,
       "base_wind_season_variation": 40,
@@ -709,7 +709,20 @@
       "spring_humidity_manual_mod": 10,
       "summer_humidity_manual_mod": 0,
       "autumn_humidity_manual_mod": 10,
-      "winter_humidity_manual_mod": 15
+      "winter_humidity_manual_mod": 15,
+      "weather_types": [
+        "clear",
+        "sunny",
+        "cloudy",
+        "light_drizzle",
+        "drizzle",
+        "rain",
+        "thunder",
+        "lightning",
+        "flurries",
+        "snowing",
+        "snowstorm"
+      ]
     },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
   }

@@ -311,5 +311,85 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP" ],
     "connects_to": "WATER",
     "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_bulkhead_roof",
+    "//": "for eventual use with water z levels.  Currently non-functional.  Roof for submerged structures.",
+    "name": "bulkhead",
+    "description": "The top of a submerged structure.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "symbol": "#",
+    "looks_like": "t_metal_flat_roof",
+    "color": "light_gray",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP", "MINEABLE" ],
+    "connects_to": "WATER",
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_bulkhead_floor",
+    "//": "for eventual use with water z levels.  Currently non-functional.  Roof for submerged structures.",
+    "name": "bulkhead",
+    "description": "The bottom of a submerged structure.",
+    "symbol": "#",
+    "looks_like": "t_metal_floor",
+    "color": "light_gray",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD", "MINEABLE" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_lake_bed_concrete",
+    "//": "for eventual use with water z levels.  Currently non-functional.  Cement on the lake floor.",
+    "name": "submerged concrete",
+    "description": "You are standing at the bottom of a body of fresh water on a pad of concrete.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "symbol": "~",
+    "looks_like": "t_concrete",
+    "color": "white",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP", "MINEABLE" ],
+    "bash": {
+      "ter_set": "t_lake_bed",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "rock", "count": [ 2, 10 ] } ]
+    },
+    "connects_to": "WATER",
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_lake_bed_concrete_yellow",
+    "//": "for eventual use with water z levels.  Currently non-functional.  Cement on the lake floor.",
+    "name": "submerged concrete",
+    "description": "You are standing at the bottom of a body of fresh water on a pad of concrete with yelllow paint.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "symbol": "#",
+    "looks_like": "t_pavement_y",
+    "color": "yellow",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP", "MINEABLE" ],
+    "bash": {
+      "ter_set": "t_lake_bed",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "rock", "count": [ 2, 10 ] } ]
+    },
+    "connects_to": "WATER",
+    "examine_action": "water_source"
   }
 ]

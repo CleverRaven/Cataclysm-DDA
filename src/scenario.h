@@ -14,7 +14,6 @@
 
 class JsonObject;
 class profession;
-
 template<typename T>
 class generic_factory;
 
@@ -128,5 +127,8 @@ struct scen_blacklist {
 };
 
 void reset_scenarios_blacklist();
+
+const scenario *get_scenario();
+void set_scenario( const scenario *new_scenario );
 
 #endif // CATA_SRC_SCENARIO_H

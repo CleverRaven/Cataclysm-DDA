@@ -8,7 +8,6 @@
 
 #include "catacharset.h"
 #include "color.h"
-#include "compatibility.h"
 #include "cursesdef.h"
 #include "input.h"
 #include "optional.h"

@@ -67,7 +67,10 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "point_flare", "fireball", "burning_hands", "create_lighter" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "point_flare", "fireball", "burning_hands", "create_lighter", "kelvinist_summon_flamesword" ]
+    }
   },
   {
     "id": "wizard_advanced",
@@ -232,14 +235,17 @@
     "id": "magus_spellbook",
     "type": "BOOK",
     "name": { "str": "The Tome of The Battle Mage", "str_pl": "copies of The Tome of The Battle Mage" },
-    "//": "3 Magus spells",
+    "//": "4 Magus spells",
     "description": "Your standard wizardy looking spellbook, filled with Magus combat spells.  You sure lucked out!",
     "weight": "434 g",
     "volume": "750 ml",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast", "magus_summon_impact_sling" ]
+    }
   },
   {
     "id": "eshaper_spellbook",
@@ -300,14 +306,17 @@
     "id": "techno_fundamentals",
     "type": "BOOK",
     "name": { "str": "Fundamentals of Technomancy", "str_pl": "copies of Fundamentals of Technomancy" },
-    "//": "3 Technomancer spells",
+    "//": "4 Technomancer spells",
     "description": "This thick manual instructs the spellcaster on manipulating and empowering various forms of matter and energy.",
     "weight": "258 g",
     "volume": "750 ml",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "synaptic_stimulation", "animated_blade", "mirror_image" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "synaptic_stimulation", "animated_blade", "mirror_image", "technomancer_knifeshot" ]
+    }
   },
   {
     "id": "techno_idiots",
@@ -329,14 +338,27 @@
       "str": "Technomancy and the Electromagnetic Spectrum",
       "str_pl": "copies of Technomancy and the Electromagnetic Spectrum"
     },
-    "//": "2 Technomancer spells",
+    "//": "3 Technomancer spells",
     "description": "This lab reference material book is thick and overflowing with information on combining magic with EM radiation.",
     "weight": "284 g",
     "volume": "1 L",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "taze", "laze" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "taze", "laze", "technomancer_knifeshot" ] }
+  },
+  {
+    "id": "animist_shadows",
+    "type": "BOOK",
+    "name": { "str": "Runic Tablet shard" },
+    "//": "1 classless spell",
+    "description": "A small tablet of blackened stone, apparently cut from a much larger slab.  Golden runes glow over its surface, and slowly shift into intelligible sentences when you stare at them.",
+    "weight": "4000 g",
+    "volume": "2500 ml",
+    "material": [ "stone" ],
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "soulrend" ] }
   },
   {
     "id": "translocate_spellbook",

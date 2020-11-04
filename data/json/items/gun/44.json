@@ -38,6 +38,7 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -82,7 +83,7 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 10 } } ]
   },
   {
     "id": "rifle_44",
@@ -91,8 +92,10 @@
     "type": "GUN",
     "name": { "str": "pipe rifle: .44 Magnum", "str_pl": "pipe rifles: .44 Magnum" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "ascii_picture": "lg_pipe_gun",
     "weight": "2114 g",
     "volume": "2 L",
+    "longest_side": "100 cm",
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -1,
@@ -108,7 +111,7 @@
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
-    "barrel_length": "750 ml",
+    "barrel_volume": "750 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "muzzle", 1 ],
@@ -121,7 +124,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 1 } } ]
   },
   {
     "id": "ruger_redhawk",
@@ -130,6 +133,7 @@
     "type": "GUN",
     "name": { "str_sp": "Ruger Redhawk" },
     "description": "One of the most powerful handguns in the world when it was released in 1979, the Redhawk offers very sturdy construction, with an appearance that is reminiscent of \"Wild West\" revolvers.",
+    "ascii_picture": "redhawk",
     "weight": "1389 g",
     "volume": "699 ml",
     "longest_side": "31 cm",
@@ -156,7 +160,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "44": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "44": 6 } } ]
   },
   {
     "id": "sw629",
@@ -191,6 +195,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "44": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "44": 6 } } ]
   }
 ]

@@ -1,26 +1,18 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <set>
 #include <string>
 
-#include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
-#include "game.h"
+#include "character.h"
+#include "flag.h"
 #include "item.h"
 #include "itype.h"
 #include "options_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
-static const std::string flag_COLD( "COLD" );
-static const std::string flag_DIAMOND( "DIAMOND" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_FROZEN( "FROZEN" );
-static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_HOT( "HOT" );
-static const std::string flag_MELTS( "MELTS" );
-static const std::string flag_WET( "WET" );
 
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
@@ -47,7 +39,8 @@ static const skill_id skill_survival( "survival" );
 
 TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 {
-    g->u.clear_mutations();
+    Character &player_character = get_player_character();
+    player_character.clear_mutations();
 
     GIVEN( "food with hidden poison" ) {
         item coffee = item( "coffee_pod" );
@@ -55,8 +48,8 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
         REQUIRE( coffee.has_flag( flag_HIDDEN_POISON ) );
 
         WHEN( "avatar has level 2 survival skill" ) {
-            g->u.set_skill_level( skill_survival, 2 );
-            REQUIRE( g->u.get_skill_level( skill_survival ) == 2 );
+            player_character.set_skill_level( skill_survival, 2 );
+            REQUIRE( player_character.get_skill_level( skill_survival ) == 2 );
 
             THEN( "they cannot see it is poisonous" ) {
                 CHECK( coffee.tname() == "Kentucky coffee pod" );
@@ -64,8 +57,8 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
         }
 
         WHEN( "avatar has level 3 survival skill" ) {
-            g->u.set_skill_level( skill_survival, 3 );
-            REQUIRE( g->u.get_skill_level( skill_survival ) == 3 );
+            player_character.set_skill_level( skill_survival, 3 );
+            REQUIRE( player_character.get_skill_level( skill_survival ) == 3 );
 
             THEN( "they see it is poisonous" ) {
                 CHECK( coffee.tname() == "Kentucky coffee pod (poisonous)" );
@@ -80,8 +73,8 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
         REQUIRE( mushroom.has_flag( flag_HIDDEN_HALLU ) );
 
         WHEN( "avatar has level 4 survival skill" ) {
-            g->u.set_skill_level( skill_survival, 4 );
-            REQUIRE( g->u.get_skill_level( skill_survival ) == 4 );
+            player_character.set_skill_level( skill_survival, 4 );
+            REQUIRE( player_character.get_skill_level( skill_survival ) == 4 );
 
             THEN( "they cannot see it is hallucinogenic" ) {
                 CHECK( mushroom.tname() == "mushroom (fresh)" );
@@ -89,8 +82,8 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
         }
 
         WHEN( "avatar has level 5 survival skill" ) {
-            g->u.set_skill_level( skill_survival, 5 );
-            REQUIRE( g->u.get_skill_level( skill_survival ) == 5 );
+            player_character.set_skill_level( skill_survival, 5 );
+            REQUIRE( player_character.get_skill_level( skill_survival ) == 5 );
 
             THEN( "they see it is hallucinogenic" ) {
                 CHECK( mushroom.tname() == "mushroom (hallucinogenic) (fresh)" );
@@ -314,7 +307,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is undamaged" ) {
             shirt.set_damage( 0 );
             REQUIRE( shirt.damage() == 0 );
-            REQUIRE( shirt.damage_level( 4 ) == 0 );
+            REQUIRE( shirt.damage_level() == 0 );
 
             // green `||`
             THEN( "it appears undamaged" ) {
@@ -325,7 +318,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "is is one-quarter damaged" ) {
             shirt.set_damage( dam25 );
             REQUIRE( shirt.damage() == dam25 );
-            REQUIRE( shirt.damage_level( 4 ) == 1 );
+            REQUIRE( shirt.damage_level() == 1 );
 
             // yellow `|\`
             THEN( "it appears slightly damaged" ) {
@@ -336,7 +329,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is half damaged" ) {
             shirt.set_damage( dam25 * 2 );
             REQUIRE( shirt.damage() == dam25 * 2 );
-            REQUIRE( shirt.damage_level( 4 ) == 2 );
+            REQUIRE( shirt.damage_level() == 2 );
 
             // magenta `|.`
             THEN( "it appears moderately damaged" ) {
@@ -347,7 +340,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is three-quarters damaged" ) {
             shirt.set_damage( dam25 * 3 );
             REQUIRE( shirt.damage() == dam25 * 3 );
-            REQUIRE( shirt.damage_level( 4 ) == 3 );
+            REQUIRE( shirt.damage_level() == 3 );
 
             // red `\.`
             THEN( "it appears heavily damaged" ) {
@@ -358,7 +351,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is totally damaged" ) {
             shirt.set_damage( dam25 * 4 );
             REQUIRE( shirt.damage() == dam25 * 4 );
-            REQUIRE( shirt.damage_level( 4 ) == 4 );
+            REQUIRE( shirt.damage_level() == 4 );
 
             // dark gray `XX`
             THEN( "it appears almost destroyed" ) {
@@ -384,11 +377,12 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
     GIVEN( "a gun with potential fouling" ) {
         item gun( "hk_mp5" );
 
+        Character &player_character = get_player_character();
         // Ensure the player and gun are normal size to prevent "too big" or "too small" suffix in tname
-        g->u.clear_mutations();
-        REQUIRE( gun.get_sizing( g-> u, true ) == item::sizing::human_sized_human_char );
-        REQUIRE_FALSE( gun.has_flag( "OVERSIZE" ) );
-        REQUIRE_FALSE( gun.has_flag( "UNDERSIZE" ) );
+        player_character.clear_mutations();
+        REQUIRE( gun.get_sizing( player_character ) == item::sizing::ignore );
+        REQUIRE_FALSE( gun.has_flag( flag_OVERSIZE ) );
+        REQUIRE_FALSE( gun.has_flag( flag_UNDERSIZE ) );
 
         WHEN( "it is perfectly clean" ) {
             gun.set_var( "dirt", 0 );

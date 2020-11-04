@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <list>
 #include <memory>
@@ -7,7 +9,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "character.h"
 #include "damage.h"
 #include "game.h"
 #include "game_constants.h"
@@ -15,13 +17,14 @@
 #include "item.h"
 #include "line.h"
 #include "map_helpers.h"
-#include "material.h"
 #include "monster.h"
 #include "npc.h"
+#include "pimpl.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "test_statistics.h"
 #include "type_id.h"
 
@@ -57,8 +60,7 @@ static const skill_id skill_throw = skill_id( "throw" );
 
 static void reset_player( player &p, const throw_test_pstats &pstats, const tripoint &pos )
 {
-    p.reset();
-    p.set_stamina( p.get_stamina_max() );
+    clear_character( p );
     CHECK( !p.in_vehicle );
     p.setpos( pos );
     p.str_max = pstats.str;
@@ -67,9 +69,6 @@ static void reset_player( player &p, const throw_test_pstats &pstats, const trip
     p.set_str_bonus( 0 );
     p.set_per_bonus( 0 );
     p.set_dex_bonus( 0 );
-    p.worn.clear();
-    p.inv.clear();
-    p.remove_weapon();
     p.set_skill_level( skill_throw, pstats.skill_lvl );
 }
 
@@ -80,8 +79,8 @@ static void reset_player( player &p, const throw_test_pstats &pstats, const trip
 //  4. Increase max iterations which will make the CI smaller and more likely to
 //     fit inside the threshold but also increase the average test length
 // In that order.
-constexpr int min_throw_test_iterations = 100;
-constexpr int max_throw_test_iterations = 10000;
+static constexpr int min_throw_test_iterations = 100;
+static constexpr int max_throw_test_iterations = 10000;
 
 // tighter thresholds here will increase accuracy but also increase average test
 // time since more samples are required to get a more accurate test
@@ -109,7 +108,7 @@ static void test_throwing_player_versus(
         monster &mon = spawn_test_monster( mon_id, monster_start );
         mon.set_moves( 0 );
 
-        auto atk = p.throw_item( mon.pos(), it );
+        dealt_projectile_attack atk = p.throw_item( mon.pos(), it );
         data.hits.add( atk.hit_critter != nullptr );
         data.dmg.add( atk.dealt_dam.total_damage() );
 
@@ -129,7 +128,7 @@ static void test_throwing_player_versus(
             }
         }
         g->remove_zombie( mon );
-        p.i_rem( -1 );
+        p.remove_weapon();
         // only need to check dmg_thresh_met because it can only be true if
         // hit_thresh_met first
     } while( !dmg_thresh_met && data.hits.n() < max_throws );
@@ -164,14 +163,14 @@ static void test_throwing_player_versus(
 }
 */
 
-constexpr throw_test_pstats lo_skill_base_stats = { 0, 8, 8, 8 };
-constexpr throw_test_pstats mid_skill_base_stats = { MAX_SKILL / 2, 8, 8, 8 };
-constexpr throw_test_pstats hi_skill_base_stats = { MAX_SKILL, 8, 8, 8 };
-constexpr throw_test_pstats hi_skill_athlete_stats = { MAX_SKILL, 12, 12, 12 };
+static constexpr throw_test_pstats lo_skill_base_stats = { 0, 8, 8, 8 };
+static constexpr throw_test_pstats mid_skill_base_stats = { MAX_SKILL / 2, 8, 8, 8 };
+static constexpr throw_test_pstats hi_skill_base_stats = { MAX_SKILL, 8, 8, 8 };
+static constexpr throw_test_pstats hi_skill_athlete_stats = { MAX_SKILL, 12, 12, 12 };
 
 TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
 {
-    player &p = g->u;
+    avatar &p = get_avatar();
     clear_map();
 
     SECTION( "test_player_vs_zombie_rock_basestats" ) {
@@ -216,7 +215,7 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
 
 TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
 {
-    player &p = g->u;
+    avatar &p = get_avatar();
     clear_map();
 
     // we already cover low stats in the sanity tests and we only cover a few
@@ -279,7 +278,7 @@ static void test_player_kills_monster(
             while( p.get_moves() > 0 ) {
                 p.wield( it );
                 p.throw_item( mon.pos(), it );
-                p.i_rem( -1 );
+                p.remove_weapon();
                 ++num_items;
             }
             mon_is_dead = mon.is_dead();
@@ -304,7 +303,7 @@ static void test_player_kills_monster(
 
 TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" )
 {
-    player &p = g->u;
+    avatar &p = get_avatar();
     clear_map();
 
     SECTION( "test_player_kills_zombie_with_rock_basestats" ) {
@@ -312,10 +311,9 @@ TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" 
     }
 }
 
-int throw_cost( const player &c, const item &to_throw );
 TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[balance]" )
 {
-    player &p = g->u;
+    player &p = get_avatar();
     clear_avatar();
 
     item thrown( "throwing_stick", calendar::turn, 10 );

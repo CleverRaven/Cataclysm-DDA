@@ -1,0 +1,138 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_knapping",
+    "name": { "str": "Basic Knapping" },
+    "description": "You know the basic principles of turning stones into more useful tools.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 8,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_knapping_speed",
+    "name": { "str": "Knapping" },
+    "description": "You've banged rocks together so much and for so long, you've become extremely fast at it.",
+    "can_learn": true,
+    "default_time_multiplier": 5,
+    "default_fail_multiplier": 1.5,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_knapping" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_glassblowing",
+    "name": { "str": "Glassblowing" },
+    "description": "Working with glass and heat without poisoning or perforating yourself.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 5,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_plumbing",
+    "name": { "str": "Plumbing" },
+    "description": "Working with pipes and pipe fittings to transport fluids without leakage.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2.5,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_pottery",
+    "name": { "str": "Pottery" },
+    "description": "Basic pottery, from shaping to working with slip to fuse pieces.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 5,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_bowyery",
+    "name": { "str": "Bowyery" },
+    "description": "The ability to make durable, effective bows.",
+    "can_learn": true,
+    "default_time_multiplier": 2.5,
+    "default_fail_multiplier": 5,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_fletching",
+    "name": { "str": "Fletching" },
+    "description": "The skill involved in making arrows that fly true.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 5,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_basketweaving",
+    "name": { "str": "Basketweaving" },
+    "description": "Forming coarse fibers into shapes.",
+    "can_learn": true,
+    "default_time_multiplier": 2.5,
+    "default_fail_multiplier": 2,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_pottery_glazing",
+    "name": { "str": "Pottery Glazing" },
+    "description": "Adding glazes to pottery to make them waterproof.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2,
+    "time_to_learn": "5 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_plasticworking",
+    "name": { "str": "Plastic Working" },
+    "description": "Working with plastic using your hands, including carving, molding, and gluing it.  You know how to identify thermoplastics that are suitable for mold casting, and how to identify the right plastic for the right job.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 5,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_carving",
+    "name": { "str": "Carving" },
+    "description": "Shaping wood, bone, and similar materials with a cutting implement.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_helicopter_pilot",
+    "name": { "str": "Helicopter Piloting" },
+    "description": "Before the cataclysm, you were a helicopter pilot.  Now, you just hope you can fly again.",
+    "can_learn": false
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_aircraft_mechanic",
+    "name": { "str": "Airframe and Powerplant Mechanic" },
+    "description": "You've been trained and certified to repair aircraft.  You're not really sure how that could help you survive now.",
+    "can_learn": false
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_gem_setting",
+    "name": { "str": "Gem Setting" },
+    "description": "How to add gemstones to jewelry.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_fine_metalsmithing", "prof_redsmithing" ]
+  }
+]

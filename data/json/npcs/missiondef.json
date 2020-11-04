@@ -380,7 +380,7 @@
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle…",
       "offer": "I have another task if you are feeling up to it.  There is a prisoner that the priest made special mention of.  I was wondering if you could see what may have happened to him or if he left anything in his cell.  The priest admits the individual is rather unstable, to put it lightly, but the priest personally believed the man was some kind of repentant visionary.  I'm not in a position to cast out the account just yet… it seems the man has prophesied events accurately before concerning the Church of Starry Wisdom.",
-      "accepted": "I wish you the best of luck, may whatever god you please guide your path…  I can only imagine that the prison will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew death was almost certain.  ",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path…  I can only imagine that the prison will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew death was almost certain.",
       "rejected": "Ya, I guess the stress may just be getting to me…",
       "advice": "The worst case scenario will probably be that the prisoners have escaped their cells and turned the building into their own little fortress.  Best case, the building went into lock-down and secured the prisoners in their cells.  Either way, navigating the building will pose its own difficulties.",
       "inquire": "Any luck?",
@@ -589,6 +589,20 @@
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
+    "id": "MISSION_HELICOPTER_REFUEL",
+    "type": "mission_definition",
+    "name": { "str": "Refuel your helicopter." },
+    "description": "You were flying towards a nearby private airport before your forced landing.  You could still reach it by ground, and scavenge it for fuel.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "s_air_hangars",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport", "search_range": 100 }
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
     "id": "MISSION_RECOVER_PRIEST_DIARY",
     "type": "mission_definition",
     "name": { "str": "Recover Priest's Diary" },
@@ -731,10 +745,10 @@
     "dialogue": {
       "describe": "It's hard to tell who actually has the skills to survive these days…",
       "offer": "It's hard surviving out here on our own, and we'd probably have a better chance working together.  Problem is, I don't really know you and what you're capable of.  You might have what it takes, or you might not.  Either way, I'm going to need some proof.  Come back in a few days and I'll gladly follow you.  It's basically a win-win for me: either you come back and I'll know you've got what it takes, or you don't and I'll know that I was right not to follow you.",
-      "accepted": "I'll see you then…or I won't, and then I'll know I made the right decision.",
+      "accepted": "I'll see you then… or I won't, and then I'll know I made the right decision.",
       "rejected": "Ya, it was a long shot I admit.",
       "advice": "Don't die.  If you're asking me for advice, that doesn't bode well for you.",
-      "inquire": "Well, you're not dead…yet.",
+      "inquire": "Well, you're not dead… yet.",
       "success": "I'll be honest, I wasn't really expecting to see you again.  A promise is a promise, I'll follow you now!",
       "success_lie": "I know time is relative and all that.",
       "failure": "I'm not quite sure how you failed to survive AND are talking to me."

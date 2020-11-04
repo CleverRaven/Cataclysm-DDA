@@ -1,10 +1,24 @@
 #include "achievement.h"
 
-#include "avatar.h"
+#include <cstdlib>
+#include <set>
+#include <tuple>
+#include <utility>
+
+#include "cata_assert.h"
+#include "color.h"
+#include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
+#include "event.h"
 #include "event_statistics.h"
 #include "generic_factory.h"
+#include "json.h"
+#include "past_games_info.h"
 #include "stats_tracker.h"
+#include "string_formatter.h"
+
+template <typename E> struct enum_traits;
 
 // Some details about how achievements work
 // ========================================
@@ -15,7 +29,7 @@
 // the execution flow to help clarify how it all fits together.
 //
 // * Various core game code paths generate events via the event bus.
-// * The stats_traecker subscribes to the event bus, and receives these events.
+// * The stats_tracker subscribes to the event bus, and receives these events.
 // * Events contribute to event_multisets managed by the stats_tracker.
 // * (In the docs, these event_multisets are described as "event streams").
 // * (Optionally) event_transformations transform these event_multisets into
@@ -124,11 +138,11 @@ std::string enum_to_string<requirement_visibility>( requirement_visibility data 
 
 } // namespace io
 
-static nc_color color_from_completion( bool is_conduct, achievement_completion comp )
+static nc_color color_from_completion( bool is_conduct, achievement_completion comp, bool is_title )
 {
     switch( comp ) {
         case achievement_completion::pending:
-            return is_conduct ? c_light_green : c_yellow;
+            return is_conduct ? c_light_green : ( is_title ? c_white : c_light_cyan );
         case achievement_completion::completed:
             return c_light_green;
         case achievement_completion::failed:
@@ -147,7 +161,7 @@ struct achievement_requirement {
     requirement_visibility visibility = requirement_visibility::always;
     cata::optional<translation> description;
 
-    bool becomes_false;
+    bool becomes_false = false;
 
     void deserialize( JsonIn &jin ) {
         const JsonObject &jo = jin.get_object();
@@ -194,6 +208,12 @@ struct achievement_requirement {
             debugmsg( "Achievement %s has a non-integer requirement which is sometimes visible.  "
                       "Such requirements must have a description, but this one does not.",
                       id.str() );
+        }
+
+        if( !target.is_valid() ) {
+            debugmsg( "Achievement %s has a requirement target %s of type %s, but that is not "
+                      "a valid value of that type.",
+                      id.str(), target.get_string(), io::enum_to_string( target.type() ) );
         }
     }
 
@@ -325,7 +345,7 @@ std::string achievement::time_bound::ui_text( bool is_conduct ) const
     time_point now = calendar::turn;
     achievement_completion comp = completed();
 
-    nc_color c = color_from_completion( is_conduct, comp );
+    nc_color c = color_from_completion( is_conduct, comp, false );
 
     auto translate_epoch = []( epoch e ) {
         switch( e ) {
@@ -570,8 +590,9 @@ std::string enum_to_string<achievement_completion>( achievement_completion data 
 std::string achievement_state::ui_text( const achievement *ach ) const
 {
     // First: the achievement name and description
-    nc_color c = color_from_completion( ach->is_conduct(), completion );
-    std::string result = colorize( ach->name(), c ) + "\n";
+    nc_color c = color_from_completion( ach->is_conduct(), completion, false );
+    nc_color c_title = color_from_completion( ach->is_conduct(), completion, true );
+    std::string result = colorize( ach->name(), c_title ) + "\n";
     if( !ach->description().empty() ) {
         result += "  " + colorize( ach->description(), c ) + "\n";
     }
@@ -644,7 +665,7 @@ void achievement_tracker::set_requirement( requirement_watcher *watcher, bool is
     if( sorted_watchers_[is_satisfied].insert( watcher ).second ) {
         // Remove from other
         sorted_watchers_[!is_satisfied].erase( watcher );
-        assert( sorted_watchers_[0].size() + sorted_watchers_[1].size() == watchers_.size() );
+        cata_assert( sorted_watchers_[0].size() + sorted_watchers_[1].size() == watchers_.size() );
     }
 
     achievement_completion time_comp =
@@ -696,10 +717,31 @@ std::string achievement_tracker::ui_text() const
 
     // First: the achievement name and description
     nc_color c = color_from_completion( achievement_->is_conduct(),
-                                        achievement_completion::pending );
-    std::string result = colorize( achievement_->name(), c ) + "\n";
+                                        achievement_completion::pending,
+                                        false );
+    nc_color c_title = color_from_completion( achievement_->is_conduct(),
+                       achievement_completion::pending,
+                       true );
+    std::string result = colorize( achievement_->name(), c_title ) + "\n";
     if( !achievement_->description().empty() ) {
         result += "  " + colorize( achievement_->description(), c ) + "\n";
+    }
+
+    // Note if it's been completed in other games
+    const achievement_completion_info *other_games =
+        get_past_games().achievement( achievement_->id );
+    if( other_games && !other_games->games_completed.empty() ) {
+        std::string message =
+            string_format( _( "Previously completed by %s" ),
+                           other_games->games_completed.front()->avatar_name() );
+        size_t num_completions = other_games->games_completed.size();
+        if( num_completions > 1 ) {
+            message +=
+                string_format(
+                    ngettext( " and %d other", " and %d others", num_completions - 1 ),
+                    num_completions - 1 );
+        }
+        result += "  " + colorize( message, c_blue ) + "\n";
     }
 
     // Next: the time constraint
@@ -722,8 +764,10 @@ std::string achievement_tracker::ui_text() const
 achievements_tracker::achievements_tracker(
     stats_tracker &stats,
     const std::function<void( const achievement *, bool )> &achievement_attained_callback,
-    const std::function<void( const achievement *, bool )> &achievement_failed_callback ) :
+    const std::function<void( const achievement *, bool )> &achievement_failed_callback,
+    bool active ) :
     stats_( &stats ),
+    active_( active ),
     achievement_attained_callback_( achievement_attained_callback ),
     achievement_failed_callback_( achievement_failed_callback )
 {}
@@ -743,8 +787,8 @@ std::vector<const achievement *> achievements_tracker::valid_achievements() cons
 
 void achievements_tracker::report_achievement( const achievement *a, achievement_completion comp )
 {
-    assert( comp != achievement_completion::pending );
-    assert( !achievements_status_.count( a->id ) );
+    cata_assert( comp != achievement_completion::pending );
+    cata_assert( !achievements_status_.count( a->id ) );
 
     auto tracker_it = trackers_.find( a->id );
     achievements_status_.emplace(
@@ -818,7 +862,7 @@ void achievements_tracker::clear()
 void achievements_tracker::notify( const cata::event &e )
 {
     if( e.type() == event_type::game_start ) {
-        assert( initial_achievements_.empty() );
+        cata_assert( initial_achievements_.empty() );
         for( const achievement &ach : achievement::get_all() ) {
             initial_achievements_.insert( ach.id );
         }
@@ -838,7 +882,9 @@ void achievements_tracker::serialize( JsonOut &jsout ) const
 void achievements_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    jo.read( "enabled", enabled_ ) || ( enabled_ = true );
+    if( !jo.read( "enabled", enabled_ ) ) {
+        enabled_ = true;
+    }
     jo.read( "initial_achievements", initial_achievements_ );
     jo.read( "achievements_status", achievements_status_ );
 
@@ -847,6 +893,10 @@ void achievements_tracker::deserialize( JsonIn &jsin )
 
 void achievements_tracker::init_watchers()
 {
+    if( !active_ ) {
+        return;
+    }
+
     for( const achievement *a : valid_achievements() ) {
         if( achievements_status_.count( a->id ) ) {
             continue;

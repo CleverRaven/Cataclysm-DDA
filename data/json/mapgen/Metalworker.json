@@ -46,13 +46,13 @@
         "U": "t_pavement",
         "2": "t_pavement",
         ".": "t_strconc_floor",
-        "3": "t_machinery_heavy",
-        "1": "t_machinery_old",
         "#": "t_strconc_floor",
         "<": "t_ladder_up",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "3": "f_machinery_heavy",
+        "1": "f_machinery_old",
         "H": "f_bench",
         "S": "f_sink",
         "#": "f_stool",

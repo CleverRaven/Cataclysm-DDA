@@ -55,6 +55,7 @@
     "price": 0,
     "price_postapoc": 25,
     "material": [ "plastic" ],
+    "qualities": [ [ "SURFACE", 3 ] ],
     "symbol": ")",
     "color": "light_blue",
     "use_action": { "type": "deploy_furn", "furn_type": "f_plastic_groundsheet" }
@@ -63,7 +64,7 @@
     "id": "rigid_plastic_sheet",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "plastic sheet",
+    "name": "rigid plastic sheet",
     "description": "A large, rigid sheet of translucent plastic, useful for all manner of things; from construction to art, or even junior snowboarding.",
     "weight": "14875 g",
     "volume": "12500 ml",

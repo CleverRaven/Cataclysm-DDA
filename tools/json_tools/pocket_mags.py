@@ -10,6 +10,7 @@ args_dict = vars(args.parse_args())
 
 inheriting_item_ids = []
 
+
 def gen_new(path):
     change = False
     with open(path, "r") as json_file:
@@ -19,7 +20,8 @@ def gen_new(path):
                 if "ammo_type" in jo:
                     pocket_data = [{
                         "pocket_type": "MAGAZINE",
-                        "ammo_restriction": {k: jo["capacity"] for k in jo["ammo_type"]}
+                        "ammo_restriction": {k: jo["capacity"]
+                                             for k in jo["ammo_type"]}
                     }]
                     jo["pocket_data"] = pocket_data
                     change = True

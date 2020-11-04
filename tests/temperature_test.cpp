@@ -1,14 +1,14 @@
-#include <cstdlib>
-#include <memory>
+#include "catch/catch.hpp"
+
+#include <cmath>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "calendar.h"
-#include "item.h"
-#include "enums.h"
 #include "cata_utility.h"
-#include "flat_set.h"
+#include "enums.h"
+#include "flag.h"
 #include "game_constants.h"
+#include "item.h"
 #include "point.h"
 #include "weather.h"
 
@@ -54,7 +54,7 @@ TEST_CASE( "Rate of temperature change" )
     // Don't bother with times shorter than this
 
     // Note: If process interval is longer than 1 hour the calculations will be done using the environment temperature
-    // Processing intervals should be kept below 1 hour to avoid this.
+    // IMPORTANT: Processing intervals should be kept below 1 hour to avoid this.
 
     // Sections:
     // Water bottle (realisticity check)
@@ -122,16 +122,17 @@ TEST_CASE( "Rate of temperature change" )
 
         // 50 C
         CHECK( is_nearly( meat1.temperature, 323.15 * 100000 ) );
-        CHECK( meat1.item_tags.count( "HOT" ) );
+        CHECK( meat1.has_own_flag( flag_HOT ) );
 
         set_map_temperature( -4 ); // -20 C
 
         calendar::turn = to_turn<int>( calendar::turn + 15_minutes );
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
         // 33.5 C
         CHECK( is_nearly( meat1.temperature, 30673432 ) );
-        CHECK( !meat1.item_tags.count( "HOT" ) );
+        CHECK( !meat1.has_own_flag( flag_HOT ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 11_minutes );
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
@@ -145,8 +146,8 @@ TEST_CASE( "Rate of temperature change" )
         // not frozen
         CHECK( is_nearly( meat1.temperature, 27315000 ) );
         CHECK( is_nearly( meat2.temperature, 27315000 ) );
-        CHECK( !meat1.item_tags.count( "FROZEN" ) );
-        CHECK( !meat2.item_tags.count( "FROZEN" ) );
+        CHECK( !meat1.has_own_flag( flag_FROZEN ) );
+        CHECK( !meat2.has_own_flag( flag_FROZEN ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 60_minutes );
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
@@ -159,8 +160,8 @@ TEST_CASE( "Rate of temperature change" )
         // frozen
         // same energy as meat 2
         CHECK( is_nearly( meat1.temperature, 27315000 ) );
-        CHECK( meat1.item_tags.count( "FROZEN" ) );
-        CHECK( meat2.item_tags.count( "FROZEN" ) );
+        CHECK( meat1.has_own_flag( flag_FROZEN ) );
+        CHECK( meat2.has_own_flag( flag_FROZEN ) );
         CHECK( is_nearly( meat1.specific_energy, meat2.specific_energy ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 11_minutes );
@@ -176,7 +177,7 @@ TEST_CASE( "Rate of temperature change" )
         // frozen
         // same temp as meat 2
         CHECK( is_nearly( meat1.temperature, 26595062 ) );
-        CHECK( meat1.item_tags.count( "FROZEN" ) );
+        CHECK( meat1.has_own_flag( flag_FROZEN ) );
         CHECK( is_nearly( meat1.temperature, meat2.temperature ) );
     }
 
@@ -203,7 +204,7 @@ TEST_CASE( "Rate of temperature change" )
 
         // -20 C
         CHECK( is_nearly( meat1.temperature, 253.15 * 100000 ) );
-        CHECK( meat1.item_tags.count( "FROZEN" ) );
+        CHECK( meat1.has_own_flag( flag_FROZEN ) );
 
         set_map_temperature( 68 ); // 20 C
 
@@ -227,8 +228,8 @@ TEST_CASE( "Rate of temperature change" )
         // frozen
         CHECK( is_nearly( meat1.temperature, 27315000 ) );
         CHECK( is_nearly( meat2.temperature, meat1.temperature ) );
-        CHECK( meat1.item_tags.count( "FROZEN" ) );
-        CHECK( meat2.item_tags.count( "FROZEN" ) );
+        CHECK( meat1.has_own_flag( flag_FROZEN ) );
+        CHECK( meat2.has_own_flag( flag_FROZEN ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 45_minutes );
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
@@ -243,7 +244,7 @@ TEST_CASE( "Rate of temperature change" )
         // not frozen
         CHECK( is_nearly( meat1.temperature, 27315000 ) );
         CHECK( is_nearly( meat2.temperature, meat1.temperature ) );
-        CHECK( !meat1.item_tags.count( "FROZEN" ) );
+        CHECK( !meat1.has_own_flag( flag_FROZEN ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 11_minutes );
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );

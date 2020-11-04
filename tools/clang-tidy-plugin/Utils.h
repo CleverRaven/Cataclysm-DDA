@@ -95,6 +95,14 @@ inline auto isPointType()
     return cxxRecordDecl( anyOf( hasName( "point" ), hasName( "tripoint" ) ) );
 }
 
+inline auto isPointOrCoordPointType()
+{
+    using namespace clang::ast_matchers;
+    return cxxRecordDecl(
+               anyOf( hasName( "point" ), hasName( "tripoint" ), hasName( "coord_point" ) )
+           );
+}
+
 inline auto isPointConstructor()
 {
     using namespace clang::ast_matchers;

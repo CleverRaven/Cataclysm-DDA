@@ -40,7 +40,6 @@
       "WARM",
       "BASHES",
       "POISON",
-      "BLEED",
       "ACIDPROOF",
       "NO_BREATHE",
       "REVIVES",
@@ -94,11 +93,80 @@
       "BASHES",
       "GROUP_BASH",
       "POISON",
-      "BLEED",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
     ]
+  },
+  {
+    "id": "mon_zombie_phase_skulker",
+    "type": "MONSTER",
+    "name": { "str": "phase skulker" },
+    "description": "What remains of a researcher lost to the portal storms, twisted and enervated by the presences that lurk beneath natural perception.  It walks and stumbles in stuttered way, and is granted tenuous corporality only by grace of the experimental gear inherited from its past life.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ABERRATION" ],
+    "emit_fields": [ { "emit_id": "emit_plasma", "delay": "1 s" } ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 80,
+    "speed": 90,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "magenta_white",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 5,
+    "melee_cut": 1,
+    "dodge": 5,
+    "armor_bash": 5,
+    "armor_cut": 5,
+    "armor_bullet": 4,
+    "vision_day": 20,
+    "vision_night": 3,
+    "luminance": 8,
+    "harvest": "zombie",
+    "upgrades": { "half_life": 30, "into": "mon_zombie_phase_shrike" },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "phase_skulker_teleport", "hit_self": true },
+        "cooldown": 5,
+        "monster_message": "The skulker shifts and melts inwards before disappearing!"
+      }
+    ],
+    "death_drops": "phase_zombie_death_drops",
+    "death_function": [ "MELT" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "POISON", "FILTHY", "STUN_IMMUNE" ]
+  },
+  {
+    "id": "mon_zombie_phase_shrike",
+    "type": "MONSTER",
+    "name": { "str": "phase shrike" },
+    "description": "What remains of a researcher lost to the portal storms, twisted and enervated by the presences that lurk beneath natural perception.  It unnaturally skitters on four bone-plated spikes, its every motion trailing an aura of energetic distortion.",
+    "copy-from": "mon_zombie_phase_skulker",
+    "hp": 10,
+    "melee_skill": 6,
+    "melee_dice_sides": 9,
+    "melee_cut": 1,
+    "dodge": 10,
+    "armor_bash": 40,
+    "armor_cut": 40,
+    "armor_bullet": 30,
+    "vision_night": 5,
+    "luminance": 16,
+    "special_attacks": [
+      [ "LUNGE", 15 ],
+      {
+        "type": "spell",
+        "spell_data": { "id": "phase_shrike_teleport", "hit_self": true },
+        "cooldown": 15,
+        "monster_message": "The shrike shifts and disappears amidst an electric surge!"
+      }
+    ],
+    "extend": { "flags": [ "ELECTRIC", "HARDTOSHOOT" ] }
   }
 ]

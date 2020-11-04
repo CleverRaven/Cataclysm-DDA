@@ -7,7 +7,6 @@
 #include <tuple>
 #include <vector>
 
-#include "itype.h"
 #include "calendar.h"
 #include "optional.h"
 #include "ret_val.h"
@@ -16,6 +15,8 @@
 class item;
 class player;
 class vpart_reference;
+
+struct itype;
 struct tripoint;
 
 using seed_tuple = std::tuple<itype_id, std::string, int>;
@@ -47,7 +48,7 @@ void portable_structure( player &p, const tripoint &examp );
 void pit( player &p, const tripoint &examp );
 void pit_covered( player &p, const tripoint &examp );
 void slot_machine( player &p, const tripoint &examp );
-void safe( player &p, const tripoint &examp );
+void safe( player &guy, const tripoint &examp );
 void gunsafe_el( player &p, const tripoint &examp );
 void harvest_furn_nectar( player &p, const tripoint &examp );
 void harvest_furn( player &p, const tripoint &examp );
@@ -82,7 +83,6 @@ void shrub_marloss( player &p, const tripoint &examp );
 void tree_marloss( player &p, const tripoint &examp );
 void shrub_wildveggies( player &p, const tripoint &examp );
 void recycle_compactor( player &p, const tripoint &examp );
-void trap( player &p, const tripoint &examp );
 void water_source( player &p, const tripoint &examp );
 void clean_water_source( player &, const tripoint &examp );
 void kiln_empty( player &p, const tripoint &examp );
@@ -101,6 +101,7 @@ void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
 void ledge( player &p, const tripoint &examp );
 void autodoc( player &p, const tripoint &examp );
+void attunement_altar( player &p, const tripoint &examp );
 void translocator( player &p, const tripoint &examp );
 void on_smoke_out( const tripoint &examp,
                    const time_point &start_time ); //activates end of smoking effects
@@ -111,6 +112,7 @@ void open_safe( player &p, const tripoint &examp );
 void workbench( player &p, const tripoint &examp );
 void workbench_internal( player &p, const tripoint &examp,
                          const cata::optional<vpart_reference> &part );
+void workout( player &p, const tripoint &examp );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
 cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );

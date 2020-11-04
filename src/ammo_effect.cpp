@@ -90,6 +90,8 @@ void ammo_effect::load( const JsonObject &jo, const std::string & )
     }
     optional( jo, was_loaded, "do_flashbang", do_flashbang, false );
     optional( jo, was_loaded, "do_emp_blast", do_emp_blast, false );
+    optional( jo, was_loaded, "foamcrete_build", foamcrete_build, false );
+
 }
 
 void ammo_effect::finalize()

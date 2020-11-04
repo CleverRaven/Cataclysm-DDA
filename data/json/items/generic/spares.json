@@ -116,5 +116,17 @@
     "volume": "1 L",
     "price": 1800,
     "price_postapoc": 500
+  },
+  {
+    "id": "pipe_fittings",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": { "str": "set of pipe fittings", "str_pl": "sets of pipe fittings" },
+    "description": "A loose assortment of metal pipe fittings - end caps, pipe junctions, and similar items.  They can be used in a variety of projects.",
+    "material": [ "iron" ],
+    "weight": "500 g",
+    "volume": "1 L",
+    "price": 1800,
+    "price_postapoc": 500
   }
 ]

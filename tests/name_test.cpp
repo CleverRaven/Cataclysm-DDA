@@ -1,14 +1,16 @@
+#include "catch/catch.hpp"
+#include "name.h"
+
 #include <set>
 #include <string>
 
-#include "catch/catch.hpp"
-#include "name.h"
+#include "enum_traits.h"
 
 class IsOneOf : public Catch::MatcherBase<std::string>
 {
         std::set< std::string > values;
     public:
-        IsOneOf( std::set< std::string > v ): values{v} {}
+        IsOneOf( const std::set< std::string > &v ): values{v} {}
         bool match( std::string const &s ) const override {
             return values.count( s ) > 0;
         }

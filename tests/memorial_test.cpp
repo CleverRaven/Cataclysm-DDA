@@ -1,24 +1,30 @@
-#include <cstddef>
+#include "catch/catch.hpp"
+
+#include <algorithm>
+#include <chrono>
+#include <iterator>
 #include <memory>
+#include <numeric>
+#include <sstream>
 #include <string>
 #include <vector>
 
+#include "achievement.h"
 #include "avatar.h"
 #include "bodypart.h"
-#include "catch/catch.hpp"
 #include "character_id.h"
 #include "debug_menu.h"
 #include "event.h"
-#include "game.h"
+#include "event_bus.h"
+#include "filesystem.h"
 #include "memorial_logger.h"
 #include "mutation.h"
 #include "output.h"
 #include "player_helpers.h"
 #include "pldata.h"
 #include "profession.h"
+#include "stats_tracker.h"
 #include "type_id.h"
-
-class event_bus;
 
 template<event_type Type, typename... Args>
 void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, Args... args )
@@ -35,10 +41,10 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
     CHECK( result_lines.back().empty() );
     result_lines.pop_back();
 
+    // Remove expected results by matching them against the strings we encounter.
     std::vector<std::string> ref_lines = string_split( ref, '\n' );
-    REQUIRE( result_lines.size() == ref_lines.size() );
-    for( size_t i = 0; i < ref_lines.size(); ++i ) {
-        std::string message = string_split( result_lines[i], '|' ).back();
+    for( const std::string &result_string : result_lines ) {
+        std::string message = string_split( result_string, '|' ).back();
         if( !message.empty() && message.front() == ' ' ) {
             message.erase( message.begin() );
         }
@@ -46,20 +52,28 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
         while( !message.empty() && *message.rbegin() == '\r' ) {
             message.erase( message.end() - 1 );
         }
-        CHECK( message == ref_lines[i] );
+        ref_lines.erase( std::remove( ref_lines.begin(), ref_lines.end(), message ),
+                         ref_lines.end() );
     }
+    std::string unmatched_results;
+    INFO( std::accumulate( begin( ref_lines ), end( ref_lines ), unmatched_results ) );
+    CHECK( ref_lines.empty() );
 }
 
-TEST_CASE( "memorials" )
+TEST_CASE( "memorials", "[memorial]" )
 {
-    memorial_logger &m = g->memorial();
+    memorial_logger &m = get_memorial();
     m.clear();
     clear_avatar();
+    get_stats().clear();
+    get_achievements().clear();
 
-    event_bus &b = g->events();
+    event_bus &b = get_event_bus();
 
-    character_id ch = g->u.getID();
-    std::string u_name = g->u.name;
+    avatar &player_character = get_avatar();
+    player_character.male = false;
+    character_id ch = player_character.getID();
+    std::string u_name = player_character.name;
     character_id ch2 = character_id( ch.get_value() + 1 );
     mutagen_technique mutagen = mutagen_technique::injected_purifier;
     mtype_id mon( "mon_zombie_kevlar_2" );
@@ -87,8 +101,11 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::becomes_wanted>(
         m, b, "Became wanted by the police!", ch );
 
+    check_memorial<event_type::broken_bone>(
+        m, b, "Broke her right arm.", ch, bodypart_id( "arm_r" ) );
+
     check_memorial<event_type::broken_bone_mends>(
-        m, b, "Broken right arm began to mend.", ch, bp_arm_r );
+        m, b, "Broken right arm began to mend.", ch, bodypart_id( "arm_r" ) );
 
     check_memorial<event_type::buries_corpse>(
         m, b, "You buried monster_name.", ch, mon, "monster_name" );
@@ -119,7 +136,7 @@ TEST_CASE( "memorials" )
         m, b, "Opened the Marloss Gateway.", ch );
 
     check_memorial<event_type::crosses_mutation_threshold>(
-        m, b, "Became one with the bears.", ch, "URSINE" );
+        m, b, "Became one with the bears.", ch, mutation_category_id( "URSINE" ) );
 
     check_memorial<event_type::crosses_mycus_threshold>(
         m, b, "Became one with the Mycus.", ch );
@@ -138,6 +155,15 @@ TEST_CASE( "memorials" )
 
     check_memorial<event_type::dies_from_drug_overdose>(
         m, b, "Died of a drug overdose.", ch, eff );
+
+    check_memorial<event_type::dies_from_bleeding>(
+        m, b, "Bled to death.", ch );
+
+    check_memorial<event_type::dies_from_hypovolemia>(
+        m, b, "Died of hypovolemic shock.", ch );
+
+    check_memorial<event_type::dies_from_redcells_loss>(
+        m, b, "Died from loss of red blood cells.", ch );
 
     check_memorial<event_type::dies_of_infection>(
         m, b, "Succumbed to the infection.", ch );
@@ -182,15 +208,15 @@ TEST_CASE( "memorials" )
         m, b, "Gained the mutation 'Carnivore'.", ch, mut );
 
     check_memorial<event_type::gains_skill_level>(
-        m, b, "Reached skill level 8 in driving.", ch, skill_id( "driving" ), 8 );
+        m, b, "Reached skill level 8 in vehicles.", ch, skill_id( "driving" ), 8 );
 
     check_memorial<event_type::game_over>(
         m, b, u_name + " was killed.\nLast words: last_words", false, "last_words",
         std::chrono::seconds( 100 ) );
 
     check_memorial<event_type::game_start>(
-        m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, g->u.male,
-        g->u.prof->ident(), g->u.custom_profession, "VERSION_STRING" );
+        m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, player_character.male,
+        player_character.prof->ident(), player_character.custom_profession, "VERSION_STRING" );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );
@@ -213,22 +239,11 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::opens_temple>(
         m, b, "Opened a strange temple." );
 
-    // In magiclysm, the first character_forgets_spell event will trigger an
-    // achievement which also enters the log.  We don't want that to pollute
-    // the test case, so send another event first.
-    b.send<event_type::character_forgets_spell>( ch, spell_id( "pain_damage" ) );
-
     check_memorial<event_type::character_forgets_spell>(
         m, b, "Forgot the spell Pain.", ch, spell_id( "pain_damage" ) );
 
-    // Similarly for character_learns_spell
-    b.send<event_type::character_learns_spell>( ch, spell_id( "pain_damage" ) );
-
     check_memorial<event_type::character_learns_spell>(
         m, b, "Learned the spell Pain.", ch, spell_id( "pain_damage" ) );
-
-    // Similarly for character_levels_spell
-    b.send<event_type::player_levels_spell>( ch, spell_id( "pain_damage" ), 5 );
 
     check_memorial<event_type::player_levels_spell>(
         m, b, "Gained a spell level on Pain.", ch, spell_id( "pain_damage" ), 5 );
@@ -262,4 +277,58 @@ TEST_CASE( "memorials" )
 
     check_memorial<event_type::uses_debug_menu>(
         m, b, "Used the debug menu (WISH).", debug_menu::debug_menu_index::WISH );
+}
+
+TEST_CASE( "convert_legacy_memorial_log", "[memorial]" )
+{
+    std::string eol = cata_files::eol();
+
+    // Verify that the old format can be transformed into the new format
+    const std::string input =
+        "| Year 1, Spring, day 0 0800.00 | prison | "
+        "Hubert 'Daffy' Mullin began their journey into the Cataclysm." + eol +
+        "| Year 1, Spring, day 0 0800.05 | prison | Gained the mutation 'Debug Invincibility'." +
+        eol;
+    const std::string json_value =
+        R"([{"preformatted":"| Year 1, Spring, day 0 0800.00 | prison | Hubert 'Daffy' Mullin began their journey into the Cataclysm."},{"preformatted":"| Year 1, Spring, day 0 0800.05 | prison | Gained the mutation 'Debug Invincibility'."}])";
+
+    memorial_logger logger;
+    {
+        std::istringstream is( input );
+        logger.load( is );
+        std::ostringstream os;
+        logger.save( os );
+        CHECK( os.str() == json_value );
+    }
+
+    // Then verify that the new format is unchanged
+    {
+        std::istringstream is( json_value );
+        logger.load( is );
+        std::ostringstream os;
+        logger.save( os );
+        CHECK( os.str() == json_value );
+    }
+
+    // Finally, verify that dump matches legacy input
+    CHECK( logger.dump() == input );
+}
+
+TEST_CASE( "memorial_log_dumping", "[memorial]" )
+{
+    std::string eol = cata_files::eol();
+
+    // An example log file with one legacy and one "modern" entry
+    const std::string json_value =
+        R"([{"preformatted":"| Year 1, Spring, day 0 0800.00 | refugee center | Apolonia Trout began their journey into the Cataclysm."},{"time":15614,"oter_id":"cabin_isherwood","oter_name":"forest","message":"Used the debug menu (ENABLE_ACHIEVEMENTS)."}])";
+    const std::string expected_output =
+        "| Year 1, Spring, day 0 0800.00 | refugee center | "
+        "Apolonia Trout began their journey into the Cataclysm." + eol +
+        "| Year 1, Spring, day 1 4:20:14 AM | forest | Used the debug menu (ENABLE_ACHIEVEMENTS)."
+        + eol;
+
+    memorial_logger logger;
+    std::istringstream is( json_value );
+    logger.load( is );
+    CHECK( logger.dump() == expected_output );
 }

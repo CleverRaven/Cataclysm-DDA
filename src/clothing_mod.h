@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+#include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -22,7 +24,6 @@ enum clothing_mod_type : int {
     clothing_mod_type_bullet,
     clothing_mod_type_encumbrance,
     clothing_mod_type_warmth,
-    clothing_mod_type_storage,
     clothing_mod_type_invalid,
     num_clothing_mod_types
 };
@@ -48,10 +49,10 @@ struct clothing_mod {
     clothing_mod_id id;
     bool was_loaded = false;
 
-    std::string flag;
+    flag_str_id flag;
     itype_id item_string;
-    std::string implement_prompt;
-    std::string destroy_prompt;
+    translation implement_prompt;
+    translation destroy_prompt;
     std::vector< mod_value > mod_values;
     bool restricted = false;
 
@@ -69,7 +70,6 @@ constexpr std::array<clothing_mod_type, 9> all_clothing_mod_types = {{
         clothing_mod_type_bullet,
         clothing_mod_type_encumbrance,
         clothing_mod_type_warmth,
-        clothing_mod_type_storage,
         clothing_mod_type_invalid
     }
 };

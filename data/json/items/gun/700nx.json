@@ -7,7 +7,8 @@
     "name": { "str": "Elephant gun" },
     "description": "A custom-made single shot rifle specially designed for the hunting of huge game.  You could obviously kill everything with this, EVERYTHING.  If you ever find enough ammo of course.",
     "weight": "8082 g",
-    "volume": "3 L",
+    "volume": "4500 ml",
+    "longest_side": "110 cm",
     "price": 2000000,
     "price_postapoc": 5000,
     "to_hit": 1,
@@ -21,7 +22,7 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 600,
-    "barrel_length": "1000 ml",
+    "barrel_volume": "1000 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -34,6 +35,6 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "700nx": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "700nx": 1 } } ]
   }
 ]

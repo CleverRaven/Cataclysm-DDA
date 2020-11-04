@@ -37,8 +37,8 @@
       "furniture": {
         "}": "f_pinball_machine",
         "*": "f_shower",
-        "!": "f_ergometer",
-        "@": "f_treadmill",
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "@": [ "f_treadmill", "f_treadmill_mechanical" ],
         "^": "f_exercise",
         "%": "f_floor_canvas",
         "C": "f_cupboard",
@@ -113,8 +113,8 @@
       "furniture": {
         "}": "f_pinball_machine",
         "*": "f_shower",
-        "!": "f_ergometer",
-        "@": "f_treadmill",
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "@": [ "f_treadmill", "f_treadmill_mechanical" ],
         "^": "f_exercise",
         "%": "f_floor_canvas",
         "C": "f_cupboard",

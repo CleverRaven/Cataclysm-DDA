@@ -146,7 +146,7 @@
     "id": "industrial",
     "land_use_code": 16,
     "name": "Industrial",
-    "detailed_definition": "Light and heavy industry, including buildings, equipment and parking areas.  ",
+    "detailed_definition": "Light and heavy industry, including buildings, equipment and parking areas.",
     "sym": "#",
     "color": "white"
   },

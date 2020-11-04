@@ -146,10 +146,11 @@
         "u": "t_floor",
         "v": "t_floor",
         "w": [ "t_window_stained_red", "t_window_stained_blue", "t_window_stained_green" ],
-        "x": "t_console_broken",
+        "x": "t_floor",
         "|": "t_wall"
       },
       "furniture": {
+        "x": "f_console_broken",
         "7": "f_rack",
         "8": "f_desk",
         "B": "f_brazier",

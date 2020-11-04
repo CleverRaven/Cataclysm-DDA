@@ -2,6 +2,7 @@
   {
     "result": "spaghetti_cooked",
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -17,6 +18,7 @@
   {
     "result": "macaroni_cooked",
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -34,6 +36,7 @@
   {
     "result": "spaghetti_bolognese",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -60,6 +63,7 @@
   {
     "result": "lasagne",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -87,13 +91,17 @@
   {
     "result": "spaghetti_pesto",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
     "difficulty": 4,
     "charges": 1,
     "time": "20 m",
-    "book_learn": [ [ "cookbook_italian", 3 ], [ "cookbook_foodfashions", 4, "Spaghetti Luchetto" ] ],
+    "book_learn": {
+      "cookbook_italian": { "skill_level": 3 },
+      "cookbook_foodfashions": { "skill_level": 4, "recipe_name": "Spaghetti Luchetto" }
+    },
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [
@@ -115,6 +123,7 @@
   {
     "result": "noodles_fast",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -127,6 +136,7 @@
   {
     "result": "spaghetti_raw",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -139,6 +149,7 @@
   {
     "result": "lasagne_raw",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -151,6 +162,7 @@
   {
     "result": "macaroni_raw",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -163,6 +175,7 @@
   {
     "result": "macaroni_helper",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",

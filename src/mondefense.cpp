@@ -4,15 +4,12 @@
 #include <cstddef>
 #include <list>
 #include <map>
-#include <memory>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "ballistics.h"
-#include "bodypart.h"
 #include "creature.h"
 #include "damage.h"
 #include "dispersion.h"
@@ -34,6 +31,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
+#include "viewer.h"
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_rifle( "rifle" );
@@ -56,8 +54,9 @@ void mdefense::zapback( monster &m, Creature *const source,
     if( const player *const foe = dynamic_cast<player *>( source ) ) {
         // Players/NPCs can avoid the shock if they wear non-conductive gear on their hands
         for( const item &i : foe->worn ) {
-            if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) &&
-                !i.conductive() && i.get_coverage() >= 95 ) {
+            if( !i.conductive()
+                && ( ( i.get_coverage( bodypart_id( "hand_l" ) ) >= 95 ) ||
+                     i.get_coverage( bodypart_id( "hand_r" ) ) >= 95 ) ) {
                 return;
             }
         }
@@ -76,14 +75,14 @@ void mdefense::zapback( monster &m, Creature *const source,
         return;
     }
 
-    if( get_avatar().sees( source->pos() ) ) {
-        const auto msg_type = source == &get_avatar() ? m_bad : m_info;
+    if( get_player_view().sees( source->pos() ) ) {
+        const game_message_type msg_type = source->is_avatar() ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m.name(), source->disp_name() );
     }
 
     const damage_instance shock {
-        DT_ELECTRIC, static_cast<float>( rng( 1, 5 ) )
+        damage_type::ELECTRIC, static_cast<float>( rng( 1, 5 ) )
     };
     source->deal_damage( &m, bodypart_id( "arm_l" ), shock );
     source->deal_damage( &m, bodypart_id( "arm_r" ), shock );
@@ -110,12 +109,12 @@ void mdefense::acidsplash( monster &m, Creature *const source,
         }
     } else {
         if( const player *const foe = dynamic_cast<player *>( source ) ) {
-            if( foe->weapon.is_melee( DT_CUT ) || foe->weapon.is_melee( DT_STAB ) ) {
+            if( foe->weapon.is_melee( damage_type::CUT ) || foe->weapon.is_melee( damage_type::STAB ) ) {
                 num_drops += rng( 3, 4 );
             }
             if( foe->unarmed_attack() ) {
                 const damage_instance acid_burn{
-                    DT_ACID, static_cast<float>( rng( 1, 5 ) )
+                    damage_type::ACID, static_cast<float>( rng( 1, 5 ) )
                 };
                 source->deal_damage( &m, one_in( 2 ) ? bodypart_id( "hand_l" ) : bodypart_id( "hand_r" ),
                                      acid_burn );
@@ -125,7 +124,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     }
 
     // Don't splatter directly on the `m`, that doesn't work well
-    std::vector<tripoint> pts = closest_tripoints_first( source->pos(), 1 );
+    std::vector<tripoint> pts = closest_points_first( source->pos(), 1 );
     pts.erase( std::remove( pts.begin(), pts.end(), m.pos() ), pts.end() );
 
     projectile prj;
@@ -133,13 +132,13 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     prj.range = 4;
     prj.proj_effects.insert( "DRAW_AS_LINE" );
     prj.proj_effects.insert( "NO_DAMAGE_SCALING" );
-    prj.impact.add_damage( DT_ACID, rng( 1, 3 ) );
+    prj.impact.add_damage( damage_type::ACID, rng( 1, 3 ) );
     for( size_t i = 0; i < num_drops; i++ ) {
         const tripoint &target = random_entry( pts );
         projectile_attack( prj, m.pos(), target, dispersion_sources{ 1200 }, &m );
     }
 
-    if( get_avatar().sees( m.pos() ) ) {
+    if( get_player_view().sees( m.pos() ) ) {
         add_msg( m_warning, _( "Acid sprays out of %s as it is hit!" ), m.disp_name() );
     }
 }

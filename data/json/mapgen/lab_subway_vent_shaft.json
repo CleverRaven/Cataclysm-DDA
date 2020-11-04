@@ -4,7 +4,7 @@
     "id": "lab_subway_vent_shaft",
     "terrain": {
       "2": "t_door_metal_c",
-      "%": "t_machinery_heavy",
+      "%": "t_metal_floor_no_roof",
       "-": "t_wall_metal",
       "3": "t_chaingate_c",
       ",": "t_region_groundcover_urban",
@@ -15,10 +15,11 @@
       "~": "t_water_pool_shallow",
       "<": "t_ladder_up",
       ">": "t_ladder_down",
-      "u": "t_chainfence_h",
-      "U": "t_chainfence_v",
+      "u": "t_chainfence",
+      "U": "t_chainfence",
       "#": "t_rock"
-    }
+    },
+    "furniture": { "%": "f_machinery_heavy" }
   },
   {
     "type": "mapgen",

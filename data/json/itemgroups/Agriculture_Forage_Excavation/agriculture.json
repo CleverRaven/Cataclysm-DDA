@@ -55,7 +55,7 @@
       [ "insecticide", 30 ],
       { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 },
       [ "sickle", 40 ],
-      [ "toolbox", 10 ],
+      { "group": "tools_toolbox", "prob": 10 },
       [ "bullwhip", 30 ],
       [ "distaff_spindle", 2 ],
       [ "carding_paddles", 2 ],
@@ -71,7 +71,12 @@
       [ "v_planter_item", 41 ],
       [ "v_reaper_item", 41 ],
       [ "v_reaper_item_advanced", 8 ],
-      [ "v_planter_item_advanced", 8 ]
+      [ "v_planter_item_advanced", 8 ],
+      [ "rake", 40 ],
+      [ "rake_plastic", 50 ],
+      [ "shovel_snow", 40 ],
+      [ "shovel_snow_plastic", 50 ],
+      [ "hose_garden", 60 ]
     ]
   },
   {

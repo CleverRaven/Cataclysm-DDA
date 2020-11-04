@@ -2,10 +2,12 @@
 
 #include <algorithm>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <limits>
 #include <list>
 
+#include "character.h"
 #include "crafting.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -14,7 +16,6 @@
 #include "item.h"
 #include "json.h"
 #include "output.h"
-#include "player.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
@@ -94,14 +95,17 @@ template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
 template void comp_selection<tool_comp>::deserialize( JsonIn &jsin );
 template void comp_selection<item_comp>::deserialize( JsonIn &jsin );
 
-void craft_command::execute( const tripoint &new_loc )
+void craft_command::execute( const cata::optional<tripoint> &new_loc )
+{
+    loc = new_loc;
+
+    execute();
+}
+
+void craft_command::execute()
 {
     if( empty() ) {
         return;
-    }
-
-    if( new_loc != tripoint_zero ) {
-        loc = new_loc;
     }
 
     bool need_selections = true;
@@ -127,6 +131,9 @@ void craft_command::execute( const tripoint &new_loc )
                                   "Start crafting anyway?" ), rec->result_name() ) ) {
                     return;
                 }
+            } else if( !rec->character_has_required_proficiencies( *crafter ) ) {
+                popup( _( "You don't have the required proficiencies to craft this!" ) );
+                return;
             } else {
                 debugmsg( "Tried to start craft without sufficient charges" );
                 return;
@@ -163,7 +170,7 @@ void craft_command::execute( const tripoint &new_loc )
         tool_selections.clear();
         for( const auto &it : needs->get_tools() ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
-            it, batch_size, map_inv, DEFAULT_HOTKEYS, true, true, []( int charges ) {
+            it, batch_size, map_inv, true, true, []( int charges ) {
                 return charges / 20 + charges % 20;
             } );
             if( ts.use_from == usage_from::cancel ) {

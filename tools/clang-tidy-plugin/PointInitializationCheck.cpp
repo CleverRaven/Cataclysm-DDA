@@ -63,7 +63,7 @@ static void CheckDecl( PointInitializationCheck &Check, const MatchFinder::Match
     }
     QualType Type = MatchedDecl->getType();
     PrintingPolicy Policy( LangOptions{} );
-    Policy.SuppressTagKeyword = true;
+    Policy.adjustForCPlusPlus();
     Type.removeLocalConst();
     std::string Replacement = Type.getAsString( Policy ) + " " + MatchedDecl->getNameAsString();
     SourceRange ToReplace( MatchedDecl->getTypeSpecStartLoc(),  MatchedDecl->getEndLoc() );

@@ -2,6 +2,7 @@
   {
     "result": "grenade_ammo_shot",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_GRENADES",
     "skill_used": "fabrication",
@@ -24,6 +25,7 @@
   {
     "result": "grenade_ammo_slug",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_GRENADES",
     "skill_used": "fabrication",

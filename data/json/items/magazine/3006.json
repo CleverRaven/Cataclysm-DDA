@@ -16,7 +16,7 @@
     "ammo_type": [ "3006" ],
     "capacity": 5,
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 5 } } ]
   },
   {
     "id": "blrmag",
@@ -34,7 +34,7 @@
     "ammo_type": [ "3006" ],
     "capacity": 4,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 4 } } ]
   },
   {
     "id": "garandclip",
@@ -53,7 +53,7 @@
     "capacity": 8,
     "reload_time": 150,
     "flags": [ "MAG_COMPACT", "MAG_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 8 } } ]
   },
   {
     "id": "m1918bigmag",
@@ -72,7 +72,7 @@
     "capacity": 30,
     "reload_time": 120,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 30 } } ]
   },
   {
     "id": "m1918mag",
@@ -91,6 +91,6 @@
     "ammo_type": [ "3006" ],
     "capacity": 20,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 20 } } ]
   }
 ]

@@ -17,7 +17,6 @@
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
 
@@ -37,7 +36,7 @@ color_manager &get_all_colors()
     return single_instance;
 }
 
-std::unordered_map<std::string, note_color> color_by_string_map;
+static std::unordered_map<std::string, note_color> color_by_string_map;
 
 void color_manager::finalize()
 {
@@ -57,15 +56,15 @@ void color_manager::finalize()
 
         if( !entry.name_custom.empty() ) {
             // Not using name_to_color because we want default color of this name
-            const auto id = name_to_id( entry.name_custom );
+            const color_id id = name_to_id( entry.name_custom );
             auto &other = color_array[id];
             entry.custom = other.color;
         }
 
         if( !entry.name_invert_custom.empty() ) {
-            const auto id = name_to_id( entry.name_invert_custom );
+            const color_id id = name_to_id( entry.name_invert_custom );
             auto &other = color_array[id];
-            entry.custom = other.color;
+            entry.invert_custom = other.color;
         }
 
         inverted_map[entry.color] = entry.col_id;
@@ -90,8 +89,8 @@ void color_manager::finalize()
 
 nc_color color_manager::name_to_color( const std::string &name ) const
 {
-    const auto id = name_to_id( name );
-    auto &entry = color_array[id];
+    const color_id id = name_to_id( name );
+    const color_struct &entry = color_array[id];
 
     return entry.custom > 0 ? entry.custom : entry.color;
 }
@@ -138,7 +137,7 @@ nc_color color_manager::get( const color_id id ) const
         return nc_color();
     }
 
-    auto &entry = color_array[id];
+    const auto &entry = color_array[id];
 
     return entry.custom > 0 ? entry.custom : entry.color;
 }
@@ -152,7 +151,7 @@ std::string color_manager::get_name( const nc_color &color ) const
 nc_color color_manager::get_invert( const nc_color &color ) const
 {
     const color_id id = color_to_id( color );
-    auto &entry = color_array[id];
+    const color_struct &entry = color_array[id];
 
     return entry.invert_custom > 0 ? entry.invert_custom : entry.invert;
 }
@@ -475,13 +474,13 @@ void init_colors()
 
     // The short color codes (e.g. "br") are intentionally untranslatable.
     color_by_string_map = {
-        {"br", {c_brown, translate_marker( "brown" )}}, {"lg", {c_light_gray, translate_marker( "light gray" )}},
-        {"dg", {c_dark_gray, translate_marker( "dark gray" )}}, {"r", {c_light_red, translate_marker( "light red" )}},
-        {"R", {c_red, translate_marker( "red" )}}, {"g", {c_light_green, translate_marker( "light green" )}},
-        {"G", {c_green, translate_marker( "green" )}}, {"b", {c_light_blue, translate_marker( "light blue" )}},
-        {"B", {c_blue, translate_marker( "blue" )}}, {"W", {c_white, translate_marker( "white" )}},
-        {"C", {c_cyan, translate_marker( "cyan" )}}, {"c", {c_light_cyan, translate_marker( "light cyan" )}},
-        {"P", {c_pink, translate_marker( "pink" )}}, {"m", {c_magenta, translate_marker( "magenta" )}}
+        {"br", {c_brown, to_translation( "brown" )}}, {"lg", {c_light_gray, to_translation( "light gray" )}},
+        {"dg", {c_dark_gray, to_translation( "dark gray" )}}, {"r", {c_light_red, to_translation( "light red" )}},
+        {"R", {c_red, to_translation( "red" )}}, {"g", {c_light_green, to_translation( "light green" )}},
+        {"G", {c_green, to_translation( "green" )}}, {"b", {c_light_blue, to_translation( "light blue" )}},
+        {"B", {c_blue, to_translation( "blue" )}}, {"W", {c_white, to_translation( "white" )}},
+        {"C", {c_cyan, to_translation( "cyan" )}}, {"c", {c_light_cyan, to_translation( "light cyan" )}},
+        {"P", {c_pink, to_translation( "pink" )}}, {"m", {c_magenta, to_translation( "magenta" )}}
     };
 }
 
@@ -673,13 +672,9 @@ nc_color get_note_color( const std::string &note_id )
     return c_yellow;
 }
 
-std::list<std::pair<std::string, std::string>> get_note_color_names()
+const std::unordered_map<std::string, note_color> &get_note_color_names()
 {
-    std::list<std::pair<std::string, std::string>> color_list;
-    for( const auto &color_pair : color_by_string_map ) {
-        color_list.emplace_back( color_pair.first, color_pair.second.name );
-    }
-    return color_list;
+    return color_by_string_map;
 }
 
 void color_manager::clear()
@@ -1024,7 +1019,7 @@ void color_manager::load_custom( const std::string &sPath )
 void color_manager::serialize( JsonOut &json ) const
 {
     json.start_array();
-    for( auto &entry : color_array ) {
+    for( const color_struct &entry : color_array ) {
         if( !entry.name_custom.empty() || !entry.name_invert_custom.empty() ) {
             json.start_object();
 

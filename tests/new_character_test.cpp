@@ -1,4 +1,5 @@
-#include <array>
+#include "catch/catch.hpp"
+
 #include <cstddef>
 #include <functional>
 #include <list>
@@ -11,18 +12,14 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
-#include "game.h"
+#include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
-#include "itype.h"
-#include "optional.h"
-#include "pldata.h"
+#include "pimpl.h"
 #include "profession.h"
-#include "ret_val.h"
 #include "scenario.h"
-#include "string_id.h"
+#include "string_formatter.h"
 #include "type_id.h"
+#include "visitable.h"
 
 static std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
 {
@@ -51,15 +48,19 @@ static std::vector<trait_id> next_subset( const std::vector<trait_id> &set )
 
 static bool try_set_traits( const std::vector<trait_id> &traits )
 {
-    g->u.clear_mutations();
-    g->u.add_traits(); // mandatory prof/scen traits
+    avatar &player_character = get_avatar();
+    player_character.clear_mutations();
+    player_character.add_traits(); // mandatory prof/scen traits
+    std::vector<trait_id> oked_traits;
     for( const trait_id &tr : traits ) {
-        if( g->u.has_conflicting_trait( tr ) || !g->scen->traitquery( tr ) ) {
+        if( player_character.has_conflicting_trait( tr ) ||
+            !get_scenario()->traitquery( tr ) ) {
             return false;
-        } else if( !g->u.has_trait( tr ) ) {
-            g->u.set_mutation( tr );
+        } else if( !player_character.has_trait( tr ) ) {
+            oked_traits.push_back( tr );
         }
     }
+    player_character.set_mutations( oked_traits );
     return true;
 }
 
@@ -67,10 +68,9 @@ static avatar get_sanitized_player()
 {
     // You'd think that this hp stuff would be in the c'tor...
     avatar ret = avatar();
+    ret.set_body();
     ret.recalc_hp();
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        ret.hp_cur[i] = ret.hp_max[i];
-    }
+
     // Set these insanely high so can_eat doesn't return TOO_FULL
     ret.set_hunger( 10000 );
     ret.set_thirst( 10000 );
@@ -131,51 +131,52 @@ TEST_CASE( "starting_items", "[slow]" )
 
     std::set<failure> failures;
 
-    g->u = get_sanitized_player();
+    avatar &player_character = get_avatar();
+    player_character = get_sanitized_player();
     // Avoid false positives from ingredients like salt and cornmeal.
     const avatar control = get_sanitized_player();
 
     std::vector<trait_id> traits = next_subset( mutations );
     for( ; !traits.empty(); traits = next_subset( mutations ) ) {
         for( const auto &pair : scen_prof_combos ) {
-            g->scen = pair.first;
+            set_scenario( pair.first );
             for( const string_id<profession> &prof : pair.second ) {
-                g->u.prof = &prof.obj();
+                player_character.prof = &prof.obj();
                 if( !try_set_traits( traits ) ) {
                     continue; // Trait conflict: this prof/scen/trait combo is impossible to attain
                 }
                 for( int i = 0; i < 2; i++ ) {
-                    g->u.worn.clear();
-                    g->u.remove_weapon();
-                    g->u.inv.clear();
-                    g->u.reset_encumbrance();
-                    g->u.male = i == 0;
+                    player_character.worn.clear();
+                    player_character.remove_weapon();
+                    player_character.inv->clear();
+                    player_character.calc_encumbrance();
+                    player_character.male = i == 0;
 
-                    g->u.add_profession_items();
+                    player_character.add_profession_items();
                     std::set<const item *> items_visited;
                     const auto visitable_counter = [&items_visited]( const item * it ) {
                         items_visited.emplace( it );
                         return VisitResponse::NEXT;
                     };
-                    g->u.visit_items( visitable_counter );
-                    g->u.inv.visit_items( visitable_counter );
+                    player_character.visit_items( visitable_counter );
+                    player_character.inv->visit_items( visitable_counter );
                     const int num_items_pre_migration = items_visited.size();
                     items_visited.clear();
 
-                    g->u.migrate_items_to_storage( true );
-                    g->u.visit_items( visitable_counter );
+                    player_character.migrate_items_to_storage( true );
+                    player_character.visit_items( visitable_counter );
                     const int num_items_post_migration = items_visited.size();
                     items_visited.clear();
 
                     if( num_items_pre_migration != num_items_post_migration ) {
                         failure cur_fail;
-                        cur_fail.prof = g->u.prof->ident();
-                        cur_fail.mut = g->u.get_mutations();
+                        cur_fail.prof = player_character.prof->ident();
+                        cur_fail.mut = player_character.get_mutations();
                         cur_fail.reason = string_format( "does not have enough space to store all items." );
 
                         failures.insert( cur_fail );
                     }
-                    CAPTURE( g->u.prof->ident().c_str() );
+                    CAPTURE( player_character.prof->ident().c_str() );
                     CHECK( num_items_pre_migration == num_items_post_migration );
                 } // all genders
             } // all profs

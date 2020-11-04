@@ -276,11 +276,6 @@
   },
   {
     "type": "item_action",
-    "id": "ARTIFACT",
-    "name": { "str": "Use" }
-  },
-  {
-    "type": "item_action",
     "id": "AUTOCLAVE",
     "name": { "str": "Sterilize" }
   },
@@ -392,7 +387,7 @@
   {
     "type": "item_action",
     "id": "CONTACTS",
-    "name": { "str": "Apply" }
+    "name": { "str": "Put in eyes" }
   },
   {
     "type": "item_action",
@@ -462,7 +457,7 @@
   {
     "type": "item_action",
     "id": "EINKTABLETPC",
-    "name": { "str": "Use" }
+    "name": { "str": "Use SD-Card apps" }
   },
   {
     "type": "item_action",
@@ -747,7 +742,7 @@
   {
     "type": "item_action",
     "id": "PORTABLE_GAME",
-    "name": { "ctxt": "PORTABLE_GAME", "str": "Play" }
+    "name": { "ctxt": "PORTABLE_GAME", "str": "Play a game" }
   },
   {
     "type": "item_action",
@@ -896,11 +891,6 @@
   },
   {
     "type": "item_action",
-    "id": "THROWABLE_EXTINGUISHER_ACT",
-    "name": { "str": "Extinguish a fire" }
-  },
-  {
-    "type": "item_action",
     "id": "TOWEL",
     "name": { "str": "Dry/clean yourself" }
   },
@@ -1002,7 +992,7 @@
   {
     "type": "item_action",
     "id": "heal",
-    "name": { "str": "Apply" }
+    "name": { "str": "Apply to wound" }
   },
   {
     "type": "item_action",
@@ -1043,11 +1033,6 @@
     "type": "item_action",
     "id": "unfold_vehicle",
     "name": { "str": "Unfold" }
-  },
-  {
-    "type": "item_action",
-    "id": "ups_based_armor",
-    "name": { "str": "Activate/deactivate" }
   },
   {
     "type": "item_action",

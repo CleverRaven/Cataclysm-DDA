@@ -1,7 +1,13 @@
 #include "catch/catch.hpp"
-#include "item.h"
 #include "item_group.h"
-#include "stringmaker.h"
+
+#include <algorithm>
+#include <utility>
+#include <vector>
+
+#include "flag.h"
+#include "item.h"
+#include "type_id.h"
 
 TEST_CASE( "spawn with default charges and with ammo", "[item_group]" )
 {
@@ -49,7 +55,7 @@ TEST_CASE( "Item_modifier gun fouling", "[item_group]" )
     fouled.dirt.first = 1;
     SECTION( "guns can be fouled" ) {
         item glock( "glock_19" );
-        REQUIRE( !glock.has_flag( "PRIMITIVE_RANGED_WEAPON" ) );
+        REQUIRE( !glock.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) );
         REQUIRE( !glock.has_var( "dirt" ) );
         fouled.modify( glock );
         CHECK( glock.get_var( "dirt", 0.0 ) > 0.0 );
@@ -57,7 +63,7 @@ TEST_CASE( "Item_modifier gun fouling", "[item_group]" )
     SECTION( "bows can't be fouled" ) {
         item bow( "longbow" );
         REQUIRE( !bow.has_var( "dirt" ) );
-        REQUIRE( bow.has_flag( "PRIMITIVE_RANGED_WEAPON" ) );
+        REQUIRE( bow.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) );
         fouled.modify( bow );
         CHECK( !bow.has_var( "dirt" ) );
     }

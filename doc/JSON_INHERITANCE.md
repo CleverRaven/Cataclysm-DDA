@@ -1,5 +1,5 @@
 # JSON Inheritance
-To reduce duplication in the JSON data it is possible for some types to inherit from an existing type.
+To reduce duplication in the JSON data it is possible for some types to inherit from an existing type.  Some restraint should be used, see guidelines section below.
 
 ## Examples
 In the following condensed example ```556``` ammo is derived from ```223``` ammo via ```copy-from```:
@@ -93,3 +93,12 @@ To find out if a types supports copy-from, you need to know if it has implemente
 * In gates.cpp, find the generic_factory line, it looks like this: `generic_factory<gate_data> gates_data( "gate type", "handle", "other_handles" );`
 * Since the generic_factory line is present, you can now conclude that it supports copy-from. 
 * If you don't find generic_factoy present, it does not support copy-from, as is the case for type vitamin (repeat the above steps and find that [vitamin.cpp](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/src/vitamin.cpp) does not contain generic_factoy)
+
+## Guidelines
+
+Contributors are encouraged to not overuse copy-from, as it can decrease the human readability of the JSON.  Chained inheritance is especially likely to become unweildy, essentially recreating the level of redundancy we'd like to eliminate. 
+
+In general, there are two situations where copy-from should be used in the core game:
+
+- Two things are nearly identical variants of each other.
+- A group of entities always (not almost always, always) shares some set of properties, then one or two levels of abstracts can set up a very shallow and narrow hierarchy.

@@ -1,37 +1,5 @@
 [
   {
-    "id": "mussto_windinst",
-    "type": "item_group",
-    "items": [
-      [ "tuba", 10 ],
-      [ "trumpet", 25 ],
-      [ "flute", 25 ],
-      [ "clarinet", 25 ],
-      [ "saxophone", 25 ],
-      [ "harmonica_holder", 25 ],
-      [ "bagpipes", 5 ]
-    ]
-  },
-  {
-    "id": "mussto_stringinst",
-    "type": "item_group",
-    "items": [ [ "acoustic_guitar", 100 ], [ "violin", 80 ], [ "ukulele", 90 ], [ "banjo", 100 ], [ "guitar_electric", 100 ] ]
-  },
-  {
-    "id": "light_reading",
-    "type": "item_group",
-    "items": [
-      [ "novel_coa", 10 ],
-      [ "child_book", 50 ],
-      [ "manual_dodge_kid", 25 ],
-      [ "tall_tales", 20 ],
-      [ "story_book", 4 ],
-      [ "novel_pulp", 16 ],
-      [ "fairy_tales", 20 ],
-      [ "mag_comic", 20 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_music" ],
@@ -82,10 +50,10 @@
         "d": "t_pavement",
         "s": "t_sidewalk",
         "z": "t_shrub",
-        "g": "t_carpet_green",
-        "h": "t_carpet_green",
-        "K": "t_carpet_green",
-        "7": "t_carpet_green",
+        "g": "t_carpet_concrete_green",
+        "h": "t_carpet_concrete_green",
+        "K": "t_carpet_concrete_green",
+        "7": "t_carpet_concrete_green",
         "<": "t_gutter_downspout",
         "|": "t_wall_b"
       },

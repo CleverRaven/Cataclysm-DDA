@@ -18,7 +18,7 @@ MESSAGE("\n")
 
 add_custom_target (
     extract_string
-    COMMAND python lang/extract_json_strings.py
+    COMMAND python3 lang/extract_json_strings.py
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 

@@ -34,7 +34,8 @@ enum class butcher_type : int {
     SKIN,           // skinning a corpse
     QUARTER,        // quarter a corpse
     DISMEMBER,      // destroy a corpse
-    DISSECT         // dissect a corpse for CBMs
+    DISSECT,        // dissect a corpse for CBMs
+    NUM_TYPES       // always keep at the end, number of butchery types
 };
 
 enum class do_activity_reason : int {
@@ -103,7 +104,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p );
 bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only = false );
 void activity_on_turn_fetch( player_activity &, player *p );
 void activity_on_turn_wear( player_activity &act, player &p );
-bool find_auto_consume( player &p, bool food );
+int get_auto_consume_moves( player &p, bool food );
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
 
 enum class item_drop_reason : int {
@@ -125,7 +126,6 @@ namespace activity_handlers
 bool resume_for_multi_activities( player &p );
 /** activity_do_turn functions: */
 void burrow_do_turn( player_activity *act, player *p );
-void craft_do_turn( player_activity *act, player *p );
 void fill_liquid_do_turn( player_activity *act, player *p );
 void pickaxe_do_turn( player_activity *act, player *p );
 void drop_do_turn( player_activity *act, player *p );
@@ -204,7 +204,7 @@ void start_engines_finish( player_activity *act, player *p );
 void churn_finish( player_activity *act, player *p );
 void plant_seed_finish( player_activity *act, player *p );
 void oxytorch_finish( player_activity *act, player *p );
-void cracking_finish( player_activity *act, player *p );
+void cracking_finish( player_activity *act, player *guy );
 void repair_item_finish( player_activity *act, player *p );
 void mend_item_finish( player_activity *act, player *p );
 void gunmod_add_finish( player_activity *act, player *p );
@@ -235,7 +235,6 @@ void fill_pit_finish( player_activity *act, player *p );
 void play_with_pet_finish( player_activity *act, player *p );
 void shaving_finish( player_activity *act, player *p );
 void haircut_finish( player_activity *act, player *p );
-void unload_mag_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
 void mind_splicer_finish( player_activity *act, player *p );
 void spellcasting_finish( player_activity *act, player *p );
