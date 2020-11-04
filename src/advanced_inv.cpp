@@ -43,8 +43,3 @@ void create_advanced_inv()
     mytrui->show();
     mytrui->savestate( &uistate.transfer_save );
 }
-
-void cancel_aim_processing()
-{
-    // uistate.transfer_save.re_enter_move_all = aim_entry::START;
-}

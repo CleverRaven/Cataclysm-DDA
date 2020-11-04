@@ -216,70 +216,77 @@ aim_container_t source_player_worn()
     return source_char_worn( &get_player_character() );
 }
 
-void player_wear( aim_advuilist_t::selection_t const &it )
+void player_wear( aim_transaction_ui_t::select_t const &sel )
 {
     avatar &u = get_avatar();
     u.assign_activity( ACT_WEAR );
-    u.activity.values.insert( u.activity.values.end(), it.first, 0 );
-    u.activity.targets.insert( u.activity.targets.end(), it.second->stack.begin(),
-                               it.second->stack.begin() + it.first );
+    for( auto const &it : sel ) {
+        u.activity.values.insert( u.activity.values.end(), it.first, 0 );
+        u.activity.targets.insert( u.activity.targets.end(), it.second->stack.begin(),
+                                   it.second->stack.begin() + it.first );
+    }
 }
 
-void player_take_off( aim_advuilist_t::selection_t const &it )
+void player_take_off( aim_transaction_ui_t::select_t const &sel )
 {
     avatar &u = get_avatar();
-    u.takeoff( *it.second->stack[0] );
+    for( auto const &it : sel ) {
+        u.takeoff( *it.second->stack[0] );
+    }
 }
 
-void player_drop( aim_advuilist_t::selection_t const &it, tripoint const pos,
-                  bool to_vehicle )
+void player_drop( aim_transaction_ui_t::select_t const &sel, tripoint const pos, bool to_vehicle )
 {
     avatar &u = get_avatar();
-    std::size_t count = it.first;
     std::vector<drop_or_stash_item_info> to_drop;
-    if( it.second->stack.front()->count_by_charges() ) {
-        to_drop.emplace_back( it.second->stack.front(), count );
-    } else {
-        for( auto v = it.second->stack.begin(); v != it.second->stack.begin() + count; ++v ) {
-            to_drop.emplace_back( *v, count );
+    for( auto const &it : sel ) {
+        std::size_t count = it.first;
+        if( it.second->stack.front()->count_by_charges() ) {
+            to_drop.emplace_back( it.second->stack.front(), count );
+        } else {
+            for( auto v = it.second->stack.begin(); v != it.second->stack.begin() + count; ++v ) {
+                to_drop.emplace_back( *v, count );
+            }
         }
     }
     u.assign_activity( player_activity( drop_activity_actor( to_drop, pos, !to_vehicle ) ) );
 }
 
-void get_selection_amount( aim_advuilist_t::selection_t const &it,
+void get_selection_amount( aim_transaction_ui_t::select_t const &sel,
                            std::vector<item_location> *targets, std::vector<int> *quantities )
 {
-    if( it.second->stack.front()->count_by_charges() ) {
-        targets->emplace_back( *it.second->stack.begin() );
-        quantities->emplace_back( it.first );
-    } else {
-        targets->insert( targets->end(), it.second->stack.begin(),
-                         it.second->stack.begin() + it.first );
-        quantities->insert( quantities->end(), it.first, 0 );
+    for( auto const &it : sel ) {
+        if( it.second->stack.front()->count_by_charges() ) {
+            targets->emplace_back( *it.second->stack.begin() );
+            quantities->emplace_back( it.first );
+        } else {
+            targets->insert( targets->end(), it.second->stack.begin(),
+                             it.second->stack.begin() + it.first );
+            quantities->insert( quantities->end(), it.first, 0 );
+        }
     }
 }
 
-void player_pick_up( aim_advuilist_t::selection_t const &it, bool from_vehicle )
+void player_pick_up( aim_transaction_ui_t::select_t const &sel, bool from_vehicle )
 {
     avatar &u = get_avatar();
 
     std::vector<item_location> targets;
     std::vector<int> quantities;
-    get_selection_amount( it, &targets, &quantities );
+    get_selection_amount( sel, &targets, &quantities );
 
     u.assign_activity( player_activity( pickup_activity_actor(
         targets, quantities,
         from_vehicle ? cata::nullopt : cata::optional<tripoint>( u.pos() ) ) ) );
 }
 
-void player_move_items( aim_advuilist_t::selection_t const &it,
-                        tripoint const pos, bool to_vehicle )
+void player_move_items( aim_transaction_ui_t::select_t const &sel, tripoint const pos,
+                        bool to_vehicle )
 {
     avatar &u = get_avatar();
     std::vector<item_location> targets;
     std::vector<int> quantities;
-    get_selection_amount( it, &targets, &quantities );
+    get_selection_amount( sel, &targets, &quantities );
 
     u.assign_activity(
         player_activity( move_items_activity_actor( targets, quantities, to_vehicle, pos ) ) );
@@ -625,18 +632,16 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t sele
     // return to the AIM after player activities finish
     aim_add_return_activity();
 
-    for( aim_advuilist_t::selection_t const &sel : select ) {
-        if( dsti == SOURCE_WORN_i ) {
-            player_wear( sel );
-        } else if( srci == SOURCE_WORN_i and dsti == SOURCE_INV_i ) {
-            player_take_off( sel );
-        } else if( srci == SOURCE_WORN_i or srci == SOURCE_INV_i ) {
-            player_drop( sel, slotidx_to_offset( dst ), is_vehicle( dsti ) );
-        } else if( dsti == SOURCE_INV_i ) {
-            player_pick_up( sel, is_vehicle( srci ) );
-        } else {
-            player_move_items( sel, slotidx_to_offset( dst ), is_vehicle( dsti ) );
-        }
+    if( dsti == SOURCE_WORN_i ) {
+        player_wear( select );
+    } else if( srci == SOURCE_WORN_i and dsti == SOURCE_INV_i ) {
+        player_take_off( select );
+    } else if( srci == SOURCE_WORN_i or srci == SOURCE_INV_i ) {
+        player_drop( select, slotidx_to_offset( dst ), is_vehicle( dsti ) );
+    } else if( dsti == SOURCE_INV_i ) {
+        player_pick_up( select, is_vehicle( srci ) );
+    } else {
+        player_move_items( select, slotidx_to_offset( dst ), is_vehicle( dsti ) );
     }
 
     // close the transaction_ui so that player activities can run

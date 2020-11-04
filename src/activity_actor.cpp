@@ -961,12 +961,6 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
             who.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
 
-        if( !keep_going ) {
-            // The user canceled the activity, so we're done
-            // AIM might have more pickup activities pending, also cancel them.
-            // TODO: Move this to advanced inventory instead of hacking it in here
-            cancel_aim_processing();
-        }
     }
 }
 
