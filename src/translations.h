@@ -214,7 +214,11 @@ class translation
     public:
         struct plural_tag {};
 
-        translation() = default;
+        // need to have user-defined constructor to work around clang 3.8 bug
+        // translation() = default doesn't work!
+        // see: https://stackoverflow.com/a/47368753/1349366
+        // NOLINTNEXTLINE default constructor
+        translation() {};
         /**
          * Same as `translation()`, but with plural form enabled.
          **/
