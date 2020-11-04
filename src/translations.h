@@ -122,7 +122,7 @@ class local_translation_cache<const char *>
 
 // Note: in case of std::string argument, the result is copied, this is intended (for safety)
 #define _( msg ) \
-    ( ( []( const auto & arg ) -> auto { \
+    ( ( []( const auto & arg ) { \
         static auto cache = details::local_translation_cache<std::decay_t<decltype( arg )>>(); \
         return cache( arg ); \
     } )( msg ) )
