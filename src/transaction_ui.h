@@ -26,7 +26,7 @@ class transaction_ui
 
         enum class event { QUIT = 0, SWITCH = 1, NEVENTS = 2 };
 
-        transaction_ui( point const &srclayout, point size = { -1, -1 }, point origin = { -1, -1 },
+        transaction_ui( point const &srclayout, point size = { -9, -9 }, point origin = { -9, -9 },
                         std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT );
 
         advuilist_t *left();

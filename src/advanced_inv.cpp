@@ -32,8 +32,8 @@ void create_advanced_inv()
         } );
         mytrui->loadstate( &uistate.transfer_save );
     } else {
-        auto const lidx = mytrui->left()->getSource().first;
-        auto const ridx = mytrui->right()->getSource().first;
+        std::size_t const lidx = mytrui->left()->getSource().first;
+        std::size_t const ridx = mytrui->right()->getSource().first;
         pane_mutex[lidx] = false;
         mytrui->left()->rebuild();
         pane_mutex[lidx] = true;

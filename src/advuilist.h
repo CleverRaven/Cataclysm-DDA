@@ -66,7 +66,7 @@ class advuilist
         using selection_t = std::pair<std::size_t, ptr_t>;
         using select_t = std::vector<selection_t>;
 
-        advuilist( Container *list, point size = { -1, -1 }, point origin = { -1, -1 },
+        advuilist( Container *list, point size = { -9, -9 }, point origin = { -9, -9 },
                    std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT, bool init = true );
 
         /// sets up columns and replaces implicit column sorters (does not affect additional sorters
@@ -261,7 +261,7 @@ void advuilist<Container, T>::setColumns( std::vector<col_t> const &columns )
 template <class Container, typename T>
 void advuilist<Container, T>::addSorter( sorter_t const &sorter )
 {
-    auto it = std::find_if( _sorters.begin(), _sorters.end(), [&]( auto const & v ) {
+    auto it = std::find_if( _sorters.begin(), _sorters.end(), [&]( sorter_t const & v ) {
         return std::get<std::string>( v ) == std::get<std::string>( sorter );
     } );
     // replace sorter with same name if it already exists (including implicit sorters)
@@ -276,7 +276,7 @@ void advuilist<Container, T>::addSorter( sorter_t const &sorter )
 template <class Container, typename T>
 void advuilist<Container, T>::addGrouper( grouper_t const &grouper )
 {
-    auto it = std::find_if( _groupers.begin(), _groupers.end(), [&]( auto const & v ) {
+    auto it = std::find_if( _groupers.begin(), _groupers.end(), [&]( grouper_t const & v ) {
         return std::get<std::string>( v ) == std::get<std::string>( grouper );
     } );
     // replace grouper with same name
@@ -376,7 +376,7 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
 template <class Container, typename T>
 void advuilist<Container, T>::sort( std::string const &name )
 {
-    auto const it = std::find_if( _sorters.begin(), _sorters.end(), [&]( auto const & v ) {
+    auto const it = std::find_if( _sorters.begin(), _sorters.end(), [&]( sorter_t const & v ) {
         return std::get<std::string>( v ) == name;
     } );
     if( it != _sorters.end() ) {

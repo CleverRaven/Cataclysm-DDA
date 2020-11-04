@@ -66,33 +66,32 @@ std::string const desc = string_format(
 // is_ground_source, label, icon, offset
 using _sourcetuple = std::tuple<bool, char const *, aim_advuilist_sourced_t::icon_t, tripoint>;
 using _sourcearray = std::array<_sourcetuple, aim_nsources>;
-constexpr tripoint const off_C = { 0, 0, 0 };
-constexpr auto const _error = "error";
+constexpr char const *_error = "error";
 constexpr _sourcearray const aimsources = {
-    _sourcetuple{ false, SOURCE_CONT, SOURCE_CONT_i, off_C },
-    _sourcetuple{ false, SOURCE_DRAGGED, SOURCE_DRAGGED_i, off_C },
-    _sourcetuple{ false, _error, 0, off_C },
-    _sourcetuple{ true, SOURCE_NW, SOURCE_NW_i, tripoint{ -1, -1, 0 } },
-    _sourcetuple{ true, SOURCE_N, SOURCE_N_i, tripoint{ 0, -1, 0 } },
-    _sourcetuple{ true, SOURCE_NE, SOURCE_NE_i, tripoint{ 1, -1, 0 } },
-    _sourcetuple{ false, _error, 0, off_C },
-    _sourcetuple{ false, SOURCE_INV, SOURCE_INV_i, off_C },
-    _sourcetuple{ false, _error, 0, off_C },
-    _sourcetuple{ true, SOURCE_W, SOURCE_W_i, tripoint{ -1, 0, 0 } },
-    _sourcetuple{ true, SOURCE_CENTER, SOURCE_CENTER_i, off_C },
-    _sourcetuple{ true, SOURCE_E, SOURCE_E_i, tripoint{ 1, 0, 0 } },
-    _sourcetuple{ false, SOURCE_ALL, SOURCE_ALL_i, off_C },
-    _sourcetuple{ false, SOURCE_WORN, SOURCE_WORN_i, off_C },
-    _sourcetuple{ false, _error, 0, off_C },
-    _sourcetuple{ true, SOURCE_SW, SOURCE_SW_i, tripoint{ -1, 1, 0 } },
-    _sourcetuple{ true, SOURCE_S, SOURCE_S_i, tripoint{ 0, 1, 0 } },
-    _sourcetuple{ true, SOURCE_SE, SOURCE_SE_i, tripoint{ 1, 1, 0 } },
+    _sourcetuple{ false, SOURCE_CONT, SOURCE_CONT_i, tripoint_zero },
+    _sourcetuple{ false, SOURCE_DRAGGED, SOURCE_DRAGGED_i, tripoint_zero },
+    _sourcetuple{ false, _error, 0, tripoint_zero },
+    _sourcetuple{ true, SOURCE_NW, SOURCE_NW_i, tripoint_north_west },
+    _sourcetuple{ true, SOURCE_N, SOURCE_N_i, tripoint_north },
+    _sourcetuple{ true, SOURCE_NE, SOURCE_NE_i, tripoint_north_east },
+    _sourcetuple{ false, _error, 0, tripoint_zero },
+    _sourcetuple{ false, SOURCE_INV, SOURCE_INV_i, tripoint_zero },
+    _sourcetuple{ false, _error, 0, tripoint_zero },
+    _sourcetuple{ true, SOURCE_W, SOURCE_W_i, tripoint_west },
+    _sourcetuple{ true, SOURCE_CENTER, SOURCE_CENTER_i, tripoint_zero },
+    _sourcetuple{ true, SOURCE_E, SOURCE_E_i, tripoint_east },
+    _sourcetuple{ false, SOURCE_ALL, SOURCE_ALL_i, tripoint_zero },
+    _sourcetuple{ false, SOURCE_WORN, SOURCE_WORN_i, tripoint_zero },
+    _sourcetuple{ false, _error, 0, tripoint_zero },
+    _sourcetuple{ true, SOURCE_SW, SOURCE_SW_i, tripoint_south_west },
+    _sourcetuple{ true, SOURCE_S, SOURCE_S_i, tripoint_south },
+    _sourcetuple{ true, SOURCE_SE, SOURCE_SE_i, tripoint_south_east },
 };
 
-constexpr auto const DRAGGED_IDX = 1;
-constexpr auto const INV_IDX = 7;
-constexpr auto const ALL_IDX = 12;
-constexpr auto const WORN_IDX = 13;
+constexpr std::size_t const DRAGGED_IDX = 1;
+constexpr std::size_t const INV_IDX = 7;
+constexpr std::size_t const ALL_IDX = 12;
+constexpr std::size_t const WORN_IDX = 13;
 constexpr tripoint slotidx_to_offset( aim_advuilist_sourced_t::slotidx_t idx )
 {
     switch( idx ) {
@@ -131,7 +130,7 @@ using stack_cache_t = std::unordered_map<itype_id, std::set<int>>;
 void _get_stacks( item *elem, iloc_stack_t *stacks, stack_cache_t *cache,
                   filoc_t const &iloc_helper )
 {
-    const auto id = elem->typeId();
+    itype_id const id = elem->typeId();
     auto iter = cache->find( id );
     bool got_stacked = false;
     if( iter != cache->end() ) {
@@ -315,7 +314,7 @@ void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
     if( lsrc == DRAGGED_IDX or rsrc == DRAGGED_IDX or licon == SOURCE_VEHICLE_i or
         ricon == SOURCE_VEHICLE_i ) {
         tripoint const off = get_avatar().grab_point;
-        const auto *it = std::find_if( aimsources.begin(), aimsources.end(), [&]( auto const & v ) {
+        const auto *it = std::find_if( aimsources.begin(), aimsources.end(), [&]( _sourcetuple const & v ) {
             return std::get<tripoint>( v ) == off;
         } );
         std::size_t const idx = std::distance( aimsources.begin(), it );

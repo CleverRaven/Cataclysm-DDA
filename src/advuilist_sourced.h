@@ -35,7 +35,7 @@ class advuilist_sourced : public advuilist<Container, T>
         using fctxt_t = typename advuilist<Container, T>::fctxt_t;
         using select_t = typename advuilist<Container, T>::select_t;
 
-        advuilist_sourced( point const &srclayout, point size = { -1, -1 }, point origin = { -1, -1 },
+        advuilist_sourced( point const &srclayout, point size = { -9, -9 }, point origin = { -9, -9 },
                            std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT );
 
         /// binds a new source to slot
@@ -141,8 +141,8 @@ void advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bo
     icon_t _icon = icon == 0 ? std::get<icon_t>( _slot ) : icon;
     // only set the icon if it (still) exists in this slot, otherwise use the first one in slot
     // rebuild() needs to additionally check that the source is available
-    auto const exists = slotcont.count( _icon );
-    if( !exists or ( fallthrough and !std::get<fsourceb_t>( slotcont[_icon] )() ) ) {
+    std::size_t const exists = slotcont.count( _icon );
+    if( exists > 0 or ( fallthrough and !std::get<fsourceb_t>( slotcont[_icon] )() ) ) {
         _icon = std::get<icon_t const>( *slotcont.begin() );
         _slot.first = _icon;
     }
