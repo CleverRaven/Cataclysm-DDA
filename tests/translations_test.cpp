@@ -73,14 +73,16 @@ TEST_CASE( "translations_macro_char_address", "[translations]" )
 }
 
 #ifdef LOCALIZE
+// this test will only succeed when LOCALIZE is enabled
 // assuming [en] language is used for this test
-// this test will only succeed when LOCALIZE is enable
-TEST_CASE( "translations_macro_char_address_translated", "[translations]" )
+// requires .mo file for "en" language
+TEST_CASE( "translations_macro_char_address_translated", "[.][translations]" )
 {
+    set_language();
     // translated string
     const char *test_string = "thread";
 
     // should return a stable address of translation that is different from the argument
-    CHECK( TRANSLATE_MACRO( "test_string" ) != test_string );
+    CHECK( TRANSLATE_MACRO( test_string ) != test_string );
 }
 #endif
