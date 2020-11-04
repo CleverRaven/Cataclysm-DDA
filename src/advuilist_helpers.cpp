@@ -61,29 +61,30 @@ std::string const desc = string_format(
 
 // Cataclysm: Hacky Stuff Ahead
 // this is actually an attempt to make the code more readable and reduce duplication
-using _sourcetuple = std::tuple<char const *, aim_advuilist_sourced_t::icon_t, tripoint>;
+// is_ground_source, label, icon, offset
+using _sourcetuple = std::tuple<bool, char const *, aim_advuilist_sourced_t::icon_t, tripoint>;
 using _sourcearray = std::array<_sourcetuple, aim_nsources>;
 constexpr tripoint const off_C = { 0, 0, 0 };
 constexpr auto const _error = "error";
 constexpr _sourcearray const aimsources = {
-    _sourcetuple{ SOURCE_CONT, SOURCE_CONT_i, off_C },
-    _sourcetuple{ SOURCE_DRAGGED, SOURCE_DRAGGED_i, off_C },
-    _sourcetuple{ _error, 0, off_C },
-    _sourcetuple{ SOURCE_NW, SOURCE_NW_i, tripoint{ -1, -1, 0 } },
-    _sourcetuple{ SOURCE_N, SOURCE_N_i, tripoint{ 0, -1, 0 } },
-    _sourcetuple{ SOURCE_NE, SOURCE_NE_i, tripoint{ 1, -1, 0 } },
-    _sourcetuple{ _error, 0, off_C },
-    _sourcetuple{ SOURCE_INV, SOURCE_INV_i, off_C },
-    _sourcetuple{ _error, 0, off_C },
-    _sourcetuple{ SOURCE_W, SOURCE_W_i, tripoint{ -1, 0, 0 } },
-    _sourcetuple{ SOURCE_CENTER, SOURCE_CENTER_i, off_C },
-    _sourcetuple{ SOURCE_E, SOURCE_E_i, tripoint{ 1, 0, 0 } },
-    _sourcetuple{ SOURCE_ALL, SOURCE_ALL_i, off_C },
-    _sourcetuple{ SOURCE_WORN, SOURCE_WORN_i, off_C },
-    _sourcetuple{ _error, 0, off_C },
-    _sourcetuple{ SOURCE_SW, SOURCE_SW_i, tripoint{ -1, 1, 0 } },
-    _sourcetuple{ SOURCE_S, SOURCE_S_i, tripoint{ 0, 1, 0 } },
-    _sourcetuple{ SOURCE_SE, SOURCE_SE_i, tripoint{ 1, 1, 0 } },
+    _sourcetuple{ false, SOURCE_CONT, SOURCE_CONT_i, off_C },
+    _sourcetuple{ false, SOURCE_DRAGGED, SOURCE_DRAGGED_i, off_C },
+    _sourcetuple{ false, _error, 0, off_C },
+    _sourcetuple{ true, SOURCE_NW, SOURCE_NW_i, tripoint{ -1, -1, 0 } },
+    _sourcetuple{ true, SOURCE_N, SOURCE_N_i, tripoint{ 0, -1, 0 } },
+    _sourcetuple{ true, SOURCE_NE, SOURCE_NE_i, tripoint{ 1, -1, 0 } },
+    _sourcetuple{ false, _error, 0, off_C },
+    _sourcetuple{ false, SOURCE_INV, SOURCE_INV_i, off_C },
+    _sourcetuple{ false, _error, 0, off_C },
+    _sourcetuple{ true, SOURCE_W, SOURCE_W_i, tripoint{ -1, 0, 0 } },
+    _sourcetuple{ true, SOURCE_CENTER, SOURCE_CENTER_i, off_C },
+    _sourcetuple{ true, SOURCE_E, SOURCE_E_i, tripoint{ 1, 0, 0 } },
+    _sourcetuple{ false, SOURCE_ALL, SOURCE_ALL_i, off_C },
+    _sourcetuple{ false, SOURCE_WORN, SOURCE_WORN_i, off_C },
+    _sourcetuple{ false, _error, 0, off_C },
+    _sourcetuple{ true, SOURCE_SW, SOURCE_SW_i, tripoint{ -1, 1, 0 } },
+    _sourcetuple{ true, SOURCE_S, SOURCE_S_i, tripoint{ 0, 1, 0 } },
+    _sourcetuple{ true, SOURCE_SE, SOURCE_SE_i, tripoint{ 1, 1, 0 } },
 };
 
 constexpr auto const DRAGGED_IDX = 1;
@@ -146,9 +147,23 @@ void _get_stacks( item *elem, iloc_stack_t *stacks, stack_cache_t *cache,
     }
 }
 
-aim_container_t source_ground_player_all()
+aim_container_t source_ground_player_all( pane_mutex_t const *mutex )
 {
-    return source_ground_all( &get_player_character(), 1 );
+    // return source_ground_all( &get_player_character(), 1 );
+    aim_container_t itemlist;
+    std::size_t idx = 0;
+    tripoint const pos = get_avatar().pos();
+    for( auto const &v : aimsources ) {
+        // only consider entries with is_ground_source = true and not mutex'ed
+        if( std::get<bool>( v ) and !mutex->at( idx ) ) {
+            aim_container_t const &stacks = source_ground( pos + std::get<tripoint>( v ) );
+            itemlist.insert( itemlist.end(), std::make_move_iterator( stacks.begin() ),
+                             std::make_move_iterator( stacks.end() ) );
+        }
+        idx++;
+    }
+
+    return itemlist;
 }
 
 aim_container_t source_player_ground( tripoint const &offset )
@@ -552,7 +567,7 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *
         char const *str = nullptr;
         icon_t icon = 0;
         tripoint off;
-        std::tie( str, icon, off ) = src;
+        std::tie( std::ignore, str, icon, off ) = src;
 
         if( icon != 0 ) {
             switch( icon ) {
@@ -574,7 +589,7 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *
                     break;
                 }
                 case SOURCE_ALL_i: {
-                    _fs = source_ground_player_all;
+                    _fs = [=]() { return source_ground_player_all( mutex ); };
                     _fsb = [=]() { return !mutex->at( ALL_IDX ); };
                     break;
                 }
@@ -645,6 +660,14 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
     if( action == ACTION_CYCLE_SOURCES or
         action.substr( 0, ACTION_SOURCE_PRFX_len ) == ACTION_SOURCE_PRFX ) {
         reset_mutex( ui, mutex );
+        // rebuild other pane if it's set to the ALL source
+        if( std::get<std::size_t>(ui->otherpane()->getSource()) == ALL_IDX ) {
+            // hackety hack
+            mutex->at(ALL_IDX) = false;
+            ui->otherpane()->rebuild();
+            mutex->at(ALL_IDX) = true;
+            ui->otherpane()->get_ui()->invalidate_ui();
+        }
     }
 }
 
