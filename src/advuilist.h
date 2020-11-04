@@ -28,7 +28,6 @@
 #include "uistate.h"            // for advuilist_save_state
 
 // TODO:
-//     select all
 //     mark element & expand SELECT
 
 template <class Container, typename T = typename Container::value_type>
@@ -40,7 +39,7 @@ class advuilist
     using cwidth_t = float;
     /// name, column printer function, width weight
     using col_t = std::tuple<std::string, fcol_t, cwidth_t>;
-    /// counting function. used only for partial selection
+    /// counting function. used only for partial/whole selection
     using fcounter_t = std::function<std::size_t( T const & )>;
     /// on_rebuild function. params are first_item, element
     using frebuild_t = std::function<void( bool, T const & )>;
@@ -85,7 +84,7 @@ class advuilist
     /// sets a handler for input_context actions. this is executed after all internal actions are
     /// handled
     void setctxthandler( fctxt_t const &func );
-    /// sets the element counting function. enables partial selection
+    /// sets the element counting function. enables partial and whole selection
     void setcountingf( fcounter_t const &func );
     /// if set, func gets called for every element that gets added to the internal list. This is
     /// meant to be used for collecting stats
@@ -177,6 +176,10 @@ class advuilist
     static constexpr int const _colspacing = 1;
 
     select_t _peek( std::size_t amount );
+    select_t _peekall();
+    std::size_t _count( std::size_t idx );
+    std::size_t _peekcount();
+
     void _initui();
     void _initctxt();
     void _print();
@@ -348,17 +351,19 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
         } else if( action == ACTION_SELECT ) {
             return peek();
         } else if( action == ACTION_SELECT_PARTIAL ) {
-            if( _fcounter ) {
-                std::size_t const count = _fcounter( *std::get<ptr_t>( _list[_cidx] ) );
-                std::size_t const input = _querypartial( count );
-                if( input > 0 ) {
-                    return _peek( input );
-                }
+            std::size_t const count = _peekcount();
+            std::size_t const input = _querypartial( count );
+            if( input > 0 ) {
+                return _peek( input );
             }
+        } else if( action == ACTION_SELECT_WHOLE ) {
+            std::size_t const count = _peekcount();
+            return _peek( count );
+        } else if( action == ACTION_SELECT_ALL ) {
+            return _peekall();
         } else if( action == ACTION_QUIT ) {
             _exit = true;
         }
-        // FIXME: add SELECT_ALL and maybe SELECT_MARKED (or expand SELECT)
 
         if( _fctxt ) {
             _fctxt( this, action );
@@ -478,6 +483,34 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::_peek( std::
 }
 
 template <class Container, typename T>
+typename advuilist<Container, T>::select_t advuilist<Container, T>::_peekall()
+{
+    select_t ret;
+    for( std::size_t idx = 0; idx < _list.size(); idx++ ) {
+        std::size_t const amount = _count( idx );
+        ret.emplace_back( amount, std::get<ptr_t>( _list[idx] ) );
+    }
+
+    return ret;
+}
+
+template <class Container, typename T>
+std::size_t advuilist<Container, T>::_count( std::size_t idx )
+{
+    if( _fcounter ) {
+        return _fcounter( *std::get<ptr_t>( _list[idx] ) );
+    } else {
+        return 1;
+    }
+}
+
+template <class Container, typename T>
+std::size_t advuilist<Container, T>::_peekcount()
+{
+    return _count( _cidx );
+}
+
+template <class Container, typename T>
 void advuilist<Container, T>::_init()
 {
     rebuild( _olist );
@@ -525,7 +558,9 @@ void advuilist<Container, T>::_initctxt()
     _ctxt.register_action( ACTION_FILTER );
     _ctxt.register_action( ACTION_RESET_FILTER );
     _ctxt.register_action( ACTION_SELECT );
+    _ctxt.register_action( ACTION_SELECT_ALL );
     _ctxt.register_action( ACTION_SELECT_PARTIAL );
+    _ctxt.register_action( ACTION_SELECT_WHOLE );
     _ctxt.register_action( ACTION_QUIT );
     _ctxt.register_action( ACTION_HELP_KEYBINDINGS );
 }
