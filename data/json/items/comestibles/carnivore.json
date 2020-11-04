@@ -306,7 +306,6 @@
     "//": "Luxury good.",
     "healthy": -1,
     "fun": 2,
-    "price_postapoc": 150,
     "parasites": 0,
     "vitamins": [  ],
     "flags": [ "EATEN_HOT" ]
