@@ -161,7 +161,7 @@
     "type": "COMESTIBLE",
     "copy-from": "meat_cooked",
     "name": { "str": "large slab of uncut bacon", "str_pl": "large slabs of uncut bacon" },
-    "description": "A huge slab of uncut smoked bacon. You can eat as is, but it would be more efficient to cut it into smaller portions with a knife.",
+    "description": "A huge slab of uncut smoked bacon.  You can eat as is, but it would be more efficient to cut it into smaller portions with a knife.",
     "volume": "250ml",
     "price": 2000,
     "price_postapoc": 3000,
