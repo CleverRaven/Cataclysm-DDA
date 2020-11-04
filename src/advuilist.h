@@ -158,6 +158,7 @@ class advuilist
     typename pagecont_t::size_type _cpage = 0;
     /// total column width weights
     cwidth_t _tweight = 0;
+    std::size_t _innerw = 0;
     bool _exit = true;
 
     input_context _ctxt;
@@ -183,8 +184,7 @@ class advuilist
     void _initui();
     void _initctxt();
     void _print();
-    int _printcol( col_t const &col, std::string const &str, point const &p, nc_color const &color,
-                   bool hilited );
+    int _printcol( col_t const &col, std::string const &str, point const &p, nc_color const &color );
     void _printheaders();
     void _printfooters();
     void _sort( typename sortcont_t::size_type idx );
@@ -216,6 +216,7 @@ advuilist<Container, T>::advuilist( Container *list, point size, point origin,
       _ffilter{ [this]( T const &it, std::string const &filter ) {
           return this->_basicfilter( it, filter );
       } },
+      _innerw( _size.x - _firstcol * 2 ),
       _ctxt( ctxtname ),
       // remember constructor list so we can rebuild internal list when filtering
       _olist( list )
@@ -575,7 +576,7 @@ void advuilist<Container, T>::_print()
     nc_color const colcolor = _exit ? c_light_gray : c_white;
     // print column headers
     for( auto const &col : _columns ) {
-        lpos.x += _printcol( col, std::get<std::string>( col ), lpos, colcolor, false );
+        lpos.x += _printcol( col, std::get<std::string>( col ), lpos, colcolor );
     }
     lpos.y += 1;
 
@@ -600,10 +601,15 @@ void advuilist<Container, T>::_print()
         nc_color const basecolor = _exit ? c_dark_gray : c_light_gray;
         bool const hilited = idx == _cidx and !_exit;
         nc_color const color = hilited ? hilite( basecolor ) : basecolor;
+        
+        if( hilited ) {
+            mvwprintz( _w, lpos, color, string_format( "%*s", _innerw, std::string() ) );
+        }
+
         for( auto const &col : _columns ) {
             std::string const rawmsg = std::get<fcol_t>( col )( it );
             std::string const msg = hilited ? remove_color_tags( rawmsg ) : rawmsg;
-            lpos.x += _printcol( col, msg, lpos, color, hilited );
+            lpos.x += _printcol( col, msg, lpos, color );
         }
         lpos.y += 1;
     }
@@ -613,14 +619,10 @@ void advuilist<Container, T>::_print()
 
 template <class Container, typename T>
 int advuilist<Container, T>::_printcol( col_t const &col, std::string const &str, point const &p,
-                                        nc_color const &color, bool hilited )
+                                        nc_color const &color)
 {
-    constexpr int const borderwidth = _firstcol * 2;
     int const colwidth =
-        std::ceil( std::get<cwidth_t>( col ) * ( _size.x - borderwidth ) / _tweight );
-    if( hilited ) {
-        mvwprintz( _w, p, color, string_format( "%*s", colwidth - 1, std::string() ) );
-    }
+        std::ceil( std::get<cwidth_t>( col ) * _innerw / _tweight );
     trim_and_print( _w, p, colwidth - _colspacing, color, str );
     return colwidth;
 }
