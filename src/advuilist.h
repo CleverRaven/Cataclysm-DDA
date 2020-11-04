@@ -521,6 +521,7 @@ template <class Container, typename T>
 void advuilist<Container, T>::_resize( point size, point origin )
 {
     _size = size;
+    _innerw = _size.x - _firstcol * 2;
     _origin = origin;
     _pagesize =
         static_cast<std::size_t>( std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) );
@@ -738,7 +739,7 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
         _groups.emplace_back( gbegin, _list.end() );
     }
     if( pbegin < _list.size() or _list.empty() ) {
-        _pages.emplace_back( pbegin, std::max( 1UL, _list.size() ) );
+        _pages.emplace_back( pbegin, _list.size() );
     }
     _cgroup = idx;
 }
