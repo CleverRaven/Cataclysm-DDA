@@ -31,8 +31,12 @@ void create_advanced_inv()
         } );
         mytrui->loadstate( &uistate.transfer_save );
     } else {
-        pane_mutex = pane_mutex_t(aim_nsources *2, false );
+        auto const lidx = mytrui->left()->getSource().first;
+        auto const ridx = mytrui->right()->getSource().first;
+        pane_mutex[lidx] = false;
         mytrui->left()->rebuild();
+        pane_mutex[lidx] = true;
+        pane_mutex[ridx] = false;
         mytrui->right()->rebuild();
     }
     reset_mutex( &*mytrui, &pane_mutex );

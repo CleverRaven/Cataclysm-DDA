@@ -150,7 +150,6 @@ void _get_stacks( item *elem, iloc_stack_t *stacks, stack_cache_t *cache,
 
 aim_container_t source_ground_player_all( pane_mutex_t const *mutex )
 {
-    // return source_ground_all( &get_player_character(), 1 );
     aim_container_t itemlist;
     std::size_t idx = 0;
     tripoint const pos = get_avatar().pos();
@@ -449,7 +448,6 @@ void iloc_entry_stats_printer( aim_stats_t *stats, catacurses::window *w )
 
 void iloc_entry_examine( catacurses::window *w, iloc_entry const &it )
 {
-    // FIXME: apparently inventory examine needs special handling
     item const &_it = *it.stack.front();
     std::vector<iteminfo> vThisItem;
     std::vector<iteminfo> vDummy;
@@ -459,19 +457,6 @@ void iloc_entry_examine( catacurses::window *w, iloc_entry const &it )
     data.handle_scrolling = true;
 
     draw_item_info( *w, data ).get_first_input();
-}
-
-aim_container_t source_ground_all( Character *guy, int radius )
-{
-    aim_container_t itemlist;
-    for( map_cursor &cursor : map_selector( guy->pos(), radius ) ) {
-        aim_container_t const &stacks =
-            get_stacks<>( get_map().i_at( tripoint( cursor ) ),
-                          [&]( item *it ) { return iloc_map_cursor( cursor, it ); } );
-        itemlist.insert( itemlist.end(), std::make_move_iterator( stacks.begin() ),
-                         std::make_move_iterator( stacks.end() ) );
-    }
-    return itemlist;
 }
 
 aim_container_t source_ground( tripoint const &loc )

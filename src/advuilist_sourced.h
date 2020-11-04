@@ -212,9 +212,10 @@ void advuilist_sourced<Container, T>::savestate( advuilist_save_state *state )
 template <class Container, typename T>
 void advuilist_sourced<Container, T>::loadstate( advuilist_save_state *state, bool reb )
 {
-    advuilist<Container, T>::loadstate( state, false );
     _cslot = state->slot;
     setSource( _cslot, state->icon, true );
+
+    advuilist<Container, T>::loadstate( state, false );
 
     if( reb ) {
         advuilist<Container, T>::rebuild();
