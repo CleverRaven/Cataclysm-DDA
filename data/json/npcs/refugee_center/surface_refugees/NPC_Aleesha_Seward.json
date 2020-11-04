@@ -76,7 +76,7 @@
         },
         "trial": { "type": "PERSUADE", "difficulty": 25 },
         "success": { "topic": "TALK_REFUGEE_Accept_Boris_Mission_1" },
-        "failure": {  "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1" }
+        "failure": { "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1" }
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Aleesha_Background" },
       { "text": "What's your take on the situation here?", "topic": "TALK_REFUGEE_Aleesha_Situation" }

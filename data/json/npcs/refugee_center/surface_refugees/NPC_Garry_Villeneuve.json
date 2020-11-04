@@ -82,7 +82,7 @@
         },
         "trial": { "type": "PERSUADE", "difficulty": 25 },
         "success": { "topic": "TALK_REFUGEE_Accept_Boris_Mission_1" },
-        "failure": {  "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1" }
+        "failure": { "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1" }
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Garry_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Garry_Situation" }
