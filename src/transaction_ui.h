@@ -18,49 +18,49 @@
 template <class Container, typename T = typename Container::value_type>
 class transaction_ui
 {
-  public:
-    using advuilist_t = advuilist_sourced<Container, T>;
-    using select_t = typename advuilist_t::select_t;
-    using fselect_t = std::function<void( transaction_ui<Container, T> *, select_t )>;
-    using fctxt_t = std::function<void( transaction_ui<Container, T> *, std::string const & )>;
+    public:
+        using advuilist_t = advuilist_sourced<Container, T>;
+        using select_t = typename advuilist_t::select_t;
+        using fselect_t = std::function<void( transaction_ui<Container, T> *, select_t )>;
+        using fctxt_t = std::function<void( transaction_ui<Container, T> *, std::string const & )>;
 
-    enum class event { QUIT = 0, SWITCH = 1, NEVENTS = 2 };
+        enum class event { QUIT = 0, SWITCH = 1, NEVENTS = 2 };
 
-    transaction_ui( point const &srclayout, point size = { -1, -1 }, point origin = { -1, -1 },
-                    std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT );
+        transaction_ui( point const &srclayout, point size = { -1, -1 }, point origin = { -1, -1 },
+                        std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT );
 
-    advuilist_t *left();
-    advuilist_t *right();
-    advuilist_t *curpane();
-    advuilist_t *otherpane();
+        advuilist_t *left();
+        advuilist_t *right();
+        advuilist_t *curpane();
+        advuilist_t *otherpane();
 
-    void setctxthandler( fctxt_t const &func );
-    void on_select( fselect_t const &func );
-    void pushevent( event const &ev );
+        void setctxthandler( fctxt_t const &func );
+        void on_select( fselect_t const &func );
+        void pushevent( event const &ev );
 
-    void show();
-    void savestate( transaction_ui_save_state *state );
-    void loadstate( transaction_ui_save_state *state );
+        void show();
+        void savestate( transaction_ui_save_state *state );
+        void loadstate( transaction_ui_save_state *state );
 
-  private:
-    constexpr static std::size_t npanes = 2;
+    private:
+        constexpr static std::size_t npanes = 2;
 
-    using panecont_t = std::array<advuilist_t, 2>;
+        using panecont_t = std::array<advuilist_t, 2>;
 
-    constexpr static typename panecont_t::size_type const _left = 0;
-    constexpr static typename panecont_t::size_type const _right = 1;
+        constexpr static typename panecont_t::size_type const _left = 0;
+        constexpr static typename panecont_t::size_type const _right = 1;
 
-    point _size;
-    point _origin;
-    panecont_t _panes;
-    fselect_t _fselect;
-    std::queue<event> _queue;
-    fctxt_t _fctxt;
-    typename panecont_t::size_type _cpane = 0;
-    bool _exit = true;
+        point _size;
+        point _origin;
+        panecont_t _panes;
+        fselect_t _fselect;
+        std::queue<event> _queue;
+        fctxt_t _fctxt;
+        typename panecont_t::size_type _cpane = 0;
+        bool _exit = true;
 
-    void _ctxthandler( advuilist<Container, T> *ui, std::string const &action );
-    void _process( event const &ev );
+        void _ctxthandler( advuilist<Container, T> *ui, std::string const &action );
+        void _process( event const &ev );
 };
 
 // *INDENT-OFF*
@@ -75,13 +75,15 @@ transaction_ui<Container, T>::transaction_ui( point const &srclayout, point size
                            { _origin.x + _size.x / 2, _origin.y },
                            ctxtname } }
 // *INDENT-ON*
+
 {
     using namespace advuilist_literals;
-    for( auto &v : _panes ) {
+    for( auto &v : _panes )
+    {
         v.get_ctxt()->register_action( ACTION_SWITCH_PANES );
         v.get_ctxt()->register_action( PANE_LEFT );
         v.get_ctxt()->register_action( PANE_RIGHT );
-        v.setctxthandler( [this]( advuilist<Container, T> *ui, std::string const &action ) {
+        v.setctxthandler( [this]( advuilist<Container, T> *ui, std::string const & action ) {
             this->_ctxthandler( ui, action );
         } );
     }
@@ -170,7 +172,7 @@ void transaction_ui<Container, T>::loadstate( transaction_ui_save_state *state )
 
 template <class Container, typename T>
 void transaction_ui<Container, T>::_ctxthandler( advuilist<Container, T> *ui,
-                                                 std::string const &action )
+        std::string const &action )
 {
     using namespace advuilist_literals;
     if( action == ACTION_QUIT ) {

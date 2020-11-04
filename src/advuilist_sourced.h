@@ -22,73 +22,74 @@
 template <class Container, typename T = typename Container::value_type>
 class advuilist_sourced : public advuilist<Container, T>
 {
-  public:
-    // source function
-    using fsource_t = std::function<Container()>;
-    // source availability function
-    using fsourceb_t = std::function<bool()>;
-    using icon_t = char;
-    using slotidx_t = std::size_t;
-    using getsource_t = std::pair<slotidx_t, icon_t>;
-    // label, icon, source function, availability function. icon must be unique and not zero
-    using source_t = std::tuple<std::string, icon_t, fsource_t, fsourceb_t>;
-    using fctxt_t = typename advuilist<Container, T>::fctxt_t;
-    using select_t = typename advuilist<Container, T>::select_t;
+    public:
+        // source function
+        using fsource_t = std::function<Container()>;
+        // source availability function
+        using fsourceb_t = std::function<bool()>;
+        using icon_t = char;
+        using slotidx_t = std::size_t;
+        using getsource_t = std::pair<slotidx_t, icon_t>;
+        // label, icon, source function, availability function. icon must be unique and not zero
+        using source_t = std::tuple<std::string, icon_t, fsource_t, fsourceb_t>;
+        using fctxt_t = typename advuilist<Container, T>::fctxt_t;
+        using select_t = typename advuilist<Container, T>::select_t;
 
-    advuilist_sourced( point const &srclayout, point size = { -1, -1 }, point origin = { -1, -1 },
-                       std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT );
+        advuilist_sourced( point const &srclayout, point size = { -1, -1 }, point origin = { -1, -1 },
+                           std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT );
 
-    /// binds a new source to slot
-    void addSource( slotidx_t slot, source_t const &src );
-    /// sets active source slot
-    ///@param slot
-    ///@param icon
-    ///@param fallthrough used internally by rebuild() to ensure that the internal list is valid
-    void setSource( slotidx_t slot, icon_t icon = 0, bool fallthrough = false );
-    getsource_t getSource();
+        /// binds a new source to slot
+        void addSource( slotidx_t slot, source_t const &src );
+        /// sets active source slot
+        ///@param slot
+        ///@param icon
+        ///@param fallthrough used internally by rebuild() to ensure that the internal list is valid
+        void setSource( slotidx_t slot, icon_t icon = 0, bool fallthrough = false );
+        getsource_t getSource();
 
-    select_t select();
-    void rebuild( Container *list = nullptr );
-    void totop();
-    void hide();
+        select_t select();
+        void rebuild( Container *list = nullptr );
+        void totop();
+        void hide();
 
-    void setctxthandler( fctxt_t const &func );
+        void setctxthandler( fctxt_t const &func );
 
-    void savestate( advuilist_save_state *state );
-    void loadstate( advuilist_save_state *state, bool reb = true );
+        void savestate( advuilist_save_state *state );
+        void loadstate( advuilist_save_state *state, bool reb = true );
 
-  private:
-    using slotcont_t = std::map<icon_t, source_t>;
-    /// active source for this slot, container of sources bound to this slot
-    using slot_t = std::pair<icon_t, slotcont_t>;
-    /// key is slot index
-    using srccont_t = std::map<slotidx_t, slot_t>;
+    private:
+        using slotcont_t = std::map<icon_t, source_t>;
+        /// active source for this slot, container of sources bound to this slot
+        using slot_t = std::pair<icon_t, slotcont_t>;
+        /// key is slot index
+        using srccont_t = std::map<slotidx_t, slot_t>;
 
-    Container _container;
-    srccont_t _sources;
-    fctxt_t _fctxt;
-    point _size;
-    point _origin;
-    point _map_size;
-    slotidx_t _cslot = 0;
+        Container _container;
+        srccont_t _sources;
+        fctxt_t _fctxt;
+        point _size;
+        point _origin;
+        point _map_size;
+        slotidx_t _cslot = 0;
 
-    catacurses::window _w;
-    std::shared_ptr<ui_adaptor> _mapui;
+        catacurses::window _w;
+        std::shared_ptr<ui_adaptor> _mapui;
 
-    void _initui();
-    void _registerSrc( slotidx_t c );
-    void _ctxthandler( advuilist<Container, T> *ui, std::string const &action );
-    void _printmap();
-    void _cycleslot( slotidx_t idx );
-    std::size_t _countactive( slotidx_t idx );
+        void _initui();
+        void _registerSrc( slotidx_t c );
+        void _ctxthandler( advuilist<Container, T> *ui, std::string const &action );
+        void _printmap();
+        void _cycleslot( slotidx_t idx );
+        std::size_t _countactive( slotidx_t idx );
 
-    // used only for source map window
-    static constexpr int const _headersize = 1;
-    static constexpr int const _footersize = 1;
-    static constexpr int const _firstcol = 1;
-    static constexpr int const _iconwidth = 3;
+        // used only for source map window
+        static constexpr int const _headersize = 1;
+        static constexpr int const _footersize = 1;
+        static constexpr int const _firstcol = 1;
+        static constexpr int const _iconwidth = 3;
 };
 
+// *INDENT-OFF*
 template <class Container, typename T>
 advuilist_sourced<Container, T>::advuilist_sourced( point const &srclayout, point size,
                                                     point origin, std::string const &ctxtname )
@@ -96,6 +97,8 @@ advuilist_sourced<Container, T>::advuilist_sourced( point const &srclayout, poin
       _size( size.x > 0 ? size.x : TERMX / 2, size.y > 0 ? size.y : TERMY ),
       _origin( origin.x >= 0 ? origin.x : TERMX / 2 - _size.x / 2, origin.y >= 0 ? origin.y : 0 ),
       _map_size( srclayout.x, srclayout.y )
+// *INDENT-ON*
+
 {
     using namespace advuilist_literals;
     // leave room for source map window
@@ -105,9 +108,10 @@ advuilist_sourced<Container, T>::advuilist_sourced( point const &srclayout, poin
     advuilist<Container, T>::_init();
 
     advuilist<Container, T>::setctxthandler(
-        [this]( advuilist<Container, T> *ui, std::string const &action ) {
-            advuilist_sourced<Container, T>::_ctxthandler( ui, action );
-        } );
+        [this]( advuilist<Container, T> *ui, std::string const & action )
+    {
+        advuilist_sourced<Container, T>::_ctxthandler( ui, action );
+    } );
 
     advuilist<Container, T>::get_ctxt()->register_action( ACTION_CYCLE_SOURCES );
 }
@@ -222,7 +226,7 @@ template <class Container, typename T>
 void advuilist_sourced<Container, T>::_initui()
 {
     _mapui = std::make_shared<ui_adaptor>();
-    _mapui->on_screen_resize( [&]( ui_adaptor &ui ) {
+    _mapui->on_screen_resize( [&]( ui_adaptor & ui ) {
         _w = catacurses::newwin( _headersize + _footersize + _map_size.y, _size.x, _origin );
         ui.position_from_window( _w );
     } );
@@ -246,7 +250,7 @@ void advuilist_sourced<Container, T>::_registerSrc( slotidx_t c )
 
 template <class Container, typename T>
 void advuilist_sourced<Container, T>::_ctxthandler( advuilist<Container, T> * /*ui*/,
-                                                    std::string const &action )
+        std::string const &action )
 {
     using namespace advuilist_literals;
     // where is c++20 when you need it?
@@ -276,8 +280,8 @@ void advuilist_sourced<Container, T>::_printmap()
         std::size_t nactive = _countactive( slotidx );
 
         std::string const color = string_format(
-            "<color_%s>",
-            slotidx == _cslot ? "white" : std::get<fsourceb_t>( src )() ? "light_gray" : "red" );
+                                      "<color_%s>",
+                                      slotidx == _cslot ? "white" : std::get<fsourceb_t>( src )() ? "light_gray" : "red" );
         point const loc( slotidx % _map_size.x, slotidx / _map_size.x );
         // visually indicate we have more than one available source in this slot
         std::string const fmt = nactive > 1 ? "<%s%c</color>>" : "[%s%c</color>]";

@@ -33,170 +33,170 @@
 template <class Container, typename T = typename Container::value_type>
 class advuilist
 {
-  public:
-    /// column printer function
-    using fcol_t = std::function<std::string( T const & )>;
-    using cwidth_t = float;
-    /// name, column printer function, width weight
-    using col_t = std::tuple<std::string, fcol_t, cwidth_t>;
-    /// counting function. used only for partial/whole selection
-    using fcounter_t = std::function<std::size_t( T const & )>;
-    /// on_rebuild function. params are first_item, element
-    using frebuild_t = std::function<void( bool, T const & )>;
-    using fdraw_t = std::function<void( catacurses::window * )>;
-    /// sorting function
-    using fsort_t = std::function<bool( T const &, T const & )>;
-    /// name, sorting function
-    using sorter_t = std::pair<std::string, fsort_t>;
-    /// filter function. params are element, filter string
-    using ffilter_t = std::function<bool( T const &, std::string const & )>;
-    /// filter description, filter function
-    using filter_t = std::pair<std::string, ffilter_t>;
-    /// ctxt handler function for adding extra functionality
-    using fctxt_t = std::function<void( advuilist<Container, T> *, std::string const & )>;
-    /// group sorter function
-    using fgsort_t = std::function<bool( T const &, T const & )>;
-    /// group label printer
-    using fglabel_t = std::function<std::string( T const & )>;
-    /// group name, ID function, label printer
-    using grouper_t = std::tuple<std::string, fgsort_t, fglabel_t>;
+    public:
+        /// column printer function
+        using fcol_t = std::function<std::string( T const & )>;
+        using cwidth_t = float;
+        /// name, column printer function, width weight
+        using col_t = std::tuple<std::string, fcol_t, cwidth_t>;
+        /// counting function. used only for partial/whole selection
+        using fcounter_t = std::function<std::size_t( T const & )>;
+        /// on_rebuild function. params are first_item, element
+        using frebuild_t = std::function<void( bool, T const & )>;
+        using fdraw_t = std::function<void( catacurses::window * )>;
+        /// sorting function
+        using fsort_t = std::function<bool( T const &, T const & )>;
+        /// name, sorting function
+        using sorter_t = std::pair<std::string, fsort_t>;
+        /// filter function. params are element, filter string
+        using ffilter_t = std::function<bool( T const &, std::string const & )>;
+        /// filter description, filter function
+        using filter_t = std::pair<std::string, ffilter_t>;
+        /// ctxt handler function for adding extra functionality
+        using fctxt_t = std::function<void( advuilist<Container, T> *, std::string const & )>;
+        /// group sorter function
+        using fgsort_t = std::function<bool( T const &, T const & )>;
+        /// group label printer
+        using fglabel_t = std::function<std::string( T const & )>;
+        /// group name, ID function, label printer
+        using grouper_t = std::tuple<std::string, fgsort_t, fglabel_t>;
 
-    using ptr_t = typename Container::iterator;
-    /// count, pointer. count is always > 0
-    using selection_t = std::pair<std::size_t, ptr_t>;
-    using select_t = std::vector<selection_t>;
+        using ptr_t = typename Container::iterator;
+        /// count, pointer. count is always > 0
+        using selection_t = std::pair<std::size_t, ptr_t>;
+        using select_t = std::vector<selection_t>;
 
-    advuilist( Container *list, point size = { -1, -1 }, point origin = { -1, -1 },
-               std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT, bool init = true );
+        advuilist( Container *list, point size = { -1, -1 }, point origin = { -1, -1 },
+                   std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT, bool init = true );
 
-    /// sets up columns and replaces implicit column sorters (does not affect additional sorters
-    /// added with addSorter())
-    ///@param columns
-    void setColumns( std::vector<col_t> const &columns );
-    /// adds a new sorter. replaces existing sorter with same name (including implicit column
-    /// sorters)
-    ///@param sorter
-    void addSorter( sorter_t const &sorter );
-    /// adds a new grouper. replaces existing grouper with same name
-    ///@param grouper
-    void addGrouper( grouper_t const &grouper );
-    /// sets a handler for input_context actions. this is executed after all internal actions are
-    /// handled
-    void setctxthandler( fctxt_t const &func );
-    /// sets the element counting function. enables partial and whole selection
-    void setcountingf( fcounter_t const &func );
-    /// if set, func gets called for every element that gets added to the internal list. This is
-    /// meant to be used for collecting stats
-    void on_rebuild( frebuild_t const &func );
-    /// if set, func gets called after all internal printing calls and before wnoutrefresh(). This
-    /// is meant to be used for drawing extra decorations or stats
-    void on_redraw( fdraw_t const &func );
-    /// sets the filtering function
-    void setfilterf( filter_t const &func );
-    select_t select();
-    void sort( std::string const &name );
-    void rebuild( Container *list = nullptr );
-    /// returns the currently hilighted element. meant to be called from the external ctxt handler
-    /// added by setctxthandler()
-    select_t peek();
-    /// breaks internal loop in select(). meant to be called from the external ctxt handler added by
-    /// setctxthandler()
-    void suspend();
-    /// moves internal ui_adaptor to top of stack
-    void totop();
-    void hide();
+        /// sets up columns and replaces implicit column sorters (does not affect additional sorters
+        /// added with addSorter())
+        ///@param columns
+        void setColumns( std::vector<col_t> const &columns );
+        /// adds a new sorter. replaces existing sorter with same name (including implicit column
+        /// sorters)
+        ///@param sorter
+        void addSorter( sorter_t const &sorter );
+        /// adds a new grouper. replaces existing grouper with same name
+        ///@param grouper
+        void addGrouper( grouper_t const &grouper );
+        /// sets a handler for input_context actions. this is executed after all internal actions are
+        /// handled
+        void setctxthandler( fctxt_t const &func );
+        /// sets the element counting function. enables partial and whole selection
+        void setcountingf( fcounter_t const &func );
+        /// if set, func gets called for every element that gets added to the internal list. This is
+        /// meant to be used for collecting stats
+        void on_rebuild( frebuild_t const &func );
+        /// if set, func gets called after all internal printing calls and before wnoutrefresh(). This
+        /// is meant to be used for drawing extra decorations or stats
+        void on_redraw( fdraw_t const &func );
+        /// sets the filtering function
+        void setfilterf( filter_t const &func );
+        select_t select();
+        void sort( std::string const &name );
+        void rebuild( Container *list = nullptr );
+        /// returns the currently hilighted element. meant to be called from the external ctxt handler
+        /// added by setctxthandler()
+        select_t peek();
+        /// breaks internal loop in select(). meant to be called from the external ctxt handler added by
+        /// setctxthandler()
+        void suspend();
+        /// moves internal ui_adaptor to top of stack
+        void totop();
+        void hide();
 
-    input_context *get_ctxt();
-    catacurses::window *get_window();
-    std::shared_ptr<ui_adaptor> get_ui();
-    std::pair<point, point> get_size();
+        input_context *get_ctxt();
+        catacurses::window *get_window();
+        std::shared_ptr<ui_adaptor> get_ui();
+        std::pair<point, point> get_size();
 
-    void savestate( advuilist_save_state *state );
-    void loadstate( advuilist_save_state *state, bool reb = true );
+        void savestate( advuilist_save_state *state );
+        void loadstate( advuilist_save_state *state, bool reb = true );
 
-  protected:
-    // semi-hacks: functions needed due to initialization order in advuilist_sourced
-    void _init();
-    void _resize( point size, point origin );
+    protected:
+        // semi-hacks: functions needed due to initialization order in advuilist_sourced
+        void _init();
+        void _resize( point size, point origin );
 
-  private:
-    /// pair of index, pointer. index is used for "none" sorting mode and is not meant to represent
-    /// index in the original Container (which may not even be indexable)
-    using entry_t = std::pair<std::size_t, ptr_t>;
-    using list_t = std::vector<entry_t>;
-    using colscont_t = std::vector<col_t>;
-    using sortcont_t = std::vector<sorter_t>;
-    /// groups are pairs of begin and end iterators of the internal list
-    /// NOTE: this only works well with RandomAccessIterator
-    using group_t = std::pair<typename list_t::iterator, typename list_t::iterator>;
-    /// pages are pairs of direct indices of the internal list
-    using page_t = std::pair<typename list_t::size_type, typename list_t::size_type>;
-    using groupcont_t = std::vector<group_t>;
-    using groupercont_t = std::vector<grouper_t>;
-    using pagecont_t = std::vector<page_t>;
+    private:
+        /// pair of index, pointer. index is used for "none" sorting mode and is not meant to represent
+        /// index in the original Container (which may not even be indexable)
+        using entry_t = std::pair<std::size_t, ptr_t>;
+        using list_t = std::vector<entry_t>;
+        using colscont_t = std::vector<col_t>;
+        using sortcont_t = std::vector<sorter_t>;
+        /// groups are pairs of begin and end iterators of the internal list
+        /// NOTE: this only works well with RandomAccessIterator
+        using group_t = std::pair<typename list_t::iterator, typename list_t::iterator>;
+        /// pages are pairs of direct indices of the internal list
+        using page_t = std::pair<typename list_t::size_type, typename list_t::size_type>;
+        using groupcont_t = std::vector<group_t>;
+        using groupercont_t = std::vector<grouper_t>;
+        using pagecont_t = std::vector<page_t>;
 
-    point _size;
-    point _origin;
-    std::size_t _pagesize = 0;
-    list_t _list;
-    colscont_t _columns;
-    sortcont_t _sorters;
-    groupercont_t _groupers;
-    groupcont_t _groups;
-    pagecont_t _pages;
-    ffilter_t _ffilter;
-    fcounter_t _fcounter;
-    frebuild_t _frebuild;
-    fdraw_t _fdraw;
-    fctxt_t _fctxt;
-    std::string _filter;
-    std::string _filterdsc;
-    typename sortcont_t::size_type _csort = 0;
-    typename groupercont_t::size_type _cgroup = 0;
-    typename list_t::size_type _cidx = 0;
-    typename pagecont_t::size_type _cpage = 0;
-    /// total column width weights
-    cwidth_t _tweight = 0;
-    std::size_t _innerw = 0;
-    bool _exit = true;
+        point _size;
+        point _origin;
+        std::size_t _pagesize = 0;
+        list_t _list;
+        colscont_t _columns;
+        sortcont_t _sorters;
+        groupercont_t _groupers;
+        groupcont_t _groups;
+        pagecont_t _pages;
+        ffilter_t _ffilter;
+        fcounter_t _fcounter;
+        frebuild_t _frebuild;
+        fdraw_t _fdraw;
+        fctxt_t _fctxt;
+        std::string _filter;
+        std::string _filterdsc;
+        typename sortcont_t::size_type _csort = 0;
+        typename groupercont_t::size_type _cgroup = 0;
+        typename list_t::size_type _cidx = 0;
+        typename pagecont_t::size_type _cpage = 0;
+        /// total column width weights
+        cwidth_t _tweight = 0;
+        std::size_t _innerw = 0;
+        bool _exit = true;
 
-    input_context _ctxt;
-    catacurses::window _w;
-    std::shared_ptr<ui_adaptor> _ui;
+        input_context _ctxt;
+        catacurses::window _w;
+        std::shared_ptr<ui_adaptor> _ui;
 
-    Container *_olist = nullptr;
+        Container *_olist = nullptr;
 
-    /// number of lines at the top of the window reserved for decorations
-    static constexpr int const _headersize = 2;
-    /// number of lines at the bottom of the window reserved for decorations
-    static constexpr int const _footersize = 1;
-    /// first usable column after decorations
-    static constexpr int const _firstcol = 1;
-    /// minimum whitespace between columns
-    static constexpr int const _colspacing = 1;
+        /// number of lines at the top of the window reserved for decorations
+        static constexpr int const _headersize = 2;
+        /// number of lines at the bottom of the window reserved for decorations
+        static constexpr int const _footersize = 1;
+        /// first usable column after decorations
+        static constexpr int const _firstcol = 1;
+        /// minimum whitespace between columns
+        static constexpr int const _colspacing = 1;
 
-    select_t _peek( std::size_t amount );
-    select_t _peekall();
-    std::size_t _count( std::size_t idx );
-    std::size_t _peekcount();
+        select_t _peek( std::size_t amount );
+        select_t _peekall();
+        std::size_t _count( std::size_t idx );
+        std::size_t _peekcount();
 
-    void _initui();
-    void _initctxt();
-    void _print();
-    int _printcol( col_t const &col, std::string const &str, point const &p, nc_color const &color );
-    void _printheaders();
-    void _printfooters();
-    void _sort( typename sortcont_t::size_type idx );
-    void _group( typename groupercont_t::size_type idx );
-    void _querysort();
-    void _queryfilter();
-    std::size_t _querypartial( std::size_t max );
-    void _setfilter( std::string const &filter );
-    bool _basicfilter( T const &it, std::string const &filter ) const;
-    typename pagecont_t::size_type _idxtopage( typename list_t::size_type idx );
-    void _incidx( std::size_t amount );
-    void _decidx( std::size_t amount );
-    void _setidx( std::size_t idx );
+        void _initui();
+        void _initctxt();
+        void _print();
+        int _printcol( col_t const &col, std::string const &str, point const &p, nc_color const &color );
+        void _printheaders();
+        void _printfooters();
+        void _sort( typename sortcont_t::size_type idx );
+        void _group( typename groupercont_t::size_type idx );
+        void _querysort();
+        void _queryfilter();
+        std::size_t _querypartial( std::size_t max );
+        void _setfilter( std::string const &filter );
+        bool _basicfilter( T const &it, std::string const &filter ) const;
+        typename pagecont_t::size_type _idxtopage( typename list_t::size_type idx );
+        void _incidx( std::size_t amount );
+        void _decidx( std::size_t amount );
+        void _setidx( std::size_t idx );
 };
 
 // *INDENT-OFF*
@@ -223,8 +223,10 @@ advuilist<Container, T>::advuilist( Container *list, point size, point origin,
       // remember constructor list so we can rebuild internal list when filtering
       _olist( list )
 // *INDENT-ON*
+
 {
-    if( init ) {
+    if( init )
+    {
         _init();
     }
 }
@@ -243,16 +245,16 @@ void advuilist<Container, T>::setColumns( std::vector<col_t> const &columns )
         // build new implicit column sorters
         std::size_t const idx = _columns.size() - 1;
         tmp.emplace_back( std::get<std::string>( v ),
-                          [this, idx]( T const &lhs, T const &rhs ) -> bool {
-                              return localized_compare( std::get<fcol_t>( _columns[idx] )( lhs ),
-                                                        std::get<fcol_t>( _columns[idx] )( rhs ) );
-                          } );
+        [this, idx]( T const & lhs, T const & rhs ) -> bool {
+            return localized_compare( std::get<fcol_t>( _columns[idx] )( lhs ),
+                                      std::get<fcol_t>( _columns[idx] )( rhs ) );
+        } );
     }
 
     // replace old implicit column sorters (keep "none" and additional sorters added with addSorter)
     _sorters.erase( _sorters.begin() + 1,
                     _sorters.begin() + 1 +
-                        static_cast<typename sortcont_t::difference_type>( ncols_old ) );
+                    static_cast<typename sortcont_t::difference_type>( ncols_old ) );
     _sorters.insert( _sorters.begin() + 1, std::make_move_iterator( tmp.begin() ),
                      std::make_move_iterator( tmp.end() ) );
 }
@@ -260,7 +262,7 @@ void advuilist<Container, T>::setColumns( std::vector<col_t> const &columns )
 template <class Container, typename T>
 void advuilist<Container, T>::addSorter( sorter_t const &sorter )
 {
-    auto it = std::find_if( _sorters.begin(), _sorters.end(), [&]( auto const &v ) {
+    auto it = std::find_if( _sorters.begin(), _sorters.end(), [&]( auto const & v ) {
         return std::get<std::string>( v ) == std::get<std::string>( sorter );
     } );
     // replace sorter with same name if it already exists (including implicit sorters)
@@ -275,7 +277,7 @@ void advuilist<Container, T>::addSorter( sorter_t const &sorter )
 template <class Container, typename T>
 void advuilist<Container, T>::addGrouper( grouper_t const &grouper )
 {
-    auto it = std::find_if( _groupers.begin(), _groupers.end(), [&]( auto const &v ) {
+    auto it = std::find_if( _groupers.begin(), _groupers.end(), [&]( auto const & v ) {
         return std::get<std::string>( v ) == std::get<std::string>( grouper );
     } );
     // replace grouper with same name
@@ -375,7 +377,7 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
 template <class Container, typename T>
 void advuilist<Container, T>::sort( std::string const &name )
 {
-    auto const it = std::find_if( _sorters.begin(), _sorters.end(), [&]( auto const &v ) {
+    auto const it = std::find_if( _sorters.begin(), _sorters.end(), [&]( auto const & v ) {
         return std::get<std::string>( v ) == name;
     } );
     if( it != _sorters.end() ) {
@@ -400,7 +402,7 @@ void advuilist<Container, T>::rebuild( Container *list )
     }
     _group( _cgroup );
     _sort( _csort );
-    _setidx( _cidx );    
+    _setidx( _cidx );
     _cpage = _idxtopage( _cidx );
 }
 
@@ -531,7 +533,7 @@ template <class Container, typename T>
 void advuilist<Container, T>::_initui()
 {
     _ui = std::make_shared<ui_adaptor>();
-    _ui->on_screen_resize( [&]( ui_adaptor &ui ) {
+    _ui->on_screen_resize( [&]( ui_adaptor & ui ) {
         _w = catacurses::newwin( _size.y, _size.x, _origin );
         ui.position_from_window( _w );
     } );
@@ -618,7 +620,7 @@ void advuilist<Container, T>::_print()
 
 template <class Container, typename T>
 int advuilist<Container, T>::_printcol( col_t const &col, std::string const &str, point const &p,
-                                        nc_color const &color)
+                                        nc_color const &color )
 {
     int const colwidth =
         std::ceil( std::get<cwidth_t>( col ) * _innerw / _tweight );
@@ -668,8 +670,7 @@ void advuilist<Container, T>::_sort( typename sortcont_t::size_type idx )
             fsort_t const &sorter;
             cmp( sorter_t const &_s ) : sorter( std::get<fsort_t>( _s ) ) {}
 
-            constexpr bool operator()( entry_t const &lhs, entry_t const &rhs ) const
-            {
+            constexpr bool operator()( entry_t const &lhs, entry_t const &rhs ) const {
                 return sorter( *std::get<ptr_t>( lhs ), *std::get<ptr_t>( rhs ) );
             }
         };
@@ -679,8 +680,7 @@ void advuilist<Container, T>::_sort( typename sortcont_t::size_type idx )
     } else {
         // "none" sort mode needs special handling unfortunately
         struct cmp {
-            constexpr bool operator()( entry_t const &lhs, entry_t const &rhs ) const
-            {
+            constexpr bool operator()( entry_t const &lhs, entry_t const &rhs ) const {
                 return std::get<std::size_t>( lhs ) < std::get<std::size_t>( rhs );
             }
         };
@@ -702,8 +702,7 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
         struct cmp {
             fgsort_t const &fgsort;
             cmp( grouper_t const &_f ) : fgsort( std::get<fgsort_t>( _f ) ) {}
-            constexpr bool operator()( entry_t const &lhs, entry_t const &rhs ) const
-            {
+            constexpr bool operator()( entry_t const &lhs, entry_t const &rhs ) const {
                 return fgsort( *std::get<ptr_t>( lhs ), *std::get<ptr_t>( rhs ) );
             }
         };

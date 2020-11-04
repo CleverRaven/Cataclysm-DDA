@@ -27,7 +27,7 @@ void create_advanced_inv()
         add_aim_sources( mytrui->left(), &pane_mutex );
         add_aim_sources( mytrui->right(), &pane_mutex );
         mytrui->on_select( aim_transfer );
-        mytrui->setctxthandler( [&]( aim_transaction_ui_t *ui, std::string const &action ) {
+        mytrui->setctxthandler( [&]( aim_transaction_ui_t *ui, std::string const & action ) {
             aim_ctxthandler( ui, action, &pane_mutex );
         } );
         mytrui->loadstate( &uistate.transfer_save );

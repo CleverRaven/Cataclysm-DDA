@@ -51,15 +51,15 @@ using namespace advuilist_helpers;
 // FIXME: this string is duplicated from draw_item_filter_rules() because that function doesn't fit
 // anywhere in the current implementation of advuilist
 std::string const desc = string_format(
-    "%s\n\n%s\n %s\n\n%s\n %s\n\n%s\n %s", _( "Type part of an item's name to filter it." ),
-    _( "Separate multiple items with [<color_yellow>,</color>]." ),
-    _( "Example: back,flash,aid, ,band" ),
-    _( "To exclude items, place [<color_yellow>-</color>] in front." ),
-    _( "Example: -pipe,-chunk,-steel" ),
-    _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
-       "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes or "
-       "[<color_yellow>d</color>]isassembled components." ),
-    _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
+                             "%s\n\n%s\n %s\n\n%s\n %s\n\n%s\n %s", _( "Type part of an item's name to filter it." ),
+                             _( "Separate multiple items with [<color_yellow>,</color>]." ),
+                             _( "Example: back,flash,aid, ,band" ),
+                             _( "To exclude items, place [<color_yellow>-</color>] in front." ),
+                             _( "Example: -pipe,-chunk,-steel" ),
+                             _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
+                                "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes or "
+                                "[<color_yellow>d</color>]isassembled components." ),
+                             _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
 
 // Cataclysm: Hacky Stuff Ahead
 // this is actually an attempt to make the code more readable and reduce duplication
@@ -277,8 +277,8 @@ void player_pick_up( aim_transaction_ui_t::select_t const &sel, bool from_vehicl
     get_selection_amount( sel, &targets, &quantities );
 
     u.assign_activity( player_activity( pickup_activity_actor(
-        targets, quantities,
-        from_vehicle ? cata::nullopt : cata::optional<tripoint>( u.pos() ) ) ) );
+                                            targets, quantities,
+                                            from_vehicle ? cata::nullopt : cata::optional<tripoint>( u.pos() ) ) ) );
 }
 
 void player_move_items( aim_transaction_ui_t::select_t const &sel, tripoint const pos,
@@ -315,7 +315,7 @@ void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
     if( lsrc == DRAGGED_IDX or rsrc == DRAGGED_IDX or licon == SOURCE_VEHICLE_i or
         ricon == SOURCE_VEHICLE_i ) {
         tripoint const off = get_avatar().grab_point;
-        const auto *it = std::find_if( aimsources.begin(), aimsources.end(), [&]( auto const &v ) {
+        const auto *it = std::find_if( aimsources.begin(), aimsources.end(), [&]( auto const & v ) {
             return std::get<tripoint>( v ) == off;
         } );
         std::size_t const idx = std::distance( aimsources.begin(), it );
@@ -437,7 +437,8 @@ bool iloc_entry_name_sorter( iloc_entry const &l, iloc_entry const &r )
 
 bool iloc_entry_gsort( iloc_entry const &l, iloc_entry const &r )
 {
-    return l.stack[0]->get_category_shallow().sort_rank() < r.stack[0]->get_category_shallow().sort_rank();
+    return l.stack[0]->get_category_shallow().sort_rank() <
+           r.stack[0]->get_category_shallow().sort_rank();
 }
 
 std::string iloc_entry_glabel( iloc_entry const &it )
@@ -487,7 +488,9 @@ void iloc_entry_examine( catacurses::window *w, iloc_entry const &it )
 aim_container_t source_ground( tripoint const &loc )
 {
     return get_stacks<>( get_map().i_at( loc ),
-                         [&]( item *it ) { return iloc_tripoint( loc, it ); } );
+    [&]( item * it ) {
+        return iloc_tripoint( loc, it );
+    } );
 }
 
 aim_container_t source_vehicle( tripoint const &loc )
@@ -495,7 +498,7 @@ aim_container_t source_vehicle( tripoint const &loc )
     cata::optional<vpart_reference> vp =
         get_map().veh_at( loc ).part_with_feature( "CARGO", false );
 
-    return get_stacks( vp->vehicle().get_items( vp->part_index() ), [&]( item *it ) {
+    return get_stacks( vp->vehicle().get_items( vp->part_index() ), [&]( item * it ) {
         return iloc_vehicle( vehicle_cursor( vp->vehicle(), vp->part_index() ), it );
     } );
 }
@@ -513,7 +516,9 @@ aim_container_t source_char_inv( Character *guy )
     for( item &worn_item : guy->worn ) {
         aim_container_t temp =
             get_stacks<>( worn_item.contents.all_standard_items_top(),
-                          [guy]( item *it ) { return iloc_character( guy, it ); } );
+        [guy]( item * it ) {
+            return iloc_character( guy, it );
+        } );
         ret.insert( ret.end(), std::make_move_iterator( temp.begin() ),
                     std::make_move_iterator( temp.end() ) );
     }
@@ -538,10 +543,11 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
     using grouper_t = typename aim_advuilist_t::grouper_t;
     using filter_t = typename aim_advuilist_t::filter_t;
 
-    myadvuilist->setColumns( std::vector<col_t>{ { "Name", iloc_entry_name, 8.F },
-                                                 { "count", iloc_entry_count, 1.F },
-                                                 { "weight", iloc_entry_weight, 1.F },
-                                                 { "vol", iloc_entry_volume, 1.F } } );
+    myadvuilist->setColumns( std::vector<col_t> { { "Name", iloc_entry_name, 8.F },
+        { "count", iloc_entry_count, 1.F },
+        { "weight", iloc_entry_weight, 1.F },
+        { "vol", iloc_entry_volume, 1.F }
+    } );
     myadvuilist->setcountingf( iloc_entry_counter );
     // replace lexicographic sorters with numeric ones (where is std::variant when you need it?)
     myadvuilist->addSorter( sorter_t{ "count", iloc_entry_count_sorter } );
@@ -556,9 +562,13 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
     myadvuilist->addGrouper( grouper_t{ "category", iloc_entry_gsort, iloc_entry_glabel } );
     myadvuilist->setfilterf( filter_t{ desc, iloc_entry_filter } );
     myadvuilist->on_rebuild(
-        [stats]( bool first, iloc_entry const &it ) { iloc_entry_stats( stats, first, it ); } );
+    [stats]( bool first, iloc_entry const & it ) {
+        iloc_entry_stats( stats, first, it );
+    } );
     myadvuilist->on_redraw(
-        [stats]( catacurses::window *w ) { iloc_entry_stats_printer( stats, w ); } );
+    [stats]( catacurses::window * w ) {
+        iloc_entry_stats_printer( stats, w );
+    } );
     myadvuilist->get_ctxt()->register_action( advuilist_literals::ACTION_EXAMINE );
     myadvuilist->get_ctxt()->register_action( advuilist_literals::TOGGLE_AUTO_PICKUP );
     myadvuilist->get_ctxt()->register_action( advuilist_literals::TOGGLE_FAVORITE );
@@ -570,8 +580,12 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *
     using fsourceb_t = aim_advuilist_sourced_t::fsourceb_t;
     using icon_t = aim_advuilist_sourced_t::icon_t;
 
-    fsource_t source_dummy = []() { return aim_container_t(); };
-    fsourceb_t _never = []() { return false; };
+    fsource_t source_dummy = []() {
+        return aim_container_t();
+    };
+    fsourceb_t _never = []() {
+        return false;
+    };
 
     // Cataclysm: Hacky Stuff Redux
     std::size_t idx = 0;
@@ -592,33 +606,45 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *
                 }
                 case SOURCE_DRAGGED_i: {
                     _fs = source_player_dragged;
-                    _fsb = [=]() {
+                    _fsb = [ = ]() {
                         return !mutex->at( DRAGGED_IDX ) and source_player_dragged_avail();
                     };
                     break;
                 }
                 case SOURCE_INV_i: {
                     _fs = source_player_inv;
-                    _fsb = [=]() { return !mutex->at( INV_IDX ); };
+                    _fsb = [ = ]() {
+                        return !mutex->at( INV_IDX );
+                    };
                     break;
                 }
                 case SOURCE_ALL_i: {
-                    _fs = [=]() { return source_ground_player_all( mutex ); };
-                    _fsb = [=]() { return !mutex->at( ALL_IDX ); };
+                    _fs = [ = ]() {
+                        return source_ground_player_all( mutex );
+                    };
+                    _fsb = [ = ]() {
+                        return !mutex->at( ALL_IDX );
+                    };
                     break;
                 }
                 case SOURCE_WORN_i: {
                     _fs = source_player_worn;
-                    _fsb = [=]() { return !mutex->at( WORN_IDX ); };
+                    _fsb = [ = ]() {
+                        return !mutex->at( WORN_IDX );
+                    };
                     break;
                 }
                 default: {
-                    _fs = [=]() { return source_player_ground( off ); };
-                    _fsb = [=]() {
+                    _fs = [ = ]() {
+                        return source_player_ground( off );
+                    };
+                    _fsb = [ = ]() {
                         return !mutex->at( idx ) and source_player_ground_avail( off );
                     };
-                    _fsv = [=]() { return source_player_vehicle( off ); };
-                    _fsvb = [=]() {
+                    _fsv = [ = ]() {
+                        return source_player_vehicle( off );
+                    };
+                    _fsvb = [ = ]() {
                         return !mutex->at( idx + aim_nsources ) and
                                source_player_vehicle_avail( off );
                     };
@@ -628,7 +654,7 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *
             myadvuilist->addSource( idx, { _( str ), icon, _fs, _fsb } );
             if( _fsv ) {
                 myadvuilist->addSource( idx,
-                                        { _( SOURCE_VEHICLE ), SOURCE_VEHICLE_i, _fsv, _fsvb } );
+                { _( SOURCE_VEHICLE ), SOURCE_VEHICLE_i, _fsv, _fsvb } );
             }
         }
         idx++;
@@ -680,11 +706,11 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
         action.substr( 0, ACTION_SOURCE_PRFX_len ) == ACTION_SOURCE_PRFX ) {
         reset_mutex( ui, mutex );
         // rebuild other pane if it's set to the ALL source
-        if( std::get<std::size_t>(ui->otherpane()->getSource()) == ALL_IDX ) {
+        if( std::get<std::size_t>( ui->otherpane()->getSource() ) == ALL_IDX ) {
             // this is ugly but it's required since we're rebuilding out of line
-            mutex->at(ALL_IDX) = false;
+            mutex->at( ALL_IDX ) = false;
             ui->otherpane()->rebuild();
-            mutex->at(ALL_IDX) = true;
+            mutex->at( ALL_IDX ) = true;
             ui->otherpane()->get_ui()->invalidate_ui();
         }
     } else if( action == advuilist_literals::ACTION_EXAMINE ) {
@@ -699,7 +725,7 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
             auto const side =
                 ui->curpane() == ui->left() ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO;
             g->inventory_item_menu(
-                entry.stack.front(), [=] { return dim.second.x; }, [=] { return dim.first.x; },
+                entry.stack.front(), [ = ] { return dim.second.x; }, [ = ] { return dim.first.x; },
                 side );
         } else {
             iloc_entry_examine( ui->otherpane()->get_window(), entry );
