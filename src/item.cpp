@@ -1623,8 +1623,8 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( type->min_per > 0 ) {
             req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
         }
-        for( const std::pair<const skill_id, int> sk : sorted_lex( type->min_skills ) ) {
-            req.push_back( string_format( "%s %d", skill_id( sk.first )->name(), sk.second ) );
+        for( const std::pair<skill_id, int> &sk : sorted_lex( type->min_skills ) ) {
+            req.push_back( string_format( "%s %d", sk.first->name(), sk.second ) );
         }
         if( !req.empty() ) {
             info.emplace_back( "BASE", _( "<bold>Minimum requirements</bold>:" ) );
@@ -3354,7 +3354,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
 
     if( parts->test( iteminfo_parts::QUALITIES ) ) {
         insert_separation_line( info );
-        for( const std::pair<const quality_id, int> q : sorted_lex( type->qualities ) ) {
+        for( const std::pair<quality_id, int> &q : sorted_lex( type->qualities ) ) {
             name_quality( q );
         }
     }
@@ -3429,7 +3429,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->encumbrance.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair<const bodypart_str_id, int> element : sorted_lex( bid->encumbrance ) ) {
+        for( const std::pair<bodypart_str_id, int> &element : sorted_lex( bid->encumbrance ) ) {
             info.push_back(
                 iteminfo( "CBM", " " + body_part_name_as_heading( element.first.id(), 1 ),
                           " <num>", iteminfo::no_newline, element.second ) );
@@ -3440,7 +3440,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Environmental Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->env_protec ) ) {
+        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->env_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3450,7 +3450,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Bash Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->bash_protec ) ) {
+        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->bash_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3460,7 +3460,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Cut Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->cut_protec ) ) {
+        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->cut_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3469,7 +3469,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->bullet_protec.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Ballistic Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair<const bodypart_str_id, size_t > element : sorted_lex( bid->bullet_protec ) ) {
+        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->bullet_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
