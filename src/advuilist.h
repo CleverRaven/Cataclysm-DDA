@@ -42,8 +42,6 @@ class advuilist
     using col_t = std::tuple<std::string, fcol_t, cwidth_t>;
     /// counting function. used only for partial selection
     using fcounter_t = std::function<std::size_t( T const & )>;
-    /// examine function
-    using fexamine_t = std::function<void( T const & )>;
     /// on_rebuild function. params are first_item, element
     using frebuild_t = std::function<void( bool, T const & )>;
     using fdraw_t = std::function<void( catacurses::window * )>;
@@ -71,7 +69,7 @@ class advuilist
     using select_t = std::vector<selection_t>;
 
     advuilist( Container *list, point size = { -1, -1 }, point origin = { -1, -1 },
-               std::string const &ctxtname = CTXT_DEFAULT, bool init = true );
+               std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT, bool init = true );
 
     /// sets up columns and replaces implicit column sorters (does not affect additional sorters
     /// added with addSorter())
@@ -89,8 +87,6 @@ class advuilist
     void setctxthandler( fctxt_t const &func );
     /// sets the element counting function. enables partial selection
     void setcountingf( fcounter_t const &func );
-    /// sets the examine function
-    void setexaminef( fexamine_t const &func );
     /// if set, func gets called for every element that gets added to the internal list. This is
     /// meant to be used for collecting stats
     void on_rebuild( frebuild_t const &func );
@@ -115,6 +111,7 @@ class advuilist
     input_context *get_ctxt();
     catacurses::window *get_window();
     std::shared_ptr<ui_adaptor> get_ui();
+    std::pair<point, point> get_size();
 
     void savestate( advuilist_save_state *state );
     void loadstate( advuilist_save_state *state, bool reb = true );
@@ -151,7 +148,6 @@ class advuilist
     pagecont_t _pages;
     ffilter_t _ffilter;
     fcounter_t _fcounter;
-    fexamine_t _fexamine;
     frebuild_t _frebuild;
     fdraw_t _fdraw;
     fctxt_t _fctxt;
@@ -297,12 +293,6 @@ void advuilist<Container, T>::setcountingf( fcounter_t const &func )
 }
 
 template <class Container, typename T>
-void advuilist<Container, T>::setexaminef( fexamine_t const &func )
-{
-    _fexamine = func;
-}
-
-template <class Container, typename T>
 void advuilist<Container, T>::on_rebuild( frebuild_t const &func )
 {
     _frebuild = func;
@@ -324,6 +314,7 @@ void advuilist<Container, T>::setfilterf( filter_t const &func )
 template <class Container, typename T>
 typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
 {
+    using namespace advuilist_literals;
     // reset exit variable in case suspend() was called earlier
     _exit = false;
 
@@ -364,8 +355,6 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
                     return _peek( input );
                 }
             }
-        } else if( action == ACTION_EXAMINE and _fexamine ) {
-            _fexamine( *std::get<ptr_t>( _list[_cidx] ) );
         } else if( action == ACTION_QUIT ) {
             _exit = true;
         }
@@ -455,6 +444,12 @@ std::shared_ptr<ui_adaptor> advuilist<Container, T>::get_ui()
 }
 
 template <class Container, typename T>
+std::pair<point, point> advuilist<Container, T>::get_size()
+{
+    return { _size, _origin };
+}
+
+template <class Container, typename T>
 void advuilist<Container, T>::savestate( advuilist_save_state *state )
 {
     state->idx = _cidx;
@@ -522,6 +517,7 @@ void advuilist<Container, T>::_initui()
 template <class Container, typename T>
 void advuilist<Container, T>::_initctxt()
 {
+    using namespace advuilist_literals;
     _ctxt.register_updown();
     _ctxt.register_action( ACTION_PAGE_UP );
     _ctxt.register_action( ACTION_PAGE_DOWN );
@@ -530,7 +526,6 @@ void advuilist<Container, T>::_initctxt()
     _ctxt.register_action( ACTION_RESET_FILTER );
     _ctxt.register_action( ACTION_SELECT );
     _ctxt.register_action( ACTION_SELECT_PARTIAL );
-    _ctxt.register_action( ACTION_EXAMINE );
     _ctxt.register_action( ACTION_QUIT );
     _ctxt.register_action( ACTION_HELP_KEYBINDINGS );
 }
@@ -598,6 +593,7 @@ int advuilist<Container, T>::_printcol( col_t const &col, std::string const &str
 template <class Container, typename T>
 void advuilist<Container, T>::_printheaders()
 {
+    using namespace advuilist_literals;
     // sort mode
     mvwprintw( _w, { _firstcol, 0 }, _( "< [%s] Sort: %s >" ), _ctxt.get_desc( ACTION_SORT ),
                std::get<std::string>( _sorters[_csort] ) );
@@ -617,6 +613,7 @@ void advuilist<Container, T>::_printheaders()
 template <class Container, typename T>
 void advuilist<Container, T>::_printfooters()
 {
+    using namespace advuilist_literals;
     // filter
     std::string fprefix = string_format( _( "[%s] Filter" ), _ctxt.get_desc( ACTION_FILTER ) );
     if( !_filter.empty() ) {

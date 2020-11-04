@@ -36,7 +36,7 @@ class advuilist_sourced : public advuilist<Container, T>
     using select_t = typename advuilist<Container, T>::select_t;
 
     advuilist_sourced( point const &srclayout, point size = { -1, -1 }, point origin = { -1, -1 },
-                       std::string const &ctxtname = CTXT_DEFAULT );
+                       std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT );
 
     /// binds a new source to slot
     void addSource( slotidx_t slot, source_t const &src );
@@ -97,6 +97,7 @@ advuilist_sourced<Container, T>::advuilist_sourced( point const &srclayout, poin
       _origin( origin.x >= 0 ? origin.x : TERMX / 2 - _size.x / 2, origin.y >= 0 ? origin.y : 0 ),
       _map_size( srclayout.x, srclayout.y )
 {
+    using namespace advuilist_literals;
     // leave room for source map window
     point const offset( 0, _headersize + _footersize + _map_size.y );
     advuilist<Container, T>::_resize( _size - offset, _origin + offset );
@@ -241,6 +242,7 @@ void advuilist_sourced<Container, T>::_initui()
 template <class Container, typename T>
 void advuilist_sourced<Container, T>::_registerSrc( slotidx_t c )
 {
+    using namespace advuilist_literals;
     advuilist<Container, T>::get_ctxt()->register_action(
         string_format( "%s%d", ACTION_SOURCE_PRFX, c ) );
 }
@@ -249,6 +251,7 @@ template <class Container, typename T>
 void advuilist_sourced<Container, T>::_ctxthandler( advuilist<Container, T> * /*ui*/,
                                                     std::string const &action )
 {
+    using namespace advuilist_literals;
     // where is c++20 when you need it?
     if( action.substr( 0, ACTION_SOURCE_PRFX_len ) == ACTION_SOURCE_PRFX ) {
         slotidx_t slotidx = std::stoul( action.substr( ACTION_SOURCE_PRFX_len, action.size() ) );

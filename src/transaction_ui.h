@@ -27,7 +27,7 @@ class transaction_ui
     enum class event { QUIT = 0, SWITCH = 1, NEVENTS = 2 };
 
     transaction_ui( point const &srclayout, point size = { -1, -1 }, point origin = { -1, -1 },
-                    std::string const &ctxtname = CTXT_DEFAULT );
+                    std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT );
 
     advuilist_t *left();
     advuilist_t *right();
@@ -76,6 +76,7 @@ transaction_ui<Container, T>::transaction_ui( point const &srclayout, point size
                            ctxtname } }
 // *INDENT-ON*
 {
+    using namespace advuilist_literals;
     for( auto &v : _panes ) {
         v.get_ctxt()->register_action( ACTION_SWITCH_PANES );
         v.setctxthandler( [this]( advuilist<Container, T> *ui, std::string const &action ) {
@@ -169,6 +170,7 @@ template <class Container, typename T>
 void transaction_ui<Container, T>::_ctxthandler( advuilist<Container, T> *ui,
                                                  std::string const &action )
 {
+    using namespace advuilist_literals;
     if( action == ACTION_QUIT ) {
         _queue.emplace( event::QUIT );
     }

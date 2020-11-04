@@ -2,6 +2,7 @@
 #define CATA_SRC_ADVUILIST_CONST_H
 
 // constants and literals used by advuilist and friends
+namespace advuilist_literals {
 
 constexpr auto const ACTION_CYCLE_SOURCES = "CYCLE_SOURCES";
 constexpr auto const ACTION_DOWN = "DOWN";
@@ -20,5 +21,7 @@ constexpr auto const ACTION_SOURCE_PRFX_len = 7; // where is c++20 when you need
 constexpr auto const ACTION_SWITCH_PANES = "SWITCH_PANES";
 constexpr auto const ACTION_UP = "UP";
 constexpr auto const CTXT_DEFAULT = "default";
+
+} // namespace advuilist_literals
 
 #endif // CATA_SRC_ADVUILIST_CONST_H

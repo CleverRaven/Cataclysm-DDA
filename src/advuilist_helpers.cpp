@@ -15,6 +15,7 @@
 #include "character.h"        // for get_player_character, Character
 #include "color.h"            // for get_all_colors, color_manager
 #include "enums.h"            // for object_type, object_type::VEHICLE
+#include "game.h"             // for g, inventory_item_menu
 #include "input.h"            // for input_event
 #include "item.h"             // for item, iteminfo
 #include "item_category.h"    // for item_category
@@ -538,16 +539,13 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
     myadvuilist->addSorter( sorter_t{ "vol", iloc_entry_volume_sorter } );
     // we need to replace name sorter too due to color tags
     myadvuilist->addSorter( sorter_t{ "Name", iloc_entry_name_sorter } );
-    // FIXME: this might be better in the ctxt handler of the top transaction_ui so we can show the
-    // info on the opposite pane
-    catacurses::window *w = myadvuilist->get_window();
-    myadvuilist->setexaminef( [w]( iloc_entry const &it ) { iloc_entry_examine( w, it ); } );
     myadvuilist->addGrouper( grouper_t{ "category", iloc_entry_gid, iloc_entry_glabel } );
     myadvuilist->setfilterf( filter_t{ desc, iloc_entry_filter } );
     myadvuilist->on_rebuild(
         [stats]( bool first, iloc_entry const &it ) { iloc_entry_stats( stats, first, it ); } );
     myadvuilist->on_redraw(
         [stats]( catacurses::window *w ) { iloc_entry_stats_printer( stats, w ); } );
+    myadvuilist->get_ctxt()->register_action( advuilist_literals::ACTION_EXAMINE );
 }
 
 void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *mutex )
@@ -621,6 +619,15 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *
     }
 }
 
+void aim_add_return_activity()
+{
+    // return to the AIM after player activities finish
+    avatar &u = get_avatar();
+    player_activity act_return( ACT_ADV_INVENTORY );
+    act_return.auto_resume = true;
+    u.assign_activity( act_return );
+}
+
 void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t select )
 {
     using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
@@ -631,10 +638,7 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t sele
     std::tie( dst, dsti ) = ui->otherpane()->getSource();
 
     // return to the AIM after player activities finish
-    avatar &u = get_avatar();
-    player_activity act_return( ACT_ADV_INVENTORY );
-    act_return.auto_resume = true;
-    u.assign_activity( act_return );
+    aim_add_return_activity();
 
     for( aim_advuilist_t::selection_t const &sel : select ) {
         if( dsti == SOURCE_WORN_i ) {
@@ -656,17 +660,35 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t sele
 
 void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_mutex_t *mutex )
 {
+    using namespace advuilist_literals;
     // reset pane mutex on any source change
     if( action == ACTION_CYCLE_SOURCES or
         action.substr( 0, ACTION_SOURCE_PRFX_len ) == ACTION_SOURCE_PRFX ) {
         reset_mutex( ui, mutex );
         // rebuild other pane if it's set to the ALL source
         if( std::get<std::size_t>(ui->otherpane()->getSource()) == ALL_IDX ) {
-            // hackety hack
+            // this is ugly but it's required since we're rebuilding out of line
             mutex->at(ALL_IDX) = false;
             ui->otherpane()->rebuild();
             mutex->at(ALL_IDX) = true;
             ui->otherpane()->get_ui()->invalidate_ui();
+        }
+    } else if( action == advuilist_literals::ACTION_EXAMINE ) {
+        iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( ui->curpane()->peek().front() );
+        std::size_t src = std::get<std::size_t>( ui->curpane()->getSource() );
+        if( src == INV_IDX or src == WORN_IDX ) {
+            aim_add_return_activity();
+            ui->pushevent( aim_transaction_ui_t::event::QUIT );
+            ui->curpane()->suspend();
+
+            auto const dim = ui->otherpane()->get_size();
+            auto const side =
+                ui->curpane() == ui->left() ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO;
+            g->inventory_item_menu(
+                entry.stack.front(), [=] { return dim.second.x; }, [=] { return dim.first.x; },
+                side );
+        } else {
+            iloc_entry_examine( ui->otherpane()->get_window(), entry );
         }
     }
 }
