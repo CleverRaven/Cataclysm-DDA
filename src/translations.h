@@ -16,11 +16,11 @@
 
 constexpr int INVALID_LANGUAGE_VERSION = 0;
 
-namespace details
+namespace detail
 {
 // returns current language generation/version
 int get_current_language_version();
-} // namespace details
+} // namespace detail
 
 #if !defined(translate_marker)
 /**
@@ -59,7 +59,7 @@ int get_current_language_version();
 #  define ATTRIBUTE_FORMAT_ARG(a)
 #endif
 
-namespace details
+namespace detail
 {
 // same as _(), but without local cache
 const char *_translate_internal( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
@@ -137,14 +137,14 @@ static inline auto translation_macro_marker_func( T &&arg )
     return std::forward<T>( arg );
 }
 
-} // namespace details
+} // namespace detail
 
 // Note: in case of std::string argument, the result is copied, this is intended (for safety)
 #define _( msg ) \
     ( ( []( const auto & arg ) { \
-        static auto cache = details::get_local_translation_cache( arg ); \
+        static auto cache = detail::get_local_translation_cache( arg ); \
         return cache( arg ); \
-    } )( details::translation_macro_marker_func( msg ) ) )
+    } )( detail::translation_macro_marker_func( msg ) ) )
 
 // ngettext overload taking an unsigned long long so that people don't need
 // to cast at call sites.  This is particularly relevant on 64-bit Windows where
@@ -173,7 +173,7 @@ const char *npgettext( const char *context, const char *msgid, const char *msgid
 
 #define _(STRING) (STRING)
 
-namespace details
+namespace detail
 {
 // _translate_internal avoids static cache
 inline const char *_translate_internal( const char *msg )
@@ -184,7 +184,7 @@ inline std::string _translate_internal( const std::string &msg )
 {
     return msg;
 }
-} // namespace details
+} // namespace detail
 
 #define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)

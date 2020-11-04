@@ -56,7 +56,7 @@ static bool sanity_checked_genders = false;
 // used to invalidate translation cache
 static int current_language_version = INVALID_LANGUAGE_VERSION + 1;
 
-int details::get_current_language_version()
+int detail::get_current_language_version()
 {
     return current_language_version;
 }
@@ -554,7 +554,7 @@ std::string translation::translated( const int num ) const
 
         if( !ctxt ) {
             if( !raw_pl ) {
-                cached_translation = cata::make_value<std::string>( details::_translate_internal( raw ) );
+                cached_translation = cata::make_value<std::string>( detail::_translate_internal( raw ) );
             } else {
                 cached_translation = cata::make_value<std::string>(
                                          ngettext( raw.c_str(), raw_pl->c_str(), num ) );
