@@ -100,7 +100,7 @@ bool iloc_entry_spoilage_sorter( iloc_entry const &l, iloc_entry const &r );
 bool iloc_entry_price_sorter( iloc_entry const &l, iloc_entry const &r );
 bool iloc_entry_name_sorter( iloc_entry const &l, iloc_entry const &r );
 
-std::size_t iloc_entry_gid( iloc_entry const &it );
+bool iloc_entry_gsort( iloc_entry const &l, iloc_entry const &r );
 std::string iloc_entry_glabel( iloc_entry const &it );
 
 bool iloc_entry_filter( iloc_entry const &it, std::string const &filter );

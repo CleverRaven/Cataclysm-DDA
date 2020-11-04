@@ -435,9 +435,9 @@ bool iloc_entry_name_sorter( iloc_entry const &l, iloc_entry const &r )
     return localized_compare( l.stack[0]->tname(), r.stack[0]->tname() );
 }
 
-std::size_t iloc_entry_gid( iloc_entry const &it )
+bool iloc_entry_gsort( iloc_entry const &l, iloc_entry const &r )
 {
-    return it.stack[0]->get_category_shallow().sort_rank();
+    return l.stack[0]->get_category_shallow().sort_rank() < r.stack[0]->get_category_shallow().sort_rank();
 }
 
 std::string iloc_entry_glabel( iloc_entry const &it )
@@ -553,7 +553,7 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
     myadvuilist->addSorter( sorter_t{ "damage", iloc_entry_damage_sorter} );
     myadvuilist->addSorter( sorter_t{ "spoilage", iloc_entry_spoilage_sorter} );
     myadvuilist->addSorter( sorter_t{ "price", iloc_entry_price_sorter} );
-    myadvuilist->addGrouper( grouper_t{ "category", iloc_entry_gid, iloc_entry_glabel } );
+    myadvuilist->addGrouper( grouper_t{ "category", iloc_entry_gsort, iloc_entry_glabel } );
     myadvuilist->setfilterf( filter_t{ desc, iloc_entry_filter } );
     myadvuilist->on_rebuild(
         [stats]( bool first, iloc_entry const &it ) { iloc_entry_stats( stats, first, it ); } );

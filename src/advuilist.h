@@ -54,13 +54,12 @@ class advuilist
     using filter_t = std::pair<std::string, ffilter_t>;
     /// ctxt handler function for adding extra functionality
     using fctxt_t = std::function<void( advuilist<Container, T> *, std::string const & )>;
-    using gid_t = std::size_t;
-    /// group ID function. used for sorting groups - IDs must be unique
-    using fgid_t = std::function<gid_t( T const & )>;
+    /// group sorter function
+    using fgsort_t = std::function<bool( T const &, T const & )>;
     /// group label printer
     using fglabel_t = std::function<std::string( T const & )>;
     /// group name, ID function, label printer
-    using grouper_t = std::tuple<std::string, fgid_t, fglabel_t>;
+    using grouper_t = std::tuple<std::string, fgsort_t, fglabel_t>;
 
     using ptr_t = typename Container::iterator;
     /// count, pointer. count is always > 0
@@ -210,7 +209,7 @@ advuilist<Container, T>::advuilist( Container *list, point size, point origin,
       // insert dummy sorter for "none" sort mode
       _sorters{ { "none", []( T const & /**/, T const & /**/ ) { return false; } } },
       // insert dummy grouper for "none" grouping mode
-      _groupers{ { "none", []( T const & /**/ ) { return 0; },
+      _groupers{ { "none", []( T const & /**/, T const & /**/ ) { return false; },
                    []( T const & /**/ ) { return std::string(); } } },
       // ugly hack that lets us use our implicit basic filter if one isn't supplied
       _ffilter{ [this]( T const &it, std::string const &filter ) {
@@ -583,16 +582,15 @@ void advuilist<Container, T>::_print()
     // print entries
     std::size_t const cpagebegin = _pages[_cpage].first;
     std::size_t const cpageend = _pages[_cpage].second;
-    fgid_t const &fgid = std::get<fgid_t>( _groupers[_cgroup] );
-    gid_t gid = -1;
+    std::string cgroup;
     fglabel_t const &fglabel = std::get<fglabel_t>( _groupers[_cgroup] );
     for( std::size_t idx = cpagebegin; idx < cpageend; idx++ ) {
         T const &it = *std::get<ptr_t>( _list[idx] );
 
         // print group header if appropriate
-        gid_t const ngid = fgid( it );
-        if( _cgroup != 0 and ngid != gid ) {
-            gid = ngid;
+        std::string const &ngroup = fglabel( it );
+        if( _cgroup != 0 and ngroup != cgroup ) {
+            cgroup = ngroup;
             center_print( _w, lpos.y, c_cyan, string_format( "[%s]", fglabel( it ) ) );
             lpos.y += 1;
         }
@@ -601,7 +599,7 @@ void advuilist<Container, T>::_print()
         nc_color const basecolor = _exit ? c_dark_gray : c_light_gray;
         bool const hilited = idx == _cidx and !_exit;
         nc_color const color = hilited ? hilite( basecolor ) : basecolor;
-        
+
         if( hilited ) {
             mvwprintz( _w, lpos, color, string_format( "%*s", _innerw, std::string() ) );
         }
@@ -701,12 +699,11 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
     // first sort the list by group id. don't bother sorting for "none" grouping mode
     if( idx != 0 ) {
         struct cmp {
-            fgid_t const &fgid;
-            cmp( grouper_t const &_f ) : fgid( std::get<fgid_t>( _f ) ) {}
+            fgsort_t const &fgsort;
+            cmp( grouper_t const &_f ) : fgsort( std::get<fgsort_t>( _f ) ) {}
             constexpr bool operator()( entry_t const &lhs, entry_t const &rhs ) const
             {
-                return std::less<>()( fgid( *std::get<ptr_t>( lhs ) ),
-                                      fgid( *std::get<ptr_t>( rhs ) ) );
+                return fgsort( *std::get<ptr_t>( lhs ), *std::get<ptr_t>( rhs ) );
             }
         };
         std::sort( _list.begin(), _list.end(), cmp( _groupers[idx] ) );
@@ -718,7 +715,7 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
     // reserve extra space for the first group header;
     std::size_t lpagesize = _pagesize - ( idx != 0 ? 1 : 0 );
     std::size_t cpentries = 0;
-    fgid_t &fgid = std::get<fgid_t>( _groupers[idx] );
+    fglabel_t const &fglabel = std::get<fglabel_t>( _groupers[idx] );
     for( auto it = _list.begin(); it != _list.end(); ++it ) {
         if( cpentries >= lpagesize ) {
             // avoid printing group headers on the last line of the page
@@ -728,7 +725,7 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
             cpentries = 0;
         }
 
-        if( fgid( *it->second ) != fgid( *gbegin->second ) ) {
+        if( fglabel( *it->second ) != fglabel( *gbegin->second ) ) {
             _groups.emplace_back( gbegin, it );
             gbegin = it + 1;
             // group header takes up the space of one entry
