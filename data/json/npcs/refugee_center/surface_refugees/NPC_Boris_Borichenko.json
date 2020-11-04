@@ -335,7 +335,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_buy_item": "FMCNote", "count": 5 },
         { "u_add_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" }
       ]
     }
