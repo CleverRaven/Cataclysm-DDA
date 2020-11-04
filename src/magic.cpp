@@ -2043,7 +2043,7 @@ int known_magic::select_spell( Character &guy )
 
     uilist spell_menu;
     spell_menu.w_height_setup = [&]() -> int {
-        return clamp( static_cast<int>( known_spells.size() ), 24, TERMY * 9 / 10 );
+        return clamp( static_cast<int>( known_spells.size() ), 38, TERMY * 9 / 10 );
     };
     const auto calc_width = []() -> int {
         return std::max( 80, TERMX * 3 / 8 );
