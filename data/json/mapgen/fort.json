@@ -117,7 +117,9 @@
       { "group": "pants", "prob": 50 },
       { "group": "shirts", "prob": 50 },
       { "group": "clothing_outdoor_shoes", "prob": 50 }
-    ]
+    ],
+    "chance": 70,
+    "repeat": [ 1, 3 ]
   },
   {
     "id": "fort_giftshop_case",
@@ -174,7 +176,7 @@
         "AAAffffffffffAAAAAAAAAAAAAAAAAAAffffffAAAAAAAAAfffffffAAAAAAAAAAAAAAAAAAffffffffffAAAAAAAAAAAAAA",
         "AAfffffffffffffAAAAAAAAAAAAAAAffffffAAAAAAAAAAAAfffffffAAAAAAAAAAAAAAAfffffffffffffAAAAAAAAAAAAA",
         "AAffffffffffffffAAAAAAAAAAAfffffffAAAAAAAAAAAAAAAAfffffffAAAAAAAAAAAAffffffffffffffAAAAAAAAAAAAA",
-        "AAffffffffffffffffffffffffffffffAAAAAAAAAAAAAAAAAAAAfffffffffffffffffffffffffffffffAAAAAAAAAAAAA",
+        "AAffffQfffffffffffffffffffffffffAAAAAAAAAAAAAAAAAAAAffffffffffffffffffffffffffQffffAAAAAAAAAAAAA",
         "AAffffffffffffffffffffffffffffAAAAAAAAAAAAAAAAAAAAAAAAfffffffffffffffffffffffffffffAAAAAAAAAAAAA",
         "AAfffffffffffffffffffffffffAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAffffffffffffffffffffffffffAAAAAAAAAAAAA",
         "AAAfffffffffffffffffffff>>>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA>>>ffffffffffffffffffffffAAAAAAAAAAAAAA",
@@ -211,7 +213,7 @@
         "AAAAAAAAAAAAfffffffffffffffffAAAAAAAAAAAAAAAAAAAAAAAAAAAAffffffffffffffffAAAAAAAAAAAAAAAAAAAAAAA",
         "AAAAAAAAAAAAffffffffffffffffAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAffffffffffffffffAAAAAAAAAAAAAAAAAAAAAA",
         "AAAAAAAAAAAAffffffffffffffffAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAffffffffffffffffAAAAAAAAAAAAAAAAAAAAAA",
-        "AAAAAAAAAAAAfffffffffffffffAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfffffffffffffffAAAAAAAAAAAAAAAAAAAAAA",
+        "AAAAAAAAAAAAfffffffQfffffffAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAffffffffQffffffAAAAAAAAAAAAAAAAAAAAAA",
         "AAAAAAAAAAAAfffffffffffffffAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfffffffffffffffAAAAAAAAAAAAAAAAAAAAAA",
         "AAAAAAAAAAAAAffffffffffffffAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAffffffffffffffAAAAAAAAAAAAAAAAAAAAAAA",
         "AAAAAAAAAAAAAAfffffffffffAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfffffffffffAAAAAAAAAAAAAAAAAAAAAAAA",
@@ -236,7 +238,7 @@
       "place_loot": [  ],
       "place_monsters": [  ],
       "monster": { "Z": { "monster": "mon_zombie_brute" } },
-      "vehicles": { "U": { "vehicle": "cannon_3in", "chance": 100 } }
+      "vehicles": { "U": { "vehicle": "cannon_3in", "chance": 100 }, "Q": { "vehicle": "cannon_3in_plugged", "chance": 100 } }
     }
   }
 ]

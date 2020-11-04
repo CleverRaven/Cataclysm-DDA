@@ -47,9 +47,10 @@
           { "item": "leather_belt", "prob": 10 },
           { "item": "knit_scarf", "prob": 10 },
           { "item": "tricorne", "prob": 30 },
-          { "item": "gloves_leather", "prob": 10 }
-        ],
-        "prob": 100
+          { "item": "gloves_leather", "prob": 10 },
+          { "item": "stockings", "prob": 20 },
+          { "group": "underwear" }
+        ]
       },
       {
         "distribution": [
