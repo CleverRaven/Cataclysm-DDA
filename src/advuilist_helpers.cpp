@@ -412,6 +412,21 @@ bool iloc_entry_volume_sorter( iloc_entry const &l, iloc_entry const &r )
     return _iloc_entry_volume( l ) > _iloc_entry_volume( r );
 }
 
+bool iloc_entry_damage_sorter( iloc_entry const &l, iloc_entry const &r )
+{
+    return l.stack.front()->damage() > r.stack.front()->damage();
+}
+
+bool iloc_entry_spoilage_sorter( iloc_entry const &l, iloc_entry const &r )
+{
+    return l.stack.front()->spoilage_sort_order() > r.stack.front()->spoilage_sort_order();
+}
+
+bool iloc_entry_price_sorter( iloc_entry const &l, iloc_entry const &r )
+{
+    return l.stack.front()->price( true ) > r.stack.front()->price( true );
+}
+
 bool iloc_entry_name_sorter( iloc_entry const &l, iloc_entry const &r )
 {
     return localized_compare( l.stack[0]->tname(), r.stack[0]->tname() );
@@ -531,6 +546,10 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
     myadvuilist->addSorter( sorter_t{ "vol", iloc_entry_volume_sorter } );
     // we need to replace name sorter too due to color tags
     myadvuilist->addSorter( sorter_t{ "Name", iloc_entry_name_sorter } );
+    // extra sorters
+    myadvuilist->addSorter( sorter_t{ "damage", iloc_entry_damage_sorter} );
+    myadvuilist->addSorter( sorter_t{ "spoilage", iloc_entry_spoilage_sorter} );
+    myadvuilist->addSorter( sorter_t{ "price", iloc_entry_price_sorter} );
     myadvuilist->addGrouper( grouper_t{ "category", iloc_entry_gid, iloc_entry_glabel } );
     myadvuilist->setfilterf( filter_t{ desc, iloc_entry_filter } );
     myadvuilist->on_rebuild(

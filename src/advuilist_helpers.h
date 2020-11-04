@@ -95,6 +95,9 @@ std::string iloc_entry_name( iloc_entry const &it );
 bool iloc_entry_count_sorter( iloc_entry const &l, iloc_entry const &r );
 bool iloc_entry_weight_sorter( iloc_entry const &l, iloc_entry const &r );
 bool iloc_entry_volume_sorter( iloc_entry const &l, iloc_entry const &r );
+bool iloc_entry_damage_sorter( iloc_entry const &l, iloc_entry const &r );
+bool iloc_entry_spoilage_sorter( iloc_entry const &l, iloc_entry const &r );
+bool iloc_entry_price_sorter( iloc_entry const &l, iloc_entry const &r );
 bool iloc_entry_name_sorter( iloc_entry const &l, iloc_entry const &r );
 
 std::size_t iloc_entry_gid( iloc_entry const &it );
