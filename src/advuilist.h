@@ -833,6 +833,11 @@ advuilist<Container, T>::_idxtopage( typename list_t::size_type idx )
 template <class Container, typename T>
 void advuilist<Container, T>::_incidx( std::size_t amount )
 {
+    if( _pages.back().second == 0 ) {
+        _cidx = 0;
+        _cpage = 0;
+        return;
+    }
     if( _cidx == _pages.back().second - 1 ) {
         _cidx = _pages.front().first;
     } else {
@@ -844,6 +849,11 @@ void advuilist<Container, T>::_incidx( std::size_t amount )
 template <class Container, typename T>
 void advuilist<Container, T>::_decidx( std::size_t amount )
 {
+    if( _pages.back().second == 0 ) {
+        _cidx = 0;
+        _cpage = 0;
+        return;
+    }
     if( _cidx == _pages.front().first ) {
         _cidx = _pages.back().second - 1;
     } else {
