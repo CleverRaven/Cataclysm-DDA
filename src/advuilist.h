@@ -210,10 +210,9 @@ advuilist<Container, T>::advuilist( Container *list, point size, point origin,
       _pagesize(
           static_cast<std::size_t>( std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) ) ),
       // insert dummy sorter for "none" sort mode
-      _sorters{ { "none", []( T const & /**/, T const & /**/ ) { return false; } } },
+      _sorters{ { "none", fsort_t() } },
       // insert dummy grouper for "none" grouping mode
-      _groupers{ { "none", []( T const & /**/, T const & /**/ ) { return false; },
-                   []( T const & /**/ ) { return std::string(); } } },
+      _groupers{ { "none", fgsort_t(), fglabel_t() } },
       // ugly hack that lets us use our implicit basic filter if one isn't supplied
       _ffilter{ [this]( T const &it, std::string const &filter ) {
           return this->_basicfilter( it, filter );
@@ -591,11 +590,14 @@ void advuilist<Container, T>::_print()
         T const &it = *std::get<ptr_t>( _list[idx] );
 
         // print group header if appropriate
-        std::string const &ngroup = fglabel( it );
-        if( _cgroup != 0 and ngroup != cgroup ) {
-            cgroup = ngroup;
-            center_print( _w, lpos.y, c_cyan, string_format( "[%s]", fglabel( it ) ) );
-            lpos.y += 1;
+        if( _cgroup != 0 ) {
+            std::string const &ngroup = fglabel( it );
+            if( ngroup != cgroup ) {
+                cgroup = ngroup;
+                center_print( _w, lpos.y, c_cyan,
+                              string_format( "[%s]", fglabel( it ) ) );
+                lpos.y += 1;
+            }
         }
 
         lpos.x = _firstcol;
@@ -725,7 +727,7 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
             cpentries = 0;
         }
 
-        if( fglabel( *it->second ) != fglabel( *gbegin->second ) ) {
+        if( fglabel and fglabel( *it->second ) != fglabel( *gbegin->second ) ) {
             _groups.emplace_back( gbegin, it );
             gbegin = it;
             // group header takes up the space of one entry

@@ -64,6 +64,13 @@ class transaction_ui
 };
 
 // *INDENT-OFF*
+
+#ifdef __clang__
+#pragma clang diagnostic push
+// travis' old clang wants a change that breaks compilation with newer versions
+#pragma clang diagnostic ignored "-Wmissing-braces"
+#endif
+
 template <class Container, typename T>
 transaction_ui<Container, T>::transaction_ui( point const &srclayout, point size, point origin,
                                               std::string const &ctxtname )
@@ -74,6 +81,11 @@ transaction_ui<Container, T>::transaction_ui( point const &srclayout, point size
                            { _size.x / 2, _size.y },
                            { _origin.x + _size.x / 2, _origin.y },
                            ctxtname } }
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 // *INDENT-ON*
 
 {
