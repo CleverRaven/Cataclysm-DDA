@@ -727,7 +727,7 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
 
         if( fglabel( *it->second ) != fglabel( *gbegin->second ) ) {
             _groups.emplace_back( gbegin, it );
-            gbegin = it + 1;
+            gbegin = it;
             // group header takes up the space of one entry
             cpentries++;
         }
