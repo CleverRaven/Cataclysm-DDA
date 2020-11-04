@@ -83,7 +83,6 @@
     "type": "talk_topic",
     "//": "common talk responses",
     "id": [
-      "TALK_REFUGEE_Dana_1_firstmeet",
       "TALK_REFUGEE_Dana_2",
       "TALK_REFUGEE_Dana_Background",
       "TALK_REFUGEE_Dana_Background_baking",
@@ -139,51 +138,25 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Dana_1",
-    "dynamic_line": {
-      "u_has_var": "u_met_Dana_Nunez",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": [ "Hello, nice to see you again.", "It's good to see you're still around." ],
-      "no": "Hi there.  I'm Dana, nice to see a new face."
+    "id": "TALK_REFUGEE_Dana_1_firstmeet",
+    "dynamic_line": "Hi there.  I'm Dana, Dana Nunez.  Nice to see a new face.",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Dana_Nunez", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Dana_1" }
+      ]
     },
     "responses": [
-      {
-        "text": "Dana, hey?  Nice to meet you.",
-        "effect": { "u_add_var": "u_met_Dana_Nunez", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Dana_Nunez", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_Dana_1_firstmeet"
-      },
-      {
-        "text": "Hi, Dana.  What's up?",
-        "topic": "TALK_REFUGEE_Dana_2",
-        "condition": { "u_has_var": "u_met_Dana_Nunez", "type": "general", "context": "meeting", "value": "yes" }
-      },
-      {
-        "text": "Hi Dana, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_var": "u_met_Dana_Nunez", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Dana_Nunez", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "Hi Dana, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_var": "u_met_Dana_Nunez", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_DONE"
-      }
+      { "text": "Dana, hey?  Nice to meet you.  How are things here?", "topic": "TALK_REFUGEE_Dana_Situation" },
+      { "text": "Nice to meet you, Dana.  What's your story?", "topic": "TALK_REFUGEE_Dana_Background" },
+      { "text": "Hi Dana, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Dana_1_firstmeet",
-    "dynamic_line": "We don't get many new faces around here.  How can I help you?",
-    "responses": [ { "text": "I'd better get going.  Bye, Dana.", "topic": "TALK_DONE" } ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_REFUGEE_Dana_2",
-    "dynamic_line": "Getting by as much as I can.  What brings you around today?",
-    "responses": [ { "text": "I'd better get going.  Bye, Dana.", "topic": "TALK_DONE" } ]
+    "id": "TALK_REFUGEE_Dana_1",
+    "dynamic_line": [ "Hello, nice to see you again.  What brings you around today?", "It's good to see you're still around." ],
+    "responses": [ { "text": "Hi Dana, nice to see you too.  I gotta go though.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
