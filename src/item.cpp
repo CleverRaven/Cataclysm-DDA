@@ -574,23 +574,25 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                 return *this;
             }
 
+            item mag_item( mag );
             // if default magazine too small fetch instead closest available match
-            if( mag->magazine->capacity < qty ) {
-                std::vector<itype_id> opts;
-                std::copy_if( mags.begin(), mags.end(),
-                std::back_inserter( opts ), [&ammo_type]( const itype_id & mag ) {
-                    return mag->magazine->type.count( ammo_type );
+            if( mag_item.ammo_capacity( ammo_type ) < qty ) {
+                std::vector<item> opts;
+                for( const itype_id &mag_type : mags ) {
+                    if( mag->magazine->type.count( ammo_type ) ) {
+                        opts.emplace_back( mag_type );
+                    }
+                }
+                std::sort( opts.begin(), opts.end(), [&ammo_type]( const item & lhs, const item & rhs ) {
+                    return lhs.ammo_capacity( ammo_type ) < rhs.ammo_capacity( ammo_type );
                 } );
-                std::sort( opts.begin(), opts.end(), []( const itype_id & lhs, const itype_id & rhs ) {
-                    return lhs->magazine->capacity < rhs->magazine->capacity;
-                } );
-                auto iter = std::find_if( opts.begin(), opts.end(), [&qty]( const itype_id & mag ) {
-                    return mag->magazine->capacity >= qty;
+                auto iter = std::find_if( opts.begin(), opts.end(), [&qty, &ammo_type]( const item & mag ) {
+                    return mag.ammo_capacity( ammo_type ) >= qty;
                 } );
                 if( iter != opts.end() ) {
-                    mag = *iter;
+                    mag = iter->typeId();
                 } else {
-                    mag = opts.back();
+                    mag = opts.back().typeId();
                 }
             }
             put_in( item( mag ), item_pocket::pocket_type::MAGAZINE_WELL );
@@ -7493,7 +7495,13 @@ int item::ammo_capacity( const ammotype &ammo ) const
         return units::to_kilojoule( get_player_character().get_max_power_level() );
     }
 
-    return contents.ammo_capacity( ammo );
+    if( contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+        return contents.ammo_capacity( ammo );
+    }
+    if( is_magazine() ) {
+        return type->magazine->capacity;
+    }
+    return 0;
 }
 
 int item::ammo_required() const
