@@ -190,11 +190,8 @@ bool mon_spellcasting_actor::call( monster &mon ) const
 
     const tripoint target = self ? mon.pos() : mon.attack_target()->pos();
 
-    // is the spell an attack that needs to hit the target?
-    // examples of spells that don't: summons, teleport self
-    const bool targeted_attack = spell_data.effect() == "attack";
-
-    if( targeted_attack && rl_dist( mon.pos(), target ) > spell_data.range() ) {
+    // Bail out if the target is out of range.
+    if( !self && rl_dist( mon.pos(), target ) > spell_data.range() ) {
         return false;
     }
 
