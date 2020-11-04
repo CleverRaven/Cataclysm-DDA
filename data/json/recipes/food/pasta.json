@@ -2,7 +2,7 @@
   {
     "result": "spaghetti_cooked",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -18,7 +18,7 @@
   {
     "result": "macaroni_cooked",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",

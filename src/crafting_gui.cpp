@@ -313,8 +313,10 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CYCLE_MODE" );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "FILTER" );
@@ -834,6 +836,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         ui_manager::redraw();
         const int scroll_item_info_lines = catacurses::getmaxy( w_iteminfo ) - 4;
         const std::string action = ctxt.handle_input();
+        int recmax = current.size();
+        int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "CYCLE_MODE" ) {
             display_mode = display_mode + 1;
             if( display_mode <= 0 ) {
@@ -846,9 +850,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             } while( subtab.cur() != start && available_recipes.empty_category( tab.cur(),
                      subtab.cur() != "CSC_ALL" ? subtab.cur() : "" ) );
             recalc = true;
-        } else if( action == "SCROLL_UP" ) {
+        } else if( action == "SCROLL_ITEM_INFO_UP" ) {
             item_info_scroll -= scroll_item_info_lines;
-        } else if( action == "SCROLL_DOWN" ) {
+        } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
             item_info_scroll += scroll_item_info_lines;
         } else if( action == "PREV_TAB" ) {
             tab.prev();
@@ -871,6 +875,22 @@ const recipe *select_crafting_recipe( int &batch_size )
             line++;
         } else if( action == "UP" ) {
             line--;
+        } else if( action == "PAGE_DOWN" ) {
+            if( line == recmax - 1 ) {
+                line = 0;
+            } else if( line + scroll_rate >= recmax ) {
+                line = recmax - 1;
+            } else {
+                line += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( line == 0 ) {
+                line = recmax - 1;
+            } else if( line <= scroll_rate ) {
+                line = 0;
+            } else {
+                line += -scroll_rate;
+            }
         } else if( action == "CONFIRM" ) {
             if( available.empty() || !available[line].can_craft ) {
                 popup( _( "You can't do that!  Press [<color_yellow>ESC</color>]!" ) );

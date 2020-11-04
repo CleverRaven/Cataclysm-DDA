@@ -17,6 +17,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "gates.h"
@@ -68,10 +69,6 @@ static const skill_id skill_traps( "traps" );
 
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
-
-static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
-static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
@@ -360,13 +357,16 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             here.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
             here.furn_set( location, f_coffin_c );
         }
-        std::vector<item *> dropped = here.place_items( "allclothes", 50, location, location, false,
-                                      calendar::turn );
-        here.place_items( "grave", 25, location, location, false, calendar::turn );
-        here.place_items( "jewelry_front", 20, location, location, false, calendar::turn );
+        std::vector<item *> dropped =
+            here.place_items( item_group_id( "allclothes" ), 50, location, location, false,
+                              calendar::turn );
+        here.place_items( item_group_id( "grave" ), 25, location, location, false,
+                          calendar::turn );
+        here.place_items( item_group_id( "jewelry_front" ), 20, location, location, false,
+                          calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
-                it->set_flag( "FILTHY" );
+                it->set_flag( flag_FILTHY );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }
@@ -533,7 +533,7 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
 
 bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
 {
-    if( gunmod.has_flag( "BRASS_CATCHER" ) ) {
+    if( gunmod.has_flag( flag_BRASS_CATCHER ) ) {
         // Exclude brass catchers so that removing them wouldn't spill the casings
         return true;
     }
@@ -1102,9 +1102,13 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     add_msg( m_debug, _( "Rolled %i. Mean_roll %g. Difficulty %i." ), pick_roll, mean_roll, lock_roll );
 
-    int xp_gain = 0;
+    // Your base skill XP gain is derived from the lock difficulty (which is currently random but shouldn't be).
+    int xp_gain = 3 * lock_roll;
     if( perfect || ( pick_roll >= lock_roll ) ) {
-        xp_gain += lock_roll;
+        if( !perfect ) {
+            // Increase your XP if you successfully pick the lock, unless you were using a Perfect Lockpick.
+            xp_gain = xp_gain * 2;
+        }
         here.has_furn( target ) ?
         here.furn_set( target, new_furn_type ) :
         static_cast<void>( here.ter_set( target, new_ter_type ) );
@@ -1126,9 +1130,13 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( avatar *you = dynamic_cast<avatar *>( &who ) ) {
-        if( !perfect ) {
-            // You don't gain much skill since the item does all the hard work for you
-            xp_gain += std::pow( 2, you->get_skill_level( skill_traps ) ) + 1;
+        // Gives another boost to XP, reduced by your skill level.
+        // Higher skill levels require more difficult locks to gain a meaningful amount of xp.
+        // Again, we're using randomized lock_roll until a defined lock difficulty is implemented.
+        if( lock_roll > you->get_skill_level( skill_traps ) ) {
+            xp_gain += lock_roll + ( xp_gain / ( you->get_skill_level( skill_traps ) + 1 ) );
+        } else {
+            xp_gain += xp_gain / ( you->get_skill_level( skill_traps ) + 1 );
         }
         you->practice( skill_traps, xp_gain );
     }
@@ -1472,22 +1480,47 @@ std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
-void unload_mag_activity_actor::start( player_activity &act, Character & )
+void unload_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_left = moves_total;
     act.moves_total = moves_total;
 }
 
-void unload_mag_activity_actor::finish( player_activity &act, Character &who )
+void unload_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
     unload( who, target );
 }
 
-void unload_mag_activity_actor::unload( Character &who, item_location &target )
+void unload_activity_actor::unload( Character &who, item_location &target )
 {
     int qty = 0;
     item &it = *target.get_item();
+
+    if( it.is_container() ) {
+
+        bool changed = false;
+        for( item *contained : it.contents.all_items_top() ) {
+            int old_charges = contained->charges;
+            const bool consumed = who.add_or_drop_with_msg( *contained, true, &it );
+            if( consumed || contained->charges != old_charges ) {
+                changed = true;
+                item_pocket *const parent_pocket = it.contained_where( *contained );
+                if( parent_pocket ) {
+                    parent_pocket->unseal();
+                }
+            }
+            if( consumed ) {
+                it.remove_item( *contained );
+            }
+        }
+
+        if( changed ) {
+            it.on_contents_changed();
+            who.invalidate_weight_carried_cache();
+        }
+        return;
+    }
 
     std::vector<item *> remove_contained;
     for( item *contained : it.contents.all_items_top() ) {
@@ -1517,7 +1550,7 @@ void unload_mag_activity_actor::unload( Character &who, item_location &target )
     }
 }
 
-void unload_mag_activity_actor::serialize( JsonOut &jsout ) const
+void unload_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
@@ -1527,9 +1560,9 @@ void unload_mag_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> unload_mag_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> unload_activity_actor::deserialize( JsonIn &jsin )
 {
-    unload_mag_activity_actor actor = unload_mag_activity_actor( 0, item_location::nowhere );
+    unload_activity_actor actor = unload_activity_actor( 0, item_location::nowhere );
 
     JsonObject data = jsin.get_object();
 
@@ -1677,6 +1710,10 @@ void craft_activity_actor::finish( player_activity &act, Character & )
 
 std::string craft_activity_actor::get_progress_message( const player_activity & ) const
 {
+    if( !craft_item ) {
+        //We have somehow lost the craft item.  This will be handled in do_turn in the check_if_craft_is_ok call.
+        return "";
+    }
     return craft_item.get_item()->tname();
 }
 
@@ -2183,7 +2220,7 @@ deserialize_functions = {
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
-    { activity_id( "ACT_UNLOAD_MAG" ), &unload_mag_activity_actor::deserialize },
+    { activity_id( "ACT_UNLOAD" ), &unload_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_ACTIVE" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_MODERATE" ), &workout_activity_actor::deserialize },

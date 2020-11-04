@@ -76,5 +76,13 @@
     "range": 6,
     "dispersion": 150,
     "durability": 8
+  },
+  {
+    "id": "v29_turret",
+    "copy-from": "v29",
+    "type": "GUN",
+    "name": { "str": "mounted_laser" },
+    "ups_charges": 0,
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
   }
 ]

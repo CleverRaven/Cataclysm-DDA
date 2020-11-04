@@ -717,7 +717,7 @@
         "type": "gun",
         "move_cost": 150,
         "cooldown": 4,
-        "gun_type": "laser_rifle",
+        "gun_type": "v29_turret",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
         "ranges": [ [ 0, 8, "AUTO" ], [ 8, 16, "BURST" ] ],

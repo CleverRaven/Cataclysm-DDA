@@ -22,6 +22,7 @@
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -79,9 +80,6 @@ static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
-static const std::string flag_DIG_TOOL( "DIG_TOOL" );
-static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_RAMP_END( "RAMP_END" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 

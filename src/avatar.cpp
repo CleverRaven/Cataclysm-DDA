@@ -38,6 +38,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "kill_tracker.h"
+#include "make_static.h"
 #include "map.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -118,8 +119,6 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
-
-static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
 avatar::avatar()
 {
@@ -299,7 +298,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     // Check for conditions that disqualify us only if no NPCs can read to us
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         reasons.emplace_back( _( "You're illiterate!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
+    } else if( has_trait( trait_HYPEROPIC ) &&
+               !worn_with_flag( STATIC( flag_str_id( "FIX_FARSIGHT" ) ) ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
@@ -329,7 +329,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
                    has_identified( book.typeId() ) ) {
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
-        } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( flag_FIX_FARSIGHT ) &&
+        } else if( elem->has_trait( trait_HYPEROPIC ) &&
+                   !elem->worn_with_flag( STATIC( flag_str_id( "FIX_FARSIGHT" ) ) ) &&
                    !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
                                               elem->disp_name() ) );
@@ -1194,7 +1195,8 @@ void avatar::reset_stats()
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bodypart_str_id( "torso" ) ) ) {
+        } else if( !exclusive_flag_coverage( STATIC( flag_str_id( "OVERSIZE" ) ) )
+                   .test( bodypart_str_id( "torso" ) ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }

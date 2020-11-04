@@ -57,5 +57,15 @@
     "default_fail_multiplier": 3,
     "time_to_learn": "8 h",
     "required_proficiencies": [ "prof_traps" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_spotting",
+    "name": { "str": "Spotting and Awareness" },
+    "description": "You are skilled at spotting things out of the ordinary, like traps or ambushes.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 3,
+    "time_to_learn": "3 h"
   }
 ]

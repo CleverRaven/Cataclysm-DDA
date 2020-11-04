@@ -55,6 +55,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
+#include "recipe_groups.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -2611,6 +2612,20 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
         function = [&]( const dialogue & d ) {
             std::string tmp = d.reason;
             d.reason.clear();
+            return tmp;
+        };
+    } else if( jo.get_bool( "list_faction_camp_sites", false ) ) {
+        function = [&]( const dialogue & ) {
+            const auto &sites = recipe_group::get_recipes_by_id( "all_faction_base_types", "ANY" );
+            if( sites.empty() ) {
+                return std::string( _( "I can't think of a single place I can build a camp." ) );
+            }
+            std::string tmp = "I can start a new camp as a ";
+            tmp += enumerate_as_string( sites.begin(), sites.end(),
+            []( const std::pair<recipe_id, translation> site ) {
+                return site.second.translated();
+            },
+            enumeration_conjunction::or_ );
             return tmp;
         };
     } else if( jo.has_string( "gendered_line" ) ) {

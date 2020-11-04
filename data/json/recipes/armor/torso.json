@@ -99,7 +99,7 @@
   {
     "result": "bookplate",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "fabrication",
@@ -128,7 +128,7 @@
   {
     "result": "chestwrap",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
@@ -141,7 +141,7 @@
   {
     "result": "chestwrap_fur",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
@@ -154,7 +154,7 @@
   {
     "result": "chestwrap_leather",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
@@ -167,7 +167,7 @@
   {
     "result": "chestwrap_wool",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
@@ -597,7 +597,7 @@
   {
     "result": "lsurvivor_armor",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
@@ -691,7 +691,7 @@
   {
     "result": "poncho",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "knitted",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
@@ -722,7 +722,7 @@
   {
     "result": "sleeveless_duster",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "from_duster",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
@@ -781,7 +781,7 @@
   {
     "result": "sleeveless_duster_fur",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "from_duster_fur",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
@@ -797,7 +797,7 @@
   {
     "result": "sleeveless_duster_faux_fur",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "from_duster_faux_fur",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
@@ -835,7 +835,7 @@
   {
     "result": "sleeveless_duster_leather",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "from_duster_leather",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
@@ -851,7 +851,7 @@
   {
     "result": "sleeveless_duster_survivor",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "from_duster_survivor",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
@@ -906,7 +906,7 @@
   {
     "result": "sleeveless_trenchcoat",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "from_trenchcoat",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
@@ -938,7 +938,7 @@
   {
     "result": "sleeveless_trenchcoat_fur",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "from_trenchcoat_fur",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
@@ -954,7 +954,7 @@
   {
     "result": "sleeveless_trenchcoat_faux_fur",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "from_trenchcoat_faux_fur",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
@@ -1013,7 +1013,7 @@
   {
     "result": "sleeveless_trenchcoat_leather",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "from_trenchcoat_leather",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
@@ -1106,7 +1106,7 @@
   {
     "result": "sleeveless_tunic",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "cutting",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
@@ -1193,7 +1193,7 @@
   {
     "result": "sweater",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
@@ -1366,7 +1366,7 @@
   {
     "result": "tshirt",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
@@ -1518,7 +1518,7 @@
   {
     "result": "chainmail_vest",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "fabrication",

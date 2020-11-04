@@ -831,7 +831,7 @@
     "weight": "189 g",
     "color": "brown",
     "spoils_in": "3 days 8 hours",
-    "container": "box_medium",
+    "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,

@@ -524,8 +524,6 @@ class game
         void validate_linked_vehicles();
         /** validate camps to ensure they are on the overmap list */
         void validate_camps();
-        /** process vehicles that are following the player */
-        void autopilot_vehicles();
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
         void catch_a_monster( monster *fish, const tripoint &pos, player *p,
                               const time_duration &catch_duration );

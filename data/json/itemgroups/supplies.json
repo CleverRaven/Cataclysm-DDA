@@ -299,8 +299,10 @@
       [ "hydrogen_tank", 8 ],
       [ "salt", 10 ],
       [ "sugar", 10 ],
-      { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
-      [ "oxygen_cylinder", 8 ]
+      [ "chem_ethanol", 10 ],
+      [ "oxygen_cylinder", 8 ],
+      { "item": "chem_citric_acid", "prob": 16, "charges-min": 100 },
+      { "item": "chem_ethanol", "prob": 10, "charges-min": 250 }
     ]
   },
   {

@@ -27,7 +27,7 @@
       { "point": [ 0, 2, 0 ], "overmap": "park_north" },
       { "point": [ 1, 2, 0 ], "overmap": "office_cubical_north" },
       { "point": [ -1, 2, 0 ], "overmap": "pwr_sub_s_north" },
-      { "point": [ -1, 0, 0 ], "overmap": "s_lot" }
+      { "point": [ -1, 0, 0 ], "overmap": "s_lot_north" }
     ],
     "locations": [ "wilderness", "swamp" ],
     "city_distance": [ -1, 6 ],

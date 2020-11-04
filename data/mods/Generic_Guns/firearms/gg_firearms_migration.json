@@ -10,7 +10,7 @@
     "replace": "black_powder_revolver"
   },
   {
-    "id": [ "rifle_flintlock", "carbine_flintlock", "carbine_flintlock_double" ],
+    "id": [ "rifle_flintlock", "carbine_flintlock", "carbine_flintlock_double", "longrifle_flintlock" ],
     "type": "MIGRATION",
     "replace": "black_powder_rifle"
   },
@@ -296,6 +296,21 @@
     "replace": "rifle_sporter"
   },
   {
+    "id": [ "pamd68", "pamd71z" ],
+    "type": "MIGRATION",
+    "replace": "rifle_assault_foreign"
+  },
+  {
+    "id": [ "combination_gun", "pipe_combination_gun" ],
+    "type": "MIGRATION",
+    "replace": "rifle_shotgun_combination"
+  },
+  {
+    "id": [ "hk_g80" ],
+    "type": "MIGRATION",
+    "replace": "rifle_rail"
+  },
+  {
     "id": [ "AT4", "LAW_Packed", "LAW" ],
     "type": "MIGRATION",
     "replace": "rocket_disposable"
@@ -306,7 +321,7 @@
     "replace": "rocket_recoilless"
   },
   {
-    "id": [ "shotgun_d", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
+    "id": [ "lever_shotgun", "shotgun_d", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
     "type": "MIGRATION",
     "replace": "shot_double"
   },

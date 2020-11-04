@@ -527,7 +527,7 @@
       { "item": "aspirin", "prob": 30 },
       { "item": "water_clean", "prob": 30 },
       { "item": "sports_drink", "prob": 30 },
-      { "item": "1st_aid", "prob": 20 },
+      { "group": "used_1st_aid", "prob": 20 },
       { "item": "fitness_band", "prob": 5 }
     ]
   },

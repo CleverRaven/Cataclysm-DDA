@@ -132,6 +132,7 @@
     "ammo": [ "380" ],
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 270,
     "pocket_data": [
       {
         "magazine_well": "236 ml",

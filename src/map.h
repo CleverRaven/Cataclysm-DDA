@@ -88,7 +88,6 @@ struct wrapped_vehicle {
 };
 
 using VehicleList = std::vector<wrapped_vehicle>;
-using items_location = std::string;
 class map;
 
 enum ter_bitflags : int;
@@ -1177,7 +1176,7 @@ class map
         * Place items from item group in the rectangle f - t. Several items may be spawned
         * on different places. Several items may spawn at once (at one place) when the item group says
         * so (uses @ref item_group::items_from which may return several items at once).
-        * @param loc Current location of items to be placed
+        * @param gp id of item group to spawn from
         * @param chance Chance for more items. A chance of 100 creates 1 item all the time, otherwise
         * it's the chance that more items will be created (place items until the random roll with that
         * chance fails). The chance is used for the first item as well, so it may not spawn an item at
@@ -1190,25 +1189,26 @@ class map
         * @param ammo percentage chance item will be filled with default ammo
         * @return vector containing all placed items
         */
-        std::vector<item *> place_items( const items_location &loc, int chance, const tripoint &p1,
-                                         const tripoint &p2, bool ongrass, const time_point &turn,
-                                         int magazine = 0, int ammo = 0 );
-        std::vector<item *> place_items( const items_location &loc, int chance, const point &p1,
-                                         const point &p2, bool ongrass, const time_point &turn,
-                                         int magazine = 0, int ammo = 0 ) {
-            return place_items( loc, chance, tripoint( p1, abs_sub.z ), tripoint( p2, abs_sub.z ), ongrass,
-                                turn, magazine, ammo );
+        std::vector<item *> place_items(
+            const item_group_id &group_id, int chance, const tripoint &p1, const tripoint &p2,
+            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0 );
+        std::vector<item *> place_items(
+            const item_group_id &group_id, int chance, const point &p1, const point &p2,
+            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0 ) {
+            return place_items( group_id, chance, tripoint( p1, abs_sub.z ),
+                                tripoint( p2, abs_sub.z ), ongrass, turn, magazine, ammo );
         }
         /**
         * Place items from an item group at p. Places as much items as the item group says.
         * (Most item groups are distributions and will only create one item.)
-        * @param loc Current location of items
+        * @param gp item group to spawn
         * @param p Destination of items
         * @param turn The birthday that the created items shall have.
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
-        std::vector<item *> put_items_from_loc( const items_location &loc, const tripoint &p,
-                                                const time_point &turn = calendar::start_of_cataclysm );
+        std::vector<item *> put_items_from_loc(
+            const item_group_id &group_id, const tripoint &p,
+            const time_point &turn = calendar::start_of_cataclysm );
 
         // Places a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
@@ -1430,7 +1430,7 @@ class map
         }
         // 6 liters at 250 ml per charge
         void place_toilet( const point &p, int charges = 6 * 4 );
-        void place_vending( const point &p, const std::string &type, bool reinforced = false );
+        void place_vending( const point &p, const item_group_id &type, bool reinforced = false );
         // places an NPC, if static NPCs are enabled or if force is true
         character_id place_npc( const point &p, const string_id<npc_template> &type );
         void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );

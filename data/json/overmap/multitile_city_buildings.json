@@ -3855,5 +3855,11 @@
       { "point": [ 0, 0, 1 ], "overmap": "s_diner_2ndfloor_north" },
       { "point": [ 0, 0, 2 ], "overmap": "s_diner_roof_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_lot",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_lot_north" } ]
   }
 ]

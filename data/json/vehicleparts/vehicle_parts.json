@@ -1217,7 +1217,7 @@
     "type": "vehicle_part",
     "name": { "str": "vehicle-mounted heater" },
     "item": "mountable_heater",
-    "location": "center",
+    "location": "on_roof",
     "symbol": ";",
     "broken_symbol": ":",
     "categories": [ "utility" ],

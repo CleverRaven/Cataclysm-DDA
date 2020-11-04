@@ -8,8 +8,8 @@
     "shape": "blast",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
-    "min_damage": 82,
-    "max_damage": 166,
+    "min_damage": 158,
+    "max_damage": 212,
     "damage_type": "heat"
   },
   {

@@ -1381,7 +1381,9 @@ class vehicle
         bool is_flyable() const;
         void set_flyable( bool val );
         // Would interacting with this part prevent the vehicle from being flyable?
-        bool would_prevent_flyable( const vpart_info &vpinfo ) const;
+        bool would_install_prevent_flyable( const vpart_info &vpinfo, Character &pc ) const;
+        bool would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const;
+        bool would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
@@ -1839,6 +1841,10 @@ class vehicle
         std::vector<int> floating;         // List of parts that provide buoyancy to boats
         std::vector<int> batteries;        // List of batteries
         std::vector<int> fuel_containers;  // List parts with non-null ammo_type
+        std::vector<int> turret_locations; // List of turret parts
+        std::vector<int> mufflers; // List of muffler parts
+        std::vector<int> planters; // List of planter parts
+        std::vector<int> accessories; // List of accessory (power consuming) parts
 
         // config values
         std::string name;   // vehicle name
@@ -1900,8 +1906,10 @@ class vehicle
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0;
-        /// Time occupied points were calculated.
-        time_point occupied_cache_time = calendar::before_time_starts;
+        // Global location when cache was last refreshed.
+        tripoint occupied_cache_pos = { -1, -1, -1 };
+        // Vehicle facing when cache was last refreshed.
+        units::angle occupied_cache_direction = 0_degrees;
         // Turn the vehicle was last processed
         time_point last_update = calendar::before_time_starts;
         // save values

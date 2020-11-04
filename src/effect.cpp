@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "json.h"
 #include "messages.h"
 #include "output.h"
@@ -1368,11 +1367,6 @@ void load_effect_type( const JsonObject &jo )
 bool effect::has_flag( const flag_id &flag ) const
 {
     return eff_type->has_flag( flag );
-}
-
-bool effect::has_flag( const std::string &flag ) const
-{
-    return has_flag( flag_id( flag ) );
 }
 
 void reset_effect_types()

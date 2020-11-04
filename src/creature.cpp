@@ -65,6 +65,7 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sap( "sap" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
@@ -764,7 +765,9 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     if( proj.proj_effects.count( "ROBOT_DAZZLE" ) ) {
         if( goodhit < accuracy_critical && in_species( species_ROBOT ) ) {
-            add_effect( source, effect_stunned, rng( 6_turns, 8_turns ) );
+            time_duration duration = rng( 6_turns, 8_turns );
+            add_effect( source, effect_stunned, duration );
+            add_effect( source, effect_sensor_stun, duration );
             add_msg( source->is_player() ?
                      _( "You land a clean shot on the %1$s sensors, stunning it." ) :
                      _( "The %1$s is stunned!" ),
@@ -1022,7 +1025,7 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
     auto matching_map = effects->find( eff_id );
     if( matching_map != effects->end() ) {
         auto &bodyparts = matching_map->second;
-        auto found_effect = bodyparts.find( bp.id() );
+        auto found_effect = bodyparts.find( bp );
         if( found_effect != bodyparts.end() ) {
             found = true;
             effect &e = found_effect->second;
@@ -1095,7 +1098,7 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
         } else if( e.get_intensity() > e.get_max_intensity() ) {
             e.set_intensity( e.get_max_intensity() );
         }
-        ( *effects )[eff_id][bp.id()] = e;
+        ( *effects )[eff_id][bp] = e;
         if( Character *ch = as_character() ) {
             get_event_bus().send<event_type::character_gains_effect>( ch->getID(), eff_id );
             if( is_player() && !type.get_apply_message().empty() ) {
@@ -1113,7 +1116,8 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
 void Creature::add_effect( const effect_source &source, const efftype_id &eff_id,
                            const time_duration &dur, bool permanent, int intensity, bool force, bool deferred )
 {
-    add_effect( source, eff_id, dur, bodypart_id( "bp_null" ), permanent, intensity, force, deferred );
+    add_effect( source, eff_id, dur, bodypart_str_id::NULL_ID(), permanent, intensity, force,
+                deferred );
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                                const time_duration &dur, const bodypart_id &bp, bool permanent, int intensity, bool force )
@@ -1134,9 +1138,8 @@ bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vect
 bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                                const time_duration &dur, bool permanent, int intensity, bool force )
 {
-    return add_env_effect( eff_id, vector, strength, dur, bodypart_id( "bp_null" ), permanent,
-                           intensity,
-                           force );
+    return add_env_effect( eff_id, vector, strength, dur, bodypart_str_id::NULL_ID(), permanent,
+                           intensity, force );
 }
 void Creature::clear_effects()
 {
@@ -1166,7 +1169,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
     }
 
     // bp_null means remove all of a given effect id
-    if( bp == bodypart_id( "bp_null" ) ) {
+    if( bp == bodypart_str_id::NULL_ID() ) {
         for( auto &it : ( *effects )[eff_id] ) {
             on_effect_int_change( eff_id, 0, it.first );
         }
@@ -1183,13 +1186,14 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
 }
 bool Creature::remove_effect( const efftype_id &eff_id )
 {
-    return remove_effect( eff_id, bodypart_id( "bp_null" ) );
+    return remove_effect( eff_id, bodypart_str_id::NULL_ID() );
 }
+
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
     // bp_null means anything targeted or not
-    if( bp == bodypart_str_id( "bp_null" ) ) {
-        return effects->find( eff_id ) != effects->end();
+    if( bp == bodypart_str_id::NULL_ID() ) {
+        return effects->count( eff_id );
     } else {
         auto got_outer = effects->find( eff_id );
         if( got_outer != effects->end() ) {
@@ -1204,42 +1208,34 @@ bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
 
 bool Creature::has_effect( const efftype_id &eff_id ) const
 {
-    return has_effect( eff_id, bodypart_str_id( "bp_null" ) );
+    return has_effect( eff_id, bodypart_str_id::NULL_ID() );
 }
 
-bool Creature::has_effect_with_flag( const std::string &flag, const bodypart_id &bp ) const
+bool Creature::has_effect_with_flag( const flag_id &flag, const bodypart_id &bp ) const
 {
-    for( auto &elem : *effects ) {
-        for( const std::pair<const bodypart_str_id, effect> &_it : elem.second ) {
-            if( bp == _it.first && _it.second.has_flag( flag ) ) {
-                return true;
-            }
-        }
-    }
-    return false;
+    return std::any_of( effects->begin(), effects->end(), [&]( const auto & elem ) {
+        // effect::has_flag currently delegates to effect_type::has_flag
+        return elem.first->has_flag( flag ) && elem.second.count( bp );
+    } );
 }
 
-bool Creature::has_effect_with_flag( const std::string &flag ) const
+bool Creature::has_effect_with_flag( const flag_id &flag ) const
 {
-    const flag_id f( flag );
-    for( auto &elem : *effects ) {
-        for( const std::pair<const bodypart_str_id, effect> &_it : elem.second ) {
-            if( _it.second.has_flag( f ) ) {
-                return true;
-            }
-        }
-    }
-    return false;
+    return std::any_of( effects->begin(), effects->end(), [&]( const auto & elem ) {
+        // effect::has_flag currently delegates to effect_type::has_flag
+        return elem.first->has_flag( flag );
+    } );
 }
 
-std::vector<effect> Creature::get_effects_with_flag( const std::string &flag ) const
+std::vector<effect> Creature::get_effects_with_flag( const flag_id &flag ) const
 {
     std::vector<effect> effs;
     for( auto &elem : *effects ) {
-        for( const std::pair<const bodypart_str_id, effect> &_it : elem.second ) {
-            if( _it.second.has_flag( flag ) ) {
-                effs.push_back( _it.second );
-            }
+        if( !elem.first->has_flag( flag ) ) {
+            continue;
+        }
+        for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
+            effs.push_back( _it.second );
         }
     }
     return effs;
@@ -1254,7 +1250,7 @@ const effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_id 
 {
     auto got_outer = effects->find( eff_id );
     if( got_outer != effects->end() ) {
-        auto got_inner = got_outer->second.find( bp.id() );
+        auto got_inner = got_outer->second.find( bp );
         if( got_inner != got_outer->second.end() ) {
             return got_inner->second;
         }
@@ -1293,7 +1289,7 @@ void Creature::process_effects()
             // Add any effects that others remove to the removal list
             for( const auto &removed_effect : _it.second.get_removes_effects() ) {
                 rem_ids.push_back( removed_effect );
-                rem_bps.push_back( bodypart_id( "bp_null" ) );
+                rem_bps.push_back( bodypart_str_id::NULL_ID() );
             }
             effect &e = _it.second;
             const int prev_int = e.get_intensity();
@@ -1975,7 +1971,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( get_body_part_flags flags
 
 int Creature::get_hp( const bodypart_id &bp ) const
 {
-    if( bp != bodypart_id( "bp_null" ) ) {
+    if( bp != bodypart_str_id::NULL_ID() ) {
         return get_part_hp_cur( bp );
     }
     int hp_total = 0;
@@ -1987,12 +1983,12 @@ int Creature::get_hp( const bodypart_id &bp ) const
 
 int Creature::get_hp() const
 {
-    return get_hp( bodypart_id( "bp_null" ) );
+    return get_hp( bodypart_str_id::NULL_ID() );
 }
 
 int Creature::get_hp_max( const bodypart_id &bp ) const
 {
-    if( bp != bodypart_id( "bp_null" ) ) {
+    if( bp != bodypart_str_id::NULL_ID() ) {
         return get_part_hp_max( bp );
     }
     int hp_total = 0;
@@ -2004,7 +2000,7 @@ int Creature::get_hp_max( const bodypart_id &bp ) const
 
 int Creature::get_hp_max() const
 {
-    return get_hp_max( bodypart_id( "bp_null" ) );
+    return get_hp_max( bodypart_str_id::NULL_ID() );
 }
 
 int Creature::get_speed_base() const

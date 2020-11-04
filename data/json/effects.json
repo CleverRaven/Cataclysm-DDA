@@ -317,6 +317,15 @@
   },
   {
     "type": "effect_type",
+    "id": "sensor_stun",
+    "name": [ "Sensor scrambling" ],
+    "desc": [ "Your artificial senses are scrambled and report false readings." ],
+    "apply_message": "You're stunned!",
+    "rating": "bad",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "dazed",
     "name": [ "Dazed" ],
     "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],

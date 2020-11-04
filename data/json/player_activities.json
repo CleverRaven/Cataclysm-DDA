@@ -67,7 +67,7 @@
   {
     "id": "ACT_VEHICLE_REPAIR",
     "type": "activity_type",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "verb": "repairing a vehicle",
     "based_on": "neither",
     "suspendable": false,
@@ -240,7 +240,7 @@
   {
     "id": "ACT_VEHICLE",
     "type": "activity_type",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "verb": "interacting with the vehicle",
     "based_on": "speed"
   },
@@ -747,7 +747,7 @@
     "suspendable": false
   },
   {
-    "id": "ACT_UNLOAD_MAG",
+    "id": "ACT_UNLOAD",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "unloading",

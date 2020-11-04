@@ -1311,9 +1311,9 @@ bool talk_function::scavenging_raid_return( npc &p )
         player_character.cash += 10000;
     }
     if( one_in( 2 ) ) {
-        std::string itemlist = "npc_misc";
+        item_group_id itemlist( "npc_misc" );
         if( one_in( 8 ) ) {
-            itemlist = "npc_weapon_random";
+            itemlist = item_group_id( "npc_weapon_random" );
         }
         item result = item_group::item_from( itemlist );
         if( !result.is_null() ) {
@@ -1467,20 +1467,20 @@ bool talk_function::forage_return( npc &p )
     ///\EFFECT_SURVIVAL_NPC affects forage mission results
     int skill = comp->get_skill_level( skill_survival );
     if( skill > rng_float( -.5, 8 ) ) {
-        std::string itemlist = "farming_seeds";
+        item_group_id itemlist = item_group_id( "farming_seeds" );
         if( one_in( 2 ) ) {
             switch( season_of_year( calendar::turn ) ) {
                 case SPRING:
-                    itemlist = "forage_spring";
+                    itemlist = item_group_id( "forage_spring" );
                     break;
                 case SUMMER:
-                    itemlist = "forage_summer";
+                    itemlist = item_group_id( "forage_summer" );
                     break;
                 case AUTUMN:
-                    itemlist = "forage_autumn";
+                    itemlist = item_group_id( "forage_autumn" );
                     break;
                 case WINTER:
-                    itemlist = "forage_winter";
+                    itemlist = item_group_id( "forage_winter" );
                     break;
                 default:
                     debugmsg( "Invalid season" );

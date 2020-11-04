@@ -809,7 +809,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `soft`   | Optional boolean. Default is false.
 | `reinforces`   | Optional boolean. Default is false.
 
-There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These are integer values; the default is 0 and they can be negative to take more damage.
+There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bullet. These are integer values; the default is 0 and they can be negative to take more damage.
 
 ```C++
 {

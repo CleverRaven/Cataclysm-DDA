@@ -24,6 +24,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "fire.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -63,6 +64,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -111,6 +113,7 @@ static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
+static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
@@ -127,15 +130,11 @@ static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
 static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
-static const std::string flag_DIG_TOOL( "DIG_TOOL" );
 static const std::string flag_FISHABLE( "FISHABLE" );
-static const std::string flag_FISH_GOOD( "FISH_GOOD" );
-static const std::string flag_FISH_POOR( "FISH_POOR" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLANTABLE( "PLANTABLE" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
-static const std::string flag_POWERED( "POWERED" );
 static const std::string flag_TREE( "TREE" );
 
 //Generic activity: maximum search distance for zones, constructions, etc.
@@ -506,7 +505,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     for( const act_item &ait : items ) {
         item *filthy_item = const_cast<item *>( &*ait.loc );
-        filthy_item->unset_flag( "FILTHY" );
+        filthy_item->unset_flag( flag_FILTHY );
         p->on_worn_item_washed( *filthy_item );
     }
 
@@ -970,11 +969,11 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
 
                 item welder( itype_welder, 0 );
                 welder.charges = veh_battery;
-                welder.set_flag( "PSEUDO" );
+                welder.set_flag( flag_PSEUDO );
                 temp_inv.add_item( welder );
                 item soldering_iron( itype_soldering_iron, 0 );
                 soldering_iron.charges = veh_battery;
-                soldering_iron.set_flag( "PSEUDO" );
+                soldering_iron.set_flag( flag_PSEUDO );
                 temp_inv.add_item( soldering_iron );
             }
         }
@@ -1051,7 +1050,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 // If removing this part would make the vehicle non-flyable, avoid it
-                if( veh->would_prevent_flyable( vpinfo ) ) {
+                if( veh->would_removal_prevent_flyable( *part_elem,
+                                                        player_character ) ) {
                     return activity_reason_info::fail( do_activity_reason::WOULD_PREVENT_VEH_FLYING );
                 }
                 // this is the same part that somebody else wants to work on, or already is.
@@ -1099,7 +1099,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 // If repairing this part would make the vehicle non-flyable, avoid it
-                if( veh->would_prevent_flyable( vpinfo ) ) {
+                if( veh->would_repair_prevent_flyable( *part_elem,
+                                                       player_character ) ) {
                     return activity_reason_info::fail( do_activity_reason::WOULD_PREVENT_VEH_FLYING );
                 }
                 if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
@@ -2015,6 +2016,11 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                 continue;
             }
 
+            // skip favorite items in ignore favorite zones
+            if( thisitem.is_favorite && mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src ) ) {
+                continue;
+            }
+
             // Only if it's from a vehicle do we use the vehicle source location information.
             vehicle *this_veh = it->second ? src_veh : nullptr;
             const int this_part = it->second ? src_part : -1;
@@ -2865,9 +2871,23 @@ int get_auto_consume_moves( player &p, const bool food )
         if( loc.z != p.pos().z ) {
             continue;
         }
-        map_stack food_there = here.i_at( here.getlocal( loc ) );
-        for( item &it : food_there ) {
-            item &comest = p.get_consumable_from( it );
+
+        const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
+        std::vector<item *> items_here;
+        if( vp ) {
+            vehicle_stack vehitems = vp->vehicle().get_items( vp->vehicle().part_with_feature( vp->part_index(),
+                                     "CARGO", false ) );
+            for( item &it : vehitems ) {
+                items_here.push_back( &it );
+            }
+        } else {
+            map_stack mapitems = here.i_at( here.getlocal( loc ) );
+            for( item &it : mapitems ) {
+                items_here.push_back( &it );
+            }
+        }
+        for( item *it : items_here ) {
+            item &comest = p.get_consumable_from( *it );
             if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
                 p.fun_for( comest ).first < -5 ) {
                 // not good eatings.
@@ -2884,7 +2904,7 @@ int get_auto_consume_moves( player &p, const bool food )
                 // wont like it, cannibal meat etc
                 continue;
             }
-            if( !it.is_owned_by( p, true ) ) {
+            if( !it->is_owned_by( p, true ) ) {
                 // it aint ours.
                 continue;
             }
@@ -2892,14 +2912,19 @@ int get_auto_consume_moves( player &p, const bool food )
                 // not quenching enough
                 continue;
             }
-            if( !food && it.is_watertight_container() && comest.made_of( phase_id::SOLID ) ) {
+            if( !food && it->is_watertight_container() && comest.made_of( phase_id::SOLID ) ) {
                 // its frozen
                 continue;
             }
-            int consume_moves = -Pickup::cost_to_move_item( p, it ) * std::max( rl_dist( p.pos(),
+            int consume_moves = -Pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
                                 here.getlocal( loc ) ), 1 );
-            consume_moves += to_moves<int>( p.get_consume_time( it ) );
-            item_location item_loc( map_cursor( here.getlocal( loc ) ), &comest );
+            consume_moves += to_moves<int>( p.get_consume_time( *it ) );
+            item_location item_loc;
+            if( vp ) {
+                item_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), &comest );
+            } else {
+                item_loc = item_location( map_cursor( here.getlocal( loc ) ), &comest );
+            }
 
             p.consume( item_loc );
             // eat() may have removed the item, so check its still there.

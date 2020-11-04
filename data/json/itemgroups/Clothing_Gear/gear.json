@@ -86,7 +86,7 @@
       { "item": "sm_extinguisher", "prob": 20, "charges": 10 },
       [ "fire_ax", 60 ],
       [ "halligan", 50 ],
-      [ "1st_aid", 10 ],
+      { "group": "used_1st_aid", "prob": 10 },
       [ "bandages", 5 ],
       [ "cotton_ball", 2 ],
       [ "crowbar", 15 ],
