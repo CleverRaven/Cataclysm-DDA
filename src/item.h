@@ -719,6 +719,7 @@ class item : public visitable<item>
         // for pocket update stuff, which pocket is @contained in?
         // returns a nullptr if the item is not contaiend, and prints a debug message
         item_pocket *contained_where( const item &contained );
+        const item_pocket *contained_where( const item &contained ) const;
         /** Whether this is a container which can be used to store liquids. */
         bool is_watertight_container() const;
         /** Whether this item has no contents at all. */
@@ -879,7 +880,7 @@ class item : public visitable<item>
          * 1 for other comestibles,
          * 0 otherwise.
          */
-        int spoilage_sort_order();
+        int spoilage_sort_order() const;
 
         /** an item is fresh if it is capable of rotting but still has a long shelf life remaining */
         bool is_fresh() const {

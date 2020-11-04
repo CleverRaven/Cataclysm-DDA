@@ -523,6 +523,16 @@ item_pocket *item_contents::contained_where( const item &contained )
     return nullptr;
 }
 
+const item_pocket *item_contents::contained_where( const item &contained ) const
+{
+    for( item_pocket const &pocket : contents ) {
+        if( pocket.has_item( contained ) ) {
+            return &pocket;
+        }
+    }
+    return nullptr;
+}
+
 ret_val<bool> item_contents::can_contain_rigid( const item &it ) const
 {
     ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
