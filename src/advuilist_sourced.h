@@ -142,7 +142,7 @@ void advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bo
     // only set the icon if it (still) exists in this slot, otherwise use the first one in slot
     // rebuild() needs to additionally check that the source is available
     std::size_t const exists = slotcont.count( _icon );
-    if( exists > 0 or ( fallthrough and !std::get<fsourceb_t>( slotcont[_icon] )() ) ) {
+    if( exists == 0 or ( fallthrough and !std::get<fsourceb_t>( slotcont[_icon] )() ) ) {
         _icon = std::get<icon_t const>( *slotcont.begin() );
         _slot.first = _icon;
     }
