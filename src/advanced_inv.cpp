@@ -20,7 +20,7 @@ void create_advanced_inv()
     static aim_stats_t lstats{ 0_kilogram, 0_liter };
     static aim_stats_t rstats{ 0_kilogram, 0_liter };
     if( !mytrui ) {
-        mytrui = std::make_unique<mytrui_t>( aimlayout, point{ -1, -1 }, point{ -1, -1 },
+        mytrui = std::make_unique<mytrui_t>( aimlayout, point{ -9, -9 }, point{ -9, -9 },
                                              "ADVANCED_INVENTORY" );
         setup_for_aim( mytrui->left(), &lstats );
         setup_for_aim( mytrui->right(), &rstats );

@@ -96,7 +96,7 @@ advuilist_sourced<Container, T>::advuilist_sourced( point const &srclayout, poin
     : advuilist<Container, T>( &_container, size, origin, ctxtname, false ),
       _size( size.x > 0 ? size.x : TERMX / 2, size.y > 0 ? size.y : TERMY ),
       _origin( origin.x >= 0 ? origin.x : TERMX / 2 - _size.x / 2, origin.y >= 0 ? origin.y : 0 ),
-      _map_size( srclayout.x, srclayout.y )
+      _map_size( srclayout )
 // *INDENT-ON*
 
 {

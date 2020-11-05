@@ -131,4 +131,4 @@ extern template iloc_stack_t get_stacks<>( vehicle_stack items, filoc_t const &i
 
 } // namespace advuilist_helpers
 
-#endif
+#endif // CATA_SRC_ADVUILIST_HELPERS_H

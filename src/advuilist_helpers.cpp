@@ -48,19 +48,6 @@ static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 namespace
 {
 using namespace advuilist_helpers;
-// FIXME: this string is duplicated from draw_item_filter_rules() because that function doesn't fit
-// anywhere in the current implementation of advuilist
-std::string const desc = string_format(
-                             "%s\n\n%s\n %s\n\n%s\n %s\n\n%s\n %s", _( "Type part of an item's name to filter it." ),
-                             _( "Separate multiple items with [<color_yellow>,</color>]." ),
-                             _( "Example: back,flash,aid, ,band" ),
-                             _( "To exclude items, place [<color_yellow>-</color>] in front." ),
-                             _( "Example: -pipe,-chunk,-steel" ),
-                             _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
-                                "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes or "
-                                "[<color_yellow>d</color>]isassembled components." ),
-                             _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
-
 #ifdef __clang__
 #pragma clang diagnostic push
 // travis' old clang wants a change that breaks compilation with newer versions
@@ -569,6 +556,18 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
     myadvuilist->addSorter( sorter_t{ "spoilage", iloc_entry_spoilage_sorter} );
     myadvuilist->addSorter( sorter_t{ "price", iloc_entry_price_sorter} );
     myadvuilist->addGrouper( grouper_t{ "category", iloc_entry_gsort, iloc_entry_glabel } );
+    // FIXME: this string is duplicated from draw_item_filter_rules() because that function doesn't fit
+    // anywhere in the current implementation of advuilist
+    std::string const desc = string_format(
+                                 "%s\n\n%s\n %s\n\n%s\n %s\n\n%s\n %s", _( "Type part of an item's name to filter it." ),
+                                 _( "Separate multiple items with [<color_yellow>,</color>]." ),
+                                 _( "Example: back,flash,aid, ,band" ),
+                                 _( "To exclude items, place [<color_yellow>-</color>] in front." ),
+                                 _( "Example: -pipe,-chunk,-steel" ),
+                                 _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
+                                    "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes or "
+                                    "[<color_yellow>d</color>]isassembled components." ),
+                                 _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
     myadvuilist->setfilterf( filter_t{ desc, iloc_entry_filter } );
     myadvuilist->on_rebuild(
     [stats]( bool first, iloc_entry const & it ) {
