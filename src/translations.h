@@ -128,13 +128,6 @@ static inline local_translation_cache<std::string> get_local_translation_cache(
     return local_translation_cache<std::string>();
 }
 
-// this function is used as a marker for clang-tidy check (see TranslatorCommentsCheck.cpp)
-template <typename T>
-static inline auto translation_macro_marker_func( T &&arg )
-{
-    return std::forward<T>( arg );
-}
-
 } // namespace detail
 
 // Note: in case of std::string argument, the result is copied, this is intended (for safety)
@@ -142,7 +135,7 @@ static inline auto translation_macro_marker_func( T &&arg )
     ( ( []( const auto & arg ) { \
         static auto cache = detail::get_local_translation_cache( arg ); \
         return cache( arg ); \
-    } )( detail::translation_macro_marker_func( msg ) ) )
+    } )( msg ) )
 
 // ngettext overload taking an unsigned long long so that people don't need
 // to cast at call sites.  This is particularly relevant on 64-bit Windows where
