@@ -217,7 +217,7 @@
       [ [ "bb", 200 ], [ "nail", 100 ] ],
       [
         [ "gunpowder", 720 ],
-        [ "chem_black_powder", 72 ],
+        [ "chem_black_powder", 720 ],
         [ "shot_bird", 24 ],
         [ "shot_00", 12 ],
         [ "shot_slug", 12 ],

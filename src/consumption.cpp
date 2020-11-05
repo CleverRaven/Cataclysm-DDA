@@ -672,6 +672,11 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
                 return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
             }
         }
+        // For all those folks who loved eating marloss berries.  D:< mwuhahaha
+        if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) ) {
+            return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+                    _( "We can't eat that.  It's not right for us." ) );
+        }
     }
     if( food.has_own_flag( flag_FROZEN ) && !food.has_flag( flag_EDIBLE_FROZEN ) &&
         !food.has_flag( flag_MELTS ) ) {
@@ -695,11 +700,6 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         }
     }
 
-    // For all those folks who loved eating marloss berries.  D:< mwuhahaha
-    if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) ) {
-        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
-                _( "We can't eat that.  It's not right for us." ) );
-    }
     // Here's why PROBOSCIS is such a negative trait.
     if( has_trait( trait_PROBOSCIS ) && !( drinkable || food.is_medication() ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "Ugh, you can't drink that!" ) );
@@ -1396,6 +1396,10 @@ bool Character::consume_effects( item &food )
                                     food.get_comestible()->quench *
                                     5_ml : 0_ml;
     units::volume food_vol = masticated_volume( food );
+    if( food.count() == 0 ) {
+        debugmsg( "Tried to eat food with count of zero." );
+        return false;
+    }
     units::mass food_weight = ( food.weight() / food.count() );
     const double ratio = compute_effective_food_volume_ratio( food );
     food_summary ingested{

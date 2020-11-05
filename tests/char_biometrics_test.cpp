@@ -7,6 +7,7 @@
 #include "creature.h"
 #include "game_constants.h"
 #include "options.h"
+#include "output.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "type_id.h"
@@ -54,7 +55,7 @@ static int kcal_speed_penalty_at_bmi( player &dummy, float bmi )
 static std::string weight_string_at_bmi( player &dummy, float bmi )
 {
     set_player_bmi( dummy, bmi );
-    return dummy.get_weight_string();
+    return remove_color_tags( dummy.get_weight_string() );
 }
 
 // Return `bodyweight` in kilograms for a player at the given body mass index.

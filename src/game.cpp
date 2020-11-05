@@ -225,6 +225,7 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_winded( "winded" );
@@ -7638,6 +7639,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     ctxt.register_action( "RIGHT", to_translation( "Next item" ) );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -7921,11 +7924,11 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
 
         const int item_info_scroll_lines = catacurses::getmaxy( w_item_info ) - 4;
+        int scroll_rate = iItemNum > 20 ? 10 : 3;
 
         if( action == "UP" ) {
             do {
                 iActive--;
-
             } while( !mSortCategory[iActive].empty() );
             iScrollPos = 0;
             page_num = 0;
@@ -7935,12 +7938,37 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         } else if( action == "DOWN" ) {
             do {
                 iActive++;
-
             } while( !mSortCategory[iActive].empty() );
             iScrollPos = 0;
             page_num = 0;
             if( iActive >= iItemNum ) {
                 iActive = mSortCategory[0].empty() ? 0 : 1;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            iScrollPos = 0;
+            page_num = 0;
+            if( iActive == iItemNum - 1 ) {
+                iActive = mSortCategory[0].empty() ? 0 : 1;
+            } else if( iActive + scroll_rate >= iItemNum ) {
+                iActive = iItemNum - 1;
+            } else {
+                iActive += +scroll_rate - 1;
+                do {
+                    iActive++;
+                } while( !mSortCategory[iActive].empty() );
+            }
+        } else if( action == "PAGE_UP" ) {
+            iScrollPos = 0;
+            page_num = 0;
+            if( mSortCategory[0].empty() ? iActive == 0 : iActive == 1 ) {
+                iActive = iItemNum - 1;
+            } else if( iActive <= scroll_rate ) {
+                iActive = mSortCategory[0].empty() ? 0 : 1;
+            } else {
+                iActive += -scroll_rate + 1;
+                do {
+                    iActive--;
+                } while( !mSortCategory[iActive].empty() );
             }
         } else if( action == "RIGHT" ) {
             if( !filtered_items.empty() && activeItem ) {
@@ -7950,9 +7978,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             }
         } else if( action == "LEFT" ) {
             page_num = std::max( 0, page_num - 1 );
-        } else if( action == "PAGE_UP" ) {
+        } else if( action == "SCROLL_ITEM_INFO_UP" ) {
             iScrollPos -= item_info_scroll_lines;
-        } else if( action == "PAGE_DOWN" ) {
+        } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
             iScrollPos += item_info_scroll_lines;
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
@@ -8249,6 +8277,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     shared_ptr_fast<draw_callback_t> trail_cb = create_trail_callback( trail_start, trail_end,
             trail_end_x );
     add_draw_callback( trail_cb );
+    int recmax = static_cast<int>( monster_list.size() );
+    int scroll_rate = recmax > 20 ? 10 : 3;
 
     do {
         if( action == "UP" ) {
@@ -8257,27 +8287,29 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 if( monster_list.empty() ) {
                     iActive = 0;
                 } else {
-                    iActive = static_cast<int>( monster_list.size() ) - 1;
+                    iActive = recmax - 1;
                 }
             }
         } else if( action == "DOWN" ) {
             iActive++;
-            if( iActive >= static_cast<int>( monster_list.size() ) ) {
+            if( iActive >= recmax ) {
                 iActive = 0;
             }
         } else if( action == "PAGE_UP" ) {
-            iActive -= iMaxRows - 2;
-            if( iActive < 0 ) {
-                if( monster_list.empty() ) {
-                    iActive = 0;
-                } else {
-                    iActive = static_cast<int>( monster_list.size() ) - 1;
-                }
+            if( iActive == 0 ) {
+                iActive = recmax - 1;
+            } else if( iActive <= scroll_rate ) {
+                iActive = 0;
+            } else {
+                iActive += -scroll_rate;
             }
         } else if( action == "PAGE_DOWN" ) {
-            iActive += iMaxRows - 2;
-            if( iActive >= static_cast<int>( monster_list.size() ) ) {
+            if( iActive == recmax - 1 ) {
                 iActive = 0;
+            } else if( iActive + scroll_rate >= recmax ) {
+                iActive = recmax - 1;
+            } else {
+                iActive += +scroll_rate;
             }
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
@@ -9224,7 +9256,7 @@ bool game::disable_robot( const tripoint &p )
         return false;
     }
     monster &critter = *mon_ptr;
-    if( ( critter.friendly == 0 && !critter.has_effect( effect_stunned ) ) ||
+    if( ( critter.friendly == 0 && !critter.has_effect( effect_sensor_stun ) ) ||
         critter.has_flag( MF_RIDEABLE_MECH ) ||
         ( critter.has_flag( MF_PAY_BOT ) && critter.has_effect( effect_paid ) ) ) {
         // Can only disable / reprogram friendly or stunned monsters

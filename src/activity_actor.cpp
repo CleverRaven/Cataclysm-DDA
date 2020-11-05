@@ -1486,22 +1486,47 @@ std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
-void unload_mag_activity_actor::start( player_activity &act, Character & )
+void unload_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_left = moves_total;
     act.moves_total = moves_total;
 }
 
-void unload_mag_activity_actor::finish( player_activity &act, Character &who )
+void unload_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
     unload( who, target );
 }
 
-void unload_mag_activity_actor::unload( Character &who, item_location &target )
+void unload_activity_actor::unload( Character &who, item_location &target )
 {
     int qty = 0;
     item &it = *target.get_item();
+
+    if( it.is_container() ) {
+
+        bool changed = false;
+        for( item *contained : it.contents.all_items_top() ) {
+            int old_charges = contained->charges;
+            const bool consumed = who.add_or_drop_with_msg( *contained, true, &it );
+            if( consumed || contained->charges != old_charges ) {
+                changed = true;
+                item_pocket *const parent_pocket = it.contained_where( *contained );
+                if( parent_pocket ) {
+                    parent_pocket->unseal();
+                }
+            }
+            if( consumed ) {
+                it.remove_item( *contained );
+            }
+        }
+
+        if( changed ) {
+            it.on_contents_changed();
+            who.invalidate_weight_carried_cache();
+        }
+        return;
+    }
 
     std::vector<item *> remove_contained;
     for( item *contained : it.contents.all_items_top() ) {
@@ -1531,7 +1556,7 @@ void unload_mag_activity_actor::unload( Character &who, item_location &target )
     }
 }
 
-void unload_mag_activity_actor::serialize( JsonOut &jsout ) const
+void unload_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
@@ -1541,9 +1566,9 @@ void unload_mag_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> unload_mag_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> unload_activity_actor::deserialize( JsonIn &jsin )
 {
-    unload_mag_activity_actor actor = unload_mag_activity_actor( 0, item_location::nowhere );
+    unload_activity_actor actor = unload_activity_actor( 0, item_location::nowhere );
 
     JsonObject data = jsin.get_object();
 
@@ -2201,7 +2226,7 @@ deserialize_functions = {
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
-    { activity_id( "ACT_UNLOAD_MAG" ), &unload_mag_activity_actor::deserialize },
+    { activity_id( "ACT_UNLOAD" ), &unload_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_ACTIVE" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_MODERATE" ), &workout_activity_actor::deserialize },

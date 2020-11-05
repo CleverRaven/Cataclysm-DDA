@@ -571,46 +571,12 @@ void talk_function::start_camp( npc &p )
         return;
     }
 
-    std::vector<std::pair<std::string, tripoint_abs_omt>> om_region =
-                om_building_region( omt_pos, 1 );
-    int near_fields = 0;
-    for( const auto &om_near : om_region ) {
-        const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_match( "field", om_type, ot_match_type::contains ) ) {
-            near_fields += 1;
-        }
-    }
-    std::vector<std::pair<std::string, tripoint_abs_omt>> om_region_ext =
-                om_building_region( omt_pos, 3 );
-    int forests = 0;
-    int waters = 0;
-    for( const auto &om_near : om_region_ext ) {
+    for( const auto &om_near : om_building_region( omt_pos, 3 ) ) {
         const oter_id &om_type = oter_id( om_near.first );
         if( is_ot_match( "faction_base", om_type, ot_match_type::contains ) ) {
             popup( _( "You are too close to another camp!" ) );
             return;
-        } else if( is_ot_match( "forest", om_type, ot_match_type::contains ) ) {
-            forests++;
-        } else if( is_ot_match( "river", om_type, ot_match_type::contains ) ) {
-            waters++;
         }
-    }
-    bool display = false;
-    std::string buffer = _( "Warning, you have selected a region with the following issues:\n\n" );
-    if( forests < 3 ) {
-        display = true;
-        buffer += _( "There are few forests.  Wood is your primary construction material.\n" );
-    }
-    if( waters == 0 ) {
-        display = true;
-        buffer += _( "There are few large clean-ish water sources.\n" );
-    }
-    if( near_fields < 4 ) {
-        display = true;
-        buffer += _( "There are few fields.  Farming may be difficult.\n" );
-    }
-    if( display && !query_yn( _( "%s\nAre you sure you wish to continue?" ), buffer ) ) {
-        return;
     }
     const recipe &making = camp_type.obj();
     if( !run_mapgen_update_func( making.get_blueprint(), omt_pos ) ) {

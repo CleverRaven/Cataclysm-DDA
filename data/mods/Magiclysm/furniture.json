@@ -197,7 +197,7 @@
     "coverage": 40,
     "required_str": 30,
     "flags": [ "BASHABLE" ],
-    "description": "This is big stone altar.  Most commonly used in morally questionable rituals.",
+    "description": "This is a big stone altar.  Most commonly used in morally questionable rituals.",
     "bash": {
       "str_min": 30,
       "str_max": 160,
