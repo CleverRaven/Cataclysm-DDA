@@ -84,7 +84,7 @@
           "type": "spell",
           "spell_data": { "id": "shady_raptor_spawn", "hit_self": true },
           "cooldown": 50,
-          "monster_message": "The pupating zombie bursts, and gore-smeared winged beasts climb out of the corpse!"
+          "monster_message": "The pupating zombie bursts, and shadowy winged beasts climb out of the corpse!"
         }
       ]
     }
