@@ -540,7 +540,7 @@ bool player::handle_gun_damage( item &it )
     int dirt = it.get_var( "dirt", 0 );
     int dirtadder = 0;
     double dirt_dbl = static_cast<double>( dirt );
-    if( it.faults.count( fault_gun_chamber_spent ) ) {
+    if( it.has_fault_flag( "JAMMED_GUN" ) ) {
         return false;
     }
 
@@ -766,7 +766,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
-        if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
+        if( gun.has_fault_flag( "JAMMED_GUN" ) && curshot == 0 ) {
             moves -= 50;
             gun.faults.erase( fault_gun_chamber_spent );
             add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );

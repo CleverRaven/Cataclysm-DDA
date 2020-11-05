@@ -73,7 +73,8 @@
         "skills": [  ],
         "requirements": {  }
       }
-    ]
+    ],
+    "flags": [ "JAMMED_GUN" ]
   },
   {
     "id": "fault_gun_unlubricated",
