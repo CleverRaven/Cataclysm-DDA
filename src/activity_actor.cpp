@@ -74,29 +74,12 @@ static int hack_level( const Character &who )
     return who.get_skill_level( skill_computer ) + who.int_cur / 2 - 8;
 }
 
-static hack_result hack_attempt( Character &who )
+static hack_result hack_attempt( Character &who, const bool using_bionic )
 {
-    if( who.has_trait( trait_ILLITERATE ) ) {
-        return HACK_UNABLE;
-    }
-    const bool using_electrohack = who.has_charges( "electrohack", 25 ) &&
-                                   query_yn( _( "Use electrohack?" ) );
-    const bool using_fingerhack = !using_electrohack && who.has_bionic( bio_fingerhack ) &&
-                                  who.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
-
-    if( !( using_electrohack || using_fingerhack ) ) {
-        return HACK_UNABLE;
-    }
-
     // TODO: Remove this once player -> Character migration is complete
     {
         player *p = dynamic_cast<player *>( &who );
         p->practice( skill_computer, 20 );
-    }
-    if( using_fingerhack ) {
-        who.mod_power_level( -25_kJ );
-    } else {
-        who.use_charges( "electrohack", 25 );
     }
 
     // only skilled supergenius never cause short circuits, but the odds are low for people
@@ -105,14 +88,14 @@ static hack_result hack_attempt( Character &who )
     int success = std::ceil( normal_roll( hack_level( who ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
-        if( using_fingerhack ) {
+        if( using_bionic ) {
             who.mod_power_level( -25_kJ );
         } else {
             who.use_charges( "electrohack", 25 );
         }
 
         if( success <= -5 ) {
-            if( using_electrohack ) {
+            if( !using_bionic ) {
                 who.add_msg_if_player( m_bad, _( "Your electrohack is ruined!" ) );
                 who.use_amount( "electrohack", 1 );
             } else {
@@ -144,11 +127,16 @@ static hack_type get_hack_type( tripoint examp )
     return type;
 }
 
+hacking_activity_actor::hacking_activity_actor( use_bionic )
+    : using_bionic( true )
+{
+}
+
 void hacking_activity_actor::finish( player_activity &act, Character &who )
 {
     tripoint examp = act.placement;
     hack_type type = get_hack_type( examp );
-    switch( hack_attempt( who ) ) {
+    switch( hack_attempt( who, using_bionic ) ) {
         case HACK_UNABLE:
             who.add_msg_if_player( _( "You cannot hack this." ) );
             break;
@@ -203,12 +191,24 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
 
 void hacking_activity_actor::serialize( JsonOut &jsout ) const
 {
-    jsout.write_null();
+    jsout.start_object();
+    jsout.member( "using_bionic", using_bionic );
+    jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn &jsin )
 {
-    return hacking_activity_actor().clone();
+    hacking_activity_actor actor;
+    if( jsin.test_null() ) {
+        // Old saves might contain a null instead of an object.
+        // Since we do not know whether a bionic or an item was chosen we assume
+        // it was an item.
+        actor.using_bionic = false;
+    } else {
+        JsonObject jsobj = jsin.get_object();
+        jsobj.read( "using_bionic", actor.using_bionic );
+    }
+    return actor.clone();
 }
 
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )

@@ -69,8 +69,14 @@ class activity_actor
 
 class hacking_activity_actor : public activity_actor
 {
+    private:
+        bool using_bionic = false;
+
     public:
+        struct use_bionic {};
+
         hacking_activity_actor() = default;
+        hacking_activity_actor( use_bionic );
 
         activity_id get_type() const override {
             return activity_id( "ACT_HACKING" );
