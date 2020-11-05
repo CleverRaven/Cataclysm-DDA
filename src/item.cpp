@@ -10006,7 +10006,7 @@ bool item::process_internal( player *carrier, const tripoint &pos,
             return true;
         }
     } else {
-        // guns are never active so we don't have to check this on active items
+        // guns are never active so we only need thck this on inactive items. For performance reasons.
         if( has_fault_flag( "BLACKPOWDER_FOULING_DAMAGE" ) ) {
             return process_blackpowder_fouling( carrier );
         }
