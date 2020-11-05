@@ -764,15 +764,28 @@ static void smash()
         }
     }
 
-    for( const auto &maybe_corpse : m.i_at( smashp ) ) {
-        if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
-            maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
-            // do activity forever. ACT_PULP stops itself
-            u.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-            u.activity.placement = g->m.getabs( smashp );
-            return; // don't smash terrain if we've smashed a corpse
+    bool should_pulp = false;
+    for( const item &it : m.i_at( smashp ) ) {
+        if( it.is_corpse() && it.damage() < it.max_damage() && it.can_revive() ) {
+            if( it.get_mtype()->bloodType()->has_acid ) {
+                if( query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
+                    should_pulp = true;
+                    break; // Don't prompt for the same thing multiple times
+                } else {
+                    return; // Player doesn't want an acid bath
+                }
+            }
+            should_pulp = true; // There is at least one corpse to pulp
         }
     }
+
+    if( should_pulp ) {
+        // do activity forever. ACT_PULP stops itself
+        u.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
+        u.activity.placement = m.getabs( smashp );
+        return; // don't smash terrain if we've smashed a corpse
+    }
+
     vehicle *veh = veh_pointer_or_null( g->m.veh_at( smashp ) );
     if( veh != nullptr ) {
         if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {

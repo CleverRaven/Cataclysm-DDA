@@ -253,6 +253,7 @@
     "stim": 12,
     "addiction_potential": 3,
     "addiction_type": "caffeine",
+    "use_action": { "type": "consume_drug", "activation_message": "You take a caffeine pill." },
     "fatigue_mod": 9
   },
   {
