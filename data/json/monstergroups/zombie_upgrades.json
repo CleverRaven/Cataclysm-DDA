@@ -113,5 +113,16 @@
       { "monster": "mon_spawn_raptor_electric", "freq": 330, "cost_multiplier": 10 },
       { "monster": "mon_spawn_raptor_unstable", "freq": 330, "cost_multiplier": 10 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_SHADY",
+    "default": "mon_zombie_shady",
+    "//": "Shady upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "monsters": [
+      { "monster": "mon_zombie_brute_ninja", "freq": 330, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_pupa_decoy_shady", "freq": 330, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_pupa_shady", "freq": 330, "cost_multiplier": 10 }
+    ]
   }
 ]
