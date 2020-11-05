@@ -70,9 +70,10 @@ class trading_window
         catacurses::window w_them;
         catacurses::window w_you;
         const int win_they_w = TERMX / 2;
-        const std::string header_message = _( "TAB key to switch lists, letters to pick items,"
-                                              "Enter to finalize, Esc to quit,\n"
-                                              "? to get information on an item." );
+        const std::string header_message =
+            _( "TAB key to switch lists, letters to pick items, < or > to switch page, "
+               "Enter to finalize, Esc to quit,\n"
+               "? to get information on an item." );
         const size_t entries_per_page = std::min( TERMY - 7, 2 + ( 'z' - 'a' ) + ( 'Z' - 'A' ) );
         bool update = true;
         bool focus_them = true; // Is the focus on them?
