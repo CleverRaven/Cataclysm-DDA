@@ -1155,7 +1155,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
         const std::string action = ctxt.handle_input();
         unsigned int recmax = active_header == 0 ? static_cast<int>( all_tabs[iCurrentTab].mods.size() ) :
-                     static_cast<int>( active_mod_order.size() );
+                              static_cast<int>( active_mod_order.size() );
         int scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "DOWN" ) {
