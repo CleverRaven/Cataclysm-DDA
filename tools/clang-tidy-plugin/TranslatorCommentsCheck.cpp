@@ -220,7 +220,7 @@ void TranslatorCommentsCheck::registerMatchers( MatchFinder *Finder )
         );
     Finder->addMatcher(
         callExpr(
-            callee( functionDecl( hasAnyName( "_", "gettext" ) ) ),
+            callee( functionDecl( hasAnyName( "_", "gettext", "translation_macro_marker_func" ) ) ),
             hasImmediateArgument( 0, stringLiteralArgumentBound )
         ),
         this
