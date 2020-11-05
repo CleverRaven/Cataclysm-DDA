@@ -89,7 +89,8 @@ constexpr std::size_t const DRAGGED_IDX = 1;
 constexpr std::size_t const INV_IDX = 7;
 constexpr std::size_t const ALL_IDX = 12;
 constexpr std::size_t const WORN_IDX = 13;
-constexpr tripoint slotidx_to_offset( aim_advuilist_sourced_t::slotidx_t idx )
+// this could be a constexpr too if we didn't have to use old compilers
+tripoint slotidx_to_offset( aim_advuilist_sourced_t::slotidx_t idx )
 {
     switch( idx ) {
         case DRAGGED_IDX:
@@ -560,8 +561,8 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
     // anywhere in the current implementation of advuilist
     std::string const desc = string_format(
                                  "%s\n\n%s\n %s\n\n%s\n %s\n\n%s\n %s", _( "Type part of an item's name to filter it." ),
-                                 _( "Separate multiple items with [<color_yellow>,</color>]." ),
-                                 _( "Example: back,flash,aid, ,band" ),
+                                 _( "Separate multiple items with [<color_yellow>,</color>]." ), // NOLINT(cata-text-style): literal comma
+                                 _( "Example: back,flash,aid, ,band" ), // NOLINT(cata-text-style): literal comma
                                  _( "To exclude items, place [<color_yellow>-</color>] in front." ),
                                  _( "Example: -pipe,-chunk,-steel" ),
                                  _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
@@ -730,8 +731,8 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
             ui->pushevent( aim_transaction_ui_t::event::QUIT );
             ui->curpane()->suspend();
 
-            auto const dim = ui->otherpane()->get_size();
-            auto const side =
+            std::pair<point, point> const dim = ui->otherpane()->get_size();
+            game::inventory_item_menu_positon const side =
                 ui->curpane() == ui->left() ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO;
             g->inventory_item_menu(
                 entry.stack.front(), [ = ] { return dim.second.x; }, [ = ] { return dim.first.x; },
