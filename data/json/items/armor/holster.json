@@ -88,8 +88,9 @@
         "min_item_volume": "500 ml",
         "max_contains_volume": "5 L",
         "max_contains_weight": "5 kg",
-        "max_item_length": "160 cm",
-        "moves": 50
+        "max_item_length": "200 cm",
+        "moves": 50,
+        "flag_restriction": [ "SHEATH_BOW" ]
       }
     ],
     "use_action": { "type": "holster" }
