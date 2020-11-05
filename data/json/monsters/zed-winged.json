@@ -127,7 +127,7 @@
     "harvest": "zombie",
     "special_attacks": [ { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] } ],
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_RAPTOR" },
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_RAPTOR_UPGRADES" },
     "flags": [
       "SEES",
       "HEARS",
