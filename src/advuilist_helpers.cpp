@@ -61,6 +61,12 @@ std::string const desc = string_format(
                                 "[<color_yellow>d</color>]isassembled components." ),
                              _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
 
+#ifdef __clang__
+#pragma clang diagnostic push
+// travis' old clang wants a change that breaks compilation with newer versions
+#pragma clang diagnostic ignored "-Wmissing-braces"
+#endif
+
 // Cataclysm: Hacky Stuff Ahead
 // this is actually an attempt to make the code more readable and reduce duplication
 // is_ground_source, label, icon, offset
@@ -87,6 +93,10 @@ constexpr _sourcearray const aimsources = {
     _sourcetuple{ true, SOURCE_S, SOURCE_S_i, tripoint_south },
     _sourcetuple{ true, SOURCE_SE, SOURCE_SE_i, tripoint_south_east },
 };
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 constexpr std::size_t const DRAGGED_IDX = 1;
 constexpr std::size_t const INV_IDX = 7;
@@ -542,11 +552,11 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
     using grouper_t = typename aim_advuilist_t::grouper_t;
     using filter_t = typename aim_advuilist_t::filter_t;
 
-    myadvuilist->setColumns( std::vector<col_t> { { "Name", iloc_entry_name, 8.F },
-        { "count", iloc_entry_count, 1.F },
-        { "weight", iloc_entry_weight, 1.F },
-        { "vol", iloc_entry_volume, 1.F }
-    } );
+    myadvuilist->setColumns( std::vector<col_t> { col_t{ "Name", iloc_entry_name, 8.F },
+                             col_t{ "count", iloc_entry_count, 1.F },
+                             col_t{ "weight", iloc_entry_weight, 1.F },
+                             col_t{ "vol", iloc_entry_volume, 1.F }
+                                                } );
     myadvuilist->setcountingf( iloc_entry_counter );
     // replace lexicographic sorters with numeric ones (where is std::variant when you need it?)
     myadvuilist->addSorter( sorter_t{ "count", iloc_entry_count_sorter } );
@@ -575,6 +585,7 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
 
 void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *mutex )
 {
+    using source_t = aim_advuilist_sourced_t::source_t;
     using fsource_t = aim_advuilist_sourced_t::fsource_t;
     using fsourceb_t = aim_advuilist_sourced_t::fsourceb_t;
     using icon_t = aim_advuilist_sourced_t::icon_t;
@@ -650,10 +661,10 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *
                     break;
                 }
             }
-            myadvuilist->addSource( idx, { _( str ), icon, _fs, _fsb } );
+            myadvuilist->addSource( idx, source_t{ _( str ), icon, _fs, _fsb } );
             if( _fsv ) {
                 myadvuilist->addSource( idx,
-                { _( SOURCE_VEHICLE ), SOURCE_VEHICLE_i, _fsv, _fsvb } );
+                                        source_t{ _( SOURCE_VEHICLE ), SOURCE_VEHICLE_i, _fsv, _fsvb } );
             }
         }
         idx++;

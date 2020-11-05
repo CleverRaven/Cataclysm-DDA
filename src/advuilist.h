@@ -200,6 +200,13 @@ class advuilist
 };
 
 // *INDENT-OFF*
+
+#ifdef __clang__
+#pragma clang diagnostic push
+// travis' old clang wants a change that breaks compilation with newer versions
+#pragma clang diagnostic ignored "-Wmissing-braces"
+#endif
+
 template <class Container, typename T>
 advuilist<Container, T>::advuilist( Container *list, point size, point origin,
                                     std::string const &ctxtname, bool init )
@@ -210,9 +217,9 @@ advuilist<Container, T>::advuilist( Container *list, point size, point origin,
       _pagesize(
           static_cast<std::size_t>( std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) ) ),
       // insert dummy sorter for "none" sort mode
-      _sorters{ { "none", fsort_t() } },
+      _sorters{ sorter_t{ "none", fsort_t() } },
       // insert dummy grouper for "none" grouping mode
-      _groupers{ { "none", fgsort_t(), fglabel_t() } },
+      _groupers{ grouper_t{ "none", fgsort_t(), fglabel_t() } },
       // ugly hack that lets us use our implicit basic filter if one isn't supplied
       _ffilter{ [this]( T const &it, std::string const &filter ) {
           return this->_basicfilter( it, filter );
@@ -221,6 +228,11 @@ advuilist<Container, T>::advuilist( Container *list, point size, point origin,
       _ctxt( ctxtname ),
       // remember constructor list so we can rebuild internal list when filtering
       _olist( list )
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 // *INDENT-ON*
 
 {
