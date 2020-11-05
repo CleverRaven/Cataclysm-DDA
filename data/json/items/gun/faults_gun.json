@@ -57,7 +57,7 @@
         }
       }
     ],
-    "flags": [ "SILENT" ]
+    "flags": [ "SILENT", "BLACKPOWDER_FOULING_DAMAGE", "NO_DIRTYING" ]
   },
   {
     "id": "fault_gun_chamber_spent",

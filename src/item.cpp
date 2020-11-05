@@ -116,8 +116,6 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 static const efftype_id effect_bleed( "bleed" );
 
-static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
-
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
 static const itype_id itype_battery( "battery" );
@@ -9925,7 +9923,7 @@ bool item::process_internal( player *carrier, const tripoint &pos,
         return processed;
     }
 
-    if( faults.count( fault_gun_blackpowder ) ) {
+    if( has_fault_flag( "BLACKPOWDER_FOULING_DAMAGE" ) ) {
         return process_blackpowder_fouling( carrier );
     }
 
