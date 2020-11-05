@@ -362,7 +362,7 @@ void npc::assess_danger()
     const bool self_defense_only = rules.engagement == combat_engagement::NO_MOVE ||
                                    rules.engagement == combat_engagement::NONE;
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
-    const bool must_retreat = rules.has_flag( ally_rule::follow_close ) &&
+    const bool must_retreat = is_walking_with() && rules.has_flag( ally_rule::follow_close ) &&
                               !too_close( pos(), g->u.pos(), follow_distance() );
 
     if( is_player_ally() ) {
