@@ -97,7 +97,8 @@
           ]
         }
       }
-    ]
+    ],
+    "flags": [ "UNLUBRICATED", "BAD_CYCLING" ]
   },
   {
     "id": "fault_gun_dirt",
