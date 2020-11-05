@@ -105,7 +105,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_RAPTOR",
+    "name": "GROUP_ZOMBIE_RAPTOR_UPGRADES",
     "default": "mon_spawn_raptor",
     "//": "Raptor upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
