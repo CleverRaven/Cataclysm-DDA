@@ -69,7 +69,9 @@
     "armor_cut": 6,
     "armor_bullet": 6,
     "special_attacks": [ { "type": "bite", "cooldown": 3 } ],
-    "regenerates": 10,
+    "regenerates": 5,
+    "vision_day": 8,
+    "vision_night": 15,
     "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF", "NIGHT_INVISIBILITY" ] }
   },
   {
