@@ -116,7 +116,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_SHADY",
+    "name": "GROUP_ZOMBIE_SHADY_UPGRADES",
     "default": "mon_zombie_shady",
     "//": "Shady upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
