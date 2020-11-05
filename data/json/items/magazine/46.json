@@ -12,6 +12,7 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
+    "ammo_type": [ "46" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "46": 40 } } ]
   },
