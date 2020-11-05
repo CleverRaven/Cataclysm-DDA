@@ -176,7 +176,7 @@ then
     openssl aes-256-cbc -K $encrypted_f0d9c067c540_key -iv $encrypted_f0d9c067c540_iv -in app/bn-release.keystore.enc -out app/bn-release.keystore -d
     # Specify dumb terminal to suppress gradle's constant output of time spent building, which
     # fills the log with nonsense.
-    TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false $ANDROID_ABI -Poverride_version=${TRAVIS_BUILD_NUMBER} \
+    TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs $ANDROID_ABI -Poverride_version=${TRAVIS_BUILD_NUMBER} \
         -Pdeps="${HOME}/build/${TRAVIS_REPO_SLUG}/android/app/deps.zip"
 else
     if [ "$DEPLOY" == 1 -a "$NATIVE" == "osx" ]
