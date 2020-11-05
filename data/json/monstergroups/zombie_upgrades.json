@@ -122,7 +122,7 @@
     "monsters": [
       { "monster": "mon_zombie_brute_ninja", "freq": 500, "cost_multiplier": 10 },
       { "monster": "mon_zombie_pupa_decoy_shady", "freq": 250, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_pupa_shady", "freq": 330, "cost_multiplier": 10 }
+      { "monster": "mon_zombie_pupa_shady", "freq": 250, "cost_multiplier": 10 }
     ]
   }
 ]
