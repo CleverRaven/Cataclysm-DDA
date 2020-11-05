@@ -38,8 +38,8 @@
     "valid_targets": [ "self" ],
     "effect": "target_attack",
     "base_casting_time": 100,
-    "min_damage": 2,
-    "max_damage": 2,
+    "min_damage": -2,
+    "max_damage": -2,
     "message": "You feel healed."
   },
   {

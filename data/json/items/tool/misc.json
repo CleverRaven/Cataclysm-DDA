@@ -153,7 +153,7 @@
     "id": "debug_active_relic_test",
     "type": "TOOL",
     "name": { "str_sp": "Cube of Shame" },
-    "description": "This is a debug-only item for testing relic properties, powered by batteries.  Turn it on to lose intelligence and perception, but gain clairvoyance",
+    "description": "This is a debug-only item for testing relic properties, powered by batteries.  Turn it on to lose intelligence and perception, but gain clairvoyance.",
     "material": [ "steel" ],
     "symbol": ";",
     "color": "blue",
@@ -186,7 +186,12 @@
     "magazine_well": 1,
     "relic_data": {
       "passive_effects": [
-        { "has": "HELD", "condition": "ALWAYS", "mutations": [ "SCHIZOPHRENIC" ] },
+        {
+          "has": "HELD",
+          "condition": "ALWAYS",
+          "mutations": [ "CARNIVORE" ],
+          "intermittent_activation": { "effects": [ { "frequency": "5 minutes", "spell_effects": [ { "id": "AEA_HEAL" } ] } ] }
+        },
         {
           "has": "HELD",
           "condition": "ACTIVE",
