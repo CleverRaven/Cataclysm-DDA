@@ -1,6 +1,7 @@
 #ifndef CATA_SRC_ADVUILIST_HELPERS_H
 #define CATA_SRC_ADVUILIST_HELPERS_H
 
+#include <array>      // for array
 #include <cstddef>    // for size_t
 #include <functional> // for function
 #include <string>     // for string, allocator
@@ -75,7 +76,7 @@ constexpr char const SOURCE_WORN_i = 'W';
 constexpr char const *SOURCE_VEHICLE = "Vehicle";
 constexpr char const SOURCE_VEHICLE_i = 'V';
 
-using pane_mutex_t = std::vector<bool>;
+using pane_mutex_t = std::array<bool, aim_nsources * 2>;
 void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex );
 
 using filoc_t = std::function<item_location( item * )>;

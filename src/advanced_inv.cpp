@@ -16,7 +16,8 @@ void create_advanced_inv()
     using mytrui_t = transaction_ui<aim_container_t>;
 
     static std::unique_ptr<mytrui_t> mytrui;
-    static pane_mutex_t pane_mutex( aim_nsources * 2, false );
+    static pane_mutex_t pane_mutex;
+    pane_mutex.fill( false );
     static aim_stats_t lstats{ 0_kilogram, 0_liter };
     static aim_stats_t rstats{ 0_kilogram, 0_liter };
     if( !mytrui ) {

@@ -304,8 +304,7 @@ void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
 
     std::tie( lsrc, licon ) = ui->left()->getSource();
     std::tie( rsrc, ricon ) = ui->right()->getSource();
-    mutex->clear();
-    mutex->insert( mutex->end(), aim_nsources * 2, false );
+    mutex->fill( false );
     mutex->at( licon == SOURCE_VEHICLE_i ? lsrc + aim_nsources : lsrc ) = true;
     mutex->at( ricon == SOURCE_VEHICLE_i ? rsrc + aim_nsources : rsrc ) = true;
     // dragged vehicle needs more checks...
