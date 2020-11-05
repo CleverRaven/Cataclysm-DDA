@@ -42,6 +42,7 @@
 #include "cursesport.h"
 #include "debug.h"
 #include "filesystem.h"
+#include "flag.h"
 #include "font_loader.h"
 #include "game.h"
 #include "game_ui.h"
