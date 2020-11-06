@@ -92,6 +92,7 @@ std::string iloc_entry_count( iloc_entry const &it );
 std::string iloc_entry_weight( iloc_entry const &it );
 std::string iloc_entry_volume( iloc_entry const &it );
 std::string iloc_entry_name( iloc_entry const &it );
+std::string iloc_entry_src( iloc_entry const &it );
 
 bool iloc_entry_count_sorter( iloc_entry const &l, iloc_entry const &r );
 bool iloc_entry_weight_sorter( iloc_entry const &l, iloc_entry const &r );
@@ -118,6 +119,9 @@ aim_container_t source_char_inv( Character *guy );
 aim_container_t source_char_worn( Character *guy );
 
 bool source_vehicle_avail( tripoint const &loc );
+
+void aim_all_columns( aim_advuilist_t *myadvuilist );
+void aim_default_columns( aim_advuilist_t *myadvuilist );
 
 void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats );
 void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *mutex );

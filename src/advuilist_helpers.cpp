@@ -56,29 +56,31 @@ using namespace advuilist_helpers;
 
 // Cataclysm: Hacky Stuff Ahead
 // this is actually an attempt to make the code more readable and reduce duplication
-// is_ground_source, label, icon, offset
-using _sourcetuple = std::tuple<bool, char const *, aim_advuilist_sourced_t::icon_t, tripoint>;
+// is_ground_source, label, direction abbreviation, icon, offset
+using _sourcetuple =
+    std::tuple<bool, char const *, char const *, aim_advuilist_sourced_t::icon_t, tripoint>;
+constexpr std::size_t const _tuple_abrev_idx = 2;
 using _sourcearray = std::array<_sourcetuple, aim_nsources>;
 constexpr char const *_error = "error";
 constexpr _sourcearray const aimsources = {
-    _sourcetuple{ false, SOURCE_CONT, SOURCE_CONT_i, tripoint_zero },
-    _sourcetuple{ false, SOURCE_DRAGGED, SOURCE_DRAGGED_i, tripoint_zero },
-    _sourcetuple{ false, _error, 0, tripoint_zero },
-    _sourcetuple{ true, SOURCE_NW, SOURCE_NW_i, tripoint_north_west },
-    _sourcetuple{ true, SOURCE_N, SOURCE_N_i, tripoint_north },
-    _sourcetuple{ true, SOURCE_NE, SOURCE_NE_i, tripoint_north_east },
-    _sourcetuple{ false, _error, 0, tripoint_zero },
-    _sourcetuple{ false, SOURCE_INV, SOURCE_INV_i, tripoint_zero },
-    _sourcetuple{ false, _error, 0, tripoint_zero },
-    _sourcetuple{ true, SOURCE_W, SOURCE_W_i, tripoint_west },
-    _sourcetuple{ true, SOURCE_CENTER, SOURCE_CENTER_i, tripoint_zero },
-    _sourcetuple{ true, SOURCE_E, SOURCE_E_i, tripoint_east },
-    _sourcetuple{ false, SOURCE_ALL, SOURCE_ALL_i, tripoint_zero },
-    _sourcetuple{ false, SOURCE_WORN, SOURCE_WORN_i, tripoint_zero },
-    _sourcetuple{ false, _error, 0, tripoint_zero },
-    _sourcetuple{ true, SOURCE_SW, SOURCE_SW_i, tripoint_south_west },
-    _sourcetuple{ true, SOURCE_S, SOURCE_S_i, tripoint_south },
-    _sourcetuple{ true, SOURCE_SE, SOURCE_SE_i, tripoint_south_east },
+    _sourcetuple{ false, SOURCE_CONT, _error, SOURCE_CONT_i, tripoint_zero },
+    _sourcetuple{ false, SOURCE_DRAGGED, _error, SOURCE_DRAGGED_i, tripoint_zero },
+    _sourcetuple{ false, _error, _error, 0, tripoint_zero },
+    _sourcetuple{ true, SOURCE_NW, "NW", SOURCE_NW_i, tripoint_north_west },
+    _sourcetuple{ true, SOURCE_N, "N", SOURCE_N_i, tripoint_north },
+    _sourcetuple{ true, SOURCE_NE, "NE", SOURCE_NE_i, tripoint_north_east },
+    _sourcetuple{ false, _error, _error, 0, tripoint_zero },
+    _sourcetuple{ false, SOURCE_INV, _error, SOURCE_INV_i, tripoint_zero },
+    _sourcetuple{ false, _error, _error, 0, tripoint_zero },
+    _sourcetuple{ true, SOURCE_W, "W", SOURCE_W_i, tripoint_west },
+    _sourcetuple{ true, SOURCE_CENTER, "DN", SOURCE_CENTER_i, tripoint_zero },
+    _sourcetuple{ true, SOURCE_E, "E", SOURCE_E_i, tripoint_east },
+    _sourcetuple{ false, SOURCE_ALL, _error, SOURCE_ALL_i, tripoint_zero },
+    _sourcetuple{ false, SOURCE_WORN, _error, SOURCE_WORN_i, tripoint_zero },
+    _sourcetuple{ false, _error, _error, 0, tripoint_zero },
+    _sourcetuple{ true, SOURCE_SW, "SW", SOURCE_SW_i, tripoint_south_west },
+    _sourcetuple{ true, SOURCE_S, "S", SOURCE_S_i, tripoint_south },
+    _sourcetuple{ true, SOURCE_SE, "SE", SOURCE_SE_i, tripoint_south_east },
 };
 
 #ifdef __clang__
@@ -98,6 +100,16 @@ tripoint slotidx_to_offset( aim_advuilist_sourced_t::slotidx_t idx )
         default:
             return std::get<tripoint>( aimsources[idx] );
     }
+}
+
+//this could be constexpr in C++20
+std::size_t offset_to_slotidx( tripoint const &off )
+{
+    const auto *it = std::find_if( aimsources.begin(), aimsources.end(), [&]( _sourcetuple const & v ) {
+        return std::get<bool>( v ) and
+               std::get<tripoint>( v ) == off;
+    } );
+    return std::distance( aimsources.begin(), it );
 }
 
 constexpr bool is_vehicle( aim_advuilist_sourced_t::icon_t icon )
@@ -290,6 +302,16 @@ void player_move_items( aim_transaction_ui_t::select_t const &sel, tripoint cons
         player_activity( move_items_activity_actor( targets, quantities, to_vehicle, pos ) ) );
 }
 
+void change_columns( aim_advuilist_sourced_t *ui )
+{
+    using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
+    if( std::get<slotidx_t>( ui->getSource() ) == ALL_IDX ) {
+        aim_all_columns( ui ) ;
+    } else {
+        aim_default_columns( ui );
+    }
+}
+
 } // namespace
 
 namespace advuilist_helpers
@@ -311,10 +333,7 @@ void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
     if( lsrc == DRAGGED_IDX or rsrc == DRAGGED_IDX or licon == SOURCE_VEHICLE_i or
         ricon == SOURCE_VEHICLE_i ) {
         tripoint const off = get_avatar().grab_point;
-        const auto *it = std::find_if( aimsources.begin(), aimsources.end(), [&]( _sourcetuple const & v ) {
-            return std::get<tripoint>( v ) == off;
-        } );
-        std::size_t const idx = std::distance( aimsources.begin(), it );
+        std::size_t const idx = offset_to_slotidx( off );
         mutex->at( idx + aim_nsources ) = true;
         mutex->at( DRAGGED_IDX ) = true;
     }
@@ -394,6 +413,14 @@ std::string iloc_entry_name( iloc_entry const &it )
     item const &i = *it.stack[0];
     return string_format( "<color_%s>%s</color>",
                           get_all_colors().get_name( i.color_in_inventory() ), i.tname() );
+}
+
+std::string iloc_entry_src( iloc_entry const &it )
+{
+    Character &u = get_player_character();
+    tripoint const off = u.pos() - it.stack.front().position();
+    std::size_t idx = offset_to_slotidx( off );
+    return std::get<_tuple_abrev_idx>( aimsources[idx] );
 }
 
 bool iloc_entry_count_sorter( iloc_entry const &l, iloc_entry const &r )
@@ -532,19 +559,36 @@ aim_container_t source_char_worn( Character *guy )
     return ret;
 }
 
-void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
+void aim_default_columns( aim_advuilist_t *myadvuilist )
 {
     using col_t = typename aim_advuilist_t::col_t;
-    using sorter_t = typename aim_advuilist_t::sorter_t;
-    using grouper_t = typename aim_advuilist_t::grouper_t;
-    using filter_t = typename aim_advuilist_t::filter_t;
-
     myadvuilist->setColumns( std::vector<col_t> { col_t{ "Name", iloc_entry_name, 8.F },
                              col_t{ "count", iloc_entry_count, 1.F },
                              col_t{ "weight", iloc_entry_weight, 1.F },
                              col_t{ "vol", iloc_entry_volume, 1.F }
-                                                }, 
+                                                },
                              false );
+}
+
+void aim_all_columns( aim_advuilist_t *myadvuilist )
+{
+    using col_t = typename aim_advuilist_t::col_t;
+    myadvuilist->setColumns( std::vector<col_t> { col_t{ "Name", iloc_entry_name, 8.F },
+                             col_t{ "src", iloc_entry_src, .5F },
+                             col_t{ "count", iloc_entry_count, 1.F },
+                             col_t{ "weight", iloc_entry_weight, 1.F },
+                             col_t{ "vol", iloc_entry_volume, 1.F }
+                                                },
+                             false );
+}
+
+void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
+{
+    using sorter_t = typename aim_advuilist_t::sorter_t;
+    using grouper_t = typename aim_advuilist_t::grouper_t;
+    using filter_t = typename aim_advuilist_t::filter_t;
+
+    aim_default_columns( myadvuilist );
     myadvuilist->setcountingf( iloc_entry_counter );
     // use numeric sorters instead of advuilist's lexicographic ones
     myadvuilist->addSorter( sorter_t{ "count", iloc_entry_count_sorter } );
@@ -605,7 +649,7 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *
         char const *str = nullptr;
         icon_t icon = 0;
         tripoint off;
-        std::tie( std::ignore, str, icon, off ) = src;
+        std::tie( std::ignore, str, std::ignore, icon, off ) = src;
 
         if( icon != 0 ) {
             switch( icon ) {
@@ -708,12 +752,15 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t sele
     ui->pushevent( aim_transaction_ui_t::event::QUIT );
 }
 
+// FIXME: fragment this as it has grown quite large
 void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_mutex_t *mutex )
 {
     using namespace advuilist_literals;
     // reset pane mutex on any source change
     if( action == ACTION_CYCLE_SOURCES or
         action.substr( 0, ACTION_SOURCE_PRFX_len ) == ACTION_SOURCE_PRFX ) {
+        change_columns( ui->left() );
+        change_columns( ui->right() );
         reset_mutex( ui, mutex );
         // rebuild other pane if it's set to the ALL source
         if( std::get<std::size_t>( ui->otherpane()->getSource() ) == ALL_IDX ) {
