@@ -150,7 +150,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "watertight", watertight, false );
     optional( jo, was_loaded, "airtight", airtight, false );
     optional( jo, was_loaded, "open_container", open_container, false );
-    optional( jo, was_loaded, "flag_restriction", flag_restrictions_str );
+    optional( jo, was_loaded, "flag_restriction", flag_restrictions );
     optional( jo, was_loaded, "rigid", rigid, false );
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "sealed_data", sealed_data );
@@ -184,19 +184,12 @@ bool pocket_data::operator==( const pocket_data &rhs ) const
 
 const pocket_data::FlagsSetType &pocket_data::get_flag_restrictions() const
 {
-    if( !flag_restrictions_str.empty() ) {
-        for( const auto &f : flag_restrictions_str ) {
-            flag_restrictions_int.insert( f );
-        }
-        flag_restrictions_str.clear();
-    }
-    return flag_restrictions_int;
+    return flag_restrictions;
 }
 
 void pocket_data::add_flag_restriction( const flag_str_id &flag )
 {
-    flag_restrictions_str.insert( flag );
-    flag_restrictions_int.insert( flag );
+    flag_restrictions.insert( flag );
 }
 
 bool item_pocket::same_contents( const item_pocket &rhs ) const

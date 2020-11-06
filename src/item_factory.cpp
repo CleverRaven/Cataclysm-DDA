@@ -139,7 +139,7 @@ void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
     if( obj.damage_max() == obj.damage_min() ) {
-        obj.item_tags_str_tmp.insert( flag_NO_REPAIR );
+        obj.item_tags.insert( flag_NO_REPAIR );
     }
 
     if( obj.has_flag( flag_STAB ) || obj.has_flag( flag_SPEAR ) ) {
@@ -209,15 +209,15 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // set light_emission based on LIGHT_[X] flag
-    for( const auto &f : obj.item_tags_str_tmp ) {
+    for( const auto &f : obj.item_tags ) {
         int ll;
         if( sscanf( f.c_str(), "LIGHT_%i", &ll ) == 1 && ll > 0 ) {
             obj.light_emission = ll;
         }
     }
     // remove LIGHT_[X] flags
-    erase_if( obj.item_tags_str_tmp, []( const flag_str_id & f ) {
-        return f.str().find( "LIGHT_" ) == 0;
+    erase_if( obj.item_tags, []( const flag_str_id & f ) {
+        return string_starts_with( f.str(), "LIGHT_" );
     } );
 
     // for ammo not specifying loudness (or an explicit zero) derive value from other properties
@@ -394,8 +394,8 @@ void Item_factory::finalize_pre( itype &obj )
         // TODO: Move to jsons?
         if( obj.gun->skill_used == skill_id( "archery" ) ||
             obj.gun->skill_used == skill_id( "throw" ) ) {
-            obj.item_tags_str_tmp.insert( flag_WATERPROOF_GUN );
-            obj.item_tags_str_tmp.insert( flag_NEVER_JAMS );
+            obj.item_tags.insert( flag_WATERPROOF_GUN );
+            obj.item_tags.insert( flag_NEVER_JAMS );
             obj.gun->ammo_effects.insert( "NEVER_MISFIRES" );
         }
     }
@@ -495,25 +495,14 @@ void Item_factory::register_cached_uses( const itype &obj )
 
 void Item_factory::finalize_post( itype &obj )
 {
-    // copy string flags into int flags
-    if( !obj.item_tags.empty() ) {
-        debugmsg( "during finalization, itype '%s' has non-empty int_id flags set: [%s]", obj.id.str(),
-                  debug_menu::iterable_to_string( obj.item_tags, ", ",
-        []( const flag_id & f ) {
-            return f.id().str() + " (id: " + std::to_string( f.to_i() ) + ")";
-        } ) );
-        obj.item_tags.clear();
-    }
-    for( const flag_str_id &f : obj.item_tags_str_tmp ) {
+    erase_if( obj.item_tags, [&]( const flag_str_id & f ) {
         if( !f.is_valid() ) {
             debugmsg( "itype '%s' uses undefined flag '%s'. Please add corresponding 'json_flag' entry to json.",
                       obj.id.str(), f.str() );
-        } else {
-            obj.item_tags.insert( f );
+            return true;
         }
-    }
-    // now `has_flags` will use `item_tags` for all lookups
-    obj.item_tags_str_tmp.clear();
+        return false;
+    } );
 
     // handle complex firearms as a special case
     if( obj.gun && !obj.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
@@ -2501,7 +2490,7 @@ void Item_factory::set_allergy_flags( itype &item_template )
     const auto &mats = item_template.materials;
     for( const auto &pr : all_pairs ) {
         if( std::find( mats.begin(), mats.end(), pr.first ) != mats.end() ) {
-            item_template.item_tags_str_tmp.insert( pr.second );
+            item_template.item_tags.insert( pr.second );
         }
     }
 }
@@ -2523,29 +2512,29 @@ void hflesh_to_flesh( itype &item_template )
 void Item_factory::npc_implied_flags( itype &item_template )
 {
     if( item_template.use_methods.count( "explosion" ) > 0 ) {
-        item_template.item_tags_str_tmp.insert( flag_DANGEROUS );
+        item_template.item_tags.insert( flag_DANGEROUS );
     }
 
     if( item_template.has_flag( flag_DANGEROUS ) > 0 ) {
-        item_template.item_tags_str_tmp.insert( flag_NPC_THROW_NOW );
+        item_template.item_tags.insert( flag_NPC_THROW_NOW );
     }
 
     if( item_template.has_flag( flag_BOMB ) > 0 ) {
-        item_template.item_tags_str_tmp.insert( flag_NPC_ACTIVATE );
+        item_template.item_tags.insert( flag_NPC_ACTIVATE );
     }
 
     if( item_template.has_flag( flag_NPC_THROW_NOW ) > 0 ) {
-        item_template.item_tags_str_tmp.insert( flag_NPC_THROWN );
+        item_template.item_tags.insert( flag_NPC_THROWN );
     }
 
     if( item_template.has_flag( flag_NPC_ACTIVATE ) > 0 ||
         item_template.has_flag( flag_NPC_THROWN ) > 0 ) {
-        item_template.item_tags_str_tmp.insert( flag_NPC_ALT_ATTACK );
+        item_template.item_tags.insert( flag_NPC_ALT_ATTACK );
     }
 
     if( item_template.has_flag( flag_DANGEROUS ) > 0 ||
         item_template.has_flag( flag_PSEUDO ) > 0 ) {
-        item_template.item_tags_str_tmp.insert( flag_TRADER_AVOID );
+        item_template.item_tags.insert( flag_TRADER_AVOID );
     }
 }
 
@@ -2941,7 +2930,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.explosion = load_explosion_data( je );
     }
 
-    assign( jo, "flags", def.item_tags_str_tmp );
+    assign( jo, "flags", def.item_tags );
     assign( jo, "faults", def.faults );
 
     if( jo.has_member( "qualities" ) ) {

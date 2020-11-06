@@ -1658,7 +1658,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                       burnt ) );
             const std::string tags_listed = enumerate_as_string( item_tags, []( const flag_id & f ) {
-                return f.id().str();
+                return f.str();
             }, enumeration_conjunction::none );
 
             info.push_back( iteminfo( "BASE", string_format( _( "tags: %s" ), tags_listed ) ) );
@@ -5343,7 +5343,7 @@ bool item::has_flag( const flag_id &f ) const
 {
     bool ret = false;
     if( !f.is_valid() ) {
-        debugmsg( "Attempted to check invalid flag_id %d", f.to_i() );
+        debugmsg( "Attempted to check invalid flag_id %s", f.str() );
         return false;
     }
 
@@ -5373,7 +5373,7 @@ item &item::set_flag( const flag_id &flag )
         item_tags.insert( flag );
         requires_tags_processing = true;
     } else {
-        debugmsg( "Attempted to set invalid flag_id %d", flag.to_i() );
+        debugmsg( "Attempted to set invalid flag_id %s", flag.str() );
     }
     return *this;
 }
