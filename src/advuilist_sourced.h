@@ -71,6 +71,7 @@ class advuilist_sourced : public advuilist<Container, T>
         point _origin;
         point _map_size;
         slotidx_t _cslot = 0;
+        bool needsinit = true;
 
         catacurses::window _w;
         std::shared_ptr<ui_adaptor> _mapui;
@@ -174,6 +175,9 @@ typename advuilist_sourced<Container, T>::select_t advuilist_sourced<Container, 
     if( !_mapui ) {
         _initui();
     }
+    if( needsinit ) {
+        rebuild();
+    }
 
     return advuilist<Container, T>::select();
 }
@@ -182,6 +186,7 @@ template <class Container, typename T>
 void advuilist_sourced<Container, T>::rebuild( Container *list )
 {
     setSource( _cslot, 0, true );
+    needsinit = false;
     advuilist<Container, T>::rebuild( list );
 }
 
