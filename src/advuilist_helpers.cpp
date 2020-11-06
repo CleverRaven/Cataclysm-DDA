@@ -320,9 +320,11 @@ int query_destination()
     int idx = 0;
     for( _sourcetuple const &v : aimsources ) {
         tripoint const off = std::get<tripoint>( v );
-        bool valid = std::get<bool>( v ) and std::get<char>( v ) != SOURCE_ALL_i and
-                     source_player_ground_avail( off );
-        menu.addentry( idx++, valid, MENU_AUTOASSIGN, std::get<_tuple_label_idx>( v ) );
+        if( std::get<bool>( v ) and std::get<char>( v ) != SOURCE_ALL_i ) {
+            bool valid = source_player_ground_avail( off );
+            menu.addentry( idx, valid, MENU_AUTOASSIGN, std::get<_tuple_label_idx>( v ) );
+        }
+        idx++;
     }
     menu.query();
     return menu.ret;
@@ -434,7 +436,7 @@ std::string iloc_entry_name( iloc_entry const &it )
 std::string iloc_entry_src( iloc_entry const &it )
 {
     Character &u = get_player_character();
-    tripoint const off = u.pos() - it.stack.front().position();
+    tripoint const off = it.stack.front().position() - u.pos();
     std::size_t idx = offset_to_slotidx( off );
     return std::get<_tuple_abrev_idx>( aimsources[idx] );
 }
@@ -755,10 +757,12 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t sele
     // select a valid destination if otherpane is showing the ALL source
     if( dsti == SOURCE_ALL_i ) {
         int const newdst = query_destination();
-        if( newdst > 0 ) {
-            dst = static_cast<slotidx_t>( newdst );
-            dsti = std::get<char>( aimsources[dst] );
+        if( newdst < 0 ) {
+            // transfer cancelled
+            return;
         }
+        dst = static_cast<slotidx_t>( newdst );
+        dsti = std::get<char>( aimsources[dst] );
     }
 
     if( dsti == SOURCE_WORN_i ) {
