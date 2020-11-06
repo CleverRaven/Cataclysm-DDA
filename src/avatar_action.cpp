@@ -1118,8 +1118,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     // make a copy and get the original.
     // the copy is thrown and has its and the originals charges set appropiately
     // or deleted from inventory if its charges(1) or not stackable.
-    item *orig = loc.get_item();
-    item thrown = *orig;
+    item thrown = *loc.get_item();
     int range = you.throw_range( thrown );
     if( range < 0 ) {
         add_msg( m_info, _( "You don't have that item." ) );
@@ -1129,7 +1128,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( you.is_wielding( *orig ) && orig->has_flag( flag_NO_UNWIELD ) ) {
+    if( you.is_wielding( *loc ) && loc->has_flag( flag_NO_UNWIELD ) ) {
         // pos == -1 is the weapon, NO_UNWIELD is used for bio_claws_weapon
         add_msg( m_info, _( "That's part of your body, you can't throw that!" ) );
         return;
@@ -1145,16 +1144,23 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         }
     }
     // if you're wearing the item you need to be able to take it off
-    if( you.is_wearing( orig->typeId() ) ) {
-        ret_val<bool> ret = you.can_takeoff( *orig );
+    if( you.is_wearing( loc->typeId() ) ) {
+        ret_val<bool> ret = you.can_takeoff( *loc );
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );
             return;
         }
     }
     // you must wield the item to throw it
-    if( !you.is_wielding( *orig ) ) {
-        if( !you.wield( *orig ) ) {
+    // But only if you don't have enough free hands
+    int usable_hands = you.get_working_arm_count() -
+                       ( you.is_armed() ? 1 : 0 ) -
+                       ( you.weapon.is_two_handed( you ) ? 1 : 0 );
+    if( !you.is_wielding( *loc ) &&
+        ( usable_hands < ( loc->is_two_handed( you ) ? 2 : 1 ) ) ) {
+        if( !you.wield( *loc ) ) {
+            add_msg( m_info, _( "You do not have enough free hands to throw %s without wielding it." ),
+                     loc->tname() );
             return;
         }
     }
@@ -1187,11 +1193,17 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( you.weapon.count_by_charges() && you.weapon.charges > 1 ) {
-        you.weapon.mod_charges( -1 );
+    if( loc != item_location( you, &you.weapon ) ) {
+        // This is to represent "implicit offhand wielding"
+        int extra_cost = you.item_handling_cost( *loc, true, INVENTORY_HANDLING_PENALTY / 2 );
+        you.mod_moves( -extra_cost );
+    }
+
+    if( loc->count_by_charges() && loc->charges > 1 ) {
+        loc->mod_charges( -1 );
         thrown.charges = 1;
     } else {
-        you.i_rem( -1 );
+        loc.remove_item();
     }
     you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
     g->reenter_fullscreen();

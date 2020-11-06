@@ -175,19 +175,19 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
     clear_map();
 
     SECTION( "test_player_vs_zombie_rock_basestats" ) {
-        test_throwing_player_versus( p, "mon_zombie", "rock", 1, lo_skill_base_stats, { 0.78, 0.10 }, { 5, 3 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 5, lo_skill_base_stats, { 0.07, 0.10 }, { 0.7, 2 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 10, lo_skill_base_stats, { 0.04, 0.10 }, { 0.5, 2 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 15, lo_skill_base_stats, { 0.03, 0.10 }, { 0.5, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", "rock", 1, lo_skill_base_stats, { 0.99, 0.10 }, { 10, 3 } );
+        test_throwing_player_versus( p, "mon_zombie", "rock", 5, lo_skill_base_stats, { 0.77, 0.10 }, { 5.5, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", "rock", 10, lo_skill_base_stats, { 0.27, 0.10 }, { 2, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", "rock", 15, lo_skill_base_stats, { 0.13, 0.10 }, { 1, 2 } );
         test_throwing_player_versus( p, "mon_zombie", "rock", 20, lo_skill_base_stats, { 0.03, 0.10 }, { 0.5, 2 } );
         test_throwing_player_versus( p, "mon_zombie", "rock", 25, lo_skill_base_stats, { 0.03, 0.10 }, { 0.5, 2 } );
         test_throwing_player_versus( p, "mon_zombie", "rock", 30, lo_skill_base_stats, { 0.03, 0.10 }, { 0.5, 2 } );
     }
 
     SECTION( "test_player_vs_zombie_javelin_iron_basestats" ) {
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 1, lo_skill_base_stats, { 0.64, 0.10 }, { 11, 5 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 5, lo_skill_base_stats, { 0.05, 0.10 }, { 1.5, 3 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 10, lo_skill_base_stats, { 0.04, 0.10 }, { 1.50, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 1, lo_skill_base_stats, { 0.95, 0.10 }, { 28, 5 } );
+        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 5, lo_skill_base_stats, { 0.64, 0.10 }, { 13, 3 } );
+        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 10, lo_skill_base_stats, { 0.20, 0.10 }, { 4, 2 } );
         test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 15, lo_skill_base_stats, { 0.03, 0.10 }, { 1.29, 3 } );
         test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 20, lo_skill_base_stats, { 0.03, 0.10 }, { 1.66, 2 } );
         test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 25, lo_skill_base_stats, { 0.03, 0.10 }, { 1.0, 2 } );
@@ -224,8 +224,8 @@ TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
     // the throwing skill has while the sanity tests are more explicit.
     SECTION( "mid_skill_basestats_rock" ) {
         test_throwing_player_versus( p, "mon_zombie", "rock", 5, mid_skill_base_stats, { 1.00, 0.10 }, { 12, 6 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 10, mid_skill_base_stats, { 0.86, 0.10 }, { 7.0, 4 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 15, mid_skill_base_stats, { 0.52, 0.10 }, { 3, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", "rock", 10, mid_skill_base_stats, { 0.86, 0.10 }, { 7, 4 } );
+        test_throwing_player_versus( p, "mon_zombie", "rock", 15, mid_skill_base_stats, { 0.62, 0.10 }, { 5, 2 } );
     }
 
     SECTION( "hi_skill_basestats_rock" ) {
