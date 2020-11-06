@@ -294,11 +294,14 @@ void trading_window::update_win( npc &np, const std::string &deal )
     werase( w_head );
     fold_and_print( w_head, point_zero, getmaxx( w_head ), c_white,
                     _( "Trading with %s.\n"
-                       "%s to switch lists, letters to pick items, "
-                       "%s to finalize, %s to quit, "
-                       "%s to get information on an item." ),
+                       "[<color_yellow>%s</color>] to switch lists, letters to pick items, "
+                       "[<color_yellow>%s</color>] and [<color_yellow>%s</color>] to switch pages, "
+                       "[<color_yellow>%s</color>] to finalize, [<color_yellow>%s</color>] to quit, "
+                       "[<color_yellow>%s</color>] to get information on an item." ),
                     np.disp_name(),
                     ctxt.get_desc( "SWITCH_LISTS" ),
+                    ctxt.get_desc( "PAGE_UP" ),
+                    ctxt.get_desc( "PAGE_DOWN" ),
                     ctxt.get_desc( "CONFIRM" ),
                     ctxt.get_desc( "QUIT" ),
                     ctxt.get_desc( "EXAMINE" ) );
