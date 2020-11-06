@@ -8,6 +8,8 @@
 #include "activity_type.h"     // for activity_id
 #include "advuilist_helpers.h" // for add_aim_sources, setup_for_aim, iloc_...
 #include "debug.h"             // for debugmsg
+#include "options.h"           // for get_option
+#include "panels.h"            // for panel_manager
 #include "transaction_ui.h"    // for transaction_ui<>::advuilist_t, transa...
 
 void create_advanced_inv()
@@ -20,8 +22,21 @@ void create_advanced_inv()
     pane_mutex.fill( false );
     static aim_stats_t lstats{ 0_kilogram, 0_liter };
     static aim_stats_t rstats{ 0_kilogram, 0_liter };
-    if( !mytrui ) {
-        mytrui = std::make_unique<mytrui_t>( aimlayout, point{ -9, -9 }, point{ -9, -9 },
+    static bool full_screen{ get_option<bool>( "AIM_WIDTH" ) };
+    bool const _fs = get_option<bool>( "AIM_WIDTH" );
+    if( !mytrui or full_screen != _fs ) {
+        full_screen = _fs;
+        int const min_w_width = FULL_SCREEN_WIDTH;
+        int const max_w_width = full_screen ? TERMX : std::max( 120,
+                                TERMX - 2 * ( panel_manager::get_manager().get_width_right() +
+                                              panel_manager::get_manager().get_width_left() ) );
+
+        int const width = TERMX < min_w_width
+                          ? min_w_width
+                          : TERMX > max_w_width ? max_w_width : TERMX;
+        int const originx = TERMX > width ? ( TERMX - width ) / 2 : 0;
+
+        mytrui = std::make_unique<mytrui_t>( aimlayout, point{ width, TERMY }, point{ originx, 0 },
                                              "ADVANCED_INVENTORY" );
         setup_for_aim( mytrui->left(), &lstats );
         setup_for_aim( mytrui->right(), &rstats );
