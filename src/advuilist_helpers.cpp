@@ -59,6 +59,7 @@ using namespace advuilist_helpers;
 // is_ground_source, label, direction abbreviation, icon, offset
 using _sourcetuple =
     std::tuple<bool, char const *, char const *, aim_advuilist_sourced_t::icon_t, tripoint>;
+constexpr std::size_t const _tuple_label_idx = 1;
 constexpr std::size_t const _tuple_abrev_idx = 2;
 using _sourcearray = std::array<_sourcetuple, aim_nsources>;
 constexpr char const *_error = "error";
@@ -310,6 +311,21 @@ void change_columns( aim_advuilist_sourced_t *ui )
     } else {
         aim_default_columns( ui );
     }
+}
+
+int query_destination()
+{
+    uilist menu;
+    menu.text = _( "Select destination" );
+    int idx = 0;
+    for( _sourcetuple const &v : aimsources ) {
+        tripoint const off = std::get<tripoint>( v );
+        bool valid = std::get<bool>( v ) and std::get<char>( v ) != SOURCE_ALL_i and
+                     source_player_ground_avail( off );
+        menu.addentry( idx++, valid, MENU_AUTOASSIGN, std::get<_tuple_label_idx>( v ) );
+    }
+    menu.query();
+    return menu.ret;
 }
 
 } // namespace
@@ -735,6 +751,15 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t sele
 
     // return to the AIM after player activities finish
     aim_add_return_activity();
+
+    // select a valid destination if otherpane is showing the ALL source
+    if( dsti == SOURCE_ALL_i ) {
+        int const newdst = query_destination();
+        if( newdst > 0 ) {
+            dst = static_cast<slotidx_t>( newdst );
+            dsti = std::get<char>( aimsources[dst] );
+        }
+    }
 
     if( dsti == SOURCE_WORN_i ) {
         player_wear( select );
