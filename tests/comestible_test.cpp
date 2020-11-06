@@ -232,7 +232,7 @@ TEST_CASE( "effective food volume and satiety", "[character][food][satiety]" )
     expect_ratio = std::sqrt( 3.0f * 202 / 30 );
     CHECK( u.compute_effective_food_volume_ratio( nuts ) == Approx( expect_ratio ).margin( 0.01f ) );
     CHECK( u.compute_calories_per_effective_volume( nuts ) == 1498 );
-    CHECK( satiety_bar( 1498 ) == "<color_c_green>||||\\</color>.." );
+    CHECK( satiety_bar( 1498 ) == "<color_c_green>||||\\</color>" );
 }
 
 // satiety_bar returns a colorized string indicating a satiety level, similar to hit point bars
