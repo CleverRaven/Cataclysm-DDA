@@ -269,7 +269,7 @@ void advuilist_sourced<Container, T>::_ctxthandler( advuilist<Container, T> * /*
 template <class Container, typename T>
 void advuilist_sourced<Container, T>::_printmap()
 {
-    for( auto &it : _sources ) {
+    for( typename srccont_t::value_type &it : _sources ) {
         slotidx_t const slotidx = it.first;
         slot_t const &slot = it.second;
         icon_t const icon = std::get<icon_t>( slot );

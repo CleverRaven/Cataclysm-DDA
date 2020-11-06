@@ -587,7 +587,7 @@ void advuilist<Container, T>::_print()
 
     nc_color const colcolor = _exit ? c_light_gray : c_white;
     // print column headers
-    for( auto const &col : _columns ) {
+    for( col_t const &col : _columns ) {
         lpos.x += _printcol( col, std::get<std::string>( col ), lpos, colcolor );
     }
     lpos.y += 1;
@@ -620,7 +620,7 @@ void advuilist<Container, T>::_print()
             mvwprintz( _w, lpos, color, string_format( "%*s", _innerw, std::string() ) );
         }
 
-        for( auto const &col : _columns ) {
+        for( col_t const &col : _columns ) {
             std::string const rawmsg = std::get<fcol_t>( col )( it );
             std::string const msg = hilited ? remove_color_tags( rawmsg ) : rawmsg;
             lpos.x += _printcol( col, msg, lpos, color );
@@ -687,7 +687,7 @@ void advuilist<Container, T>::_sort( typename sortcont_t::size_type idx )
                 return sorter( *std::get<ptr_t>( lhs ), *std::get<ptr_t>( rhs ) );
             }
         };
-        for( auto const &v : _groups ) {
+        for( group_t const &v : _groups ) {
             std::stable_sort( v.first, v.second, cmp( _sorters[idx] ) );
         }
     } else {
@@ -697,7 +697,7 @@ void advuilist<Container, T>::_sort( typename sortcont_t::size_type idx )
                 return std::get<std::size_t>( lhs ) < std::get<std::size_t>( rhs );
             }
         };
-        for( auto const &v : _groups ) {
+        for( group_t const &v : _groups ) {
             std::stable_sort( v.first, v.second, cmp() );
         }
     }
@@ -732,7 +732,8 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
     for( auto it = _list.begin(); it != _list.end(); ++it ) {
         if( cpentries >= lpagesize ) {
             // avoid printing group headers on the last line of the page
-            auto const ci = std::distance( _list.begin(), it ) - ( cpentries > lpagesize ? 1 : 0 );
+            typename list_t::size_type const ci = std::distance( _list.begin(),
+                                                  it ) - ( cpentries > lpagesize ? 1 : 0 );
             _pages.emplace_back( pbegin, ci );
             pbegin = ci;
             cpentries = 0;
@@ -822,7 +823,7 @@ void advuilist<Container, T>::_setfilter( std::string const &filter )
 template <class Container, typename T>
 bool advuilist<Container, T>::_basicfilter( T const &it, std::string const &filter ) const
 {
-    for( auto const &col : _columns ) {
+    for( col_t const &col : _columns ) {
         if( lcmatch( remove_color_tags( std::get<fcol_t>( col )( it ) ), filter ) ) {
             return true;
         }

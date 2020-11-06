@@ -90,7 +90,7 @@ transaction_ui<Container, T>::transaction_ui( point const &srclayout, point size
 
 {
     using namespace advuilist_literals;
-    for( auto &v : _panes )
+    for( advuilist_t &v : _panes )
     {
         v.get_ctxt()->register_action( ACTION_SWITCH_PANES );
         v.get_ctxt()->register_action( PANE_LEFT );
@@ -153,7 +153,7 @@ void transaction_ui<Container, T>::show()
     _exit = false;
 
     while( !_exit ) {
-        auto selection = _panes[_cpane].select();
+        typename advuilist_t::select_t selection = _panes[_cpane].select();
         if( _fselect and !selection.empty() ) {
             _fselect( this, selection );
         }
