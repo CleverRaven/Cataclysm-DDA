@@ -320,8 +320,8 @@ int query_destination()
     int idx = 0;
     for( _sourcetuple const &v : aimsources ) {
         tripoint const off = std::get<tripoint>( v );
-        if( std::get<bool>( v ) and std::get<char>( v ) != SOURCE_ALL_i ) {
-            bool valid = source_player_ground_avail( off );
+        if( idx != ALL_IDX and std::get<bool>( v ) ) {
+            bool const valid = source_player_ground_avail( off );
             menu.addentry( idx, valid, MENU_AUTOASSIGN, std::get<_tuple_label_idx>( v ) );
         }
         idx++;
@@ -788,8 +788,7 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
     // reset pane mutex on any source change
     if( action == ACTION_CYCLE_SOURCES or
         action.substr( 0, ACTION_SOURCE_PRFX_len ) == ACTION_SOURCE_PRFX ) {
-        change_columns( ui->left() );
-        change_columns( ui->right() );
+        change_columns( ui->curpane() );
         reset_mutex( ui, mutex );
         // rebuild other pane if it's set to the ALL source
         if( std::get<std::size_t>( ui->otherpane()->getSource() ) == ALL_IDX ) {
