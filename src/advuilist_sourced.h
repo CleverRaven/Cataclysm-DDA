@@ -280,6 +280,12 @@ void advuilist_sourced<Container, T>::_ctxthandler( advuilist<Container, T> * /*
 template <class Container, typename T>
 void advuilist_sourced<Container, T>::_printmap()
 {
+    // print the name of the current source. we're doing it here instead of down in the loop
+    // so that it doesn't cover the source map if it's too long
+    icon_t const ci = std::get<icon_t>( _sources[_cslot] );
+    mvwprintz( _w, { _firstcol, _headersize }, c_light_gray,
+               std::get<std::string>( std::get<slotcont_t>( _sources[_cslot] )[ci] ) );
+
     for( typename srccont_t::value_type &it : _sources ) {
         slotidx_t const slotidx = it.first;
         slot_t const &slot = it.second;
@@ -300,10 +306,6 @@ void advuilist_sourced<Container, T>::_printmap()
 
         right_print( _w, loc.y + _headersize, ( _map_size.x - loc.x ) * _iconwidth, c_dark_gray,
                      msg );
-
-        if( slotidx == _cslot ) {
-            mvwprintz( _w, { _firstcol, _headersize }, c_light_gray, std::get<std::string>( src ) );
-        }
     }
 }
 
