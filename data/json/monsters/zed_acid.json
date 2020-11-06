@@ -231,7 +231,7 @@
     "melee_damage": [ { "damage_type": "acid", "amount": 4 } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "ACID_BARF", 10 ] ],
     "death_function": [ "NORMAL", "ACID" ],
-    "upgrades": { "half_life": 25, "into": "mon_zombie_dog_brute_acidic" },
+    "upgrades": { "half_life": 12, "into": "mon_zombie_dog_brute_acidic" },
     "flags": [
       "SEES",
       "HEARS",
