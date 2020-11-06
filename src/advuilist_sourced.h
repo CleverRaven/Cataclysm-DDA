@@ -115,6 +115,8 @@ advuilist_sourced<Container, T>::advuilist_sourced( point const &srclayout, poin
     } );
 
     advuilist<Container, T>::get_ctxt()->register_action( ACTION_CYCLE_SOURCES );
+    advuilist<Container, T>::get_ctxt()->register_action( ACTION_NEXT_SLOT );
+    advuilist<Container, T>::get_ctxt()->register_action( ACTION_PREV_SLOT );
 }
 
 template <class Container, typename T>
@@ -264,6 +266,10 @@ void advuilist_sourced<Container, T>::_ctxthandler( advuilist<Container, T> * /*
         setSource( slotidx );
     } else if( action == ACTION_CYCLE_SOURCES ) {
         _cycleslot( _cslot );
+    } else if( action == ACTION_NEXT_SLOT ) {
+        setSource( _cslot == _sources.size() - 1 ? 0 : _cslot + 1 );
+    } else if( action == ACTION_PREV_SLOT ) {
+        setSource( _cslot == 0 ? _sources.size() - 1 : _cslot - 1 );
     }
 
     if( _fctxt ) {
