@@ -965,10 +965,11 @@
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "chemistry",
     "difficulty": 4,
-    "time": "20 m",
+    "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
+    "charges": 470,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "chem_saltpetre", 150 ] ], [ [ "chem_sulphur", 300 ] ], [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ] ]
+    "components": [ [ [ "chem_saltpetre", 10 ] ], [ [ "chem_sulphur", 23 ] ], [ [ "charcoal", 1 ] ] ]
   },
   {
     "type": "recipe",

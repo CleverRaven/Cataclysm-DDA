@@ -62,7 +62,7 @@
     "color": "cyan",
     "see_cost": 4,
     "extras": "forest_water",
-    "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 16 },
+    "spawns": { "group": "GROUP_SWAMP", "population": [ 2, 6 ], "chance": 50 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE", "RISK_HIGH" ]
   },

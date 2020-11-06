@@ -1,5 +1,16 @@
 [
   {
+    "id": "mon_dragonfly_small",
+    "type": "MONSTER",
+    "name": { "str": "huge dragonfly" },
+    "description": "A brightly colored, winged mutant dragonfly the size of a cat with sharp fangs.",
+    "copy-from": "mon_dragonfly_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_dragonfly_giant" }
+  },
+  {
     "result": "plastic_shopping_bag",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
