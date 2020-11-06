@@ -266,7 +266,7 @@
       "armor_bullet": 3,
       "vision_night": 1
     },
-    "proportional": { "hp": 1.8, "speed": 1.3 },
+    "proportional": { "hp": 1.8, "speed": 1.3, "volume": 1.4, "weigth": 1.1 },
     "special_when_hit": [ "ACIDSPLASH", 100 ]
   }
 ]
