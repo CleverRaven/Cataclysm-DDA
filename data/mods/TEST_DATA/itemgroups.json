@@ -11,7 +11,7 @@
   {
     "id": "test_spilling_from_container",
     "type": "item_group",
-    "//": "A baloon with three items, which can't all fit.  The intention is that we should get one or the other",
+    "//": "A baloon with three items, which can't all fit.  The intention is that we should get two in the container and one outside",
     "subtype": "collection",
     "container-item": "test_balloon",
     "on_overflow": "spill",
