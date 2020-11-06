@@ -69,10 +69,11 @@ class advuilist
         advuilist( Container *list, point size = { -9, -9 }, point origin = { -9, -9 },
                    std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT, bool init = true );
 
-        /// sets up columns and replaces implicit column sorters (does not affect additional sorters
-        /// added with addSorter())
+        /// sets up columns and optionally sets up implict sorters
         ///@param columns
-        void setColumns( std::vector<col_t> const &columns );
+        ///@param implicit if true, implicit sorters will be created for each column. will replace sorters
+        ///                with same name (see addSorter )
+        void setColumns( std::vector<col_t> const &columns, bool implicit = true );
         /// adds a new sorter. replaces existing sorter with same name (including implicit column
         /// sorters)
         ///@param sorter
@@ -243,31 +244,29 @@ advuilist<Container, T>::advuilist( Container *list, point size, point origin,
 }
 
 template <class Container, typename T>
-void advuilist<Container, T>::setColumns( std::vector<col_t> const &columns )
+void advuilist<Container, T>::setColumns( std::vector<col_t> const &columns, bool implicit )
 {
-    typename colscont_t::size_type const ncols_old = _columns.size();
     _columns.clear();
     _tweight = 0;
 
     sortcont_t tmp;
-    for( auto const &v : columns ) {
+    for( col_t const &v : columns ) {
         _columns.emplace_back( v );
         _tweight += std::get<cwidth_t>( v );
         // build new implicit column sorters
-        std::size_t const idx = _columns.size() - 1;
-        tmp.emplace_back( std::get<std::string>( v ),
-        [this, idx]( T const & lhs, T const & rhs ) -> bool {
-            return localized_compare( std::get<fcol_t>( _columns[idx] )( lhs ),
-                                      std::get<fcol_t>( _columns[idx] )( rhs ) );
-        } );
+        if( implicit ) {
+            std::size_t const idx = _columns.size() - 1;
+            tmp.emplace_back( std::get<std::string>( v ),
+            [this, idx]( T const & lhs, T const & rhs ) -> bool {
+                return localized_compare( std::get<fcol_t>( _columns[idx] )( lhs ),
+                                          std::get<fcol_t>( _columns[idx] )( rhs ) );
+            } );
+        }
     }
 
-    // replace old implicit column sorters (keep "none" and additional sorters added with addSorter)
-    _sorters.erase( _sorters.begin() + 1,
-                    _sorters.begin() + 1 +
-                    static_cast<typename sortcont_t::difference_type>( ncols_old ) );
-    _sorters.insert( _sorters.begin() + 1, std::make_move_iterator( tmp.begin() ),
-                     std::make_move_iterator( tmp.end() ) );
+    for( sorter_t const &s : tmp ) {
+        addSorter( s );
+    }
 }
 
 template <class Container, typename T>

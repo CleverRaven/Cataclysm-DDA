@@ -543,9 +543,10 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
                              col_t{ "count", iloc_entry_count, 1.F },
                              col_t{ "weight", iloc_entry_weight, 1.F },
                              col_t{ "vol", iloc_entry_volume, 1.F }
-                                                } );
+                                                }, 
+                             false );
     myadvuilist->setcountingf( iloc_entry_counter );
-    // replace lexicographic sorters with numeric ones (where is std::variant when you need it?)
+    // use numeric sorters instead of advuilist's lexicographic ones
     myadvuilist->addSorter( sorter_t{ "count", iloc_entry_count_sorter } );
     myadvuilist->addSorter( sorter_t{ "weight", iloc_entry_weight_sorter } );
     myadvuilist->addSorter( sorter_t{ "vol", iloc_entry_volume_sorter } );
