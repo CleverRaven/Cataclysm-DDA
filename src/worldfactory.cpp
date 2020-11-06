@@ -515,6 +515,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
     input_context ctxt( "PICK_WORLD_DIALOG" );
     ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
@@ -525,19 +527,37 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
+        unsigned int recmax = world_pages[selpage].size();
+        unsigned int scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "QUIT" ) {
             break;
         } else if( !world_pages[selpage].empty() && action == "DOWN" ) {
             sel++;
-            if( sel >= world_pages[selpage].size() ) {
+            if( sel >= recmax ) {
                 sel = 0;
             }
         } else if( !world_pages[selpage].empty() && action == "UP" ) {
             if( sel == 0 ) {
-                sel = world_pages[selpage].size() - 1;
+                sel = recmax - 1;
             } else {
                 sel--;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( sel == recmax - 1 ) {
+                sel = 0;
+            } else if( sel + scroll_rate >= recmax ) {
+                sel = recmax - 1;
+            } else {
+                sel += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( sel == 0 ) {
+                sel = recmax - 1;
+            } else if( sel <= scroll_rate ) {
+                sel = 0;
+            } else {
+                sel += -scroll_rate;
             }
         } else if( action == "NEXT_TAB" ) {
             sel = 0;
@@ -844,6 +864,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
     input_context ctxt( "MODMANAGER_DIALOG" );
     ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "LEFT", to_translation( "Switch to other list" ) );
     ctxt.register_action( "RIGHT", to_translation( "Switch to other list" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1132,11 +1154,30 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         }
 
         const std::string action = ctxt.handle_input();
+        unsigned int recmax = active_header == 0 ? static_cast<int>( all_tabs[iCurrentTab].mods.size() ) :
+                              static_cast<int>( active_mod_order.size() );
+        unsigned int scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "DOWN" ) {
             selection = next_selection;
         } else if( action == "UP" ) {
             selection = prev_selection;
+        } else if( action == "PAGE_DOWN" ) {
+            if( selection == recmax - 1 ) {
+                selection = 0;
+            } else if( selection + scroll_rate >= recmax ) {
+                selection = recmax - 1;
+            } else {
+                selection += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( selection == 0 ) {
+                selection = recmax - 1;
+            } else if( selection <= scroll_rate ) {
+                selection = 0;
+            } else {
+                selection += -scroll_rate;
+            }
         } else if( action == "RIGHT" ) {
             active_header = next_header;
         } else if( action == "LEFT" ) {
