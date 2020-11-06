@@ -640,7 +640,8 @@ int advuilist<Container, T>::_printcol( col_t const &col, std::string const &str
         std::min( _innerw - p.x,
                   static_cast<int>( std::ceil(
                                         std::get<cwidth_t>( col ) * _innerw / _tweight ) ) );
-    trim_and_print( _w, p, colwidth - _colspacing, color, str );
+    bool const last = p.x + colwidth < _innerw;
+    trim_and_print( _w, p, colwidth - ( last ? _colspacing : 0 ), color, str );
     return colwidth;
 }
 
