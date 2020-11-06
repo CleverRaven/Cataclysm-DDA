@@ -3643,7 +3643,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool /*debug*/ ) const
 {
-    if( toolmods().empty() && gunmods().empty() && contents.empty() ||
+    if( ( toolmods().empty() && gunmods().empty() && contents.empty() ) ||
         !parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
         return;
     }
