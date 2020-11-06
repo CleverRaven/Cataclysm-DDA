@@ -653,6 +653,16 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zachycephalosaurus_chain",
+    "//": "Special monster for Old Guard questline",
+    "name": { "str": "chained Pachycephalosaurus zombie" },
+    "copy-from": "mon_zachycephalosaurus",
+    "description": "A huge scaly dinosaur with a broad toothless beak, dead and walking, eyes vacant and swollen.",
+    "upgrades": {  },
+    "extend": { "flags": [ "IMMOBILE" ] }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zachyrhinosaurus",
     "name": { "str": "Pachyrhinosaurus zombie" },
     "copy-from": "mon_zriceratops",
