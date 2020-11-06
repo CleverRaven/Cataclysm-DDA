@@ -8713,8 +8713,8 @@ int item::fill_with( const item &contained, const int amount )
         }
     }
     if( num_contained == 0 ) {
-        debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
-                  contained_item.typeId().str(), typeId().str() );
+        debugmsg( "tried to put an item (%s, amount %d) in a container (%s) that cannot contain it",
+                  contained_item.typeId().str(), contained_item.charges, typeId().str() );
     }
     on_contents_changed();
     get_avatar().invalidate_weight_carried_cache();
