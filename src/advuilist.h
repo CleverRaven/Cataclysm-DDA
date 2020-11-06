@@ -158,7 +158,7 @@ class advuilist
         typename pagecont_t::size_type _cpage = 0;
         /// total column width weights
         cwidth_t _tweight = 0;
-        std::size_t _innerw = 0;
+        int _innerw = 0;
         bool _exit = true;
 
         input_context _ctxt;
@@ -253,6 +253,7 @@ void advuilist<Container, T>::setColumns( std::vector<col_t> const &columns, boo
     for( col_t const &v : columns ) {
         _columns.emplace_back( v );
         _tweight += std::get<cwidth_t>( v );
+
         // build new implicit column sorters
         if( implicit ) {
             std::size_t const idx = _columns.size() - 1;
@@ -636,7 +637,9 @@ int advuilist<Container, T>::_printcol( col_t const &col, std::string const &str
                                         nc_color const &color )
 {
     int const colwidth =
-        std::ceil( std::get<cwidth_t>( col ) * _innerw / _tweight );
+        std::min( _innerw - p.x,
+                  static_cast<int>( std::ceil(
+                                        std::get<cwidth_t>( col ) * _innerw / _tweight ) ) );
     trim_and_print( _w, p, colwidth - _colspacing, color, str );
     return colwidth;
 }
