@@ -105,17 +105,6 @@ static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 
-static const itype_id itype_chemistry_set( "chemistry_set" );
-static const itype_id itype_dehydrator( "dehydrator" );
-static const itype_id itype_electrolysis_kit( "electrolysis_kit" );
-static const itype_id itype_food_processor( "food_processor" );
-static const itype_id itype_forge( "forge" );
-static const itype_id itype_hotplate( "hotplate" );
-static const itype_id itype_kiln( "kiln" );
-static const itype_id itype_press( "press" );
-static const itype_id itype_soldering_iron( "soldering_iron" );
-static const itype_id itype_vac_sealer( "vac_sealer" );
-static const itype_id itype_welder( "welder" );
 static const itype_id itype_water_purifier( "water_purifier" );
 
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );

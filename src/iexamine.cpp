@@ -164,7 +164,6 @@ static const itype_id itype_water( "water" );
 
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 

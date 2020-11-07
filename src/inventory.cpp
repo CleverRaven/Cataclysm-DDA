@@ -44,7 +44,6 @@ static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
 static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_water( "water" );
-static const itype_id itype_water_faucet( "water_faucet" );
 
 struct itype;
 
