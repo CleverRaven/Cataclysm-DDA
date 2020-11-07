@@ -640,9 +640,9 @@
     "type": "MONSTER",
     "name": "Qianzhousaurus juvenile",
     "description": "A juvenile Pinnochio Rex, It looks at you with fear and hatred at the same time.",
-    "default_faction": "carnivore_dino",
+    "default_faction": "qianzhousaurus",
     "color": "green",
-    "upgrades": { "age_grow": 100, "into": "mon_Qianzhousaurus" },
+    "upgrades": { "age_grow": 100, "into": "mon_qianzhousaurus" },
     "flags": [
       "SEES",
       "HEARS",
