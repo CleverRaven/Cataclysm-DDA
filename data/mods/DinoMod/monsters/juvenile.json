@@ -634,7 +634,7 @@
       "NO_BREED",
       "CANPLAY",
       "SWIMS",
-      "AQUATIC"
+      "AQUATIC"]},
         {
     "id": "mon_qianzhousaurus_juvenile",
     "type": "MONSTER",
