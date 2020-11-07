@@ -784,7 +784,7 @@ void vehicle::autopilot_patrol()
     drive_to_local_target( autodrive_local_target, false );
 }
 
-std::set<point> vehicle::immediate_path( units::angle rotate )
+std::set<point> vehicle::immediate_path( const units::angle &rotate )
 {
     std::set<point> points_to_check;
     const int distance_to_check = 10 + ( velocity / 800 );
@@ -3160,7 +3160,7 @@ point vehicle::coord_translate( const point &p ) const
     return q.xy();
 }
 
-void vehicle::coord_translate( units::angle dir, const point &pivot, const point &p,
+void vehicle::coord_translate( const units::angle &dir, const point &pivot, const point &p,
                                tripoint &q ) const
 {
     tileray tdir( dir );
@@ -3197,7 +3197,7 @@ tripoint vehicle::mount_to_tripoint( const point &mount, const point &offset ) c
     return global_pos3() + mnt_translated;
 }
 
-void vehicle::precalc_mounts( int idir, units::angle dir, const point &pivot )
+void vehicle::precalc_mounts( int idir, const units::angle &dir, const point &pivot )
 {
     if( idir < 0 || idir > 1 ) {
         idir = 0;

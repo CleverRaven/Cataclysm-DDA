@@ -1216,8 +1216,8 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
     }
 }
 
-void map::apply_light_arc( const tripoint &p, units::angle angle, float luminance,
-                           units::angle wideangle )
+void map::apply_light_arc( const tripoint &p, const units::angle &angle, float luminance,
+                           const units::angle &wideangle )
 {
     if( luminance <= LIGHT_SOURCE_LOCAL ) {
         return;
