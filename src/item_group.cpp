@@ -289,17 +289,14 @@ bool Single_item_creator::remove_item( const itype_id &itemid )
     return type == S_NONE;
 }
 
-bool Single_item_creator::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Single_item_creator::replace_item( const itype_id &itemid, const itype_id &replacementid )
 {
     if( modifier ) {
-        if( modifier->replace_item( itemid, replacementid ) ) {
-            return true;
-        }
+        modifier->replace_item( itemid, replacementid );
     }
     if( type == S_ITEM ) {
         if( itemid.str() == id ) {
             id = replacementid.str();
-            return true;
         }
     } else if( type == S_ITEM_GROUP ) {
         Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
@@ -307,7 +304,6 @@ bool Single_item_creator::replace_item( const itype_id &itemid, const itype_id &
             isd->replace_item( itemid, replacementid );
         }
     }
-    return type == S_NONE;
 }
 
 bool Single_item_creator::has_item( const itype_id &itemid ) const
@@ -562,17 +558,14 @@ bool Item_modifier::remove_item( const itype_id &itemid )
     return false;
 }
 
-bool Item_modifier::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Item_modifier::replace_item( const itype_id &itemid, const itype_id &replacementid )
 {
     if( ammo != nullptr ) {
         ammo->replace_item( itemid, replacementid );
     }
     if( container != nullptr ) {
-        if( container->replace_item( itemid, replacementid ) ) {
-            return true;
-        }
+        container->replace_item( itemid, replacementid );
     }
-    return false;
 }
 
 Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance,
@@ -705,12 +698,11 @@ bool Item_group::remove_item( const itype_id &itemid )
     return items.empty();
 }
 
-bool Item_group::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Item_group::replace_item( const itype_id &itemid, const itype_id &replacementid )
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
         ( elem )->replace_item( itemid, replacementid );
     }
-    return items.empty();
 }
 
 bool Item_group::has_item( const itype_id &itemid ) const
