@@ -59,7 +59,6 @@ static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_digestion( "bio_digestion" );
-static const bionic_id bio_furnace( "bio_furnace" );
 static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
@@ -1467,82 +1466,6 @@ bool Character::feed_reactor_with( item &it )
     return true;
 }
 
-bool Character::can_feed_furnace_with( const item &it ) const
-{
-    if( !it.flammable() || it.has_flag( flag_RADIOACTIVE ) ) {
-        return false;
-    }
-
-    if( !has_active_bionic( bio_furnace ) ) {
-        return false;
-    }
-
-    // Not even one charge fits
-    if( it.charges_per_volume( furnace_max_volume ) < 1 ) {
-        return false;
-    }
-
-    return !it.has_flag( flag_CORPSE );
-}
-
-bool Character::feed_furnace_with( item &it )
-{
-    if( !can_feed_furnace_with( it ) ) {
-        return false;
-    }
-    if( it.is_favorite &&
-        !get_avatar().query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
-        return false;
-    }
-
-    const int consumed_charges =  std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
-    const int energy =  get_acquirable_energy( it, rechargeable_cbm::furnace );
-
-    if( energy == 0 ) {
-        add_msg_player_or_npc( m_info,
-                               _( "You digest your %s, but fail to acquire energy from it." ),
-                               _( "<npcname> digests their %s for energy, but fails to acquire energy from it." ),
-                               it.tname() );
-    } else if( is_max_power() ) {
-        add_msg_player_or_npc(
-            _( "You digest your %s, but you're fully powered already, so the energy is wasted." ),
-            _( "<npcname> digests a %s for energy, they're fully powered already, so the energy is wasted." ),
-            it.tname() );
-    } else {
-        const int profitable_energy = std::min( energy,
-                                                units::to_kilojoule( get_max_power_level() - get_power_level() ) );
-        if( it.count_by_charges() ) {
-            add_msg_player_or_npc( m_info,
-                                   ngettext( "You digest %d %s and recharge %d point of energy.",
-                                             "You digest %d %s and recharge %d points of energy.",
-                                             profitable_energy
-                                           ),
-                                   ngettext( "<npcname> digests %d %s and recharges %d point of energy.",
-                                             "<npcname> digests %d %s and recharges %d points of energy.",
-                                             profitable_energy
-                                           ), consumed_charges, it.tname(), profitable_energy
-                                 );
-        } else {
-            add_msg_player_or_npc( m_info,
-                                   ngettext( "You digest your %s and recharge %d point of energy.",
-                                             "You digest your %s and recharge %d points of energy.",
-                                             profitable_energy
-                                           ),
-                                   ngettext( "<npcname> digests a %s and recharges %d point of energy.",
-                                             "<npcname> digests a %s and recharges %d points of energy.",
-                                             profitable_energy
-                                           ), it.tname(), profitable_energy
-                                 );
-        }
-        mod_power_level( units::from_kilojoule( profitable_energy ) );
-    }
-
-    it.charges -= consumed_charges;
-    mod_moves( -250 );
-
-    return true;
-}
-
 bool Character::fuel_bionic_with( item &it )
 {
     if( !can_fuel_bionic_with( it ) ) {
@@ -1599,10 +1522,6 @@ rechargeable_cbm Character::get_cbm_rechargeable_with( const item &it ) const
         return rechargeable_cbm::reactor;
     }
 
-    if( can_feed_furnace_with( it ) ) {
-        return rechargeable_cbm::furnace;
-    }
-
     if( can_fuel_bionic_with( it ) ) {
         return rechargeable_cbm::other;
     }
@@ -1623,29 +1542,6 @@ int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) con
             }
 
             break;
-
-        case rechargeable_cbm::furnace: {
-            units::volume consumed_vol = it.volume();
-            units::mass consumed_mass = it.weight();
-            if( it.count_by_charges() && it.charges > it.charges_per_volume( furnace_max_volume ) ) {
-                const double n_stacks = static_cast<double>( it.charges_per_volume( furnace_max_volume ) ) /
-                                        it.type->stack_size;
-                consumed_vol = it.type->volume * n_stacks;
-                // it.type->weight is in 10g units?
-                consumed_mass = it.type->weight * 10 * n_stacks;
-            }
-            int amount = ( consumed_vol / 250_ml + consumed_mass / 1_gram ) / 9;
-
-            // TODO: JSONize.
-            if( it.made_of( material_id( "leather" ) ) ) {
-                amount /= 4;
-            }
-            if( it.made_of( material_id( "wood" ) ) ) {
-                amount /= 2;
-            }
-
-            return amount;
-        }
         case rechargeable_cbm::other:
             const bionic_id &bid = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
             int to_consume;
@@ -1879,7 +1775,6 @@ trinary player::consume( item &target, bool force )
     if( consume_med( target, *this ) ||
         eat( target, *this, force ) ||
         feed_reactor_with( target ) ||
-        feed_furnace_with( target ) ||
         fuel_bionic_with( target ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );

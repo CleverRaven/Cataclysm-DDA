@@ -266,7 +266,6 @@ enum edible_rating {
 enum class rechargeable_cbm : int {
     none = 0,
     reactor,
-    furnace,
     other
 };
 
@@ -2264,7 +2263,6 @@ class Character : public Creature, public visitable<Character>
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
         /** Determine character's capability of recharging their CBMs. */
         bool can_feed_reactor_with( const item &it ) const;
-        bool can_feed_furnace_with( const item &it ) const;
         rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
         int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
         int get_acquirable_energy( const item &it ) const;
@@ -2274,8 +2272,6 @@ class Character : public Creature, public visitable<Character>
         * @return true when recharging was successful.
         */
         bool feed_reactor_with( item &it );
-        /** @return true if successful. */
-        bool feed_furnace_with( item &it );
         /** @return true if successful and was not a magazine. */
         bool fuel_bionic_with( item &it );
         /** Used to apply stimulation modifications from food and medication **/

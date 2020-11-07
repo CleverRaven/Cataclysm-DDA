@@ -2200,6 +2200,11 @@ bool Character::can_fuel_bionic_with( const item &it ) const
         return false;
     }
 
+    if( it.is_favorite &&
+        !get_avatar().query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
+        return false;
+    }
+
     for( const bionic_id &bid : get_bionics() ) {
         for( const material_id &fuel : bid->fuel_opts ) {
             if( fuel == it.get_base_material().id ) {

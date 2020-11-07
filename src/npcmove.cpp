@@ -84,7 +84,6 @@ static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_blade( "bio_blade" );
 static const bionic_id bio_claws( "bio_claws" );
 static const bionic_id bio_faraday( "bio_faraday" );
-static const bionic_id bio_furnace( "bio_furnace" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
@@ -162,7 +161,6 @@ namespace
 {
 const std::vector<bionic_id> power_cbms = { {
         bio_advreactor,
-        bio_furnace,
         bio_reactor,
     }
 };
@@ -1754,18 +1752,6 @@ bool npc::recharge_cbm()
                     complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
                 }
             }
-        }
-    }
-
-    if( use_bionic_by_id( bio_furnace ) ) {
-        const std::function<bool( const item & )> furnace_filter = []( const item & it ) {
-            return it.typeId() == itype_id( "withered" ) || it.typeId() == itype_id( "file" ) ||
-                   it.has_flag( flag_FIREWOOD );
-        };
-        if( consume_cbm_items( furnace_filter ) ) {
-            return true;
-        } else {
-            complain_about( "need_junk", 3_hours, "<need_junk>", false );
         }
     }
 
