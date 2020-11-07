@@ -167,6 +167,7 @@ enum debug_menu_index {
     DEBUG_LEVEL_SPELLS,
     DEBUG_TEST_MAP_EXTRA_DISTRIBUTION,
     DEBUG_VEHICLE_BATTERY_CHARGE,
+    DEBUG_HOUR_TIMER,
     DEBUG_NESTED_MAPGEN
 };
 
@@ -230,6 +231,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( DEBUG_SHOW_MUT_CHANCES, true, 'u', _( "Show mutation trait chances" ) ) },
             { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
+            { uilist_entry( DEBUG_HOUR_TIMER, true, 'E', _( "Toggle hour timer" ) ) },
             { uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
             { uilist_entry( DEBUG_SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
             { uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
@@ -1186,9 +1188,10 @@ void debug()
 
         case DEBUG_GAME_STATE: {
             std::string mfus;
-            std::vector<std::pair<m_flag, int>> sorted(
-                                                 MonsterGenerator::generator().m_flag_usage_stats.begin(),
-                                                 MonsterGenerator::generator().m_flag_usage_stats.end() );
+            std::vector<std::pair<m_flag, int>> sorted;
+            for( int f = 0; f < m_flag::MF_MAX; f++ ) {
+                sorted.push_back( {static_cast<m_flag>( f ), MonsterGenerator::generator().m_flag_usage_stats[f]} );
+            }
             std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
                 return a.second != b.second ? a.second > b.second : a.first < b.first;
             } );
@@ -1197,7 +1200,8 @@ void debug()
                                        m_flag_stat.second );
             }
             DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
-            MonsterGenerator::generator().m_flag_usage_stats.clear();
+            std::fill( MonsterGenerator::generator().m_flag_usage_stats.begin(),
+                       MonsterGenerator::generator().m_flag_usage_stats.end(), 0 );
             popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
 
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
@@ -1505,6 +1509,9 @@ void debug()
             break;
         case DEBUG_DISPLAY_RADIATION:
             g->display_toggle_overlay( ACTION_DISPLAY_RADIATION );
+            break;
+        case DEBUG_HOUR_TIMER:
+            g->toggle_debug_hour_timer();
             break;
         case DEBUG_CHANGE_TIME: {
             auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {

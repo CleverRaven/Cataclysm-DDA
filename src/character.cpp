@@ -2038,8 +2038,7 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
     }
 
     const bool was_deaf = is_deaf();
-    const bool supertinymouse = g->u.has_trait( trait_SMALL2 ) ||
-                                g->u.has_trait( trait_SMALL_OK );
+    const bool supertinymouse = get_size() == MS_TINY;
     last_item = to_wear.typeId();
 
     std::list<item>::iterator position = position_to_wear_new_item( to_wear );
@@ -4643,7 +4642,7 @@ void Character::update_needs( int rate_multiplier )
     }
 
     // Huge folks take penalties for cramming themselves in vehicles
-    if( in_vehicle && ( ( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) )
+    if( in_vehicle && ( get_size() == MS_HUGE )
         && !( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) ) {
         vehicle *veh = veh_pointer_or_null( g->m.veh_at( pos() ) );
         // it's painful to work the controls, but passengers in open topped vehicles are fine
@@ -9532,7 +9531,7 @@ float Character::power_rating() const
     } else if( dmg > 12 ) {
         ret = 3; // Melee weapon or weapon-y tool
     }
-    if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
+    if( get_size() == MS_HUGE ) {
         ret += 1;
     }
     if( is_wearing_power_armor( nullptr ) ) {

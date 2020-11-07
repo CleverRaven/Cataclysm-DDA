@@ -1582,10 +1582,10 @@ void player::process_one_effect( effect &it, bool is_new )
             if( has_trait( trait_FAT ) ) {
                 mod *= 1.5;
             }
-            if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
+            if( get_size() == MS_LARGE ) {
                 mod *= 2;
             }
-            if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
+            if( get_size() == MS_HUGE ) {
                 mod *= 3;
             }
         }
@@ -1606,10 +1606,10 @@ void player::process_one_effect( effect &it, bool is_new )
             if( has_trait( trait_FAT ) ) {
                 mod *= 1.5;
             }
-            if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
+            if( get_size() == MS_LARGE ) {
                 mod *= 2;
             }
-            if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
+            if( get_size() == MS_HUGE ) {
                 mod *= 3;
             }
         }

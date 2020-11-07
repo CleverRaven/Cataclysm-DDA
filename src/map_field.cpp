@@ -221,11 +221,13 @@ std::array<maptile, 8> map::get_neighbors( const tripoint &p )
 bool map::gas_can_spread_to( field_entry &cur, const maptile &dst )
 {
     const field_entry *tmpfld = dst.get_field().find_field( cur.get_field_type() );
-    const ter_t &ter = dst.get_ter_t();
-    const furn_t &frn = dst.get_furn_t();
     // Candidates are existing weaker fields or navigable/flagged tiles with no field.
-    return ( ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE ) ) &&
-           ( tmpfld == nullptr || tmpfld->get_field_intensity() < cur.get_field_intensity() );
+    if( tmpfld == nullptr || tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
+        const ter_t &ter = dst.get_ter_t();
+        const furn_t &frn = dst.get_furn_t();
+        return ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE );
+    }
+    return false;
 }
 
 void map::gas_spread_to( field_entry &cur, maptile &dst )
