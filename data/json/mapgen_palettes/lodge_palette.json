@@ -207,5 +207,26 @@
       "5": { "item": "SUS_kitchen_sink", "chance": 35 }
     },
     "toilets": { "T": {  } }
-  }
+  },
+  {
+    "type": "palette",
+    "id": "lodge_items",
+    "items": {
+      "a": { "item": "clothing_hunting", "chance": 20, "repeat": [ 1, 6 ] },
+      "A": { "item": "tools_hunting", "chance": 60, "repeat": [ 1, 8 ] },
+      "B": { "item": "tools_hunting", "chance": 60 },
+      "D": { "item": "hunting_lodge_weapons" },
+      "F": { "item": "archery_ammo", "chance": 30, "repeat": [ 1, 4 ] },
+      "h": { "item": "cannibal_weapons" },
+      "L": { "item": "cannibal_food" },,
+      "O": { "item": "livingroom", "chance": 20 },
+      "S": { "item": "stash_wood", "chance": 60, "repeat": [ 2, 4 ] },
+      "&": { "item": "trash", "chance": 20 },
+      "R": [
+        { "item": "camping", "chance": 50 },
+        { "item": "gear_survival", "chance": 30 },
+        { "item": "cannedfood", "chance": 50, "repeat": [ 3, 8 ] },
+        { "item": "stash_food", "chance": 50, "repeat": [ 3, 8 ] }
+      ]
+    }
 ]

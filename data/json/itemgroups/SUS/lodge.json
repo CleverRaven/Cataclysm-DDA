@@ -1,0 +1,62 @@
+[
+  {
+    "id": "SUS_hunting_archery",
+    "type": "item_group",
+    "//": "items found in an archery space",
+    "subtype": "collection",
+    "entries": [
+      { "group": "accesories_personal_unisex", "prob": 10 },
+      { "group": "accesories_personal_mens", "prob": 10 },
+      { "group": "masks_unisex", "prob": 5 },
+      { "group": "socks_unisex", "prob": 70 },
+      { "group": "scarfs_unisex", "prob": 20 },
+      { "group": "shirts_unisex", "prob": 50 },
+      { "group": "underwear_mens", "prob": 80 },
+      { "group": "underwear_unisex", "prob": 80 },
+      { "group": "pants_unisex", "prob": 50 },
+      { "group": "pants_mens", "prob": 60 },
+      { "group": "gloves_unisex", "prob": 20 }
+    ]
+  },
+  {
+    "id": "SUS_hunting_rifle",
+    "type": "item_group",
+    "//": "items found in a rifle hunting space",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ar15", "prob": 150, "charges-min": 0, "charges-max": 30 },
+      { "item": "marlin_9a", "prob": 20, "charges-min": 0, "charges-max": 19 },
+      { "item": "remington700_270", "prob": 10, "charges-min": 0, "charges-max": 4 },
+      { "item": "remington_700", "prob": 40, "charges-min": 0, "charges-max": 4 },
+      { "item": "ruger_1022", "prob": 70, "charges-min": 0, "charges-max": 10 },
+      { "item": "ruger_mini", "prob": 10, "charges-min": 0, "charges-max": 5 },
+      { "item": "win70", "prob": 20, "charges-min": 0, "charges-max": 3 },
+      { "item": "colt_lightning", "prob": 2, "charges-min": 0, "charges-max": 10 },
+      { "item": "henry_big_boy", "prob": 2, "charges-min": 0, "charges-max": 10 },
+      { "item": "weatherby_5", "prob": 2, "charges-min": 0, "charges-max": 3 },
+    ]
+  },
+  {
+    "id": "hunting_lodge_weapons",
+    "type": "item_group",
+    "//": "items found in a shotgun hunting space",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "guns_shotgun_common", "prob": 30 },
+      { "group": "SUS_hunting_rifle", "prob": 20 },
+      { "group": "SUS_hunting_archer", "prob": 15 }
+    ]
+  },
+  {
+    "id": "archery_ammo",
+    "type": "item_group",
+    "//": "archery ammo",
+    "subtype": "collection",
+    "entries": [
+      { "item": "arrow_metal", "prob": 20, "repeat": [ 1, 5 ] },
+      { "item": "arrow_metal_bodkin", "prob": 20, "repeat": [ 1, 4 ]  },
+      { "item": "arrow_metal_target", "prob": 30, "repeat": [ 2, 6 ]  },
+      { "item": "arrow_cf", "prob": 10, "repeat": [ 3, 5 ]  }
+    ]
+  }
+]

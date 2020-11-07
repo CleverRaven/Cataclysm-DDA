@@ -1,0 +1,80 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lodge_cannibal",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "UU URU URU URU ",
+        "R              ",
+        "UU URU URU URU ",
+        "               "
+      ],
+      "palettes": [ "lodge_items" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lodge_hunting",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "UU URU URU URU ",
+        "R              ",
+        "UU URU URU URU ",
+        "               "
+      ],
+      "palettes": [ "lodge_items" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lodge_pantry",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "UU URU URU URU ",
+        "R              ",
+        "UU URU URU URU ",
+        "               "
+      ],
+      "palettes": [ "lodge_items" ]
+    }
+  }
+]

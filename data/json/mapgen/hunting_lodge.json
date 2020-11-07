@@ -33,7 +33,7 @@
         "......%###-###-###-##########+######%.........."
       ],
       "palettes": [ "lodge_palette" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 7, "y": 4 } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 29, "y": 4 } ],
       "place_nested": [ { "chunks": [ [ "lodge_pantry", 80 ], [ "lodge_cannibal", 20 ], [ "lodge_hunting", 50 ] ], "x": 8, "y": 19 } ]
     }
   },
