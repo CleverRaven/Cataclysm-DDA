@@ -644,12 +644,14 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         input_context ctxt( "PICKUP", keyboard_mode::keychar );
         ctxt.register_action( "UP" );
         ctxt.register_action( "DOWN" );
+        ctxt.register_action( "PAGE_UP" );
+        ctxt.register_action( "PAGE_DOWN" );
         ctxt.register_action( "RIGHT" );
         ctxt.register_action( "LEFT" );
         ctxt.register_action( "NEXT_TAB", to_translation( "Next page" ) );
         ctxt.register_action( "PREV_TAB", to_translation( "Previous page" ) );
-        ctxt.register_action( "SCROLL_UP" );
-        ctxt.register_action( "SCROLL_DOWN" );
+        ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
+        ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
         ctxt.register_action( "CONFIRM" );
         ctxt.register_action( "SELECT_ALL" );
         ctxt.register_action( "QUIT", to_translation( "Cancel" ) );
@@ -825,6 +827,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             // -2 lines for border, -2 to preserve a line at top/bottom for context
             const int scroll_lines = catacurses::getmaxy( w_item_info ) - 4;
             int idx = -1;
+            int recmax = static_cast<int>( matches.size() );
+            int scroll_rate = recmax > 20 ? 10 : 3;
 
             if( action == "ANY_INPUT" &&
                 raw_input_char >= '0' && raw_input_char <= '9' ) {
@@ -847,9 +851,9 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     }
                 }
 
-            } else if( action == "SCROLL_UP" ) {
+            } else if( action == "SCROLL_ITEM_INFO_UP" ) {
                 iScrollPos -= scroll_lines;
-            } else if( action == "SCROLL_DOWN" ) {
+            } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
                 iScrollPos += scroll_lines;
             } else if( action == "PREV_TAB" ) {
                 if( start > 0 ) {
@@ -859,7 +863,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 }
                 selected = start;
             } else if( action == "NEXT_TAB" ) {
-                if( start + maxitems < static_cast<int>( matches.size() ) ) {
+                if( start + maxitems < recmax ) {
                     start += maxitems;
                 } else {
                     start = 0;
@@ -872,7 +876,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 if( selected < 0 ) {
                     selected = matches.size() - 1;
                     start = static_cast<int>( matches.size() / maxitems ) * maxitems;
-                    if( start >= static_cast<int>( matches.size() ) ) {
+                    if( start >= recmax ) {
                         start -= maxitems;
                     }
                 } else if( selected < start ) {
@@ -881,13 +885,49 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             } else if( action == "DOWN" ) {
                 selected++;
                 iScrollPos = 0;
-                if( selected >= static_cast<int>( matches.size() ) ) {
+                if( selected >= recmax ) {
                     selected = 0;
                     start = 0;
                 } else if( selected >= start + maxitems ) {
                     start += maxitems;
                 }
-            } else if( selected >= 0 && selected < static_cast<int>( matches.size() ) &&
+            } else if( action == "PAGE_DOWN" ) {
+                if( selected == recmax - 1 ) {
+                    selected = 0;
+                    start = 0;
+                } else if( selected + scroll_rate >= recmax ) {
+                    selected = recmax - 1;
+                    if( selected >= start + maxitems ) {
+                        start += maxitems;
+                    }
+                } else {
+                    selected += +scroll_rate;
+                    iScrollPos = 0;
+                    if( selected >= recmax ) {
+                        selected = 0;
+                        start = 0;
+                    } else if( selected >= start + maxitems ) {
+                        start += maxitems;
+                    }
+                }
+            } else if( action == "PAGE_UP" ) {
+                if( selected == 0 ) {
+                    selected = recmax - 1;
+                    start = static_cast<int>( matches.size() / maxitems ) * maxitems;
+                    if( start >= recmax ) {
+                        start -= maxitems;
+                    }
+                } else if( selected <= scroll_rate ) {
+                    selected = 0;
+                    start = 0;
+                } else {
+                    selected += -scroll_rate;
+                    iScrollPos = 0;
+                    if( selected < start ) {
+                        start -= maxitems;
+                    }
+                }
+            } else if( selected >= 0 && selected < recmax &&
                        ( ( action == "RIGHT" && !getitem[matches[selected]].pick ) ||
                          ( action == "LEFT" && getitem[matches[selected]].pick ) ) ) {
                 idx = selected;
