@@ -175,7 +175,7 @@
     "id": "alumentum",
     "name": "Alumentum",
     "copy-from": "wood",
-    "fuel_data": { "energy": 3 }
+    "fuel_data": { "energy": 150 }
   },
   {
     "type": "material",
