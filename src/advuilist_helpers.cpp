@@ -805,6 +805,8 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
             aim_add_return_activity();
             ui->pushevent( aim_transaction_ui_t::event::QUIT );
             ui->curpane()->suspend();
+            ui->curpane()->hide();
+            ui->otherpane()->hide();
 
             std::pair<point, point> const dim = ui->otherpane()->get_size();
             game::inventory_item_menu_positon const side =
