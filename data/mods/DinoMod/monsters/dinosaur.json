@@ -1251,7 +1251,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
-  }
+  },
    {
     "type": "MONSTER",
     "id": "mon_qianzhousaurus",
