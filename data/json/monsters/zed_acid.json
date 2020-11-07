@@ -210,7 +210,7 @@
     "id": "mon_zombie_dog_acidic",
     "type": "MONSTER",
     "name": { "str": "acidic zombie dog" },
-    "description": "A deformed, sickly-looking animated corpse of a canine.  A dangerous looking yellow saliva drips from its mouth.",
+    "description": "A deformed, sickly-looking animated corpse of a canine.  A dangerous-looking yellow saliva drips from its mouth.",
     "default_faction": "zombie",
     "aggression": 100,
     "morale": 100,
@@ -254,7 +254,7 @@
     "type": "MONSTER",
     "copy-from": "mon_zombie_dog_acidic",
     "name": { "str": "blistered horror" },
-    "description": "A huge canine with multiple large foul looking blisters covering its body.  A corrosive liquid spills from its menancing looking mouth.",
+    "description": "A huge canine with multiple large foul looking blisters covering its body.  A corrosive liquid spills from its menancing-looking mouth.",
     "color": "yellow_white",
     "upgrades": false,
     "relative": {
