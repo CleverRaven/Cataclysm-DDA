@@ -67,17 +67,6 @@
     "difficulty": 1
   },
   {
-    "id": "bio_wood_burner",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Wood Burner CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "A miniaturized wood burner designed to fit in the chest cavity and produce energy for your bionic systems.  A favorite of modern lumberjacks around the world.",
-    "price": 25000,
-    "weight": "500 g",
-    "difficulty": 1
-  },
-  {
     "id": "bio_armor_arms",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
