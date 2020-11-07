@@ -6896,7 +6896,7 @@ std::string item::fuel_pump_terrain() const
 
 bool item::has_explosion_data() const
 {
-    return is_fuel() ? get_base_material().get_fuel_data().has_explode_data : false;
+    return is_fuel() ? !get_base_material().get_fuel_data().explosion_data.is_empty() : false;
 }
 
 struct fuel_explosion_data item::get_explosion_data()

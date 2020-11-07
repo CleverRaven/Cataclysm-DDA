@@ -191,7 +191,6 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
                                    bionic_menu_mode mode )
 {
     input_context ctxt( "BIONICS", keyboard_mode::keychar );
-    static const flag_str_id json_flag_PERPETUAL( "PERPETUAL" );
 
     werase( window );
     std::string fuel_string;

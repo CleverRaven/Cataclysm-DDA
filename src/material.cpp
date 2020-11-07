@@ -347,6 +347,12 @@ void fuel_data::deserialize( JsonIn &jsin )
     load( jo );
 }
 
+bool fuel_explosion_data::is_empty()
+{
+    return explosion_chance_cold == 0 && explosion_chance_hot == 0 && explosion_factor == 0.0f &&
+           fiery_explosion == false && fuel_size_factor == 0.0f;
+}
+
 void fuel_explosion_data::load( const JsonObject &jsobj )
 {
     optional( jsobj, was_loaded, "explosion_chance_hot", explosion_chance_hot );

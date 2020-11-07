@@ -33,6 +33,8 @@ struct fuel_explosion_data {
     bool fiery_explosion = false;
     float fuel_size_factor = 0.0f;
 
+    bool is_empty();
+
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
     void deserialize( JsonIn &jsin );
@@ -43,7 +45,6 @@ struct fuel_data {
         /** Energy of the fuel (kilojoules per charge) */
         float energy = 0.0f;
         fuel_explosion_data explosion_data;
-        bool has_explode_data = false;
         std::string pump_terrain = "t_null";
         bool is_perpetual_fuel = false;
 
