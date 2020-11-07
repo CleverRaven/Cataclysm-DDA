@@ -59,7 +59,7 @@
     ]
   },
   {
-    "id": "archery_ammo",
+    "id": "lodge_archery_ammo",
     "type": "item_group",
     "//": "archery ammo",
     "subtype": "collection",
