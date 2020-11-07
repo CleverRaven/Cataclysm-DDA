@@ -673,6 +673,13 @@
       "CANPLAY",
       "SWIMS",
       "AQUATIC"
+       {
+    "id": "mon_Qianzhousaurus_hatchling",
+    "type": "MONSTER",
+    "name": "brown and white hatchling",
+    "default_faction": "dino_carnivore",
+    "upgrades": { "age_grow": 40, "into": "mon_Qianzhousaurus_juvenile" }
+  },
     ]
   }
 ]
