@@ -350,15 +350,16 @@ void fuel_data::deserialize( JsonIn &jsin )
 bool fuel_explosion_data::is_empty()
 {
     return explosion_chance_cold == 0 && explosion_chance_hot == 0 && explosion_factor == 0.0f &&
-           fiery_explosion == false && fuel_size_factor == 0.0f;
+           !fiery_explosion && fuel_size_factor == 0.0f;
 }
 
 void fuel_explosion_data::load( const JsonObject &jsobj )
 {
-    optional( jsobj, was_loaded, "explosion_chance_hot", explosion_chance_hot );
-    optional( jsobj, was_loaded, "explosion_chance_cold", explosion_chance_cold );
-    optional( jsobj, was_loaded, "explosion_factor", explosion_factor );
-    optional( jsobj, was_loaded, "fuel_size_factor", fuel_size_factor );
+    optional( jsobj, was_loaded, "chance_hot", explosion_chance_hot );
+    optional( jsobj, was_loaded, "chance_cold", explosion_chance_cold );
+    optional( jsobj, was_loaded, "factor", explosion_factor );
+    optional( jsobj, was_loaded, "size_factor", fuel_size_factor );
+    optional( jsobj, was_loaded, "fiery", fiery_explosion );
 }
 
 void fuel_explosion_data::deserialize( JsonIn &jsin )

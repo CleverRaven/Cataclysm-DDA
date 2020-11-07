@@ -138,9 +138,6 @@ static const std::array<flag_str_id, 2> herbivore_blacklist {{
         flag_str_id( "ALLERGEN_MEAT" ), flag_str_id( "ALLERGEN_EGG" )
     }};
 
-// Defines the maximum volume that a internal furnace can consume
-static const units::volume furnace_max_volume( 3_liter );
-
 // TODO: JSONize.
 static const std::map<itype_id, int> plut_charges = {
     { itype_id( "plut_cell" ),         PLUTONIUM_CHARGES * 10 },

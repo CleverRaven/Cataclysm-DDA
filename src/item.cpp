@@ -6886,17 +6886,17 @@ int item::wheel_area() const
 
 float item::fuel_energy() const
 {
-    return is_fuel() ? get_base_material().get_fuel_data().energy : 0.0f;
+    return get_base_material().get_fuel_data().energy;
 }
 
 std::string item::fuel_pump_terrain() const
 {
-    return is_fuel() ? get_base_material().get_fuel_data().pump_terrain : "t_null";
+    return get_base_material().get_fuel_data().pump_terrain;
 }
 
 bool item::has_explosion_data() const
 {
-    return is_fuel() ? !get_base_material().get_fuel_data().explosion_data.is_empty() : false;
+    return !get_base_material().get_fuel_data().explosion_data.is_empty();
 }
 
 struct fuel_explosion_data item::get_explosion_data()
