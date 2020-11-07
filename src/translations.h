@@ -102,8 +102,8 @@ class local_translation_cache<const char *>
     private:
         std::string cached_arg;
         int cached_lang_version = INVALID_LANGUAGE_VERSION;
-        bool same_as_arg;
-        const char *cached_translation;
+        bool same_as_arg = false;
+        const char *cached_translation = nullptr;
     public:
         const char *operator()( const char *arg ) {
             if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
