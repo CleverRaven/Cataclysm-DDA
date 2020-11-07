@@ -293,4 +293,10 @@
     "default": "mon_mosasaurus_hatchling",
     "monsters": [ { "monster": "mon_mosasaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   }
+   {
+    "name": "GROUP_EGG_Qianzhousaurus",
+    "type": "monstergroup",
+    "default": "mon_Qianzhousaurus_hatchling",
+    "monsters": [ { "monster": "mon_Qianzhousaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  }
 ]
