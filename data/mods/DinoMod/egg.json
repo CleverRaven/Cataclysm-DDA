@@ -312,5 +312,5 @@
 	"id": "egg_Qianzhousaurus",
 	"name": "Qianzhousaurus egg",
 	"copy-from": "egg_dino",
-	"rot_spawn": "GROUP_EGG_Qianzhousaurus"
+	"rot_spawn": "GROUP_EGG_Qianzhousaurus"]
 ]
