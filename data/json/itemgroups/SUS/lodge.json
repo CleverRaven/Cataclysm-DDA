@@ -48,6 +48,17 @@
     ]
   },
   {
+    "id": "cannibal_weapons",
+    "type": "item_group",
+    "//": "items found in a shotgun hunting space",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "guns_shotgun_common", "prob": 30 },
+      { "group": "SUS_hunting_rifle", "prob": 20 },
+      { "group": "guns_smg_rare", "prob": 15 }
+    ]
+  },
+  {
     "id": "archery_ammo",
     "type": "item_group",
     "//": "archery ammo",
@@ -57,6 +68,20 @@
       { "item": "arrow_metal_bodkin", "prob": 20, "repeat": [ 1, 4 ]  },
       { "item": "arrow_metal_target", "prob": 30, "repeat": [ 2, 6 ]  },
       { "item": "arrow_cf", "prob": 10, "repeat": [ 3, 5 ]  }
+    ]
+  },
+  {
+    "id": "cannibal_food",
+    "type": "item_group",
+    "//": "archery ammo",
+    "subtype": "collection",
+    "entries": [
+      { "item": "machete", "prob": 20 },
+      { "item": "preserved_food", "custom-flags": [ "CANNIBALISM" ], "prob": 30, "repeat": [ 1, 4 ]  },
+      { "item": "preserved_food", "prob": 20, "repeat": [ 1, 4 ]  },
+      { "item": "dry_goods", "prob": 30, "repeat": [ 2, 6 ]  },
+      { "item": "dry_goods", "custom-flags": [ "CANNIBALISM" ], "prob": 60, "repeat": [ 1, 4 ]  },
+      { "item": "pantry", "prob": 10, "repeat": [ 3, 5 ]  }
     ]
   }
 ]

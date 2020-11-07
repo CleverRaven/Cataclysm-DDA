@@ -6,6 +6,7 @@
       "#": "t_rock_wall",
       "+": [ [ "t_door_c", 3 ], "t_door_locked" ],
       "=": "t_door_c",
+      "z": "t_door_metal_locked"
       ".": [ [ "t_region_groundcover", 4 ], "t_region_groundcover_forest" ],
       "~": [ [ "t_region_groundcover_barren", 3 ], "t_region_groundcover" ],
       "*": [ [ "t_region_groundcover", 15 ], "t_region_shrub" ],
@@ -218,8 +219,8 @@
       "D": { "item": "hunting_lodge_weapons" },
       "F": { "item": "archery_ammo", "chance": 30, "repeat": [ 1, 4 ] },
       "h": { "item": "cannibal_weapons" },
-      "L": { "item": "cannibal_food" },,
-      "O": { "item": "livingroom", "chance": 20 },
+      "L": { "item": "cannibal_food" },
+      "O": { "item": "cannibal_gear", "chance": 20 },
       "S": { "item": "stash_wood", "chance": 60, "repeat": [ 2, 4 ] },
       "&": { "item": "trash", "chance": 20 },
       "R": [

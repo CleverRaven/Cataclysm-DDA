@@ -28,13 +28,13 @@
         "~~~~~~~~~~~~~~~~%~~~~GGGG+ #   #%****..........",
         "......*###-###-###-#########   #####*..........",
         ".....0*#UU URU URU URU #12C     5 F#*..........",
-        ".....0*#R              +      C   uW*..........",
+        ".....0*#R              z      C   uW*..........",
         ".....0*#UU URU URU URU #3CC&  4CVuF#*..........",
         "......%###-###-###-##########+######%.........."
       ],
       "palettes": [ "lodge_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 29, "y": 4 } ],
-      "place_nested": [ { "chunks": [ [ "lodge_pantry", 80 ], [ "lodge_cannibal", 20 ], [ "lodge_hunting", 50 ] ], "x": 8, "y": 19 } ]
+      "place_nested": [ { "chunks": [ [ "lodge_pantry", 80 ], [ "lodge_cannibal", 20 ], [ "lodge_hunting", 50 ] ], "x": 8, "y": 8 } ]
     }
   },
   {
