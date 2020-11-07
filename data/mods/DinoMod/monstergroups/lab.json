@@ -60,7 +60,7 @@
         "starts": 2160,
         "pack_size": [ 2, 3 ]
       },
-      { "monster": "mon_dimorphodon_bio_op", "freq": 100, "cost_multiplier": 10 }
+      { "monster": "mon_dimorphodon_bio_op", "freq": 100, "cost_multiplier": 10 },
        {
         "monster": "mon_qianzhousaurus",
         "freq": 50,
