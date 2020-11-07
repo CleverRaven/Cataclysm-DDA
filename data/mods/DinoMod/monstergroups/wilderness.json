@@ -1030,6 +1030,13 @@
         "cost_multiplier": 30,
         "pack_size": [ 1, 2 ],
         "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+        {
+        "monster": "mon_Qianzhousaurus",
+        "freq": 50,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
       }
     ]
   }
