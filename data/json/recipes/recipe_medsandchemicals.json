@@ -1587,7 +1587,7 @@
     "time": "3 m",
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "spurge", 1 ] ] ]
+    "components": [ [ [ "spurge", 20 ] ] ]
   },
   {
     "type": "recipe",
