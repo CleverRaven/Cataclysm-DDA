@@ -677,7 +677,7 @@
     "id": "mon_Qianzhousaurus_hatchling",
     "type": "MONSTER",
     "name": "Baby Qianzhousaurus",
-    "default_faction": "dino_carnivore",
+    "default_faction": "carnivore_dino",
     "upgrades": { "age_grow": 40, "into": "mon_Qianzhousaurus_juvenile" }
   },
     ]
