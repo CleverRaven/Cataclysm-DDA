@@ -23,8 +23,9 @@
         "freq": 20,
         "cost_multiplier": 10,
         "pack_size": [ 4, 12 ],
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]},
-      {
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+        },
+         {
         "monster": "mon_eoraptor",
         "freq": 3,
         "cost_multiplier": 0,
