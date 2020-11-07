@@ -838,7 +838,7 @@
   }
    {
     "type": "MONSTER",
-    "id": "mon_Zianzhousaurus",
+    "id": "mon_zianzhousaurus",
     "name": { "str": "Qianz zombie" },
     "looks_like": "mon_zyrannosaurus",
     "volume": "550 L",
