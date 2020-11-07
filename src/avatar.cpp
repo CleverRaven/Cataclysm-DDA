@@ -1138,7 +1138,7 @@ void avatar::reset_stats()
         add_miss_reason( _( "Your chitin gets in the way." ), 1 );
     }
     if( has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bp_eyes ) ) {
-        mod_per_bonus( 1 );
+        mod_per_bonus( 2 );
     }
     if( has_trait( trait_INSECT_ARMS ) ) {
         add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
