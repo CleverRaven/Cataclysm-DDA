@@ -74,7 +74,6 @@
         "pack_size": [ 4, 12 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
-      },
     ]
   }
 ]
