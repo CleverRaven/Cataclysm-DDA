@@ -10422,7 +10422,7 @@ const cata::value_ptr<islot_comestible> &item::get_comestible() const
 bool item::has_clothing_mod() const
 {
     for( const clothing_mod &cm : clothing_mods::get_all() ) {
-        if( has_own_flag( cm.flag ) > 0 ) {
+        if( has_own_flag( cm.flag ) ) {
             return true;
         }
     }
