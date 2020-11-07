@@ -603,7 +603,7 @@ int Character::throw_dispersion_per_dodge( bool add_encumbrance ) const
 }
 
 // Perfect situation gives us 1000 dispersion at lvl 0
-// This goes down linearly to 250  dispersion at lvl 10
+// This goes down linearly to 200  dispersion at lvl 10
 int Character::throwing_dispersion( const item &to_throw, Creature *critter,
                                     bool is_blind_throw ) const
 {
@@ -623,10 +623,10 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     const int weight_in_gram = units::to_gram( weight );
     throw_difficulty += std::max( 0, weight_in_gram - get_str() * 100 );
 
-    // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
+    // Dispersion from difficult throws goes from 100% at lvl 0 to 20% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
     const int throw_skill = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
-    int dispersion = 10 * throw_difficulty / ( 8 * throw_skill + 4 );
+    int dispersion = 10 * throw_difficulty / ( 6 * throw_skill + 20 );
     // If the target is a creature, it moves around and ruins aim
     // TODO: Inform projectile functions if the attacker actually aims for the critter or just the tile
     if( critter != nullptr ) {

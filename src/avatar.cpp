@@ -1537,10 +1537,6 @@ bool avatar::wield( item &target )
     int mv = item_handling_cost( target, true,
                                  worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
 
-    if( worn ) {
-        target.on_takeoff( *this );
-    }
-
     add_msg( m_debug, "wielding took %d moves", mv );
     moves -= mv;
 
