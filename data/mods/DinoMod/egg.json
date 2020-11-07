@@ -307,10 +307,11 @@
     "name": "mosasaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_mosasaurus"
-    {
-	"type": "COMESTIBLE",
-	"id": "egg_Qianzhousaurus",
-	"name": "Qianzhousaurus egg",
-	"copy-from": "egg_dino",
-	"rot_spawn": "GROUP_EGG_Qianzhousaurus"
+   {
+    "type": "COMESTIBLE",
+    "id": "egg_Qianzhousaurus",
+    "name": "Qianzhousaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_Qianzhousaurus"
+  }
 ]
