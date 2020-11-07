@@ -2547,7 +2547,6 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     inv->update_cache_with_item( weapon );
     last_item = weapon.typeId();
 
-
     moves -= mv;
 
     weapon.on_wield( *this, mv );

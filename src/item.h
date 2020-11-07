@@ -1469,7 +1469,6 @@ class item : public visitable<item>
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const flag_id &flag );
 
-
         /** Idempotent filter recursively setting an item specific flag on this item and its components. */
         item &set_flag_recursive( const flag_id &flag );
 

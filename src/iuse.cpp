@@ -3445,9 +3445,6 @@ int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
                                      you.get_skill_level( skill_traps ) ) ) * duration_proficiency_factor );
     }
 
-
-
-
     you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
                          item_location( you, it ),
                          get_map().getabs( *target ) ) );

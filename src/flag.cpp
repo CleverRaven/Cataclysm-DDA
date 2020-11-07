@@ -321,7 +321,6 @@ const flag_str_id flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 const flag_str_id flag_SOFT( "SOFT" );
 const flag_str_id flag_HARD( "HARD" );
 
-
 namespace
 {
 generic_factory<json_flag> json_flags_all( "json_flags" );

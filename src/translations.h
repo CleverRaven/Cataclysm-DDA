@@ -218,7 +218,7 @@ class translation
         // translation() = default doesn't work!
         // see: https://stackoverflow.com/a/47368753/1349366
         // NOLINTNEXTLINE default constructor
-        translation() {};
+        translation() {}
         /**
          * Same as `translation()`, but with plural form enabled.
          **/

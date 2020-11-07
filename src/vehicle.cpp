@@ -2672,7 +2672,6 @@ cata::optional<vpart_reference> optional_vpart_position::part_with_tool(
     return has_value() ? value().part_with_tool( tool_type ) : cata::nullopt;
 }
 
-
 int vehicle::part_with_feature( int part, vpart_bitflags const flag, bool unbroken ) const
 {
     if( part_flag( part, flag ) && ( !unbroken || !parts[part].is_broken() ) ) {

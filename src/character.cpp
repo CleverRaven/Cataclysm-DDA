@@ -12455,7 +12455,6 @@ bool Character::defer_move( const tripoint &next )
     return true;
 }
 
-
 bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const item *avoid )
 {
     if( it.made_of( phase_id::LIQUID ) ) {
