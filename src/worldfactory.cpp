@@ -527,8 +527,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
-        int recmax = static_cast<int>( world_pages[selpage].size() );
-        int scroll_rate = recmax > 20 ? 10 : 3;
+        size_t recmax = world_pages[selpage].size();
+        size_t scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "QUIT" ) {
             break;
