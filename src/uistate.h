@@ -43,7 +43,7 @@ struct advuilist_save_state {
 struct transaction_ui_save_state {
     public:
         advuilist_save_state left, right;
-        std::size_t cpane = 0;
+        uint64_t cpane = 0;
 
         template<typename JsonStream>
         void serialize( JsonStream &json, const std::string &prefix ) const {
