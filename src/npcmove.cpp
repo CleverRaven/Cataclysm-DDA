@@ -1788,31 +1788,30 @@ healing_options npc::patient_assessment( const Character &c )
     try_to_fix.clear_all();
 
     for( bodypart_id part_id : c.get_all_body_parts( get_body_part_flags::only_main ) ) {
-        bodypart_str_id part_str_id = part_id.id();
-        if( c.has_effect( effect_bleed, part_str_id ) ) {
+        if( c.has_effect( effect_bleed, part_id ) ) {
             try_to_fix.bleed = true;
         }
-        if( c.has_effect( effect_bite, part_str_id ) ) {
+        if( c.has_effect( effect_bite, part_id ) ) {
             try_to_fix.bite = true;
         }
-        if( c.has_effect( effect_infected, part_str_id ) ) {
+        if( c.has_effect( effect_infected, part_id ) ) {
             try_to_fix.infect = true;
         }
 
         int part_threshold = 75;
-        if( part_str_id == bodypart_str_id( "head" ) ) {
+        if( part_id.id() == bodypart_str_id( "head" ) ) {
             part_threshold += 20;
-        } else if( part_str_id == bodypart_str_id( "torso" ) ) {
+        } else if( part_id.id() == bodypart_str_id( "torso" ) ) {
             part_threshold += 10;
         }
         part_threshold = std::min( 80, part_threshold );
         part_threshold = part_threshold * c.get_part_hp_max( part_id ) / 100;
 
         if( c.get_part_hp_cur( part_id ) <= part_threshold ) {
-            if( !c.has_effect( effect_bandaged, part_str_id ) ) {
+            if( !c.has_effect( effect_bandaged, part_id ) ) {
                 try_to_fix.bandage = true;
             }
-            if( !c.has_effect( effect_disinfected, part_str_id ) ) {
+            if( !c.has_effect( effect_disinfected, part_id ) ) {
                 try_to_fix.disinfect = true;
             }
         }
