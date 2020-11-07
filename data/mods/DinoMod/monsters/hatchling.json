@@ -680,7 +680,7 @@
     "type": "MONSTER",
     "name": "baby Qianzhousaurus",
     "default_faction": "qianzhousaurus",
-    "upgrades": { "age_grow": 40, "into": "mon_Qianzhousaurus_juvenile" }
+   "upgrades": { "age_grow": 40, "into": "mon_qianzhousaurus_juvenile" }
   },
     ]
   }
