@@ -470,7 +470,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "breaks_into" ) ) {
-        def.breaks_into_group = item_group::load_item_group( jo.get_member( "breaks_into" ), "collection" );
+        def.breaks_into_group = item_group::load_item_group(
+                                    jo.get_member( "breaks_into" ), "collection", "breaks_into for vpart " + def.id.str() );
     }
 
     JsonArray qual = jo.get_array( "qualities" );

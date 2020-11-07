@@ -91,15 +91,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "army_mags_rm11b",
-    "entries": [
-      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 },
-      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "army_mags_usp45",
     "entries": [
       { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },

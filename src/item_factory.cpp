@@ -1058,7 +1058,7 @@ void Item_factory::init()
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups[item_group_id( "EMPTY_GROUP" )] =
-        std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0, 0 );
+        std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0, 0, "EMPTY_GROUP" );
 }
 
 bool Item_factory::check_ammo_type( std::string &msg, const ammotype &ammo ) const
@@ -1475,7 +1475,7 @@ void Item_factory::check_definitions() const
         }
     }
     for( const auto &elem : m_template_groups ) {
-        elem.second->check_consistency( elem.first.str() );
+        elem.second->check_consistency();
     }
 }
 
@@ -2549,9 +2549,36 @@ void Item_factory::npc_implied_flags( itype &item_template )
     }
 }
 
+static bool has_pocket_type( const std::vector<pocket_data> &data, item_pocket::pocket_type pk )
+{
+    for( const pocket_data &pocket : data ) {
+        if( pocket.type == pk ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+static bool has_only_special_pockets( const itype &def )
+{
+    // There are some places where we need to know whether any non-special
+    // pockets have been added.  There might be no pockets, or there might be
+    // just the special ones, depending on whether the definition is
+    // copied-from another or not.
+    if( def.pockets.empty() ) {
+        return true;
+    }
+    if( def.pockets.size() != 3 ) {
+        return false;
+    }
+    return has_pocket_type( def.pockets, item_pocket::pocket_type::CORPSE ) &&
+           has_pocket_type( def.pockets, item_pocket::pocket_type::MOD ) &&
+           has_pocket_type( def.pockets, item_pocket::pocket_type::MIGRATION );
+}
+
 void Item_factory::check_and_create_magazine_pockets( itype &def )
 {
-    if( !def.pockets.empty() ) {
+    if( !has_only_special_pockets( def ) ) {
         // this means pockets were defined in json already
         // we assume they're good to go, or error elsewhere
         return;
@@ -2560,9 +2587,12 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
     if( def.magazines.empty() && !( def.gun || def.magazine || def.tool ) ) {
         return;
     }
-    if( def.tool && ( def.tool->max_charges == 0 || def.tool->ammo_id.empty() ) ) {
-        // If a tool has no max charges, it doesn't need an ammo.
-        // Likewise, if tool has charges, but no ammo type it needs no magazine.
+    if( def.tool && def.tool->ammo_id.empty() ) {
+        // If tool has no ammo type it needs no magazine.
+        return;
+    }
+    if( def.tool && def.tool->max_charges == 0 && def.magazines.empty() ) {
+        // If tool has no charges nor magazines, it needs no magazine.
         return;
     }
 
@@ -2575,6 +2605,19 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
     if( !def.magazines.empty() ) {
         mag_data.type = item_pocket::pocket_type::MAGAZINE_WELL;
         mag_data.rigid = false;
+        ammotype default_ammo = ammotype::NULL_ID();
+        if( def.tool ) {
+            default_ammo = *def.tool->ammo_id.begin();
+        }
+        if( !default_ammo.is_null() ) {
+            auto magazines_for_default_ammo = def.magazines.find( default_ammo );
+            if( magazines_for_default_ammo == def.magazines.end() ) {
+                debugmsg( "item %s defines magazines but no magazine for its default ammo type" );
+            } else {
+                cata_assert( !magazines_for_default_ammo->second.empty() );
+                mag_data.default_magazine = *magazines_for_default_ammo->second.begin();
+            }
+        }
         for( const std::pair<const ammotype, std::set<itype_id>> &mag_pair : def.magazines ) {
             for( const itype_id &mag_type : mag_pair.second ) {
                 mag_data.item_id_restriction.insert( mag_type );
@@ -2600,16 +2643,6 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         }
     }
     def.pockets.push_back( mag_data );
-}
-
-static bool has_pocket_type( const std::vector<pocket_data> &data, item_pocket::pocket_type pk )
-{
-    for( const pocket_data &pocket : data ) {
-        if( pocket.type == pk ) {
-            return true;
-        }
-    }
-    return false;
 }
 
 void Item_factory::add_special_pockets( itype &def )
@@ -3189,13 +3222,13 @@ static std::string to_string( Item_group::Type t )
     return "BUGGED";
 }
 
-static Item_group *make_group_or_throw( const item_group_id &group_id,
-                                        std::unique_ptr<Item_spawn_data> &isd,
-                                        Item_group::Type t, int ammo_chance, int magazine_chance )
+static Item_group *make_group_or_throw(
+    const item_group_id &group_id, std::unique_ptr<Item_spawn_data> &isd, Item_group::Type t,
+    int ammo_chance, int magazine_chance, const std::string &context )
 {
     Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
     if( ig == nullptr ) {
-        isd.reset( ig = new Item_group( t, 100, ammo_chance, magazine_chance ) );
+        isd.reset( ig = new Item_group( t, 100, ammo_chance, magazine_chance, context ) );
     } else if( ig->type != t ) {
         throw std::runtime_error(
             "item group \"" + group_id.str() + "\" already defined with type \"" +
@@ -3257,13 +3290,16 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
         entries.push_back( std::make_pair( obj.get_string( gname ), true ) );
     }
 
+    const std::string subcontext = name + " of " + parent.context();
+
     if( entries.size() > 1 && name != "contents" ) {
         obj.throw_error( string_format( "You can only use one of '%s' and '%s'", iname, gname ) );
     } else if( entries.size() == 1 ) {
         const Single_item_creator::Type type = entries.front().second ?
                                                Single_item_creator::Type::S_ITEM_GROUP :
                                                Single_item_creator::Type::S_ITEM;
-        Single_item_creator *result = new Single_item_creator( entries.front().first, type, prob );
+        Single_item_creator *result =
+            new Single_item_creator( entries.front().first, type, prob, subcontext );
         result->inherit_ammo_mag_chances( parent.with_ammo, parent.with_magazine );
         ptr.reset( result );
         return true;
@@ -3271,7 +3307,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
         return false;
     }
     Item_group *result = new Item_group( Item_group::Type::G_COLLECTION, prob, parent.with_ammo,
-                                         parent.with_magazine );
+                                         parent.with_magazine, subcontext );
     ptr.reset( result );
     for( const auto &elem : entries ) {
         if( elem.second ) {
@@ -3302,23 +3338,24 @@ bool Item_factory::load_string( std::vector<std::string> &vec, const JsonObject 
     return result;
 }
 
-void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
+void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::string &context )
 {
     std::unique_ptr<Item_group> gptr;
     int probability = obj.get_int( "prob", 100 );
+    std::string subcontext = "entry within " + context;
     JsonArray jarr;
     if( obj.has_member( "collection" ) ) {
         gptr = std::make_unique<Item_group>( Item_group::G_COLLECTION, probability, ig.with_ammo,
-                                             ig.with_magazine );
+                                             ig.with_magazine, context );
         jarr = obj.get_array( "collection" );
     } else if( obj.has_member( "distribution" ) ) {
         gptr = std::make_unique<Item_group>( Item_group::G_DISTRIBUTION, probability, ig.with_ammo,
-                                             ig.with_magazine );
+                                             ig.with_magazine, context );
         jarr = obj.get_array( "distribution" );
     }
     if( gptr ) {
         for( const JsonObject job2 : jarr ) {
-            add_entry( *gptr, job2 );
+            add_entry( *gptr, job2, subcontext );
         }
         ig.add_entry( std::move( gptr ) );
         return;
@@ -3327,10 +3364,11 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     std::unique_ptr<Single_item_creator> sptr;
     if( obj.has_member( "item" ) ) {
         sptr = std::make_unique<Single_item_creator>(
-                   obj.get_string( "item" ), Single_item_creator::S_ITEM, probability );
+                   obj.get_string( "item" ), Single_item_creator::S_ITEM, probability, context );
     } else if( obj.has_member( "group" ) ) {
         sptr = std::make_unique<Single_item_creator>(
-                   obj.get_string( "group" ), Single_item_creator::S_ITEM_GROUP, probability );
+                   obj.get_string( "group" ), Single_item_creator::S_ITEM_GROUP, probability,
+                   context );
     }
     if( !sptr ) {
         return;
@@ -3378,20 +3416,28 @@ void Item_factory::load_item_group( const JsonObject &jsobj )
 }
 
 void Item_factory::load_item_group( const JsonArray &entries, const item_group_id &group_id,
-                                    const bool is_collection, const int ammo_chance, const int magazine_chance )
+                                    const bool is_collection, const int ammo_chance,
+                                    const int magazine_chance, std::string context )
 {
+    if( context.empty() ) {
+        context = group_id.str();
+    }
     const Item_group::Type type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
-    Item_group *const ig = make_group_or_throw( group_id, isd, type, ammo_chance, magazine_chance );
+    Item_group *const ig =
+        make_group_or_throw( group_id, isd, type, ammo_chance, magazine_chance, context );
 
     for( const JsonObject subobj : entries ) {
-        add_entry( *ig, subobj );
+        add_entry( *ig, subobj, "entry within " + ig->context() );
     }
 }
 
 void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
-                                    const std::string &subtype )
+                                    const std::string &subtype, std::string context )
 {
+    if( context.empty() ) {
+        context = group_id.str();
+    }
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
 
     Item_group::Type type = Item_group::G_COLLECTION;
@@ -3401,13 +3447,26 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
         jsobj.throw_error( "unknown item group type", "subtype" );
     }
     Item_group *ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
-                                          jsobj.get_int( "magazine", 0 ) );
+                                          jsobj.get_int( "magazine", 0 ), context );
 
     if( subtype == "old" ) {
         for( const JsonValue entry : jsobj.get_array( "items" ) ) {
             if( entry.test_object() ) {
                 JsonObject subobj = entry.get_object();
-                add_entry( *ig, subobj );
+                std::string subcontext;
+                if( subobj.has_string( "item" ) ) {
+                    subcontext = "item " + subobj.get_string( "item" ) + " within " + ig->context();
+                } else if( subobj.has_string( "group" ) ) {
+                    subcontext = "group " + subobj.get_string( "group" ) + " within " + ig->context();
+                } else if( subobj.has_member( "distribution" ) ) {
+                    subcontext = "distribution within " + ig->context();
+                } else if( subobj.has_member( "collection" ) ) {
+                    subcontext = "collection within " + ig->context();
+                } else {
+                    debugmsg( "couldn't determine subcontext for " + subobj.str() );
+                    subcontext = "item within " + ig->context();
+                }
+                add_entry( *ig, subobj, subcontext );
             } else {
                 JsonArray pair = entry.get_array();
                 ig->add_item_entry( itype_id( pair.get_string( 0 ) ), pair.get_int( 1 ) );
@@ -3418,7 +3477,7 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
 
     if( jsobj.has_member( "entries" ) ) {
         for( const JsonObject subobj : jsobj.get_array( "entries" ) ) {
-            add_entry( *ig, subobj );
+            add_entry( *ig, subobj, "entry within " + ig->context() );
         }
     }
     if( jsobj.has_member( "items" ) ) {
@@ -3430,7 +3489,7 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
                 ig->add_item_entry( itype_id( subitem.get_string( 0 ) ), subitem.get_int( 1 ) );
             } else {
                 JsonObject subobj = entry.get_object();
-                add_entry( *ig, subobj );
+                add_entry( *ig, subobj, "item within " + ig->context() );
             }
         }
     }
@@ -3444,13 +3503,14 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
                                      subitem.get_int( 1 ) );
             } else {
                 JsonObject subobj = entry.get_object();
-                add_entry( *ig, subobj );
+                add_entry( *ig, subobj, "group within " + ig->context() );
             }
         }
     }
     if( jsobj.has_string( "container-item" ) ) {
         ig->set_container_item( itype_id( jsobj.get_string( "container-item" ) ) );
     }
+    jsobj.read( "on_overflow", ig->on_overflow, false );
     if( jsobj.has_member( "sealed" ) ) {
         ig->sealed = jsobj.get_bool( "sealed" );
     }
