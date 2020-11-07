@@ -652,7 +652,7 @@
     "default_faction": "quetzalcoatlus",
     "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus_juvenile" }
   },
-  {
+ {
     "id": "mon_mosasaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -673,7 +673,8 @@
       "CANPLAY",
       "SWIMS",
       "AQUATIC"
-       },
+    ]
+  },
         {
     "id": "mon_Qianzhousaurus_hatchling",
     "type": "MONSTER",
