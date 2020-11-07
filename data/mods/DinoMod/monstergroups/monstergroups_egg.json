@@ -297,6 +297,6 @@
     "name": "GROUP_EGG_qianzhousaurus",
     "type": "monstergroup",
     "default": "mon_qianzhousaurus_hatchling",
-    "monsters": [ { "monster": "mon_Qianzhousaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_qianzhousaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   }
 ]
