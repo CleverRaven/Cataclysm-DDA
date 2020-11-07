@@ -2059,7 +2059,6 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? hint_rating::cant :
                                            hint_rating::good;
 
-        int max_text_length = 0;
         uilist action_menu;
         action_menu.allow_anykey = true;
         const auto addentry = [&]( const char key, const std::string & text, const hint_rating hint ) {
@@ -2077,7 +2076,6 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
                     entry.text_color = c_light_green;
                     break;
             }
-            max_text_length = std::max( max_text_length, utf8_width( text ) );
         };
         addentry( 'a', pgettext( "action", "activate" ), u.rate_action_use( oThisItem ) );
         addentry( 'R', pgettext( "action", "read" ), u.rate_action_read( oThisItem ) );
@@ -2111,45 +2109,45 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         int iScrollPos = 0;
         oThisItem.info( true, vThisItem );
 
-        // +2+2 for border and adjacent spaces, +2 for '<hotkey><space>'
-        int popup_width = max_text_length + 2 + 2 + 2;
-        int popup_x = 0;
-        switch( position ) {
-            case RIGHT_TERMINAL_EDGE:
-                popup_x = 0;
-                break;
-            case LEFT_OF_INFO:
-                popup_x = iStartX - popup_width;
-                break;
-            case RIGHT_OF_INFO:
-                popup_x = iStartX + iWidth;
-                break;
-            case LEFT_TERMINAL_EDGE:
-                popup_x = TERMX - popup_width;
-                break;
-        }
-
-        // TODO: Ideally the setup of uilist would be split into calculate variables (size, width...),
-        // and actual window creation. This would allow us to let uilist calculate the width, we can
-        // use that to adjust its location afterwards.
-        action_menu.w_y = 0;
-        action_menu.w_x = popup_x;
-        action_menu.w_width = popup_width;
+        action_menu.w_y_setup = 0;
+        action_menu.w_x_setup = [&]( const int popup_width ) -> int {
+            switch( position )
+            {
+                default:
+                case RIGHT_TERMINAL_EDGE:
+                    return 0;
+                case LEFT_OF_INFO:
+                    return iStartX - popup_width;
+                case RIGHT_OF_INFO:
+                    return iStartX + iWidth;
+                case LEFT_TERMINAL_EDGE:
+                    return TERMX - popup_width;
+            }
+        };
         // Filtering isn't needed, the number of entries is manageable.
         action_menu.filtering = false;
         // Default menu border color is different, this matches the border of the item info window.
         action_menu.border_color = BORDER_COLOR;
 
-        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+        item_info_data data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
+        data.without_getch = true;
+
+        catacurses::window w_info;
+        int iScrollHeight = 0;
+
+        ui_adaptor ui;
+        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+            w_info = catacurses::newwin( TERMY, iWidth, point( iStartX, 0 ) );
+            iScrollHeight = TERMY - 2;
+            ui.position_from_window( w_info );
+        } );
+        ui.mark_resize();
+
+        ui.on_redraw( [&]( const ui_adaptor & ) {
+            draw_item_info( w_info, data );
+        } );
 
         do {
-            item_info_data data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
-            data.without_getch = true;
-            const int iHeight = TERMY;
-            const int iScrollHeight = iHeight - 2;
-
-            draw_item_info( iStartX, iWidth, 0, iHeight, data );
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
             if( action_menu.ret >= 0 ) {
@@ -2220,9 +2218,11 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
                     break;
                 case KEY_PPAGE:
                     iScrollPos -= iScrollHeight;
+                    ui.invalidate_ui();
                     break;
                 case KEY_NPAGE:
                     iScrollPos += iScrollHeight;
+                    ui.invalidate_ui();
                     break;
                 case '+':
                     if( !bHPR ) {
@@ -11367,7 +11367,7 @@ void game::display_visibility()
 
             pointmenu_cb callback( locations );
             creature_menu.callback = &callback;
-            creature_menu.w_y = 0;
+            creature_menu.w_y_setup = 0;
             creature_menu.query();
             if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
                 Creature *creature = critter_at<Creature>( locations[creature_menu.ret] );
@@ -11424,7 +11424,7 @@ void game::display_lighting()
             lighting_menu.addentry( count++, true, MENU_AUTOASSIGN, "%s", menu_str );
         }
 
-        lighting_menu.w_y = 0;
+        lighting_menu.w_y_setup = 0;
         lighting_menu.query();
         if( ( lighting_menu.ret >= 0 ) &&
             ( static_cast<size_t>( lighting_menu.ret ) < lighting_menu_strings.size() ) ) {
