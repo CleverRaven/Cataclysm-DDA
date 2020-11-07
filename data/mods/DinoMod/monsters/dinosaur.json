@@ -1278,7 +1278,7 @@
     "hp": 45,
 	"vision_day": 36,
     "death_function": [ "NORMAL" ],
-    "zombify_into": "mon_Zianzhousaurus",
+    "zombify_into": "mon_zianzhousaurus",
     "description": " Also known as pinnochio rex, this bipedal dinosaur is slower than most and covered in fur, it also looks very hungry.",
     "reproduction": { "baby_egg": "egg_Qianzhousaurus", "baby_count": 5, "baby_timer": 23 },
     "baby_flags": [ "SPRING", "SUMMER" ],
