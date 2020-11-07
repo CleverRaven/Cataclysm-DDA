@@ -216,14 +216,14 @@ template <class Container, typename T>
 void advuilist_sourced<Container, T>::savestate( advuilist_save_state *state )
 {
     advuilist<Container, T>::savestate( state );
-    state->slot = _cslot;
+    state->slot = static_cast<uint64_t>( _cslot );
     state->icon = std::get<icon_t>( _sources[_cslot] );
 }
 
 template <class Container, typename T>
 void advuilist_sourced<Container, T>::loadstate( advuilist_save_state *state, bool reb )
 {
-    _cslot = state->slot;
+    _cslot = static_cast<std::size_t>( state->slot );
     setSource( _cslot, state->icon, true );
 
     advuilist<Container, T>::loadstate( state, reb );

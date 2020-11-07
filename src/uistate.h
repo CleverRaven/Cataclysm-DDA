@@ -16,7 +16,7 @@ class item;
 
 struct advuilist_save_state {
     public:
-        std::size_t slot = 0, idx = 0, sort = 0, group = 0;
+        uint64_t slot = 0, idx = 0, sort = 0, group = 0;
         char icon = 0;
         std::string filter;
 

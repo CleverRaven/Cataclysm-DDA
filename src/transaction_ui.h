@@ -171,7 +171,7 @@ void transaction_ui<Container, T>::savestate( transaction_ui_save_state *state )
 {
     _panes[_left].savestate( &state->left );
     _panes[_right].savestate( &state->right );
-    state->cpane = _cpane;
+    state->cpane = static_cast<uint64_t>( _cpane );
 }
 
 template <class Container, typename T>
@@ -179,7 +179,7 @@ void transaction_ui<Container, T>::loadstate( transaction_ui_save_state *state )
 {
     _panes[_left].loadstate( &state->left );
     _panes[_right].loadstate( &state->right );
-    _cpane = state->cpane;
+    _cpane = static_cast<std::size_t>( state->cpane );
 }
 
 template <class Container, typename T>

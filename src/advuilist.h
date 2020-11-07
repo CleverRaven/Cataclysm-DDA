@@ -469,17 +469,17 @@ std::pair<point, point> advuilist<Container, T>::get_size()
 template <class Container, typename T>
 void advuilist<Container, T>::savestate( advuilist_save_state *state )
 {
-    state->idx = _cidx;
-    state->sort = _csort;
-    state->group = _cgroup;
+    state->idx = static_cast<uint64_t>( _cidx );
+    state->sort = static_cast<uint64_t>( _csort );
+    state->group = static_cast<uint64_t>( _cgroup );
     state->filter = _filter;
 }
 
 template <class Container, typename T>
 void advuilist<Container, T>::loadstate( advuilist_save_state *state, bool reb )
 {
-    _csort = state->sort;
-    _cgroup = state->group;
+    _csort = static_cast<std::size_t>( state->sort );
+    _cgroup = static_cast<std::size_t>( state->group );
     _filter = state->filter;
     if( reb ) {
         rebuild();
