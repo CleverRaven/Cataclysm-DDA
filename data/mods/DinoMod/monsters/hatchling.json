@@ -673,6 +673,7 @@
       "CANPLAY",
       "SWIMS",
       "AQUATIC"
+       },
         {
     "id": "mon_Qianzhousaurus_hatchling",
     "type": "MONSTER",
