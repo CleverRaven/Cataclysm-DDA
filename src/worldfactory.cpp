@@ -527,8 +527,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
-        unsigned int recmax = world_pages[selpage].size();
-        unsigned int scroll_rate = recmax > 20 ? 10 : 3;
+        size_t recmax = world_pages[selpage].size();
+        size_t scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "QUIT" ) {
             break;
@@ -1154,9 +1154,9 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         }
 
         const std::string action = ctxt.handle_input();
-        unsigned int recmax = active_header == 0 ? static_cast<int>( all_tabs[iCurrentTab].mods.size() ) :
-                              static_cast<int>( active_mod_order.size() );
-        unsigned int scroll_rate = recmax > 20 ? 10 : 3;
+        size_t recmax = active_header == 0 ? static_cast<int>( all_tabs[iCurrentTab].mods.size() ) :
+                        static_cast<int>( active_mod_order.size() );
+        size_t scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "DOWN" ) {
             selection = next_selection;

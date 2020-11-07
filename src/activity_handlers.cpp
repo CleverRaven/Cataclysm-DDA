@@ -3216,7 +3216,8 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
         return;
     }
     npc &guy = dynamic_cast<npc &>( *p );
-    monster *mon = guy.chosen_mount.lock().get();
+    auto strong_monster = guy.chosen_mount.lock();
+    monster *mon = strong_monster.get();
     if( !mon ) {
         act->set_to_null();
         guy.revert_after_activity();

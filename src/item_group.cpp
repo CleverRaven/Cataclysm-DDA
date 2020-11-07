@@ -24,16 +24,28 @@
 static const std::string null_item_id( "null" );
 
 
-Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
+Item_spawn_data::ItemList Item_spawn_data::create(
+    const time_point &birthday, spawn_flags flags ) const
 {
     RecursionList rec;
-    return create( birthday, rec );
+    return create( birthday, rec, flags );
 }
 
 item Item_spawn_data::create_single( const time_point &birthday ) const
 {
     RecursionList rec;
     return create_single( birthday, rec );
+}
+
+void Item_spawn_data::check_consistency() const
+{
+    if( on_overflow != overflow_behaviour::none && !container_item ) {
+        debugmsg( "item group %s specifies overflow behaviour but not container", context() );
+    }
+    // Spawn ourselves with all possible items being definitely spawned, so as
+    // to verify e.g. that if a container item was specified it can actually
+    // contain what was wanted.
+    create( calendar::turn_zero, spawn_flags::maximized );
 }
 
 void Item_spawn_data::relic_generator::load( const JsonObject &jo )
@@ -47,8 +59,89 @@ relic Item_spawn_data::relic_generator::generate_relic( const itype_id &it_id ) 
     return id->generate( rules, it_id );
 }
 
-Single_item_creator::Single_item_creator( const std::string &_id, Type _type, int _probability )
-    : Item_spawn_data( _probability )
+namespace io
+{
+template<>
+std::string enum_to_string<Item_spawn_data::overflow_behaviour>(
+    Item_spawn_data::overflow_behaviour data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case Item_spawn_data::overflow_behaviour::none: return "none";
+        case Item_spawn_data::overflow_behaviour::spill: return "spill";
+        case Item_spawn_data::overflow_behaviour::discard: return "discard";
+        // *INDENT-ON*
+        case Item_spawn_data::overflow_behaviour::last:
+            break;
+    }
+    debugmsg( "Invalid overflow_behaviour" );
+    abort();
+}
+} // namespace io
+
+static item_pocket::pocket_type guess_pocket_for( const item &container, const item &payload )
+{
+    if( ( container.is_gun() && payload.is_gunmod() ) || ( container.is_tool() &&
+            payload.is_toolmod() ) ) {
+        return item_pocket::pocket_type::MOD;
+    }
+    if( container.is_software_storage() && payload.is_software() ) {
+        return item_pocket::pocket_type::SOFTWARE;
+    }
+    if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
+        return item_pocket::pocket_type::MAGAZINE_WELL;
+    } else if( ( container.is_magazine() ) && payload.is_ammo() ) {
+        return item_pocket::pocket_type::MAGAZINE;
+    }
+    return item_pocket::pocket_type::CONTAINER;
+}
+
+static void put_into_container(
+    Item_spawn_data::ItemList &items, const cata::optional<itype_id> container_type,
+    time_point birthday, Item_spawn_data::overflow_behaviour on_overflow,
+    const std::string &context )
+{
+    if( !container_type ) {
+        return;
+    }
+
+    // Randomly permute the list of items so that when some don't fit it's
+    // not always the ones at the end which are rejected.
+    std::shuffle( items.begin(), items.end(), rng_get_engine() );
+
+    item ctr( *container_type, birthday );
+    Item_spawn_data::ItemList excess;
+    for( const item &it : items ) {
+        if( ctr.can_contain( it ) ) {
+            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
+            ctr.put_in( it, pk_type );
+        } else {
+            switch( on_overflow ) {
+                case Item_spawn_data::overflow_behaviour::none:
+                    debugmsg( "item %s does not fit in container %s when spawning item group %s.  "
+                              "This can be resolved either by changing the container or contents "
+                              "to ensure that they fit, or by specifying an overflow behaviour via "
+                              "\"on_overflow\" on the item group.",
+                              it.typeId().str(), container_type->str(), context );
+                    break;
+                case Item_spawn_data::overflow_behaviour::spill:
+                    excess.push_back( it );
+                    break;
+                case Item_spawn_data::overflow_behaviour::discard:
+                    break;
+                case Item_spawn_data::overflow_behaviour::last:
+                    debugmsg( "Invalid overflow_behaviour" );
+                    break;
+            }
+        }
+    }
+    excess.push_back( ctr );
+    items = std::move( excess );
+}
+
+Single_item_creator::Single_item_creator( const std::string &_id, Type _type, int _probability,
+        const std::string &context )
+    : Item_spawn_data( _probability, context )
     , id( _id )
     , type( _type )
 {
@@ -84,7 +177,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         tmp.set_flag( flag_FIT );
     }
     if( modifier ) {
-        modifier->modify( tmp );
+        modifier->modify( tmp, "modifier for " + context() );
     } else {
         int qty = tmp.charges;
         if( modifier ) {
@@ -102,32 +195,19 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     return tmp;
 }
 
-static item_pocket::pocket_type guess_pocket_for( const item &container, const item &payload )
-{
-    if( ( container.is_gun() && payload.is_gunmod() ) || ( container.is_tool() &&
-            payload.is_toolmod() ) ) {
-        return item_pocket::pocket_type::MOD;
-    }
-    if( container.is_software_storage() && payload.is_software() ) {
-        return item_pocket::pocket_type::SOFTWARE;
-    }
-    if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
-        return item_pocket::pocket_type::MAGAZINE_WELL;
-    } else if( ( container.is_magazine() ) && payload.is_ammo() ) {
-        return item_pocket::pocket_type::MAGAZINE;
-    }
-    return item_pocket::pocket_type::CONTAINER;
-}
-
-Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthday,
-        RecursionList &rec ) const
+Item_spawn_data::ItemList Single_item_creator::create(
+    const time_point &birthday, RecursionList &rec, spawn_flags flags ) const
 {
     ItemList result;
     int cnt = 1;
     if( modifier ) {
         auto modifier_count = modifier->count;
-        cnt = ( modifier_count.first == modifier_count.second ) ? modifier_count.first : rng(
-                  modifier_count.first, modifier_count.second );
+        if( flags & spawn_flags::maximized ) {
+            cnt = modifier_count.second;
+        } else {
+            cnt = ( modifier_count.first == modifier_count.second ) ? modifier_count.first : rng(
+                      modifier_count.first, modifier_count.second );
+        }
     }
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
@@ -147,11 +227,11 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
                 debugmsg( "unknown item spawn list %s", id.c_str() );
                 return result;
             }
-            ItemList tmplist = isd->create( birthday, rec );
+            ItemList tmplist = isd->create( birthday, rec, flags );
             rec.erase( rec.end() - 1 );
             if( modifier ) {
                 for( auto &elem : tmplist ) {
-                    modifier->modify( elem );
+                    modifier->modify( elem, "modifier for " + context() );
                 }
             }
             result.insert( result.end(), tmplist.begin(), tmplist.end() );
@@ -162,26 +242,19 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
             it.overwrite_relic( artifact->generate_relic( it.typeId() ) );
         }
     }
-    if( container_item ) {
-        item ctr( *container_item, birthday );
-        for( const item &it : result ) {
-            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
-            ctr.put_in( it, pk_type );
-        }
-        result = ItemList{ ctr };
-    }
+    put_into_container( result, container_item, birthday, on_overflow, context() );
     return result;
 }
 
-void Single_item_creator::check_consistency( const std::string &context ) const
+void Single_item_creator::check_consistency() const
 {
     if( type == S_ITEM ) {
         if( !item::type_is_defined( itype_id( id ) ) ) {
-            debugmsg( "item id %s is unknown (in %s)", id, context );
+            debugmsg( "item id %s is unknown (in %s)", id, context() );
         }
     } else if( type == S_ITEM_GROUP ) {
         if( !item_group::group_is_defined( item_group_id( id ) ) ) {
-            debugmsg( "item group id %s is unknown (in %s)", id, context );
+            debugmsg( "item group id %s is unknown (in %s)", id, context() );
         }
     } else if( type == S_NONE ) {
         // this is okay, it will be ignored
@@ -189,8 +262,9 @@ void Single_item_creator::check_consistency( const std::string &context ) const
         debugmsg( "Unknown type of Single_item_creator: %d", static_cast<int>( type ) );
     }
     if( modifier ) {
-        modifier->check_consistency( context );
+        modifier->check_consistency( context() );
     }
+    Item_spawn_data::check_consistency();
 }
 
 bool Single_item_creator::remove_item( const itype_id &itemid )
@@ -215,17 +289,14 @@ bool Single_item_creator::remove_item( const itype_id &itemid )
     return type == S_NONE;
 }
 
-bool Single_item_creator::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Single_item_creator::replace_item( const itype_id &itemid, const itype_id &replacementid )
 {
     if( modifier ) {
-        if( modifier->replace_item( itemid, replacementid ) ) {
-            return true;
-        }
+        modifier->replace_item( itemid, replacementid );
     }
     if( type == S_ITEM ) {
         if( itemid.str() == id ) {
             id = replacementid.str();
-            return true;
         }
     } else if( type == S_ITEM_GROUP ) {
         Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
@@ -233,7 +304,6 @@ bool Single_item_creator::replace_item( const itype_id &itemid, const itype_id &
             isd->replace_item( itemid, replacementid );
         }
     }
-    return type == S_NONE;
 }
 
 bool Single_item_creator::has_item( const itype_id &itemid ) const
@@ -284,7 +354,7 @@ Item_modifier::Item_modifier()
 {
 }
 
-void Item_modifier::modify( item &new_item ) const
+void Item_modifier::modify( item &new_item, const std::string &context ) const
 {
     if( new_item.is_null() ) {
         return;
@@ -375,8 +445,8 @@ void Item_modifier::modify( item &new_item ) const
             } else if( new_item.is_magazine() ) {
                 new_item.ammo_set( new_item.ammo_default(), ch );
             } else {
-                debugmsg( "tried to set ammo for %s which does not have ammo or a magazine",
-                          new_item.typeId().c_str() );
+                debugmsg( "in %s: tried to set ammo for %s which does not have ammo or a magazine",
+                          context, new_item.typeId().str() );
             }
         } else if( new_item.type->can_have_charges() ) {
             new_item.charges = ch;
@@ -392,7 +462,7 @@ void Item_modifier::modify( item &new_item ) const
         } else if( new_item.magazine_default() && new_item.magazine_default()->magazine->default_ammo ) {
             ammo_id = new_item.magazine_default()->magazine->default_ammo;
         }
-        if( ammo_id ) {
+        if( ammo_id && !ammo_id.is_empty() ) {
             new_item.ammo_set( ammo_id, ch );
         } else {
             debugmsg( "tried to set ammo for %s which does not have ammo or a magazine",
@@ -458,16 +528,17 @@ void Item_modifier::modify( item &new_item ) const
 void Item_modifier::check_consistency( const std::string &context ) const
 {
     if( ammo != nullptr ) {
-        ammo->check_consistency( "ammo of " + context );
+        ammo->check_consistency();
     }
     if( container != nullptr ) {
-        container->check_consistency( "container of " + context );
+        container->check_consistency();
     }
     if( with_ammo < 0 || with_ammo > 100 ) {
-        debugmsg( "Item modifier's ammo chance %d is out of range", with_ammo );
+        debugmsg( "in %s: Item modifier's ammo chance %d is out of range", context, with_ammo );
     }
     if( with_magazine < 0 || with_magazine > 100 ) {
-        debugmsg( "Item modifier's magazine chance %d is out of range", with_magazine );
+        debugmsg( "in %s: Item modifier's magazine chance %d is out of range",
+                  context, with_magazine );
     }
 }
 
@@ -487,21 +558,22 @@ bool Item_modifier::remove_item( const itype_id &itemid )
     return false;
 }
 
-bool Item_modifier::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Item_modifier::replace_item( const itype_id &itemid, const itype_id &replacementid )
 {
-    if( ammo != nullptr ) {
+    if( ammo ) {
         ammo->replace_item( itemid, replacementid );
     }
-    if( container != nullptr ) {
-        if( container->replace_item( itemid, replacementid ) ) {
-            return true;
-        }
+    if( container ) {
+        container->replace_item( itemid, replacementid );
     }
-    return false;
+    if( contents ) {
+        contents->replace_item( itemid, replacementid );
+    }
 }
 
-Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance )
-    : Item_spawn_data( probability )
+Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance,
+                        const std::string &context )
+    : Item_spawn_data( probability, context )
     , type( t )
     , with_ammo( ammo_chance )
     , with_magazine( magazine_chance )
@@ -520,14 +592,16 @@ Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_c
 
 void Item_group::add_item_entry( const itype_id &itemid, int probability )
 {
+    std::string entry_context = "item " + itemid.str() + " within " + context();
     add_entry( std::make_unique<Single_item_creator>(
-                   itemid.str(), Single_item_creator::S_ITEM, probability ) );
+                   itemid.str(), Single_item_creator::S_ITEM, probability, entry_context ) );
 }
 
 void Item_group::add_group_entry( const item_group_id &groupid, int probability )
 {
     add_entry( std::make_unique<Single_item_creator>(
-                   groupid.str(), Single_item_creator::S_ITEM_GROUP, probability ) );
+                   groupid.str(), Single_item_creator::S_ITEM_GROUP, probability,
+                   "item_group id " + groupid.str() ) );
 }
 
 void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
@@ -550,15 +624,16 @@ void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
     items.push_back( std::move( ptr ) );
 }
 
-Item_spawn_data::ItemList Item_group::create( const time_point &birthday, RecursionList &rec ) const
+Item_spawn_data::ItemList Item_group::create(
+    const time_point &birthday, RecursionList &rec, spawn_flags flags ) const
 {
     ItemList result;
     if( type == G_COLLECTION ) {
         for( const auto &elem : items ) {
-            if( rng( 0, 99 ) >= ( elem )->probability ) {
+            if( !( flags & spawn_flags::maximized ) && rng( 0, 99 ) >= ( elem )->probability ) {
                 continue;
             }
-            ItemList tmp = ( elem )->create( birthday, rec );
+            ItemList tmp = ( elem )->create( birthday, rec, flags );
             result.insert( result.end(), tmp.begin(), tmp.end() );
         }
     } else if( type == G_DISTRIBUTION ) {
@@ -568,19 +643,12 @@ Item_spawn_data::ItemList Item_group::create( const time_point &birthday, Recurs
             if( p >= 0 ) {
                 continue;
             }
-            ItemList tmp = ( elem )->create( birthday, rec );
+            ItemList tmp = ( elem )->create( birthday, rec, flags );
             result.insert( result.end(), tmp.begin(), tmp.end() );
             break;
         }
     }
-    if( container_item ) {
-        item ctr( *container_item, birthday );
-        for( const item &it : result ) {
-            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
-            ctr.put_in( it, pk_type );
-        }
-        result = ItemList{ ctr };
-    }
+    put_into_container( result, container_item, birthday, on_overflow, context() );
 
     return result;
 }
@@ -607,11 +675,12 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
     return item( null_item_id, birthday );
 }
 
-void Item_group::check_consistency( const std::string &context ) const
+void Item_group::check_consistency() const
 {
     for( const auto &elem : items ) {
-        ( elem )->check_consistency( "item in " + context );
+        ( elem )->check_consistency();
     }
+    Item_spawn_data::check_consistency();
 }
 
 void Item_spawn_data::set_container_item( const itype_id &container )
@@ -632,12 +701,11 @@ bool Item_group::remove_item( const itype_id &itemid )
     return items.empty();
 }
 
-bool Item_group::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Item_group::replace_item( const itype_id &itemid, const itype_id &replacementid )
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
         ( elem )->replace_item( itemid, replacementid );
     }
-    return items.empty();
 }
 
 bool Item_group::has_item( const itype_id &itemid ) const
@@ -736,7 +804,7 @@ static item_group_id get_unique_group_id()
 }
 
 item_group_id item_group::load_item_group( const JsonValue &value,
-        const std::string &default_subtype )
+        const std::string &default_subtype, const std::string &context )
 {
     if( value.test_string() ) {
         return item_group_id( value.get_string() );
@@ -745,7 +813,7 @@ item_group_id item_group::load_item_group( const JsonValue &value,
 
         JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
-        item_controller->load_item_group( jo, group, subtype );
+        item_controller->load_item_group( jo, group, subtype, context );
 
         return group;
     } else if( value.test_array() ) {
@@ -757,7 +825,8 @@ item_group_id item_group::load_item_group( const JsonValue &value,
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
             debugmsg( "invalid subtype for item group: %s", default_subtype.c_str() );
         }
-        item_controller->load_item_group( jarr, group, default_subtype == "collection", 0, 0 );
+        item_controller->load_item_group( jarr, group, default_subtype == "collection", 0, 0,
+                                          context );
 
         return group;
     }

@@ -807,7 +807,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "death_drops" ) ) {
         death_drops =
-            item_group::load_item_group( jo.get_member( "death_drops" ), "distribution" );
+            item_group::load_item_group( jo.get_member( "death_drops" ), "distribution",
+                                         "death_drops for mtype " + id.str() );
     }
 
     assign( jo, "harvest", harvest );

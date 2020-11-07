@@ -777,8 +777,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     }
 
                     int y = 1 + ( cur_it % maxitems );
-                    trim_and_print( w_pickup, point( 6, y ), pickupW - 4, icolor, item_name );
-                    pickup_rect rect = pickup_rect( point( 6, y ), point( 6 + pickupW - 4 - 1, y ) );
+                    trim_and_print( w_pickup, point( 6, y ), pickupW - 6, icolor, item_name );
+                    pickup_rect rect = pickup_rect( point( 6, y ), point( pickupW - 1, y ) );
                     rect.cur_it = cur_it;
                     pickup_rect::list.push_back( rect );
                 }

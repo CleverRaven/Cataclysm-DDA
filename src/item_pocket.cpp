@@ -116,6 +116,12 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "ammo_restriction", ammo_restriction );
     optional( jo, was_loaded, "item_restriction", item_id_restriction );
     optional( jo, was_loaded, "allowed_speedloaders", allowed_speedloaders );
+    if( jo.has_member( "ammo_restriction" ) && ammo_restriction.empty() ) {
+        jo.throw_error( "pocket defines empty ammo_restriction" );
+    }
+    if( jo.has_member( "item_restriction" ) && item_id_restriction.empty() ) {
+        jo.throw_error( "pocket defines empty item_restriction" );
+    }
     if( !item_id_restriction.empty() ) {
         std::vector<itype_id> item_restriction;
         mandatory( jo, was_loaded, "item_restriction", item_restriction );
@@ -959,26 +965,24 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
     bool contents_header = false;
     for( const item &contents_item : contents ) {
-        if( !contents_item.type->mod ) {
-            if( !contents_header ) {
-                info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this pocket</bold>:" ) );
-                contents_header = true;
-            } else {
-                // Separate items with a blank line
-                info.emplace_back( "DESCRIPTION", space );
-            }
+        if( !contents_header ) {
+            info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this pocket</bold>:" ) );
+            contents_header = true;
+        } else {
+            // Separate items with a blank line
+            info.emplace_back( "DESCRIPTION", space );
+        }
 
-            const translation &description = contents_item.type->description;
+        const translation &description = contents_item.type->description;
 
-            if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
-                info.emplace_back( "DESCRIPTION", colorize( contents_item.display_name(),
-                                   contents_item.color_in_inventory() ) );
-                info.emplace_back( vol_to_info( "CONTAINER", description + space,
-                                                contents_item.volume() ) );
-            } else {
-                info.emplace_back( "DESCRIPTION", colorize( contents_item.display_name(),
-                                   contents_item.color_in_inventory() ) );
-            }
+        if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
+            info.emplace_back( "DESCRIPTION", colorize( contents_item.display_name(),
+                               contents_item.color_in_inventory() ) );
+            info.emplace_back( vol_to_info( "CONTAINER", description + space,
+                                            contents_item.volume() ) );
+        } else {
+            info.emplace_back( "DESCRIPTION", colorize( contents_item.display_name(),
+                               contents_item.color_in_inventory() ) );
         }
     }
 }
