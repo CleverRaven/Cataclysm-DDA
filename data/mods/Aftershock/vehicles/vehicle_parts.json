@@ -189,7 +189,7 @@
       { "item": "vac_sealer", "charges": 0, "prob": 50 },
       { "item": "dehydrator", "charges": 0, "prob": 50 },
       { "item": "food_processor", "charges": 0, "prob": 50 },
-      { "item": "press", "charges": 0, "prob": 50 }
+      { "item": "press", "prob": 50 }
     ]
   },
   {
