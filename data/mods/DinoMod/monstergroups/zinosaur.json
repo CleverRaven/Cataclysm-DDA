@@ -173,6 +173,7 @@
       { "monster": "mon_zentaceratops", "freq": 1, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zorosaurus", "freq": 1, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zriceratops", "freq": 1, "cost_multiplier": 60, "starts": 72, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_Zianzhousaurus", "freq": 4, "cost_multiplier": 70, "starts": 72, "pack_size": [ 4, 8 ] }
     ]
   },
   {
