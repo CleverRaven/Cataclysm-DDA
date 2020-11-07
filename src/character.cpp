@@ -2201,16 +2201,11 @@ bool Character::can_fuel_bionic_with( const item &it ) const
     }
 
     for( const bionic_id &bid : get_bionics() ) {
-        for( const itype_id &fuel : bid->fuel_opts ) {
-            if( fuel == it.typeId() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == it.get_base_material().id ) {
                 return true;
-            } else if( it.type->magazine && fuel == it.ammo_current() ) {
+            } else if( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) {
                 return true;
-            } else if( it.flammable() ) {
-                itype_id mat_to_burn( it.get_base_material().id.c_str() );
-                if( mat_to_burn.is_valid() && fuel == mat_to_burn ) {
-                    return true;
-                }
             }
         }
 
@@ -2223,16 +2218,26 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
     std::vector<bionic_id> bionics;
 
     for( const bionic_id &bid : get_bionics() ) {
-        for( const itype_id &fuel : bid->fuel_opts ) {
-            if( fuel == it.typeId() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == it.get_base_material().id ) {
                 bionics.emplace_back( bid );
-            } else if( it.type->magazine && fuel == it.ammo_current() ) {
+            } else if( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) {
                 bionics.emplace_back( bid );
-            } else if( it.flammable() ) {
-                itype_id mat_to_burn( it.get_base_material().id.c_str() );
-                if( mat_to_burn.is_valid() && fuel == mat_to_burn ) {
-                    bionics.emplace_back( bid );
-                }
+            }
+        }
+    }
+
+    return bionics;
+}
+
+std::vector<bionic_id> Character::get_bionic_fueled_with( const material_id &mat ) const
+{
+    std::vector<bionic_id> bionics;
+
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == mat ) {
+                bionics.emplace_back( bid );
             }
         }
     }
@@ -2488,19 +2493,18 @@ void Character::conduct_blood_analysis()
     }
 }
 
-std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) const
+std::vector<material_id> Character::get_fuel_available( const bionic_id &bio ) const
 {
-    std::vector<itype_id> stored_fuels;
-    for( const itype_id &fuel : bio->fuel_opts ) {
-        const item tmp_fuel( fuel );
-        if( !get_value( fuel.str() ).empty() || tmp_fuel.has_flag( flag_PERPETUAL ) ) {
+    std::vector<material_id> stored_fuels;
+    for( const material_id &fuel : bio->fuel_opts ) {
+        if( !get_value( fuel.str() ).empty() || fuel->get_fuel_data().is_perpetual_fuel ) {
             stored_fuels.emplace_back( fuel );
         }
     }
     return stored_fuels;
 }
 
-int Character::get_fuel_capacity( const itype_id &fuel ) const
+int Character::get_fuel_capacity( const material_id &fuel ) const
 {
     int amount_stored = 0;
     if( !get_value( fuel.str() ).empty() ) {
@@ -2508,7 +2512,7 @@ int Character::get_fuel_capacity( const itype_id &fuel ) const
     }
     int capacity = 0;
     for( const bionic_id &bid : get_bionics() ) {
-        for( const itype_id &fl : bid->fuel_opts ) {
+        for( const material_id &fl : bid->fuel_opts ) {
             if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
                 if( fl == fuel ) {
                     capacity += bid->fuel_capacity;
@@ -2519,11 +2523,11 @@ int Character::get_fuel_capacity( const itype_id &fuel ) const
     return capacity - amount_stored;
 }
 
-int Character::get_total_fuel_capacity( const itype_id &fuel ) const
+int Character::get_total_fuel_capacity( const material_id &fuel ) const
 {
     int capacity = 0;
     for( const bionic_id &bid : get_bionics() ) {
-        for( const itype_id &fl : bid->fuel_opts ) {
+        for( const material_id &fl : bid->fuel_opts ) {
             if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
                 if( fl == fuel ) {
                     capacity += bid->fuel_capacity;
@@ -2534,17 +2538,17 @@ int Character::get_total_fuel_capacity( const itype_id &fuel ) const
     return capacity;
 }
 
-void Character::update_fuel_storage( const itype_id &fuel )
+void Character::update_fuel_storage( const material_id &fuel )
 {
-    const item it( fuel );
+
     if( get_value( fuel.str() ).empty() ) {
-        for( const bionic_id &bid : get_bionic_fueled_with( it ) ) {
+        for( const bionic_id &bid : get_bionic_fueled_with( fuel ) ) {
             remove_value( bid.c_str() );
         }
         return;
     }
 
-    std::vector<bionic_id> bids = get_bionic_fueled_with( it );
+    std::vector<bionic_id> bids = get_bionic_fueled_with( fuel );
     if( bids.empty() ) {
         return;
     }

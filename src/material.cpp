@@ -338,6 +338,7 @@ void fuel_data::load( const JsonObject &jsobj )
     mandatory( jsobj, was_loaded, "energy", energy );
     optional( jsobj, was_loaded, "pump_terrain", pump_terrain );
     optional( jsobj, was_loaded, "explosion_data", explosion_data );
+    optional( jsobj, was_loaded, "perpetual", is_perpetual_fuel );
 }
 
 void fuel_data::deserialize( JsonIn &jsin )

@@ -45,6 +45,7 @@ struct fuel_data {
         fuel_explosion_data explosion_data;
         bool has_explode_data = false;
         std::string pump_terrain = "t_null";
+        bool is_perpetual_fuel = false;
 
         bool was_loaded = false;
         void load( const JsonObject &jsobj );

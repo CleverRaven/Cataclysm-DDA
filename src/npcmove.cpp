@@ -120,16 +120,17 @@ static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const itype_id itype_battery( "battery" );
-static const itype_id itype_chem_ethanol( "chem_ethanol" );
-static const itype_id itype_chem_methanol( "chem_methanol" );
-static const itype_id itype_denat_alcohol( "denat_alcohol" );
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_lsd( "lsd" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_UPS( "UPS" );
+
+static const material_id material_battery( "battery" );
+static const material_id material_chem_ethanol( "chem_ethanol" );
+static const material_id material_chem_methanol( "chem_methanol" );
+static const material_id material_denat_alcohol( "denat_alcohol" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -1725,8 +1726,9 @@ bool npc::recharge_cbm()
             return true;
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
-                for( const itype_id &fid : bid->fuel_opts ) {
-                    return ( it.typeId() == fid ) || ( it.is_magazine() && it.ammo_current() == fid );
+                for( const material_id &fid : bid->fuel_opts ) {
+                    return ( it.get_base_material().id == fid ) || ( it.is_magazine() &&
+                            item( it.ammo_current() ).get_base_material().id == fid );
                 }
                 return false;
             };
@@ -1735,16 +1737,16 @@ bool npc::recharge_cbm()
                 use_bionic_by_id( bid );
                 return true;
             } else {
-                const std::vector<itype_id> fuel_op = bid->fuel_opts;
+                const std::vector<material_id> fuel_op = bid->fuel_opts;
                 const bool need_alcohol =
-                    std::find( fuel_op.begin(), fuel_op.end(), itype_chem_ethanol ) !=
+                    std::find( fuel_op.begin(), fuel_op.end(), material_chem_ethanol ) !=
                     fuel_op.end() ||
-                    std::find( fuel_op.begin(), fuel_op.end(), itype_chem_methanol ) !=
+                    std::find( fuel_op.begin(), fuel_op.end(), material_chem_methanol ) !=
                     fuel_op.end() ||
-                    std::find( fuel_op.begin(), fuel_op.end(), itype_denat_alcohol ) !=
+                    std::find( fuel_op.begin(), fuel_op.end(), material_denat_alcohol ) !=
                     fuel_op.end();
 
-                if( std::find( fuel_op.begin(), fuel_op.end(), itype_battery ) != fuel_op.end() ) {
+                if( std::find( fuel_op.begin(), fuel_op.end(), material_battery ) != fuel_op.end() ) {
                     complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
                 } else if( need_alcohol ) {
                     complain_about( "need_booze", 3_hours, "<need_booze>", false );

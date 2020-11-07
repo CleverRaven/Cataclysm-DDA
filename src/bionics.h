@@ -63,7 +63,7 @@ struct bionic_data {
     /**This bionic draws power through a cable*/
     bool is_remote_fueled = false;
     /**Fuel types that can be used by this bionic*/
-    std::vector<itype_id> fuel_opts;
+    std::vector<material_id> fuel_opts;
     /**How much fuel this bionic can hold*/
     int fuel_capacity = 0;
     /**Fraction of fuel energy converted to bionic power*/
@@ -182,7 +182,7 @@ struct bionic {
 
         int get_quality( const quality_id &quality ) const;
 
-        bool is_this_fuel_powered( const itype_id &this_fuel ) const;
+        bool is_this_fuel_powered( const material_id &this_fuel ) const;
         void toggle_safe_fuel_mod();
         void toggle_auto_start_mod();
 

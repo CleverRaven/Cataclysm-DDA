@@ -18,6 +18,47 @@
   },
   {
     "type": "material",
+    "id": "battery",
+    "name": "Battery",
+    "copy-from": "pseudo_fuel"
+  },
+  {
+    "type": "material",
+    "id": "wind",
+    "name": "Wind",
+    "fuel_data": { "energy": 1, "perpetual": true },
+    "copy-from": "pseudo_fuel"
+  },
+  {
+    "type": "material",
+    "id": "sunlight",
+    "name": "Sunlight",
+    "fuel_data": { "energy": 1, "perpetual": true },
+    "copy-from": "pseudo_fuel"
+  },
+  {
+    "type": "material",
+    "id": "animal",
+    "name": "Animal",
+    "fuel_data": { "energy": 1, "perpetual": true },
+    "copy-from": "pseudo_fuel"
+  },
+  {
+    "type": "material",
+    "id": "muscle",
+    "name": "Muscle",
+    "fuel_data": { "energy": 1, "perpetual": true },
+    "copy-from": "pseudo_fuel"
+  },
+  {
+    "type": "material",
+    "id": "metabolism",
+    "name": "Metabolism",
+    "fuel_data": { "energy": 1, "perpetual": true },
+    "copy-from": "pseudo_fuel"
+  },
+  {
+    "type": "material",
     "id": "alcohol",
     "name": "Alcohol",
     "density": 1,
@@ -1760,7 +1801,8 @@
       { "fuel": 2, "smoke": 1, "burn": 0.02, "volume_per_turn": "825 ml" },
       { "fuel": 3, "smoke": 1, "burn": 0.03 }
     ],
-    "burn_products": [ [ "ash", 0.018 ] ]
+    "burn_products": [ [ "ash", 0.018 ] ],
+    "fuel_data": { "energy": 1 }
   },
   {
     "type": "material",

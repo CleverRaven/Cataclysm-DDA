@@ -622,15 +622,13 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
     } else if( cbm != rechargeable_cbm::none ) {
         std::string item_name = food.tname();
-        itype_id item_type = food.typeId();
+        material_id mat_type = food.get_base_material().id;
         if( food.type->magazine ) {
             const item ammo = item( food.ammo_current() );
             item_name = ammo.tname();
-            item_type = ammo.typeId();
+            mat_type = ammo.get_base_material().id;
         }
-        itype_id mat_to_burn( food.get_base_material().id.c_str() );
-        if( get_fuel_capacity( item_type ) <= 0 && !( mat_to_burn.is_valid() &&
-                get_fuel_capacity( mat_to_burn ) > 0 ) ) {
+        if( get_fuel_capacity( mat_type ) <= 0 ) {
             return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
         } else {
             return ret_val<edible_rating>::make_success();
@@ -1554,27 +1552,24 @@ bool Character::fuel_bionic_with( item &it )
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
     const bool is_magazine = !!it.type->magazine;
-    std::string item_name = it.tname();
-    itype_id item_type = it.typeId();
     int loadable;
+    material_id mat = it.get_base_material().id;
+
     if( is_magazine ) {
         const item ammo = item( it.ammo_current() );
-        item_name = ammo.tname();
-        item_type = ammo.typeId();
-        loadable = std::min( it.ammo_remaining(), get_fuel_capacity( item_type ) );
-        it.ammo_set( item_type, it.ammo_remaining() - loadable );
+        mat = ammo.get_base_material().id;
+        loadable = std::min( it.ammo_remaining(), get_fuel_capacity( mat ) );
+        it.ammo_set( ammo.typeId(), it.ammo_remaining() - loadable );
     } else if( it.flammable() ) {
-        //The fuel is actually the material the item is made of and not the item itself here.
-        item_type = itype_id( it.get_base_material().id.c_str() );
-
-        loadable = std::min( units::to_milliliter( it.volume() ), get_fuel_capacity( item_type ) );
+        // This a special case for items that are not fuels and don't have charges
+        loadable = std::min( units::to_milliliter( it.volume() ), get_fuel_capacity( mat ) );
         it.charges -= it.charges_per_volume( units::from_milliliter( loadable ) );
     } else {
-        loadable = std::min( it.charges, get_fuel_capacity( item_type ) );
+        loadable = std::min( it.charges, get_fuel_capacity( mat ) );
         it.charges -= loadable;
     }
 
-    const std::string str_loaded  = get_value( item_type.str() );
+    const std::string str_loaded  = get_value( mat.str() );
     int loaded = 0;
     if( !str_loaded.empty() ) {
         loaded = std::stoi( str_loaded );
@@ -1583,16 +1578,16 @@ bool Character::fuel_bionic_with( item &it )
     const std::string new_charge = std::to_string( loadable + loaded );
 
     // Type and amount of fuel
-    set_value( item_type.str(), new_charge );
-    update_fuel_storage( item_type );
+    set_value( mat.str(), new_charge );
+    update_fuel_storage( mat );
     add_msg_player_or_npc( m_info,
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
                            ngettext( "You load %1$i charge of %2$s in your %3$s.",
                                      "You load %1$i charges of %2$s in your %3$s.", loadable ),
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
                            ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
-                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, item_name, bio->name );
-    //TODO: This should be an activity
+                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
+                           bio->name );
     mod_moves( -250 );
     // Return false for magazines because only their ammo is consumed
     return !is_magazine;
@@ -1659,6 +1654,9 @@ int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) con
                 item ammo = item( it.ammo_current() );
                 to_consume = std::min( it.ammo_remaining(), bid->fuel_capacity );
                 to_charge = ammo.fuel_energy() * to_consume * bid->fuel_efficiency;
+            } else if( it.flammable() ) {
+                to_consume = std::min( units::to_milliliter( it.volume() ), bid->fuel_capacity );
+                to_charge = it.get_base_material().id->get_fuel_data().energy * to_consume * bid->fuel_efficiency;
             } else {
                 to_consume = std::min( it.charges, bid->fuel_capacity );
                 to_charge = it.fuel_energy() * to_consume * bid->fuel_efficiency;

@@ -3404,7 +3404,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     const bionic_id bid = type->bionic->id;
-    const std::vector<itype_id> &fuels = bid->fuel_opts;
+    const std::vector<material_id> &fuels = bid->fuel_opts;
     if( !fuels.empty() ) {
         const int &fuel_numb = fuels.size();
 
@@ -3412,7 +3412,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                   ngettext( "* This bionic can produce power from the following fuel: ",
                                             "* This bionic can produce power from the following fuels: ",
                                             fuel_numb ) + enumerate_as_string( fuels.begin(),
-                                                    fuels.end(), []( const itype_id & id ) -> std::string { return "<info>" + item_controller->find_template( id )->nname( 1 ) + "</info>"; } ) ) );
+                                                    fuels.end(), []( const material_id & id ) -> std::string { return "<info>" + id->name() + "</info>"; } ) ) );
     }
 
     insert_separation_line( info );
