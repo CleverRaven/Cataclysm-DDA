@@ -230,4 +230,5 @@
         { "item": "stash_food", "chance": 50, "repeat": [ 3, 8 ] }
       ]
     }
+  }
 ]
