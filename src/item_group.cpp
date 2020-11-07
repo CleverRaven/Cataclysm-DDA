@@ -560,11 +560,14 @@ bool Item_modifier::remove_item( const itype_id &itemid )
 
 void Item_modifier::replace_item( const itype_id &itemid, const itype_id &replacementid )
 {
-    if( ammo != nullptr ) {
+    if( ammo ) {
         ammo->replace_item( itemid, replacementid );
     }
-    if( container != nullptr ) {
+    if( container ) {
         container->replace_item( itemid, replacementid );
+    }
+    if( contents ) {
+        contents->replace_item( itemid, replacementid );
     }
 }
 
