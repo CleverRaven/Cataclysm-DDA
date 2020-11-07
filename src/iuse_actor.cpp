@@ -3386,21 +3386,21 @@ bodypart_id heal_actor::use_healing_item( player &healer, player &patient, item 
         // NPCs heal whatever has sustained the most damage that they can heal but don't
         // rebandage parts unless they are bleeding significantly
         int highest_damage = 0;
-        for( const std::pair<const bodypart_str_id, bodypart> &elem : patient.get_body() ) {
-            const bodypart &part = elem.second;
+        for( bodypart_id part_id : patient.get_all_body_parts( get_body_part_flags::only_main ) ) {
+            bodypart_str_id part_str_id = part_id.id();
             int damage = 0;
-            if( ( !patient.has_effect( effect_bandaged, elem.first ) && bandages_power > 0 ) ||
-                ( !patient.has_effect( effect_disinfected, elem.first ) && disinfectant_power > 0 ) ) {
-                damage += part.get_hp_max() - part.get_hp_cur();
-                damage += bite * patient.get_effect_dur( effect_bite, elem.first ) / 10_minutes;
-                damage += infect * patient.get_effect_dur( effect_infected, elem.first ) / 10_minutes;
+            if( ( !patient.has_effect( effect_bandaged, part_str_id ) && bandages_power > 0 ) ||
+                ( !patient.has_effect( effect_disinfected, part_str_id ) && disinfectant_power > 0 ) ) {
+                damage += patient.get_part_hp_max( part_id ) - patient.get_part_hp_cur( part_id );
+                damage += bite * patient.get_effect_dur( effect_bite, part_str_id ) / 10_minutes;
+                damage += infect * patient.get_effect_dur( effect_infected, part_str_id ) / 10_minutes;
             }
-            if( patient.get_effect_int( effect_bleed, elem.first ) > 5 && bleed > 0 ) {
-                damage += bleed * patient.get_effect_dur( effect_bleed, elem.first ) / 5_minutes;
+            if( patient.get_effect_int( effect_bleed, part_str_id ) > 5 && bleed > 0 ) {
+                damage += bleed * patient.get_effect_dur( effect_bleed, part_str_id ) / 5_minutes;
             }
             if( damage > highest_damage ) {
                 highest_damage = damage;
-                healed = elem.first.id();
+                healed = part_id;
             }
         }
     } else if( patient.is_player() ) {
