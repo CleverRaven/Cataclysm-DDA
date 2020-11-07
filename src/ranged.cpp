@@ -30,6 +30,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gun_mode.h"
@@ -67,7 +68,7 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "units_fwd.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -84,7 +85,6 @@ static const itype_id itype_84x246mm( "84x246mm" );
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_arrow( "arrow" );
 static const itype_id itype_bolt( "bolt" );
-static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_flammable( "flammable" );
 static const itype_id itype_m235( "m235" );
 static const itype_id itype_metal_rail( "metal_rail" );
@@ -108,23 +108,19 @@ static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_targeting( "bio_targeting" );
 static const bionic_id bio_ups( "bio_ups" );
 
-static const std::string flag_CONSUMABLE( "CONSUMABLE" );
-static const std::string flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
 static const std::string flag_MOUNTABLE( "MOUNTABLE" );
-static const std::string flag_MOUNTED_GUN( "MOUNTED_GUN" );
-static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
-static const std::string flag_NON_FOULING( "NON-FOULING" );
-static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
-static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
-static const std::string flag_UNDERWATER_GUN( "UNDERWATER_GUN" );
-static const std::string flag_VEHICLE( "VEHICLE" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static projectile make_gun_projectile( const item &gun );
 static int time_to_attack( const Character &p, const itype &firing );
-static void cycle_action( item &weap, const tripoint &pos );
+/**
+* Handle spent ammo casings and linkages.
+* @param weap   Weapon.
+* @param ammo   Ammo used.
+* @param pos    Character position.
+*/
+static void cycle_action( item &weap, itype_id ammo, const tripoint &pos );
 static void make_gun_sound_effect( const player &p, bool burst, item *weapon );
 
 class target_ui
@@ -574,7 +570,7 @@ bool player::handle_gun_damage( item &it )
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
     int effective_durability = firing.durability;
-    if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( effective_durability ) ) {
+    if( is_underwater() && !it.has_flag( flag_WATERPROOF_GUN ) && one_in( effective_durability ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a wet click!" ),
                                _( "<npcname>'s %s misfires with a wet click!" ),
                                it.tname() );
@@ -798,12 +794,11 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
-
-        cycle_action( gun, pos() );
+        const itype_id current_ammo = gun.ammo_current();
 
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
-            if( gun.ammo_current() == itype_flammable || gun.ammo_current() == itype_66mm ||
-                gun.ammo_current() == itype_84x246mm || gun.ammo_current() == itype_m235 ) {
+            if( current_ammo == itype_flammable || current_ammo == itype_66mm ||
+                current_ammo == itype_84x246mm || current_ammo == itype_m235 ) {
                 add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
                                    gun.tname() );
                 add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
@@ -814,6 +809,10 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname() );
             break;
+        }
+
+        if( !current_ammo.is_null() ) {
+            cycle_action( gun, current_ammo, pos() );
         }
 
         if( !gun.has_flag( flag_VEHICLE ) ) {
@@ -1022,7 +1021,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
                    static_cast<double>( MAX_SKILL ) ) * 0.85 + 0.15;
     impact.add_damage( damage_type::BASH, std::min( weight / 100.0_gram, stats_mod ) );
 
-    if( thrown.has_flag( "ACT_ON_RANGED_HIT" ) ) {
+    if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
         proj_effects.insert( "ACT_ON_RANGED_HIT" );
         thrown.active = true;
     }
@@ -1076,7 +1075,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         du.res_pen += skill_level / 2.0f;
     }
     // handling for tangling thrown items
-    if( thrown.has_flag( "TANGLE" ) ) {
+    if( thrown.has_flag( flag_TANGLE ) ) {
         proj_effects.insert( "TANGLE" );
     }
 
@@ -1087,7 +1086,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Put the item into the projectile
     proj.set_drop( std::move( thrown ) );
-    if( thrown_type->item_tags.count( "CUSTOM_EXPLOSION" ) ) {
+    if( thrown_type->has_flag( flag_CUSTOM_EXPLOSION ) ) {
         proj.set_custom_explosion( thrown_type->explosion );
     }
 
@@ -1174,7 +1173,8 @@ static double confidence_estimate( int range, double target_size,
     if( range == 0 ) {
         return 2 * target_size;
     }
-    const double max_lateral_offset = iso_tangent( range, dispersion.max() );
+    const double max_lateral_offset =
+        iso_tangent( range, units::from_arcmin( dispersion.max() ) );
     return 1 / ( max_lateral_offset / target_size );
 }
 
@@ -1234,7 +1234,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     }
 
     std::string label_m = _( "Moves" );
-    std::vector<std::string> t_aims( 4 ), t_confidence( 16 );
+    std::vector<std::string> t_aims( 4 ), t_confidence( 20 );
     int aim_iter = 0, conf_iter = 0;
 
     nc_color col = c_dark_gray;
@@ -1268,11 +1268,11 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         line_number++;
     }
     if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type == "numbers" ) {
-        std::string symbols = _( " <color_green>Great</color> - <color_light_gray>Normal</color>"
-                                 " - <color_magenta>Graze</color> - <color_light_blue>Moves</color>" );
+        std::string symbols = _( " <color_green>Great</color> <color_light_gray>Normal</color>"
+                                 " <color_magenta>Graze</color> <color_dark_gray>Miss</color> <color_light_blue>Moves</color>" );
         fold_and_print( w, point( 1, line_number++ ), window_width + bars_pad,
                         c_dark_gray, symbols );
-        int len = utf8_width( symbols ) - 96; // 96 to subtract color codes
+        int len = utf8_width( symbols ) - 121; // to subtract color codes
         if( len > window_width + bars_pad ) {
             line_number++;
         }
@@ -1311,7 +1311,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         if( ( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
             if( display_type == "numbers" ) {
                 t_aims[aim_iter] = string_format( "<color_dark_gray>%s:</color>", label );
-                t_confidence[( aim_iter * 4 ) + 3] = string_format( "<color_light_blue>%d</color>", moves_to_fire );
+                t_confidence[( aim_iter * 5 ) + 4] = string_format( "<color_light_blue>%d</color>", moves_to_fire );
             } else {
                 print_colored_text( w, point( 1, line_number ), col, col, string_format( _( "%s %s:" ), label,
                                     aim_l ) );
@@ -1330,13 +1330,16 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         if( display_type == "numbers" ) {
             if( panel_type == "compact" || panel_type == "labels-narrow" ) {
                 int last_chance = 0;
+                conf_iter = 0;
                 for( const confidence_rating &cr : confidence_config ) {
                     int chance = std::min<int>( 100, 100.0 * ( cr.aim_level ) * confidence ) - last_chance;
                     last_chance += chance;
-                    t_confidence[conf_iter] = string_format( "<color_%s>%3d%%</color>", cr.color, chance );
+                    t_confidence[conf_iter + ( aim_iter * 5 )] = string_format( "<color_%s>%3d%%</color>", cr.color,
+                            chance );
                     conf_iter++;
-                    if( conf_iter == ( aim_iter * 4 ) + 3 ) {
-                        conf_iter++;
+                    if( conf_iter == 3 ) {
+                        t_confidence[conf_iter + ( aim_iter * 5 )] = string_format( "<color_%s>%3d%%</color>", "dark_gray",
+                                100 - last_chance );
                     }
                 }
                 aim_iter++;
@@ -1350,6 +1353,8 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                     return string_format( "%s: <color_%s>%3d%%</color>", pgettext( "aim_confidence",
                                           config.label.c_str() ), config.color, chance );
                 }, enumeration_conjunction::none );
+                confidence_s.append( string_format( ", Miss: <color_light_gray>%3d%%</color>",
+                                                    ( 100 - last_chance ) ) );
                 line_number += fold_and_print_from( w, point( 1, line_number ), window_width, 0,
                                                     c_dark_gray, confidence_s );
             }
@@ -1373,7 +1378,8 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     if( ( panel_type == "compact" || panel_type == "labels-narrow" )
         && display_type == "numbers" ) {
         const std::string divider = "|";
-        int left_pad = 10, columns = 4;
+        int left_pad = 8;
+        int columns = 5;
         insert_table( w, left_pad, ++line_number, columns, c_light_gray, divider, true, t_confidence );
         insert_table( w, 0, line_number, 1, c_light_gray, "", false, t_aims );
         line_number = line_number + 4; // 4 to account for the tables
@@ -1562,7 +1568,7 @@ int time_to_attack( const Character &p, const itype &firing )
                      info.base_time - info.time_reduction_per_level * p.get_skill_level( skill_used ) );
 }
 
-static void cycle_action( item &weap, const tripoint &pos )
+static void cycle_action( item &weap, itype_id ammo, const tripoint &pos )
 {
     map &here = get_map();
     // eject casings and linkages in random direction avoiding walls using player position as fallback
@@ -1576,15 +1582,17 @@ static void cycle_action( item &weap, const tripoint &pos )
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
     const optional_vpart_position vp = here.veh_at( pos );
     std::vector<vehicle_part *> cargo;
-    if( vp && weap.has_flag( "VEHICLE" ) ) {
+    if( vp && weap.has_flag( flag_VEHICLE ) ) {
         cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
     }
 
-    item *brass_catcher = weap.gunmod_find_by_flag( "BRASS_CATCHER" );
-    if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
-        const itype_id casing = *weap.ammo_data()->ammo->casing;
-        if( weap.has_flag( "RELOAD_EJECT" ) ) {
-            weap.put_in( item( casing ).set_flag( "CASING" ), item_pocket::pocket_type::CONTAINER );
+    item *brass_catcher = weap.gunmod_find_by_flag( flag_BRASS_CATCHER );
+    if( !!ammo->ammo->casing ) {
+        const itype_id casing = *ammo->ammo->casing;
+        if( weap.has_flag( flag_RELOAD_EJECT ) ) {
+            weap.contents.force_insert_item( item( casing ).set_flag( flag_CASING ),
+                                             item_pocket::pocket_type::MAGAZINE );
+            weap.on_contents_changed();
         } else {
             if( brass_catcher && brass_catcher->can_contain( casing.obj() ) ) {
                 brass_catcher->put_in( item( casing ), item_pocket::pocket_type::CONTAINER );
@@ -2036,14 +2044,6 @@ target_handler::trajectory target_ui::run()
                 loop_exit_code = ExitCode::Reload;
                 break;
             }
-        } else if( action == "SWITCH_AIM" ) {
-            if( status != Status::Good ) {
-                continue;
-            }
-            aim_mode++;
-            if( aim_mode == aim_types.end() ) {
-                aim_mode = aim_types.begin();
-            }
         } else if( action == "FIRE" ) {
             if( status != Status::Good ) {
                 continue;
@@ -2181,7 +2181,6 @@ void target_ui::init_window_and_input()
     }
     if( mode == TargetMode::Fire ) {
         ctxt.register_action( "AIM" );
-        ctxt.register_action( "SWITCH_AIM" );
 
         aim_types = you->get_aim_types( *relevant );
         for( aim_type &type : aim_types ) {
@@ -2190,6 +2189,11 @@ void target_ui::init_window_and_input()
             }
         }
         aim_mode = aim_types.begin();
+        for( auto it = aim_types.begin(); it != aim_types.end(); ++it ) {
+            if( you->preferred_aiming_mode == it->action ) {
+                aim_mode = it; // default to persisted mode if possible
+            }
+        }
     }
     if( mode == TargetMode::Turrets ) {
         ctxt.register_action( "TOGGLE_TURRET_LINES" );
@@ -2681,11 +2685,12 @@ void target_ui::recalc_aim_turning_penalty()
         // Raise it proportionally to how much
         // the player has to turn from previous aiming point
         const double recoil_per_degree = MAX_RECOIL / 180.0;
-        const double angle_curr = coord_to_angle( src, curr_recoil_pos );
-        const double angle_desired = coord_to_angle( src, dst );
-        const double phi = std::fmod( std::abs( angle_curr - angle_desired ), 360.0 );
-        const double angle = phi > 180.0 ? 360.0 - phi : phi;
-        predicted_recoil = std::min( MAX_RECOIL, curr_recoil + angle * recoil_per_degree );
+        const units::angle angle_curr = coord_to_angle( src, curr_recoil_pos );
+        const units::angle angle_desired = coord_to_angle( src, dst );
+        const units::angle phi = normalize( angle_curr - angle_desired );
+        const units::angle angle = std::min( phi, 360.0_degrees - phi );
+        predicted_recoil =
+            std::min( MAX_RECOIL, curr_recoil + to_degrees( angle ) * recoil_per_degree );
     }
 }
 
@@ -2696,10 +2701,79 @@ void target_ui::apply_aim_turning_penalty()
 
 void target_ui::action_switch_mode()
 {
-    relevant->gun_cycle_mode();
-    if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
-        relevant->gun_cycle_mode();
+    uilist menu;
+    menu.settext( _( "Select preferences" ) );
+    const std::pair<int, int> aim_modes_range = std::make_pair( 0, 100 );
+    const std::pair<int, int> firing_modes_range = std::make_pair( 100, 200 );
+
+    if( !aim_types.empty() ) {
+        menu.addentry( -1, false, 0, "  " + std::string( _( "Default aiming mode" ) ) );
+        menu.entries.back().force_color = true;
+        menu.entries.back().text_color = c_cyan;
+
+        for( auto it = aim_types.begin(); it != aim_types.end(); ++it ) {
+            const bool is_active_aim_mode = aim_mode == it;
+            const std::string text = ( it->name.empty() ? _( "Immediate" ) : it->name ) +
+                                     ( is_active_aim_mode ? _( " (active)" ) : "" );
+            menu.addentry( aim_modes_range.first + std::distance( aim_types.begin(), it ),
+                           true, MENU_AUTOASSIGN, text );
+            if( is_active_aim_mode ) {
+                menu.entries.back().text_color = c_light_green;
+            }
+        }
     }
+
+    const std::map<gun_mode_id, gun_mode> gun_modes = relevant->gun_all_modes();
+    if( !gun_modes.empty() ) {
+        menu.addentry( -1, false, 0, "  " + std::string( _( "Firing mode" ) ) );
+        menu.entries.back().force_color = true;
+        menu.entries.back().text_color = c_cyan;
+
+        for( auto it = gun_modes.begin(); it != gun_modes.end(); ++it ) {
+            if( it->second.flags.count( "REACH_ATTACK" ) ) {
+                continue;
+            }
+            const bool active_gun_mode = relevant->gun_get_mode_id() == it->first;
+
+            // If gun mode is from a gunmod use gunmod's name, pay attention to the "->" on tname
+            std::string text = ( it->second.target == relevant )
+                               ? it->second.tname()
+                               : it->second->tname() + " (" + std::to_string( it->second.qty ) + ")";
+
+            text += ( active_gun_mode ? _( " (active)" ) : "" );
+
+            menu.entries.emplace_back( firing_modes_range.first + std::distance( gun_modes.begin(), it ),
+                                       true, MENU_AUTOASSIGN, text );
+            if( active_gun_mode ) {
+                menu.entries.back().text_color = c_light_green;
+                if( menu.selected == 0 ) {
+                    menu.selected = menu.entries.size() - 1;
+                }
+            }
+        }
+    }
+
+    menu.query();
+    if( menu.ret >= firing_modes_range.first && menu.ret < firing_modes_range.second ) {
+        // gun mode select
+        const std::map<gun_mode_id, gun_mode> all_gun_modes = relevant->gun_all_modes();
+        int skip = menu.ret - firing_modes_range.first;
+        for( std::pair<gun_mode_id, gun_mode> it : all_gun_modes ) {
+            if( it.second.flags.count( "REACH_ATTACK" ) ) {
+                continue;
+            }
+            if( skip-- == 0 ) {
+                relevant->gun_set_mode( it.first );
+                break;
+            }
+        }
+    } else if( menu.ret >= aim_modes_range.first && menu.ret < aim_modes_range.second ) {
+        // aiming mode select
+        aim_mode = aim_types.begin();
+        std::advance( aim_mode, menu.ret - aim_modes_range.first );
+        you->preferred_aiming_mode = aim_mode->action;
+    } // else - just refresh
+
     if( mode == TargetMode::TurretManual ) {
         itype_id ammo_current = turret->ammo_current();
         if( ammo_current.is_null() ) {
@@ -3019,18 +3093,17 @@ void target_ui::draw_controls_list( int text_y )
 
         std::string aim = string_format( _( "[%s] to steady your aim.  (10 moves)" ),
                                          bound_key( "AIM" ).short_description() );
-        std::string sw_aim = string_format( _( "[%s] to switch aiming modes." ),
-                                            bound_key( "SWITCH_AIM" ).short_description() );
 
         lines.push_back( {2, colored( col_fire, aim )} );
-        lines.push_back( {1, colored( col_fire, sw_aim )} );
         lines.push_back( {4, colored( col_fire, aim_and_fire )} );
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
         lines.push_back( {5, colored( col_enabled, string_format( _( "[%s] to switch firing modes." ),
-                                      bound_key( "SWITCH_MODE" ).short_description() ) )} );
+                                      bound_key( "SWITCH_MODE" ).short_description() ) )
+                         } );
         lines.push_back( {6, colored( col_enabled, string_format( _( "[%s] to reload/switch ammo." ),
-                                      bound_key( "SWITCH_AMMO" ).short_description() ) )} );
+                                      bound_key( "SWITCH_AMMO" ).short_description() ) )
+                         } );
     }
     if( mode == TargetMode::Turrets ) {
         const std::string label = draw_turret_lines
@@ -3175,18 +3248,19 @@ void target_ui::panel_spell_info( int &text_y )
         nc_color color = c_light_gray;
         const std::string fx = casting->effect();
         const std::string aoes = casting->aoe_string();
-        if( fx == "projectile_attack" || fx == "target_attack" ||
-            fx == "area_pull" || fx == "area_push" ||
-            fx == "ter_transform" ) {
-            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
-                                      _( "Effective Spell Radius: %s%s" ), aoes,
-                                      casting->in_aoe( src, dst ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
-        } else if( fx == "cone_attack" ) {
-            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
-                                      _( "Cone Arc: %s degrees" ), aoes );
-        } else if( fx == "line_attack" ) {
-            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
-                                      _( "Line width: %s" ), aoes );
+        if( fx == "attack" || fx == "area_pull" || fx == "area_push" || fx == "ter_transform" ) {
+
+            if( casting->shape() == spell_shape::cone ) {
+                text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
+                                          _( "Cone Arc: %s degrees" ), aoes );
+            } else if( casting->shape() == spell_shape::line ) {
+                text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
+                                          _( "Line width: %s" ), aoes );
+            } else {
+                text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
+                                          _( "Effective Spell Radius: %s%s" ), aoes,
+                                          casting->in_aoe( src, dst ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
+            }
         }
     }
 

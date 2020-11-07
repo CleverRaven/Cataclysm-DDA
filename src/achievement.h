@@ -186,10 +186,17 @@ class achievements_tracker : public event_subscriber
         achievements_tracker( const achievements_tracker & ) = delete;
         achievements_tracker &operator=( const achievements_tracker & ) = delete;
 
+        /**
+         * @param active Whether this achievements_tracker needs to create
+         * watchers for the stats_tracker to monitor ongoing events.  If onle
+         * using the achievements_tracker for analyzing past achievements, this
+         * should not be necessary.
+         */
         achievements_tracker(
             stats_tracker &,
             const std::function<void( const achievement *, bool )> &achievement_attained_callback,
-            const std::function<void( const achievement *, bool )> &achievement_failed_callback );
+            const std::function<void( const achievement *, bool )> &achievement_failed_callback,
+            bool active );
         ~achievements_tracker() override;
 
         // Return all scores which are valid now and existed at game start
@@ -217,6 +224,7 @@ class achievements_tracker : public event_subscriber
 
         stats_tracker *stats_ = nullptr;
         bool enabled_ = true;
+        bool active_;
         std::function<void( const achievement *, bool )> achievement_attained_callback_;
         std::function<void( const achievement *, bool )> achievement_failed_callback_;
         std::unordered_set<achievement_id> initial_achievements_;

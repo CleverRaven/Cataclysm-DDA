@@ -132,7 +132,7 @@ class map_test_case
          * (and performing other sanity checks)
          * @param p tripoint in map coordinates that is expected to align with the `anchor_map_pos`
          */
-        void validate_anchor_point( tripoint p );
+        void validate_anchor_point( const tripoint &p );
 
     private:
         // origin (0,0) of this `map_test_case` in `map` coordinates
@@ -144,7 +144,8 @@ class map_test_case
 
         void do_internal_checks();
 
-        void for_each_tile( tripoint tmp_origin, const std::function<void( tile & )> &callback ) const;
+        void for_each_tile( const tripoint &tmp_origin,
+                            const std::function<void( tile & )> &callback ) const;
 
 };
 

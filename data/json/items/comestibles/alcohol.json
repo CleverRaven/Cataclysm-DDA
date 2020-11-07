@@ -1396,5 +1396,33 @@
     "flags": [ "EATEN_COLD" ],
     "freezing_point": -22,
     "fun": 20
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "drink_bloody_mary",
+    "name": "bloody mary cocktail",
+    "weight": "258 g",
+    "color": "red",
+    "addiction_type": "alcohol",
+    "use_action": [ "ALCOHOL" ],
+    "stim": -12,
+    "container": "bottle_glass",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 25,
+    "healthy": 1,
+    "addiction_potential": 4,
+    "calories": 70,
+    "description": "Tomato juice mixed with vodka and some spices.  Hangover cure of choice for many.",
+    "price": 600,
+    "price_postapoc": 250,
+    "material": [ "alcohol", "tomato" ],
+    "primary_material": "alcohol",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": -29,
+    "fun": 25,
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   }
 ]

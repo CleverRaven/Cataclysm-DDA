@@ -627,7 +627,7 @@ template void cast_zlight<float, sight_calc, sight_check, accumulate_transparenc
     const std::array<float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
     const std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
     const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &origin, const int offset_distance, const float numerator,
+    const tripoint &origin, int offset_distance, float numerator,
     vertical_direction dir );
 
 template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
@@ -635,5 +635,5 @@ template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumul
     const std::array<const fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS>
     &input_arrays,
     const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &origin, const int offset_distance, const fragment_cloud numerator,
+    const tripoint &origin, int offset_distance, fragment_cloud numerator,
     vertical_direction dir );

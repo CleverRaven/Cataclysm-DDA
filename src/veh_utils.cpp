@@ -67,6 +67,10 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
             continue;
         }
 
+        if( veh.would_repair_prevent_flyable( vpr.part(), who ) ) {
+            continue;
+        }
+
         if( vpr.part().is_broken() ) {
             if( info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
                 repairable_cache[ &vpr.part()] = repairable_status::need_replacement;
@@ -155,7 +159,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
                                         pt.get_base().damage_color() );
     bool wasbroken = pt.is_broken();
     if( wasbroken ) {
-        const int dir = pt.direction;
+        const units::angle dir = pt.direction;
         point loc = pt.mount;
         auto replacement_id = pt.info().get_id();
         get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );

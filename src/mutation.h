@@ -115,7 +115,7 @@ struct enum_traits<trigger_type> {
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    trigger_type trigger;
+    trigger_type trigger = trigger_type::TIME;
 
     /**Activates above that threshold and deactivates below it*/
     int threshold_low = INT_MIN;
@@ -304,6 +304,7 @@ struct mutation_branch {
         cata::optional<float> mana_regen_multiplier = cata::nullopt;
         // for every point of bionic power, reduces max mana pool by 1 * bionic_mana_penalty
         cata::optional<float> bionic_mana_penalty = cata::nullopt;
+        cata::optional<float> casting_time_multiplier = cata::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         /** mutation enchantments */
@@ -554,6 +555,7 @@ bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
+bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept;
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );

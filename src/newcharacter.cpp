@@ -33,6 +33,7 @@
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"
+#include "make_static.h"
 #include "mapsharing.h"
 #include "martialarts.h"
 #include "monster.h"
@@ -66,7 +67,9 @@
 static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
-static const std::string flag_WET( "WET" );
+
+static const flag_str_id json_flag_no_auto_equip( "no_auto_equip" );
+static const flag_str_id json_flag_auto_wield( "auto_wield" );
 
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
@@ -377,17 +380,17 @@ void avatar::add_profession_items()
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
-        if( it.has_flag( flag_WET ) ) {
+        if( it.has_flag( STATIC( flag_str_id( "WET" ) ) ) ) {
             it.active = true;
             it.item_counter = 450; // Give it some time to dry off
         }
         // TODO: debugmsg if food that isn't a seed is inedible
-        if( it.has_flag( "no_auto_equip" ) ) {
-            it.unset_flag( "no_auto_equip" );
+        if( it.has_flag( json_flag_no_auto_equip ) ) {
+            it.unset_flag( json_flag_no_auto_equip );
             inv->push_back( it );
-        } else if( it.has_flag( "auto_wield" ) ) {
-            it.unset_flag( "auto_wield" );
-            if( !is_armed() ) {
+        } else if( it.has_flag( json_flag_auto_wield ) ) {
+            it.unset_flag( json_flag_auto_wield );
+            if( !has_wield_conflicts( it ) ) {
                 wield( it );
             } else {
                 inv->push_back( it );
@@ -809,7 +812,7 @@ tab_direction set_stats( avatar &u, points_left &points )
     const auto init_windows = [&]( ui_adaptor & ui ) {
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 8, TERMX - iSecondColumn - 1,
-                                            point( iSecondColumn, 6 ) );
+                                            point( iSecondColumn, 5 ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -850,20 +853,20 @@ tab_direction set_stats( avatar &u, points_left &points )
 
         draw_points( w, points );
 
-        mvwprintz( w, point( 2, 6 ), c_light_gray, _( "Strength:" ) );
-        mvwprintz( w, point( 16, 6 ), c_light_gray, "%2d", u.str_max );
-        mvwprintz( w, point( 2, 7 ), c_light_gray, _( "Dexterity:" ) );
-        mvwprintz( w, point( 16, 7 ), c_light_gray, "%2d", u.dex_max );
-        mvwprintz( w, point( 2, 8 ), c_light_gray, _( "Intelligence:" ) );
-        mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.int_max );
-        mvwprintz( w, point( 2, 9 ), c_light_gray, _( "Perception:" ) );
-        mvwprintz( w, point( 16, 9 ), c_light_gray, "%2d", u.per_max );
+        mvwprintz( w, point( 2, 5 ), c_light_gray, _( "Strength:" ) );
+        mvwprintz( w, point( 16, 5 ), c_light_gray, "%2d", u.str_max );
+        mvwprintz( w, point( 2, 6 ), c_light_gray, _( "Dexterity:" ) );
+        mvwprintz( w, point( 16, 6 ), c_light_gray, "%2d", u.dex_max );
+        mvwprintz( w, point( 2, 7 ), c_light_gray, _( "Intelligence:" ) );
+        mvwprintz( w, point( 16, 7 ), c_light_gray, "%2d", u.int_max );
+        mvwprintz( w, point( 2, 8 ), c_light_gray, _( "Perception:" ) );
+        mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.per_max );
 
         werase( w_description );
         switch( sel ) {
             case 1:
-                mvwprintz( w, point( 2, 6 ), COL_SELECT, _( "Strength:" ) );
-                mvwprintz( w, point( 16, 6 ), COL_SELECT, "%2d", u.str_max );
+                mvwprintz( w, point( 2, 5 ), COL_SELECT, _( "Strength:" ) );
+                mvwprintz( w, point( 16, 5 ), c_light_gray, "%2d", u.str_max );
                 if( u.str_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Str further costs 2 points" ) );
@@ -881,8 +884,8 @@ tab_direction set_stats( avatar &u, points_left &points )
                 break;
 
             case 2:
-                mvwprintz( w, point( 2, 7 ), COL_SELECT, _( "Dexterity:" ) );
-                mvwprintz( w, point( 16, 7 ), COL_SELECT, "%2d", u.dex_max );
+                mvwprintz( w, point( 2, 6 ), COL_SELECT, _( "Dexterity:" ) );
+                mvwprintz( w, point( 16, 6 ), c_light_gray, "%2d", u.dex_max );
                 if( u.dex_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Dex further costs 2 points" ) );
@@ -902,8 +905,8 @@ tab_direction set_stats( avatar &u, points_left &points )
                 break;
 
             case 3: {
-                mvwprintz( w, point( 2, 8 ), COL_SELECT, _( "Intelligence:" ) );
-                mvwprintz( w, point( 16, 8 ), COL_SELECT, "%2d", u.int_max );
+                mvwprintz( w, point( 2, 7 ), COL_SELECT, _( "Intelligence:" ) );
+                mvwprintz( w, point( 16, 7 ), c_light_gray, "%2d", u.int_max );
                 if( u.int_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Int further costs 2 points" ) );
@@ -923,8 +926,8 @@ tab_direction set_stats( avatar &u, points_left &points )
             break;
 
             case 4:
-                mvwprintz( w, point( 2, 9 ), COL_SELECT, _( "Perception:" ) );
-                mvwprintz( w, point( 16, 9 ), COL_SELECT, "%2d", u.per_max );
+                mvwprintz( w, point( 2, 8 ), COL_SELECT, _( "Perception:" ) );
+                mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.per_max );
                 if( u.per_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Per further costs 2 points" ) );
@@ -1074,7 +1077,7 @@ tab_direction set_traits( avatar &u, points_left &points )
     const int used_pages = vStartingTraits[2].empty() ? 2 : 3;
 
     for( auto &vStartingTrait : vStartingTraits ) {
-        std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_sort );
+        std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_nocolor_sort );
     }
 
     int iCurWorkingPage = 0;
@@ -1113,6 +1116,8 @@ tab_direction set_traits( avatar &u, points_left &points )
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
 
@@ -1256,6 +1261,24 @@ tab_direction set_traits( avatar &u, points_left &points )
             if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= traits_size[iCurWorkingPage] ) {
                 iCurrentLine[iCurWorkingPage] = 0;
             }
+        } else if( action == "PAGE_DOWN" ) {
+            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) == traits_size[iCurWorkingPage] - 1 ) {
+                iCurrentLine[iCurWorkingPage] = 0;
+            } else if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] + 10 ) >=
+                       traits_size[iCurWorkingPage] ) {
+                iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            } else {
+                iCurrentLine[iCurWorkingPage] += +10;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( iCurrentLine[iCurWorkingPage] == 0 ) {
+                iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            } else if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] - 10 ) >=
+                       traits_size[iCurWorkingPage] ) {
+                iCurrentLine[iCurWorkingPage] = 0;
+            } else {
+                iCurrentLine[iCurWorkingPage] += -10;
+            }
         } else if( action == "CONFIRM" ) {
             int inc_type = 0;
             const trait_id cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
@@ -1381,6 +1404,8 @@ tab_direction set_profession( avatar &u, points_left &points,
 
     input_context ctxt( "NEW_CHAR_PROFESSIONS" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "PREV_TAB" );
@@ -1532,9 +1557,9 @@ tab_direction set_profession( avatar &u, points_left &points,
                 std::string buffer_worn;
                 std::string buffer_inventory;
                 for( const auto &it : prof_items ) {
-                    if( it.has_flag( "no_auto_equip" ) ) {
+                    if( it.has_flag( json_flag_no_auto_equip ) ) {
                         buffer_inventory += it.display_name() + "\n";
-                    } else if( it.has_flag( "auto_wield" ) ) {
+                    } else if( it.has_flag( json_flag_auto_wield ) ) {
                         buffer_wielded += it.display_name() + "\n";
                     } else if( it.is_armor() ) {
                         buffer_worn += it.display_name() + "\n";
@@ -1674,9 +1699,11 @@ tab_direction set_profession( avatar &u, points_left &points,
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
+        int recmax = static_cast<int>( profs_length );
+        int scroll_rate = recmax > 20 ? 10 : 2;
         if( action == "DOWN" ) {
             cur_id++;
-            if( cur_id > static_cast<int>( profs_length ) - 1 ) {
+            if( cur_id > recmax - 1 ) {
                 cur_id = 0;
             }
             desc_offset = 0;
@@ -1684,6 +1711,24 @@ tab_direction set_profession( avatar &u, points_left &points,
             cur_id--;
             if( cur_id < 0 ) {
                 cur_id = profs_length - 1;
+            }
+            desc_offset = 0;
+        } else if( action == "PAGE_DOWN" ) {
+            if( cur_id == recmax - 1 ) {
+                cur_id = 0;
+            } else if( cur_id + scroll_rate >= recmax ) {
+                cur_id = recmax - 1;
+            } else {
+                cur_id += +scroll_rate;
+            }
+            desc_offset = 0;
+        } else if( action == "PAGE_UP" ) {
+            if( cur_id == 0 ) {
+                cur_id = recmax - 1;
+            } else if( cur_id <= scroll_rate ) {
+                cur_id = 0;
+            } else {
+                cur_id += -scroll_rate;
             }
             desc_offset = 0;
         } else if( action == "LEFT" ) {
@@ -1774,8 +1819,10 @@ tab_direction set_skills( avatar &u, points_left &points )
 
     input_context ctxt( "NEW_CHAR_SKILLS" );
     ctxt.register_cardinal();
-    ctxt.register_action( "SCROLL_DOWN" );
-    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "SCROLL_SKILL_INFO_DOWN" );
+    ctxt.register_action( "SCROLL_SKILL_INFO_UP" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1932,6 +1979,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
+        int scroll_rate = num_skills > 20 ? 5 : 2;
         if( action == "DOWN" ) {
             cur_pos++;
             if( cur_pos >= num_skills ) {
@@ -1942,6 +1990,24 @@ tab_direction set_skills( avatar &u, points_left &points )
             cur_pos--;
             if( cur_pos < 0 ) {
                 cur_pos = num_skills - 1;
+            }
+            currentSkill = sorted_skills[cur_pos];
+        } else if( action == "PAGE_DOWN" ) {
+            if( cur_pos == num_skills - 1 ) {
+                cur_pos = 0;
+            } else if( cur_pos + scroll_rate >= num_skills ) {
+                cur_pos = num_skills - 1;
+            } else {
+                cur_pos += +scroll_rate;
+            }
+            currentSkill = sorted_skills[cur_pos];
+        } else if( action == "PAGE_UP" ) {
+            if( cur_pos == 0 ) {
+                cur_pos = num_skills - 1;
+            } else if( cur_pos <= scroll_rate ) {
+                cur_pos = 0;
+            } else {
+                cur_pos += -scroll_rate;
             }
             currentSkill = sorted_skills[cur_pos];
         } else if( action == "LEFT" ) {
@@ -1960,9 +2026,9 @@ tab_direction set_skills( avatar &u, points_left &points )
                 // For balance reasons, increasing a skill from level 0 gives 1 extra level for free
                 u.mod_skill_level( currentSkill->ident(), level == 0 ? +2 : +1 );
             }
-        } else if( action == "SCROLL_DOWN" ) {
+        } else if( action == "SCROLL_SKILL_INFO_DOWN" ) {
             selected++;
-        } else if( action == "SCROLL_UP" ) {
+        } else if( action == "SCROLL_SKILL_INFO_UP" ) {
             selected--;
         } else if( action == "PREV_TAB" ) {
             return tab_direction::BACKWARD;
@@ -2035,6 +2101,8 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
     input_context ctxt( "NEW_CHAR_SCENARIOS" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
@@ -2299,6 +2367,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
+        int scroll_rate = scens_length > 20 ? 5 : 2;
         if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > scens_length - 1 ) {
@@ -2308,6 +2377,22 @@ tab_direction set_scenario( avatar &u, points_left &points,
             cur_id--;
             if( cur_id < 0 ) {
                 cur_id = scens_length - 1;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( cur_id == scens_length - 1 ) {
+                cur_id = 0;
+            } else if( cur_id + scroll_rate >= scens_length ) {
+                cur_id = scens_length - 1;
+            } else {
+                cur_id += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( cur_id == 0 ) {
+                cur_id = scens_length - 1;
+            } else if( cur_id <= scroll_rate ) {
+                cur_id = 0;
+            } else {
+                cur_id += -scroll_rate;
             }
         } else if( action == "CONFIRM" ) {
             if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
@@ -2350,7 +2435,6 @@ enum description_selector {
     BLOOD,
     LOCATION
 };
-
 
 static void draw_gender( const catacurses::window &w_gender, const avatar &you,
                          const bool highlight )
@@ -2447,20 +2531,20 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_name = catacurses::newwin( 2, 42, point( 2, 5 ) );
         w_gender = catacurses::newwin( 1, 42, point( 2, 7 ) );
-        w_location = catacurses::newwin( 1, TERMX - 92, point( 90, 5 ) );
-        w_vehicle = catacurses::newwin( 1, TERMX - 92, point( 90, 6 ) );
-        w_addictions = catacurses::newwin( 1, TERMX - 92, point( 90, 7 ) );
+        w_location = catacurses::newwin( 1, TERMX - 88, point( 86, 5 ) );
+        w_vehicle = catacurses::newwin( 1, TERMX - 88, point( 86, 6 ) );
+        w_addictions = catacurses::newwin( 1, TERMX - 88, point( 86, 7 ) );
         w_stats = catacurses::newwin( 6, 20, point( 2, 9 ) );
-        w_traits = catacurses::newwin( TERMY - 10, 24, point( 22, 9 ) );
-        w_bionics = catacurses::newwin( TERMY - 10, TERMX - 92, point( 90, 9 ) );
-        w_proficiencies = catacurses::newwin( TERMY - 20, 20, point( 2, 15 ) );
-        w_scenario = catacurses::newwin( 1, 40, point( 46, 9 ) );
-        w_profession = catacurses::newwin( 1, 40, point( 46, 10 ) );
-        w_skills = catacurses::newwin( TERMY - 12, 40, point( 46, 11 ) );
+        w_traits = catacurses::newwin( TERMY - 10, 40, point( 46, 9 ) );
+        w_bionics = catacurses::newwin( TERMY - 10, TERMX - 88, point( 86, 9 ) );
+        w_proficiencies = catacurses::newwin( TERMY - 20, 19, point( 2, 15 ) );
+        w_scenario = catacurses::newwin( 1, 40, point( 46, 3 ) );
+        w_profession = catacurses::newwin( 1, TERMX - 88, point( 86, 3 ) );
+        w_skills = catacurses::newwin( TERMY - 10, 23, point( 22, 9 ) );
         w_guide = catacurses::newwin( 9, TERMX - 3, point( 2, TERMY - 10 ) );
-        w_height = catacurses::newwin( 1, 20, point( 46, 5 ) );
-        w_age = catacurses::newwin( 1, 12, point( 46, 6 ) );
-        w_blood = catacurses::newwin( 1, 20, point( 46, 7 ) );
+        w_height = catacurses::newwin( 1, 40, point( 46, 5 ) );
+        w_age = catacurses::newwin( 1, 40, point( 46, 6 ) );
+        w_blood = catacurses::newwin( 1, 40, point( 46, 7 ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -2473,13 +2557,15 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     ctxt.register_action( "SAVE_TEMPLATE" );
     ctxt.register_action( "RANDOMIZE_CHAR_NAME" );
     ctxt.register_action( "RANDOMIZE_CHAR_DESCRIPTION" );
+    if( !MAP_SHARING::isSharing() && allow_reroll ) {
+        ctxt.register_action( "REROLL_CHARACTER" );
+        ctxt.register_action( "REROLL_CHARACTER_WITH_SCENARIO" );
+    }
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CHOOSE_LOCATION" );
-    ctxt.register_action( "REROLL_CHARACTER" );
-    ctxt.register_action( "REROLL_CHARACTER_WITH_SCENARIO" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
 
@@ -2609,7 +2695,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             if( level > 0 ) {
                 mvwprintz( w_skills, point( 0, line ), c_light_gray,
                            elem->name() + ":" );
-                mvwprintz( w_skills, point( 23, line ), c_light_gray, "%-2d", static_cast<int>( level ) );
+                right_print( w_skills, line, 1, c_light_gray, string_format( "%d", static_cast<int>( level ) ) );
                 line++;
                 has_skills = true;
             }
@@ -2648,10 +2734,10 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         std::vector<proficiency_id> prof_proficiencies = you.prof->proficiencies();
         mvwprintz( w_proficiencies, point_zero, COL_HEADER, _( "Proficiencies:" ) );
         if( prof_proficiencies.empty() ) {
-            wprintz( w_proficiencies, c_light_red, _( "\nNone!" ) );
+            mvwprintz( w_proficiencies, point_south, c_light_red, _( "None!" ) );
         } else {
             for( const proficiency_id &prof : prof_proficiencies ) {
-                wprintz( w_proficiencies, c_light_gray, "\n" + prof->name() );
+                wprintz( w_proficiencies, c_light_gray, "\n" + trim_by_length( prof->name(), 18 ) );
             }
         }
         wnoutrefresh( w_proficiencies );
@@ -3062,6 +3148,7 @@ std::vector<trait_id> Character::get_base_traits() const
 std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 {
     std::vector<trait_id> result;
+    result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
         if( include_hidden || t.first.obj().player_display ) {
             result.push_back( t.first );

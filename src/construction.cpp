@@ -348,6 +348,8 @@ construction_id construction_menu( const bool blueprint )
     ctxt.register_action( "LEFT", to_translation( "Move tab left" ) );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "SCROLL_STAGE_UP" );
+    ctxt.register_action( "SCROLL_STAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" );
     ctxt.register_action( "QUIT" );
@@ -602,16 +604,16 @@ construction_id construction_menu( const bool blueprint )
             if( current_construct_breakpoint > 0 ) {
                 // Print previous stage indicator if breakpoint is past the beginning
                 trim_and_print( w_con, point( pos_x, 2 ), available_window_width, c_white,
-                                _( "Press %s to show previous stage(s)." ),
-                                ctxt.get_desc( "PAGE_UP" ) );
+                                _( "Press [<color_yellow>%s</color>] to show previous stage(s)." ),
+                                ctxt.get_desc( "SCROLL_STAGE_UP" ) );
             }
             if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                      available_buffer_height ) < full_construct_buffer.size() ) {
                 // Print next stage indicator if more breakpoints are remaining after screen height
                 trim_and_print( w_con, point( pos_x, w_height - 2 - static_cast<int>( notes.size() ) ),
-                                available_window_width,
-                                c_white, _( "Press %s to show next stage(s)." ),
-                                ctxt.get_desc( "PAGE_DOWN" ) );
+                                available_window_width, c_white,
+                                _( "Press [<color_yellow>%s</color>] to show next stage(s)." ),
+                                ctxt.get_desc( "SCROLL_STAGE_DOWN" ) );
             }
             // Leave room for above/below indicators
             int ypos = 3;
@@ -707,6 +709,8 @@ construction_id construction_menu( const bool blueprint )
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
+        int recmax = static_cast<int>( constructs.size() );
+        int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "FILTER" ) {
             string_input_popup popup;
             popup
@@ -732,7 +736,7 @@ construction_id construction_menu( const bool blueprint )
             }
         } else if( action == "DOWN" ) {
             update_info = true;
-            if( select < static_cast<int>( constructs.size() ) - 1 ) {
+            if( select < recmax - 1 ) {
                 select++;
             } else {
                 select = 0;
@@ -742,7 +746,25 @@ construction_id construction_menu( const bool blueprint )
             if( select > 0 ) {
                 select--;
             } else {
-                select = constructs.size() - 1;
+                select = recmax - 1;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            update_info = true;
+            if( select == recmax - 1 ) {
+                select = 0;
+            } else if( select + scroll_rate >= recmax ) {
+                select = recmax - 1;
+            } else {
+                select += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            update_info = true;
+            if( select == 0 ) {
+                select = recmax - 1;
+            } else if( select <= scroll_rate ) {
+                select = 0;
+            } else {
+                select += -scroll_rate;
             }
         } else if( action == "LEFT" ) {
             update_info = true;
@@ -755,14 +777,14 @@ construction_id construction_menu( const bool blueprint )
             update_info = true;
             update_cat = true;
             tabindex = ( tabindex + 1 ) % tabcount;
-        } else if( action == "PAGE_UP" ) {
+        } else if( action == "SCROLL_STAGE_UP" ) {
             if( current_construct_breakpoint > 0 ) {
                 current_construct_breakpoint--;
             }
             if( current_construct_breakpoint < 0 ) {
                 current_construct_breakpoint = 0;
             }
-        } else if( action == "PAGE_DOWN" ) {
+        } else if( action == "SCROLL_STAGE_DOWN" ) {
             if( current_construct_breakpoint < total_project_breakpoints - 1 ) {
                 current_construct_breakpoint++;
             }
@@ -1243,7 +1265,7 @@ void construct::done_vehicle( const tripoint &p )
     }
 
     map &here = get_map();
-    vehicle *veh = here.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
+    vehicle *veh = here.add_vehicle( vproto_id( "none" ), p, 270_degrees, 0, 0 );
 
     if( !veh ) {
         debugmsg( "error constructing vehicle" );

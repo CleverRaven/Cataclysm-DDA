@@ -210,8 +210,8 @@ class bodypart
     private:
         bodypart_str_id id;
 
-        int hp_cur;
-        int hp_max;
+        int hp_cur = 0;
+        int hp_max = 0;
 
         int wetness = 0;
         int temp_cur = 5000; // BODYTEMP_NORM = 5000

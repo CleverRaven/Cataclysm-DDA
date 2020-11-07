@@ -38,6 +38,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "kill_tracker.h"
+#include "make_static.h"
 #include "map.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -118,8 +119,6 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
-
-static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
 avatar::avatar()
 {
@@ -299,7 +298,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     // Check for conditions that disqualify us only if no NPCs can read to us
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         reasons.emplace_back( _( "You're illiterate!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
+    } else if( has_trait( trait_HYPEROPIC ) &&
+               !worn_with_flag( STATIC( flag_str_id( "FIX_FARSIGHT" ) ) ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
@@ -329,7 +329,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
                    has_identified( book.typeId() ) ) {
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
-        } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( flag_FIX_FARSIGHT ) &&
+        } else if( elem->has_trait( trait_HYPEROPIC ) &&
+                   !elem->worn_with_flag( STATIC( flag_str_id( "FIX_FARSIGHT" ) ) ) &&
                    !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
                                               elem->disp_name() ) );
@@ -1172,7 +1173,7 @@ void avatar::reset_stats()
         add_miss_reason( _( "Your chitin gets in the way." ), 1 );
     }
     if( has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bodypart_id( "eyes" ) ) ) {
-        mod_per_bonus( 1 );
+        mod_per_bonus( 2 );
     }
     if( has_trait( trait_INSECT_ARMS ) ) {
         add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
@@ -1194,7 +1195,8 @@ void avatar::reset_stats()
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bodypart_str_id( "torso" ) ) ) {
+        } else if( !exclusive_flag_coverage( STATIC( flag_str_id( "OVERSIZE" ) ) )
+                   .test( bodypart_str_id( "torso" ) ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
@@ -1274,10 +1276,10 @@ void avatar::reset_stats()
                      ( encumb( bodypart_id( "leg_l" ) ) + encumb( bodypart_id( "leg_r" ) ) ) / 20.0f - encumb(
                          bodypart_id( "torso" ) ) / 10.0f );
     // Whiskers don't work so well if they're covered
-    if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
+    if( has_trait( trait_WHISKERS ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );
     }
-    if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
+    if( has_trait( trait_WHISKERS_RAT ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 2 );
     }
     // depending on mounts size, attacks will hit the mount and use their dodge rating.
@@ -1287,8 +1289,11 @@ void avatar::reset_stats()
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {
-        static const std::array<bodypart_id, 5> parts{ { bodypart_id( "head" ), bodypart_id( "arm_r" ), bodypart_id( "arm_l" ), bodypart_id( "leg_r" ), bodypart_id( "leg_l" ) } };
-        for( const bodypart_id &bp : parts ) {
+        static const bodypart_str_id parts[] {
+            bodypart_str_id( "head" ), bodypart_str_id( "arm_r" ), bodypart_str_id( "arm_l" ),
+            bodypart_str_id( "leg_r" ), bodypart_str_id( "leg_l" )
+        };
+        for( const bodypart_str_id &bp : parts ) {
             if( !wearing_something_on( bp ) ) {
                 mod_dodge_bonus( +1 );
             }
@@ -1538,7 +1543,8 @@ bool avatar::wield( item &target, const int obtain_cost )
         return false;
     }
 
-    if( !unwield() ) {
+    bool combine_stacks = target.can_combine( weapon );
+    if( !combine_stacks && !unwield() ) {
         return false;
     }
     cached_info.erase( "weapon_value" );
@@ -1571,9 +1577,18 @@ bool avatar::wield( item &target, const int obtain_cost )
     moves -= mv;
 
     if( has_item( target ) ) {
-        weapon = i_rem( &target );
+        item removed = i_rem( &target );
+        if( combine_stacks ) {
+            weapon.combine( removed );
+        } else {
+            weapon = removed;
+        }
     } else {
-        weapon = target;
+        if( combine_stacks ) {
+            weapon.combine( target );
+        } else {
+            weapon = target;
+        }
     }
 
     last_item = weapon.typeId();

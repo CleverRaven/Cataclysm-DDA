@@ -23,6 +23,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -164,13 +165,7 @@ static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
 static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
-static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
-static const std::string flag_NO_TAKEOFF( "NO_TAKEOFF" );
-static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
-static const std::string flag_RAD_RESIST( "RAD_RESIST" );
-static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
-static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
 {
@@ -254,7 +249,7 @@ void Character::suffer_while_underwater()
     if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
         oxygen--;
     }
-    if( oxygen < 12 && worn_with_flag( "REBREATHER" ) ) {
+    if( oxygen < 12 && worn_with_flag( flag_REBREATHER ) ) {
         oxygen += 12;
     }
     if( oxygen <= 5 ) {
@@ -845,7 +840,7 @@ void Character::suffer_from_sunburn()
         }
     }
     // Umbrellas can keep the sun off the skin
-    if( weapon.has_flag( "RAIN_PROTECT" ) ) {
+    if( weapon.has_flag( flag_RAIN_PROTECT ) ) {
         return;
     }
 
@@ -1075,7 +1070,7 @@ void Character::suffer_from_radiation()
 {
     map &here = get_map();
     // checking for radioactive items in inventory
-    const int item_radiation = leak_level( "RADIOACTIVE" );
+    const int item_radiation = leak_level( flag_RADIOACTIVE );
     const int map_radiation = here.get_radiation( pos() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 
@@ -1667,7 +1662,7 @@ bool Character::irradiate( float rads, bool bypass )
     if( rads > 0 ) {
         bool has_helmet = false;
         const bool power_armored = is_wearing_power_armor( &has_helmet );
-        const bool rad_resist = power_armored || worn_with_flag( "RAD_RESIST" );
+        const bool rad_resist = power_armored || worn_with_flag( flag_RAD_RESIST );
 
         if( is_rad_immune() && !bypass ) {
             // Power armor and some high-tech gear protects completely from radiation
@@ -1802,7 +1797,7 @@ void Character::mend( int rate_multiplier )
             continue;
         }
 
-        if( needs_splint && !worn_with_flag( "SPLINT",  bp ) ) {
+        if( needs_splint && !worn_with_flag( flag_SPLINT,  bp ) ) {
             continue;
         }
 
@@ -1939,7 +1934,7 @@ void Character::apply_wetness_morale( int temperature )
     const double global_temperature_mod = -1.0 + ( 2.0 * temperature / 100.0 );
 
     int total_morale = 0;
-    const body_part_set wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
+    const body_part_set wet_friendliness = exclusive_flag_coverage( flag_WATER_FRIENDLY );
     for( const bodypart_id &bp : get_all_body_parts() ) {
         // Sum of body wetness can go up to 103
         const int part_drench = get_part_wetness( bp );
@@ -2086,7 +2081,7 @@ int Character::addiction_level( add_type type ) const
     return iter != addictions.end() ? iter->intensity : 0;
 }
 
-int  Character::leak_level( const std::string &flag ) const
+int  Character::leak_level( const flag_id &flag ) const
 {
     int leak_level = 0;
     leak_level = inv->leak_level( flag );

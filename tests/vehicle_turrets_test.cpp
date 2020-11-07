@@ -64,7 +64,8 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
     Character &player_character = get_player_character();
     for( const vpart_info *e : turret_types() ) {
         SECTION( e->name() ) {
-            vehicle *veh = here.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270, 0, 0 );
+            vehicle *veh = here.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270_degrees, 0,
+                                             0 );
             REQUIRE( veh );
 
             const int idx = veh->install_part( point_zero, e->get_id(), "", true );

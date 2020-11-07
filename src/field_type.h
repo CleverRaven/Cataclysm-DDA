@@ -77,7 +77,8 @@ struct field_effect {
         return message_npc.translated();
     }
     effect get_effect( const time_point &start_time = calendar::turn ) const {
-        return effect( &id.obj(), get_duration(), bp, false, intensity, start_time );
+        return effect( effect_source::empty(), &id.obj(), get_duration(), bp, false, intensity,
+                       start_time );
     }
 };
 

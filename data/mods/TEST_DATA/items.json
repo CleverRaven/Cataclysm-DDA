@@ -352,7 +352,7 @@
     "qualities": [ [ "SCREW", 2 ], [ "SCREW_FINE", 1 ], [ "WRENCH", 1 ], [ "PRY", 2 ], [ "LOCKPICK", 30 ] ],
     "use_action": [ "PICK_LOCK" ],
     "flags": [ "SPEAR", "BELT_CLIP" ],
-    "min_skills": [ [ "electronics", 3 ], [ "lockpick", 2 ] ],
+    "min_skills": [ [ "electronics", 3 ], [ "traps", 2 ] ],
     "min_intelligence": 9,
     "min_perception": 5
   },

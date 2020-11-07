@@ -55,7 +55,6 @@ class game;
 
 extern std::unique_ptr<game> g;
 
-
 extern const int core_version;
 
 extern const int savegame_version;
@@ -525,8 +524,6 @@ class game
         void validate_linked_vehicles();
         /** validate camps to ensure they are on the overmap list */
         void validate_camps();
-        /** process vehicles that are following the player */
-        void autopilot_vehicles();
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
         void catch_a_monster( monster *fish, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
@@ -546,7 +543,8 @@ class game
         std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
 
         /** Flings the input creature in the given direction. */
-        void fling_creature( Creature *c, const int &dir, float flvel, bool controlled = false );
+        void fling_creature( Creature *c, const units::angle &dir, float flvel,
+                             bool controlled = false );
 
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
@@ -691,9 +689,10 @@ class game
         void draw_graffiti_override( const tripoint &p, bool has );
         void draw_trap_override( const tripoint &p, const trap_id &id );
         void draw_field_override( const tripoint &p, const field_type_id &id );
-        void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid, bool hilite );
-        void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod, int veh_dir,
-                                  bool hilite, const point &mount );
+        void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
+                                 bool hilite );
+        void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
+                                  units::angle veh_dir, bool hilite, const point &mount );
         void draw_below_override( const tripoint &p, bool draw );
         void draw_monster_override( const tripoint &p, const mtype_id &id, int count,
                                     bool more, Creature::Attitude att );
@@ -918,17 +917,8 @@ class game
         void disp_NPC_epilogues();  // Display NPC endings
 
         /* Debug functions */
-        // overlays flags (on / off)
-        std::map<action_id, bool> displaying_overlays{
-            { ACTION_DISPLAY_SCENT, false },
-            { ACTION_DISPLAY_SCENT_TYPE, false },
-            { ACTION_DISPLAY_TEMPERATURE, false },
-            { ACTION_DISPLAY_VEHICLE_AI, false },
-            { ACTION_DISPLAY_VISIBILITY, false },
-            { ACTION_DISPLAY_LIGHTING, false },
-            { ACTION_DISPLAY_RADIATION, false },
-            { ACTION_DISPLAY_TRANSPARENCY, false },
-        };
+        // currently displayed overlay (none is displayed if empty)
+        cata::optional<action_id> displaying_overlays;
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
         void display_vehicle_ai(); // Displays vehicle autopilot AI overlay
@@ -936,6 +926,18 @@ class game
         void display_lighting(); // Displays lighting conditions heat map
         void display_radiation(); // Displays radiation map
         void display_transparency(); // Displays transparency map
+
+        // prints the IRL time in ms of the last full in-game hour
+        class debug_hour_timer
+        {
+            public:
+                using IRLTimeMs = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+                void toggle();
+                void print_time();
+            private:
+                bool enabled = false;
+                cata::optional<IRLTimeMs> start_time = cata::nullopt;
+        } debug_hour_timer;
 
         Creature *is_hostile_within( int distance );
 
@@ -1002,6 +1004,8 @@ class game
         void display_toggle_overlay( action_id );
         // Get the state of an overlay (on/off).
         bool display_overlay_state( action_id );
+        // toggles the timing of in-game hours
+        void toggle_debug_hour_timer();
         /** Creature for which to display the visibility map */
         Creature *displaying_visibility_creature;
         /** Type of lighting condition overlay to display */

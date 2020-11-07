@@ -151,7 +151,7 @@
       [ "camera", 15 ],
       [ "camera_pro", 5 ],
       [ "wristwatch", 15 ],
-      [ "radio_car_box", 3 ],
+      { "group": "toy_radio_car", "prob": 3 },
       [ "radiocontrol", 15 ],
       [ "magnifying_glass", 4 ],
       [ "omnicamera", 2 ],

@@ -220,6 +220,15 @@ bool string_id<species_type>::is_valid() const
     return MonsterGenerator::generator().mon_species->is_valid( *this );
 }
 
+cata::optional<mon_action_death> MonsterGenerator::get_death_function( const std::string &f ) const
+{
+    const auto it = death_map.find( f );
+
+    return it != death_map.cend()
+           ? cata::optional<mon_action_death>( it->second )
+           : cata::optional<mon_action_death>();
+}
+
 MonsterGenerator::MonsterGenerator()
     : mon_templates( "monster type" )
     , mon_species( "species" )
@@ -699,6 +708,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "description", description );
 
+    assign( jo, "ascii_picture", picture_id );
+
     optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
     optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {} );
     optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {} );
@@ -795,7 +806,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "death_drops" ) ) {
-        death_drops = item_group::load_item_group( jo.get_member( "death_drops" ), "distribution" );
+        death_drops =
+            item_group::load_item_group( jo.get_member( "death_drops" ), "distribution" );
     }
 
     assign( jo, "harvest", harvest );
@@ -1179,7 +1191,7 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "monster %s has invalid species %s", mon.id.c_str(), spec.c_str() );
             }
         }
-        if( !mon.death_drops.empty() && !item_group::group_is_defined( mon.death_drops ) ) {
+        if( !mon.death_drops.is_empty() && !item_group::group_is_defined( mon.death_drops ) ) {
             debugmsg( "monster %s has unknown death drop item group: %s", mon.id.c_str(),
                       mon.death_drops.c_str() );
         }
@@ -1195,6 +1207,10 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.zombify_into.is_empty() && !mon.zombify_into.is_valid() ) {
             debugmsg( "monster %s has unknown zombify_into: %s", mon.id.c_str(),
                       mon.zombify_into.c_str() );
+        }
+        if( !mon.picture_id.is_empty() && !mon.picture_id.is_valid() ) {
+            debugmsg( "monster %s has unknown ascii_picture: %s", mon.id.c_str(),
+                      mon.picture_id.c_str() );
         }
         if( !mon.mech_weapon.is_empty() && !item::type_is_defined( mon.mech_weapon ) ) {
             debugmsg( "monster %s has unknown mech_weapon: %s", mon.id.c_str(),

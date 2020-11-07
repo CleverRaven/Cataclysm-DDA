@@ -349,11 +349,13 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         if( base != vpart_info_all.end() ) {
             def = base->second;
             def.looks_like = base->second.id.str();
+            def.categories = base->second.categories;
         } else if( ab != abstract_parts.end() ) {
             def = ab->second;
             if( def.looks_like.empty() ) {
                 def.looks_like = ab->second.id.str();
             }
+            def.categories = ab->second.categories;
         } else {
             deferred.emplace_back( jo.str(), src );
             return;
@@ -392,6 +394,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
     assign( jo, "cargo_weight_modifier", def.cargo_weight_modifier );
+    assign( jo, "categories", def.categories );
     assign( jo, "flags", def.flags );
     assign( jo, "description", def.description );
 
@@ -437,7 +440,6 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         } else {
             def.symbols[ variant_id ] = symbol;
         }
-        def.sym = jo.get_string( "symbol" )[ 0 ];
     }
     if( jo.has_bool( "standard_symbols" ) && jo.get_bool( "standard_symbols" ) ) {
         // Fallback symbol for unknown variant
@@ -479,6 +481,19 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         }
     }
 
+    JsonArray tools = jo.get_array( "pseudo_tools" );
+    if( !tools.empty() ) {
+        def.pseudo_tools.clear();
+        while( tools.has_more() ) {
+            const JsonObject tooldef = tools.next_object();
+            const itype_id tool_id( tooldef.get_string( "id" ) );
+            const std::string hotkey_str = tooldef.has_string( "hotkey" ) ? tooldef.get_string( "hotkey" ) : "";
+            const int hotkey = hotkey_str.empty() ? -1 : static_cast<int>( hotkey_str[0] );
+            if( !def.pseudo_tools.insert( { tool_id, hotkey } ).second ) {
+                debugmsg( "Insert failed on %s to %s's tools, duplicate?", tool_id.str(), def.id.str() );
+            }
+        }
+    }
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
         def.damage_reduction = load_damage_array( dred );
@@ -514,6 +529,11 @@ void vpart_info::set_flag( const std::string &flag )
     if( iter != vpart_bitflag_map.end() ) {
         bitflags.set( iter->second );
     }
+}
+
+const std::set<std::string> &vpart_info::get_categories() const
+{
+    return this->categories;
 }
 
 void vpart_info::finalize()
@@ -794,22 +814,34 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     msg += "> <color_" + string_from_color( format_color ) + ">";
 
     std::string long_descrip;
-    if( !description.empty() ) {
-        long_descrip += description.translated();
-    }
-    for( const auto &flagid : flags ) {
-        if( flagid == "ALARMCLOCK"
-            || flagid == "WATCH"
-            || flagid == "ENABLED_DRAINS_EPOWER"
-            || flagid == "SOLAR_PANEL" ) {
-            continue;
+    // handle appending text and double-whitespace
+    const auto append_desc = [&long_descrip]( const std::string & text ) {
+        if( text.empty() ) {
+            return;
         }
-        json_flag flag = json_flag::get( flagid );
-        if( !flag.info().empty() ) {
-            if( !long_descrip.empty() ) {
-                long_descrip += "  ";
+        if( !long_descrip.empty() ) {
+            long_descrip += "  ";
+        }
+        long_descrip += text;
+    };
+
+    append_desc( description.translated() );
+
+    for( const std::string &flagid : flags ) {
+        if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
+            continue;
+        } else if( flagid == "ENABLED_DRAINS_EPOWER" ||
+                   flagid == "ENGINE" ) { // ENGINEs get the same description
+            if( epower < 0 ) {
+                append_desc( string_format( json_flag::get( "ENABLED_DRAINS_EPOWER" ).info(), -epower ) );
             }
-            long_descrip += flag.info();
+        } else if( flagid == "ALTERNATOR" ||
+                   flagid == "SOLAR_PANEL" ||
+                   flagid == "WATER_WHEEL" ||
+                   flagid == "WIND_TURBINE" ) {
+            append_desc( string_format( json_flag::get( flagid ).info(), epower ) );
+        } else {
+            append_desc( json_flag::get( flagid ).info() );
         }
     }
     if( has_flag( "TURRET" ) ) {
@@ -828,13 +860,13 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
                                        base.gun_range( true ),
                                        base.gun_damage().total_damage() );
     }
-    if( has_flag( "ENABLED_DRAINS_EPOWER" ) ) {
-        json_flag drains = json_flag::get( "ENABLED_DRAINS_EPOWER" );
-        long_descrip += "  " + string_format( drains.info(), std::to_string( -epower ) );
-    }
-    if( has_flag( "SOLAR_PANEL" ) ) {
-        json_flag solar_panel = json_flag::get( "SOLAR_PANEL" );
-        long_descrip += "  " + string_format( solar_panel.info(), std::to_string( epower ) );
+
+    if( !pseudo_tools.empty() ) {
+        append_desc( std::string( "\n" ) + _( "Provides:" ) + " <color_cyan>" +
+                     enumerate_as_string( pseudo_tools.begin(), pseudo_tools.end(),
+        []( const std::pair<itype_id, int> &p ) {
+            return p.first.obj().nname( 1 );
+        } ) + "</color>" );
     }
 
     if( !long_descrip.empty() ) {
@@ -962,6 +994,11 @@ std::vector<itype_id> vpart_info::engine_fuel_opts() const
     return has_flag( VPFLAG_ENGINE ) ? engine_info->fuel_opts : std::vector<itype_id>();
 }
 
+bool vpart_info::has_category( const std::string &category ) const
+{
+    return this->categories.find( category ) != this->categories.end();
+}
+
 /**
  * @name Wheel specific functions
  *
@@ -999,6 +1036,11 @@ int vpart_info::rotor_diameter() const
 const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
 {
     return workbench_info;
+}
+
+std::set<std::pair<itype_id, int>> vpart_info::get_pseudo_tools() const
+{
+    return pseudo_tools;
 }
 
 /** @relates string_id */
@@ -1120,10 +1162,11 @@ void vehicle_prototype::load( const JsonObject &jo )
         if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items
             for( const std::string line : spawn_info.get_array( "item_groups" ) ) {
-                next_spawn.item_groups.push_back( line );
+                next_spawn.item_groups.push_back( item_group_id( line ) );
             }
         } else if( spawn_info.has_string( "item_groups" ) ) {
-            next_spawn.item_groups.push_back( spawn_info.get_string( "item_groups" ) );
+            next_spawn.item_groups.push_back(
+                item_group_id( spawn_info.get_string( "item_groups" ) ) );
         }
         vproto.item_spawns.push_back( std::move( next_spawn ) );
     }
@@ -1241,4 +1284,33 @@ std::vector<vproto_id> vehicle_prototype::get_all()
         result.push_back( vp.first );
     }
     return result;
+}
+
+static std::vector<vpart_category> vpart_categories_all;
+
+const std::vector<vpart_category> &vpart_category::all()
+{
+    return vpart_categories_all;
+}
+
+void vpart_category::load( const JsonObject &jo )
+{
+    vpart_category def;
+
+    assign( jo, "id", def.id_ );
+    assign( jo, "name", def.name_ );
+    assign( jo, "short_name", def.short_name_ );
+    assign( jo, "priority", def.priority_ );
+
+    vpart_categories_all.push_back( def );
+}
+
+void vpart_category::finalize()
+{
+    std::sort( vpart_categories_all.begin(), vpart_categories_all.end() );
+}
+
+void vpart_category::reset()
+{
+    vpart_categories_all.clear();
 }

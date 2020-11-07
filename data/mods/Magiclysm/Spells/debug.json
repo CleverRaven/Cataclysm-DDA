@@ -41,6 +41,38 @@
     "learn_spells": { "create_atomic_light": 1, "megablast": 2 }
   },
   {
+    "type": "SPELL",
+    "id": "debug_push_basic",
+    "name": "debug push no aoe",
+    "description": "pushes all types of objects with an aoe of 0",
+    "valid_targets": [ "ally", "self", "hostile", "field", "item", "ground" ],
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": 10,
+    "damage_increment": 1,
+    "min_range": 20,
+    "max_range": 20,
+    "max_level": 10
+  },
+  {
+    "type": "SPELL",
+    "id": "debug_push_blast",
+    "name": "debug push blast",
+    "description": "pushes all types of objects with an aoe of 3 in a blast pattern",
+    "valid_targets": [ "ally", "self", "hostile", "field", "item", "ground" ],
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "min_damage": 0,
+    "max_damage": 10,
+    "damage_increment": 1,
+    "min_range": 20,
+    "max_range": 20,
+    "max_level": 10
+  },
+  {
     "id": "spawn_debug_monster",
     "type": "SPELL",
     "name": "Spawn Debug Monsters",

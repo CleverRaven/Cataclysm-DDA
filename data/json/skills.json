@@ -37,8 +37,8 @@
   {
     "type": "skill",
     "id": "traps",
-    "name": { "str": "trapping" },
-    "description": "Your skill in creating, setting, finding and disarming traps safely and effectively.  This skill does not affect the evasion of traps that are triggered.",
+    "name": { "str": "devices" },
+    "description": "Your skill in manipulating fine devices like security systems, traps, locks and other precision tasks.  This skill does not affect the evasion of traps that are triggered.",
     "companion_survival_rank_factor": 1,
     "display_category": "display_interaction",
     "companion_skill_practice": [ { "skill": "", "weight": 15 }, { "skill": "gathering", "weight": 15 }, { "skill": "trapping", "weight": 80 } ]
@@ -268,14 +268,6 @@
     "companion_survival_rank_factor": 1,
     "display_category": "display_melee",
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
-  },
-  {
-    "type": "skill",
-    "id": "lockpick",
-    "name": { "str": "lock picking" },
-    "description": "Your skill in picking all sorts of locks which require physical keys - from simple pin tumbler locks to intricate disc tumbler locks.  Skill increases chance and decreases time required to successfully pick the lock.",
-    "companion_survival_rank_factor": 1,
-    "display_category": "display_interaction"
   },
   {
     "type": "skill",

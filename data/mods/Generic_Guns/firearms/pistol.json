@@ -7,7 +7,7 @@
     "ammo": [ "ammo_pistol" ],
     "description": "Since the early days of western expansion, when ammunition supply was infrequent, shooters sought to share ammo between their sidearms and long arms.  This tube magazine lever action carbine allows the shooter to reduce the number of calibers carried and squeeze more power from their pistol ammunition.",
     "clip_size": 10,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol": 10 }, "rigid": true } ]
   },
   {
     "id": "pistol_machine",
@@ -22,7 +22,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ]
+        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ],
+        "rigid": true
       }
     ]
   },
@@ -39,7 +40,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ]
+        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ],
+        "rigid": true
       }
     ]
   },
@@ -56,7 +58,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ]
+        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ],
+        "rigid": true
       }
     ]
   },
@@ -68,7 +71,7 @@
     "ammo": [ "ammo_pistol" ],
     "description": "Revolvers like this, chambered for standard defensive calibers, were a favorite of police departments for nearly a century, up until the 1986 Miami shootout.  Afterwards, the slow reloading and shooting of revolvers were considered liabilities; still, this model's accuracy and moderate recoil make for a serviceable sidearm, and there are no magazines for you to lose or damage.",
     "clip_size": 6,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "ammo_pistol": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "ammo_pistol": 6 }, "rigid": true } ]
   },
   {
     "id": "pistol_smg",
@@ -83,7 +86,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ]
+        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ],
+        "rigid": true
       }
     ]
   },
@@ -100,7 +104,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ]
+        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ],
+        "rigid": true
       }
     ]
   }

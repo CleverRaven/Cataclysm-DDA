@@ -328,8 +328,7 @@
       "ONLY_ONE",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "NO_UNLOAD",
-      "NO_AMMO"
+      "NO_UNLOAD"
     ],
     "skill": "archery",
     "min_strength": 9,
@@ -609,16 +608,7 @@
     "description": "A leather sling, quivering with energy when in your palm to the point of almost tearing.  A pebble appears when you begin spinning it.",
     "price": 150,
     "material": [ "leather" ],
-    "flags": [
-      "NEVER_JAMS",
-      "PRIMITIVE_RANGED_WEAPON",
-      "BELT_CLIP",
-      "FIRE_TWOHAND",
-      "TRADER_AVOID",
-      "NO_AMMO",
-      "NO_UNLOAD",
-      "NO_REPAIR"
-    ],
+    "flags": [ "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP", "FIRE_TWOHAND", "TRADER_AVOID", "NO_UNLOAD", "NO_REPAIR" ],
     "weight": "86 g",
     "volume": "250 ml",
     "skill": "throw",

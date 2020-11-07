@@ -21,6 +21,7 @@
     "name": { "str": "broom" },
     "description": "A long-handled broom.  Makes a terrible weapon unless you're chasing cats.",
     "weight": "929 g",
+    "longest_side": "140 cm",
     "to_hit": 1,
     "color": "yellow",
     "symbol": "/",

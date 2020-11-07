@@ -12,7 +12,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "bodypart.h" // body_part::num_bp
+#include "bodypart.h"
 #include "calendar.h"
 #include "color.h" // nc_color
 #include "damage.h"
@@ -828,7 +828,7 @@ class islot_milling
 {
     public:
         itype_id into_;
-        double conversion_rate_;
+        double conversion_rate_ = 0;
 
         bool was_loaded = false;
 
@@ -838,6 +838,8 @@ class islot_milling
 
 struct itype {
         friend class Item_factory;
+
+        using FlagsSetType = std::set<flag_id>;
 
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
@@ -898,7 +900,6 @@ struct itype {
         /** Fields to emit when item is in active state */
         std::set<emit_id> emits;
 
-        std::set<std::string> item_tags;
         std::set<matec_id> techniques;
 
         // Minimum stat(s) or skill(s) to use the item
@@ -1023,6 +1024,12 @@ struct itype {
         int damage_max_ = +4000;
         /// @}
 
+        // Temporary storage of flags before entity is finalized.
+        // During finalization, flags are moved into `item_tags` and `item_tags_str_tmp` is cleared.
+        // This deferred flag conversion is necessary, as some flags might not be loaded yet when `itype` is loaded.
+        std::set<flag_str_id> item_tags_str_tmp;
+        FlagsSetType item_tags;
+
     protected:
         itype_id id = itype_id::NULL_ID(); /** unique string identifier for this type */
 
@@ -1112,6 +1119,13 @@ struct itype {
         int charges_per_volume( const units::volume &vol ) const;
 
         bool has_use() const;
+
+        bool has_flag( const flag_id &flag ) const;
+        bool has_flag( const flag_str_id &flag ) const;
+
+        // returns read-only set of all item tags/flags
+        const FlagsSetType &get_flags() const;
+
         bool can_use( const std::string &iuse_name ) const;
         const use_function *get_use( const std::string &iuse_name ) const;
 

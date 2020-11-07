@@ -35,6 +35,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "handle_liquid.h"
@@ -149,7 +150,6 @@ static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
-static const bionic_id bio_voice( "bio_voice" );
 static const bionic_id bio_emp( "bio_emp" );
 static const bionic_id bio_evap( "bio_evap" );
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
@@ -190,21 +190,10 @@ static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
-static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
-static const std::string flag_AURA( "AURA" );
-static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
-static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
-static const std::string flag_PERPETUAL( "PERPETUAL" );
-static const std::string flag_PERSONAL( "PERSONAL" );
-static const std::string flag_SEALED( "SEALED" );
-static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
-
 static const std::string flag_BIO_GUN( "BIONIC_GUN" );
 static const std::string flag_BIO_WEAPON( "BIONIC_WEAPON" );
 static const std::string flag_BIO_TOGGLED( "BIONIC_TOGGLED" );
+static const std::string flag_SEALED( "SEALED" );
 
 struct Character::auto_toggle_bionic_result {
     bool can_burn_fuel = false;
@@ -1214,7 +1203,7 @@ Character::auto_toggle_bionic_result Character::auto_toggle_bionic( const int b,
             const bool is_remote_fuel = is_remote_fueled && fuel == remote_fuel;
             float effective_efficiency = get_effective_efficiency( b, bio.info().fuel_efficiency );
             if( is_remote_fuel && fuel == fuel_type_sun_light ) {
-                effective_efficiency *= item_worn_with_flag( "SOLARPACK_ON" ).type->solar_efficiency;
+                effective_efficiency *= item_worn_with_flag( flag_SOLARPACK_ON ).type->solar_efficiency;
             }
             int current_fuel_stock = 0;
             if( is_metabolism_powered ) {

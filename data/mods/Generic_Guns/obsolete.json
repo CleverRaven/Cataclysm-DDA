@@ -13,7 +13,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [  ]
+        "item_restriction": [  ],
+        "rigid": true
       }
     ]
   },
@@ -30,7 +31,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "rifle_mag", "rifle_sniper_mag" ]
+        "item_restriction": [ "rifle_mag", "rifle_sniper_mag" ],
+        "rigid": true
       }
     ]
   },

@@ -891,8 +891,7 @@
           { "item": "recovery_spellbook", "prob": 5 },
           { "item": "eshaper_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_stamina", "prob": 50 },
-          { "item": "spell_scroll_eshaper_shardstorm", "prob": 50 },
-          { "item": "spell_scroll_lava_bomb", "prob": 50 }
+          { "item": "spell_scroll_eshaper_shardstorm", "prob": 50 }
         ],
         "prob": 10
       }

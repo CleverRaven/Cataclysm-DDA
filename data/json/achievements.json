@@ -1026,21 +1026,6 @@
     "hidden_by": [ "achievement_lvl_7_unarmed" ]
   },
   {
-    "id": "achievement_lvl_7_lockpick",
-    "type": "achievement",
-    "name": "Burglar",
-    "description": "Crowbar?  Such a barbarity.",
-    "requirements": [ { "event_statistic": "num_gains_lockpick_level_7", "is": ">=", "target": 1 } ]
-  },
-  {
-    "id": "achievement_lvl_10_lockpick",
-    "type": "achievement",
-    "name": "Locksmith",
-    "description": "If there is a lock, there is a key.",
-    "requirements": [ { "event_statistic": "num_gains_lockpick_level_10", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_7_lockpick" ]
-  },
-  {
     "id": "achievement_lvl_7_chemistry",
     "type": "achievement",
     "name": "Periodic Table",

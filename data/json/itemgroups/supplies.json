@@ -231,7 +231,7 @@
       [ "foot_crank", 10 ],
       [ "spray_can", 50 ],
       [ "bearing", 1 ],
-      [ "permanent_marker", 20 ],
+      { "item": "permanent_marker", "prob": 20, "charges": [ 0, 500 ] },
       [ "cu_pipe", 50 ],
       [ "fungicide", 5 ],
       [ "insecticide", 5 ],
@@ -299,8 +299,10 @@
       [ "hydrogen_tank", 8 ],
       [ "salt", 10 ],
       [ "sugar", 10 ],
-      { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
-      [ "oxygen_cylinder", 8 ]
+      [ "chem_ethanol", 10 ],
+      [ "oxygen_cylinder", 8 ],
+      { "item": "chem_citric_acid", "prob": 16, "charges-min": 100 },
+      { "item": "chem_ethanol", "prob": 10, "charges-min": 250 }
     ]
   },
   {
@@ -477,7 +479,7 @@
       [ "cig", 5 ],
       [ "purse", 2 ],
       [ "pipe_tobacco", 1 ],
-      [ "permanent_marker", 5 ]
+      { "item": "permanent_marker", "prob": 5, "charges": [ 0, 500 ] }
     ]
   },
   {
@@ -485,7 +487,7 @@
     "type": "item_group",
     "items": [
       [ "paper", 100 ],
-      [ "permanent_marker", 35 ],
+      { "item": "permanent_marker", "prob": 35, "charges": [ 0, 500 ] },
       [ "file", 15 ],
       [ "duct_tape", 15 ],
       [ "file", 15 ],

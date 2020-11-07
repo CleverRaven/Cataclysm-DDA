@@ -10,7 +10,7 @@
     "count": 100,
     "default_ammo": "rifle_ball",
     "linkage": "ammolinkrifle",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle": 500 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle": 500 }, "rigid": true } ]
   },
   {
     "id": "rifle_mag",
@@ -20,7 +20,7 @@
     "name": "standard rifle magazine",
     "description": "A 30 round standard capacity magazine for service rifles, cheaper than the cost of a meal due to its adoption by nearly every other common rifle.  They're made of aluminum and were originally meant to be dispsoable, so they're not the most durable; don't let them get damaged.",
     "ammo_type": [ "ammo_rifle" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle": 30 }, "rigid": true } ]
   },
   {
     "id": "rifle_sniper_mag",
@@ -29,6 +29,33 @@
     "name": { "str": "compact rifle magazine" },
     "description": "A short 5 round steel magazine compatible with nearly every common rifle.  Although it has a low capacity it is easy to store and quick to reload.",
     "ammo_type": [ "ammo_rifle" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle": 5 }, "rigid": true } ]
+  },
+  {
+    "id": "rifle_mag_foreign",
+    "copy-from": "exodiiBRmag",
+    "type": "MAGAZINE",
+    "name": { "str": "foreign rifle magazine" },
+    "description": "An unreasonably large magazine for the unusual Exodii rifles, custom designed and manufactured by the Exodii.",
+    "ammo_type": [ "ammo_rifle_foreign" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_rifle_foreign": 60 } } ]
+  },
+  {
+    "id": "rifle_sniper_mag_foreign",
+    "copy-from": "exodiiminimag",
+    "type": "MAGAZINE",
+    "name": { "str": "foreign sniper rifle magazine" },
+    "description": "A small, sleek magazine for the unusual Exodii sniper rifles.",
+    "ammo_type": [ "ammo_rifle_foreign" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_rifle_foreign": 10 } } ]
+  },
+  {
+    "id": "rifle_rail_mag",
+    "copy-from": "hk_g80mag",
+    "type": "MAGAZINE",
+    "name": { "str": "railgun rifle magazine" },
+    "description": "A railgun rifle magazine which can hold up to 20 ferromagnetic projectiles.",
+    "ammo_type": [ "ammo_railgun" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_railgun": 20 } } ]
   }
 ]

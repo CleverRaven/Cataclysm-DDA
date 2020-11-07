@@ -10,6 +10,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "debug.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "generic_factory.h"
 #include "item.h"
@@ -422,8 +423,8 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
             clear_faults( *it );
             return VisitResponse::NEXT;
         } );
-        if( it.has_flag( "VARSIZE" ) ) {
-            it.item_tags.insert( "FIT" );
+        if( it.has_flag( flag_VARSIZE ) ) {
+            it.set_flag( flag_FIT );
         }
     }
 

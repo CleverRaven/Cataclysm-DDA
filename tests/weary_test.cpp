@@ -37,7 +37,6 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
     tasklist soldier_12h;
     soldier_12h.enschedule( task_dig, 12_hours );
 
-
     SECTION( "Light tasks" ) {
         INFO( "\nFirst Aid 8 hours:" );
         weariness_events info = do_activity( desk_8h );
@@ -130,13 +129,10 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        CHECK( info.transition_minutes( 0, 1, 220_minutes ) == Approx( 220 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 1, 2, 400_minutes ) == Approx( 400 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 2, 3, 525_minutes ) == Approx( 525 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 4, 645_minutes ) == Approx( 645 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 4, 3, 710_minutes ) == Approx( 710 ).margin( 0 ) );
-        CHECK( info.transition_minutes( 3, 2, 800_minutes ) == Approx( 800 ).margin( 0 ) );
-        CHECK( info.transition_minutes( 2, 1, 950_minutes ) == Approx( 950 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 0, 1, 325_minutes ) == Approx( 325 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 2, 625_minutes ) == Approx( 625 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 2, 1, 740_minutes ) == Approx( 740 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 0, 990_minutes ) == Approx( 990 ).margin( 5 ) );
     }
 }
 

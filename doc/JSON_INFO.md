@@ -809,7 +809,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `soft`   | Optional boolean. Default is false.
 | `reinforces`   | Optional boolean. Default is false.
 
-There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These are integer values; the default is 0 and they can be negative to take more damage.
+There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bullet. These are integer values; the default is 0 and they can be negative to take more damage.
 
 ```C++
 {
@@ -2017,6 +2017,10 @@ Vehicle components when installed on a vehicle.
   "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
   "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
 },
+"pseudo_tools" : [            // Crafting tools provided by this part
+  { "id": "hotplate", "hotkey": "h" },
+  { "id": "pot" }
+],
 "damage_reduction" : {        // Flat reduction of damage, as described below. If not specified, set to zero
     "all" : 10,
     "physical" : 5
@@ -2129,6 +2133,19 @@ These values apply to crafting tasks performed at the WORKBENCH.
 "comfort": 3,                 // (Optional, default=0). Sleeping comfort as for terrain/furniture.
 "floor_bedding_warmth": 300,  // (Optional, default=0). Bonus warmth as for terrain/furniture.
 "bonus_fire_warmth_feet": 200,// (Optional, default=0). Bonus fire warmth as for terrain/furniture.
+```
+
+#### The following optional field describes pseudo tools for any part.
+Crafting stations (e.g. kitchen, welding rigs etc) have tools that they provide as part
+of forming the inventory for crafting as well as providing menu items when `e`xamining
+the vehicle tile.
+Following example array gives the vpart a pot as passive tool for crafting because it has no hotkey defined.
+It also has a hotplate that can be activated by examining it with `e` then `h` on the part's vehicle tile.
+```c++
+"pseudo_tools" : [
+  { "id": "hotplate", "hotkey": "h" },
+  { "id": "pot" }
+],
 ```
 
 ### Part Resistance
@@ -2716,20 +2733,6 @@ Every item type can have optional seed data, if the item has seed data, it's con
 }
 ```
 
-### Artifact Data
-
-Every item type can have optional artifact properties (which makes it an artifact):
-
-```C++
-"artifact_data" : {
-    "charge_type": "ARTC_PAIN",
-    "effects_carried": ["AEP_INT_DOWN"],
-    "effects_wielded": ["AEP_DEX_UP"],
-    "effects_activated": ["AEA_BLOOD", "AEA_NOISE"],
-    "effects_worn": ["AEP_STR_UP"]
-}
-```
-
 ### Brewing Data
 
 Every item type can have optional brewing data, if the item has brewing data, it can be placed in a vat and will ferment into a different item type.
@@ -2742,22 +2745,6 @@ Currently only vats can only accept and produce liquid items.
     "result": "beer" // The id of the result of the fermentation.
 }
 ```
-
-#### `Charge_type`
-
-(optional, default: `ARTC_NULL`)
-
-How the item is recharged.
-
-For this to work, the item needs to be a tool that consumes charges upon invocation and has non-zero max_charges. Possible values (see src/artifact.h for an up-to-date list):
-
-- `ARTC_NULL` Never recharges!
-- `ARTC_TIME` Very slowly recharges with time
-- `ARTC_SOLAR` Recharges in sunlight
-- `ARTC_PAIN` Creates pain to recharge
-- `ARTC_HP` Drains HP to recharge
-- `ARTC_FATIGUE` Creates fatigue to recharge
-- `ARTC_PORTAL` Consumes portals to recharge
 
 #### `Effects_carried`
 

@@ -140,6 +140,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     get_avatar() = avatar();
     get_avatar().create( character_type::NOW );
+    get_avatar().setID( g->assign_npc_id(), false );
 
     get_map() = map();
 
@@ -303,7 +304,6 @@ int main( int argc, const char *argv[] )
     // Set the seed for mapgen (the seed will also be reset before each test)
     const unsigned int seed = session.config().rngSeed();
     if( seed ) {
-        srand( seed );
         rng_set_engine_seed( seed );
 
         // If the run is terminated due to a crash during initialization, we won't

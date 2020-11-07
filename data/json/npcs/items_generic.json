@@ -323,7 +323,7 @@
     "magazine": 50,
     "items": [
       [ "101_carpentry", 1 ],
-      [ "1st_aid", 20 ],
+      { "group": "used_1st_aid", "prob": 20 },
       [ "223_casing", 1 ],
       [ "2lcanteen", 3 ],
       [ "3006_casing", 1 ],
@@ -877,7 +877,7 @@
       [ "peanutbutter", 6 ],
       [ "pear", 3 ],
       [ "pepper", 5 ],
-      [ "permanent_marker", 5 ],
+      { "item": "permanent_marker", "prob": 5, "charges": [ 0, 500 ] },
       [ "philosophy_book", 1 ],
       [ "photo_album", 1 ],
       [ "pickaxe", 8 ],

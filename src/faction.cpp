@@ -548,8 +548,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     std::string can_see;
     nc_color see_color;
-    bool u_has_radio = player_character.has_item_with_flag( "TWO_WAY_RADIO", true );
-    bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
+
+    static const flag_str_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
+    bool u_has_radio = player_character.has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
+    bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
         ( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) ) {
@@ -903,7 +905,7 @@ void faction_manager::display() const
                 guy->reset_companion_mission();
                 popup( _( "%s returns from their mission" ), guy->disp_name() );
             } else {
-                if( tab == tab_mode::TAB_FOLLOWERS && guy && ( interactable || radio_interactable ) ) {
+                if( tab == tab_mode::TAB_FOLLOWERS && ( interactable || radio_interactable ) ) {
                     player_character.talk_to( get_talker_for( *guy ), false, radio_interactable );
                 } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
                     camp->query_new_name();

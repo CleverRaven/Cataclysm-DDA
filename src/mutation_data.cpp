@@ -467,6 +467,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, cata::nullopt );
     optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, cata::nullopt );
     optional( jo, was_loaded, "bionic_mana_penalty", bionic_mana_penalty, cata::nullopt );
+    optional( jo, was_loaded, "casting_time_multiplier", casting_time_multiplier, cata::nullopt );
 
     if( jo.has_object( "rand_cut_bonus" ) ) {
         JsonObject sm = jo.get_object( "rand_cut_bonus" );
@@ -728,6 +729,11 @@ bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
         return false;
     }
 
+    return localized_compare( a->name(), b->name() );
+}
+
+bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept
+{
     return localized_compare( a->name(), b->name() );
 }
 

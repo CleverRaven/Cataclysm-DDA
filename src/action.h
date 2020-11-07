@@ -320,6 +320,8 @@ enum action_id : int {
     ACTION_DISPLAY_RADIATION,
     /** Toggle transparency map */
     ACTION_DISPLAY_TRANSPARENCY,
+    /** Toggle timing of the game hours */
+    ACTION_TOGGLE_HOUR_TIMER,
     /** Not an action, serves as count of enumerated actions */
     NUM_ACTIONS
     /**@}*/

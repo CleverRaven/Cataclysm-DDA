@@ -187,7 +187,7 @@ class avatar : public player
         object_type get_grab_type() const;
         /** Handles player vomiting effects */
         void vomit();
-
+        void add_pain_msg( int val, const bodypart_id &bp ) const;
         /**
          * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
          * notices your steal attempt and getting angry with you, and you successfully stealing the item.
@@ -215,6 +215,8 @@ class avatar : public player
         faction *get_faction() const override;
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
+        // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
+        std::string preferred_aiming_mode;
 
         void set_movement_mode( const move_mode_id &mode ) override;
 

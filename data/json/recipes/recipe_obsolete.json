@@ -2663,6 +2663,16 @@
   },
   {
     "type": "recipe",
+    "result": "slime_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "element",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "foot_crank",
     "obsolete": true
   }

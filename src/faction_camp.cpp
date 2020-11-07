@@ -571,46 +571,12 @@ void talk_function::start_camp( npc &p )
         return;
     }
 
-    std::vector<std::pair<std::string, tripoint_abs_omt>> om_region =
-                om_building_region( omt_pos, 1 );
-    int near_fields = 0;
-    for( const auto &om_near : om_region ) {
-        const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_match( "field", om_type, ot_match_type::contains ) ) {
-            near_fields += 1;
-        }
-    }
-    std::vector<std::pair<std::string, tripoint_abs_omt>> om_region_ext =
-                om_building_region( omt_pos, 3 );
-    int forests = 0;
-    int waters = 0;
-    for( const auto &om_near : om_region_ext ) {
+    for( const auto &om_near : om_building_region( omt_pos, 3 ) ) {
         const oter_id &om_type = oter_id( om_near.first );
         if( is_ot_match( "faction_base", om_type, ot_match_type::contains ) ) {
             popup( _( "You are too close to another camp!" ) );
             return;
-        } else if( is_ot_match( "forest", om_type, ot_match_type::contains ) ) {
-            forests++;
-        } else if( is_ot_match( "river", om_type, ot_match_type::contains ) ) {
-            waters++;
         }
-    }
-    bool display = false;
-    std::string buffer = _( "Warning, you have selected a region with the following issues:\n\n" );
-    if( forests < 3 ) {
-        display = true;
-        buffer += _( "There are few forests.  Wood is your primary construction material.\n" );
-    }
-    if( waters == 0 ) {
-        display = true;
-        buffer += _( "There are few large clean-ish water sources.\n" );
-    }
-    if( near_fields < 4 ) {
-        display = true;
-        buffer += _( "There are few fields.  Farming may be difficult.\n" );
-    }
-    if( display && !query_yn( _( "%s\nAre you sure you wish to continue?" ), buffer ) ) {
-        return;
     }
     const recipe &making = camp_type.obj();
     if( !run_mapgen_update_func( making.get_blueprint(), omt_pos ) ) {
@@ -2704,24 +2670,24 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
                                            "more experience…" ), task_description );
     finish_return( *comp, false, msg, skill_group, 1 );
 
-    std::string itemlist = "forest";
+    item_group_id itemlist( "forest" );
     if( task == "_faction_camp_firewood" ) {
-        itemlist = "gathering_faction_base_camp_firewood";
+        itemlist = item_group_id( "gathering_faction_base_camp_firewood" );
     } else if( task == "_faction_camp_gathering" ) {
         itemlist = get_gatherlist();
     } else if( task == "_faction_camp_foraging" ) {
         switch( season_of_year( calendar::turn ) ) {
             case SPRING:
-                itemlist = "foraging_faction_camp_spring";
+                itemlist = item_group_id( "foraging_faction_camp_spring" );
                 break;
             case SUMMER:
-                itemlist = "foraging_faction_camp_summer";
+                itemlist = item_group_id( "foraging_faction_camp_summer" );
                 break;
             case AUTUMN:
-                itemlist = "foraging_faction_camp_autumn";
+                itemlist = item_group_id( "foraging_faction_camp_autumn" );
                 break;
             case WINTER:
-                itemlist = "foraging_faction_camp_winter";
+                itemlist = item_group_id( "foraging_faction_camp_winter" );
                 break;
             default:
                 debugmsg( "Invalid season" );
@@ -3078,7 +3044,8 @@ int basecamp::recipe_batch_max( const recipe &making ) const
     return max_batch;
 }
 
-void basecamp::search_results( int skill, const Group_tag &group_id, int attempts, int difficulty )
+void basecamp::search_results( int skill, const item_group_id &group_id, int attempts,
+                               int difficulty )
 {
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
@@ -3748,11 +3715,11 @@ std::string basecamp::recruit_description( int npc_count )
 
 std::string basecamp::gathering_description( const std::string &bldg )
 {
-    std::string itemlist;
-    if( item_group::group_is_defined( "gathering_" + bldg ) ) {
-        itemlist = "gathering_" + bldg;
+    item_group_id itemlist;
+    if( item_group::group_is_defined( item_group_id( "gathering_" + bldg ) ) ) {
+        itemlist = item_group_id( "gathering_" + bldg );
     } else {
-        itemlist = "forest";
+        itemlist = item_group_id( "forest" );
     }
     std::string output;
 

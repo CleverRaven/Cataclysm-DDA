@@ -1,0 +1,4 @@
+NAME: Chibi_Ultica
+VIEW: Chibi_Ultica
+JSON: tile_config.json
+TILESET: tiles.png

@@ -32,6 +32,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -503,14 +504,14 @@ bool mattack::shriek_stun( monster *z )
         return false;
     }
 
-    int target_angle = coord_to_angle( z->pos(), target->pos() );
-    int cone_angle = 20;
+    units::angle target_angle = coord_to_angle( z->pos(), target->pos() );
+    units::angle cone_angle = 20_degrees;
     map &here = get_map();
     for( const tripoint &cone : here.points_in_radius( z->pos(), 4 ) ) {
-        int tile_angle = coord_to_angle( z->pos(), cone );
-        int diff = std::abs( target_angle - tile_angle );
+        units::angle tile_angle = coord_to_angle( z->pos(), cone );
+        units::angle diff = units::fabs( target_angle - tile_angle );
         // Skip the target, because it's outside cone or it's the source
-        if( diff + cone_angle > 360 || diff > cone_angle || cone == z->pos() ) {
+        if( diff + cone_angle > 360_degrees || diff > cone_angle || cone == z->pos() ) {
             continue;
         }
         // Affect the target
@@ -817,7 +818,7 @@ bool mattack::pull_metal_weapon( monster *z )
     Character *foe = dynamic_cast< Character * >( target );
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
-        if( !foe->weapon.has_flag( "NO_UNWIELD" ) &&
+        if( !foe->weapon.has_flag( flag_NO_UNWIELD ) &&
             ( foe->weapon.made_of( material_id( "iron" ) ) ||
               foe->weapon.made_of( material_id( "hardsteel" ) ) ||
               foe->weapon.made_of( material_id( "steel" ) ) ||
@@ -1053,7 +1054,7 @@ bool mattack::resurrect( monster *z )
     if( g->revive_corpse( raised.first, *raised.second ) ) {
         here.i_rem( raised.first, raised.second );
         if( sees_necromancer ) {
-            add_msg( m_info, _( "The %s gestures at a nearby corpse." ), z->name() );
+            add_msg( m_info, _( "You feel a strange pulse of energy from the %s." ), z->name() );
         }
         z->remove_effect( effect_raising );
         // Takes one turn
@@ -1938,7 +1939,7 @@ bool mattack::fungus_sprout( monster *z )
     }
 
     if( push_player ) {
-        const int angle = coord_to_angle( z->pos(), player_character.pos() );
+        const units::angle angle = coord_to_angle( z->pos(), player_character.pos() );
         add_msg( m_bad, _( "You're shoved away as a fungal wall grows!" ) );
         g->fling_creature( &player_character, angle, rng( 10, 50 ) );
     }
@@ -2631,7 +2632,7 @@ bool mattack::ranged_pull( monster *z )
         // Recalculate the ray each step
         // We can't depend on either the target position being constant (obviously),
         // but neither on z pos staying constant, because we may want to shift the map mid-pull
-        const int dir = coord_to_angle( target->pos(), z->pos() );
+        const units::angle dir = coord_to_angle( target->pos(), z->pos() );
         tileray tdir( dir );
         tdir.advance();
         pt.x = target->posx() + tdir.dx();
@@ -2866,8 +2867,8 @@ bool mattack::stare( monster *z )
     Character &player_character = get_player_character();
     if( z->sees( player_character ) ) {
         //dimensional effects don't take against dimensionally anchored foes.
-        if( player_character.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
-            player_character.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
+        if( player_character.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
+            player_character.has_effect_with_flag( flag_DIMENSIONAL_ANCHOR ) ) {
             add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }
@@ -2904,7 +2905,7 @@ bool mattack::fear_paralyze( monster *z )
     }
     Character &player_character = get_player_character();
     if( player_character.sees( *z ) && !player_character.has_effect( effect_fearparalyze ) ) {
-        if( player_character.worn_with_flag( "PSYSHIELD_PARTIAL" ) && one_in( 4 ) ) {
+        if( player_character.worn_with_flag( flag_PSYSHIELD_PARTIAL ) && one_in( 4 ) ) {
             add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name() );
             ///\EFFECT_INT decreases chance of being paralyzed by fear attack
         } else if( rng( 0, 20 ) > player_character.get_int() ) {
@@ -4047,11 +4048,12 @@ bool mattack::upgrade( monster *z )
     const bool can_see = player_view.sees( *target );
     if( player_view.sees( *z ) ) {
         if( could_see ) {
-            //~ %1$s is the name of the zombie upgrading the other, %2$s is the zombie being upgraded.
-            add_msg( m_warning, _( "A black mist floats from the %1$s around the %2$s." ),
+            add_msg( m_warning,
+                     //~ %1$s is the name of the zombie upgrading the other, %2$s is the zombie being upgraded.
+                     _( "You feel a sudden, intense burst of energy in the air between the %1$s and the %2$s." ),
                      z->name(), old_name );
         } else {
-            add_msg( m_warning, _( "A black mist floats from the %s." ), z->name() );
+            add_msg( m_warning, _( "You feel a sudden, intense burst of energy from the %s." ), z->name() );
         }
     }
     if( target->name() != old_name ) {
@@ -4473,9 +4475,9 @@ bool mattack::longswipe( monster *z )
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
         if( target->is_player() || target->is_npc() ) {
-            target->as_character()->make_bleed( bodypart_id( "head" ), 15_minutes );
+            target->as_character()->make_bleed( effect_source( z ), bodypart_id( "head" ), 15_minutes );
         } else {
-            target->add_effect( effect_bleed, 15_minutes, bodypart_id( "head" ) );
+            target->add_effect( effect_source( z ), effect_bleed, 15_minutes, bodypart_id( "head" ) );
         }
 
     } else {
@@ -4791,7 +4793,7 @@ bool mattack::riotbot( monster *z )
                          _( "You deftly slip out of the handcuffs just as the robot closes them.  The robot didn't seem to notice!" ) );
                 foe->i_add( handcuffs );
             } else {
-                handcuffs.item_tags.insert( "NO_UNWIELD" );
+                handcuffs.set_flag( flag_NO_UNWIELD );
                 foe->wield( foe->i_add( handcuffs ) );
                 foe->moves -= 300;
                 add_msg( _( "The robot puts handcuffs on you." ) );
@@ -5311,7 +5313,7 @@ bool mattack::bio_op_impale( monster *z )
         target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
 
         if( do_bleed ) {
-            target->as_character()->make_bleed( hit, rng( 75_turns, 125_turns ), 1, true );
+            target->as_character()->make_bleed( effect_source( z ), hit, rng( 75_turns, 125_turns ), 1, true );
         }
     } else {
         target->add_msg_player_or_npc( _( "but fails to penetrate your armor!" ),
@@ -5341,7 +5343,7 @@ bool mattack::bio_op_disarm( monster *z )
     player *foe = dynamic_cast< player * >( target );
 
     // disarm doesn't work on creatures or unarmed targets
-    if( foe == nullptr || ( foe != nullptr && !foe->is_armed() ) ) {
+    if( foe == nullptr || !foe->is_armed() ) {
         return false;
     }
 
@@ -5379,7 +5381,7 @@ bool mattack::bio_op_disarm( monster *z )
 
     target->add_msg_if_player( m_bad, _( "The zombie grabs your %s…" ), it.tname() );
 
-    if( my_roll >= their_roll && !it.has_flag( "NO_UNWIELD" ) ) {
+    if( my_roll >= their_roll && !it.has_flag( flag_NO_UNWIELD ) ) {
         target->add_msg_if_player( m_bad, _( "and throws it to the ground!" ) );
         const tripoint tp = foe->pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
         get_map().add_item_or_charges( tp, foe->i_rem( &it ) );

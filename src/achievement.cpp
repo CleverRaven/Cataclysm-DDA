@@ -764,8 +764,10 @@ std::string achievement_tracker::ui_text() const
 achievements_tracker::achievements_tracker(
     stats_tracker &stats,
     const std::function<void( const achievement *, bool )> &achievement_attained_callback,
-    const std::function<void( const achievement *, bool )> &achievement_failed_callback ) :
+    const std::function<void( const achievement *, bool )> &achievement_failed_callback,
+    bool active ) :
     stats_( &stats ),
+    active_( active ),
     achievement_attained_callback_( achievement_attained_callback ),
     achievement_failed_callback_( achievement_failed_callback )
 {}
@@ -891,6 +893,10 @@ void achievements_tracker::deserialize( JsonIn &jsin )
 
 void achievements_tracker::init_watchers()
 {
+    if( !active_ ) {
+        return;
+    }
+
     for( const achievement *a : valid_achievements() ) {
         if( achievements_status_.count( a->id ) ) {
             continue;

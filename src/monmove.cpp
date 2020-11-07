@@ -454,7 +454,7 @@ void monster::plan()
                 continue;
             }
 
-            for( auto &fac : fac_list.second ) {
+            for( const auto &fac : fac_list.second ) {
                 if( !seen_levels.test( fac.first + OVERMAP_DEPTH ) ) {
                     continue;
                 }
@@ -504,7 +504,7 @@ void monster::plan()
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( auto &fac : myfaction_iter->second ) {
+        for( const auto &fac : myfaction_iter->second ) {
             if( !seen_levels.test( fac.first + OVERMAP_DEPTH ) ) {
                 continue;
             }
@@ -900,6 +900,7 @@ void monster::move()
     }
 
     tripoint next_step;
+    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
     const bool staggers = has_flag( MF_STUMBLES );
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
@@ -982,11 +983,23 @@ void monster::move()
                 bad_choice = true;
             }
 
+            // is there an openable door?
+            if( can_open_doors &&
+                here.open_door( candidate, !here.is_outside( pos() ), true ) ) {
+                moved = true;
+                next_step = candidate_abs;
+                continue;
+            }
+
             // Try to shove vehicle out of the way
             shove_vehicle( destination, candidate );
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash ) {
+                    continue;
+                }
+                // Don't bash if we're just tracking a noise.
+                if( wander() && destination == wander_pos ) {
                     continue;
                 }
                 const int estimate = here.bash_rating( bash_estimate(), candidate );
@@ -1017,7 +1030,6 @@ void monster::move()
             }
         }
     }
-    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
@@ -1379,17 +1391,15 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
 
-    map &here = get_map();
-    bool can_bash = here.is_bashable( p ) && bash_skill() > 0;
-    if( !can_bash ) {
+    if( bash_skill() <= 0 ) {
         return false;
     }
 
-    bool flat_ground = here.has_flag( "ROAD", p ) || here.has_flag( "FLAT", p );
-    if( flat_ground ) {
-        bool can_bash_ter = here.is_bashable_ter( p );
-        bool try_bash_ter = one_in( 50 );
-        if( !( can_bash_ter && try_bash_ter ) ) {
+    map &here = get_map();
+    if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() ) ) {
+        // if the only thing here is road or flat, rarely bash it
+        bool flat_ground = here.has_flag( "ROAD", p ) || here.has_flag( "FLAT", p );
+        if( !here.is_bashable_ter( p ) || ( flat_ground && !one_in( 50 ) ) ) {
             return false;
         }
     }

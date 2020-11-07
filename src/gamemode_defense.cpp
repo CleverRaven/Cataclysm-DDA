@@ -62,7 +62,6 @@ static constexpr int SPECIAL_WAVE_MIN = 5;
 
 static std::string caravan_category_name( caravan_category cat );
 static std::vector<itype_id> caravan_items( caravan_category cat );
-static std::set<m_flag> monflags_to_add;
 
 static int caravan_price( Character &u, int price );
 
@@ -1116,31 +1115,31 @@ std::vector<itype_id> caravan_items( caravan_category cat )
             return ret;
 
         case CARAVAN_MELEE:
-            item_list = item_group::items_from( "defense_caravan_melee" );
+            item_list = item_group::items_from( item_group_id( "defense_caravan_melee" ) );
             break;
 
         case CARAVAN_RANGED:
-            item_list = item_group::items_from( "defense_caravan_ranged" );
+            item_list = item_group::items_from( item_group_id( "defense_caravan_ranged" ) );
             break;
 
         case CARAVAN_AMMUNITION:
-            item_list = item_group::items_from( "defense_caravan_ammunition" );
+            item_list = item_group::items_from( item_group_id( "defense_caravan_ammunition" ) );
             break;
 
         case CARAVAN_COMPONENTS:
-            item_list = item_group::items_from( "defense_caravan_components" );
+            item_list = item_group::items_from( item_group_id( "defense_caravan_components" ) );
             break;
 
         case CARAVAN_FOOD:
-            item_list = item_group::items_from( "defense_caravan_food" );
+            item_list = item_group::items_from( item_group_id( "defense_caravan_food" ) );
             break;
 
         case CARAVAN_CLOTHES:
-            item_list = item_group::items_from( "defense_caravan_clothes" );
+            item_list = item_group::items_from( item_group_id( "defense_caravan_clothes" ) );
             break;
 
         case CARAVAN_TOOLS:
-            item_list = item_group::items_from( "defense_caravan_tools" );
+            item_list = item_group::items_from( item_group_id( "defense_caravan_tools" ) );
             break;
 
         case NUM_CARAVAN_CATEGORIES:

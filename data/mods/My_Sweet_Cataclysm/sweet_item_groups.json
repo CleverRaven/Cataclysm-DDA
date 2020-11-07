@@ -39,7 +39,8 @@
       [ "marshmallow", 100 ],
       [ "gum", 150 ],
       [ "smores", 50 ],
-      [ "caff_gum", 150 ]
+      [ "caff_gum", 150 ],
+      [ "cow_candy", 30 ]
     ]
   },
   {
@@ -50,7 +51,7 @@
   {
     "type": "item_group",
     "id": "coffee_table",
-    "items": [ [ "candy3", 100 ], [ "cookies", 300 ], [ "marshmallow", 100 ], [ "smores", 50 ] ]
+    "items": [ [ "candy3", 100 ], [ "cookies", 300 ], [ "marshmallow", 100 ], [ "smores", 50 ], [ "cow_candy", 30 ] ]
   },
   {
     "type": "item_group",
@@ -66,7 +67,8 @@
       [ "grahmcrackers", 200 ],
       [ "marshmallow", 100 ],
       [ "gum", 150 ],
-      [ "smores", 50 ]
+      [ "smores", 50 ],
+      [ "cow_candy", 80 ]
     ]
   },
   {
@@ -78,18 +80,19 @@
       [ "grahmcrackers", 100 ],
       [ "marshmallow", 50 ],
       [ "gum", 75 ],
-      [ "smores", 25 ]
+      [ "smores", 25 ],
+      [ "cow_candy", 20 ]
     ]
   },
   {
     "type": "item_group",
     "id": "bed",
-    "items": [ [ "candy3", 5 ], [ "cookies", 3 ], [ "marshmallow", 2 ], [ "gum", 2 ], [ "smores", 1 ] ]
+    "items": [ [ "candy3", 5 ], [ "cookies", 3 ], [ "marshmallow", 2 ], [ "gum", 2 ], [ "smores", 1 ], [ "cow_candy", 1 ] ]
   },
   {
     "type": "item_group",
     "id": "bedroom",
-    "items": [ [ "candy3", 20 ], [ "cookies", 15 ], [ "marshmallow", 10 ], [ "gum", 10 ], [ "smores", 5 ] ]
+    "items": [ [ "candy3", 20 ], [ "cookies", 15 ], [ "marshmallow", 10 ], [ "gum", 10 ], [ "smores", 5 ], [ "cow_candy", 5 ] ]
   },
   {
     "type": "item_group",
@@ -99,12 +102,19 @@
   {
     "type": "item_group",
     "id": "trash",
-    "items": [ [ "candy3", 5 ], [ "gum", 10 ], [ "caff_gum", 10 ] ]
+    "items": [ [ "candy3", 5 ], [ "gum", 10 ], [ "caff_gum", 10 ], [ "cow_candy", 3 ] ]
   },
   {
     "type": "item_group",
     "id": "ant_food",
-    "items": [ [ "candy3", 50 ], [ "cookies", 150 ], [ "grahmcrackers", 100 ], [ "marshmallow", 50 ], [ "smores", 25 ] ]
+    "items": [
+      [ "candy3", 50 ],
+      [ "cookies", 150 ],
+      [ "grahmcrackers", 100 ],
+      [ "marshmallow", 50 ],
+      [ "smores", 25 ],
+      [ "cow_candy", 40 ]
+    ]
   },
   {
     "type": "item_group",
@@ -116,7 +126,8 @@
       [ "marshmallow", 1 ],
       [ "gum", 2 ],
       [ "smores", 2 ],
-      [ "caff_gum", 2 ]
+      [ "caff_gum", 2 ],
+      [ "cow_candy", 1 ]
     ]
   }
 ]
