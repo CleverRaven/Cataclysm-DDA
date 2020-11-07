@@ -839,7 +839,7 @@
    {
     "type": "MONSTER",
     "id": "mon_Zianzhousaurus",
-    "name": { "str": "Zombie Qianzhousaurus" },
+    "name": { "str": "Qianz zombie" },
     "looks_like": "mon_zyrannosaurus",
     "volume": "550 L",
     "weight": "770 kg",
@@ -858,4 +858,3 @@
   },
   
 ]
-
