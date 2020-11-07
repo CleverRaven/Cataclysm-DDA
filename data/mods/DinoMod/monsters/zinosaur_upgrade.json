@@ -893,22 +893,18 @@
     "proportional": { "hp": 4, "speed": 1.25 },
     "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
     "special_attacks": [ [ "SMASH", 20 ] ]
-     {
+    {
     "type": "MONSTER",
     "id": "mon_Zianzhousaurus_brute",
-    "name": { "str": "Qianzhousaurus Skullcracker" },
-    "description": " A gigantic Qianzhousaurus that looks very angered and hungry.",
-    "diff": 2,
+    "name": { "str_sp": "Zianzhousaurus Skullcracker" },
+    "copy-from": "mon_Zianzhousaurus",
+    "looks_like": "mon_tyrannosaurus",
+    "description": "A hideous Qianzhousaurus with unmatched size and strength.",
+    "diff": 5,
+    "weight": "77000 kg",
     "color": "green",
-    "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": {
-      "melee_dice": 20,
-      "melee_dice_sides": 6,
-      "melee_cut": 4,
-      "armor_bash": 10,
-      "armor_cut": 3,
-      "armor_bullet": 10,
-      "vision_night": 12
-    },
+    "proportional": { "hp": 4, "speed": 1.25 },
+    "relative": { "melee_dice": 10, "melee_cut": -10, "armor_bash": 10, "armor_cut": 3, "armor_bullet": 10 },
+    "special_attacks": [ [ "RAM", 37 ] ]
   }
- ]
+]
