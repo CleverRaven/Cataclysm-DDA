@@ -65,9 +65,9 @@
     "subtype": "collection",
     "entries": [
       { "item": "arrow_metal", "prob": 20, "repeat": [ 1, 5 ] },
-      { "item": "arrow_metal_bodkin", "prob": 20, "repeat": [ 1, 4 ]  },
-      { "item": "arrow_metal_target", "prob": 30, "repeat": [ 2, 6 ]  },
-      { "item": "arrow_cf", "prob": 10, "repeat": [ 3, 5 ]  }
+      { "item": "arrow_metal_bodkin", "prob": 20, "repeat": [ 1, 4 ] },
+      { "item": "arrow_metal_target", "prob": 30, "repeat": [ 2, 6 ] },
+      { "item": "arrow_cf", "prob": 10, "repeat": [ 3, 5 ] }
     ]
   },
   {
@@ -77,11 +77,11 @@
     "subtype": "collection",
     "entries": [
       { "item": "machete", "prob": 20 },
-      { "item": "preserved_food", "custom-flags": [ "CANNIBALISM" ], "prob": 30, "repeat": [ 1, 4 ]  },
-      { "item": "preserved_food", "prob": 20, "repeat": [ 1, 4 ]  },
-      { "item": "dry_goods", "prob": 30, "repeat": [ 2, 6 ]  },
-      { "item": "dry_goods", "custom-flags": [ "CANNIBALISM" ], "prob": 60, "repeat": [ 1, 4 ]  },
-      { "item": "pantry", "prob": 10, "repeat": [ 3, 5 ]  }
+      { "item": "preserved_food", "custom-flags": [ "CANNIBALISM" ], "prob": 30, "repeat": [ 1, 4 ] },
+      { "item": "preserved_food", "prob": 20, "repeat": [ 1, 4 ] },
+      { "item": "dry_goods", "prob": 30, "repeat": [ 2, 6 ] },
+      { "item": "dry_goods", "custom-flags": [ "CANNIBALISM" ], "prob": 60, "repeat": [ 1, 4 ] },
+      { "item": "pantry", "prob": 10, "repeat": [ 3, 5 ] }
     ]
   }
 ]
