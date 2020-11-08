@@ -401,7 +401,7 @@ class vpart_info
         translation description;
 
         /** base item for this part */
-        itype_id item;
+        itype_id base_item;
 
         /** What slot of the vehicle tile does this part occupy? */
         std::string location;

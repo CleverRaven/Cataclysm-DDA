@@ -1063,7 +1063,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 if( !has_skill_for_vehicle_work( vpinfo.removal_skills, p ) ) {
                     continue;
                 }
-                item base( vpinfo.item );
+                item base( vpinfo.base_item );
                 if( base.is_wheel() ) {
                     // no wheel removal yet
                     continue;

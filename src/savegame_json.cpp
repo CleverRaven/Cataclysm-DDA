@@ -2643,7 +2643,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
         data.read( "base", base );
     } else {
         // handle legacy format which didn't include the base item
-        base = item( id.obj().item );
+        base = item( id.obj().base_item );
     }
 
     data.read( "mount_dx", mount.x );
