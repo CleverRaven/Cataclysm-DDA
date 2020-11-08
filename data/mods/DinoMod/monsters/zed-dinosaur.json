@@ -835,7 +835,7 @@
     "armor_bullet": 1,
     "description": "A small four-legged plant-eating dinosaur juvenile corpse with natural bone armor plates.",
     "upgrades": { "half_life": 14, "into": "mon_zalamosaurus" }
-  }
+  },
    {
     "type": "MONSTER",
     "id": "mon_zianzhousaurus",
