@@ -791,6 +791,7 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
             mutex->at( ALL_IDX ) = true;
             ui->otherpane()->get_ui()->invalidate_ui();
         }
+
     } else if( action == advuilist_literals::ACTION_EXAMINE ) {
         iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( ui->curpane()->peek().front() );
         std::size_t src = std::get<std::size_t>( ui->curpane()->getSource() );
@@ -810,6 +811,7 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
         } else {
             iloc_entry_examine( ui->otherpane()->get_window(), entry );
         }
+
     } else if( action == TOGGLE_AUTO_PICKUP ) {
         iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( ui->curpane()->peek().front() );
         item const *it = entry.stack.front().get_item();
@@ -819,9 +821,13 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
         } else {
             get_auto_pickup().remove_rule( it );
         }
+
     } else if( action == TOGGLE_FAVORITE ) {
         iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( ui->curpane()->peek().front() );
-        entry.stack.front()->set_favorite( !entry.stack.front()->is_favorite );
+        bool const isfavorite = entry.stack.front()->is_favorite;
+        for( item_location &it : entry.stack ) {
+            it->set_favorite( !isfavorite );
+        }
     }
 }
 
