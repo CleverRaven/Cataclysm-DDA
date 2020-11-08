@@ -227,17 +227,6 @@ aim_container_t source_player_worn()
     return source_char_worn( &get_player_character() );
 }
 
-void player_wear( aim_transaction_ui_t::select_t const &sel )
-{
-    avatar &u = get_avatar();
-    u.assign_activity( ACT_WEAR );
-    for( auto const &it : sel ) {
-        u.activity.values.insert( u.activity.values.end(), it.first, 0 );
-        u.activity.targets.insert( u.activity.targets.end(), it.second->stack.begin(),
-                                   it.second->stack.begin() + it.first );
-    }
-}
-
 void player_take_off( aim_transaction_ui_t::select_t const &sel )
 {
     avatar &u = get_avatar();
@@ -285,6 +274,13 @@ void get_selection_amount( aim_transaction_ui_t::select_t const &sel,
             quantities->insert( quantities->end(), it.first, 0 );
         }
     }
+}
+
+void player_wear( aim_transaction_ui_t::select_t const &sel )
+{
+    avatar &u = get_avatar();
+    u.assign_activity( ACT_WEAR );
+    get_selection_amount( sel, &u.activity.targets, &u.activity.values );
 }
 
 void player_pick_up( aim_transaction_ui_t::select_t const &sel, bool from_vehicle )
