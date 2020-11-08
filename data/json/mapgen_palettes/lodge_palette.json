@@ -200,6 +200,19 @@
   {
     "type": "palette",
     "id": "lodge_items",
+    "terrain": {
+      "a": "t_floor",
+      "A": "t_floor",
+      "B": "t_floor",
+      "D": "t_floor",
+      "F": "t_floor",
+      "h": "t_floor",
+      "L": "t_floor",
+      "O": "t_floor",
+      "S": "t_floor",
+      "&": "t_floor",
+      "R": "t_floor"
+    },
     "items": {
       "a": { "item": "clothing_hunting", "chance": 20, "repeat": [ 1, 6 ] },
       "A": { "item": "tools_hunting", "chance": 60, "repeat": [ 1, 8 ] },
