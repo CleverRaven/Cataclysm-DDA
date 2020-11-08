@@ -108,8 +108,6 @@ std::string iloc_entry_glabel( iloc_entry const &it );
 bool iloc_entry_filter( iloc_entry const &it, std::string const &filter );
 
 void iloc_entry_stats( aim_stats_t *stats, bool first, advuilist_helpers::iloc_entry const &it );
-void iloc_entry_stats_printer( aim_stats_t *stats, catacurses::window *w );
-
 void iloc_entry_examine( catacurses::window *w, iloc_entry const &it );
 
 aim_container_t source_ground_all( Character *guy, int radius );
@@ -128,6 +126,7 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *
 void aim_add_return_activity();
 void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t select );
 void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_mutex_t *mutex );
+void aim_stats_printer( aim_advuilist_t *ui, aim_stats_t *stats );
 
 // for map::i_at()
 extern template iloc_stack_t get_stacks<>( map_stack items, filoc_t const &iloc_helper );

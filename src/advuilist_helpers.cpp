@@ -506,13 +506,6 @@ void iloc_entry_stats( aim_stats_t *stats, bool first, iloc_entry const &it )
     }
 }
 
-void iloc_entry_stats_printer( aim_stats_t *stats, catacurses::window *w )
-{
-    right_print( *w, 1, 2, c_white,
-                 string_format( "%3.1f %s  %s %s", convert_weight( stats->first ), weight_units(),
-                                format_volume( stats->second ), volume_units_abbr() ) );
-}
-
 void iloc_entry_examine( catacurses::window *w, iloc_entry const &it )
 {
     item const &_it = *it.stack.front();
@@ -637,8 +630,8 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
         iloc_entry_stats( stats, first, it );
     } );
     myadvuilist->on_redraw(
-    [stats]( catacurses::window * w ) {
-        iloc_entry_stats_printer( stats, w );
+    [stats]( aim_advuilist_t *ui ) {
+        aim_stats_printer( ui, stats );
     } );
     myadvuilist->get_ctxt()->register_action( advuilist_literals::ACTION_EXAMINE );
     myadvuilist->get_ctxt()->register_action( advuilist_literals::TOGGLE_AUTO_PICKUP );
@@ -829,6 +822,32 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
     } else if( action == TOGGLE_FAVORITE ) {
         iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( ui->curpane()->peek().front() );
         entry.stack.front()->set_favorite( !entry.stack.front()->is_favorite );
+    }
+}
+
+void aim_stats_printer( aim_advuilist_t *ui, aim_stats_t *stats )
+{
+    aim_advuilist_sourced_t *_ui = reinterpret_cast<aim_advuilist_sourced_t *>( ui );
+    using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
+    slotidx_t src = std::get<slotidx_t>( _ui->getSource() );
+
+    catacurses::window &w = *_ui->get_window();
+
+    if( src == INV_IDX or src == WORN_IDX ) {
+        Character &u = get_player_character();
+        double const weight_cap = convert_weight( u.weight_capacity() );
+        std::string const volume_cap = format_volume( u.volume_capacity() );
+        double const weight = convert_weight( u.weight_carried() );
+        std::string const volume = format_volume( u.volume_carried() );
+        right_print( w, 1, 2, c_white,
+                     string_format( "%.1f/%.1f %s  %s/%s %s", weight, weight_cap, weight_units(),
+                                    volume, volume_cap, volume_units_abbr() ) );
+    } else {
+        double const weight = convert_weight( stats->first );
+        std::string const volume = format_volume( stats->second );
+        right_print( w, 1, 2, c_white,
+                     string_format( "%3.1f %s  %s %s", weight, weight_units(), volume,
+                                    volume_units_abbr() ) );
     }
 }
 
