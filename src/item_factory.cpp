@@ -1476,6 +1476,16 @@ void Item_factory::check_definitions() const
             msg += "fuel value set, but item isn't count_by_charges.\n";
         }
 
+        if( !migrations.count( type->id ) ) {
+            // If type has a default ammo then check it can fit within
+            item tmp_item( type );
+            if( tmp_item.is_gun() || tmp_item.is_magazine() ) {
+                if( itype_id ammo_id = tmp_item.ammo_default() ) {
+                    tmp_item.ammo_set( ammo_id, 1 );
+                }
+            }
+        }
+
         if( msg.empty() ) {
             continue;
         }
