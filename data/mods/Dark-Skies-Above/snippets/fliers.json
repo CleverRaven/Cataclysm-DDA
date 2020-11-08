@@ -8,7 +8,7 @@
         "text": "This is an advertisement for Aunt Janice's Pickled Meat.  \"When times get tough, the tough get pickling.  Aunt Janice's Pickled Meat: more than 30% real beef!\""
       },
       { "id": "dks_flier_2", "text": "This is an advertisement for a quality-of-life medicine." },
-      { "id": "dks_flier_3", "text": "This is an advertisement promoting enlisting in the US armed forces." },
+      { "id": "dks_flier_3", "text": "This is an advertisement for a community initiative by the local police." },
       {
         "id": "dks_flier_4",
         "text": "This is a somewhat weather-worn advertisement for the 'new' FEMA evacuation shelters.  Beneath the colorful photo it reads, \"Familiarize yourself with your nearest emergency shelter.  It could save your life.\""
@@ -55,7 +55,7 @@
       },
       {
         "id": "dks_flier_15",
-        "text": "This is a glossy, high quality flier.  \"What they don't want you to know!  Reading this may save your life.\"  Inside is a series of warnings recommending people avoid the evacuation shelters, state roads, and worse, contact with any police or military forces as they might be rogue.  A picture of uniformed humans apparently in league with the invaders is included, as well as several shots of civilians being lead off a FEMA bus and towards an alien spaceship."
+        "text": "This is a glossy, high quality flier.  \"What they don't want you to know!  Reading this may save your life.\"  Inside is a series of warnings recommending people avoid infrastructure, state roads, and to exercise discretion when making contact with any police or military forces, as they might be rogue.  Pictured is a group of police officers holding a couple at gunpoint."
       },
       {
         "id": "dks_flier_16",
@@ -71,15 +71,15 @@
       },
       {
         "id": "dks_flier_19",
-        "text": "This very recent looking air-dropped alert.  \"THE WAR IS OVER.  Do not continue to fight.  Fugitives will be charged with malcompliant destabilizaion if they do not surrender to their nearest safety office at once.  Join our New Order.  Do not live in squalor.  Witness what we can do *together*.\"  Pictured is one of the Designated Living Zones, a city and its surrounding areas set aside specifically for humans.  Underneath is listed some of the many qualities of the DLZs: safety, cleanliness, opprotunity, and so on."
+        "text": "This is an advertisement for a local gun shop.  It shows a picture of a target bulls-eye with most of the shots having landed somewhere near the center.  The caption reads:  \"Protect yourself!  Come in and practice today!\""
       },
       {
         "id": "dks_flier_20",
-        "text": "This very recent looking air-dropped alert.  \"THE WAR IS OVER.  Do not continue to fight.  Surrender to your nearest surveillance drone for immediate evacuation to a designated civilian zone.  Join our New Order.  Witness what we can do *together*.\"  Pictured is the president, along with several other 'smiling' world leaders, standing next to multiple cloaked creatures."
+        "text": "This is an advertisement for SUDS Laundromat.  It shows words surrounded by bubbles that appear to be floating upward.  It reads: \"Tergitol Tuesdays!  50% off on all washers and driers!\""
       },
       {
         "id": "dks_flier_21",
-        "text": "This very recent looking air-dropped alert.  \"THE WAR IS OVER.  Resistance will be met with lethal deterrence.  Do not throw away your potential.  Join our New Order.  Witness what we can do *together*.\"  Pictured is a smiling family of humans standing in front of an alien soldier."
+        "text": "This is an advertisement for Iron Gym.  It shows pictures of people performing various exercises such as running, yoga and weight lifting.  It reads: \"I lift things up and put them down!\""
       },
       {
         "id": "dks_flier_22",
@@ -100,19 +100,19 @@
       { "id": "dks_flier_26", "text": "This is a flier for pet food, with a cute animal performing a silly trick." },
       {
         "id": "dks_flier_27",
-        "text": "This is an advertisement for a portable generator, the kind that was becoming popular in the face of increasing natural disasters before the end of the world as you knew it."
+        "text": "This is an advertisement for a portable generator, the kind that was becoming popular in the face of increasing natural disasters before the invasion."
       },
       {
         "id": "dks_flier_28",
-        "text": "This is very recent looking air-dropped alert.  \"HERE FOR YOU\" is written in somewhat imposing text at the bottom of a depiction of several smiling humans wearing Occupation uniforms."
+        "text": "This is an advertisement for Space Time Inc.  It has pictures of astronauts floating around a spaceship with the Moon in the background.  It reads: \"Own your own piece of the Moon!  For only $29.99 a month, you can have prime real estate amongst the stars!\""
       },
       {
         "id": "dks_flier_29",
-        "text": "This is very recent looking air-dropped alert.  \"HERE FOR YOU\" is written in somewhat imposing text at the bottom of a depiction of several smiling humans wearing Occupation uniforms.  Someone has scrawled \"TRAITORS\" in marker across the front."
+        "text": "This is an advertisement for Rivtech brand ammunition.  It shows a picture of an armored steel plate with a gaping hole blasted through the middle.  Sitting beside the plate is a block of brightly colored caseless ammunition.  The caption reads:  \"Rivtech 8x40mm caseless.  Nothing else comes close.\""
       },
       {
         "id": "dks_flier_30",
-        "text": "This is very recent looking air-dropped alert.  \"HERE FOR YOU\" is written in somewhat imposing text at the bottom of a depiction of several smiling humans wearing Occupation uniforms.  Someone has scrawled \"FAIR WEATHER SOLDIERS\" across the front."
+        "text": "This is an advertisement for Rivtech brand handguns.  It shows a picture of a well armed couple in business suits with matching handguns facing down a legion of villainous looking characters.  The caption reads:  \"Protect yourself with the Rivtech caseless automagnum!\""
       },
       {
         "id": "dks_flier_31",
@@ -120,7 +120,7 @@
       },
       {
         "id": "dks_flier_32",
-        "text": "This is a public alert from the Centers for Disease Control.  Its message, repeated in several languages, reads: PUBLIC HEALTH ALERT: Due to recent events, the CDC is issuing a warning to avoid public areas and spaces.  An unknown biological contaminant is suspected to be affecting citizens.  The CDC would like to remind the public to cover your nose and mouth when sneezing, wash your hands frequently, and receive an up-to-date flu shot if possible.  Boiling water is recommended until further notice."
+        "text": "This is a public alert from the Centers for Disease Control.  Its message, repeated in several languages, reads: PUBLIC HEALTH ALERT: Due to recent events, the CDC is issuing a warning to avoid public areas and spaces.  The CDC would like to remind the public to cover your nose and mouth when sneezing, wash your hands frequently, and receive an up-to-date flu shot if possible.  Boiling water is recommended until further notice."
       },
       {
         "id": "dks_flier_33",
@@ -132,7 +132,7 @@
       },
       {
         "id": "dks_flier_35",
-        "text": "This is a public warning from an unnamed source.  Its rambling message, poorly-photocopied onto both sides of the page, reads: Don't believe the lies!  The Army cannot stop them, FEMA is in league with them.  They want us alive but have no quams about killing anyone who RESISTS.  Secure supplies and escape while there is still time."
+        "text": "This is a public warning from an unnamed source.  Its rambling message, poorly-photocopied onto both sides of the page, reads: Don't believe the lies!  The Army cannot stop them.  They prefer us alive but have no quams about killing anyone who RESISTS.  Secure supplies and escape while there is still time."
       },
       {
         "id": "dks_flier_36",
@@ -172,7 +172,7 @@
       },
       {
         "id": "dks_flier_45",
-        "text": "This is a large movie poster for \"Action Packstone 6, Revenge of the Catgirls\".  It shows a fit man in a leather jacket with a revolver and a claymore walking towards the viewer.  At his side is his trusty cyberdog companion and in the background is an explosion."
+        "text": "This is a large movie poster for \"Action Packstone 6, Revenge of the Dog Men\".  It shows a fit man in a leather jacket with a revolver and a claymore walking towards the viewer.  At his side is his trusty cyberdog companion and in the background is an explosion."
       },
       {
         "id": "dks_flier_46",
@@ -232,7 +232,7 @@
       },
       {
         "id": "dks_flier_60",
-        "text": "This is a propaganda poster from only a few weeks before the evacuation orders.  Someone in military fatigues is helping someone stand up.  \"Enlist today and become a community leader.\""
+        "text": "This is a propaganda poster from only a few weeks before the evacuation orders.  Someone in military fatigues is helping someone who has fallen stand up.  \"Enlist today and become a community leader.\""
       },
       {
         "id": "dks_flier_61",
@@ -240,7 +240,7 @@
       },
       {
         "id": "dks_flier_62",
-        "text": "This is an advertisement that looks like it came right out of Silicon Valley.  'Space age aesthetic' is written in cursive scipt underneath a picture of some sleek but terribly useless home gadget."
+        "text": "This is an advertisement that looks like it came right out of Silicon Valley.  'Space age aesthetic' is written in cursive scipt underneath a picture of some sleek but practically useless home gadget."
       },
       {
         "id": "dks_flier_63",
@@ -293,6 +293,42 @@
       {
         "id": "dks_flier_75",
         "text": "\"The Nintendy Flip!  Play your games anywhere!\" Following is an illustration of several people playing their games in unlikely places, using the titular gaming device."
+      },
+      {
+        "id": "dks_flier_76",
+        "text": "This is an advertisement for Rivtech brand rifles.  It shows a picture of a smiling soldier with a futuristic looking rifle on her shoulder saluting the viewer.  The caption reads:  \"Rivtech caseless firearms proudly supports our Military.\""
+      },
+      {
+        "id": "dks_flier_77",
+        "text": "This scrap of paper features a faded ad for Cascade Cola.  \"All the sweet you can stand.  Don't just drink it; let it cascade into you.\""
+      },
+      {
+        "id": "dks_flier_78",
+        "text": {
+          "str": "This ancient missing persons poster is faded and torn.  It features a photo of a stern looking woman in her early fifties.  It reads \"Missing Adult - Prof. Amy Takatoshi - Last Seen Thursday, July 12 - Please contact the Boston Police Missing Persons Unit.\"",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
+      },
+      {
+        "id": "dks_flier_79",
+        "text": "JOIN THE CONCERNED CONSUMERS OF FOODPEOPLE!  Join the fight to…\n - Stop the neutralization of cultural icons.\n - Endow Foodperson with vitals befitting heroics superb.\n - Protect RU-238 and other FRUIT flavors from the threat of prohibition.\n - Inspire future consumers of the superhero genre."
+      },
+      {
+        "id": "dks_flier_80",
+        "text": "This promotional palm card is emblazoned \"DigiMart has E-Ink\" in a garish neon purple typeface.  \"E-Ink Tablets come packed with octo-core cpu, veripixel lenses camera, neoTouch screen, DRM locket, InnerVision ready near field, a free datavault storage plan, wi-fi, and more!\""
+      },
+      {
+        "id": "dks_flier_81",
+        "text": {
+          "str": "What you've got here is an old coupon insert for Marigold Market:\n\n - BOGO!  Cascade Cola six-packs!\n - ATOMIC POWER THIRST!  Now with 20% more FRUIT RU-238!\n - $2 MEAT! Aunt Janice's Pickled Meat now just $2.49!\n - 75% OFF! DaiZoom bars by SoyPelusa.",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
+      },
+      {
+        "id": "dks_flier_82",
+        "text": {
+          "str": "Printed on this glossy piece of paper is a picture of someone firing a rocket launcher at a massive robot.  The word \"RESIST\" is printed just below it."
+        }
       }
     ]
   }

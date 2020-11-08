@@ -85,6 +85,7 @@
     "weight": "46 g",
     "color": "red",
     "container": "jug_plastic",
+    "sealed": false,
     "flags": [ "TRADER_AVOID" ],
     "symbol": "~",
     "calories": 17,

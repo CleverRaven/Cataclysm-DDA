@@ -36,7 +36,6 @@
     "points": 6,
     "skills": [
       { "level": 2, "name": "tailor" },
-      { "level": 3, "name": "barter" },
       { "level": 3, "name": "driving" },
       { "level": 3, "name": "speech" },
       { "level": 1, "name": "unarmed" }
@@ -76,8 +75,7 @@
       { "level": 1, "name": "melee" },
       { "level": 4, "name": "speech" },
       { "level": 1, "name": "survival" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "barter" }
+      { "level": 1, "name": "firstaid" }
     ],
     "items": {
       "both": {
@@ -181,13 +179,13 @@
           "mre_veggy_box",
           "crt_la_boots",
           "two_way_radio",
-          "ifak",
           "bandages",
           "crt_backpack",
           "knife_swissarmy",
           "UPS_off"
         ],
         "entries": [
+          { "group": "full_ifak" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
           { "item": "crt_laser_pistol", "container-item": "holster" }
@@ -250,7 +248,6 @@
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "pistol" },
       { "level": 4, "name": "speech" },
-      { "level": 3, "name": "barter" },
       { "level": 2, "name": "firstaid" }
     ],
     "items": {
@@ -587,7 +584,6 @@
     "points": 6,
     "skills": [
       { "level": 2, "name": "computer" },
-      { "level": 1, "name": "barter" },
       { "level": 3, "name": "driving" },
       { "level": 3, "name": "speech" },
       { "level": 2, "name": "melee" },

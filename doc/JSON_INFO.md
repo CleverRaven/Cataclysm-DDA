@@ -809,7 +809,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `soft`   | Optional boolean. Default is false.
 | `reinforces`   | Optional boolean. Default is false.
 
-There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These are integer values; the default is 0 and they can be negative to take more damage.
+There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bullet. These are integer values; the default is 0 and they can be negative to take more damage.
 
 ```C++
 {
@@ -1464,10 +1464,10 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 
 ### Constructions
 ```C++
-"description": "Spike Pit",                                         // Description string displayed in the construction menu
+"group": "spike_pit",                                               // Construction group, used to group related constructions in UI
 "category": "DIG",                                                  // Construction category
 "required_skills": [ [ "survival", 1 ] ],                           // Skill levels required to undertake construction
-"time": "30 m",                                                         // Time required to complete construction. Integers will be read as minutes or a time string can be used.
+"time": "30 m",                                                     // Time required to complete construction. Integers will be read as minutes or a time string can be used.
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
 "pre_terrain": "t_pit",                                             // Required terrain to build on
 "post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
@@ -1834,6 +1834,10 @@ it is present to help catch errors.
     [ "hand_l", 50 ],
     [ "hand_r", 50 ]
 ],
+"encumbrance_multiplier_always": { // if the bodypart has encumbrance caused by a mutation, multiplies that encumbrance penalty by this multiplier.
+  "arm_l": 0.75,                   // DOES NOT AFFECT CLOTHING ENCUMBRANCE
+  "arm_r": 0.75
+},
 "armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
     [
         [ "head" ],
@@ -2013,6 +2017,10 @@ Vehicle components when installed on a vehicle.
   "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
   "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
 },
+"pseudo_tools" : [            // Crafting tools provided by this part
+  { "id": "hotplate", "hotkey": "h" },
+  { "id": "pot" }
+],
 "damage_reduction" : {        // Flat reduction of damage, as described below. If not specified, set to zero
     "all" : 10,
     "physical" : 5
@@ -2127,6 +2135,19 @@ These values apply to crafting tasks performed at the WORKBENCH.
 "bonus_fire_warmth_feet": 200,// (Optional, default=0). Bonus fire warmth as for terrain/furniture.
 ```
 
+#### The following optional field describes pseudo tools for any part.
+Crafting stations (e.g. kitchen, welding rigs etc) have tools that they provide as part
+of forming the inventory for crafting as well as providing menu items when `e`xamining
+the vehicle tile.
+Following example array gives the vpart a pot as passive tool for crafting because it has no hotkey defined.
+It also has a hotplate that can be activated by examining it with `e` then `h` on the part's vehicle tile.
+```c++
+"pseudo_tools" : [
+  { "id": "hotplate", "hotkey": "h" },
+  { "id": "pot" }
+],
+```
+
 ### Part Resistance
 
 ```C++
@@ -2168,8 +2189,8 @@ These values apply to crafting tasks performed at the WORKBENCH.
   "y" : 8,   // The y placement. Can be a single value or a range of possibilities. Not needed if placement is specified.
   "facing" : [90,270], // The facing of the vehicle. Can be a single value or an array of possible values. Not needed if placement is specified.
   "number" : 1, // The number of vehicles to spawn.
-  "fuel" : -1, // The fuel of the new vehicles.
-  "status" : 1  // The status of the new vehicles.
+  "fuel" : -1, // The fuel of the new vehicles. Defined in percentage. 0 is empty, 100 is full tank, -1 is random from 7% to 35% (default).
+  "status" : 1  // The status of the new vehicles. -1 = light damage (default), 0 = undamaged, 1 = disabled, destroyed tires OR engine.
 } } ]
 ```
 
@@ -2620,8 +2641,8 @@ Gun mods can be defined like this:
 // Only GUNMOD type items may define the following fields:
 "location": "stock",           // Mandatory. Where is this gunmod is installed?
 "mod_targets": [ "crossbow" ], // Mandatory. What kind of weapons can this gunmod be used with?
+"install_time": "30 s",        // Mandatory. How long does installation take? An integer will be read as moves or a time string can be used.
 "acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
-"install_time": "30 s",        // Optional time installation takes. Installation is instantaneous if unspecified. An integer will be read as moves or a time string can be used.
 "ammo_modifier": [ "57" ],     // Optional field which if specified modifies parent gun to use these ammo types
 "magazine_adaptor": [ [ "223", [ "stanag30" ] ] ], // Optional field which changes the types of magazines the parent gun accepts
 "burst_modifier": 3,           // Optional field increasing or decreasing base gun burst size
@@ -2712,20 +2733,6 @@ Every item type can have optional seed data, if the item has seed data, it's con
 }
 ```
 
-### Artifact Data
-
-Every item type can have optional artifact properties (which makes it an artifact):
-
-```C++
-"artifact_data" : {
-    "charge_type": "ARTC_PAIN",
-    "effects_carried": ["AEP_INT_DOWN"],
-    "effects_wielded": ["AEP_DEX_UP"],
-    "effects_activated": ["AEA_BLOOD", "AEA_NOISE"],
-    "effects_worn": ["AEP_STR_UP"]
-}
-```
-
 ### Brewing Data
 
 Every item type can have optional brewing data, if the item has brewing data, it can be placed in a vat and will ferment into a different item type.
@@ -2738,22 +2745,6 @@ Currently only vats can only accept and produce liquid items.
     "result": "beer" // The id of the result of the fermentation.
 }
 ```
-
-#### `Charge_type`
-
-(optional, default: `ARTC_NULL`)
-
-How the item is recharged.
-
-For this to work, the item needs to be a tool that consumes charges upon invocation and has non-zero max_charges. Possible values (see src/artifact.h for an up-to-date list):
-
-- `ARTC_NULL` Never recharges!
-- `ARTC_TIME` Very slowly recharges with time
-- `ARTC_SOLAR` Recharges in sunlight
-- `ARTC_PAIN` Creates pain to recharge
-- `ARTC_HP` Drains HP to recharge
-- `ARTC_FATIGUE` Creates fatigue to recharge
-- `ARTC_PORTAL` Consumes portals to recharge
 
 #### `Effects_carried`
 

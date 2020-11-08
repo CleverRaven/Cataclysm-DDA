@@ -150,7 +150,7 @@
     "type": "ARMOR",
     "name": { "str": "ruby dental grill" },
     "copy-from": "garnet_dental_grill",
-    "description": "Fake teeth inlaid with rubys, worn over the teeth.  It looks very shiny."
+    "description": "Fake teeth inlaid with rubies, worn over the teeth.  It looks very shiny."
   },
   {
     "id": "peridot_dental_grill",
@@ -346,7 +346,7 @@
     "id": "cufflinks",
     "type": "ARMOR",
     "name": { "str": "pair of cufflinks", "str_pl": "pairs of cufflinks" },
-    "description": "An unmarked, pair of silver cufflinks.  Cufflinks are used to secure the cuffs of dress shirts - a must-have for men in formal wear.  You can wear it if you like, but it won't provide any effects.",
+    "description": "An unmarked pair of silver cufflinks.  Cufflinks are used to secure the cuffs of dress shirts - a must-have for men in formal wear.  You can wear it if you like, but it won't provide any effects.",
     "weight": "15 g",
     "volume": "1 ml",
     "price": 3000,

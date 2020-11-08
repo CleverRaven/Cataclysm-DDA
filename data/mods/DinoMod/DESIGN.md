@@ -15,11 +15,11 @@ This mod is about adding content. In general it should have as light a touch on 
 This mod is distributed with the base game, so any content contributed will have to be submitted to the Github site. You can talk with the mod maintainers about your ideas on Discord.
 
 # How to add a dinosaur
-As of this writing, each dinosaur touches at least ten different JSON files, listed here by folder. To make things simpler, try and put the new dino in the same order in all files, near similar dinos, generally smaller and older to larger and newer. 
+As of this writing, each dinosaur touches at least ten different JSON files, listed here by folder. Please put the new dino in the same order in all files, near similar dinos, organized by real world taxonomy. 
 
 Main DinoMod folder: 
 
-* cooking_components.json is where you add the dinosaurs egg to allow it to be cooked, 
+* cooking_components.json is where you add the dinosaur egg to allow it to be cooked, 
 * egg.json is where you create the dino egg
 
 monstergroups folder:
@@ -33,5 +33,5 @@ monsters folder:
 
 * dinosaur.json is where you finally create the dino itself. copy-from can be a good move to keep things tidy if there is already a similar dino
 * hatchling.json is where freshly hatched dinos go. Tiny dinos grow to adults directly, but larger ones (15 kg or greater) grow into...
-* juvenile.json is where juveniles go. They're five times bigger but still pretty tiny by dino standards. They grow to be adults in adult weight in kg divided by six days or one year, whichever is shorter
+* juvenile.json is where juveniles go. They're five times bigger but still pretty tiny by dino standards. They grow to be adults in adult weight in kg divided by six days or one year, whichever is shorter.  Sauropods are they exception, they should be 1000 kg and L so they can defend themselves some.
 * zed-dinosaur.json is where new zombified dinos go. copy-from can be very helpful here.

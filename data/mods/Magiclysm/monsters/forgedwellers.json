@@ -91,7 +91,7 @@
     "melee_cut": 6,
     "dodge": 4,
     "vision_day": 30,
-    "armor_fire": 30,
+    "armor_fire": 50,
     "harvest": "demihuman_large_fur",
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "demon_breath_fire", "min_level": 7 }, "cooldown": 10 }, [ "scratch", 15 ] ],
     "death_function": [ "NORMAL" ],

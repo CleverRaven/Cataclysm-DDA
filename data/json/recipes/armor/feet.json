@@ -2,7 +2,7 @@
   {
     "result": "bastsandals",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -10,7 +10,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_basketweaving", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "components": [ [ [ "filament", 140, "LIST" ] ] ]
   },
   {
@@ -23,10 +23,11 @@
     "difficulty": 2,
     "time": "10 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ], [ "tailoring_leather_small", 12 ], [ "fastener_small", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 12 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
     ]
   },
   {
@@ -37,16 +38,18 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 4,
+    "skills_required": [ [ "fabrication", 3 ] ],
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "cordage", 1 ], [ "armor_chitin", 18 ], [ "fastener_small", 1 ] ],
+    "book_learn": [ [ "textbook_arthropod", 3 ] ],
+    "using": [ [ "armor_chitin", 18 ], [ "strap_small", 4 ], [ "clasps", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
-    ],
-    "components": [ [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ] ]
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_articulation" }
+    ]
   },
   {
     "result": "boots_acidchitin",
@@ -56,22 +59,23 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ] ],
+    "skills_required": [ [ "fabrication", 3 ], [ "chemistry", 2 ] ],
     "time": "16 h",
     "autolearn": true,
-    "using": [ [ "cordage", 1 ], [ "armor_acidchitin", 18 ], [ "fastener_small", 1 ] ],
+    "book_learn": [ [ "textbook_arthropod", 4 ] ],
+    "using": [ [ "armor_acidchitin", 18 ], [ "strap_small", 4 ], [ "clasps", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
-    ],
-    "components": [ [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ] ]
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_articulation" }
+    ]
   },
   {
     "result": "boots_fsurvivor",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -79,20 +83,14 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 80 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "tailoring_nomex", 8 ], [ "fastener_small", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" }
     ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
-    "components": [
-      [ [ "nomex", 8 ] ],
-      [ [ "sheet_kevlar_layered", 4 ] ],
-      [ [ "duct_tape", 200 ] ],
-      [ [ "nomex_socks", 1 ] ],
-      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ]
-    ]
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ] ]
   },
   {
     "result": "boots_fur",
@@ -106,16 +104,18 @@
     "time": "12 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ] ],
-    "using": [ [ "sewing_standard", 13 ], [ "tailoring_leather_small", 7 ], [ "tailoring_fur_small", 7 ], [ "fastener_small", 1 ] ],
+    "using": [ [ "sewing_standard", 13 ], [ "tailoring_leather_small", 7 ], [ "tailoring_fur_small", 7 ], [ "fastener_small", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_furriery" }
     ]
   },
   {
     "result": "boots_h20survivor",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -123,17 +123,15 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "24 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 80 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "plastic_molding", 4 ], [ "fastener_small", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" },
+      { "proficiency": "prof_plasticworking" }
     ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
-      [ [ "plastic_chunk", 4 ] ],
-      [ [ "sheet_kevlar_layered", 4 ] ],
       [ [ "duct_tape", 200 ] ],
       [ [ "wetsuit_booties", 1 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ]
@@ -142,7 +140,7 @@
   {
     "result": "boots_hsurvivor",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -150,18 +148,16 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "24 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 60 ], [ "tailoring_leather_small", 4 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "tailoring_leather_small", 4 ], [ "fastener_small", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" },
+      { "proficiency": "prof_articulation" }
     ],
-    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
     "components": [
-      [ [ "rag", 4 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
-      [ [ "sheet_kevlar_layered", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
@@ -176,16 +172,17 @@
     "difficulty": 2,
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 24 ], [ "fastener_small", 1 ], [ "tailoring_leather_small", 18 ] ],
+    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather_small", 18 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
     ]
   },
   {
     "result": "boots_lsurvivor",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -193,16 +190,14 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 80 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "fastener_small", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" }
     ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
-      [ [ "rag", 8 ] ],
-      [ [ "sheet_kevlar_layered", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
@@ -219,10 +214,12 @@
     "book_learn": [ [ "textbook_armwest", 4 ] ],
     "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ], [ "tailoring_leather_small", 16 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -239,12 +236,12 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "cordage", 4 ] ],
+    "using": [ [ "strap_small", 4 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_articulation" }
     ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 50 ] ] ]
@@ -252,7 +249,7 @@
   {
     "result": "boots_survivor",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -260,16 +257,15 @@
     "skills_required": [ "fabrication", 4 ],
     "time": "22 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 80 ], [ "tailoring_leather_small", 8 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "tailoring_leather_small", 8 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" },
+      { "proficiency": "prof_leatherworking" }
     ],
     "components": [
-      [ [ "sheet_kevlar_layered", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
@@ -285,10 +281,11 @@
     "time": "35 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
     ],
-    "using": [ [ "sewing_standard", 20 ], [ "tailoring_leather_small", 14 ] ]
+    "using": [ [ "tailoring_leather_small", 14 ] ]
   },
   {
     "result": "boots_winter",
@@ -300,18 +297,22 @@
     "difficulty": 6,
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 80 ], [ "plastic_molding", 4 ], [ "waterproofing_plastic_bags", 2 ], [ "fastener_small", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 }
+    "using": [
+      [ "tailoring_felt_patchwork", 4 ],
+      [ "plastic_molding", 4 ],
+      [ "waterproofing_plastic_bags", 2 ],
+      [ "fastener_small", 2 ]
     ],
-    "components": [ [ [ "felt_patch", 20 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
+    ]
   },
   {
     "result": "boots_wsurvivor",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -319,16 +320,15 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "24 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 80 ], [ "tailoring_fur_small", 12 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "tailoring_fur_small", 12 ], [ "fastener_small", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" },
+      { "proficiency": "prof_furriery" }
     ],
     "components": [
-      [ [ "sheet_kevlar_layered", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
@@ -336,7 +336,7 @@
   {
     "result": "boots_xlsurvivor",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -344,25 +344,20 @@
     "skills_required": [ "fabrication", 4 ],
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 160 ], [ "tailoring_leather_small", 24 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 10 ], [ "tailoring_leather_small", 24 ], [ "fastener_small", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" },
+      { "proficiency": "prof_leatherworking" }
     ],
-    "components": [
-      [ [ "rag", 6 ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "boots_combat", 2 ], [ "sheet_kevlar_layered", 10 ] ],
-      [ [ "duct_tape", 200 ] ]
-    ]
+    "components": [ [ [ "scrap", 4 ] ], [ [ "duct_tape", 200 ] ] ]
   },
   {
     "result": "clogs",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
@@ -370,22 +365,22 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ] ]
   },
   {
     "result": "geta",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "40 m",
     "book_learn": [ [ "tailor_japanese", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_carving", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "strap_small", 2, "LIST" ] ] ]
   },
   {
     "result": "tabi_dress",
@@ -397,13 +392,12 @@
     "difficulty": 1,
     "time": "20 m",
     "book_learn": [ [ "tailor_japanese", 2 ] ],
-    "using": [ [ "sewing_standard", 6 ] ],
-    "components": [ [ [ "rag", 3 ] ] ]
+    "using": [ [ "tailoring_cotton", 1 ] ]
   },
   {
     "result": "footrags",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -416,40 +410,40 @@
   {
     "result": "footrags_fur",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "fur", 9 ] ] ],
+    "components": [ [ [ "fur", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
     "result": "footrags_leather",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "leather", 9 ] ] ],
+    "components": [ [ [ "leather", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
     "result": "footrags_wool",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "felt_patch", 6 ] ] ],
+    "components": [ [ [ "felt_patch", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -463,10 +457,11 @@
     "time": "1 h",
     "autolearn": true,
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
     ],
-    "using": [ [ "sewing_standard", 5 ], [ "tailoring_leather_small", 3 ] ]
+    "using": [ [ "tailoring_leather_small", 3 ] ]
   },
   {
     "result": "mocassins",
@@ -479,11 +474,12 @@
     "time": "90 m",
     "autolearn": true,
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_furriery" }
     ],
     "book_learn": [ [ "textbook_survival", 0 ], [ "pocket_survival", 0 ] ],
-    "using": [ [ "sewing_standard", 5 ], [ "tailoring_fur_small", 2 ] ]
+    "using": [ [ "tailoring_fur_small", 2 ] ]
   },
   {
     "result": "nomex_socks",
@@ -494,10 +490,9 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "24 m",
-    "proficiencies": [ { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
     "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "nomex", 9 ] ] ]
+    "using": [ [ "tailoring_nomex", 2 ] ]
   },
   {
     "result": "xlnomex_socks",
@@ -508,10 +503,9 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "37 m",
-    "proficiencies": [ { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
     "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "nomex", 18 ] ] ]
+    "using": [ [ "tailoring_nomex", 4 ] ]
   },
   {
     "result": "shoes_birchbark",
@@ -523,7 +517,7 @@
     "difficulty": 2,
     "time": "2 h",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_basketweaving", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "book_learn": [ [ "textbook_survival", 1 ], [ "pocket_survival", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "birchbark", 3 ] ] ]
@@ -535,10 +529,9 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
-    "time": "10 m",
+    "time": "1 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 4 ] ],
-    "components": [ [ [ "rag", 2 ] ] ]
+    "using": [ [ "tailoring_cotton", 1 ] ]
   },
   {
     "result": "xlsocks",
@@ -547,10 +540,9 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
-    "time": "15 m",
+    "time": "1 h 30 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 4 ] ],
-    "components": [ [ [ "rag", 4 ] ] ]
+    "using": [ [ "tailoring_cotton", 2 ] ]
   },
   {
     "result": "socks_bag",
@@ -572,13 +564,10 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": "1 h",
+    "time": "2 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
-      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 40 ] ]
   },
   {
@@ -588,10 +577,9 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
-    "time": "10 m",
+    "time": "1 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 4 ] ],
-    "components": [ [ [ "rag", 2 ] ] ]
+    "using": [ [ "tailoring_cotton", 1 ] ]
   },
   {
     "result": "stockings",
@@ -601,28 +589,27 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": "10 m",
+    "time": "2 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 6 ] ],
-    "components": [ [ [ "rag", 8 ] ] ]
+    "using": [ [ "tailoring_cotton", 1 ] ]
   },
   {
     "result": "straw_sandals",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "2 h",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_basketweaving", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "components": [ [ [ "straw_pile", 4 ], [ "birchbark", 6 ] ] ]
   },
   {
     "result": "swim_fins",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
@@ -630,12 +617,8 @@
     "skills_required": [ "tailor", 2 ],
     "time": "2 h",
     "book_learn": [ [ "mag_swimming", 3 ], [ "manual_swimming", 2 ] ],
-    "using": [ [ "sewing_standard", 20 ], [ "plastic_molding", 8 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 }
-    ],
-    "components": [ [ [ "duct_tape", 80 ], [ "medical_tape", 80 ] ], [ [ "superglue", 1 ] ] ]
+    "using": [ [ "adhesive", 2 ], [ "strap_small", 2 ], [ "plastic_molding", 8 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_cobbling" } ]
   },
   {
     "result": "thermal_socks",
@@ -648,46 +631,40 @@
     "skills_required": [ "tailor", 2 ],
     "time": "1 h",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
-    "using": [ [ "sewing_standard", 6 ] ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
+    "using": [ [ "sewing_standard", 6 ], [ "soldering_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "components": [ [ [ "rag", 2 ], [ "socks", 1 ], [ "socks_wool", 1 ] ], [ [ "element", 2 ] ], [ [ "cable", 4 ] ] ]
   },
   {
     "result": "wetsuit_booties",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "2 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 } ],
-    "using": [ [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "soldering_iron", 5 ], [ "welder", 5 ], [ "hotplate", 5 ], [ "toolset", 5 ] ] ],
-    "components": [ [ [ "neoprene", 2 ] ], [ [ "rag", 2 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_elastics" } ],
+    "using": [ [ "tailoring_neoprene", 1 ] ]
   },
   {
     "result": "chainmail_feet",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "12 h",
+    "time": "3 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 }
-    ],
-    "using": [ [ "armor_chainmail_assembling", 2 ], [ "sewing_standard", 5 ] ],
-    "components": [ [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_chain_armour" } ],
+    "using": [ [ "armor_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "roller_blades",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
@@ -697,17 +674,19 @@
     "book_learn": [ [ "textbook_tailor", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "blacksmithing_standard", 6 ], [ "plastic_molding", 8 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_plasticworking" },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" }
     ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "wheel_skate", 6 ] ], [ [ "rag", 8 ] ], [ [ "scrap", 10 ] ], [ [ "bearing", 6 ] ] ]
+    "components": [ [ [ "pipe", 1 ] ], [ [ "wheel_skate", 6 ] ], [ [ "scrap", 10 ] ], [ [ "bearing", 6 ] ] ]
   },
   {
     "result": "rollerskates",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
@@ -715,10 +694,7 @@
     "time": "3 h",
     "book_learn": [ [ "textbook_tailor", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "blacksmithing_standard", 6 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "wheel_skate", 8 ] ], [ [ "boots", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 12 ] ], [ [ "bearing", 8 ] ] ]
   }

@@ -6,7 +6,6 @@
 #include <functional>
 #include <map>
 #include <string>
-#include <tuple>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -21,16 +20,9 @@ class JsonOut;
 class options_manager
 {
     public:
-        class id_and_option : public std::pair<std::string, translation>
-        {
-            public:
-                id_and_option( const std::string &first, const std::string &second )
-                    : std::pair<std::string, translation>( first, to_translation( second ) ) {
-                }
-                id_and_option( const std::string &first, const translation &second )
-                    : std::pair<std::string, translation>( first, second ) {
-                }
-        };
+        // first is internal value, second is text
+        using id_and_option = std::pair<std::string, translation>;
+        using int_and_option = std::pair<int, translation>;
         static std::vector<id_and_option> get_lang_options();
     private:
         /**
@@ -108,7 +100,7 @@ class options_manager
                 std::vector<id_and_option> getItems() const;
 
                 int getIntPos( int iSearch ) const;
-                cata::optional< std::tuple<int, std::string> > findInt( int iSearch ) const;
+                cata::optional<int_and_option> findInt( int iSearch ) const;
 
                 int getMaxLength() const;
 
@@ -153,10 +145,10 @@ class options_manager
             private:
                 std::string sName;
                 std::string sPage;
-                // The *untranslated* displayed option name ( short string ).
-                std::string sMenuText;
-                // The *untranslated* displayed option tool tip ( longer string ).
-                std::string sTooltip;
+                // The displayed option name ( short string ).
+                translation sMenuText;
+                // The displayed option tool tip ( longer string ).
+                translation sTooltip;
                 std::string sType;
                 bool verbose = false;
 
@@ -171,7 +163,6 @@ class options_manager
 
                 //sType == "string"
                 std::string sSet;
-                // first is internal value, second is untranslated text
                 std::vector<id_and_option> vItems;
                 std::string sDefault;
 
@@ -186,7 +177,7 @@ class options_manager
                 int iMin = 0;
                 int iMax = 0;
                 int iDefault = 0;
-                std::vector< std::tuple<int, std::string> > mIntValues;
+                std::vector<int_and_option> mIntValues;
 
                 //sType == "float"
                 float fSet = 0.0f;
@@ -234,43 +225,43 @@ class options_manager
 
         //add hidden external option with value
         void add_external( const std::string &sNameIn, const std::string &sPageIn, const std::string &sType,
-                           const std::string &sMenuTextIn, const std::string &sTooltipIn );
+                           const translation &sMenuTextIn, const translation &sTooltipIn );
 
         //add string select option
         void add( const std::string &sNameIn, const std::string &sPageIn,
-                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                  const translation &sMenuTextIn, const translation &sTooltipIn,
                   // first is option value, second is display name of that value
                   const std::vector<id_and_option> &sItemsIn, std::string sDefaultIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add string input option
         void add( const std::string &sNameIn, const std::string &sPageIn,
-                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                  const translation &sMenuTextIn, const translation &sTooltipIn,
                   const std::string &sDefaultIn, int iMaxLengthIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add bool option
         void add( const std::string &sNameIn, const std::string &sPageIn,
-                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                  const translation &sMenuTextIn, const translation &sTooltipIn,
                   bool bDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add int option
         void add( const std::string &sNameIn, const std::string &sPageIn,
-                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                  const translation &sMenuTextIn, const translation &sTooltipIn,
                   int iMinIn, int iMaxIn, int iDefaultIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE,
                   const std::string &format = "%i" );
 
         //add int map option
         void add( const std::string &sNameIn, const std::string &sPageIn,
-                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                  const std::vector< std::tuple<int, std::string> > &mIntValuesIn,
+                  const translation &sMenuTextIn, const translation &sTooltipIn,
+                  const std::vector<int_and_option> &mIntValuesIn,
                   int iInitialIn, int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE,
                   bool verbose = false );
 
         //add float option
         void add( const std::string &sNameIn, const std::string &sPageIn,
-                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                  const translation &sMenuTextIn, const translation &sTooltipIn,
                   float fMinIn, float fMaxIn,
                   float fDefaultIn, float fStepIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE,

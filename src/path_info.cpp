@@ -6,6 +6,7 @@
 #include "enums.h"
 #include "filesystem.h"
 #include "options.h"
+#include "rng.h"
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -381,6 +382,16 @@ std::string PATH_INFO::title( const holiday current_holiday )
     std::string theme_basepath = datadir_value + "title/";
     std::string theme_extension = ".title";
     std::string theme_fallback = theme_basepath + "en.title";
+
+    if( x_in_y( get_option<int>( "ALT_TITLE" ), 100 ) ) {
+        theme_extension = ".alt1";
+        theme_fallback = datadir_value + "title/" + "en.alt1";
+    }
+
+    if( !get_option<bool>( "SEASONAL_TITLE" ) ) {
+        return find_translated_file( theme_basepath, theme_extension, theme_fallback );
+    }
+
     switch( current_holiday ) {
         case holiday::new_year:
             theme_extension = ".new_year";

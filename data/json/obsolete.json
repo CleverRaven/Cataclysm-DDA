@@ -1,5 +1,29 @@
 [
   {
+    "id": "mon_dragonfly_small",
+    "type": "MONSTER",
+    "name": { "str": "huge dragonfly" },
+    "description": "A brightly colored, winged mutant dragonfly the size of a cat with sharp fangs.",
+    "copy-from": "mon_dragonfly_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_dragonfly_giant" }
+  },
+  {
+    "result": "plastic_shopping_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "using": [ [ "cordage", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "bag_plastic", 8 ] ] ]
+  },
+  {
     "id": "pipe_combination_gun",
     "looks_like": "ar15",
     "type": "GUN",
@@ -78,6 +102,7 @@
     "volume": "1 L",
     "price": 10000,
     "price_postapoc": 500,
+    "install_time": "0 s",
     "to_hit": -1,
     "material": [ "steel" ],
     "symbol": ":",
@@ -288,6 +313,22 @@
     "upgraded_bionic": "bio_reactor"
   },
   {
+    "id": "1st_aid",
+    "type": "GENERIC",
+    "category": "drugs",
+    "name": { "str": "first aid kit" },
+    "description": "A typical universal first aid kit, one you'd see in a car or in a household.  It contains a variety of common medical items stored in case of accidents and injuries.  Disassemble to get its content.",
+    "weight": "1750 g",
+    "volume": "1250 ml",
+    "price": 3000,
+    "price_postapoc": 3000,
+    "material": "plastic",
+    "symbol": "!",
+    "color": "red",
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
     "id": "bio_plut_filter",
     "type": "bionic",
     "name": { "str": "Plutonium Filter" },
@@ -412,7 +453,7 @@
       "type": "explosion",
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "explosion": { "power": 175, "shrapnel": { "casing_mass": 160, "fragment_mass": 0.4, "drop": "nail", "recovery": 16 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
@@ -460,7 +501,7 @@
       "type": "explosion",
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "explosion": { "power": 175, "shrapnel": { "casing_mass": 240, "fragment_mass": 0.4 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
@@ -617,7 +658,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 175 }
     },
@@ -639,6 +680,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted fusion gun" },
     "item": "ftk93",
+    "categories": [ "warfare" ],
     "color": "magenta",
     "broken_color": "magenta",
     "difficulty": 6,
@@ -785,6 +827,7 @@
   },
   {
     "id": "wheel_steerable",
+    "categories": [ "movement" ],
     "copy-from": "wheel",
     "type": "vehicle_part",
     "name": { "str": "wheel (steerable)" },
@@ -792,6 +835,7 @@
   },
   {
     "id": "wheel_slick_steerable",
+    "categories": [ "movement" ],
     "copy-from": "wheel_slick",
     "type": "vehicle_part",
     "name": { "str": "racing slick (steerable)" },
@@ -800,6 +844,7 @@
   },
   {
     "id": "wheel_armor_steerable",
+    "categories": [ "movement" ],
     "copy-from": "wheel_armor",
     "type": "vehicle_part",
     "name": { "str": "armored wheel (steerable)" },
@@ -807,6 +852,7 @@
   },
   {
     "id": "wheel_bicycle_steerable",
+    "categories": [ "movement" ],
     "copy-from": "wheel_bicycle",
     "type": "vehicle_part",
     "name": { "str": "bicycle wheel (steerable)" },
@@ -814,6 +860,7 @@
   },
   {
     "id": "wheel_bicycle_or_steerable",
+    "categories": [ "movement" ],
     "copy-from": "wheel_bicycle_or",
     "type": "vehicle_part",
     "name": { "str": "off-road bicycle wheel (steerable)" },
@@ -821,6 +868,7 @@
   },
   {
     "id": "wheel_motorbike_steerable",
+    "categories": [ "movement" ],
     "copy-from": "wheel_motorbike",
     "type": "vehicle_part",
     "name": { "str": "motorbike wheel (steerable)" },
@@ -828,6 +876,7 @@
   },
   {
     "id": "wheel_motorbike_or_steerable",
+    "categories": [ "movement" ],
     "copy-from": "wheel_motorbike_or",
     "type": "vehicle_part",
     "name": { "str": "off-road motorbike wheel (steerable)" },
@@ -835,6 +884,7 @@
   },
   {
     "id": "wheel_small_steerable",
+    "categories": [ "movement" ],
     "copy-from": "wheel_small",
     "type": "vehicle_part",
     "name": { "str": "small wheel (steerable)" },
@@ -842,6 +892,7 @@
   },
   {
     "id": "wheel_wide_steerable",
+    "categories": [ "movement" ],
     "copy-from": "wheel_wide",
     "type": "vehicle_part",
     "name": { "str": "wide wheel (steerable)" },
@@ -849,6 +900,7 @@
   },
   {
     "id": "wheel_wide_or_steerable",
+    "categories": [ "movement" ],
     "copy-from": "wheel_wide_or",
     "type": "vehicle_part",
     "name": { "str": "off-road wide wheel (steerable)" },
@@ -888,6 +940,15 @@
     "valid": false
   },
   {
+    "type": "mutation",
+    "id": "DEBUG_STORAGE",
+    "name": { "str": "Debug Very Strong Back" },
+    "points": 99,
+    "valid": false,
+    "description": "Lets you carry 15 bugs worth of your body weight in your mandibles.",
+    "debug": true
+  },
+  {
     "id": "metal_wheel",
     "type": "vehicle_part",
     "name": { "str": "metal wheel" },
@@ -901,6 +962,7 @@
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
     "rolling_resistance": 0.375,
     "wheel_type": "rigid",
+    "categories": [ "movement" ],
     "contact_area": 80,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
@@ -915,6 +977,7 @@
     "id": "plating_bone",
     "name": { "str": "bone plating" },
     "symbol": ")",
+    "categories": [ "warfare" ],
     "color": "white",
     "broken_symbol": ")",
     "broken_color": "light_gray",
@@ -1017,7 +1080,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 175, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
     },
@@ -1091,6 +1154,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted mininuke launcher" },
     "item": "mininuke_launcher",
+    "categories": [ "warfare" ],
     "color": "green",
     "broken_color": "green",
     "breaks_into": [ { "item": "scrap", "count": 27 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
@@ -1102,6 +1166,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted heavy rail rifle" },
     "item": "heavy_rail_rifle",
+    "categories": [ "warfare" ],
     "color": "magenta",
     "broken_color": "magenta",
     "breaks_into": [ { "item": "scrap", "count": 30 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
@@ -1116,6 +1181,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted ferromagnetic rail rifle" },
     "item": "rebar_rifle",
+    "categories": [ "warfare" ],
     "color": "magenta",
     "broken_color": "magenta",
     "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 2 } ],
@@ -1595,5 +1661,21 @@
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
     }
+  },
+  {
+    "type": "skill",
+    "id": "lockpick",
+    "name": { "str": "lockpicking" },
+    "description": "Deprecated.",
+    "display_category": "none",
+    "obsolete": true
+  },
+  {
+    "type": "skill",
+    "id": "barter",
+    "name": { "str": "bartering" },
+    "description": "Deprecated.",
+    "display_category": "none",
+    "obsolete": true
   }
 ]

@@ -1,12 +1,9 @@
 #include "map_helpers.h"
 
 #include <memory>
-#include <string>
-#include <utility>
 #include <vector>
 
 #include "cata_assert.h"
-#include "field.h"
 #include "game.h"
 #include "game_constants.h"
 #include "location.h"
@@ -133,4 +130,13 @@ void build_test_map( const ter_id &terrain )
 
     here.invalidate_map_cache( 0 );
     here.build_map_cache( 0, true );
+}
+
+void player_add_headlamp()
+{
+    item headlamp( "wearable_light_on" );
+    item battery( "light_battery_cell" );
+    battery.ammo_set( battery.ammo_default(), -1 );
+    headlamp.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+    get_player_character().worn.push_back( headlamp );
 }

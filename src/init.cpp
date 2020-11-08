@@ -23,6 +23,7 @@
 #include "clzones.h"
 #include "construction.h"
 #include "construction_category.h"
+#include "construction_group.h"
 #include "crafting_gui.h"
 #include "creature.h"
 #include "debug.h"
@@ -198,7 +199,7 @@ void DynamicDataLoader::initialize()
     // Static Function Access
     add( "WORLD_OPTION", &load_world_option );
     add( "EXTERNAL_OPTION", &load_external_option );
-    add( "json_flag", &json_flag::load );
+    add( "json_flag", &json_flag::load_all );
     add( "fault", &fault::load_fault );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "field_type", &field_types::load );
@@ -252,6 +253,7 @@ void DynamicDataLoader::initialize()
     } );
 
     add( "vehicle_part",  &vpart_info::load );
+    add( "vehicle_part_category",  &vpart_category::load );
     add( "vehicle",  &vehicle_prototype::load );
     add( "vehicle_group",  &VehicleGroup::load );
     add( "vehicle_placement",  &VehiclePlacement::load );
@@ -343,6 +345,7 @@ void DynamicDataLoader::initialize()
     add( "obsolete_terrain", &overmap::load_obsolete_terrains );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
+    add( "construction_group", &construction_groups::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
@@ -488,6 +491,7 @@ void DynamicDataLoader::unload_data()
     clear_techniques_and_martial_arts();
     clothing_mods::reset();
     construction_categories::reset();
+    construction_groups::reset();
     dreams.clear();
     emit::reset();
     event_statistic::reset();
@@ -550,6 +554,7 @@ void DynamicDataLoader::unload_data()
     vehicle_prototype::reset();
     vitamin::reset();
     vpart_info::reset();
+    vpart_category::reset();
     weather_types::reset();
 }
 
@@ -568,6 +573,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
+            { _( "Flags" ), &json_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
@@ -585,6 +591,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
                     requirement_data::finalize();
                 }
             },
+            { _( "Vehicle part categories" ), &vpart_category::finalize },
             { _( "Vehicle parts" ), &vpart_info::finalize },
             { _( "Traps" ), &trap::finalize },
             { _( "Terrain" ), &set_ter_ids },
@@ -667,6 +674,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Engine faults" ), &fault::check_consistency },
             { _( "Vehicle parts" ), &vpart_info::check },
             { _( "Mapgen definitions" ), &check_mapgen_definitions },
+            { _( "Mapgen palettes" ), &mapgen_palette::check_definitions },
             {
                 _( "Monster types" ), []()
                 {

@@ -40,5 +40,14 @@
     "type": "harvest",
     "leftovers": "ruined_candy",
     "entries": [ { "drop": "caff_gum", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "choc_cows",
+    "type": "harvest",
+    "message": "As you butcher the chocolate corpse, you break the large chunks of flesh down into bars.",
+    "entries": [
+      { "drop": "chocolate", "type": "flesh", "mass_ratio": 0.52 },
+      { "drop": "cow_candy", "base_num": [ 0, 2 ], "max": 2, "type": "offal" }
+    ]
   }
 ]

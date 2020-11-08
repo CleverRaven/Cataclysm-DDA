@@ -19,7 +19,7 @@ static const activity_schedule task_read( activity_id( "ACT_READ" ), 5_minutes )
 static const meal_schedule sausage( itype_id( "sausage" ) );
 static const meal_schedule milk( itype_id( "milk" ) );
 
-static const sleep_schedule sleep{};
+static const sleep_schedule sched_sleep{};
 
 TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 {
@@ -37,7 +37,6 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
     tasklist soldier_12h;
     soldier_12h.enschedule( task_dig, 12_hours );
 
-
     SECTION( "Light tasks" ) {
         INFO( "\nFirst Aid 8 hours:" );
         weariness_events info = do_activity( desk_8h );
@@ -53,7 +52,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        CHECK( info.transition_minutes( 0, 1, 370_minutes ) == Approx( 370 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 0, 1, 365_minutes ) == Approx( 365 ).margin( 5 ) );
         CHECK( guy.weariness_level() == 1 );
     }
 
@@ -63,8 +62,8 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        CHECK( info.transition_minutes( 0, 1, 115_minutes ) == Approx( 115 ).margin( 0 ) );
-        CHECK( info.transition_minutes( 1, 2, 255_minutes ) == Approx( 255 ).margin( 0 ) );
+        CHECK( info.transition_minutes( 0, 1, 120_minutes ) == Approx( 120 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
         CHECK( guy.weariness_level() == 4 );
@@ -74,12 +73,12 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        CHECK( info.transition_minutes( 0, 1, 110_minutes ) == Approx( 110 ).margin( 0 ) );
-        CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 0 ) );
+        CHECK( info.transition_minutes( 0, 1, 125_minutes ) == Approx( 125 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 355_minutes ) == Approx( 355 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 460_minutes ) == Approx( 460 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 4, 5, 580_minutes ) == Approx( 580 ).margin( 5 ) );
-        CHECK( guy.weariness_level() == 5 );
+        CHECK( info.transition_minutes( 4, 5, 590_minutes ) == Approx( 590 ).margin( 5 ) );
+        CHECK( guy.weariness_level() == 6 );
     }
 }
 
@@ -110,7 +109,7 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
     mechanic_day.enschedule( milk, 0_turns );
     mechanic_day.enschedule( milk, 0_turns );
     mechanic_day.enschedule( task_read, 4_hours );
-    mechanic_day.enschedule( sleep, 10_hours );
+    mechanic_day.enschedule( sched_sleep, 10_hours );
     mechanic_day.enschedule( task_wait, 16_hours );
 
     SECTION( "Heavy tasks" ) {
@@ -119,9 +118,9 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        CHECK( info.transition_minutes( 4, 3, 700_minutes ) == Approx( 700 ).margin( 0 ) );
-        CHECK( info.transition_minutes( 3, 2, 820_minutes ) == Approx( 820 ).margin( 0 ) );
-        CHECK( guy.weariness_level() == 2 );
+        CHECK( info.transition_minutes( 4, 3, 550_minutes ) == Approx( 550 ).margin( 0 ) );
+        CHECK( info.transition_minutes( 3, 2, 670_minutes ) == Approx( 670 ).margin( 0 ) );
+        CHECK( guy.weariness_level() == 1 );
     }
 
     SECTION( "1 day vehicle work" ) {
@@ -130,13 +129,10 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        CHECK( info.transition_minutes( 0, 1, 220_minutes ) == Approx( 220 ).margin( 0 ) );
-        CHECK( info.transition_minutes( 1, 2, 385_minutes ) == Approx( 385 ).margin( 0 ) );
-        CHECK( info.transition_minutes( 2, 3, 530_minutes ) == Approx( 530 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 4, 645_minutes ) == Approx( 645 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 4, 3, 890_minutes ) == Approx( 890 ).margin( 0 ) );
-        CHECK( info.transition_minutes( 3, 2, 980_minutes ) == Approx( 980 ).margin( 0 ) );
-        CHECK( info.transition_minutes( 2, 1, 1130_minutes ) == Approx( 1130 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 0, 1, 325_minutes ) == Approx( 325 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 2, 625_minutes ) == Approx( 625 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 2, 1, 740_minutes ) == Approx( 740 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 0, 990_minutes ) == Approx( 990 ).margin( 5 ) );
     }
 }
 
@@ -163,14 +159,14 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        CHECK( info.transition_minutes( 0, 1, 125_minutes ) == Approx( 125 ).margin( 0 ) );
-        CHECK( info.transition_minutes( 1, 2, 260_minutes ) == Approx( 260 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 0, 1, 130_minutes ) == Approx( 130 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 2, 255_minutes ) == Approx( 255 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 4, 460_minutes ) == Approx( 460 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 4, 5, 585_minutes ) == Approx( 585 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 4, 5, 585_minutes ) == Approx( 590 ).margin( 5 ) );
         CHECK( info.transition_minutes( 5, 6, 725_minutes ) == Approx( 725 ).margin( 10 ) );
-        CHECK( info.transition_minutes( 6, 7, 830_minutes ) == Approx( 830 ).margin( 10 ) );
-        CHECK( info.transition_minutes( 7, 8, 905_minutes ) == Approx( 905 ).margin( 10 ) );
+        CHECK( info.transition_minutes( 6, 7, 810_minutes ) == Approx( 810 ).margin( 10 ) );
+        CHECK( info.transition_minutes( 7, 8, 890_minutes ) == Approx( 890 ).margin( 10 ) );
         // TODO: You should collapse from this - currently we
         // just get really high levels of weariness
         CHECK( guy.weariness_level() > 8 );

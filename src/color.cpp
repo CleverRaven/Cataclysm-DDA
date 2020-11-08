@@ -17,7 +17,6 @@
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
 
@@ -37,7 +36,7 @@ color_manager &get_all_colors()
     return single_instance;
 }
 
-std::unordered_map<std::string, note_color> color_by_string_map;
+static std::unordered_map<std::string, note_color> color_by_string_map;
 
 void color_manager::finalize()
 {
@@ -475,13 +474,13 @@ void init_colors()
 
     // The short color codes (e.g. "br") are intentionally untranslatable.
     color_by_string_map = {
-        {"br", {c_brown, translate_marker( "brown" )}}, {"lg", {c_light_gray, translate_marker( "light gray" )}},
-        {"dg", {c_dark_gray, translate_marker( "dark gray" )}}, {"r", {c_light_red, translate_marker( "light red" )}},
-        {"R", {c_red, translate_marker( "red" )}}, {"g", {c_light_green, translate_marker( "light green" )}},
-        {"G", {c_green, translate_marker( "green" )}}, {"b", {c_light_blue, translate_marker( "light blue" )}},
-        {"B", {c_blue, translate_marker( "blue" )}}, {"W", {c_white, translate_marker( "white" )}},
-        {"C", {c_cyan, translate_marker( "cyan" )}}, {"c", {c_light_cyan, translate_marker( "light cyan" )}},
-        {"P", {c_pink, translate_marker( "pink" )}}, {"m", {c_magenta, translate_marker( "magenta" )}}
+        {"br", {c_brown, to_translation( "brown" )}}, {"lg", {c_light_gray, to_translation( "light gray" )}},
+        {"dg", {c_dark_gray, to_translation( "dark gray" )}}, {"r", {c_light_red, to_translation( "light red" )}},
+        {"R", {c_red, to_translation( "red" )}}, {"g", {c_light_green, to_translation( "light green" )}},
+        {"G", {c_green, to_translation( "green" )}}, {"b", {c_light_blue, to_translation( "light blue" )}},
+        {"B", {c_blue, to_translation( "blue" )}}, {"W", {c_white, to_translation( "white" )}},
+        {"C", {c_cyan, to_translation( "cyan" )}}, {"c", {c_light_cyan, to_translation( "light cyan" )}},
+        {"P", {c_pink, to_translation( "pink" )}}, {"m", {c_magenta, to_translation( "magenta" )}}
     };
 }
 
@@ -673,13 +672,9 @@ nc_color get_note_color( const std::string &note_id )
     return c_yellow;
 }
 
-std::list<std::pair<std::string, std::string>> get_note_color_names()
+const std::unordered_map<std::string, note_color> &get_note_color_names()
 {
-    std::list<std::pair<std::string, std::string>> color_list;
-    for( const auto &color_pair : color_by_string_map ) {
-        color_list.emplace_back( color_pair.first, color_pair.second.name );
-    }
-    return color_list;
+    return color_by_string_map;
 }
 
 void color_manager::clear()
@@ -763,6 +758,8 @@ void color_manager::show_gui()
     bool bStuffChanged = false;
     input_context ctxt( "COLORS" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "REMOVE_CUSTOM" );
@@ -848,7 +845,8 @@ void color_manager::show_gui()
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
-
+        int recmax = static_cast<int>( iMaxColors );
+        int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "QUIT" ) {
             break;
         } else if( action == "UP" ) {
@@ -858,8 +856,24 @@ void color_manager::show_gui()
             }
         } else if( action == "DOWN" ) {
             iCurrentLine++;
-            if( iCurrentLine >= static_cast<int>( iMaxColors ) ) {
+            if( iCurrentLine >= recmax ) {
                 iCurrentLine = 0;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( iCurrentLine == recmax - 1 ) {
+                iCurrentLine = 0;
+            } else if( iCurrentLine + scroll_rate >= recmax ) {
+                iCurrentLine = recmax - 1;
+            } else {
+                iCurrentLine += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( iCurrentLine == 0 ) {
+                iCurrentLine = recmax - 1;
+            } else if( iCurrentLine <= scroll_rate ) {
+                iCurrentLine = 0;
+            } else {
+                iCurrentLine += -scroll_rate;
             }
         } else if( action == "LEFT" ) {
             iCurrentCol--;

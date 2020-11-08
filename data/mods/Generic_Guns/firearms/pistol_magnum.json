@@ -13,7 +13,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "pistol_magnum_mag", "pistol_magnum_mag" ]
+        "item_restriction": [ "pistol_magnum_mag", "pistol_magnum_mag" ],
+        "rigid": true
       }
     ]
   },
@@ -25,7 +26,7 @@
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
     "description": "A modern re-imagining of the classic western lever-action, this larger rifle accepts powerful magnum pistol ammunition as well as weaker pistol ammo.  Carrying this along side a magnum pistol would allow one to reduce the number of calibers carried, and allow you to squeeze more power from ammuntion.",
     "clip_size": 10,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol_magnum": 10, "ammo_pistol": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol_magnum": 10, "ammo_pistol": 10 }, "rigid": true } ]
   },
   {
     "id": "pistol_magnum_pipe_levergun",
@@ -61,7 +62,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "pistol_magnum_mag", "pistol_magnum_mag" ]
+        "item_restriction": [ "pistol_magnum_mag", "pistol_magnum_mag" ],
+        "rigid": true
       }
     ]
   },
@@ -84,6 +86,13 @@
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
     "description": "Early handgun hunters helped develop this revolver's magnum ammunition from standard calibers, which needed heavier revolvers to safely fire it.  These revolvers' cylinders can thus chamber both magnum and standard pistol ammunition.  You could take medium to large game with this hefty piece.",
     "clip_size": 6,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "ammo_pistol_magnum": 6, "ammo_pistol": 6 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "holster": true,
+        "ammo_restriction": { "ammo_pistol_magnum": 6, "ammo_pistol": 6 },
+        "rigid": true
+      }
+    ]
   }
 ]

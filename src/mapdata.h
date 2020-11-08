@@ -46,7 +46,7 @@ struct map_bash_info {
     int fd_bash_move_cost = 100; // cost to bash a field
     bool destroy_only;      // Only used for destroying, not normally bashable
     bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
-    std::string drop_group; // item group of items that are dropped when the object is bashed
+    item_group_id drop_group; // item group of items that are dropped when the object is bashed
     translation sound;      // sound made on success ('You hear a "smash!"')
     translation sound_fail; // sound  made on fail
     translation field_bash_msg_success; // message upon successfully bashing a field
@@ -61,7 +61,8 @@ struct map_bash_info {
         terrain,
         field
     };
-    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type );
+    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type,
+               const std::string &context );
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
@@ -69,11 +70,12 @@ struct map_deconstruct_info {
     // This terrain provided a roof, we need to tear it down now
     bool deconstruct_above;
     // items you get when deconstructing.
-    std::string drop_group;
+    item_group_id drop_group;
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
-    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture );
+    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture,
+               const std::string &context );
 };
 struct furn_workbench_info {
     // Base multiplier applied for crafting here
@@ -212,6 +214,7 @@ enum ter_bitflags : int {
     TFLAG_THIN_OBSTACLE,
     TFLAG_SMALL_PASSAGE,
     TFLAG_Z_TRANSPARENT,
+    TFLAG_SUN_ROOF_ABOVE,
 
     NUM_TERFLAGS
 };
@@ -245,7 +248,7 @@ struct map_data_common_t {
         friend furn_t null_furniture_t();
         friend ter_t null_terrain_t();
         // The (untranslated) plaintext name of the terrain type the user would see (i.e. dirt)
-        std::string name_;
+        translation name_;
 
     private:
         std::set<std::string> flags;    // string flags which possibly refer to what's documented above.

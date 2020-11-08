@@ -1,10 +1,10 @@
 #include "itype.h"
 
 #include <cstdlib>
-#include <utility>
 
 #include "debug.h"
 #include "item.h"
+#include "make_static.h"
 #include "player.h"
 #include "ret_val.h"
 #include "translations.h"
@@ -15,6 +15,15 @@ std::string gunmod_location::name() const
 {
     // Yes, currently the name is just the translated id.
     return _( _id );
+}
+
+std::string islot_book::recipe_with_description_t::name() const
+{
+    if( optional_name ) {
+        return optional_name->translated();
+    } else {
+        return recipe->result_name();
+    }
 }
 
 namespace io
@@ -58,6 +67,28 @@ int itype::charges_per_volume( const units::volume &vol ) const
 bool itype::has_use() const
 {
     return !use_methods.empty();
+}
+
+bool itype::has_flag( const flag_str_id &flag ) const
+{
+    // whichever collection is not empty is used
+    // if both are empty, either will do
+    // (see `item_tags_str_tmp` and Item_factory::finalize_post)
+    if( item_tags_str_tmp.size() > item_tags.size() ) {
+        return item_tags_str_tmp.count( flag );
+    } else {
+        return has_flag( flag.id() );
+    }
+}
+
+bool itype::has_flag( const flag_id &flag ) const
+{
+    return item_tags.count( flag );
+}
+
+const itype::FlagsSetType &itype::get_flags() const
+{
+    return item_tags;
 }
 
 bool itype::can_use( const std::string &iuse_name ) const
@@ -132,7 +163,7 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( item_tags.count( "CAN_HAVE_CHARGES" ) ) {
+    if( has_flag( STATIC( flag_str_id( "CAN_HAVE_CHARGES" ) ) ) ) {
         return true;
     }
     return false;

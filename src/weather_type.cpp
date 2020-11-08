@@ -236,16 +236,14 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         }
         effects.emplace_back( effect );
     }
-    weather_animation = { 0.0f, c_white, '?' };
     if( jo.has_member( "weather_animation" ) ) {
         JsonObject weather_animation_jo = jo.get_object( "weather_animation" );
-        weather_animation_t animation;
-        mandatory( weather_animation_jo, was_loaded, "factor", animation.factor );
-        if( !assign( weather_animation_jo, "color", animation.color ) ) {
+        mandatory( weather_animation_jo, was_loaded, "factor", weather_animation.factor );
+        if( !assign( weather_animation_jo, "color", weather_animation.color ) ) {
             weather_animation_jo.throw_error( "missing mandatory member \"color\"" );
         }
-        mandatory( weather_animation_jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader );
-        weather_animation = animation;
+        mandatory( weather_animation_jo, was_loaded, "sym", weather_animation.symbol,
+                   unicode_codepoint_from_symbol_reader );
     }
 
     requirements = {};

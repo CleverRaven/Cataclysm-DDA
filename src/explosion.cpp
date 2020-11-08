@@ -34,6 +34,7 @@
 #include "itype.h"
 #include "json.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -61,9 +62,6 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teleglow( "teleglow" );
-
-static const std::string flag_BLIND( "BLIND" );
-static const std::string flag_FLASH_PROTECTION( "FLASH_PROTECTION" );
 
 static const itype_id fuel_type_none( "null" );
 
@@ -298,7 +296,7 @@ static void do_blast( const tripoint &p, const float power,
                 intensity++;
             }
 
-            here.add_field( pt, field_type_id( "fd_fire" ), intensity );
+            here.add_field( pt, fd_fire, intensity );
         }
 
         if( const optional_vpart_position vp = here.veh_at( pt ) ) {
@@ -574,8 +572,8 @@ void flashbang( const tripoint &p, bool player_immune )
             } else if( player_character.has_bionic( bio_sunglasses ) ||
                        player_character.is_wearing( itype_rm13_armor_on ) ) {
                 flash_mod = 6;
-            } else if( player_character.worn_with_flag( flag_BLIND ) ||
-                       player_character.worn_with_flag( flag_FLASH_PROTECTION ) ) {
+            } else if( player_character.worn_with_flag( STATIC( flag_str_id( "BLIND" ) ) ) ||
+                       player_character.worn_with_flag( STATIC( flag_str_id( "FLASH_PROTECTION" ) ) ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
             player_character.add_env_effect( effect_blind, bodypart_id( "eyes" ), ( 12 - flash_mod - dist ) / 2,
@@ -655,27 +653,25 @@ void scrambler_blast( const tripoint &p )
 
 void emp_blast( const tripoint &p )
 {
-    // TODO: Implement z part
-    point p2( p.xy() );
     Character &player_character = get_player_character();
     const bool sight = player_character.sees( p );
     map &here = get_map();
-    if( here.has_flag( "CONSOLE", p2 ) ) {
+    if( here.has_flag( "CONSOLE", p ) ) {
         if( sight ) {
-            add_msg( _( "The %s is rendered non-functional!" ), here.tername( p2 ) );
+            add_msg( _( "The %s is rendered non-functional!" ), here.tername( p ) );
         }
-        here.furn_set( p2, furn_str_id( "f_machinery_electronic" ) );
+        here.furn_set( p, furn_str_id( "f_machinery_electronic" ) );
         return;
     }
     // TODO: More terrain effects.
-    if( here.ter( p2 ) == t_card_science || here.ter( p2 ) == t_card_military ||
-        here.ter( p2 ) == t_card_industrial ) {
+    if( here.ter( p ) == t_card_science || here.ter( p ) == t_card_military ||
+        here.ter( p ) == t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
             }
-            here.ter_set( p2, t_card_reader_broken );
+            here.ter_set( p, t_card_reader_broken );
         }
         if( rn > 80 ) {
             if( sight ) {
@@ -683,8 +679,8 @@ void emp_blast( const tripoint &p )
             }
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
-                    if( here.ter( p2 + point( i, j ) ) == t_door_metal_locked ) {
-                        here.ter_set( p2 + point( i, j ), t_floor );
+                    if( here.ter( p + tripoint( i, j, 0 ) ) == t_door_metal_locked ) {
+                        here.ter_set( p + tripoint( i, j, 0 ), t_floor );
                     }
                 }
             }
@@ -751,7 +747,8 @@ void emp_blast( const tripoint &p )
             add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name() );
         }
     }
-    if( player_character.posx() == p2.x && player_character.posy() == p2.y ) {
+    if( player_character.posx() == p.x && player_character.posy() == p.y &&
+        player_character.posz() == p.z ) {
         if( player_character.get_power_level() > 0_kJ ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
             int max_drain = ( player_character.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
@@ -761,7 +758,7 @@ void emp_blast( const tripoint &p )
         // TODO: More effects?
         //e-handcuffs effects
         if( player_character.weapon.typeId() == itype_e_handcuffs && player_character.weapon.charges > 0 ) {
-            player_character.weapon.item_tags.erase( "NO_UNWIELD" );
+            player_character.weapon.unset_flag( STATIC( flag_str_id( "NO_UNWIELD" ) ) );
             player_character.weapon.charges = 0;
             player_character.weapon.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
@@ -769,7 +766,7 @@ void emp_blast( const tripoint &p )
         }
     }
     // Drain any items of their battery charge
-    for( item &it : here.i_at( p2 ) ) {
+    for( item &it : here.i_at( p ) ) {
         if( it.is_tool() && it.ammo_current() == itype_battery ) {
             it.charges = 0;
         }
@@ -804,24 +801,24 @@ void resonance_cascade( const tripoint &p )
                 case 5:
                     for( int k = i - 1; k <= i + 1; k++ ) {
                         for( int l = j - 1; l <= j + 1; l++ ) {
-                            field_type_id type = field_type_id( "fd_null" );
+                            field_type_id type = fd_null;
                             switch( rng( 1, 7 ) ) {
                                 case 1:
-                                    type = field_type_id( "fd_blood" );
+                                    type = fd_blood;
                                     break;
                                 case 2:
-                                    type = field_type_id( "fd_bile" );
+                                    type = fd_bile;
                                     break;
                                 case 3:
                                 case 4:
-                                    type = field_type_id( "fd_slime" );
+                                    type = fd_slime;
                                     break;
                                 case 5:
-                                    type = field_type_id( "fd_fire" );
+                                    type = fd_fire;
                                     break;
                                 case 6:
                                 case 7:
-                                    type = field_type_id( "fd_nuke_gas" );
+                                    type = fd_nuke_gas;
                                     break;
                             }
                             if( !one_in( 3 ) ) {

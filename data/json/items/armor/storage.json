@@ -419,7 +419,7 @@
         "rigid": true,
         "max_contains_volume": "10 L",
         "max_contains_weight": "20 kg",
-        "max_item_length": "50 cm",
+        "max_item_length": "65 cm",
         "moves": 200
       }
     ],

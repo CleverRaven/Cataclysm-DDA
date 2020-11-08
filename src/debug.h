@@ -205,6 +205,12 @@ bool debug_has_error_been_observed();
  */
 std::string capture_debugmsg_during( const std::function<void()> &func );
 
+/**
+ * Should be called after catacurses::stdscr is initialized.
+ * If catacurses::stdscr is available, shows all buffered debugmsg prompts.
+ */
+void replay_buffered_debugmsg_prompts();
+
 // Debug Only                                                       {{{1
 // ---------------------------------------------------------------------
 

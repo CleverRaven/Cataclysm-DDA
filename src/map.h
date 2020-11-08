@@ -88,7 +88,6 @@ struct wrapped_vehicle {
 };
 
 using VehicleList = std::vector<wrapped_vehicle>;
-using items_location = std::string;
 class map;
 
 enum ter_bitflags : int;
@@ -175,7 +174,15 @@ struct level_cache {
     // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
     // This is only valid for the duration of generate_lightmap
     float light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
+
+    // if false, means tile is under the roof ("inside"), true means tile is "outside"
+    // "inside" tiles are protected from sun, rain, etc. (see "INDOORS" flag)
     bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // true when vehicle below has "ROOF" or "OPAQUE" part, furniture below has "SUN_ROOF_ABOVE"
+    //      or terrain doesn't have "NO_FLOOR" flag
+    // false otherwise
+    // i.e. true == has floor
     bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
 
     // stores cached transparency of the tiles
@@ -266,7 +273,7 @@ class map
             }
         }
 
-        void set_seen_cache_dirty( const tripoint change_location ) {
+        void set_seen_cache_dirty( const tripoint &change_location ) {
             if( inbounds( change_location ) ) {
                 level_cache &cache = get_cache( change_location.z );
                 if( cache.seen_cache_dirty ) {
@@ -659,7 +666,7 @@ class map
                                          const std::vector<veh_collision> &collisions );
         // Throws vehicle passengers about the vehicle, possibly out of it
         // Returns change in vehicle orientation due to lost control
-        int shake_vehicle( vehicle &veh, int velocity_before, int direction );
+        units::angle shake_vehicle( vehicle &veh, int velocity_before, units::angle direction );
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions
@@ -1079,24 +1086,28 @@ class map
         void spawn_artifact( const tripoint &p, const relic_procgen_id &id );
         void spawn_item( const tripoint &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 );
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
+                         const std::set<flag_id> &flags = {} );
         void spawn_item( const point &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 ) {
-            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel );
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
+                         const std::set<flag_id> &flags = {} ) {
+            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags );
         }
 
         // FIXME: remove these overloads and require spawn_item to take an
         // itype_id
         void spawn_item( const tripoint &p, const std::string &type_id,
                          unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 ) {
-            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel );
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
+                         const std::set<flag_id> &flags = {} ) {
+            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel, flags );
         }
         void spawn_item( const point &p, const std::string &type_id,
                          unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 ) {
-            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel );
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
+                         const std::set<flag_id> &flags = {} ) {
+            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags );
         }
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
@@ -1111,7 +1122,7 @@ class map
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
-        item &add_item_or_charges( const point &p, item obj, bool overflow = true ) {
+        item &add_item_or_charges( const point &p, const item &obj, bool overflow = true ) {
             return add_item_or_charges( tripoint( p, abs_sub.z ), obj, overflow );
         }
 
@@ -1123,7 +1134,7 @@ class map
          * @returns The item that got added, or nulitem.
          */
         item &add_item( const tripoint &p, item new_item );
-        void add_item( const point &p, item new_item ) {
+        void add_item( const point &p, const item &new_item ) {
             add_item( tripoint( p, abs_sub.z ), new_item );
         }
 
@@ -1165,7 +1176,7 @@ class map
         * Place items from item group in the rectangle f - t. Several items may be spawned
         * on different places. Several items may spawn at once (at one place) when the item group says
         * so (uses @ref item_group::items_from which may return several items at once).
-        * @param loc Current location of items to be placed
+        * @param gp id of item group to spawn from
         * @param chance Chance for more items. A chance of 100 creates 1 item all the time, otherwise
         * it's the chance that more items will be created (place items until the random roll with that
         * chance fails). The chance is used for the first item as well, so it may not spawn an item at
@@ -1178,25 +1189,26 @@ class map
         * @param ammo percentage chance item will be filled with default ammo
         * @return vector containing all placed items
         */
-        std::vector<item *> place_items( const items_location &loc, int chance, const tripoint &p1,
-                                         const tripoint &p2, bool ongrass, const time_point &turn,
-                                         int magazine = 0, int ammo = 0 );
-        std::vector<item *> place_items( const items_location &loc, int chance, const point &p1,
-                                         const point &p2, bool ongrass, const time_point &turn,
-                                         int magazine = 0, int ammo = 0 ) {
-            return place_items( loc, chance, tripoint( p1, abs_sub.z ), tripoint( p2, abs_sub.z ), ongrass,
-                                turn, magazine, ammo );
+        std::vector<item *> place_items(
+            const item_group_id &group_id, int chance, const tripoint &p1, const tripoint &p2,
+            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0 );
+        std::vector<item *> place_items(
+            const item_group_id &group_id, int chance, const point &p1, const point &p2,
+            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0 ) {
+            return place_items( group_id, chance, tripoint( p1, abs_sub.z ),
+                                tripoint( p2, abs_sub.z ), ongrass, turn, magazine, ammo );
         }
         /**
         * Place items from an item group at p. Places as much items as the item group says.
         * (Most item groups are distributions and will only create one item.)
-        * @param loc Current location of items
+        * @param gp item group to spawn
         * @param p Destination of items
         * @param turn The birthday that the created items shall have.
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
-        std::vector<item *> put_items_from_loc( const items_location &loc, const tripoint &p,
-                                                const time_point &turn = calendar::start_of_cataclysm );
+        std::vector<item *> put_items_from_loc(
+            const item_group_id &group_id, const tripoint &p,
+            const time_point &turn = calendar::start_of_cataclysm );
 
         // Places a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
@@ -1418,7 +1430,7 @@ class map
         }
         // 6 liters at 250 ml per charge
         void place_toilet( const point &p, int charges = 6 * 4 );
-        void place_vending( const point &p, const std::string &type, bool reinforced = false );
+        void place_vending( const point &p, const item_group_id &type, bool reinforced = false );
         // places an NPC, if static NPCs are enabled or if force is true
         character_id place_npc( const point &p, const string_id<npc_template> &type );
         void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );
@@ -1436,16 +1448,16 @@ class map
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
                                    fragment_cloud( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
 
-        vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, int dir,
+        vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vgroup_id &type, const point &p, int dir,
+        vehicle *add_vehicle( const vgroup_id &type, const point &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vproto_id &type, const tripoint &p, int dir,
+        vehicle *add_vehicle( const vproto_id &type, const tripoint &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vproto_id &type, const point &p, int dir,
+        vehicle *add_vehicle( const vproto_id &type, const point &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
         // Light/transparency
@@ -1674,6 +1686,10 @@ class map
          * Get the submap pointer containing the specified position within the reality bubble.
          * (p) must be a valid coordinate, check with @ref inbounds.
          */
+        inline submap *unsafe_get_submap_at( const tripoint &p ) const {
+            cata_assert( inbounds( p ) );
+            return get_submap_at_grid( { p.x / SEEX, p.y / SEEY, p.z } );
+        }
         submap *get_submap_at( const tripoint &p ) const;
         submap *get_submap_at( const point &p ) const {
             return get_submap_at( tripoint( p, abs_sub.z ) );
@@ -1683,7 +1699,16 @@ class map
          * The same as other get_submap_at, (p) must be valid (@ref inbounds).
          * Also writes the position within the submap to offset_p
          */
-        submap *get_submap_at( const tripoint &p, point &offset_p ) const;
+        submap *unsafe_get_submap_at( const tripoint &p, point &offset_p ) const {
+            offset_p.x = p.x % SEEX;
+            offset_p.y = p.y % SEEY;
+            return unsafe_get_submap_at( p );
+        }
+        submap *get_submap_at( const tripoint &p, point &offset_p ) const {
+            offset_p.x = p.x % SEEX;
+            offset_p.y = p.y % SEEY;
+            return get_submap_at( p );
+        }
         submap *get_submap_at( const point &p, point &offset_p ) const {
             return get_submap_at( { p, abs_sub.z }, offset_p );
         }
@@ -1763,7 +1788,8 @@ class map
         void add_light_source( const tripoint &p, float luminance );
         // Handle just cardinal directions and 45 deg angles.
         void apply_directional_light( const tripoint &p, int direction, float luminance );
-        void apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle = 30 );
+        void apply_light_arc( const tripoint &p, units::angle, float luminance,
+                              units::angle wideangle = 30_degrees );
         void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint &p, const item_stack::iterator &begin,

@@ -442,8 +442,8 @@
   {
     "id": "house_coat",
     "type": "ARMOR",
-    "name": { "str": "housecoat" },
-    "description": "Makes you wish you had running water to take a shower.",
+    "name": { "str": "bathrobe" },
+    "description": "An outer garment of absorbent, towel-like material traditionally worn to cover one's nakedness to and from the bath.  It makes you wish you had running water to bathe with.",
     "weight": "580 g",
     "volume": "2 L",
     "price": 2200,

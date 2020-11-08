@@ -6,8 +6,9 @@ import os
 
 args = argparse.ArgumentParser()
 args.add_argument("dir", action="store", help="specify json directory")
-args.add_argument("id",  action="store", help="id of recipe to adjust")
-args.add_argument("level", action="store", help="what activity level to shift it to")
+args.add_argument("id", action="store", help="id of recipe to adjust")
+args.add_argument("level", action="store",
+                  help="what activity level to shift it to")
 args_dict = vars(args.parse_args())
 
 
@@ -21,7 +22,7 @@ def gen_new(path):
                 return None
 
             # We need a type to discriminate
-            if not "type" in jo:
+            if "type" not in jo:
                 return None
 
             # specifically, only recipes and uncrafts
@@ -30,7 +31,7 @@ def gen_new(path):
                 return None
 
             # Also, make sure it has a 'result'
-            if not "result" in jo:
+            if "result" not in jo:
                 return None
 
             # We don't want to change obsolete recipes
@@ -40,7 +41,9 @@ def gen_new(path):
             if jo["result"] == args_dict["id"]:
                 # Already got this one
                 if jo["activity_level"] != "fake":
-                    print("skipping {skipped} - value is {val}, currently on {current}".format(skipped=jo["result"],val=jo["activity_level"],current=args_dict["id"]))
+                    print("skipping {}".format(jo["result"]) +
+                          " - value is {},".format(jo["activity_level"]) +
+                          " currently on {}".format(args_dict["id"]))
                     return None
                 jo["activity_level"] = args_dict["level"]
                 change = True

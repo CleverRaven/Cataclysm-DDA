@@ -12,7 +12,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "bodypart.h" // body_part::num_bp
+#include "bodypart.h"
 #include "calendar.h"
 #include "color.h" // nc_color
 #include "damage.h"
@@ -48,22 +48,19 @@ enum art_effect_passive : int;
 class gun_modifier_data
 {
     private:
-        std::string name_;
+        translation name_;
         int qty_;
         std::set<std::string> flags_;
 
     public:
-        /**
-         * @param n A string that can be translated via @ref _ (must have been extracted for translation).
-         */
-        gun_modifier_data( const std::string &n, const int q, const std::set<std::string> &f ) : name_( n ),
+        gun_modifier_data( const translation &n, const int q, const std::set<std::string> &f ) : name_( n ),
             qty_( q ), flags_( f ) { }
-        std::string name() const {
+        const translation &name() const {
             return name_;
         }
         /// @returns The translated name of the gun mode.
         std::string tname() const {
-            return _( name_ );
+            return name_.translated();
         }
         int qty() const {
             return qty_;
@@ -101,7 +98,7 @@ struct islot_tool {
     std::set<ammotype> ammo_id;
 
     cata::optional<itype_id> revert_to;
-    std::string revert_msg;
+    translation revert_msg;
 
     itype_id subtype;
 
@@ -367,7 +364,7 @@ struct islot_book {
         /**
          * The name for the recipe as it appears in the book.
          */
-        std::string name;
+        cata::optional<translation> optional_name;
         /**
          * Hidden means it does not show up in the description of the book.
          */
@@ -378,6 +375,7 @@ struct islot_book {
         bool is_hidden() const {
             return hidden;
         }
+        std::string name() const;
     };
     using recipe_list_t = std::set<recipe_with_description_t>;
     recipe_list_t recipes;
@@ -501,7 +499,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Noise displayed when reloading the weapon.
      */
-    std::string reload_noise = translate_marker( "click." );
+    translation reload_noise = to_translation( "click." );
     /**
      * Volume of the noise made when reloading this weapon.
      */
@@ -617,7 +615,7 @@ struct islot_gunmod : common_ranged_data {
     int loudness = 0;
 
     /** How many moves does this gunmod take to install? */
-    int install_time = 0;
+    int install_time = -1;
 
     /** Increases base gun UPS consumption by this many times per shot */
     float ups_charges_multiplier = 1.0f;
@@ -830,7 +828,7 @@ class islot_milling
 {
     public:
         itype_id into_;
-        double conversion_rate_;
+        double conversion_rate_ = 0;
 
         bool was_loaded = false;
 
@@ -840,6 +838,8 @@ class islot_milling
 
 struct itype {
         friend class Item_factory;
+
+        using FlagsSetType = std::set<flag_id>;
 
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
@@ -900,7 +900,6 @@ struct itype {
         /** Fields to emit when item is in active state */
         std::set<emit_id> emits;
 
-        std::set<std::string> item_tags;
         std::set<matec_id> techniques;
 
         // Minimum stat(s) or skill(s) to use the item
@@ -1025,6 +1024,12 @@ struct itype {
         int damage_max_ = +4000;
         /// @}
 
+        // Temporary storage of flags before entity is finalized.
+        // During finalization, flags are moved into `item_tags` and `item_tags_str_tmp` is cleared.
+        // This deferred flag conversion is necessary, as some flags might not be loaded yet when `itype` is loaded.
+        std::set<flag_str_id> item_tags_str_tmp;
+        FlagsSetType item_tags;
+
     protected:
         itype_id id = itype_id::NULL_ID(); /** unique string identifier for this type */
 
@@ -1114,6 +1119,13 @@ struct itype {
         int charges_per_volume( const units::volume &vol ) const;
 
         bool has_use() const;
+
+        bool has_flag( const flag_id &flag ) const;
+        bool has_flag( const flag_str_id &flag ) const;
+
+        // returns read-only set of all item tags/flags
+        const FlagsSetType &get_flags() const;
+
         bool can_use( const std::string &iuse_name ) const;
         const use_function *get_use( const std::string &iuse_name ) const;
 

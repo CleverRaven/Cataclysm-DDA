@@ -74,7 +74,7 @@
     "id": "crt_rec_gloves",
     "type": "ARMOR",
     "name": { "str": "pair of CRIT rec gloves", "str_pl": "pairs of CRIT rec gloves" },
-    "description": "A pair of standard-issue rec gloves.  Skin-hugging and sleek, these gloves are made with cotton with a neoprene lining for grip-pads and warmth.  ",
+    "description": "A pair of standard-issue rec gloves.  Skin-hugging and sleek, these gloves are made with cotton with a neoprene lining for grip-pads and warmth.",
     "weight": "558 g",
     "volume": "250 ml",
     "price": 100000,

@@ -2502,6 +2502,11 @@
   },
   {
     "type": "recipe",
+    "result": "rag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "can_medium_unsealed",
     "obsolete": true
   },
@@ -2654,6 +2659,16 @@
   {
     "type": "recipe",
     "result": "mininuke_mod",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "slime_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "element",
     "obsolete": true
   },
   {

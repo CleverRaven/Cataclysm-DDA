@@ -69,12 +69,13 @@ class MonsterGenerator
 
         void check_monster_definitions() const;
 
+        cata::optional<mon_action_death> get_death_function( const std::string &f ) const;
         const std::vector<mtype> &get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
         friend struct mtype;
         friend struct species_type;
         friend class mattack_actor;
-        std::map<m_flag, int> m_flag_usage_stats;
+        std::array<int, m_flag::MF_MAX> m_flag_usage_stats;
 
     private:
         MonsterGenerator();

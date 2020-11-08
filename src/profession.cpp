@@ -10,6 +10,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "debug.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "generic_factory.h"
 #include "item.h"
@@ -167,7 +168,8 @@ void profession::load( const JsonObject &jo, const std::string & )
     }
 
     if( !was_loaded || jo.has_member( "description" ) ) {
-        const std::string desc = jo.get_string( "description" );
+        std::string desc;
+        mandatory( jo, false, "description", desc, text_style_check_reader() );
         // These also may differ depending on the language settings!
         _description_male = to_translation( "prof_desc_male", desc );
         _description_female = to_translation( "prof_desc_female", desc );
@@ -196,26 +198,29 @@ void profession::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "points", _point_cost );
 
     if( !was_loaded || jo.has_member( "items" ) ) {
+        std::string c = "items for profession " + id.str();
         JsonObject items_obj = jo.get_object( "items" );
 
         if( items_obj.has_array( "both" ) ) {
             optional( items_obj, was_loaded, "both", legacy_starting_items, item_reader {} );
         }
         if( items_obj.has_object( "both" ) ) {
-            _starting_items = item_group::load_item_group( items_obj.get_member( "both" ), "collection" );
+            _starting_items = item_group::load_item_group(
+                                  items_obj.get_member( "both" ), "collection", c );
         }
         if( items_obj.has_array( "male" ) ) {
             optional( items_obj, was_loaded, "male", legacy_starting_items_male, item_reader {} );
         }
         if( items_obj.has_object( "male" ) ) {
-            _starting_items_male = item_group::load_item_group( items_obj.get_member( "male" ), "collection" );
+            _starting_items_male = item_group::load_item_group(
+                                       items_obj.get_member( "male" ), "collection", c );
         }
         if( items_obj.has_array( "female" ) ) {
             optional( items_obj, was_loaded, "female",  legacy_starting_items_female, item_reader {} );
         }
         if( items_obj.has_object( "female" ) ) {
             _starting_items_female = item_group::load_item_group( items_obj.get_member( "female" ),
-                                     "collection" );
+                                     "collection", c );
         }
     }
     optional( jo, was_loaded, "no_bonus", no_bonus );
@@ -421,8 +426,8 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
             clear_faults( *it );
             return VisitResponse::NEXT;
         } );
-        if( it.has_flag( "VARSIZE" ) ) {
-            it.item_tags.insert( "FIT" );
+        if( it.has_flag( flag_VARSIZE ) ) {
+            it.set_flag( flag_FIT );
         }
     }
 

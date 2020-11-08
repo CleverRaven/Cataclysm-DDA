@@ -128,7 +128,7 @@ class uistatedata
 
         // construction menu selections
         std::string construction_filter;
-        cata::optional<std::string> last_construction;
+        construction_group_str_id last_construction = construction_group_str_id::NULL_ID();
         construction_category_id construction_tab = construction_category_id::NULL_ID();
 
         // overmap editor selections

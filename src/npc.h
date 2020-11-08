@@ -841,7 +841,7 @@ class npc : public player
         /**
          * Proficiencies we know that the character doesn't
          */
-        std::vector < proficiency_id> proficiencies_offered_to( const Character &guy ) const;
+        std::vector<proficiency_id> proficiencies_offered_to( const Character &guy ) const;
         /**
          * Martial art styles that we known, but the player p doesn't.
          */
@@ -858,7 +858,10 @@ class npc : public player
         bool is_following() const;
         bool is_obeying( const Character &p ) const;
 
-        bool is_hallucination() const override; // true if the NPC isn't actually real
+        // true if the NPC isn't actually real
+        bool is_hallucination() const override {
+            return hallucination;
+        }
 
         // Ally of or traveling with p
         bool is_friendly( const Character &p ) const;
@@ -1040,6 +1043,7 @@ class npc : public player
         float evaluate_enemy( const Creature &target ) const;
 
         void assess_danger();
+        bool is_safe() const;
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
         npc_action method_of_attack();

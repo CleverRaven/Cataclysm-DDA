@@ -19,6 +19,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "magic.h"
+#include "make_static.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
@@ -166,6 +167,15 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
             add_topics.push_back( "TALK_DEAF_ANGRY" );
         } else {
             add_topics.push_back( "TALK_DEAF" );
+        }
+    }
+    if( player_character.is_mute() ) {
+        if( add_topics.back() == "TALK_MUG" ||
+            add_topics.back() == "TALK_STRANGER_AGGRESSIVE" ) {
+            me_npc->make_angry();
+            add_topics.push_back( "TALK_MUTE_ANGRY" );
+        } else {
+            add_topics.push_back( "TALK_MUTE" );
         }
     }
 
@@ -484,8 +494,10 @@ std::string talker_npc::give_item_to( const bool to_use )
     }
     item &given = *loc;
 
-    if( ( &given == &player_character.weapon && given.has_flag( "NO_UNWIELD" ) ) ||
-        ( player_character.is_worn( given ) && given.has_flag( "NO_TAKEOFF" ) ) ) {
+    if( ( &given == &player_character.weapon &&
+          given.has_flag( STATIC( flag_str_id( "NO_UNWIELD" ) ) ) ) ||
+        ( player_character.is_worn( given ) &&
+          given.has_flag( STATIC( flag_str_id( "NO_TAKEOFF" ) ) ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }
@@ -878,4 +890,9 @@ bool talker_npc::enslave_mind()
 void talker_npc::set_first_topic( const std::string &chat_topic )
 {
     me_npc->chatbin.first_topic = chat_topic;
+}
+
+bool talker_npc::is_safe() const
+{
+    return me_npc->is_safe();
 }

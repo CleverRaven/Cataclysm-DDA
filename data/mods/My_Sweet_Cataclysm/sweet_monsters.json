@@ -414,5 +414,24 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+  },
+  {
+    "id": "mon_cow_calf_choc",
+    "type": "MONSTER",
+    "name": { "str": "chocolate calf", "str_pl": "chocolate calves" },
+    "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.  This one looks to be made entirely of chocolate.",
+    "copy-from": "mon_cow_calf",
+    "harvest": "choc_cows",
+    "upgrades": { "age_grow": 180, "into": "mon_cow_choc" }
+  },
+  {
+    "id": "mon_cow_choc",
+    "type": "MONSTER",
+    "name": { "str": "chocolate cow" },
+    "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.  This one looks to be made entirely of chocolate.",
+    "copy-from": "mon_cow",
+    "harvest": "choc_cows",
+    "starting_ammo": { "milk_raw_choc": 40 },
+    "reproduction": { "baby_monster": "mon_cow_calf_choc", "baby_count": 1, "baby_timer": 343 }
   }
 ]

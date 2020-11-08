@@ -407,7 +407,7 @@
       "items": {
         ".": [ { "item": "lair_black_dragon", "chance": 15, "repeat": [ 0, 2 ] } ],
         " ": [
-          { "item": "lair_black_dragon", "chance": 10, "repeat": [ 0, 2 ] },
+          { "item": "lair_black_dragon_treasure", "chance": 10, "repeat": [ 0, 2 ] },
           { "item": "enchanted_small_items", "chance": 10, "repeat": [ 0, 2 ] },
           { "item": "enchanted_combat_items", "chance": 10, "repeat": [ 0, 2 ] },
           { "item": "enchanted_melee_weapons_plus2", "chance": 5 },

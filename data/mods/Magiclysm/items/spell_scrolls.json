@@ -768,15 +768,6 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_lava_bomb",
-    "//": "Earthshaper spell",
-    "name": { "str": "Scroll of Lava Bomb", "str_pl": "Scrolls of Lava Bomb" },
-    "description": "You tear up the ground beneath you to fire a lava bomb: a globe of lava surrounded by hot, solid rock.  It shatters upon impact, spraying shards of rock and lava everywhere.",
-    "use_action": { "type": "learn_spell", "spells": [ "lava_bomb_main" ] }
-  },
-  {
-    "type": "BOOK",
-    "copy-from": "spell_scroll",
     "id": "spell_scroll_acid_resistance",
     "//": "Classless spell, black dragon books",
     "name": { "str": "Scroll of Acid Resistance", "str_pl": "Scrolls of Acid Resistance" },
@@ -973,5 +964,13 @@
     "name": { "str": "Scroll of Knifeshot", "str_pl": "Scrolls of Knifeshot" },
     "description": "Emulate a railgun, launching a knife at high speed.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_knifeshot" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_magic_motorcycle",
+    "name": { "str": "MICE(R) blueprint" },
+    "description": "Manafied Infernal Combustion Engine (Rideable)\nDetailed schematics for a motorcycle, that are somehow simultaneously obviously impossible and yet intriguingly intuitive.\nIn one margin, the word 'Mojocycle' has been scrawled in a flowing hand.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_magic_motorcycle" ] }
   }
 ]

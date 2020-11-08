@@ -103,5 +103,53 @@
     "rot_spawn": "GROUP_EGG_CAFFGUM",
     "rot_spawn_chance": 100,
     "spoils_in": "7 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "cow_candy",
+    "name": "candy cattle",
+    "comestible_type": "FOOD",
+    "description": "A handful of chocolate candies shaped like cows.  They're really warm, enough to make you wonder how they haven't melted.",
+    "symbol": "*",
+    "copy-from": "candy2",
+    "color": "brown",
+    "rot_spawn": "GROUP_EGG_CHOC_COW",
+    "rot_spawn_chance": 100,
+    "spoils_in": "10 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_raw_choc",
+    "name": { "str_sp": "raw chocolate milk" },
+    "copy-from": "milk_raw",
+    "color": "brown",
+    "description": "This is raw, unhomogenized and unpasteurized chocolate milk from a chocolate cow.  It couldn't be any fresher unless you drank it straight from the cow, which might upset it.  Depending on your dietary sensibilities, you might want to pasteurize or even boil this before drinking."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_choc",
+    "name": { "str_sp": "chocolate milk" },
+    "copy-from": "milk_choc",
+    "description": "Baby chocolate cow food, appropriated for adult humans.  Spoils rapidly."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_reconstituted_choc",
+    "name": { "str_sp": "reconstituted chocolate milk" },
+    "//": "Not in base game because people don't seem to do this IRL, with chocolate cows they might.",
+    "copy-from": "milk_reconstituted",
+    "color": "brown",
+    "description": "Baby chocolate cow food, appropriated for adult humans.  This milk has been reconstituted from a processed milk.  Spoils rapidly."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_powder_choc",
+    "name": { "str_sp": "powdered chocolate milk" },
+    "//": "Not in base game because people don't seem to do this IRL, with chocolate cows they might.",
+    "copy-from": "milk_powder",
+    "color": "brown",
+    "calories": 152,
+    "description": "Dehydrated chocolate milk powder.  Mix with water to make drinkable milk.",
+    "fun": -1
   }
 ]

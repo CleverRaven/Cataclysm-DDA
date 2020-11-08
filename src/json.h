@@ -71,6 +71,13 @@ struct key_from_json_string<string_id<T>, void> {
     }
 };
 
+template<typename T>
+struct key_from_json_string<int_id<T>, void> {
+    int_id<T> operator()( const std::string &s ) {
+        return int_id<T>( s );
+    }
+};
+
 template<typename Enum>
 struct key_from_json_string<Enum, std::enable_if_t<std::is_enum<Enum>::value>> {
     Enum operator()( const std::string &s ) {
@@ -283,6 +290,17 @@ class JsonIn
                 return false;
             }
             thing = T( tmp );
+            return true;
+        }
+
+        // This is for the int_id type
+        template <typename T>
+        auto read( int_id<T> &thing, bool throw_on_error = false ) -> bool {
+            std::string tmp;
+            if( !read( tmp, throw_on_error ) ) {
+                return false;
+            }
+            thing = int_id<T>( tmp );
             return true;
         }
 
@@ -509,6 +527,10 @@ class JsonIn
         // error messages
         std::string line_number( int offset_modifier = 0 ); // for occasional use only
         [[noreturn]] void error( const std::string &message, int offset = 0 ); // ditto
+        // if the next element is a string, throw error after the `offset`th unicode
+        // character in the parsed string. if `offset` is 0, throw error right after
+        // the starting quotation mark.
+        [[noreturn]] void string_error( const std::string &message, int offset );
 
         // If throw_, then call error( message, offset ), otherwise return
         // false
@@ -644,6 +666,11 @@ class JsonOut
             write( thing.str() );
         }
 
+        template <typename T>
+        auto write( const int_id<T> &thing ) {
+            write( thing.id().str() );
+        }
+
         // enum ~> string
         template <typename E, typename std::enable_if<std::is_enum<E>::value>::type * = nullptr>
         void write_as_string( const E value ) {
@@ -657,6 +684,11 @@ class JsonOut
         template<typename T>
         void write_as_string( const string_id<T> &s ) {
             write( s );
+        }
+
+        template<typename T>
+        void write_as_string( const int_id<T> &s ) {
+            write( s.id() );
         }
 
         template<typename T, typename U>
@@ -897,8 +929,8 @@ class JsonObject
         JsonObject get_object( const std::string &name ) const;
 
         // get_tags returns empty set if none found
-        template <typename T = std::string>
-        std::set<T> get_tags( const std::string &name ) const;
+        template<typename T = std::string, typename Res = std::set<T>>
+        Res get_tags( const std::string &name ) const;
 
         // TODO: some sort of get_map(), maybe
 
@@ -1053,8 +1085,8 @@ class JsonArray
         JsonObject get_object( size_t index ) const;
 
         // get_tags returns empty set if none found
-        template <typename T = std::string>
-        std::set<T> get_tags( size_t index ) const;
+        template<typename T = std::string, typename Res = std::set<T>>
+        Res get_tags( size_t index ) const;
 
         class const_iterator;
 
@@ -1285,10 +1317,10 @@ inline JsonObject::const_iterator JsonObject::end() const
     return const_iterator( *this, positions.end() );
 }
 
-template <typename T>
-std::set<T> JsonArray::get_tags( const size_t index ) const
+template <typename T, typename Res>
+Res JsonArray::get_tags( const size_t index ) const
 {
-    std::set<T> res;
+    Res res;
 
     verify_index( index );
     jsin->seek( positions[ index ] );
@@ -1306,10 +1338,10 @@ std::set<T> JsonArray::get_tags( const size_t index ) const
     return res;
 }
 
-template <typename T>
-std::set<T> JsonObject::get_tags( const std::string &name ) const
+template <typename T, typename Res>
+Res JsonObject::get_tags( const std::string &name ) const
 {
-    std::set<T> res;
+    Res res;
     int pos = verify_position( name, false );
     if( !pos ) {
         return res;
