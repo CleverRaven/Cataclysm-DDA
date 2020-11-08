@@ -5021,9 +5021,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
                         splint = item( "leg_splint", 0 );
                     }
-                    item &equipped_splint = patient.i_add( splint );
-                    cata::optional<std::list<item>::iterator> worn_item =
-                        patient.wear( equipped_splint, false );
+                    patient.wear_item( splint, false );
                 }
                 patient.add_effect( effect_mending, 0_turns, part, true );
                 effect &mending_effect = patient.get_effect( effect_mending, part );
