@@ -246,11 +246,15 @@ void player_take_off( aim_transaction_ui_t::select_t const &sel )
     }
 }
 
+// FIXME: can I dedup this with get_selection_amount() ?
 void player_drop( aim_transaction_ui_t::select_t const &sel, tripoint const pos, bool to_vehicle )
 {
     avatar &u = get_avatar();
     std::vector<drop_or_stash_item_info> to_drop;
     for( auto const &it : sel ) {
+        if( sel.size() > 1 and it.second->stack.front()->is_favorite ) {
+            continue;
+        }
         std::size_t count = it.first;
         if( it.second->stack.front()->count_by_charges() ) {
             to_drop.emplace_back( it.second->stack.front(), count );
@@ -264,9 +268,14 @@ void player_drop( aim_transaction_ui_t::select_t const &sel, tripoint const pos,
 }
 
 void get_selection_amount( aim_transaction_ui_t::select_t const &sel,
-                           std::vector<item_location> *targets, std::vector<int> *quantities )
+                           std::vector<item_location> *targets, std::vector<int> *quantities,
+                           bool ignorefav = true )
 {
+    bool const _ifav = sel.size() > 1 and ignorefav;
     for( auto const &it : sel ) {
+        if( !_ifav and it.second->stack.front()->is_favorite ) {
+            continue;
+        }
         if( it.second->stack.front()->count_by_charges() ) {
             targets->emplace_back( *it.second->stack.begin() );
             quantities->emplace_back( it.first );
@@ -297,7 +306,7 @@ void player_move_items( aim_transaction_ui_t::select_t const &sel, tripoint cons
     avatar &u = get_avatar();
     std::vector<item_location> targets;
     std::vector<int> quantities;
-    get_selection_amount( sel, &targets, &quantities );
+    get_selection_amount( sel, &targets, &quantities, false );
 
     u.assign_activity(
         player_activity( move_items_activity_actor( targets, quantities, to_vehicle, pos ) ) );
