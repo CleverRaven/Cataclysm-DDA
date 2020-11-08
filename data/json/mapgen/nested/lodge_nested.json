@@ -106,15 +106,8 @@
         "O": "t_carpet_red",
         "=": "t_carpet_red"
       },
-      "furniture": {
-        "A": "f_stool",
-        "B": "f_table",
-        "E": "f_armchair",
-        "C": "f_bookcase",
-        "T": "f_floor_lamp"
-      },
-      "items": {
-        "C": [ { "item": "games", "chance": 80, "repeat": [ 3, 6 ] } ] }
+      "furniture": { "A": "f_stool", "B": "f_table", "E": "f_armchair", "C": "f_bookcase", "T": "f_floor_lamp" },
+      "items": { "C": [ { "item": "games", "chance": 80, "repeat": [ 3, 6 ] } ] }
     }
   },
   {
