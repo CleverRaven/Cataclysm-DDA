@@ -17,7 +17,7 @@ namespace debug_menu
 
 void teleport_short();
 void teleport_long();
-void teleport_overmap();
+void teleport_overmap( bool specific_coordinates = false );
 
 void spawn_nested_mapgen();
 void character_edit_menu();
