@@ -48,7 +48,7 @@ class advuilist_sourced : public advuilist<Container, T>
         getsource_t getSource();
 
         select_t select();
-        void rebuild( Container *list = nullptr );
+        void rebuild();
         void totop();
         void hide();
 
@@ -162,6 +162,7 @@ void advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bo
     } else if( fallthrough ) {
         // if we still don't have a valid source on rebuild(), empty the internal container
         _container.clear();
+        advuilist<Container, T>::rebuild();
     }
 }
 
@@ -185,11 +186,10 @@ typename advuilist_sourced<Container, T>::select_t advuilist_sourced<Container, 
 }
 
 template <class Container, typename T>
-void advuilist_sourced<Container, T>::rebuild( Container *list )
+void advuilist_sourced<Container, T>::rebuild()
 {
-    setSource( _cslot, 0, true );
     needsinit = false;
-    advuilist<Container, T>::rebuild( list );
+    setSource( _cslot, 0, true );
 }
 
 template <class Container, typename T>
