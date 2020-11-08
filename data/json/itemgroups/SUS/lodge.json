@@ -81,7 +81,7 @@
       { "item": "preserved_food", "prob": 20, "repeat": [ 1, 4 ] },
       { "item": "dry_goods", "prob": 30, "repeat": [ 2, 6 ] },
       { "item": "dry_goods", "custom-flags": [ "CANNIBALISM" ], "prob": 60, "repeat": [ 1, 4 ] },
-      { "item": "pantry", "prob": 10, "repeat": [ 3, 5 ] }
+      { "item": "pantry", "prob": 10 }
     ]
   }
 ]

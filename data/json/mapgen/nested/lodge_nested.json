@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lodge_cannibal",
+    "nested_mapgen_id": "lodge_cannibal_15x15",
     "object": {
       "mapgensize": [ 15, 15 ],
       "rows": [
@@ -28,7 +28,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lodge_hunting",
+    "nested_mapgen_id": "lodge_hunting_15x15",
     "object": {
       "mapgensize": [ 15, 15 ],
       "rows": [
@@ -54,7 +54,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lodge_pantry",
+    "nested_mapgen_id": "lodge_pantry_15x15",
     "object": {
       "mapgensize": [ 15, 15 ],
       "rows": [
@@ -75,6 +75,174 @@
         "               "
       ],
       "palettes": [ "lodge_items" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lodge_game_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "E CC T",
+        "      ",
+        "  BB  ",
+        "  BB  ",
+        "  BB  ",
+        "E    T"
+      ],
+      "terrain": {
+        ".": "t_floor",
+        "B": "t_floor",
+        "C": "t_floor",
+        "y": "t_floor",
+        "T": "t_floor",
+        "E": "t_floor",
+        " ": "t_carpet_red",
+        "h": "t_carpet_red",
+        "A": "t_carpet_red",
+        "d": "t_carpet_red",
+        "f": "t_carpet_red",
+        "O": "t_carpet_red",
+        "=": "t_carpet_red"
+      },
+      "furniture": {
+        "A": "f_stool",
+        "B": "f_table",
+        "E": "f_armchair",
+        "C": "f_bookcase",
+        "T": "f_floor_lamp"
+      },
+      "items": {
+        "C": [ { "item": "games", "chance": 80, "repeat": [ 3, 6 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lodge_dungeon_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "E CC T",
+        "      ",
+        "  BB  ",
+        "  BB  ",
+        "  BB  ",
+        "E    T"
+      ],
+      "terrain": {
+        ".": "t_floor",
+        "B": "t_floor",
+        "C": "t_floor",
+        "y": "t_floor",
+        "T": "t_floor",
+        "E": "t_floor",
+        " ": "t_carpet_red",
+        "h": "t_carpet_red",
+        "A": "t_carpet_red",
+        "d": "t_carpet_red",
+        "f": "t_carpet_red",
+        "O": "t_carpet_red",
+        "=": "t_carpet_red"
+      },
+      "furniture": {
+        "A": "f_stool",
+        "B": "f_workbench",
+        "E": "f_armchair",
+        "C": "f_rack_wood",
+        "T": "f_floor_lamp",
+        "d": "f_mannequin",
+        "b": "f_bench",
+        "f": "f_table",
+        "h": "f_chair",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "items": {
+        "C": [
+          { "item": "SUS_tailoring_materials", "chance": 80, "repeat": [ 3, 6 ] },
+          { "item": "leather_shop_repair", "chance": 40, "repeat": [ 2, 4 ] }
+        ],
+        "f": [
+          { "item": "SUS_tailoring_materials", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "leather_shop_repair", "chance": 40, "repeat": [ 2, 4 ] }
+        ],
+        "d": [
+          { "item": "pants", "chance": 100 },
+          { "item": "shirts", "chance": 100 },
+          { "item": "leather_shop_accessories", "chance": 10 }
+        ],
+        "B": [
+          { "item": "SUS_tailoring_tool_drawer", "chance": 60, "repeat": [ 0, 1 ] },
+          { "item": "tailorbooks", "chance": 60, "repeat": [ 0, 1 ] },
+          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lodge_drug_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "E CC T",
+        "      ",
+        "  BB  ",
+        "  BB  ",
+        "  BB  ",
+        "E    T"
+      ],
+      "terrain": {
+        ".": "t_floor",
+        "B": "t_floor",
+        "C": "t_floor",
+        "y": "t_floor",
+        "T": "t_floor",
+        "E": "t_floor",
+        " ": "t_carpet_red",
+        "h": "t_carpet_red",
+        "A": "t_carpet_red",
+        "d": "t_carpet_red",
+        "f": "t_carpet_red",
+        "O": "t_carpet_red",
+        "=": "t_carpet_red"
+      },
+      "furniture": {
+        "A": "f_stool",
+        "B": "f_workbench",
+        "E": "f_armchair",
+        "C": "f_rack_wood",
+        "T": "f_floor_lamp",
+        "d": "f_mannequin",
+        "b": "f_bench",
+        "f": "f_table",
+        "h": "f_chair",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "items": {
+        "C": [
+          { "item": "SUS_tailoring_materials", "chance": 80, "repeat": [ 3, 6 ] },
+          { "item": "leather_shop_repair", "chance": 40, "repeat": [ 2, 4 ] }
+        ],
+        "f": [
+          { "item": "SUS_tailoring_materials", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "leather_shop_repair", "chance": 40, "repeat": [ 2, 4 ] }
+        ],
+        "d": [
+          { "item": "pants", "chance": 100 },
+          { "item": "shirts", "chance": 100 },
+          { "item": "leather_shop_accessories", "chance": 10 }
+        ],
+        "B": [
+          { "item": "SUS_tailoring_tool_drawer", "chance": 60, "repeat": [ 0, 1 ] },
+          { "item": "tailorbooks", "chance": 60, "repeat": [ 0, 1 ] },
+          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
+        ]
+      }
     }
   }
 ]
