@@ -47,12 +47,18 @@ void create_advanced_inv()
         } );
         mytrui->loadstate( &uistate.transfer_save );
     } else {
-        std::size_t const lidx = mytrui->left()->getSource().first;
-        std::size_t const ridx = mytrui->right()->getSource().first;
+        aim_advuilist_sourced_t::slotidx_t lidx, ridx;
+        aim_advuilist_sourced_t::icon_t licon, ricon;
+        std::tie( lidx, licon ) = mytrui->left()->getSource();
+        std::tie( ridx, ricon ) = mytrui->right()->getSource();
+        lidx = licon == SOURCE_VEHICLE_i ? idxtovehidx( lidx ) : lidx;
+        ridx = ricon == SOURCE_VEHICLE_i ? idxtovehidx( ridx ) : ridx;
+
         pane_mutex[lidx] = false;
         mytrui->left()->rebuild();
         pane_mutex[lidx] = true;
-        pane_mutex[ridx] = false;
+        // make sure our panes don't use the same source even if they end up using the same slot
+        pane_mutex[ridx] = lidx == ridx;
         mytrui->right()->rebuild();
     }
     reset_mutex( &*mytrui, &pane_mutex );

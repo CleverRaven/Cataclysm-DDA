@@ -77,6 +77,7 @@ constexpr char const *SOURCE_VEHICLE = "Vehicle";
 constexpr char const SOURCE_VEHICLE_i = 'V';
 
 using pane_mutex_t = std::array<bool, aim_nsources * 2>;
+std::size_t idxtovehidx( std::size_t idx );
 void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex );
 
 using filoc_t = std::function<item_location( item * )>;

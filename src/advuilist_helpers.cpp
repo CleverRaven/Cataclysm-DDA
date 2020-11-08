@@ -340,6 +340,11 @@ int query_destination()
 namespace advuilist_helpers
 {
 
+std::size_t idxtovehidx( std::size_t idx )
+{
+    return idx + aim_nsources;
+}
+
 void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
 {
     using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
@@ -350,14 +355,14 @@ void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
     std::tie( lsrc, licon ) = ui->left()->getSource();
     std::tie( rsrc, ricon ) = ui->right()->getSource();
     mutex->fill( false );
-    mutex->at( licon == SOURCE_VEHICLE_i ? lsrc + aim_nsources : lsrc ) = true;
-    mutex->at( ricon == SOURCE_VEHICLE_i ? rsrc + aim_nsources : rsrc ) = true;
+    mutex->at( licon == SOURCE_VEHICLE_i ? idxtovehidx( lsrc ) : lsrc ) = true;
+    mutex->at( ricon == SOURCE_VEHICLE_i ? idxtovehidx( rsrc ) : rsrc ) = true;
     // dragged vehicle needs more checks...
     if( lsrc == DRAGGED_IDX or rsrc == DRAGGED_IDX or licon == SOURCE_VEHICLE_i or
         ricon == SOURCE_VEHICLE_i ) {
         tripoint const off = get_avatar().grab_point;
         std::size_t const idx = offset_to_slotidx( off );
-        mutex->at( idx + aim_nsources ) = true;
+        mutex->at( idxtovehidx( idx ) ) = true;
         mutex->at( DRAGGED_IDX ) = true;
     }
 }
@@ -715,7 +720,7 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *
                         return source_player_vehicle( off );
                     };
                     _fsvb = [ = ]() {
-                        return !mutex->at( idx + aim_nsources ) and
+                        return !mutex->at( idxtovehidx( idx ) ) and
                                source_player_vehicle_avail( off );
                     };
                     break;
