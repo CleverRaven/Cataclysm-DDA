@@ -1288,7 +1288,7 @@
     "harvest": "dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
-    "categories": [ "DINOSAUR" ],
+    "categories": [ "DINOSAUR" ]
     
   }
 ]
