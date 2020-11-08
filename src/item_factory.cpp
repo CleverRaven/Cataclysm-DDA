@@ -1392,8 +1392,15 @@ void Item_factory::check_definitions() const
             if( type->magazine->count < 0 || type->magazine->count > type->magazine->capacity ) {
                 msg += string_format( "invalid count %i\n", type->magazine->count );
             }
-            const itype *da = find_template( type->magazine->default_ammo );
-            if( !( da->ammo && type->magazine->type.count( da->ammo->type ) ) ) {
+            const itype_id &default_ammo = type->magazine->default_ammo;
+            const itype *da = find_template( default_ammo );
+            if( da->ammo && type->magazine->type.count( da->ammo->type ) ) {
+                if( !migrations.count( type->id ) ) {
+                    // Verify that the default amnmo can actually be put in this
+                    // item
+                    item( type ).ammo_set( default_ammo, 1 );
+                }
+            } else {
                 msg += string_format( "invalid default_ammo %s\n", type->magazine->default_ammo.str() );
             }
             if( type->magazine->reload_time < 0 ) {

@@ -1087,10 +1087,10 @@
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "9mm" ],
+    "ammo_type": [ "test_9mm" ],
     "capacity": 15,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "test_9mm": 15 } } ]
   },
   {
     "id": "test_glockbigmag",
@@ -1105,11 +1105,11 @@
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "9mm" ],
+    "ammo_type": [ "test_9mm" ],
     "capacity": 30,
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "test_9mm": 30 } } ]
   },
   {
     "id": "test_9mm_ammo",
@@ -1126,7 +1126,7 @@
     "color": "yellow",
     "count": 50,
     "stack_size": 50,
-    "ammo_type": "9mm",
+    "ammo_type": "test_9mm",
     "casing": "9mm_casing",
     "range": 14,
     "damage": { "damage_type": "bullet", "amount": 26 },
