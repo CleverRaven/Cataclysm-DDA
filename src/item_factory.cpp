@@ -1199,7 +1199,8 @@ void Item_factory::check_definitions() const
         }
         for( const auto &q : type->qualities ) {
             if( !q.first.is_valid() ) {
-                msg += string_format( "item %s has unknown quality %s\n", type->id.c_str(), q.first.c_str() );
+                msg += string_format( "item %s has unknown quality %s\n", type->id.c_str(),
+                                      q.first.c_str() );
             }
         }
         if( type->default_container && !has_template( *type->default_container ) ) {
