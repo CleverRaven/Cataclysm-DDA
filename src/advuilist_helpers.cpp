@@ -258,11 +258,11 @@ void player_drop( aim_transaction_ui_t::select_t const &sel, tripoint const pos,
 
 void get_selection_amount( aim_transaction_ui_t::select_t const &sel,
                            std::vector<item_location> *targets, std::vector<int> *quantities,
-                           bool ignorefav = true )
+                           bool ignorefav = false )
 {
     bool const _ifav = sel.size() > 1 and ignorefav;
     for( auto const &it : sel ) {
-        if( !_ifav and it.second->stack.front()->is_favorite ) {
+        if( _ifav and it.second->stack.front()->is_favorite ) {
             continue;
         }
         if( it.second->stack.front()->count_by_charges() ) {
@@ -302,7 +302,7 @@ void player_move_items( aim_transaction_ui_t::select_t const &sel, tripoint cons
     avatar &u = get_avatar();
     std::vector<item_location> targets;
     std::vector<int> quantities;
-    get_selection_amount( sel, &targets, &quantities, false );
+    get_selection_amount( sel, &targets, &quantities, true );
 
     u.assign_activity(
         player_activity( move_items_activity_actor( targets, quantities, to_vehicle, pos ) ) );
