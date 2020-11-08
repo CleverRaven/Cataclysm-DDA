@@ -705,7 +705,8 @@ void vpart_info::check()
             debugmsg( "vehicle part %s has folding part with zero folded volume", part.name() );
         }
         if( !item::type_is_defined( part.default_ammo ) ) {
-            debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(), part.base_item.c_str() );
+            debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(),
+                      part.base_item.c_str() );
         }
         if( part.size < 0_ml ) {
             debugmsg( "vehicle part %s has negative size", part.id.c_str() );
@@ -718,7 +719,7 @@ void vpart_info::check()
         if( !item::type_is_defined( part.fuel_type ) ) {
             debugmsg( "vehicle part %s uses undefined fuel %s", part.id.c_str(), part.base_item.c_str() );
             part.fuel_type = itype_id::NULL_ID();
-        } else if( !part.fuel_type.is_null() &&  !item::item( part.fuel_type ).is_fuel() &&
+        } else if( !part.fuel_type.is_null() && !item( part.fuel_type ).is_fuel() &&
                    !type_can_contain( base_item_type, part.fuel_type ) ) {
             // HACK: Tanks are allowed to specify non-fuel "fuel",
             // because currently legacy blazemod uses it as a hack to restrict content types
