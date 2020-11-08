@@ -19,7 +19,7 @@ TEST_CASE( "static_string_ids_equality_test", "[string_id]" )
     CHECK( fd_tear_gas == string_id<field_type>( "fd_tear_gas" ) );
     CHECK( fd_nuke_gas == string_id<field_type>( "fd_nuke_gas" ) );
 
-    CHECK( fd_nuke_gas != string_id<field_type>( "fd_nuke_gas1" ) );
+    CHECK( fd_nuke_gas.id() != string_id<field_type>( "fd_nuke_gas1" ) );
 }
 
 TEST_CASE( "string_ids_intern_test", "[string_id]" )

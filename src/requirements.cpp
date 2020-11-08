@@ -453,39 +453,75 @@ void requirement_data::check_consistency()
     }
 }
 
-template <typename T, typename Getter>
-void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
+template <typename T>
+void inline_requirements( std::vector<std::vector<T>> &list,
+                          const std::function<const std::vector<std::vector<T>> & ( const requirement_data & )> &getter )
 {
-    std::set<requirement_id> already_nested;
-    for( auto &vec : list ) {
-        // We always need to restart from the beginning in case of vector relocation
-        while( true ) {
-            auto iter = std::find_if( vec.begin(), vec.end(), []( const T & req ) {
-                return req.requirement;
-            } );
-            if( iter == vec.end() ) {
-                break;
-            }
+    // add a single component to the vector. If component already exists, chooses min count
+    const auto add_component = []( const T & comp, std::vector<T> &accum ) {
+        auto iter = std::find_if( accum.begin(), accum.end(), [&]( const T & req ) {
+            return !req.requirement && req.type == comp.type;
+        } );
+        if( iter == accum.end() ) {
+            accum.push_back( comp ); // component doesn't exist yet, adding it
+        } else {
+            // this is the list of alternatives (a OR b OR c), so if there are two identical components
+            // with the different counts as an alternatives, the one with the lowest count is selected
+            iter->count = std::min( comp.count, iter->count );
+        }
+    };
 
-            const auto req_id = requirement_id( iter->type );
-            if( !req_id.is_valid() ) {
-                debugmsg( "Tried to inline unknown requirement %s", req_id.c_str() );
+    // if `comp` is a component, adds it to the `accum`
+    // if it's a requirement, recursively expands it into simple components and adds them to the vector
+    const auto inline_one = [&]( const T & comp, std::vector<T> &accum ) {
+        std::set<requirement_id> already_nested;
+        std::list<requirement_id> stack;
+
+        std::function<void( const T &comp )> rec;
+        rec = [&]( const T & comp ) {
+            // add simple component to the vector
+            if( !comp.requirement ) {
+                add_component( comp, accum );
                 return;
             }
-
-            if( already_nested.count( req_id ) > 0 ) {
-                debugmsg( "Tried to inline requirement %s which was inlined before in the same pass (infinite loop?)",
-                          req_id.c_str() );
+            // otherwise expand component as requirement
+            const requirement_id r( comp.type );
+            if( !r.is_valid() ) {
+                debugmsg( "Tried to inline unknown requirement %s", r.c_str() );
                 return;
             }
+            // stack just holds the current path of inlining for debug purposes
+            stack.push_back( r );
+            if( already_nested.count( r ) ) {
+                // print debug msg and skip just this one requirement
+                debugmsg( "Tried to inline requirement %s which forms a cycle", r.c_str() );
+                stack.pop_back();
+                return;
+            }
+            already_nested.insert( r );
 
-            already_nested.insert( req_id );
-            const auto &req = req_id.obj();
-            const requirement_data multiplied = req * iter->count;
-            iter = vec.erase( iter );
+            const auto &req = r.obj();
+            const requirement_data multiplied = req * comp.count;
 
-            const auto &to_inline = getter( multiplied );
-            vec.insert( iter, to_inline.front().begin(), to_inline.front().end() );
+            const std::vector<std::vector<T>> &to_inline = getter( multiplied );
+            if( !to_inline.empty() ) {
+                const std::vector<T> &nested = to_inline.front();
+                for( const T &nested_comp : nested ) {
+                    rec( nested_comp );
+                }
+            }
+            already_nested.erase( r );
+            stack.pop_back();
+        };
+
+        rec( comp );
+    };
+
+    for( std::vector<T> &vec : list ) {
+        const std::vector<T> vec_copy = vec;
+        vec.clear();
+        for( const T &comp  : vec_copy ) {
+            inline_one( comp, vec );
         }
     }
 }
@@ -493,10 +529,11 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
 void requirement_data::finalize()
 {
     for( auto &r : const_cast<std::map<requirement_id, requirement_data> &>( all() ) ) {
-        inline_requirements( r.second.tools, []( const requirement_data & d ) {
+        inline_requirements<tool_comp>( r.second.tools, []( const requirement_data & d ) -> const auto & {
             return d.get_tools();
         } );
-        inline_requirements( r.second.components, []( const requirement_data & d ) {
+        inline_requirements<item_comp>( r.second.components,
+        []( const requirement_data & d ) -> const auto & {
             return d.get_components();
         } );
         auto &vec = r.second.tools;
@@ -513,7 +550,6 @@ void requirement_data::finalize()
         }
     }
 }
-
 void requirement_data::reset()
 {
     requirements_all.clear();
