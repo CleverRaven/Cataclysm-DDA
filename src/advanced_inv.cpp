@@ -1791,6 +1791,8 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     dest_container.fill_with( src_contents, amount );
     src_contents.charges -= amount;
     src_container.contained_where( src_contents )->on_contents_changed();
+    src_container.on_contents_changed();
+    get_avatar().flag_encumbrance();
 
     uistate.adv_inv_container_content_type = dest_container.contents.legacy_front().typeId();
     if( src_contents.charges <= 0 ) {
