@@ -867,6 +867,17 @@ void mapgen_road( mapgendata &dat )
         }
     }
 
+    // place street lights
+    if( neighbor_sidewalks ) {
+        for( int x = 0; x < SEEX * 2 - 1; x++ ) {
+            for( int y = 0; y < SEEY * 2 - 1; y++ ) {
+                if( x % 5 == 0 && y % 5 == 0 && m->ter( point( x, y ) ) == t_sidewalk ) {
+                    m->furn_set( point( x, y ), f_street_light );
+                }
+            }
+        }
+    }
+
     // spawn some vehicles
     if( plaza_dir != 8 ) {
         vspawn_id( neighbor_sidewalks ? "default_city" : "default_country" ).obj().apply(
