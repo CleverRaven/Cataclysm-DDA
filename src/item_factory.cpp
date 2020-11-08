@@ -1203,9 +1203,14 @@ void Item_factory::check_definitions() const
                                       q.first.c_str() );
             }
         }
-        if( type->default_container && !has_template( *type->default_container ) ) {
-            if( !type->default_container->is_null() ) {
-                msg += string_format( "invalid container property %s\n", type->default_container->c_str() );
+        if( type->default_container && !type->default_container->is_null() ) {
+            if( has_template( *type->default_container ) ) {
+                // Spawn the item in its default container to generate an error
+                // if it doesn't fit.
+                item( type ).in_its_container();
+            } else {
+                msg += string_format( "invalid container property %s\n",
+                                      type->default_container->c_str() );
             }
         }
 
