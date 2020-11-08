@@ -1253,7 +1253,7 @@
     "categories": [ "DINOSAUR" ]
   },
    {
-    "type": "MONSTER",
+    "type": "MONSTER"
     "id": "mon_qianzhousaurus",
     "name": { "str_sp": "Qianzhousaurus" },
     "species": "DINOSAUR",
