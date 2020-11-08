@@ -43,7 +43,7 @@ class advuilist
         using fcounter_t = std::function<std::size_t( T const & )>;
         /// on_rebuild function. params are first_item, element
         using frebuild_t = std::function<void( bool, T const & )>;
-        using fdraw_t = std::function<void( catacurses::window * )>;
+        using fdraw_t = std::function<void( advuilist<Container, T> * )>;
         /// sorting function
         using fsort_t = std::function<bool( T const &, T const & )>;
         /// name, sorting function
@@ -555,7 +555,7 @@ void advuilist<Container, T>::_initui()
         draw_border( _w, _exit ? c_dark_gray : c_light_gray );
         _print();
         if( _fdraw ) {
-            _fdraw( &_w );
+            _fdraw( this );
         }
         wnoutrefresh( _w );
     } );
