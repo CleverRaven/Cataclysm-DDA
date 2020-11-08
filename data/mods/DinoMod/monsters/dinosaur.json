@@ -1253,7 +1253,7 @@
     "categories": [ "DINOSAUR" ]
   },
    {
-    "type": "MONSTER"
+    "type": "MONSTER",
     "id": "mon_qianzhousaurus",
     "name": { "str_sp": "Qianzhousaurus" },
     "species": "DINOSAUR",
@@ -1289,6 +1289,6 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ],
-    "type": "MONSTER",
+    
   }
 ]
