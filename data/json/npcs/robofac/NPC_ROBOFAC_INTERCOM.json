@@ -139,7 +139,7 @@
     "followup": "MISSION_ROBOFAC_INTERCOM_3",
     "dialogue": {
       "describe": "…",
-      "offer": "When the portal storms started, the Government issued an evacuation order for critical XEDRA personnel and sent convoys to retrieve them, with our head of AI research among the recalled.  We recently discovered that he died when the convoy transferring him was ambushed in the initial chaos, but his corpse and memory bionic might remain intact enough for us to extract valuable knowledge.  We want you to travel to the location, make a copy of his Bionic Memory Unit, and return it to us. \n\nthe intercom: We offer the standard hazard pay of 4 HGC for this contract.",
+      "offer": "When the portal storms started, the Government issued an evacuation order for critical XEDRA personnel and sent convoys to retrieve them, with our head of AI research among the recalled.  We recently discovered that he died when the convoy transferring him was ambushed in the initial chaos, but his corpse and memory bionic might remain intact enough for us to extract valuable knowledge.  We want you to travel to the location, make a copy of his Bionic Memory Unit, and return it to us.\n\nthe intercom: We offer the standard hazard pay of 4 HGC for this contract.",
       "accepted": "Remember, perform the extraction /exactly/ as specified, otherwise the bionic will self-destruct.",
       "rejected": "Yes, we recognize that our request is exceptional.  Return if you change your mind.",
       "advice": "You do know what a memory unit looks like, right?  Matte gray, pill-sized, right in front of the corpus callosum.  We suggest a forceps through the eye socket, shaking slightly, then slowly and carefully…",
@@ -174,7 +174,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "…",
-      "offer": "Our facility once sourced advanced photonic circuitry from a nearby robotics manufacturer.  Their building suffered major damage during the portal storms, and collapsed almost entirely.  However, preliminary scouting reveals that the basement prototyping lab likely remains intact.\n\nthe intercom: We ask you to investigate the ruins, and if possible, retrieve a template for the fabrication of said photonic circuitry.  \n\nthe intercom: Completion of this contract awards 8 HGC, the standard heightened-hazard rate.",
+      "offer": "Our facility once sourced advanced photonic circuitry from a nearby robotics manufacturer.  Their building suffered major damage during the portal storms, and collapsed almost entirely.  However, preliminary scouting reveals that the basement prototyping lab likely remains intact.\n\nthe intercom: We ask you to investigate the ruins, and if possible, retrieve a template for the fabrication of said photonic circuitry.\n\nthe intercom: Completion of this contract awards 8 HGC, the standard heightened-hazard rate.",
       "accepted": "We expect your success, mercenary.",
       "rejected": "Return if you change your mind.",
       "advice": "The scout drone also revealed extensive heat signatures and high concentrations of toxic compounds within the ruins, plan accordingly.  We are willing to sell you some protective gear at a discount, if you require it.",
@@ -253,7 +253,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "…",
-      "offer": "We find ourselves in need of a robotic chassis of a TALON UGV.  Our scout drones have already revealed the location of a stray robot that fits our purposes, and we simply ask you to intercept it, disable it, and retrieve it for us.  We will equip you with a prototype gun fit for this purpose, if you accept. \n\nthe intercom: Completion of this contract awards 2, to compensate the cost of the provided gear.",
+      "offer": "We find ourselves in need of a robotic chassis of a TALON UGV.  Our scout drones have already revealed the location of a stray robot that fits our purposes, and we simply ask you to intercept it, disable it, and retrieve it for us.  We will equip you with a prototype gun fit for this purpose, if you accept.\n\nthe intercom: Completion of this contract awards 2, to compensate the cost of the provided gear.",
       "accepted": "Remember, the UGV you bring back must remain operational, a broken robot is of no use to us.",
       "rejected": "Regrettable, but understandable.  We will find someone else.",
       "advice": "The hm12 will only stun the robot if you manage to hit one of its sensors, so we suggest you to get as close as possible before making the shot.  You'll also have only one chance to make the shot, so it's better if you familiarize yourself with the gun beforehand.",
