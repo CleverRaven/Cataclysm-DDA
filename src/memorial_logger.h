@@ -23,7 +23,7 @@ class memorial_log_entry
 {
     public:
         memorial_log_entry() = default;
-        memorial_log_entry( const std::string &preformatted_msg );
+        explicit memorial_log_entry( const std::string &preformatted_msg );
         memorial_log_entry( time_point, const oter_type_str_id &, const std::string &oter_name,
                             const std::string &msg );
 

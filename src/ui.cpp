@@ -1048,7 +1048,7 @@ struct pointmenu_cb::impl_t {
     tripoint last_view; // to reposition the view after selecting
     shared_ptr_fast<game::draw_callback_t> terrain_draw_cb;
 
-    impl_t( const std::vector<tripoint> &pts );
+    explicit impl_t( const std::vector<tripoint> &pts );
     ~impl_t();
 
     void select( uilist *menu );

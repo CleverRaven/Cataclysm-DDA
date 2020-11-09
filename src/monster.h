@@ -85,7 +85,7 @@ class monster : public Creature
         friend class editmap;
     public:
         monster();
-        monster( const mtype_id &id );
+        explicit monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
         monster( const monster & );
         monster( monster && );

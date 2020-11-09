@@ -381,7 +381,7 @@ void check_martialarts()
 class ma_buff_effect_type : public effect_type
 {
     public:
-        ma_buff_effect_type( const ma_buff &buff ) {
+        explicit ma_buff_effect_type( const ma_buff &buff ) {
             id = buff.get_effect_id();
             max_intensity = buff.max_stacks;
             // add_effect add the duration to an existing effect, but it must never be

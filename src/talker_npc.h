@@ -25,7 +25,7 @@ struct tripoint;
 class talker_npc : public talker_character
 {
     public:
-        talker_npc( npc *new_me ): talker_character( new_me ), me_npc( new_me ) {
+        explicit talker_npc( npc *new_me ): talker_character( new_me ), me_npc( new_me ) {
         }
         ~talker_npc() override = default;
 

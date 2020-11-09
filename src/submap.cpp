@@ -279,7 +279,7 @@ void submap::rotate( int turns )
         // move the vehicle.
         elem->turn( turns * 90_degrees );
         // The facing direction and recalculate the positions of the parts
-        elem->face = elem->turn_dir;
+        elem->face = tileray( elem->turn_dir );
         elem->precalc_mounts( 0, elem->turn_dir, elem->pivot_anchor[0] );
     }
 

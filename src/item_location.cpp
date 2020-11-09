@@ -68,8 +68,8 @@ class item_location::impl
         class nowhere;
 
         impl() = default;
-        impl( item *i ) : what( i->get_safe_reference() ) {}
-        impl( int idx ) : idx( idx ), needs_unpacking( true ) {}
+        explicit impl( item *i ) : what( i->get_safe_reference() ) {}
+        explicit impl( int idx ) : idx( idx ), needs_unpacking( true ) {}
 
         virtual ~impl() = default;
 
@@ -199,13 +199,13 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         tripoint position() const override {
-            return cur;
+            return cur.pos();
         }
 
         std::string describe( const Character *ch ) const override {
-            std::string res = get_map().name( cur );
+            std::string res = get_map().name( cur.pos() );
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur );
+                res += std::string( " " ) += direction_suffix( ch->pos(), cur.pos() );
             }
             return res;
         }
@@ -236,7 +236,7 @@ class item_location::impl::item_on_map : public item_location::impl
             }
 
             int mv = ch.item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
-            mv += 100 * rl_dist( ch.pos(), cur );
+            mv += 100 * rl_dist( ch.pos(), cur.pos() );
 
             // TODO: handle unpacking costs
 
@@ -253,7 +253,7 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         units::volume volume_capacity() const override {
-            map_stack stack = get_map().i_at( cur );
+            map_stack stack = get_map().i_at( cur.pos() );
             return stack.free_volume();
         }
 
@@ -749,7 +749,7 @@ void item_location::deserialize( JsonIn &js )
         ptr.reset( new impl::item_on_person( who_id, idx ) );
 
     } else if( type == "map" ) {
-        ptr.reset( new impl::item_on_map( pos, idx ) );
+        ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) );
 
     } else if( type == "vehicle" ) {
         vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
@@ -762,7 +762,7 @@ void item_location::deserialize( JsonIn &js )
         obj.read( "parent", parent );
         if( !parent.ptr->valid() ) {
             debugmsg( "parent location does not point to valid item" );
-            ptr.reset( new impl::item_on_map( pos, idx ) ); // drop on ground
+            ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) ); // drop on ground
             return;
         }
         const std::list<item *> parent_contents = parent->contents.all_items_top();

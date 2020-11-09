@@ -43,7 +43,7 @@ class meal_schedule : public schedule
         void do_turn( avatar & ) const override;
         bool instantaneous() const override;
 
-        meal_schedule( const itype_id &eaten ) : food( eaten ) {}
+        explicit meal_schedule( const itype_id &eaten ) : food( eaten ) {}
 };
 
 class clear_guts : public schedule

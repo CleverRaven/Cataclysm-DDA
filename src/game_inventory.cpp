@@ -431,7 +431,7 @@ item_location game_menus::inv::container_for( Character &you, const item &liquid
 class pickup_inventory_preset : public inventory_selector_preset
 {
     public:
-        pickup_inventory_preset( const Character &p ) : p( p ) {}
+        explicit pickup_inventory_preset( const Character &p ) : p( p ) {}
 
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
@@ -489,7 +489,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return get_recipe( loc );
+            return !get_recipe( loc ).is_null();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -520,7 +520,7 @@ item_location game_menus::inv::disassemble( Character &p )
 class comestible_inventory_preset : public inventory_selector_preset
 {
     public:
-        comestible_inventory_preset( const player &p ) : p( p ) {
+        explicit comestible_inventory_preset( const player &p ) : p( p ) {
 
             _indent_entries = false;
 
@@ -877,7 +877,7 @@ item_location game_menus::inv::consume_meds( player &p )
 class activatable_inventory_preset : public pickup_inventory_preset
 {
     public:
-        activatable_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
+        explicit activatable_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
             if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
                 append_cell( [ this ]( const item_location & loc ) {
                     return string_format( "<color_light_green>%s</color>", get_action_name( *loc ) );
@@ -1026,7 +1026,7 @@ item_location game_menus::inv::gun_to_modify( player &p, const item &gunmod )
 class read_inventory_preset: public pickup_inventory_preset
 {
     public:
-        read_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
+        explicit read_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
             const std::string unknown = _( "<color_dark_gray>?</color>" );
 
             append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
@@ -1223,7 +1223,7 @@ item_location game_menus::inv::steal( avatar &you, player &victim )
 class weapon_inventory_preset: public inventory_selector_preset
 {
     public:
-        weapon_inventory_preset( const player &p ) : p( p ) {
+        explicit weapon_inventory_preset( const player &p ) : p( p ) {
             append_cell( [ this ]( const item_location & loc ) {
                 if( !loc->is_gun() ) {
                     return std::string();
@@ -1454,7 +1454,7 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
 class salvage_inventory_preset: public inventory_selector_preset
 {
     public:
-        salvage_inventory_preset( const salvage_actor *actor ) :
+        explicit salvage_inventory_preset( const salvage_actor *actor ) :
             actor( actor ) {
 
             append_cell( [ actor ]( const item_location & loc ) {
@@ -1987,7 +1987,7 @@ item_location game_menus::inv::install_bionic( player &p, player &patient, bool 
 class bionic_sterilize_preset : public inventory_selector_preset
 {
     public:
-        bionic_sterilize_preset( player &pl ) :
+        explicit bionic_sterilize_preset( player &pl ) :
             p( pl ) {
 
             append_cell( []( const item_location & ) {

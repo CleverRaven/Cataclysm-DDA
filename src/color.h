@@ -352,7 +352,7 @@ class nc_color
         // color is actually an ncurses attribute.
         int attribute_value;
 
-        nc_color( const int a ) : attribute_value( a ) { }
+        explicit nc_color( const int a ) : attribute_value( a ) { }
 
     public:
         nc_color() : attribute_value( 0 ) { }
@@ -363,7 +363,10 @@ class nc_color
         static nc_color from_color_pair_index( int index );
         int to_color_pair_index() const;
 
-        operator int() const {
+        explicit operator int() const {
+            return attribute_value;
+        }
+        int to_int() const {
             return attribute_value;
         }
 
@@ -376,6 +379,16 @@ class nc_color
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
+
+        friend bool operator==( const nc_color &l, const nc_color &r ) {
+            return l.attribute_value == r.attribute_value;
+        }
+        friend bool operator!=( const nc_color &l, const nc_color &r ) {
+            return !( l == r );
+        }
+        friend bool operator<( const nc_color &l, const nc_color &r ) {
+            return l.attribute_value < r.attribute_value;
+        }
 };
 
 // Support hashing of nc_color by forwarding the hash of the contained int.
@@ -467,7 +480,9 @@ class deferred_color
     private:
         color_id id;
     public:
+        // NOLINTNEXTLINE(google-explicit-constructor)
         deferred_color( const color_id id ) : id( id ) { }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator nc_color() const {
             return all_colors.get( id );
         }

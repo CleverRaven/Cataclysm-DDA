@@ -338,7 +338,7 @@ class wish_monster_callback: public uilist_callback
         monster tmp;
         const std::vector<const mtype *> &mtypes;
 
-        wish_monster_callback( const std::vector<const mtype *> &mtypes )
+        explicit wish_monster_callback( const std::vector<const mtype *> &mtypes )
             : mtypes( mtypes ) {
             friendly = false;
             hallucination = false;
@@ -496,7 +496,7 @@ class wish_item_callback: public uilist_callback
         std::string flags;
         std::string itype_flags;
         const std::vector<const itype *> &standard_itype_ids;
-        wish_item_callback( const std::vector<const itype *> &ids ) :
+        explicit wish_item_callback( const std::vector<const itype *> &ids ) :
             incontainer( false ), spawn_everything( false ), standard_itype_ids( ids ) {
         }
 
