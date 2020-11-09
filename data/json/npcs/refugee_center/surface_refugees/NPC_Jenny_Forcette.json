@@ -201,7 +201,7 @@
         "trial": { "type": "PERSUADE", "difficulty": 30 },
         "failure": { "topic": "TALK_REFUGEE_JENNY_Teach2_Sorry" },
         "success": { "topic": "TALK_REFUGEE_JENNY_Teach2" },
-        "condition": { "npc_compare_time_since_var": "Jenny_teach", "type": "timer", "context": "flag", "op": ">=", "time": "1 day" }
+        "condition": { "not": { "npc_compare_time_since_var": "Jenny_teach", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" } }
       },
       { "text": "Um, you know what?  Nevermind.  What were you saying?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
