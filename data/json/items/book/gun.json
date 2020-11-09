@@ -65,6 +65,7 @@
     "longest_side": "25 cm",
     "skill": "gun",
     "max_level": 2,
+    "//": "TK: add proficiencies to this book when that's an option",
     "intelligence": 10,
     "time": "35 m"
   }
