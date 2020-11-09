@@ -80,7 +80,7 @@ class advuilist_sourced : public advuilist<Container, T>
         void _registerSrc( slotidx_t c );
         void _ctxthandler( advuilist<Container, T> *ui, std::string const &action );
         void _printmap();
-        void _cycleslot( slotidx_t idx );
+        icon_t _cycleslot( slotidx_t idx, icon_t first = 0 );
         std::size_t _countactive( slotidx_t idx );
 
         // used only for source map window
@@ -135,20 +135,12 @@ void advuilist_sourced<Container, T>::addSource( slotidx_t slot, source_t const 
     }
 }
 
-// FIXME: try to clean this up on a fresh day
 template <class Container, typename T>
 void advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bool fallthrough )
 {
     slot_t &_slot = _sources[slot];
     slotcont_t &slotcont = std::get<slotcont_t>( _slot );
     icon_t _icon = icon == 0 ? std::get<icon_t>( _slot ) : icon;
-    // only set the icon if it (still) exists in this slot, otherwise use the first one in slot
-    // rebuild() needs to additionally check that the source is available
-    std::size_t const exists = slotcont.count( _icon );
-    if( exists == 0 or ( fallthrough and !std::get<fsourceb_t>( slotcont[_icon] )() ) ) {
-        _icon = std::get<icon_t const>( *slotcont.begin() );
-        _slot.first = _icon;
-    }
 
     source_t const &src = slotcont[_icon];
     if( std::get<fsourceb_t>( src )() ) {
@@ -159,10 +151,16 @@ void advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bo
         if( _mapui ) {
             _mapui->invalidate_ui();
         }
-    } else if( fallthrough ) {
-        // if we still don't have a valid source on rebuild(), empty the internal container
-        _container.clear();
-        advuilist<Container, T>::rebuild();
+    } else {
+        // if requested icon is not valid, set the first available one
+        icon_t next = _cycleslot( slot, slotcont.begin()->first );
+        if( next != 0 ) {
+            setSource( slot, next, fallthrough );
+        } else if( fallthrough ) {
+            // if we still don't have a valid source on rebuild(), empty the internal container
+            _container.clear();
+            advuilist<Container, T>::rebuild();
+        }
     }
 }
 
@@ -265,7 +263,10 @@ void advuilist_sourced<Container, T>::_ctxthandler( advuilist<Container, T> * /*
         slotidx_t slotidx = std::stoul( action.substr( ACTION_SOURCE_PRFX_len, action.size() ) );
         setSource( slotidx );
     } else if( action == ACTION_CYCLE_SOURCES ) {
-        _cycleslot( _cslot );
+        icon_t const next = _cycleslot( _cslot );
+        if( next != 0 ) {
+            setSource( _cslot, next );
+        }
     } else if( action == ACTION_NEXT_SLOT ) {
         setSource( _cslot == _sources.size() - 1 ? 0 : _cslot + 1 );
     } else if( action == ACTION_PREV_SLOT ) {
@@ -310,31 +311,27 @@ void advuilist_sourced<Container, T>::_printmap()
 }
 
 template <class Container, typename T>
-void advuilist_sourced<Container, T>::_cycleslot( slotidx_t idx )
+typename advuilist_sourced<Container, T>::icon_t
+advuilist_sourced<Container, T>::_cycleslot( slotidx_t idx, icon_t first )
 {
     slot_t &slot = _sources[idx];
-    icon_t const icon = std::get<icon_t>( slot );
+    icon_t const icon = first == 0 ? std::get<icon_t>( slot ) : first;
     slotcont_t &slotcont = std::get<slotcont_t>( slot );
 
-    if( slotcont.size() == 1 ) {
-        return;
+    auto it = slotcont.find( icon );
+    // start with the icon after the currently active one, unless we've rolled over
+    if( first == 0 ) {
+        ++it;
     }
-
-    // get the next available source in the current slot
-    auto it = ++slotcont.find( icon );
     for( ; it != slotcont.end(); ++it ) {
         if( std::get<fsourceb_t>( it->second )() ) {
-            break;
+            return it->first;
         }
     }
-    // roll over to the first source
-    if( it == slotcont.end() ) {
-        it = slotcont.begin();
-    }
-    // set active icon for this slot
-    slot.first = it->first;
 
-    setSource( _cslot, it->first );
+    // if we haven't found a good source, roll over to the beginning and try again
+    icon_t const _first = slotcont.begin()->first;
+    return first != _first ? _cycleslot( idx, _first ) : 0;
 }
 
 template <class Container, typename T>
