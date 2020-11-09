@@ -32,6 +32,7 @@
       { "group": "trait_group_STRONGBACK" },
       { "group": "Appearance_Caucasian" }
     ],
+    "proficiencies": [ "prof_basic_carpentry", "prof_carving", "prof_plumbing" ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "skill": "fabrication", "bonus": { "rng": [ 3, 4 ] } },
@@ -98,13 +99,33 @@
       {
         "text": "Got anything else I can help out with?",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "and": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
-                      { "not": { "u_has_var": "Boris_mission_3", "type": "mission", "context": "completed", "value": "yes" } }
+        "condition": {
+          "and": [
+            { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
+            { "not": { "u_has_var": "Boris_mission_3", "type": "mission", "context": "completed", "value": "yes" } }
+          ]
+        }
       },
       {
         "text": "So, have you had a chance to get that laptop working and look at it yet?",
         "topic": "TALK_REFUGEE_Boris_ReadLaptop1",
         "condition": { "u_has_var": "Boris_mission_3", "type": "mission", "context": "completed", "value": "yes" }
+      },
+      {
+        "text": "Now that you've got your tools and shop set up, do you think you could teach me a thing or two about construction?",
+        "topic": "TALK_REFUGEE_Boris_Teach",
+        "condition": {
+          "and": [
+            { "u_has_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" },
+            {
+              "npc_compare_time_since_var": "Boris_teach",
+              "type": "timer",
+              "context": "proficiency_teaching",
+              "op": ">=",
+              "time": "1 d"
+            }
+          ]
+        }
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Boris_Background" },
       { "text": "You don't seem to be doing great.", "topic": "TALK_REFUGEE_Boris_Background_B" },
@@ -297,9 +318,19 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Teach",
+    "dynamic_line": "Yes, my friend.  You have done so much for me, I would be glad to teach you what I can.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Situation",
     "dynamic_line": "Everyone agrees this is bad.  Sleeping on a cot on the floor, crowded in with strangers, woken by zombies in the night.  To me, though, that is all just a drop in the bucket.  What is killing me is being forced to sit with nothing but my thoughts of what I've lost.",
     "responses": [
+      { "text": "Great!  let's get started.", "effect": "start_training" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -311,27 +342,19 @@
     "responses": [
       { "text": "Sure, my friend.  I'd love to hear you brag about your boy.", "topic": "TALK_REFUGEE_Boris_ReadLaptop2" },
       { "text": "That sounds a bit heavy for me right now, let's talk about something else", "topic": "TALK_NONE" },
-      {
-        "text": "Not today, I have to get going.  Just glad I was able to help.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "Not today, I have to get going.  Just glad I was able to help.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_ReadLaptop2",
-    "dynamic_line": [ 
-       "[Boris boots up the laptop and opens a folder labelled 'ART'.  He shows you simple digital paintings, clearly done by an adolescent.  There's nothing terribly remarkable about them except the number: Ash was a prolific creator.  Boris goes through several, proudly showing how his son learned little lighting tricks, or reminiscing on the time his son showed him the art.  After a while, he stops commenting and just continues quietly clicking through photos.  He seems different in the glow of the screen, like several years dropped away from his face, despite the deep sadness still etched there.]",
-       "[Boris boots up the laptop and opens a folder labelled 'STORY 1'.  In it are numerous text files containing smatterings of stream-of-conscious notes, copy-and-pasted bits of fanfictions, notes about how to write a novel, and more.  The story itself is a handful of poorly fleshed out chapters written with the quality level you'd expect from a grade schooler.  Nonetheless it's quite impressive that there's this much stuff on a single topic.  Boris talks for a while about dinner conversations for weeks that wuold focus on Ash's ideas for his stories.  After a while, he trails off and just continues fliping through the files, reading silently.]",
-       "[Boris boots up the laptop and opens the videos folder.  He shows you several self-made videos that follow a loose blog style, of an awkward young man talking about his favorite games, interspersed with comments about art and writing.  Boris comments on little events and laughs a few times, before becoming engrossed in his reminiscence.]"
-     ],
+    "dynamic_line": [
+      "[Boris boots up the laptop and opens a folder labelled 'ART'.  He shows you simple digital paintings, clearly done by an adolescent.  There's nothing terribly remarkable about them except the number: Ash was a prolific creator.  Boris goes through several, proudly showing how his son learned little lighting tricks, or reminiscing on the time his son showed him the art.  After a while, he stops commenting and just continues quietly clicking through photos.  He seems different in the glow of the screen, like several years dropped away from his face, despite the deep sadness still etched there.]",
+      "[Boris boots up the laptop and opens a folder labelled 'STORY 1'.  In it are numerous text files containing smatterings of stream-of-conscious notes, copy-and-pasted bits of fanfictions, notes about how to write a novel, and more.  The story itself is a handful of poorly fleshed out chapters written with the quality level you'd expect from a grade schooler.  Nonetheless it's quite impressive that there's this much stuff on a single topic.  Boris talks for a while about dinner conversations for weeks that wuold focus on Ash's ideas for his stories.  After a while, he trails off and just continues fliping through the files, reading silently.]",
+      "[Boris boots up the laptop and opens the videos folder.  He shows you several self-made videos that follow a loose blog style, of an awkward young man talking about his favorite games, interspersed with comments about art and writing.  Boris comments on little events and laughs a few times, before becoming engrossed in his reminiscence.]"
+    ],
     "//": "I would like a specialized effect here that reduces the 'guilty about killing' morale penalty while also adding a small morale penalty of its own.",
-    "responses": [
-      {
-        "text": "(Leave Boris alone for now)",
-        "topic": "TALK_DONE"
-      }
-    ]
+    "responses": [ { "text": "(Leave Boris alone for now)", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
