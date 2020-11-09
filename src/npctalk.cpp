@@ -1759,10 +1759,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
                                    challenge );
     }
 
-    d_win.add_history_separator();
-
-    // Number of lines to highlight
-    const size_t hilight_lines = d_win.add_to_history( challenge );
+    d_win.add_to_history( challenge );
 
     apply_speaker_effects( topic );
 
@@ -1790,7 +1787,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         d_win.print_header( npc_name );
-        d_win.display_responses( hilight_lines, response_lines );
+        d_win.display_responses( response_lines );
     } );
 
     int ch = text_only ? 'a' + responses.size() - 1 : ' ';
@@ -1827,7 +1824,6 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
             okay = query_yn( _( "You'll be helpless!  Proceed?" ) );
         }
     } while( !okay );
-    d_win.add_history_separator();
 
     talk_response chosen = responses[ch];
     std::string response_printed = string_format( pgettext( "you say something", "You: %s" ),

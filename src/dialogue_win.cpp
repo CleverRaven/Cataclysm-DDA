@@ -32,6 +32,10 @@ void dialogue_window::resize_dialogue( ui_adaptor &ui )
         ui.position_from_window( d_win );
     }
     yoffset = 0;
+    draw_cache.clear();
+    for( size_t idx = 0; idx < history.size(); idx++ ) {
+        cache_msg( history[idx], idx );
+    }
 }
 
 void dialogue_window::print_header( const std::string &name )
@@ -60,33 +64,27 @@ void dialogue_window::clear_window_texts()
     print_header( npc_name );
 }
 
-size_t dialogue_window::add_to_history( const std::string &text )
+void dialogue_window::add_to_history( const std::string &msg )
 {
-    const auto folded = foldstring( text, getmaxx( d_win ) / 2 );
-    history.insert( history.end(), folded.begin(), folded.end() );
-    return folded.size();
+    size_t idx = history.size();
+    history.push_back( msg );
+    cache_msg( msg, idx );
 }
 
-// Empty line between lines of dialogue
-void dialogue_window::add_history_separator()
+void dialogue_window::print_history()
 {
-    history.push_back( "" );
-}
-
-void dialogue_window::print_history( const size_t hilight_lines )
-{
-    if( text_only ) {
+    if( text_only || history.empty() ) {
         return;
     }
     int curline = getmaxy( d_win ) - 2;
-    int curindex = history.size() - 1;
-    // index of the first line that is highlighted
-    int newindex = history.size() - hilight_lines;
+    int curindex = draw_cache.size() - 1;
+    // Highligh last message
+    size_t msg_to_highlight = history.size() - 1;
     // Print at line 2 and below, line 1 contains the header, line 0 the border
     while( curindex >= 0 && curline >= 2 ) {
-        // white for new text, light gray for old messages
-        nc_color const col = ( curindex >= newindex ) ? c_white : c_light_gray;
-        mvwprintz( d_win, point( 1, curline ), col, history[curindex] );
+        const std::pair<std::string, size_t> &msg = draw_cache[curindex];
+        const nc_color col = ( msg.second == msg_to_highlight ) ? c_white : c_light_gray;
+        mvwprintz( d_win, point( 1, curline ), col, draw_cache[curindex].first );
         curline--;
         curindex--;
     }
@@ -136,6 +134,15 @@ bool dialogue_window::print_responses( const int yoffset, const std::vector<talk
     return curline > max_line; // whether there is more to print.
 }
 
+void dialogue_window::cache_msg( const std::string &msg, size_t idx )
+{
+    const std::vector<std::string> folded = foldstring( msg, getmaxx( d_win ) / 2 );
+    draw_cache.push_back( {"", idx} );
+    for( const std::string &fs : folded ) {
+        draw_cache.push_back( {fs, idx} );
+    }
+}
+
 void dialogue_window::refresh_response_display()
 {
     yoffset = 0;
@@ -168,15 +175,14 @@ void dialogue_window::handle_scrolling( const int ch )
     }
 }
 
-void dialogue_window::display_responses( const int hilight_lines,
-        const std::vector<talk_data> &responses )
+void dialogue_window::display_responses( const std::vector<talk_data> &responses )
 {
     if( text_only ) {
         return;
     }
     const int win_maxy = getmaxy( d_win );
     clear_window_texts();
-    print_history( hilight_lines );
+    print_history();
     can_scroll_down = print_responses( yoffset, responses );
     can_scroll_up = yoffset > 0;
     if( can_scroll_up ) {
