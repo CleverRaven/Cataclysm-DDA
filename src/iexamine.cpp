@@ -1028,7 +1028,7 @@ void iexamine::intercom( player &p, const tripoint &examp )
     if( intercom_npcs.empty() ) {
         p.add_msg_if_player( m_info, _( "No one responds." ) );
     } else {
-        intercom_npcs.front()->talk_to_u( false, false );
+        intercom_npcs.front()->talk_to_u( false );
     }
 }
 

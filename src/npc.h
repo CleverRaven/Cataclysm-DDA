@@ -926,7 +926,7 @@ class npc : public player
         int follow_distance() const;
 
         // Dialogue and bartering--see npctalk.cpp
-        void talk_to_u( bool text_only = false, bool radio_contact = false );
+        void talk_to_u( bool radio_contact = false );
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
         // Use and assessment of items

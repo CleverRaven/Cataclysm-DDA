@@ -731,7 +731,7 @@ void npc_chatbin::check_missions()
     ma.erase( last, ma.end() );
 }
 
-void npc::talk_to_u( bool text_only, bool radio_contact )
+void npc::talk_to_u( bool radio_contact )
 {
     if( g->u.is_dead_state() ) {
         set_attitude( NPCATT_NULL );
@@ -848,7 +848,6 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     decide_needs();
 
     dialogue_window d_win;
-    d_win.open_dialogue( text_only );
     // Main dialogue loop
     do {
         if( chatbin.mission_selected != nullptr ) {
@@ -1732,7 +1731,6 @@ const talk_topic &special_talk( char ch )
 talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
                           const talk_topic &topic )
 {
-    bool text_only = d_win.text_only;
     std::string challenge = dynamic_line( topic );
     gen_responses( topic );
     // Put quotes around challenge (unless it's an action)
@@ -1787,15 +1785,13 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
         d_win.display_responses( response_lines );
     } );
 
-    int ch = text_only ? 'a' + responses.size() - 1 : ' ';
+    int ch;
     bool okay;
     do {
         d_win.refresh_response_display();
         do {
             ui_manager::redraw();
-            if( !text_only ) {
-                ch = inp_mngr.get_input_event().get_first_input();
-            }
+            ch = inp_mngr.get_input_event().get_first_input();
             d_win.handle_scrolling( ch );
             auto st = special_talk( ch );
             if( st.id != "TALK_NONE" ) {

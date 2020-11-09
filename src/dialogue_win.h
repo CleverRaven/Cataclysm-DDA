@@ -23,11 +23,8 @@ class dialogue_window
 {
     public:
         dialogue_window() = default;
-        void open_dialogue( bool text_only = false );
         void resize_dialogue( ui_adaptor &ui );
         void print_header( const std::string &name );
-
-        bool text_only = false;
 
         void clear_window_texts();
         void handle_scrolling( int ch );

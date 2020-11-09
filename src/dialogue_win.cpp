@@ -11,26 +11,14 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-void dialogue_window::open_dialogue( bool text_only )
-{
-    if( text_only ) {
-        this->text_only = true;
-        return;
-    }
-}
-
 void dialogue_window::resize_dialogue( ui_adaptor &ui )
 {
-    if( text_only ) {
-        ui.position( point_zero, point_zero );
-    } else {
-        int win_beginy = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
-        int win_beginx = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
-        int maxy = win_beginy ? TERMY - 2 * win_beginy : FULL_SCREEN_HEIGHT;
-        int maxx = win_beginx ? TERMX - 2 * win_beginx : FULL_SCREEN_WIDTH;
-        d_win = catacurses::newwin( maxy, maxx, point( win_beginx, win_beginy ) );
-        ui.position_from_window( d_win );
-    }
+    int win_beginy = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
+    int win_beginx = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
+    int maxy = win_beginy ? TERMY - 2 * win_beginy : FULL_SCREEN_HEIGHT;
+    int maxx = win_beginx ? TERMX - 2 * win_beginx : FULL_SCREEN_WIDTH;
+    d_win = catacurses::newwin( maxy, maxx, point( win_beginx, win_beginy ) );
+    ui.position_from_window( d_win );
     curr_page = 0;
     draw_cache.clear();
     for( size_t idx = 0; idx < history.size(); idx++ ) {
@@ -40,9 +28,6 @@ void dialogue_window::resize_dialogue( ui_adaptor &ui )
 
 void dialogue_window::print_header( const std::string &name )
 {
-    if( text_only ) {
-        return;
-    }
     draw_border( d_win );
     int win_midx = getmaxx( d_win ) / 2;
     int winy = getmaxy( d_win );
@@ -57,9 +42,6 @@ void dialogue_window::print_header( const std::string &name )
 
 void dialogue_window::clear_window_texts()
 {
-    if( text_only ) {
-        return;
-    }
     werase( d_win );
     print_header( npc_name );
 }
@@ -73,7 +55,7 @@ void dialogue_window::add_to_history( const std::string &msg )
 
 void dialogue_window::print_history()
 {
-    if( text_only || history.empty() ) {
+    if( history.empty() ) {
         return;
     }
     int curline = getmaxy( d_win ) - 2;
@@ -177,9 +159,6 @@ void dialogue_window::refresh_response_display()
 
 void dialogue_window::handle_scrolling( const int ch )
 {
-    if( text_only ) {
-        return;
-    }
     switch( ch ) {
         case KEY_DOWN:
         case KEY_NPAGE:
@@ -200,35 +179,31 @@ void dialogue_window::handle_scrolling( const int ch )
 
 void dialogue_window::display_responses( const std::vector<talk_data> &responses )
 {
-    if( text_only ) {
-        return;
-    }
     const int win_maxy = getmaxy( d_win );
     clear_window_texts();
     print_history();
 
-    if( !text_only ) {
-        // TODO: cache paged entries
-        // -2 for borders, -2 for your name + newline, -4 for keybindings
-        const int page_h = getmaxy( d_win ) - 2 - 2 - 4;
-        const int page_w = getmaxx( d_win ) / 2 - 4; // -4 for borders + padding
-        const std::vector<page> pages = split_to_pages( responses, page_w, page_h );
-        if( !pages.empty() ) {
-            if( curr_page >= pages.size() ) {
-                curr_page = pages.size() - 1;
-            }
-            print_responses( d_win, pages[curr_page] );
+    // TODO: cache paged entries
+    // -2 for borders, -2 for your name + newline, -4 for keybindings
+    const int page_h = getmaxy( d_win ) - 2 - 2 - 4;
+    const int page_w = getmaxx( d_win ) / 2 - 4; // -4 for borders + padding
+    const std::vector<page> pages = split_to_pages( responses, page_w, page_h );
+    if( !pages.empty() ) {
+        if( curr_page >= pages.size() ) {
+            curr_page = pages.size() - 1;
         }
-        print_keybindings( d_win );
-        can_scroll_up = curr_page > 0;
-        can_scroll_down = curr_page + 1 < pages.size();
-
-        if( can_scroll_up ) {
-            mvwprintz( d_win, point( getmaxx( d_win ) - 2 - 2, 2 ), c_green, "^^" );
-        }
-        if( can_scroll_down ) {
-            mvwprintz( d_win, point( FULL_SCREEN_WIDTH - 2 - 2, win_maxy - 2 ), c_green, "vv" );
-        }
+        print_responses( d_win, pages[curr_page] );
     }
+    print_keybindings( d_win );
+    can_scroll_up = curr_page > 0;
+    can_scroll_down = curr_page + 1 < pages.size();
+
+    if( can_scroll_up ) {
+        mvwprintz( d_win, point( getmaxx( d_win ) - 2 - 2, 2 ), c_green, "^^" );
+    }
+    if( can_scroll_down ) {
+        mvwprintz( d_win, point( FULL_SCREEN_WIDTH - 2 - 2, win_maxy - 2 ), c_green, "vv" );
+    }
+
     wrefresh( d_win );
 }

@@ -898,7 +898,7 @@ void faction_manager::display() const
                 popup( _( "%s returns from their mission" ), guy->disp_name() );
             } else {
                 if( tab == tab_mode::TAB_FOLLOWERS && guy && ( interactable || radio_interactable ) ) {
-                    guy->talk_to_u( false, radio_interactable );
+                    guy->talk_to_u( radio_interactable );
                 } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
                     camp->query_new_name();
                 }
