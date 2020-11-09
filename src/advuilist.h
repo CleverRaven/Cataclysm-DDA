@@ -840,9 +840,8 @@ template <class Container, typename T>
 typename advuilist<Container, T>::pagecont_t::size_type
 advuilist<Container, T>::_idxtopage( typename list_t::size_type idx )
 {
-    // FIXME: this hack me no likey
     typename pagecont_t::size_type cpage = 0;
-    while( _pages[cpage].first < idx and idx >= _pages[cpage].second ) {
+    while( _pages[cpage].second != 0 and _pages[cpage].second <= idx ) {
         cpage++;
     }
     return cpage;
@@ -883,7 +882,9 @@ void advuilist<Container, T>::_decidx( std::size_t amount )
 template <class Container, typename T>
 void advuilist<Container, T>::_setidx( std::size_t idx )
 {
-    _cidx = idx > _pages.back().second - 1 ? _pages.back().second - 1 : idx;
+    _cidx = _pages.back().second == 0
+            ? 0
+            : idx > _pages.back().second - 1 ? _pages.back().second - 1 : idx;
 }
 
 #endif // CATA_SRC_ADVUILIST_H
