@@ -879,7 +879,7 @@ void mapgen_road( mapgendata &dat )
     if( neighbor_sidewalks ) {
         // ordinary roads
         for( int pos = 0; pos < SEEY * 2 - 1; pos += 12 ) {
-            if(m->ter( point( 3, pos ) ) == t_sidewalk ) {
+            if( m->ter( point( 3, pos ) ) == t_sidewalk ) {
                 m->furn_set( point( 3, pos ), f_street_light );
             }
             if( m->ter( point( 20, pos ) ) == t_sidewalk ) {
