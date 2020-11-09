@@ -201,7 +201,8 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       },
       {
         "pocket_type": "CONTAINER",
@@ -209,7 +210,8 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       },
       {
         "pocket_type": "CONTAINER",
@@ -217,7 +219,8 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       },
       {
         "pocket_type": "CONTAINER",
@@ -225,7 +228,8 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       },
       {
         "pocket_type": "CONTAINER",
@@ -233,7 +237,8 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash javelins", "holster_msg": "You stash your %s." },

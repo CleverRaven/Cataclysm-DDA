@@ -384,30 +384,6 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_firestation1_living_area",
-    "description": "Let's expand our living areas, we'll use that far vehicle bay.",
-    "category": "CC_BUILDING",
-    "subcategory": "CSC_BUILDING_BASES",
-    "autolearn": false,
-    "never_learn": true,
-    "construction_blueprint": "fbmc_firestation1_living_area",
-    "blueprint_name": "build the living quarters walls",
-    "blueprint_requires": [ { "id": "fbmc_firestation1_0" } ],
-    "blueprint_provides": [ { "id": "fbmc_firestation1_quarters" } ],
-    "blueprint_excludes": [ { "id": "fbmc_firestation1_quarters" } ],
-    "blueprint_needs": {
-      "time": "15 h 54 m",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": {
-        "tools": [ [ [ "paint_brush", -1 ] ], [ [ "chipper", -1 ] ] ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 70 ] ], [ [ "nail", 180 ] ], [ [ "wood_panel", 5 ] ], [ [ "hinge", 10 ] ], [ [ "w_paint", 900 ] ] ]
-      }
-    }
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_firestation1_living_area2",
     "description": "Let's furnish the southwest bedroom.",
     "category": "CC_BUILDING",

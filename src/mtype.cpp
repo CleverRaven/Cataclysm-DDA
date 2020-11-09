@@ -240,10 +240,15 @@ std::string mtype::get_description() const
     return description.translated();
 }
 
+ascii_art_id mtype::get_picture_id() const
+{
+    return picture_id;
+}
+
 std::string mtype::get_footsteps() const
 {
-    for( const species_id &s : species ) {
-        return s.obj().get_footsteps();
+    if( !species.empty() ) {
+        return species.begin()->obj().get_footsteps();
     }
     return _( "footsteps." );
 }

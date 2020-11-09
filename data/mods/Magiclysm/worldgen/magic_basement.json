@@ -96,12 +96,12 @@
     "name": "magic door",
     "color": "brown",
     "symbol": "+",
-    "visibility": 99,
+    "visibility": 1,
     "avoidance": 99,
     "difficulty": 99,
     "action": "map_regen",
     "map_regen": "magic_door_appear",
-    "benign": true
+    "benign": false
   },
   {
     "type": "mapgen",

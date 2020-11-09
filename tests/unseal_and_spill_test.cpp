@@ -275,6 +275,7 @@ void test_scenario::run()
     const itype_id test_watertight_open_sealed_multipocket_container_2x1L( "test_watertight_open_sealed_multipocket_container_2x1L" );
     const itype_id test_liquid_1ml( "test_liquid_1ml" );
     const itype_id test_solid_1ml( "test_solid_1ml" );
+    const itype_id test_rag("test_rag");
     const itype_id test_restricted_container_holder( "test_restricted_container_holder" );
     // *INDENT-ON*
 
@@ -416,11 +417,12 @@ void test_scenario::run()
             break;
         }
         case container_location::vehicle: {
-            vehicle *veh = here.add_vehicle( vproto_id( "test_cargo_space" ), guy.pos(), -90, 0, 0 );
+            vehicle *veh = here.add_vehicle( vproto_id( "test_cargo_space" ), guy.pos(),
+                                             -90_degrees, 0, 0 );
             REQUIRE( veh );
             here.board_vehicle( guy.pos(), &guy );
-            cata::optional<vpart_reference> vp = here.veh_at( guy.pos() )
-                                                 .part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
+            cata::optional<vpart_reference> vp =
+                here.veh_at( guy.pos() ).part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
             REQUIRE( vp.has_value() );
             cata::optional<vehicle_stack::iterator> added = veh->add_item( vp->part(), it );
             REQUIRE( added.has_value() );
@@ -439,8 +441,8 @@ void test_scenario::run()
     }
     if( guy.weapon.is_null() ) {
         // so the guy does not wield spilled solid items
-        item solid( test_solid_1ml );
-        REQUIRE( guy.wield( solid ) );
+        item rag( test_rag );
+        REQUIRE( guy.wield( rag ) );
     }
 
     std::string player_action_str;
@@ -848,7 +850,7 @@ void test_scenario::run()
     if( cur_container_loc != container_location::wielded ) {
         REQUIRE( !wielded_results.has_value() );
         wielded_results = final_result {
-            test_solid_1ml,
+            test_rag,
             false,
             false,
             {}

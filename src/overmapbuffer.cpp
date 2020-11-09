@@ -556,7 +556,7 @@ std::array<std::array<scent_trace, 3>, 3> overmapbuffer::scents_near( const trip
     for( int x = -1; x <= 1 ; ++x ) {
         for( int y = -1; y <= 1; ++y ) {
             tripoint_abs_omt iter = origin + point( x, y );
-            found_traces[x][y] = scent_at( iter );
+            found_traces[x + 1][y + 1] = scent_at( iter );
         }
     }
 

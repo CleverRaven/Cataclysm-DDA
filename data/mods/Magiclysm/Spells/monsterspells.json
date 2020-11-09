@@ -117,5 +117,23 @@
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_demon_spiderling"
+  },
+  {
+    "type": "SPELL",
+    "id": "demon_breath_fire",
+    "name": { "str": "Hellfire Belch" },
+    "description": "Spits supernatural napalm from your mouth.",
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "damage_type": "heat",
+    "max_level": 30,
+    "min_damage": 6,
+    "max_damage": 180,
+    "damage_increment": 6.0,
+    "min_range": 8,
+    "max_range": 12,
+    "range_increment": 0.1,
+    "effect": "attack",
+    "shape": "line",
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS" ]
   }
 ]

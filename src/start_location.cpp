@@ -405,7 +405,7 @@ void start_location::handle_heli_crash( player &u ) const
             // Damage + Bleed
             case 1:
             case 2:
-                u.make_bleed( bp, 6_minutes );
+                u.make_bleed( effect_source::empty(), bp, 6_minutes );
             /* fallthrough */
             case 3:
             case 4:

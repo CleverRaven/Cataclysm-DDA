@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "json.h"
 #include "messages.h"
 #include "output.h"
@@ -21,6 +20,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "units.h"
+#include "effect_source.h"
 
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_beartrap( "beartrap" );
@@ -397,6 +397,11 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
     } else {
         return false;
     }
+}
+
+bool effect_type::has_flag( const flag_id &flag ) const
+{
+    return flags.count( flag );
 }
 
 effect_rating effect_type::get_rating() const
@@ -1347,14 +1352,14 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
-    new_etype.flags = jo.get_tags( "flags" );
+    new_etype.flags = jo.get_tags<flag_str_id>( "flags" );
 
     effect_types[new_etype.id] = new_etype;
 }
 
-bool effect::has_flag( const std::string &flag ) const
+bool effect::has_flag( const flag_id &flag ) const
 {
-    return eff_type->flags.count( flag ) > 0;
+    return eff_type->has_flag( flag );
 }
 
 void reset_effect_types()
@@ -1372,6 +1377,11 @@ void effect_type::register_ma_buff_effect( const effect_type &eff )
     effect_types.insert( std::make_pair( eff.id, eff ) );
 }
 
+const effect_source &effect::get_source() const
+{
+    return this->source;
+}
+
 void effect::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -1381,6 +1391,7 @@ void effect::serialize( JsonOut &json ) const
     json.member( "permanent", permanent );
     json.member( "intensity", intensity );
     json.member( "start_turn", start_time );
+    json.member( "source", source );
     json.end_object();
 }
 void effect::deserialize( JsonIn &jsin )
@@ -1402,6 +1413,7 @@ void effect::deserialize( JsonIn &jsin )
     jo.read( "intensity", intensity );
     start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );
+    jo.read( "source", source );
 }
 
 std::string texitify_base_healing_power( const int power )

@@ -649,10 +649,11 @@ void editmap::draw_main_ui_overlay()
                                                           part_mod ) );
                         const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                         bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
-                        int veh_dir = veh.face.dir();
+                        units::angle veh_dir = veh.face.dir();
                         g->draw_vpart_override( map_p, vp_id, part_mod, veh_dir, draw_highlight, vp->mount() );
                     } else {
-                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0, false, point_zero );
+                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false,
+                                                point_zero );
                     }
                     g->draw_below_override( map_p, here.has_zlevels() &&
                                             tmpmap.ter( tmp_p ).obj().has_flag( TFLAG_NO_FLOOR ) );
@@ -745,15 +746,19 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, daylight_sight_range: %d," ),
                player_character.sight_range( g->light_level( player_character.posz() ) ),
                player_character.sight_range( current_daylight_level( calendar::turn ) ) );
-    mvwprintw( w_info, point( 1, off++ ), _( "transparency: %.5f, visibility: %.5f," ),
+    mvwprintw( w_info, point( 1, off++ ), _( "cache{transp:%.4f seen:%.4f cam:%.4f}" ),
                map_cache.transparency_cache[target.x][target.y],
-               map_cache.seen_cache[target.x][target.y] );
+               map_cache.seen_cache[target.x][target.y],
+               map_cache.camera_cache[target.x][target.y]
+             );
     map::apparent_light_info al = map::apparent_light_helper( map_cache, target );
     int apparent_light = static_cast<int>(
                              here.apparent_light_at( target, here.get_visibility_variables_cache() ) );
-    mvwprintw( w_info, point( 1, off++ ), _( "outside: %d obstructed: %d" ),
+    mvwprintw( w_info, point( 1, off++ ), _( "outside: %d obstructed: %d floor: %d" ),
                static_cast<int>( here.is_outside( target ) ),
-               static_cast<int>( al.obstructed ) );
+               static_cast<int>( al.obstructed ),
+               static_cast<int>( here.has_floor( target ) )
+             );
     mvwprintw( w_info, point( 1, off++ ), _( "light_at: %s" ),
                map_cache.lm[target.x][target.y].to_string() );
     mvwprintw( w_info, point( 1, off++ ), _( "apparent light: %.5f (%d)" ),
@@ -1437,7 +1442,10 @@ void editmap::edit_itm()
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
                             "burnt: %d" ), static_cast<int>( it.burnt ) );
             imenu.addentry( imenu_tags, true, -1, pgettext( "item manipulation debug menu entry",
-                            "tags: %s" ), debug_menu::iterable_to_string( it.item_tags, " " ) );
+                            "tags: %s" ), debug_menu::iterable_to_string( it.get_flags(), " ",
+            []( const flag_id & f ) {
+                return f.str();
+            } ) );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
                             "-[ light emission ]-" ) );
             imenu.addentry( imenu_savetest, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1466,7 +1474,10 @@ void editmap::edit_itm()
                             intval = static_cast<int>( it.burnt );
                             break;
                         case imenu_tags:
-                            strval = debug_menu::iterable_to_string( it.item_tags, " " );
+                            strval = debug_menu::iterable_to_string( it.get_flags(), " ",
+                            []( const flag_id & f ) {
+                                return f.str();
+                            } );
                             break;
                     }
                     string_input_popup popup;
@@ -1500,8 +1511,14 @@ void editmap::edit_itm()
                                 break;
                             case imenu_tags:
                                 const auto tags = debug_menu::string_to_iterable<std::vector<std::string>>( strval, " " );
-                                it.item_tags = cata::flat_set<std::string>( tags.begin(), tags.end() );
-                                imenu.entries[imenu_tags].txt = debug_menu::iterable_to_string( it.item_tags, " " );
+                                it.unset_flags();
+                                for( const auto &t : tags ) {
+                                    it.set_flag( flag_str_id( t ) );
+                                }
+                                imenu.entries[imenu_tags].txt = debug_menu::iterable_to_string(
+                                it.get_flags(), " ", []( const flag_id & f ) {
+                                    return f.str();
+                                } );
                                 break;
                         }
                     }

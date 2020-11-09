@@ -12,11 +12,11 @@
 
 static std::vector<cata_variant> flags_of_itype( const cata_variant &v )
 {
-    const std::set<std::string> &flags = v.get<itype_id>()->item_tags;
+    const auto &flags = v.get<itype_id>()->get_flags();
     std::vector<cata_variant> result;
     result.reserve( flags.size() );
-    for( const std::string &s : flags ) {
-        result.push_back( cata_variant::make<cata_variant_type::string>( s ) );
+    for( const flag_id &s : flags ) {
+        result.push_back( cata_variant::make<cata_variant_type::flag_id>( s ) );
     }
     return result;
 }
@@ -69,7 +69,7 @@ static std::vector<cata_variant> species_of_monster( const cata_variant &v )
 const std::unordered_map<std::string, event_field_transformation> event_field_transformations = {
     {
         "flags_of_itype",
-        {flags_of_itype, cata_variant_type::string, { cata_variant_type::itype_id}}
+        {flags_of_itype, cata_variant_type::flag_id, { cata_variant_type::itype_id}}
     },
     {
         "flags_of_terrain",

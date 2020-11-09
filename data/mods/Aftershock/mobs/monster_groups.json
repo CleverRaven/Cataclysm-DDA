@@ -108,7 +108,7 @@
     "//": "Brute upgrades",
     "monsters": [
       { "monster": "mon_zombie_upliftedbear", "freq": 112, "cost_multiplier": 10 },
-      { "monster": "mon_uplifted_ape_zed", "freq": 100, "cost_multiplier": 50 },
+      { "monster": "mon_uplifted_ape_zed", "freq": 100, "cost_multiplier": 10 },
       { "monster": "mon_zombie_oliphant", "freq": 70, "cost_multiplier": 10 }
     ]
   },
@@ -119,7 +119,17 @@
     "monsters": [
       { "monster": "mon_zombie_upliftedbear", "freq": 3, "cost_multiplier": 10 },
       { "monster": "mon_uplifted_ape_zed", "freq": 10, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_oliphant", "freq": 1, "cost_multiplier": 50 }
+      { "monster": "mon_zombie_oliphant", "freq": 1, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RIVER",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_uplifted_octupus", "freq": 3, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_upliftedoctopus", "freq": 1, "cost_multiplier": 10 }
     ]
   }
 ]

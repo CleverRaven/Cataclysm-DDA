@@ -12,7 +12,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "rifle_huge_amr_mag" ]
+        "item_restriction": [ "rifle_huge_amr_mag" ],
+        "rigid": true
       }
     ]
   },
@@ -26,7 +27,7 @@
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
     "extend": { "flags": [ "RELOAD_ONE" ] },
     "clip_size": 2,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle_huge": 2 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle_huge": 2 }, "rigid": true } ]
   },
   {
     "id": "rifle_huge_hmg",
@@ -41,7 +42,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "rifle_huge_belt" ]
+        "item_restriction": [ "rifle_huge_belt" ],
+        "rigid": true
       }
     ]
   }

@@ -345,7 +345,7 @@ TEST_CASE( "npc-movement" )
             }
             // create vehicles
             if( type == 'V' || type == 'W' || type == 'M' ) {
-                vehicle *veh = here.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
+                vehicle *veh = here.add_vehicle( vproto_id( "none" ), p, 270_degrees, 0, 0 );
                 REQUIRE( veh != nullptr );
                 veh->install_part( point_zero, vpart_frame_vertical );
                 veh->install_part( point_zero, vpart_seat );

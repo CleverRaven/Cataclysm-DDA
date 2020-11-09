@@ -287,6 +287,7 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
         { "item": "thermostat", "count": 1 },
+        { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "motor_small", "count": 1 }
       ]
     },
@@ -370,6 +371,7 @@
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "element", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "pipe_fittings", "count": [ 1, 3 ] },
         { "item": "pilot_light", "count": 1 }
       ]
     },
@@ -521,6 +523,7 @@
         { "item": "plastic_chunk", "count": [ 2, 12 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
         { "item": "laptop", "count": [ 2, 4 ] },
+        { "item": "pipe_fittings", "count": [ 2, 4 ] },
         { "item": "cable", "charges": [ 5, 10 ] }
       ]
     },
@@ -560,6 +563,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 8, 10 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "pipe_fittings", "count": [ 4, 8 ] },
         { "item": "motor", "count": 1 }
       ]
     },
@@ -598,6 +602,7 @@
         { "item": "steel_chunk", "count": 3 },
         { "item": "pipe", "count": 4 },
         { "item": "2x4", "count": 4 },
+        { "item": "pipe_fittings", "count": [ 1, 3 ] },
         { "item": "solar_panel", "count": 1 }
       ]
     },

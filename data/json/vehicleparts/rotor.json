@@ -2,6 +2,7 @@
   {
     "abstract": "helicopter_rotors",
     "type": "vehicle_part",
+    "categories": [ "movement" ],
     "location": "on_roof",
     "symbol": "X",
     "color": "light_blue",
@@ -12,7 +13,6 @@
   },
   {
     "id": "heavy_duty_military_rotor",
-    "categories": [ "Other" ],
     "copy-from": "helicopter_rotors",
     "type": "vehicle_part",
     "name": "heavy-duty military rotors",
@@ -28,7 +28,6 @@
   },
   {
     "id": "small_civilian_rotors",
-    "categories": [ "Other" ],
     "copy-from": "helicopter_rotors",
     "type": "vehicle_part",
     "name": "small helicopter rotors",
@@ -44,7 +43,6 @@
   },
   {
     "id": "heavy_duty_military_blackhawk_rotors",
-    "categories": [ "Other" ],
     "copy-from": "heavy_duty_military_rotor",
     "type": "vehicle_part",
     "name": "heavy-duty military Blackhawk rotors",
@@ -55,7 +53,6 @@
   },
   {
     "id": "heavy_duty_military_osprey_rotors",
-    "categories": [ "Other" ],
     "copy-from": "heavy_duty_military_rotor",
     "type": "vehicle_part",
     "name": "heavy-duty military Osprey rotors",

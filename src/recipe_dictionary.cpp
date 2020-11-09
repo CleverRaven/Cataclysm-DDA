@@ -15,6 +15,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "make_static.h"
 #include "mapgen.h"
 #include "optional.h"
 #include "output.h"
@@ -144,12 +145,11 @@ std::vector<const recipe *> recipe_subset::recent() const
 
     return res;
 }
-std::vector<const recipe *> recipe_subset::search( const std::string &txt,
-        const search_type key ) const
+std::vector<const recipe *> recipe_subset::search(
+    const std::string &txt, const search_type key,
+    const std::function<void( size_t, size_t )> &progress_callback ) const
 {
-    std::vector<const recipe *> res;
-
-    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+    auto predicate = [&]( const recipe * r ) {
         if( !*r || r->obsolete ) {
             return false;
         }
@@ -185,13 +185,24 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
             }
 
             case search_type::proficiency:
-                return lcmatch( r->required_proficiencies_string( nullptr ), txt ) ||
-                       lcmatch( r->used_proficiencies_string( nullptr ), txt );
+                return lcmatch( r->recipe_proficiencies_string(), txt );
 
             default:
                 return false;
         }
-    } );
+    };
+
+    std::vector<const recipe *> res;
+    size_t i = 0;
+    for( const recipe *r : recipes ) {
+        if( progress_callback ) {
+            progress_callback( i, recipes.size() );
+        }
+        if( predicate( r ) ) {
+            res.push_back( r );
+        }
+        ++i;
+    }
 
     return res;
 }
@@ -203,9 +214,11 @@ recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const 
     }
 }
 
-recipe_subset recipe_subset::reduce( const std::string &txt, const search_type key ) const
+recipe_subset recipe_subset::reduce(
+    const std::string &txt, const search_type key,
+    const std::function<void( size_t, size_t )> &progress_callback ) const
 {
-    return recipe_subset( *this, search( txt, key ) );
+    return recipe_subset( *this, search( txt, key, progress_callback ) );
 }
 recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
 {
@@ -377,7 +390,7 @@ void recipe_dictionary::find_items_on_loops()
     items_on_loops.clear();
     std::unordered_map<itype_id, std::vector<itype_id>> potential_components_of;
     for( const itype *i : item_controller->all() ) {
-        if( !i->comestible || i->item_tags.count( "NUTRIENT_OVERRIDE" ) ) {
+        if( !i->comestible || i->has_flag( STATIC( flag_str_id( "NUTRIENT_OVERRIDE" ) ) ) ) {
             continue;
         }
         std::vector<itype_id> &potential_components = potential_components_of[i->get_id()];

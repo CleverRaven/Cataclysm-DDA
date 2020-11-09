@@ -12,6 +12,7 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game_inventory.h"
 #include "input.h"
@@ -29,24 +30,6 @@
 #include "units_utility.h"
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
-
-static const std::string flag_AURA( "AURA" );
-static const std::string flag_BELTED( "BELTED" );
-static const std::string flag_FANCY( "FANCY" );
-static const std::string flag_FIT( "FIT" );
-static const std::string flag_FLOTATION( "FLOTATION" );
-static const std::string flag_HOOD( "HOOD" );
-static const std::string flag_OUTER( "OUTER" );
-static const std::string flag_OVERSIZE( "OVERSIZE" );
-static const std::string flag_PERSONAL( "PERSONAL" );
-static const std::string flag_POCKETS( "POCKETS" );
-static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
-static const std::string flag_SKINTIGHT( "SKINTIGHT" );
-static const std::string flag_SUPER_FANCY( "SUPER_FANCY" );
-static const std::string flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
-static const std::string flag_WAIST( "WAIST" );
-static const std::string flag_WATER_FRIENDLY( "WATER_FRIENDLY" );
-static const std::string flag_WATERPROOF( "WATERPROOF" );
 
 namespace
 {
@@ -344,7 +327,7 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
 
     if( worn_item.has_flag( flag_FIT ) ) {
         description_stack.push_back( _( "It fits you well." ) );
-    } else if( worn_item.has_flag( "VARSIZE" ) ) {
+    } else if( worn_item.has_flag( flag_VARSIZE ) ) {
         description_stack.push_back( _( "It could be refitted." ) );
     }
 
@@ -840,7 +823,7 @@ void player::sort_armor()
             if( loc ) {
                 // wear the item
                 cata::optional<std::list<item>::iterator> new_equip_it =
-                    wear( *loc.obtain( *this ) );
+                    wear( loc.obtain( *this ) );
                 if( new_equip_it ) {
                     const bodypart_id &bp = armor_cat[ tabindex ];
                     if( tabindex == num_of_parts || ( **new_equip_it ).covers( bp ) ) {
@@ -866,8 +849,9 @@ void player::sort_armor()
             // only equip if something valid selected!
             if( loc ) {
                 // wear the item
-                if( cata::optional<std::list<item>::iterator> new_equip_it =
-                        wear( *loc.obtain( *this ) ) ) {
+                cata::optional<std::list<item>::iterator> new_equip_it =
+                    wear( loc.obtain( *this ) );
+                if( new_equip_it ) {
                     // save iterator to cursor's position
                     std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
                     // reorder `worn` vector to place new item at cursor

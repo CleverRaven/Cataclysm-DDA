@@ -6,7 +6,7 @@
     "item": "battery_car",
     "fuel_type": "battery",
     "symbol": "o",
-    "categories": [ "Other" ],
+    "categories": [ "energy" ],
     "color": "yellow",
     "broken_color": "red",
     "durability": 120,
@@ -26,7 +26,6 @@
   },
   {
     "id": "battery_motorbike",
-    "categories": [ "Other" ],
     "copy-from": "battery_car",
     "type": "vehicle_part",
     "name": { "str": "motorbike battery" },
@@ -41,7 +40,6 @@
   },
   {
     "id": "battery_motorbike_small",
-    "categories": [ "Other" ],
     "copy-from": "battery_car",
     "type": "vehicle_part",
     "name": { "str": "motorbike battery, small" },
@@ -56,7 +54,6 @@
   },
   {
     "id": "large_storage_battery",
-    "categories": [ "Internal" ],
     "copy-from": "storage_battery",
     "type": "vehicle_part",
     "name": { "str": "large storage battery" },
@@ -71,7 +68,6 @@
   },
   {
     "id": "large_storage_battery_removable",
-    "categories": [ "Internal" ],
     "copy-from": "large_storage_battery",
     "type": "vehicle_part",
     "name": { "str": "swappable large storage battery" },
@@ -86,7 +82,6 @@
   },
   {
     "id": "medium_storage_battery",
-    "categories": [ "Internal" ],
     "copy-from": "storage_battery",
     "type": "vehicle_part",
     "name": { "str": "medium storage battery" },
@@ -103,7 +98,6 @@
   },
   {
     "id": "small_storage_battery",
-    "categories": [ "Internal" ],
     "copy-from": "storage_battery",
     "type": "vehicle_part",
     "name": { "str": "small storage battery" },
@@ -122,11 +116,11 @@
     "id": "storage_battery",
     "type": "vehicle_part",
     "name": { "str": "storage battery" },
+    "categories": [ "energy" ],
     "item": "storage_battery",
     "location": "fuel_source",
     "fuel_type": "battery",
     "symbol": "O",
-    "categories": [ "Internal" ],
     "color": "yellow",
     "broken_color": "red",
     "durability": 300,
@@ -145,7 +139,6 @@
   },
   {
     "id": "storage_battery_removable",
-    "categories": [ "Internal" ],
     "copy-from": "storage_battery",
     "type": "vehicle_part",
     "name": { "str": "swappable storage battery" },

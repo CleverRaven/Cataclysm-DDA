@@ -175,6 +175,8 @@ inline bool is_crafting_component( const item &component );
 class item : public visitable<item>
 {
     public:
+        using FlagsSetType = std::set<flag_id>;
+
         item();
 
         item( item && );
@@ -534,9 +536,11 @@ class item : public visitable<item>
          * stacks like "3 items-count-by-charge (5)".
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
-        bool stacks_with( const item &rhs, bool check_components = false ) const;
+        bool stacks_with( const item &rhs, bool check_components = false,
+                          bool combine_liquid = false ) const;
         /** combines two items together if possible. returns false if it fails. */
         bool combine( const item &rhs );
+        bool can_combine( const item &rhs ) const;
         /**
          * Merge charges of the other item into this item.
          * @return true if the items have been merged, otherwise false.
@@ -1430,7 +1434,8 @@ class item : public visitable<item>
         /**
          * @name Item flags
          *
-         * If you use any new flags, add a comment to doc/JSON_FLAGS.md and make sure your new
+         * If you use any new flags, add them to `flags.json`,
+         * add a comment to doc/JSON_FLAGS.md and make sure your new
          * flag does not conflict with any existing flag.
          *
          * Item flags are taken from the item type (@ref itype::item_tags), but also from the
@@ -1439,17 +1444,34 @@ class item : public visitable<item>
          * Gun mods that are attached to guns also contribute their flags to the gun item.
          */
         /*@{*/
-        bool has_flag( const std::string &flag ) const;
-        bool has_any_flag( const std::vector<std::string> &flags ) const;
+        bool has_flag( const flag_id &flag ) const;
+
+        template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
+        bool has_any_flag( const Container &flags ) const {
+            return std::any_of( flags.begin(), flags.end(), [&]( const T & flag ) {
+                return has_flag( flag );
+            } );
+        }
+
+        /**
+         * Checks whether item itself has given flag (doesn't check item type or gunmods).
+         * Essentially get_flags().count(f).
+         * Works faster than `has_flag`
+        */
+        bool has_own_flag( const flag_id &f ) const;
+
+        /** returs read-only set of flags of this item (not including flags from item type or gunmods) */
+        const FlagsSetType &get_flags() const;
 
         /** Idempotent filter setting an item specific flag. */
-        item &set_flag( const std::string &flag );
+        item &set_flag( const flag_id &flag );
 
         /** Idempotent filter removing an item specific flag */
-        item &unset_flag( const std::string &flag );
+        item &unset_flag( const flag_id &flag );
+
 
         /** Idempotent filter recursively setting an item specific flag on this item and its components. */
-        item &set_flag_recursive( const std::string &flag );
+        item &set_flag_recursive( const flag_id &flag );
 
         /** Removes all item specific flags. */
         void unset_flags();
@@ -1492,7 +1514,7 @@ class item : public visitable<item>
          * @param width If greater 0, the light is emitted in an arc, this is the angle of it.
          * @param direction The direction of the light arc. In degrees.
          */
-        bool getlight( float &luminance, int &width, int &direction ) const;
+        bool getlight( float &luminance, units::angle &width, units::angle &direction ) const;
         /**
          * How much light (see lightmap.cpp) the item emits (it's assumed to be circular).
          */
@@ -1856,7 +1878,7 @@ class item : public visitable<item>
         item *gunmod_find( const itype_id &mod );
         const item *gunmod_find( const itype_id &mod ) const;
         /** Get first attached gunmod with flag or nullptr if no such mod or item is not a gun */
-        item *gunmod_find_by_flag( const std::string &flag );
+        item *gunmod_find_by_flag( const flag_id &flag );
 
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
@@ -2165,6 +2187,8 @@ class item : public visitable<item>
         const use_function *get_use_internal( const std::string &use_name ) const;
         bool process_internal( player *carrier, const tripoint &pos, float insulation = 1,
                                temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
+        void iterate_covered_body_parts_internal( side s,
+                std::function<void( const bodypart_str_id & )> cb ) const;
         /**
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
@@ -2224,9 +2248,13 @@ class item : public visitable<item>
         std::list<item> components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
-        cata::flat_set<std::string> item_tags; // generic item specific flags
 
     private:
+        /** `true` if item has any of the flags that require processing in item::process_internal.
+         * This flag is reset to `true` if item tags are changed.
+         */
+        bool requires_tags_processing = true;
+        FlagsSetType item_tags; // generic item specific flags
         safe_reference_anchor anchor;
         const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;

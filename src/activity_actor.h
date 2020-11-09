@@ -200,7 +200,7 @@ class dig_activity_actor : public activity_actor
         std::string result_terrain;
         tripoint byproducts_location;
         int byproducts_count;
-        std::string byproducts_item_group;
+        item_group_id byproducts_item_group;
 
         /**
          * Returns true if @p other and `this` are "equivalent" in the sense that
@@ -261,7 +261,7 @@ class dig_channel_activity_actor : public activity_actor
         std::string result_terrain;
         tripoint byproducts_location;
         int byproducts_count;
-        std::string byproducts_item_group;
+        item_group_id byproducts_item_group;
 
         /**
          * Returns true if @p other and `this` are "equivalent" in the sense that
@@ -588,6 +588,7 @@ class consume_activity_actor : public activity_actor
         std::vector<item_location> consume_menu_selected_items;
         std::string consume_menu_filter;
         bool canceled = false;
+        activity_id type;
         /**
          * @pre @p other is a consume_activity_actor
          */
@@ -600,10 +601,11 @@ class consume_activity_actor : public activity_actor
         consume_activity_actor( const item_location &consume_location,
                                 std::vector<int> consume_menu_selections,
                                 const std::vector<item_location> &consume_menu_selected_items,
-                                const std::string &consume_menu_filter ) :
+                                const std::string &consume_menu_filter, activity_id type ) :
             consume_location( consume_location ), consume_menu_selections( consume_menu_selections ),
             consume_menu_selected_items( consume_menu_selected_items ),
-            consume_menu_filter( consume_menu_filter ) {}
+            consume_menu_filter( consume_menu_filter ),
+            type( type ) {}
 
         consume_activity_actor( const item_location &consume_location ) :
             consume_location( consume_location ), consume_menu_selections( std::vector<int>() ) {}
@@ -658,20 +660,20 @@ class try_sleep_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
-class unload_mag_activity_actor : public activity_actor
+class unload_activity_actor : public activity_actor
 {
     private:
         int moves_total;
         item_location target;
     public:
-        unload_mag_activity_actor( int moves_total, const item_location &target ) :
+        unload_activity_actor( int moves_total, const item_location &target ) :
             moves_total( moves_total ), target( target ) {}
         activity_id get_type() const override {
-            return activity_id( "ACT_UNLOAD_MAG" );
+            return activity_id( "ACT_UNLOAD" );
         }
 
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
-            const unload_mag_activity_actor &act = static_cast<const unload_mag_activity_actor &>( other );
+            const unload_activity_actor &act = static_cast<const unload_activity_actor &>( other );
             return target == act.target;
         }
 
@@ -683,7 +685,7 @@ class unload_mag_activity_actor : public activity_actor
         static void unload( Character &who, item_location &target );
 
         std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<unload_mag_activity_actor>( *this );
+            return std::make_unique<unload_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;

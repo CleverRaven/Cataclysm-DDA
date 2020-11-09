@@ -1,10 +1,10 @@
 #include "catch/catch.hpp"
 
-#include <map>
 #include <string>
 #include <vector>
 
 #include "enums.h"
+#include "flag.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -289,7 +289,7 @@ TEST_CASE( "max container volume", "[pocket][max_contains_volume]" )
 
         // 9mm ammo is 50 rounds per 250ml (or 200 rounds per liter), so this ammo box
         // should be exactly 1 liter in size, so it can contain this much ammo.
-        data_ammo_box.ammo_restriction.emplace( ammotype( "9mm" ), 200 );
+        data_ammo_box.ammo_restriction.emplace( ammotype( "test_9mm" ), 200 );
         REQUIRE_FALSE( data_ammo_box.ammo_restriction.empty() );
 
         // And because actual volume is derived from ammo needs, this volume should be ignored.
@@ -334,7 +334,7 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
         //      "ammo_restriction": { "9mm", 10 }
         //
         const int full_clip_qty = 10;
-        data_mag.ammo_restriction.emplace( ammotype( "9mm" ), full_clip_qty );
+        data_mag.ammo_restriction.emplace( ammotype( "test_9mm" ), full_clip_qty );
         item_pocket pocket_mag( &data_mag );
 
         WHEN( "it does not already contain any ammo" ) {
@@ -395,7 +395,7 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
 
 // Flag restriction
 // ----------------
-// The "flag_restriction" list from pocket data JSON gives compatible item flag(s) for this pocket.
+// The "get_flag_restrictions" list from pocket data JSON gives compatible item flag(s) for this pocket.
 // An item with any one of those tags may be inserted into the pocket.
 //
 // Related JSON fields:
@@ -441,14 +441,14 @@ TEST_CASE( "pocket with item flag restriction", "[pocket][flag_restriction]" )
     // items with any of those flags can be inserted in the pocket.
 
     GIVEN( "pocket with BELT_CLIP flag restriction" ) {
-        data_belt.flag_restriction.push_back( "BELT_CLIP" );
+        data_belt.add_flag_restriction( flag_BELT_CLIP );
         item_pocket pocket_belt( &data_belt );
 
         GIVEN( "item has BELT_CLIP flag" ) {
-            REQUIRE( screwdriver.has_flag( "BELT_CLIP" ) );
-            REQUIRE( sonic.has_flag( "BELT_CLIP" ) );
-            REQUIRE( halligan.has_flag( "BELT_CLIP" ) );
-            REQUIRE( axe.has_flag( "BELT_CLIP" ) );
+            REQUIRE( screwdriver.has_flag( flag_BELT_CLIP ) );
+            REQUIRE( sonic.has_flag( flag_BELT_CLIP ) );
+            REQUIRE( halligan.has_flag( flag_BELT_CLIP ) );
+            REQUIRE( axe.has_flag( flag_BELT_CLIP ) );
 
             WHEN( "item volume is less than min_item_volume" ) {
                 REQUIRE( screwdriver.volume() < data_belt.min_item_volume );
@@ -504,8 +504,8 @@ TEST_CASE( "pocket with item flag restriction", "[pocket][flag_restriction]" )
         }
 
         GIVEN( "item without BELT_CLIP flag" ) {
-            REQUIRE_FALSE( rag.has_flag( "BELT_CLIP" ) );
-            REQUIRE_FALSE( rock.has_flag( "BELT_CLIP" ) );
+            REQUIRE_FALSE( rag.has_flag( flag_BELT_CLIP ) );
+            REQUIRE_FALSE( rock.has_flag( flag_BELT_CLIP ) );
             // Ensure they are not too large otherwise
             REQUIRE_FALSE( rag.volume() > data_belt.max_contains_volume() );
             REQUIRE_FALSE( rock.volume() > data_belt.max_contains_volume() );
@@ -1115,7 +1115,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         REQUIRE( glockmag.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) );
         REQUIRE( glockmag.ammo_remaining() == 0 );
         // A single 9mm bullet
-        item glockammo( "9mm", calendar::turn, 1 );
+        item glockammo( "test_9mm_ammo", calendar::turn, 1 );
         REQUIRE( glockammo.is_ammo() );
         REQUIRE( glockammo.charges == 1 );
 

@@ -2,7 +2,7 @@
   {
     "result": "hollow_cane",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
@@ -10,16 +10,13 @@
     "time": "40 m",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_carpentry_basic", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 5 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "shillelagh",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -29,13 +26,13 @@
     "time": "360 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "tools": [ [ [ "char_smoker", 100 ] ] ],
     "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "edible_lard", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "shillelagh_weighted",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -45,7 +42,7 @@
     "autolearn": true,
     "qualities": [ { "id": "DRILL", "level": 1 } ],
     "using": [ [ "forging_standard", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking", "time_multiplier": 2 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "shillelagh", 1 ] ], [ [ "weights", 15, "LIST" ] ] ]
   },
@@ -62,7 +59,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "sewing_standard", 10 ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2 } ],
     "components": [ [ [ "leather", 5 ] ], [ [ "spring", 1 ] ], [ [ "weights", 10, "LIST" ] ] ]
   },
   {
@@ -76,7 +73,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "sewing_standard", 10 ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2 } ],
     "components": [ [ [ "leather", 2 ] ], [ [ "steel_tiny", 1, "LIST" ], [ "weights", 8, "LIST" ] ] ]
   },
   {
@@ -88,25 +85,27 @@
     "skill_used": "fabrication",
     "skills_required": [ "electronics", 3 ],
     "difficulty": 3,
-    "time": "15 m",
+    "time": "6 h",
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering", "fail_multiplier": 5 }, { "proficiency": "prof_shock_weapons" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "i_staff", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "2h_flail_wood",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "skills_required": [ "bashing", 2 ],
     "difficulty": 3,
-    "time": "32 m",
+    "time": "3 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick_long", 1 ] ], [ [ "leather", 5 ] ] ]
   },
   {
@@ -121,6 +120,13 @@
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" },
+      { "proficiency": "prof_carving", "fail_multiplier": 1 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1 }
+    ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
@@ -135,8 +141,9 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
     "proficiencies": [
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -145,26 +152,27 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cudgel",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "time": "1 m",
+    "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "nailboard",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "time": "1 m",
+    "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "nail", 6 ] ] ]
   },
   {
@@ -182,14 +190,15 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "nailbat",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "time": "1 m",
+    "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1 } ],
     "components": [ [ [ "bat", 1 ] ], [ [ "nail", 6 ] ] ]
   },
   {
@@ -206,7 +215,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sword_wood",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -214,47 +223,56 @@
     "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1 },
+      { "proficiency": "prof_carving", "fail_multiplier": 1 }
+    ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sword_nail",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "5 m",
+    "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1 } ],
     "components": [ [ [ "sword_wood", 1 ] ], [ [ "nail", 12 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "knuckle_steel",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "skills_required": [ "bashing", 1 ],
     "difficulty": 2,
-    "time": "20 m",
+    "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "rag", 4 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "knuckle_nail",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "time": "5 m",
+    "time": "10 m",
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage", 4 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1 },
+      { "proficiency": "prof_carving", "fail_multiplier": 1 }
+    ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "nail", 16 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
@@ -266,8 +284,10 @@
     "skill_used": "fabrication",
     "skills_required": [ "bashing", 1 ],
     "difficulty": 2,
-    "time": "20 m",
+    "time": "30 m",
     "book_learn": [ [ "recipe_melee", 1 ], [ "textbook_weapeast", 7 ] ],
+    "using": [ [ "sewing_standard", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.5 } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "leather", 4 ] ], [ [ "scrap", 8 ] ] ]
   },
@@ -278,7 +298,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "time": "1 m",
+    "time": "5 s",
     "reversible": true,
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
@@ -295,22 +315,23 @@
     "difficulty": 6,
     "time": "1 h",
     "book_learn": [ [ "recipe_melee", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 4 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "fail_multiplier": 5 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 10 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "tonfa_wood",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "skills_required": [ "bashing", 3 ],
     "difficulty": 4,
-    "time": "30 m",
+    "time": "2 h",
     "book_learn": [ [ "recipe_melee", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -327,7 +348,11 @@
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2.5 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "fail_multiplier": 5 },
+      { "proficiency": "prof_shock_weapons" },
+      { "proficiency": "prof_plasticworking", "fail_multiplier": 5 }
+    ],
     "components": [
       [ [ "plastic_chunk", 10 ] ],
       [ [ "amplifier", 2 ] ],
@@ -347,8 +372,10 @@
     "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 8 ], [ "recipe_melee", 6 ] ],
     "proficiencies": [
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" },
+      { "proficiency": "prof_carving", "fail_multiplier": 1 }
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -357,7 +384,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bokken",
     "byproducts": [ [ "splinter", 30 ] ],
     "category": "CC_WEAPON",
@@ -367,9 +394,10 @@
     "time": "5 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 6 ] ],
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 5 } ],
     "//": "Bokken is a single piece of wood, and the stout branch just isn't large enough.",
     "components": [
-      [ [ "log", 1 ] ],
+      [ [ "stick_long", 1 ] ],
       [
         [ "any_tallow", 2, "LIST" ],
         [ "cooking_oil", 16 ],
@@ -392,6 +420,13 @@
     "time": "3 h",
     "book_learn": [ [ "textbook_weapwest", 3 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" },
+      { "proficiency": "prof_carving", "fail_multiplier": 1 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1 }
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
@@ -406,13 +441,20 @@
     "time": "4 h",
     "book_learn": [ [ "textbook_weapwest", 5 ] ],
     "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" },
+      { "proficiency": "prof_carving", "fail_multiplier": 1 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1 }
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "q_staff",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -421,11 +463,12 @@
     "time": "18 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "i_staff",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -435,6 +478,11 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_weapwest", 2 ], [ "recipe_melee", 3 ] ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
     "components": [ [ [ "q_staff", 1 ] ] ]
   }
 ]

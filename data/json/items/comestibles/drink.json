@@ -539,7 +539,7 @@
     "description": "A sweet liquid with a vaguely fruity taste.  Having been pasteurized, it will last for a long time.",
     "price": 90,
     "price_postapoc": 150,
-    "flags": [ "EATEN_COLD", "IRREPLACEABLE_COMSUMABLE" ],
+    "flags": [ "EATEN_COLD", "IRREPLACEABLE_CONSUMABLE" ],
     "fun": 1
   },
   {
@@ -698,6 +698,16 @@
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
     "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_choc",
+    "name": { "str_sp": "chocolate milk" },
+    "copy-from": "milk",
+    "color": "brown",
+    "description": "Baby cow food, with chocolate added for adult humans.  Spoils rapidly.",
+    "calories": 272,
+    "fun": 6
   },
   {
     "type": "COMESTIBLE",
@@ -1164,5 +1174,29 @@
     "price": 490,
     "price_postapoc": 60,
     "fun": 14
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tomato_juice",
+    "name": "tomato juice",
+    "weight": "243 g",
+    "color": "red",
+    "spoils_in": "5 days",
+    "container": "bottle_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 40,
+    "healthy": 2,
+    "calories": 36,
+    "description": "A thick red liquid, made from tomatoes.  Not to everyone's taste, it is a healthy and refreshing drink when chilled.",
+    "price": 90,
+    "price_postapoc": 40,
+    "material": [ "tomato" ],
+    "primary_material": "water",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD" ],
+    "vitamins": [ [ "vitA", 10 ], [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ],
+    "fun": 2
   }
 ]

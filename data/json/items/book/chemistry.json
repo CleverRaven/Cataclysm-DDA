@@ -52,7 +52,7 @@
     "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
-    "intelligence": 12,
+    "intelligence": 13,
     "time": "45 m",
     "fun": -2
   },
@@ -71,7 +71,7 @@
     "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
-    "intelligence": 12,
+    "intelligence": 13,
     "time": "45 m",
     "fun": -2
   },
@@ -90,7 +90,7 @@
     "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
-    "intelligence": 12,
+    "intelligence": 13,
     "time": "45 m",
     "fun": -2
   },
@@ -109,7 +109,7 @@
     "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
-    "intelligence": 12,
+    "intelligence": 13,
     "time": "45 m",
     "fun": -4
   },
@@ -128,7 +128,7 @@
     "skill": "chemistry",
     "required_level": 7,
     "max_level": 7,
-    "intelligence": 12,
+    "intelligence": 13,
     "time": "45 m",
     "fun": -2
   },
@@ -147,7 +147,7 @@
     "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
-    "intelligence": 11,
+    "intelligence": 12,
     "time": "35 m",
     "fun": -1
   },
@@ -166,7 +166,7 @@
     "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
-    "intelligence": 12,
+    "intelligence": 13,
     "time": "45 m",
     "fun": -3
   },
@@ -189,7 +189,7 @@
     "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
-    "intelligence": 12,
+    "intelligence": 13,
     "time": "35 m",
     "fun": -2
   },
@@ -208,7 +208,7 @@
     "skill": "chemistry",
     "required_level": 8,
     "max_level": 8,
-    "intelligence": 12,
+    "intelligence": 13,
     "time": "45 m",
     "fun": -2
   },
@@ -227,7 +227,7 @@
     "skill": "chemistry",
     "required_level": 6,
     "max_level": 8,
-    "intelligence": 12,
+    "intelligence": 13,
     "time": "45 m",
     "fun": -4
   },
@@ -263,9 +263,9 @@
     "symbol": "?",
     "color": "blue",
     "skill": "chemistry",
-    "required_level": 4,
+    "required_level": 3,
     "max_level": 6,
-    "intelligence": 12,
+    "intelligence": 10,
     "time": "35 m",
     "fun": -1
   },

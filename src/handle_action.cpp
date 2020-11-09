@@ -31,6 +31,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h" // IWYU pragma: associated
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -119,14 +120,7 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
 
-static const std::string flag_LITCIG( "LITCIG" );
 static const std::string flag_LOCKED( "LOCKED" );
-static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
-static const std::string flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
-static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
-
-static const std::string flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -366,7 +360,7 @@ inline static void rcdrive( const point &d )
     auto rc_pairs = here.get_rc_items( c );
     auto rc_pair = rc_pairs.begin();
     for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
-        if( rc_pair->second->has_flag( "RADIOCAR" ) && rc_pair->second->active ) {
+        if( rc_pair->second->has_flag( flag_RADIOCAR ) && rc_pair->second->active ) {
             break;
         }
     }
@@ -560,32 +554,6 @@ static void close()
             ACTION_CLOSE, false ) ) {
         doors::close_door( get_map(), get_player_character(), *pnt );
     }
-}
-
-static void handbrake()
-{
-    Character &player_character = get_player_character();
-    const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
-    if( !vp ) {
-        return;
-    }
-    vehicle *const veh = &vp->vehicle();
-    add_msg( _( "You pull a handbrake." ) );
-    veh->cruise_velocity = 0;
-    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
-        veh->skidding = true;
-        add_msg( m_warning, _( "You lose control of %s." ), veh->name );
-        veh->turn( veh->last_turn > 0 ? 60 : -60 );
-    } else {
-        int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
-        if( std::abs( veh->velocity ) < braking_power ) {
-            veh->stop();
-        } else {
-            int sgn = veh->velocity > 0 ? 1 : -1;
-            veh->velocity = sgn * ( std::abs( veh->velocity ) - braking_power );
-        }
-    }
-    player_character.moves = 0;
 }
 
 // Establish or release a grab on a vehicle
@@ -1156,7 +1124,7 @@ static void loot()
     Character &player_character = get_player_character();
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = player_character.has_item_with_flag( "FERTILIZER" );
+    const bool has_fertilizer = player_character.has_item_with_flag( flag_FERTILIZER );
 
     // Manually update vehicle cache.
     // In theory this would be handled by the related activity (activity_on_turn_move_loot())
@@ -1288,7 +1256,7 @@ static void wear()
     item_location loc = game_menus::inv::wear( player_character );
 
     if( loc ) {
-        player_character.wear( *loc.obtain( player_character ) );
+        player_character.wear( loc );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -2078,7 +2046,7 @@ bool game::handle_action()
 
             case ACTION_EAT:
                 if( !avatar_action::eat_here( player_character ) ) {
-                    avatar_action::eat( player_character );
+                    avatar_action::eat( player_character, game_menus::inv::consume( player_character ) );
                 }
                 break;
 
@@ -2571,6 +2539,10 @@ bool game::handle_action()
                     break;    //don't do anything when sharing and not debugger
                 }
                 display_radiation();
+                break;
+
+            case ACTION_TOGGLE_HOUR_TIMER:
+                toggle_debug_hour_timer();
                 break;
 
             case ACTION_DISPLAY_TRANSPARENCY:

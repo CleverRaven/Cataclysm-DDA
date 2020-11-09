@@ -199,6 +199,29 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_dragonfly",
+    "name": "dragonfly egg",
+    "description": "The still wet egg of a mutated dragonfly.  Serves as a disgusting substitute for the real thing, just don't let it hatch in the water.",
+    "copy-from": "spider_egg",
+    "color": "light_green",
+    "symbol": "o",
+    "spoils_in": "2 days",
+    "rot_spawn": "GROUP_EGG_DRAGONFLY"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_firefly",
+    "name": "firefly egg",
+    "copy-from": "spider_egg",
+    "color": "yellow",
+    "symbol": "o",
+    "spoils_in": "1 day",
+    "description": "The fist-sized egg of a mutant firefly.  Glows faintly in the dark.",
+    "material": [ "egg" ],
+    "rot_spawn": "GROUP_EGG_FIREFLY"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "razorclaw_roe",
     "name": "razorclaw roe",
     "weight": "236 g",

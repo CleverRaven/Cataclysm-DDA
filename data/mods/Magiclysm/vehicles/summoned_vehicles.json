@@ -44,7 +44,7 @@
     "id": "mana_frame",
     "name": "mana frame",
     "symbol": "O",
-    "categories": [ "Cargo", "Internal" ],
+    "categories": [ "movement", "hull" ],
     "color": "magenta",
     "broken_symbol": "M",
     "broken_color": "red",

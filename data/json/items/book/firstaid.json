@@ -33,7 +33,7 @@
     "color": "pink",
     "skill": "firstaid",
     "max_level": 1,
-    "intelligence": 1,
+    "intelligence": 6,
     "time": "8 m",
     "fun": 1
   },
@@ -52,7 +52,7 @@
     "color": "green",
     "skill": "firstaid",
     "max_level": 3,
-    "intelligence": 7,
+    "intelligence": 8,
     "time": "20 m"
   },
   {
@@ -141,5 +141,24 @@
     "color": "blue",
     "intelligence": 4,
     "time": "30 m"
+  },
+  {
+    "id": "textbook_toxicology",
+    "type": "BOOK",
+    "name": { "str": "Textbook of Advanced Toxicology", "str_pl": "copies of Textbook of Advanced Toxicology" },
+    "description": "This unassuming volume details the broad spectrum of chemical and biological toxins known to modern medicine.  While the obvious focus of the book is the therapy of such poisonings, there are lengthy sections describing the structure and synthesis of some compounds of interest.",
+    "weight": "3000 g",
+    "volume": "1200 ml",
+    "price": 30000,
+    "price_postapoc": 5000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "firstaid",
+    "required_level": 5,
+    "max_level": 6,
+    "intelligence": 11,
+    "time": "45 m",
+    "fun": -2
   }
 ]

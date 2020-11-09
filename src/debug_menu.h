@@ -4,6 +4,7 @@
 
 #include <functional>
 #include <iosfwd>
+#include <string>
 
 #include "enum_traits.h"
 
@@ -77,6 +78,7 @@ enum class debug_menu_index : int {
     DISPLAY_LIGHTING,
     DISPLAY_TRANSPARENCY,
     DISPLAY_RADIATION,
+    HOUR_TIMER,
     LEARN_SPELLS,
     LEVEL_SPELLS,
     TEST_MAP_EXTRA_DISTRIBUTION,
@@ -96,6 +98,7 @@ void wishitem( player *p, const tripoint & );
 void wishmonster( const cata::optional<tripoint> &p );
 void wishmutate( player *p );
 void wishskill( player *p );
+void wishproficiency( player *p );
 void mutation_wish();
 void draw_benchmark( int max_difference );
 
@@ -108,28 +111,44 @@ _Container string_to_iterable( const std::string &str, const std::string &delimi
     _Container res;
 
     size_t pos = 0;
-    std::string s = str;
-    while( ( pos = s.find( delimiter ) ) != std::string::npos ) {
-        res.push_back( s.substr( 0, pos ) );
-        s.erase( 0, pos + delimiter.length() );
+    size_t start = 0;
+    while( ( pos = str.find( delimiter, start ) ) != std::string::npos ) {
+        if( pos > start ) {
+            res.push_back( str.substr( start, pos - start ) );
+        }
+        start = pos + delimiter.length();
     }
-    res.push_back( s );
+    if( start != str.length() ) {
+        res.push_back( str.substr( start, str.length() - start ) );
+    }
 
     return res;
 }
 
-/* Merges iterable elements into std::string with @param delimiter between them */
-template<typename _Container>
-std::string iterable_to_string( const _Container &values, const std::string &delimiter )
+/* Merges iterable elements into std::string with
+ * @param delimiter between them
+ * @param f is callable that is called to transform each value
+ * */
+template<typename _Container, typename Mapper>
+std::string iterable_to_string( const _Container &values, const std::string &delimiter,
+                                const Mapper &f )
 {
     std::string res;
     for( auto iter = values.begin(); iter != values.end(); ++iter ) {
         if( iter != values.begin() ) {
             res += delimiter;
         }
-        res += *iter;
+        res += f( *iter );
     }
     return res;
+}
+
+template<typename _Container>
+std::string iterable_to_string( const _Container &values, const std::string &delimiter )
+{
+    return iterable_to_string( values, delimiter, []( const std::string & f ) {
+        return f;
+    } );
 }
 
 } // namespace debug_menu

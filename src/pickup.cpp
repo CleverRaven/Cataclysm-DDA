@@ -150,7 +150,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
 
     offered_swap = true;
     // TODO: Gray out if not enough hands
-    if( u.is_armed() ) {
+    if( u.has_wield_conflicts( it ) ) {
         amenu.addentry( WIELD, u.can_unwield( u.weapon ).success(), 'w',
                         _( "Dispose of %s and wield %s" ), u.weapon.display_name(),
                         it.display_name() );
@@ -265,7 +265,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         }
     } else if( newit.made_of_from_type( phase_id::LIQUID ) && !newit.is_frozen_liquid() ) {
         got_water = true;
-    } else if( !player_character.can_pickWeight( newit, false ) ) {
+    } else if( !player_character.can_pickWeight_partial( newit, false ) ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "The %s is too heavy!" ),
                                          newit.display_name() );
@@ -283,7 +283,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         } else {
             option = CANCEL;
         }
-    } else if( !player_character.can_stash( newit ) ) {
+    } else if( !player_character.can_stash_partial( newit ) ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Not enough capacity to stash %s" ),
                                          newit.display_name() );
@@ -307,13 +307,9 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             picked_up = !!player_character.wear_item( newit );
             break;
         case WIELD: {
-            const auto wield_check = player_character.can_wield( it );
+            const auto wield_check = player_character.can_wield( newit );
             if( wield_check.success() ) {
-                //using original item, possibly modifying it
-                picked_up = player_character.wield( it );
-                if( picked_up ) {
-                    player_character.weapon.charges = newit.charges;
-                }
+                picked_up = player_character.wield( newit );
                 if( player_character.weapon.invlet ) {
                     add_msg( m_info, _( "Wielding %c - %s" ), player_character.weapon.invlet,
                              player_character.weapon.display_name() );
@@ -341,9 +337,34 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             }
         // Intentional fallthrough
         case STASH: {
-            item &added_it = player_character.i_add( newit, true, nullptr, /*allow_drop=*/false );
+            item &added_it = player_character.i_add( newit, true, nullptr, /*allow_drop=*/false,
+                             !newit.count_by_charges() );
             if( added_it.is_null() ) {
-                // failed to add, do nothing
+                // failed to add, fill pockets if it's a stack
+                if( newit.count_by_charges() ) {
+                    int remaining_charges = newit.charges;
+                    if( player_character.weapon.can_contain_partial( newit ) ) {
+                        int used_charges = player_character.weapon.fill_with( newit, remaining_charges );
+                        remaining_charges -= used_charges;
+                    }
+                    for( item &i : player_character.worn ) {
+                        if( remaining_charges == 0 ) {
+                            break;
+                        }
+                        if( i.can_contain_partial( newit ) ) {
+                            int used_charges = i.fill_with( newit, remaining_charges );
+                            remaining_charges -= used_charges;
+                        }
+                    }
+                    newit.charges -= remaining_charges;
+                    newit.on_pickup( player_character );
+                    if( newit.charges != 0 ) {
+                        auto &entry = mapPickup[newit.tname()];
+                        entry.second += newit.charges;
+                        entry.first = newit;
+                        picked_up = true;
+                    }
+                }
             } else if( &added_it == &it ) {
                 // merged to the original stack, restore original charges
                 it.charges -= newit.charges;
@@ -354,6 +375,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 entry.first = newit;
                 picked_up = true;
             }
+
             break;
         }
     }
@@ -622,12 +644,14 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         input_context ctxt( "PICKUP", keyboard_mode::keychar );
         ctxt.register_action( "UP" );
         ctxt.register_action( "DOWN" );
+        ctxt.register_action( "PAGE_UP" );
+        ctxt.register_action( "PAGE_DOWN" );
         ctxt.register_action( "RIGHT" );
         ctxt.register_action( "LEFT" );
         ctxt.register_action( "NEXT_TAB", to_translation( "Next page" ) );
         ctxt.register_action( "PREV_TAB", to_translation( "Previous page" ) );
-        ctxt.register_action( "SCROLL_UP" );
-        ctxt.register_action( "SCROLL_DOWN" );
+        ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
+        ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
         ctxt.register_action( "CONFIRM" );
         ctxt.register_action( "SELECT_ALL" );
         ctxt.register_action( "QUIT", to_translation( "Cancel" ) );
@@ -753,8 +777,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     }
 
                     int y = 1 + ( cur_it % maxitems );
-                    trim_and_print( w_pickup, point( 6, y ), pickupW - 4, icolor, item_name );
-                    pickup_rect rect = pickup_rect( point( 6, y ), point( 6 + pickupW - 4 - 1, y ) );
+                    trim_and_print( w_pickup, point( 6, y ), pickupW - 6, icolor, item_name );
+                    pickup_rect rect = pickup_rect( point( 6, y ), point( pickupW - 1, y ) );
                     rect.cur_it = cur_it;
                     pickup_rect::list.push_back( rect );
                 }
@@ -803,6 +827,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             // -2 lines for border, -2 to preserve a line at top/bottom for context
             const int scroll_lines = catacurses::getmaxy( w_item_info ) - 4;
             int idx = -1;
+            int recmax = static_cast<int>( matches.size() );
+            int scroll_rate = recmax > 20 ? 10 : 3;
 
             if( action == "ANY_INPUT" &&
                 raw_input_char >= '0' && raw_input_char <= '9' ) {
@@ -825,9 +851,9 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     }
                 }
 
-            } else if( action == "SCROLL_UP" ) {
+            } else if( action == "SCROLL_ITEM_INFO_UP" ) {
                 iScrollPos -= scroll_lines;
-            } else if( action == "SCROLL_DOWN" ) {
+            } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
                 iScrollPos += scroll_lines;
             } else if( action == "PREV_TAB" ) {
                 if( start > 0 ) {
@@ -837,7 +863,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 }
                 selected = start;
             } else if( action == "NEXT_TAB" ) {
-                if( start + maxitems < static_cast<int>( matches.size() ) ) {
+                if( start + maxitems < recmax ) {
                     start += maxitems;
                 } else {
                     start = 0;
@@ -850,7 +876,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 if( selected < 0 ) {
                     selected = matches.size() - 1;
                     start = static_cast<int>( matches.size() / maxitems ) * maxitems;
-                    if( start >= static_cast<int>( matches.size() ) ) {
+                    if( start >= recmax ) {
                         start -= maxitems;
                     }
                 } else if( selected < start ) {
@@ -859,13 +885,49 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             } else if( action == "DOWN" ) {
                 selected++;
                 iScrollPos = 0;
-                if( selected >= static_cast<int>( matches.size() ) ) {
+                if( selected >= recmax ) {
                     selected = 0;
                     start = 0;
                 } else if( selected >= start + maxitems ) {
                     start += maxitems;
                 }
-            } else if( selected >= 0 && selected < static_cast<int>( matches.size() ) &&
+            } else if( action == "PAGE_DOWN" ) {
+                if( selected == recmax - 1 ) {
+                    selected = 0;
+                    start = 0;
+                } else if( selected + scroll_rate >= recmax ) {
+                    selected = recmax - 1;
+                    if( selected >= start + maxitems ) {
+                        start += maxitems;
+                    }
+                } else {
+                    selected += +scroll_rate;
+                    iScrollPos = 0;
+                    if( selected >= recmax ) {
+                        selected = 0;
+                        start = 0;
+                    } else if( selected >= start + maxitems ) {
+                        start += maxitems;
+                    }
+                }
+            } else if( action == "PAGE_UP" ) {
+                if( selected == 0 ) {
+                    selected = recmax - 1;
+                    start = static_cast<int>( matches.size() / maxitems ) * maxitems;
+                    if( start >= recmax ) {
+                        start -= maxitems;
+                    }
+                } else if( selected <= scroll_rate ) {
+                    selected = 0;
+                    start = 0;
+                } else {
+                    selected += -scroll_rate;
+                    iScrollPos = 0;
+                    if( selected < start ) {
+                        start -= maxitems;
+                    }
+                }
+            } else if( selected >= 0 && selected < recmax &&
                        ( ( action == "RIGHT" && !getitem[matches[selected]].pick ) ||
                          ( action == "LEFT" && getitem[matches[selected]].pick ) ) ) {
                 idx = selected;

@@ -2,6 +2,7 @@
   {
     "abstract": "engine_combustion",
     "type": "vehicle_part",
+    "categories": [ "movement" ],
     "location": "engine_block",
     "symbol": "*",
     "color": "light_red",
@@ -57,7 +58,6 @@
   },
   {
     "id": "diesel_engine_i6",
-    "categories": [ "Internal" ],
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
     "item": "i6_diesel",
@@ -79,7 +79,6 @@
   },
   {
     "id": "diesel_engine_v6",
-    "categories": [ "Internal" ],
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
     "item": "v6_diesel",
@@ -101,7 +100,6 @@
   },
   {
     "id": "diesel_engine_v8",
-    "categories": [ "Internal" ],
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
     "item": "v8_diesel",
@@ -123,7 +121,6 @@
   },
   {
     "id": "engine_1cyl",
-    "categories": [ "Internal" ],
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "1cyl_combustion",
@@ -148,7 +145,6 @@
   },
   {
     "id": "engine_1cyl_large",
-    "categories": [ "Internal" ],
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "1cyl_combustion_large",
@@ -173,7 +169,6 @@
   },
   {
     "id": "engine_1cyl_small",
-    "categories": [ "Internal" ],
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "1cyl_combustion_small",
@@ -199,7 +194,6 @@
   },
   {
     "id": "engine_aero_light",
-    "categories": [ "Internal" ],
     "copy-from": "aero_engine",
     "type": "vehicle_part",
     "item": "aero_engine_light",
@@ -221,7 +215,6 @@
   },
   {
     "id": "engine_inline4",
-    "categories": [ "Internal" ],
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "i4_combustion",
@@ -243,7 +236,6 @@
   },
   {
     "id": "engine_v12",
-    "categories": [ "Internal" ],
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "v12_combustion",
@@ -265,7 +257,6 @@
   },
   {
     "id": "diesel_engine_v12",
-    "categories": [ "Internal" ],
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
     "item": "v12_diesel",
@@ -287,7 +278,6 @@
   },
   {
     "id": "engine_v6",
-    "categories": [ "Internal" ],
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "v6_combustion",
@@ -309,7 +299,6 @@
   },
   {
     "id": "engine_v8",
-    "categories": [ "Internal" ],
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "v8_combustion",
@@ -331,7 +320,6 @@
   },
   {
     "id": "engine_vtwin",
-    "categories": [ "Internal" ],
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "v2_combustion",
@@ -371,7 +359,6 @@
   },
   {
     "id": "engine_steam_makeshift",
-    "categories": [ "Internal" ],
     "copy-from": "steam_engine",
     "type": "vehicle_part",
     "item": "steam_watts_small",
@@ -394,7 +381,6 @@
   },
   {
     "id": "engine_steam_small",
-    "categories": [ "Internal" ],
     "copy-from": "steam_engine",
     "type": "vehicle_part",
     "item": "steam_triple_small",
@@ -417,7 +403,6 @@
   },
   {
     "id": "engine_steam_medium",
-    "categories": [ "Internal" ],
     "copy-from": "steam_engine",
     "type": "vehicle_part",
     "item": "steam_triple_medium",
@@ -440,7 +425,6 @@
   },
   {
     "id": "engine_turbine_small",
-    "categories": [ "Internal" ],
     "copy-from": "gas_turbine_engine",
     "type": "vehicle_part",
     "item": "small_turbine_engine",
@@ -463,7 +447,6 @@
   },
   {
     "id": "engine_turbine_medium",
-    "categories": [ "Internal" ],
     "copy-from": "gas_turbine_engine",
     "type": "vehicle_part",
     "item": "medium_turbine_engine",
@@ -486,7 +469,6 @@
   },
   {
     "id": "engine_turbine_large",
-    "categories": [ "Internal" ],
     "copy-from": "gas_turbine_engine",
     "type": "vehicle_part",
     "item": "large_turbine_engine",

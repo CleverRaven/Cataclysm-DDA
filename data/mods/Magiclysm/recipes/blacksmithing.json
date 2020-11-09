@@ -10,10 +10,10 @@
     "time": "180 m",
     "batch_time_factors": [ 50, 2 ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_metallurgy", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_metallurgy" },
       { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_almetallurgy", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_almetallurgy" }
     ],
     "book_learn": [ [ "welding_book", 4 ] ],
     "tools": [ [ [ "demon_forge", 15 ] ], [ [ "tongs", -1 ] ] ],
@@ -29,9 +29,9 @@
     "difficulty": 5,
     "time": "180 m",
     "proficiencies": [
-      { "proficiency": "prof_metallurgy", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_metallurgy" },
       { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_almetallurgy", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_almetallurgy" }
     ],
     "batch_time_factors": [ 50, 2 ],
     "book_learn": [ [ "welding_book", 4 ] ],
@@ -50,7 +50,7 @@
     "book_learn": [ [ "metal_legends", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_pottery", "required": false, "time_multiplier": 1.5 }
+      { "proficiency": "prof_pottery" }
     ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "con_mix", 50 ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ] ],

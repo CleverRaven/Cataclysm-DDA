@@ -65,6 +65,9 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 static const efftype_id effect_got_checked( "got_checked" );
 
+static const flag_str_id json_flag_THERMOMETER( "THERMOMETER" );
+static const flag_str_id json_flag_SPLINT( "SPLINT" );
+
 // constructor
 window_panel::window_panel(
     const std::function<void( avatar &, const catacurses::window & )> &draw_func,
@@ -464,7 +467,7 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
 static std::string get_temp( const avatar &u )
 {
     std::string temp;
-    if( u.has_item_with_flag( "THERMOMETER" ) ||
+    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
         u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
@@ -909,7 +912,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, bodypart_i
         std::string limb = "~~%~~";
         nc_color color = c_light_red;
 
-        if( u.worn_with_flag( "SPLINT",  bp ) ) {
+        if( u.worn_with_flag( json_flag_SPLINT,  bp ) ) {
             static const efftype_id effect_mending( "mending" );
             const auto &eff = u.get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
@@ -1361,7 +1364,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  :" ) );
-        wprintz( w, get_weather().weather_id->color, " %s", get_weather().weather_id->name );
+        wprintz( w, get_weather().weather_id->color, " %s", _( get_weather().weather_id->name ) );
     }
     // display lighting
     const std::pair<std::string, nc_color> ll = get_light_level(
@@ -1559,7 +1562,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( text_left, 3 ), c_light_gray, _( "Underground" ) );
     } else {
         mvwprintz( w, point( text_left, 3 ), get_weather().weather_id->color,
-                   get_weather().weather_id->name );
+                   _( get_weather().weather_id->name ) );
     }
     // display lighting
     const std::pair<std::string, nc_color> ll = get_light_level(
@@ -1572,7 +1575,8 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( text_left, 5 ), get_wind_color( windpower ),
                get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
 
-    if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
+        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
         mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
@@ -1699,7 +1703,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     // vehicle display
     if( veh ) {
         veh->print_fuel_indicators( w, point( 39, 2 ) );
-        mvwprintz( w, point( 35, 4 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
+        mvwprintz( w, point( 35, 4 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
         if( veh->cruise_on ) {
@@ -1843,7 +1847,7 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
     }
     if( veh ) {
         veh->print_fuel_indicators( w, point_zero );
-        mvwprintz( w, point( 6, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
+        mvwprintz( w, point( 6, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
         if( veh->cruise_on ) {
@@ -1875,7 +1879,7 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
     }
     if( veh ) {
         veh->print_fuel_indicators( w, point_east );
-        mvwprintz( w, point( 7, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
+        mvwprintz( w, point( 7, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
         if( veh->cruise_on ) {
@@ -1927,7 +1931,8 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
         mvwprintz( w, point_zero, c_light_gray, _( "Underground" ) );
     } else {
         mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
-        mvwprintz( w, point( 10, 0 ), get_weather().weather_id->color, get_weather().weather_id->name );
+        mvwprintz( w, point( 10, 0 ), get_weather().weather_id->color,
+                   _( get_weather().weather_id->name ) );
     }
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Moon :" ) );
     nc_color clr = c_white;
@@ -1993,7 +1998,8 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 15, 0 ), c_light_gray, _( "Time: ???" ) );
     }
 
-    if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
+        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         std::string temp = print_temperature( get_weather().get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }

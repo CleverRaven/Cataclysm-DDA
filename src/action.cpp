@@ -13,6 +13,7 @@
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
+#include "flag.h"
 #include "game.h"
 #include "iexamine.h"
 #include "input.h"
@@ -40,10 +41,8 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
 static const std::string flag_CONSOLE( "CONSOLE" );
-static const std::string flag_FLOTATION( "FLOTATION" );
 static const std::string flag_GOES_DOWN( "GOES_DOWN" );
 static const std::string flag_GOES_UP( "GOES_UP" );
-static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 class inventory;
@@ -334,6 +333,8 @@ std::string action_ident( action_id act )
             return "debug_lighting";
         case ACTION_DISPLAY_RADIATION:
             return "debug_radiation";
+        case ACTION_TOGGLE_HOUR_TIMER:
+            return "debug_hour_timer";
         case ACTION_TOGGLE_DEBUG_MODE:
             return "debug_mode";
         case ACTION_ZOOM_OUT:

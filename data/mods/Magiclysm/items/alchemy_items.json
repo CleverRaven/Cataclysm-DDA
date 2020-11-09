@@ -169,7 +169,7 @@
     "description": "This is the magical essence from a dragon, distilled into a concentrated form.",
     "volume": "250 ml",
     "weight": "300 g",
-    "flags": [ "TRADER_AVOID", "INDEIBLE" ],
+    "flags": [ "TRADER_AVOID", "INEDIBLE" ],
     "container": "flask_glass",
     "charges": 1,
     "phase": "liquid",

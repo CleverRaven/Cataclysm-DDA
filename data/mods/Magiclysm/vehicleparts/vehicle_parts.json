@@ -16,7 +16,6 @@
   },
   {
     "id": "engine_vtwin_magic",
-    "categories": [ "Internal" ],
     "copy-from": "mana_engine",
     "type": "vehicle_part",
     "item": "v2_combustion",

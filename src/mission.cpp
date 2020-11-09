@@ -302,7 +302,7 @@ void mission::wrap_up()
             inventory tmp_inv = player_character.crafting_inventory();
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
-            Group_tag grp_type = type->group_id;
+            item_group_id grp_type = type->group_id;
             itype_id container = type->container_id;
             bool specific_container_required = !container.is_null();
             bool remove_container = type->remove_container;
@@ -370,7 +370,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
             inventory tmp_inv = player_character.crafting_inventory();
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
-            Group_tag grp_type = type->group_id;
+            item_group_id grp_type = type->group_id;
             itype_id container = type->container_id;
             bool specific_container_required = !container.is_null();
 
@@ -505,7 +505,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
 }
 
 void mission::get_all_item_group_matches( std::vector<item *> &items,
-        Group_tag &grp_type, std::map<itype_id, int> &matches,
+        item_group_id &grp_type, std::map<itype_id, int> &matches,
         const itype_id &required_container, const itype_id &actual_container,
         bool &specific_container_required )
 {
