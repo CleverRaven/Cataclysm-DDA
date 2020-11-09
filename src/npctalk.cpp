@@ -1666,13 +1666,13 @@ talk_data talk_response::create_option_line( const dialogue &d, const char lette
     // dialogue w/ a % chance to work
     if( trial.type == TALK_TRIAL_NONE || trial.type == TALK_TRIAL_CONDITION ) {
         // regular dialogue
-        //~ %1$c is an option letter and shouldn't be translated, %2$s is translated response text
-        ftext = string_format( pgettext( "talk option", "%1$c: %2$s" ), letter, text );
+        //~ %1$s is translated response text
+        ftext = string_format( pgettext( "talk option", "%1$s" ), text );
     } else {
         // dialogue w/ a % chance to work
-        //~ %1$c is an option letter and shouldn't be translated, %2$s is translated trial type, %3$d is a number, and %4$s is the translated response text
-        ftext = string_format( pgettext( "talk option", "%1$c: [%2$s %3$d%%] %4$s" ), letter,
-                               trial.name(), trial.calc_chance( d ), text );
+        //~ %1$s is translated trial type, %2$d is a number, and %3$s is the translated response text
+        ftext = string_format( pgettext( "talk option", "[%1$s %2$d%%] %3$s" ), trial.name(),
+                               trial.calc_chance( d ), text );
     }
     parse_tags( ftext, *d.alpha, *d.beta, success.next_topic.item_type );
 
@@ -1687,10 +1687,7 @@ talk_data talk_response::create_option_line( const dialogue &d, const char lette
     } else {
         color = c_white;
     }
-    talk_data results;
-    results.first = color;
-    results.second = ftext;
-    return results;
+    return {letter, color, ftext};
 }
 
 std::set<dialogue_consequence> talk_response::get_consequences( const dialogue &d ) const
@@ -1827,7 +1824,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
 
     talk_response chosen = responses[ch];
     std::string response_printed = string_format( pgettext( "you say something", "You: %s" ),
-                                   response_lines[ch].second.substr( 3 ) );
+                                   response_lines[ch].text );
     d_win.add_to_history( response_printed );
 
     if( chosen.mission_selected != nullptr ) {

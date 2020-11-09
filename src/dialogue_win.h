@@ -10,7 +10,12 @@
 #include "color.h"
 #include "cursesdef.h"
 
-using talk_data = std::pair<nc_color, std::string>;
+/** Represents avatar response */
+struct talk_data {
+    char letter;
+    nc_color col;
+    std::string text;
+};
 
 class ui_adaptor;
 
@@ -44,15 +49,13 @@ class dialogue_window
          * window width and with separators between. Used for rendering, recalculated each time window size changes.
          */
         std::vector<std::pair<std::string, size_t>> draw_cache;
-        // yoffset of the current response window
-        int yoffset = 0;
+        /** Scroll position in response window (page number) */
+        size_t curr_page = 0;
         bool can_scroll_up = false;
         bool can_scroll_down = false;
 
         // Prints history. Automatically highlighting last message.
         void print_history();
-        // Prints responses. Takes care of line folding.
-        bool print_responses( int yoffset, const std::vector<talk_data> &responses );
 
         /**
          * Folds given message to current window width and adds it to drawing cache.

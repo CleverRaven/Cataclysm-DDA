@@ -31,7 +31,7 @@ void dialogue_window::resize_dialogue( ui_adaptor &ui )
         d_win = catacurses::newwin( maxy, maxx, point( win_beginx, win_beginy ) );
         ui.position_from_window( d_win );
     }
-    yoffset = 0;
+    curr_page = 0;
     draw_cache.clear();
     for( size_t idx = 0; idx < history.size(); idx++ ) {
         cache_msg( history[idx], idx );
@@ -90,48 +90,73 @@ void dialogue_window::print_history()
     }
 }
 
-// Number of lines that can be used for the list of responses:
-// -2 for border, -2 for options that are always there, -1 for header
-static int RESPONSE_AREA_HEIGHT( int win_height )
+struct page_entry {
+    nc_color col;
+    std::vector<std::string> lines;
+};
+
+struct page {
+    std::vector<page_entry> entries;
+};
+
+static std::vector<page> split_to_pages( const std::vector<talk_data> &responses, int page_w,
+        int page_h )
 {
-    return win_height - 2 - 2 - 1;
+    page this_page;
+    std::vector<page> ret;
+    int fold_width = page_w - 3;
+    int this_h = 0;
+    for( const talk_data &resp : responses ) {
+        // Assemble single entry for printing
+        const std::vector<std::string> folded = foldstring( resp.text, fold_width );
+        page_entry this_entry;
+        this_entry.col = resp.col;
+        this_entry.lines.push_back( string_format( "%c: %s", resp.letter, folded[0] ) );
+        for( size_t i = 1; i < folded.size(); i++ ) {
+            this_entry.lines.push_back( string_format( "   %s", folded[i] ) );
+        }
+
+        // Add entry to current / new page
+        if( this_h + static_cast<int>( folded.size() ) > page_h ) {
+            ret.push_back( this_page );
+            this_page = page();
+            this_h = 0;
+        }
+        this_h += this_entry.lines.size();
+        this_page.entries.push_back( this_entry );
+    }
+    if( !this_page.entries.empty() ) {
+        ret.push_back( this_page );
+    }
+    return ret;
 }
 
-bool dialogue_window::print_responses( const int yoffset, const std::vector<talk_data> &responses )
+static void print_responses( const catacurses::window &w, const page &responses )
 {
-    if( text_only ) {
-        return false;
-    }
-    // Responses go on the right side of the window, add 2 for spacing
-    const size_t xoffset = getmaxx( d_win ) / 2 + 2;
-    // First line we can print to, +2 for borders, +1 for the header.
-    const int min_line = 2 + 1;
-    // Bottom most line we can print to
-    const int max_line = min_line + RESPONSE_AREA_HEIGHT( getmaxy( d_win ) ) - 1;
+    // Responses go on the right side of the window, add 2 for border + space
+    const size_t x_start = getmaxx( w ) / 2 + 2;
+    // First line we can print on, +1 for border, +2 for your name + newline
+    const int y_start = 2 + 1;
 
-    // Remaining width of the responses area, -2 for the border, -2 for indentation, -2 for spacing
-    const size_t fold_width = xoffset - 2 - 2 - 2;
-
-    int curline = min_line - static_cast<int>( yoffset );
-    for( size_t i = 0; i < responses.size() && curline <= max_line; i++ ) {
-        const std::vector<std::string> folded = foldstring( responses[i].second, fold_width );
-        const nc_color &color = responses[i].first;
-        for( size_t j = 0; j < folded.size(); j++, curline++ ) {
-            if( curline < min_line ) {
-                continue;
-            } else if( curline > max_line ) {
-                break;
-            }
-            const int off = ( j != 0 ) ? +3 : 0;
-            mvwprintz( d_win, point( xoffset + off, curline ), color, folded[j] );
+    int curr_y = y_start;
+    for( const page_entry &entry : responses.entries ) {
+        const nc_color col = entry.col;
+        for( const std::string &line : entry.lines ) {
+            mvwprintz( w, point( x_start, curr_y ), col, line );
+            curr_y += 1;
         }
     }
-    // Those are always available, their key bindings are fixed as well.
-    mvwprintz( d_win, point( xoffset, curline + 1 ), c_magenta, _( "Shift+L: Look at" ) );
-    mvwprintz( d_win, point( xoffset, curline + 2 ), c_magenta, _( "Shift+S: Size up stats" ) );
-    mvwprintz( d_win, point( xoffset, curline + 3 ), c_magenta, _( "Shift+Y: Yell" ) );
-    mvwprintz( d_win, point( xoffset, curline + 4 ), c_magenta, _( "Shift+O: Check opinion" ) );
-    return curline > max_line; // whether there is more to print.
+}
+
+static void print_keybindings( const catacurses::window &w )
+{
+    // Responses go on the right side of the window, add 2 for border + space
+    const size_t x = getmaxx( w ) / 2 + 2;
+    const size_t y = getmaxy( w ) - 5;
+    mvwprintz( w, point( x, y ), c_magenta, _( "Shift+L: Look at" ) );
+    mvwprintz( w, point( x, y + 1 ), c_magenta, _( "Shift+S: Size up stats" ) );
+    mvwprintz( w, point( x, y + 2 ), c_magenta, _( "Shift+Y: Yell" ) );
+    mvwprintz( w, point( x, y + 3 ), c_magenta, _( "Shift+O: Check opinion" ) );
 }
 
 void dialogue_window::cache_msg( const std::string &msg, size_t idx )
@@ -145,7 +170,7 @@ void dialogue_window::cache_msg( const std::string &msg, size_t idx )
 
 void dialogue_window::refresh_response_display()
 {
-    yoffset = 0;
+    curr_page = 0;
     can_scroll_down = false;
     can_scroll_up = false;
 }
@@ -155,19 +180,17 @@ void dialogue_window::handle_scrolling( const int ch )
     if( text_only ) {
         return;
     }
-    // adjust scrolling from the last key pressed
-    const int win_maxy = getmaxy( d_win );
     switch( ch ) {
         case KEY_DOWN:
         case KEY_NPAGE:
             if( can_scroll_down ) {
-                yoffset += RESPONSE_AREA_HEIGHT( win_maxy );
+                curr_page += 1;
             }
             break;
         case KEY_UP:
         case KEY_PPAGE:
             if( can_scroll_up ) {
-                yoffset = std::max( 0, yoffset - RESPONSE_AREA_HEIGHT( win_maxy ) );
+                curr_page -= 1;
             }
             break;
         default:
@@ -183,13 +206,29 @@ void dialogue_window::display_responses( const std::vector<talk_data> &responses
     const int win_maxy = getmaxy( d_win );
     clear_window_texts();
     print_history();
-    can_scroll_down = print_responses( yoffset, responses );
-    can_scroll_up = yoffset > 0;
-    if( can_scroll_up ) {
-        mvwprintz( d_win, point( getmaxx( d_win ) - 2 - 2, 2 ), c_green, "^^" );
-    }
-    if( can_scroll_down ) {
-        mvwprintz( d_win, point( FULL_SCREEN_WIDTH - 2 - 2, win_maxy - 2 ), c_green, "vv" );
+
+    if( !text_only ) {
+        // TODO: cache paged entries
+        // -2 for borders, -2 for your name + newline, -4 for keybindings
+        const int page_h = getmaxy( d_win ) - 2 - 2 - 4;
+        const int page_w = getmaxx( d_win ) / 2 - 4; // -4 for borders + padding
+        const std::vector<page> pages = split_to_pages( responses, page_w, page_h );
+        if( !pages.empty() ) {
+            if( curr_page >= pages.size() ) {
+                curr_page = pages.size() - 1;
+            }
+            print_responses( d_win, pages[curr_page] );
+        }
+        print_keybindings( d_win );
+        can_scroll_up = curr_page > 0;
+        can_scroll_down = curr_page + 1 < pages.size();
+
+        if( can_scroll_up ) {
+            mvwprintz( d_win, point( getmaxx( d_win ) - 2 - 2, 2 ), c_green, "^^" );
+        }
+        if( can_scroll_down ) {
+            mvwprintz( d_win, point( FULL_SCREEN_WIDTH - 2 - 2, win_maxy - 2 ), c_green, "vv" );
+        }
     }
     wrefresh( d_win );
 }
