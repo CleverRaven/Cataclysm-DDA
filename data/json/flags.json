@@ -389,7 +389,7 @@
   {
     "id": "MAG_DESTROY",
     "type": "json_flag",
-    "context": [ "MAGAZINE" ],
+    "context": [ "MAGAZINE" ]
   },
   {
     "id": "OUTER",
