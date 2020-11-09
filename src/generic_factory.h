@@ -121,6 +121,17 @@ class generic_factory
 
     private:
         DynamicDataLoader::deferred_json deferred;
+        // generation or "modification count" of this factory
+        // it's incremented when any changes to the inner id containers occur
+        // version value corresponds to the string_id::_version,
+        // so incrementing the version here effectively invalidates all cached string_id::_cid
+        int64_t  version = 0;
+
+        void inc_version() {
+            do {
+                version++;
+            } while( version == INVALID_VERSION );
+        }
 
     protected:
         std::vector<T> list;
@@ -132,16 +143,20 @@ class generic_factory
         std::string alias_member_name;
 
         bool find_id( const string_id<T> &id, int_id<T> &result ) const {
-            result = id.get_cid();
-            if( is_valid( result ) && list[result.to_i()].id == id ) {
-                return true;
+            if( id._version == version ) {
+                result = int_id<T>( id._cid );
+                return is_valid( result );
             }
+
             const auto iter = map.find( id );
+            // map lookup happens at most once per string_id instance per generic_factory::version
+            // id was not found, explicitly marking it as "invalid"
             if( iter == map.end() ) {
+                id.set_cid_version( INVALID_CID, version );
                 return false;
             }
             result = iter->second;
-            id.set_cid( result );
+            id.set_cid_version( result.to_i(), version );
             return true;
         }
 
@@ -284,11 +299,17 @@ class generic_factory
          * The function returns the actual object reference.
          */
         T &insert( const T &obj ) {
+            // this invalidates `_cid` cache for all previously added string_ids,
+            // but! it's necessary to invalidate cache for all possibly cached "missed" lookups
+            // (lookups for not-yet-inserted elements)
+            // in the common scenario there is no loss of performance, as `finalize` will make cache
+            // for all ids valid again
+            inc_version();
             const auto iter = map.find( obj.id );
             if( iter != map.end() ) {
                 T &result = list[iter->second.to_i()];
                 result = obj;
-                result.id.set_cid( iter->second );
+                result.id.set_cid_version( iter->second.to_i(), version );
                 return result;
             }
 
@@ -296,7 +317,7 @@ class generic_factory
             list.push_back( obj );
 
             T &result = list.back();
-            result.id.set_cid( cid );
+            result.id.set_cid_version( cid.to_i(), version );
             map[result.id] = cid;
             return result;
         }

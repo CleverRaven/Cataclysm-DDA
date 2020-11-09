@@ -85,6 +85,7 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "string_id_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
@@ -1487,7 +1488,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( type->min_per > 0 ) {
             req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
         }
-        for( const std::pair<const skill_id, int> &sk : type->min_skills ) {
+        for( const std::pair<const skill_id, int> sk : sorted_lex( type->min_skills ) ) {
             req.push_back( string_format( "%s %d", skill_id( sk.first )->name(), sk.second ) );
         }
         if( !req.empty() ) {
@@ -1647,16 +1648,17 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         return string_format( format, v.first->name(), min_value, max_value );
     };
 
+    const auto max_nutr_vitamins = sorted_lex( max_nutr.vitamins );
     const std::string required_vits = enumerate_as_string(
-                                          max_nutr.vitamins.begin(),
-                                          max_nutr.vitamins.end(),
+                                          max_nutr_vitamins.begin(),
+                                          max_nutr_vitamins.end(),
     [&]( const std::pair<vitamin_id, int> &v ) {
         return format_vitamin( v, true );
     } );
 
     const std::string effect_vits = enumerate_as_string(
-                                        max_nutr.vitamins.begin(),
-                                        max_nutr.vitamins.end(),
+                                        max_nutr_vitamins.begin(),
+                                        max_nutr_vitamins.end(),
     [&]( const std::pair<vitamin_id, int> &v ) {
         return format_vitamin( v, false );
     } );
@@ -2959,7 +2961,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
 
     if( parts->test( iteminfo_parts::QUALITIES ) ) {
         insert_separation_line( info );
-        for( const std::pair<const quality_id, int> &q : type->qualities ) {
+        for( const std::pair<const quality_id, int> q : sorted_lex( type->qualities ) ) {
             name_quality( q );
         }
     }
@@ -2970,7 +2972,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     } ) ) {
 
         info.emplace_back( "QUALITIES", "", _( "Contains items with qualities:" ) );
-        std::map<quality_id, int> most_quality;
+        std::map<quality_id, int, quality_id::LexCmp> most_quality;
         for( const item *e : contents.all_items_top() ) {
             for( const std::pair<const quality_id, int> &q : e->type->qualities ) {
                 auto emplace_result = most_quality.emplace( q );
@@ -3043,7 +3045,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Environmental Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > &element : bid->env_protec ) {
+        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->env_protec ) ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -3053,7 +3055,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Bash Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > &element : bid->bash_protec ) {
+        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->bash_protec ) ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -3063,7 +3065,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Cut Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > &element : bid->cut_protec ) {
+        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->cut_protec ) ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -3159,9 +3161,10 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         all_techniques.insert( techniques.begin(), techniques.end() );
 
         if( !all_techniques.empty() ) {
+            const std::vector<matec_id> all_tec_sorted = sorted_lex( all_techniques );
             insert_separation_line( info );
             info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
-            enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id & tid ) {
+            enumerate_as_string( all_tec_sorted.begin(), all_tec_sorted.end(), []( const matec_id & tid ) {
                 return string_format( "<stat>%s</stat>: <info>%s</info>", _( tid.obj().name ),
                                       _( tid.obj().description ) );
             } ) ) );

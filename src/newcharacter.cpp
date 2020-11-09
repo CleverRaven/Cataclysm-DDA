@@ -2356,13 +2356,13 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     select_location.entries.emplace_back( entry_random_start_location );
     for( const auto &loc : start_locations::get_all() ) {
         if( g->scen->allowed_start( loc.id ) ) {
-            uilist_entry entry( loc.id.get_cid().to_i(), true, -1,
+            uilist_entry entry( loc.id.id().to_i(), true, -1,
                                 string_format( START_LOC_TEXT_TEMPLATE, loc.name(), loc.targets_count() ) );
 
             select_location.entries.emplace_back( entry );
 
             if( !you.random_start_location &&
-                loc.id.get_cid() == you.start_location.get_cid() ) {
+                loc.id.id() == you.start_location.id() ) {
                 select_location.selected = offset;
             }
             offset++;
@@ -2709,7 +2709,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 you.random_start_location = true;
             } else if( select_location.ret >= 0 ) {
                 for( const auto &loc : start_locations::get_all() ) {
-                    if( loc.id.get_cid().to_i() == select_location.ret ) {
+                    if( loc.id.id().to_i() == select_location.ret ) {
                         you.random_start_location = false;
                         you.start_location = loc.id;
                         break;
