@@ -226,7 +226,7 @@ CachedTTFFont::CachedTTFFont(
     known_prefixes.emplace_back( "/usr/share/fonts/" );
     known_prefixes.emplace_back( "/usr/local/share/fonts/" );
     char *home;
-    if( home = getenv( "HOME" ) ) {
+    if( ( home = getenv( "HOME" ) ) ) {
         std::string userfontdir = home;
         userfontdir += "/.fonts/";
         known_prefixes.emplace_back( userfontdir );
