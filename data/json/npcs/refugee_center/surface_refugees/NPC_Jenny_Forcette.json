@@ -155,6 +155,79 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Teach1",
+    "dynamic_line": "Huh.  I guess I can teach you a bit, but you'd have to be like, my on-the-job apprentice.  Do you know anything about electronics, computers, or mechanics already?",
+    "responses": [
+      {
+        "text": "[SKILL 2] I'm not a total noob.",
+        "condition": {
+          "or": [
+            { "u_has_skill": "computer", "level": 2 },
+            { "u_has_skill": "electronics", "level": 2 },
+            { "u_has_skill": "mechanics", "level": 2 }
+          ]
+        },
+        "topic": "TALK_REFUGEE_JENNY_Teach2"
+      },
+      {
+        "text": "[SKILL <2] No, that's why I want you to teach me.",
+        "condition": {
+          "not": {
+            "or": [
+              { "u_has_skill": "computer", "level": 2 },
+              { "u_has_skill": "electronics", "level": 2 },
+              { "u_has_skill": "mechanics", "level": 2 }
+            ]
+          }
+        },
+        "topic": "TALK_REFUGEE_JENNY_Teach2_Sorry"
+      },
+      {
+        "text": "[INTELLIGENCE 10] No, but I'm a fast learner.",
+        "condition": {
+          "and": [
+            {
+              "not": {
+                "or": [
+                  { "u_has_skill": "computer", "level": 2 },
+                  { "u_has_skill": "electronics", "level": 2 },
+                  { "u_has_skill": "mechanics", "level": 2 }
+                ]
+              }
+            },
+            { "u_has_intelligence": 10 }
+          ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 30 },
+        "failure": { "topic": "TALK_REFUGEE_JENNY_Teach2_Sorry" },
+        "success": { "topic": "TALK_REFUGEE_JENNY_Teach2" },
+        "condition": { "npc_compare_time_since_var": "Jenny_teach", "type": "timer", "context": "flag", "op": ">=", "time": "1 day" }
+      },
+      { "text": "Um, you know what?  Nevermind.  What were you saying?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Teach2",
+    "dynamic_line": "All right, fine.  Grab some tools and do as I tell you.",
+    "speaker_effect": { "effect": { "npc_add_var": "Jenny_teach", "type": "timer", "context": "flag", "time": true } }
+    "responses": [
+      { "text": "Just say the word, teach.", "topic": "TALK_DONE", "effect": "start_training" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Teach2_Sorry",
+    "dynamic_line": "I'm sorry, I don't have the time to teach someone who can't pull their weight, I just don't.",
+    "speaker_effect": { "effect": { "npc_add_var": "Jenny_teach", "type": "timer", "context": "flag", "time": true } },
+    "responses": [
+      { "text": "Fine.  What were you saying?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Project1",
     "dynamic_line": {
       "days_since_cataclysm": 60,
