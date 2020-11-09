@@ -853,7 +853,6 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
             move_items( here, push_point, push_dest );
         }
 
-
         if( sp.is_valid_target( spell_target::field ) ) {
             move_field( here, push_point, push_dest );
         }

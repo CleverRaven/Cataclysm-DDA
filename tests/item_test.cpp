@@ -207,7 +207,6 @@ TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][comb
     }
 }
 
-
 static void assert_minimum_length_to_volume_ratio( const item &target )
 {
     if( target.type->get_id().is_null() ) {

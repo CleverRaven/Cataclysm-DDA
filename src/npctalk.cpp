@@ -881,6 +881,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         alpha->shout();
         if( alpha->is_deaf() ) {
             return _( "&You yell, but can't hear yourself." );
+        } else {
             if( alpha->is_mute() ) {
                 return _( "&You yell, but can't form words." );
             } else {

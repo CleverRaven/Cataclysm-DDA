@@ -218,7 +218,7 @@ class vpart_category
         std::string id_;
         translation name_;
         translation short_name_;
-        int priority_; // order of tab in the UI
+        int priority_ = 0; // order of tab in the UI
 };
 
 class vpart_info

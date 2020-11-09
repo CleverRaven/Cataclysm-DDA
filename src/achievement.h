@@ -108,8 +108,8 @@ class achievement
                 bool becomes_false() const;
                 std::string ui_text( bool is_conduct ) const;
             private:
-                achievement_comparison comparison_;
-                epoch epoch_;
+                achievement_comparison comparison_ = achievement_comparison::anything;
+                epoch epoch_ = epoch::cataclysm;
                 time_duration period_;
         };
 

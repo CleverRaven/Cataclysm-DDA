@@ -24,7 +24,6 @@ class robot_finds_kitten
         bool ret = false;
         robot_finds_kitten();
     private:
-        std::string getmessage( int idx ) const;
         void draw_robot() const;
         void draw_kitten() const;
         void show() const;
