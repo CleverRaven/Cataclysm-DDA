@@ -120,7 +120,7 @@
             {
               "npc_compare_time_since_var": "Boris_teach",
               "type": "timer",
-              "context": "proficiency_teaching",
+              "context": "flag",
               "op": ">=",
               "time": "1 d"
             }
@@ -349,10 +349,11 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Teach",
     "dynamic_line": "Yes, my friend.  You have done so much for me, I would be glad to teach you what I can.",
+    "speaker_effect": { "effect": { "npc_add_var": "Boris_teach", "type": "timer", "context": "flag", "time": true } },
     "responses": [
-      { "text": "Great!  let's get started.", "effect": "start_training" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Great!  let's get started.", "effect": "start_training", "topic": "TALK_DONE" },
+      { "text": "Actually, what were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.  Let's do this later.", "topic": "TALK_DONE" }
     ]
   },
   {
