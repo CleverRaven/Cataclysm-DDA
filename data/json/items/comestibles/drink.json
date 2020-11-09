@@ -1123,7 +1123,7 @@
     "fatigue_mod": 7,
     "stim": 2,
     "calories": 80,
-    "description": "A popular sweet drink, made with green tea, milk, sweetner, and various toppings. This one is sadly missing the signature tapioca balls, though.",
+    "description": "A popular sweet drink, made with green tea, milk, sweetner, and various toppings.  This one is sadly missing the signature tapioca balls, though.",
     "extend": { "flags": [ "EATEN_COLD" ] },
     "delete": { "flags": [ "EATEN_HOT" ] },
     "fun": 10
@@ -1181,7 +1181,7 @@
     "copy-from": "coffee_substitute",
     "name": "sweetened substitute coffee",
     "calories": 21,
-    "description": "Homemade not-coffee created from the Kentucky coffeetree, just like the Meskwaki tribe!  Doesn't actually have any caffeine, and is very bitter. The added sweetness neutralize the bitterness somewhat.",
+    "description": "Homemade not-coffee created from the Kentucky coffeetree, just like the Meskwaki tribe!  Doesn't actually have any caffeine, and is very bitter.  The added sweetness neutralize the bitterness somewhat.",
     "fun": 1
   },
   {
@@ -1201,7 +1201,7 @@
     "copy-from": "milk_coffee_substitute",
     "name": "sweetened substitute coffee milk",
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "description": "The morning ritual of the post-apocalyptic New England. Brewed from the Kentucky coffeetree, this drink has no actual caffeine, but serves as a replacement for those who dearly miss the aroma of real coffee.",
+    "description": "The morning ritual of the post-apocalyptic New England.  Brewed from the Kentucky coffeetree, this drink has no actual caffeine, but serves as a replacement for those who dearly miss the aroma of real coffee.",
     "fun": 4
   },
   {
