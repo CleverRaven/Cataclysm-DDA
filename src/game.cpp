@@ -1675,12 +1675,6 @@ bool game::do_turn()
     // reset player noise
     u.volume = 0;
 
-    // This is a hack! Remove this when we have per-turn activity tracking
-    // This prevents the display from erroneously updating when we use more
-    // than our allotted moves in a single turn
-    if( u.moves < 0 ) {
-        u.increase_activity_level( NO_EXERCISE );
-    }
     return false;
 }
 

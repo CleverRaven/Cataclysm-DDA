@@ -791,7 +791,7 @@ static void smash()
     float weary_mult = 1.0f;
     if( didit ) {
         if( !mech_smash ) {
-            player_character.increase_activity_level( MODERATE_EXERCISE );
+            player_character.set_activity_level( MODERATE_EXERCISE );
             player_character.handle_melee_wear( player_character.weapon );
             weary_mult = 1.0f / player_character.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
 
