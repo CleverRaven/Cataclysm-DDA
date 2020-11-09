@@ -65,9 +65,9 @@ int foo;
 ```
 
 Helpful pages:
-http://www.stack.nl/~dimitri/doxygen/manual/commands.html
-http://www.stack.nl/~dimitri/doxygen/manual/markdown.html#markdown_std
-http://www.stack.nl/~dimitri/doxygen/manual/faq.html
+* [Doxygen Manual - Special Commands](https://www.doxygen.nl/manual/commands.html)
+* [Doxygen Manual - Standard Markdown](https://www.doxygen.nl/manual/markdown.html#markdown_std)
+* [Doxygen Manual - Frequently Asked Questions](https://www.doxygen.nl/manual/faq.html)
 
 ### Guidelines for adding documentation
 * Doxygen comments should describe behavior towards the outside, not implementation, but since many classes in Cataclysm are intertwined, it's often necessary to describe implementation.
@@ -153,7 +153,7 @@ This can help speed up our review process by allowing us to only review the thin
 It is not required to solve or reference an open issue to file a PR, however, if you do so, you need to explain the problem your PR is solving in full detail.
 
 ### All PRs should have a "Summary" line
-Summary is a one-line description of your change that will be extracted and added to the project changelog at https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/changelog.txt
+Summary is a one-line description of your change that will be extracted and added to [the project changelog](../data/changelog.txt).
 
 The format is: ```SUMMARY: Category "description"```
 
@@ -163,7 +163,7 @@ Example: ```SUMMARY: Content "Adds new mutation category 'Mouse'"```
 Or, if you want it treated as a minor tweak that doesn't appear in the changelog:
 ```SUMMARY: None```
 
-See the Changelog Guidelines at https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CHANGELOG_GUIDELINES.md for explanations of the categories.
+See [the Changelog Guidelines](../doc/CHANGELOG_GUIDELINES.md) for explanations of the categories.
 
 ### Closing issues using keywords
 
