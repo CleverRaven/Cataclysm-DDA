@@ -11,6 +11,7 @@ add_library(
     CombineLocalsIntoPointCheck.cpp
     DeterminismCheck.cpp
     HeaderGuardCheck.cpp
+    ImplicitConversionsCheck.cpp
     JsonTranslationInputCheck.cpp
     NoLongCheck.cpp
     NoStaticGettextCheck.cpp

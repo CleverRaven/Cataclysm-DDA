@@ -7,6 +7,7 @@
 #include "CombineLocalsIntoPointCheck.h"
 #include "DeterminismCheck.h"
 #include "HeaderGuardCheck.h"
+#include "ImplicitConversionsCheck.h"
 #include "JsonTranslationInputCheck.h"
 #include "NoLongCheck.h"
 #include "NoStaticGettextCheck.h"
@@ -40,6 +41,7 @@ class CataModule : public ClangTidyModule
                 "cata-combine-locals-into-point" );
             CheckFactories.registerCheck<DeterminismCheck>( "cata-determinism" );
             CheckFactories.registerCheck<CataHeaderGuardCheck>( "cata-header-guard" );
+            CheckFactories.registerCheck<ImplicitConversionsCheck>( "cata-implicit-conversions" );
             CheckFactories.registerCheck<JsonTranslationInputCheck>( "cata-json-translation-input" );
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
             CheckFactories.registerCheck<NoStaticGettextCheck>( "cata-no-static-gettext" );
