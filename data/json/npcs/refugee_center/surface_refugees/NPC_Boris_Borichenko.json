@@ -118,11 +118,7 @@
           "and": [
             { "u_has_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" },
             {
-              "npc_compare_time_since_var": "Boris_teach",
-              "type": "timer",
-              "context": "flag",
-              "op": ">=",
-              "time": "1 d"
+              "not": { "npc_compare_time_since_var": "Boris_teach", "type": "timer", "context": "flag", "op": "<=", "time": "1 d" }
             }
           ]
         }
