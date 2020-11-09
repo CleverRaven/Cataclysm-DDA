@@ -5310,15 +5310,12 @@ bool map::add_field( const tripoint &p, const field_type_id &type, int intensity
         return false;
     }
 
-    if( intensity == INT_MAX ) {
-        intensity = type.obj().get_max_intensity();
-    }
-    intensity = std::min( intensity, type.obj().get_max_intensity() );
-    if( intensity <= 0 ) {
+    if( !type ) {
         return false;
     }
 
-    if( !type.id() ) {
+    intensity = std::min( intensity, type.obj().get_max_intensity() );
+    if( intensity <= 0 ) {
         return false;
     }
 
