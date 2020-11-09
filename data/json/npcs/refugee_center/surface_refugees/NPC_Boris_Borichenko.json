@@ -221,6 +221,16 @@
         "condition": { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } }
       },
       {
+        "text": "Could you teach me something about carpentry?",
+        "topic": "TALK_REFUGEE_Boris_NoTeach",
+        "condition": { "not": { "u_has_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" } }
+      },
+      {
+        "text": "Could you teach me something about carpentry?",
+        "topic": "TALK_REFUGEE_Boris_Teach",
+        "condition": { "u_has_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" }
+      },
+      {
         "text": "Now that things are cleaned up in the back, is there anything holding you back from working?",
         "topic": "TALK_MISSION_LIST",
         "condition": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" }
@@ -318,9 +328,29 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_NoTeach",
+    "dynamic_line": "I am afraid I cannot teach you right now.  Not only do I have no shop, but I do not think I am in a good place for anything so taxing.",
+    "responses": [
+      {
+        "text": "Is there anything I can do to help?",
+        "condition": { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Boris_Work1"
+      },
+      {
+        "text": "Is there anything more I can do to help?",
+        "condition": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Teach",
     "dynamic_line": "Yes, my friend.  You have done so much for me, I would be glad to teach you what I can.",
     "responses": [
+      { "text": "Great!  let's get started.", "effect": "start_training" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -330,7 +360,6 @@
     "id": "TALK_REFUGEE_Boris_Situation",
     "dynamic_line": "Everyone agrees this is bad.  Sleeping on a cot on the floor, crowded in with strangers, woken by zombies in the night.  To me, though, that is all just a drop in the bucket.  What is killing me is being forced to sit with nothing but my thoughts of what I've lost.",
     "responses": [
-      { "text": "Great!  let's get started.", "effect": "start_training" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
