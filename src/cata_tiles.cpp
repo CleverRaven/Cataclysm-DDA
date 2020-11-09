@@ -1726,7 +1726,9 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                 col = mt.color;
             }
         } else if( category == C_VEHICLE_PART ) {
-            const vpart_id vpid( found_id.substr( 3 ) );
+            const std::pair<std::string,
+                  std::string> &vpid_data = get_vpart_str_variant( found_id.substr( 3 ) );
+            const vpart_id vpid( vpid_data.first );
             if( vpid.is_valid() ) {
                 const vpart_info &v = vpid.obj();
 
@@ -1736,6 +1738,12 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                     sym = v.sym_broken;
                 } else {
                     sym = v.sym;
+                    if( !vpid_data.second.empty() ) {
+                        const auto &var_data = v.symbols.find( vpid_data.second );
+                        if( var_data != v.symbols.end() ) {
+                            sym = var_data->second;
+                        }
+                    }
                 }
                 subtile = -1;
 

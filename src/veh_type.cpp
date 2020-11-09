@@ -470,7 +470,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "breaks_into" ) ) {
-        def.breaks_into_group = item_group::load_item_group( jo.get_member( "breaks_into" ), "collection" );
+        def.breaks_into_group = item_group::load_item_group(
+                                    jo.get_member( "breaks_into" ), "collection", "breaks_into for vpart " + def.id.str() );
     }
 
     JsonArray qual = jo.get_array( "qualities" );
@@ -1162,10 +1163,11 @@ void vehicle_prototype::load( const JsonObject &jo )
         if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items
             for( const std::string line : spawn_info.get_array( "item_groups" ) ) {
-                next_spawn.item_groups.push_back( line );
+                next_spawn.item_groups.push_back( item_group_id( line ) );
             }
         } else if( spawn_info.has_string( "item_groups" ) ) {
-            next_spawn.item_groups.push_back( spawn_info.get_string( "item_groups" ) );
+            next_spawn.item_groups.push_back(
+                item_group_id( spawn_info.get_string( "item_groups" ) ) );
         }
         vproto.item_spawns.push_back( std::move( next_spawn ) );
     }

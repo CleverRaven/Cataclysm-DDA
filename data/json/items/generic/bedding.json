@@ -48,7 +48,7 @@
     "name": { "str": "down-filled blanket" },
     "description": "Hiding under here will not protect you from the monsters, but it'll keep you warm.",
     "weight": "3500 g",
-    "volume": "31 L",
+    "volume": "15 L",
     "price": 5500,
     "price_postapoc": 150,
     "to_hit": -1,

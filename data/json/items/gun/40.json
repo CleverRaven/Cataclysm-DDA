@@ -19,7 +19,7 @@
     "range": 1,
     "dispersion": 480,
     "durability": 7,
-    "min_cycle_recoil": 450,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "magazine_well": "250 ml",
@@ -101,7 +101,7 @@
     "range": 1,
     "dispersion": 480,
     "durability": 7,
-    "min_cycle_recoil": 450,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -310,6 +310,7 @@
     "ammo": [ "40" ],
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "magazine_well": "185 ml",
@@ -339,6 +340,7 @@
     "ammo": [ "40" ],
     "dispersion": 480,
     "durability": 9,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "magazine_well": "200 ml",
@@ -369,6 +371,7 @@
     "ammo": [ "40" ],
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "magazine_well": "312 ml",

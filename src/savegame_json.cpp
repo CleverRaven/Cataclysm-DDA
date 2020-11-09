@@ -58,6 +58,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -2354,7 +2355,6 @@ void item::io( Archive &archive )
     archive.io( "temperature", temperature, 0 );
     archive.io( "recipe_charges", recipe_charges, 1 );
     // Legacy: remove flag check/unset after 0.F
-    const std::string flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
     archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
     unset_flag( flag_ETHEREAL_ITEM );
     archive.template io<const itype>( "curammo", curammo, load_curammo,
@@ -2427,9 +2427,8 @@ void item::io( Archive &archive )
     if( is_food() ) {
         active = true;
     }
-    if( !active &&
-        ( has_own_flag( "HOT" ) > 0 || has_own_flag( "COLD" ) > 0 ||
-          has_own_flag( "WET" ) > 0 ) ) {
+    if( !active && ( has_own_flag( flag_HOT ) || has_own_flag( flag_COLD ) ||
+                     has_own_flag( flag_WET ) ) ) {
         // Some hot/cold items from legacy saves may be inactive
         active = true;
     }
@@ -2457,7 +2456,7 @@ void item::io( Archive &archive )
 
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save
-    if( has_own_flag( "FROZEN" ) && current_phase == phase_id::LIQUID ) {
+    if( has_own_flag( flag_FROZEN ) && current_phase == phase_id::LIQUID ) {
         current_phase = phase_id::SOLID;
     }
 

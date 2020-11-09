@@ -94,7 +94,7 @@
     "id": "defense_caravan_food",
     "subtype": "collection",
     "items": [
-      { "item": "1st_aid" },
+      { "group": "full_1st_aid" },
       { "item": "water" },
       { "item": "energy_drink" },
       { "item": "whiskey" },

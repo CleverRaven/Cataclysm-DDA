@@ -91,15 +91,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "army_mags_rm11b",
-    "entries": [
-      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 },
-      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "army_mags_usp45",
     "entries": [
       { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
@@ -304,11 +295,11 @@
   },
   {
     "type": "profession_item_substitutions",
-    "item": "grahmcrackers",
+    "item": "pudding",
     "sub": [
-      { "present": [ "ANTIJUNK" ], "absent": [ "ANTIWHEAT" ], "new": [ "crackers" ] },
+      { "present": [ "ANTIJUNK" ], "absent": [ "LACTOSE" ], "new": [ "yoghurt" ] },
       { "present": [ "ANTIWHEAT" ], "absent": [ "ANTIJUNK" ], "new": [ "neccowafers" ] },
-      { "present": [ "ANTIJUNK", "ANTIWHEAT" ], "new": [ "boiled_egg" ] }
+      { "present": [ "ANTIJUNK", "LACTOSE" ], "new": [ "boiled_egg" ] }
     ]
   },
   {
@@ -867,10 +858,9 @@
           "bandages",
           "adhesive_bandages",
           "aspirin",
-          "1st_aid",
           "stethoscope"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "full_1st_aid" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -965,8 +955,8 @@
         "bandages",
         "adhesive_bandages",
         "aspirin",
-        "grahmcrackers",
-        "stethoscope"
+        "stethoscope",
+        "pudding"
       ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -1115,6 +1105,7 @@
     "points": 4,
     "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "pistol" }, { "level": 2, "name": "survival" } ],
     "traits": [ "PROF_POLICE" ],
+    "proficiencies": [ "prof_spotting" ],
     "pets": [ { "name": "mon_dog_gshepherd", "amount": 1 } ],
     "items": {
       "both": {
@@ -1172,6 +1163,7 @@
     "points": 2,
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" } ],
     "traits": [ "PROF_POLICE" ],
+    "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
         "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "wristwatch" ],
@@ -1194,6 +1186,7 @@
     "description": "You were on the brink of a major breakthrough in your latest homicide case when the Cataclysm struck.  Now your prime suspect is dead.  Everyone's dead.  You could really use a smoke.",
     "points": 4,
     "traits": [ "PROF_PD_DET" ],
+    "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
         "items": [
@@ -1232,7 +1225,7 @@
     "name": "SWAT Officer",
     "description": "As a member of the police force's most elite division, you are more than adequately trained and equipped to survive the brutal onslaught of the apocalypse.  Unfortunately, the chain of command has broken down; your only mission now is to stay alive.",
     "points": 5,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 3, "name": "smg" } ],
     "traits": [ "PROF_SWAT" ],
     "items": {
@@ -1270,6 +1263,7 @@
       { "level": 1, "name": "bashing" }
     ],
     "traits": [ "PROF_SWAT" ],
+    "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
         "items": [ "socks", "swat_armor", "tac_fullhelmet", "boots_combat", "gloves_tactical", "badge_swat", "wristwatch" ],
@@ -1294,7 +1288,7 @@
     "name": "Police Sniper",
     "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well-placed bullet.  Now survival itself is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
     "points": 5,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
     "skills": [ { "level": 5, "name": "gun" }, { "level": 4, "name": "rifle" }, { "level": 1, "name": "pistol" } ],
     "traits": [ "PROF_POLICE" ],
     "items": {
@@ -1339,6 +1333,7 @@
       { "level": 1, "name": "throw" }
     ],
     "traits": [ "PROF_POLICE" ],
+    "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
         "items": [
@@ -2818,11 +2813,10 @@
           "water_clean",
           "scissors",
           "magnifying_glass",
-          "1st_aid",
           "wristwatch",
           "whistle"
         ],
-        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "full_1st_aid" }, { "group": "charged_flashlight" } ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
@@ -2963,11 +2957,11 @@
           "knife_swissarmy",
           "granola",
           "pur_tablets",
-          "wristwatch",
-          "1st_aid"
+          "wristwatch"
         ],
         "entries": [
           { "group": "charged_cell_phone" },
+          { "group": "full_1st_aid" },
           { "group": "charged_ref_lighter" },
           { "item": "gasoline_lantern", "charges": 500 },
           { "item": "water_clean", "container-item": "canteen" },
@@ -3391,7 +3385,7 @@
       { "level": 3, "name": "mechanics" },
       { "level": 3, "name": "gun" }
     ],
-    "proficiencies": [ "prof_helicopter_pilot" ],
+    "proficiencies": [ "prof_helicopter_pilot", "prof_spotting" ],
     "items": {
       "both": {
         "items": [
@@ -3465,11 +3459,10 @@
           "bandages",
           "stethoscope",
           "scissors",
-          "1st_aid",
           "syringe",
           "morphine"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "full_1st_aid" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -3490,6 +3483,7 @@
       { "level": 4, "name": "firstaid" }
     ],
     "traits": [ "PROF_MED" ],
+    "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
         "items": [
@@ -3505,7 +3499,6 @@
           "wristwatch",
           "thermometer",
           "bandages",
-          "ifak",
           "scalpel",
           "syringe",
           "morphine",
@@ -3513,6 +3506,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "full_ifak" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "gloves_medical", "custom-flags": [ "no_auto_equip" ] },

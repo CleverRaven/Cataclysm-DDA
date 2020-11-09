@@ -477,17 +477,13 @@ class wish_item_callback: public uilist_callback
             if( menu->selected < 0 ) {
                 return;
             }
-            if( standard_itype_ids[menu->selected]->phase == phase_id::LIQUID ) {
-                incontainer = true;
-            } else {
-                incontainer = false;
-            }
+            const itype &selected_itype = *standard_itype_ids[menu->selected];
+            incontainer = selected_itype.phase == phase_id::LIQUID;
 
             // grab default flags for the itype
-            flags = debug_menu::iterable_to_string(
-                        standard_itype_ids[menu->selected]->get_flags(), "",
+            flags = debug_menu::iterable_to_string( selected_itype.get_flags(), " ",
             []( const flag_id & f ) {
-                return f.id().str();
+                return f.str();
             } );
         }
 

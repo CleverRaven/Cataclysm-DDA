@@ -419,7 +419,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "The Champion of the Earth, Gaia's Chosen is blessed on all things nature, animate and inanimate.",
+    "enchantments": [ "GAIAS_CHOSEN" ],
     "prereqs": [ "DRUID", "EARTHSHAPER" ],
     "cancels": [
       "ARTIFICER",

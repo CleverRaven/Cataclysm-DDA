@@ -187,7 +187,7 @@
       { "item": "bottle_glass", "prob": 10 },
       { "item": "syringe", "prob": 4 },
       { "item": "adrenaline_injector", "prob": 2 },
-      { "item": "1st_aid", "prob": 4 },
+      { "group": "used_1st_aid", "prob": 4 },
       { "item": "saline", "prob": 1 },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },

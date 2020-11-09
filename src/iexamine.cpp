@@ -68,6 +68,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -214,29 +215,10 @@ static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
 static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
-static const std::string flag_COOKED( "COOKED" );
-static const std::string flag_DIAMOND( "DIAMOND" );
-static const std::string flag_FERTILIZER( "FERTILIZER" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_FIRE( "FIRE" );
-static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
-static const std::string flag_IN_CBM( "IN_CBM" );
-static const std::string flag_NO_CVD( "NO_CVD" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
-static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
 static const std::string flag_PICKABLE( "PICKABLE" );
-static const std::string flag_PROCESSING( "PROCESSING" );
-static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
-static const std::string flag_SAFECRACK( "SAFECRACK" );
-static const std::string flag_SMOKABLE( "SMOKABLE" );
-static const std::string flag_SMOKED( "SMOKED" );
-static const std::string flag_SPLINT( "SPLINT" );
-static const std::string flag_VARSIZE( "VARSIZE" );
 static const std::string flag_WALL( "WALL" );
-static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -285,7 +267,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     p.invalidate_crafting_inventory();
 
     // Apply flag to item
-    loc->set_flag( "DIAMOND" );
+    loc->set_flag( flag_DIAMOND );
     add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name() );
     p.mod_moves( -to_turns<int>( 10_seconds ) );
 }
@@ -338,7 +320,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     p.invalidate_crafting_inventory();
 
     if( new_item.is_armor() && new_item.has_flag( flag_VARSIZE ) ) {
-        new_item.set_flag( "FIT" );
+        new_item.set_flag( flag_FIT );
     }
 
     here.add_item_or_charges( spawn_point, new_item );
@@ -381,6 +363,98 @@ void iexamine::gaspump( player &p, const tripoint &examp )
         }
     }
     add_msg( m_info, _( "Out of order." ) );
+}
+
+static bool has_attunement_spell_prereqs( player &p, const trait_id &attunement )
+{
+    // for each prereq we need to check that the player has 2 level 15 spells
+    for( const trait_id &prereq : attunement->prereqs ) {
+        int spells_known = 0;
+        for( const spell &sp : p.spells_known_of_class( prereq ) ) {
+            if( sp.get_level() >= 15 ) {
+                spells_known++;
+            }
+        }
+        if( spells_known < 2 ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void iexamine::attunement_altar( player &p, const tripoint & )
+{
+    std::set<trait_id> attunements;
+    for( const mutation_branch &mut : mutation_branch::get_all() ) {
+        if( mut.flags.count( "ATTUNEMENT" ) ) {
+            attunements.emplace( mut.id );
+        }
+    }
+    // remove the attunements the player does not have prereqs for
+    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
+        bool has_prereq = true;
+        // the normal usage of prereqs only needs one, but attunements put all their prereqs into the same array
+        // each prereqs is required for it as well
+        for( const trait_id &prereq : ( *iter )->prereqs ) {
+            if( !p.has_trait( prereq ) ) {
+                has_prereq = false;
+                break;
+            }
+        }
+        if( has_prereq ) {
+            ++iter;
+        } else {
+            iter = attunements.erase( iter );
+        }
+    }
+    if( attunements.empty() ) {
+        // the player doesn't have at least two base classes
+        p.add_msg_if_player( _( "This altar gives you the creeps." ) );
+        return;
+    }
+    // remove the attunements the player has conflicts for
+    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
+        if( !p.has_opposite_trait( *iter ) && p.mutation_ok( *iter, false, false ) ) {
+            ++iter;
+        } else {
+            iter = attunements.erase( iter );
+        }
+    }
+    if( attunements.empty() ) {
+        p.add_msg_if_player( _( "You've attained what you can for now." ) );
+        return;
+    }
+    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
+        if( has_attunement_spell_prereqs( p, *iter ) ) {
+            ++iter;
+        } else {
+            iter = attunements.erase( iter );
+        }
+    }
+    if( attunements.empty() ) {
+        p.add_msg_if_player( _( "You feel that the altar does not deem you worthy, yet." ) );
+        return;
+    }
+    uilist attunement_list;
+    attunement_list.title = _( "Pick an Attunement to show the world your Worth." );
+    for( const trait_id &attunement : attunements ) {
+        attunement_list.addentry( attunement->name() );
+    }
+    attunement_list.query();
+    if( attunement_list.ret == UILIST_CANCEL ) {
+        p.add_msg_if_player( _( "Maybe later." ) );
+        return;
+    }
+    auto attunement_iter = attunements.begin();
+    std::advance( attunement_iter, attunement_list.ret );
+    const trait_id &attunement = *attunement_iter;
+    if( query_yn( string_format( _( "Are you sure you want to pick %s?  This selection is permanent." ),
+                                 attunement->name() ) ) ) {
+        p.toggle_trait( attunement );
+        p.add_msg_if_player( m_info, attunement->desc() );
+    } else {
+        p.add_msg_if_player( _( "Maybe later." ) );
+    }
 }
 
 void iexamine::translocator( player &, const tripoint &examp )
@@ -3831,39 +3905,42 @@ void trap::examine( const tripoint &examp ) const
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
         const int traps_skill_level = player_character.get_skill_level( skill_traps );
-        int roll = rng( traps_skill_level, 4 * traps_skill_level );
-
-        ///\EFFECT_PER increases chance of disarming trap
-
-        ///\EFFECT_DEX increases chance of disarming trap
-
-        ///\EFFECT_TRAPS increases chance of disarming trap
-        while( ( rng( 5, 20 ) < player_character.per_cur ||
-                 rng( 1, 20 ) < player_character.dex_cur ) && roll < 50 ) {
-            roll++;
+        const float weighted_stat_average = ( 2.0f * player_character.per_cur + 3.0f *
+                                              player_character.dex_cur +
+                                              player_character.int_cur ) / 6.0f;
+        int proficiency_effect = -2;
+        // Without at least a basic traps proficiency, your skill level is effectively 2 levels lower.
+        if( player_character.has_proficiency( proficiency_prof_traps ) ) {
+            proficiency_effect = 0;
+            // If you have the basic traps prof, negate the above penalty
         }
+        if( player_character.has_proficiency( proficiency_prof_disarming ) ) {
+            proficiency_effect = 4;
+            // If you have the disarming proficiency, your skill level is effectively 4 levels higher.
+        }
+        if( player_character.has_proficiency( proficiency_prof_trapsetting ) ) {
+            proficiency_effect += 1;
+            // Knowing how to set traps does give you a small bonus to disarming them as well, regardless of your other bonuses.
+        }
+        const float mean_roll = traps_skill_level + ( weighted_stat_average / 4.0f ) + proficiency_effect;
+
+        int roll = std::round( normal_roll( mean_roll, 3 ) );
+
+        add_msg( m_debug, _( "Rolled %i, mean_roll %g. difficulty %i." ), roll, mean_roll, difficulty );
+
         if( roll >= difficulty ) {
             add_msg( _( "You disarm the trap!" ) );
-            const int morale_buff = avoidance * 0.4 + difficulty + rng( 0, 4 );
-            player_character.rem_morale( MORALE_FAILURE );
-            player_character.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
             on_disarmed( here, examp );
             if( difficulty > 1.25 * traps_skill_level ) { // failure might have set off trap
                 player_character.practice( skill_traps, 1.5 * ( difficulty - traps_skill_level ) );
             }
-        } else if( roll >= difficulty * .8 ) {
+        } else if( roll >= ( difficulty * .8 ) ) {
             add_msg( _( "You fail to disarm the trap." ) );
-            const int morale_debuff = -rng( 6, 18 );
-            player_character.rem_morale( MORALE_ACCOMPLISHMENT );
-            player_character.add_morale( MORALE_FAILURE, morale_debuff, -40 );
             if( difficulty > 1.25 * traps_skill_level ) {
                 player_character.practice( skill_traps, 1.5 * ( difficulty - traps_skill_level ) );
             }
         } else {
             add_msg( m_bad, _( "You fail to disarm the trap, and you set it off!" ) );
-            const int morale_debuff = -rng( 12, 24 );
-            player_character.rem_morale( MORALE_ACCOMPLISHMENT );
-            player_character.add_morale( MORALE_FAILURE, morale_debuff, -40 );
             trigger( examp, player_character );
             if( difficulty - roll <= 6 ) {
                 // Give xp for failing, but not if we failed terribly (in which
@@ -3871,6 +3948,10 @@ void trap::examine( const tripoint &examp ) const
                 player_character.practice( skill_traps, 2 * difficulty );
             }
         }
+        player_character.practice_proficiency( proficiency_prof_traps, 5_minutes );
+        // Disarming a trap gives you a token bonus to learning to set them properly.
+        player_character.practice_proficiency( proficiency_prof_trapsetting, 30_seconds );
+        player_character.practice_proficiency( proficiency_prof_disarming, 5_minutes );
         return;
     }
 }
@@ -4167,7 +4248,7 @@ static int findBestGasDiscount( player &p )
     for( size_t i = 0; i < p.inv->size(); i++ ) {
         item &it = p.inv->find_item( i );
 
-        if( it.has_flag( "GAS_DISCOUNT" ) ) {
+        if( it.has_flag( flag_GAS_DISCOUNT ) ) {
 
             int q = getGasDiscountCardQuality( it );
             if( q > discount ) {
@@ -4940,9 +5021,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
                         splint = item( "leg_splint", 0 );
                     }
-                    item &equipped_splint = patient.i_add( splint );
-                    cata::optional<std::list<item>::iterator> worn_item =
-                        patient.wear( equipped_splint, false );
+                    patient.wear_item( splint, false );
                 }
                 patient.add_effect( effect_mending, 0_turns, part, true );
                 effect &mending_effect = patient.get_effect( effect_mending, part );
@@ -5037,9 +5116,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.add_effect( effect_pblue, 1_hours );
                 }
             }
-            if( patient.leak_level( "RADIOACTIVE" ) ) {
+            if( patient.leak_level( flag_RADIOACTIVE ) ) {
                 popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's posession.  Urgent decontamination procedures highly recommended." ),
-                       patient.leak_level( "RADIOACTIVE" ) );
+                       patient.leak_level( flag_RADIOACTIVE ) );
             }
             break;
         }
@@ -6136,6 +6215,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
 {
     static const std::map<std::string, iexamine_function> function_map = {{
             { "none", &iexamine::none },
+            { "attunement_altar", &iexamine::attunement_altar },
             { "deployed_furniture", &iexamine::deployed_furniture },
             { "cvdmachine", &iexamine::cvdmachine },
             { "nanofab", &iexamine::nanofab },

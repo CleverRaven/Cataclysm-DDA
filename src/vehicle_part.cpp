@@ -8,7 +8,7 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
-#include "flat_set.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "item_contents.h"
@@ -45,7 +45,7 @@ vehicle_part::vehicle_part( const vpart_id &vp, const std::string &variant_id, c
     : mount( dp ), id( vp ), variant( variant_id ), base( std::move( obj ) )
 {
     // Mark base item as being installed as a vehicle part
-    base.set_flag( "VEHICLE" );
+    base.set_flag( flag_VEHICLE );
 
     if( base.typeId() != vp->item ) {
         debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
@@ -71,16 +71,16 @@ void vehicle_part::set_base( const item &new_base )
 item vehicle_part::properties_to_item() const
 {
     item tmp = base;
-    tmp.unset_flag( "VEHICLE" );
+    tmp.unset_flag( flag_VEHICLE );
 
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
-    if( tmp.has_flag( "CABLE_SPOOL" ) && !tmp.has_flag( "TOW_CABLE" ) ) {
+    if( tmp.has_flag( flag_CABLE_SPOOL ) && !tmp.has_flag( flag_TOW_CABLE ) ) {
         map &here = get_map();
         const tripoint local_pos = here.getlocal( target.first );
         if( !here.veh_at( local_pos ) ) {
             // That vehicle ain't there no more.
-            tmp.set_flag( "NO_DROP" );
+            tmp.set_flag( flag_NO_DROP );
         }
 
         tmp.set_var( "source_x", target.first.x );
@@ -377,8 +377,11 @@ bool vehicle_part::can_reload( const item &obj ) const
         return true;
     }
 
-    return is_fuel_store() &&
-           ammo_remaining() <= ammo_capacity( item::find_type( ammo_current() )->ammo->type );
+    if( ammo_current().is_null() ) {
+        return true; // empty tank
+    }
+
+    return ammo_remaining() < ammo_capacity( ammo_current().obj().ammo->type );
 }
 
 void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )

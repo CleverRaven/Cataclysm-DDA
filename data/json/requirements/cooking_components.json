@@ -188,7 +188,7 @@
     "id": "meat_red_raw",
     "type": "requirement",
     "//": "Anything you might consider raw, unpreserved 'red' meat.  About 250mL of meat.",
-    "components": [ [ [ "meat_raw_steak", 1, "LIST" ], [ "meat_scrap", 10 ], [ "mutant_meat_scrap", 10 ] ] ]
+    "components": [ [ [ "meat_raw_steak", 1, "LIST" ], [ "meat_scrap", 10 ], [ "mutant_meat_scrap", 10 ], [ "porkbelly", 1 ] ] ]
   },
   {
     "id": "meat_red",
@@ -272,6 +272,7 @@
     "components": [
       [
         [ "meat_cooked", 1 ],
+        [ "meat_fatty_cooked", 1 ],
         [ "meat_scrap_cooked", 10 ],
         [ "mutant_meat_cooked", 1 ],
         [ "mutant_meat_scrap_cooked", 10 ],

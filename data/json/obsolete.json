@@ -1,5 +1,16 @@
 [
   {
+    "id": "mon_dragonfly_small",
+    "type": "MONSTER",
+    "name": { "str": "huge dragonfly" },
+    "description": "A brightly colored, winged mutant dragonfly the size of a cat with sharp fangs.",
+    "copy-from": "mon_dragonfly_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_dragonfly_giant" }
+  },
+  {
     "result": "plastic_shopping_bag",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -81,6 +92,49 @@
       [ "BUTCHER", 11 ]
     ],
     "use_action": [ "HAMMER", "CROWBAR", "DISASSEMBLE" ]
+  },
+  {
+    "type": "ARMOR",
+    "id": "survivor_belt",
+    "name": { "str": "survivor utility belt" },
+    "weight": "3390 g",
+    "color": "brown",
+    "covers": [ "torso" ],
+    "symbol": "[",
+    "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
+    "price": 50000,
+    "price_postapoc": 1000,
+    "material": [ "leather", "iron" ],
+    "volume": "4 L",
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
+    "coverage": 15,
+    "encumbrance": 4,
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "holster": true,
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
+        "moves": 3,
+        "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
+      }
+    ],
+    "use_action": [ { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" }, "CROWBAR", "HAMMER" ],
+    "qualities": [
+      [ "HAMMER", 3 ],
+      [ "PRY", 1 ],
+      [ "SAW_M", 2 ],
+      [ "SAW_W", 2 ],
+      [ "WRENCH", 2 ],
+      [ "AXE", 1 ],
+      [ "SCREW", 1 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "SCREW_FINE", 1 ]
+    ]
   },
   {
     "id": "combination_gun_shotgun_pipe",
@@ -300,6 +354,22 @@
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "included_bionics": [ "bio_plutdump" ],
     "upgraded_bionic": "bio_reactor"
+  },
+  {
+    "id": "1st_aid",
+    "type": "GENERIC",
+    "category": "drugs",
+    "name": { "str": "first aid kit" },
+    "description": "A typical universal first aid kit, one you'd see in a car or in a household.  It contains a variety of common medical items stored in case of accidents and injuries.  Disassemble to get its content.",
+    "weight": "1750 g",
+    "volume": "1250 ml",
+    "price": 3000,
+    "price_postapoc": 3000,
+    "material": "plastic",
+    "symbol": "!",
+    "color": "red",
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NO_REPAIR" ]
   },
   {
     "id": "bio_plut_filter",

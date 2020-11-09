@@ -170,7 +170,7 @@ struct bionic {
             : id( "bio_batteries" ), incapacitated_time( 0_turns ) {
         }
         bionic( bionic_id pid, char pinvlet )
-            : id( std::move( pid ) ), invlet( pinvlet ), incapacitated_time( 0_turns ) { }
+            : id( pid ), invlet( pinvlet ), incapacitated_time( 0_turns ) { }
 
         const bionic_data &info() const {
             return *id;

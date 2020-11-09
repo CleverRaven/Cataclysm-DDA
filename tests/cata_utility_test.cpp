@@ -3,6 +3,7 @@
 #include "cata_utility.h"
 #include "units.h"
 #include "units_utility.h"
+#include "debug_menu.h"
 
 // tests both variants of string_starts_with
 template <std::size_t N>
@@ -220,5 +221,37 @@ TEST_CASE( "equal_ignoring_elements", "[utility]" )
         } );
 
         CHECK( equal_ignoring_elements( set1, set2, ignored_els ) == equal );
+    }
+}
+
+TEST_CASE( "check_debug_menu_string_methods", "[debug_menu]" )
+{
+    std::map<std::string, std::vector<std::string>> split_expect = {
+        { "", { } },
+        { "a", { "a" } },
+        { ",a", { "a" } },
+        { "a,", { "a" } },
+        { ",a,", { "a" } },
+        { ",,a,,", { "a" } },
+        { "a,b,a\nb,фыва,,a,,,b", { "a", "b", "a\nb", "фыва", "a", "b" } },
+    };
+    std::map<std::string, std::vector<std::string>> joined_expects = {
+        { "", { } },
+        { "a", { "a" } },
+        { "a,b,a\nb,фыва,a,b", { "a", "b", "a\nb", "фыва", "a", "b" } },
+    };
+    for( const std::pair<const std::string, std::vector<std::string>> &pair : split_expect ) {
+        std::vector<std::string> split = debug_menu::string_to_iterable<std::vector<std::string>>
+                                         ( pair.first, "," );
+        CAPTURE( pair.first );
+        CAPTURE( pair.second );
+        CHECK( pair.second == split );
+    }
+
+    for( const std::pair<const std::string, std::vector<std::string>> &pair : joined_expects ) {
+        std::string joined = debug_menu::iterable_to_string( pair.second, "," );
+        CAPTURE( pair.first );
+        CAPTURE( pair.second );
+        CHECK( pair.first == joined );
     }
 }

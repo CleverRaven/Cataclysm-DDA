@@ -121,7 +121,7 @@ class unpack_actor : public iuse_actor
 {
     public:
         /** The itemgroup from which we unpack items from */
-        std::string unpack_group;
+        item_group_id unpack_group;
 
         /** Whether or not the items from the group should spawn fitting */
         bool items_fit = false;

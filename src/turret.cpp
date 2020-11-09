@@ -33,8 +33,9 @@ std::vector<vehicle_part *> vehicle::turrets()
 {
     std::vector<vehicle_part *> res;
 
-    for( auto &e : parts ) {
-        if( !e.is_broken() && e.base.is_gun() ) {
+    for( int index : turret_locations ) {
+        vehicle_part &e = parts[index];
+        if( !e.is_broken() && e.is_turret() ) {
             res.push_back( &e );
         }
     }

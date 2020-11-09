@@ -766,16 +766,17 @@ void uilist::show()
 
 int uilist::scroll_amount_from_action( const std::string &action )
 {
+    int scroll_rate = vmax > 20 ? 10 : 3;
     if( action == "UP" ) {
         return -1;
     } else if( action == "PAGE_UP" ) {
-        return ( -vmax + 1 );
+        return -scroll_rate;
     } else if( action == "SCROLL_UP" ) {
         return -3;
     } else if( action == "DOWN" ) {
         return 1;
     } else if( action == "PAGE_DOWN" ) {
-        return vmax - 1;
+        return scroll_rate;
     } else if( action == "SCROLL_DOWN" ) {
         return +3;
     } else {
@@ -794,12 +795,13 @@ bool uilist::scrollby( const int scrollby )
 
     bool looparound = ( scrollby == -1 || scrollby == 1 );
     bool backwards = ( scrollby < 0 );
+    int recmax = static_cast<int>( fentries.size() );
 
     fselected += scrollby;
     if( !looparound ) {
         if( backwards && fselected < 0 ) {
             fselected = 0;
-        } else if( fselected >= static_cast<int>( fentries.size() ) ) {
+        } else if( fselected >= recmax ) {
             fselected = fentries.size() - 1;
         }
     }
@@ -818,7 +820,7 @@ bool uilist::scrollby( const int scrollby )
             }
         }
     } else {
-        if( fselected >= static_cast<int>( fentries.size() ) ) {
+        if( fselected >= recmax ) {
             fselected = 0;
         }
         for( size_t i = 0; i < fentries.size(); ++i ) {
@@ -826,7 +828,7 @@ bool uilist::scrollby( const int scrollby )
                 break;
             }
             ++fselected;
-            if( fselected >= static_cast<int>( fentries.size() ) ) {
+            if( fselected >= recmax ) {
                 fselected = 0;
             }
         }

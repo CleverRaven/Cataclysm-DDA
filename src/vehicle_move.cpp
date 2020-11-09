@@ -469,7 +469,7 @@ void vehicle::thrust( int thd, int z )
         load = ( thrusting ? 1000 : 0 );
     }
     // rotorcraft need to spend 15% of load to hover, 30% to change z
-    if( is_rotorcraft() && is_flying_in_air() ) {
+    if( is_rotorcraft() && ( z > 0 || is_flying_in_air() ) ) {
         load = std::max( load, z > 0 ? 300 : 150 );
         thrusting = true;
     }
@@ -1932,11 +1932,17 @@ void vehicle::check_falling_or_floating()
     }
     is_flying = false;
 
-    auto has_support = [&here]( const tripoint & position ) {
-        if( !here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, position ) ) {
+    auto has_support = [&here]( const tripoint & position, const bool water_supports ) {
+        // if we're at the bottom of the z-levels, we're supported
+        if( position.z == -OVERMAP_DEPTH ) {
             return true;
         }
-        if( position.z == -OVERMAP_DEPTH ) {
+        // water counts as support if we're swimming and checking to see if we're falling, but
+        // not to see if the wheels are supported at all
+        if( here.has_flag_ter_or_furn( TFLAG_SWIMMABLE, position ) ) {
+            return water_supports;
+        }
+        if( !here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, position ) ) {
             return true;
         }
         tripoint below( position.xy(), position.z - 1 );
@@ -1946,7 +1952,7 @@ void vehicle::check_falling_or_floating()
     int supported_wheels = 0;
     for( int wheel_index : wheelcache ) {
         const tripoint &position = global_part_pos3( wheel_index );
-        if( has_support( position ) ) {
+        if( has_support( position, false ) ) {
             ++supported_wheels;
         }
     }
@@ -1960,7 +1966,7 @@ void vehicle::check_falling_or_floating()
     }
     // TODO: Make the vehicle "slide" towards its center of weight
     //  when it's not properly supported
-    const std::set<tripoint> &pts = get_points( true );
+    const std::set<tripoint> &pts = get_points();
     if( pts.empty() ) {
         // Dirty vehicle with no parts
         is_falling = false;
@@ -1978,7 +1984,7 @@ void vehicle::check_falling_or_floating()
         if( !is_falling ) {
             continue;
         }
-        is_falling = !has_support( position );
+        is_falling = !has_support( position, true );
     }
     // floating if 2/3rds of the vehicle is in deep water
     is_floating = 3 * deep_water_tiles >= 2 * pts.size();

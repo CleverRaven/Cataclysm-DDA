@@ -27,6 +27,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -2358,7 +2359,7 @@ void monster::drop_items_on_death()
     if( is_hallucination() ) {
         return;
     }
-    if( type->death_drops.empty() ) {
+    if( type->death_drops.is_empty() ) {
         return;
     }
 
@@ -2371,7 +2372,7 @@ void monster::drop_items_on_death()
         std::vector<item> remaining;
         for( const item &it : items ) {
             // Mission items are not affected by item spawn rate
-            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( "MISSION_ITEM" ) ) {
+            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( STATIC( flag_str_id( "MISSION_ITEM" ) ) ) ) {
                 remaining.push_back( it );
             }
         }
@@ -2388,7 +2389,7 @@ void monster::drop_items_on_death()
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
-                it->set_flag( "FILTHY" );
+                it->set_flag( STATIC( flag_str_id( "FILTHY" ) ) );
             }
         }
     }
@@ -2960,7 +2961,8 @@ void monster::on_load()
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {
             regen = 1.0f / to_turns<int>( 1_hours );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "veggy" ) ) ) {
+        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ||
+                   made_of( material_id( "veggy" ) ) ) {
             // Most living stuff here
             regen = 0.25f / to_turns<int>( 1_hours );
         }

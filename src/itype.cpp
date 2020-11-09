@@ -4,6 +4,7 @@
 
 #include "debug.h"
 #include "item.h"
+#include "make_static.h"
 #include "player.h"
 #include "ret_val.h"
 #include "translations.h"
@@ -66,23 +67,6 @@ int itype::charges_per_volume( const units::volume &vol ) const
 bool itype::has_use() const
 {
     return !use_methods.empty();
-}
-
-bool itype::has_flag( const std::string &flag ) const
-{
-    return has_flag( flag_str_id( flag ) );
-}
-
-bool itype::has_flag( const flag_str_id &flag ) const
-{
-    // whichever collection is not empty is used
-    // if both are empty, either will do
-    // (see `item_tags_str_tmp` and Item_factory::finalize_post)
-    if( item_tags_str_tmp.size() > item_tags.size() ) {
-        return item_tags_str_tmp.count( flag );
-    } else {
-        return has_flag( flag.id() );
-    }
 }
 
 bool itype::has_flag( const flag_id &flag ) const
@@ -167,7 +151,7 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( has_flag( "CAN_HAVE_CHARGES" ) ) {
+    if( has_flag( STATIC( flag_str_id( "CAN_HAVE_CHARGES" ) ) ) ) {
         return true;
     }
     return false;

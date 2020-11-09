@@ -1444,7 +1444,7 @@ void editmap::edit_itm()
             imenu.addentry( imenu_tags, true, -1, pgettext( "item manipulation debug menu entry",
                             "tags: %s" ), debug_menu::iterable_to_string( it.get_flags(), " ",
             []( const flag_id & f ) {
-                return f.id().str();
+                return f.str();
             } ) );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
                             "-[ light emission ]-" ) );
@@ -1476,7 +1476,7 @@ void editmap::edit_itm()
                         case imenu_tags:
                             strval = debug_menu::iterable_to_string( it.get_flags(), " ",
                             []( const flag_id & f ) {
-                                return f.id().str();
+                                return f.str();
                             } );
                             break;
                     }
@@ -1513,11 +1513,11 @@ void editmap::edit_itm()
                                 const auto tags = debug_menu::string_to_iterable<std::vector<std::string>>( strval, " " );
                                 it.unset_flags();
                                 for( const auto &t : tags ) {
-                                    it.set_flag( t );
+                                    it.set_flag( flag_str_id( t ) );
                                 }
                                 imenu.entries[imenu_tags].txt = debug_menu::iterable_to_string(
                                 it.get_flags(), " ", []( const flag_id & f ) {
-                                    return f.id().str();
+                                    return f.str();
                                 } );
                                 break;
                         }

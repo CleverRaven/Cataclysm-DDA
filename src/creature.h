@@ -526,22 +526,22 @@ class Creature : public location, public viewer
         void clear_effects();
         /** Check if creature has the matching effect. If the bodypart is not specified check if the Creature has any effect
          *  of the matching type, targeted or untargeted. */
-        bool has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const;
+        bool has_effect( const efftype_id &eff_id, const bodypart_id &bp ) const;
         bool has_effect( const efftype_id &eff_id ) const;
         /** Check if creature has any effect with the given flag. */
-        bool has_effect_with_flag( const std::string &flag, const bodypart_id &bp ) const;
-        bool has_effect_with_flag( const std::string &flag ) const;
-        std::vector<effect> get_effects_with_flag( const std::string &flag ) const;
+        bool has_effect_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
+        bool has_effect_with_flag( const flag_id &flag ) const;
+        std::vector<effect> get_effects_with_flag( const flag_id &flag ) const;
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id,
-                                  const bodypart_id &bp = bodypart_id( "bp_null" ) ) const;
-        effect &get_effect( const efftype_id &eff_id, const bodypart_id &bp = bodypart_id( "bp_null" ) );
+                                  const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
+        effect &get_effect( const efftype_id &eff_id, const bodypart_id &bp = bodypart_str_id::NULL_ID() );
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
         time_duration get_effect_dur( const efftype_id &eff_id,
-                                      const bodypart_id &bp = bodypart_id( "bp_null" ) ) const;
+                                      const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
         int get_effect_int( const efftype_id &eff_id,
-                            const bodypart_id &bp = bodypart_id( "bp_null" ) ) const;
+                            const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
         /** Returns true if the creature resists an effect */
         bool resists_effect( const effect &e );
 

@@ -145,7 +145,7 @@
       { "item": "lighter", "charges": 100 },
       { "item": "pockknife" },
       { "item": "multitool" },
-      { "item": "ifak" },
+      { "group": "full_ifak" },
       { "item": "rollmat" },
       { "item": "sleeping_bag_roll" },
       { "item": "ear_plugs" },

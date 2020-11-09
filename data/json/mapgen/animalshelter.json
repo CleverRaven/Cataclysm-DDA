@@ -135,7 +135,9 @@
       { "monster": "mon_dog_rottweiler", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_dog_rottweiler_pup", "freq": 5, "cost_multiplier": 0 },
       { "monster": "mon_dog_auscattle", "freq": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_auscattle_pup", "freq": 5, "cost_multiplier": 0 }
+      { "monster": "mon_dog_auscattle_pup", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_samoyed", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_samoyed_pup", "freq": 5, "cost_multiplier": 0 }
     ]
   },
   {
