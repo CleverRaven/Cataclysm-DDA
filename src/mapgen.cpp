@@ -277,9 +277,9 @@ class mapgen_basic_container
             // Not needed anymore, pointers are now stored in weights_ (or not used at all)
             mapgens_.clear();
         }
-        void check_consistency( const std::string &key ) {
+        void check_consistency() {
             for( auto &mapgen_function_ptr : weights_ ) {
-                mapgen_function_ptr.obj->check( key );
+                mapgen_function_ptr.obj->check();
             }
         }
 };
@@ -326,7 +326,7 @@ class mapgen_factory
             // all the sources for them upon each loop.
             const std::set<std::string> usages = get_usages();
             for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
-                omw.second.check_consistency( omw.first );
+                omw.second.check_consistency();
                 if( usages.count( omw.first ) == 0 ) {
                     debugmsg( "Mapgen %s is not used by anything!", omw.first );
                 }
@@ -388,12 +388,12 @@ void check_mapgen_definitions()
     oter_mapgen.check_consistency();
     for( auto &oter_definition : nested_mapgen ) {
         for( auto &mapgen_function_ptr : oter_definition.second ) {
-            mapgen_function_ptr.obj->check( oter_definition.first );
+            mapgen_function_ptr.obj->check();
         }
     }
     for( auto &oter_definition : update_mapgen ) {
         for( auto &mapgen_function_ptr : oter_definition.second ) {
-            mapgen_function_ptr->check( oter_definition.first );
+            mapgen_function_ptr->check();
         }
     }
 }
@@ -1651,11 +1651,12 @@ class jmapgen_sealed_item : public jmapgen_piece
             }
         }
 
-        void check( const std::string &oter_name ) const override {
+        void check( const std::string &context ) const override {
             const furn_t &furn = furniture.obj();
-            std::string summary = string_format(
-                                      "sealed_item special in json mapgen for overmap terrain %s using furniture %s",
-                                      oter_name, furn.id.str() );
+            std::string summary =
+                string_format(
+                    "sealed_item special in json mapgen for %s using furniture %s",
+                    context, furn.id.str() );
 
             if( !furniture.is_valid() ) {
                 debugmsg( "%s which is not valid furniture", summary );
@@ -2570,20 +2571,20 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     return true;
 }
 
-void mapgen_function_json::check( const std::string &oter_name ) const
+void mapgen_function_json::check() const
 {
-    check_common( oter_name );
+    check_common();
 }
 
-void mapgen_function_json_nested::check( const std::string &oter_name ) const
+void mapgen_function_json_nested::check() const
 {
-    check_common( oter_name );
+    check_common();
 }
 
-void mapgen_function_json_base::check_common( const std::string &oter_name ) const
+void mapgen_function_json_base::check_common() const
 {
     for( const ter_furn_id &id : format ) {
-        if( check_furn( id.furn, "oter " + oter_name ) ) {
+        if( check_furn( id.furn, context_ ) ) {
             return;
         }
     }
@@ -2595,18 +2596,18 @@ void mapgen_function_json_base::check_common( const std::string &oter_name ) con
             continue;
         }
         furn_id id( setmap.val.get() );
-        if( check_furn( id, "oter " + oter_name ) ) {
+        if( check_furn( id, context_ ) ) {
             return;
         }
     }
 
-    objects.check( oter_name );
+    objects.check( context_ );
 }
 
-void jmapgen_objects::check( const std::string &oter_name ) const
+void jmapgen_objects::check( const std::string &context ) const
 {
     for( const jmapgen_obj &obj : objects ) {
-        obj.second->check( oter_name );
+        obj.second->check( context );
     }
 }
 
@@ -7071,9 +7072,9 @@ update_mapgen_function_json::update_mapgen_function_json(
 {
 }
 
-void update_mapgen_function_json::check( const std::string &oter_name ) const
+void update_mapgen_function_json::check() const
 {
-    check_common( oter_name );
+    check_common();
 }
 
 bool update_mapgen_function_json::setup_update( const JsonObject &jo )

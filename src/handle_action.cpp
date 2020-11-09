@@ -1256,7 +1256,7 @@ static void wear()
     item_location loc = game_menus::inv::wear( player_character );
 
     if( loc ) {
-        player_character.wear( *loc.obtain( player_character ) );
+        player_character.wear( loc );
     } else {
         add_msg( _( "Never mind." ) );
     }

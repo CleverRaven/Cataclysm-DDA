@@ -139,7 +139,7 @@ void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
     if( obj.damage_max() == obj.damage_min() ) {
-        obj.item_tags_str_tmp.insert( flag_NO_REPAIR );
+        obj.item_tags.insert( flag_NO_REPAIR );
     }
 
     if( obj.has_flag( flag_STAB ) || obj.has_flag( flag_SPEAR ) ) {
@@ -209,15 +209,15 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // set light_emission based on LIGHT_[X] flag
-    for( const auto &f : obj.item_tags_str_tmp ) {
+    for( const auto &f : obj.item_tags ) {
         int ll;
         if( sscanf( f.c_str(), "LIGHT_%i", &ll ) == 1 && ll > 0 ) {
             obj.light_emission = ll;
         }
     }
     // remove LIGHT_[X] flags
-    erase_if( obj.item_tags_str_tmp, []( const flag_str_id & f ) {
-        return f.str().find( "LIGHT_" ) == 0;
+    erase_if( obj.item_tags, []( const flag_str_id & f ) {
+        return string_starts_with( f.str(), "LIGHT_" );
     } );
 
     // for ammo not specifying loudness (or an explicit zero) derive value from other properties
@@ -394,8 +394,8 @@ void Item_factory::finalize_pre( itype &obj )
         // TODO: Move to jsons?
         if( obj.gun->skill_used == skill_id( "archery" ) ||
             obj.gun->skill_used == skill_id( "throw" ) ) {
-            obj.item_tags_str_tmp.insert( flag_WATERPROOF_GUN );
-            obj.item_tags_str_tmp.insert( flag_NEVER_JAMS );
+            obj.item_tags.insert( flag_WATERPROOF_GUN );
+            obj.item_tags.insert( flag_NEVER_JAMS );
             obj.gun->ammo_effects.insert( "NEVER_MISFIRES" );
         }
     }
@@ -495,25 +495,14 @@ void Item_factory::register_cached_uses( const itype &obj )
 
 void Item_factory::finalize_post( itype &obj )
 {
-    // copy string flags into int flags
-    if( !obj.item_tags.empty() ) {
-        debugmsg( "during finalization, itype '%s' has non-empty int_id flags set: [%s]", obj.id.str(),
-                  debug_menu::iterable_to_string( obj.item_tags, ", ",
-        []( const flag_id & f ) {
-            return f.id().str() + " (id: " + std::to_string( f.to_i() ) + ")";
-        } ) );
-        obj.item_tags.clear();
-    }
-    for( const flag_str_id &f : obj.item_tags_str_tmp ) {
+    erase_if( obj.item_tags, [&]( const flag_str_id & f ) {
         if( !f.is_valid() ) {
             debugmsg( "itype '%s' uses undefined flag '%s'. Please add corresponding 'json_flag' entry to json.",
                       obj.id.str(), f.str() );
-        } else {
-            obj.item_tags.insert( f );
+            return true;
         }
-    }
-    // now `has_flags` will use `item_tags` for all lookups
-    obj.item_tags_str_tmp.clear();
+        return false;
+    } );
 
     // handle complex firearms as a special case
     if( obj.gun && !obj.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
@@ -1199,12 +1188,18 @@ void Item_factory::check_definitions() const
         }
         for( const auto &q : type->qualities ) {
             if( !q.first.is_valid() ) {
-                msg += string_format( "item %s has unknown quality %s\n", type->id.c_str(), q.first.c_str() );
+                msg += string_format( "item %s has unknown quality %s\n", type->id.c_str(),
+                                      q.first.c_str() );
             }
         }
-        if( type->default_container && !has_template( *type->default_container ) ) {
-            if( !type->default_container->is_null() ) {
-                msg += string_format( "invalid container property %s\n", type->default_container->c_str() );
+        if( type->default_container && !type->default_container->is_null() ) {
+            if( has_template( *type->default_container ) ) {
+                // Spawn the item in its default container to generate an error
+                // if it doesn't fit.
+                item( type ).in_its_container();
+            } else {
+                msg += string_format( "invalid container property %s\n",
+                                      type->default_container->c_str() );
             }
         }
 
@@ -1386,8 +1381,15 @@ void Item_factory::check_definitions() const
             if( type->magazine->count < 0 || type->magazine->count > type->magazine->capacity ) {
                 msg += string_format( "invalid count %i\n", type->magazine->count );
             }
-            const itype *da = find_template( type->magazine->default_ammo );
-            if( !( da->ammo && type->magazine->type.count( da->ammo->type ) ) ) {
+            const itype_id &default_ammo = type->magazine->default_ammo;
+            const itype *da = find_template( default_ammo );
+            if( da->ammo && type->magazine->type.count( da->ammo->type ) ) {
+                if( !migrations.count( type->id ) ) {
+                    // Verify that the default amnmo can actually be put in this
+                    // item
+                    item( type ).ammo_set( default_ammo, 1 );
+                }
+            } else {
                 msg += string_format( "invalid default_ammo %s\n", type->magazine->default_ammo.str() );
             }
             if( type->magazine->reload_time < 0 ) {
@@ -1421,6 +1423,10 @@ void Item_factory::check_definitions() const
                     msg += string_format(
                                "speedloader %s capacity (%d) does not match gun capacity (%d).\n",
                                magazine.str(), mag_ptr->magazine->capacity, type->gun->clip );
+                } else {
+                    // Verify that every magazine type can actually be put in
+                    // this item
+                    item( type ).put_in( item( magazine ), item_pocket::pocket_type::MAGAZINE_WELL );
                 }
             }
         }
@@ -1457,6 +1463,16 @@ void Item_factory::check_definitions() const
 
         if( type->fuel && !type->count_by_charges() ) {
             msg += "fuel value set, but item isn't count_by_charges.\n";
+        }
+
+        if( !migrations.count( type->id ) ) {
+            // If type has a default ammo then check it can fit within
+            item tmp_item( type );
+            if( tmp_item.is_gun() || tmp_item.is_magazine() ) {
+                if( itype_id ammo_id = tmp_item.ammo_default() ) {
+                    tmp_item.ammo_set( ammo_id, 1 );
+                }
+            }
         }
 
         if( msg.empty() ) {
@@ -2501,7 +2517,7 @@ void Item_factory::set_allergy_flags( itype &item_template )
     const auto &mats = item_template.materials;
     for( const auto &pr : all_pairs ) {
         if( std::find( mats.begin(), mats.end(), pr.first ) != mats.end() ) {
-            item_template.item_tags_str_tmp.insert( pr.second );
+            item_template.item_tags.insert( pr.second );
         }
     }
 }
@@ -2523,29 +2539,29 @@ void hflesh_to_flesh( itype &item_template )
 void Item_factory::npc_implied_flags( itype &item_template )
 {
     if( item_template.use_methods.count( "explosion" ) > 0 ) {
-        item_template.item_tags_str_tmp.insert( flag_DANGEROUS );
+        item_template.item_tags.insert( flag_DANGEROUS );
     }
 
     if( item_template.has_flag( flag_DANGEROUS ) > 0 ) {
-        item_template.item_tags_str_tmp.insert( flag_NPC_THROW_NOW );
+        item_template.item_tags.insert( flag_NPC_THROW_NOW );
     }
 
     if( item_template.has_flag( flag_BOMB ) > 0 ) {
-        item_template.item_tags_str_tmp.insert( flag_NPC_ACTIVATE );
+        item_template.item_tags.insert( flag_NPC_ACTIVATE );
     }
 
     if( item_template.has_flag( flag_NPC_THROW_NOW ) > 0 ) {
-        item_template.item_tags_str_tmp.insert( flag_NPC_THROWN );
+        item_template.item_tags.insert( flag_NPC_THROWN );
     }
 
     if( item_template.has_flag( flag_NPC_ACTIVATE ) > 0 ||
         item_template.has_flag( flag_NPC_THROWN ) > 0 ) {
-        item_template.item_tags_str_tmp.insert( flag_NPC_ALT_ATTACK );
+        item_template.item_tags.insert( flag_NPC_ALT_ATTACK );
     }
 
     if( item_template.has_flag( flag_DANGEROUS ) > 0 ||
         item_template.has_flag( flag_PSEUDO ) > 0 ) {
-        item_template.item_tags_str_tmp.insert( flag_TRADER_AVOID );
+        item_template.item_tags.insert( flag_TRADER_AVOID );
     }
 }
 
@@ -2941,7 +2957,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.explosion = load_explosion_data( je );
     }
 
-    assign( jo, "flags", def.item_tags_str_tmp );
+    assign( jo, "flags", def.item_tags );
     assign( jo, "faults", def.faults );
 
     if( jo.has_member( "qualities" ) ) {

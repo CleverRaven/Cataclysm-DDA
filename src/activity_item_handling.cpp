@@ -2918,7 +2918,7 @@ int get_auto_consume_moves( player &p, const bool food )
             }
             int consume_moves = -Pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
                                 here.getlocal( loc ) ), 1 );
-            consume_moves += to_moves<int>( p.get_consume_time( *it ) );
+            consume_moves += to_moves<int>( p.get_consume_time( comest ) );
             item_location item_loc;
             if( vp ) {
                 item_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), &comest );

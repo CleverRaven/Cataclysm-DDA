@@ -69,6 +69,7 @@
     - [Fuel types](#fuel-types)
   - [Faults](#faults)
     - [Flags](#flags-13)
+    - [Parameters](#parameters)
 
 ## Notes
 
@@ -1485,7 +1486,10 @@ The requirement for other vehicle parts is defined for a json flag by setting ``
 
 #### Flags
 
+General fault flag:
 - ```SILENT``` Makes the "faulty " text NOT appear next to item on general UI. Otherwise the fault works the same.
+
+Vehicle fault flags:
 - ```NO_ALTERNATOR_CHARGE``` The alternator connected to this engine does not work.
 - ```BAD_COLD_START``` The engine starts as if the themperature was 20 F colder. Does not stack with multiples of itself.
 - ```IMMOBILIZER``` Prevents engine from starting and makes it beeb.
@@ -1496,6 +1500,12 @@ The requirement for other vehicle parts is defined for a json flag by setting ``
 - ```REDUCE_ENG_POWER``` Multiplies engine power by 0.6. Does not stack with multiples of itself.
 - ```ENG_BACKFIRE``` Causes the engine to backfire as if it had zero hp.
 
+Gun fault flags:
+- ```BLACKPOWDER_FOULING_DAMAGE``` Causes the gun to take random acid damage over time.
+- ```NO_DIRTYING``` Prevents the gun from receiving `fault_gun_dirt` fault.
+- ```JAMMED_GUN``` Stops burst fire. Adds delay on next shot.
+- ```UNLUBRICATED``` Randomly causes screeching noise when firing and applies damage when that happens.
+- ```BAD_CYCLING``` One in 16 chance that the gun fails to cycle when fired resulting in `fault_gun_chamber_spent` fault.
 
 #### Parameters
 

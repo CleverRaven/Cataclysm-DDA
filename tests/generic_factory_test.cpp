@@ -2,7 +2,6 @@
 #include "catch/catch.hpp"
 
 #include "colony_list_test_helpers.h"
-#include "flag.h"
 #include "generic_factory.h"
 
 #ifdef _MSC_VER
@@ -257,7 +256,28 @@ namespace
 {
 struct dyn_test_obj {};
 using dyn_str_id = string_id<dyn_test_obj>;
+
+struct stat_test_obj {
+    string_id<stat_test_obj> id;
+    bool was_loaded = false;
+};
+using stat_str_id = string_id<stat_test_obj>;
+using stat_int_id = int_id<stat_test_obj>;
+int_id<stat_test_obj> stat_int_id_null( -1 );
+
+generic_factory<stat_test_obj> stat_test_obj_factory( "stat_test_obj" );
 } // namespace
+
+// standard "generic_factory" methods to support the benchmark below
+template<> int_id<stat_test_obj> string_id<stat_test_obj>::id() const
+{
+    return stat_test_obj_factory.convert( *this, stat_int_id_null );
+}
+template<> int_id<stat_test_obj>::int_id( const string_id<stat_test_obj> &id ) : _id( id.id() ) {}
+template<> const stat_test_obj &string_id<stat_test_obj>::obj() const
+{
+    return stat_test_obj_factory.obj( *this );
+}
 
 // mark string_id<dyn_test_obj> as dynamic/non-interned
 template<> struct string_id_params<dyn_test_obj> {
@@ -265,8 +285,15 @@ template<> struct string_id_params<dyn_test_obj> {
 };
 
 // compares the lookup performance of different flag container implementations
-TEST_CASE( "flags_benchmark", "[.][generic_factory][int_id][string_id][benchmark]" )
+TEST_CASE( "string_and_int_ids_benchmark", "[.][generic_factory][int_id][string_id][benchmark]" )
 {
+    stat_test_obj_factory.reset();
+    for( int i = 0; i < 1000; i ++ ) {
+        stat_test_obj_factory.insert( {
+            string_id<stat_test_obj>( "stat_test_id_" + std::to_string( i ) )
+        } );
+    }
+
     static constexpr int bit_flags_size = 100;
     static constexpr int bloom_size = 64;
 
@@ -278,21 +305,21 @@ TEST_CASE( "flags_benchmark", "[.][generic_factory][int_id][string_id][benchmark
     struct fake_item {
         int dummy;
         std::bitset<bit_flags_size> bit_flags;
-        std::set<flag_str_id> std_set_string_ids;
-        cata::flat_set<flag_str_id> flat_set_string_ids;
-        std::unordered_set<flag_str_id> uo_set_string_ids;
+        std::set<stat_str_id> std_set_string_ids;
+        cata::flat_set<stat_str_id> flat_set_string_ids;
+        std::unordered_set<stat_str_id> uo_set_string_ids;
         std::set<dyn_str_id> std_set_dyn_string_ids;
         cata::flat_set<dyn_str_id> flat_set_dyn_string_ids;
         std::unordered_set<dyn_str_id> uo_set_dyn_string_ids;
         std::bitset<bloom_size> bloom;
-        std::set<flag_id> std_set_int_ids;
-        std::unordered_set<flag_id> std_uo_set_int_ids;
+        std::set<stat_int_id> std_set_int_ids;
+        std::unordered_set<stat_int_id> std_uo_set_int_ids;
         std::set<std::string> std_set_std_strings;
         cata::flat_set<std::string> flat_set_std_strings;
-        cata::flat_set<flag_id> flat_set_int_ids;
-        std::vector<flag_id> vector_int_ids;
+        cata::flat_set<stat_int_id> flat_set_int_ids;
+        std::vector<stat_int_id> vector_int_ids;
 
-        void set_flag( const flag_str_id &flag ) {
+        void set_flag( const stat_str_id &flag ) {
             const auto int_id = flag.id();
             const int i = int_id.to_i();
             bit_flags[i % bit_flags_size] = true;
@@ -315,7 +342,7 @@ TEST_CASE( "flags_benchmark", "[.][generic_factory][int_id][string_id][benchmark
         }
     } item;
 
-    const auto &all_flags = json_flag::get_all();
+    const auto &all_flags = stat_test_obj_factory.get_all();
     const int all_flags_n = static_cast<int>( all_flags.size() );
     REQUIRE( all_flags_n >= 10 );
 
@@ -328,7 +355,7 @@ TEST_CASE( "flags_benchmark", "[.][generic_factory][int_id][string_id][benchmark
         item.set_flag( all_flags[xor_rand() % all_flags_n].id );
     }
 
-    std::vector<flag_str_id> test_flags;
+    std::vector<stat_str_id> test_flags;
     bool hits = GENERATE( false, true );
     if( hits ) {
         // populate only with flags that exist in the item
@@ -413,8 +440,7 @@ TEST_CASE( "flags_benchmark", "[.][generic_factory][int_id][string_id][benchmark
     };
 
     BENCHMARK( "std::vector<int_id>" ) {
-        const std::vector<flag_id> &v = item.vector_int_ids;
+        const std::vector<stat_int_id> &v = item.vector_int_ids;
         return std::find( v.begin(), v.end(), test_flags[( i++ ) % test_flags_size] ) != v.end();
     };
-
 }

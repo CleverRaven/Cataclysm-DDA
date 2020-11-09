@@ -1889,12 +1889,13 @@ void player::mend_item( item_location &&obj, bool interactive )
 cata::optional<std::list<item>::iterator>
 player::wear( int pos, bool interactive )
 {
-    return wear( i_at( pos ), interactive );
+    return wear( item_location( *this, &i_at( pos ) ), interactive );
 }
 
 cata::optional<std::list<item>::iterator>
-player::wear( item &to_wear, bool interactive )
+player::wear( item_location item_wear, bool interactive )
 {
+    item to_wear = *item_wear;
     if( is_worn( to_wear ) ) {
         if( interactive ) {
             add_msg_player_or_npc( m_info,
@@ -1922,13 +1923,8 @@ player::wear( item &to_wear, bool interactive )
         remove_item( to_wear );
         was_weapon = false;
     } else {
-        /**
-         * we actually know with certainty that if we're here the
-         * item was dropped to the ground and is at pos().
-         * ideally the parameter of this function should be an item_location instead of
-         * constructing it in place here.
-         */
-        item_location( map_cursor( pos() ), &to_wear ).remove_item();
+        // item is on the map if this point is reached.
+        item_wear.remove_item();
         was_weapon = false;
     }
 
