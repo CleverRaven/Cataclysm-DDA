@@ -79,7 +79,7 @@
     "price": 1000000,
     "price_postapoc": 20000,
     "material": [ "titanium", "plastic" ],
-    "flags": [ "FIRE_TWOHAND", "STR_DRAW", "PRIMITIVE_RANGED_WEAPON", "BELTED", "NO_UNLOAD" ],
+    "flags": [ "FIRE_TWOHAND", "STR_DRAW", "PRIMITIVE_RANGED_WEAPON", "BELTED", "NO_UNLOAD", "SHEATH_BOW" ],
     "skill": "archery",
     "min_strength": 4,
     "weight": "113 g",

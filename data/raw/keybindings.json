@@ -215,17 +215,17 @@
   },
   {
     "type": "keybinding",
-    "id": "SCROLL_UP",
+    "id": "SCROLL_ITEM_INFO_UP",
     "category": "PICKUP",
     "name": "Scroll item info up",
-    "bindings": [ { "input_method": "keyboard_any", "key": "PPAGE" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "<" } ]
   },
   {
     "type": "keybinding",
-    "id": "SCROLL_DOWN",
+    "id": "SCROLL_ITEM_INFO_DOWN",
     "category": "PICKUP",
     "name": "Scroll item info down",
-    "bindings": [ { "input_method": "keyboard_any", "key": "NPAGE" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": ">" } ]
   },
   {
     "type": "keybinding",
@@ -1296,17 +1296,17 @@
   },
   {
     "type": "keybinding",
-    "id": "SCROLL_UP",
+    "id": "SCROLL_SKILL_INFO_UP",
     "category": "NEW_CHAR_SKILLS",
     "name": "Scroll description up",
-    "bindings": [ { "input_method": "keyboard_any", "key": "PPAGE" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "<" } ]
   },
   {
     "type": "keybinding",
-    "id": "SCROLL_DOWN",
+    "id": "SCROLL_SKILL_INFO_DOWN",
     "category": "NEW_CHAR_SKILLS",
     "name": "Scroll description down",
-    "bindings": [ { "input_method": "keyboard_any", "key": "NPAGE" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": ">" } ]
   },
   {
     "type": "keybinding",

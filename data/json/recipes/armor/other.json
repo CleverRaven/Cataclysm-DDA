@@ -375,25 +375,6 @@
     "components": [ [ [ "rag", 10 ] ], [ [ "fur", 20 ], [ "tanned_pelt", 3 ] ] ]
   },
   {
-    "result": "survivor_belt",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_OTHER",
-    "skill_used": "fabrication",
-    "time": "1 m",
-    "reversible": true,
-    "autolearn": true,
-    "components": [
-      [ [ "survivor_belt_notools", 1 ] ],
-      [ [ "screwdriver_set", 1 ] ],
-      [ [ "wrench", 1 ] ],
-      [ [ "saw", 1 ] ],
-      [ [ "hacksaw", 1 ] ],
-      [ [ "hammer", 1 ] ]
-    ]
-  },
-  {
     "result": "survivor_belt_notools",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

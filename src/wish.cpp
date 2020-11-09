@@ -483,7 +483,7 @@ class wish_item_callback: public uilist_callback
             // grab default flags for the itype
             flags = debug_menu::iterable_to_string( selected_itype.get_flags(), " ",
             []( const flag_id & f ) {
-                return f.id().str();
+                return f.str();
             } );
         }
 

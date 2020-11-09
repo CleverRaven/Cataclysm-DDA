@@ -60,6 +60,7 @@
 #include "line.h"
 #include "magic.h"
 #include "magic_enchantment.h"
+#include "make_static.h"
 #include "map.h"
 #include "martialarts.h"
 #include "material.h"
@@ -115,8 +116,6 @@ static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 static const efftype_id effect_bleed( "bleed" );
-
-static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
@@ -680,7 +679,11 @@ bool item::is_frozen_liquid() const
 
 bool item::covers( const bodypart_id &bp ) const
 {
-    return get_covered_body_parts().test( bp.id() );
+    bool does_cover = false;
+    iterate_covered_body_parts_internal( get_side(), [&]( const bodypart_str_id & covered ) {
+        does_cover = does_cover || bp == covered;
+    } );
+    return does_cover;
 }
 
 body_part_set item::get_covered_body_parts() const
@@ -691,48 +694,68 @@ body_part_set item::get_covered_body_parts() const
 body_part_set item::get_covered_body_parts( const side s ) const
 {
     body_part_set res;
+    iterate_covered_body_parts_internal( s, [&]( const bodypart_str_id & bp ) {
+        res.set( bp );
+    } );
+    return res;
+}
+
+namespace
+{
+
+const std::array<bodypart_str_id, 4> left_side_parts{ {
+        bodypart_str_id{"arm_l"},
+        bodypart_str_id{"hand_l"},
+        bodypart_str_id{"leg_l"},
+        bodypart_str_id{"foot_l"}
+    }
+};
+
+const std::array<bodypart_str_id, 4> right_side_parts{ {
+        bodypart_str_id{"arm_r"},
+        bodypart_str_id{"hand_r"},
+        bodypart_str_id{"leg_r"},
+        bodypart_str_id{"foot_r"}
+    }
+};
+
+} // namespace
+
+void item::iterate_covered_body_parts_internal( const side s,
+        std::function<void( const bodypart_str_id & )> cb ) const
+{
 
     if( is_gun() ) {
         // Currently only used for guns with the should strap mod, other guns might
         // go on another bodypart.
-        res.set( bodypart_str_id( "torso" ) );
+        cb( STATIC( bodypart_str_id( "torso" ) ) );
     }
 
     const islot_armor *armor = find_armor_data();
     if( armor == nullptr ) {
-        return res;
+        return;
     }
+
+    // If we are querying for only one side of the body, we ignore coverage
+    // for parts on the opposite side of the body.
+    const auto &opposite_side_parts = s == side::LEFT ? right_side_parts : left_side_parts;
+
     for( const armor_portion_data &data : armor->data ) {
         if( data.covers.has_value() ) {
-            res.unify_set( data.covers.value() );
+            if( !armor->sided || s == side::BOTH || s == side::num_sides ) {
+                for( const bodypart_str_id &bpid : data.covers.value() ) {
+                    cb( bpid );
+                }
+                continue;
+            }
+            for( const bodypart_str_id &bpid : data.covers.value() ) {
+                if( std::find( opposite_side_parts.begin(), opposite_side_parts.end(),
+                               bpid ) == opposite_side_parts.end() ) {
+                    cb( bpid );
+                }
+            }
         }
     }
-
-    if( !armor->sided ) {
-        return res; // Just ignore the side.
-    }
-
-    switch( s ) {
-        case side::BOTH:
-        case side::num_sides:
-            break;
-
-        case side::LEFT:
-            res.reset( bodypart_str_id( "arm_r" ) );
-            res.reset( bodypart_str_id( "hand_r" ) );
-            res.reset( bodypart_str_id( "leg_r" ) );
-            res.reset( bodypart_str_id( "foot_r" ) );
-            break;
-
-        case side::RIGHT:
-            res.reset( bodypart_str_id( "arm_l" ) );
-            res.reset( bodypart_str_id( "hand_l" ) );
-            res.reset( bodypart_str_id( "leg_l" ) );
-            res.reset( bodypart_str_id( "foot_l" ) );
-            break;
-    }
-
-    return res;
 }
 
 bool item::is_sided() const
@@ -744,7 +767,7 @@ bool item::is_sided() const
 side item::get_side() const
 {
     // MSVC complains if directly cast double to enum
-    return static_cast<side>( static_cast<int>( get_var( "lateral",
+    return static_cast<side>( static_cast<int>( get_var( STATIC( std::string{ "lateral" } ),
                               static_cast<int>( side::BOTH ) ) ) );
 }
 
@@ -1598,8 +1621,8 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( type->min_per > 0 ) {
             req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
         }
-        for( const std::pair<const skill_id, int> sk : sorted_lex( type->min_skills ) ) {
-            req.push_back( string_format( "%s %d", skill_id( sk.first )->name(), sk.second ) );
+        for( const std::pair<skill_id, int> &sk : sorted_lex( type->min_skills ) ) {
+            req.push_back( string_format( "%s %d", sk.first->name(), sk.second ) );
         }
         if( !req.empty() ) {
             info.emplace_back( "BASE", _( "<bold>Minimum requirements</bold>:" ) );
@@ -1635,7 +1658,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                       burnt ) );
             const std::string tags_listed = enumerate_as_string( item_tags, []( const flag_id & f ) {
-                return f.id().str();
+                return f.str();
             }, enumeration_conjunction::none );
 
             info.push_back( iteminfo( "BASE", string_format( _( "tags: %s" ), tags_listed ) ) );
@@ -3329,7 +3352,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
 
     if( parts->test( iteminfo_parts::QUALITIES ) ) {
         insert_separation_line( info );
-        for( const std::pair<const quality_id, int> q : sorted_lex( type->qualities ) ) {
+        for( const std::pair<quality_id, int> &q : sorted_lex( type->qualities ) ) {
             name_quality( q );
         }
     }
@@ -3404,7 +3427,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->encumbrance.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair<const bodypart_str_id, int> element : sorted_lex( bid->encumbrance ) ) {
+        for( const std::pair<bodypart_str_id, int> &element : sorted_lex( bid->encumbrance ) ) {
             info.push_back(
                 iteminfo( "CBM", " " + body_part_name_as_heading( element.first.id(), 1 ),
                           " <num>", iteminfo::no_newline, element.second ) );
@@ -3415,7 +3438,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Environmental Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->env_protec ) ) {
+        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->env_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3425,7 +3448,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Bash Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->bash_protec ) ) {
+        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->bash_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3435,7 +3458,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Cut Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->cut_protec ) ) {
+        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->cut_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3444,7 +3467,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->bullet_protec.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Ballistic Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair<const bodypart_str_id, size_t > element : sorted_lex( bid->bullet_protec ) ) {
+        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->bullet_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3643,21 +3666,23 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool /*debug*/ ) const
 {
-    if( contents.empty() || !parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
+    if( ( toolmods().empty() && gunmods().empty() && contents.empty() ) ||
+        !parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
         return;
     }
     const std::string space = "  ";
 
     for( const item *mod : is_gun() ? gunmods() : toolmods() ) {
+        // mod_str = "(Integrated) Mod: %mod_name% (%mod_location%) "
         std::string mod_str;
+        if( mod->is_irremovable() ) {
+            mod_str = _( "Integrated mod: " );
+        } else {
+            mod_str = _( "Mod: " );
+        }
+        mod_str += string_format( "<bold>%s</bold>", mod->tname() );
         if( mod->type->gunmod ) {
-            if( mod->is_irremovable() ) {
-                mod_str = _( "Integrated mod: " );
-            } else {
-                mod_str = _( "Mod: " );
-            }
-            mod_str += string_format( "<bold>%s</bold> (%s) ", mod->tname(),
-                                      mod->type->gunmod->location.name() );
+            mod_str += string_format( " (%s) ", mod->type->gunmod->location.name() );
         }
         insert_separation_line( info );
         info.emplace_back( "DESCRIPTION", mod_str );
@@ -3665,28 +3690,26 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
     }
     bool contents_header = false;
     for( const item *contents_item : contents.all_items_top() ) {
-        if( !contents_item->type->mod ) {
-            if( !contents_header ) {
-                insert_separation_line( info );
-                info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this item</bold>:" ) );
-                contents_header = true;
-            } else {
-                // Separate items with a blank line
-                info.emplace_back( "DESCRIPTION", space );
-            }
+        if( !contents_header ) {
+            insert_separation_line( info );
+            info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this item</bold>:" ) );
+            contents_header = true;
+        } else {
+            // Separate items with a blank line
+            info.emplace_back( "DESCRIPTION", space );
+        }
 
-            const translation &description = contents_item->type->description;
+        const translation &description = contents_item->type->description;
 
-            if( contents_item->made_of_from_type( phase_id::LIQUID ) ) {
-                units::volume contents_volume = contents_item->volume() * batch;
-                info.emplace_back( "DESCRIPTION", colorize( contents_item->display_name(),
-                                   contents_item->color_in_inventory() ) );
-                info.emplace_back( vol_to_info( "CONTAINER", description + space, contents_volume ) );
-            } else {
-                info.emplace_back( "DESCRIPTION", colorize( contents_item->display_name(),
-                                   contents_item->color_in_inventory() ) );
-                info.emplace_back( "DESCRIPTION", description.translated() );
-            }
+        if( contents_item->made_of_from_type( phase_id::LIQUID ) ) {
+            units::volume contents_volume = contents_item->volume() * batch;
+            info.emplace_back( "DESCRIPTION", colorize( contents_item->display_name(),
+                               contents_item->color_in_inventory() ) );
+            info.emplace_back( vol_to_info( "CONTAINER", description + space, contents_volume ) );
+        } else {
+            info.emplace_back( "DESCRIPTION", colorize( contents_item->display_name(),
+                               contents_item->color_in_inventory() ) );
+            info.emplace_back( "DESCRIPTION", description.translated() );
         }
     }
 }
@@ -5320,7 +5343,7 @@ bool item::has_flag( const flag_id &f ) const
 {
     bool ret = false;
     if( !f.is_valid() ) {
-        debugmsg( "Attempted to check invalid flag_id %d", f.to_i() );
+        debugmsg( "Attempted to check invalid flag_id %s", f.str() );
         return false;
     }
 
@@ -5350,7 +5373,7 @@ item &item::set_flag( const flag_id &flag )
         item_tags.insert( flag );
         requires_tags_processing = true;
     } else {
-        debugmsg( "Attempted to set invalid flag_id %d", flag.to_i() );
+        debugmsg( "Attempted to set invalid flag_id %s", flag.str() );
     }
     return *this;
 }
@@ -8718,8 +8741,8 @@ int item::fill_with( const item &contained, const int amount )
         }
     }
     if( num_contained == 0 ) {
-        debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
-                  contained_item.typeId().str(), typeId().str() );
+        debugmsg( "tried to put an item (%s, amount %d) in a container (%s) that cannot contain it",
+                  contained_item.typeId().str(), contained_item.charges, typeId().str() );
     }
     on_contents_changed();
     get_avatar().invalidate_weight_carried_cache();
@@ -9930,10 +9953,6 @@ bool item::process_internal( player *carrier, const tripoint &pos,
         return processed;
     }
 
-    if( faults.count( fault_gun_blackpowder ) ) {
-        return process_blackpowder_fouling( carrier );
-    }
-
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
     // call the processing function. If that function returns true, the item
@@ -9943,80 +9962,84 @@ bool item::process_internal( player *carrier, const tripoint &pos,
     // food and as litcig and as ...
 
     // Remaining stuff is only done for active items.
-    if( !active ) {
-        return false;
-    }
+    if( active ) {
 
-    if( !is_food() && item_counter > 0 ) {
-        item_counter--;
-    }
+        if( !is_food() && item_counter > 0 ) {
+            item_counter--;
+        }
 
-    if( item_counter == 0 && type->countdown_action ) {
-        type->countdown_action.call( carrier ? *carrier : get_avatar(), *this, false, pos );
-        if( type->countdown_destroy ) {
+        if( item_counter == 0 && type->countdown_action ) {
+            type->countdown_action.call( carrier ? *carrier : get_avatar(), *this, false, pos );
+            if( type->countdown_destroy ) {
+                return true;
+            }
+        }
+
+        map &here = get_map();
+        for( const emit_id &e : type->emits ) {
+            here.emit_field( pos, e );
+        }
+
+        if( requires_tags_processing ) {
+            // `mark` becomes true if any of the flags that require processing are present
+            bool mark = false;
+            const auto mark_flag = [&mark]() {
+                mark = true;
+                return true;
+            };
+
+            if( has_flag( flag_FAKE_SMOKE ) && mark_flag() && process_fake_smoke( carrier, pos ) ) {
+                return true;
+            }
+            if( has_flag( flag_FAKE_MILL ) && mark_flag() && process_fake_mill( carrier, pos ) ) {
+                return true;
+            }
+            if( is_corpse() && mark_flag() && process_corpse( carrier, pos ) ) {
+                return true;
+            }
+            if( has_flag( flag_WET ) && mark_flag() && process_wet( carrier, pos ) ) {
+                // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
+                return false;
+            }
+            if( has_flag( flag_LITCIG ) && mark_flag()  && process_litcig( carrier, pos ) ) {
+                return true;
+            }
+            if( ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
+                mark_flag()  && process_extinguish( carrier, pos ) ) {
+                return false;
+            }
+            if( has_flag( flag_CABLE_SPOOL ) && mark_flag() ) {
+                // DO NOT process this as a tool! It really isn't!
+                return process_cable( carrier, pos );
+            }
+            if( has_flag( flag_IS_UPS ) && mark_flag() ) {
+                // DO NOT process this as a tool! It really isn't!
+                return process_UPS( carrier, pos );
+            }
+
+            if( !mark ) {
+                // no flag checks above were successful and no additional processing logic
+                // that could've changed flags was executed
+                requires_tags_processing = false;
+            }
+        }
+
+        if( is_tool() ) {
+            return process_tool( carrier, pos );
+        }
+        // All foods that go bad have temperature
+        if( has_temperature() &&
+            process_temperature_rot( insulation, pos, carrier, flag, spoil_modifier ) ) {
+            if( is_comestible() ) {
+                here.rotten_item_spawn( *this, pos );
+            }
             return true;
         }
-    }
-
-    map &here = get_map();
-    for( const emit_id &e : type->emits ) {
-        here.emit_field( pos, e );
-    }
-
-    if( requires_tags_processing ) {
-        // `mark` becomes true if any of the flags that require processing are present
-        bool mark = false;
-        const auto mark_flag = [&mark]() {
-            mark = true;
-            return true;
-        };
-
-        if( has_flag( flag_FAKE_SMOKE ) && mark_flag() && process_fake_smoke( carrier, pos ) ) {
-            return true;
+    } else {
+        // guns are never active so we only need thck this on inactive items. For performance reasons.
+        if( has_fault_flag( "BLACKPOWDER_FOULING_DAMAGE" ) ) {
+            return process_blackpowder_fouling( carrier );
         }
-        if( has_flag( flag_FAKE_MILL ) && mark_flag() && process_fake_mill( carrier, pos ) ) {
-            return true;
-        }
-        if( is_corpse() && mark_flag() && process_corpse( carrier, pos ) ) {
-            return true;
-        }
-        if( has_flag( flag_WET ) && mark_flag() && process_wet( carrier, pos ) ) {
-            // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
-            return false;
-        }
-        if( has_flag( flag_LITCIG ) && mark_flag()  && process_litcig( carrier, pos ) ) {
-            return true;
-        }
-        if( ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
-            mark_flag()  && process_extinguish( carrier, pos ) ) {
-            return false;
-        }
-        if( has_flag( flag_CABLE_SPOOL ) && mark_flag() ) {
-            // DO NOT process this as a tool! It really isn't!
-            return process_cable( carrier, pos );
-        }
-        if( has_flag( flag_IS_UPS ) && mark_flag() ) {
-            // DO NOT process this as a tool! It really isn't!
-            return process_UPS( carrier, pos );
-        }
-
-        if( !mark ) {
-            // no flag checks above were successful and no additional processing logic
-            // that could've changed flags was executed
-            requires_tags_processing = false;
-        }
-    }
-
-    if( is_tool() ) {
-        return process_tool( carrier, pos );
-    }
-    // All foods that go bad have temperature
-    if( has_temperature() &&
-        process_temperature_rot( insulation, pos, carrier, flag, spoil_modifier ) ) {
-        if( is_comestible() ) {
-            here.rotten_item_spawn( *this, pos );
-        }
-        return true;
     }
 
     return false;

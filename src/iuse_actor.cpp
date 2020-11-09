@@ -1724,10 +1724,10 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         } else {
             p.add_msg_if_player( m_neutral, _( "It itches a little." ) );
         }
-        if( p.has_effect( effect_bleed, hpart.id() ) ) {
+        if( p.has_effect( effect_bleed, hpart ) ) {
             p.add_msg_if_player( m_bad, _( "Bleeding has not stopped completely!" ) );
         }
-        if( p.has_effect( effect_bite, hpart.id() ) ) {
+        if( p.has_effect( effect_bite, hpart ) ) {
             p.add_effect( effect_bite, 260_minutes, hpart, true );
         }
 
@@ -3221,7 +3221,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
         }
     };
 
-    if( patient.has_effect( effect_bleed, healed.id() ) ) {
+    if( patient.has_effect( effect_bleed, healed ) ) {
         // small band-aids won't stop big arterial bleeding, but with tourniquet they just might
         int pwr = 3 * get_stopbleed_level( healer );
         if( patient.worn_with_flag( flag_TOURNIQUET,  healed ) ) {
@@ -3245,7 +3245,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
         }
         practice_amount += bleed / 3.0f;
     }
-    if( patient.has_effect( effect_bite, healed.id() ) ) {
+    if( patient.has_effect( effect_bite, healed ) ) {
         if( x_in_y( bite, 1.0f ) ) {
             patient.remove_effect( effect_bite, healed );
             heal_msg( m_good, _( "You clean the wound." ), _( "The wound is cleaned." ) );
@@ -3255,7 +3255,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
 
         practice_amount += bite * 3.0f;
     }
-    if( patient.has_effect( effect_infected, healed.id() ) ) {
+    if( patient.has_effect( effect_infected, healed ) ) {
         if( x_in_y( infect, 1.0f ) ) {
             const time_duration infected_dur = patient.get_effect_dur( effect_infected, healed );
             patient.remove_effect( effect_infected, healed );
@@ -3343,9 +3343,9 @@ static bodypart_id pick_part_to_heal(
             return bodypart_id( "bp_null" );
         }
 
-        if( ( infect && patient.has_effect( effect_infected, healed_part.id() ) ) ||
-            ( bite && patient.has_effect( effect_bite, healed_part.id() ) ) ||
-            ( bleed && patient.has_effect( effect_bleed, healed_part.id() ) ) ) {
+        if( ( infect && patient.has_effect( effect_infected, healed_part ) ) ||
+            ( bite && patient.has_effect( effect_bite, healed_part ) ) ||
+            ( bleed && patient.has_effect( effect_bleed, healed_part ) ) ) {
             return healed_part;
         }
 
@@ -3386,21 +3386,20 @@ bodypart_id heal_actor::use_healing_item( player &healer, player &patient, item 
         // NPCs heal whatever has sustained the most damage that they can heal but don't
         // rebandage parts unless they are bleeding significantly
         int highest_damage = 0;
-        for( const std::pair<const bodypart_str_id, bodypart> &elem : patient.get_body() ) {
-            const bodypart &part = elem.second;
+        for( bodypart_id part_id : patient.get_all_body_parts( get_body_part_flags::only_main ) ) {
             int damage = 0;
-            if( ( !patient.has_effect( effect_bandaged, elem.first ) && bandages_power > 0 ) ||
-                ( !patient.has_effect( effect_disinfected, elem.first ) && disinfectant_power > 0 ) ) {
-                damage += part.get_hp_max() - part.get_hp_cur();
-                damage += bite * patient.get_effect_dur( effect_bite, elem.first ) / 10_minutes;
-                damage += infect * patient.get_effect_dur( effect_infected, elem.first ) / 10_minutes;
+            if( ( !patient.has_effect( effect_bandaged, part_id ) && bandages_power > 0 ) ||
+                ( !patient.has_effect( effect_disinfected, part_id ) && disinfectant_power > 0 ) ) {
+                damage += patient.get_part_hp_max( part_id ) - patient.get_part_hp_cur( part_id );
+                damage += bite * patient.get_effect_dur( effect_bite, part_id ) / 10_minutes;
+                damage += infect * patient.get_effect_dur( effect_infected, part_id ) / 10_minutes;
             }
-            if( patient.get_effect_int( effect_bleed, elem.first ) > 5 && bleed > 0 ) {
-                damage += bleed * patient.get_effect_dur( effect_bleed, elem.first ) / 5_minutes;
+            if( patient.get_effect_int( effect_bleed, part_id ) > 5 && bleed > 0 ) {
+                damage += bleed * patient.get_effect_dur( effect_bleed, part_id ) / 5_minutes;
             }
             if( damage > highest_damage ) {
                 highest_damage = damage;
-                healed = elem.first.id();
+                healed = part_id;
             }
         }
     } else if( patient.is_player() ) {

@@ -129,14 +129,17 @@
           "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_1" ], "x": 3, "y": 10 } ]
         }
       ],
-      "effect": [ { "u_buy_item": "RobofacCoin", "count": 2 } ]
+      "effect": [
+        { "u_buy_item": "RobofacCoin", "count": 4 },
+        { "u_add_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "followup": "MISSION_ROBOFAC_INTERCOM_3",
     "dialogue": {
       "describe": "…",
-      "offer": "When the portal storms started, the Government issued an evacuation order for critical XEDRA personnel and sent convoys to retrieve them, with our head of AI research among the recalled.  We recently discovered that he died when the convoy transferring him was ambushed in the initial chaos, but his corpse and memory bionic might remain intact enough for us to extract valuable knowledge.  We want you to travel to the location, make a copy of his Bionic Memory Unit, and return it to us.",
+      "offer": "When the portal storms started, the Government issued an evacuation order for critical XEDRA personnel and sent convoys to retrieve them, with our head of AI research among the recalled.  We recently discovered that he died when the convoy transferring him was ambushed in the initial chaos, but his corpse and memory bionic might remain intact enough for us to extract valuable knowledge.  We want you to travel to the location, make a copy of his Bionic Memory Unit, and return it to us.\n\nthe intercom: We offer the standard hazard pay of 4 HGC for this contract.",
       "accepted": "Remember, perform the extraction /exactly/ as specified, otherwise the bionic will self-destruct.",
       "rejected": "Yes, we recognize that our request is exceptional.  Return if you change your mind.",
       "advice": "You do know what a memory unit looks like, right?  Matte gray, pill-sized, right in front of the corpus callosum.  We suggest a forceps through the eye socket, shaking slightly, then slowly and carefully…",
@@ -166,12 +169,12 @@
       },
       "update_mapgen": [ { "place_nested": [ { "chunks": [ "robofac_mi3_photonics_chunk" ], "x": 10, "y": 22 } ] } ]
     },
-    "end": { "effect": [ { "u_buy_item": "RobofacCoin", "count": 4 } ] },
+    "end": { "effect": [ { "u_buy_item": "RobofacCoin", "count": 8 } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "…",
-      "offer": "Our facility once sourced advanced photonic circuitry from a nearby robotics manufacturer.  Their building suffered major damage during the portal storms, and collapsed almost entirely.  However, preliminary scouting reveals that the basement prototyping lab likely remains intact.\n\nthe intercom: We ask you to investigate the ruins, and if possible, retrieve a template for the fabrication of said photonic circuitry.",
+      "offer": "Our facility once sourced advanced photonic circuitry from a nearby robotics manufacturer.  Their building suffered major damage during the portal storms, and collapsed almost entirely.  However, preliminary scouting reveals that the basement prototyping lab likely remains intact.\n\nthe intercom: We ask you to investigate the ruins, and if possible, retrieve a template for the fabrication of said photonic circuitry.\n\nthe intercom: Completion of this contract awards 8 HGC, the standard heightened-hazard rate.",
       "accepted": "We expect your success, mercenary.",
       "rejected": "Return if you change your mind.",
       "advice": "The scout drone also revealed extensive heat signatures and high concentrations of toxic compounds within the ruins, plan accordingly.  We are willing to sell you some protective gear at a discount, if you require it.",
@@ -250,7 +253,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "…",
-      "offer": "We find ourselves in need of a robotic chassis of a TALON UGV.  Our scout drones have already revealed the location of a stray robot that fits our purposes, and we simply ask you to intercept it, disable it, and retrieve it for us.  We will equip you with a prototype gun fit for this purpose, if you accept.",
+      "offer": "We find ourselves in need of a robotic chassis of a TALON UGV.  Our scout drones have already revealed the location of a stray robot that fits our purposes, and we simply ask you to intercept it, disable it, and retrieve it for us.  We will equip you with a prototype gun fit for this purpose, if you accept.\n\nthe intercom: Completion of this contract awards 2, to compensate the cost of the provided gear.",
       "accepted": "Remember, the UGV you bring back must remain operational, a broken robot is of no use to us.",
       "rejected": "Regrettable, but understandable.  We will find someone else.",
       "advice": "The hm12 will only stun the robot if you manage to hit one of its sensors, so we suggest you to get as close as possible before making the shot.  You'll also have only one chance to make the shot, so it's better if you familiarize yourself with the gun beforehand.",
@@ -268,29 +271,7 @@
       "type": "dialogue",
       "context": "intercom",
       "value": "yes",
-      "yes": [
-        "So, do you need something?",
-        "Yes, mercenary?",
-        "Mercenary.",
-        "Mercenary.",
-        "Don't you have a mission to do?",
-        "Well?",
-        "Say it.",
-        "Get with it.",
-        "Make it quick.",
-        "Don't loiter.",
-        "Don't do anything stupid.",
-        "Ugh I hate intercom duty…  Wait is the speaker still on?",
-        "Please don't bother us senselessly.",
-        "[Silence]",
-        "[Crackles On]",
-        "[A red LED blinks on]",
-        "[Unintelligible]",
-        "What's up with the interference in this thing?",
-        "Speak slowly and clearly.  Please.",
-        "Say again?",
-        "If/you speak to/understand… you/me. Yes?"
-      ],
+      "yes": [ "[Silence]", "[Crackles On]", "[A red LED blinks on]", "[Unintelligible]" ],
       "no": {
         "u_has_var": "u_met_robofac_intercom",
         "type": "dialogue",
@@ -326,12 +307,6 @@
         "topic": "TALK_ROBOFAC_INTERCOM_PLEAD"
       },
       {
-        "text": "Lets trade.",
-        "condition": { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
-        "topic": "TALK_ROBOFAC_INTERCOM",
-        "effect": "start_trade"
-      },
-      {
         "text": "It's the apocalypse out here!  Please let me in!",
         "condition": {
           "and": [
@@ -356,6 +331,82 @@
         "failure": { "topic": "TALK_ROBOFAC_INTERCOM_NO_TRADE" }
       },
       {
+        "truefalsetext": {
+          "condition": { "npc_has_effect": "npc_said" },
+          "true": "There are other things I need to bring up…",
+          "false": "npc_intercom_job_speech"
+        },
+        "condition": {
+          "and": [
+            { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "npc_has_var": "npc_intercom_job_speech", "type": "dialogue", "context": "intercom", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "…",
+        "condition": {
+          "and": [
+            { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
+            {
+              "not": { "npc_has_var": "npc_intercom_job_speech", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_1_JOBS"
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
+          "true": "[Leave]",
+          "false": "Alright, I'm leaving."
+        },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_1_JOBS",
+    "type": "talk_topic",
+    "dynamic_line": "Your handling of our 'rogue robot' situation was impressive, and its become clear that we greatly underestimated your usefulness.  If you are interested, we are willing to offer you extra contracts, all of them with  proper compensation from now on.",
+    "speaker_effect": {
+      "effect": { "npc_add_var": "npc_intercom_job_speech", "type": "dialogue", "context": "intercom", "value": "yes" },
+      "sentinel": "intercom_1_jobs"
+    },
+    "responses": [ { "text": "I'll keep that in mind", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SERVICES",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "So, do you need something?",
+      "Yes, mercenary?",
+      "Mercenary.",
+      "Mercenary.",
+      "Don't you have a mission to do?",
+      "Well?",
+      "Say it.",
+      "Get with it.",
+      "Make it quick.",
+      "Don't loiter.",
+      "Don't do anything stupid.",
+      "Ugh I hate intercom duty…  Wait is the speaker still on?",
+      "Please don't bother us senselessly.",
+      "What's up with the interference in this thing?",
+      "Speak slowly and clearly.  Please.",
+      "Say again?",
+      "If/you speak to/understand… you/me. Yes?"
+    ],
+    "speaker_effect": { "effect": { "npc_add_effect": "npc_said", "duration": "600" } },
+    "responses": [
+      { "text": "About that contract…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
+      {
+        "text": "About those contracts…",
+        "topic": "TALK_MISSION_LIST_ASSIGNED",
+        "condition": "has_many_assigned_missions"
+      },
+      {
         "text": "Any jobs you need done?",
         "condition": {
           "and": [
@@ -366,8 +417,21 @@
         "topic": "TALK_MISSION_LIST"
       },
       {
+        "text": "Lets trade.",
+        "condition": { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "effect": "start_trade"
+      },
+      {
         "text": "What the hell were you testing out there?",
-        "condition": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+        "condition": {
+          "and": [
+            { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+            {
+              "not": { "npc_has_var": "told_about_prototype", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
+        },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK"
       },
       {
@@ -381,6 +445,16 @@
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_PROTECTIVE_GEAR"
+      },
+      {
+        "text": "[1 HGC] Buy a map of the local area.",
+        "condition": {
+          "and": [
+            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "not": { "npc_has_var": "sold_local_map", "type": "dialogue", "context": "intercom", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_LOCAL_MAP"
       },
       {
         "truefalsetext": {
@@ -406,17 +480,17 @@
     "id": "TALK_ROBOFAC_INTERCOM_TRADE",
     "type": "talk_topic",
     "dynamic_line": "I guess the lab can do without some of this stuff.",
-    "speaker_effect": {
-      "effect": { "npc_add_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
-      "sentinel": "intercom_trade"
-    },
     "responses": [ { "text": "…", "effect": "start_trade", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK",
     "type": "talk_topic",
     "dynamic_line": "It was a modified Wraitheon chassis, with a custom AI.  We hoped it would interact with the outside world for us, but you know how well it went…  Shame about what happened, with the evisceration and all…",
-    "responses": [ { "text": "…", "topic": "TALK_ROBOFAC_INTERCOM" } ]
+    "speaker_effect": {
+      "effect": { "npc_add_var": "told_about_prototype", "type": "dialogue", "context": "intercom", "value": "yes" },
+      "sentinel": "told_about_prototype"
+    },
+    "responses": [ { "text": "…", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_BUY_PROTECTIVE_GEAR",
@@ -433,9 +507,27 @@
           { "u_buy_item": "gasfilter_m", "count": 100 },
           { "npc_add_var": "npc_bought_protective_gear", "type": "dialogue", "context": "intercom", "value": "yes" }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM"
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
-      { "text": "I have to give it a thought.", "topic": "TALK_ROBOFAC_INTERCOM" }
+      { "text": "I have to give it a thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_LOCAL_MAP",
+    "type": "talk_topic",
+    "dynamic_line": "To assist your operations we are willing to sell you a map of the local area, as surveyed by our cam-spy drones.  Its standing price is 1 HGC.",
+    "responses": [
+      {
+        "text": "[ 1 HGC ] Deal!",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 1 },
+          { "mapgen_update": "robofachq_surface_entrance", "reveal_radius": 40, "random": true, "search_range": 70 },
+          { "npc_add_var": "sold_local_map", "type": "dialogue", "context": "intercom", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "I have to give it a thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
   },
   {

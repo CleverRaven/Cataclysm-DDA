@@ -289,7 +289,7 @@ TEST_CASE( "max container volume", "[pocket][max_contains_volume]" )
 
         // 9mm ammo is 50 rounds per 250ml (or 200 rounds per liter), so this ammo box
         // should be exactly 1 liter in size, so it can contain this much ammo.
-        data_ammo_box.ammo_restriction.emplace( ammotype( "9mm" ), 200 );
+        data_ammo_box.ammo_restriction.emplace( ammotype( "test_9mm" ), 200 );
         REQUIRE_FALSE( data_ammo_box.ammo_restriction.empty() );
 
         // And because actual volume is derived from ammo needs, this volume should be ignored.
@@ -334,7 +334,7 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
         //      "ammo_restriction": { "9mm", 10 }
         //
         const int full_clip_qty = 10;
-        data_mag.ammo_restriction.emplace( ammotype( "9mm" ), full_clip_qty );
+        data_mag.ammo_restriction.emplace( ammotype( "test_9mm" ), full_clip_qty );
         item_pocket pocket_mag( &data_mag );
 
         WHEN( "it does not already contain any ammo" ) {
@@ -1115,7 +1115,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         REQUIRE( glockmag.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) );
         REQUIRE( glockmag.ammo_remaining() == 0 );
         // A single 9mm bullet
-        item glockammo( "9mm", calendar::turn, 1 );
+        item glockammo( "test_9mm_ammo", calendar::turn, 1 );
         REQUIRE( glockammo.is_ammo() );
         REQUIRE( glockammo.charges == 1 );
 
