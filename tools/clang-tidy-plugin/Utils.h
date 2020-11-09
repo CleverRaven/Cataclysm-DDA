@@ -181,7 +181,7 @@ inline bool isPointMethod( const FunctionDecl *d )
 class NameConvention
 {
     public:
-        NameConvention( StringRef xName );
+        explicit NameConvention( StringRef xName );
 
         enum MatchResult {
             XName,

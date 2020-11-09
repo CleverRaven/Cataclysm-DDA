@@ -39,7 +39,7 @@ namespace cata
 class NoLongMacrosCallbacks : public PPCallbacks
 {
     public:
-        NoLongMacrosCallbacks( NoLongCheck *Check ) :
+        explicit NoLongMacrosCallbacks( NoLongCheck *Check ) :
             Check( Check ) {}
 
         void MacroExpands( const Token &MacroNameTok,

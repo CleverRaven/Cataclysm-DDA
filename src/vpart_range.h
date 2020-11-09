@@ -103,7 +103,7 @@ class generic_vehicle_part_range
         std::reference_wrapper<::vehicle> vehicle_;
 
     public:
-        generic_vehicle_part_range( ::vehicle &v ) : vehicle_( v ) { }
+        explicit generic_vehicle_part_range( ::vehicle &v ) : vehicle_( v ) { }
 
         // Templated because see top of file.
         template<typename T = ::vehicle>
@@ -142,7 +142,7 @@ class generic_vehicle_part_range
 class vehicle_part_range : public generic_vehicle_part_range<vehicle_part_range>
 {
     public:
-        vehicle_part_range( ::vehicle &v ) : generic_vehicle_part_range( v ) { }
+        explicit vehicle_part_range( ::vehicle &v ) : generic_vehicle_part_range( v ) { }
 
         bool matches( const size_t /*part*/ ) const {
             return true;

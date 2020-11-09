@@ -589,7 +589,7 @@ struct real_coords {
 
     real_coords() = default;
 
-    real_coords( const point &ap ) {
+    explicit real_coords( const point &ap ) {
         fromabs( ap );
     }
 

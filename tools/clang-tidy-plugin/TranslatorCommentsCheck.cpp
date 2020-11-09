@@ -60,7 +60,7 @@ namespace cata
 class TranslatorCommentsCheck::TranslatorCommentsHandler : public CommentHandler
 {
     public:
-        TranslatorCommentsHandler( TranslatorCommentsCheck &Check ) : Check( Check ),
+        explicit TranslatorCommentsHandler( TranslatorCommentsCheck &Check ) : Check( Check ),
             // xgettext will treat all comments containing the marker as
             // translator comments, but we only match those starting with
             // the marker to allow using the marker inside normal comments

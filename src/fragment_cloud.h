@@ -8,7 +8,8 @@ enum class quadrant : int;
  */
 struct fragment_cloud {
     fragment_cloud() : velocity( 0.0 ), density( 0.0 ) {}
-    fragment_cloud( float initial_value ) : velocity( initial_value ), density( initial_value ) {}
+    explicit fragment_cloud( float initial_value ) : velocity( initial_value ),
+        density( initial_value ) {}
     fragment_cloud( float initial_velocity, float initial_density )
         : velocity( initial_velocity ), density( initial_density ) {
     }

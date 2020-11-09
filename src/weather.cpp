@@ -550,7 +550,7 @@ void handle_weather_effects( const weather_type_id &w )
                 }
                 target_monster = *dynamic_cast<monster *>( copy );
             } else {
-                target_monster = spawn.target;
+                target_monster = monster( spawn.target );
             }
 
             for( int i = 0; i < spawn.hallucination_count; i++ ) {

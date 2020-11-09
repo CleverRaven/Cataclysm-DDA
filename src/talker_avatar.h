@@ -18,7 +18,7 @@ class translation;
 class talker_avatar: public talker_character
 {
     public:
-        talker_avatar( avatar *new_me );
+        explicit talker_avatar( avatar *new_me );
         ~talker_avatar() override = default;
 
         // mandatory functions for starting a dialogue

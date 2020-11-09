@@ -226,7 +226,7 @@ class bodypart
 
     public:
         bodypart(): id( bodypart_str_id( "bp_null" ) ), hp_cur( 0 ), hp_max( 0 ) {}
-        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ) {}
+        explicit bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ) {}
 
         bodypart_id get_id() const;
 
@@ -284,6 +284,7 @@ class body_part_set
 
     public:
         body_part_set() = default;
+        // NOLINTNEXTLINE(cata-implicit-conversions)
         body_part_set( std::initializer_list<bodypart_str_id> bps ) {
             for( const bodypart_str_id &bp : bps ) {
                 set( bp );

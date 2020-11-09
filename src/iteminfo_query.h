@@ -256,9 +256,9 @@ class iteminfo_query : public iteminfo_query_base
             not be any issue.
          */
         iteminfo_query();
-        iteminfo_query( const iteminfo_query_base &values );
-        iteminfo_query( const std::string &bits );
-        iteminfo_query( const std::vector<iteminfo_parts> &setBits );
+        explicit iteminfo_query( const iteminfo_query_base &values );
+        explicit iteminfo_query( const std::string &bits );
+        explicit iteminfo_query( const std::vector<iteminfo_parts> &setBits );
 
         bool test( const iteminfo_parts &value ) const;
 

@@ -66,7 +66,7 @@ class inventory_entry
 
         inventory_entry() = default;
 
-        inventory_entry( const item_category *custom_category ) :
+        explicit inventory_entry( const item_category *custom_category ) :
             custom_category( custom_category )
         {}
 
@@ -77,9 +77,9 @@ class inventory_entry
             this->custom_category = custom_category;
         }
 
-        inventory_entry( const std::vector<item_location> &locations,
-                         const item_category *custom_category = nullptr,
-                         bool enabled = true ) :
+        explicit inventory_entry( const std::vector<item_location> &locations,
+                                  const item_category *custom_category = nullptr,
+                                  bool enabled = true ) :
             locations( locations ),
             custom_category( custom_category ),
             enabled( enabled )
@@ -235,7 +235,7 @@ class inventory_selector_preset
 class inventory_holster_preset : public inventory_selector_preset
 {
     public:
-        inventory_holster_preset( const item_location &holster ) : holster( holster ) {}
+        explicit inventory_holster_preset( const item_location &holster ) : holster( holster ) {}
 
         /** Does this entry satisfy the basic preset conditions? */
         bool is_shown( const item_location &contained ) const override {
@@ -255,7 +255,8 @@ const inventory_selector_preset default_preset;
 class inventory_column
 {
     public:
-        inventory_column( const inventory_selector_preset &preset = default_preset ) : preset( preset ) {
+        explicit inventory_column( const inventory_selector_preset &preset = default_preset ) : preset(
+                preset ) {
             cells.resize( preset.get_cells_count() );
         }
 
@@ -493,7 +494,8 @@ class selection_column : public inventory_column
 class inventory_selector
 {
     public:
-        inventory_selector( Character &u, const inventory_selector_preset &preset = default_preset );
+        explicit inventory_selector( Character &u,
+                                     const inventory_selector_preset &preset = default_preset );
         virtual ~inventory_selector();
         /** These functions add items from map / vehicles. */
         void add_contained_items( item_location &container );
@@ -717,8 +719,8 @@ inventory_selector::stat display_stat( const std::string &caption, int cur_value
 class inventory_pick_selector : public inventory_selector
 {
     public:
-        inventory_pick_selector( Character &p,
-                                 const inventory_selector_preset &preset = default_preset ) :
+        explicit inventory_pick_selector( Character &p,
+                                          const inventory_selector_preset &preset = default_preset ) :
             inventory_selector( p, preset ) {}
 
         item_location execute();
@@ -727,8 +729,9 @@ class inventory_pick_selector : public inventory_selector
 class inventory_multiselector : public inventory_selector
 {
     public:
-        inventory_multiselector( Character &p, const inventory_selector_preset &preset = default_preset,
-                                 const std::string &selection_column_title = "" );
+        explicit inventory_multiselector( Character &p,
+                                          const inventory_selector_preset &preset = default_preset,
+                                          const std::string &selection_column_title = "" );
     protected:
         void rearrange_columns( size_t client_width ) override;
 
@@ -739,7 +742,7 @@ class inventory_multiselector : public inventory_selector
 class inventory_compare_selector : public inventory_multiselector
 {
     public:
-        inventory_compare_selector( Character &p );
+        explicit inventory_compare_selector( Character &p );
         std::pair<const item *, const item *> execute();
 
     protected:
@@ -773,9 +776,9 @@ class inventory_iuse_selector : public inventory_multiselector
 class inventory_drop_selector : public inventory_multiselector
 {
     public:
-        inventory_drop_selector( Character &p,
-                                 const inventory_selector_preset &preset = default_preset,
-                                 const std::string &selection_column_title = _( "ITEMS TO DROP" ) );
+        explicit inventory_drop_selector( Character &p,
+                                          const inventory_selector_preset &preset = default_preset,
+                                          const std::string &selection_column_title = _( "ITEMS TO DROP" ) );
         drop_locations execute();
     protected:
         stats get_raw_stats() const override;

@@ -305,7 +305,7 @@ struct consumption_event {
     uint64_t component_hash;
 
     consumption_event() = default;
-    consumption_event( const item &food ) : time( calendar::turn ) {
+    explicit consumption_event( const item &food ) : time( calendar::turn ) {
         type_id = food.typeId();
         component_hash = food.make_component_hash();
     }
@@ -1617,10 +1617,10 @@ class Character : public Creature, public visitable<Character>
         /// coutnts to remove, or an entire replacement inventory.
         struct item_tweaks {
             item_tweaks() = default;
-            item_tweaks( const std::map<const item *, int> &w ) :
+            explicit item_tweaks( const std::map<const item *, int> &w ) :
                 without_items( std::cref( w ) )
             {}
-            item_tweaks( const inventory &r ) :
+            explicit item_tweaks( const inventory &r ) :
                 replace_inv( std::cref( r ) )
             {}
             const cata::optional<std::reference_wrapper<const std::map<const item *, int>>> without_items;

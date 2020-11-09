@@ -27,7 +27,7 @@ class distribution
 {
     private:
         std::function<float()> generator_function;
-        distribution( const std::function<float()> &gen );
+        explicit distribution( const std::function<float()> &gen );
 
     public:
         distribution();

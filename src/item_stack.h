@@ -27,7 +27,7 @@ class item_stack
         using reverse_iterator = cata::colony<item>::reverse_iterator;
         using const_reverse_iterator = cata::colony<item>::const_reverse_iterator;
 
-        item_stack( cata::colony<item> *items ) : items( items ) { }
+        explicit item_stack( cata::colony<item> *items ) : items( items ) { }
         virtual ~item_stack() = default;
 
         size_t size() const;

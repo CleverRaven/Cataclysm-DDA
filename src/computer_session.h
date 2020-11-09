@@ -15,7 +15,7 @@ class player;
 class computer_session
 {
     public:
-        computer_session( computer &comp );
+        explicit computer_session( computer &comp );
 
         /** Handles player use of a computer */
         void use();

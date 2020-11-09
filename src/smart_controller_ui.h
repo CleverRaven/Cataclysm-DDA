@@ -24,7 +24,7 @@ class smart_controller_ui
         static const int WIDTH = 52;
         static const int HEIGHT = 36;
 
-        smart_controller_ui( smart_controller_settings initial_settings );
+        explicit smart_controller_ui( smart_controller_settings initial_settings );
 
         // open UI and allow user to interact with it
         void control();

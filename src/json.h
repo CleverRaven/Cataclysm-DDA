@@ -48,7 +48,7 @@ class optional;
 class JsonError : public std::runtime_error
 {
     public:
-        JsonError( const std::string &msg );
+        explicit JsonError( const std::string &msg );
         const char *c_str() const noexcept {
             return what();
         }
@@ -186,7 +186,7 @@ class JsonIn
         void end_value();
 
     public:
-        JsonIn( std::istream &s ) : stream( &s ) {}
+        explicit JsonIn( std::istream &s ) : stream( &s ) {}
         JsonIn( std::istream &s, const std::string &name ) : stream( &s ), name( name ) {}
         JsonIn( const JsonIn & ) = delete;
         JsonIn &operator=( const JsonIn & ) = delete;
@@ -583,7 +583,7 @@ class JsonOut
         bool need_separator = false;
 
     public:
-        JsonOut( std::ostream &stream, bool pretty_print = false, int depth = 0 );
+        explicit JsonOut( std::ostream &stream, bool pretty_print = false, int depth = 0 );
         JsonOut( const JsonOut & ) = delete;
         JsonOut &operator=( const JsonOut & ) = delete;
 
@@ -861,7 +861,7 @@ class JsonObject
                              bool throw_exception = true ) const;
 
     public:
-        JsonObject( JsonIn &jsin );
+        explicit JsonObject( JsonIn &jsin );
         JsonObject() :
             start( 0 ), end_( 0 ), final_separator( false ), jsin( nullptr ) {}
         JsonObject( const JsonObject & ) = default;
@@ -1050,7 +1050,7 @@ class JsonArray
         void verify_index( size_t i ) const;
 
     public:
-        JsonArray( JsonIn &jsin );
+        explicit JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &ja );
         JsonArray() : start( 0 ), index( 0 ), end_( 0 ), final_separator( false ), jsin( nullptr ) {}
         ~JsonArray() {

@@ -356,7 +356,7 @@ class hacking_activity_actor : public activity_actor
         struct use_bionic {};
 
         hacking_activity_actor() = default;
-        hacking_activity_actor( use_bionic );
+        explicit hacking_activity_actor( use_bionic );
 
         activity_id get_type() const override {
             return activity_id( "ACT_HACKING" );
@@ -607,10 +607,10 @@ class consume_activity_actor : public activity_actor
             consume_menu_filter( consume_menu_filter ),
             type( type ) {}
 
-        consume_activity_actor( const item_location &consume_location ) :
+        explicit consume_activity_actor( const item_location &consume_location ) :
             consume_location( consume_location ), consume_menu_selections( std::vector<int>() ) {}
 
-        consume_activity_actor( const item &consume_item ) :
+        explicit consume_activity_actor( const item &consume_item ) :
             consume_item( consume_item ), consume_menu_selections( std::vector<int>() ) {}
 
         activity_id get_type() const override {
@@ -640,7 +640,7 @@ class try_sleep_activity_actor : public activity_actor
          * @param dur Total duration, from when the character starts
          * trying to fall asleep to when they're supposed to wake up
          */
-        try_sleep_activity_actor( const time_duration &dur ) : duration( dur ) {}
+        explicit try_sleep_activity_actor( const time_duration &dur ) : duration( dur ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_TRY_SLEEP" );
@@ -736,7 +736,7 @@ class workout_activity_actor : public activity_actor
         int elapsed = 0;
 
     public:
-        workout_activity_actor( const tripoint &loc ) : location( loc ) {}
+        explicit workout_activity_actor( const tripoint &loc ) : location( loc ) {}
 
         // can assume different sub-activities
         activity_id get_type() const override {

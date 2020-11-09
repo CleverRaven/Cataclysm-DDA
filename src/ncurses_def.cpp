@@ -39,9 +39,9 @@ catacurses::window catacurses::newwin( const int nlines, const int ncols, const 
 {
     // TODO: check for errors
     const auto w = ::newwin( nlines, ncols, begin.y, begin.x );
-    return std::shared_ptr<void>( w, []( void *const w ) {
+    return catacurses::window( std::shared_ptr<void>( w, []( void *const w ) {
         ::curses_check_result( ::delwin( static_cast<::WINDOW *>( w ) ), OK, "delwin" );
-    } );
+    } ) );
 }
 
 void catacurses::wnoutrefresh( const window &win )
@@ -233,7 +233,7 @@ void catacurses::resizeterm()
 void catacurses::init_interface()
 {
     // ::endwin will free the pointer returned by ::initscr
-    stdscr = std::shared_ptr<void>( ::initscr(), []( void *const ) { } );
+    stdscr = window( std::shared_ptr<void>( ::initscr(), []( void *const ) { } ) );
     if( !stdscr ) {
         throw std::runtime_error( "initscr failed" );
     }

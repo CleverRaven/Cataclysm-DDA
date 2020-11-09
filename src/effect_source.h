@@ -18,10 +18,10 @@ class effect_source
 {
     public:
         effect_source() = default;
-        effect_source( const monster *mon );
-        effect_source( const faction *fac );
-        effect_source( const Character *character );
-        effect_source( const Creature *creature );
+        explicit effect_source( const monster *mon );
+        explicit effect_source( const faction *fac );
+        explicit effect_source( const Character *character );
+        explicit effect_source( const Creature *creature );
 
         // const static member provided for empty sources so
         // unassigned sources can more easily be found

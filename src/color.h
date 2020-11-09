@@ -352,7 +352,7 @@ class nc_color
         // color is actually an ncurses attribute.
         int attribute_value;
 
-        nc_color( const int a ) : attribute_value( a ) { }
+        explicit nc_color( const int a ) : attribute_value( a ) { }
 
     public:
         nc_color() : attribute_value( 0 ) { }
@@ -461,6 +461,7 @@ class deferred_color
     private:
         color_id id;
     public:
+        // NOLINTNEXTLINE(cata-implicit-conversions)
         deferred_color( const color_id id ) : id( id ) { }
         operator nc_color() const {
             return all_colors.get( id );

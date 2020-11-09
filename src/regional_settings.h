@@ -219,7 +219,7 @@ struct map_extras {
     weighted_int_list<std::string> values;
 
     map_extras() : chance( 0 ) {}
-    map_extras( const unsigned int embellished ) : chance( embellished ) {}
+    explicit map_extras( const unsigned int embellished ) : chance( embellished ) {}
 };
 
 struct region_terrain_and_furniture_settings {

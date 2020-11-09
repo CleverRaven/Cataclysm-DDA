@@ -39,7 +39,7 @@ class enum_tuple
         }
 
     public:
-        enum_tuple( Enums ...enums )
+        explicit enum_tuple( Enums ...enums )
             : enums( enums... ) {
         }
 
@@ -104,7 +104,7 @@ class test_scenario
         enum_tuple_type value;
 
     public:
-        test_scenario( const enum_tuple_type &value ) : value( value ) {
+        explicit test_scenario( const enum_tuple_type &value ) : value( value ) {
         }
 
         void run();
@@ -123,11 +123,11 @@ class test_scenario
         }
 
         static test_scenario begin() {
-            return enum_tuple_type::begin();
+            return test_scenario( enum_tuple_type::begin() );
         }
 
         static test_scenario end() {
-            return enum_tuple_type::end();
+            return test_scenario( enum_tuple_type::end() );
         }
 };
 

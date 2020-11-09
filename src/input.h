@@ -485,8 +485,8 @@ class input_context
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
-        input_context( const std::string &category,
-                       const keyboard_mode preferred_keyboard_mode = keyboard_mode::keycode )
+        explicit input_context( const std::string &category,
+                                const keyboard_mode preferred_keyboard_mode = keyboard_mode::keycode )
             : registered_any_input( false ), category( category ),
               coordinate_input_received( false ), handling_coordinate_input( false ),
               preferred_keyboard_mode( preferred_keyboard_mode ) {

@@ -60,7 +60,7 @@ class event_multiset
         // Default constructor for deserialization deliberately uses invalid
         // type
         event_multiset() : type_( event_type::num_event_types ) {}
-        event_multiset( event_type type ) : type_( type ) {}
+        explicit event_multiset( event_type type ) : type_( type ) {}
 
         void set_type( event_type );
 

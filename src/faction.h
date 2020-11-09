@@ -97,7 +97,7 @@ class faction : public faction_template
 {
     public:
         faction() = default;
-        faction( const faction_template &templ );
+        explicit faction( const faction_template &templ );
 
         void deserialize( JsonIn &jsin );
         void serialize( JsonOut &json ) const;

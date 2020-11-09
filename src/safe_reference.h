@@ -48,7 +48,7 @@ class safe_reference
     private:
         friend class safe_reference_anchor;
 
-        safe_reference( const std::shared_ptr<T> &p ) : impl( p ) {}
+        explicit safe_reference( const std::shared_ptr<T> &p ) : impl( p ) {}
 
         std::weak_ptr<T> impl;
 };

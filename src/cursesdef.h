@@ -58,7 +58,7 @@ class window
 
     public:
         window() = default;
-        window( std::shared_ptr<void> ptr ) : native_window( std::move( ptr ) ) {
+        explicit window( std::shared_ptr<void> ptr ) : native_window( std::move( ptr ) ) {
         }
         template<typename T = void>
         T * get() const {

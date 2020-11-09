@@ -37,7 +37,7 @@ class item_contents
     public:
         item_contents() = default;
         // used for loading itype
-        item_contents( const std::vector<pocket_data> &pockets );
+        explicit item_contents( const std::vector<pocket_data> &pockets );
 
         /**
           * returns an item_location and pointer to the best pocket that can contain the item @it

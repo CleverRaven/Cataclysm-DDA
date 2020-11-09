@@ -73,7 +73,7 @@ struct uilist_entry {
     // In the following constructors, int K only support letters (a-z, A-Z) and
     // digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable hotkey). Other
     // values may not work under keycode mode.
-    uilist_entry( const std::string &T );
+    explicit uilist_entry( const std::string &T );
     uilist_entry( const std::string &T, const std::string &D );
     uilist_entry( const std::string &T, int K );
     uilist_entry( const std::string &T, const cata::optional<input_event> &K );
@@ -362,7 +362,7 @@ class pointmenu_cb : public uilist_callback
 
         pimpl<impl_t> impl;
     public:
-        pointmenu_cb( const std::vector< tripoint > &pts );
+        explicit pointmenu_cb( const std::vector< tripoint > &pts );
         ~pointmenu_cb() override;
         void select( uilist *menu ) override;
 };

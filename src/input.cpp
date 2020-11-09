@@ -44,7 +44,7 @@ template <class T1, class T2>
 struct ContainsPredicate {
     const T1 &container;
 
-    ContainsPredicate( const T1 &container ) : container( container ) { }
+    explicit ContainsPredicate( const T1 &container ) : container( container ) { }
 
     // Operator overload required to leverage std functional interface.
     bool operator()( T2 c ) {

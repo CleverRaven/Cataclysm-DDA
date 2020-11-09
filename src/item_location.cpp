@@ -68,8 +68,8 @@ class item_location::impl
         class nowhere;
 
         impl() = default;
-        impl( item *i ) : what( i->get_safe_reference() ) {}
-        impl( int idx ) : idx( idx ), needs_unpacking( true ) {}
+        explicit impl( item *i ) : what( i->get_safe_reference() ) {}
+        explicit impl( int idx ) : idx( idx ), needs_unpacking( true ) {}
 
         virtual ~impl() = default;
 
@@ -701,7 +701,7 @@ void item_location::deserialize( JsonIn &js )
         ptr.reset( new impl::item_on_person( who_id, idx ) );
 
     } else if( type == "map" ) {
-        ptr.reset( new impl::item_on_map( pos, idx ) );
+        ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) );
 
     } else if( type == "vehicle" ) {
         vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
@@ -714,7 +714,7 @@ void item_location::deserialize( JsonIn &js )
         obj.read( "parent", parent );
         if( !parent.ptr->valid() ) {
             debugmsg( "parent location does not point to valid item" );
-            ptr.reset( new impl::item_on_map( pos, idx ) ); // drop on ground
+            ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) ); // drop on ground
             return;
         }
         const std::list<item *> parent_contents = parent->contents.all_items_top();

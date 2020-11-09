@@ -1067,7 +1067,7 @@ void mongroup::io( Archive &archive )
 
 void mongroup::deserialize( JsonIn &data )
 {
-    io::JsonObjectInputArchive archive( data );
+    io::JsonObjectInputArchive archive( data.get_object() );
     io( archive );
 }
 
