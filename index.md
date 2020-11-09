@@ -12,8 +12,8 @@ As your game begins, you awaken with hazy memories of violence and terror from w
 ## Community and Resources
 
 * [Forums](https://discourse.cataclysmdda.org)
+* [Discord (Official development server)](https://discord.gg/jFEc7Yp)
 * [Reddit (unofficial)](https://www.reddit.com/r/cataclysmdda/)
-* [Discord](https://discord.gg/jFEc7Yp)
 * IRC server: irc.freenode.net channel: #CataclysmDDA [webchat](https://webchat.freenode.net/?channels=#CataclysmDDA)
 * [Wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php)
 * [GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA)
