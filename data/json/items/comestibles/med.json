@@ -1915,7 +1915,7 @@
     "id": "strong_antibiotic",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "broad-spectrum antibiotics",
+    "name": { "str_sp": "broad-spectrum antibiotics" },
     "description": "A broad-spectrum antibacterial medication designed to prevent or stop the spread of infection.  It contains nearly toxic levels of antibiotics, but can treat any bacterial infections you may encounter.  One dose lasts twelve hours.",
     "weight": "1 g",
     "volume": "250 ml",
