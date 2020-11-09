@@ -495,13 +495,13 @@ bool iloc_entry_name_sorter( iloc_entry const &l, iloc_entry const &r )
 
 bool iloc_entry_gsort( iloc_entry const &l, iloc_entry const &r )
 {
-    return l.stack[0]->get_category_shallow().sort_rank() <
-           r.stack[0]->get_category_shallow().sort_rank();
+    return l.stack[0]->get_category_of_contents().sort_rank() <
+           r.stack[0]->get_category_of_contents().sort_rank();
 }
 
 std::string iloc_entry_glabel( iloc_entry const &it )
 {
-    return it.stack[0]->get_category_shallow().name();
+    return it.stack[0]->get_category_of_contents().name();
 }
 
 bool iloc_entry_filter( iloc_entry const &it, std::string const &filter )
