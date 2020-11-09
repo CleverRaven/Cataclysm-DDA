@@ -536,6 +536,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
     int area = pane.get_area();
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
+    int min_x = wwidth;
     for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
         int data_location = screen_relative_location( static_cast<aim_location>( i ) );
         const char *bracket = squares[data_location].can_store_in_vehicle() ? "<>" : "[]";
@@ -557,8 +558,11 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         mvwprintz( window, point( x, y ), bcolor, "%c", bracket[0] );
         wprintz( window, kcolor, "%s", in_vehicle && sel != AIM_DRAGGED ? "V" : key );
         wprintz( window, bcolor, "%c", bracket[1] );
+        if( x < min_x ) {
+            min_x = x;
+        }
     }
-    return squares[AIM_INVENTORY].hscreen.y + ofs;
+    return min_x;
 }
 
 void advanced_inventory::recalc_pane( side p )
@@ -643,7 +647,8 @@ void advanced_inventory::redraw_pane( side p )
     print_items( pane, active );
 
     auto itm = pane.get_cur_item_ptr();
-    int width = print_header( pane, itm != nullptr ? itm->area : pane.get_area() );
+    // 2 for left border + 1 for padding between name & aim location selector
+    int width = print_header( pane, itm != nullptr ? itm->area : pane.get_area() ) - 2 - 1;
     // only cardinals
     // not where you stand, and pane is in vehicle
     // make sure the offsets are the same as the grab point
@@ -652,12 +657,9 @@ void advanced_inventory::redraw_pane( side p )
                            square.off == squares[AIM_DRAGGED].off;
     const advanced_inv_area &sq = same_as_dragged ? squares[AIM_DRAGGED] : square;
     bool car = square.can_store_in_vehicle() && panes[p].in_vehicle() && sq.id != AIM_DRAGGED;
-    auto name = utf8_truncate( car ? sq.veh->name : sq.name, width );
-    auto desc = utf8_truncate( sq.desc[car], width );
-    // starts at offset 2, plus space between the header and the text
-    width -= 2 + 1;
-    mvwprintz( w, point( 2, 1 ), active ? c_green  : c_light_gray, name );
-    mvwprintz( w, point( 2, 2 ), active ? c_light_blue : c_dark_gray, desc );
+    trim_and_print( w, point( 2, 1 ), width, active ? c_green  : c_light_gray,
+                    car ? sq.veh->name : sq.name );
+    trim_and_print( w, point( 2, 2 ), width, active ? c_light_blue : c_dark_gray, sq.desc[car] );
     trim_and_print( w, point( 2, 3 ), width, active ? c_cyan : c_dark_gray, square.flags );
 
     const int max_page = ( pane.items.size() + itemsPerPage - 1 ) / itemsPerPage;
