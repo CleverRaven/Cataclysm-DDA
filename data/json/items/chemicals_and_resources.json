@@ -1488,6 +1488,38 @@
     "flags": [ "NO_DROP", "IRREMOVABLE" ]
   },
   {
+    "id": "formic_acid",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "formic acid" },
+    "description": "Common in nature as an insect venom, this substance has a number of industrial uses such as preservation and manufacturing.",
+    "weight": "2 g",
+    "volume": "600 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "symbol": "=",
+    "color": "white",
+    "stack_size": 100,
+    "phase": "liquid",
+    "explode_in_fire": true,
+    "explosion": { "power": 5, "shrapnel": 0 },
+    "looks_like": "ether"
+  },
+  {
+    "id": "latex",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "latex" },
+    "description": "A liquid precursor to rubber found in some plants.",
+    "weight": "500 mg",
+    "volume": "50 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "symbol": "=",
+    "color": "white",
+    "stack_size": 100,
+    "phase": "liquid",
+    "looks_like": "milk"
+  },
+  {
     "type": "COMESTIBLE",
     "id": "chem_citric_acid",
     "category": "chems",

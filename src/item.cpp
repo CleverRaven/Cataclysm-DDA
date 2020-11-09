@@ -117,8 +117,6 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 static const efftype_id effect_bleed( "bleed" );
 
-static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
-
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
 static const itype_id itype_battery( "battery" );
@@ -1623,8 +1621,8 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( type->min_per > 0 ) {
             req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
         }
-        for( const std::pair<const skill_id, int> sk : sorted_lex( type->min_skills ) ) {
-            req.push_back( string_format( "%s %d", skill_id( sk.first )->name(), sk.second ) );
+        for( const std::pair<skill_id, int> &sk : sorted_lex( type->min_skills ) ) {
+            req.push_back( string_format( "%s %d", sk.first->name(), sk.second ) );
         }
         if( !req.empty() ) {
             info.emplace_back( "BASE", _( "<bold>Minimum requirements</bold>:" ) );
@@ -1660,7 +1658,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                       burnt ) );
             const std::string tags_listed = enumerate_as_string( item_tags, []( const flag_id & f ) {
-                return f.id().str();
+                return f.str();
             }, enumeration_conjunction::none );
 
             info.push_back( iteminfo( "BASE", string_format( _( "tags: %s" ), tags_listed ) ) );
@@ -3354,7 +3352,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
 
     if( parts->test( iteminfo_parts::QUALITIES ) ) {
         insert_separation_line( info );
-        for( const std::pair<const quality_id, int> q : sorted_lex( type->qualities ) ) {
+        for( const std::pair<quality_id, int> &q : sorted_lex( type->qualities ) ) {
             name_quality( q );
         }
     }
@@ -3429,7 +3427,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->encumbrance.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair<const bodypart_str_id, int> element : sorted_lex( bid->encumbrance ) ) {
+        for( const std::pair<bodypart_str_id, int> &element : sorted_lex( bid->encumbrance ) ) {
             info.push_back(
                 iteminfo( "CBM", " " + body_part_name_as_heading( element.first.id(), 1 ),
                           " <num>", iteminfo::no_newline, element.second ) );
@@ -3440,7 +3438,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Environmental Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->env_protec ) ) {
+        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->env_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3450,7 +3448,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Bash Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->bash_protec ) ) {
+        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->bash_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3460,7 +3458,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Cut Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->cut_protec ) ) {
+        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->cut_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -3469,7 +3467,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->bullet_protec.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Ballistic Protection</bold>:" ),
                                   iteminfo::no_newline ) );
-        for( const std::pair<const bodypart_str_id, size_t > element : sorted_lex( bid->bullet_protec ) ) {
+        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->bullet_protec ) ) {
             info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
                                       " <num>", iteminfo::no_newline, element.second ) );
         }
@@ -5345,7 +5343,7 @@ bool item::has_flag( const flag_id &f ) const
 {
     bool ret = false;
     if( !f.is_valid() ) {
-        debugmsg( "Attempted to check invalid flag_id %d", f.to_i() );
+        debugmsg( "Attempted to check invalid flag_id %s", f.str() );
         return false;
     }
 
@@ -5375,7 +5373,7 @@ item &item::set_flag( const flag_id &flag )
         item_tags.insert( flag );
         requires_tags_processing = true;
     } else {
-        debugmsg( "Attempted to set invalid flag_id %d", flag.to_i() );
+        debugmsg( "Attempted to set invalid flag_id %s", flag.str() );
     }
     return *this;
 }
@@ -9950,10 +9948,6 @@ bool item::process_internal( player *carrier, const tripoint &pos,
         return processed;
     }
 
-    if( faults.count( fault_gun_blackpowder ) ) {
-        return process_blackpowder_fouling( carrier );
-    }
-
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
     // call the processing function. If that function returns true, the item
@@ -9963,80 +9957,84 @@ bool item::process_internal( player *carrier, const tripoint &pos,
     // food and as litcig and as ...
 
     // Remaining stuff is only done for active items.
-    if( !active ) {
-        return false;
-    }
+    if( active ) {
 
-    if( !is_food() && item_counter > 0 ) {
-        item_counter--;
-    }
+        if( !is_food() && item_counter > 0 ) {
+            item_counter--;
+        }
 
-    if( item_counter == 0 && type->countdown_action ) {
-        type->countdown_action.call( carrier ? *carrier : get_avatar(), *this, false, pos );
-        if( type->countdown_destroy ) {
+        if( item_counter == 0 && type->countdown_action ) {
+            type->countdown_action.call( carrier ? *carrier : get_avatar(), *this, false, pos );
+            if( type->countdown_destroy ) {
+                return true;
+            }
+        }
+
+        map &here = get_map();
+        for( const emit_id &e : type->emits ) {
+            here.emit_field( pos, e );
+        }
+
+        if( requires_tags_processing ) {
+            // `mark` becomes true if any of the flags that require processing are present
+            bool mark = false;
+            const auto mark_flag = [&mark]() {
+                mark = true;
+                return true;
+            };
+
+            if( has_flag( flag_FAKE_SMOKE ) && mark_flag() && process_fake_smoke( carrier, pos ) ) {
+                return true;
+            }
+            if( has_flag( flag_FAKE_MILL ) && mark_flag() && process_fake_mill( carrier, pos ) ) {
+                return true;
+            }
+            if( is_corpse() && mark_flag() && process_corpse( carrier, pos ) ) {
+                return true;
+            }
+            if( has_flag( flag_WET ) && mark_flag() && process_wet( carrier, pos ) ) {
+                // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
+                return false;
+            }
+            if( has_flag( flag_LITCIG ) && mark_flag()  && process_litcig( carrier, pos ) ) {
+                return true;
+            }
+            if( ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
+                mark_flag()  && process_extinguish( carrier, pos ) ) {
+                return false;
+            }
+            if( has_flag( flag_CABLE_SPOOL ) && mark_flag() ) {
+                // DO NOT process this as a tool! It really isn't!
+                return process_cable( carrier, pos );
+            }
+            if( has_flag( flag_IS_UPS ) && mark_flag() ) {
+                // DO NOT process this as a tool! It really isn't!
+                return process_UPS( carrier, pos );
+            }
+
+            if( !mark ) {
+                // no flag checks above were successful and no additional processing logic
+                // that could've changed flags was executed
+                requires_tags_processing = false;
+            }
+        }
+
+        if( is_tool() ) {
+            return process_tool( carrier, pos );
+        }
+        // All foods that go bad have temperature
+        if( has_temperature() &&
+            process_temperature_rot( insulation, pos, carrier, flag, spoil_modifier ) ) {
+            if( is_comestible() ) {
+                here.rotten_item_spawn( *this, pos );
+            }
             return true;
         }
-    }
-
-    map &here = get_map();
-    for( const emit_id &e : type->emits ) {
-        here.emit_field( pos, e );
-    }
-
-    if( requires_tags_processing ) {
-        // `mark` becomes true if any of the flags that require processing are present
-        bool mark = false;
-        const auto mark_flag = [&mark]() {
-            mark = true;
-            return true;
-        };
-
-        if( has_flag( flag_FAKE_SMOKE ) && mark_flag() && process_fake_smoke( carrier, pos ) ) {
-            return true;
+    } else {
+        // guns are never active so we only need thck this on inactive items. For performance reasons.
+        if( has_fault_flag( "BLACKPOWDER_FOULING_DAMAGE" ) ) {
+            return process_blackpowder_fouling( carrier );
         }
-        if( has_flag( flag_FAKE_MILL ) && mark_flag() && process_fake_mill( carrier, pos ) ) {
-            return true;
-        }
-        if( is_corpse() && mark_flag() && process_corpse( carrier, pos ) ) {
-            return true;
-        }
-        if( has_flag( flag_WET ) && mark_flag() && process_wet( carrier, pos ) ) {
-            // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
-            return false;
-        }
-        if( has_flag( flag_LITCIG ) && mark_flag()  && process_litcig( carrier, pos ) ) {
-            return true;
-        }
-        if( ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
-            mark_flag()  && process_extinguish( carrier, pos ) ) {
-            return false;
-        }
-        if( has_flag( flag_CABLE_SPOOL ) && mark_flag() ) {
-            // DO NOT process this as a tool! It really isn't!
-            return process_cable( carrier, pos );
-        }
-        if( has_flag( flag_IS_UPS ) && mark_flag() ) {
-            // DO NOT process this as a tool! It really isn't!
-            return process_UPS( carrier, pos );
-        }
-
-        if( !mark ) {
-            // no flag checks above were successful and no additional processing logic
-            // that could've changed flags was executed
-            requires_tags_processing = false;
-        }
-    }
-
-    if( is_tool() ) {
-        return process_tool( carrier, pos );
-    }
-    // All foods that go bad have temperature
-    if( has_temperature() &&
-        process_temperature_rot( insulation, pos, carrier, flag, spoil_modifier ) ) {
-        if( is_comestible() ) {
-            here.rotten_item_spawn( *this, pos );
-        }
-        return true;
     }
 
     return false;

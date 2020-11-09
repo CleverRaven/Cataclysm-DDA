@@ -823,17 +823,13 @@ bool uilist::scrollby( const int scrollby )
         if( fselected >= recmax ) {
             fselected = 0;
         }
-        int x = 0;
         for( size_t i = 0; i < fentries.size(); ++i ) {
             if( hilight_disabled || entries[ fentries [ fselected ] ].enabled ) {
                 break;
             }
             ++fselected;
-            ++x;
-            if( fselected >= recmax - x && scrollby == 1 ) {
+            if( fselected >= recmax ) {
                 fselected = 0;
-            } else {
-                fselected = fentries.size() - ( x + 1 ); // noch nicht ganz, da der LOOP fehlt
             }
         }
     }

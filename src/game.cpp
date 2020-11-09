@@ -2285,7 +2285,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     avatar_action::eat( u, locThisItem );
                     break;
                 case 'W':
-                    u.wear( oThisItem );
+                    u.wear( locThisItem );
                     handler.handle();
                     break;
                 case 'w':

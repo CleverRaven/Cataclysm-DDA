@@ -1189,15 +1189,15 @@ bool Creature::remove_effect( const efftype_id &eff_id )
     return remove_effect( eff_id, bodypart_str_id::NULL_ID() );
 }
 
-bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
+bool Creature::has_effect( const efftype_id &eff_id, const bodypart_id &bp ) const
 {
     // bp_null means anything targeted or not
-    if( bp == bodypart_str_id::NULL_ID() ) {
+    if( bp.id() == bodypart_str_id::NULL_ID() ) {
         return effects->count( eff_id );
     } else {
         auto got_outer = effects->find( eff_id );
         if( got_outer != effects->end() ) {
-            auto got_inner = got_outer->second.find( bp );
+            auto got_inner = got_outer->second.find( bp.id() );
             if( got_inner != got_outer->second.end() ) {
                 return true;
             }

@@ -733,7 +733,9 @@ void character_edit_menu()
                 int value;
                 if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), p.get_lowest_hp() ) &&
                     value >= 0 ) {
-                    p.set_all_parts_hp_cur( value );
+                    for( bodypart_id part_id : p.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                        p.set_part_hp_cur( part_id, value );
+                    }
                     p.reset_stats();
                 }
             }
