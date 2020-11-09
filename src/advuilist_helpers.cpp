@@ -159,8 +159,14 @@ void _get_stacks( item *elem, iloc_stack_t *stacks, stack_cache_t *cache,
     }
 }
 
-aim_container_t source_ground_player_all( pane_mutex_t const *mutex )
+aim_container_t source_ground_player_all( aim_advuilist_sourced_t *ui, pane_mutex_t *mutex )
 {
+    // due to operations order in advuilist_sourced, we need to reset the (previous) location mutex
+    // this fixes a bug when switching from a ground source to All in the same pane
+    using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
+    slotidx_t slotidx = std::get<slotidx_t>( ui->getSource() );
+    ( *mutex )[slotidx] = false;
+
     aim_container_t itemlist;
     std::size_t idx = 0;
     tripoint const pos = get_avatar().pos();
@@ -174,6 +180,7 @@ aim_container_t source_ground_player_all( pane_mutex_t const *mutex )
         idx++;
     }
 
+    ( *mutex )[slotidx] = true;
     return itemlist;
 }
 
@@ -648,7 +655,7 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
     myadvuilist->get_ctxt()->register_action( advuilist_literals::TOGGLE_FAVORITE );
 }
 
-void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *mutex )
+void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t *mutex )
 {
     using source_t = aim_advuilist_sourced_t::source_t;
     using fsource_t = aim_advuilist_sourced_t::fsource_t;
@@ -695,7 +702,7 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *
                 }
                 case SOURCE_ALL_i: {
                     _fs = [ = ]() {
-                        return source_ground_player_all( mutex );
+                        return source_ground_player_all( myadvuilist, mutex );
                     };
                     _fsb = [ = ]() {
                         return !mutex->at( ALL_IDX );

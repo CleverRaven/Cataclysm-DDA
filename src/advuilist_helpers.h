@@ -123,7 +123,7 @@ void aim_all_columns( aim_advuilist_t *myadvuilist );
 void aim_default_columns( aim_advuilist_t *myadvuilist );
 
 void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats );
-void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t const *mutex );
+void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t *mutex );
 void aim_add_return_activity();
 void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t select );
 void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_mutex_t *mutex );
