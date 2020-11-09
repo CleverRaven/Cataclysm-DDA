@@ -678,7 +678,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( batch ) {
                 current.clear();
-                for( int i = 1; i <= 20; i++ ) {
+                for( int i = 1; i <= 50; i++ ) {
                     current.push_back( chosen );
                     available.push_back( availability( chosen, i ) );
                 }
@@ -944,9 +944,9 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             std::string description =
                 _( "The default is to search result names.  Some single-character prefixes "
-                   "can be used with a colon (:) to search in other ways.  Additional filters "
-                   "are separated by commas (,).\n"
-                   "\n"
+                   "can be used with a colon <color_red>:</color> to search in other ways.  Additional filters "
+                   "are separated by commas <color_red>,</color>.\n"
+                   "\n\n"
                    "<color_white>Examples:</color>\n" );
 
             {
@@ -966,7 +966,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             description +=
-                _( "\nYou can use <color_white>arrow keys</color> to go through search history\n\n" );
+                _( "\nUse <color_red>up/down arrow</color> to go through your search history." );
+            description += "\n\n\n";
 
             string_input_popup()
             .title( _( "Search:" ) )

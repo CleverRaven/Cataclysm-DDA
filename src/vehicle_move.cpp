@@ -1932,11 +1932,17 @@ void vehicle::check_falling_or_floating()
     }
     is_flying = false;
 
-    auto has_support = [&here]( const tripoint & position ) {
-        if( !here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, position ) ) {
+    auto has_support = [&here]( const tripoint & position, const bool water_supports ) {
+        // if we're at the bottom of the z-levels, we're supported
+        if( position.z == -OVERMAP_DEPTH ) {
             return true;
         }
-        if( position.z == -OVERMAP_DEPTH ) {
+        // water counts as support if we're swimming and checking to see if we're falling, but
+        // not to see if the wheels are supported at all
+        if( here.has_flag_ter_or_furn( TFLAG_SWIMMABLE, position ) ) {
+            return water_supports;
+        }
+        if( !here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, position ) ) {
             return true;
         }
         tripoint below( position.xy(), position.z - 1 );
@@ -1946,7 +1952,7 @@ void vehicle::check_falling_or_floating()
     int supported_wheels = 0;
     for( int wheel_index : wheelcache ) {
         const tripoint &position = global_part_pos3( wheel_index );
-        if( has_support( position ) ) {
+        if( has_support( position, false ) ) {
             ++supported_wheels;
         }
     }
@@ -1978,7 +1984,7 @@ void vehicle::check_falling_or_floating()
         if( !is_falling ) {
             continue;
         }
-        is_falling = !has_support( position );
+        is_falling = !has_support( position, true );
     }
     // floating if 2/3rds of the vehicle is in deep water
     is_floating = 3 * deep_water_tiles >= 2 * pts.size();

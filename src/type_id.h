@@ -209,7 +209,8 @@ using construction_id = int_id<construction>;
 using construction_str_id = string_id<construction>;
 
 class json_flag;
-using flag_id = int_id<json_flag>;
-using flag_str_id = string_id<json_flag>;
+// flag_id and flag_str_id are synonyms for now
+using flag_id = string_id<json_flag>;
+using flag_str_id = flag_id;
 
 #endif // CATA_SRC_TYPE_ID_H

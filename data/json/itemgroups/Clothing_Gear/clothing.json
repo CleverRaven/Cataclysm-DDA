@@ -2420,7 +2420,7 @@
       { "item": "misc_repairkit", "prob": 8, "charges-min": 0 },
       [ "survival_kit", 3 ],
       { "group": "tools_toolbox", "prob": 1 },
-      [ "survivor_belt", 2 ],
+      [ "survivor_belt_notools", 2 ],
       [ "survivor_machete", 2 ],
       [ "spear_survivor", 2 ],
       [ "survivor_light", 24 ],
