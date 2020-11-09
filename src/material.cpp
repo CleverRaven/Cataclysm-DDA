@@ -128,7 +128,8 @@ void material_type::check() const
         }
     }
     for( const itype_id &ci : _compacts_into ) {
-        if( !item::type_is_defined( ci ) || !item( ci, 0 ).only_made_of( std::set<material_id> { id } ) ) {
+        if( !item::type_is_defined( ci ) ||
+            !item( ci, calendar::turn_zero ).only_made_of( std::set<material_id> { id } ) ) {
             debugmsg( "invalid \"compacts_into\" %s for %s.", ci.c_str(), id.c_str() );
         }
     }

@@ -126,7 +126,7 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
 {
     clear_avatar();
 
-    item arrow( "test_arrow_wood", 0, item::default_charges_tag{} );
+    item arrow( "test_arrow_wood", calendar::turn_zero, item::default_charges_tag{} );
     // Arrows are ammo with a default count of 10
     REQUIRE( arrow.is_ammo() );
     REQUIRE( arrow.count() == 10 );

@@ -907,7 +907,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
     newmon.ammo = newmon.type->starting_ammo;
     if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
         for( std::pair<const itype_id, int> &amdef : newmon.ammo ) {
-            item ammo_item( amdef.first, 0 );
+            item ammo_item( amdef.first, calendar::turn_zero );
             const int available = p.charges_of( amdef.first );
             if( available == 0 ) {
                 amdef.second = 0;

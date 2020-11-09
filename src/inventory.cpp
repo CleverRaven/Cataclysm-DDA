@@ -347,7 +347,7 @@ item *inventory::provide_pseudo_item( const itype_id &id, int battery )
         return &it;
     }
     item it_batt( it.magazine_default() );
-    item it_ammo = item( it_batt.ammo_default(), 0 );
+    item it_ammo = item( it_batt.ammo_default(), calendar::turn_zero );
     if( it_ammo.is_null() || it_ammo.typeId() != itype_id( "battery" ) ) {
         return &it;
     }
