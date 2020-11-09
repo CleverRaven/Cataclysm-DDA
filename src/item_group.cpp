@@ -739,7 +739,7 @@ item_group::ItemList item_group::items_from( const item_group_id &group_id,
 
 item_group::ItemList item_group::items_from( const item_group_id &group_id )
 {
-    return items_from( group_id, 0 );
+    return items_from( group_id, calendar::turn_zero );
 }
 
 item item_group::item_from( const item_group_id &group_id, const time_point &birthday )
@@ -753,7 +753,7 @@ item item_group::item_from( const item_group_id &group_id, const time_point &bir
 
 item item_group::item_from( const item_group_id &group_id )
 {
-    return item_from( group_id, 0 );
+    return item_from( group_id, calendar::turn_zero );
 }
 
 bool item_group::group_is_defined( const item_group_id &group_id )

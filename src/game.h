@@ -1020,7 +1020,7 @@ class game
 
         //pixel minimap management
         int pixel_minimap_option = 0;
-        int turnssincelastmon = 0; // needed for auto run mode
+        time_duration turnssincelastmon = 0_turns; // needed for auto run mode
 
         weather_manager weather;
 

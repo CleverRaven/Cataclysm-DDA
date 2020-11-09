@@ -4200,7 +4200,7 @@ int iuse::tazer2( player *p, item *it, bool b, const tripoint &pos )
     if( it->ammo_remaining() >= 100 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
-        item fake( "tazer", 0 );
+        item fake( "tazer", calendar::turn_zero );
         fake.charges = 100;
         return tazer( p, &fake, b, pos );
     } else {
@@ -8626,11 +8626,16 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             std::vector<const recipe *> dishes;
 
             inventory crafting_inv = p->crafting_inventory();
-            //add some tools and qualities. we can't add this qualities to json, because multicook must be used only by activating, not as component other crafts.
-            crafting_inv.push_back( item( "hotplate", 0 ) ); //hotplate inside
-            crafting_inv.push_back( item( "tongs", 0 ) ); //some recipes requires tongs
-            crafting_inv.push_back( item( "toolset", 0 ) ); //toolset with CUT and other qualities inside
-            crafting_inv.push_back( item( "pot", 0 ) ); //good COOK, BOIL, CONTAIN qualities inside
+            // add some tools and qualities. we can't add this qualities to
+            // json, because multicook must be used only by activating, not as
+            // component other crafts.
+            crafting_inv.push_back( item( "hotplate", calendar::turn_zero ) ); //hotplate inside
+            // some recipes requires tongs
+            crafting_inv.push_back( item( "tongs", calendar::turn_zero ) );
+            // toolset with CUT and other qualities inside
+            crafting_inv.push_back( item( "toolset", calendar::turn_zero ) );
+            // good COOK, BOIL, CONTAIN qualities inside
+            crafting_inv.push_back( item( "pot", calendar::turn_zero ) );
 
             int counter = 0;
 
