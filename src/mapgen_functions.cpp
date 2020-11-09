@@ -878,20 +878,20 @@ void mapgen_road( mapgendata &dat )
     // place street lights
     if( neighbor_sidewalks ) {
         // ordinary roads
-        for( int pos = 0; pos < SEEY * 2 - 1; pos++ ) {
-            if( pos % 12 == 0 && m->ter( point( 3, pos ) ) == t_sidewalk ) {
+        for( int pos = 0; pos < SEEY * 2 - 1; pos += 12 ) {
+            if(m->ter( point( 3, pos ) ) == t_sidewalk ) {
                 m->furn_set( point( 3, pos ), f_street_light );
             }
-            if( pos % 12 == 0 && m->ter( point( 20, pos ) ) == t_sidewalk ) {
+            if( m->ter( point( 20, pos ) ) == t_sidewalk ) {
                 m->furn_set( point( 20, pos ), f_street_light );
             }
         }
 
         // diagonal or tee-shaped roads
         if( diag || num_dirs == 3 ) {
-            for( int x = 0; x < SEEX * 2 - 1; x++ ) {
-                for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-                    if( x % 10 == 0 && y % 10 == 0 && m->ter( point( x, y ) ) == t_sidewalk ) {
+            for( int x = 0; x < SEEX * 2 - 1; x += 10 ) {
+                for( int y = 0; y < SEEY * 2 - 1; y += 10 ) {
+                    if( m->ter( point( x, y ) ) == t_sidewalk ) {
                         m->furn_set( point( x, y ), f_street_light );
                     }
                 }
