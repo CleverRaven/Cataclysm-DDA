@@ -265,9 +265,6 @@
       { "x": 0, "y": 0, "chance": 15, "items": [ "mouthpiece" ] },
       { "x": 0, "y": 0, "chance": 15, "items": [ "arm_splint" ] },
       { "x": 0, "y": 0, "chance": 15, "items": [ "leg_splint" ] },
-      { "x": 0, "y": 0, "chance": 15, "items": [ "football" ] },
-      { "x": 0, "y": 0, "chance": 15, "items": [ "football" ] },
-      { "x": 0, "y": 0, "chance": 15, "items": [ "football" ] },
       { "x": 0, "y": 0, "chance": 15, "items": [ "football_armor" ] },
       { "x": 0, "y": 0, "chance": 15, "items": [ "helmet_football" ] }
     ]

@@ -3938,6 +3938,180 @@
     "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "splinter", 3 ] ] ]
   },
   {
+    "result": "stopcock",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
+  },
+  {
+    "result": "button_plastic",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 3 ] ] ]
+  },
+  {
+    "result": "bottle_folding",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 2 ] ] ]
+  },
+  {
+    "result": "plastic_straw",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 3 ] ] ]
+  },
+  {
+    "result": "plastic_knife",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 5 ] ] ]
+  },
+  {
+    "result": "plastic_spoon",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 5 ] ] ]
+  },
+  {
+    "result": "plastic_spoon_kids",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 5 ] ] ]
+  },
+  {
+    "result": "plastic_fork",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 5 ] ] ]
+  },
+  {
+    "result": "plastic_six_dice",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
+  },
+  {
+    "result": "bag_plastic",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
+  },
+  {
+    "result": "bag_zipper",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
+  },
+  {
+    "result": "cup_plastic",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
+  },
+  {
+    "result": "cup_plastic",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
+  },
+  {
+    "result": "sippy_cup",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
+  },
+  {
+    "result": "comb_pocket",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
+  },
+  {
+    "result": "hairbrush",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
+  },
+  {
+    "result": "barrette",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
+  },
+  {
+    "result": "fc_hairpin",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
+  },
+  {
+    "result": "thermostat",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "result": "bathroom_scale",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 8 ] ], [ [ "spring", 4 ] ] ]
+  },
+  {
+    "result": "light_minus_disposable_cell",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "result": "light_disposable_cell",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 6 ] ] ]
+  },
+  {
+    "result": "medium_disposable_cell",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 12 ] ] ]
+  },
+  {
+    "result": "heavy_disposable_cell",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 25 ] ] ]
+  },
+  {
     "result": "broken_turret_light",
     "type": "uncraft",
     "skill_used": "electronics",

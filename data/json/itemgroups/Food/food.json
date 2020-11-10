@@ -747,8 +747,6 @@
       { "item": "fried_seeds", "prob": 25 },
       { "item": "cookies", "prob": 60 },
       { "item": "mayonnaise", "prob": 60 },
-      { "item": "spork", "prob": 10 },
-      { "item": "foon", "prob": 10 },
       { "group": "ketchup_sealed_rng", "prob": 60 },
       { "group": "mustard_sealed_rng", "prob": 60 },
       { "item": "soysauce", "prob": 45 },

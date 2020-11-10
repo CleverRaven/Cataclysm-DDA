@@ -410,12 +410,7 @@
       },
       "item": {
         "#": { "item": "corn", "chance": 70 },
-        "!": { "item": "salt_lick", "chance": 100 },
-        "&": [
-          { "item": "ceramic_plate", "chance": 100 },
-          { "item": "fork", "chance": 100 },
-          { "item": "human_cooked", "chance": 100 }
-        ],
+        "&": [ { "item": "ceramic_plate", "chance": 100 }, { "item": "human_cooked", "chance": 100 } ],
         "?": { "item": "bottle_glass", "chance": 70, "repeat": 6 },
         "^": [ { "item": "bucket", "chance": 100 }, { "item": "mop", "chance": 100 } ],
         "A": { "item": "wheel_wood", "chance": 100 },
@@ -425,7 +420,6 @@
         "h": { "item": "2x4", "chance": 100, "repeat": 2 },
         "o": { "item": "straw_pile", "chance": 100, "repeat": [ 5, 10 ] },
         "q": { "item": "pitchfork", "chance": 100 },
-        "U": { "item": "salt_lick", "chance": 100 },
         "W": { "item": "box_medium", "chance": 100 }
       },
       "items": {

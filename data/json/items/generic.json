@@ -2999,22 +2999,6 @@
     "flags": [ "NO_REPAIR" ]
   },
   {
-    "id": "salt_lick",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "salt lick" },
-    "description": "A heavy cube-shaped block of salt for livestock.  Don't lick it, it's gross.",
-    "weight": "18 kg",
-    "volume": "10 L",
-    "looks_like": "adobe_brick",
-    "price": 5000,
-    "price_postapoc": 100,
-    "material": "stone",
-    "symbol": ".",
-    "color": "white",
-    "flags": [ "NO_REPAIR" ]
-  },
-  {
     "type": "GENERIC",
     "id": "broken_turret_light",
     "symbol": ",",

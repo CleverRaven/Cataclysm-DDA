@@ -837,11 +837,7 @@
         { "item": "golf_bag", "chance": 55, "x": 11, "y": 5 },
         { "item": "golf_bag", "chance": 55, "x": 12, "y": 5 },
         { "item": "golf_shoes", "chance": 40, "repeat": 2, "x": 18, "y": 5 },
-        { "item": "golf_shoes", "chance": 40, "repeat": 2, "x": 19, "y": 5 },
-        { "item": "golf_tee", "chance": 65, "repeat": 5, "x": 18, "y": 11 },
-        { "item": "golf_tee", "chance": 65, "repeat": 5, "x": 19, "y": 11 },
-        { "item": "golf_ball", "chance": 65, "repeat": 5, "x": 18, "y": 12 },
-        { "item": "golf_ball", "chance": 65, "repeat": 5, "x": 19, "y": 12 }
+        { "item": "golf_shoes", "chance": 40, "repeat": 2, "x": 19, "y": 5 }
       ],
       "furniture": {
         "&": "f_toilet",

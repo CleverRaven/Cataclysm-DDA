@@ -196,7 +196,6 @@
         { "group": "cleaning", "x": 2, "y": 17, "chance": 70 },
         { "group": "bionics_mil", "x": 16, "y": 4, "chance": 65 },
         { "group": "bunker_basement_suicide", "x": 3, "y": 3 },
-        { "item": "mess_tray", "x": [ 5, 6 ], "y": 15, "chance": 50, "repeat": [ 4, 5 ] },
         { "item": "whiskey", "x": 5, "y": 3 },
         { "item": "glass", "x": 5, "y": 3 },
         { "item": "militarymap", "x": 5, "y": 3 },

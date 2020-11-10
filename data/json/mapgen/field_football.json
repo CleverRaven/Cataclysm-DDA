@@ -14,7 +14,6 @@
       [ "heatpack_used", 60 ],
       [ "bandages", 40 ],
       [ "mouthpiece", 40 ],
-      [ "football", 60 ],
       [ "football_armor", 60 ],
       [ "helmet_football", 60 ],
       [ "armguard_soft", 30 ],
@@ -148,8 +147,7 @@
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 2 ], "y": [ 0, 23 ], "repeat": [ 18, 24 ] },
         { "point": "terrain", "id": "t_dirt", "x": [ 116, 119 ], "y": [ 0, 23 ], "repeat": [ 24, 32 ] }
       ],
-      "place_monsters": [ { "monster": "GROUP_FOOTBALL", "x": [ 55, 63 ], "y": [ 3, 19 ], "chance": 1, "repeat": [ 3, 4 ] } ],
-      "place_item": [ { "item": "football", "x": 59, "y": 11, "repeat": 1 } ]
+      "place_monsters": [ { "monster": "GROUP_FOOTBALL", "x": [ 55, 63 ], "y": [ 3, 19 ], "chance": 1, "repeat": [ 3, 4 ] } ]
     },
     "om_terrain": [ [ "football_field_b1", "football_field_b2", "football_field_b3", "football_field_b4", "football_field_b5" ] ],
     "type": "mapgen",

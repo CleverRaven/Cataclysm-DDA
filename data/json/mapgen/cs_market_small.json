@@ -7,7 +7,6 @@
       [ "curry_veggy", 20 ],
       [ "currywurst", 20 ],
       [ "curry_powder", 20 ],
-      [ "spoon", 20 ],
       [ "glass", 20 ],
       [ "chilly-p", 20 ],
       [ "chili", 20 ]
@@ -37,8 +36,6 @@
       [ "pan", 20 ],
       [ "teapot", 20 ],
       [ "coffeemaker", 20 ],
-      [ "fork", 20 ],
-      [ "spoon", 20 ],
       [ "glass", 20 ],
       [ "ceramic_cup", 20 ],
       [ "toaster", 20 ],
@@ -92,15 +89,7 @@
   {
     "type": "item_group",
     "id": "m_litter",
-    "items": [
-      [ "glass", 20 ],
-      [ "spoon", 20 ],
-      [ "ceramic_plate", 20 ],
-      [ "fork", 20 ],
-      [ "wrapper", 30 ],
-      [ "foon", 10 ],
-      [ "spork", 10 ]
-    ]
+    "items": [ [ "glass", 20 ], [ "ceramic_plate", 20 ], [ "wrapper", 30 ] ]
   },
   {
     "type": "item_group",

@@ -15,7 +15,7 @@
   {
     "id": "tea_dishes",
     "type": "item_group",
-    "items": [ [ "ceramic_cup", 70 ], [ "ceramic_plate", 50 ], [ "spoon", 20 ] ]
+    "items": [ [ "ceramic_cup", 70 ], [ "ceramic_plate", 50 ] ]
   },
   {
     "id": "chair_hat",
@@ -96,7 +96,7 @@
   {
     "id": "teashop_kitchen_counter",
     "type": "item_group",
-    "items": [ [ "sugar", 30 ], [ "tea_raw", 40 ], [ "teapot", 20 ], [ "spoon", 20 ] ]
+    "items": [ [ "sugar", 30 ], [ "tea_raw", 40 ], [ "teapot", 20 ] ]
   },
   {
     "id": "bar_alcohol",
@@ -749,12 +749,7 @@
       [ "ceramic_plate", 70 ],
       [ "ceramic_bowl", 50 ],
       [ "glass", 70 ],
-      [ "spoon", 50 ],
-      [ "fork", 50 ],
-      [ "knife_butter", 40 ],
       [ "knife_steak", 35 ],
-      [ "spork", 10 ],
-      [ "foon", 10 ],
       [ "bottle_glass", 15 ],
       { "group": "bar_alcohol", "prob": 68 },
       [ "currywurst", 5 ],
@@ -884,12 +879,7 @@
     "items": [
       [ "ceramic_plate", 50 ],
       [ "glass", 50 ],
-      [ "knife_butter", 30 ],
       [ "knife_steak", 15 ],
-      [ "spoon", 20 ],
-      [ "fork", 20 ],
-      [ "spork", 5 ],
-      [ "foon", 5 ],
       { "group": "wines_worthy", "prob": 66 },
       [ "fruit_wine", 20 ],
       [ "hat_chef", 30 ],
@@ -900,16 +890,7 @@
   {
     "id": "restaur_sink",
     "type": "item_group",
-    "items": [
-      [ "ceramic_plate", 50 ],
-      [ "glass", 50 ],
-      [ "knife_butter", 50 ],
-      [ "knife_steak", 25 ],
-      [ "spoon", 50 ],
-      [ "fork", 50 ],
-      [ "spork", 5 ],
-      [ "foon", 5 ]
-    ]
+    "items": [ [ "ceramic_plate", 50 ], [ "glass", 50 ], [ "knife_steak", 25 ] ]
   },
   {
     "id": "salad_bar",

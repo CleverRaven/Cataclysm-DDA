@@ -49,22 +49,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "scorecard",
-    "category": "other",
-    "symbol": ",",
-    "color": "dark_gray",
-    "name": { "str": "score card" },
-    "snippet_category": "scores",
-    "description": "A colorfully printed score card.",
-    "price": 0,
-    "price_postapoc": 0,
-    "material": "paper",
-    "flags": [ "TRADER_AVOID" ],
-    "weight": "3 g",
-    "volume": "1 ml"
-  },
-  {
-    "type": "GENERIC",
     "id": "newest_newspaper",
     "category": "books",
     "symbol": ",",

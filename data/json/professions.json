@@ -225,8 +225,8 @@
     "item": "cheeseburger",
     "sub": [
       { "present": [ "ANTIWHEAT" ], "absent": [ "ANTIJUNK" ], "new": [ { "item": "fries", "ratio": 4 } ] },
-      { "present": [ "ANTIWHEAT", "ANTIJUNK" ], "absent": [ "MEATARIAN" ], "new": [ "veggy_salad", "fork" ] },
-      { "present": [ "ANTIWHEAT", "ANTIJUNK", "MEATARIAN" ], "new": [ "fried_spam", "fork" ] },
+      { "present": [ "ANTIWHEAT", "ANTIJUNK" ], "absent": [ "MEATARIAN" ], "new": [ "veggy_salad" ] },
+      { "present": [ "ANTIWHEAT", "ANTIJUNK", "MEATARIAN" ], "new": [ "fried_spam" ] },
       { "present": [ "LACTOSE" ], "absent": [ "ANTIWHEAT", "VEGETARIAN" ], "new": [ "hamburger" ] },
       { "present": [ "LACTOSE", "VEGETARIAN" ], "absent": [ "ANTIWHEAT" ], "new": [ "sandwich_veggy" ] },
       {
@@ -241,7 +241,7 @@
     "item": "pizza_meat",
     "sub": [
       { "present": [ "VEGETARIAN" ], "absent": [ "ANTIWHEAT" ], "new": [ "pizza_veggy" ] },
-      { "present": [ "VEGETARIAN", "ANTIWHEAT" ], "new": [ "veggy_salad", "fork" ] },
+      { "present": [ "VEGETARIAN", "ANTIWHEAT" ], "new": [ "veggy_salad" ] },
       {
         "present": [ "ANTIWHEAT" ],
         "absent": [ "VEGETARIAN", "ANTIJUNK" ],
@@ -250,7 +250,7 @@
       {
         "present": [ "ANTIWHEAT", "ANTIJUNK" ],
         "absent": [ "VEGETARIAN" ],
-        "new": [ { "item": "fish_fried", "ratio": 2 }, { "item": "fork", "ratio": 0.5 } ]
+        "new": [ { "item": "fish_fried", "ratio": 2 } ]
       }
     ]
   },
@@ -258,7 +258,7 @@
     "type": "profession_item_substitutions",
     "item": "pizza_veggy",
     "sub": [
-      { "present": [ "ANTIWHEAT", "VEGETARIAN" ], "new": [ "veggy_salad", "fork" ] },
+      { "present": [ "ANTIWHEAT", "VEGETARIAN" ], "new": [ "veggy_salad" ] },
       {
         "present": [ "ANTIWHEAT" ],
         "absent": [ "VEGETARIAN", "ANTIJUNK" ],
@@ -267,7 +267,7 @@
       {
         "present": [ "ANTIWHEAT", "ANTIJUNK" ],
         "absent": [ "VEGETARIAN" ],
-        "new": [ { "item": "fish_fried", "ratio": 2 }, { "item": "fork", "ratio": 0.5 } ]
+        "new": [ { "item": "fish_fried", "ratio": 2 } ]
       },
       { "present": [ "MEATARIAN" ], "absent": [ "ANTIWHEAT" ], "new": [ "pizza_meat" ] }
     ]
@@ -658,7 +658,7 @@
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "throw" } ],
     "items": {
       "both": {
-        "items": [ "tank_top", "jersey", "b_shorts", "socks_ankle", "sneakers", "basketball", "sports_drink" ],
+        "items": [ "tank_top", "jersey", "b_shorts", "socks_ankle", "sneakers", "sports_drink" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "boxer_shorts" ],
@@ -3548,7 +3548,7 @@
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "baseball", "bat", "whistle", "tank_top", "shorts", "socks_ankle", "sneakers", "runner_bag", "wristwatch" ],
+        "items": [ "bat", "whistle", "tank_top", "shorts", "socks_ankle", "sneakers", "runner_bag", "wristwatch" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -3823,18 +3823,7 @@
     "items": {
       "both": {
         "items": [ "shorts", "polo_shirt", "socks", "golf_shoes", "hat_golf", "gloves_golf", "wristwatch" ],
-        "entries": [
-          { "item": "golf_club", "container-item": "golf_bag" },
-          { "item": "golf_tee" },
-          { "item": "golf_tee" },
-          { "item": "golf_tee" },
-          { "item": "golf_tee" },
-          { "item": "golf_tee" },
-          { "item": "golf_ball" },
-          { "item": "golf_ball" },
-          { "item": "golf_ball" },
-          { "group": "charged_cell_phone" }
-        ]
+        "entries": [ { "item": "golf_club", "container-item": "golf_bag" }, { "group": "charged_cell_phone" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]

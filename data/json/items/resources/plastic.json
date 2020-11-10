@@ -72,5 +72,20 @@
     "material": "plastic",
     "symbol": ")",
     "color": "light_blue"
+  },
+  {
+    "id": "plastic_scrap",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "plastic scrap" },
+    "description": "This is a tiny piece of plastic.  Useless on its own, but could be melted down if you gather enough.",
+    "weight": "5 g",
+    "volume": "25 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": "plastic",
+    "symbol": ",",
+    "color": "light_blue",
+    "flags": [ "NO_SALVAGE" ]
   }
 ]

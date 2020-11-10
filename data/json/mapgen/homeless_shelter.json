@@ -184,9 +184,6 @@
         { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 24, 47 ], "density": 0.1 }
       ],
       "place_loot": [
-        { "item": "fork", "repeat": [ 5, 10 ], "x": [ 20, 20 ], "y": 32 },
-        { "item": "spoon", "repeat": [ 5, 10 ], "x": [ 19, 19 ], "y": 32 },
-        { "item": "knife_butter", "repeat": [ 5, 10 ], "x": [ 18, 18 ], "y": 32 },
         { "item": "tin_plate", "repeat": [ 7, 15 ], "x": [ 15, 17 ], "y": 32 },
         { "item": "glass_bowl", "repeat": [ 7, 15 ], "x": [ 12, 14 ], "y": 32 },
         { "item": "cup_plastic_unsealed", "repeat": [ 5, 10 ], "x": [ 11, 11 ], "y": 32 }

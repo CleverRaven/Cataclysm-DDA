@@ -59,7 +59,6 @@
       [ "flask_glass", 10 ],
       [ "pipe_glass", 10 ],
       [ "fish_bowl", 1 ],
-      [ "glass_plate", 20 ],
       [ "glass_sheet", 5 ],
       [ "jar_3l_glass", 15 ],
       [ "magnifying_glass", 5 ],
@@ -105,14 +104,10 @@
     "type": "item_group",
     "items": [
       [ "cup_plastic", 20 ],
-      [ "rolling_pin", 20 ],
       [ "bowl_plastic", 20 ],
       [ "canteen", 10 ],
       [ "flask_hip", 15 ],
-      [ "fork", 25 ],
       [ "sponge", 30 ],
-      [ "spoon", 25 ],
-      [ "knife_butter", 25 ],
       [ "pan", 15 ],
       [ "pot", 15 ],
       [ "teapot", 15 ],
@@ -876,8 +871,7 @@
             "collection": [ { "item": "case_violin" }, { "item": "tommygun" }, { "item": "grip" }, { "item": "thompson_drum" } ],
             "prob": 15
           },
-          { "collection": [ { "item": "case_violin" }, { "item": "violin_golden" } ], "prob": 50 },
-          { "collection": [ { "item": "spoon" }, { "item": "washboard" } ], "prob": 15 }
+          { "collection": [ { "item": "case_violin" }, { "item": "violin_golden" } ], "prob": 50 }
         ]
       }
     ]
@@ -1015,15 +1009,14 @@
     "entries": [
       { "item": "socks_bowling", "prob": 100 },
       { "item": "shoes_bowling", "prob": 100 },
-      { "item": "bowling_pin", "prob": 100 },
-      { "item": "bowling_ball", "prob": 100 }
+      { "item": "bowling_pin", "prob": 100 }
     ]
   },
   {
     "id": "bowling_balls",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "bowling_ball", "prob": 100 } ]
+    "entries": [  ]
   },
   {
     "type": "item_group",
@@ -1128,12 +1121,7 @@
       [ "cell_phone", 1 ],
       [ "smart_phone", 3 ],
       [ "glass", 40 ],
-      [ "spoon", 25 ],
-      [ "fork", 25 ],
-      [ "knife_butter", 20 ],
-      [ "knife_steak", 15 ],
-      [ "spork", 5 ],
-      [ "foon", 5 ]
+      [ "knife_steak", 15 ]
     ]
   },
   {
@@ -1225,8 +1213,6 @@
       [ "eyedrops", 10 ],
       [ "rag", 30 ],
       [ "paper", 30 ],
-      [ "foon", 30 ],
-      [ "spork", 30 ],
       [ "coffee_raw", 20 ],
       [ "coffee_syrup", 20 ],
       [ "crude_picklock", 10 ],
@@ -1272,8 +1258,6 @@
       [ "eyedrops", 10 ],
       [ "rag", 30 ],
       [ "paper", 30 ],
-      [ "foon", 30 ],
-      [ "spork", 30 ],
       [ "coffee_raw", 20 ],
       [ "coffee_syrup", 20 ],
       [ "crude_picklock", 10 ],

@@ -34,7 +34,7 @@
     "id": "silverware",
     "type": "item_group",
     "//": "Forks, spoons, knives, ect.",
-    "items": [ [ "knife_butter", 30 ], [ "knife_steak", 10 ], [ "fork", 30 ], [ "spoon", 30 ] ]
+    "items": [ [ "knife_steak", 10 ] ]
   },
   {
     "id": "tinware",
@@ -48,7 +48,6 @@
     "//": "Plates, bowls, cups, etc.",
     "items": [
       [ "glass", 20 ],
-      [ "glass_plate", 20 ],
       [ "glass_bowl", 20 ],
       [ "ceramic_plate", 10 ],
       [ "wine_glass", 10 ],
@@ -81,7 +80,6 @@
       { "item": "file", "count": [ 1, 8 ], "prob": 50 },
       { "group": "elecsto_stor", "count": [ 1, 2 ], "prob": 30 },
       { "item": "money_bundle", "count": [ 1, 10 ], "prob": 20 },
-      { "item": "scorecard", "count": [ 1, 10 ], "prob": 10 },
       { "item": "survnote", "prob": 10 },
       { "item": "flyer", "count": [ 1, 10 ], "prob": 30 },
       { "item": "character_sheet", "count": [ 1, 2 ], "prob": 5 },
