@@ -83,7 +83,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "antibiotics" },
-    "description": "A antibacterial medication designed to prevent or stop the spread of infection.  It's the safest way to cure any infections you might have.  One dose lasts twelve hours.",
+    "description": "An antibacterial medication designed to prevent or stop the spread of infection.  It's the safest way to cure any infections you might have.  One dose lasts twelve hours.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 9000,
