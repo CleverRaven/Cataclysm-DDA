@@ -81,6 +81,11 @@
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Uyen_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Uyen_Situation" },
+      {
+        "text": "Could you teach me a bit about first aid?",
+        "condition": { "u_has_var": "Uyen_teach", "type": "knowledge", "context": "flag", "value": "yes" },
+        "topic": "TALK_REFUGEE_Uyen_Teach"
+      },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
@@ -129,7 +134,19 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_Background",
-    "dynamic_line": "I was a paramedic.  I was there through some of the absolute worst of it, to this day I can't tell you how I made it out.  One thing led to another and I got pushed onto a bus to help take care of a couple people who needed assistance for travel.  Broken arms, that kinda stuff.  I got here early, I was one of the first to arrive.  Then, this woman in processing 'lost' my paperwork while I was busy helping a guy with a bad gash on his head.  If I hadn't made a stink about it, I'd probably be out in the lobby with those poor souls that couldn't get in at all."
+    "dynamic_line": "I was a paramedic.  I was there through some of the absolute worst of it, to this day I can't tell you how I made it out.  One thing led to another and I got pushed onto a bus to help take care of a couple people who needed assistance for travel.  Broken arms, that kinda stuff.  I got here early, I was one of the first to arrive.  Then, this woman in processing 'lost' my paperwork while I was busy helping a guy with a bad gash on his head.  If I hadn't made a stink about it, I'd probably be out in the lobby with those poor souls that couldn't get in at all.",
+    "responses": [ { "text": "Could you teach me a bit about first aid?", "topic": "TALK_REFUGEE_Uyen_Teach" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_Teach",
+    "dynamic_line": "Sure, I don't see why not.  It's always good to have more people who can do it.  I'll need a bit of payment for my time, of course.",
+    "speaker_effect": { "effect": { "u_add_var": "Uyen_teach", "type": "knowledge", "context": "flag", "value": "yes" } },
+    "responses": [
+      { "text": "All right, let's do it!", "topic": "TALK_TRAIN" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Actually, I had better go.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
