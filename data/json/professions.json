@@ -698,7 +698,7 @@
     "type": "profession",
     "id": "combat_engineer",
     "name": "Combat Engineer",
-    "description": "A simple job. Keep the army moving. You built roads, you built bridges, you cleared minefields, you demolished buildings.  And, if need be, you built fortifications.  Your secondary job however, was being a rifleman.",
+    "description": "A simple job.  Keep the army moving.  You built roads, you built bridges, you cleared minefields, you demolished buildings.  And, if need be, you built fortifications.  Your secondary job however, was being a rifleman.",
     "points": 6,
     "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
