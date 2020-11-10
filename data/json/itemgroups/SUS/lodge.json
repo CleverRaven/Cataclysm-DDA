@@ -5,17 +5,11 @@
     "//": "items found in an archery space",
     "subtype": "collection",
     "entries": [
-      { "group": "accesories_personal_unisex", "prob": 10 },
-      { "group": "accesories_personal_mens", "prob": 10 },
-      { "group": "masks_unisex", "prob": 5 },
-      { "group": "socks_unisex", "prob": 70 },
-      { "group": "scarfs_unisex", "prob": 20 },
-      { "group": "shirts_unisex", "prob": 50 },
-      { "group": "underwear_mens", "prob": 80 },
-      { "group": "underwear_unisex", "prob": 80 },
-      { "group": "pants_unisex", "prob": 50 },
-      { "group": "pants_mens", "prob": 60 },
-      { "group": "gloves_unisex", "prob": 20 }
+      { "item": "compbow", "prob": 50 },
+      { "item": "compbow_high", "prob": 20 },
+      { "item": "compbow_low", "prob": 40 },
+      { "item": "recurbow", "prob": 30 },
+      { "item": "reflexrecurvebow", "prob": 10 }
     ]
   },
   {
@@ -44,7 +38,7 @@
     "entries": [
       { "group": "guns_shotgun_common", "prob": 30 },
       { "group": "SUS_hunting_rifle", "prob": 20 },
-      { "group": "SUS_hunting_archer", "prob": 15 }
+      { "group": "SUS_hunting_archery", "prob": 15 }
     ]
   },
   {
@@ -76,11 +70,11 @@
     "subtype": "collection",
     "entries": [
       { "item": "machete", "prob": 20 },
-      { "item": "preserved_food", "custom-flags": [ "CANNIBALISM" ], "prob": 30 },
-      { "item": "preserved_food", "prob": 20 },
-      { "item": "dry_goods", "prob": 30 },
-      { "item": "dry_goods", "custom-flags": [ "CANNIBALISM" ], "prob": 60 },
-      { "item": "pantry", "prob": 10 }
+      { "group": "preserved_food", "custom-flags": [ "CANNIBALISM" ], "prob": 30 },
+      { "group": "preserved_food", "prob": 20 },
+      { "group": "dry_goods", "prob": 30 },
+      { "group": "dry_goods", "custom-flags": [ "CANNIBALISM" ], "prob": 60 },
+      { "group": "pantry", "prob": 10 }
     ]
   }
 ]

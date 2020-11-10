@@ -248,9 +248,9 @@
     "type": "overmap_special",
     "id": "Hunting Lodge",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "lodge_ground_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "lodge_2ndfloor_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "lodge_lodge_basement_residential_north" }
+      { "point": [ 0, 0, 0 ], "overmap": "lodge_ground" },
+      { "point": [ 0, 0, 1 ], "overmap": "lodge_2ndfloor" },
+      { "point": [ 0, 0, -1 ], "overmap": "lodge_lodge_basement_residential" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land", "swamp" ],
@@ -263,9 +263,9 @@
     "type": "overmap_special",
     "id": "Hunting Lodge",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "lodge_ground_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "lodge_2ndfloor_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "lodge_basement_laboratory_entrance_north" }
+      { "point": [ 0, 0, 0 ], "overmap": "lodge_ground" },
+      { "point": [ 0, 0, 1 ], "overmap": "lodge_2ndfloor" },
+      { "point": [ 0, 0, -1 ], "overmap": "lodge_basement_laboratory_entrance" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land", "swamp" ],
