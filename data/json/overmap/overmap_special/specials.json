@@ -253,7 +253,7 @@
       { "point": [ 0, 0, 1 ], "overmap": "lodge_2ndfloor1_north" },
       { "point": [ 1, 0, 1 ], "overmap": "lodge_2ndfloor2_north" },
       { "point": [ 0, 0, -1 ], "overmap": "lodge_lodge_basement_residential1_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "lodge_lodge_basement_residential2_north" }
+      { "point": [ 1, 0, -1 ], "overmap": "lodge_lodge_basement_residential2_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land", "swamp" ],
