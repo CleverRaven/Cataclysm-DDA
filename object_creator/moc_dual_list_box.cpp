@@ -73,7 +73,7 @@ void creator::dual_list_box::qt_static_metacall( QObject *_o, QMetaObject::Call 
         Q_UNUSED( _t )
         switch( _id ) {
             case 0:
-                _t->click();
+                _t->pressed();
                 break;
             default:
                 ;
@@ -82,7 +82,7 @@ void creator::dual_list_box::qt_static_metacall( QObject *_o, QMetaObject::Call 
         int *result = reinterpret_cast<int *>( _a[0] );
         {
             using _t = void ( dual_list_box::* )();
-            if( *reinterpret_cast<_t *>( _a[1] ) == static_cast<_t>( &dual_list_box::click ) ) {
+            if( *reinterpret_cast<_t *>( _a[1] ) == static_cast<_t>( &dual_list_box::pressed ) ) {
                 *result = 0;
                 return;
             }
@@ -139,7 +139,7 @@ int creator::dual_list_box::qt_metacall( QMetaObject::Call _c, int _id, void **_
 }
 
 // SIGNAL 0
-void creator::dual_list_box::click()
+void creator::dual_list_box::pressed()
 {
     QMetaObject::activate( this, &staticMetaObject, 0, nullptr );
 }

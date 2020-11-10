@@ -1,9 +1,9 @@
 #ifndef CATA_OBJECT_CREATOR_DUAL_LIST_BOX_H
 #define CATA_OBJECT_CREATOR_DUAL_LIST_BOX_H
 
-#include "QtWidgets/qcombobox.h"
 #include "QtWidgets/qgridlayout.h"
 #include "QtWidgets/qlabel.h"
+#include "QtWidgets/qlistwidget.h"
 #include "QtWidgets/qpushbutton.h"
 
 namespace creator
@@ -14,17 +14,20 @@ class dual_list_box : public QWidget
     public:
         dual_list_box() {}
 
-        void initialize( const QStringList &items, const QSize &default_text_box_size );
+        void initialize( const QStringList &items );
+        void resize( const QSize & );
 
         QStringList get_included() const;
     Q_SIGNALS:
-        void click();
+        void pressed();
     private:
         // the entire list of acceptable strings
         QStringList items;
 
-        QComboBox included_box;
-        QComboBox excluded_box;
+        QListWidget included_box;
+        QListWidget excluded_box;
+
+        QWidget button_widget;
 
         QPushButton include_all_button;
         QPushButton include_sel_button;
