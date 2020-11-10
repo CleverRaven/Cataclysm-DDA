@@ -1146,23 +1146,6 @@
     "magazine_well": 1
   },
   {
-    "id": "stopcock",
-    "type": "GENERIC",
-    "category": "spare_parts",
-    "name": { "str": "plastic stopcock" },
-    "description": "Stop giggling.  This is a tiny plastic valve, get your mind out of the gutter.",
-    "weight": "5 g",
-    "volume": "1ml",
-    "price": 5,
-    "price_postapoc": 10,
-    "to_hit": -5,
-    "bashing": 2,
-    "material": [ "plastic" ],
-    "looks_like": "plastic_chunk",
-    "symbol": "T",
-    "color": "white"
-  },
-  {
     "id": "rack_test_tube",
     "type": "GENERIC",
     "category": "spare_parts",

@@ -1824,7 +1824,6 @@
       { "item": "funnel_separation", "prob": 3 },
       { "item": "burette", "prob": 3 },
       { "item": "still_lab", "prob": 3 },
-      { "item": "stopcock", "prob": 3 },
       { "item": "beaker", "prob": 5 },
       { "item": "gradcylinder", "prob": 5 },
       { "item": "rack_test_tube", "prob": 5 },
