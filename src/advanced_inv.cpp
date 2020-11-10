@@ -83,7 +83,7 @@ void create_advanced_inv()
     pane_mutex[ridx] = lidx == ridx;
     mytrui->right()->rebuild();
     pane_mutex[ridx] = true;
-    
+
     mytrui->show();
     mytrui->savestate( &uistate.transfer_save );
 }
