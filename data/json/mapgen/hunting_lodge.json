@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lodge_ground" ],
+    "om_terrain": [ "lodge_ground1", "lodge_ground2", ],
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -38,7 +38,7 @@
         {
           "chunks": [ [ "lodge_pantry_15x15", 80 ], [ "lodge_cannibal_15x15", 20 ], [ "lodge_hunting_15x15", 50 ] ],
           "x": 8,
-          "y": 8
+          "y": 9
         }
       ]
     }
@@ -46,7 +46,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lodge_2ndfloor" ],
+    "om_terrain": [ "lodge_2ndfloor1", "lodge_2ndfloor2" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -82,7 +82,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lodge_basement_residential" ],
+    "om_terrain": [ "lodge_basement_residential1", "lodge_basement_residential2" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_rock",

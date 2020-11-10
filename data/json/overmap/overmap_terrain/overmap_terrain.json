@@ -203,7 +203,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodge_ground" ],
+    "id": [ "lodge_ground1", "lodge_ground2" ],
     "name": "hunting lodge",
     "sym": "L",
     "copy-from": "generic_forest",
@@ -213,7 +213,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodge_2ndfloor" ],
+    "id": [ "lodge_2ndfloor1", "lodge_2ndfloor2" ],
     "name": "second floor hunting lodge",
     "copy-from": "generic_forest",
     "sym": "L",
@@ -222,7 +222,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodge_basement_residential", "lodge_basement_laboratory_entrance" ],
+    "id": [ "lodge_basement_residential1", "lodge_basement_residential2", "lodge_basement_laboratory_entrance" ],
     "name": "hunting lodge basement",
     "copy-from": "generic_forest",
     "sym": "L",
