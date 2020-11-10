@@ -196,7 +196,9 @@
               }
             },
             { "u_has_intelligence": 10 },
-            { "not": { "npc_compare_time_since_var": "Jenny_teach", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" } }
+            {
+              "not": { "npc_compare_time_since_var": "Jenny_teach", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
+            }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 30 },
