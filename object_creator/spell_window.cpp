@@ -9,6 +9,8 @@
 #include "mutation.h"
 #include "skill.h"
 
+#include "QtWidgets/qheaderview.h"
+
 #include <sstream>
 
 static spell_type default_spell_type()
@@ -107,6 +109,51 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         write_json();
     } );
     row += 10;
+
+    learn_spells_box.setParent( this );
+    learn_spells_box.resize( QSize( default_text_box_width * 2, default_text_box_height * 6 ) );
+    learn_spells_box.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
+    learn_spells_box.insertColumn( 0 );
+    learn_spells_box.insertColumn( 0 );
+    learn_spells_box.insertRow( 0 );
+    learn_spells_box.setHorizontalHeaderLabels( QStringList{ "Spell Id", "Level" } );
+    learn_spells_box.verticalHeader()->hide();
+    learn_spells_box.horizontalHeader()->resizeSection( 0, default_text_box_width * 1.45 );
+    learn_spells_box.horizontalHeader()->resizeSection( 1, default_text_box_width / 2.0 );
+    learn_spells_box.setSelectionBehavior( QAbstractItemView::SelectionBehavior::SelectItems );
+    learn_spells_box.setSelectionMode( QAbstractItemView::SelectionMode::SingleSelection );
+    learn_spells_box.show();
+
+    QObject::connect( &learn_spells_box, &QTableWidget::cellChanged, [&]() {
+        {
+            QTableWidgetItem *cur_widget = learn_spells_box.selectedItems().first();
+            const int cur_row = learn_spells_box.row( cur_widget );
+            QAbstractItemModel *model = learn_spells_box.model();
+            QVariant id_text = model->data( model->index( cur_row, 0 ), Qt::DisplayRole );
+            QVariant lvl_text = model->data( model->index( cur_row, 1 ), Qt::DisplayRole );
+
+            const bool cur_row_empty = id_text.toString().isEmpty() && lvl_text.toString().isEmpty();
+            const bool last_row = cur_row == learn_spells_box.rowCount() - 1;
+            if( last_row && !cur_row_empty ) {
+                learn_spells_box.insertRow( learn_spells_box.rowCount() );
+            } else if( !last_row && cur_row_empty ) {
+                learn_spells_box.removeRow( cur_row );
+            }
+        }
+
+        editable_spell.learn_spells.clear();
+        for( int row = 0; row < learn_spells_box.rowCount() - 1; row++ ) {
+            QAbstractItemModel *model = learn_spells_box.model();
+            QVariant id_text = model->data( model->index( row, 0 ), Qt::DisplayRole );
+            QVariant lvl_text = model->data( model->index( row, 1 ), Qt::DisplayRole );
+
+            editable_spell.learn_spells[id_text.toString().toStdString()] = lvl_text.toInt();
+        }
+
+        write_json();
+    } );
+
+    row += 6;
 
     // =========================================================================================
     // second column of boxes

@@ -13,6 +13,7 @@
 #include <QtWidgets/qmainwindow.h>
 #include <QtWidgets/qplaintextedit.h>
 #include <QtWidgets/qspinbox.h>
+#include <QtWidgets/qtablewidget.h>
 
 namespace creator
 {
@@ -159,6 +160,8 @@ class spell_window : public QMainWindow
 
         QLabel targeted_monster_ids_label;
         dual_list_box targeted_monster_ids_box;
+
+        QTableWidget learn_spells_box;
 };
 }
 
