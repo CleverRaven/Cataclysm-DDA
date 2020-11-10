@@ -481,7 +481,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 8 ] },
+        { "item": "cable", "charges": [ 100, 800 ] },
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 0, 5 ] },
         { "item": "e_scrap", "count": [ 2, 8 ] },
