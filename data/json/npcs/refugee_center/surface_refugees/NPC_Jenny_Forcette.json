@@ -72,6 +72,7 @@
     "//": "common talk responses",
     "id": [
       "TALK_REFUGEE_JENNY_2",
+      "TALK_REFUGEE_JENNY_Background1",
       "TALK_REFUGEE_JENNY_Personal1",
       "TALK_REFUGEE_JENNY_Project1",
       "TALK_REFUGEE_JENNY_Project2",
@@ -107,7 +108,20 @@
         "condition": { "u_has_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" },
         "topic": "TALK_REFUGEE_JENNY_Project3"
       },
-      { "text": "What's your story?", "topic": "TALK_REFUGEE_JENNY_Personal1" },
+      { "text": "Tell me a bit about your background.", "topic": "TALK_REFUGEE_JENNY_Background1" },
+      { "text": "How are things, living here?", "topic": "TALK_REFUGEE_JENNY_Personal1" },
+      {
+        "text": "Are you free to teach me anything today?",
+        "topic": "TALK_REFUGEE_JENNY_Teach1",
+        "condition": {
+          "and": [
+            {
+              "not": { "npc_compare_time_since_var": "Jenny_teach", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
+            },
+            { "u_has_var": "Jenny_teach", "type": "knowledge", "context": "flag", "value": "yes" }
+          ]
+        }
+      },
       { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_JENNY_Refugees1" }
     ]
   },
@@ -155,8 +169,35 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Background1",
+    "dynamic_line": "Me?  I trained at MIT in mechanical engineering, I worked for a long time as senior engineer at Marduk Thermal in Rhode Island.  It was a good job, but I landed my dream gig at Boston Dynamics and moved up north to start there.  I had just finished my orientation and was going to start work when the riots started.  Just my damn luck.",
+    "responses": [
+      { "text": "That's impressive, but there must be more to you than just your job.", "topic": "TALK_REFUGEE_JENNY_Background2" },
+      {
+        "text": "You must know some great stuff.  Can you teach me anything?",
+        "topic": "TALK_REFUGEE_JENNY_Teach1",
+        "condition": {
+          "not": { "npc_compare_time_since_var": "Jenny_teach", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
+        }
+      },
+      { "text": "Sorry about your luck.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Background2",
+    "dynamic_line": "Ha!  You must not know many engineers, hey?  I guess there's more to me than engineering, but most of my hobbies come back to it one way or the other.  It's not that I live for my work, doing engineering for a heating company wasn't some great dream, but when I got home I'd putter with the projects I wanted to do instead of the ones they made me do.  You know?  And of course, I had my friends and things, we'd go out or hang out and play board games and stuff.  Maybe some day I'll get a board game group started up here, although there's nothing wrong with the card games we've got now.  Plus I don't think Zombicide would hold the same interest for me as it used to.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Teach1",
     "dynamic_line": "Huh.  I guess I can teach you a bit, but you'd have to be like, my on-the-job apprentice.  Do you know anything about electronics, computers, or mechanics already?",
+    "speaker_effect": { "effect": { "u_add_var": "Jenny_teach", "type": "knowledge", "context": "flag", "value": "yes" } },
     "responses": [
       {
         "text": "[SKILL 2] I'm not a total noob.",
@@ -195,10 +236,7 @@
                 ]
               }
             },
-            { "u_has_intelligence": 10 },
-            {
-              "not": { "npc_compare_time_since_var": "Jenny_teach", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
-            }
+            { "u_has_intelligence": 10 }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 30 },
