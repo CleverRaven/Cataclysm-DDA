@@ -168,49 +168,49 @@
         "type": "mission",
         "context": "flag",
         "value": "yes",
-        "no": "Sure, I could teach you the basics, it'll cost you merch though.  Let's say, 35 merch for a teaching session?",
-        "yes": "Sure, I could teach you the basics, it'll cost you merch though.  Since you helped me out, I can shave a bit off the price, let's say 30 merch?"
+        "no": "Sure, I could teach you the basics, I'll have to charge you though.  Let's say, 5 merch for a teaching session, plus a bit in trade depending on how in-depth you're looking for?",
+        "yes": "Sure, I could teach you the basics, it'll cost you merch though.  Since you helped me out, I can shave a bit off the price, let's say 4 merch, plus a bit in trade depending on how in-depth you're looking for?"
       }
     },
     "speaker_effect": { "effect": { "u_add_var": "Fatima_Teacher", "type": "knowledge", "context": "trade", "value": "yes" } },
     "responses": [
       {
-        "//": "35 merch if player has not bartered nor finished mission",
+        "//": "5 merch if player has not bartered nor finished mission",
         "text": "All right, here's your money.",
-        "topic": "TALK_DONE",
+        "topic": "TALK_TRAIN",
         "condition": {
           "and": [
             { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
             { "not": { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" } },
-            { "u_has_items": { "item": "FMCNote", "count": 35 } }
+            { "u_has_items": { "item": "FMCNote", "count": 5 } }
           ]
         },
-        "effect": [ { "u_sell_item": "FMCNote", "count": 35 }, "start_training" ]
+        "effect": [ { "u_sell_item": "FMCNote", "count": 5 } ]
       },
       {
-        "//": "30 merch if player has not bartered but has done the mission",
+        "//": "4 merch if player has not bartered but has done the mission",
         "text": "All right, here's your money.",
-        "topic": "TALK_DONE",
+        "topic": "TALK_TRAIN",
         "condition": {
           "and": [
             { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
             { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-            { "u_has_items": { "item": "FMCNote", "count": 30 } }
+            { "u_has_items": { "item": "FMCNote", "count": 4 } }
           ]
         },
-        "effect": [ { "u_sell_item": "FMCNote", "count": 30 }, "start_training" ]
+        "effect": [ { "u_sell_item": "FMCNote", "count": 4 } ]
       },
       {
-        "//": "25 merch if player has successfully bartered price down",
+        "//": "3 merch if player has successfully bartered price down",
         "text": "All right, here's your money.",
-        "topic": "TALK_DONE",
+        "topic": "TALK_TRAIN",
         "condition": {
           "and": [
             { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" },
-            { "u_has_items": { "item": "FMCNote", "count": 25 } }
+            { "u_has_items": { "item": "FMCNote", "count": 3 } }
           ]
         },
-        "effect": [ { "u_sell_item": "FMCNote", "count": 25 }, "start_training" ]
+        "effect": [ { "u_sell_item": "FMCNote", "count": 3 } ]
       },
       {
         "text": "[BARTER] Come on, I'm serious here.",
@@ -259,7 +259,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Teach_yesbarter",
-    "dynamic_line": "Oh, fine, you weasel.  I suppose I can manage for 25 notes.  I seriously can't go lower though, we'll be using up my resources and time and I gotta pay for the gas and the food somehow.",
+    "dynamic_line": "Oh, fine, you weasel.  I suppose I can manage for 3 notes.  I seriously can't go lower though, we'll be using up my resources and time and I gotta pay for the gas and the food somehow.",
     "speaker_effect": { "effect": { "u_add_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
