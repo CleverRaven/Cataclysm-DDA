@@ -67,7 +67,7 @@ class advuilist
         using select_t = std::vector<selection_t>;
 
         advuilist( Container *list, point size = { -9, -9 }, point origin = { -9, -9 },
-                   std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT, bool init = true );
+                   std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT );
 
         /// sets up columns and optionally sets up implict sorters
         ///@param columns
@@ -92,6 +92,9 @@ class advuilist
         /// if set, func gets called after all internal printing calls and before wnoutrefresh(). This
         /// is meant to be used for drawing extra decorations or stats
         void on_redraw( fdraw_t const &func );
+        /// if set, func will get called on screen resize instead of running resize() directly. Use
+        /// this if window size/pos depends on external variables such as TERMX/Y
+        void on_resize( fdraw_t const &func );
         /// sets the filtering function
         void setfilterf( filter_t const &func );
         select_t select();
@@ -106,6 +109,7 @@ class advuilist
         /// pre-initialize or reset the internal ui_adaptor;
         void initui();
         void hide();
+        void resize( point size, point origin );
 
         input_context *get_ctxt();
         catacurses::window *get_window();
@@ -114,11 +118,6 @@ class advuilist
 
         void savestate( advuilist_save_state *state );
         void loadstate( advuilist_save_state *state, bool reb = true );
-
-    protected:
-        // semi-hacks: functions needed due to initialization order in advuilist_sourced
-        void _init();
-        void _resize( point size, point origin );
 
     private:
         /// pair of index, pointer. index is used for "none" sorting mode and is not meant to represent
@@ -136,8 +135,8 @@ class advuilist
         using groupercont_t = std::vector<grouper_t>;
         using pagecont_t = std::vector<page_t>;
 
-        point _size;
-        point _origin;
+        point _size, _osize;
+        point _origin, _oorigin;
         std::size_t _pagesize = 0;
         list_t _list;
         colscont_t _columns;
@@ -148,7 +147,7 @@ class advuilist
         ffilter_t _ffilter;
         fcounter_t _fcounter;
         frebuild_t _frebuild;
-        fdraw_t _fdraw;
+        fdraw_t _fdraw, _fresize;
         fctxt_t _fctxt;
         std::string _filter;
         std::string _filterdsc;
@@ -209,13 +208,9 @@ class advuilist
 
 template <class Container, typename T>
 advuilist<Container, T>::advuilist( Container *list, point size, point origin,
-                                    std::string const &ctxtname, bool init )
-    : _size( size.x > 0 ? size.x : TERMX / 4, size.y > 0 ? size.y : TERMY / 4 ),
-      _origin( origin.x >= 0 ? origin.x : TERMX / 2 - _size.x / 2,
-               origin.y >= 0 ? origin.y : TERMY / 2 - _size.y / 2 ),
-      // leave space for decorations and column headers
-      _pagesize(
-          static_cast<std::size_t>( std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) ) ),
+                                    std::string const &ctxtname)
+    : _osize( size ),
+      _oorigin( origin ),
       // insert dummy sorter for "none" sort mode
       _sorters{ sorter_t{ "none", fsort_t() } },
       // insert dummy grouper for "none" grouping mode
@@ -236,10 +231,7 @@ advuilist<Container, T>::advuilist( Container *list, point size, point origin,
 // *INDENT-ON*
 
 {
-    if( init )
-    {
-        _init();
-    }
+    _initctxt();
 }
 
 template <class Container, typename T>
@@ -320,6 +312,12 @@ template <class Container, typename T>
 void advuilist<Container, T>::on_redraw( fdraw_t const &func )
 {
     _fdraw = func;
+}
+
+template <class Container, typename T>
+void advuilist<Container, T>::on_resize( fdraw_t const &func )
+{
+    _fresize = func;
 }
 
 template <class Container, typename T>
@@ -434,6 +432,11 @@ void advuilist<Container, T>::initui()
 {
     _ui = std::make_shared<ui_adaptor>();
     _ui->on_screen_resize( [&]( ui_adaptor & ui ) {
+        if( _fresize ) {
+            _fresize( this );
+        } else {
+            resize( _osize, _oorigin );
+        }
         _w = catacurses::newwin( _size.y, _size.x, _origin );
         ui.position_from_window( _w );
     } );
@@ -454,6 +457,29 @@ template <class Container, typename T>
 void advuilist<Container, T>::hide()
 {
     _ui.reset();
+}
+
+template <class Container, typename T>
+void advuilist<Container, T>::resize( point size, point origin )
+{
+    _size = { size.x > 0 ? size.x > TERMX ? TERMX : size.x : TERMX / 4,
+              size.y > 0 ? size.y > TERMY ? TERMY : size.y : TERMY / 4
+            };
+    _origin = { origin.x >= 0 ? origin.x + size.x > TERMX ? 0 : origin.x : TERMX / 2 - _size.x / 2,
+                origin.y >= 0 ? origin.y + size.y > TERMY ? 0 : origin.y
+                : TERMY / 2 - _size.y / 2
+              };
+    // leave space for decorations and column headers
+    _pagesize =
+        static_cast<std::size_t>( std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) );
+
+    _innerw = _size.x - _firstcol * 2;
+    std::size_t const npagesize =
+        static_cast<std::size_t>( std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) );
+    if( npagesize != _pagesize ) {
+        _pagesize = npagesize;
+        rebuild( _olist );
+    }
 }
 
 template <class Container, typename T>
@@ -535,23 +561,6 @@ template <class Container, typename T>
 std::size_t advuilist<Container, T>::_peekcount()
 {
     return _count( _cidx );
-}
-
-template <class Container, typename T>
-void advuilist<Container, T>::_init()
-{
-    rebuild( _olist );
-    _initctxt();
-}
-
-template <class Container, typename T>
-void advuilist<Container, T>::_resize( point size, point origin )
-{
-    _size = size;
-    _innerw = _size.x - _firstcol * 2;
-    _origin = origin;
-    _pagesize =
-        static_cast<std::size_t>( std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) );
 }
 
 template <class Container, typename T>

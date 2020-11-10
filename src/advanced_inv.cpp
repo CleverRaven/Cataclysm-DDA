@@ -12,6 +12,24 @@
 #include "panels.h"            // for panel_manager
 #include "transaction_ui.h"    // for transaction_ui<>::advuilist_t, transa...
 
+namespace
+{
+std::pair<point, point> AIM_size( bool full_screen )
+{
+    int const min_w_width = FULL_SCREEN_WIDTH;
+    int const max_w_width = full_screen ? TERMX : std::max( 120,
+                            TERMX - 2 * ( panel_manager::get_manager().get_width_right() +
+                                          panel_manager::get_manager().get_width_left() ) );
+
+    int const width = TERMX < min_w_width
+                      ? min_w_width
+                      : TERMX > max_w_width ? max_w_width : TERMX;
+    int const originx = TERMX > width ? ( TERMX - width ) / 2 : 0;
+
+    return { point{width, TERMY}, point{originx, 0} };
+}
+} // namespace
+
 void create_advanced_inv()
 {
     using namespace advuilist_helpers;
@@ -23,20 +41,16 @@ void create_advanced_inv()
     static aim_stats_t rstats{ 0_kilogram, 0_liter };
     static bool full_screen{ get_option<bool>( "AIM_WIDTH" ) };
     bool const _fs = get_option<bool>( "AIM_WIDTH" );
-    if( !mytrui or full_screen != _fs ) {
-        full_screen = _fs;
-        int const min_w_width = FULL_SCREEN_WIDTH;
-        int const max_w_width = full_screen ? TERMX : std::max( 120,
-                                TERMX - 2 * ( panel_manager::get_manager().get_width_right() +
-                                              panel_manager::get_manager().get_width_left() ) );
+    if( !mytrui ) {
+        std::pair<point, point> size = AIM_size( full_screen );
 
-        int const width = TERMX < min_w_width
-                          ? min_w_width
-                          : TERMX > max_w_width ? max_w_width : TERMX;
-        int const originx = TERMX > width ? ( TERMX - width ) / 2 : 0;
-
-        mytrui = std::make_unique<mytrui_t>( aimlayout, point{ width, TERMY }, point{ originx, 0 },
+        mytrui = std::make_unique<mytrui_t>( aimlayout, size.first, size.second,
                                              "ADVANCED_INVENTORY" );
+        mytrui->on_resize( [&]( mytrui_t *ui ) {
+            std::pair<point, point> size = AIM_size( full_screen );
+            ui->resize( size.first, size.second );
+        } );
+
         setup_for_aim( mytrui->left(), &lstats );
         setup_for_aim( mytrui->right(), &rstats );
         add_aim_sources( mytrui->left(), &pane_mutex );
@@ -46,6 +60,12 @@ void create_advanced_inv()
             aim_ctxthandler( ui, action, &pane_mutex );
         } );
         mytrui->loadstate( &uistate.transfer_save );
+
+    } else if( full_screen != _fs ) {
+        full_screen = _fs;
+        std::pair<point, point> size = AIM_size( full_screen );
+        mytrui->resize( size.first, size.second );
+
     } else {
         aim_advuilist_sourced_t::slotidx_t lidx, ridx;
         aim_advuilist_sourced_t::icon_t licon, ricon;

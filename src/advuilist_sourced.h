@@ -27,6 +27,7 @@ class advuilist_sourced : public advuilist<Container, T>
         using fsource_t = std::function<Container()>;
         // source availability function
         using fsourceb_t = std::function<bool()>;
+        using fdraw_t = typename advuilist<Container, T>::fdraw_t;
         using icon_t = char;
         using slotidx_t = std::size_t;
         using getsource_t = std::pair<slotidx_t, icon_t>;
@@ -51,6 +52,8 @@ class advuilist_sourced : public advuilist<Container, T>
         void rebuild();
         void initui();
         void hide();
+        void resize( point size, point origin );
+        void on_resize( fdraw_t const &func );
 
         void setctxthandler( fctxt_t const &func );
 
@@ -67,8 +70,9 @@ class advuilist_sourced : public advuilist<Container, T>
         Container _container;
         srccont_t _sources;
         fctxt_t _fctxt;
-        point _size;
-        point _origin;
+        fdraw_t _fresize;
+        point _size, _osize;
+        point _origin, _oorigin;
         point _map_size;
         slotidx_t _cslot = 0;
         bool needsinit = true;
@@ -93,19 +97,14 @@ class advuilist_sourced : public advuilist<Container, T>
 template <class Container, typename T>
 advuilist_sourced<Container, T>::advuilist_sourced( point const &srclayout, point size,
                                                     point origin, std::string const &ctxtname )
-    : advuilist<Container, T>( &_container, size, origin, ctxtname, false ),
-      _size( size.x > 0 ? size.x : TERMX / 2, size.y > 0 ? size.y : TERMY ),
-      _origin( origin.x >= 0 ? origin.x : TERMX / 2 - _size.x / 2, origin.y >= 0 ? origin.y : 0 ),
+    : advuilist<Container, T>( &_container, size, origin, ctxtname ), 
+      _size( size ),
+      _origin( origin ), 
       _map_size( srclayout )
 // *INDENT-ON*
 
 {
     using namespace advuilist_literals;
-    // leave room for source map window
-    point const offset( 0, _headersize + _footersize + _map_size.y );
-    advuilist<Container, T>::_resize( _size - offset, _origin + offset );
-
-    advuilist<Container, T>::_init();
 
     advuilist<Container, T>::setctxthandler(
         [this]( advuilist<Container, T> *ui, std::string const & action )
@@ -116,6 +115,8 @@ advuilist_sourced<Container, T>::advuilist_sourced( point const &srclayout, poin
     advuilist<Container, T>::get_ctxt()->register_action( ACTION_CYCLE_SOURCES );
     advuilist<Container, T>::get_ctxt()->register_action( ACTION_NEXT_SLOT );
     advuilist<Container, T>::get_ctxt()->register_action( ACTION_PREV_SLOT );
+    // use a dummy on_resize for base class since we're handling everything in resize()
+    advuilist<Container, T>::on_resize( []( advuilist<Container, T> * /**/ ) {} );
 }
 
 template <class Container, typename T>
@@ -196,6 +197,11 @@ void advuilist_sourced<Container, T>::initui()
 {
     _mapui = std::make_shared<ui_adaptor>();
     _mapui->on_screen_resize( [&]( ui_adaptor & ui ) {
+        if( _fresize ) {
+            _fresize( this );
+        } else {
+            resize( _osize, _oorigin );
+        }
         _w = catacurses::newwin( _headersize + _footersize + _map_size.y, _size.x, _origin );
         ui.position_from_window( _w );
     } );
@@ -216,6 +222,29 @@ void advuilist_sourced<Container, T>::hide()
 {
     advuilist<Container, T>::hide();
     _mapui.reset();
+}
+
+template <class Container, typename T>
+void advuilist_sourced<Container, T>::resize( point size, point origin )
+{
+
+    _size = { size.x > 0 ? size.x > TERMX ? TERMX : size.x : TERMX / 4,
+              size.y > 0 ? size.y > TERMY ? TERMY : size.y : TERMY / 4
+            };
+    _origin = { origin.x >= 0 ? origin.x + size.x > TERMX ? 0 : origin.x : TERMX / 2 - _size.x / 2,
+                origin.y >= 0 ? origin.y + size.y > TERMY ? 0 : origin.y
+                : TERMY / 2 - _size.y / 2
+              };
+
+    // leave room for source map window
+    point const offset( 0, _headersize + _footersize + _map_size.y );
+    advuilist<Container, T>::resize( _size - offset, _origin + offset );
+}
+
+template <class Container, typename T>
+void advuilist_sourced<Container, T>::on_resize( fdraw_t const &func )
+{
+    _fresize = func;
 }
 
 template <class Container, typename T>

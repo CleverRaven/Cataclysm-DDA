@@ -23,6 +23,7 @@ class transaction_ui
         using select_t = typename advuilist_t::select_t;
         using fselect_t = std::function<void( transaction_ui<Container, T> *, select_t )>;
         using fctxt_t = std::function<void( transaction_ui<Container, T> *, std::string const & )>;
+        using fresize_t = std::function<void( transaction_ui<Container, T> * )>;
 
         enum class event { QUIT = 0, SWITCH = 1, NEVENTS = 2 };
 
@@ -36,9 +37,11 @@ class transaction_ui
 
         void setctxthandler( fctxt_t const &func );
         void on_select( fselect_t const &func );
+        void on_resize( fresize_t const &func );
         void pushevent( event const &ev );
 
         void show();
+        void resize( point size, point origin );
         void savestate( transaction_ui_save_state *state );
         void loadstate( transaction_ui_save_state *state );
 
@@ -54,6 +57,7 @@ class transaction_ui
         point _origin;
         panecont_t _panes;
         fselect_t _fselect;
+        fresize_t _fresize;
         std::queue<event> _queue;
         fctxt_t _fctxt;
         typename panecont_t::size_type _cpane = 0;
@@ -74,13 +78,10 @@ class transaction_ui
 template <class Container, typename T>
 transaction_ui<Container, T>::transaction_ui( point const &srclayout, point size, point origin,
                                               std::string const &ctxtname )
-    : _size( size.x > 0 ? size.x : ( TERMX * 3 ) / 4, size.y > 0 ? size.y : TERMY ),
-      _origin( origin.x >= 0 ? origin.x : TERMX / 2 - _size.x / 2, origin.y >= 0 ? origin.y : 0 ),
-      _panes{ advuilist_t{ srclayout, { _size.x / 2, _size.y }, _origin, ctxtname },
-              advuilist_t{ srclayout,
-                           { _size.x / 2, _size.y },
-                           { _origin.x + _size.x / 2, _origin.y },
-                           ctxtname } }
+    : _size( size ),
+      _origin( origin ),
+      _panes{ advuilist_t{ srclayout, _size, _origin, ctxtname },
+              advuilist_t{ srclayout, _size, _origin, ctxtname } }
 
 #ifdef __clang__
 #pragma clang diagnostic pop
@@ -89,6 +90,7 @@ transaction_ui<Container, T>::transaction_ui( point const &srclayout, point size
 // *INDENT-ON*
 
 {
+    resize( _size, _origin );
     using namespace advuilist_literals;
     for( advuilist_t &v : _panes )
     {
@@ -98,6 +100,7 @@ transaction_ui<Container, T>::transaction_ui( point const &srclayout, point size
         v.setctxthandler( [this]( advuilist<Container, T> *ui, std::string const & action ) {
             this->_ctxthandler( ui, action );
         } );
+        v.on_resize( []( advuilist<Container, T> * /**/ ) {} );
     }
 }
 
@@ -138,6 +141,12 @@ void transaction_ui<Container, T>::on_select( fselect_t const &func )
 }
 
 template <class Container, typename T>
+void transaction_ui<Container, T>::on_resize( fresize_t const &func )
+{
+    _fresize = func;
+}
+
+template <class Container, typename T>
 void transaction_ui<Container, T>::pushevent( event const &ev )
 {
     _queue.emplace( ev );
@@ -152,6 +161,15 @@ void transaction_ui<Container, T>::show()
 
     _exit = false;
 
+    ui_adaptor dummy;
+    dummy.on_screen_resize( [&]( ui_adaptor & /*ui*/ ) {
+        if( _fresize ) {
+            _fresize( this );
+        } else {
+            resize( _size, _origin );
+        }
+    } );
+
     while( !_exit ) {
         typename advuilist_t::select_t selection = _panes[_cpane].select();
         if( _fselect and !selection.empty() ) {
@@ -164,6 +182,20 @@ void transaction_ui<Container, T>::show()
             _process( ev );
         }
     }
+}
+
+template <class Container, typename T>
+void transaction_ui<Container, T>::resize( point size, point origin )
+{
+    point const nsize = { size.x > 0 ? size.x > TERMX ? TERMX : size.x : ( TERMX * 3 ) / 4,
+                          size.y > 0 ? size.y > TERMY ? TERMY : size.y : TERMY
+                        };
+    point const norigin = {
+        origin.x >= 0 ? origin.x + size.x > TERMX ? 0 : origin.x : TERMX / 2 - _size.x / 2,
+        origin.y >= 0 ? origin.y + size.y > TERMY ? 0 : origin.y : TERMY / 2 - _size.y / 2
+    };
+    _panes[_left].resize( { nsize.x / 2, nsize.y }, norigin );
+    _panes[_right].resize( { nsize.x / 2, nsize.y }, { norigin.x + nsize.x / 2, norigin.y } );
 }
 
 template <class Container, typename T>
