@@ -257,7 +257,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_CalledOut3",
     "dynamic_line": {
-      "npc_add_var": "Alonso_accent",
+      "npc_has_var": "Alonso_accent",
       "type": "general",
       "context": "none",
       "value": "asked",
