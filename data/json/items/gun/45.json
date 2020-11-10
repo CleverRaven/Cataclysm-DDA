@@ -375,7 +375,7 @@
     "longest_side": "241 mm",
     "ammo": [ "45" ],
     "price_postapoc": 2500,
-    "ranged_damage": 0,
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "built_in_mods": [ "match_trigger" ],
     "pocket_data": [
       {

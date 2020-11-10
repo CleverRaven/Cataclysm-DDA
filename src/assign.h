@@ -862,25 +862,28 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         float amount = 0.0f;
         float arpen = 0.0f;
         float unc_dmg_mult = 1.0f;
+        bool with_legacy = false;
 
         // There will always be either a prop_damage or damage (name)
         if( jo.has_member( name ) ) {
+            with_legacy = true;
             amount = jo.get_float( name );
         } else if( jo.has_member( "prop_damage" ) ) {
+            with_legacy = true;
             unc_dmg_mult = jo.get_float( "prop_damage" );
         }
         // And there may or may not be armor penetration
         if( jo.has_member( "pierce" ) ) {
+            with_legacy = true;
             arpen = jo.get_float( "pierce" );
         }
 
-        if( amount != 0.0f || arpen != 0.0f || unc_dmg_mult != 1.0f ) {
+        if( with_legacy ) {
             // Give a load warning, it's likely anything loading damage this way
             // is a gun, and as such is using the wrong damage type
             debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
+            out.add_damage( damage_type::STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
         }
-
-        out.add_damage( damage_type::STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
     }
 
     // Object via which to report errors which differs for proportional/relative values
