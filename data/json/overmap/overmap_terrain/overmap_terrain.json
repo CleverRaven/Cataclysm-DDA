@@ -208,6 +208,7 @@
     "sym": "L",
     "copy-from": "generic_forest",
     "color": "light_green",
+    "see_cost": 4,
     "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
   },
   {
@@ -216,6 +217,7 @@
     "name": "second floor hunting lodge",
     "copy-from": "generic_forest",
     "sym": "L",
+    "see_cost": 4,
     "color": "light_green"
   },
   {
@@ -224,6 +226,7 @@
     "name": "hunting lodge basement",
     "copy-from": "generic_forest",
     "sym": "L",
+    "see_cost": 4,
     "color": "light_green"
   },
   {
