@@ -741,7 +741,8 @@ tab_direction set_points( avatar &, points_left &points )
         // Clear the bottom of the screen.
         werase( w_description );
 
-        for( int i = 0; i < static_cast<int>( opts.size() ); i++ ) {
+        const int opts_length = static_cast<int>( opts.size() );
+        for( int i = 0; i < opts_length; i++ ) {
             nc_color color = ( points.limit == std::get<0>( opts[i] ) ? COL_SKILL_USED : c_light_gray );
             if( highlighted == i ) {
                 color = hilite( color );
@@ -766,10 +767,11 @@ tab_direction set_points( avatar &, points_left &points )
         wnoutrefresh( w_description );
     } );
 
+    const int opts_length = static_cast<int>( opts.size() );
     do {
         if( highlighted < 0 ) {
-            highlighted = opts.size() - 1;
-        } else if( highlighted >= static_cast<int>( opts.size() ) ) {
+            highlighted = opts_length - 1;
+        } else if( highlighted >= opts_length ) {
             highlighted = 0;
         }
         ui_manager::redraw();
@@ -1088,8 +1090,8 @@ tab_direction set_traits( avatar &u, points_left &points )
         traits_size[i] = vStartingTraits[i].size();
     }
 
-    size_t iContentHeight;
-    size_t page_width;
+    size_t iContentHeight = 0;
+    size_t page_width = 0;
 
     ui_adaptor ui;
     catacurses::window w;
@@ -1671,12 +1673,12 @@ tab_direction set_profession( avatar &u, points_left &points,
                 return !lcmatch( arg->gender_appropriate_name( u.male ), filterstring );
             } );
             sorted_profs.erase( new_end, sorted_profs.end() );
-            profs_length = sorted_profs.size();
-            if( profs_length == 0 ) {
+            if( sorted_profs.empty() ) {
                 popup( _( "Nothing found." ) ); // another case of black box in tiles
                 filterstring.clear();
                 continue;
             }
+            profs_length = static_cast<int>( sorted_profs.size() );
 
             // Sort professions by points.
             // profession_display_sort() keeps "unemployed" at the top.
@@ -1699,8 +1701,8 @@ tab_direction set_profession( avatar &u, points_left &points,
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        int recmax = static_cast<int>( profs_length );
-        int scroll_rate = recmax > 20 ? 10 : 2;
+        const int recmax = profs_length;
+        const int scroll_rate = recmax > 20 ? 10 : 2;
         if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > recmax - 1 ) {
@@ -2331,12 +2333,12 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 }
                 sorted_scens.push_back( &scen );
             }
-            scens_length = sorted_scens.size();
-            if( scens_length == 0 ) {
+            if( sorted_scens.empty() ) {
                 popup( _( "Nothing found." ) ); // another case of black box in tiles
                 filterstring.clear();
                 continue;
             }
+            scens_length = static_cast<int>( sorted_scens.size() );
 
             // Sort scenarios by points.
             // scenario_display_sort() keeps "Evacuee" at the top.
@@ -2367,7 +2369,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        int scroll_rate = scens_length > 20 ? 5 : 2;
+        const int scroll_rate = scens_length > 20 ? 5 : 2;
         if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > scens_length - 1 ) {
