@@ -49,7 +49,7 @@ class advuilist_sourced : public advuilist<Container, T>
 
         select_t select();
         void rebuild();
-        void totop();
+        void initui();
         void hide();
 
         void setctxthandler( fctxt_t const &func );
@@ -76,7 +76,6 @@ class advuilist_sourced : public advuilist<Container, T>
         catacurses::window _w;
         std::shared_ptr<ui_adaptor> _mapui;
 
-        void _initui();
         void _registerSrc( slotidx_t c );
         void _ctxthandler( advuilist<Container, T> *ui, std::string const &action );
         void _printmap();
@@ -174,7 +173,9 @@ template <class Container, typename T>
 typename advuilist_sourced<Container, T>::select_t advuilist_sourced<Container, T>::select()
 {
     if( !_mapui ) {
-        _initui();
+        initui();
+    } else {
+        _mapui->invalidate_ui();
     }
     if( needsinit ) {
         rebuild();
@@ -191,17 +192,30 @@ void advuilist_sourced<Container, T>::rebuild()
 }
 
 template <class Container, typename T>
+void advuilist_sourced<Container, T>::initui()
+{
+    _mapui = std::make_shared<ui_adaptor>();
+    _mapui->on_screen_resize( [&]( ui_adaptor & ui ) {
+        _w = catacurses::newwin( _headersize + _footersize + _map_size.y, _size.x, _origin );
+        ui.position_from_window( _w );
+    } );
+    _mapui->mark_resize();
+
+    _mapui->on_redraw( [&]( const ui_adaptor & ) {
+        werase( _w );
+        draw_border( _w );
+        _printmap();
+        wnoutrefresh( _w );
+    } );
+
+    advuilist<Container, T>::initui();
+}
+
+template <class Container, typename T>
 void advuilist_sourced<Container, T>::hide()
 {
     advuilist<Container, T>::hide();
     _mapui.reset();
-}
-
-template <class Container, typename T>
-void advuilist_sourced<Container, T>::totop()
-{
-    _initui();
-    advuilist<Container, T>::totop();
 }
 
 template <class Container, typename T>
@@ -225,24 +239,6 @@ void advuilist_sourced<Container, T>::loadstate( advuilist_save_state *state, bo
     setSource( _cslot, state->icon, true );
 
     advuilist<Container, T>::loadstate( state, reb );
-}
-
-template <class Container, typename T>
-void advuilist_sourced<Container, T>::_initui()
-{
-    _mapui = std::make_shared<ui_adaptor>();
-    _mapui->on_screen_resize( [&]( ui_adaptor & ui ) {
-        _w = catacurses::newwin( _headersize + _footersize + _map_size.y, _size.x, _origin );
-        ui.position_from_window( _w );
-    } );
-    _mapui->mark_resize();
-
-    _mapui->on_redraw( [&]( const ui_adaptor & ) {
-        werase( _w );
-        draw_border( _w );
-        _printmap();
-        wnoutrefresh( _w );
-    } );
 }
 
 template <class Container, typename T>

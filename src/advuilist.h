@@ -103,8 +103,8 @@ class advuilist
         /// breaks internal loop in select(). meant to be called from the external ctxt handler added by
         /// setctxthandler()
         void suspend();
-        /// moves internal ui_adaptor to top of stack
-        void totop();
+        /// pre-initialize or reset the internal ui_adaptor;
+        void initui();
         void hide();
 
         input_context *get_ctxt();
@@ -181,7 +181,6 @@ class advuilist
         std::size_t _count( std::size_t idx );
         std::size_t _peekcount();
 
-        void _initui();
         void _initctxt();
         void _print();
         int _printcol( col_t const &col, std::string const &str, point const &p, nc_color const &color );
@@ -338,12 +337,13 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
     _exit = false;
 
     if( !_ui ) {
-        _initui();
+        initui();
     }
 
     while( !_exit ) {
 
-        ui_manager::redraw();
+        _ui->invalidate_ui();
+        ui_manager::redraw_invalidated();
         std::string const action = _ctxt.handle_input();
 
         if( action == ACTION_UP ) {
@@ -430,10 +430,24 @@ void advuilist<Container, T>::suspend()
 }
 
 template <class Container, typename T>
-void advuilist<Container, T>::totop()
+void advuilist<Container, T>::initui()
 {
-    // FIXME: is there a better way? Ask Qrox
-    _initui();
+    _ui = std::make_shared<ui_adaptor>();
+    _ui->on_screen_resize( [&]( ui_adaptor & ui ) {
+        _w = catacurses::newwin( _size.y, _size.x, _origin );
+        ui.position_from_window( _w );
+    } );
+    _ui->mark_resize();
+
+    _ui->on_redraw( [&]( const ui_adaptor & ) {
+        werase( _w );
+        draw_border( _w, _exit ? c_dark_gray : c_light_gray );
+        _print();
+        if( _fdraw ) {
+            _fdraw( this );
+        }
+        wnoutrefresh( _w );
+    } );
 }
 
 template <class Container, typename T>
@@ -538,27 +552,6 @@ void advuilist<Container, T>::_resize( point size, point origin )
     _origin = origin;
     _pagesize =
         static_cast<std::size_t>( std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) );
-}
-
-template <class Container, typename T>
-void advuilist<Container, T>::_initui()
-{
-    _ui = std::make_shared<ui_adaptor>();
-    _ui->on_screen_resize( [&]( ui_adaptor & ui ) {
-        _w = catacurses::newwin( _size.y, _size.x, _origin );
-        ui.position_from_window( _w );
-    } );
-    _ui->mark_resize();
-
-    _ui->on_redraw( [&]( const ui_adaptor & ) {
-        werase( _w );
-        draw_border( _w, _exit ? c_dark_gray : c_light_gray );
-        _print();
-        if( _fdraw ) {
-            _fdraw( this );
-        }
-        wnoutrefresh( _w );
-    } );
 }
 
 template <class Container, typename T>

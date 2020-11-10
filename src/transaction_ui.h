@@ -147,8 +147,8 @@ template <class Container, typename T>
 void transaction_ui<Container, T>::show()
 {
     // ensure that both panes are visible and our current pane is on top
-    _panes[1 - _cpane].totop();
-    _panes[_cpane].totop();
+    _panes[1 - _cpane].initui();
+    _panes[_cpane].initui();
 
     _exit = false;
 
@@ -214,10 +214,9 @@ void transaction_ui<Container, T>::_process( event const &ev )
         }
         case event::SWITCH: {
             // redraw darker borders, etc
-            _panes[_cpane].get_ui()->redraw();
+            _panes[_cpane].get_ui()->invalidate_ui();
 
             _cpane = -_cpane + 1;
-            _panes[_cpane].totop();
             break;
         }
         case event::NEVENTS: {
