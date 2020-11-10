@@ -59,29 +59,31 @@ void create_advanced_inv()
         mytrui->setctxthandler( [&]( aim_transaction_ui_t *ui, std::string const & action ) {
             aim_ctxthandler( ui, action, &pane_mutex );
         } );
-        mytrui->loadstate( &uistate.transfer_save );
+        mytrui->loadstate( &uistate.transfer_save, false );
+        reset_mutex( &*mytrui, &pane_mutex );
 
     } else if( full_screen != _fs ) {
         full_screen = _fs;
         std::pair<point, point> size = AIM_size( full_screen );
         mytrui->resize( size.first, size.second );
 
-    } else {
-        aim_advuilist_sourced_t::slotidx_t lidx, ridx;
-        aim_advuilist_sourced_t::icon_t licon, ricon;
-        std::tie( lidx, licon ) = mytrui->left()->getSource();
-        std::tie( ridx, ricon ) = mytrui->right()->getSource();
-        lidx = licon == SOURCE_VEHICLE_i ? idxtovehidx( lidx ) : lidx;
-        ridx = ricon == SOURCE_VEHICLE_i ? idxtovehidx( ridx ) : ridx;
-
-        pane_mutex[lidx] = false;
-        mytrui->left()->rebuild();
-        pane_mutex[lidx] = true;
-        // make sure our panes don't use the same source even if they end up using the same slot
-        pane_mutex[ridx] = lidx == ridx;
-        mytrui->right()->rebuild();
     }
-    reset_mutex( &*mytrui, &pane_mutex );
+
+    aim_advuilist_sourced_t::slotidx_t lidx, ridx;
+    aim_advuilist_sourced_t::icon_t licon, ricon;
+    std::tie( lidx, licon ) = mytrui->left()->getSource();
+    std::tie( ridx, ricon ) = mytrui->right()->getSource();
+    lidx = licon == SOURCE_VEHICLE_i ? idxtovehidx( lidx ) : lidx;
+    ridx = ricon == SOURCE_VEHICLE_i ? idxtovehidx( ridx ) : ridx;
+
+    pane_mutex[lidx] = false;
+    mytrui->left()->rebuild();
+    pane_mutex[lidx] = true;
+    // make sure our panes don't use the same source even if they end up using the same slot
+    pane_mutex[ridx] = lidx == ridx;
+    mytrui->right()->rebuild();
+    pane_mutex[ridx] = true;
+    
     mytrui->show();
     mytrui->savestate( &uistate.transfer_save );
 }

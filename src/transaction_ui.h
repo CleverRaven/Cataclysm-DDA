@@ -43,7 +43,7 @@ class transaction_ui
         void show();
         void resize( point size, point origin );
         void savestate( transaction_ui_save_state *state );
-        void loadstate( transaction_ui_save_state *state );
+        void loadstate( transaction_ui_save_state *state, bool reb = true );
 
     private:
         constexpr static std::size_t npanes = 2;
@@ -207,10 +207,10 @@ void transaction_ui<Container, T>::savestate( transaction_ui_save_state *state )
 }
 
 template <class Container, typename T>
-void transaction_ui<Container, T>::loadstate( transaction_ui_save_state *state )
+void transaction_ui<Container, T>::loadstate( transaction_ui_save_state *state, bool reb )
 {
-    _panes[_left].loadstate( &state->left );
-    _panes[_right].loadstate( &state->right );
+    _panes[_left].loadstate( &state->left, reb );
+    _panes[_right].loadstate( &state->right, reb );
     _cpane = static_cast<std::size_t>( state->cpane );
 }
 
