@@ -528,7 +528,7 @@
     "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse all alone.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
     "start_name": "Military Base Warehouse",
     "allowed_locs": [ "sloc_military_base_warehouse" ],
-    "professions": [ "unemployed", "soldier", "specops", "labtech", "medic", "mili_pilot", "mili_medic", "mili_burner", "hazmat_unit" ],
+    "professions": [ "unemployed", "soldier", "specops", "labtech", "medic", "mili_pilot", "mili_medic", "mili_burner", "hazmat_unit", "combat_engineer" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
