@@ -729,7 +729,9 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "knife_combat", "container-item": "sheath" }
+	  { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "knife_combat", "container-item": "sheath" },
+	  { "item": "c4", "count": 3 }
         ]
       },
       "male": [ "boxer_shorts" ],
