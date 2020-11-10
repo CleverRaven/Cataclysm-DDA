@@ -207,7 +207,7 @@
     "name": "hunting lodge",
     "copy-from": "generic_forest",
     "color": "light_green",
-    "extend": { "flags": [  "SOURCE_GUN", "SOURCE_AMMO" ] }
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
   },
   {
     "type": "overmap_terrain",
