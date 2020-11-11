@@ -38,7 +38,7 @@
     "addiction_potential": 10,
     "addiction_type": "amphetamine",
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take some dextro-/amphetamine." }
+    "use_action": { "type": "consume_drug", "activation_message": "You take some stimulants." }
   },
   {
     "id": "adhesive_bandages",
@@ -1407,7 +1407,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "antidepressant" },
-    "description": "A common and popular antidepressant.  It will elevate mood, and can profoundly affect the action of other drugs.  It is only rarely habit-forming, though adverse reactions are not uncommon. ",
+    "description": "A common and popular antidepressant.  It will elevate mood, and can profoundly affect the action of other drugs.  It is only rarely habit-forming, though adverse reactions are not uncommon.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 9000,
