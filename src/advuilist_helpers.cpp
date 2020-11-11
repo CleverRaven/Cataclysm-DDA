@@ -446,8 +446,9 @@ std::string iloc_entry_name( iloc_entry const &it )
     // FIXME: find a way to display autopick. Old AIM set the background to magenta, but that's not
     // supported by color tags
     item const &i = *it.stack[0];
+    std::string const name = i.count_by_charges() ? i.tname() : i.display_name();
     return string_format( "<color_%s>%s</color>",
-                          get_all_colors().get_name( i.color_in_inventory() ), i.tname() );
+                          get_all_colors().get_name( i.color_in_inventory() ), name );
 }
 
 std::string iloc_entry_src( iloc_entry const &it )
