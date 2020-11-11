@@ -679,6 +679,7 @@
     "id": "mon_qianzhousaurus_hatchling",
     "type": "MONSTER",
     "name": "baby Qianzhousaurus",
+    "copy-from": "mon_compsognathus_hatchling",
     "default_faction": "qianzhousaurus",
     "upgrades": { "age_grow": 40, "into": "mon_qianzhousaurus_juvenile" }
   }
