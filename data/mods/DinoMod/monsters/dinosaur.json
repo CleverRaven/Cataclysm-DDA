@@ -1262,7 +1262,7 @@
     "color": "white_brown",
     "volume": "550 L",
     "weight": "767 kg",
-    "bodytype": "elephant",
+    "bodytype": "ostrich",
     "material": [ "flesh" ],
     "aggression": 90,
     "morale": 80,
