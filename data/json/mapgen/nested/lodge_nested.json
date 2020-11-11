@@ -17,9 +17,15 @@
         "               ",
         "               ",
         "               ",
+<<<<<<< Updated upstream
         "DF ARF LRL ORa ",
         "R              ",
         "SF DRA LRa ORO ",
+=======
+        "DF ARF LRL LRa ",
+        "R              ",
+        "SF DRA LRa LRL ",
+>>>>>>> Stashed changes
         "               "
       ],
       "palettes": [ "lodge_items" ]

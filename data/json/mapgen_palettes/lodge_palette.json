@@ -50,7 +50,10 @@
       "V": "f_oven",
       "u": "f_cupboard",
       "Y": "f_rack_coat",
+<<<<<<< Updated upstream
       "z": "f_brazier",
+=======
+>>>>>>> Stashed changes
       "Z": "f_fireplace",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "1": "f_cupboard",
@@ -221,7 +224,10 @@
       "F": { "item": "lodge_archery_ammo", "chance": 30, "repeat": [ 1, 4 ] },
       "h": { "item": "cannibal_weapons", "repeat": [ 1, 4 ] },
       "L": { "item": "cannibal_food", "repeat": [ 1, 4 ] },
+<<<<<<< Updated upstream
       "O": { "item": "cannibal_gear", "chance": 20 },
+=======
+>>>>>>> Stashed changes
       "S": { "item": "stash_wood", "chance": 60, "repeat": [ 2, 4 ] },
       "&": { "item": "trash", "chance": 20 },
       "R": [
