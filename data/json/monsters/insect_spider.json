@@ -428,6 +428,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 8,
     "melee_cut": 6,
+	"attack_effs": [ { "id": "venom_local_dmg", "duration": 2250, "affect_hit_bp": true } ],
     "dodge": 2,
     "armor_bash": 2,
     "armor_cut": 8,
@@ -437,7 +438,7 @@
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_centipede_mega" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_centipede_mega",

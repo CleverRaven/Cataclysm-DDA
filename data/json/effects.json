@@ -466,6 +466,36 @@
     },
     "show_in_info": true,
     "blood_analysis_description": "Poison"
+  },  
+  {
+	"id": "venom_local_dmg",
+	"type": "effect_type",
+	"name": [ "Poisoned wound" ],
+	"desc": [ "The wound swells visibly and burns like hell." ],
+	"apply_message": "Ow, that stings!",
+	"rating": "bad",
+	"resist_traits": [ "POISRESIST" ],
+	"pain_sizing": true,
+	"hurt_sizing": true,
+	"main_parts_only": true,
+	"max_intensity": 125,
+	"max_effective_intensity": 100,
+	"int_dur_factor": 18,
+	"max_duration": 2250,
+	"base_mods": {
+	  "pain_amount": [ 5, 2 ],
+	  "pain_min": [ 0 , -4 ],
+	  "pain_chance": [ 20, 100 ],
+	  "pain_max_val": [ 60, 20 ],
+	  "hurt_amount": [ 5, 0 ],
+	  "hurt_min": [ 2, 1 ],
+	  "hurt_chance": [ 13, 100 ],
+	  "hurt_tick": [ 30 ]
+	},
+	"scaling_mods": {
+	  "pain_min": [ 0.5, 0.1 ],
+	  "hurt_chance": [ -0.1 ]
+	}
   },
   {
     "type": "effect_type",
