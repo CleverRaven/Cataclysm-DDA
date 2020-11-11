@@ -1260,7 +1260,7 @@
     "default_faction": "qianzhousaurus",
     "symbol": "d",
     "color": "white_brown",
-    "volume": "5000 L",
+    "volume": "550 L",
     "weight": "767 kg",
     "bodytype": "elephant",
     "material": [ "flesh" ],
