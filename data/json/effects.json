@@ -482,6 +482,7 @@
 	"max_effective_intensity": 100,
 	"int_dur_factor": 18,
 	"max_duration": 2250,
+	"dur_add_perc": 200,
 	"base_mods": {
 	  "pain_amount": [ 5, 2 ],
 	  "pain_min": [ 0 , -4 ],
