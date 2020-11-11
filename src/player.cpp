@@ -84,27 +84,14 @@
 #include "weather.h"
 
 static const efftype_id effect_adrenaline( "adrenaline" );
-static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_bloodworms( "bloodworms" );
-static const efftype_id effect_brainworms( "brainworms" );
-static const efftype_id effect_darkness( "darkness" );
-static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_incorporeal( "incorporeal" );
-static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_masked_scent( "masked_scent" );
-static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
-static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_paincysts( "paincysts" );
-static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_tapeworm( "tapeworm" );
-static const efftype_id effect_weed_high( "weed_high" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_battery( "battery" );
@@ -114,7 +101,6 @@ static const itype_id itype_small_repairkit( "small_repairkit" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
-static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -123,17 +109,10 @@ static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
-static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
-static const trait_id trait_EATHEALTH( "EATHEALTH" );
-static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
-static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
-static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
-static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_MORE_PAIN( "MORE_PAIN" );
 static const trait_id trait_MORE_PAIN2( "MORE_PAIN2" );
@@ -144,7 +123,6 @@ static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
-static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -159,7 +137,6 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_gun( "gun" );
 static const skill_id skill_swimming( "swimming" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
@@ -1889,12 +1866,13 @@ void player::mend_item( item_location &&obj, bool interactive )
 cata::optional<std::list<item>::iterator>
 player::wear( int pos, bool interactive )
 {
-    return wear( i_at( pos ), interactive );
+    return wear( item_location( *this, &i_at( pos ) ), interactive );
 }
 
 cata::optional<std::list<item>::iterator>
-player::wear( item &to_wear, bool interactive )
+player::wear( item_location item_wear, bool interactive )
 {
+    item to_wear = *item_wear;
     if( is_worn( to_wear ) ) {
         if( interactive ) {
             add_msg_player_or_npc( m_info,
@@ -1922,13 +1900,8 @@ player::wear( item &to_wear, bool interactive )
         remove_item( to_wear );
         was_weapon = false;
     } else {
-        /**
-         * we actually know with certainty that if we're here the
-         * item was dropped to the ground and is at pos().
-         * ideally the parameter of this function should be an item_location instead of
-         * constructing it in place here.
-         */
-        item_location( map_cursor( pos() ), &to_wear ).remove_item();
+        // item is on the map if this point is reached.
+        item_wear.remove_item();
         was_weapon = false;
     }
 
@@ -2546,7 +2519,6 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     inv->update_invlet( weapon );
     inv->update_cache_with_item( weapon );
     last_item = weapon.typeId();
-
 
     moves -= mv;
 

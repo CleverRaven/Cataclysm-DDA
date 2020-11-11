@@ -105,17 +105,6 @@ static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 
-static const itype_id itype_chemistry_set( "chemistry_set" );
-static const itype_id itype_dehydrator( "dehydrator" );
-static const itype_id itype_electrolysis_kit( "electrolysis_kit" );
-static const itype_id itype_food_processor( "food_processor" );
-static const itype_id itype_forge( "forge" );
-static const itype_id itype_hotplate( "hotplate" );
-static const itype_id itype_kiln( "kiln" );
-static const itype_id itype_press( "press" );
-static const itype_id itype_soldering_iron( "soldering_iron" );
-static const itype_id itype_vac_sealer( "vac_sealer" );
-static const itype_id itype_welder( "welder" );
 static const itype_id itype_water_purifier( "water_purifier" );
 
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
@@ -419,7 +408,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     bool destroyAlarm = false;
 
     // More realistically it should be -5 days old
-    last_update = 0;
+    last_update = calendar::turn_zero;
 
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 7% to 35%
@@ -795,7 +784,7 @@ void vehicle::autopilot_patrol()
     drive_to_local_target( autodrive_local_target, false );
 }
 
-std::set<point> vehicle::immediate_path( units::angle rotate )
+std::set<point> vehicle::immediate_path( const units::angle &rotate )
 {
     std::set<point> points_to_check;
     const int distance_to_check = 10 + ( velocity / 800 );
@@ -2672,7 +2661,6 @@ cata::optional<vpart_reference> optional_vpart_position::part_with_tool(
     return has_value() ? value().part_with_tool( tool_type ) : cata::nullopt;
 }
 
-
 int vehicle::part_with_feature( int part, vpart_bitflags const flag, bool unbroken ) const
 {
     if( part_flag( part, flag ) && ( !unbroken || !parts[part].is_broken() ) ) {
@@ -3172,7 +3160,7 @@ point vehicle::coord_translate( const point &p ) const
     return q.xy();
 }
 
-void vehicle::coord_translate( units::angle dir, const point &pivot, const point &p,
+void vehicle::coord_translate( const units::angle &dir, const point &pivot, const point &p,
                                tripoint &q ) const
 {
     tileray tdir( dir );
@@ -3209,7 +3197,7 @@ tripoint vehicle::mount_to_tripoint( const point &mount, const point &offset ) c
     return global_pos3() + mnt_translated;
 }
 
-void vehicle::precalc_mounts( int idir, units::angle dir, const point &pivot )
+void vehicle::precalc_mounts( int idir, const units::angle &dir, const point &pivot )
 {
     if( idir < 0 || idir > 1 ) {
         idir = 0;
@@ -6883,7 +6871,7 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     const cata::optional<vpart_reference> cargo_vp = vp.part_with_feature( "CARGO", true );
 
     const auto tool_wants_battery = []( const itype_id & type ) {
-        item tool( type, 0 ), mag( tool.magazine_default() );
+        item tool( type, calendar::turn_zero ), mag( tool.magazine_default() );
         mag.contents.clear_items();
 
         return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
@@ -6892,7 +6880,7 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
 
     if( tool_vp ) { // handle vehicle tools
         itype_id fuel_type = tool_wants_battery( type ) ? itype_battery : type;
-        item tmp( type, 0 ); // TODO: add a sane birthday arg
+        item tmp( type, calendar::turn_zero ); // TODO: add a sane birthday arg
         // TODO: Handle water poison when crafting starts respecting it
         tmp.charges = tool_vp->vehicle().drain( fuel_type, quantity );
         quantity -= tmp.charges;

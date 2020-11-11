@@ -1768,9 +1768,9 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         } else if( category == C_ITEM ) {
             item tmp;
             if( string_starts_with( found_id, "corpse_" ) ) {
-                tmp = item( itype_corpse, 0 );
+                tmp = item( itype_corpse, calendar::turn_zero );
             } else {
-                tmp = item( found_id, 0 );
+                tmp = item( found_id, calendar::turn_zero );
             }
             sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
             col = tmp.color();

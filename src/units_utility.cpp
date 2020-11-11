@@ -5,7 +5,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-units::angle normalize( units::angle a, units::angle mod )
+units::angle normalize( units::angle a, const units::angle &mod )
 {
     a = units::fmod( a, mod );
     if( a < 0_degrees ) {

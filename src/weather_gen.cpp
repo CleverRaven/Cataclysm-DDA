@@ -307,7 +307,7 @@ void weather_generator::test_weather( unsigned seed,
         const time_point begin = calendar::turn;
         const time_point end = begin + 2 * calendar::year_length();
         for( time_point i = begin; i < end; i += 20_minutes ) {
-            w_point w = get_weather( tripoint_zero, to_turn<int>( i ), seed );
+            w_point w = get_weather( tripoint_zero, i, seed );
             weather_type_id conditions = get_weather_conditions( w, next_instance_allowed );
 
             int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>

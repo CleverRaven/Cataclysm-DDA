@@ -277,9 +277,9 @@ class mapgen_basic_container
             // Not needed anymore, pointers are now stored in weights_ (or not used at all)
             mapgens_.clear();
         }
-        void check_consistency( const std::string &key ) {
+        void check_consistency() {
             for( auto &mapgen_function_ptr : weights_ ) {
-                mapgen_function_ptr.obj->check( key );
+                mapgen_function_ptr.obj->check();
             }
         }
 };
@@ -326,7 +326,7 @@ class mapgen_factory
             // all the sources for them upon each loop.
             const std::set<std::string> usages = get_usages();
             for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
-                omw.second.check_consistency( omw.first );
+                omw.second.check_consistency();
                 if( usages.count( omw.first ) == 0 ) {
                     debugmsg( "Mapgen %s is not used by anything!", omw.first );
                 }
@@ -388,12 +388,12 @@ void check_mapgen_definitions()
     oter_mapgen.check_consistency();
     for( auto &oter_definition : nested_mapgen ) {
         for( auto &mapgen_function_ptr : oter_definition.second ) {
-            mapgen_function_ptr.obj->check( oter_definition.first );
+            mapgen_function_ptr.obj->check();
         }
     }
     for( auto &oter_definition : update_mapgen ) {
         for( auto &mapgen_function_ptr : oter_definition.second ) {
-            mapgen_function_ptr->check( oter_definition.first );
+            mapgen_function_ptr->check();
         }
     }
 }
@@ -1651,11 +1651,12 @@ class jmapgen_sealed_item : public jmapgen_piece
             }
         }
 
-        void check( const std::string &oter_name ) const override {
+        void check( const std::string &context ) const override {
             const furn_t &furn = furniture.obj();
-            std::string summary = string_format(
-                                      "sealed_item special in json mapgen for overmap terrain %s using furniture %s",
-                                      oter_name, furn.id.str() );
+            std::string summary =
+                string_format(
+                    "sealed_item special in json mapgen for %s using furniture %s",
+                    context, furn.id.str() );
 
             if( !furniture.is_valid() ) {
                 debugmsg( "%s which is not valid furniture", summary );
@@ -2570,20 +2571,20 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     return true;
 }
 
-void mapgen_function_json::check( const std::string &oter_name ) const
+void mapgen_function_json::check() const
 {
-    check_common( oter_name );
+    check_common();
 }
 
-void mapgen_function_json_nested::check( const std::string &oter_name ) const
+void mapgen_function_json_nested::check() const
 {
-    check_common( oter_name );
+    check_common();
 }
 
-void mapgen_function_json_base::check_common( const std::string &oter_name ) const
+void mapgen_function_json_base::check_common() const
 {
     for( const ter_furn_id &id : format ) {
-        if( check_furn( id.furn, "oter " + oter_name ) ) {
+        if( check_furn( id.furn, context_ ) ) {
             return;
         }
     }
@@ -2595,18 +2596,18 @@ void mapgen_function_json_base::check_common( const std::string &oter_name ) con
             continue;
         }
         furn_id id( setmap.val.get() );
-        if( check_furn( id, "oter " + oter_name ) ) {
+        if( check_furn( id, context_ ) ) {
             return;
         }
     }
 
-    objects.check( oter_name );
+    objects.check( context_ );
 }
 
-void jmapgen_objects::check( const std::string &oter_name ) const
+void jmapgen_objects::check( const std::string &context ) const
 {
     for( const jmapgen_obj &obj : objects ) {
-        obj.second->check( oter_name );
+        obj.second->check( context );
     }
 }
 
@@ -4204,7 +4205,7 @@ void map::draw_lab( mapgendata &dat )
                     int marker_y = center.y + rng( -2, 2 );
                     if( one_in( 4 ) ) {
                         spawn_item( point( marker_x, marker_y ),
-                                    "mininuke", 1, 1, 0, rng( 2, 4 ) );
+                                    "mininuke", 1, 1, calendar::turn_zero, rng( 2, 4 ) );
                     } else {
                         item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
                         newliquid.charges = 1;
@@ -5327,7 +5328,7 @@ void map::draw_spiral( const mapgendata &dat )
             ter_set( point( orx + 3, ory + 3 ), t_rock );
             ter_set( point( orx + 2, ory + 3 ), t_rock_floor );
             place_items( item_group_id( "spiral" ), 60, point( orx + 2, ory + 3 ),
-                         point( orx + 2, ory + 3 ), false, 0 );
+                         point( orx + 2, ory + 3 ), false, calendar::turn_zero );
         }
     }
 }
@@ -5770,7 +5771,7 @@ void map::place_spawns( const mongroup_id &group, const int chance,
 
 void map::place_gas_pump( const point &p, int charges, const std::string &fuel_type )
 {
-    item fuel( fuel_type, 0 );
+    item fuel( fuel_type, calendar::start_of_cataclysm );
     fuel.charges = charges;
     add_item( p, fuel );
     ter_set( p, ter_id( fuel.fuel_pump_terrain() ) );
@@ -5778,7 +5779,7 @@ void map::place_gas_pump( const point &p, int charges, const std::string &fuel_t
 
 void map::place_toilet( const point &p, int charges )
 {
-    item water( "water", 0 );
+    item water( "water", calendar::start_of_cataclysm );
     water.charges = charges;
     add_item( p, water );
     furn_set( p, f_toilet );
@@ -5938,25 +5939,25 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
     place_on_submap->spawns.push_back( tmp );
 }
 
-vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle dir,
+vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
                            const int veh_fuel, const int veh_status, const bool merge_wrecks )
 {
     return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
 }
 
-vehicle *map::add_vehicle( const vgroup_id &type, const point &p, units::angle dir,
+vehicle *map::add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
                            int veh_fuel, int veh_status, bool merge_wrecks )
 {
     return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
 }
 
-vehicle *map::add_vehicle( const vproto_id &type, const point &p, units::angle dir,
+vehicle *map::add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
                            int veh_fuel, int veh_status, bool merge_wrecks )
 {
     return add_vehicle( type, tripoint( p, abs_sub.z ), dir, veh_fuel, veh_status, merge_wrecks );
 }
 
-vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle dir,
+vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
                            const int veh_fuel, const int veh_status, const bool merge_wrecks )
 {
     if( !type.is_valid() ) {
@@ -6598,7 +6599,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( item_group_id( "bionics_common" ), 70, point( biox, bioy ),
-                                point( biox, bioy ), false, 0 );
+                                point( biox, bioy ), false, calendar::turn_zero );
 
                 m->furn_set( point( biox - 2, bioy ), furn_str_id( "f_console" ) );
                 computer *tmpcomp2 = m->add_computer( tripoint( biox - 2,  bioy, z ), _( "Bionic access" ), 2 );
@@ -7071,9 +7072,9 @@ update_mapgen_function_json::update_mapgen_function_json(
 {
 }
 
-void update_mapgen_function_json::check( const std::string &oter_name ) const
+void update_mapgen_function_json::check() const
 {
-    check_common( oter_name );
+    check_common();
 }
 
 bool update_mapgen_function_json::setup_update( const JsonObject &jo )

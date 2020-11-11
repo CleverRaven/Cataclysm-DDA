@@ -854,7 +854,7 @@ class vehicle
         }
         bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
-        std::set<point> immediate_path( units::angle rotate = 0_degrees );
+        std::set<point> immediate_path( const units::angle &rotate = 0_degrees );
         std::set<point> collision_check_points;
         void autopilot_patrol();
         units::angle get_angle_from_targ( const tripoint &targ );
@@ -1078,7 +1078,7 @@ class vehicle
         point coord_translate( const point &p ) const;
 
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
-        void coord_translate( units::angle dir, const point &pivot, const point &p,
+        void coord_translate( const units::angle &dir, const point &pivot, const point &p,
                               tripoint &q ) const;
         // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
         // should be faster than previous call for repeated translations
@@ -1116,7 +1116,7 @@ class vehicle
             bool isHorizontal = false );
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
-        void precalc_mounts( int idir, units::angle dir, const point &pivot );
+        void precalc_mounts( int idir, const units::angle &dir, const point &pivot );
 
         // get a list of part indices where is a passenger inside
         std::vector<int> boarded_parts() const;

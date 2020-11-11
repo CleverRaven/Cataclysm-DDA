@@ -211,7 +211,6 @@ bool assign_set( const JsonObject &jo, const std::string &name, Set &val )
 }
 } // namespace details
 
-
 template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
     const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )

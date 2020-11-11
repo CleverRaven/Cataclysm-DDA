@@ -866,7 +866,7 @@ static nc_color safe_color()
 {
     nc_color s_color = g->safe_mode ? c_green : c_red;
     if( g->safe_mode == SAFE_MODE_OFF && get_option<bool>( "AUTOSAFEMODE" ) ) {
-        int s_return = get_option<int>( "AUTOSAFEMODETURNS" );
+        time_duration s_return = time_duration::from_turns( get_option<int>( "AUTOSAFEMODETURNS" ) );
         int iPercent = g->turnssincelastmon * 100 / s_return;
         if( iPercent >= 100 ) {
             s_color = c_green;
