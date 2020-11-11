@@ -1283,7 +1283,7 @@
     "reproduction": { "baby_egg": "egg_qianzhousaurus", "baby_count": 5, "baby_timer": 23 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "special_attacks": [ [ "Charge", 20 ], { "type": "hit", "cooldown": 10 } ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 20 ] ],
     "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "DESTROYS", "WARM", "SWARMS", "ATTACKMON", "HIT_AND_RUN" ],
     "harvest": "dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
