@@ -853,7 +853,6 @@
     "armor_bullet": 3,
     "hp": 230,
     "description": "An undead Qianzhousaurus, looking at you with a furious rage in its eyes and seeming intent on eating you.",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_Zianzhousaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   }
 ]
