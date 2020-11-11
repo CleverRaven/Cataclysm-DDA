@@ -103,12 +103,12 @@ tripoint slotidx_to_offset( aim_advuilist_sourced_t::slotidx_t idx )
     }
 }
 
-//this could be constexpr in C++20
+// this could be constexpr in C++20
 std::size_t offset_to_slotidx( tripoint const &off )
 {
-    const auto *it = std::find_if( aimsources.begin(), aimsources.end(), [&]( _sourcetuple const & v ) {
-        return std::get<bool>( v ) and
-               std::get<tripoint>( v ) == off;
+    _sourcearray::const_iterator const it =
+    std::find_if( aimsources.begin(), aimsources.end(), [&]( _sourcetuple const & v ) {
+        return std::get<bool>( v ) and std::get<tripoint>( v ) == off;
     } );
     return std::distance( aimsources.begin(), it );
 }
