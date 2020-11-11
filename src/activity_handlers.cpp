@@ -220,7 +220,6 @@ static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_steel_plate( "steel_plate" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_wire( "wire" );
-static const itype_id itype_welder( "welder" );
 static const itype_id itype_wool_staple( "wool_staple" );
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
@@ -3216,7 +3215,8 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
         return;
     }
     npc &guy = dynamic_cast<npc &>( *p );
-    monster *mon = guy.chosen_mount.lock().get();
+    auto strong_monster = guy.chosen_mount.lock();
+    monster *mon = strong_monster.get();
     if( !mon ) {
         act->set_to_null();
         guy.revert_after_activity();

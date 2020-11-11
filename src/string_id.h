@@ -101,6 +101,10 @@ template<> struct string_id_params<Trait_group> {
     static constexpr bool dynamic = true;
 };
 
+#if !defined(RELEASE) && !defined(CATA_STRING_ID_DEBUGGING)
+#define CATA_STRING_ID_DEBUGGING
+#endif
+
 // Two different implementations of the "identity" part of string_id.
 /**
  * "static" here means std::string inside is interned.
@@ -110,11 +114,26 @@ class string_identity_static
 {
     private:
         int _id;
-
-        string_identity_static(): _id( empty_interned_string() ) {}
+#ifdef CATA_STRING_ID_DEBUGGING
+        // In non-release builds add a char* pointing to the string version of
+        // the id so that it's easier to figure out what id it is in a
+        // debugger.
+        const char *_string_id = nullptr;
+#endif
+        string_identity_static()
+            : _id( empty_interned_string() )
+#ifdef CATA_STRING_ID_DEBUGGING
+            , _string_id( "" )
+#endif
+        {}
 
         template<typename S, class = std::enable_if_t<std::is_convertible<S, std::string>::value>>
-        explicit string_identity_static( S && id ): _id( string_id_intern( std::forward<S>( id ) ) )  {}
+        explicit string_identity_static( S && id )
+            : _id( string_id_intern( std::forward<S>( id ) ) )
+#ifdef CATA_STRING_ID_DEBUGGING
+            , _string_id( str().c_str() )
+#endif
+        {}
 
         inline const std::string &str() const {
             return get_interned_string( _id );

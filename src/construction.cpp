@@ -1610,7 +1610,7 @@ void load_construction( const JsonObject &jo )
 
     if( jo.has_member( "byproducts" ) ) {
         con.byproduct_item_group = item_group::load_item_group( jo.get_member( "byproducts" ),
-                                   "collection" );
+                                   "collection", "byproducts of construction " + con.str_id.str() );
     }
 
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{

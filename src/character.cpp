@@ -4081,7 +4081,7 @@ void Character::normalize()
 
     weary.clear();
     martial_arts_data->reset_style();
-    weapon   = item( "null", 0 );
+    weapon = item( "null", calendar::turn_zero );
 
     set_body();
     recalc_hp();
@@ -4094,15 +4094,15 @@ void Character::die( Creature *nkiller )
     set_killer( nkiller );
     set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
-        inv->add_item( item( "string_36", 0 ) );
-        inv->add_item( item( "snare_trigger", 0 ) );
+        inv->add_item( item( "string_36", calendar::turn_zero ) );
+        inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        inv->add_item( item( "rope_6", 0 ) );
-        inv->add_item( item( "snare_trigger", 0 ) );
+        inv->add_item( item( "rope_6", calendar::turn_zero ) );
+        inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv->add_item( item( "beartrap", 0 ) );
+        inv->add_item( item( "beartrap", calendar::turn_zero ) );
     }
     mission::on_creature_death( *this );
 }
@@ -12454,7 +12454,6 @@ bool Character::defer_move( const tripoint &next )
     next_expected_position = pos();
     return true;
 }
-
 
 bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const item *avoid )
 {

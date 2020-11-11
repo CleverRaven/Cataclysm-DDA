@@ -3173,7 +3173,6 @@ static bool furn_is_supported( const map &m, const tripoint &p )
 
 void map::bash_ter_furn( const tripoint &p, bash_params &params )
 {
-    translation sound;
     int sound_volume = 0;
     std::string soundfxid;
     std::string soundfxvariant;
@@ -3294,8 +3293,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
         params.did_bash = true;
         if( !params.silent ) {
-            sound = bash->sound_fail;
-            sounds::sound( p, sound_volume, sounds::sound_t::combat, sound, false,
+            sounds::sound( p, sound_volume, sounds::sound_t::combat, bash->sound_fail, false,
                            "smash_fail", soundfxvariant );
         }
 
@@ -3323,7 +3321,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     soundfxid = "smash_success";
-    sound = bash->sound;
+    const translation &sound = bash->sound;
     // Set this now in case the ter_set below changes this
     const bool will_collapse = smash_ter && has_flag( "SUPPORTS_ROOF", p ) && !has_flag( "INDOORS", p );
     const bool tent = smash_furn && !bash->tent_centers.empty();
@@ -5042,7 +5040,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
             return i.typeId() == ammo;
         } );
         if( iter != stack.end() ) {
-            item furn_item( itt, -1, iter->charges );
+            item furn_item( itt, calendar::turn_zero, iter->charges );
             if( !filter( furn_item ) ) {
                 return;
             }
@@ -8310,9 +8308,9 @@ void map::add_corpse( const tripoint &p )
         body.set_flag( flag_REVIVE_SPECIAL );
     }
 
-    put_items_from_loc( item_group_id( "default_zombie_clothes" ), p, 0 );
+    put_items_from_loc( item_group_id( "default_zombie_clothes" ), p, calendar::turn_zero );
     if( one_in( 3 ) ) {
-        put_items_from_loc( item_group_id( "default_zombie_items" ), p, 0 );
+        put_items_from_loc( item_group_id( "default_zombie_items" ), p, calendar::turn_zero );
     }
 
     add_item_or_charges( p, body );

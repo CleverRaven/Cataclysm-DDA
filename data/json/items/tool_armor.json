@@ -1035,7 +1035,7 @@
     "initial_charges": 1000,
     "use_action": {
       "type": "transform",
-      "msg": "A LED light in the %s LED flickers on.",
+      "msg": "A LED light in the %s flickers on.",
       "target": "dimensional_anchor_on",
       "active": true,
       "need_charges": 1,
@@ -1066,6 +1066,21 @@
     },
     "covers": [ "torso" ],
     "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED" ]
+  },
+  {
+    "id": "broken_dimensional_anchor",
+    "copy-from": "dimensional_anchor",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "malfunctioning 5-point anchor" },
+    "description": "A battered, disc-shaped device mounted on a harness.  The inscriptions \"X.E.D.R.A\" and \"5-point anchor\" are barely legible in its radiation stained front and back.",
+    "use_action": {
+      "type": "transform",
+      "msg": "The %s emits a low pitched clicking alarm as its mounted LED light flashes yellow.",
+      "target": "broken_dimensional_anchor",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "It seems like this device needs power."
+    }
   },
   {
     "id": "phase_immersion_suit",
@@ -1953,49 +1968,6 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ]
       }
-    ]
-  },
-  {
-    "type": "ARMOR",
-    "id": "survivor_belt",
-    "name": { "str": "survivor utility belt" },
-    "weight": "3390 g",
-    "color": "brown",
-    "covers": [ "torso" ],
-    "symbol": "[",
-    "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
-    "price": 50000,
-    "price_postapoc": 1000,
-    "material": [ "leather", "iron" ],
-    "volume": "4 L",
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
-    "coverage": 15,
-    "encumbrance": 4,
-    "material_thickness": 2,
-    "pocket_data": [
-      {
-        "holster": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "70 cm",
-        "moves": 3,
-        "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
-      }
-    ],
-    "use_action": [ { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" }, "CROWBAR", "HAMMER" ],
-    "qualities": [
-      [ "HAMMER", 3 ],
-      [ "PRY", 1 ],
-      [ "SAW_M", 2 ],
-      [ "SAW_W", 2 ],
-      [ "WRENCH", 2 ],
-      [ "AXE", 1 ],
-      [ "SCREW", 1 ],
-      [ "HAMMER_FINE", 1 ],
-      [ "SAW_M_FINE", 1 ],
-      [ "WRENCH_FINE", 1 ],
-      [ "SCREW_FINE", 1 ]
     ]
   },
   {

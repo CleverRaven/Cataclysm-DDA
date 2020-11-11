@@ -16,7 +16,7 @@
 
 bool trigdist;
 
-double iso_tangent( double distance, units::angle vertex )
+double iso_tangent( double distance, const units::angle &vertex )
 {
     // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
     return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - cos( vertex ) ) );

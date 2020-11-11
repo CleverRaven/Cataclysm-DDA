@@ -622,7 +622,7 @@ void game::setup()
     weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
                               get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
 
-    turnssincelastmon = 0; //Auto safe mode init
+    turnssincelastmon = 0_turns; //Auto safe mode init
 
     sounds::reset_sounds();
     clear_zombies();
@@ -2285,7 +2285,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     avatar_action::eat( u, locThisItem );
                     break;
                 case 'W':
-                    u.wear( oThisItem );
+                    u.wear( locThisItem );
                     handler.handle();
                     break;
                 case 'w':
@@ -4294,10 +4294,9 @@ void game::mon_info_update( )
     const tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
 
-    static int previous_turn = 0;
-    // TODO: change current_turn to time_point
-    const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
-    const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
+    static time_point previous_turn = calendar::turn_zero;
+    const time_duration sm_ignored_turns =
+        time_duration::from_turns( get_option<int>( "SAFEMODEIGNORETURNS" ) );
 
     for( Creature *c : u.get_visible_creatures( MAPSIZE_X ) ) {
         monster *m = dynamic_cast<monster *>( c );
@@ -4385,12 +4384,13 @@ void game::mon_info_update( )
                     if( critter.ignoring > 0 ) {
                         if( safe_mode != SAFE_MODE_ON ) {
                             critter.ignoring = 0;
-                        } else if( ( sm_ignored_turns == 0 || ( critter.lastseen_turn &&
-                                                                to_turn<int>( *critter.lastseen_turn ) > current_turn - sm_ignored_turns ) ) &&
+                        } else if( ( sm_ignored_turns == time_duration() ||
+                                     ( critter.lastseen_turn &&
+                                       *critter.lastseen_turn > calendar::turn - sm_ignored_turns ) ) &&
                                    ( mon_dist > critter.ignoring / 2 || mon_dist < 6 ) ) {
                             passmon = true;
                         }
-                        critter.lastseen_turn = current_turn;
+                        critter.lastseen_turn = calendar::turn;
                     }
 
                     if( !passmon ) {
@@ -4449,14 +4449,16 @@ void game::mon_info_update( )
         } else {
             cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far, _( "Monsters spotted!" ) );
         }
-        turnssincelastmon = 0;
+        turnssincelastmon = 0_turns;
         if( safe_mode == SAFE_MODE_ON ) {
             set_safe_mode( SAFE_MODE_STOP );
         }
-    } else if( current_turn > previous_turn && get_option<bool>( "AUTOSAFEMODE" ) &&
+    } else if( calendar::turn > previous_turn && get_option<bool>( "AUTOSAFEMODE" ) &&
                newseen == 0 ) { // Auto-safe mode, but only if it's a new turn
-        turnssincelastmon += current_turn - previous_turn;
-        if( turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF ) {
+        turnssincelastmon += calendar::turn - previous_turn;
+        time_duration auto_safe_mode =
+            time_duration::from_turns( get_option<int>( "AUTOSAFEMODETURNS" ) );
+        if( turnssincelastmon >= auto_safe_mode && safe_mode == SAFE_MODE_OFF ) {
             set_safe_mode( SAFE_MODE_ON );
             add_msg( m_info, _( "Safe mode ON!" ) );
         }
@@ -4466,7 +4468,7 @@ void game::mon_info_update( )
         set_safe_mode( SAFE_MODE_ON );
     }
 
-    previous_turn = current_turn;
+    previous_turn = calendar::turn;
     mostseen = newseen;
 }
 
@@ -6551,6 +6553,8 @@ void game::zones_manager()
     std::string action;
     input_context ctxt( "ZONES_MANAGER" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ADD_ZONE" );
@@ -6736,6 +6740,7 @@ void game::zones_manager()
         wnoutrefresh( w_zones );
     } );
 
+    int scroll_rate = zone_cnt > 20 ? 10 : 3;
     zones_manager_open = true;
     do {
         if( action == "ADD_ZONE" ) {
@@ -6792,6 +6797,24 @@ void game::zones_manager()
                 active_index++;
                 if( active_index >= zone_cnt ) {
                     active_index = 0;
+                }
+                blink = false;
+            } else if( action == "PAGE_DOWN" ) {
+                if( active_index == zone_cnt - 1 ) {
+                    active_index = 0;
+                } else if( active_index + scroll_rate >= zone_cnt ) {
+                    active_index = zone_cnt - 1;
+                } else {
+                    active_index += +scroll_rate;
+                }
+                blink = false;
+            } else if( action == "PAGE_UP" ) {
+                if( active_index == 0 ) {
+                    active_index = zone_cnt - 1;
+                } else if( active_index <= scroll_rate ) {
+                    active_index = 0;
+                } else {
+                    active_index += -scroll_rate;
                 }
                 blink = false;
             } else if( action == "REMOVE_ZONE" ) {

@@ -382,7 +382,8 @@
     "description": "These organs came from a giant mutant bug.",
     "looks_like": "offal",
     "proportional": { "price": 0.1, "calories": 0.65 },
-    "extend": { "flags": [ "BAD_TASTE" ], "vitamins": [ [ "mutant_toxin", 25 ] ] }
+    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "extend": { "flags": [ "BAD_TASTE" ] }
   },
   {
     "id": "offal_pickled",
@@ -553,7 +554,8 @@
     "looks_like": "lung",
     "cooks_like": "lung_cooked",
     "proportional": { "price_postapoc": 0.1, "calories": 0.65 },
-    "extend": { "flags": [ "BAD_TASTE" ], "vitamins": [ [ "mutant_toxin", 25 ] ] }
+    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "extend": { "flags": [ "BAD_TASTE" ] }
   },
   {
     "id": "liver",

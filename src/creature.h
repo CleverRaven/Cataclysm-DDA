@@ -487,7 +487,6 @@ class Creature : public location, public viewer
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects( bool attacking ) = 0;
 
-
         // Next three functions don't do anything but forward to next functions with nullptr
         // as source they should be removed once all effect sources are assigned
         void add_effect( const effect &eff, bool force = false, bool deferred = false ) {
@@ -526,7 +525,7 @@ class Creature : public location, public viewer
         void clear_effects();
         /** Check if creature has the matching effect. If the bodypart is not specified check if the Creature has any effect
          *  of the matching type, targeted or untargeted. */
-        bool has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const;
+        bool has_effect( const efftype_id &eff_id, const bodypart_id &bp ) const;
         bool has_effect( const efftype_id &eff_id ) const;
         /** Check if creature has any effect with the given flag. */
         bool has_effect_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
