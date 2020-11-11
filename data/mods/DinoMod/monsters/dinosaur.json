@@ -1264,7 +1264,7 @@
     "weight": "767 kg",
     "bodytype": "elephant",
     "material": [ "flesh" ],
-    "aggression": 300,
+    "aggression": 90,
     "morale": 80,
     "speed": 70,
     "dodge": 6,
