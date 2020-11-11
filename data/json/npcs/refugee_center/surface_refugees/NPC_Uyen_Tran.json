@@ -27,6 +27,7 @@
     "carry_override": "REFUGEE_Uyen_carried",
     "weapon_override": "REFUGEE_Uyen_wield",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" } ],
+    "proficiencies": [ "prof_knitting" ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -2, 2 ] } ] } ] } },
       { "skill": "firstaid", "bonus": { "rng": [ 3, 5 ] } },
