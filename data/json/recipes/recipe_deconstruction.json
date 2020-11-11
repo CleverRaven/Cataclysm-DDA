@@ -4112,6 +4112,13 @@
     "components": [ [ [ "steel_chunk", 25 ] ] ]
   },
   {
+    "result": "salt_lick",
+    "type": "uncraft",
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_rocksalt", 10 ] ] ]
+  },
+  {
     "result": "broken_turret_light",
     "type": "uncraft",
     "skill_used": "electronics",

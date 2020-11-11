@@ -119,10 +119,7 @@
       "str_max": 10,
       "sound": "glass breaking!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap_copper", "count": [ 10, 20 ] },
-        { "item": "glass_shard", "count": [ 25, 50 ] }
-      ]
+      "items": [ { "item": "scrap_copper", "count": [ 10, 20 ] }, { "item": "glass_shard", "count": [ 25, 50 ] } ]
     }
   },
   {
