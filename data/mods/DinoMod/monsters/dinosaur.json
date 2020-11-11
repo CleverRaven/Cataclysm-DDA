@@ -1284,17 +1284,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "Poke", 20 ], { "type": "hit", "cooldown": 10 } ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "DESTROYS",
-      "WARM",
-      "SWARMS",
-      "ATTACKMON",
-      "HIT_AND_RUN"
-    ],
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "DESTROYS", "WARM", "SWARMS", "ATTACKMON", "HIT_AND_RUN" ],
     "harvest": "dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
