@@ -591,10 +591,10 @@ aim_container_t source_char_worn( Character *guy )
 void aim_default_columns( aim_advuilist_t *myadvuilist )
 {
     using col_t = typename aim_advuilist_t::col_t;
-    myadvuilist->setColumns( std::vector<col_t> { col_t{ "Name", iloc_entry_name, 8 },
-                             col_t{ "count", iloc_entry_count, 2 },
+    myadvuilist->setColumns( std::vector<col_t> { col_t{ "Name", iloc_entry_name, 16 },
+                             col_t{ "amt", iloc_entry_count, 2 },
                              col_t{ "weight", iloc_entry_weight, 3 },
-                             col_t{ "vol", iloc_entry_volume, 2 }
+                             col_t{ "vol", iloc_entry_volume, 3 }
                                                 },
                              false );
 }
@@ -602,11 +602,11 @@ void aim_default_columns( aim_advuilist_t *myadvuilist )
 void aim_all_columns( aim_advuilist_t *myadvuilist )
 {
     using col_t = typename aim_advuilist_t::col_t;
-    myadvuilist->setColumns( std::vector<col_t> { col_t{ "Name", iloc_entry_name, 8 },
+    myadvuilist->setColumns( std::vector<col_t> { col_t{ "Name", iloc_entry_name, 16 },
                              col_t{ "src", iloc_entry_src, 2 },
-                             col_t{ "count", iloc_entry_count, 2 },
+                             col_t{ "amt", iloc_entry_count, 2 },
                              col_t{ "weight", iloc_entry_weight, 3 },
-                             col_t{ "vol", iloc_entry_volume, 2 }
+                             col_t{ "vol", iloc_entry_volume, 3 }
                                                 },
                              false );
 }
