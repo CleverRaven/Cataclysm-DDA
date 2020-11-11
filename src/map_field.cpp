@@ -876,7 +876,7 @@ void map::process_fields_in_submap( submap *const current_submap,
             }
 
             if( dirty_transparency_cache ) {
-                set_transparency_cache_dirty( thep );
+                set_transparency_cache_dirty( thep, true );
                 set_seen_cache_dirty( thep );
             }
         }
