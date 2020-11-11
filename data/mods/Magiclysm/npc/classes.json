@@ -90,7 +90,8 @@
     "bonus_per": 2,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
       { "group": "trait_group_manatouched" },
       {
         "distribution": [ { "group": "trait_group_manatouched_nonthres" }, { "group": "trait_group_manatouched_postthres" } ]
@@ -105,7 +106,8 @@
     "skills": [ { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } }, { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } } ],
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
       { "group": "trait_group_bdragon" },
       {
         "distribution": [ { "group": "trait_group_bdragon_nonthres" }, { "group": "trait_group_bdragon_postthres" } ]
