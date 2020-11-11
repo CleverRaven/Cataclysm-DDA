@@ -641,6 +641,7 @@
     "id": "mon_qianzhousaurus_juvenile",
     "type": "MONSTER",
     "name": "Qianzhousaurus juvenile",
+    "copy-from": "mon_gallimimus_juvenile",
     "description": "A juvenile Pinnochio Rex, It looks at you with fear and hatred at the same time.",
     "default_faction": "qianzhousaurus",
     "color": "green",
