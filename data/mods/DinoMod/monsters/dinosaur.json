@@ -1259,7 +1259,7 @@
     "species": "DINOSAUR",
     "default_faction": "qianzhousaurus",
     "symbol": "D",
-    "color": "white_brown",
+    "color": "brown",
     "volume": "550 L",
     "weight": "767 kg",
     "bodytype": "ostrich",
