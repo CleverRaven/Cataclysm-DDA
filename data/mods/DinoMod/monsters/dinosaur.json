@@ -1258,7 +1258,7 @@
     "name": { "str_sp": "Qianzhousaurus" },
     "species": "DINOSAUR",
     "default_faction": "qianzhousaurus",
-    "symbol": "d",
+    "symbol": "D",
     "color": "white_brown",
     "volume": "550 L",
     "weight": "767 kg",
