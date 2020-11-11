@@ -486,7 +486,7 @@
 	  "pain_amount": [ 5, 2 ],
 	  "pain_min": [ 0 , -4 ],
 	  "pain_chance": [ 20, 100 ],
-	  "pain_max_val": [ 60, 20 ],
+	  "pain_max_val": [ 160, 80 ],
 	  "hurt_amount": [ 5, 0 ],
 	  "hurt_min": [ 2, 1 ],
 	  "hurt_chance": [ 13, 100 ],
@@ -494,7 +494,8 @@
 	},
 	"scaling_mods": {
 	  "pain_min": [ 0.5, 0.1 ],
-	  "hurt_chance": [ -0.1 ]
+	  "pain_chance": [ -0.15, -0.8 ],
+	  "hurt_chance": [ -0.1, -0.8 ]
 	}
   },
   {
