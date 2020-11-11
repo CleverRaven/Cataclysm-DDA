@@ -738,11 +738,12 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
     for( auto it = _list.begin(); it != _list.end(); ++it ) {
         if( cpentries >= lpagesize ) {
             // avoid printing group headers on the last line of the page
+            bool const shiftone = cpentries > lpagesize;
             typename list_t::size_type const ci = std::distance( _list.begin(),
-                                                  it ) - ( cpentries > lpagesize ? 1 : 0 );
+                                                  it ) - ( shiftone ? 1 : 0 );
             _pages.emplace_back( pbegin, ci );
             pbegin = ci;
-            cpentries = 0;
+            cpentries = shiftone ? 1 : 0;
         }
 
         if( fglabel and fglabel( *it->second ) != fglabel( *gbegin->second ) ) {
