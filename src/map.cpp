@@ -8877,5 +8877,7 @@ int map::reachability_cache_value( const tripoint &p, reachability_cache_type ca
             return lc.r_down_cache->get_value( quadrant, p.xy() );
         case reachability_cache_type::UP:
             return lc.r_up_cache->get_value( quadrant, p.xy() );
+        default:
+            return -2;
     }
 }
