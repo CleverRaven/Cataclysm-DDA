@@ -3,7 +3,6 @@
 #include <cstdlib>  // Needed for rand()
 #include <vector>
 
-#include "cursesdef.h"
 #include "input.h"
 #include "output.h"
 #include "posix_time.h"
@@ -14,7 +13,7 @@
 #define EMPTY (-1)
 #define ROBOT 0
 #define KITTEN 1
-std::string robot_finds_kitten::getmessage( int idx )
+std::string robot_finds_kitten::getmessage( int idx ) const
 {
     std::string rfimessages[MAXMESSAGES] = {
         _( "\"I pity the fool who mistakes me for kitten!\", sez Mr. T." ),
@@ -227,18 +226,13 @@ std::string robot_finds_kitten::getmessage( int idx )
     }
 }
 
-robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
+robot_finds_kitten::robot_finds_kitten()
 {
-#if defined(__ANDROID__)
-    input_context ctxt( "IUSE_SOFTWARE_KITTEN" );
-#endif
-
     ret = false;
     char ktile[83] =
         "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#&()*+./:;=?![]{|}y";
     int used_messages[MAXMESSAGES];
 
-    const int numbogus = 20;
     nummessages = 201;
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     empty.pos = point( -1, -1 );
@@ -307,198 +301,217 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
         used_messages[index] = 1;
     }
 
-    instructions( w );
+    ui_adaptor ui;
+    ui.on_screen_resize( [this]( ui_adaptor & ui ) {
+        bkatwin = catacurses::newwin( rfkLINES + 2, rfkCOLS + 2,
+                                      point( ( TERMX - rfkCOLS - 2 ) / 2, ( TERMY - rfkLINES - 2 ) / 2 ) );
+        w = catacurses::newwin( rfkLINES, rfkCOLS,
+                                point( ( TERMX - rfkCOLS ) / 2, ( TERMY - rfkLINES ) / 2 ) );
+        ui.position_from_window( bkatwin );
+    } );
+    ui.mark_resize();
 
-    werase( w );
-    mvwprintz( w, point_zero, c_white, _( "robotfindskitten v22July2008 - press q to quit." ) );
-    for( int c = 0; c < rfkCOLS; c++ ) {
-        mvwputch( w, point( c, 2 ), BORDER_COLOR, '_' );
-    }
-    wmove( w, kitten.pos );
-    draw_kitten( w );
-
-    for( int c = 0; c < numbogus; c++ ) {
-        mvwputch( w, bogus[c].pos, bogus[c].color, bogus[c].character );
-    }
-
-    wmove( w, robot.pos );
-    draw_robot( w );
-    point old_pos = robot.pos;
-
-    wrefresh( w );
-
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    ui.on_redraw( [this]( const ui_adaptor & ) {
+        show();
+    } );
 
     /* Now the fun begins. */
-    // TODO: use input context
-    int input = inp_mngr.get_input_event().get_first_input();
-
-    while( input != 'q' && input != 'Q' && input != KEY_ESCAPE ) {
-        process_input( input, w );
-        if( ret ) {
-            break;
-        }
-        /* Redraw robot, where available */
-        if( old_pos != robot.pos ) {
-            wmove( w, old_pos );
-            wputch( w, c_white, ' ' );
-            wmove( w, robot.pos );
-            draw_robot( w );
-            rfkscreen[old_pos.x][old_pos.y] = EMPTY;
-            rfkscreen[robot.pos.x][robot.pos.y] = ROBOT;
-            old_pos = robot.pos;
-        }
-        wrefresh( w );
-        // TODO: use input context / rewrite loop so this is only called at one place
-        input = inp_mngr.get_input_event().get_first_input();
+    current_ui_state = ui_state::instructions;
+    while( current_ui_state != ui_state::exit ) {
+        ui_manager::redraw();
+        process_input();
     }
 }
 
-void robot_finds_kitten::instructions( const catacurses::window &w )
+void robot_finds_kitten::show() const
 {
-    int pos = 1;
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    pos += fold_and_print( w, point( 1, 0 ), getmaxx( w ) - 4, c_light_gray,
-                           _( "robotfindskitten v22July2008" ) );
-    pos += 1 + fold_and_print( w, point( 1, pos ), getmaxx( w ) - 4, c_light_gray,
-                               _( "Originally by the illustrious Leonard Richardson, "
-                                  "rewritten in PDCurses by Joseph Larson, "
-                                  "ported to CDDA gaming system by a nutcase." ) );
+    input_context ctxt( "IUSE_SOFTWARE_KITTEN" );
 
-    pos += 1 + fold_and_print( w, point( 1, pos ), getmaxx( w ) - 4, c_light_gray,
-                               _( "In this game, you are robot (" ) );
-    draw_robot( w );
-    wprintz( w, c_light_gray, _( ")." ) );
-    pos += 1 + fold_and_print( w, point( 1, pos ), getmaxx( w ) - 4, c_light_gray,
-                               _( "Your job is to find kitten.  This task is complicated by the existence of various things "
-                                  "which are not kitten.  Robot must touch items to determine if they are kitten or not.  "
-                                  "The game ends when robot finds kitten.  Alternatively, you may end the game by hitting "
-                                  "'q', 'Q' or the Escape key." ) );
-    fold_and_print( w, point( 1, pos ), getmaxx( w ) - 4, c_light_gray,
-                    _( "Press any key to start." ) );
-    wrefresh( w );
-    inp_mngr.wait_for_any_key();
-}
+    draw_border( bkatwin );
+    wrefresh( bkatwin );
 
-void robot_finds_kitten::process_input( int input, const catacurses::window &w )
-{
-    timespec ts;
-    ts.tv_sec = 1;
-    ts.tv_nsec = 0;
+    werase( w );
+    if( current_ui_state != ui_state::instructions ) {
+        for( int c = 0; c < rfkCOLS; c++ ) {
+            mvwputch( w, point( c, 2 ), BORDER_COLOR, '_' );
+        }
+        wmove( w, kitten.pos );
+        draw_kitten();
 
-    point check = robot.pos;
+        for( int c = 0; c < numbogus; c++ ) {
+            mvwputch( w, bogus[c].pos, bogus[c].color, bogus[c].character );
+        }
 
-    switch( input ) {
-        case KEY_UP: /* up */
-            check.y--;
+        wmove( w, robot.pos );
+        draw_robot();
+    }
+    switch( current_ui_state ) {
+        case ui_state::instructions: {
+            int pos = 1;
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            pos += fold_and_print( w, point( 1, 0 ), getmaxx( w ) - 4, c_light_gray,
+                                   _( "robotfindskitten v22July2008" ) );
+            pos += 1 + fold_and_print( w, point( 1, pos ), getmaxx( w ) - 4, c_light_gray,
+                                       _( "Originally by the illustrious Leonard Richardson, "
+                                          "rewritten in PDCurses by Joseph Larson, "
+                                          "ported to CDDA gaming system by a nutcase." ) );
+
+            pos += 1 + fold_and_print( w, point( 1, pos ), getmaxx( w ) - 4, c_light_gray,
+                                       _( "In this game, you are robot (" ) );
+            draw_robot();
+            wprintz( w, c_light_gray, _( ")." ) );
+            pos += 1 + fold_and_print( w, point( 1, pos ), getmaxx( w ) - 4, c_light_gray,
+                                       _( "Your job is to find kitten.  This task is complicated by the existence of various things "
+                                          "which are not kitten.  Robot must touch items to determine if they are kitten or not.  "
+                                          "The game ends when robot finds kitten.  Alternatively, you may end the game by hitting %s." ),
+                                       ctxt.get_desc( "QUIT" ) );
+            fold_and_print( w, point( 1, pos ), getmaxx( w ) - 4, c_light_gray,
+                            _( "Press any key to start." ) );
             break;
-        case KEY_DOWN: /* down */
-            check.y++;
+        }
+        case ui_state::main:
+            mvwprintz( w, point_zero, c_white, _( "robotfindskitten v22July2008 - press %s to quit." ),
+                       ctxt.get_desc( "QUIT" ) );
             break;
-        case KEY_LEFT: /* left */
-            check.x--;
+        case ui_state::invalid_input:
+            mvwprintz( w, point_zero, c_white, _( "Invalid command: Use direction keys or press %s to quit." ),
+                       ctxt.get_desc( "QUIT" ) );
             break;
-        case KEY_RIGHT: /* right */
-            check.x++;
-            break;
-        case 0:
-            break;
-        default: { /* invalid command */
-            for( int c = 0; c < rfkCOLS; c++ ) {
-                mvwputch( w, point( c, 0 ), c_white, ' ' );
-                mvwputch( w, point( c, 1 ), c_white, ' ' );
+        case ui_state::bogus_message: {
+            std::vector<std::string> bogusvstr = foldstring( getmessage( bogus_message_idx ), rfkCOLS );
+            for( size_t c = 0; c < bogusvstr.size(); c++ ) {
+                mvwprintz( w, point( 0, c ), c_white, bogusvstr[c] );
             }
-            mvwprintz( w, point_zero, c_white, _( "Invalid command: Use direction keys or press 'q'." ) );
-            return;
+            break;
         }
-    }
-
-    constexpr rectangle bounds( point( 0, 3 ), point( rfkCOLS, rfkLINES ) );
-    if( !bounds.contains_half_open( check ) ) {
-        return;
-    }
-
-    if( rfkscreen[check.x][check.y] != EMPTY ) {
-        switch( rfkscreen[check.x][check.y] ) {
-            case ROBOT:
-                /* We didn't move. */
-                break;
-            case KITTEN: {/* Found it! */
-                for( int c = 0; c < rfkCOLS; c++ ) {
-                    mvwputch( w, point( c, 0 ), c_white, ' ' );
-                }
-
-                /* The grand cinema scene. */
-                for( int c = 0; c <= 3; c++ ) {
-
-                    wmove( w, point( rfkCOLS / 2 - 5 + c, 1 ) );
-                    wputch( w, c_white, ' ' );
-                    wmove( w, point( rfkCOLS / 2 + 4 - c, 1 ) );
-                    wputch( w, c_white, ' ' );
-                    wmove( w, point( rfkCOLS / 2 - 4 + c, 1 ) );
-                    if( input == KEY_LEFT || input == KEY_UP ) {
-                        draw_kitten( w );
-                    } else {
-                        draw_robot( w );
-                    }
-                    wmove( w, point( rfkCOLS / 2 + 3 - c, 1 ) );
-                    if( input == KEY_LEFT || input == KEY_UP ) {
-                        draw_robot( w );
-                    } else {
-                        draw_kitten( w );
-                    }
-                    wrefresh( w );
-                    refresh_display();
-                    nanosleep( &ts, nullptr );
-                }
-
+        case ui_state::end_animation: {
+            /* The grand cinema scene. */
+            const int c = std::min( end_animation_frame, 3 );
+            wmove( w, point( rfkCOLS / 2 - 4 + c, 1 ) );
+            if( end_animation_last_input_left_or_up ) {
+                draw_kitten();
+            } else {
+                draw_robot();
+            }
+            wmove( w, point( rfkCOLS / 2 + 3 - c, 1 ) );
+            if( end_animation_last_input_left_or_up ) {
+                draw_robot();
+            } else {
+                draw_kitten();
+            }
+            if( end_animation_frame >= 4 ) {
                 /* They're in love! */
                 mvwprintz( w, point( ( rfkCOLS - 6 ) / 2 - 1, 0 ), c_light_red, "<3<3<3" );
-                wrefresh( w );
-                refresh_display();
-                nanosleep( &ts, nullptr );
-                for( int c = 0; c < rfkCOLS; c++ ) {
-                    mvwputch( w, point( c, 0 ), c_white, ' ' );
-                    mvwputch( w, point( c, 1 ), c_white, ' ' );
-                }
-                mvwprintz( w, point_zero, c_white, _( "You found kitten!  Way to go, robot!" ) );
-                wrefresh( w );
-                refresh_display();
-                ret = true;
-                inp_mngr.wait_for_any_key();
             }
-            break;
-
-            default: {
-                for( int c = 0; c < rfkCOLS; c++ ) {
-                    mvwputch( w, point( c, 0 ), c_white, ' ' );
-                    mvwputch( w, point( c, 1 ), c_white, ' ' );
-                }
-                std::vector<std::string> bogusvstr = foldstring( getmessage(
-                        bogus_messages[rfkscreen[check.x][check.y] - 2] ), rfkCOLS );
-                for( size_t c = 0; c < bogusvstr.size(); c++ ) {
-                    mvwprintw( w, point( 0, c ), bogusvstr[c] );
-                }
-                wrefresh( w );
+            if( end_animation_frame >= 5 ) {
+                mvwprintz( w, point_zero, c_white, _( "You found kitten!  Way to go, robot!" ) );
             }
             break;
         }
-        wmove( w, point( 0, 2 ) );
-        return;
+        case ui_state::exit:
+            break;
     }
-    /* Otherwise, move the robot. */
-    robot.pos = check;
+    wrefresh( w );
 }
 
-void robot_finds_kitten::draw_robot( const catacurses::window
-                                     &w )  /* Draws robot at current position */
+void robot_finds_kitten::process_input()
+{
+    input_context ctxt( "IUSE_SOFTWARE_KITTEN" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "ANY_INPUT" );
+    switch( current_ui_state ) {
+        case ui_state::instructions: {
+            const std::string action = ctxt.handle_input();
+            if( action == "QUIT" ) {
+                current_ui_state = ui_state::exit;
+            } else if( action == "ANY_INPUT" && !ctxt.get_raw_input().sequence.empty() ) {
+                current_ui_state = ui_state::main;
+            }
+            break;
+        }
+        case ui_state::main:
+        case ui_state::invalid_input:
+        case ui_state::bogus_message: {
+            ctxt.register_cardinal();
+            const std::string action = ctxt.handle_input();
+            if( action == "QUIT" ) {
+                current_ui_state = ui_state::exit;
+            } else if( action == "ANY_INPUT" ) {
+                if( !ctxt.get_raw_input().sequence.empty() ) {
+                    current_ui_state = ui_state::invalid_input;
+                }
+            } else if( action != "HELP_KEYBINDINGS" ) {
+                current_ui_state = ui_state::main;
+                point check = robot.pos;
+
+                if( action == "UP" ) {
+                    check.y--;
+                } else if( action == "DOWN" ) {
+                    check.y++;
+                } else if( action == "LEFT" ) {
+                    check.x--;
+                } else if( action == "RIGHT" ) {
+                    check.x++;
+                }
+
+                constexpr rectangle bounds( point( 0, 3 ), point( rfkCOLS, rfkLINES ) );
+                if( !bounds.contains_half_open( check ) ) {
+                    /* Can't move past edge */
+                } else if( rfkscreen[check.x][check.y] != EMPTY ) {
+                    switch( rfkscreen[check.x][check.y] ) {
+                        case ROBOT:
+                            /* We didn't move. */
+                            break;
+                        case KITTEN:
+                            /* Found it! */
+                            ret = true;
+                            current_ui_state = ui_state::end_animation;
+                            end_animation_frame = 0;
+                            end_animation_last_input_left_or_up = action == "UP" || action == "LEFT";
+                            break;
+                        default:
+                            current_ui_state = ui_state::bogus_message;
+                            bogus_message_idx = bogus_messages[rfkscreen[check.x][check.y] - 2];
+                            break;
+                    }
+                } else {
+                    /* Otherwise, move the robot. */
+                    rfkscreen[robot.pos.x][robot.pos.y] = EMPTY;
+                    robot.pos = check;
+                    rfkscreen[robot.pos.x][robot.pos.y] = ROBOT;
+                }
+            }
+            break;
+        }
+        case ui_state::end_animation:
+            if( end_animation_frame + 1 == num_end_animation_frames ) {
+                const std::string action = ctxt.handle_input();
+                if( action != "HELP_KEYBINDINGS" ) {
+                    current_ui_state = ui_state::exit;
+                }
+            } else {
+                refresh_display();
+                end_animation_frame++;
+                timespec ts;
+                ts.tv_sec = 1;
+                ts.tv_nsec = 0;
+                nanosleep( &ts, nullptr );
+            }
+            break;
+        case ui_state::exit:
+            break;
+    }
+}
+
+/* Draws robot at current position */
+void robot_finds_kitten::draw_robot() const
 {
     wputch( w, robot.color, robot.character );
 }
 
-void robot_finds_kitten::draw_kitten( const catacurses::window
-                                      &w )  /* Draws kitten at current position */
+/* Draws kitten at current position */
+void robot_finds_kitten::draw_kitten() const
 {
     wputch( w, kitten.color, kitten.character );
 }

@@ -229,15 +229,29 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
+
+        class draw_callback_t
+        {
+            public:
+                draw_callback_t( const std::function<void()> &cb );
+                ~draw_callback_t();
+                void operator()();
+                friend class game;
+            private:
+                std::function<void()> cb;
+                bool added = false;
+        };
+        /* Add callback that would be called in `game::draw`. This can be used to
+         * implement map overlays in game menus. If parameters of the callback changes
+         * during its lifetime, `invaliate_main_ui_adaptor` has to be called for
+         * the changes to take effect immediately on the next call to `ui_manager::redraw`.
+         * Otherwise the callback may not take effect until the main ui is invalidated
+         * due to resizing or other menus closing. The callback is disabled once all
+         * shared pointers to the callback are deconstructed, and is removed afterwards. */
+        void add_draw_callback( shared_ptr_fast<draw_callback_t> cb );
     private:
-        cata::optional<tripoint> zone_start;
-        cata::optional<tripoint> zone_end;
-        bool zone_blink = false;
-        bool zone_cursor = false;
         bool is_looking = false;
-        cata::optional<tripoint> trail_start;
-        cata::optional<tripoint> trail_end;
-        bool trail_end_x = false;
+        std::vector<weak_ptr_fast<draw_callback_t>> draw_callbacks;
 
     public:
         // when force_redraw is true, redraw all panel instead of just animated panels
@@ -587,8 +601,14 @@ class game
             RIGHT_OF_INFO,
             LEFT_TERMINAL_EDGE,
         };
-        int inventory_item_menu( item_location locThisItem, int startx = 0, int width = 50,
-                                 inventory_item_menu_positon position = RIGHT_OF_INFO );
+        int inventory_item_menu( item_location locThisItem,
+        const std::function<int()> &startx = []() {
+            return 0;
+        },
+        const std::function<int()> &width = []() {
+            return 50;
+        },
+        inventory_item_menu_positon position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,

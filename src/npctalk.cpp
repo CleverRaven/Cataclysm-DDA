@@ -731,7 +731,7 @@ void npc_chatbin::check_missions()
     ma.erase( last, ma.end() );
 }
 
-void npc::talk_to_u( bool text_only, bool radio_contact )
+void npc::talk_to_u( bool radio_contact )
 {
     if( g->u.is_dead_state() ) {
         set_attitude( NPCATT_NULL );
@@ -848,7 +848,6 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     decide_needs();
 
     dialogue_window d_win;
-    d_win.open_dialogue( text_only );
     // Main dialogue loop
     do {
         if( chatbin.mission_selected != nullptr ) {
@@ -865,8 +864,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
                 chatbin.mission_selected = d.missions_assigned.front();
             }
         }
-        d_win.print_header( name );
-        const talk_topic next = d.opt( d_win, d.topic_stack.back() );
+        const talk_topic next = d.opt( d_win, name, d.topic_stack.back() );
         if( next.id == "TALK_NONE" ) {
             int cat = topic_category( d.topic_stack.back() );
             do {
@@ -1667,13 +1665,13 @@ talk_data talk_response::create_option_line( const dialogue &d, const char lette
     // dialogue w/ a % chance to work
     if( trial.type == TALK_TRIAL_NONE || trial.type == TALK_TRIAL_CONDITION ) {
         // regular dialogue
-        //~ %1$c is an option letter and shouldn't be translated, %2$s is translated response text
-        ftext = string_format( pgettext( "talk option", "%1$c: %2$s" ), letter, text );
+        //~ %1$s is translated response text
+        ftext = string_format( pgettext( "talk option", "%1$s" ), text );
     } else {
         // dialogue w/ a % chance to work
-        //~ %1$c is an option letter and shouldn't be translated, %2$s is translated trial type, %3$d is a number, and %4$s is the translated response text
-        ftext = string_format( pgettext( "talk option", "%1$c: [%2$s %3$d%%] %4$s" ), letter,
-                               trial.name(), trial.calc_chance( d ), text );
+        //~ %1$s is translated trial type, %2$d is a number, and %3$s is the translated response text
+        ftext = string_format( pgettext( "talk option", "[%1$s %2$d%%] %3$s" ), trial.name(),
+                               trial.calc_chance( d ), text );
     }
     parse_tags( ftext, *d.alpha, *d.beta, success.next_topic.item_type );
 
@@ -1688,10 +1686,7 @@ talk_data talk_response::create_option_line( const dialogue &d, const char lette
     } else {
         color = c_white;
     }
-    talk_data results;
-    results.first = color;
-    results.second = ftext;
-    return results;
+    return {letter, color, ftext};
 }
 
 std::set<dialogue_consequence> talk_response::get_consequences( const dialogue &d ) const
@@ -1733,9 +1728,9 @@ const talk_topic &special_talk( char ch )
     return no_topic;
 }
 
-talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
+talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
+                          const talk_topic &topic )
 {
-    bool text_only = d_win.text_only;
     std::string challenge = dynamic_line( topic );
     gen_responses( topic );
     // Put quotes around challenge (unless it's an action)
@@ -1759,10 +1754,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                                    challenge );
     }
 
-    d_win.add_history_separator();
-
-    // Number of lines to highlight
-    const size_t hilight_lines = d_win.add_to_history( challenge );
+    d_win.add_to_history( challenge );
 
     apply_speaker_effects( topic );
 
@@ -1771,29 +1763,47 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
     }
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+#if defined(__ANDROID__)
+    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
+    for( size_t i = 0; i < responses.size(); i++ ) {
+        ctxt.register_manual_key( 'a' + i );
+    }
+    ctxt.register_manual_key( 'L', "Look at" );
+    ctxt.register_manual_key( 'S', "Size up stats" );
+    ctxt.register_manual_key( 'Y', "Yell" );
+    ctxt.register_manual_key( 'O', "Check opinion" );
+#endif
 
-    int ch = text_only ? 'a' + responses.size() - 1 : ' ';
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        d_win.resize_dialogue( ui );
+    } );
+    ui.mark_resize();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        d_win.print_header( npc_name );
+        d_win.display_responses( response_lines );
+    } );
+
+    int ch;
     bool okay;
     do {
         d_win.refresh_response_display();
         do {
-            d_win.display_responses( hilight_lines, response_lines, ch );
-            if( !text_only ) {
-                ch = inp_mngr.get_input_event().get_first_input();
-            }
+            ui_manager::redraw();
+            ch = inp_mngr.get_input_event().get_first_input();
+            d_win.handle_scrolling( ch );
             auto st = special_talk( ch );
             if( st.id != "TALK_NONE" ) {
                 return st;
             }
             switch( ch ) {
-                // send scroll control keys back to the display window
                 case KEY_DOWN:
                 case KEY_NPAGE:
                 case KEY_UP:
                 case KEY_PPAGE:
-                    continue;
+                    ch = -1;
+                    break;
                 default:
                     ch -= 'a';
                     break;
@@ -1807,11 +1817,10 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
             okay = query_yn( _( "You'll be helpless!  Proceed?" ) );
         }
     } while( !okay );
-    d_win.add_history_separator();
 
     talk_response chosen = responses[ch];
     std::string response_printed = string_format( pgettext( "you say something", "You: %s" ),
-                                   response_lines[ch].second.substr( 3 ) );
+                                   response_lines[ch].text );
     d_win.add_to_history( response_printed );
 
     if( chosen.mission_selected != nullptr ) {
