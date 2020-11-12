@@ -4,6 +4,7 @@
     "id": "fort_palette",
     "terrain": {
       " ": "t_region_groundcover_urban",
+      "d": "t_dirt",
       "W": "t_rock_smooth",
       "D": "t_door_c",
       "s": "t_sidewalk",
