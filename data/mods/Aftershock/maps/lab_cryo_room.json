@@ -11,30 +11,30 @@
         "|--------|....|--------|",
         "|xP-CC-Px|....|xP-CC-Px|",
         "|........|...6|........|",
-        "|x......S|....|S......x|",
-        "|x......S|-LL-|S......x|",
+        "|x......t|....|t......x|",
+        "|x......t|-LL-|t......x|",
         "|........|....|........|",
         "|......................|",
+        "|....tt.........tt.....|",
+        "|....hx.........xh.....|",
+        "|....tt.........tt.....|",
+        "|......................|",
+        "|........C....C........|",
+        "|.......CP....PC.......|",
         "|......................|",
         "|......................|",
         "|......................|",
+        "|.......CP....PC.......|",
+        "|........C....C........|",
         "|......................|",
-        "|......................|",
-        "|......................|",
-        "|......................|",
-        "|......................|",
-        "|......................|",
-        "|......................|",
-        "|......................|",
-        "|......................|",
-        "|......................|",
-        "|......................|",
-        "|......................|",
+        "|....tt.........tt.....|",
+        "|....hx.........xh.....|",
+        "|....tt.........tt.....|",
         "|......................|",
         "|----------------------|"
       ],
       "palettes": [ "lab_palette_aftershock" ],
-      "furniture": { "S": "f_table", "s": "f_sandbag_half", "&": "f_trashcan" },
+      "furniture": { "P": "f_cooling_pylon", "C": "f_cryo_pod", "&": "f_trashcan" },
       "terrain": { "7": "t_console", "*": "t_thconc_floor" },
       "mapping": {
         "l": { "items": [ { "item": "gear_soldier_sidearm", "chance": 33 } ] },
@@ -69,6 +69,31 @@
     }
   },
   {
+    "type": "trap",
+    "id": "tr_cryo_pod_switch",
+    "name": "cryo pod switch",
+    "color": "brown",
+    "symbol": "+",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "cryo_pod_open",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "cryo_pod_open",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 10 ], [ "null", 90 ] ], "x": 10, "y": 19 },
+        { "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 10 ], [ "null", 90 ] ], "x": 13, "y": 20 },
+        { "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 10 ], [ "null", 90 ] ], "x": 4, "y": 3 }
+      ]
+    }
+  },
+  {
     "type": "palette",
     "id": "lab_palette_aftershock",
     "furniture": {
@@ -89,9 +114,7 @@
       "T": "f_toilet",
       "#": "f_null",
       "]": "f_bookcase",
-      "^": "f_rubble_rock",
-      "C": "f_cryo_pod",
-      "P": "f_cooling_pylon"
+      "^": "f_rubble_rock"
     },
     "terrain": {
       "g": "t_reinforced_glass",
