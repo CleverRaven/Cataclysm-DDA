@@ -428,7 +428,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 8,
     "melee_cut": 6,
-	"attack_effs": [ { "id": "venom_local_dmg", "duration": 250, "chance": 50, "affect_hit_bp": true } ],
+	"attack_effs": [ { "id": "venom_local_dmg", "duration": 375, "affect_hit_bp": true } ],
     "dodge": 2,
     "armor_bash": 2,
     "armor_cut": 8,

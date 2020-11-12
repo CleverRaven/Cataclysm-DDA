@@ -470,9 +470,11 @@
   {
 	"id": "venom_local_dmg",
 	"type": "effect_type",
-	"name": [ "Poisoned wound" ],
+	"name": [ "Poisoned Wound" ],
 	"desc": [ "The wound swells visibly and burns like hell." ],
 	"apply_message": "Ow, that stings!",
+	"remove_message": "The burning pain subsides, but the damage is done.",
+	"show_intensity": false,
 	"rating": "bad",
 	"resist_traits": [ "POISRESIST" ],
 	"pain_sizing": true,
