@@ -54,7 +54,7 @@
   {
     "id": "text_gunsmith",
     "type": "BOOK",
-    "copy_from": "manual_gun",
+    "copy-from": "manual_gun",
     "name": {
       "str": "Ballistics: Theory, Design, and Application",
       "str_pl": "copies of Ballistics: Theory, Design, and Application"
