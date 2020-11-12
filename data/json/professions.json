@@ -704,32 +704,24 @@
     "skills": [
       { "level": 1, "name": "gun" },
       { "level": 1, "name": "rifle" },
-      { "level": 1, "name": "pistol"},
+      { "level": 1, "name": "pistol" },
       { "level": 1, "name": "melee" },
-      { "level": 6, "name": "speech"}
+      { "level": 6, "name": "speech" }
     ],
     "items": {
       "both": {
-        "items": [
-          "pants_army",
-          "undershirt",
-          "jacket_army",
-          "gloves_liner",
-          "socks",
-	  "boots",
-	  "beret",
-          "wristwatch",
-	  "binoculars"
-        ],
-        "entries": [ { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
-          { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17, "count": 2 }, { "item": "militarymap" }
+        "items": [ "pants_army", "undershirt", "jacket_army", "gloves_liner", "socks", "boots", "beret", "wristwatch", "binoculars" ],
+        "entries": [
+          { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
+          { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17, "count": 2 },
+          { "item": "militarymap" }
         ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     }
   },
-{
+  {
     "type": "profession",
     "id": "recruit",
     "name": "Military Recruit",
@@ -771,7 +763,7 @@
       "female": [ "sports_bra", "boxer_shorts" ]
     }
   },
-{
+  {
     "type": "profession",
     "id": "nco",
     "name": "Non Comissioned Officer",
@@ -807,14 +799,20 @@
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-	  { "item":"shot_00", "count": 2 },
-	  { "item":"m1014", "ammo-item":"shot_00", "charges": 8, "contents-item": [ "shoulder_strap", "holo_sight" ] }
+          { "item": "shot_00", "count": 2 },
+          {
+            "item": "m1014",
+            "ammo-item": "shot_00",
+            "charges": 8,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          }
         ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     }
-  },{
+  },
+  {
     "type": "profession",
     "id": "rifleman",
     "name": "Rifleman",
@@ -855,7 +853,7 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     }
-  }, 
+  },
   {
     "type": "profession",
     "id": "specops",
