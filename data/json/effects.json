@@ -506,8 +506,8 @@
 	"id": "venom_syst_weaken",
 	"type": "effect_type",
 	"name": [ "Poisoned Blood" ],
-	"desc": [ "You feel feeble" ],
-	"apply_message": [ "The sting itself barely hurt, but you feel exhausted" ],
+	"desc": [ "You feel feeble." ],
+	"apply_message": "The sting itself barely hurt, but suddenly you feel exhausted.",
 	"rating": "bad",
 	"resist_traits": [ "POISRESIST" ],
 	"hurt_sizing": true,
@@ -517,14 +517,19 @@
 	"dur_add_perc": 100,
 	"show_intensity": true,
 	"base_mods": {
-	  "str_mod":
-	  "dex_mod":
-	  "per_mod":
-	  "stamina_min":
-	  "stamina_chance":
-	  "speed_mod":
-	  "hurt_min":
-	  "hurt_chance":
+	  "str_mod": [ -2, 0 ],
+	  "dex_mod": [ -2, 0 ],
+	  "per_mod": [ -1, 0 ],
+	  "stamina_amount": [ -1000 ],
+	  "stamina_min": [ -5 ],
+	  "stamina_chance": [ 20, 50 ],
+	  "speed_mod": [ -10, 0 ],
+	  "vomit_chance": [ 100, 1000 ],
+	  "vomit_tick": [ 1200 ],
+	  "hurt_min": [ 0, -1 ],
+	  "hurt_chance": [ 1000 ]
+	 }
+  },
   {
     "type": "effect_type",
     "id": "foodpoison",
