@@ -165,5 +165,14 @@
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Aleesha_Situation",
+    "dynamic_line": "I don't have much of a hot take besides what I just said.  It's shit.  Not enough to do to stay busy, not enough to eat, and even if I had internet, all the YouTubers I follow are dead.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
   }
 ]
