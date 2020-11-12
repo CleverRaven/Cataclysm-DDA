@@ -324,6 +324,7 @@
     "color": "yellow",
     "symbol": "%",
     "quench": -1,
+    "calories": 444,
     "description": "Sunny-side up eggs fried with a runny yolk and just a bit of crisp on the edges.",
     "price": 500,
     "price_postapoc": 120,
