@@ -696,6 +696,41 @@
   },
   {
     "type": "profession",
+    "id": "major-general",
+    "name": "Major General",
+    "description": "You worked your way up through the ranks, from a no-name private, to a big shot Major General.  Now however, it is years since you last fired a weapon in anger, and you barely escaped your aides.  ",
+    "points": 4,
+    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "skills": [
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "rifle" },
+      { "level": 1, "name": "pistol"},
+      { "level": 1, "name": "melee" },
+      { "level": 6, "name": "speech"}
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "pants_army",
+          "undershirt",
+          "jacket_army",
+          "gloves_liner",
+          "socks",
+	  "boots",
+	  "beret",
+          "wristwatch",
+	  "binoculars"
+        ],
+        "entries": [ { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
+          { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17, "count": 2 }, { "item": "militarymap" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+{
+    "type": "profession",
     "id": "recruit",
     "name": "Military Recruit",
     "description": "Joining the military has been your dream for years.  You finally got in, just in time for your training to get interrupted by some sort of national emergency.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
