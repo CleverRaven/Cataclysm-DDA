@@ -429,7 +429,7 @@
     "type": "talk_topic",
     "id": "TALK_EVAC_MERCHANT_Boris_Mission_1",
     "dynamic_line": "Hmm.  Most of the people downstairs aren't willing to come up for things like that.  If you sweeten the pot a bit, we could get a few folks I'm sure.",
-    "speaker_effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
     "responses": [
       {
         "text": "How about five Merch to do it?",
@@ -440,7 +440,7 @@
       {
         "text": "How about ten Merch to do it?",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 10 } },
-        "effects": { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
+        "effect": { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
         "topic": "TALK_EVAC_MERCHANT_Boris_Mission_1c"
       }
     ]
