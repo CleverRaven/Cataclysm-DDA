@@ -28,6 +28,7 @@ class time_duration;
 
 enum class farm_ops;
 class item;
+class Item_group;
 class mission_data;
 class recipe;
 
@@ -43,8 +44,6 @@ struct expansion_data {
 
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
-using Group_tag = std::string;
-using itype_id = std::string;
 
 namespace catacurses
 {
@@ -207,7 +206,7 @@ class basecamp
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
         std::list<item> use_charges( const itype_id &fake_id, int &quantity );
-        std::string get_gatherlist() const;
+        item_group_id get_gatherlist() const;
         /**
          * spawn items or corpses based on search attempts
          * @param skill skill level of the search
@@ -216,7 +215,7 @@ class basecamp
          * @param difficulty a random number from 0 to difficulty is created for each attempt, and
          * if skill is higher, an item or corpse is spawned
          */
-        void search_results( int skill, const Group_tag &group_id, int attempts, int difficulty );
+        void search_results( int skill, const item_group_id &group_id, int attempts, int difficulty );
         /**
          * spawn items or corpses based on search attempts
          * @param skill skill level of the search

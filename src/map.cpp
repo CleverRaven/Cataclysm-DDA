@@ -8034,9 +8034,9 @@ void map::add_corpse( const tripoint &p )
         body.item_tags.insert( "REVIVE_SPECIAL" );
     }
 
-    put_items_from_loc( "default_zombie_clothes", p, 0 );
+    put_items_from_loc( item_group_id( "default_zombie_clothes" ), p, 0 );
     if( one_in( 3 ) ) {
-        put_items_from_loc( "default_zombie_items", p, 0 );
+        put_items_from_loc( item_group_id( "default_zombie_items" ), p, 0 );
     }
 
     add_item_or_charges( p, body );

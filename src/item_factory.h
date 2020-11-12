@@ -29,7 +29,6 @@ template <typename T> class value_ptr;
 bool item_is_blacklisted( const std::string &id );
 
 using Item_tag = std::string;
-using Group_tag = std::string;
 using Item_list = std::vector<item>;
 
 class Item_factory;
@@ -99,7 +98,7 @@ class Item_factory
          * ("old" is a distribution, too).
          * @throw JsonError if the json object contains invalid data.
          */
-        void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
+        void load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
                               const std::string &subtype );
         /**
          * Like above, but the above loads data from several members of the object, this function
@@ -119,16 +118,16 @@ class Item_factory
          * Note that each entry in the array has to be a JSON object. The other function above
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
-        void load_item_group( const JsonArray &entries, const Group_tag &group_id, bool is_collection,
+        void load_item_group( const JsonArray &entries, const item_group_id &group_id, bool is_collection,
                               int ammo_chance, int magazine_chance );
         /**
          * Get the item group object. Returns null if the item group does not exists.
          */
-        Item_spawn_data *get_group( const Group_tag &group_tag );
+        Item_spawn_data *get_group( const item_group_id &item_group_id );
         /**
          * Returns the idents of all item groups that are known.
          */
-        std::vector<Group_tag> get_all_group_names();
+        std::vector<item_group_id> get_all_group_names();
         /**
          * Sets the chance of the specified item in the group.
          * @param group_id Group to add item to
@@ -137,7 +136,7 @@ class Item_factory
          * group.
          * @return false if the group doesn't exist.
          */
-        bool add_item_to_group( const Group_tag &group_id, const Item_tag &item_id, int chance );
+        bool add_item_to_group( const item_group_id &group_id, const Item_tag &item_id, int chance );
         /*@}*/
 
         /**
@@ -243,7 +242,7 @@ class Item_factory
 
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
 
-        using GroupMap = std::map<Group_tag, std::unique_ptr<Item_spawn_data>>;
+        using GroupMap = std::map<item_group_id, std::unique_ptr<Item_spawn_data>>;
         GroupMap m_template_groups;
 
         std::unordered_map<itype_id, ammotype> migrated_ammo;

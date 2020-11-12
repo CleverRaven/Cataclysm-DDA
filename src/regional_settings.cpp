@@ -89,7 +89,7 @@ static void load_forest_biome( const JsonObject &jo, forest_biome &forest_biome,
 {
     read_and_set_or_throw<int>( jo, "sparseness_adjacency_factor",
                                 forest_biome.sparseness_adjacency_factor, !overlay );
-    read_and_set_or_throw<std::string>( jo, "item_group", forest_biome.item_group, !overlay );
+    read_and_set_or_throw<item_group_id>( jo, "item_group", forest_biome.item_group, !overlay );
     read_and_set_or_throw<int>( jo, "item_group_chance", forest_biome.item_group_chance, !overlay );
     read_and_set_or_throw<int>( jo, "item_spawn_iterations", forest_biome.item_spawn_iterations,
                                 !overlay );

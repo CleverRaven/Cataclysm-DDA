@@ -498,9 +498,9 @@ faction *npc::get_faction() const
 // item id from group "<class-name>_<what>" or from fallback group
 // may still be a null item!
 static item random_item_from( const npc_class_id &type, const std::string &what,
-                              const std::string &fallback )
+                              const item_group_id &fallback )
 {
-    auto result = item_group::item_from( type.str() + "_" + what, calendar::turn );
+    auto result = item_group::item_from( item_group_id( type.str() + "_" + what ), calendar::turn );
     if( result.is_null() ) {
         result = item_group::item_from( fallback, calendar::turn );
     }
@@ -510,7 +510,7 @@ static item random_item_from( const npc_class_id &type, const std::string &what,
 // item id from "<class-name>_<what>" or from "npc_<what>"
 static item random_item_from( const npc_class_id &type, const std::string &what )
 {
-    return random_item_from( type, what, "npc_" + what );
+    return random_item_from( type, what, item_group_id( "npc_" + what ) );
 }
 
 // item id from "<class-name>_<what>_<gender>" or from "npc_<what>_<gender>"
@@ -521,15 +521,15 @@ static item get_clothing_item( const npc_class_id &type, const std::string &what
     //Then check if it has an ungendered version
     //Only if all that fails, grab from the default class.
     if( male ) {
-        result = random_item_from( type, what + "_male", "null" );
+        result = random_item_from( type, what + "_male", item_group_id::NULL_ID() );
     } else {
-        result = random_item_from( type, what + "_female", "null" );
+        result = random_item_from( type, what + "_female", item_group_id::NULL_ID() );
     }
     if( result.is_null() ) {
         if( male ) {
-            result = random_item_from( type, what, "npc_" + what + "_male" );
+            result = random_item_from( type, what, item_group_id( "npc_" + what + "_male" ) );
         } else {
-            result = random_item_from( type, what, "npc_" + what + "_female" );
+            result = random_item_from( type, what, item_group_id( "npc_" + what + "_female" ) );
         }
     }
 
@@ -553,7 +553,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         ret.push_back( random_item_from( type, "vest" ) );
         ret.push_back( random_item_from( type, "masks" ) );
         // Why is the alternative group not named "npc_glasses" but "npc_eyes"?
-        ret.push_back( random_item_from( type, "glasses", "npc_eyes" ) );
+        ret.push_back( random_item_from( type, "glasses", item_group_id( "npc_eyes" ) ) );
         ret.push_back( random_item_from( type, "hat" ) );
         ret.push_back( random_item_from( type, "scarf" ) );
         ret.push_back( random_item_from( type, "storage" ) );
@@ -806,23 +806,23 @@ void npc::starting_weapon( const npc_class_id &type )
 
     // if NPC has no suitable skills default to stabbing weapon
     if( !best || best == skill_stabbing ) {
-        weapon = random_item_from( type, "stabbing", "survivor_stabbing" );
+        weapon = random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) );
     } else if( best == skill_bashing ) {
-        weapon = random_item_from( type, "bashing", "survivor_bashing" );
+        weapon = random_item_from( type, "bashing",  item_group_id( "survivor_bashing" ) );
     } else if( best == skill_cutting ) {
-        weapon = random_item_from( type, "cutting", "survivor_cutting" );
+        weapon = random_item_from( type, "cutting",  item_group_id( "survivor_cutting" ) );
     } else if( best == skill_throw ) {
         weapon = random_item_from( type, "throw" );
     } else if( best == skill_archery ) {
         weapon = random_item_from( type, "archery" );
     } else if( best == skill_pistol ) {
-        weapon = random_item_from( type, "pistol", "guns_pistol_common" );
+        weapon = random_item_from( type, "pistol",  item_group_id( "guns_pistol_common" ) );
     } else if( best == skill_shotgun ) {
-        weapon = random_item_from( type, "shotgun", "guns_shotgun_common" );
+        weapon = random_item_from( type, "shotgun",  item_group_id( "guns_shotgun_common" ) );
     } else if( best == skill_smg ) {
-        weapon = random_item_from( type, "smg", "guns_smg_common" );
+        weapon = random_item_from( type, "smg",  item_group_id( "guns_smg_common" ) );
     } else if( best == skill_rifle ) {
-        weapon = random_item_from( type, "rifle", "guns_rifle_common" );
+        weapon = random_item_from( type, "rifle",  item_group_id( "guns_rifle_common" ) );
     }
 
     if( weapon.is_gun() ) {
@@ -1655,8 +1655,8 @@ void npc::shop_restock()
     if( is_player_ally() ) {
         return;
     }
-    const Group_tag &from = myclass->get_shopkeeper_items();
-    if( from == "EMPTY_GROUP" ) {
+    const item_group_id &from = myclass->get_shopkeeper_items();
+    if( from == item_group_id( "EMPTY_GROUP" ) ) {
         return;
     }
 

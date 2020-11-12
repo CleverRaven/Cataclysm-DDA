@@ -506,7 +506,7 @@ static void butcher_cbm_item( const std::string &what, const tripoint &pos,
     }
 }
 
-static void butcher_cbm_group( const std::string &group, const tripoint &pos,
+static void butcher_cbm_group( const item_group_id &group, const tripoint &pos,
                                const time_point &age, const int roll, const std::vector<std::string> &flags,
                                const std::vector<fault_id> &faults )
 {
@@ -975,7 +975,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             if( entry.type == "bionic" ) {
                 butcher_cbm_item( entry.drop, p.pos(), calendar::turn, roll, entry.flags, entry.faults );
             } else if( entry.type == "bionic_group" ) {
-                butcher_cbm_group( entry.drop, p.pos(), calendar::turn, roll, entry.flags, entry.faults );
+                butcher_cbm_group( item_group_id( entry.drop ), p.pos(), calendar::turn, roll, entry.flags,
+                                   entry.faults );
             }
             continue;
         }
@@ -1748,24 +1749,24 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     const int veggy_chance = rng( 1, 100 );
     bool found_something = false;
 
-    items_location loc;
+    item_group_id loc;
     ter_str_id next_ter;
 
     switch( season_of_year( calendar::turn ) ) {
         case SPRING:
-            loc = "forage_spring";
+            loc = item_group_id( "forage_spring" );
             next_ter = ter_str_id( "t_underbrush_harvested_spring" );
             break;
         case SUMMER:
-            loc = "forage_summer";
+            loc = item_group_id( "forage_summer" );
             next_ter = ter_str_id( "t_underbrush_harvested_summer" );
             break;
         case AUTUMN:
-            loc = "forage_autumn";
+            loc = item_group_id( "forage_autumn" );
             next_ter = ter_str_id( "t_underbrush_harvested_autumn" );
             break;
         case WINTER:
-            loc = "forage_winter";
+            loc = item_group_id( "forage_winter" );
             next_ter = ter_str_id( "t_underbrush_harvested_winter" );
             break;
         default:
@@ -1795,7 +1796,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     }
     // 10% to drop a item/items from this group.
     if( one_in( 10 ) ) {
-        const std::vector<item *> dropped = g->m.put_items_from_loc( "trash_forest", p->pos(),
+        const std::vector<item *> dropped = g->m.put_items_from_loc( item_group_id( "trash_forest" ),
+                                            p->pos(),
                                             calendar::turn );
         for( item * const &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname() );
@@ -4213,7 +4215,7 @@ void activity_handlers::dig_channel_do_turn( player_activity *act, player * )
 void activity_handlers::dig_finish( player_activity *act, player *p )
 {
     const ter_id result_terrain( act->str_values[1] );
-    const std::string byproducts_item_group = act->str_values[0];
+    const item_group_id byproducts_item_group = item_group_id( act->str_values[0] );
     const int byproducts_count = act->values[0];
     const tripoint dump_loc = act->coords[0];
     const tripoint &pos = act->placement;
@@ -4235,9 +4237,10 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
             g->m.spawn_item( pos, "bone_human", rng( 5, 15 ) );
             g->m.furn_set( pos, f_coffin_c );
         }
-        std::vector<item *> dropped = g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
-        g->m.place_items( "grave", 25, pos, pos, false, calendar::turn );
-        g->m.place_items( "jewelry_front", 20, pos, pos, false, calendar::turn );
+        std::vector<item *> dropped = g->m.place_items( item_group_id( "allclothes" ), 50, pos, pos, false,
+                                      calendar::turn );
+        g->m.place_items( item_group_id( "grave" ), 25, pos, pos, false, calendar::turn );
+        g->m.place_items( item_group_id( "jewelry_front" ), 20, pos, pos, false, calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
                 it->item_tags.insert( "FILTHY" );
@@ -4270,7 +4273,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
 void activity_handlers::dig_channel_finish( player_activity *act, player *p )
 {
     const ter_id result_terrain( act->str_values[1] );
-    const std::string byproducts_item_group = act->str_values[0];
+    const item_group_id byproducts_item_group = item_group_id( act->str_values[0] );
     const int byproducts_count = act->values[0];
     const tripoint dump_loc = act->coords[0];
 

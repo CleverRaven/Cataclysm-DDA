@@ -1297,9 +1297,9 @@ bool talk_function::scavenging_raid_return( npc &p )
         g->u.cash += 10000;
     }
     if( one_in( 2 ) ) {
-        std::string itemlist = "npc_misc";
+        item_group_id itemlist = item_group_id( "npc_misc" );
         if( one_in( 8 ) ) {
-            itemlist = "npc_weapon_random";
+            itemlist = item_group_id( "npc_weapon_random" );
         }
         auto result = item_group::item_from( itemlist );
         if( !result.is_null() ) {
@@ -1470,7 +1470,7 @@ bool talk_function::forage_return( npc &p )
                     debugmsg( "Invalid season" );
             }
         }
-        auto result = item_group::item_from( itemlist );
+        auto result = item_group::item_from( item_group_id( itemlist ) );
         if( !result.is_null() ) {
             popup( _( "%s returned with a %s for you!" ), comp->name, result.tname() );
             g->u.i_add( result );

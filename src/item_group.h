@@ -10,11 +10,11 @@
 
 #include "optional.h"
 #include "item.h"
+#include "type_id.h"
 
 struct itype;
 
 using Item_tag = std::string;
-using Group_tag = std::string;
 class JsonObject;
 class JsonValue;
 class time_point;
@@ -27,11 +27,11 @@ namespace item_group
  * Note that this may return a null-item, if the group does not exist, is empty or did not
  * create an item this time. You have to check this with @ref item::is_null.
  */
-item item_from( const Group_tag &group_id, const time_point &birthday );
+item item_from( const item_group_id &group_id, const time_point &birthday );
 /**
  * Same as above but with implicit birthday at turn 0.
  */
-item item_from( const Group_tag &group_id );
+item item_from( const item_group_id &group_id );
 
 using ItemList = std::vector<item>;
 /**
@@ -48,25 +48,25 @@ using ItemList = std::vector<item>;
  * with @ref group_is_defined.
  * @param birthday The birthday (@ref item::bday) of the items created by this function.
  */
-ItemList items_from( const Group_tag &group_id, const time_point &birthday );
+ItemList items_from( const item_group_id &group_id, const time_point &birthday );
 /**
  * Same as above but with implicit birthday at turn 0.
  */
-ItemList items_from( const Group_tag &group_id );
+ItemList items_from( const item_group_id &group_id );
 /**
  * Check whether a specific item group contains a specific item type.
  */
-bool group_contains_item( const Group_tag &group_id, const Item_tag &type_id );
+bool group_contains_item( const item_group_id &group_id, const Item_tag &type_id );
 /**
  * Return every item type that can possibly be spawned by the item group
  */
-std::set<const itype *> every_possible_item_from( const Group_tag &group_id );
+std::set<const itype *> every_possible_item_from( const item_group_id &group_id );
 /**
  * Check whether an item group of the given id exists. You may use this to either choose an
  * alternative group or check the json definitions for consistency (spawn data in json that
  * refers to a non-existing group is broken), or just alert the player.
  */
-bool group_is_defined( const Group_tag &group_id );
+bool group_is_defined( const item_group_id &group_id );
 /**
  * Shows an menu to debug the item groups.
  */
@@ -74,7 +74,7 @@ void debug_spawn();
 /**
  * See @ref Item_factory::load_item_group
  */
-void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
+void load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
                       const std::string &subtype );
 /**
  * Get an item group id and (optionally) load an inlined item group.
@@ -95,7 +95,7 @@ void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
  * subtype. It must be either "distribution" or "collection". See @ref Item_group.
  * @throw JsonError as usual for JSON errors, including invalid input values.
  */
-Group_tag load_item_group( const JsonValue &value, const std::string &default_subtype );
+item_group_id load_item_group( const JsonValue &value, const std::string &default_subtype );
 } // namespace item_group
 
 /**
@@ -272,7 +272,7 @@ class Item_group : public Item_spawn_data
         using prop_list = std::vector<std::unique_ptr<Item_spawn_data> >;
 
         void add_item_entry( const Item_tag &itemid, int probability );
-        void add_group_entry( const Group_tag &groupid, int probability );
+        void add_group_entry( const item_group_id &groupid, int probability );
         /**
          * Once the relevant data has been read from JSON, this function is always called (either from
          * @ref Item_factory::add_entry, @ref add_item_entry or @ref add_group_entry). Its purpose is to add
@@ -287,6 +287,12 @@ class Item_group : public Item_spawn_data
         bool replace_item( const Item_tag &itemid, const Item_tag &replacementid ) override;
         bool has_item( const Item_tag &itemid ) const override;
         std::set<const itype *> every_item() const override;
+        /**
+         * Hack for testing. TODO: Find a better way.
+         */
+        const prop_list &get_items() const {
+            return items;
+        }
 
         /**
          * These aren't directly used. Instead, the values (both with a default value of 0) "trickle down"

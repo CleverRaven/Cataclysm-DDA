@@ -81,7 +81,6 @@ struct wrapped_vehicle {
 };
 
 using VehicleList = std::vector<wrapped_vehicle>;
-using items_location = std::string;
 class map;
 
 enum ter_bitflags : int;
@@ -1100,10 +1099,10 @@ class map
         * @param ammo percentage chance item will be filled with default ammo
         * @return vector containing all placed items
         */
-        std::vector<item *> place_items( const items_location &loc, int chance, const tripoint &p1,
+        std::vector<item *> place_items( const item_group_id &loc, int chance, const tripoint &p1,
                                          const tripoint &p2, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 );
-        std::vector<item *> place_items( const items_location &loc, int chance, const point &p1,
+        std::vector<item *> place_items( const item_group_id &loc, int chance, const point &p1,
                                          const point &p2, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 ) {
             return place_items( loc, chance, tripoint( p1, abs_sub.z ), tripoint( p2, abs_sub.z ), ongrass,
@@ -1117,7 +1116,7 @@ class map
         * @param turn The birthday that the created items shall have.
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
-        std::vector<item *> put_items_from_loc( const items_location &loc, const tripoint &p,
+        std::vector<item *> put_items_from_loc( const item_group_id &loc, const tripoint &p,
                                                 const time_point &turn = calendar::start_of_cataclysm );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
@@ -1332,7 +1331,7 @@ class map
         }
         // 6 liters at 250 ml per charge
         void place_toilet( const point &p, int charges = 6 * 4 );
-        void place_vending( const point &p, const std::string &type, bool reinforced = false );
+        void place_vending( const point &p, const item_group_id &type, bool reinforced = false );
         // places an NPC, if static NPCs are enabled or if force is true
         character_id place_npc( const point &p, const string_id<npc_template> &type,
                                 bool force = false );
