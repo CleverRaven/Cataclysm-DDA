@@ -50,7 +50,6 @@
     "name": "Immolate push effect",
     "description": "The immolate spell is powerful enough to push targets from its epicenter.",
     "effect": "directed_push",
-    "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "ally", "hostile", "ground" ],
     "max_level": 35,
