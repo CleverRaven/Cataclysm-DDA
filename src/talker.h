@@ -152,6 +152,9 @@ class talker
         virtual bool is_deaf() const {
             return false;
         }
+        virtual bool is_mute() const {
+            return false;
+        }
         virtual void add_effect( const efftype_id &, const time_duration &, bool ) {}
         virtual void remove_effect( const efftype_id & ) {}
         virtual std::string get_value( const std::string & ) const {
@@ -308,5 +311,8 @@ class talker
         virtual void add_opinion( int /*trust*/, int /*fear*/, int /*value*/, int /*anger*/,
                                   int /*debt*/ ) {}
         virtual void set_first_topic( const std::string & ) {}
+        virtual bool is_safe() const {
+            return true;
+        }
 };
 #endif // CATA_SRC_TALKER_H

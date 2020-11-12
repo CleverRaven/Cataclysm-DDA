@@ -59,7 +59,7 @@ void mission_start::place_dog( mission *miss )
         debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
-    get_player_character().i_add( item( "dog_whistle", 0 ) );
+    get_player_character().i_add( item( "dog_whistle", calendar::turn_zero ) );
     add_msg( _( "%s gave you a dog whistle." ), dev->name );
 
     miss->target = house;
@@ -192,7 +192,7 @@ void mission_start::place_npc_software( mission *miss )
         debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
-    get_player_character().i_add( item( "usb_drive", 0 ) );
+    get_player_character().i_add( item( "usb_drive", calendar::turn_zero ) );
     add_msg( _( "%s gave you a USB drive." ), dev->name );
 
     std::string type = "house";
@@ -508,9 +508,9 @@ void mission_start::ranch_nurse_8( mission *miss )
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
     bay.load( project_to<coords::sm>( site ), false );
     bay.translate( t_dirtfloor, t_floor );
-    bay.place_items( "cleaning", 75, point( 17, 0 ), point( 17, 2 ), true,
+    bay.place_items( item_group_id( "cleaning" ), 75, point( 17, 0 ), point( 17, 2 ), true,
                      calendar::start_of_cataclysm );
-    bay.place_items( "surgery", 75, point( 15, 4 ), point( 18, 4 ), true,
+    bay.place_items( item_group_id( "surgery" ), 75, point( 15, 4 ), point( 18, 4 ), true,
                      calendar::start_of_cataclysm );
     bay.save();
 }
@@ -549,7 +549,8 @@ void mission_start::ranch_scavenger_1( mission *miss )
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
     bay.load( project_to<coords::sm>( site ), false );
-    bay.place_items( "mechanics", 65, point( 9, 13 ), point( 10, 16 ), true, 0 );
+    bay.place_items( item_group_id( "mechanics" ), 65, point( 9, 13 ), point( 10, 16 ), true,
+                     calendar::turn_zero );
     bay.draw_square_ter( t_chainfence, point( 0, 22 ), point( 7, 22 ) );
     bay.draw_square_ter( t_dirt, point( 2, 22 ), point( 3, 22 ) );
     bay.spawn_item( point( 7, 19 ), "30gal_drum" );
@@ -562,7 +563,7 @@ void mission_start::ranch_scavenger_2( mission *miss )
                                 "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
     bay.load( project_to<coords::sm>( site ), false );
-    bay.add_vehicle( vproto_id( "car_chassis" ), point( 20, 15 ), 0 );
+    bay.add_vehicle( vproto_id( "car_chassis" ), point( 20, 15 ), 0_degrees );
     bay.draw_square_ter( t_wall_half, point( 18, 19 ), point( 21, 22 ) );
     bay.draw_square_ter( t_dirt, point( 19, 20 ), point( 20, 21 ) );
     bay.ter_set( point( 19, 19 ), t_door_frame );
@@ -570,7 +571,7 @@ void mission_start::ranch_scavenger_2( mission *miss )
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
     bay.load( project_to<coords::sm>( site ), false );
-    bay.place_items( "mischw", 65, point( 12, 13 ), point( 13, 16 ), true,
+    bay.place_items( item_group_id( "mischw" ), 65, point( 12, 13 ), point( 13, 16 ), true,
                      calendar::start_of_cataclysm );
     bay.draw_square_ter( t_chaingate_l, point( 2, 22 ), point( 3, 22 ) );
     bay.spawn_item( point( 7, 20 ), "30gal_drum" );
@@ -596,8 +597,10 @@ void mission_start::ranch_scavenger_3( mission *miss )
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
     bay.load( project_to<coords::sm>( site ), false );
-    bay.place_items( "mischw", 65, point( 2, 10 ), point( 4, 10 ), true, calendar::start_of_cataclysm );
-    bay.place_items( "mischw", 65, point( 2, 13 ), point( 4, 13 ), true, calendar::start_of_cataclysm );
+    bay.place_items( item_group_id( "mischw" ), 65, point( 2, 10 ), point( 4, 10 ), true,
+                     calendar::start_of_cataclysm );
+    bay.place_items( item_group_id( "mischw" ), 65, point( 2, 13 ), point( 4, 13 ), true,
+                     calendar::start_of_cataclysm );
     bay.furn_set( point( 1, 15 ), f_fridge );
     bay.spawn_item( point( 2, 15 ), "hdframe" );
     bay.furn_set( point( 3, 15 ), f_washer );
@@ -651,9 +654,9 @@ void static create_lab_consoles(
 
         tripoint comppoint = find_potential_computer_point( compmap );
 
-        computer *tmpcomp = compmap.add_computer( comppoint, _( comp_name ), security );
+        computer *tmpcomp = compmap.add_computer( comppoint, comp_name, security );
         tmpcomp->set_mission( miss->get_id() );
-        tmpcomp->add_option( _( download_name ), COMPACT_DOWNLOAD_SOFTWARE, security );
+        tmpcomp->add_option( download_name, COMPACT_DOWNLOAD_SOFTWARE, security );
         tmpcomp->add_failure( COMPFAIL_ALARM );
         tmpcomp->add_failure( COMPFAIL_DAMAGE );
         tmpcomp->add_failure( COMPFAIL_MANHACKS );
@@ -670,8 +673,8 @@ void mission_start::create_lab_console( mission *miss )
     loc.z() = -1;
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, "lab", 0, false );
 
-    create_lab_consoles( miss, place, "lab", 2, translate_marker( "Workstation" ),
-                         translate_marker( "Download Memory Contents" ) );
+    create_lab_consoles( miss, place, "lab", 2, _( "Workstation" ),
+                         _( "Download Memory Contents" ) );
 
     // Target the lab entrance.
     const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );
@@ -688,8 +691,8 @@ void mission_start::create_hidden_lab_console( mission *miss )
         mission_util::target_om_ter_random( "basement_hidden_lab_stairs", -1, miss, false, 0, loc );
     place.z() = -2;  // then go down 1 z-level to place consoles.
 
-    create_lab_consoles( miss, place, "lab", 3, translate_marker( "Workstation" ),
-                         translate_marker( "Download Encryption Routines" ) );
+    create_lab_consoles( miss, place, "lab", 3, _( "Workstation" ),
+                         _( "Download Encryption Routines" ) );
 
     // Target the lab entrance.
     const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );
@@ -704,8 +707,8 @@ void mission_start::create_ice_lab_console( mission *miss )
     loc.z() = -4;
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, "ice_lab", 0, false );
 
-    create_lab_consoles( miss, place, "ice_lab", 3, translate_marker( "Durable Storage Archive" ),
-                         translate_marker( "Download Archives" ) );
+    create_lab_consoles( miss, place, "ice_lab", 3, _( "Durable Storage Archive" ),
+                         _( "Download Archives" ) );
 
     // Target the lab entrance.
     const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );

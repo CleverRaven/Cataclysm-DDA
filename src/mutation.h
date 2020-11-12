@@ -44,7 +44,7 @@ extern std::map<mutation_category_id, std::vector<trait_id> > mutations_category
 
 struct dream {
     private:
-        std::vector<std::string> raw_messages; // The messages that the dream will give
+        std::vector<translation> raw_messages; // The messages that the dream will give
 
     public:
         std::vector<std::string> messages() const;
@@ -61,9 +61,9 @@ struct dream {
 
 struct mut_attack {
     /** Text printed when the attack is proced by you */
-    std::string attack_text_u;
+    translation attack_text_u;
     /** As above, but for npc */
-    std::string attack_text_npc;
+    translation attack_text_npc;
     /** Need all of those to qualify for this attack */
     std::set<trait_id> required_mutations;
     /** Need none of those to qualify for this attack */
@@ -115,7 +115,7 @@ struct enum_traits<trigger_type> {
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    trigger_type trigger;
+    trigger_type trigger = trigger_type::TIME;
 
     /**Activates above that threshold and deactivates below it*/
     int threshold_low = INT_MIN;
@@ -231,6 +231,8 @@ struct mutation_branch {
         /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
         int weakness_to_water = 0;
 
+        cata::optional<float> crafting_speed_multiplier = cata::nullopt;
+
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
         cata::optional<float> stealth_modifier = cata::nullopt;
 
@@ -300,19 +302,22 @@ struct mutation_branch {
         cata::optional<float> mana_modifier = cata::nullopt;
         cata::optional<float> mana_multiplier = cata::nullopt;
         cata::optional<float> mana_regen_multiplier = cata::nullopt;
+        // for every point of bionic power, reduces max mana pool by 1 * bionic_mana_penalty
+        cata::optional<float> bionic_mana_penalty = cata::nullopt;
+        cata::optional<float> casting_time_multiplier = cata::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         /** mutation enchantments */
         std::vector<enchantment_id> enchantments;
     private:
-        std::string raw_spawn_item_message;
+        translation raw_spawn_item_message;
     public:
         std::string spawn_item_message() const;
 
         /** The fake gun, if any, spawned and fired by the ranged mutation */
         itype_id ranged_mutation;
     private:
-        std::string raw_ranged_mutation_message;
+        translation raw_ranged_mutation_message;
     public:
         std::string ranged_mutation_message() const;
 
@@ -338,6 +343,8 @@ struct mutation_branch {
         std::map<bodypart_str_id, int> encumbrance_always; // Mutation encumbrance that always applies
         // Mutation encumbrance that applies when covered with unfitting item
         std::map<bodypart_str_id, int> encumbrance_covered;
+        // a multiplier to encumbrance that is already modified by mutations
+        std::map<bodypart_str_id, float> encumbrance_multiplier_always;
         // Body parts that now need OVERSIZE gear
         std::set<bodypart_str_id> restricts_gear;
         // Mutation stat mods
@@ -347,6 +354,7 @@ struct mutation_branch {
         std::vector<matype_id>
         initial_ma_styles; // Martial art styles that can be chosen upon character generation
     private:
+        std::map<bodypart_str_id, int> bionic_slot_bonuses;
         translation raw_name;
         translation raw_desc;
     public:
@@ -365,6 +373,10 @@ struct mutation_branch {
          * Returns damage resistance on a given body part granted by this mutation.
          */
         const resistances &damage_resistance( const bodypart_id &bp ) const;
+        /**
+         * Returns bionic slot bonus on a given body part granted by this mutation
+         */
+        int bionic_slot_bonus( const bodypart_str_id &part ) const;
         /**
          * Shortcut for getting the name of a (translated) mutation, same as
          * @code get( mutation_id ).name @endcode
@@ -471,16 +483,16 @@ struct mutation_branch {
 
 struct mutation_category_trait {
     private:
-        std::string raw_name;
+        translation raw_name;
         // Message when you consume mutagen
-        std::string raw_mutagen_message;
+        translation raw_mutagen_message;
         // Message when you inject an iv
-        std::string raw_iv_message;
-        std::string raw_iv_sound_message = "NULL";
+        translation raw_iv_message;
+        translation raw_iv_sound_message = no_translation( "NULL" );
         std::string raw_iv_sound_id = "shout";
         std::string raw_iv_sound_variant = "default";
-        std::string raw_iv_sleep_message = "NULL";
-        std::string raw_junkie_message;
+        translation raw_iv_sleep_message = no_translation( "NULL" );
+        translation raw_junkie_message;
         // Memorial message when you cross a threshold
         std::string raw_memorial_message;
 
@@ -543,6 +555,7 @@ bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
+bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept;
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );

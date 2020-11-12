@@ -687,6 +687,7 @@ int main( int argc, const char *argv[] )
         set_language();
     }
 #endif
+    replay_buffered_debugmsg_prompts();
 
     while( true ) {
         if( !cli.world.empty() ) {

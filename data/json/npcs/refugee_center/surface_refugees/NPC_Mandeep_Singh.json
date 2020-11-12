@@ -51,7 +51,7 @@
     "type": "item_group",
     "id": "REFUGEE_Mandeep_carried",
     "subtype": "collection",
-    "entries": [ { "item": "1st_aid" } ]
+    "entries": [ { "group": "used_1st_aid" } ]
   },
   {
     "type": "item_group",

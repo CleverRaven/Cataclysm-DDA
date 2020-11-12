@@ -16,6 +16,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 // TODO: Redefine?
@@ -80,7 +81,7 @@ class faction_template
         int respects_u;
         bool known_by_u;
         faction_id id;
-        std::string desc;
+        translation desc;
         int size; // How big is our sphere of influence?
         int power; // General measure of our power
         int food_supply;  //Total nutritional value held

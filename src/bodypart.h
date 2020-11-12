@@ -98,8 +98,8 @@ struct body_part_type {
         translation name_as_heading;
         translation name_as_heading_multiple;
         translation smash_message;
-        std::string hp_bar_ui_text;
-        std::string encumb_text;
+        translation hp_bar_ui_text;
+        translation encumb_text;
         // Legacy "string id"
         std::string legacy_id;
         // Legacy enum "int id"
@@ -210,8 +210,8 @@ class bodypart
     private:
         bodypart_str_id id;
 
-        int hp_cur;
-        int hp_max;
+        int hp_cur = 0;
+        int hp_max = 0;
 
         int wetness = 0;
         int temp_cur = 5000; // BODYTEMP_NORM = 5000

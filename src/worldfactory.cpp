@@ -515,6 +515,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
     input_context ctxt( "PICK_WORLD_DIALOG" );
     ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
@@ -525,19 +527,37 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
+        size_t recmax = world_pages[selpage].size();
+        size_t scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "QUIT" ) {
             break;
         } else if( !world_pages[selpage].empty() && action == "DOWN" ) {
             sel++;
-            if( sel >= world_pages[selpage].size() ) {
+            if( sel >= recmax ) {
                 sel = 0;
             }
         } else if( !world_pages[selpage].empty() && action == "UP" ) {
             if( sel == 0 ) {
-                sel = world_pages[selpage].size() - 1;
+                sel = recmax - 1;
             } else {
                 sel--;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( sel == recmax - 1 ) {
+                sel = 0;
+            } else if( sel + scroll_rate >= recmax ) {
+                sel = recmax - 1;
+            } else {
+                sel += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( sel == 0 ) {
+                sel = recmax - 1;
+            } else if( sel <= scroll_rate ) {
+                sel = 0;
+            } else {
+                sel += -scroll_rate;
             }
         } else if( action == "NEXT_TAB" ) {
             sel = 0;
@@ -652,7 +672,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
         for( size_t i = 0; i < mods.size(); ++i ) {
             std::string category_name = _( "MISSING MODS" );
             if( mods[i].is_valid() ) {
-                category_name = mods[i]->obsolete ? _( "OBSOLETE MODS" ) : _( mods[i]->category.second );
+                category_name = mods[i]->obsolete ? _( "OBSOLETE MODS" ) : mods[i]->category.second.translated();
             }
             if( sLastCategoryName != category_name ) {
                 sLastCategoryName = category_name;
@@ -844,6 +864,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
     input_context ctxt( "MODMANAGER_DIALOG" );
     ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "LEFT", to_translation( "Switch to other list" ) );
     ctxt.register_action( "RIGHT", to_translation( "Switch to other list" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -882,21 +904,21 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                                             point( 1 + iOffsetX, 3 ) );
         w_header2     = catacurses::newwin( 1, iMinScreenWidth / 2 - 4,
                                             point( iMinScreenWidth / 2 + 3 + iOffsetX, 3 ) );
-        w_shift       = catacurses::newwin( TERMY - 11, 5,
+        w_shift       = catacurses::newwin( TERMY - 14, 5,
                                             point( iMinScreenWidth / 2 - 3 + iOffsetX, 3 ) );
-        w_list        = catacurses::newwin( TERMY - 13, iMinScreenWidth / 2 - 4,
+        w_list        = catacurses::newwin( TERMY - 16, iMinScreenWidth / 2 - 4,
                                             point( iOffsetX, 5 ) );
-        w_active      = catacurses::newwin( TERMY - 13, iMinScreenWidth / 2 - 4,
+        w_active      = catacurses::newwin( TERMY - 16, iMinScreenWidth / 2 - 4,
                                             point( iMinScreenWidth / 2 + 2 + iOffsetX, 5 ) );
-        w_description = catacurses::newwin( 4, iMinScreenWidth - 4,
-                                            point( 1 + iOffsetX, TERMY - 5 ) );
+        w_description = catacurses::newwin( 5, iMinScreenWidth - 4,
+                                            point( 1 + iOffsetX, TERMY - 6 ) );
 
         header_windows.clear();
         header_windows.push_back( w_header1 );
         header_windows.push_back( w_header2 );
 
         // Specify where the popup's string would be printed
-        filter_pos = point( 2, TERMY - 8 );
+        filter_pos = point( 2, TERMY - 11 );
         filter_view_len = iMinScreenWidth / 2 - 11;
         if( fpopup ) {
             point inner_pos = filter_pos + point( 2, 0 );
@@ -925,7 +947,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     };
     std::vector<mod_tab> all_tabs;
 
-    for( const std::pair<std::string, std::string> &tab : get_mod_list_tabs() ) {
+    for( const std::pair<std::string, translation> &tab : get_mod_list_tabs() ) {
         all_tabs.push_back( {
             tab.first,
             std::vector<mod_id>(),
@@ -1048,7 +1070,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         for( size_t i = 0; i < get_mod_list_tabs().size(); i++ ) {
             wprintz( win, c_white, "[" );
             wprintz( win, ( iCurrentTab == i ) ? hilite( c_light_green ) : c_light_green,
-                     _( get_mod_list_tabs()[i].second ) );
+                     "%s", get_mod_list_tabs()[i].second );
             wprintz( win, c_white, "]" );
             wputch( win, BORDER_COLOR, LINE_OXOX );
         }
@@ -1132,11 +1154,30 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         }
 
         const std::string action = ctxt.handle_input();
+        size_t recmax = active_header == 0 ? static_cast<int>( all_tabs[iCurrentTab].mods.size() ) :
+                        static_cast<int>( active_mod_order.size() );
+        size_t scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "DOWN" ) {
             selection = next_selection;
         } else if( action == "UP" ) {
             selection = prev_selection;
+        } else if( action == "PAGE_DOWN" ) {
+            if( selection == recmax - 1 ) {
+                selection = 0;
+            } else if( selection + scroll_rate >= recmax ) {
+                selection = recmax - 1;
+            } else {
+                selection += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( selection == 0 ) {
+                selection = recmax - 1;
+            } else if( selection <= scroll_rate ) {
+                selection = 0;
+            } else {
+                selection += -scroll_rate;
+            }
         } else if( action == "RIGHT" ) {
             active_header = next_header;
         } else if( action == "LEFT" ) {
@@ -1366,7 +1407,7 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
 
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type
     std::array<int, 5> xs = {{1, 1, iMinScreenWidth / 2 + 2, iMinScreenWidth / 2 - 4, iMinScreenWidth / 2 + 2}};
-    std::array<int, 5> ys = {{TERMY - 8, 4, 4, 3, 3}};
+    std::array<int, 5> ys = {{TERMY - 11, 4, 4, 3, 3}};
     std::array<int, 5> ls = {{iMinScreenWidth - 2, iMinScreenWidth / 2 - 4, iMinScreenWidth / 2 - 2, TERMY - 11, 1}};
     std::array<bool, 5> hv = {{true, true, true, false, false}}; // horizontal line = true, vertical line = false
 
@@ -1386,28 +1427,28 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
 
     // Add in connective characters
     mvwputch( win, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( win, point( 0, TERMY - 8 ), BORDER_COLOR, LINE_XXXO ); // |-
+    mvwputch( win, point( 0, TERMY - 11 ), BORDER_COLOR, LINE_XXXO ); // |-
     mvwputch( win, point( iMinScreenWidth / 2 + 2, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
 
     mvwputch( win, point( iMinScreenWidth - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
-    mvwputch( win, point( iMinScreenWidth - 1, TERMY - 8 ), BORDER_COLOR, LINE_XOXX ); // -|
+    mvwputch( win, point( iMinScreenWidth - 1, TERMY - 11 ), BORDER_COLOR, LINE_XOXX ); // -|
     mvwputch( win, point( iMinScreenWidth / 2 - 4, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
 
     mvwputch( win, point( iMinScreenWidth / 2 - 4, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
     mvwputch( win, point( iMinScreenWidth / 2 + 2, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
 
-    mvwputch( win, point( iMinScreenWidth / 2 - 4, TERMY - 8 ), BORDER_COLOR,
+    mvwputch( win, point( iMinScreenWidth / 2 - 4, TERMY - 11 ), BORDER_COLOR,
               LINE_XXOX ); // _|_
-    mvwputch( win, point( iMinScreenWidth / 2 + 2, TERMY - 8 ), BORDER_COLOR,
+    mvwputch( win, point( iMinScreenWidth / 2 + 2, TERMY - 11 ), BORDER_COLOR,
               LINE_XXOX ); // _|_
 
     // Add tips & hints
-    fold_and_print( win, point( 2, TERMY - 7 ), getmaxx( win ) - 4, c_light_gray,
-                    _( "[<color_yellow>%s</color>] = save <color_cyan>Mod Load Order</color> as default  "
-                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch Main-Tab  "
+    fold_and_print( win, point( 2, TERMY - 10 ), getmaxx( win ) - 4, c_light_gray,
+                    _( "[<color_yellow>%s</color>] = save <color_cyan>Mod Load Order</color> as default <color_red>|</color> "
+                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch Main-Tab <color_red>|</color> "
                        "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch "
-                       "<color_cyan>Mod List</color> and <color_cyan>Mod Load Order</color>  "
-                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> Tab  "
+                       "<color_cyan>Mod List</color> and <color_cyan>Mod Load Order</color> <color_red>|</color> "
+                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> Tab <color_red>|</color> "
                        "[<color_yellow>%s</color>] = keybindings" ),
                     ctxtp.get_desc( "SAVE_DEFAULT_MODS" ),
                     ctxtp.get_desc( "PREV_TAB" ),
@@ -1518,7 +1559,8 @@ void load_external_option( const JsonObject &jo )
     auto stype = jo.get_string( "stype" );
     options_manager &opts = get_options();
     if( !opts.has_option( name ) ) {
-        auto sinfo = jo.get_string( "info" );
+        translation sinfo;
+        jo.get_member( "info" ).read( sinfo );
         opts.add_external( name, "external_options", stype, sinfo, sinfo );
     }
     options_manager::cOpt &opt = opts.get_option( name );

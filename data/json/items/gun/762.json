@@ -101,6 +101,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "SKS" },
     "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK47.  However, due to its superb accuracy, low recoil and deployable integrated bayonet, this gun maintains immense popularity.",
+    "ascii_picture": "sks",
     "weight": "3850 g",
     "volume": "2838 ml",
     "longest_side": "103 cm",

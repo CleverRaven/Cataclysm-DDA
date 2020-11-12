@@ -12,7 +12,8 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os -O2" />
+					<Add option="-Os" />
+					<Add option="-O2" />
 					<Add option="-DRELEASE=1" />
 				</Compiler>
 			</Target>
@@ -22,8 +23,9 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os -O2" />
-					<Add option="-DLOCALIZE" />
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DLOCALIZE=1" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/include" />
 				</Compiler>
@@ -39,9 +41,9 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os -O2" />
-					<Add option="-DTILES" />
-					<Add option="-DSDLTILES" />
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DTILES=1" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/SDL2" />
@@ -60,10 +62,10 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os -O2" />
-					<Add option="-DTILES" />
-					<Add option="-DSDLTILES" />
-					<Add option="-DSDL_SOUND" />
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DTILES=1" />
+					<Add option="-DSDL_SOUND=1" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/SDL2" />
@@ -83,10 +85,10 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os -O2" />
-					<Add option="-DLOCALIZE" />
-					<Add option="-DTILES" />
-					<Add option="-DSDLTILES" />
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DLOCALIZE=1" />
+					<Add option="-DTILES=1" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/SDL2" />
@@ -107,11 +109,11 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os -O2" />
-					<Add option="-DLOCALIZE" />
-					<Add option="-DTILES" />
-					<Add option="-DSDLTILES" />
-					<Add option="-DSDL_SOUND" />
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DLOCALIZE=1" />
+					<Add option="-DTILES=1" />
+					<Add option="-DSDL_SOUND=1" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/SDL2" />
@@ -145,12 +147,14 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-pg -g" />
-					<Add option="-DLOCALIZE" />
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="-DLOCALIZE=1" />
 					<Add directory="WinDepend/include" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg -lgmon" />
+					<Add option="-pg" />
+					<Add option="-lgmon" />
 					<Add library="libintl.dll.a" />
 					<Add library="libiconv.dll.a" />
 					<Add directory="WinDepend/lib" />
@@ -163,14 +167,14 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-pg" />
-					<Add option="-pg -g" />
-					<Add option="-DTILES" />
-					<Add option="-DSDLTILES" />
+					<Add option="-g" />
+					<Add option="-DTILES=1" />
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg -lgmon" />
+					<Add option="-pg" />
+					<Add option="-lgmon" />
 					<Add library="libSDL2.dll.a" />
 					<Add library="libSDL2main.a" />
 					<Add library="libSDL2_ttf.dll.a" />
@@ -185,15 +189,15 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-pg" />
-					<Add option="-pg -g" />
-					<Add option="-DTILES" />
-					<Add option="-DSDLTILES" />
-					<Add option="-DSDL_SOUND" />
+					<Add option="-g" />
+					<Add option="-DTILES=1" />
+					<Add option="-DSDL_SOUND=1" />
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg -lgmon" />
+					<Add option="-pg" />
+					<Add option="-lgmon" />
 					<Add library="libSDL2.dll.a" />
 					<Add library="libSDL2main.a" />
 					<Add library="libSDL2_ttf.dll.a" />
@@ -209,15 +213,15 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-pg" />
-					<Add option="-pg -g" />
-					<Add option="-DLOCALIZE" />
-					<Add option="-DSDLTILES" />
-					<Add option="-DTILES" />
+					<Add option="-g" />
+					<Add option="-DLOCALIZE=1" />
+					<Add option="-DTILES=1" />
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg -lgmon" />
+					<Add option="-pg" />
+					<Add option="-lgmon" />
 					<Add library="libintl.dll.a" />
 					<Add library="libiconv.dll.a" />
 					<Add library="libSDL2.dll.a" />
@@ -234,16 +238,16 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-pg" />
-					<Add option="-pg -g" />
-					<Add option="-DLOCALIZE" />
-					<Add option="-DTILES" />
-					<Add option="-DSDLTILES" />
-					<Add option="-DSDL_SOUND" />
+					<Add option="-g" />
+					<Add option="-DLOCALIZE=1" />
+					<Add option="-DTILES=1" />
+					<Add option="-DSDL_SOUND=1" />
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg -lgmon" />
+					<Add option="-pg" />
+					<Add option="-lgmon" />
 					<Add library="libintl.dll.a" />
 					<Add library="libiconv.dll.a" />
 					<Add library="libSDL2.dll.a" />
@@ -260,7 +264,10 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++14" />
 			<Add option="-DCB_BUILD" />
-			<Add option="-D_WINDOWS -D_MINGW -D_WIN32 -DWIN32 -D__MINGW__" />
+			<Add option="-D_WINDOWS" />
+			<Add option="-D_MINGW" />
+			<Add option="-D_WIN32" />
+			<Add option="-D__MINGW__" />
 		</Compiler>
 		<Linker>
 			<Add option="-Wl,-stack,12000000,-subsystem,windows" />

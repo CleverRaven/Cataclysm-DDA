@@ -20,7 +20,8 @@
 class field_entry
 {
     public:
-        field_entry() : type( fd_null ), intensity( 1 ), age( 0_turns ), is_alive( false ) { }
+        field_entry() : type( fd_null.id_or( INVALID_FIELD_TYPE_ID ) ), intensity( 1 ), age( 0_turns ),
+            is_alive( false ) { }
         field_entry( const field_type_id &t, const int i, const time_duration &a ) : type( t ),
             intensity( i ), age( a ), is_alive( true ) { }
 
@@ -108,6 +109,8 @@ class field_entry
             return type.obj().accelerated_decay;
         }
 
+        void do_decay();
+
         std::vector<field_effect> field_effects() const;
 
     private:
@@ -117,6 +120,8 @@ class field_entry
         int intensity;
         // The age, of the field effect. 0 is permanent.
         time_duration age;
+        // The time when the field will decay, initialized to 0.
+        time_point decay_time;
         // True if this is an active field, false if it should be destroyed next check.
         bool is_alive;
 };

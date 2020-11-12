@@ -17,6 +17,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "gates.h"
@@ -63,12 +64,11 @@ static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
 static const skill_id skill_computer( "computer" );
-static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_traps( "traps" );
 
-static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
-static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
+static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
+static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
@@ -77,8 +77,6 @@ static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
-
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
 aim_activity_actor::aim_activity_actor()
 {
@@ -359,13 +357,16 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             here.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
             here.furn_set( location, f_coffin_c );
         }
-        std::vector<item *> dropped = here.place_items( "allclothes", 50, location, location, false,
-                                      calendar::turn );
-        here.place_items( "grave", 25, location, location, false, calendar::turn );
-        here.place_items( "jewelry_front", 20, location, location, false, calendar::turn );
+        std::vector<item *> dropped =
+            here.place_items( item_group_id( "allclothes" ), 50, location, location, false,
+                              calendar::turn );
+        here.place_items( item_group_id( "grave" ), 25, location, location, false,
+                          calendar::turn );
+        here.place_items( item_group_id( "jewelry_front" ), 20, location, location, false,
+                          calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
-                it->item_tags.insert( "FILTHY" );
+                it->set_flag( flag_FILTHY );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }
@@ -532,7 +533,7 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
 
 bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
 {
-    if( gunmod.has_flag( "BRASS_CATCHER" ) ) {
+    if( gunmod.has_flag( flag_BRASS_CATCHER ) ) {
         // Exclude brass catchers so that removing them wouldn't spill the casings
         return true;
     }
@@ -1050,7 +1051,6 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     std::string open_message;
     if( ter_type == t_chaingate_l ) {
         new_ter_type = t_chaingate_c;
-        open_message = _( "With a satisfying click, the chain-link gate opens." );
     } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
                ter_type == t_door_locked_interior ) {
         new_ter_type = t_door_c;
@@ -1073,17 +1073,48 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     bool perfect = it->has_flag( flag_PERFECT_LOCKPICK );
     bool destroy = false;
 
-    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    int pick_roll = std::pow( 1.5, who.get_skill_level( skill_lockpick ) ) *
-                    ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
-                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
-                    who.dex_cur / 4.0;
-    int lock_roll = rng( 1, 120 );
-    int xp_gain = 0;
+    // Your devices skill is the primary skill that applies to your roll. Your mechanics skill has a little input.
+    const float weighted_skill_average = ( 3.0f * who.get_skill_level(
+            skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4.0f;
+
+    // Your dexterity determines most of your stat contribution, but your intelligence and perception combined are about half as much.
+    const float weighted_stat_average = ( 6.0f * who.dex_cur + 2.0f * who.per_cur +
+                                          who.int_cur ) / 9.0f;
+
+    // Get a bonus from your lockpick quality if the quality is higher than 3, or a penalty if it is lower. For a bobby pin this puts you at -2, for a locksmith kit, +2.
+    const float tool_effect = ( it->get_quality( qual_LOCKPICK ) - 3 ) - ( it->damage() / 2000.0 );
+
+    // Without at least a basic lockpick proficiency, your skill level is effectively 6 levels lower.
+    int proficiency_effect = -3;
+    if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
+        // If you have the basic lockpick prof, negate the above penalty
+        proficiency_effect = 0;
+    }
+    if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+        // If you have the locksmith proficiency, your skill level is effectively 4 levels higher.
+        proficiency_effect = 3;
+    }
+
+    // We get our average roll by adding the above factors together. For a person with no skill, average stats, no proficiencies, and an improvised lockpick, mean_roll will be 2.
+    const float mean_roll = weighted_skill_average + ( weighted_stat_average / 4 ) + proficiency_effect
+                            + tool_effect;
+
+    // A standard deviation of 2 means that about 2/3 of rolls will come within 2 points of your mean_roll. Lockpicking
+    int pick_roll = std::round( normal_roll( mean_roll, 2 ) );
+
+    // Lock_roll should be replaced with a flat value defined by the door, soon.
+    // In the meantime, let's roll 3d5-3, giving us a range of 0-12.
+    int lock_roll = rng( 0, 4 ) + rng( 0, 4 ) + rng( 0, 4 );
+
+    add_msg( m_debug, _( "Rolled %i. Mean_roll %g. Difficulty %i." ), pick_roll, mean_roll, lock_roll );
+
+    // Your base skill XP gain is derived from the lock difficulty (which is currently random but shouldn't be).
+    int xp_gain = 3 * lock_roll;
     if( perfect || ( pick_roll >= lock_roll ) ) {
-        xp_gain += lock_roll;
+        if( !perfect ) {
+            // Increase your XP if you successfully pick the lock, unless you were using a Perfect Lockpick.
+            xp_gain = xp_gain * 2;
+        }
         here.has_furn( target ) ?
         here.furn_set( target, new_furn_type ) :
         static_cast<void>( here.ter_set( target, new_ter_type ) );
@@ -1105,11 +1136,15 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( avatar *you = dynamic_cast<avatar *>( &who ) ) {
-        if( !perfect ) {
-            // You don't gain much skill since the item does all the hard work for you
-            xp_gain += std::pow( 2, you->get_skill_level( skill_lockpick ) ) + 1;
+        // Gives another boost to XP, reduced by your skill level.
+        // Higher skill levels require more difficult locks to gain a meaningful amount of xp.
+        // Again, we're using randomized lock_roll until a defined lock difficulty is implemented.
+        if( lock_roll > you->get_skill_level( skill_traps ) ) {
+            xp_gain += lock_roll + ( xp_gain / ( you->get_skill_level( skill_traps ) + 1 ) );
+        } else {
+            xp_gain += xp_gain / ( you->get_skill_level( skill_traps ) + 1 );
         }
-        you->practice( skill_lockpick, xp_gain );
+        you->practice( skill_traps, xp_gain );
     }
 
     if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
@@ -1299,6 +1334,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     const std::vector<item_location> temp_selected_items = consume_menu_selected_items;
     const std::string temp_filter = consume_menu_filter;
     item_location consume_loc = consume_location;
+    activity_id new_act = type;
 
     avatar &player_character = get_avatar();
     if( !canceled ) {
@@ -1317,17 +1353,18 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     if( act.id() == activity_id( "ACT_CONSUME" ) ) {
         act.set_to_null();
     }
+
     if( !temp_selections.empty() || !temp_selected_items.empty() || !temp_filter.empty() ) {
         if( act.is_null() ) {
-            player_character.assign_activity( ACT_EAT_MENU );
+            player_character.assign_activity( new_act );
             player_character.activity.values = temp_selections;
             player_character.activity.targets = temp_selected_items;
-            player_character.activity.str_values = { temp_filter };
+            player_character.activity.str_values = { temp_filter, "true" };
         } else {
-            player_activity eat_menu( ACT_EAT_MENU );
+            player_activity eat_menu( new_act );
             eat_menu.values = temp_selections;
             eat_menu.targets = temp_selected_items;
-            eat_menu.str_values = { temp_filter };
+            eat_menu.str_values = { temp_filter, "true" };
             player_character.backlog.push_back( eat_menu );
         }
     }
@@ -1449,22 +1486,47 @@ std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
-void unload_mag_activity_actor::start( player_activity &act, Character & )
+void unload_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_left = moves_total;
     act.moves_total = moves_total;
 }
 
-void unload_mag_activity_actor::finish( player_activity &act, Character &who )
+void unload_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
     unload( who, target );
 }
 
-void unload_mag_activity_actor::unload( Character &who, item_location &target )
+void unload_activity_actor::unload( Character &who, item_location &target )
 {
     int qty = 0;
     item &it = *target.get_item();
+
+    if( it.is_container() ) {
+
+        bool changed = false;
+        for( item *contained : it.contents.all_items_top() ) {
+            int old_charges = contained->charges;
+            const bool consumed = who.add_or_drop_with_msg( *contained, true, &it );
+            if( consumed || contained->charges != old_charges ) {
+                changed = true;
+                item_pocket *const parent_pocket = it.contained_where( *contained );
+                if( parent_pocket ) {
+                    parent_pocket->unseal();
+                }
+            }
+            if( consumed ) {
+                it.remove_item( *contained );
+            }
+        }
+
+        if( changed ) {
+            it.on_contents_changed();
+            who.invalidate_weight_carried_cache();
+        }
+        return;
+    }
 
     std::vector<item *> remove_contained;
     for( item *contained : it.contents.all_items_top() ) {
@@ -1494,7 +1556,7 @@ void unload_mag_activity_actor::unload( Character &who, item_location &target )
     }
 }
 
-void unload_mag_activity_actor::serialize( JsonOut &jsout ) const
+void unload_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
@@ -1504,9 +1566,9 @@ void unload_mag_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> unload_mag_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> unload_activity_actor::deserialize( JsonIn &jsin )
 {
-    unload_mag_activity_actor actor = unload_mag_activity_actor( 0, item_location::nowhere );
+    unload_activity_actor actor = unload_activity_actor( 0, item_location::nowhere );
 
     JsonObject data = jsin.get_object();
 
@@ -1654,6 +1716,10 @@ void craft_activity_actor::finish( player_activity &act, Character & )
 
 std::string craft_activity_actor::get_progress_message( const player_activity & ) const
 {
+    if( !craft_item ) {
+        //We have somehow lost the craft item.  This will be handled in do_turn in the check_if_craft_is_ok call.
+        return "";
+    }
     return craft_item.get_item()->tname();
 }
 
@@ -1713,10 +1779,10 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     // broken limbs as long as they are not involved by the machine
     bool hand_equipment = here.has_flag_furn( "WORKOUT_ARMS", location );
     bool leg_equipment = here.has_flag_furn( "WORKOUT_LEGS", location );
-    static const bodypart_id arm_l = bodypart_id( "arm_l" );
-    static const bodypart_id arm_r = bodypart_id( "arm_r" );
-    static const bodypart_id leg_l = bodypart_id( "leg_l" );
-    static const bodypart_id leg_r = bodypart_id( "leg_r" );
+    static const bodypart_str_id arm_l = bodypart_str_id( "arm_l" );
+    static const bodypart_str_id arm_r = bodypart_str_id( "arm_r" );
+    static const bodypart_str_id leg_l = bodypart_str_id( "leg_l" );
+    static const bodypart_str_id leg_r = bodypart_str_id( "leg_r" );
     if( hand_equipment && ( ( who.is_limb_broken( arm_l ) ) ||
                             who.is_limb_broken( arm_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken arm." ) );
@@ -2098,7 +2164,6 @@ static void stash_on_pet( const std::list<item> &items, monster &pet, Character 
     }
 }
 
-
 void stash_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint pos = placement + who.pos();
@@ -2161,7 +2226,7 @@ deserialize_functions = {
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
-    { activity_id( "ACT_UNLOAD_MAG" ), &unload_mag_activity_actor::deserialize },
+    { activity_id( "ACT_UNLOAD" ), &unload_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_ACTIVE" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_MODERATE" ), &workout_activity_actor::deserialize },

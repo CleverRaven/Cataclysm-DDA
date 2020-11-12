@@ -22,6 +22,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "help.h"
 #include "loading_ui.h"
 #include "map.h"
 #include "messages.h"
@@ -121,6 +122,8 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->new_game = true;
     g->load_static_data();
 
+    get_help().load();
+
     world_generator->set_active_world( nullptr );
     world_generator->init();
     WORLDPTR test_world = world_generator->make_new_world( mods );
@@ -137,6 +140,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     get_avatar() = avatar();
     get_avatar().create( character_type::NOW );
+    get_avatar().setID( g->assign_npc_id(), false );
 
     get_map() = map();
 
@@ -300,7 +304,6 @@ int main( int argc, const char *argv[] )
     // Set the seed for mapgen (the seed will also be reset before each test)
     const unsigned int seed = session.config().rngSeed();
     if( seed ) {
-        srand( seed );
         rng_set_engine_seed( seed );
 
         // If the run is terminated due to a crash during initialization, we won't
@@ -355,6 +358,8 @@ int main( int argc, const char *argv[] )
         DebugLog( D_INFO, DC_ALL ) << "Treating result as failure due to error logged during tests.";
         return 1;
     }
+
+    printf( "\n" );
 
     return result;
 }

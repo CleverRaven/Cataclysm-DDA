@@ -55,6 +55,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "H&K UMP45" },
     "description": "Developed as a successor to the MP5 submachine gun, the UMP45 retains the earlier model's supreme accuracy and low recoil, but in the higher .45 caliber.",
+    "ascii_picture": "hk_ump",
     "weight": "2300 g",
     "volume": "4451 ml",
     "longest_side": "452 mm",
@@ -106,6 +107,7 @@
     "name": { "str": "M1911" },
     "//": "You can get 'em for over US$1K if you want.  This is a fairly cheap remake.",
     "description": "The M1911 was the US Military standard-issue sidearm for most of the 20th Century.  It remains one of the most popular .45 pistols today.",
+    "ascii_picture": "m1911",
     "weight": "1120 g",
     "volume": "454 ml",
     "longest_side": "245 mm",
@@ -119,7 +121,7 @@
     "ammo": [ "45" ],
     "dispersion": 480,
     "durability": 7,
-    "min_cycle_recoil": 540,
+    "min_cycle_recoil": 450,
     "blackpowder_tolerance": 48,
     "pocket_data": [
       {
@@ -202,6 +204,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "pipe rifle: .45", "str_pl": "pipe rifles: .45" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "ascii_picture": "ps_pipe_gun",
     "weight": "2114 g",
     "volume": "2 L",
     "longest_side": "100 cm",
@@ -416,6 +419,7 @@
     "ammo": [ "45" ],
     "dispersion": 480,
     "durability": 9,
+    "min_cycle_recoil": 540,
     "pocket_data": [
       {
         "magazine_well": "240 ml",
@@ -446,6 +450,7 @@
     "ammo": [ "45" ],
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 540,
     "pocket_data": [
       {
         "magazine_well": "353 ml",

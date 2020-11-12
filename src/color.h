@@ -9,8 +9,9 @@
 #include <unordered_map>
 #include <utility>
 
+#include "translations.h"
+
 class nc_color;
-class translation;
 
 #define all_colors get_all_colors()
 
@@ -468,7 +469,7 @@ class deferred_color
 
 struct note_color {
     nc_color color;
-    std::string name;
+    translation name;
 };
 
 struct color_tag_parse_result {
@@ -480,8 +481,6 @@ struct color_tag_parse_result {
     tag_type type;
     nc_color color;
 };
-
-extern std::unordered_map<std::string, note_color> color_by_string_map;
 
 nc_color hilite( const nc_color &c );
 nc_color invert_color( const nc_color &c );
@@ -502,6 +501,6 @@ std::string colorize( const translation &text, const nc_color &color );
 
 std::string get_note_string_from_color( const nc_color &color );
 nc_color get_note_color( const std::string &note_id );
-std::list<std::pair<std::string, std::string>> get_note_color_names();
+const std::unordered_map<std::string, note_color> &get_note_color_names();
 
 #endif // CATA_SRC_COLOR_H

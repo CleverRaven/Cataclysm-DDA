@@ -164,6 +164,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of reading glasses", "str_pl": "pairs of reading glasses" },
     "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  You can use them to focus sunlight.",
+    "ascii_picture": "glasses_reading",
     "weight": "30 g",
     "volume": "250 ml",
     "price": 2000,

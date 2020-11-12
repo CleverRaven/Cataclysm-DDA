@@ -35,6 +35,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "handle_liquid.h"
@@ -189,21 +190,10 @@ static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
-static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
-static const std::string flag_AURA( "AURA" );
-static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
-static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
-static const std::string flag_PERPETUAL( "PERPETUAL" );
-static const std::string flag_PERSONAL( "PERSONAL" );
-static const std::string flag_SEALED( "SEALED" );
-static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
-
 static const std::string flag_BIO_GUN( "BIONIC_GUN" );
 static const std::string flag_BIO_WEAPON( "BIONIC_WEAPON" );
 static const std::string flag_BIO_TOGGLED( "BIONIC_TOGGLED" );
+static const std::string flag_SEALED( "SEALED" );
 
 struct Character::auto_toggle_bionic_result {
     bool can_burn_fuel = false;
@@ -770,7 +760,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
         if( pnt && here.is_flammable( *pnt ) ) {
             add_msg_activate();
-            here.add_field( *pnt, field_type_id( "fd_fire" ), 1 );
+            here.add_field( *pnt, fd_fire, 1 );
             mod_moves( -100 );
         } else {
             refund_power();
@@ -943,9 +933,9 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         if( choice >= 0 && choice <= 1 ) {
             item ctr;
             if( choice == 0 ) {
-                ctr = item( "remotevehcontrol", 0 );
+                ctr = item( "remotevehcontrol", calendar::turn_zero );
             } else {
-                ctr = item( "radiocontrol", 0 );
+                ctr = item( "radiocontrol", calendar::turn_zero );
             }
             ctr.charges = units::to_kilojoule( get_power_level() );
             int power_use = invoke_item( &ctr );
@@ -1213,7 +1203,7 @@ Character::auto_toggle_bionic_result Character::auto_toggle_bionic( const int b,
             const bool is_remote_fuel = is_remote_fueled && fuel == remote_fuel;
             float effective_efficiency = get_effective_efficiency( b, bio.info().fuel_efficiency );
             if( is_remote_fuel && fuel == fuel_type_sun_light ) {
-                effective_efficiency *= item_worn_with_flag( "SOLARPACK_ON" ).type->solar_efficiency;
+                effective_efficiency *= item_worn_with_flag( flag_SOLARPACK_ON ).type->solar_efficiency;
             }
             int current_fuel_stock = 0;
             if( is_metabolism_powered ) {
@@ -2256,7 +2246,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         return false;
     }
 
-    item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
+    item bionic_to_uninstall = item( target_cbm.id.str(), calendar::turn_zero );
     const itype *itemtype = bionic_to_uninstall.type;
     int difficulty = itemtype->bionic->difficulty;
     int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
@@ -2643,7 +2633,12 @@ std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_i
 
 int Character::get_total_bionics_slots( const bodypart_id &bp ) const
 {
-    return bp->bionic_slots();
+    const bodypart_str_id &id = bp.id();
+    int mut_bio_slots = 0;
+    for( const trait_id &mut : get_mutations() ) {
+        mut_bio_slots += mut->bionic_slot_bonus( id );
+    }
+    return bp->bionic_slots() + mut_bio_slots;
 }
 
 int Character::get_free_bionics_slots( const bodypart_id &bp ) const

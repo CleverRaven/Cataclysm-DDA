@@ -231,7 +231,7 @@
       { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "archery", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 2, 5 ] } }
+      { "skill": "speech", "bonus": { "rng": [ 2, 5 ] } }
     ]
   },
   {
@@ -266,8 +266,7 @@
         "skill": "ALL",
         "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
       },
-      { "skill": "speech", "bonus": { "rng": [ 1, 5 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } }
+      { "skill": "barter", "bonus": { "rng": [ 2, 5 ] } }
     ]
   },
   {
@@ -285,8 +284,7 @@
         "skill": "ALL",
         "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
       },
-      { "skill": "speech", "bonus": { "rng": [ 1, 5 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } }
+      { "skill": "barter", "bonus": { "rng": [ 2, 5 ] } }
     ]
   },
   {
@@ -424,7 +422,7 @@
         "skill": "ALL",
         "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
       },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
       { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },

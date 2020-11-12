@@ -67,6 +67,10 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
             continue;
         }
 
+        if( veh.would_repair_prevent_flyable( vpr.part(), who ) ) {
+            continue;
+        }
+
         if( vpr.part().is_broken() ) {
             if( info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
                 repairable_cache[ &vpr.part()] = repairable_status::need_replacement;
@@ -76,7 +80,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
         }
 
         if( info.is_repairable() &&
-            ( info.repair_requirements() * vpr.part().damage_level( 4 ) ).can_make_with_inventory( inv,
+            ( info.repair_requirements() * vpr.part().damage_level() ).can_make_with_inventory( inv,
                     is_crafting_component ) ) {
             repairable_cache[ &vpr.part()] = repairable_status::repairable;
         }
@@ -114,7 +118,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     // TODO: Expose base part damage somewhere, don't recalculate it here
     const requirement_data reqs = pt.is_broken() ?
                                   vp.install_requirements() :
-                                  vp.repair_requirements() * pt.damage_level( 4 );
+                                  vp.repair_requirements() * pt.damage_level();
 
     const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;
@@ -155,7 +159,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
                                         pt.get_base().damage_color() );
     bool wasbroken = pt.is_broken();
     if( wasbroken ) {
-        const int dir = pt.direction;
+        const units::angle dir = pt.direction;
         point loc = pt.mount;
         auto replacement_id = pt.info().get_id();
         get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );

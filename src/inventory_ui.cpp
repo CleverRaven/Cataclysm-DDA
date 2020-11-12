@@ -15,6 +15,7 @@
 #include "item_search.h"
 #include "item_stack.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
 #include "memory_fast.h"
@@ -1299,7 +1300,7 @@ void inventory_selector::add_contained_items( item_location &container )
 
 void inventory_selector::add_contained_items( item_location &container, inventory_column &column )
 {
-    if( container->has_flag( "NO_UNLOAD" ) ) {
+    if( container->has_flag( STATIC( flag_str_id( "NO_UNLOAD" ) ) ) ) {
         return;
     }
 
@@ -1702,6 +1703,10 @@ void inventory_selector::resize_window( int width, int height )
 void inventory_selector::refresh_window()
 {
     cata_assert( w_inv );
+
+    if( get_option<std::string>( "INVENTORY_HIGHLIGHT" ) != "disable" ) {
+        highlight();
+    }
 
     werase( w_inv );
 
@@ -2121,9 +2126,6 @@ item_location inventory_pick_selector::execute()
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
     while( true ) {
         ui_manager::redraw();
-        if( get_option<std::string>( "INVENTORY_HIGHLIGHT" ) != "disable" ) {
-            highlight();
-        }
         const inventory_input input = get_input();
 
         if( input.entry != nullptr ) {
@@ -2146,7 +2148,7 @@ item_location inventory_pick_selector::execute()
     }
 }
 
-void inventory_pick_selector::highlight()
+void inventory_selector::highlight()
 {
     const auto return_item = []( const inventory_entry & entry ) {
         return entry.is_item();
@@ -2185,7 +2187,6 @@ void inventory_pick_selector::highlight()
             }
         }
     }
-    ui_manager::redraw();
 }
 
 inventory_multiselector::inventory_multiselector( Character &p,

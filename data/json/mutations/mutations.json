@@ -461,7 +461,7 @@
     "name": { "str": "Rigid Table Manners" },
     "points": -1,
     "consume_time_modifier": 1.5,
-    "description": "You've been taught proper table manners from your early childhood on.  Now you can't even think about eating without a table or not taking your time.  Eating without it frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
+    "description": "You've been taught proper table manners from your early childhood on.  Now you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
     "starting_trait": true,
     "valid": false
   },
@@ -716,7 +716,7 @@
     "id": "STRICT_HUMANITARIAN",
     "name": { "str": "Strict Humanitarian" },
     "points": 1,
-    "description": "You'd never eat people, but these things that look vaguely human from elsewhere are definitely not people.",
+    "description": "You're convinced that these things that look vaguely human from elsewhere are definitely not people.  Therefore it's okay to eat them, right?",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
@@ -1313,7 +1313,7 @@
     "id": "JITTERY",
     "name": { "str": "Jittery" },
     "points": -3,
-    "description": "During moments of great stress or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your Dexterity.",
+    "description": "When very hungry or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your Dexterity.",
     "starting_trait": true,
     "valid": false,
     "category": [ "MEDICAL", "MOUSE" ]
@@ -6756,15 +6756,6 @@
   },
   {
     "type": "mutation",
-    "id": "DEBUG_STORAGE",
-    "name": { "str": "Debug Very Strong Back" },
-    "points": 99,
-    "valid": false,
-    "description": "Lets you carry 15 bugs worth of your body weight in your mandibles.",
-    "debug": true
-  },
-  {
-    "type": "mutation",
     "id": "DEBUG_BIONICS",
     "name": { "str": "Debug Bionic Installation" },
     "points": 99,
@@ -6825,9 +6816,7 @@
     "name": { "str": "mute" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
-    "player_display": false,
-    "threshold": true
+    "description": "Trait that makes it impossible to say anything."
   },
   {
     "type": "mutation",

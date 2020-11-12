@@ -27,7 +27,7 @@
     "id": "tainted_blood",
     "name": { "str_sp": "tainted blood" },
     "weight": "2 g",
-    "color": "black",
+    "color": "magenta",
     "container": "flask_glass",
     "symbol": "~",
     "description": "Blood from a blob corrupted creature.  The surface of this black sludge undulates slowly as if agitated by a soft breeze.",

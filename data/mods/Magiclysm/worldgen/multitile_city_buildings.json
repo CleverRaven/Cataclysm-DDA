@@ -59,5 +59,20 @@
       { "point": [ 0, 0, 8 ], "overmap": "magic_academy_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "magic_academy_basement_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_technomancer",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_technomancer_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "house_technomancer_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_technomancer_3_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "house_technomancer_4_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "house_technomancer_5_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "house_technomancer_6_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "house_technomancer_7_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "house_technomancer_8_north" }
+    ]
   }
 ]

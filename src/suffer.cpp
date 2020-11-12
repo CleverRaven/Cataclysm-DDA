@@ -23,6 +23,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -119,7 +120,6 @@ static const trait_id trait_CHAOTIC( "CHAOTIC" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
-static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
@@ -165,13 +165,7 @@ static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
 static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
-static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
-static const std::string flag_NO_TAKEOFF( "NO_TAKEOFF" );
-static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
-static const std::string flag_RAD_RESIST( "RAD_RESIST" );
-static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
-static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
 {
@@ -255,7 +249,7 @@ void Character::suffer_while_underwater()
     if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
         oxygen--;
     }
-    if( oxygen < 12 && worn_with_flag( "REBREATHER" ) ) {
+    if( oxygen < 12 && worn_with_flag( flag_REBREATHER ) ) {
         oxygen += 12;
     }
     if( oxygen <= 5 ) {
@@ -302,8 +296,7 @@ void Character::suffer_from_addictions()
 
 void Character::suffer_while_awake( const int current_stim )
 {
-    if( !has_trait( trait_DEBUG_STORAGE ) &&
-        ( weight_carried() > 4 * weight_capacity() ) ) {
+    if( weight_carried() > 4 * weight_capacity() ) {
         if( has_effect( effect_downed ) ) {
             add_effect( effect_downed, 1_turns, false, 0, true );
         } else {
@@ -320,8 +313,8 @@ void Character::suffer_while_awake( const int current_stim )
 
     if( has_trait( trait_NARCOLEPTIC ) ) {
         if( one_turn_in( 8_hours ) ) {
-            add_msg( m_bad,
-                     _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
+            add_msg_if_player( m_bad,
+                               _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
             fall_asleep( 20_minutes );
         }
     }
@@ -506,7 +499,7 @@ void Character::suffer_from_schizophrenia()
     if( one_turn_in( 4_hours ) ) {
         const translation snip = SNIPPET.random_from_category( "schizo_self_talk" ).value_or(
                                      translation() );
-        add_msg( _( "%1$s says: \"%2$s\"" ), name, snip );
+        add_msg_if_player( _( "%1$s says: \"%2$s\"" ), name, snip );
         return;
     }
 
@@ -526,7 +519,7 @@ void Character::suffer_from_schizophrenia()
         if( !followers.empty() ) {
             who_gets_angry = random_entry_ref( followers )->name;
         }
-        add_msg( m_bad, _( "%1$s gets angry!" ), who_gets_angry );
+        add_msg_if_player( m_bad, _( "%1$s gets angry!" ), who_gets_angry );
         return;
     }
 
@@ -537,14 +530,14 @@ void Character::suffer_from_schizophrenia()
                 mon_zombie, mon_zombie_fat, mon_zombie_fireman, mon_zombie_cop, mon_zombie_soldier
             }
         };
-        add_msg( _( "%s dies!" ), random_entry_ref( monsters )->nname() );
+        add_msg_if_player( _( "%s dies!" ), random_entry_ref( monsters )->nname() );
         return;
     }
 
     // Limb Breaks
     if( one_turn_in( 4_hours ) ) {
         const translation snip = SNIPPET.random_from_category( "broken_limb" ).value_or( translation() );
-        add_msg( m_bad, "%s", snip );
+        add_msg_if_player( m_bad, "%s", snip );
         return;
     }
 
@@ -556,15 +549,15 @@ void Character::suffer_from_schizophrenia()
                 translation() ).translated() );
         parse_tags( i_talk, *this, *this );
 
-        add_msg( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
+        add_msg_if_player( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
         return;
     }
 
     // Skill raise
     if( one_turn_in( 12_hours ) ) {
         skill_id raised_skill = Skill::random_skill();
-        add_msg( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
-                 get_skill_level( raised_skill ) + 1 );
+        add_msg_if_player( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
+                           get_skill_level( raised_skill ) + 1 );
         return;
     }
 
@@ -847,7 +840,7 @@ void Character::suffer_from_sunburn()
         }
     }
     // Umbrellas can keep the sun off the skin
-    if( weapon.has_flag( "RAIN_PROTECT" ) ) {
+    if( weapon.has_flag( flag_RAIN_PROTECT ) ) {
         return;
     }
 
@@ -978,7 +971,7 @@ void Character::suffer_from_other_mutations()
                        "insect_wings" );
     }
 
-    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
+    bool wearing_shoes = footwear_factor() == 1.0;
     int root_vitamins = 0;
     int root_water = 0;
     if( has_trait( trait_ROOTS3 ) && here.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
@@ -1015,7 +1008,7 @@ void Character::suffer_from_other_mutations()
     //Web Weavers...weave web
     if( has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle ) {
         // this adds intensity to if its not already there.
-        here.add_field( pos(), field_type_id( "fd_web" ), 1 );
+        here.add_field( pos(), fd_web, 1 );
 
     }
 
@@ -1040,7 +1033,7 @@ void Character::suffer_from_other_mutations()
 
     if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
-        here.add_field( pos(), field_type_id( "fd_web" ), 1 );
+        here.add_field( pos(), fd_web, 1 );
     }
 
     bool should_mutate = has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) &&
@@ -1077,7 +1070,7 @@ void Character::suffer_from_radiation()
 {
     map &here = get_map();
     // checking for radioactive items in inventory
-    const int item_radiation = leak_level( "RADIOACTIVE" );
+    const int item_radiation = leak_level( flag_RADIOACTIVE );
     const int map_radiation = here.get_radiation( pos() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 
@@ -1286,7 +1279,7 @@ void Character::suffer_from_bad_bionics()
             add_msg( m_bad, _( "A bionic emits a crackle of noise!" ) );
             sfx::play_variant_sound( "bionics", "elec_blast", 100 );
         } else {
-            add_msg( m_bad, _( "You feel your faulty bionic shuddering." ) );
+            add_msg_if_player( m_bad, _( "You feel your faulty bionic shuddering." ) );
             sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
         }
         sounds::sound( pos(), 60, sounds::sound_t::movement, _( "Crackle!" ) ); //sfx above
@@ -1351,19 +1344,19 @@ void Character::suffer_from_stimulants( const int current_stim )
     }
     if( current_stim > 170 ) {
         if( !has_effect( effect_winded ) && calendar::once_every( 10_minutes ) ) {
-            add_msg( m_bad, _( "You feel short of breath." ) );
+            add_msg_if_player( m_bad, _( "You feel short of breath." ) );
             add_effect( effect_winded, 10_minutes + 1_turns );
         }
     }
     if( current_stim > 110 ) {
         if( !has_effect( effect_shakes ) && calendar::once_every( 10_minutes ) ) {
-            add_msg( _( "You shake uncontrollably." ) );
+            add_msg_if_player( _( "You shake uncontrollably." ) );
             add_effect( effect_shakes, 15_minutes + 1_turns );
         }
     }
     if( current_stim > 75 ) {
         if( !one_turn_in( 2_minutes ) && !has_effect( effect_nausea ) ) {
-            add_msg( _( "You feel nauseous…" ) );
+            add_msg_if_player( _( "You feel nauseous…" ) );
             add_effect( effect_nausea, 5_minutes );
         }
     }
@@ -1380,7 +1373,7 @@ void Character::suffer_from_stimulants( const int current_stim )
     }
     if( current_stim < -120 || get_painkiller() > 160 ) {
         if( !has_effect( effect_winded ) && calendar::once_every( 10_minutes ) ) {
-            add_msg( m_bad, _( "Your breathing slows down." ) );
+            add_msg_if_player( m_bad, _( "Your breathing slows down." ) );
             add_effect( effect_winded, 10_minutes + 1_turns );
         }
     }
@@ -1396,9 +1389,37 @@ void Character::suffer_from_stimulants( const int current_stim )
     }
     if( current_stim < -60 || get_painkiller() > 130 ) {
         if( calendar::once_every( 10_minutes ) ) {
-            add_msg( m_warning, _( "You feel tired…" ) );
+            add_msg_if_player( m_warning, _( "You feel tired…" ) );
             mod_fatigue( rng( 1, 2 ) );
         }
+    }
+}
+
+static void apply_weary_message( const Character &you, int level, int old )
+{
+    if( level - old > 0 ) {
+        std::string msg;
+        switch( level ) {
+            case 1:
+                msg = _( "You're beginning to feel like you've exerted yourself a bit." );
+                break;
+            case 2:
+                msg = _( "You're tiring out mildly, and slowing down as a result" );
+                break;
+            case 3:
+                msg = _( "The day's labors are taking their toll, and slowing you down." );
+                break;
+            case 4:
+                msg = _( "You're getting very tired from all this hard work." );
+                break;
+            case 5:
+            default:
+                msg = _( "You're exhausted." );
+                break;
+        }
+        you.add_msg_if_player( m_info, msg );
+    } else {
+        you.add_msg_if_player( m_good, _( "You're feeling a bit better rested from your exertions." ) );
     }
 }
 
@@ -1410,7 +1431,7 @@ static void apply_weariness( Character &you, int level, int old )
                   level, old );
     }
     // A mapping of weariness level to the effect to be applied
-    static std::array<efftype_id, 9> weary_effects { {
+    static const std::array<efftype_id, 9> weary_effects { {
             efftype_id( "weary_0" ),
             efftype_id( "weary_1" ),
             efftype_id( "weary_2" ),
@@ -1439,6 +1460,7 @@ static void apply_weariness( Character &you, int level, int old )
      */
     you.remove_effect( weary_effects[old] );
     you.add_effect( weary_effects[level], 1_turns, true );
+    apply_weary_message( you, level, old );
 }
 
 void Character::suffer_from_exertion()
@@ -1453,8 +1475,9 @@ void Character::suffer_from_exertion()
 
     // Significantly slow the rate of messaging when in an activity
     int chance = activity ? 2000 : 60;
-    if( attempted_activity_level > max_activity && one_in( chance ) ) {
-        add_msg( m_bad, _( "You're tiring out, continuing to work at this rate will be slower." ) );
+    if( attempted_activity_level > max_activity && one_in( chance ) && !in_sleep_state() ) {
+        add_msg_if_player( m_bad,
+                           _( "You're tiring out, continuing to work at this rate will be slower." ) );
     }
 
     // This must happen at the end, for hopefully obvious reasons
@@ -1639,7 +1662,7 @@ bool Character::irradiate( float rads, bool bypass )
     if( rads > 0 ) {
         bool has_helmet = false;
         const bool power_armored = is_wearing_power_armor( &has_helmet );
-        const bool rad_resist = power_armored || worn_with_flag( "RAD_RESIST" );
+        const bool rad_resist = power_armored || worn_with_flag( flag_RAD_RESIST );
 
         if( is_rad_immune() && !bypass ) {
             // Power armor and some high-tech gear protects completely from radiation
@@ -1774,7 +1797,7 @@ void Character::mend( int rate_multiplier )
             continue;
         }
 
-        if( needs_splint && !worn_with_flag( "SPLINT",  bp ) ) {
+        if( needs_splint && !worn_with_flag( flag_SPLINT,  bp ) ) {
             continue;
         }
 
@@ -1843,7 +1866,7 @@ void Character::sound_hallu()
         i_sound = std::make_pair( std::get<1>( desc[r_int] ), std::get<2>( desc[r_int] ) );
     }
 
-    add_msg( m_warning, _( "From the %1$s you hear %2$s" ), i_dir, i_desc );
+    add_msg_if_player( m_warning, _( "From the %1$s you hear %2$s" ), i_dir, i_desc );
     sfx::play_variant_sound( i_sound.first, i_sound.second, rng( 20, 80 ) );
 }
 
@@ -1911,7 +1934,7 @@ void Character::apply_wetness_morale( int temperature )
     const double global_temperature_mod = -1.0 + ( 2.0 * temperature / 100.0 );
 
     int total_morale = 0;
-    const body_part_set wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
+    const body_part_set wet_friendliness = exclusive_flag_coverage( flag_WATER_FRIENDLY );
     for( const bodypart_id &bp : get_all_body_parts() ) {
         // Sum of body wetness can go up to 103
         const int part_drench = get_part_wetness( bp );
@@ -2058,7 +2081,7 @@ int Character::addiction_level( add_type type ) const
     return iter != addictions.end() ? iter->intensity : 0;
 }
 
-int  Character::leak_level( const std::string &flag ) const
+int  Character::leak_level( const flag_id &flag ) const
 {
     int leak_level = 0;
     leak_level = inv->leak_level( flag );

@@ -67,7 +67,7 @@
       "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
       "place_monster": [
         { "group": "GROUP_PARK_SCENIC", "x": 12, "y": 14, "chance": 2 },
-        { "group": "GROUP_PrepNet", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 4, "friendly": true }
+        { "group": "GROUP_PrepNet", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 4 }
       ],
       "place_npcs": [ { "class": "prepnet_gardener", "x": 10, "y": 9 } ]
     }
@@ -142,7 +142,7 @@
       "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
       "place_monster": [
         { "group": "GROUP_PARK_SCENIC", "x": 12, "y": 14, "chance": 2 },
-        { "group": "GROUP_PrepNet", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 3, "friendly": true }
+        { "group": "GROUP_PrepNet", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 3 }
       ],
       "place_npcs": [ { "class": "prepnet_gardener", "x": 10, "y": 9 } ]
     }

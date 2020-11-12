@@ -20,7 +20,7 @@
       "skills": [ [ "fabrication", 5 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
+        "qualities": [ [ { "id": "DIG" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "sheet_metal", 2 ] ],
           [ [ "pipe", 8 ] ],

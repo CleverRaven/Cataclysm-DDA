@@ -88,7 +88,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 
     GIVEN( "a fun book that is also inspirational" ) {
         item &book = dummy.i_add( item( "holybook_pastafarian" ) );
-        REQUIRE( book.has_flag( "INSPIRATIONAL" ) );
+        REQUIRE( book.has_flag( flag_id( "INSPIRATIONAL" ) ) );
         REQUIRE( book.type->book );
         REQUIRE( book.type->book->fun > 0 );
         int book_fun = book.type->book->fun;
@@ -308,7 +308,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
             dummy.set_skill_level( skill_id( "chemistry" ), 5 );
 
             CHECK( dummy.get_book_reader( alpha, reasons ) == nullptr );
-            expect_reasons = { "chemistry 6 needed to understand.  You have 5" };
+            expect_reasons = { "applied science 6 needed to understand.  You have 5" };
             CHECK( reasons == expect_reasons );
         }
 

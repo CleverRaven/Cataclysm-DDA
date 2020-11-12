@@ -58,5 +58,37 @@
         }
       ]
     }
+  },
+  {
+    "id": "mon_zombie_pupa_decoy_shady",
+    "type": "MONSTER",
+    "name": { "str": "shady pupating zombie" },
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of what once may have been a human being, but its edges bulge rhythmically in places that are not anatomically possible for humans.",
+    "copy-from": "mon_zombie_fat",
+    "armor_bash": 8,
+    "armor_cut": 6,
+    "armor_bullet": 6,
+    "special_attacks": [ { "type": "bite", "cooldown": 3 } ],
+    "regenerates": 5,
+    "vision_day": 8,
+    "vision_night": 15,
+    "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF", "NIGHT_INVISIBILITY" ] }
+  },
+  {
+    "id": "mon_zombie_pupa_shady",
+    "type": "MONSTER",
+    "name": { "str": "shady pupating zombie" },
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of what once may have been a human being, but its edges bulge rhythmically in places that are not anatomically possible for humans.",
+    "copy-from": "mon_zombie_pupa_decoy",
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "spell",
+          "spell_data": { "id": "shady_raptor_spawn", "hit_self": true },
+          "cooldown": 50,
+          "monster_message": "The pupating zombie bursts, and shadowy winged beasts climb out of the corpse!"
+        }
+      ]
+    }
   }
 ]

@@ -301,6 +301,10 @@ TEST_CASE( "npc_talk_location", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a faction camp any test response." );
+    change_om_type( "evac_center_7_west" );
+    gen_response_lines( d, 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a om_location_field direction variant response." );
 }
 
 TEST_CASE( "npc_talk_role", "[npc_talk]" )
@@ -455,12 +459,12 @@ TEST_CASE( "npc_talk_time", "[npc_talk]" )
     prep_test( d );
 
     const time_point old_calendar = calendar::turn;
-    calendar::turn = to_turn<int>( sunrise( calendar::turn ) + 4_hours );
+    calendar::turn = sunrise( calendar::turn ) + 4_hours;
     d.add_topic( "TALK_TEST_TIME" );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a is day test response." );
-    calendar::turn = to_turn<int>( sunset( calendar::turn ) + 2_hours );
+    calendar::turn = sunset( calendar::turn ) + 2_hours;
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a is night test response." );

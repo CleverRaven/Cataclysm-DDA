@@ -8,6 +8,7 @@ import subprocess
 
 LINE_LIMIT = 58
 
+
 def get_data(argsDict, resource_name):
     resource = []
     resource_sources = argsDict.get(resource_name, [])
@@ -96,7 +97,8 @@ def add_parts(revised_parts, xpoint, last_center, new_parts):
     return int((min_y + max_y) / 2)
 
 
-args = argparse.ArgumentParser(description="Reformat vehicles using parts arrays.")
+args = argparse.ArgumentParser(
+    description="Reformat vehicles using parts arrays.")
 args.add_argument("vehicle_sources", action="store", nargs="+",
                   help="specify jsons file to convert to new format.")
 argsDict = vars(args.parse_args())
@@ -134,10 +136,12 @@ for datafile in argsDict.get("vehicle_sources", []):
         last_center = add_parts(revised_parts, 0, 0, new_parts)
         # print("last center {}".format(last_center))
         for xpoint in range(1, max_x + 1):
-            last_center = add_parts(revised_parts, xpoint, last_center, new_parts)
+            last_center = add_parts(revised_parts, xpoint, last_center,
+                                    new_parts)
             # print("x {}, last center {}".format(xpoint, last_center))
         for xpoint in range(-1, min_x - 1, -1):
-            last_center = add_parts(revised_parts, xpoint, last_center, new_parts)
+            last_center = add_parts(revised_parts, xpoint, last_center,
+                                    new_parts)
 
         old_vehicle["parts"] = revised_parts
 

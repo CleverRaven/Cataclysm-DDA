@@ -180,7 +180,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "RAIL",                     TFLAG_RAIL },           // Rail tile (used heavily)
         { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // Passable by players and monsters. Vehicles destroy it.
         { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
-        { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE }   // A small passage, that large or huge things cannot pass through
+        { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
+        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE }   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
     }
 };
 
@@ -214,7 +215,7 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
 bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
-                          map_object_type obj_type )
+                          map_object_type obj_type, const std::string &context )
 {
     if( !jsobj.has_object( member ) ) {
         return false;
@@ -262,9 +263,10 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
     }
 
     if( j.has_member( "items" ) ) {
-        drop_group = item_group::load_item_group( j.get_member( "items" ), "collection" );
+        drop_group = item_group::load_item_group( j.get_member( "items" ), "collection",
+                     "map_bash_info for " + context );
     } else {
-        drop_group = "EMPTY_GROUP";
+        drop_group = item_group_id( "EMPTY_GROUP" );
     }
 
     if( j.has_array( "tent_centers" ) ) {
@@ -278,7 +280,7 @@ map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_abov
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
 bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &member,
-                                 bool is_furniture )
+                                 bool is_furniture, const std::string &context )
 {
     if( !jsobj.has_object( member ) ) {
         return false;
@@ -292,7 +294,8 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
     can_do = true;
     deconstruct_above = j.get_bool( "deconstruct_above", false );
 
-    drop_group = item_group::load_item_group( j.get_member( "items" ), "collection" );
+    drop_group = item_group::load_item_group( j.get_member( "items" ), "collection",
+                 "map_deconstruct_info for " + context );
     return true;
 }
 
@@ -329,7 +332,7 @@ furn_t null_furniture_t()
 {
     furn_t new_furniture;
     new_furniture.id = furn_str_id::NULL_ID();
-    new_furniture.name_ = translate_marker( "nothing" );
+    new_furniture.name_ = to_translation( "nothing" );
     new_furniture.symbol_.fill( ' ' );
     new_furniture.color_.fill( c_white );
     new_furniture.light_emitted = 0;
@@ -351,7 +354,7 @@ ter_t null_terrain_t()
     ter_t new_terrain;
 
     new_terrain.id = ter_str_id::NULL_ID();
-    new_terrain.name_ = translate_marker( "nothing" );
+    new_terrain.name_ = to_translation( "nothing" );
     new_terrain.symbol_.fill( ' ' );
     new_terrain.color_.fill( c_white );
     new_terrain.light_emitted = 0;
@@ -391,7 +394,7 @@ void load_season_array( const JsonObject &jo, const std::string &key, C &contain
 
 std::string map_data_common_t::name() const
 {
-    return _( name_ );
+    return name_.translated();
 }
 
 void map_data_common_t::load_symbol( const JsonObject &jo )
@@ -613,8 +616,7 @@ ter_id t_null,
        t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie,
        t_railroad_track_d_on_tie;
 
-static ter_id t_nanofab, t_nanofab_body, t_wall_b, t_wall_g, t_wall_p, t_wall_r, t_wall_w,
-       t_wall_y;
+static ter_id t_nanofab, t_nanofab_body, t_wall_b, t_wall_g, t_wall_p, t_wall_r, t_wall_w;
 
 // TODO: Put this crap into an inclusion, which should be generated automatically using JSON data
 
@@ -1200,8 +1202,8 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
 
-    bash.load( jo, "bash", map_bash_info::terrain );
-    deconstruct.load( jo, "deconstruct", false );
+    bash.load( jo, "bash", map_bash_info::terrain, "terrain " + id.str() );
+    deconstruct.load( jo, "deconstruct", false, "terrain " + id.str() );
 }
 
 static void check_bash_items( const map_bash_info &mbi, const std::string &id, bool is_terrain )
@@ -1309,8 +1311,8 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
 
-    bash.load( jo, "bash", map_bash_info::furniture );
-    deconstruct.load( jo, "deconstruct", true );
+    bash.load( jo, "bash", map_bash_info::furniture, "furniture " + id.str() );
+    deconstruct.load( jo, "deconstruct", true, "furniture " + id.str() );
 
     if( jo.has_object( "workbench" ) ) {
         workbench = cata::make_value<furn_workbench_info>();
@@ -1329,7 +1331,7 @@ void map_data_common_t::check() const
 {
     for( const string_id<harvest_list> &harvest : harvest_by_season ) {
         if( !harvest.is_null() && examine == iexamine::none ) {
-            debugmsg( "Harvest data defined without examine function for %s", name_.c_str() );
+            debugmsg( "Harvest data defined without examine function for %s", name_ );
         }
     }
 }

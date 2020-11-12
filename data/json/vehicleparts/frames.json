@@ -16,6 +16,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
+    "categories": [ "hull" ],
     "damage_reduction": { "all": 8 }
   },
   {
@@ -25,6 +26,7 @@
     "item": "foldwoodframe",
     "location": "structure",
     "symbol": "h",
+    "categories": [ "hull" ],
     "color": "brown",
     "broken_color": "brown",
     "durability": 15,
@@ -55,6 +57,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
+    "categories": [ "hull" ],
     "damage_reduction": { "all": 52 }
   },
   {
@@ -64,6 +67,7 @@
     "item": "frame_wood",
     "location": "structure",
     "standard_symbols": true,
+    "categories": [ "hull" ],
     "color": "brown",
     "broken_color": "brown",
     "durability": 150,
@@ -84,6 +88,7 @@
     "item": "frame_wood_light",
     "location": "structure",
     "standard_symbols": true,
+    "categories": [ "hull" ],
     "color": "brown",
     "broken_color": "brown",
     "durability": 100,
@@ -103,6 +108,7 @@
     "item": "hdframe",
     "location": "structure",
     "standard_symbols": true,
+    "categories": [ "hull" ],
     "color": "dark_gray",
     "durability": 760,
     "description": "A heavy metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions.",
@@ -122,6 +128,7 @@
     "item": "xlframe",
     "location": "structure",
     "standard_symbols": true,
+    "categories": [ "hull" ],
     "color": "light_gray",
     "durability": 150,
     "description": "A light metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",

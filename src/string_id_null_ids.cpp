@@ -16,6 +16,7 @@
 
 MAKE_NULL_ID( activity_type, "ACT_NULL" )
 MAKE_NULL_ID( harvest_list, "null" )
+MAKE_NULL_ID( Item_spawn_data, "null" )
 MAKE_NULL_ID( effect_type, "null" )
 MAKE_NULL_ID( material_type, "null" )
 
@@ -50,6 +51,7 @@ MAKE_NULL_ID2( oter_type_t, "" )
 MAKE_NULL_ID2( ter_t, "t_null" )
 MAKE_NULL_ID2( trap, "tr_null" )
 MAKE_NULL_ID2( construction_category, "NULL" )
+MAKE_NULL_ID2( construction_group, "null" )
 MAKE_NULL_ID2( ammo_effect, "AE_NULL" )
 MAKE_NULL_ID2( field_type, "fd_null" )
 MAKE_NULL_ID2( furn_t, "f_null" )

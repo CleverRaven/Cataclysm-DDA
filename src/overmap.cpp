@@ -1456,6 +1456,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     place_lakes();
     place_forests();
     place_swamps();
+    place_ravines();
     place_cities();
     place_forest_trails();
     place_roads( north, east, south, west );
@@ -2744,34 +2745,55 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
         tripoint_om_omt tmp;
         // Populate viable_roads with one point for each neighborless side.
         // Make sure these points don't conflict with rivers.
-        // TODO: In theory this is a potential infinite loop...
+
+        std::array < int, OMAPX - 20 > omap_num;
+        for( int i = 0; i < 160; i++ ) {
+            omap_num[i] = i + 10;
+        }
+
         if( north == nullptr ) {
-            do {
-                tmp = tripoint_om_omt( rng( 10, OMAPX - 11 ), 0, 0 );
-            } while( is_river( ter( tmp ) ) || is_river( ter( tmp + point_east ) ) ||
-                     is_river( ter( tmp + point_west ) ) );
-            viable_roads.push_back( tmp );
+            std::shuffle( omap_num.begin(), omap_num.end(), rng_get_engine() );
+            for( const auto &i : omap_num ) {
+                tmp = tripoint_om_omt( i, 0, 0 );
+                if( !( is_river( ter( tmp ) ) || is_river( ter( tmp + point_east ) ) ||
+                       is_river( ter( tmp + point_west ) ) ) ) {
+                    viable_roads.push_back( tmp );
+                    break;
+                }
+            }
         }
         if( east == nullptr ) {
-            do {
-                tmp = tripoint_om_omt( OMAPX - 1, rng( 10, OMAPY - 11 ), 0 );
-            } while( is_river( ter( tmp ) ) || is_river( ter( tmp + point_north ) ) ||
-                     is_river( ter( tmp + point_south ) ) );
-            viable_roads.push_back( tmp );
+            std::shuffle( omap_num.begin(), omap_num.end(), rng_get_engine() );
+            for( const auto &i : omap_num ) {
+                tmp = tripoint_om_omt( OMAPX - 1, i, 0 );
+                if( !( is_river( ter( tmp ) ) || is_river( ter( tmp + point_north ) ) ||
+                       is_river( ter( tmp + point_south ) ) ) ) {
+                    viable_roads.push_back( tmp );
+                    break;
+                }
+            }
         }
         if( south == nullptr ) {
-            do {
-                tmp = tripoint_om_omt( rng( 10, OMAPX - 11 ), OMAPY - 1, 0 );
-            } while( is_river( ter( tmp ) ) || is_river( ter( tmp + point_east ) ) ||
-                     is_river( ter( tmp + point_west ) ) );
-            viable_roads.push_back( tmp );
+            std::shuffle( omap_num.begin(), omap_num.end(), rng_get_engine() );
+            for( const auto &i : omap_num ) {
+                tmp = tripoint_om_omt( i, OMAPY - 1, 0 );
+                if( !( is_river( ter( tmp ) ) || is_river( ter( tmp + point_east ) ) ||
+                       is_river( ter( tmp + point_west ) ) ) ) {
+                    viable_roads.push_back( tmp );
+                    break;
+                }
+            }
         }
         if( west == nullptr ) {
-            do {
-                tmp = tripoint_om_omt( 0, rng( 10, OMAPY - 11 ), 0 );
-            } while( is_river( ter( tmp ) ) || is_river( ter( tmp + point_north ) ) ||
-                     is_river( ter( tmp + point_south ) ) );
-            viable_roads.push_back( tmp );
+            std::shuffle( omap_num.begin(), omap_num.end(), rng_get_engine() );
+            for( const auto &i : omap_num ) {
+                tmp = tripoint_om_omt( 0, i, 0 );
+                if( !( is_river( ter( tmp ) ) || is_river( ter( tmp + point_north ) ) ||
+                       is_river( ter( tmp + point_south ) ) ) ) {
+                    viable_roads.push_back( tmp );
+                    break;
+                }
+            }
         }
         while( roads_out.size() < 2 && !viable_roads.empty() ) {
             roads_out.push_back( random_entry_removed( viable_roads ) );
@@ -3400,6 +3422,78 @@ void overmap::build_mine( const tripoint_om_omt &origin, int s )
         built++;
     }
     ter_set( p, mine_finale_or_down );
+}
+
+void overmap::place_ravines()
+{
+    if( settings.overmap_ravine.num_ravines == 0 ) {
+        return;
+    }
+
+    const oter_id rift( "ravine" );
+    const oter_id rift_edge( "ravine_edge" );
+    const oter_id rift_floor( "ravine_floor" );
+    const oter_id rift_floor_edge( "ravine_floor_edge" );
+
+    std::set<point_om_omt> rift_points;
+
+    // We dont really care about the paths each ravine takes, so this can be whatever
+    // The random return value was chosen because it easily produces decent looking windy ravines
+    const auto estimate =
+    [&]( const pf::node<point> &, const pf::node<point> * ) {
+        return rng( 1, 2 );
+    };
+    // A path is generated for each of ravine, and all its constituent points are stored within the
+    // rift_points set. In the code block below, the set is then used to determine edges and place the
+    // actual terrain pieces of the ravine.
+    for( int n = 0; n < settings.overmap_ravine.num_ravines; n++ ) {
+        const point offset( rng( -settings.overmap_ravine.ravine_range,
+                                 settings.overmap_ravine.ravine_range ),
+                            rng( -settings.overmap_ravine.ravine_range, settings.overmap_ravine.ravine_range ) );
+        const point origin( rng( 0, OMAPX ), rng( 0, OMAPY ) );
+        const point destination = origin + offset;
+        if( !inbounds( point_om_omt( destination.x, destination.y ),
+                       settings.overmap_ravine.ravine_width * 3 ) ) {
+            continue;
+        }
+        const auto path = pf::find_path( origin, destination, point( OMAPX, OMAPY ), estimate );
+        for( const auto &node : path.nodes ) {
+            const point_om_omt p( node.pos.x, node.pos.y );
+            for( int i = 1 - settings.overmap_ravine.ravine_width; i < settings.overmap_ravine.ravine_width;
+                 i++ ) {
+                for( int j = 1 - settings.overmap_ravine.ravine_width; j < settings.overmap_ravine.ravine_width;
+                     j++ ) {
+                    const point_om_omt n = p + point( j, i );
+                    if( inbounds( n, 1 ) ) {
+                        rift_points.emplace( n );
+                    }
+                }
+            }
+        }
+    }
+    // We look at the 8 adjacent locations of each ravine point and see if they are also part of a
+    // ravine, if at least one of them isn't, the location is part of the ravine's edge. Whathever the
+    // case, the chosen ravine terrain is then propagated downwards until the ravine_depth specified
+    // by the region settings.
+    for( const point_om_omt &p : rift_points ) {
+        bool edge = false;
+        for( int ni = -1; ni <= 1 && !edge; ni++ ) {
+            for( int nj = -1; nj <= 1 && !edge; nj++ ) {
+                const point_om_omt n = p + point( ni, nj );
+                if( rift_points.find( n ) == rift_points.end() || !inbounds( n ) ) {
+                    edge = true;
+                }
+            }
+        }
+        for( int z = 0; z >= settings.overmap_ravine.ravine_depth; z-- ) {
+            if( z == settings.overmap_ravine.ravine_depth ) {
+                ter_set( tripoint_om_omt( p, z ), edge ? rift_floor_edge : rift_floor );
+            } else {
+                ter_set( tripoint_om_omt( p, z ), edge ? rift_edge : rift );
+            }
+        }
+    }
+
 }
 
 pf::path<point_om_omt> overmap::lay_out_connection(

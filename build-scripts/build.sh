@@ -21,6 +21,9 @@ then
     make -j "$num_jobs" style-json
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
+
+    tools/json_tools/generic_guns_validator.py
+
     # Also build chkjson (even though we're not using it), to catch any
     # compile errors there
     make -j "$num_jobs" chkjson

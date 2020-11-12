@@ -65,8 +65,6 @@
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 
-static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
-
 void create_advanced_inv()
 {
     advanced_inventory advinv;
@@ -1791,6 +1789,10 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         return false;
     }
     dest_container.fill_with( src_contents, amount );
+    src_contents.charges -= amount;
+    src_container.contained_where( src_contents )->on_contents_changed();
+    src_container.on_contents_changed();
+    get_avatar().flag_encumbrance();
 
     uistate.adv_inv_container_content_type = dest_container.contents.legacy_front().typeId();
     if( src_contents.charges <= 0 ) {
@@ -1856,8 +1858,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY  || destarea == AIM_WORN ) {
         const units::mass unitweight = it.weight() / ( by_charges ? it.charges : 1 );
-        const units::mass max_weight = player_character.has_trait( trait_DEBUG_STORAGE ) ?
-                                       units::mass_max : player_character.weight_capacity() * 4 - player_character.weight_carried();
+        const units::mass max_weight = player_character.weight_capacity() * 4 -
+                                       player_character.weight_carried();
         if( unitweight > 0_gram && unitweight * amount > max_weight ) {
             const int weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {

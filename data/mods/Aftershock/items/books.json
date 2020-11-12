@@ -178,5 +178,25 @@
     "intelligence": 16,
     "time": "35 m",
     "fun": -3
+  },
+  {
+    "id": "recipe_unusual_ammos",
+    "type": "BOOK",
+    "name": { "str": "Unusual Ammunitions of the Corporations", "str_pl": "copies of Unusual Ammunitions of the Corporations" },
+    "description": "A lab book dedicated to reverse engineering various ammunitions found throughout the solar system.  Written in a format to allow barely trained technicians to *safely* replicate these rounds.",
+    "weight": "2063 g",
+    "volume": "2 L",
+    "price": 9200,
+    "bashing": 8,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "adv_chemistry",
+    "color": "light_green",
+    "skill": "chemistry",
+    "required_level": 2,
+    "max_level": 3,
+    "intelligence": 9,
+    "fun": 1,
+    "time": "50 m"
   }
 ]

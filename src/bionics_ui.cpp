@@ -27,8 +27,6 @@
 #include "units.h"
 #include "units_fwd.h"
 
-static const std::string flag_PERPETUAL( "PERPETUAL" );
-
 // '!', '-' and '=' are uses as default bindings in the menu
 static const invlet_wrapper
 bionic_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
@@ -193,6 +191,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
                                    bionic_menu_mode mode )
 {
     input_context ctxt( "BIONICS", keyboard_mode::keychar );
+    static const flag_str_id json_flag_PERPETUAL( "PERPETUAL" );
 
     werase( window );
     std::string fuel_string;
@@ -202,7 +201,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
         for( const itype_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
             const item temp_fuel( fuel );
-            if( temp_fuel.has_flag( flag_PERPETUAL ) ) {
+            if( temp_fuel.has_flag( json_flag_PERPETUAL ) ) {
                 if( fuel == itype_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
                     continue;
                 }
@@ -216,7 +215,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
             const itype_id rem_fuel = p->find_remote_fuel( true );
             if( !rem_fuel.is_empty() ) {
                 const item tmp_rem_fuel( rem_fuel );
-                if( tmp_rem_fuel.has_flag( flag_PERPETUAL ) ) {
+                if( tmp_rem_fuel.has_flag( json_flag_PERPETUAL ) ) {
                     fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
                 } else {
                     fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel.str() ),
@@ -375,7 +374,8 @@ static void draw_bionics_tabs( const catacurses::window &win, const size_t activ
     wnoutrefresh( win );
 }
 
-static void draw_description( const catacurses::window &win, const bionic &bio )
+static void draw_description( const catacurses::window &win, const bionic &bio,
+                              const int num_of_bp )
 {
     werase( win );
     const int width = getmaxx( win );
@@ -389,7 +389,7 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
 
     // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
-        const bool each_bp_on_new_line = ypos + static_cast<int>( num_bp ) + 1 < getmaxy( win );
+        const bool each_bp_on_new_line = ypos + num_of_bp + 1 < getmaxy( win );
         fold_and_print( win, point( 0, ypos ), width, c_light_gray, list_occupied_bps( bio.id,
                         _( "This bionic occupies the following body parts:" ), each_bp_on_new_line ) );
     }
@@ -710,7 +710,7 @@ void avatar::power_bionics()
 
         draw_bionics_titlebar( w_title, this, menu_mode );
         if( menu_mode == EXAMINING && !current_bionic_list->empty() ) {
-            draw_description( w_description, *( *current_bionic_list )[cursor] );
+            draw_description( w_description, *( *current_bionic_list )[cursor], get_all_body_parts().size() );
         }
     } );
 
@@ -721,7 +721,7 @@ void avatar::power_bionics()
         ::sorted_bionics *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
         max_scroll_position = std::max( 0, static_cast<int>( current_bionic_list->size() ) - LIST_HEIGHT );
         scroll_position = clamp( scroll_position, 0, max_scroll_position );
-        cursor = clamp( cursor, 0, static_cast<int>( current_bionic_list->size() ) );
+        cursor = clamp<int>( cursor, 0, current_bionic_list->size() );
 
 #if defined(__ANDROID__)
         ctxt.get_registered_manual_keys().clear();

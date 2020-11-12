@@ -139,7 +139,7 @@ struct trap {
         // a valid overmap id, for map_regen action traps
         std::string map_regen;
         trap_function act;
-        std::string name_;
+        translation name_;
         /**
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */

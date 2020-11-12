@@ -348,7 +348,8 @@
       { "item": "mring_intelligence_1", "prob": 10 },
       { "item": "mring_perception_1", "prob": 10 },
       { "item": "mring_speed_3", "prob": 10 },
-      { "item": "mring_protection_2", "prob": 10 }
+      { "item": "mring_protection_2", "prob": 10 },
+      { "item": "mring_wizardry_minor", "prob": 5 }
     ]
   },
   {
@@ -363,7 +364,8 @@
       { "item": "mring_dodge_bonus_1", "prob": 10 },
       { "item": "mring_perception_2", "prob": 10 },
       { "item": "mring_speed_5", "prob": 10 },
-      { "item": "mring_protection_4", "prob": 10 }
+      { "item": "mring_protection_4", "prob": 10 },
+      { "item": "mring_wizardry_lesser", "prob": 5 }
     ]
   },
   {
@@ -378,7 +380,8 @@
       { "item": "mring_intelligence_3", "prob": 10 },
       { "item": "mring_perception_3", "prob": 10 },
       { "item": "mring_speed_7", "prob": 10 },
-      { "item": "mring_protection_6", "prob": 10 }
+      { "item": "mring_protection_6", "prob": 10 },
+      { "item": "mring_wizardry_moderate", "prob": 5 }
     ]
   },
   {
@@ -392,7 +395,8 @@
       { "item": "mring_intelligence_4", "prob": 10 },
       { "item": "mring_perception_4", "prob": 10 },
       { "item": "mring_speed_10", "prob": 10 },
-      { "item": "mring_protection_8", "prob": 10 }
+      { "item": "mring_protection_8", "prob": 10 },
+      { "item": "mring_wizardry_greater", "prob": 5 }
     ]
   },
   {
@@ -887,8 +891,7 @@
           { "item": "recovery_spellbook", "prob": 5 },
           { "item": "eshaper_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_stamina", "prob": 50 },
-          { "item": "spell_scroll_eshaper_shardstorm", "prob": 50 },
-          { "item": "spell_scroll_lava_bomb", "prob": 50 }
+          { "item": "spell_scroll_eshaper_shardstorm", "prob": 50 }
         ],
         "prob": 10
       }
@@ -965,52 +968,6 @@
         ],
         "prob": 10
       }
-    ]
-  },
-  {
-    "id": "technomancer_items",
-    "//": "A distribution of magical items for technomancer themed spaces.",
-    "type": "item_group",
-    "subtype": "collection",
-    "items": [
-      {
-        "distribution": [
-          { "item": "priest_beginner", "prob": 20 },
-          { "item": "techno_idiots", "prob": 20 },
-          { "item": "spell_scroll_x-ray", "prob": 50 },
-          { "item": "spell_scroll_bless", "prob": 50 },
-          { "item": "spell_scroll_create_atomic_lamp", "prob": 50 },
-          { "item": "spell_scroll_taze", "prob": 50 },
-          { "item": "spell_scroll_laze", "prob": 50 }
-        ],
-        "prob": 45
-      },
-      {
-        "distribution": [
-          { "item": "priest_advanced", "prob": 20 },
-          { "item": "techno_fundamentals", "prob": 20 },
-          { "item": "spell_scroll_quantum_tunnel_lesser", "prob": 50 },
-          { "item": "spell_scroll_holy_blade", "prob": 50 },
-          { "item": "spell_scroll_spirit_armor", "prob": 50 },
-          { "item": "spell_scroll_synaptic_stimulation", "prob": 50 }
-        ],
-        "prob": 35
-      },
-      {
-        "distribution": [
-          { "item": "techno_em", "prob": 5 },
-          { "item": "spell_scroll_holographic_transposition", "prob": 10 },
-          { "item": "spell_scroll_recover_bionic_power", "prob": 50 },
-          { "item": "spell_scroll_animated_blade", "prob": 50 },
-          { "item": "spell_scroll_mirror_image", "prob": 50 }
-        ],
-        "prob": 10
-      },
-      {
-        "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
-        "prob": 5
-      },
-      { "group": "magic_CBM", "prob": 2 }
     ]
   },
   {

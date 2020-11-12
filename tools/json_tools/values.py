@@ -32,7 +32,7 @@ parser.add_argument(
 parser.add_argument(
     "-H", "--human",
     action="store_true",
-    help="if set, makes output human readable. default is to return output in JSON dictionary.")
+    help="if set, makes output human readable. default is JSON output.")
 parser.add_argument(
     "-L", "--list",
     action="store_true",

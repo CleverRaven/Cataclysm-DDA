@@ -133,6 +133,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "pottery_cottage", "pottery_cottage_2nd", "pottery_cottage_roof" ],
+    "copy-from": "generic_rural_building",
+    "name": "potters cottage",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pottery_cottage_basement", "farm_stills_3_basement", "ranch_camp_68_basement" ],
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pottery_cottage_field_2nd", "pottery_cottage_field_roof", "pottery_cottage_field" ],
+    "copy-from": "generic_rural_building",
+    "sym": ".",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "2farm_1",
       "2farm_10",
@@ -144,6 +163,9 @@
       "2farm_2",
       "2farm_5",
       "2farm_6",
+      "2farm_6_1",
+      "2farm_6_2",
+      "2farm_6_3",
       "2farm_9",
       "2farm_roof_15",
       "farm_1",
@@ -222,7 +244,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "2farm_3", "2farm_roof_3", "2farm_4", "2farm_roof_4", "2farm_7", "2farm_8" ],
+    "id": [ "2farm_3", "2farm_roof_3", "2farm_loft_3", "2farm_4", "2farm_roof_4", "2farm_7", "2farm_8" ],
     "copy-from": "generic_rural_building",
     "name": "farm"
   },
@@ -235,6 +257,8 @@
       "farm_isherwood_2",
       "2farm_11",
       "farm_stills_3",
+      "farm_stills_3_2nd",
+      "farm_stills_3_roof",
       "farm_dairy_twd_4",
       "2farm_roof_11"
     ],
@@ -250,7 +274,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "farm_stills_7",
+    "id": [ "farm_stills_7", "farm_stills_7_roof" ],
     "copy-from": "generic_rural_building",
     "name": "stills",
     "color": "brown"
@@ -589,6 +613,8 @@
       "farm_dairy_twd_1",
       "farm_dairy_twd_2",
       "farm_dairy_twd_3",
+      "farm_dairy_twd_3_roof",
+      "farm_dairy_twd_4_roof",
       "farm_dairy_twd_5",
       "farm_dairy_twd_9",
       "farm_dairy_twd_10"
