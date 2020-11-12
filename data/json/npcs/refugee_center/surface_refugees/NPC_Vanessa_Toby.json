@@ -234,7 +234,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_Refuse_Boris_Mission_1",
     "dynamic_line": "Ha ha ha ha!  No.",
-    "speaker_effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
     "responses": [ { "text": "I don't know what I expected.", "topic": "TALK_DONE" } ]
   },
   {
