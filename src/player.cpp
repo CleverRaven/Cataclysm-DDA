@@ -84,27 +84,14 @@
 #include "weather.h"
 
 static const efftype_id effect_adrenaline( "adrenaline" );
-static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_bloodworms( "bloodworms" );
-static const efftype_id effect_brainworms( "brainworms" );
-static const efftype_id effect_darkness( "darkness" );
-static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_incorporeal( "incorporeal" );
-static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_masked_scent( "masked_scent" );
-static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
-static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_paincysts( "paincysts" );
-static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_tapeworm( "tapeworm" );
-static const efftype_id effect_weed_high( "weed_high" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_battery( "battery" );
@@ -114,7 +101,6 @@ static const itype_id itype_small_repairkit( "small_repairkit" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
-static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -123,17 +109,10 @@ static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
-static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
-static const trait_id trait_EATHEALTH( "EATHEALTH" );
-static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
-static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
-static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
-static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_MORE_PAIN( "MORE_PAIN" );
 static const trait_id trait_MORE_PAIN2( "MORE_PAIN2" );
@@ -144,7 +123,6 @@ static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
-static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -159,7 +137,6 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_gun( "gun" );
 static const skill_id skill_swimming( "swimming" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
@@ -1886,83 +1863,16 @@ void player::mend_item( item_location &&obj, bool interactive )
     }
 }
 
-int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
-{
-    if( ammo.is_ammo() || ammo.is_frozen_liquid() || ammo.made_of_from_type( phase_id::LIQUID ) ) {
-        qty = std::max( std::min( ammo.charges, qty ), 1 );
-    } else if( ammo.is_ammo_container() ) {
-        int min_clamp = 0;
-        // find the first ammo in the container to get its charges
-        ammo.visit_items( [&min_clamp]( const item * it ) {
-            if( it->is_ammo() ) {
-                min_clamp = it->charges;
-                return VisitResponse::ABORT;
-            }
-            return VisitResponse::NEXT;
-        } );
-
-        qty = clamp( qty, min_clamp, 1 );
-    } else if( ammo.is_magazine() ) {
-        qty = 1;
-    } else {
-        debugmsg( "cannot determine reload cost as %s is neither ammo or magazine", ammo.tname() );
-        return 0;
-    }
-
-    // If necessary create duplicate with appropriate number of charges
-    item obj = ammo;
-    obj = obj.split( qty );
-    if( obj.is_null() ) {
-        obj = ammo;
-    }
-    // No base cost for handling ammo - that's already included in obtain cost
-    // We have the ammo in our hands right now
-    int mv = item_handling_cost( obj, true, 0 );
-
-    if( ammo.has_flag( flag_MAG_BULKY ) ) {
-        mv *= 1.5; // bulky magazines take longer to insert
-    }
-
-    if( !it.is_gun() && !it.is_magazine() ) {
-        return mv + 100; // reload a tool or sealable container
-    }
-
-    /** @EFFECT_GUN decreases the time taken to reload a magazine */
-    /** @EFFECT_PISTOL decreases time taken to reload a pistol */
-    /** @EFFECT_SMG decreases time taken to reload an SMG */
-    /** @EFFECT_RIFLE decreases time taken to reload a rifle */
-    /** @EFFECT_SHOTGUN decreases time taken to reload a shotgun */
-    /** @EFFECT_LAUNCHER decreases time taken to reload a launcher */
-
-    int cost = 0;
-    if( it.is_gun() ) {
-        cost = it.get_reload_time();
-    } else if( it.type->magazine ) {
-        cost = it.type->magazine->reload_time * qty;
-    } else {
-        cost = it.contents.obtain_cost( ammo );
-    }
-
-    skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
-    mv += cost / ( 1.0f + std::min( get_skill_level( sk ) * 0.1f, 1.0f ) );
-
-    if( it.has_flag( flag_STR_RELOAD ) ) {
-        /** @EFFECT_STR reduces reload time of some weapons */
-        mv -= get_str() * 20;
-    }
-
-    return std::max( mv, 25 );
-}
-
 cata::optional<std::list<item>::iterator>
 player::wear( int pos, bool interactive )
 {
-    return wear( i_at( pos ), interactive );
+    return wear( item_location( *this, &i_at( pos ) ), interactive );
 }
 
 cata::optional<std::list<item>::iterator>
-player::wear( item &to_wear, bool interactive )
+player::wear( item_location item_wear, bool interactive )
 {
+    item to_wear = *item_wear;
     if( is_worn( to_wear ) ) {
         if( interactive ) {
             add_msg_player_or_npc( m_info,
@@ -1990,13 +1900,8 @@ player::wear( item &to_wear, bool interactive )
         remove_item( to_wear );
         was_weapon = false;
     } else {
-        /**
-         * we actually know with certainty that if we're here the
-         * item was dropped to the ground and is at pos().
-         * ideally the parameter of this function should be an item_location instead of
-         * constructing it in place here.
-         */
-        item_location( map_cursor( pos() ), &to_wear ).remove_item();
+        // item is on the map if this point is reached.
+        item_wear.remove_item();
         was_weapon = false;
     }
 
@@ -2098,205 +2003,6 @@ bool player::takeoff( item &it, std::list<item> *res )
 bool player::takeoff( int pos )
 {
     return takeoff( i_at( pos ) );
-}
-
-bool player::add_or_drop_with_msg( item &it, const bool /*unloading*/, const item *avoid )
-{
-    if( it.made_of( phase_id::LIQUID ) ) {
-        liquid_handler::consume_liquid( it, 1, avoid );
-        return it.charges <= 0;
-    }
-    if( !this->can_pickVolume( it ) ) {
-        put_into_vehicle_or_drop( *this, item_drop_reason::too_large, { it } );
-    } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-        put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
-    } else {
-        const bool allow_wield = !weapon.has_item( it ) && weapon.magazine_current() != &it;
-        const int prev_charges = it.charges;
-        auto &ni = this->i_add( it, true, avoid, /*allow_drop=*/false, /*allow_wield=*/allow_wield );
-        if( ni.is_null() ) {
-            // failed to add
-            put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { it } );
-        } else if( &ni == &it ) {
-            // merged into the original stack, restore original charges
-            it.charges = prev_charges;
-            put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { it } );
-        } else {
-            // successfully added
-            add_msg( _( "You put the %s in your inventory." ), ni.tname() );
-            add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname() );
-        }
-    }
-    return true;
-}
-
-bool player::unload( item_location &loc, bool bypass_activity )
-{
-    item &it = *loc;
-    // Unload a container consuming moves per item successfully removed
-    if( it.is_container() ) {
-        if( it.contents.empty() ) {
-            add_msg( m_info, _( "The %s is already empty!" ), it.tname() );
-            return false;
-        }
-        if( !it.can_unload_liquid() ) {
-            add_msg( m_info, _( "The liquid can't be unloaded in its current state!" ) );
-            return false;
-        }
-
-        bool changed = false;
-        for( item *contained : it.contents.all_items_top() ) {
-            int old_charges = contained->charges;
-            const bool consumed = this->add_or_drop_with_msg( *contained, true, &it );
-            if( consumed || contained->charges != old_charges ) {
-                changed = true;
-                item_pocket *const parent_pocket = it.contained_where( *contained );
-                if( parent_pocket ) {
-                    parent_pocket->unseal();
-                }
-            }
-            if( consumed ) {
-                this->mod_moves( -this->item_handling_cost( *contained ) );
-                it.remove_item( *contained );
-            }
-        }
-
-        if( changed ) {
-            it.on_contents_changed();
-            invalidate_weight_carried_cache();
-        }
-        return true;
-    }
-
-    // If item can be unloaded more than once (currently only guns) prompt user to choose
-    std::vector<std::string> msgs( 1, it.tname() );
-    std::vector<item *> opts( 1, &it );
-
-    for( item *e : it.gunmods() ) {
-        if( ( e->is_gun() && !e->has_flag( flag_NO_UNLOAD ) &&
-              ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) ||
-            ( e->has_flag( flag_BRASS_CATCHER ) && !e->is_container_empty() ) ) {
-            msgs.emplace_back( e->tname() );
-            opts.emplace_back( e );
-        }
-    }
-
-    item *target = nullptr;
-    item_location targloc;
-    if( opts.size() > 1 ) {
-        const int ret = uilist( _( "Unload what?" ), msgs );
-        if( ret >= 0 ) {
-            target = opts[ret];
-            targloc = item_location( loc, opts[ret] );
-        }
-    } else {
-        target = &it;
-        targloc = loc;
-    }
-
-    if( target == nullptr ) {
-        return false;
-    }
-
-    // Next check for any reasons why the item cannot be unloaded
-    if( !target->has_flag( flag_BRASS_CATCHER ) ) {
-        if( target->ammo_types().empty() && target->magazine_compatible().empty() ) {
-            add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
-            return false;
-        }
-
-        if( target->has_flag( flag_NO_UNLOAD ) ) {
-            if( target->has_flag( flag_RECHARGE ) || target->has_flag( flag_USE_UPS ) ) {
-                add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname() );
-            } else {
-                add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
-            }
-            return false;
-        }
-
-        if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
-            if( target->is_tool() ) {
-                add_msg( m_info, _( "Your %s isn't charged." ), target->tname() );
-            } else {
-                add_msg( m_info, _( "Your %s isn't loaded." ), target->tname() );
-            }
-            return false;
-        }
-    }
-
-    target->casings_handle( [&]( item & e ) {
-        return this->i_add_or_drop( e );
-    } );
-
-    if( target->is_magazine() ) {
-        if( bypass_activity ) {
-            unload_mag_activity_actor::unload( *this, targloc );
-        } else {
-            int mv = 0;
-            for( const item *content : target->contents.all_items_top() ) {
-                // We use the same cost for both reloading and unloading
-                mv += this->item_reload_cost( it, *content, content->charges );
-            }
-            if( it.is_ammo_belt() ) {
-                // Disassembling ammo belts is easier than assembling them
-                mv /= 2;
-            }
-            assign_activity( player_activity( unload_mag_activity_actor( mv, targloc ) ) );
-        }
-        return true;
-
-    } else if( target->magazine_current() ) {
-        if( !this->add_or_drop_with_msg( *target->magazine_current(), true ) ) {
-            return false;
-        }
-        // Eject magazine consuming half as much time as required to insert it
-        this->moves -= this->item_reload_cost( *target, *target->magazine_current(), -1 ) / 2;
-
-        target->remove_items_with( [&target]( const item & e ) {
-            return target->magazine_current() == &e;
-        } );
-
-    } else if( target->ammo_remaining() ) {
-        int qty = target->ammo_remaining();
-
-        // Construct a new ammo item and try to drop it
-        item ammo( target->ammo_current(), calendar::turn, qty );
-        if( target->is_filthy() ) {
-            ammo.set_flag( flag_FILTHY );
-        }
-
-        if( ammo.made_of_from_type( phase_id::LIQUID ) ) {
-            if( !this->add_or_drop_with_msg( ammo ) ) {
-                qty -= ammo.charges; // only handled part (or none) of the liquid
-            }
-            if( qty <= 0 ) {
-                return false; // no liquid was moved
-            }
-
-        } else if( !this->add_or_drop_with_msg( ammo, qty > 1 ) ) {
-            return false;
-        }
-
-        // If successful remove appropriate qty of ammo consuming half as much time as required to load it
-        this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
-
-        target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
-    } else if( target->has_flag( flag_BRASS_CATCHER ) ) {
-        target->spill_contents( get_player_character() );
-    }
-
-    // Turn off any active tools
-    if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
-        target->type->invoke( *this, *target, this->pos() );
-    }
-
-    add_msg( _( "You unload your %s." ), target->tname() );
-
-    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
-        loc.remove_item();
-    }
-
-    return true;
 }
 
 void player::use_wielded()
@@ -2813,7 +2519,6 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     inv->update_invlet( weapon );
     inv->update_cache_with_item( weapon );
     last_item = weapon.typeId();
-
 
     moves -= mv;
 

@@ -46,7 +46,7 @@
       },
       "furniture": { "O": "f_standing_tank", "H": "f_standing_tank", "P": "f_sign", "t": "f_table" },
       "liquids": { "O": { "liquid": "water", "amount": [ 0, 100 ] }, "H": { "liquid": "fertilizer_liquid", "amount": [ 0, 100 ] } },
-      "sealed_item": { "D": { "items": { "item": "farming_seeds", "chance": 70 }, "furniture": "f_plant_seedling" } },
+      "sealed_item": { "D": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling", "chance": 70 } },
       "place_items": [
         { "chance": 35, "repeat": 2, "item": "supplies_farming", "x": 6, "y": 4 },
         { "chance": 35, "repeat": 2, "item": "garden_shed", "x": 7, "y": 4 },
@@ -102,7 +102,7 @@
       },
       "furniture": { "O": "f_standing_tank", "H": "f_standing_tank", "P": "f_sign" },
       "place_item": [ { "item": "hose", "x": 11, "y": 13 } ],
-      "sealed_item": { "#": { "items": { "item": "farming_seeds", "chance": 80 }, "furniture": "f_plant_seedling" } },
+      "sealed_item": { "#": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling", "chance": 80 } },
       "liquids": { "O": { "liquid": "water", "amount": [ 0, 100 ] }, "H": { "liquid": "fertilizer_liquid", "amount": [ 0, 100 ] } },
       "place_signs": [
         { "signage": "<city> Community Garden.  Open dawn to dusk.", "x": 2, "y": 2 },
@@ -165,7 +165,7 @@
       "furniture": { "O": "f_standing_tank", "H": "f_standing_tank", "P": "f_sign", "t": "f_table" },
       "liquids": { "O": { "liquid": "water", "amount": [ 0, 100 ] }, "H": { "liquid": "fertilizer_liquid", "amount": [ 0, 100 ] } },
       "sealed_item": {
-        "D": { "items": { "item": "farming_seeds", "chance": 80 }, "furniture": "f_plant_seedling" },
+        "D": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling", "chance": 80 },
         "#": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_planter_mature" }
       },
       "place_items": [

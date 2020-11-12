@@ -1637,8 +1637,8 @@ void npc::load( const JsonObject &data )
     tripoint_abs_omt comp_miss_pt;
     std::string classid;
     std::string companion_mission_role;
-    time_point companion_mission_t = 0;
-    time_point companion_mission_t_r = 0;
+    time_point companion_mission_t = calendar::turn_zero;
+    time_point companion_mission_t_r = calendar::turn_zero;
     std::string act_id;
 
     data.read( "name", name );
@@ -1836,7 +1836,7 @@ void npc::load( const JsonObject &data )
     complaints.clear();
     for( const JsonMember member : data.get_object( "complaints" ) ) {
         // TODO: time_point does not have a default constructor, need to read in the map manually
-        time_point p = 0;
+        time_point p = calendar::turn_zero;
         member.read( p );
         complaints.emplace( member.name(), p );
     }
@@ -2112,7 +2112,7 @@ void monster::load( const JsonObject &data )
     }
 
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
-    biosig_timer = data.get_int( "biosig_timer", -1 );
+    biosig_timer = time_point( data.get_int( "biosig_timer", -1 ) );
 
     data.read( "udder_timer", udder_timer );
 
@@ -2422,7 +2422,7 @@ void item::io( Archive &archive )
     // (item::charges -1 or 0 or anything else) to comestible (and thereby counted by charges),
     // old saves still have invalid charges, this fixes the charges value to the default charges.
     if( count_by_charges() && charges <= 0 ) {
-        charges = item( type, 0 ).charges;
+        charges = item( type, calendar::turn_zero ).charges;
     }
     if( is_food() ) {
         active = true;
@@ -3972,7 +3972,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
 {
     bool rubpow_update = version < 22;
     if( member_name == "turn_last_touched" ) {
-        last_touched = jsin.get_int();
+        last_touched = time_point( jsin.get_int() );
     } else if( member_name == "temperature" ) {
         temperature = jsin.get_int();
     } else if( member_name == "terrain" ) {
@@ -3980,8 +3980,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
         jsin.start_array();
         // Small duplication here so that the update check is only performed once
         if( rubpow_update ) {
-            item rock = item( "rock", 0 );
-            item chunk = item( "steel_chunk", 0 );
+            item rock = item( "rock", calendar::turn_zero );
+            item chunk = item( "steel_chunk", calendar::turn_zero );
             for( int j = 0; j < SEEY; j++ ) {
                 for( int i = 0; i < SEEX; i++ ) {
                     const ter_str_id tid( jsin.get_string() );

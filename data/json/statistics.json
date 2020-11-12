@@ -478,7 +478,7 @@
     "id": "avatar_consumes_allergen_milk",
     "type": "event_transformation",
     "event_transformation": "avatar_consumes_item_flag",
-    "value_constraints": { "flag": { "equals": [ "flag_str_id", "ALLERGEN_MILK" ] } },
+    "value_constraints": { "flag": { "equals": [ "flag_id", "ALLERGEN_MILK" ] } },
     "drop_fields": [ "flag" ]
   },
   {
@@ -492,7 +492,7 @@
     "id": "avatar_consumes_allergen_eggs",
     "type": "event_transformation",
     "event_transformation": "avatar_consumes_item_flag",
-    "value_constraints": { "flag": { "equals": [ "flag_str_id", "ALLERGEN_EGG" ] } },
+    "value_constraints": { "flag": { "equals": [ "flag_id", "ALLERGEN_EGG" ] } },
     "drop_fields": [ "flag" ]
   },
   {
@@ -506,7 +506,7 @@
     "id": "avatar_consumes_allergen_meat",
     "type": "event_transformation",
     "event_transformation": "avatar_consumes_item_flag",
-    "value_constraints": { "flag": { "equals": [ "flag_str_id", "ALLERGEN_MEAT" ] } },
+    "value_constraints": { "flag": { "equals": [ "flag_id", "ALLERGEN_MEAT" ] } },
     "drop_fields": [ "flag" ]
   },
   {

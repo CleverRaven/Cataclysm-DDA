@@ -24,7 +24,7 @@ TEST_CASE( "item_volume", "[item]" )
 {
     // Need to pick some item here which is count_by_charges and for which each
     // charge is at least 1_ml.  Battery works for now.
-    item i( "battery", 0, item::default_charges_tag() );
+    item i( "battery", calendar::turn_zero, item::default_charges_tag() );
     REQUIRE( i.count_by_charges() );
     // Would be better with Catch2 generators
     const units::volume big_volume = units::from_milliliter( std::numeric_limits<int>::max() / 2 );
@@ -207,7 +207,6 @@ TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][comb
     }
 }
 
-
 static void assert_minimum_length_to_volume_ratio( const item &target )
 {
     if( target.type->get_id().is_null() ) {
@@ -238,7 +237,7 @@ static void assert_minimum_length_to_volume_ratio( const item &target )
 TEST_CASE( "item length sanity check", "[item]" )
 {
     for( const itype *type : item_controller->all() ) {
-        const item sample( type, 0, item::solitary_tag {} );
+        const item sample( type, calendar::turn_zero, item::solitary_tag {} );
         assert_minimum_length_to_volume_ratio( sample );
     }
 }

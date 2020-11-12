@@ -13,7 +13,6 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
 static const skill_id skill_survival( "survival" );

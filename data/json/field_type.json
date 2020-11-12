@@ -1218,7 +1218,7 @@
       { "color": "cyan", "convection_temperature_mod": -6 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
@@ -1234,7 +1234,7 @@
       { "color": "cyan", "convection_temperature_mod": -20 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
@@ -1250,7 +1250,7 @@
       { "color": "cyan", "convection_temperature_mod": -70 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
@@ -1266,7 +1266,7 @@
       { "color": "cyan", "convection_temperature_mod": -160 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
@@ -1282,7 +1282,7 @@
       { "color": "red", "convection_temperature_mod": 10 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
@@ -1298,7 +1298,7 @@
       { "color": "red", "convection_temperature_mod": 20 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
@@ -1314,7 +1314,7 @@
       { "color": "red", "convection_temperature_mod": 70 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
@@ -1330,7 +1330,7 @@
       { "color": "red", "convection_temperature_mod": 160 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",

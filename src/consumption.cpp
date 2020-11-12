@@ -1232,6 +1232,25 @@ double Character::compute_effective_food_volume_ratio( const item &food ) const
     return ratio;
 }
 
+// Remove the water volume from the food, as that gets absorbed and used as water.
+// If the remaining dry volume of the food is less dense than water, crunch it down to a density equal to water.
+// These maths are made easier by the fact that 1 g = 1 mL. Thanks, metric system.
+units::volume Character::masticated_volume( const item &food ) const
+{
+    units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
+                              5_ml : 0_ml;
+    units::mass food_dry_weight = units::from_gram( units::to_gram( food.weight() ) -
+                                  units::to_milliliter( water_vol ) ) / food.count();
+    units::volume food_dry_volume = ( food.volume() - water_vol ) / food.count();
+
+    if( units::to_milliliter( food_dry_volume ) != 0 &&
+        units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
+        food_dry_volume = units::from_milliliter( units::to_gram( food_dry_weight ) );
+    }
+
+    return food_dry_volume;
+}
+
 // Used when displaying effective food satiation values.
 int Character::compute_calories_per_effective_volume( const item &food,
         const nutrients *nutrient /* = nullptr */ )const
@@ -1245,10 +1264,7 @@ int Character::compute_calories_per_effective_volume( const item &food,
     } else {
         kcalories = compute_effective_nutrients( food ).kcal;
     }
-    units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
-                              5_ml : 0_ml;
-    // Water volume is ignored.
-    units::volume food_vol = food.volume() - water_vol * food.count();
+    units::volume food_vol = masticated_volume( food ) * food.count();
     // Divide by 1000 to convert to L. Final quantity is essentially dimensionless, so unit of measurement does not matter.
     const double converted_volume = round_up( ( static_cast<float>( food_vol.value() ) / food.count() )
                                     * 0.001, 2 );
@@ -1376,10 +1392,10 @@ bool Character::consume_effects( item &food )
     }
 
     nutrients food_nutrients = compute_effective_nutrients( food );
-    // TODO: Move quench values to mL and remove the magic number here
-    units::volume water_vol = ( food.type->comestible->quench > 0 ) ? food.type->comestible->quench *
-                              5_ml : 0_ml;
-    units::volume food_vol = food.base_volume() - water_vol;
+    const units::volume water_vol = ( food.get_comestible()->quench > 0 ) ?
+                                    food.get_comestible()->quench *
+                                    5_ml : 0_ml;
+    units::volume food_vol = masticated_volume( food );
     if( food.count() == 0 ) {
         debugmsg( "Tried to eat food with count of zero." );
         return false;

@@ -145,7 +145,7 @@ bool tutorial_game::init()
     starting_om.clear_mon_groups();
 
     player_character.toggle_trait( trait_QUICK );
-    item lighter( "lighter", 0 );
+    item lighter( "lighter", calendar::turn_zero );
     lighter.invlet = 'e';
     player_character.inv->add_item( lighter, true, false );
     player_character.set_skill_level( skill_gun, 5 );
@@ -279,7 +279,7 @@ void tutorial_game::post_action( action_id act )
             break;
 
         case ACTION_WEAR: {
-            item it( player_character.last_item, 0 );
+            item it( player_character.last_item, calendar::turn_zero );
             if( it.is_armor() ) {
                 if( it.get_avg_coverage() >= 2 || it.get_thickness() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_ARMOR );
@@ -301,7 +301,7 @@ void tutorial_game::post_action( action_id act )
             add_message( tut_lesson::LESSON_INTERACT );
         /* fallthrough */
         case ACTION_PICKUP: {
-            item it( player_character.last_item, 0 );
+            item it( player_character.last_item, calendar::turn_zero );
             if( it.is_armor() ) {
                 add_message( tut_lesson::LESSON_GOT_ARMOR );
             } else if( it.is_gun() ) {

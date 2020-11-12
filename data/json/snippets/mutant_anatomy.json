@@ -125,7 +125,10 @@
       "Under the carapace of this mutant is a bristly, velcro-like material",
       "The anatomy concealed beneath seems almost like a small mammal given a shell and twisted into the shape of an arthropod",
       "You crack the beast open like a horrific lobster",
-      "The chitin holds tight to the creature, and you need to snap and tear it away, sawing at tough fibers beneath"
+      "The chitin holds tight to the creature, and you need to snap and tear it away, sawing at tough fibers beneath",
+      "The moment you start cutting into the corpse a few of what you thought were extra legs detach and scurry off into the undergrowth",
+      "For your first cut you connect the dozen openings on the creature's sides, only to reveal a finger-sized wriggling grub in each",
+      "Your work disturbs the parasites still clinging to the joints of the creature, and a few size you up as a potential new home before scurrying away"
     ]
   },
   {
@@ -146,7 +149,50 @@
     "text": [
       "The meat inside gives off a horrifying stench, and seems to be covered in thin damp hair, like a newborn animal gone horribly wrong",
       "Small bundles of fiber break loose as you work, splitting open to reveal twisted, half-formed copies of the creature itself",
-      "It is difficult to work, as the spongey tissue tears apart under your tools"
+      "It is difficult to work, as the spongey tissue tears apart under your tools",
+      "Despite its outward appearance, both the organs and the endolymph of this creature is pristinely white",
+      "Some of your cuts meet nerves, and the already stiff corpse shudders with movement each time",
+      "You follow what you think are superflous veins into the deep, finding a gorged, tick-like creature at their convergence",
+      "Every cut reveals an organ you can't quite recognize, and you start to wonder what your insides look like by now",
+      "You are dizzied by the rainbow coloration of the creature's muscles, clashing with the bloody mess in its guts",
+      "As you cut into its flesh you are disturbed by its sickly-sweet smell, like fermenting fruit"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_flying_chitin>",
+    "text": [
+      "The wings of this creature break apart upon the slightest touch into myriad identical rainbow crystals",
+      "Even as the body grows still, the wings keep on beating slowly",
+      "The chitin of this one is light and brittle, like an empty eggshell",
+      "Where you came to expect smooth chitin you find exposed flesh, shot with a web of hardened strands",
+      "You cough as you inhale the fine, colorful dust shedded from the wings",
+      "The carapace of this one still feels hot to the touch, especially around the wings",
+      "What you thought was shuddering chitinous fuzz on the creature's back is in reality thousands of miniature copies of its main wings, flapping in unison"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_flying_deeper>",
+    "text": [
+      "Spaced evenly across the entire body you find small sacs of eggs in different stages of growth",
+      "Its intestines grew into a labyrinthe tangle, like so many worms devouring each other",
+      "The wings are held in place by stiff muscles, reaching into the deep",
+      "Underneath the chitin you find bundles of small, floating pearls, each held in place by a single strand of sinew",
+      "Near its wings you find a black, bubbling organ still periodically emitting a bundle of floating bubbles",
+      "As you open its intestines by mistake, you can barely pull your finger away from the dozen snapping mandibles on its inside",
+      "The space not taken up by the now-familiar floating sacs is almost entirely filled by a sticky, homogenous yellow jelly that seems to actively try to avoid your knife",
+      "The wings are rooted in its flesh by an almost transparent, fractal root structure, making you question if it always belonged to the creature"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_firefly>",
+    "text": [
+      "The light of its abdomen flickers with each cut, growing ever dimmer",
+      "An errant cut coats your tools with foul-smelling, glowing goop",
+      "What you saw as a homogenous light from a distance was the result of myriad strands of glowing chitin criscrossing just beneath the carapace",
+      "This one's very flesh is glowing with a blinding intensity, lighting up your gruesome work"
     ]
   },
   {
@@ -187,6 +233,23 @@
       "<bug_harvest_general_chitin>.",
       "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.",
       "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.  <bug_harvest_general_descriptive>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<arachnid_flying_harvest>",
+    "text": [
+      "<bug_harvest_flying_chitin>.",
+      "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>.",
+      "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>. <bug_harvest_flying_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<firefly_harvest>",
+    "text": [
+      "<bug_harvest_flying_chitin>.",
+      "<bug_harvest_flying_chitin>.  <bug_harvest_general_descriptive>.  <bug_harvest_firefly>."
     ]
   },
   {

@@ -215,7 +215,7 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
 bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
-                          map_object_type obj_type )
+                          map_object_type obj_type, const std::string &context )
 {
     if( !jsobj.has_object( member ) ) {
         return false;
@@ -263,7 +263,8 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
     }
 
     if( j.has_member( "items" ) ) {
-        drop_group = item_group::load_item_group( j.get_member( "items" ), "collection" );
+        drop_group = item_group::load_item_group( j.get_member( "items" ), "collection",
+                     "map_bash_info for " + context );
     } else {
         drop_group = item_group_id( "EMPTY_GROUP" );
     }
@@ -279,7 +280,7 @@ map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_abov
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
 bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &member,
-                                 bool is_furniture )
+                                 bool is_furniture, const std::string &context )
 {
     if( !jsobj.has_object( member ) ) {
         return false;
@@ -293,7 +294,8 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
     can_do = true;
     deconstruct_above = j.get_bool( "deconstruct_above", false );
 
-    drop_group = item_group::load_item_group( j.get_member( "items" ), "collection" );
+    drop_group = item_group::load_item_group( j.get_member( "items" ), "collection",
+                 "map_deconstruct_info for " + context );
     return true;
 }
 
@@ -1200,8 +1202,8 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
 
-    bash.load( jo, "bash", map_bash_info::terrain );
-    deconstruct.load( jo, "deconstruct", false );
+    bash.load( jo, "bash", map_bash_info::terrain, "terrain " + id.str() );
+    deconstruct.load( jo, "deconstruct", false, "terrain " + id.str() );
 }
 
 static void check_bash_items( const map_bash_info &mbi, const std::string &id, bool is_terrain )
@@ -1309,8 +1311,8 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
 
-    bash.load( jo, "bash", map_bash_info::furniture );
-    deconstruct.load( jo, "deconstruct", true );
+    bash.load( jo, "bash", map_bash_info::furniture, "furniture " + id.str() );
+    deconstruct.load( jo, "deconstruct", true, "furniture " + id.str() );
 
     if( jo.has_object( "workbench" ) ) {
         workbench = cata::make_value<furn_workbench_info>();

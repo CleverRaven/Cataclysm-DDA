@@ -704,7 +704,7 @@ void monexamine::kill_zslave( monster &z )
 
     if( !one_in( 3 ) ) {
         player_character.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
-        item ball( "pheromone", 0 );
+        item ball( "pheromone", calendar::turn_zero );
         iuse::pheromone( &player_character, &ball, true, player_character.pos() );
     }
 }

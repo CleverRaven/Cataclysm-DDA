@@ -224,6 +224,29 @@
     "harvest": "bird_small"
   },
   {
+    "id": "mon_nothronychus_juvenile",
+    "type": "MONSTER",
+    "name": "green and magenta two-legged juvenile",
+    "description": "A small bipedal plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "herbivore_dino",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "green_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_nothronychus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
     "id": "mon_deinonychus_juvenile",
     "type": "MONSTER",
     "name": "red and green two-legged juvenile",
@@ -635,6 +658,29 @@
       "CANPLAY",
       "SWIMS",
       "AQUATIC"
+    ]
+  },
+  {
+    "id": "mon_qianzhousaurus_juvenile",
+    "type": "MONSTER",
+    "name": "Qianzhousaurus juvenile",
+    "copy-from": "mon_gallimimus_juvenile",
+    "description": "A juvenile Pinnochio Rex, It looks at you with fear and hatred at the same time.",
+    "default_faction": "qianzhousaurus",
+    "color": "green",
+    "upgrades": { "age_grow": 100, "into": "mon_qianzhousaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
     ]
   }
 ]

@@ -135,7 +135,6 @@ TEST_CASE( "erase_if", "[utility]" )
     }
 }
 
-
 TEST_CASE( "equal_ignoring_elements", "[utility]" )
 {
     SECTION( "empty sets" ) {
