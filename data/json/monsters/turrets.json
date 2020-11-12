@@ -51,7 +51,7 @@
       {
         "type": "gun",
         "cooldown": 1,
-        "gun_type": "laser_cannon",
+        "gun_type": "laser_cannon_turret_fake",
         "fake_skills": [ [ "gun", 4 ], [ "rifle", 8 ] ],
         "ranges": [ [ 0, 30, "DEFAULT" ] ],
         "require_sunlight": true,
