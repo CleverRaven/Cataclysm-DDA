@@ -741,7 +741,8 @@ tab_direction set_points( avatar &, points_left &points )
         // Clear the bottom of the screen.
         werase( w_description );
 
-        for( int i = 0; i < static_cast<int>( opts.size() ); i++ ) {
+        const int opts_length = static_cast<int>( opts.size() );
+        for( int i = 0; i < opts_length; i++ ) {
             nc_color color = ( points.limit == std::get<0>( opts[i] ) ? COL_SKILL_USED : c_light_gray );
             if( highlighted == i ) {
                 color = hilite( color );
@@ -766,10 +767,11 @@ tab_direction set_points( avatar &, points_left &points )
         wnoutrefresh( w_description );
     } );
 
+    const int opts_length = static_cast<int>( opts.size() );
     do {
         if( highlighted < 0 ) {
-            highlighted = opts.size() - 1;
-        } else if( highlighted >= static_cast<int>( opts.size() ) ) {
+            highlighted = opts_length - 1;
+        } else if( highlighted >= opts_length ) {
             highlighted = 0;
         }
         ui_manager::redraw();
@@ -1088,8 +1090,8 @@ tab_direction set_traits( avatar &u, points_left &points )
         traits_size[i] = vStartingTraits[i].size();
     }
 
-    size_t iContentHeight;
-    size_t page_width;
+    size_t iContentHeight = 0;
+    size_t page_width = 0;
 
     ui_adaptor ui;
     catacurses::window w;
@@ -1671,12 +1673,12 @@ tab_direction set_profession( avatar &u, points_left &points,
                 return !lcmatch( arg->gender_appropriate_name( u.male ), filterstring );
             } );
             sorted_profs.erase( new_end, sorted_profs.end() );
-            profs_length = sorted_profs.size();
-            if( profs_length == 0 ) {
+            if( sorted_profs.empty() ) {
                 popup( _( "Nothing found." ) ); // another case of black box in tiles
                 filterstring.clear();
                 continue;
             }
+            profs_length = static_cast<int>( sorted_profs.size() );
 
             // Sort professions by points.
             // profession_display_sort() keeps "unemployed" at the top.
@@ -1699,8 +1701,8 @@ tab_direction set_profession( avatar &u, points_left &points,
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        int recmax = static_cast<int>( profs_length );
-        int scroll_rate = recmax > 20 ? 10 : 2;
+        const int recmax = profs_length;
+        const int scroll_rate = recmax > 20 ? 10 : 2;
         if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > recmax - 1 ) {
@@ -2331,12 +2333,12 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 }
                 sorted_scens.push_back( &scen );
             }
-            scens_length = sorted_scens.size();
-            if( scens_length == 0 ) {
+            if( sorted_scens.empty() ) {
                 popup( _( "Nothing found." ) ); // another case of black box in tiles
                 filterstring.clear();
                 continue;
             }
+            scens_length = static_cast<int>( sorted_scens.size() );
 
             // Sort scenarios by points.
             // scenario_display_sort() keeps "Evacuee" at the top.
@@ -2367,7 +2369,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        int scroll_rate = scens_length > 20 ? 5 : 2;
+        const int scroll_rate = scens_length > 20 ? 5 : 2;
         if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > scens_length - 1 ) {
@@ -2528,23 +2530,27 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     catacurses::window w_age;
     catacurses::window w_blood;
     const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int beginx2 = 46;
+        const int ncol2 = 40;
+        const int beginx3 = TERMX <= 88 ? TERMX - TERMX / 4 : 86;
+        const int ncol3 = TERMX - beginx3 - 2;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_name = catacurses::newwin( 2, 42, point( 2, 5 ) );
-        w_gender = catacurses::newwin( 1, 42, point( 2, 7 ) );
-        w_location = catacurses::newwin( 1, TERMX - 88, point( 86, 5 ) );
-        w_vehicle = catacurses::newwin( 1, TERMX - 88, point( 86, 6 ) );
-        w_addictions = catacurses::newwin( 1, TERMX - 88, point( 86, 7 ) );
+        w_name = catacurses::newwin( 2, ncol2 + 2, point( 2, 5 ) );
+        w_gender = catacurses::newwin( 1, ncol2 + 2, point( 2, 7 ) );
+        w_location = catacurses::newwin( 1, ncol3, point( beginx3, 5 ) );
+        w_vehicle = catacurses::newwin( 1, ncol3, point( beginx3, 6 ) );
+        w_addictions = catacurses::newwin( 1, ncol3, point( beginx3, 7 ) );
         w_stats = catacurses::newwin( 6, 20, point( 2, 9 ) );
-        w_traits = catacurses::newwin( TERMY - 10, 40, point( 46, 9 ) );
-        w_bionics = catacurses::newwin( TERMY - 10, TERMX - 88, point( 86, 9 ) );
+        w_traits = catacurses::newwin( TERMY - 10, ncol2, point( beginx2, 9 ) );
+        w_bionics = catacurses::newwin( TERMY - 10, ncol3, point( beginx3, 9 ) );
         w_proficiencies = catacurses::newwin( TERMY - 20, 19, point( 2, 15 ) );
-        w_scenario = catacurses::newwin( 1, 40, point( 46, 3 ) );
-        w_profession = catacurses::newwin( 1, TERMX - 88, point( 86, 3 ) );
+        w_scenario = catacurses::newwin( 1, ncol2, point( beginx2, 3 ) );
+        w_profession = catacurses::newwin( 1, ncol3, point( beginx3, 3 ) );
         w_skills = catacurses::newwin( TERMY - 10, 23, point( 22, 9 ) );
         w_guide = catacurses::newwin( 9, TERMX - 3, point( 2, TERMY - 10 ) );
-        w_height = catacurses::newwin( 1, 40, point( 46, 5 ) );
-        w_age = catacurses::newwin( 1, 40, point( 46, 6 ) );
-        w_blood = catacurses::newwin( 1, 40, point( 46, 7 ) );
+        w_height = catacurses::newwin( 1, ncol2, point( beginx2, 5 ) );
+        w_age = catacurses::newwin( 1, ncol2, point( beginx2, 6 ) );
+        w_blood = catacurses::newwin( 1, ncol2, point( beginx2, 7 ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
