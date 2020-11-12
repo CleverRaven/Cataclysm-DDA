@@ -82,7 +82,6 @@
     "name": "Frozen Winds push effect",
     "description": "This is the push effect portion of the Frozen Winds spell.",
     "effect": "directed_push",
-    "effect": "attack",
     "shape": "line",
     "valid_targets": [ "hostile", "ground" ],
     "max_level": 35,

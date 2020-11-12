@@ -45,7 +45,6 @@
     "min_aoe": 45,
     "max_aoe": 120,
     "aoe_increment": 3,
-    "spell_class": "GLACIER_MAGE",
     "energy_source": "MANA",
     "damage_type": "cold",
     "max_level": 35
