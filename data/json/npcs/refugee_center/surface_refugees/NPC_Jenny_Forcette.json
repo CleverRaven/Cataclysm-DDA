@@ -308,7 +308,7 @@
       "context": "flag",
       "op": ">=",
       "time": "7 d",
-      "no": "Things are coming along.  I have a lot of studying to do before I know how to fix my design issues, but the book you brought definitely has everything I need. Now that I've got some progress to show, administration is much more willing to help me get the parts I need.  You've been a great gofer, but I can probably handle the rest on my own.  Check back in a week or two!",
+      "no": "Things are coming along.  I have a lot of studying to do before I know how to fix my design issues, but the book you brought definitely has everything I need.  Now that I've got some progress to show, administration is much more willing to help me get the parts I need.  You've been a great gofer, but I can probably handle the rest on my own.  Check back in a week or two!",
       "yes": {
         "npc_compare_time_since_var": "Jenny_project_timer",
         "type": "timer",
