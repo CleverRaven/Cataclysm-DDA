@@ -659,5 +659,28 @@
       "SWIMS",
       "AQUATIC"
     ]
+  },
+  {
+    "id": "mon_qianzhousaurus_juvenile",
+    "type": "MONSTER",
+    "name": "Qianzhousaurus juvenile",
+    "copy-from": "mon_gallimimus_juvenile",
+    "description": "A juvenile Pinnochio Rex, It looks at you with fear and hatred at the same time.",
+    "default_faction": "qianzhousaurus",
+    "color": "green",
+    "upgrades": { "age_grow": 100, "into": "mon_qianzhousaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   }
 ]
