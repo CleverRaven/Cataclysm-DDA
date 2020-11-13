@@ -30,5 +30,13 @@
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "footsteps": "shlip."
+  },
+  {
+    "type": "SPECIES",
+    "id": "Licorice",
+    "anger_triggers": [ "FRIEND_DIED" ],
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "footsteps": "Shlop."
   }
 ]
+
