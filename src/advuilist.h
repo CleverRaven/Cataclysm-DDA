@@ -361,10 +361,12 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
         } else if( action == ACTION_SELECT ) {
             return peek();
         } else if( action == ACTION_SELECT_PARTIAL ) {
-            std::size_t const count = _peekcount();
-            std::size_t const input = _querypartial( count );
-            if( input > 0 ) {
-                return _peek( input );
+            if( !_list.empty() ) {
+                std::size_t const count = _peekcount();
+                std::size_t const input = _querypartial( count );
+                if( input > 0 ) {
+                    return _peek( input );
+                }
             }
         } else if( action == ACTION_SELECT_WHOLE ) {
             std::size_t const count = _peekcount();
@@ -532,7 +534,11 @@ void advuilist<Container, T>::loadstate( advuilist_save_state *state, bool reb )
 template <class Container, typename T>
 typename advuilist<Container, T>::select_t advuilist<Container, T>::_peek( std::size_t amount )
 {
-    return select_t{ selection_t{ amount, std::get<ptr_t>( _list[_cidx] ) } };
+    if( _list.empty() ) {
+        return select_t();
+    } else {
+        return select_t{ selection_t{ amount, std::get<ptr_t>( _list[_cidx] ) } };
+    }
 }
 
 template <class Container, typename T>
@@ -550,7 +556,9 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::_peekall()
 template <class Container, typename T>
 std::size_t advuilist<Container, T>::_count( std::size_t idx )
 {
-    if( _fcounter ) {
+    if( _list.empty() ) {
+        return 0;
+    } else if( _fcounter ) {
         return _fcounter( *std::get<ptr_t>( _list[idx] ) );
     } else {
         return 1;
