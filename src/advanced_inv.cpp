@@ -45,7 +45,7 @@ void create_advanced_inv()
         std::pair<point, point> size = AIM_size( full_screen );
 
         mytrui = std::make_unique<mytrui_t>( aimlayout, size.first, size.second,
-                                             "ADVANCED_INVENTORY" );
+                                             "ADVANCED_INVENTORY", point{3, 1} );
         mytrui->on_resize( [&]( mytrui_t *ui ) {
             std::pair<point, point> size = AIM_size( full_screen );
             ui->resize( size.first, size.second );

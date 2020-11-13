@@ -26,6 +26,7 @@
 #include "map.h"              // for get_map, map, map_stack
 #include "map_selector.h"     // for map_cursor, map_selector
 #include "optional.h"         // for optional
+#include "options.h"          // for get_option
 #include "output.h"           // for format_volume, draw_item_info
 #include "point.h"            // for tripoint
 #include "string_formatter.h" // for string_format
@@ -342,6 +343,87 @@ int query_destination()
     return menu.ret;
 }
 
+cata::optional<vpart_reference> veh_cargo_at( tripoint const &loc )
+{
+    return get_map().veh_at( loc ).part_with_feature( "CARGO", false );
+}
+
+void aim_inv_idv_stats( aim_advuilist_sourced_t *ui )
+{
+    using select_t = aim_transaction_ui_t::select_t;
+    select_t const peek = ui->peek();
+    catacurses::window &w = *ui->get_window();
+    avatar &u = get_avatar();
+
+    if( !peek.empty() ) {
+        iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( peek.front() );
+        double const peek_len = convert_length_cm_in( entry.stack[0]->length() );
+        double const indiv_len_cap = convert_length_cm_in( u.max_single_item_length() );
+        std::string const peek_len_str = colorize(
+                                             string_format( "%.1f", peek_len ), peek_len > indiv_len_cap ? c_red : c_light_green );
+        std::string const indiv_len_cap_str = string_format( "%.1f", indiv_len_cap );
+        bool const metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
+        std::string const len_unit = metric ? "cm" : "in";
+
+        units::volume const indiv_vol_cap = u.max_single_item_volume();
+        units::volume const peek_vol = entry.stack[0]->volume();
+        std::string const indiv_vol_cap_str = format_volume( indiv_vol_cap );
+        std::string const peek_vol_str =
+            colorize( format_volume( peek_vol ), peek_vol > indiv_vol_cap ? c_red : c_light_green );
+
+        right_print( w, 2, 2, c_white,
+                     string_format( _( "INDV %s/%s %s  %s/%s %s" ), peek_len_str, indiv_len_cap_str,
+                                    len_unit, peek_vol_str, indiv_vol_cap_str,
+                                    volume_units_abbr() ) );
+    }
+}
+
+void aim_inv_stats( aim_advuilist_sourced_t *ui )
+{
+    catacurses::window &w = *ui->get_window();
+    avatar &u = get_avatar();
+    double const weight = convert_weight( u.weight_carried() );
+    double const weight_cap = convert_weight( u.weight_capacity() );
+    std::string const weight_str =
+        colorize( string_format( "%.1f", weight ), weight >= weight_cap ? c_red : c_light_green );
+    std::string const volume_cap = format_volume( u.volume_capacity() );
+    std::string const volume = format_volume( u.volume_carried() );
+
+    right_print( w, 1, 2, c_white,
+                 string_format( "%s/%.1f %s  %s/%s %s", weight_str, weight_cap, weight_units(),
+                                volume, volume_cap, volume_units_abbr() ) );
+}
+
+void aim_ground_veh_stats( aim_advuilist_sourced_t *ui, aim_stats_t *stats )
+{
+    using namespace advuilist_helpers;
+    using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
+    using icon_t = aim_advuilist_sourced_t::icon_t;
+    slotidx_t src;
+    icon_t srci;
+    std::tie( src, srci ) = ui->getSource();
+    catacurses::window &w = *ui->get_window();
+    avatar &u = get_avatar();
+    units::volume vol_cap = 0_liter;
+    tripoint const off = slotidx_to_offset( src );
+    tripoint const loc = u.pos() + off;
+
+    if( srci == SOURCE_VEHICLE_i or src == DRAGGED_IDX ) {
+        cata::optional<vpart_reference> vp = veh_cargo_at( loc );
+        vol_cap = vp ? vp->vehicle().max_volume( vp->part_index() ) : 0_liter;
+    } else {
+        vol_cap = get_map().max_volume( loc );
+    }
+
+    double const weight = convert_weight( stats->first );
+    std::string const volume = format_volume( stats->second );
+    std::string const volume_cap = format_volume( vol_cap );
+
+    right_print( w, 1, 2, c_white,
+                 string_format( "%3.1f %s  %s/%s %s", weight, weight_units(), volume,
+                                volume_cap, volume_units_abbr() ) );
+}
+
 } // namespace
 
 namespace advuilist_helpers
@@ -547,8 +629,7 @@ aim_container_t source_ground( tripoint const &loc )
 
 aim_container_t source_vehicle( tripoint const &loc )
 {
-    cata::optional<vpart_reference> vp =
-        get_map().veh_at( loc ).part_with_feature( "CARGO", false );
+    cata::optional<vpart_reference> vp = veh_cargo_at( loc );
 
     return get_stacks( vp->vehicle().get_items( vp->part_index() ), [&]( item * it ) {
         return iloc_vehicle( vehicle_cursor( vp->vehicle(), vp->part_index() ), it );
@@ -557,8 +638,7 @@ aim_container_t source_vehicle( tripoint const &loc )
 
 bool source_vehicle_avail( tripoint const &loc )
 {
-    cata::optional<vpart_reference> vp =
-        get_map().veh_at( loc ).part_with_feature( "CARGO", false );
+    cata::optional<vpart_reference> vp = veh_cargo_at( loc );
     return vp.has_value();
 }
 
@@ -829,7 +909,7 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
                 game::inventory_item_menu_positon const side =
                     ui->curpane() == ui->left() ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO;
                 g->inventory_item_menu(
-                    entry.stack.front(), [=] { return dim.second.x; }, [=] { return dim.first.x; },
+                    entry.stack.front(), [ = ] { return dim.second.x; }, [ = ] { return dim.first.x; },
                     side );
             } else {
                 iloc_entry_examine( ui->otherpane()->get_window(), entry );
@@ -859,23 +939,11 @@ void aim_stats_printer( aim_advuilist_t *ui, aim_stats_t *stats )
     using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
     slotidx_t src = std::get<slotidx_t>( _ui->getSource() );
 
-    catacurses::window &w = *_ui->get_window();
-
     if( src == INV_IDX or src == WORN_IDX ) {
-        Character &u = get_player_character();
-        double const weight_cap = convert_weight( u.weight_capacity() );
-        std::string const volume_cap = format_volume( u.volume_capacity() );
-        double const weight = convert_weight( u.weight_carried() );
-        std::string const volume = format_volume( u.volume_carried() );
-        right_print( w, 1, 2, c_white,
-                     string_format( "%.1f/%.1f %s  %s/%s %s", weight, weight_cap, weight_units(),
-                                    volume, volume_cap, volume_units_abbr() ) );
+        aim_inv_stats( _ui );
     } else {
-        double const weight = convert_weight( stats->first );
-        std::string const volume = format_volume( stats->second );
-        right_print( w, 1, 2, c_white,
-                     string_format( "%3.1f %s  %s %s", weight, weight_units(), volume,
-                                    volume_units_abbr() ) );
+        aim_ground_veh_stats( _ui, stats );
+        aim_inv_idv_stats( _ui );
     }
 }
 
