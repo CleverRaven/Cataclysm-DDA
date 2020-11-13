@@ -610,6 +610,12 @@
     "//": "This makes the spell's effects permanent."
   },
   {
+    "id": "NO_FAIL",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "Spellcasting never fails for this spell"
+  },
+  {
     "id": "IGNORE_WALLS",
     "type": "json_flag",
     "context": [ "SPELL" ],
