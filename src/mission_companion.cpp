@@ -484,7 +484,7 @@ bool talk_function::display_and_choose_opts(
         calcStartPos( name_offset, sel_pos, info_height, folded_names_lines );
 
         int name_index = 0;
-        bool last_section = folded_names_lines - info_height <= name_offset;  // Are we so far down the list that we bump into the end?
+        bool last_section = folded_names_lines < info_height || folded_names_lines - info_height <= size_t(name_offset);  // Are we so far down the list that we bump into the end?
 
         if (name_offset > 0) {  // Translate back from desired line index to the corresponding entry, making sure to round up near the end to ensure the last line gets included.
             for (size_t i = 0; i < cur_key_list.size(); i++) {
