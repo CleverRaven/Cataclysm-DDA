@@ -539,6 +539,8 @@
       "mili_medic",
       "mili_burner",
       "hazmat_unit"
+      "major-general"
+      "nco"
     ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
