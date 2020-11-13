@@ -54,12 +54,6 @@ If any package fails during build, for example `mpg123`, try installing it first
 .\vcpkg upgrade
 ```
 
-#### add libs for Visual Studio compiler:
-
-```cmd
-.\vcpkg integrate install
-```
-
 ## Cloning and compilation:
 
 1. Clone Cataclysm-DDA repository with following command line:
