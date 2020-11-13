@@ -796,6 +796,9 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t sele
 void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_mutex_t *mutex )
 {
     using namespace advuilist_literals;
+    using select_t = aim_transaction_ui_t::select_t;
+    select_t const peek = ui->curpane()->peek();
+
     // reset pane mutex on any source change
     if( action == ACTION_CYCLE_SOURCES or
         action.substr( 0, ACTION_SOURCE_PRFX_len ) == ACTION_SOURCE_PRFX ) {
@@ -810,41 +813,42 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
             ui->otherpane()->get_ui()->invalidate_ui();
         }
 
-    } else if( action == advuilist_literals::ACTION_EXAMINE ) {
-        iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( ui->curpane()->peek().front() );
-        std::size_t src = std::get<std::size_t>( ui->curpane()->getSource() );
-        if( src == INV_IDX or src == WORN_IDX ) {
-            aim_add_return_activity();
-            ui->pushevent( aim_transaction_ui_t::event::QUIT );
-            ui->curpane()->suspend();
-            ui->curpane()->hide();
-            ui->otherpane()->hide();
+    } else if( !peek.empty() ) {
+        iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( peek.front() );
 
-            std::pair<point, point> const dim = ui->otherpane()->get_size();
-            game::inventory_item_menu_positon const side =
-                ui->curpane() == ui->left() ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO;
-            g->inventory_item_menu(
-                entry.stack.front(), [ = ] { return dim.second.x; }, [ = ] { return dim.first.x; },
-                side );
-        } else {
-            iloc_entry_examine( ui->otherpane()->get_window(), entry );
-        }
+        if( action == advuilist_literals::ACTION_EXAMINE ) {
+            std::size_t src = std::get<std::size_t>( ui->curpane()->getSource() );
+            if( src == INV_IDX or src == WORN_IDX ) {
+                aim_add_return_activity();
+                ui->pushevent( aim_transaction_ui_t::event::QUIT );
+                ui->curpane()->suspend();
+                ui->curpane()->hide();
+                ui->otherpane()->hide();
 
-    } else if( action == TOGGLE_AUTO_PICKUP ) {
-        iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( ui->curpane()->peek().front() );
-        item const *it = entry.stack.front().get_item();
-        bool const has = get_auto_pickup().has_rule( it );
-        if( !has ) {
-            get_auto_pickup().add_rule( it );
-        } else {
-            get_auto_pickup().remove_rule( it );
-        }
+                std::pair<point, point> const dim = ui->otherpane()->get_size();
+                game::inventory_item_menu_positon const side =
+                    ui->curpane() == ui->left() ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO;
+                g->inventory_item_menu(
+                    entry.stack.front(), [=] { return dim.second.x; }, [=] { return dim.first.x; },
+                    side );
+            } else {
+                iloc_entry_examine( ui->otherpane()->get_window(), entry );
+            }
 
-    } else if( action == TOGGLE_FAVORITE ) {
-        iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( ui->curpane()->peek().front() );
-        bool const isfavorite = entry.stack.front()->is_favorite;
-        for( item_location &it : entry.stack ) {
-            it->set_favorite( !isfavorite );
+        } else if( action == TOGGLE_AUTO_PICKUP ) {
+            item const *it = entry.stack.front().get_item();
+            bool const has = get_auto_pickup().has_rule( it );
+            if( !has ) {
+                get_auto_pickup().add_rule( it );
+            } else {
+                get_auto_pickup().remove_rule( it );
+            }
+
+        } else if( action == TOGGLE_FAVORITE ) {
+            bool const isfavorite = entry.stack.front()->is_favorite;
+            for( item_location &it : entry.stack ) {
+                it->set_favorite( !isfavorite );
+            }
         }
     }
 }
