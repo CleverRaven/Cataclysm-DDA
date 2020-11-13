@@ -247,9 +247,6 @@ class player : public Character
          */
         trinary consume( item &target, bool force = false );
 
-        /** Handles the enjoyability value for a book. **/
-        int book_fun_for( const item &book, const player &p ) const;
-
         int get_lift_assist() const;
 
         bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
@@ -341,8 +338,6 @@ class player : public Character
 
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );
-
-        bool fun_to_read( const item &book ) const;
 
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur );
