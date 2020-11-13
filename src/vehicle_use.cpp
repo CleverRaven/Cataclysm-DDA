@@ -733,7 +733,7 @@ void vehicle::build_controls_menu( const tripoint &pos,
         cruise_on = !cruise_on;
         add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
         refresh();
-        return true;
+        return false;
     } );
 
     if( ( is_foldable() || tags.count( "convertible" ) ) && !remote ) {
