@@ -665,12 +665,12 @@
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "dialogue": {
       "describe": "Oh, my poor puppy…",
-      "offer": "I lost my poor dog, not far from here. Can you retrieve it?",
-      "accepted": "Thank you! Please hurry back!",
+      "offer": "I lost my poor dog, not far from here.  Can you retrieve it?",
+      "accepted": "Thank you!  Please hurry back!",
       "rejected": "Please, think of my poor little puppy!",
       "advice": "Take my dog whistle; if the dog starts running off, blow it and he'll return to your side.",
       "inquire": "Have you found my dog yet?",
-      "success": "Thank you so much for finding him! I think he likes you. Maybe you should bring him with you, so you can keep him safe…",
+      "success": "Thank you so much for finding him!  I think he likes you.  Maybe you should bring him with you, so you can keep him safe…",
       "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
       "failure": "Oh no!  My poor puppy…"
     }
