@@ -160,6 +160,8 @@
     "volume": "40 ml",
     "weight": "78 g",
     "spoils_in": "230 days",
+    "rot_spawn": "GROUP_EGG_LICORICE",
+    "rot_spawn_chance": 100,
     "color": "red",
     "comestible_type": "FOOD",
     "material": [ "junk" ],
