@@ -765,7 +765,7 @@
       "female": [ "sports_bra", "boxer_shorts" ]
     }
   },
-{
+  {
     "type": "profession",
     "id": "combat-engineer",
     "name": "Combat Engineer",
@@ -803,14 +803,13 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-	  { "item": "c4", "count": 3 }
+          { "item": "c4", "count": 3 }
         ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     }
   },
-
   {
     "type": "profession",
     "id": "nco",
@@ -876,7 +875,7 @@
       { "level": 2, "name": "stabbing" },
       { "level": 2, "name": "dodge" },
       { "level": 2, "name": "survival" },
-      { "level": 2, "name": "firstaid" } 
+      { "level": 2, "name": "firstaid" }
     ],
     "items": {
       "both": {
