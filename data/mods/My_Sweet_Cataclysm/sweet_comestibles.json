@@ -152,7 +152,7 @@
     "description": "Dehydrated chocolate milk powder.  Mix with water to make drinkable milk.",
     "fun": -1
   },
-   {
+  {
     "type": "COMESTIBLE",
     "id": "licorice",
     "name": "licorice",
@@ -172,5 +172,5 @@
     "stim": 1,
     "fun": 7,
     "flags": [ "EDIBLE_FROZEN" ]
-  },
+  }
 ]
