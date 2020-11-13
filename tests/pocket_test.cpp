@@ -341,13 +341,13 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
             REQUIRE( pocket_mag.empty() );
 
             THEN( "it can contain a full clip of 9mm ammo" ) {
-                const item ammo_9mm( "test_9mm_ammo", 0, full_clip_qty );
+                const item ammo_9mm( "test_9mm_ammo", calendar::turn_zero, full_clip_qty );
                 expect_can_contain( pocket_mag, ammo_9mm );
             }
 
             THEN( "it cannot contain items of the wrong ammo type" ) {
                 item rock( "test_rock" );
-                item ammo_45( "test_45_ammo", 0, 1 );
+                item ammo_45( "test_45_ammo", calendar::turn_zero, 1 );
                 expect_cannot_contain( pocket_mag, rock, "item is not the correct ammo type",
                                        item_pocket::contain_code::ERR_AMMO );
                 expect_cannot_contain( pocket_mag, ammo_45, "item is not the correct ammo type",
@@ -363,16 +363,18 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
 
         WHEN( "it is partly full of ammo" ) {
             const int half_clip_qty = full_clip_qty / 2;
-            item ammo_9mm_half_clip( "test_9mm_ammo", 0, half_clip_qty );
+            item ammo_9mm_half_clip( "test_9mm_ammo", calendar::turn_zero, half_clip_qty );
             expect_can_insert( pocket_mag, ammo_9mm_half_clip );
 
             THEN( "it can contain more of the same ammo" ) {
-                item ammo_9mm_refill( "test_9mm_ammo", 0, full_clip_qty - half_clip_qty );
+                item ammo_9mm_refill( "test_9mm_ammo", calendar::turn_zero,
+                                      full_clip_qty - half_clip_qty );
                 expect_can_contain( pocket_mag, ammo_9mm_refill );
             }
 
             THEN( "it cannot contain more ammo than ammo_restriction allows" ) {
-                item ammo_9mm_overfill( "test_9mm_ammo", 0, full_clip_qty - half_clip_qty + 1 );
+                item ammo_9mm_overfill( "test_9mm_ammo", calendar::turn_zero,
+                                        full_clip_qty - half_clip_qty + 1 );
                 expect_cannot_contain( pocket_mag, ammo_9mm_overfill,
                                        "tried to put too many charges of ammo in item",
                                        item_pocket::contain_code::ERR_NO_SPACE );
@@ -380,11 +382,11 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
         }
 
         WHEN( "it is completely full of ammo" ) {
-            item ammo_9mm_full_clip( "test_9mm_ammo", 0, full_clip_qty );
+            item ammo_9mm_full_clip( "test_9mm_ammo", calendar::turn_zero, full_clip_qty );
             expect_can_insert( pocket_mag, ammo_9mm_full_clip );
 
             THEN( "it cannot contain any more of the same ammo" ) {
-                item ammo_9mm_bullet( "test_9mm_ammo", 0, 1 );
+                item ammo_9mm_bullet( "test_9mm_ammo", calendar::turn_zero, 1 );
                 expect_cannot_contain( pocket_mag, ammo_9mm_bullet,
                                        "tried to put too many charges of ammo in item",
                                        item_pocket::contain_code::ERR_NO_SPACE );
@@ -625,8 +627,8 @@ TEST_CASE( "holster can contain one fitting item", "[pocket][holster]" )
 TEST_CASE( "pockets containing liquids", "[pocket][watertight][liquid]" )
 {
     // Liquids
-    item ketchup( "ketchup", 0, item::default_charges_tag{} );
-    item mustard( "mustard", 0, item::default_charges_tag{} );
+    item ketchup( "ketchup", calendar::turn_zero, item::default_charges_tag{} );
+    item mustard( "mustard", calendar::turn_zero, item::default_charges_tag{} );
 
     // Non-liquids
     item rock( "test_rock" );
@@ -724,7 +726,7 @@ TEST_CASE( "pockets containing liquids", "[pocket][watertight][liquid]" )
 //
 TEST_CASE( "pockets containing gases", "[pocket][airtight][gas]" )
 {
-    item gas( "test_gas", 0, item::default_charges_tag{} );
+    item gas( "test_gas", calendar::turn_zero, item::default_charges_tag{} );
 
     // A potentially airtight container
     pocket_data data_balloon( item_pocket::pocket_type::CONTAINER );
@@ -1092,7 +1094,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         REQUIRE( util_belt.can_contain( halligan ) );
         // It can contain liquid and gas
         item liquid( "test_liquid" );
-        item gas( "test_gas", 0, item::default_charges_tag{} );
+        item gas( "test_gas", calendar::turn_zero, item::default_charges_tag{} );
         REQUIRE( util_belt.can_contain( liquid ) );
         REQUIRE( util_belt.can_contain( gas ) );
 

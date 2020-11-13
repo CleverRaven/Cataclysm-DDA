@@ -547,7 +547,7 @@ void Item_factory::finalize_post( itype &obj )
     }
 
     if( obj.comestible ) {
-        for( const std::pair<diseasetype_id, int> elem : obj.comestible->contamination ) {
+        for( const std::pair<const diseasetype_id, int> &elem : obj.comestible->contamination ) {
             const diseasetype_id dtype = elem.first;
             if( !dtype.is_valid() ) {
                 debugmsg( "contamination in %s contains invalid diseasetype_id %s.",
@@ -2542,25 +2542,25 @@ void Item_factory::npc_implied_flags( itype &item_template )
         item_template.item_tags.insert( flag_DANGEROUS );
     }
 
-    if( item_template.has_flag( flag_DANGEROUS ) > 0 ) {
+    if( item_template.has_flag( flag_DANGEROUS ) ) {
         item_template.item_tags.insert( flag_NPC_THROW_NOW );
     }
 
-    if( item_template.has_flag( flag_BOMB ) > 0 ) {
+    if( item_template.has_flag( flag_BOMB ) ) {
         item_template.item_tags.insert( flag_NPC_ACTIVATE );
     }
 
-    if( item_template.has_flag( flag_NPC_THROW_NOW ) > 0 ) {
+    if( item_template.has_flag( flag_NPC_THROW_NOW ) ) {
         item_template.item_tags.insert( flag_NPC_THROWN );
     }
 
-    if( item_template.has_flag( flag_NPC_ACTIVATE ) > 0 ||
-        item_template.has_flag( flag_NPC_THROWN ) > 0 ) {
+    if( item_template.has_flag( flag_NPC_ACTIVATE ) ||
+        item_template.has_flag( flag_NPC_THROWN ) ) {
         item_template.item_tags.insert( flag_NPC_ALT_ATTACK );
     }
 
-    if( item_template.has_flag( flag_DANGEROUS ) > 0 ||
-        item_template.has_flag( flag_PSEUDO ) > 0 ) {
+    if( item_template.has_flag( flag_DANGEROUS ) ||
+        item_template.has_flag( flag_PSEUDO ) ) {
         item_template.item_tags.insert( flag_TRADER_AVOID );
     }
 }

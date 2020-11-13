@@ -37,7 +37,7 @@ static const efftype_id effect_blind( "blind" );
 static void clear_game( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
-    calendar::turn = 0;
+    calendar::turn = calendar::turn_zero;
     clear_creatures();
     clear_npcs();
     clear_vehicles();

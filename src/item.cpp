@@ -7084,6 +7084,16 @@ double item::calculate_by_enchantment_wield( double modify, enchant_vals::mod va
     return modify;
 }
 
+units::length item::max_containable_length() const
+{
+    return contents.max_containable_length();
+}
+
+units::volume item::max_containable_volume() const
+{
+    return contents.max_containable_volume();
+}
+
 bool item::can_contain( const item &it ) const
 {
     if( this == &it ) {
@@ -10425,7 +10435,7 @@ const cata::value_ptr<islot_comestible> &item::get_comestible() const
 bool item::has_clothing_mod() const
 {
     for( const clothing_mod &cm : clothing_mods::get_all() ) {
-        if( has_own_flag( cm.flag ) > 0 ) {
+        if( has_own_flag( cm.flag ) ) {
             return true;
         }
     }

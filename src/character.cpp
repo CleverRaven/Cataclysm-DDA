@@ -2705,6 +2705,32 @@ std::vector<item_location> Character::nearby( const
     return res;
 }
 
+units::length Character::max_single_item_length() const
+{
+    units::length ret = weapon.max_containable_length();
+
+    for( const item &worn_it : worn ) {
+        units::length candidate = worn_it.max_containable_length();
+        if( candidate > ret ) {
+            ret = candidate;
+        }
+    }
+    return ret;
+}
+
+units::volume Character::max_single_item_volume() const
+{
+    units::volume ret = weapon.max_containable_volume();
+
+    for( const item &worn_it : worn ) {
+        units::volume candidate = worn_it.max_containable_volume();
+        if( candidate > ret ) {
+            ret = candidate;
+        }
+    }
+    return ret;
+}
+
 std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, const item *avoid )
 {
     item_location weapon_loc( *this, &weapon );
@@ -4081,7 +4107,7 @@ void Character::normalize()
 
     weary.clear();
     martial_arts_data->reset_style();
-    weapon   = item( "null", 0 );
+    weapon = item( "null", calendar::turn_zero );
 
     set_body();
     recalc_hp();
@@ -4094,15 +4120,15 @@ void Character::die( Creature *nkiller )
     set_killer( nkiller );
     set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
-        inv->add_item( item( "string_36", 0 ) );
-        inv->add_item( item( "snare_trigger", 0 ) );
+        inv->add_item( item( "string_36", calendar::turn_zero ) );
+        inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        inv->add_item( item( "rope_6", 0 ) );
-        inv->add_item( item( "snare_trigger", 0 ) );
+        inv->add_item( item( "rope_6", calendar::turn_zero ) );
+        inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv->add_item( item( "beartrap", 0 ) );
+        inv->add_item( item( "beartrap", calendar::turn_zero ) );
     }
     mission::on_creature_death( *this );
 }
@@ -12454,7 +12480,6 @@ bool Character::defer_move( const tripoint &next )
     next_expected_position = pos();
     return true;
 }
-
 
 bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const item *avoid )
 {

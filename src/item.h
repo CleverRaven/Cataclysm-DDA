@@ -1257,6 +1257,9 @@ class item : public visitable<item>
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent );
 
+        units::length max_containable_length() const;
+        units::volume max_containable_volume() const;
+
         /**
          * Is it ever possible to reload this item?
          * Only the base item is considered with any mods ignored
@@ -1469,7 +1472,6 @@ class item : public visitable<item>
 
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const flag_id &flag );
-
 
         /** Idempotent filter recursively setting an item specific flag on this item and its components. */
         item &set_flag_recursive( const flag_id &flag );

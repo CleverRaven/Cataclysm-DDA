@@ -833,6 +833,14 @@ void mapgen_road( mapgendata &dat )
         // draw round pavement for cul de sac late, to overdraw the yellow dots
         if( cul_de_sac ) {
             circle( m, t_pavement, static_cast<double>( SEEX ) - 0.5, static_cast<double>( SEEY ) - 0.5, 11.0 );
+
+            // place streetlights for cul de sacs
+            m->furn_set( point( 0, SEEY ), f_street_light );
+            m->furn_set( point( SEEX * 2 - 1, SEEY ), f_street_light );
+            m->furn_set( point( 3, 4 ), f_street_light );
+            m->furn_set( point( 3, 19 ), f_street_light );
+            m->furn_set( point( 20, 4 ), f_street_light );
+            m->furn_set( point( 20, 19 ), f_street_light );
         }
 
         // overwrite part of intersection with rotary/plaza
@@ -862,6 +870,30 @@ void mapgen_road( mapgendata &dat )
                 }
                 if( one_in( 3 ) ) {
                     circle( m, t_water_sh, point( 4, SEEY * 2 - 5 ), 3 );
+                }
+            }
+        }
+    }
+
+    // place street lights
+    if( neighbor_sidewalks ) {
+        // ordinary roads
+        for( int pos = 0; pos < SEEY * 2 - 1; pos += 12 ) {
+            if( m->ter( point( 3, pos ) ) == t_sidewalk ) {
+                m->furn_set( point( 3, pos ), f_street_light );
+            }
+            if( m->ter( point( 20, pos ) ) == t_sidewalk ) {
+                m->furn_set( point( 20, pos ), f_street_light );
+            }
+        }
+
+        // diagonal or tee-shaped roads
+        if( diag || num_dirs == 3 ) {
+            for( int x = 0; x < SEEX * 2 - 1; x += 10 ) {
+                for( int y = 0; y < SEEY * 2 - 1; y += 10 ) {
+                    if( m->ter( point( x, y ) ) == t_sidewalk ) {
+                        m->furn_set( point( x, y ), f_street_light );
+                    }
                 }
             }
         }

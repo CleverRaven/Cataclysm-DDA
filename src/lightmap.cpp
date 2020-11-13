@@ -1078,6 +1078,7 @@ float fastexp( float x )
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wpragmas"
+#pragma GCC diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
     u.i = static_cast<long long>( 6051102 * x + 1056478197 );
     v.i = static_cast<long long>( 1056478197 - 6051102 * x );
@@ -1216,8 +1217,8 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
     }
 }
 
-void map::apply_light_arc( const tripoint &p, units::angle angle, float luminance,
-                           units::angle wideangle )
+void map::apply_light_arc( const tripoint &p, const units::angle &angle, float luminance,
+                           const units::angle &wideangle )
 {
     if( luminance <= LIGHT_SOURCE_LOCAL ) {
         return;
