@@ -4272,7 +4272,11 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
                p->has_active_item( itype_afs_atomic_wraitheon_music ) ) {
         p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
     } else if(
+#if defined(SDL_SOUND)
         music_player_interface( *p )
+#else
+        true
+#endif
     ) {
         p->add_msg_if_player( m_info, _( "You put in the earbuds and start listening to music." ) );
         if( it->typeId() == itype_mp3 ) {
@@ -4362,7 +4366,11 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
             play_music( *p, pos, 0, 20 );
         }
     } else if(
+#if defined(SDL_SOUND)
         !music_player_interface( *p )
+#else
+        true
+#endif
     ) {
         // Turning it off
         if( it->typeId() == itype_mp3_on ) {

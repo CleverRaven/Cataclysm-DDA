@@ -1,3 +1,4 @@
+#if defined(SDL_SOUND)
 #include <algorithm>
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -28,8 +29,16 @@ namespace fs = std::experimental::filesystem;
 
 
 /*---------------private function declarations begin-----------------*/
+
 /* Get paths of all files in in directory*/
-void get_music_files_list( const std::string &dir, std::vector<fs::path> &paths_list );
+static void get_music_files_list( const std::string &dir, std::vector<fs::path> &paths_list );
+
+/* Get random music file path from directory &dir */
+static std::string get_random_music_file( const std::string &dir );
+
+/* draw <--|-----> scrollbar */
+static void draw_music_scrollbar( const catacurses::window &window, const point &start_point,
+                                  const nc_color &scrollbar_color, const int &length, const int &percent );
 /*----------------private function declarations end-----------------*/
 
 bool music_player_interface( const Character &p )
@@ -42,21 +51,21 @@ bool music_player_interface( const Character &p )
     const int w_height = 24;
     const int w_list_width = w_width - 40;
     const int w_list_height = w_height - 8;
-    int x_pos = ( TERMX - w_width ) / 2;
-    int y_pos = ( TERMY - w_height ) / 2;
+    point pos( ( TERMX - w_width ) / 2, ( TERMY - w_height ) / 2 );
+
     catacurses::window w_player;
     catacurses::window w_music_list;
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
 
-        x_pos = clamp( ( TERMX - w_width ) / 2, 0, TERMX - w_width );
-        y_pos = clamp( ( TERMY - w_height ) / 2, 0, TERMY - w_height );
+        pos.x = clamp( ( TERMX - w_width ) / 2, 0, TERMX - w_width );
+        pos.y = clamp( ( TERMY - w_height ) / 2, 0, TERMY - w_height );
 
-        w_player = catacurses::newwin( w_height, w_width, point( x_pos, y_pos ) );
-        w_music_list = catacurses::newwin( w_list_height, w_list_width, point( x_pos + 2, y_pos + 2 ) );
+        w_player = catacurses::newwin( w_height, w_width, pos );
+        w_music_list = catacurses::newwin( w_list_height, w_list_width, pos + point( 2, 2 ) );
 
-        ui.position( point( x_pos, y_pos ), point( x_pos + w_width, y_pos + w_height ) );
+        ui.position( pos, pos + point( w_width, w_height ) );
     } );
     ui.mark_resize();
 
@@ -79,7 +88,8 @@ bool music_player_interface( const Character &p )
     int selected_list = 0;
     std::vector<fs::path> file_list;
     static fs::path playing_file;
-    get_music_files_list( "music/", file_list );
+    std::string music_dir = "music/";
+    get_music_files_list( music_dir, file_list );
     int volume = get_option<int>( "MUSIC_VOLUME" );
 
     const nc_color music_info_color = c_light_green_cyan;
@@ -117,7 +127,14 @@ bool music_player_interface( const Character &p )
         x = w_width - 35;
         y = 2;
         offset = 11;
-        mvwprintz( w_player, point( x + offset, y++ ), text_color, _( "Plays" ) );
+        if( Mix_PlayingMusic() ) {
+            if( Mix_PausedMusic() ) {
+                mvwprintz( w_player, point( x + offset, y++ ), text_color, _( "Pausing" ) );
+            } else {
+                mvwprintz( w_player, point( x + offset, y++ ), text_color, _( "Plays" ) );
+            }
+        }
+        y = 3;
         mvwprintz( w_player, point( x, y++ ), text_color, _( "Title:" ) );
         mvwprintz( w_player, point( x, y++ ), text_color, _( "Duration:" ) );
         mvwprintz( w_player, point( x, y++ ), text_color, _( "Time:" ) );
@@ -155,31 +172,36 @@ bool music_player_interface( const Character &p )
 
         // window music list
         // background painting
-        for( y = 0; y < w_height - 8; y++ ) {
+        for( y = 0; y < w_list_height; y++ ) {
             mvwprintz( w_music_list, point( 0, y ), selected_music_color, color_line );
         }
-        // print music list
-        x = 0;
-        y = 0;
-        for( y = 0; y < std::min( w_list_height, static_cast<int>( file_list.size() ) - selected_list );
-             y++ ) {
-            nc_color clr = music_list_color;
-            if( y == 0 ) {
-                clr = selected_music_color;
+        if( !file_list.empty() ) {
+            // print music list
+            x = 0;
+            y = 0;
+            for( y = 0; y < std::min( w_list_height, static_cast<int>( file_list.size() ) - selected_list );
+                 y++ ) {
+                nc_color clr = ( y == 0 ) ? selected_music_color  : music_list_color;
+                trim_and_print( w_music_list, point( 1, y ), w_list_width - 2, clr,
+                                file_list.at( y + selected_list ).filename().string() );
             }
-            trim_and_print( w_music_list, point( 1, y ), w_list_width - 2, clr,
-                            file_list.at( y + selected_list ).filename().string() );
+            // music list scrollbar
+            if( static_cast<int>( file_list.size() ) > w_list_height ) {
+                draw_scrollbar( w_music_list, selected_list, w_list_height, static_cast<int>( file_list.size() ),
+                                point( w_list_width - 1, 0 ), c_black_green );
+            }
+        } else {
+            center_print( w_music_list, 5, music_list_color, _( "Put your music files" ) );
+            center_print( w_music_list, 6, music_list_color,
+                          string_format( _( "into %s directory." ), colorize( music_dir, selected_music_color ) ) );
+            center_print( w_music_list, 7, music_list_color, _( "Formats supported:" ) );
+            center_print( w_music_list, 8, music_list_color, _( ".mp3 .flac .wav .ogg .midi" ) );
         }
-        // music list scrollbar
-        draw_scrollbar( w_music_list, selected_list, w_list_height, static_cast<int>( file_list.size() ),
-                        point( w_list_width - 1, 0 ), c_black_green );
-
         wnoutrefresh( w_player );
         wnoutrefresh( w_music_list );
     } );
 
     do {
-
         if( action == "ANY_INPUT" ) {
 
         } else if( action == "UP" ) {
@@ -202,12 +224,14 @@ bool music_player_interface( const Character &p )
             switch( selected_button ) {
                 case 0:
                     // button previous track
-                    stop_music();
-                    selected_list--;
-                    selected_list = clamp( selected_list, 0, static_cast<int>( file_list.size() ) - 1 );
-                    playing_file = file_list.at( selected_list );
-                    if( p.can_hear( p.pos(), volume ) ) {
-                        play_music_path( playing_file.string(), 100 );
+                    if( !file_list.empty() ) {
+                        stop_music();
+                        selected_list--;
+                        selected_list = clamp( selected_list, 0, static_cast<int>( file_list.size() ) - 1 );
+                        playing_file = file_list.at( selected_list );
+                        if( p.can_hear( p.pos(), volume ) ) {
+                            play_music_path( playing_file.string(), 100 );
+                        }
                     }
                     break;
                 case 1:
@@ -219,10 +243,12 @@ bool music_player_interface( const Character &p )
                     break;
                 case 3:
                     // button play
-                    stop_music();
-                    playing_file = file_list.at( selected_list );
-                    if( p.can_hear( p.pos(), volume ) ) {
-                        play_music_path( playing_file.string(), 100 );
+                    if( !file_list.empty() ) {
+                        stop_music();
+                        playing_file = file_list.at( selected_list );
+                        if( p.can_hear( p.pos(), volume ) ) {
+                            play_music_path( playing_file.string(), 100 );
+                        }
                     }
                     break;
                 case 4:
@@ -238,12 +264,14 @@ bool music_player_interface( const Character &p )
                     break;
                 case 6:
                     // button next track
-                    stop_music();
-                    selected_list++;
-                    selected_list = clamp( selected_list, 0, static_cast<int>( file_list.size() ) - 1 );
-                    playing_file = file_list.at( selected_list );
-                    if( p.can_hear( p.pos(), volume ) ) {
-                        play_music_path( playing_file.string(), 100 );
+                    if( !file_list.empty() ) {
+                        stop_music();
+                        selected_list++;
+                        selected_list = clamp( selected_list, 0, static_cast<int>( file_list.size() ) - 1 );
+                        playing_file = file_list.at( selected_list );
+                        if( p.can_hear( p.pos(), volume ) ) {
+                            play_music_path( playing_file.string(), 100 );
+                        }
                     }
                     break;
                 default:
@@ -258,7 +286,7 @@ bool music_player_interface( const Character &p )
     return Mix_PlayingMusic();
 }
 
-void music_player_next_music( void )
+void music_player_next_music()
 {
     // If no paying music then play it
     if( !Mix_PlayingMusic() ) {
@@ -266,7 +294,7 @@ void music_player_next_music( void )
     }
 }
 
-void music_player_stop( void )
+void music_player_stop()
 {
     stop_music();
 }
@@ -287,6 +315,7 @@ void get_music_files_list( const std::string &dir, std::vector<fs::path> &paths_
         }
     }
     // shuffle music list
+    // NOLINTNEXTLINE(cata-determinism)
     static auto eng = cata_default_random_engine(
                           std::chrono::system_clock::now().time_since_epoch().count() );
     std::shuffle( paths_list.begin(), paths_list.end(), eng );
@@ -294,25 +323,15 @@ void get_music_files_list( const std::string &dir, std::vector<fs::path> &paths_
 
 std::string get_random_music_file( const std::string &dir )
 {
-    if( !fs::exists( dir ) || !fs::is_directory( dir ) ) {
-        return "";
-    }
+    std::vector<fs::path> files_list;
+    get_music_files_list( dir, files_list );
 
-    // get all music paths in list
-    std::vector<std::string> path_list;
-    for( auto &p : fs::recursive_directory_iterator( dir ) ) {
-        std::string f_ext = p.path().extension().string();
-        bool is_music = f_ext == ".wav" || f_ext == ".flac" || f_ext == ".mp3" || f_ext == ".ogg" ||
-                        f_ext == ".midi";
-        if( is_music ) {
-            path_list.push_back( p.path().string() );
-        }
-    }
     // shuffle music list
+    // NOLINTNEXTLINE(cata-determinism)
     static auto eng = cata_default_random_engine(
                           std::chrono::system_clock::now().time_since_epoch().count() );
-    std::shuffle( path_list.begin(), path_list.end(), eng );
-    return path_list.front();
+    std::shuffle( files_list.begin(), files_list.end(), eng );
+    return files_list.front().string();
 }
 
 void draw_music_scrollbar( const catacurses::window &window, const point &start_point,
@@ -332,6 +351,7 @@ void draw_music_scrollbar( const catacurses::window &window, const point &start_
     // add slider
     int pr = clamp( percent, 0, 100 );
     int pos = 1 + ( length - 1 ) * pr / 100;
-    mvwputch( window, point( start_point.x + pos, start_point.y ), scrollbar_color, LINE_XXXX );
+    mvwputch( window, start_point + point( pos, 0 ), scrollbar_color, LINE_XXXX );
 }
 
+#endif

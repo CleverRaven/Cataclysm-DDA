@@ -139,7 +139,7 @@ static void musicFinished();
 
 void play_music_path( const std::string &path_filename, int volume )
 {
-    if( !check_sound( volume ) ) {
+    if( !check_sound( volume ) || path_filename.empty() ) {
         return;
     }
 

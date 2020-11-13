@@ -1,8 +1,8 @@
 #pragma once
-#ifndef MUSIC_PLAYER_H
-#define MUSIC_PLAYER_H
+#ifndef MUSIC_SRC_PLAYER_H
+#define MUSIC_SRC_PLAYER_H
 
-#include <string>
+#if defined(SDL_SOUND)
 
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING 1
 
@@ -13,20 +13,22 @@ bool music_player_interface( const Character &p );
 /* This function called from iuse.cpp */
 /* if player uses mp3 player or somethinhg music electronics. */
 /* Starts playing next music if  current music is over */
-void music_player_next_music( void );
+void music_player_next_music();
 
 /* This function called from iuse.cpp */
 /* after used mp3 player or somethinhg music electronics. */
 /* Stops playing music */
-void music_player_stop( void );
+void music_player_stop();
 
-/* Get random music file path from directory &dir */
-std::string get_random_music_file( const std::string &dir );
+#else
 
-/* draw <--|-----> scrollbar */
-void draw_music_scrollbar( const catacurses::window &window, const point &start_point,
-                           const nc_color &scrollbar_color, const int &length, const int &percent );
+inline bool music_player_interface( const Character & /*p*/ )
+{
+    return false;
+}
+inline void music_player_next_music( void ) { }
+inline void music_player_stop( void ) { }
 
+#endif // defined(SDL_SOUND)
 
-
-#endif // MUSIC_PLAYER_H
+#endif // MUSIC_SRC_PLAYER_H
