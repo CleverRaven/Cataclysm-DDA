@@ -245,7 +245,7 @@ This is a template introduction
 
 ## Description_BlazeIndustries
 [BlazeIndustries](#blazeindustries)\
-[Description](# description_blazeindustries)
+[Description](#description_blazeindustries)
 
 ## Items_BlazeIndustries
 [BlazeIndustries](#blazeindustries)\
