@@ -506,6 +506,7 @@ void DynamicDataLoader::unload_data()
     materials::reset();
     mission_type::reset();
     move_mode::reset();
+    monfactions::reset();
     MonsterGenerator::generator().reset();
     MonsterGroupManager::ClearMonsterGroups();
     morale_type_data::reset();

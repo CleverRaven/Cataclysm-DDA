@@ -366,6 +366,13 @@ void MonsterGenerator::finalize_mtypes()
     mon_templates->finalize();
     for( const mtype &elem : mon_templates->get_all() ) {
         mtype &mon = const_cast<mtype &>( elem );
+
+        if( !mon.default_faction.is_valid() ) {
+            debugmsg( "Monster type '%s' has invalid default_faction: '%s'. "
+                      "Add this faction to json as MONSTER_FACTION type.",
+                      mon.id.str(), mon.default_faction.str() );
+        }
+
         apply_species_attributes( mon );
         set_species_ids( mon );
         mon.size = volume_to_size( mon.volume );
@@ -716,8 +723,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     // See monfaction.cpp
     if( !was_loaded || jo.has_member( "default_faction" ) ) {
-        const auto faction = mfaction_str_id( jo.get_string( "default_faction" ) );
-        default_faction = monfactions::get_or_add_faction( faction );
+        default_faction = mfaction_str_id( jo.get_string( "default_faction" ) );
     }
 
     if( !was_loaded || jo.has_member( "symbol" ) ) {
