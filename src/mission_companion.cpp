@@ -477,16 +477,19 @@ bool talk_function::display_and_choose_opts(
 
         int name_offset = 0;
         size_t sel_pos = 0;
-        for (size_t i = 0; i < sel; i++) { // Translate from entry index to line index
+        // Translate from entry index to line index
+        for (size_t i = 0; i < sel; i++) {
             sel_pos += folded_names[i].size();
         }
 
         calcStartPos( name_offset, sel_pos, info_height, folded_names_lines );
 
         int name_index = 0;
-        bool last_section = folded_names_lines < info_height || folded_names_lines - info_height <= size_t(name_offset);  // Are we so far down the list that we bump into the end?
+        // Are we so far down the list that we bump into the end?
+        bool last_section = folded_names_lines < info_height || folded_names_lines - info_height <= size_t(name_offset);
 
-        if (name_offset > 0) {  // Translate back from desired line index to the corresponding entry, making sure to round up near the end to ensure the last line gets included.
+        // Translate back from desired line index to the corresponding entry, making sure to round up near the end to ensure the last line gets included.
+        if (name_offset > 0) {
             for (size_t i = 0; i < cur_key_list.size(); i++) {
                 name_offset -= folded_names[i].size();
                 if (name_offset <= 0) {
