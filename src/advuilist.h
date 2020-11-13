@@ -67,7 +67,8 @@ class advuilist
         using select_t = std::vector<selection_t>;
 
         advuilist( Container *list, point size = { -9, -9 }, point origin = { -9, -9 },
-                   std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT );
+                   std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT,
+                   point reserved_rows = { 2, 1 } );
 
         /// sets up columns and optionally sets up implict sorters
         ///@param columns
@@ -109,7 +110,7 @@ class advuilist
         /// pre-initialize or reset the internal ui_adaptor;
         void initui();
         void hide();
-        void resize( point size, point origin );
+        void resize( point size, point origin, point reserved_rows = {-9, -9} );
 
         input_context *get_ctxt();
         catacurses::window *get_window();
@@ -158,6 +159,10 @@ class advuilist
         /// total column width weights
         cwidth_t _tweight = 0;
         int _innerw = 0;
+        /// number of lines at the top of the window reserved for decorations
+        int _headersize = 2;
+        /// number of lines at the bottom of the window reserved for decorations
+        int _footersize = 1;
         bool _exit = true;
 
         input_context _ctxt;
@@ -166,10 +171,6 @@ class advuilist
 
         Container *_olist = nullptr;
 
-        /// number of lines at the top of the window reserved for decorations
-        static constexpr int const _headersize = 2;
-        /// number of lines at the bottom of the window reserved for decorations
-        static constexpr int const _footersize = 1;
         /// first usable column after decorations
         static constexpr int const _firstcol = 1;
         /// minimum whitespace between columns
@@ -208,7 +209,7 @@ class advuilist
 
 template <class Container, typename T>
 advuilist<Container, T>::advuilist( Container *list, point size, point origin,
-                                    std::string const &ctxtname)
+                                    std::string const &ctxtname, point reserved_rows )
     : _osize( size ),
       _oorigin( origin ),
       // insert dummy sorter for "none" sort mode
@@ -220,6 +221,8 @@ advuilist<Container, T>::advuilist( Container *list, point size, point origin,
           return this->_basicfilter( it, filter );
       } },
       _innerw( _size.x - _firstcol * 2 ),
+      _headersize( reserved_rows.x ),
+      _footersize( reserved_rows.y ),
       _ctxt( ctxtname ),
       // remember constructor list so we can rebuild internal list when filtering
       _olist( list )
@@ -462,7 +465,7 @@ void advuilist<Container, T>::hide()
 }
 
 template <class Container, typename T>
-void advuilist<Container, T>::resize( point size, point origin )
+void advuilist<Container, T>::resize( point size, point origin, point reserved_rows )
 {
     _size = { size.x > 0 ? size.x > TERMX ? TERMX : size.x : TERMX / 4,
               size.y > 0 ? size.y > TERMY ? TERMY : size.y : TERMY / 4
@@ -471,6 +474,8 @@ void advuilist<Container, T>::resize( point size, point origin )
                 origin.y >= 0 ? origin.y + size.y > TERMY ? 0 : origin.y
                 : TERMY / 2 - _size.y / 2
               };
+    _headersize = reserved_rows.x > 0 ? reserved_rows.x : _headersize;
+    _footersize = reserved_rows.y > 0 ? reserved_rows.y : _footersize;
     // leave space for decorations and column headers
     _pagesize =
         static_cast<std::size_t>( std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) );

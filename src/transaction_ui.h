@@ -28,7 +28,8 @@ class transaction_ui
         enum class event { QUIT = 0, SWITCH = 1, NEVENTS = 2 };
 
         transaction_ui( point const &srclayout, point size = { -9, -9 }, point origin = { -9, -9 },
-                        std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT );
+                        std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT,
+                        point reserved_rows = { 2, 1 } );
 
         advuilist_t *left();
         advuilist_t *right();
@@ -77,11 +78,11 @@ class transaction_ui
 
 template <class Container, typename T>
 transaction_ui<Container, T>::transaction_ui( point const &srclayout, point size, point origin,
-                                              std::string const &ctxtname )
+                                              std::string const &ctxtname, point reserved_rows )
     : _size( size ),
       _origin( origin ),
-      _panes{ advuilist_t{ srclayout, _size, _origin, ctxtname },
-              advuilist_t{ srclayout, _size, _origin, ctxtname } }
+      _panes{ advuilist_t{ srclayout, _size, _origin, ctxtname, reserved_rows },
+              advuilist_t{ srclayout, _size, _origin, ctxtname, reserved_rows } }
 
 #ifdef __clang__
 #pragma clang diagnostic pop

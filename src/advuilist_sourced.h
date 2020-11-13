@@ -36,8 +36,10 @@ class advuilist_sourced : public advuilist<Container, T>
         using fctxt_t = typename advuilist<Container, T>::fctxt_t;
         using select_t = typename advuilist<Container, T>::select_t;
 
-        advuilist_sourced( point const &srclayout, point size = { -9, -9 }, point origin = { -9, -9 },
-                           std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT );
+        advuilist_sourced( point const &srclayout, point size = { -9, -9 },
+                           point origin = { -9, -9 },
+                           std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT,
+                           point reserved_rows = { 2, 1 } );
 
         /// binds a new source to slot
         void addSource( slotidx_t slot, source_t const &src );
@@ -52,7 +54,7 @@ class advuilist_sourced : public advuilist<Container, T>
         void rebuild();
         void initui();
         void hide();
-        void resize( point size, point origin );
+        void resize( point size, point origin, point reserved_rows = {-9, -9} );
         void on_resize( fdraw_t const &func );
 
         void setctxthandler( fctxt_t const &func );
@@ -96,8 +98,9 @@ class advuilist_sourced : public advuilist<Container, T>
 // *INDENT-OFF*
 template <class Container, typename T>
 advuilist_sourced<Container, T>::advuilist_sourced( point const &srclayout, point size,
-                                                    point origin, std::string const &ctxtname )
-    : advuilist<Container, T>( &_container, size, origin, ctxtname ), 
+                                                    point origin, std::string const &ctxtname,
+                                                    point reserved_rows )
+    : advuilist<Container, T>( &_container, size, origin, ctxtname, reserved_rows ), 
       _size( size ),
       _origin( origin ), 
       _map_size( srclayout )
@@ -225,7 +228,7 @@ void advuilist_sourced<Container, T>::hide()
 }
 
 template <class Container, typename T>
-void advuilist_sourced<Container, T>::resize( point size, point origin )
+void advuilist_sourced<Container, T>::resize( point size, point origin, point reserved_rows )
 {
 
     _size = { size.x > 0 ? size.x > TERMX ? TERMX : size.x : TERMX / 4,
@@ -238,7 +241,7 @@ void advuilist_sourced<Container, T>::resize( point size, point origin )
 
     // leave room for source map window
     point const offset( 0, _headersize + _footersize + _map_size.y );
-    advuilist<Container, T>::resize( _size - offset, _origin + offset );
+    advuilist<Container, T>::resize( _size - offset, _origin + offset, reserved_rows );
 }
 
 template <class Container, typename T>
