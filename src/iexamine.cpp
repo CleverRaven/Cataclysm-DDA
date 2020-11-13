@@ -4175,10 +4175,10 @@ static int getNearPumpCount( const tripoint &p, std::string &fuel_type )
         const auto t = here.ter( tmp );
         if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
             result++;
-            fuel_type = "gasoline";
+            fuel_type = _( "gasoline" );
         } else if( t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) {
             result++;
-            fuel_type = "diesel";
+            fuel_type = _( "diesel" );
         }
     }
     return result;
@@ -4196,12 +4196,12 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
 
         auto check_for_fuel_tank = here.furn( tmp );
 
-        if( fuel_type == "gasoline" ) {
+        if( fuel_type == _( "gasoline" ) ) {
             if( check_for_fuel_tank != furn_str_id( "f_gas_tank" ) &&
                 here.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
                 continue;
             }
-        } else if( fuel_type == "diesel" ) {
+        } else if( fuel_type == _( "diesel" ) ) {
             if( check_for_fuel_tank != furn_str_id( "f_diesel_tank" ) &&
                 here.ter( tmp ) != ter_str_id( "t_diesel_tank" ) ) {
                 continue;
@@ -4244,15 +4244,10 @@ static int findBestGasDiscount( player &p )
 {
     int discount = 0;
 
-    for( size_t i = 0; i < p.inv->size(); i++ ) {
-        item &it = p.inv->find_item( i );
-
-        if( it.has_flag( flag_GAS_DISCOUNT ) ) {
-
-            int q = getGasDiscountCardQuality( it );
-            if( q > discount ) {
-                discount = q;
-            }
+    for( const item *it : p.all_items_with_flag( flag_GAS_DISCOUNT ) ) {
+        int q = getGasDiscountCardQuality( *it );
+        if( q > discount ) {
+            discount = q;
         }
     }
 
@@ -4350,16 +4345,19 @@ static int fromPumpFuel( const tripoint &dst, const tripoint &src )
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( phase_id::LIQUID ) ) {
             // how much do we have in the pump?
-            item liq_d( item_it->type, calendar::turn, item_it->charges );
+            int amount = item_it->charges;
+            item liq_d( item_it->type, calendar::turn, amount );
 
             // add the charges to the destination
-            const auto backup_tank = here.ter( dst );
+            const ter_id backup_ter = here.ter( dst );
+            const furn_id backup_furn = here.furn( dst );
             here.ter_set( dst, ter_str_id::NULL_ID() );
+            here.furn_set( dst, furn_str_id::NULL_ID() );
             here.add_item_or_charges( dst, liq_d );
-            here.ter_set( dst, backup_tank );
+            here.ter_set( dst, backup_ter );
+            here.furn_set( dst, backup_furn );
 
             // remove the liquid from the pump
-            int amount = item_it->charges;
             items.erase( item_it );
             return amount;
         }
@@ -4373,7 +4371,7 @@ static void turnOnSelectedPump( const tripoint &p, int number, const std::string
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
         const auto t = here.ter( tmp );
-        if( fuel_type == "gasoline" ) {
+        if( fuel_type == _( "gasoline" ) ) {
             if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
                 if( number == k++ ) {
                     here.ter_set( tmp, ter_str_id( "t_gas_pump_a" ) );
@@ -4381,7 +4379,7 @@ static void turnOnSelectedPump( const tripoint &p, int number, const std::string
                     here.ter_set( tmp, ter_str_id( "t_gas_pump" ) );
                 }
             }
-        } else if( fuel_type == "diesel" ) {
+        } else if( fuel_type == _( "diesel" ) ) {
             if( t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) {
                 if( number == k++ ) {
                     here.ter_set( tmp, ter_str_id( "t_diesel_pump_a" ) );
@@ -4543,30 +4541,45 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( refund == choice ) {
-        const int pos = p.inv->position_by_type( itype_id( "cash_card" ) );
-
-        if( pos == INT_MIN ) {
-            add_msg( _( "Never mind." ) );
+        std::vector<item *> cash_cards = p.items_with( []( const item & i ) {
+            return i.typeId() == itype_cash_card;
+        } );
+        if( cash_cards.empty() ) {
+            popup( _( "You do not have a cash card to refund money!" ) );
             return;
         }
 
-        item *cashcard = &( p.i_at( pos ) );
-        // Okay, we have a cash card. Now we need to know what's left in the pump.
         const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
-        int amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0;
-        if( amount >= 0 ) {
-            sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
-                           "gaspump" );
-            cashcard->charges += amount * pricePerUnit / 1000.0f;
-            add_msg( m_info, _( "Your cash cards now hold %s." ),
-                     format_money( p.charges_of( itype_cash_card ) ) );
-            p.moves -= to_moves<int>( 5_seconds );
-            return;
-        } else {
+        int amountFuel = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : -1;
+        if( amountFuel < 0 ) {
             popup( _( "Unable to refund, no fuel in pump." ) );
             return;
         }
+        sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
+                       "gaspump" );
+
+        int refundPricePerUnit = getGasPricePerLiter( 3 ); // min price to avoid exploit
+        int amountMoney = amountFuel * refundPricePerUnit / 1000.0f;
+        std::sort( cash_cards.begin(), cash_cards.end(), []( item * l, const item * r ) {
+            return l->ammo_remaining() > r->ammo_remaining();
+        } );
+        for( item * const &cc : cash_cards ) {
+            if( amountMoney == 0 ) {
+                break;
+            }
+            int transfer = std::min( amountMoney, cc->remaining_ammo_capacity() );
+            cc->ammo_set( cc->ammo_default(), transfer + cc->ammo_remaining() );
+            amountMoney -= transfer;
+        }
+        if( amountMoney ) {
+            add_msg( m_info, _( "All cash cards at maximum capacity" ) );
+            // all fuel already removed from pump, so remaning amountMoney simply ignored
+        }
+        add_msg( m_info, _( "Your cash cards now hold %s." ),
+                 format_money( p.charges_of( itype_cash_card ) ) );
+        p.moves -= to_moves<int>( 5_seconds );
+        return;
     }
 }
 
