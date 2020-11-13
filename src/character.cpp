@@ -9273,11 +9273,11 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
         if( has_active_bionic( bio_ads ) ) {
             if( elem.amount > 0 && get_power_level() > 24_kJ ) {
                 if( elem.type == damage_type::BASH ) {
-                    elem.amount -= rng( 1, 8 );
+                    elem.amount -= rng( 1, 2 );
                 } else if( elem.type == damage_type::CUT ) {
                     elem.amount -= rng( 1, 4 );
                 } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
-                    elem.amount -= rng( 1, 2 );
+                    elem.amount -= rng( 1, 8 );
                 }
                 mod_power_level( -25_kJ );
             }
