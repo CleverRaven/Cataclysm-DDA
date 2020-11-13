@@ -2648,7 +2648,7 @@
     "//": "clothing found on a coat rack",
     "subtype": "collection",
     "items": [
-      { "group": "scarfs_unisex", "prob": 30 },
+      { "group": "scarfs_unisex", "prob": 40 },
       { "group": "bags_unisex", "prob": 20 },
       { "group": "coats_unisex", "prob": 70 },
       { "group": "hats_unisex", "prob": 70 }
