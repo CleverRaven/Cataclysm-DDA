@@ -5,6 +5,7 @@
 #include <limits>
 #include <map>
 #include <set>
+#include <stdint.h>
 #include <vector>
 
 #include "enum_traits.h"
