@@ -503,7 +503,7 @@
 	}
   },
   {
-	"id": "venom_syst_weaken",
+	"id": "venom_weaken",
 	"type": "effect_type",
 	"name": [ "Poisoned Blood" ],
 	"desc": [ "You feel feeble." ],
@@ -514,12 +514,11 @@
 	"max_intensity": 125,
 	"max_effective_intensity": 100,
 	"int_dur_factor": 144,
-	"dur_add_perc": 100,
+	"dur_add_perc": 200,
 	"show_intensity": true,
 	"base_mods": {
 	  "str_mod": [ -2, 0 ],
 	  "dex_mod": [ -2, 0 ],
-	  "per_mod": [ -1, 0 ],
 	  "stamina_amount": [ -1000 ],
 	  "stamina_min": [ -5 ],
 	  "stamina_chance": [ 20, 50 ],
@@ -528,6 +527,12 @@
 	  "vomit_tick": [ 1200 ],
 	  "hurt_min": [ 0, -1 ],
 	  "hurt_chance": [ 1000 ]
+	 },
+	"scaling_mods": {
+	  "str_mod": [ -0.04, -0.03 ],
+	  "dex_mod": [ -0.04, -0.03 ],
+	  "stamina_min": [ -0.35, -0.15 ],
+	  "stamina_chance": [ -0.18, -0.45 ]
 	 }
   },
   {
