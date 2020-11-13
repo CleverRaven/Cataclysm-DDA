@@ -5,7 +5,7 @@
 #include "cuboid_rectangle.h"
 
 //helper functions
-static constexpr half_open_rectangle<point> bounding_rect( {0, 0}, {MAPSIZE_X, MAPSIZE_Y} );
+static constexpr half_open_rectangle<point> bounding_rect( point_zero, {MAPSIZE_X, MAPSIZE_Y} );
 
 // needs to be explicitly defined to avoid linker errors
 // see https://stackoverflow.com/questions/8452952/c-linker-error-with-class-static-constexpr
@@ -86,8 +86,9 @@ void reachability_cache<Horizontal, Types...>::rebuild( Q q,
                 continue;
             }
 
-            point cur_sm_end = point( smx, smy ) + sm_dir;
-            bool last_change;
+            const point sm_p( smx, smy );
+            point cur_sm_end = sm_p + sm_dir;
+            bool last_change = false;
             bool next_x_dirty = false;
             bool next_y_dirty = false;
             int sm_last_x = cur_sm_end.x - dir.x;
@@ -98,20 +99,21 @@ void reachability_cache<Horizontal, Types...>::rebuild( Q q,
                 }
                 next_y_dirty |= last_change;
             }
+
             // after the cycle, last_change holds the status of the "last corner" change,
             // it's the only thing that can affect dirty state of the diagonally adjacent submap.
             // Checking if diagonal neighbor is within bounds:
             if( last_change && smx + sm_dir.x != end.x  && smy + sm_dir.y != end.y ) {
                 // can save some multiplications by reusing dirty_shift, but this way it's more readable
-                dirty_local[dirty_idx( { smx + sm_dir.x, smy + sm_dir.y } )] = true;
+                dirty_local[dirty_idx( sm_p + sm_dir )] = true;
             }
             // "next" submap in y direction
             if( next_y_dirty && smy + sm_dir.y != end.y ) {
-                dirty_local[dirty_idx( { smx, smy + sm_dir.y } )] = true;
+                dirty_local[dirty_idx( sm_p + point( 0, sm_dir.y ) )] = true;
             }
             // "next" submap in x direction
             if( next_x_dirty && smx + sm_dir.x != end.x ) {
-                dirty_local[dirty_idx( { smx, smy + sm_dir.y } )] = true;
+                dirty_local[dirty_idx( sm_p + point( sm_dir.x, 0 ) )] = true;
             }
 
             dirty_shift += dir.y;
@@ -214,8 +216,8 @@ bool reachability_cache_specialization<true, level_cache>::dynamic_fun(
             MAX_D,
             max3(
                 diagonal == 0 ? 0 : diagonal + 2,
-                layer.get_or( { p.x - dir.x, p.y}, 0 ) + 1,
-                layer.get_or( { p.x, p.y - dir.y }, 0 ) + 1
+                layer.get_or( p - point( dir.x, 0 ), 0 ) + 1,
+                layer.get_or( p - point( 0, dir.y ), 0 ) + 1
             ) );
 
     return layer.update( p, v );
@@ -246,8 +248,8 @@ bool reachability_cache_specialization<false, level_cache, level_cache>::dynamic
         min4(
             MAX_D,
             diagonal == MAX_D ? MAX_D : diagonal + 2,
-            layer.get_or( { p.x - dir.x, p.y}, MAX_D ) + 1,
-            layer.get_or( { p.x, p.y - dir.y }, MAX_D ) + 1
+            layer.get_or( p - point( dir.x, 0 ), MAX_D ) + 1,
+            layer.get_or( p - point( 0, dir.y ), MAX_D ) + 1
         );
 
     return layer.update( p, v );
