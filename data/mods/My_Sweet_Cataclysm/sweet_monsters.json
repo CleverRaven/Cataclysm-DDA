@@ -447,7 +447,7 @@
     "hp": 65,
     "speed": 45,
     "material": [ "sugar" ],
-    "symbol": "l",
+    "symbol": "~",
     "color": "red",
     "morale": 100,
     "melee_skill": 1,
