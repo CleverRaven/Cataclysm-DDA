@@ -37,6 +37,10 @@ cd vcpkg
 .\vcpkg --triplet x64-windows-static install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
 ```
 
+If any package fails during build, for example `mpg123`, try installing it first.
+```cmd
+.\vcpkg install mpg123
+```
 
 #### install 32 bit dependencies:
 
@@ -48,6 +52,12 @@ cd vcpkg
 
 ```cmd
 .\vcpkg upgrade
+```
+
+#### add libs for Visual Studio compiler:
+
+```cmd
+.\vcpkg integrate install
 ```
 
 ## Cloning and compilation:
