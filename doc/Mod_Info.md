@@ -217,6 +217,7 @@ This is a template introduction
 [Aftershock](#aftershock)\
 [Recipes](#recipes_aftershock)
 
+---
 # Alt_map_key
 [Home](#mod_info)\
 [Alt_map_key](#alt_map_key)
