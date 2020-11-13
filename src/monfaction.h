@@ -2,13 +2,14 @@
 #ifndef CATA_SRC_MONFACTION_H
 #define CATA_SRC_MONFACTION_H
 
-#include <set>
+#include <limits>
 #include <map>
+#include <set>
 #include <vector>
 
-#include "type_id.h"
 #include "enum_traits.h"
 #include "optional.h"
+#include "type_id.h"
 
 class JsonObject;
 
