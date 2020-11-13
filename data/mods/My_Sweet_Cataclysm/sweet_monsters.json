@@ -444,7 +444,7 @@
     "species": [ "LICORICE" ],
     "volume": "230 ml",
     "weight": "1000 g",
-    "hp": 25,
+    "hp": 65,
     "speed": 45,
     "material": [ "sugar" ],
     "symbol": "l",
