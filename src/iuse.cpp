@@ -71,6 +71,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "music_player.h"
 #include "mutation.h"
 #include "npc.h"
 #include "omdata.h"
@@ -4270,7 +4271,9 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
                p->has_active_item( itype_afs_atomic_smartphone_music ) ||
                p->has_active_item( itype_afs_atomic_wraitheon_music ) ) {
         p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
-    } else {
+    } else if(
+        music_player_interface( *p )
+    ) {
         p->add_msg_if_player( m_info, _( "You put in the earbuds and start listening to music." ) );
         if( it->typeId() == itype_mp3 ) {
             it->convert( itype_mp3_on ).active = true;
@@ -4345,6 +4348,9 @@ void iuse::play_music( Character &p, const tripoint &source, const int volume,
         if( volume == 0 ) {
             p.add_effect( effect_earphones, 1_turns );
         }
+        if( p.is_player() ) {
+            music_player_next_music();
+        }
     }
 }
 
@@ -4355,7 +4361,10 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
             // mp3 player in inventory, we can listen
             play_music( *p, pos, 0, 20 );
         }
-    } else { // Turning it off
+    } else if(
+        !music_player_interface( *p )
+    ) {
+        // Turning it off
         if( it->typeId() == itype_mp3_on ) {
             p->add_msg_if_player( _( "The mp3 player turns off." ) );
             it->convert( itype_mp3 ).active = false;

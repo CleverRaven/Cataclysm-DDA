@@ -11,6 +11,7 @@
 bool init_sound();
 void shutdown_sound();
 void play_music( const std::string &playlist );
+void play_music_path( const std::string &path_filename, int volume );
 void stop_music();
 void update_music_volume();
 void load_soundset();
@@ -25,6 +26,7 @@ inline void shutdown_sound() { }
 inline void play_music( const std::string &/*playlist*/ )
 {
 }
+inline static void play_music_full_path( const std::string &path_filename, int volume ) { }
 inline void update_music_volume() { }
 inline void load_soundset() { }
 

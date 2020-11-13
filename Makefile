@@ -609,6 +609,7 @@ ifeq ($(SOUND), 1)
 
   ifeq ($(MSYS2),1)
     LDFLAGS += -lmpg123 -lshlwapi -lvorbisfile -lvorbis -logg -lflac
+	LDFLAGS += -lstdc++fs
   endif
 
   CXXFLAGS += -DSDL_SOUND

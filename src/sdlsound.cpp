@@ -137,6 +137,25 @@ void shutdown_sound()
 
 static void musicFinished();
 
+void play_music_path( const std::string &path_filename, int volume )
+{
+    if( !check_sound( volume ) ) {
+        return;
+    }
+
+    current_music = Mix_LoadMUS( path_filename.c_str() );
+    if( current_music == nullptr ) {
+        dbg( D_ERROR ) << "Failed to load audio file " << path_filename << ": " << Mix_GetError();
+        return;
+    }
+    Mix_VolumeMusic( volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
+    if( Mix_PlayMusic( current_music, 0 ) != 0 ) {
+        dbg( D_ERROR ) << "Starting playlist " << path_filename << " failed: " << Mix_GetError();
+        return;
+    }
+    Mix_HookMusicFinished( musicFinished );
+}
+
 static void play_music_file( const std::string &filename, int volume )
 {
     if( !check_sound( volume ) ) {
@@ -144,17 +163,7 @@ static void play_music_file( const std::string &filename, int volume )
     }
 
     const std::string path = ( current_soundpack_path + "/" + filename );
-    current_music = Mix_LoadMUS( path.c_str() );
-    if( current_music == nullptr ) {
-        dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
-        return;
-    }
-    Mix_VolumeMusic( volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
-    if( Mix_PlayMusic( current_music, 0 ) != 0 ) {
-        dbg( D_ERROR ) << "Starting playlist " << path << " failed: " << Mix_GetError();
-        return;
-    }
-    Mix_HookMusicFinished( musicFinished );
+    play_music_path( path, volume );
 }
 
 /** Callback called when we finish playing music. */
