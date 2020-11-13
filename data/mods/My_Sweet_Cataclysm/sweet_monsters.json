@@ -434,7 +434,7 @@
     "starting_ammo": { "milk_raw_choc": 40 },
     "reproduction": { "baby_monster": "mon_cow_calf_choc", "baby_count": 1, "baby_timer": 343 }
   },
-   {
+  {
     "id": "mon_licorice_snake",
     "type": "MONSTER",
     "name": { "str": "licorice snake" },
@@ -459,5 +459,5 @@
     "harvest": "licorice_snake",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "NO_BREATHE" ]
-  },
+  }
 ]
