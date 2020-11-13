@@ -767,7 +767,7 @@
     "type": "profession",
     "id": "fledgeling_bion",
     "name": "Fledgeling Bion",
-    "description": "You had just finished installing the bare-bone cybernetic enhancements required for your desired bionics when disaster struck! If you want to finish your surgeries, it looks like you'll have to find a specialist or do it yourself. ",
+    "description": "You had just finished installing the bare-bone cybernetic enhancements required for your desired bionics when disaster struck!  If you want to finish your surgeries, it looks like you'll have to find a specialist or do it yourself.",
     "points": 0,
     "CBMs": [ "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 1, "name": "electronics" }, { "level": 1, "name": "computer" } ],
