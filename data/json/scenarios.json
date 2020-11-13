@@ -516,6 +516,7 @@
       "mili_burner",
       "major-general",
       "nco",
+      "combat-mechanic",
       "combat-engineer"
     ],
     "map_extra": "mx_helicopter",
@@ -553,6 +554,7 @@
       "hazmat_unit",
       "major-general",
       "nco",
+      "combat-mechanic",
       "combat-engineer"
     ],
     "flags": [ "CHALLENGE", "LONE_START" ]
