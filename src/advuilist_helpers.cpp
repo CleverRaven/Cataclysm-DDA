@@ -447,7 +447,7 @@ std::string iloc_entry_name( iloc_entry const &it )
     std::string const name = i.count_by_charges() ? i.tname() : i.display_name();
     nc_color const basecolor = i.color_in_inventory();
     nc_color const color =
-        get_auto_pickup().has_rule( &*it.stack[0] ) ? magenta_background( basecolor ) : basecolor;
+        get_auto_pickup().has_rule( &i ) ? magenta_background( basecolor ) : basecolor;
     return colorize( name, color );
 }
 
