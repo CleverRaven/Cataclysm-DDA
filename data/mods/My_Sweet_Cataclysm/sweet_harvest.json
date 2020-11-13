@@ -47,7 +47,13 @@
     "message": "As you butcher the chocolate corpse, you break the large chunks of flesh down into bars.",
     "entries": [
       { "drop": "chocolate", "type": "flesh", "mass_ratio": 0.52 },
-      { "drop": "cow_candy", "base_num": [ 0, 2 ], "max": 2, "type": "offal" }
+      { "drop": "cow_candy", "base_num": [ 0, 2 ], "max": 2, "type": "offal" },
+       {
+    "id": "licorice_snake",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "licorice", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
     ]
   }
 ]
