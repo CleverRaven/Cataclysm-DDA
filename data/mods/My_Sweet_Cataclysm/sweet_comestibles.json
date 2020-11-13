@@ -151,5 +151,26 @@
     "calories": 152,
     "description": "Dehydrated chocolate milk powder.  Mix with water to make drinkable milk.",
     "fun": -1
-  }
+  },
+   {
+    "type": "COMESTIBLE",
+    "id": "licorice",
+    "name": "licorice",
+    "symbol": "%",
+    "volume": "40 ml",
+    "weight": "78 g",
+    "spoils_in": "230 days",
+    "color": "red",
+    "comestible_type": "FOOD",
+    "material": [ "junk" ],
+    "description": "licorice, a swirly confectionary treat in strings of sweet tasting candy.",
+    "price": 340,
+    "charges": 1,
+    "quench": -1,
+    "healthy": -2,
+    "calories": 135,
+    "stim": 1,
+    "fun": 7,
+    "flags": [ "EDIBLE_FROZEN" ]
+  },
 ]
