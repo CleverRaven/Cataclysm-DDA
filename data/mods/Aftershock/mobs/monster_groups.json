@@ -131,5 +131,17 @@
       { "monster": "mon_uplifted_octupus", "freq": 3, "cost_multiplier": 10 },
       { "monster": "mon_zombie_upliftedoctopus", "freq": 1, "cost_multiplier": 10 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CRYO_LAB",
+    "monsters": [
+      { "monster": "mon_mutant_experimental", "freq": 20, "cost_multiplier": 2 },
+      { "monster": "mon_mutant_evolved", "freq": 5, "cost_multiplier": 10 },
+      { "monster": "mon_broken_cyborg", "freq": 8, "cost_multiplier": 10 },
+      { "monster": "mon_mutant_cryo", "freq": 20, "cost_multiplier": 2 },
+      { "monster": "mon_shoggoth", "freq": 3, "cost_multiplier": 10, "starts": 1086 },
+      { "monster": "mon_cryokinetic", "freq": 8, "cost_multiplier": 10 },
+    ]
   }
 ]
