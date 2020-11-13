@@ -343,6 +343,23 @@ enum class character_stat : char {
     DUMMY_STAT
 };
 
+enum class book_mastery {
+    CANT_DETERMINE, // book not yet identified, so you don't know yet
+    CANT_UNDERSTAND, // does not have enough skill to read
+    LEARNING,
+    MASTERED // can no longer increase skill by reading
+};
+
+/// helper for storing info about a Character's ability to read a book
+/// See Character::eval_readability
+struct readability_eval {
+    bool can_read = false;
+    bool can_learn = false;
+    bool can_have_fun = false;
+    std::string fail_reason;
+    book_mastery mastery = book_mastery::CANT_DETERMINE;
+};
+
 /**
  * Secures the container and pocket of an item (if any), and calls
  * `Character::handle_contents_changed` when `handle()` is called.
@@ -1649,6 +1666,8 @@ class Character : public Creature, public visitable<Character>
         bool fun_to_read( const item &book ) const;
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const Character &p ) const;
+        readability_eval evaluate_readability( const item &book ) const;
+
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
