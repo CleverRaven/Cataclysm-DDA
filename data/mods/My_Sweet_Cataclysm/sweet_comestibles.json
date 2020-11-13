@@ -165,7 +165,7 @@
     "color": "red",
     "comestible_type": "FOOD",
     "material": [ "junk" ],
-    "description": "licorice, a swirly confectionary treat in strings of sweet tasting candy.",
+    "description": "A swirly confectionary treat in strings of sweet tasting candy.",
     "price": 340,
     "charges": 1,
     "quench": -1,
