@@ -475,6 +475,32 @@
     }
   },
   {
+    "id": "bot_haulerbot",
+    "type": "TOOL",
+    "name": { "str": "inactive lightweight hauler bot" },
+    "description": "This is an inactive hauler bot for commercial and industrial use, able to autonomously carry up to 15 kilograms (33 pounds).  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully the hauler bot will respond to future commands, serving as a lightweight robotic packmule.",
+    "weight": "30 kg",
+    "volume": "25 L",
+    "price": 7000000,
+    "price_postapoc": 1000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "yellow",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_haulerbot",
+      "friendly_msg": "The hauler bot unfolds its legs and stands up, awaiting commands.",
+      "hostile_msg": "The hauler bot scrambles awkwardly onto all fours, ignoring you entirely.",
+      "//": "Commercial design with some flexibility for user programming",
+      "difficulty": 3,
+      "moves": 100,
+      "is_pet": true,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
     "id": "bot_molebot",
     "looks_like": "broken_molebot",
     "type": "TOOL",

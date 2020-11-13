@@ -8,7 +8,8 @@
       { "monster": "mon_secubot", "freq": 150, "cost_multiplier": 0 },
       { "monster": "mon_talon_m202a1", "freq": 75, "cost_multiplier": 0 },
       { "monster": "mon_copbot", "freq": 0, "cost_multiplier": 0 },
-      { "monster": "mon_molebot", "freq": 40, "cost_multiplier": 0 }
+      { "monster": "mon_molebot", "freq": 40, "cost_multiplier": 0 },
+      { "monster": "mon_haulerbot", "freq": 25, "cost_multiplier": 0 }
     ]
   },
   {

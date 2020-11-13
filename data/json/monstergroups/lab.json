@@ -84,7 +84,8 @@
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_bio_op2", "freq": 25, "cost_multiplier": 5, "starts": 1440 },
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 5, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_brute_shocker", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_haulerbot", "freq": 5, "cost_multiplier": 0 }
     ]
   },
   {
@@ -159,7 +160,8 @@
       { "monster": "mon_zombie_armored", "freq": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_electric", "freq": 10, "cost_multiplier": 3 },
       { "monster": "mon_zombie_necro", "freq": 1, "cost_multiplier": 15 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 1, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_brute_shocker", "freq": 1, "cost_multiplier": 5 },
+      { "monster": "mon_haulerbot", "freq": 1, "cost_multiplier": 0 }
     ]
   },
   {

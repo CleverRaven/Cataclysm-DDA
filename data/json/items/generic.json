@@ -1025,6 +1025,24 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_haulerbot",
+    "symbol": ",",
+    "color": "yellow",
+    "name": { "str": "broken lightweight hauler bot" },
+    "category": "other",
+    "description": "A broken hauler bot, now just a mass of limp mechanical limbs and busted chassis.  Could be gutted for parts.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "30 kg",
+    "volume": "25 L",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_nursebot_defective",
     "name": { "str": "broken nurse bot" },
     "copy-from": "broken_nursebot"

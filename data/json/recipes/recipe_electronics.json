@@ -1384,6 +1384,42 @@
   },
   {
     "type": "recipe",
+    "result": "bot_haulerbot",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 7 ], [ "computer", 5 ] ],
+    "reversible": true,
+    "decomp_learn": 7,
+    "book_learn": [ [ "schematics_haulerbot", 6 ] ],
+    "difficulty": 7,
+    "time": "45 m",
+    "using": [ [ "soldering_standard", 15 ], [ "welding_standard", 5 ], [ "surface_heat", 10 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "spidery_legs_small", 1 ] ],
+      [ [ "solar_cell", 2 ] ],
+      [ [ "lens_small", 4 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "bot_copbot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
