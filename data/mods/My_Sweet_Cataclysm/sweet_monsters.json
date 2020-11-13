@@ -448,7 +448,7 @@
     "speed": 45,
     "material": [ "sugar" ],
     "symbol": "l",
-    "color": "dark_red",
+    "color": "red",
     "morale": 100,
     "melee_skill": 1,
     "melee_dice": 3,
