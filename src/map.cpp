@@ -8079,11 +8079,8 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         build_transparency_cache( z );
         bool floor_cache_was_dirty = build_floor_cache( z );
         seen_cache_dirty |= ( floor_cache_was_dirty && affects_seen_cache );
-        if( floor_cache_was_dirty ) {
-            get_cache( z ).r_down_cache->invalidate();
-            if( z > -OVERMAP_DEPTH ) {
-                get_cache( z - 1 ).r_up_cache->invalidate();
-            }
+        if( floor_cache_was_dirty && z > -OVERMAP_DEPTH ) {
+            get_cache( z - 1 ).r_up_cache->invalidate();
         }
         seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
     }
@@ -8853,7 +8850,7 @@ void map::invalidate_max_populated_zlev( int zlev )
 }
 
 // Get cache value for debug purposes
-int map::reachability_cache_value( const tripoint &p, reachability_cache_type cache,
+int map::reachability_cache_value( const tripoint &p, bool vertical_cache,
                                    reachability_cache_quadrant quadrant ) const
 {
     if( !inbounds( p ) ) {
@@ -8863,21 +8860,11 @@ int map::reachability_cache_value( const tripoint &p, reachability_cache_type ca
     // rebuild caches, so valid values are shown
     has_potential_los( p, p ); // rebuild horizontal cache;
     has_potential_los( p, p + tripoint_above ); // rebuild "up" cache
-    // rebuild "down" cache
-    // a bit of a hack: current implementation of 'has_potential_los' may not rebuild  `r_down_cache`
-    // if r_up_cache rejected the query early
-    get_cache( p.z ).r_down_cache->has_potential_los( p.xy(), p.xy(), get_cache( p.z ),
-            get_cache( p.z ) );
 
     const level_cache &lc = get_cache( p.z );
-    switch( cache ) {
-        case reachability_cache_type::HOR:
-            return lc.r_hor_cache->get_value( quadrant, p.xy() );
-        case reachability_cache_type::DOWN:
-            return lc.r_down_cache->get_value( quadrant, p.xy() );
-        case reachability_cache_type::UP:
-            return lc.r_up_cache->get_value( quadrant, p.xy() );
-        default:
-            return -2;
+    if( vertical_cache ) {
+        return lc.r_up_cache->get_value( quadrant, p.xy() );
+    } else {
+        return lc.r_hor_cache->get_value( quadrant, p.xy() );
     }
 }

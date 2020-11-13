@@ -11944,16 +11944,11 @@ void game::display_reahability_zones()
                 return menu.ret;
             };
             static_assert(
-                static_cast<int>( enum_traits<reachability_cache_type>::last ) == 2,
-                "Debug menu expects at least 3 elements in the `cache` enum."
-            );
-            static_assert(
                 static_cast<int>( enum_traits<reachability_cache_quadrant >::last ) == 3,
                 "Debug menu expects at least 4 elements in the `quadrant` enum."
             );
             cata::optional<int> cache =
-                menu_popup( static_cast<int>( debug_rz_display.r_cache ),
-                            /**/{ "Horizontal", "Up",  "Down" } );
+                menu_popup( debug_rz_display.r_cache_vertical, { "Horizontal", "Vertical (upward)" } );
             cata::optional<int> quadrant;
             if( cache ) {
                 quadrant =
@@ -11961,7 +11956,7 @@ void game::display_reahability_zones()
                                 /**/{ "NE", "SE", "SW", "NW" } );
             }
             if( cache && quadrant ) {
-                debug_rz_display.r_cache = static_cast<reachability_cache_type>( *cache );
+                debug_rz_display.r_cache_vertical = *cache;
                 debug_rz_display.quadrant = static_cast<reachability_cache_quadrant>( *quadrant );
             } else { // user cancelled selection, toggle overlay off
                 display_toggle_overlay( ACTION_DISPLAY_REACHABILITY_ZONES );

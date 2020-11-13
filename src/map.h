@@ -216,8 +216,6 @@ struct level_cache {
     // CPU cache coherency of level_cache
     cata::value_ptr<reachability_cache_horizontal>r_hor_cache =
         cata::make_value<reachability_cache_horizontal>();
-    cata::value_ptr<reachability_cache_vertical> r_down_cache =
-        cata::make_value<reachability_cache_vertical>();
     cata::value_ptr<reachability_cache_vertical> r_up_cache =
         cata::make_value<reachability_cache_vertical>();
 
@@ -280,7 +278,6 @@ class map
             if( inbounds_z( zlev ) ) {
                 get_cache( zlev ).transparency_cache_dirty.set();
                 get_cache( zlev ).r_hor_cache->invalidate();
-                get_cache( zlev ).r_down_cache->invalidate();
                 get_cache( zlev ).r_up_cache->invalidate();
             }
         }
@@ -297,7 +294,6 @@ class map
                 get_cache( smp.z ).transparency_cache_dirty.set( smp.x * MAPSIZE + smp.y );
                 if( !field ) {
                     get_cache( smp.z ).r_hor_cache->invalidate( p.xy() );
-                    get_cache( smp.z ).r_down_cache->invalidate( p.xy() );
                     get_cache( smp.z ).r_up_cache->invalidate( p.xy() );
                 }
             }
@@ -390,12 +386,10 @@ class map
             std::tie( upper, lower ) = from.z > to.z ? std::make_pair( from, to ) : std::make_pair( to, from );
             // z-bounds depend on the invariant that both points are inbounds and their z are different
             return get_cache( lower.z ).r_up_cache->has_potential_los(
-                       lower.xy(), upper.xy(), get_cache( lower.z ), get_cache( lower.z + 1 ) ) &&
-                   get_cache( upper.z ).r_down_cache->has_potential_los(
-                       upper.xy(), lower.xy(), get_cache( upper.z ), get_cache( upper.z ) );
+                       lower.xy(), upper.xy(), get_cache( lower.z ), get_cache( lower.z + 1 ) );
         }
 
-        int reachability_cache_value( const tripoint &p, reachability_cache_type cache,
+        int reachability_cache_value( const tripoint &p, bool vertical_cache,
                                       reachability_cache_quadrant quadrant ) const;
 
         /**

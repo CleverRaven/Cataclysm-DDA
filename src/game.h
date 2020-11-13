@@ -973,7 +973,7 @@ class game
         // setting that specifies which reachability zone cache to display
         struct debug_reachability_zones_display {
             public:
-                reachability_cache_type r_cache;
+                bool r_cache_vertical;
                 reachability_cache_quadrant quadrant;
         } debug_rz_display = {};
         void display_reahability_zones(); // Displays reachability zones

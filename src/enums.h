@@ -361,19 +361,6 @@ struct game_message_params {
     game_message_flags flags;
 };
 
-/**
- * Types of reachability caches used in map.
- * (Used to reference them for debug purposes)
- */
-enum class reachability_cache_type : int {
-    HOR, UP, DOWN
-};
-
-template<>
-struct enum_traits<reachability_cache_type> {
-    static constexpr reachability_cache_type last = reachability_cache_type::DOWN;
-};
-
 enum class reachability_cache_quadrant : int {
     NE, SE, NW, SW
 };
