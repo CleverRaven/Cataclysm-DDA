@@ -1076,7 +1076,7 @@
       { "item": "hot_pants_fur", "prob": 5 },
       { "item": "hot_pants_leather", "prob": 25 },
       { "item": "breeches", "prob": 25 },
-      { "item": "kilt", "prob": 5 }
+      { "item": "kilt", "prob": 4 }
     ]
   },
   {
@@ -1194,7 +1194,7 @@
       [ "b_shorts", 15 ],
       [ "halter_top", 30 ],
       [ "linuxtshirt", 10 ],
-      [ "kilt", 5 ],
+      [ "kilt", 2 ],
       [ "nanoskirt", 10 ],
       [ "sleeveless_tunic", 5 ],
       [ "fedora", 10 ],
@@ -1269,7 +1269,7 @@
       [ "dress_wedding", 1 ],
       [ "postman_shorts", 5 ],
       [ "b_shorts", 15 ],
-      [ "kilt", 5 ],
+      [ "kilt", 3 ],
       [ "nanoskirt", 10 ]
     ]
   },
@@ -1741,7 +1741,7 @@
       { "item": "maid_hat", "prob": 3 },
       { "item": "halter_top", "prob": 50 },
       { "item": "linuxtshirt", "prob": 20 },
-      { "item": "kilt", "prob": 5 },
+      { "item": "kilt", "prob": 3 },
       { "item": "nanoskirt", "prob": 10 },
       { "item": "sleeveless_tunic", "prob": 5 },
       { "item": "ear_spool", "prob": 30 },
@@ -2602,7 +2602,7 @@
       [ "maid_dress", 3 ],
       [ "halter_top", 50 ],
       [ "linuxtshirt", 20 ],
-      [ "kilt", 5 ],
+      [ "kilt", 2 ],
       [ "nanoskirt", 10 ],
       [ "robe", 50 ]
     ]
@@ -2894,7 +2894,7 @@
     "type": "item_group",
     "//": "mens pants and leg coverings for domestic locations.",
     "subtype": "distribution",
-    "items": [ { "item": "kilt", "prob": 10 }, { "item": "kilt_leather", "prob": 5 } ]
+    "items": [ { "item": "kilt", "prob": 2 }, { "item": "kilt_leather", "prob": 1 } ]
   },
   {
     "id": "gloves_unisex",
