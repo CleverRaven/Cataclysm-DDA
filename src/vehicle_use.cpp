@@ -2024,7 +2024,7 @@ void vehicle::build_veh_tools_menu( const vpart_position &vp,
 {
     menu_group_title title( options, actions, _( "Use tool" ) );
     auto tool_wants_battery = []( const itype_id & type ) {
-        item tool( type, 0 );
+        item tool( type, calendar::turn_zero );
         item mag( tool.magazine_default() );
         mag.contents.clear_items();
 
@@ -2033,7 +2033,7 @@ void vehicle::build_veh_tools_menu( const vpart_position &vp,
     };
 
     auto use_vehicle_tool = [&tool_wants_battery, vp]( const itype_id & tool_type ) {
-        item pseudo( tool_type, 0 );
+        item pseudo( tool_type, calendar::turn_zero );
         pseudo.set_flag( STATIC( flag_str_id( "PSEUDO" ) ) );
         if( !tool_wants_battery( tool_type ) ) {
             get_avatar().invoke_item( &pseudo );
@@ -2170,7 +2170,7 @@ void vehicle::build_interact_menu( const tripoint &pos,
         } );
         add_menu_item( options, actions, true, _( "Have a drink" ), keybind( "DRINK_WATER" ),
         [this]() {
-            item water( itype_water_clean, 0 );
+            item water( itype_water_clean, calendar::turn_zero );
             if( get_avatar().can_consume( water ) ) {
                 get_avatar().assign_activity( player_activity( consume_activity_actor( water ) ) );
                 drain( itype_water_clean, 1 );
