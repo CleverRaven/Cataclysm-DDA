@@ -1111,6 +1111,9 @@ class jmapgen_liquid_item : public jmapgen_piece
             amount( jsi, "amount", 0, 0 )
             , liquid( jsi.get_string( "liquid" ) )
             , chance( jsi, "chance", 1, 1 ) {
+            // Itemgroups apply migrations when being loaded, but we need to migrate
+            // individual items here.
+            liquid = item_controller->migrate_id( itype_id( liquid ) );
             if( !item::type_is_defined( itype_id( liquid ) ) ) {
                 set_mapgen_defer( jsi, "liquid", "no such item type '" + liquid + "'" );
             }
@@ -1389,6 +1392,9 @@ class jmapgen_spawn_item : public jmapgen_piece
             type( jsi.get_string( "item" ) )
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 ) {
+            // Itemgroups apply migrations when being loaded, but we need to migrate
+            // individual items here.
+            type = item_controller->migrate_id( type );
             if( !item::type_is_defined( type ) ) {
                 set_mapgen_defer( jsi, "item", "no such item" );
             }
