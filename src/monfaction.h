@@ -2,10 +2,10 @@
 #ifndef CATA_SRC_MONFACTION_H
 #define CATA_SRC_MONFACTION_H
 
+#include <cstdint>
 #include <limits>
 #include <map>
 #include <set>
-#include <stdint.h>
 #include <vector>
 
 #include "enum_traits.h"
