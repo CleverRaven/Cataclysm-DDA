@@ -514,9 +514,9 @@
 	"max_intensity": 100,
 	"max_duration": 18000,
 	"int_dur_factor": 144,
-	"dur_add_perc": 300,
+	"dur_add_perc": 500,
 	"show_intensity": true,
-	"//": "4h to max, 1h overhead; Str/Dex to -6/3, Stam chance 0,25-0,5 / 0,1-0,2",
+	"//": "4h to max, 1h overhead; Str/Dex to -6/3; Stam chance 0,25-0,5 / 0,1-0,2; Vomit ~1 per max duration",
 	"base_mods": {
 	  "str_mod": [ -2, 0 ],
 	  "dex_mod": [ -2, 0 ],
