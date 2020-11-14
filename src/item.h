@@ -1256,6 +1256,9 @@ class item : public visitable<item>
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent );
 
+        units::length max_containable_length() const;
+        units::volume max_containable_volume() const;
+
         /**
          * Is it ever possible to reload this item?
          * Only the base item is considered with any mods ignored

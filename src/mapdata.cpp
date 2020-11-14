@@ -981,7 +981,8 @@ furn_id f_null,
         f_firering,
         f_tourist_table,
         f_camp_chair,
-        f_sign;
+        f_sign,
+        f_street_light;
 
 static furn_id f_ball_mach, f_bluebell, f_dahlia, f_dandelion, f_datura, f_floor_canvas,
        f_indoor_plant_y, f_lane, f_statue;
@@ -1105,6 +1106,7 @@ void set_furn_ids()
     f_gunsafe_ml = furn_id( "f_gunsafe_ml" );
     f_gunsafe_mj = furn_id( "f_gunsafe_mj" );
     f_gun_safe_el = furn_id( "f_gun_safe_el" );
+    f_street_light = furn_id( "f_street_light" );
 }
 
 size_t ter_t::count()

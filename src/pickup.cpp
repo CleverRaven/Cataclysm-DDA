@@ -674,6 +674,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
         units::mass weight_predict = 0_gram;
         units::volume volume_predict = 0_ml;
+        units::length length_predict = 0_mm;
+        units::volume ind_vol_predict = 0_ml;
 
         const std::string all_pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
 
@@ -716,7 +718,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     }
 
                     if( cur_it < static_cast<int>( pickup_chars.size() ) ) {
-                        mvwputch( w_pickup, point( 0, 1 + ( cur_it % maxitems ) ), icolor,
+                        mvwputch( w_pickup, point( 0, 2 + ( cur_it % maxitems ) ), icolor,
                                   static_cast<char>( pickup_chars[cur_it] ) );
                     } else if( cur_it < static_cast<int>( pickup_chars.size() ) + static_cast<int>
                                ( pickup_chars.size() ) *
@@ -724,10 +726,10 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                         int p = cur_it - pickup_chars.size();
                         int p1 = p / pickup_chars.size();
                         int p2 = p % pickup_chars.size();
-                        mvwprintz( w_pickup, point( 0, 1 + ( cur_it % maxitems ) ), icolor, "`%c%c",
+                        mvwprintz( w_pickup, point( 0, 2 + ( cur_it % maxitems ) ), icolor, "`%c%c",
                                    static_cast<char>( pickup_chars[p1] ), static_cast<char>( pickup_chars[p2] ) );
                     } else {
-                        mvwputch( w_pickup, point( 0, 1 + ( cur_it % maxitems ) ), icolor, ' ' );
+                        mvwputch( w_pickup, point( 0, 2 + ( cur_it % maxitems ) ), icolor, ' ' );
                     }
                     if( getitem[true_it].pick ) {
                         if( getitem[true_it].count == 0 ) {
@@ -776,7 +778,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                         item_name = string_format( "<color_light_red>!</color> %s", item_name );
                     }
 
-                    int y = 1 + ( cur_it % maxitems );
+                    int y = 2 + ( cur_it % maxitems );
                     trim_and_print( w_pickup, point( 6, y ), pickupW - 6, icolor, item_name );
                     pickup_rect rect = pickup_rect( point( 6, y ), point( pickupW - 1, y ) );
                     rect.cur_it = cur_it;
@@ -812,10 +814,25 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                         volume_predict > player_character.volume_capacity() ? c_red : c_white );
             const std::string fmted_volume_capacity = format_volume( player_character.volume_capacity() );
 
+            const std::string fmted_ind_volume_predict = colorize( format_volume( ind_vol_predict ),
+                    ind_vol_predict > player_character.max_single_item_volume() ? c_red : c_white );
+            const std::string fmted_ind_length_predict = colorize( string_format( "%.2f",
+                    convert_length_cm_in( length_predict ) ),
+                    length_predict > player_character.max_single_item_length() ? c_red : c_white );
+            const std::string fmted_ind_volume_capac = format_volume(
+                        player_character.max_single_item_volume() );
+            const units::length indiv = player_character.max_single_item_length();
+            const std::string fmted_ind_length_capac = string_format( "%.2f", convert_length_cm_in( indiv ) );
+
             trim_and_print( w_pickup, point_zero, pickupW, c_white,
                             string_format( _( "PICK Wgt %1$s/%2$s  Vol %3$s/%4$s" ),
                                            fmted_weight_predict, fmted_weight_capacity,
-                                           fmted_volume_predict, fmted_volume_capacity ) );
+                                           fmted_volume_predict, fmted_volume_capacity
+                                         ) );
+            trim_and_print( w_pickup, point_south, pickupW, c_white,
+                            string_format( _( "INDV Vol %1$s/%2$s  Lng %3$s/%4$s" ),
+                                           fmted_ind_volume_predict, fmted_ind_volume_capac,
+                                           fmted_ind_length_predict, fmted_ind_length_capac ) );
 
             wnoutrefresh( w_pickup );
         } );
@@ -1037,6 +1054,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 update = false;
                 units::mass weight_picked_up = 0_gram;
                 units::volume volume_picked_up = 0_ml;
+                units::length length_picked_up = 0_mm;
                 for( size_t i = 0; i < getitem.size(); i++ ) {
                     if( getitem[i].pick ) {
                         // Make a copy for calculating weight/volume
@@ -1048,11 +1066,14 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                                    getitem[i].count == 0 ? stacked_here[i].size() : getitem[i].count );
                         weight_picked_up += temp.weight() * num_picked;
                         volume_picked_up += temp.volume() * num_picked;
+                        length_picked_up = temp.length();
                     }
                 }
 
                 weight_predict = player_character.weight_carried() + weight_picked_up;
                 volume_predict = player_character.volume_carried() + volume_picked_up;
+                ind_vol_predict = volume_picked_up;
+                length_predict = length_picked_up;
             }
 
             ui_manager::redraw();

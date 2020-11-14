@@ -1441,6 +1441,14 @@ bool item_pocket::is_valid() const
     return data != nullptr;
 }
 
+units::length item_pocket::max_containable_length() const
+{
+    if( data ) {
+        return data->max_item_length;
+    }
+    return 0_mm;
+}
+
 units::volume item_pocket::contains_volume() const
 {
     units::volume vol = 0_ml;

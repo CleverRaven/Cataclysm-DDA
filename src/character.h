@@ -1609,6 +1609,9 @@ class Character : public Creature, public visitable<Character>
         units::mass weight_carried() const;
         units::volume volume_carried() const;
 
+        units::length max_single_item_length() const;
+        units::volume max_single_item_volume() const;
+
         /// Sometimes we need to calculate hypothetical volume or weight.  This
         /// struct offers two possible tweaks: a collection of items and
         /// coutnts to remove, or an entire replacement inventory.
