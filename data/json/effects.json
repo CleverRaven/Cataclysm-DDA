@@ -495,12 +495,12 @@
       "hurt_chance": [ 13, 100 ],
       "hurt_tick": [ 30 ]
     },
-    "scaling_mods": { "pain_min": [ 0.5, 0.1 ], "pain_chance": [ -0.15, -0.8 ], "hurt_chance": [ -0.11, -0.81 ] }
+    "scaling_mods": { "pain_min": [ 0.05, 0.01 ], "pain_chance": [ -0.15, -0.8 ], "hurt_chance": [ -0.11, -0.81 ] }
   },
   {
     "id": "venom_weaken",
     "type": "effect_type",
-    "name": [ Weakening Poison" ],
+    "name": [ "Weakening Poison" ],
     "desc": [ "You feel feeble." ],
     "apply_message": "The sting itself barely hurt, but suddenly you feel exhausted.",
     "remove_message": "The weight on your chest lessens.",
