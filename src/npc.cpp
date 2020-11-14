@@ -853,6 +853,10 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
         fail_reasons.push_back( get_read_fail_message( eval.fail_reason, book ) );
         return false;
     }
+    if( eval.can_read && !eval.can_learn ) {
+        fail_reasons.push_back( _( "I won't learn anything from this book." ) );
+        return false;
+    }
     return true;
 }
 

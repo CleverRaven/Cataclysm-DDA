@@ -12858,14 +12858,9 @@ readability_eval Character::evaluate_readability( const item &book ) const
             return read_fail( r::LOW_SKILL );
         }
     }
-    if( is_npc() && mastery == book_mastery::MASTERED ) {
-        // only happens when player asks an NPC to study from a book
-        // which they won't learn anything from
-        return read_fail( r::NPC_MASTERED );
-    }
 
     readability_eval eval;
-    eval.can_learn = mastery == book_mastery::LEARNING;
+    eval.can_learn = ( !has_identified( book.typeId() ) || mastery == book_mastery::LEARNING );
     eval.can_have_fun = fun_to_read( book );
     eval.mastery = mastery;
     // The following conditions prevents you from reading
@@ -12876,12 +12871,14 @@ readability_eval Character::evaluate_readability( const item &book ) const
     } else if( needs_reading_glasses( this ) ) {
         eval.can_read = false;
         eval.fail_reason = r::NEED_READING_GLASSES;
+    } else if( is_blind() ) {
+        eval.can_read = false;
+        eval.fail_reason = r::BLIND;
+    } else if( fine_detail_vision_mod() > 4 ) {
+        eval.can_read = false;
+        eval.fail_reason = r::TOO_DARK;
     } else {
         eval.can_read = true;
-        if( fine_detail_vision_mod() > 4 ) {
-            // Too dark to read only applies if the we can read ourselves
-            return read_fail( r::TOO_DARK );
-        }
     }
 
     return eval;
@@ -12936,8 +12933,6 @@ std::string Character::get_read_fail_message( read_fail_reason reason, const ite
                 return _( "I can't read without my glasses." );
             case r::TOO_DARK:
                 return _( "It's too dark to read!" );
-            case r::NPC_MASTERED:
-                return _( "I won't learn anything from this book." );
             default:
                 return _( "I can't read this." );
         }
@@ -12958,8 +12953,6 @@ std::string Character::get_read_fail_message( read_fail_reason reason, const ite
                 return string_format( _( "%s needs reading glasses!" ), disp_name() );
             case r::TOO_DARK:
                 return string_format( _( "It's too dark for %s to read!" ), disp_name() );
-            case r::NPC_CANT_SEE_PLAYER:
-                return string_format( _( "%s could read that to you, but they can't see you." ), disp_name() );
             case r::LOW_MORALE:
                 return string_format( _( "%s morale is too low!" ), disp_name( true ) );
             case r::BLIND:

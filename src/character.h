@@ -360,9 +360,6 @@ enum class read_fail_reason {
     NEED_READING_GLASSES,
     TOO_DARK,
     BLIND,
-    // NPC-specific reasons
-    NPC_MASTERED, // npc is asked to study from a book they can't learn anything from
-    NPC_CANT_SEE_PLAYER,
 };
 
 /// helper for storing info about a Character's ability to read a book
