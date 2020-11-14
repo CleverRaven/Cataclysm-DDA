@@ -246,8 +246,6 @@ endif
 # This sets CXX and so must be up here
 ifneq ($(CLANG), 0)
   # Allow setting specific CLANG version
-  LDFLAGS += -lc++experimental
-  LDFLAGS += -pthread
   ifeq ($(CLANG), 1)
     CLANGCMD = clang++
   else
@@ -268,7 +266,6 @@ ifneq ($(CLANG), 0)
     LD  = $(CROSS)$(CLANGCMD)
   endif
 else
-  LDFLAGS += -lstdc++fs
   # Compiler version & target machine - used later for MXE ICE workaround
   ifdef CROSS
     CXXVERSION := $(shell $(CROSS)$(CXX) --version | grep -i gcc | sed 's/^.* //g')
@@ -591,6 +588,9 @@ ifeq ($(SOUND), 1)
     $(error "SOUND=1 only works with TILES=1")
   endif
   ifeq ($(NATIVE),osx)
+    # For <experimental/filesystem> lib
+    LDFLAGS += -lc++experimental
+    LDFLAGS += -pthread
     ifdef FRAMEWORK
       CXXFLAGS += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
       LDFLAGS += -F$(FRAMEWORKSDIR)/SDL2_mixer.framework/Frameworks \
@@ -608,6 +608,8 @@ ifeq ($(SOUND), 1)
     CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
     LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
     LDFLAGS += -lpthread
+    # For <experimental/filesystem> lib
+    LDFLAGS += -lstdc++fs
   endif
 
   ifeq ($(MSYS2),1)

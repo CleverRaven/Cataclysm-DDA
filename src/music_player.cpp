@@ -347,8 +347,8 @@ std::string get_supported_formats()
 
 void init_formats()
 {
-    // NOLINTNEXTLINE(clang-diagnostic-error)
-    int flags = MIX_INIT_OGG | MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_MID;
+    // 0x00000020 is MIX_INIT_MID flag but clang-tidy abuse it
+    int flags = 0x00000020 | MIX_INIT_OGG | MIX_INIT_FLAC | MIX_INIT_MP3;
     Mix_Init( flags );
 }
 #endif
