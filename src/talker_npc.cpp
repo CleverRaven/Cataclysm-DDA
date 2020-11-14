@@ -197,12 +197,6 @@ void talker_npc::check_missions()
 void talker_npc::update_missions( const std::vector<mission *> &missions_assigned,
                                   const character_id &charID )
 {
-    if( me_npc->chatbin.mission_selected != nullptr ) {
-        if( me_npc->chatbin.mission_selected->get_assigned_player_id() != charID ) {
-            // Don't talk about a mission that is assigned to someone else.
-            me_npc->chatbin.mission_selected = nullptr;
-        }
-    }
     if( me_npc->chatbin.mission_selected == nullptr ) {
         // if possible, select a mission to talk about
         if( !me_npc->chatbin.missions.empty() ) {
