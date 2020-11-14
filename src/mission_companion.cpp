@@ -486,7 +486,8 @@ bool talk_function::display_and_choose_opts(
 
         int name_index = 0;
         // Are we so far down the list that we bump into the end?
-        bool last_section = folded_names_lines < info_height || folded_names_lines - info_height <= size_t(name_offset);
+        bool last_section = folded_names_lines < info_height ||
+                            folded_names_lines - info_height <= size_t( name_offset );
 
         // Translate back from desired line index to the corresponding entry, making sure to round up
         // near the end to ensure the last line gets included.
@@ -505,7 +506,7 @@ bool talk_function::display_and_choose_opts(
 
         size_t list_line = 2;
         for( size_t current = name_index; list_line < info_height &&
-            current < cur_key_list.size(); current++ ) {
+             current < cur_key_list.size(); current++ ) {
             nc_color col = ( current == sel ? h_white : c_white );
             //highlight important missions
             for( const auto &k : mission_key.entries[0] ) {
