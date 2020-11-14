@@ -448,7 +448,7 @@
     "speed": 45,
     "material": [ "sugar" ],
     "reproduction": { "baby_monster": "mon_licorice_snake_hatchling", "baby_count": 20, "baby_timer": 245 }
-    "symbol":"~",
+    "symbol": "~",
     "color": "red",
     "morale": 100,
     "melee_skill": 1,
