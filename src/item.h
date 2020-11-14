@@ -1368,6 +1368,7 @@ class item : public visitable<item>
 
         bool use_relic( Character &guy, const tripoint &pos );
         bool has_relic_recharge() const;
+        bool has_relic_activation() const;
         std::vector<trait_id> mutations_from_wearing( const Character &guy ) const;
 
         /**
