@@ -467,7 +467,7 @@
     "name": { "str": "Licorice Snake Hatchling", "str_pl": "Licorice Snake Hatchlings" },
     "description": "A baby snake made entirely out of licorice, possibly the children of the larger Licorice Snakes.",
     "copy-from": "mon_licorice_snake",
-    "harvest": "licorice_snakes",
+    "harvest": "licorice_snake",
     "upgrades": { "age_grow": 200, "into": "mon_licorice_snake" }
   }
 ]
