@@ -350,13 +350,28 @@ enum class book_mastery {
     MASTERED // can no longer increase skill by reading
 };
 
+enum class read_fail_reason {
+    NO_REASON,
+    NOT_A_BOOK,
+    DRIVING,
+    LOW_MORALE,
+    LOW_SKILL,
+    ILLITERATE,
+    NEED_READING_GLASSES,
+    TOO_DARK,
+    BLIND,
+    // NPC-specific reasons
+    NPC_MASTERED, // npc is asked to study from a book they can't learn anything from
+    NPC_CANT_SEE_PLAYER,
+};
+
 /// helper for storing info about a Character's ability to read a book
-/// See Character::eval_readability
+/// See Character::eval_readability at character.cpp
 struct readability_eval {
     bool can_read = false;
     bool can_learn = false;
     bool can_have_fun = false;
-    std::string fail_reason;
+    read_fail_reason fail_reason = read_fail_reason::NO_REASON;
     book_mastery mastery = book_mastery::CANT_DETERMINE;
 };
 
@@ -1667,6 +1682,8 @@ class Character : public Creature, public visitable<Character>
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const Character &p ) const;
         readability_eval evaluate_readability( const item &book ) const;
+        std::string get_read_fail_message( read_fail_reason reason, const item &book,
+                                           bool is_alone = true ) const;
 
 
         bool can_pickVolume( const item &it, bool safe = false ) const;

@@ -12733,7 +12733,6 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
     return std::max( mv, 25 );
 }
 
-// WIP below
 static const itype_id itype_cookbook_human( "cookbook_human" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
@@ -12790,29 +12789,7 @@ int Character::book_fun_for( const item &book, const Character &p ) const
     return fun_bonus;
 }
 
-readability_eval read_fail( const std::string &reason )
-{
-    readability_eval eval;
-    eval.fail_reason = reason;
-    return eval;
-}
-
-bool is_driving( const Character *who )
-{
-    const optional_vpart_position vp = get_map().veh_at( who->pos() );
-    return vp && vp->vehicle().player_in_control( *who );
-}
-
-bool needs_reading_glasses( const Character *who )
-{
-    static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-
-    return who->has_trait( trait_HYPEROPIC ) &&
-           !who->worn_with_flag( STATIC( flag_str_id( "FIX_FARSIGHT" ) ) ) &&
-           !who->has_effect( effect_contacts ) && !who->has_bionic( bio_eye_optic );
-}
-
-book_mastery get_book_mastery( const Character *who, const item &book )
+book_mastery __get_book_mastery( const Character *who, const item &book )
 {
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
@@ -12843,52 +12820,156 @@ book_mastery get_book_mastery( const Character *who, const item &book )
 
 readability_eval Character::evaluate_readability( const item &book ) const
 {
+    using r = read_fail_reason;
     static const trait_id trait_ILLITERATE( "ILLITERATE" );
+    static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+    // helper funcs
+    static const auto read_fail = []( read_fail_reason reason ) {
+        readability_eval eval;
+        eval.fail_reason = reason;
+        return eval;
+    };
+    static const auto is_driving = []( const Character * who ) {
+        const optional_vpart_position vp = get_map().veh_at( who->pos() );
+        return vp && vp->vehicle().player_in_control( *who );
+    };
+    static const auto needs_reading_glasses = []( const Character * who ) {
+        return who->has_trait( trait_HYPEROPIC ) &&
+               !who->worn_with_flag( STATIC( flag_str_id( "FIX_FARSIGHT" ) ) ) &&
+               !who->has_effect( effect_contacts ) && !who->has_bionic( bio_eye_optic );
+    };
 
-    book_mastery mastery = get_book_mastery( this, book );
+    book_mastery mastery = __get_book_mastery( this, book );
     const auto &type = book.type->book;
 
     // The following conditions prevents reading outright
     // You also can't have someone else read for you
     if( !book.is_book() ) {
-        return read_fail( string_format( _( "Your %s is not good reading material." ),
-                                         book.tname() ) );
+        return read_fail( r::NOT_A_BOOK );
     }
     if( is_driving( this ) ) {
-        return read_fail( _( "It's a bad idea to read while driving!" ) );
+        return read_fail( r::DRIVING );
     }
     if( has_identified( book.typeId() ) ) {
         if( !fun_to_read( book ) && !has_morale_to_read() ) {
-            return read_fail( ( "What's the point of studying?  (Your morale is too low!)" ) );
+            return read_fail( r::LOW_MORALE );
         }
         if( mastery == book_mastery::CANT_UNDERSTAND ) {
-            const skill_id &skill = type->skill;
-            const std::string fmt = _( "%s %d needed to understand.  You have %d" );
-            return read_fail( string_format( fmt, skill.obj().name(), type->req,
-                                             get_skill_level( skill ) ) );
-
+            return read_fail( r::LOW_SKILL );
         }
     }
+    if( is_npc() && mastery == book_mastery::MASTERED ) {
+        // only happens when player asks an NPC to study from a book
+        // which they won't learn anything from
+        return read_fail( r::NPC_MASTERED );
+    }
 
-    // The following conditions prevents yoo from reading
-    // However, you can have others read for you
-    // i.e you can't read but might still be able learn from it
     readability_eval eval;
     eval.can_learn = mastery == book_mastery::LEARNING;
     eval.can_have_fun = fun_to_read( book );
     eval.mastery = mastery;
+    // The following conditions prevents you from reading
+    // However, you can have others read for you
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         eval.can_read = false;
-        eval.fail_reason = _( "You're illiterate!" );
+        eval.fail_reason = r::ILLITERATE;
     } else if( needs_reading_glasses( this ) ) {
         eval.can_read = false;
-        eval.fail_reason = _( "Your eyes won't focus without reading glasses." );
-    } else if( fine_detail_vision_mod() > 4 ) {
-        // Too dark to read only applies if the player can read to himself
-        return read_fail( _( "It's too dark to read!" ) );
+        eval.fail_reason = r::NEED_READING_GLASSES;
     } else {
         eval.can_read = true;
+        if( fine_detail_vision_mod() > 4 ) {
+            // Too dark to read only applies if the we can read ourselves
+            return read_fail( r::TOO_DARK );
+        }
     }
 
     return eval;
+}
+
+std::string Character::get_read_fail_message( read_fail_reason reason, const item &book,
+        bool is_alone ) const
+{
+    using r = read_fail_reason;
+
+    if( reason == r::NO_REASON ) {
+        return std::string();
+    }
+    // *INDENT-OFF*
+    if( is_avatar() ) {
+        // does not matter if alone or not
+        switch( reason ) {
+            case r::NOT_A_BOOK:
+                return string_format( _( "Your %s is not good reading material." ), book.tname() );
+            case r::DRIVING:
+                return _( "It's a bad idea to read while driving!" );
+            case r::LOW_MORALE:
+                return _( "What's the point of studying?  (Your morale is too low!)" );
+            case r::LOW_SKILL: {
+                const auto &type = book.type->book;
+                const skill_id &skill = type->skill;
+                const std::string fmt = _( "%s %d needed to understand.  You have %d" );
+                return string_format( fmt, skill->name(), type->req, get_skill_level( skill ) );
+            }
+            case r::ILLITERATE:
+                return _( "You're illiterate!" );
+            case r::NEED_READING_GLASSES:
+                return _( "Your eyes won't focus without reading glasses." );
+            case r::TOO_DARK:
+                return _( "It's too dark to read!" );
+            case r::BLIND:
+                return _( "You're blind." );
+            default:
+                return _( "You can't read this." );
+        }
+    }
+    if ( is_npc() && is_alone ) {
+        // npc is asked to study by player
+        switch( reason ) {
+            case r::NOT_A_BOOK:
+                return string_format( _( "This %s is not good reading material." ), book.tname() );
+            case r::LOW_SKILL:
+                return _( "I'm not smart enough to read this book." );
+            case r::ILLITERATE:
+                return _( "I can't read!" );
+            case r::NEED_READING_GLASSES:
+                return _( "I can't read without my glasses." );
+            case r::TOO_DARK:
+                return _( "It's too dark to read!" );
+            case r::NPC_MASTERED:
+                return _( "I won't learn anything from this book." );
+            default:
+                return _( "I can't read this." );
+        }
+    }
+    if ( is_npc() && !is_alone ) {
+        // TODO: Re do this when NPCs can read to other NPCs
+        // player is looking for someone to be the reader
+        switch( reason ) {
+            case r::ILLITERATE:
+                return string_format( _( "%s is illiterate!" ), disp_name() );
+            case r::LOW_SKILL: {
+                const auto &type = book.type->book;
+                const skill_id &skill = type->skill;
+                const std::string fmt = _( "%s %d needed to understand.  %s has %d" );
+                return string_format( fmt, skill->name(), type->req, disp_name(), get_skill_level( skill ) );
+            }
+            case r::NEED_READING_GLASSES:
+                return string_format( _( "%s needs reading glasses!" ), disp_name() );
+            case r::TOO_DARK:
+                return string_format( _( "It's too dark for %s to read!" ), disp_name() );
+            case r::NPC_CANT_SEE_PLAYER:
+                return string_format( _( "%s could read that to you, but they can't see you." ), disp_name() );
+            case r::LOW_MORALE:
+                return string_format( _( "%s morale is too low!" ), disp_name( true ) );
+            case r::BLIND:
+                return string_format( _( "%s is blind." ), disp_name() );
+            default:
+                return string_format( _( "%s can't read this." ), disp_name() );
+        }
+    }
+    // *INDENT-ON*
+    // shouldn't reach here
+    debugmsg( "Unhandled read_fail_reason" );
+    return std::string();
 }
