@@ -74,11 +74,5 @@
     "//": "any ammunition for smoothbore projectiles, typically using wads and plastic hulls.",
     "name": "shotgun ammo",
     "default": "shot_buck"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "cannon",
-    "name": "cannon",
-    "default": "cannon_shot"
   }
 ]
