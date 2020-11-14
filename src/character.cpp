@@ -12789,12 +12789,12 @@ int Character::book_fun_for( const item &book, const Character &p ) const
     return fun_bonus;
 }
 
-book_mastery __get_book_mastery( const Character *who, const item &book )
+book_mastery Character::get_book_mastery( const item &book ) const
 {
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
 
-    if( !who->has_identified( book.typeId() ) ) {
+    if( !book.is_book() || !has_identified( book.typeId() ) ) {
         return book_mastery::CANT_DETERMINE;
     }
 
@@ -12805,7 +12805,7 @@ book_mastery __get_book_mastery( const Character *who, const item &book )
         return book_mastery::MASTERED;
     }
 
-    const int skill_level = who->get_skill_level( skill );
+    const int skill_level = get_skill_level( skill );
     const int skill_requirement = type->req;
     const int max_skill_learnable = type->level;
 
@@ -12839,7 +12839,7 @@ readability_eval Character::evaluate_readability( const item &book ) const
                !who->has_effect( effect_contacts ) && !who->has_bionic( bio_eye_optic );
     };
 
-    book_mastery mastery = __get_book_mastery( this, book );
+    book_mastery mastery = get_book_mastery( book );
     const auto &type = book.type->book;
 
     // The following conditions prevents reading outright

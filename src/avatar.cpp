@@ -290,10 +290,11 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     for( const npc *elem : get_crafting_helpers() ) {
         readability_eval npc_eval = elem->evaluate_readability( book );
         if( !npc_eval.can_read ) {
-            reasons.push_back( elem->get_read_fail_message( npc_eval.fail_reason, book ) );
+            reasons.push_back( elem->get_read_fail_message( npc_eval.fail_reason, book, false ) );
         }
         if( npc_eval.can_read && !elem->sees( *this ) ) {
-            reasons.push_back( elem->get_read_fail_message( read_fail_reason::NPC_CANT_SEE_PLAYER, book ) );
+            reasons.push_back( elem->get_read_fail_message( read_fail_reason::NPC_CANT_SEE_PLAYER, book,
+                               false ) );
         }
         if( npc_eval.can_read ) {
             int proj_time = time_to_read( book, *elem );

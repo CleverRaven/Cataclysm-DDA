@@ -366,7 +366,7 @@ enum class read_fail_reason {
 };
 
 /// helper for storing info about a Character's ability to read a book
-/// See Character::eval_readability at character.cpp
+/// See Character::evaluate_readability in character.cpp
 struct readability_eval {
     bool can_read = false;
     bool can_learn = false;
@@ -1681,6 +1681,7 @@ class Character : public Creature, public visitable<Character>
         bool fun_to_read( const item &book ) const;
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const Character &p ) const;
+        book_mastery get_book_mastery( const item &book ) const;
         readability_eval evaluate_readability( const item &book ) const;
         std::string get_read_fail_message( read_fail_reason reason, const item &book,
                                            bool is_alone = true ) const;
