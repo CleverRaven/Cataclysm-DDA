@@ -84,7 +84,7 @@
     "skills": [
       { "skill": "spellcraft", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "chemistry", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "marksmanship", "bonus": { "rng": [ 2, 4 ] } }
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } }
     ],
     "bonus_int": 4,
     "bonus_per": 2,
