@@ -42,6 +42,6 @@
   {
     "name": "GROUP_EGG_LICORICE",
     "type": "monstergroup",
-    "default": "mon_licorice_snake"
+    "default": "mon_licorice_snake_hatchling"
   }
 ]
