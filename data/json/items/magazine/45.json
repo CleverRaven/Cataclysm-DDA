@@ -220,6 +220,6 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 26 } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 26 } } ]
   }
 ]
