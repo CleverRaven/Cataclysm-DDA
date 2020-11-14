@@ -458,6 +458,6 @@
     "vision_night": 50,
     "harvest": "licorice_snake",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES" ]
   }
 ]
