@@ -469,5 +469,5 @@
     "copy-from": "mon_licorice_snake",
     "harvest": "licorice_snakes",
     "upgrades": { "age_grow": 200, "into": "mon_licorice_snake" }
-  },
+  }
 ]
