@@ -246,7 +246,7 @@
   {
     "type": "furniture",
     "id": "f_cooling_pylon",
-    "name": "cryo pod",
+    "name": "cryo pylon",
     "symbol": "#",
     "description": "This super chilled pylon is so cold it seems to pull in warmth towards itself and create a light breeze of freezing air.",
     "color": "light_blue",
