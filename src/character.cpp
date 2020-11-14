@@ -2705,6 +2705,32 @@ std::vector<item_location> Character::nearby( const
     return res;
 }
 
+units::length Character::max_single_item_length() const
+{
+    units::length ret = weapon.max_containable_length();
+
+    for( const item &worn_it : worn ) {
+        units::length candidate = worn_it.max_containable_length();
+        if( candidate > ret ) {
+            ret = candidate;
+        }
+    }
+    return ret;
+}
+
+units::volume Character::max_single_item_volume() const
+{
+    units::volume ret = weapon.max_containable_volume();
+
+    for( const item &worn_it : worn ) {
+        units::volume candidate = worn_it.max_containable_volume();
+        if( candidate > ret ) {
+            ret = candidate;
+        }
+    }
+    return ret;
+}
+
 std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, const item *avoid )
 {
     item_location weapon_loc( *this, &weapon );

@@ -149,6 +149,8 @@ class item_pocket
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 
+        units::length max_containable_length() const;
+
         // combined volume of contained items
         units::volume contains_volume() const;
         units::volume remaining_volume() const;

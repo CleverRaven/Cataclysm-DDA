@@ -40,7 +40,7 @@
     "price": 10000,
     "bashing": 10,
     "color": "brown",
-    "ranged_damage": 0,
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,

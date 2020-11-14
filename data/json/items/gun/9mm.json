@@ -246,7 +246,7 @@
     "price_postapoc": 3500,
     "bashing": 8,
     "dispersion": 270,
-    "ranged_damage": 0,
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "built_in_mods": [ "folding_stock", "grip" ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -290,7 +290,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "ranged_damage": 0
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 }
   },
   {
     "id": "briefcase_smg",
