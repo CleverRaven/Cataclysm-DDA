@@ -1012,6 +1012,11 @@ void avatar_action::use_item( avatar &you, item_location &loc )
 
     if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         use_in_place = true;
+        // Activate holster on map only if hands are free.
+    } else if( you.can_wield( *loc ).success() && loc->is_holster() && !loc.held_by( you ) ) {
+        use_in_place = true;
+        // Adjustment because in player::wield_contents this amount is refunded.
+        you.mod_moves( -loc.obtain_cost( you ) );
     } else {
         loc = loc.obtain( you );
         if( !loc ) {
