@@ -693,7 +693,7 @@ class atm_menu
             }
 
             if( remaining ) {
-                add_msg( m_info, _( "All cash cards at maximum capacity" ) );
+                add_msg( m_info, _( "All cash cards at maximum capacity." ) );
             }
 
             //dst->charges += amount;
@@ -4245,10 +4245,7 @@ static int findBestGasDiscount( player &p )
     int discount = 0;
 
     for( const item *it : p.all_items_with_flag( flag_GAS_DISCOUNT ) ) {
-        int q = getGasDiscountCardQuality( *it );
-        if( q > discount ) {
-            discount = q;
-        }
+        discount = std::max( discount, getGasDiscountCardQuality( *it ) );
     }
 
     return discount;
@@ -4345,7 +4342,7 @@ static int fromPumpFuel( const tripoint &dst, const tripoint &src )
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( phase_id::LIQUID ) ) {
             // how much do we have in the pump?
-            int amount = item_it->charges;
+            const int amount = item_it->charges;
             item liq_d( item_it->type, calendar::turn, amount );
 
             // add the charges to the destination
@@ -4551,30 +4548,30 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
-        int amountFuel = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : -1;
-        if( amountFuel < 0 ) {
+        int amount_fuel = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : -1;
+        if( amount_fuel < 0 ) {
             popup( _( "Unable to refund, no fuel in pump." ) );
             return;
         }
         sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
                        "gaspump" );
 
-        int refundPricePerUnit = getGasPricePerLiter( 3 ); // min price to avoid exploit
-        int amountMoney = amountFuel * refundPricePerUnit / 1000.0f;
+        // getGasPricePerLiter( platinum_discount) min price to avoid exploit
+        int amount_money = amount_fuel * getGasPricePerLiter( 3 ) / 1000.0f;
         std::sort( cash_cards.begin(), cash_cards.end(), []( item * l, const item * r ) {
             return l->ammo_remaining() > r->ammo_remaining();
         } );
         for( item * const &cc : cash_cards ) {
-            if( amountMoney == 0 ) {
+            if( amount_money == 0 ) {
                 break;
             }
-            int transfer = std::min( amountMoney, cc->remaining_ammo_capacity() );
+            const int transfer = std::min( amount_money, cc->remaining_ammo_capacity() );
             cc->ammo_set( cc->ammo_default(), transfer + cc->ammo_remaining() );
-            amountMoney -= transfer;
+            amount_money -= transfer;
         }
-        if( amountMoney ) {
-            add_msg( m_info, _( "All cash cards at maximum capacity" ) );
-            // all fuel already removed from pump, so remaning amountMoney simply ignored
+        if( amount_money ) {
+            add_msg( m_info, _( "All cash cards at maximum capacity." ) );
+            // all fuel already removed from pump, so remaning amount_money simply ignored
         }
         add_msg( m_info, _( "Your cash cards now hold %s." ),
                  format_money( p.charges_of( itype_cash_card ) ) );
