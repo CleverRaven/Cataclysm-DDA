@@ -530,7 +530,7 @@
 	"scaling_mods": {
 	  "str_mod": [ -0.05, -0.04 ],
 	  "dex_mod": [ -0.05, -0.04 ],
-	  "stamina_min": [ -0.35, -0.15 ],
+	  "stamina_min": [ -0.351, -0.151 ],
 	  "stamina_chance": [ -0.021, -0.051 ],
 	  "speed_mod": [ -0.31, -0.21 ]
 	 }
