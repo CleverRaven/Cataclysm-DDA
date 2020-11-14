@@ -1619,7 +1619,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     // 7x7 minimap
     const tripoint_abs_omt curs = u.global_omt_location();
-    overmap_ui::draw_overmap_chunk( w, u, curs, point( 0, 0 ), 7, 7 );
+    overmap_ui::draw_overmap_chunk( w, u, curs, point_zero, 7, 7 );
 
     // print limb health
     int i = 0;
