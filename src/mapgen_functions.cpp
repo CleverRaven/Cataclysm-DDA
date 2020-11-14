@@ -910,6 +910,7 @@ void mapgen_road( mapgendata &dat )
         if( num_dirs == 3 ) {
             m->furn_set( point( 3, 3 ), f_traffic_light );
             m->furn_set( point( 20, 3 ), f_traffic_light );
+            m->furn_set( point( 3, 20 ), f_traffic_light );
         }
     }
 
