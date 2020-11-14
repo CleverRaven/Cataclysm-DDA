@@ -41,7 +41,7 @@ static std::string get_random_music_file( const std::string &dir );
 static std::string get_supported_formats();
 
 /* load support for the OGG FLAC MP3 sample/music formats */
-void init_formats();
+static void init_formats();
 
 /*----------------private function declarations end-----------------*/
 
@@ -103,7 +103,7 @@ bool music_player_interface( const Character &p )
     const nc_color text_color = c_light_gray_yellow;
     const nc_color buttons_color = c_light_green;
 
-    point p1( 0, 0 );
+    point p1;
     int offset = 0;
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_player );
@@ -180,12 +180,12 @@ bool music_player_interface( const Character &p )
             for( p1.y = 0;
                  p1.y < std::min( w_list_height, number_files - selected_list + 1 );
                  p1.y++ ) {
-                nc_color clr = ( p1.y == 0 ) ? selected_music_color  : music_list_color;
-                trim_and_print( w_music_list, p1, w_list_width - 2, clr,
+                nc_color clr = ( p1.y == 0 ) ? selected_music_color : music_list_color;
+                trim_and_print( w_music_list, p1, w_list_width - 3, clr,
                                 file_list.at( p1.y + selected_list ).filename().string() );
             }
             // music list scrollbar
-            if( static_cast<int>( file_list.size() ) > w_list_height ) {
+            if( number_files > w_list_height ) {
                 scrollbar()
                 .offset_x( w_list_width - 1 )
                 .offset_y( 0 )
@@ -329,14 +329,14 @@ std::string get_random_music_file( const std::string &dir )
     get_music_files_list( dir, files_list );
 
     // shuffle music list
-    std::random_shuffle( files_list.begin(), files_list.end() );
+    std::shuffle( files_list.begin(), files_list.end(), rng_get_engine() );
     return files_list.front().string();
 }
 
 std::string get_supported_formats()
 {
     init_formats();
-    std::string formats( "" );
+    std::string formats;
     int max = Mix_GetNumMusicDecoders();
     for( int i = 0; i < max; ++i ) {
         std::string format;
@@ -347,6 +347,7 @@ std::string get_supported_formats()
 
 void init_formats()
 {
+    // NOLINTNEXTLINE(clang-diagnostic-error)
     int flags = MIX_INIT_OGG | MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_MID;
     Mix_Init( flags );
 }

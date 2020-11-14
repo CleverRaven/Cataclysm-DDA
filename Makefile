@@ -246,6 +246,8 @@ endif
 # This sets CXX and so must be up here
 ifneq ($(CLANG), 0)
   # Allow setting specific CLANG version
+  LDFLAGS += -lc++experimental
+  LDFLAGS += -pthread
   ifeq ($(CLANG), 1)
     CLANGCMD = clang++
   else
@@ -266,6 +268,7 @@ ifneq ($(CLANG), 0)
     LD  = $(CROSS)$(CLANGCMD)
   endif
 else
+  LDFLAGS += -lstdc++fs
   # Compiler version & target machine - used later for MXE ICE workaround
   ifdef CROSS
     CXXVERSION := $(shell $(CROSS)$(CXX) --version | grep -i gcc | sed 's/^.* //g')
@@ -609,7 +612,6 @@ ifeq ($(SOUND), 1)
 
   ifeq ($(MSYS2),1)
     LDFLAGS += -lmpg123 -lshlwapi -lvorbisfile -lvorbis -logg -lflac
-    LDFLAGS += -lstdc++fs
   endif
 
   CXXFLAGS += -DSDL_SOUND
