@@ -460,5 +460,14 @@
     "harvest": "licorice_snake",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES" ]
-  }
+  },
+  {
+    "id": "mon_licorice_snake_hatchling",
+    "type": "MONSTER",
+    "name": { "str": "Licorice Snake Hatchling", "str_pl": "Licorice Snake Hatchlings" },
+    "description": "A baby snake made entirely out of licorice, possibly the children of the larger Licorice Snakes.",
+    "copy-from": "mon_licorice_snake",
+    "harvest": "licorice_snakes",
+    "upgrades": { "age_grow": 200, "into": "mon_licorice_snake" }
+  },
 ]
