@@ -7,6 +7,7 @@
 #    include <SDL_mixer.h>
 #endif
 
+#include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "cursesdef.h"
@@ -14,18 +15,18 @@
 #include "music_player.h"
 #include "options.h"
 #include "output.h"
-#include "sdlsound.h"
 #include "rng.h"
+#include "sdlsound.h"
 #include "ui_manager.h"
 
 #if __cplusplus > 201703L
 #include <filesystem> // C++17 standard header file name
+namespace fs = std::filesystem;
 #else
 // c++14
 #include <experimental/filesystem> // Header file for pre-standard implementation
-#endif
-
 namespace fs = std::experimental::filesystem;
+#endif
 
 
 /*---------------private function declarations begin-----------------*/
@@ -36,9 +37,12 @@ static void get_music_files_list( const std::string &dir, std::vector<fs::path> 
 /* Get random music file path from directory &dir */
 static std::string get_random_music_file( const std::string &dir );
 
-/* draw <--|-----> scrollbar */
-static void draw_music_scrollbar( const catacurses::window &window, const point &start_point,
-                                  const nc_color &scrollbar_color, const int &length, const int &percent );
+/* Get all supported formats by SDL Mixer */
+static std::string get_supported_formats();
+
+/* load support for the OGG FLAC MP3 sample/music formats */
+void init_formats();
+
 /*----------------private function declarations end-----------------*/
 
 bool music_player_interface( const Character &p )
@@ -82,14 +86,15 @@ bool music_player_interface( const Character &p )
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    int selected_button = 3;
-    std::vector<std::string> buttons = { " |<< ", " << ", " # ", " > ", " || ", " >> ", " >>| " };
+    int selected_button = 2;
+    std::vector<std::string> buttons = { " |<< ", " # ", " > ", " || ", " >>| " };
 
     int selected_list = 0;
     std::vector<fs::path> file_list;
     static fs::path playing_file;
     std::string music_dir = "music/";
     get_music_files_list( music_dir, file_list );
+    int number_files = static_cast<int>( file_list.size() ) - 1;
     int volume = get_option<int>( "MUSIC_VOLUME" );
 
     const nc_color music_info_color = c_light_green_cyan;
@@ -98,8 +103,7 @@ bool music_player_interface( const Character &p )
     const nc_color text_color = c_light_gray_yellow;
     const nc_color buttons_color = c_light_green;
 
-    int x = 0;
-    int y = 0;
+    point p1( 0, 0 );
     int offset = 0;
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_player );
@@ -108,9 +112,10 @@ bool music_player_interface( const Character &p )
         // window player
         draw_border( w_player );
         // background painting
+        p1.x = 0;
         std::string color_line( w_width, ' ' );
-        for( y = 1; y < w_height - 3; y++ ) {
-            mvwprintz( w_player, point( 0, y ), text_color, color_line );
+        for( p1.y = 1; p1.y < w_height - 3; p1.y++ ) {
+            mvwprintz( w_player, p1, text_color, color_line );
         }
         // top panel
         mvwprintz( w_player, point_zero, music_info_color, color_line );
@@ -118,84 +123,85 @@ bool music_player_interface( const Character &p )
         int title_len = static_cast<int>( title.size() );
         mvwprintz( w_player, point_zero, music_info_color, title );
         if( Mix_PlayingMusic() ) {
-            trim_and_print( w_player, point( title_len, 0 ), w_width - title_len, music_info_color,
+            trim_and_print( w_player, point( title_len, 0 ), w_width - title_len - 1, music_info_color,
                             string_format( " - %s ",
                                            playing_file.filename().string() ) );
         }
         right_print( w_player, 0, 0, c_dark_gray_red, "X" );
         // music info
-        x = w_width - 35;
-        y = 2;
+        p1.x = w_width - 35;
+        p1.y = 2;
         offset = 11;
         if( Mix_PlayingMusic() ) {
             if( Mix_PausedMusic() ) {
-                mvwprintz( w_player, point( x + offset, y++ ), text_color, _( "Pausing" ) );
+                mvwprintz( w_player, point( p1.x + offset, p1.y++ ), text_color, _( "Pausing" ) );
             } else {
-                mvwprintz( w_player, point( x + offset, y++ ), text_color, _( "Plays" ) );
+                mvwprintz( w_player, point( p1.x + offset, p1.y++ ), text_color, _( "Playing" ) );
             }
         }
-        y = 3;
-        mvwprintz( w_player, point( x, y++ ), text_color, _( "Title:" ) );
-        mvwprintz( w_player, point( x, y++ ), text_color, _( "Duration:" ) );
-        mvwprintz( w_player, point( x, y++ ), text_color, _( "Time:" ) );
-        mvwprintz( w_player, point( x, y++ ), text_color, _( "Volume:" ) );
-        x = w_width - 24;
-        y = 3;
+        p1.y = 3;
+        mvwprintz( w_player, point( p1.x, p1.y++ ), text_color, _( "Title:" ) );
+        mvwprintz( w_player, point( p1.x, p1.y++ ), text_color, _( "Volume:" ) );
+        p1.x = w_width - 24;
+        p1.y = 3;
         if( Mix_PlayingMusic() ) {
-            trim_and_print( w_player, point( x, y++ ), 22, music_info_color, string_format( " %s ",
+            trim_and_print( w_player, point( p1.x, p1.y++ ), 22, music_info_color, string_format( " %s ",
                             playing_file.filename().string() ) );
-            mvwprintz( w_player, point( x, y++ ), music_info_color, " xx:xx " );
-            mvwprintz( w_player, point( x, y++ ), music_info_color, " xx:xx " );
-            mvwprintz( w_player, point( x, y++ ), music_info_color, string_format( " %d ", volume ) );
+            mvwprintz( w_player, point( p1.x, p1.y++ ), music_info_color, string_format( " %d ", volume ) );
         }
-        // music scrollbar
-        draw_music_scrollbar( w_player, point( 10, 19 ), music_info_color, 60, 25 );
         // Buttons
-        x = -2;
-        y = 22;
+        p1.x = 8;
+        p1.y = 22;
         offset = 10;
         for( int i = 0 ; i < static_cast<int>( buttons.size() ); i++ ) {
-            nc_color btn_color = buttons_color;
-            if( i == selected_button ) {
-                btn_color = c_light_green_green;
-            }
-            mvwprintz( w_player, point( x += offset, y ), btn_color, buttons.at( i ) );
+            nc_color btn_color = ( i == selected_button ) ? c_light_green_green : buttons_color;
+            mvwprintz( w_player, point( p1.x += offset, p1.y ), btn_color, buttons.at( i ) );
         }
         // buttons borders
-        y = 21;
-        for( x = 0; x < w_width; x++ ) {
-            mvwputch( w_player, point( x, y ), BORDER_COLOR, LINE_OXOX );
+        p1.y = 21;
+        for( p1.x = 0; p1.x < w_width; p1.x++ ) {
+            mvwputch( w_player, p1, BORDER_COLOR, LINE_OXOX );
         }
-        mvwputch( w_player, point( 0, y ), BORDER_COLOR, LINE_OXXO );
-        mvwputch( w_player, point( w_width - 1, y ), BORDER_COLOR, LINE_OOXX );
+        mvwputch( w_player, point( 0, p1.y ), BORDER_COLOR, LINE_OXXO );
+        mvwputch( w_player, point( w_width - 1, p1.y ), BORDER_COLOR, LINE_OOXX );
+        // supported formats
+        mvwprintz( w_player, point( 2, 19 ), text_color, _( "Formats supported:" ) );
+        wprintz( w_player, text_color, get_supported_formats() );
 
 
         // window music list
         // background painting
-        for( y = 0; y < w_list_height; y++ ) {
-            mvwprintz( w_music_list, point( 0, y ), selected_music_color, color_line );
+        for( p1.y = 0; p1.y < w_list_height; p1.y++ ) {
+            mvwprintz( w_music_list, point( 0, p1.y ), selected_music_color, color_line );
         }
         if( !file_list.empty() ) {
             // print music list
-            x = 0;
-            y = 0;
-            for( y = 0; y < std::min( w_list_height, static_cast<int>( file_list.size() ) - selected_list );
-                 y++ ) {
-                nc_color clr = ( y == 0 ) ? selected_music_color  : music_list_color;
-                trim_and_print( w_music_list, point( 1, y ), w_list_width - 2, clr,
-                                file_list.at( y + selected_list ).filename().string() );
+            p1.x = 1;
+            for( p1.y = 0;
+                 p1.y < std::min( w_list_height, number_files - selected_list + 1 );
+                 p1.y++ ) {
+                nc_color clr = ( p1.y == 0 ) ? selected_music_color  : music_list_color;
+                trim_and_print( w_music_list, p1, w_list_width - 2, clr,
+                                file_list.at( p1.y + selected_list ).filename().string() );
             }
             // music list scrollbar
             if( static_cast<int>( file_list.size() ) > w_list_height ) {
-                draw_scrollbar( w_music_list, selected_list, w_list_height, static_cast<int>( file_list.size() ),
-                                point( w_list_width - 1, 0 ), c_black_green );
+                scrollbar()
+                .offset_x( w_list_width - 1 )
+                .offset_y( 0 )
+                .content_size( number_files )
+                .viewport_pos( selected_list )
+                .viewport_size( w_list_height )
+                .slot_color( c_black_green )
+                .bar_color( c_light_green_green )
+                .scroll_to_last( true )
+                .apply( w_music_list );
             }
         } else {
-            center_print( w_music_list, 5, music_list_color, _( "Put your music files" ) );
-            center_print( w_music_list, 6, music_list_color,
+            p1.y = 4;
+            center_print( w_music_list, p1.y++, music_list_color, _( "Put your music files" ) );
+            center_print( w_music_list, p1.y++, music_list_color,
                           string_format( _( "into %s directory." ), colorize( music_dir, selected_music_color ) ) );
-            center_print( w_music_list, 7, music_list_color, _( "Formats supported:" ) );
-            center_print( w_music_list, 8, music_list_color, _( ".mp3 .flac .wav .ogg .midi" ) );
         }
         wnoutrefresh( w_player );
         wnoutrefresh( w_music_list );
@@ -206,14 +212,16 @@ bool music_player_interface( const Character &p )
 
         } else if( action == "UP" ) {
             selected_list--;
-            selected_list = clamp( selected_list, 0, static_cast<int>( file_list.size() ) - 1 );
+            selected_list = clamp( selected_list, 0, number_files );
         } else if( action == "DOWN" ) {
             selected_list++;
-            selected_list = clamp( selected_list, 0, static_cast<int>( file_list.size() ) - 1 );
+            selected_list = clamp( selected_list, 0, number_files );
         } else if( action == "PAGE_DOWN" ) {
-
+            selected_list += std::min( w_list_height, number_files );
+            selected_list = clamp( selected_list, 0, number_files );
         } else if( action == "PAGE_UP" ) {
-
+            selected_list -= std::min( w_list_height, number_files );
+            selected_list = clamp( selected_list, 0, number_files );
         } else if( action == "RIGHT" ) {
             selected_button++;
             selected_button = clamp( selected_button, 0, static_cast<int>( buttons.size() ) - 1 );
@@ -227,7 +235,7 @@ bool music_player_interface( const Character &p )
                     if( !file_list.empty() ) {
                         stop_music();
                         selected_list--;
-                        selected_list = clamp( selected_list, 0, static_cast<int>( file_list.size() ) - 1 );
+                        selected_list = clamp( selected_list, 0, number_files );
                         playing_file = file_list.at( selected_list );
                         if( p.can_hear( p.pos(), volume ) ) {
                             play_music_path( playing_file.string(), 100 );
@@ -235,13 +243,10 @@ bool music_player_interface( const Character &p )
                     }
                     break;
                 case 1:
-                    // button revind
-                    break;
-                case 2:
                     // button stop
                     stop_music();
                     break;
-                case 3:
+                case 2:
                     // button play
                     if( !file_list.empty() ) {
                         stop_music();
@@ -251,7 +256,7 @@ bool music_player_interface( const Character &p )
                         }
                     }
                     break;
-                case 4:
+                case 3:
                     // button pause
                     if( Mix_PausedMusic() ) {
                         Mix_ResumeMusic();
@@ -259,15 +264,12 @@ bool music_player_interface( const Character &p )
                         Mix_PauseMusic();
                     }
                     break;
-                case 5:
-                    // button flash forward
-                    break;
-                case 6:
+                case 4:
                     // button next track
                     if( !file_list.empty() ) {
                         stop_music();
                         selected_list++;
-                        selected_list = clamp( selected_list, 0, static_cast<int>( file_list.size() ) - 1 );
+                        selected_list = clamp( selected_list, 0, number_files );
                         playing_file = file_list.at( selected_list );
                         if( p.can_hear( p.pos(), volume ) ) {
                             play_music_path( playing_file.string(), 100 );
@@ -286,10 +288,14 @@ bool music_player_interface( const Character &p )
     return Mix_PlayingMusic();
 }
 
-void music_player_next_music()
+void music_player_next_music( const Character &p )
 {
+    if( !p.is_player() ) {
+        return;
+    }
+    int volume = get_option<int>( "MUSIC_VOLUME" );
     // If no paying music then play it
-    if( !Mix_PlayingMusic() ) {
+    if( !Mix_PlayingMusic() && p.can_hear( p.pos(), volume ) ) {
         play_music_path( get_random_music_file( "music/" ), 100 );
     }
 }
@@ -314,11 +320,7 @@ void get_music_files_list( const std::string &dir, std::vector<fs::path> &paths_
             paths_list.push_back( p.path() );
         }
     }
-    // shuffle music list
-    // NOLINTNEXTLINE(cata-determinism)
-    static auto eng = cata_default_random_engine(
-                          std::chrono::system_clock::now().time_since_epoch().count() );
-    std::shuffle( paths_list.begin(), paths_list.end(), eng );
+    std::sort( paths_list.begin(), paths_list.end() );
 }
 
 std::string get_random_music_file( const std::string &dir )
@@ -327,31 +329,25 @@ std::string get_random_music_file( const std::string &dir )
     get_music_files_list( dir, files_list );
 
     // shuffle music list
-    // NOLINTNEXTLINE(cata-determinism)
-    static auto eng = cata_default_random_engine(
-                          std::chrono::system_clock::now().time_since_epoch().count() );
-    std::shuffle( files_list.begin(), files_list.end(), eng );
+    std::random_shuffle( files_list.begin(), files_list.end() );
     return files_list.front().string();
 }
 
-void draw_music_scrollbar( const catacurses::window &window, const point &start_point,
-                           const nc_color &scrollbar_color, const int &length, const int &percent )
+std::string get_supported_formats()
 {
-    if( length <= 0 ) {
-        return;
+    init_formats();
+    std::string formats( "" );
+    int max = Mix_GetNumMusicDecoders();
+    for( int i = 0; i < max; ++i ) {
+        std::string format;
+        formats += " " + format.append( Mix_GetMusicDecoder( i ) );
     }
-
-    // add <--->
-    mvwputch( window, start_point, scrollbar_color, '<' );
-    for( int x = 1; x < length - 1; x++ ) {
-        wputch( window, scrollbar_color, LINE_OXOX );
-    }
-    wputch( window, scrollbar_color, '>' );
-
-    // add slider
-    int pr = clamp( percent, 0, 100 );
-    int pos = 1 + ( length - 1 ) * pr / 100;
-    mvwputch( window, start_point + point( pos, 0 ), scrollbar_color, LINE_XXXX );
+    return formats;
 }
 
+void init_formats()
+{
+    int flags = MIX_INIT_OGG | MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_MID;
+    Mix_Init( flags );
+}
 #endif

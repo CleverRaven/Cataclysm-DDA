@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MUSIC_SRC_PLAYER_H
-#define MUSIC_SRC_PLAYER_H
+#ifndef CATA_SRC_MUSIC_PLAYER_H
+#define CATA_SRC_MUSIC_PLAYER_H
 
 #if defined(SDL_SOUND)
 
@@ -13,7 +13,7 @@ bool music_player_interface( const Character &p );
 /* This function called from iuse.cpp */
 /* if player uses mp3 player or somethinhg music electronics. */
 /* Starts playing next music if  current music is over */
-void music_player_next_music();
+void music_player_next_music( const Character &p );
 
 /* This function called from iuse.cpp */
 /* after used mp3 player or somethinhg music electronics. */
@@ -22,13 +22,19 @@ void music_player_stop();
 
 #else
 
-inline bool music_player_interface( const Character & /*p*/ )
+inline bool music_player_interface( const Character &/*p*/ )
 {
-    return false;
+    static bool playing;
+    if( !playing ) {
+        playing = true;
+    } else {
+        playing = false;
+    }
+    return playing;
 }
-inline void music_player_next_music( void ) { }
-inline void music_player_stop( void ) { }
+inline void music_player_next_music( const Character &/*p*/ ) { }
+inline void music_player_stop() { }
 
 #endif // defined(SDL_SOUND)
 
-#endif // MUSIC_SRC_PLAYER_H
+#endif // CATA_SRC_MUSIC_PLAYER_H
