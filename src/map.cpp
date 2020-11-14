@@ -6414,6 +6414,7 @@ void map::load( const tripoint &w, const bool update_vehicle )
     field_furn_locs.clear();
     submaps_with_active_items.clear();
     parent_electric_grids.clear();
+    active_tiles.clear();
     set_abs_sub( w );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
