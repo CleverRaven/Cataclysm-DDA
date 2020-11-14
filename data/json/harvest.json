@@ -273,6 +273,11 @@
     "entries": [ { "drop": "tanbark", "base_num": [ 1, 2 ] } ]
   },
   {
+    "id": "alder_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "alder_bark", "base_num": [ 2, 5 ], "scale_num": [ 0, 1 ] } ]
+  },
+  {
     "id": "fish_tiny",
     "type": "harvest",
     "entries": [
