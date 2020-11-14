@@ -478,7 +478,7 @@ bool talk_function::display_and_choose_opts(
         int name_offset = 0;
         size_t sel_pos = 0;
         // Translate from entry index to line index
-        for (size_t i = 0; i < sel; i++) {
+        for( size_t i = 0; i < sel; i++ ) {
             sel_pos += folded_names[i].size();
         }
 
@@ -488,12 +488,13 @@ bool talk_function::display_and_choose_opts(
         // Are we so far down the list that we bump into the end?
         bool last_section = folded_names_lines < info_height || folded_names_lines - info_height <= size_t(name_offset);
 
-        // Translate back from desired line index to the corresponding entry, making sure to round up near the end to ensure the last line gets included.
-        if (name_offset > 0) {
-            for (size_t i = 0; i < cur_key_list.size(); i++) {
+        // Translate back from desired line index to the corresponding entry, making sure to round up
+        // near the end to ensure the last line gets included.
+        if( name_offset > 0 ) {
+            for( size_t i = 0; i < cur_key_list.size(); i++ ) {
                 name_offset -= folded_names[i].size();
-                if (name_offset <= 0) {
-                    if (last_section && name_offset < 0) {
+                if( name_offset <= 0 ) {
+                    if( last_section && name_offset < 0 ) {
                         name_index++;
                     }
                     break;
@@ -503,7 +504,7 @@ bool talk_function::display_and_choose_opts(
         }
 
         size_t list_line = 2;
-        for (size_t current = name_index; list_line < info_height &&
+        for( size_t current = name_index; list_line < info_height &&
             current < cur_key_list.size(); current++ ) {
             nc_color col = ( current == sel ? h_white : c_white );
             //highlight important missions
@@ -528,7 +529,7 @@ bool talk_function::display_and_choose_opts(
             }
         }
 
-        if (folded_names_lines > info_height + 1) {
+        if( folded_names_lines > info_height + 1 ) {
             scrollbar()
             .offset_x( 0 )
             .offset_y( 1 )
