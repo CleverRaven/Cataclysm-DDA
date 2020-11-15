@@ -12824,8 +12824,16 @@ readability_eval Character::evaluate_readability( const item &book ) const
     static const trait_id trait_ILLITERATE( "ILLITERATE" );
     static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
     // helper funcs
-    static const auto read_fail = []( read_fail_reason reason ) {
+    static const auto cant_read = []( read_fail_reason reason ) {
         readability_eval eval;
+        eval.can_read = false;
+        eval.fail_reason = reason;
+        return eval;
+    };
+    static const auto need_assist = []( read_fail_reason reason ) {
+        readability_eval eval;
+        eval.can_read = false;
+        eval.can_be_assisted = true;
         eval.fail_reason = reason;
         return eval;
     };
@@ -12845,42 +12853,40 @@ readability_eval Character::evaluate_readability( const item &book ) const
     // The following conditions prevents reading outright
     // You also can't have someone else read for you
     if( !book.is_book() ) {
-        return read_fail( r::NOT_A_BOOK );
+        return cant_read( r::NOT_A_BOOK );
     }
     if( is_driving( this ) ) {
-        return read_fail( r::DRIVING );
+        return cant_read( r::DRIVING );
     }
     if( has_identified( book.typeId() ) ) {
-        if( !fun_to_read( book ) && !has_morale_to_read() ) {
-            return read_fail( r::LOW_MORALE );
-        }
         if( mastery == book_mastery::CANT_UNDERSTAND ) {
-            return read_fail( r::LOW_SKILL );
+            return cant_read( r::LOW_SKILL );
+        }
+        if( !fun_to_read( book ) && !has_morale_to_read() ) {
+            return cant_read( r::LOW_MORALE );
         }
     }
 
-    readability_eval eval;
-    eval.can_learn = ( !has_identified( book.typeId() ) || mastery == book_mastery::LEARNING );
-    eval.can_have_fun = fun_to_read( book );
-    eval.mastery = mastery;
     // The following conditions prevents you from reading
     // However, you can have others read for you
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
-        eval.can_read = false;
-        eval.fail_reason = r::ILLITERATE;
-    } else if( needs_reading_glasses( this ) ) {
-        eval.can_read = false;
-        eval.fail_reason = r::NEED_READING_GLASSES;
-    } else if( is_blind() ) {
-        eval.can_read = false;
-        eval.fail_reason = r::BLIND;
-    } else if( fine_detail_vision_mod() > 4 ) {
-        eval.can_read = false;
-        eval.fail_reason = r::TOO_DARK;
-    } else {
-        eval.can_read = true;
+        return need_assist( r::ILLITERATE );
+    }
+    if( needs_reading_glasses( this ) ) {
+        return need_assist( r::NEED_READING_GLASSES );
+    }
+    if( is_blind() ) {
+        return need_assist( r::BLIND );
+    }
+    if( fine_detail_vision_mod() > 4 ) {
+        return need_assist( r::TOO_DARK );
     }
 
+    readability_eval eval;
+    eval.can_read = true;
+    eval.can_learn = ( !has_identified( book.typeId() ) || mastery == book_mastery::LEARNING );
+    eval.can_have_fun = fun_to_read( book );
+    eval.mastery = mastery;
     return eval;
 }
 
@@ -12912,10 +12918,10 @@ std::string Character::get_read_fail_message( read_fail_reason reason, const ite
                 return _( "You're illiterate!" );
             case r::NEED_READING_GLASSES:
                 return _( "Your eyes won't focus without reading glasses." );
-            case r::TOO_DARK:
-                return _( "It's too dark to read!" );
             case r::BLIND:
                 return _( "You're blind." );
+            case r::TOO_DARK:
+                return _( "It's too dark to read!" );
             default:
                 return _( "You can't read this." );
         }
@@ -12931,6 +12937,8 @@ std::string Character::get_read_fail_message( read_fail_reason reason, const ite
                 return _( "I can't read!" );
             case r::NEED_READING_GLASSES:
                 return _( "I can't read without my glasses." );
+            case r::BLIND:
+                return _( "I'm blind." );
             case r::TOO_DARK:
                 return _( "It's too dark to read!" );
             default:
@@ -12941,20 +12949,20 @@ std::string Character::get_read_fail_message( read_fail_reason reason, const ite
         // TODO: Re do this when NPCs can read to other NPCs
         // player is looking for someone to be the reader
         switch( reason ) {
-            case r::ILLITERATE:
-                return string_format( _( "%s is illiterate!" ), disp_name() );
+            case r::LOW_MORALE:
+                return string_format( _( "%s morale is too low!" ), disp_name( true ) );
             case r::LOW_SKILL: {
                 const auto &type = book.type->book;
                 const skill_id &skill = type->skill;
                 const std::string fmt = _( "%s %d needed to understand.  %s has %d" );
                 return string_format( fmt, skill->name(), type->req, disp_name(), get_skill_level( skill ) );
             }
+            case r::ILLITERATE:
+                return string_format( _( "%s is illiterate!" ), disp_name() );
             case r::NEED_READING_GLASSES:
                 return string_format( _( "%s needs reading glasses!" ), disp_name() );
             case r::TOO_DARK:
                 return string_format( _( "It's too dark for %s to read!" ), disp_name() );
-            case r::LOW_MORALE:
-                return string_format( _( "%s morale is too low!" ), disp_name( true ) );
             case r::BLIND:
                 return string_format( _( "%s is blind." ), disp_name() );
             default:

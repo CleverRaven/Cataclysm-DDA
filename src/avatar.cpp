@@ -271,18 +271,16 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     readability_eval eval = evaluate_readability( book );
     if( eval.can_read ) {
         return this;
-    } else {
-        reasons.push_back( get_read_fail_message( eval.fail_reason, book ) );
     }
-    if( !eval.can_read && !eval.can_learn ) {
+    if( !eval.can_read && eval.can_be_assisted && is_deaf() ) {
+        reasons.push_back( _( "Maybe someone could read that to you, but you're deaf!" ) );
         return nullptr;
     }
-    if( !eval.can_read && eval.can_learn && is_deaf() ) {
-        reasons.emplace_back( _( "Maybe someone could read that to you, but you're deaf!" ) );
+    reasons.push_back( get_read_fail_message( eval.fail_reason, book ) );
+    if( !eval.can_read && !eval.can_be_assisted ) {
         return nullptr;
     }
     // after this point, we know we CANT read but CAN learn
-
     //Check for NPCs to read for you, negates Illiterate and Far Sighted
     //The fastest-reading NPC is chosen
     const player *reader = nullptr;
@@ -302,7 +300,6 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
             }
         }
     }
-    //end for all candidates
     return reader;
 }
 

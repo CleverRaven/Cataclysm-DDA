@@ -366,6 +366,7 @@ enum class read_fail_reason {
 /// See Character::evaluate_readability in character.cpp
 struct readability_eval {
     bool can_read = false;
+    bool can_be_assisted = false;
     bool can_learn = false;
     bool can_have_fun = false;
     read_fail_reason fail_reason = read_fail_reason::NO_REASON;

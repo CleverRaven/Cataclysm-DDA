@@ -849,7 +849,8 @@ void npc::starting_weapon( const npc_class_id &type )
 bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
 {
     readability_eval eval = evaluate_readability( book );
-    if( !eval.can_read ) {
+    // NPCs can be asked to read regardless of morale
+    if( !eval.can_read && eval.fail_reason != read_fail_reason::LOW_MORALE ) {
         fail_reasons.push_back( get_read_fail_message( eval.fail_reason, book ) );
         return false;
     }

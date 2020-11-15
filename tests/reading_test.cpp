@@ -313,6 +313,8 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
         }
 
         THEN( "you cannot read boring books when your morale is too low" ) {
+            // need to set skill since skill requirement has higher precedence than morale
+            dummy.set_skill_level( skill_id( "chemistry" ), 6 );
             dummy.add_morale( MORALE_FEELING_BAD, -50, -100 );
             REQUIRE_FALSE( dummy.has_morale_to_read() );
 
