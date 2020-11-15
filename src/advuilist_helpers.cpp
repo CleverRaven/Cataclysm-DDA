@@ -447,12 +447,16 @@ void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
     mutex->at( licon == SOURCE_VEHICLE_i ? idxtovehidx( lsrc ) : lsrc ) = true;
     mutex->at( ricon == SOURCE_VEHICLE_i ? idxtovehidx( rsrc ) : rsrc ) = true;
     // dragged vehicle needs more checks...
-    if( lsrc == DRAGGED_IDX or rsrc == DRAGGED_IDX or licon == SOURCE_VEHICLE_i or
-        ricon == SOURCE_VEHICLE_i ) {
+    if( source_player_dragged_avail() ) {
         tripoint const off = get_avatar().grab_point;
-        std::size_t const idx = offset_to_slotidx( off );
-        mutex->at( idxtovehidx( idx ) ) = true;
-        mutex->at( DRAGGED_IDX ) = true;
+        if( lsrc == DRAGGED_IDX or rsrc == DRAGGED_IDX ) {
+            std::size_t const idx = offset_to_slotidx( off );
+            mutex->at( idxtovehidx( idx ) ) = true;
+        }
+        if( ( off == slotidx_to_offset( lsrc ) and is_vehicle( licon ) ) or
+            ( off == slotidx_to_offset( rsrc ) and is_vehicle( ricon ) ) ) {
+            mutex->at( DRAGGED_IDX ) = true;
+        }
     }
 }
 
