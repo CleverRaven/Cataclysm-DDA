@@ -2959,9 +2959,8 @@ std::set<tripoint> npc::get_path_avoid() const
 mfaction_id npc::get_monster_faction() const
 {
     if( my_fac ) {
-        string_id<monfaction> my_mon_fac = string_id<monfaction>( my_fac->mon_faction );
-        if( my_mon_fac.is_valid() ) {
-            return my_mon_fac;
+        if( my_fac->mon_faction.is_valid() ) {
+            return my_fac->mon_faction;
         }
     }
 
