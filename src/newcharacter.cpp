@@ -77,7 +77,7 @@ static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
 
 // Responsive screen behavior for small terminal sizes
-bool isWide = false;
+static bool isWide = false;
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_SELECT          h_light_gray   // Selected value
