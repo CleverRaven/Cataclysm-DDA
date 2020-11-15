@@ -7033,6 +7033,11 @@ bool item::has_relic_recharge() const
     return is_relic() && relic_data->has_recharge();
 }
 
+bool item::has_relic_activation() const
+{
+    return is_relic() && relic_data->has_activation();
+}
+
 std::vector<enchantment> item::get_enchantments() const
 {
     if( !is_relic() ) {
