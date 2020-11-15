@@ -180,6 +180,25 @@
     "fun": -3
   },
   {
+    "id": "recipe_cryolab",
+    "type": "BOOK",
+    "name": { "str": "useful recipes for resistance", "str_pl": "copies of useful recipes for resistance" },
+    "description": "Recipes for Resistance is a collection of tales, strategies and recipes for working against corporate rule.  Very simple language is used in the recipes but it drags out the explanations.",
+    "weight": "2000 g",
+    "volume": "500 ml",
+    "price": 64000,
+    "price_postapoc": 2000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_green",
+    "skill": "chemistry",
+    "required_level": 6,
+    "max_level": 7,
+    "intelligence": 9,
+    "time": "50 m",
+    "fun": -1
+  },
+  {
     "id": "recipe_unusual_ammos",
     "type": "BOOK",
     "name": { "str": "Unusual Ammunitions of the Corporations", "str_pl": "copies of Unusual Ammunitions of the Corporations" },
