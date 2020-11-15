@@ -9415,10 +9415,10 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
     }
 
     static const std::set< bodypart_str_id > sharp_bps = {
-        bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ), bodypart_str_id( "head" ),
-        bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "foot_l" ),
-        bodypart_str_id( "foot_r" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ),
-        bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" ), bodypart_str_id( "torso" )
+        body_part_eyes, body_part_mouth, body_part_head,
+        body_part_leg_l, body_part_leg_r, body_part_foot_l,
+        body_part_foot_r, body_part_arm_l, body_part_arm_r,
+        body_part_hand_l, body_part_hand_r, body_part_torso
     };
 
     const auto sharp_bp_check = [this]( bodypart_id bp ) {
@@ -9998,7 +9998,7 @@ point game::place_player( const tripoint &dest_loc )
     // Drench the player if swimmable
     if( m.has_flag( "SWIMMABLE", u.pos() ) &&
         !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
-        u.drench( 80, { { bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } },
+        u.drench( 80, { { body_part_foot_l, body_part_foot_r, body_part_leg_l, body_part_leg_r } },
         false );
     }
 

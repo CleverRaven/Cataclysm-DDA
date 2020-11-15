@@ -693,27 +693,27 @@ void character_edit_menu()
 
             switch( smenu.ret ) {
                 case 0:
-                    bp = bodypart_str_id( "torso" );
+                    bp = body_part_torso;
                     bp_ptr = torso_hp;
                     break;
                 case 1:
-                    bp = bodypart_str_id( "head" );
+                    bp = body_part_head;
                     bp_ptr = head_hp;
                     break;
                 case 2:
-                    bp = bodypart_str_id( "arm_l" );
+                    bp = body_part_arm_l;
                     bp_ptr = arm_l_hp;
                     break;
                 case 3:
-                    bp = bodypart_str_id( "arm_r" );
+                    bp = body_part_arm_r;
                     bp_ptr = arm_r_hp;
                     break;
                 case 4:
-                    bp = bodypart_str_id( "leg_l" );
+                    bp = body_part_leg_l;
                     bp_ptr = leg_l_hp;
                     break;
                 case 5:
-                    bp = bodypart_str_id( "leg_r" );
+                    bp = body_part_leg_r;
                     bp_ptr = leg_r_hp;
                     break;
                 case 6:

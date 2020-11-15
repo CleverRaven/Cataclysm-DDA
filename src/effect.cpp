@@ -561,7 +561,7 @@ std::string effect::disp_name() const
             }
         }
     }
-    if( bp != bodypart_str_id( "bp_null" ) ) {
+    if( bp != bodypart_str_id::NULL_ID() ) {
         ret += string_format( " (%s)", body_part_name( bp.id() ) );
     }
 
