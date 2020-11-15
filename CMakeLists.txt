@@ -326,9 +326,6 @@ IF(SOUND)
         "You must enable graphical support with -DTILES=1 to be able to enable sound support.\nSee INSTALL file for details and more info\n"
       )
     ENDIF(NOT TILES)
-	
-	# Sound requires <experimental/filesystem> library
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lstdc++fs")
 
     # Sound requires SDL_mixer library
     MESSAGE(STATUS "Searching for SDL2_mixer library --\n")

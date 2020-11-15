@@ -5,6 +5,7 @@
 #if defined(SDL_SOUND)
 
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING 1
+#define _LIBCPP_NO_EXPERIMENTAL_DEPRECATION_WARNING_FILESYSTEM 1
 
 /* Open music playuer interface. */
 /* Function returns bool value music_is_playing */

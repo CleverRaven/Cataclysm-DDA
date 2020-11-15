@@ -588,9 +588,6 @@ ifeq ($(SOUND), 1)
     $(error "SOUND=1 only works with TILES=1")
   endif
   ifeq ($(NATIVE),osx)
-    # For <experimental/filesystem> lib
-    LDFLAGS += -lc++experimental
-    LDFLAGS += -pthread
     ifdef FRAMEWORK
       CXXFLAGS += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
       LDFLAGS += -F$(FRAMEWORKSDIR)/SDL2_mixer.framework/Frameworks \
@@ -608,16 +605,17 @@ ifeq ($(SOUND), 1)
     CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
     LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
     LDFLAGS += -lpthread
-    # For <experimental/filesystem> lib
-    LDFLAGS += -lstdc++fs
   endif
 
   ifeq ($(MSYS2),1)
     LDFLAGS += -lmpg123 -lshlwapi -lvorbisfile -lvorbis -logg -lflac
   endif
-
+  
   CXXFLAGS += -DSDL_SOUND
 endif
+
+# For <experimental/filesystem> lib
+LDFLAGS += -lstdc++fs
 
 ifeq ($(SDL), 1)
   TILES = 1
