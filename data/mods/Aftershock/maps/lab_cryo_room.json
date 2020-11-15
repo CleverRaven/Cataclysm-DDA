@@ -81,13 +81,41 @@
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ], "x": 19, "y": 2 },
-        { "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ], "x": 12, "y": 8 },
-        { "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ], "x": 4, "y": 2 },
-        { "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ], "x": 12, "y": 19 },
-        { "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ], "x": 13, "y": 20 },
-        { "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ], "x": 4, "y": 3 },
-        { "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ], "x": 24, "y": 27 }
+        {
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ],
+          "x": 19,
+          "y": 2
+        },
+        {
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ],
+          "x": 12,
+          "y": 8
+        },
+        {
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ],
+          "x": 4,
+          "y": 2
+        },
+        {
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ],
+          "x": 12,
+          "y": 19
+        },
+        {
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ],
+          "x": 13,
+          "y": 20
+        },
+        {
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ],
+          "x": 4,
+          "y": 3
+        },
+        {
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ],
+          "x": 24,
+          "y": 27
+        }
       ]
     }
   },
