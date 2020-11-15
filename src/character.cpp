@@ -12791,14 +12791,13 @@ int Character::book_fun_for( const item &book, const Character &p ) const
 
 book_mastery Character::get_book_mastery( const item &book ) const
 {
-    const auto &type = book.type->book;
-    const skill_id &skill = type->skill;
-
     if( !book.is_book() || !has_identified( book.typeId() ) ) {
         return book_mastery::CANT_DETERMINE;
     }
-
     // TODO: add illiterate check?
+
+    const auto &type = book.type->book;
+    const skill_id &skill = type->skill;
 
     if( !skill ) {
         // book gives no skill
