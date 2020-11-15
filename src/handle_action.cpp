@@ -104,7 +104,6 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
-static const trait_id trait_PROF_HELI_PILOT( "PROF_HELI_PILOT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
@@ -473,10 +472,6 @@ static void pldrive( const tripoint &p )
             add_msg( m_info, _( "Can't drive this vehicle remotely.  It has no working controls." ) );
             return;
         }
-    }
-    if( p.z != 0 && !u.has_trait( trait_PROF_HELI_PILOT ) ) {
-        u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
-        return;
     }
     if( p.z != 0 && !g->m.has_zlevels() ) {
         u.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );

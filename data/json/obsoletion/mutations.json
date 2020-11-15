@@ -95,5 +95,14 @@
     "description": "Sharp claws are extended from the end of your fingers.",
     "transform": { "target": "CLAWS_RETRACT", "msg_transform": "You retract your claws.", "active": false, "moves": 10 },
     "cost": 0
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_HELI_PILOT",
+    "name": "Helicopter Pilot",
+    "points": 0,
+    "description": "Everyone can pilot a helicopter nowadays, you don't need this trait.",
+    "valid": false,
+    "purifiable": false
   }
 ]

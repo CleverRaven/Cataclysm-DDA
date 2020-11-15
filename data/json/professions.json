@@ -1094,9 +1094,8 @@
     "ident": "heli_pilot",
     "name": "Helicopter Pilot",
     "description": "You earned a living ferrying businessmen and tourists from helipad to helipad, the Cataclysm has grounded you, but the sky still calls you...",
-    "points": 4,
+    "points": 2,
     "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "speech" }, { "level": 3, "name": "mechanics" } ],
-    "traits": [ "PROF_HELI_PILOT" ],
     "items": {
       "both": {
         "items": [ "pants_cargo", "socks", "polo_shirt", "boots", "wristwatch", "fancy_sunglasses" ],
@@ -4093,7 +4092,6 @@
       { "level": 3, "name": "mechanics" },
       { "level": 3, "name": "gun" }
     ],
-    "traits": [ "PROF_HELI_PILOT" ],
     "items": {
       "both": {
         "items": [
