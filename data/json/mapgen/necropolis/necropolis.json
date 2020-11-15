@@ -177,7 +177,7 @@
         ".|-{{{-sss-ssssssM.MMMsMMmm]]]]]]]]]]]]]]]]]mmMMMMMs_M_M___,,_______sss."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { },
+      "terrain": {  },
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -580,7 +580,7 @@
         "......|-{{{{ssMsMssMssMMMMMMMmm]]]]]]]]]]]]]]]]]]]mmMMMMM.M..M..MM......"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { },
+      "terrain": {  },
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -890,7 +890,7 @@
         "___________________________________,,_______ss......C..................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { },
+      "terrain": {  },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "building_rubble", "x": [ 15, 23 ], "y": [ 0, 18 ], "chance": 70 },
@@ -999,7 +999,7 @@
         ".............###.s______,______,______,______s##s___,,___s|hnnh  hnnh|ss"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "D": "t_floor", "l": "t_floor"},
+      "terrain": { "D": "t_floor", "l": "t_floor" },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "traveler", "x": [ 13, 18 ], "y": [ 4, 4 ], "chance": 70 },
@@ -1117,7 +1117,7 @@
         "____________,,____________ss_______,,_______ss__________________________"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { },
+      "terrain": {  },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -1203,7 +1203,7 @@
         "_____________________________s.......#.................................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { },
+      "terrain": {  },
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -1338,7 +1338,7 @@
         "............................________________ss.........................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { },
+      "terrain": {  },
       "gaspumps": { "&": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
