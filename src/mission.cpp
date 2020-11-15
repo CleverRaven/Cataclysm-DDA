@@ -399,10 +399,19 @@ bool mission::is_complete( const character_id &_npc_id ) const
             map &here = get_map();
             int found_quantity = 0;
             bool charges = item_sought.count_by_charges();
-            auto count_items = [this, &found_quantity, &player_character, charges]( item_stack && items ) {
+            bool software = item_sought.is_software();
+            auto count_items = [this, &found_quantity, &player_character, charges, software]( item_stack &&
+            items ) {
                 for( const item &i : items ) {
                     if( !i.is_owned_by( player_character, true ) ) {
                         continue;
+                    }
+                    if( software ) {
+                        for( const item *soft : i.softwares() ) {
+                            if( soft->typeId() == type->item_id ) {
+                                found_quantity ++;
+                            }
+                        }
                     }
                     if( charges ) {
                         found_quantity += i.charges_of( type->item_id, item_count - found_quantity );
