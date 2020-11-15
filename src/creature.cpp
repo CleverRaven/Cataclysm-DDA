@@ -1523,13 +1523,14 @@ void Creature::set_anatomy( const anatomy_id &anat )
     creature_anatomy = anat;
 }
 
-std::map<bodypart_str_id, bodypart> Creature::get_body() const
+const std::map<bodypart_str_id, bodypart> &Creature::get_body() const
 {
     return body;
 }
 
 void Creature::set_body()
 {
+    body.clear();
     for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
         body.emplace( bp.id(), bodypart( bp.id() ) );
     }
@@ -1560,7 +1561,7 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
 
 bool Creature::has_part( const bodypart_id &id ) const
 {
-    return body.find( id.id() ) != body.end();
+    return body.count( id.id() );
 }
 
 bodypart *Creature::get_part( const bodypart_id &id )
@@ -1955,6 +1956,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( get_body_part_flags flags
     bool only_main( flags & get_body_part_flags::only_main );
 
     std::vector<bodypart_id> all_bps;
+    all_bps.reserve( body.size() );
     for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         if( only_main && elem.first->main_part != elem.first ) {
             continue;
