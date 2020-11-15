@@ -625,7 +625,7 @@
         "|EE|        G         |EE|                                              "
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -889,7 +889,7 @@
         "|L @|S|@@|      |Lc|t|L @|L @|L @|b       |--|-|........|     |     cc  "
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
