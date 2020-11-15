@@ -257,6 +257,8 @@ ifneq ($(CLANG), 0)
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
+    OTHERS += -lc++experimental
+    LDFLAGS += -lc++experimental
   endif
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
@@ -610,7 +612,7 @@ ifeq ($(SOUND), 1)
   ifeq ($(MSYS2),1)
     LDFLAGS += -lmpg123 -lshlwapi -lvorbisfile -lvorbis -logg -lflac
   endif
-  
+
   CXXFLAGS += -DSDL_SOUND
 endif
 
@@ -972,6 +974,7 @@ ifeq ($(TILES), 1)
 endif
 ifeq ($(SOUND), 1)
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
+	cp -R --no-preserve=ownership music $(DATA_PREFIX)
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
@@ -1004,6 +1007,7 @@ ifeq ($(TILES), 1)
 endif
 ifeq ($(SOUND), 1)
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
+	cp -R --no-preserve=ownership music $(DATA_PREFIX)
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
@@ -1068,6 +1072,7 @@ endif
 ifeq ($(TILES), 1)
 ifeq ($(SOUND), 1)
 	cp -R data/sound $(APPDATADIR)
+	cp -R music $(APPDATADIR)
 endif  # ifdef SOUND
 	cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
