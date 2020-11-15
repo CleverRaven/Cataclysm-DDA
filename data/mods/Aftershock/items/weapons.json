@@ -115,6 +115,25 @@
     "techniques": [ "BRUTAL", "AFS_PRESSURE_CRUNCH" ]
   },
   {
+    "id": "afs_freeze_gauntlet",
+    "type": "GENERIC",
+    "name": { "str": "psychrophile handling gloves" },
+    "description": "These gloves are designed for handling organisms that live in extremely cold temperature.  Today they can be used to freeze your foes to death.",
+    "weight": "3778 g",
+    "volume": "2 L",
+    "price": 10000000,
+    "price_postapoc": 20000,
+    "material": [ "superalloy" ],
+    "symbol": "[",
+    "looks_like": "gauntlets_chitin",
+    "color": "light_cyan",
+    "bashing": 10,
+    "cold": 30,
+    "to_hit": 0,
+    "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "UNARMED_WEAPON" ],
+    "techniques": [ "WBLOCK_1" ]
+  },
+  {
     "id": "afs_rolling_pin_barbed_wire",
     "type": "GENERIC",
     "copy-from": "rolling_pin",
