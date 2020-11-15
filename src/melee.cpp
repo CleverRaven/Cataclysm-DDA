@@ -387,6 +387,71 @@ void Character::melee_attack( Creature &t, bool allow_special )
     melee_attack( t, allow_special, no_technique_id );
 }
 
+damage_instance Creature::modify_damage_dealt_with_enchantments( const damage_instance &dam ) const
+{
+    return dam;
+}
+
+damage_instance Character::modify_damage_dealt_with_enchantments( const damage_instance &dam ) const
+{
+    damage_instance modified;
+
+    enum_bitset<damage_type> types_used;
+    // ignore the damage types that are not modified by enchantments
+    types_used.set( damage_type::PURE, true );
+    types_used.set( damage_type::NONE, true );
+
+    auto dt_to_ench_dt = []( damage_type dt ) {
+        switch( dt ) {
+            case damage_type::ACID:
+                return enchant_vals::mod::ITEM_DAMAGE_ACID;
+            case damage_type::BASH:
+                return enchant_vals::mod::ITEM_DAMAGE_BASH;
+            case damage_type::BIOLOGICAL:
+                return enchant_vals::mod::ITEM_DAMAGE_BIO;
+            case damage_type::BULLET:
+                return enchant_vals::mod::ITEM_DAMAGE_BULLET;
+            case damage_type::COLD:
+                return enchant_vals::mod::ITEM_DAMAGE_COLD;
+            case damage_type::CUT:
+                return enchant_vals::mod::ITEM_DAMAGE_CUT;
+            case damage_type::ELECTRIC:
+                return enchant_vals::mod::ITEM_DAMAGE_ELEC;
+            case damage_type::HEAT:
+                return enchant_vals::mod::ITEM_DAMAGE_HEAT;
+            case damage_type::STAB:
+                return enchant_vals::mod::ITEM_DAMAGE_STAB;
+            default:
+                return enchant_vals::mod::NUM_MOD;
+        }
+    };
+
+    auto modify_damage_type = [&]( damage_type dt, double val ) {
+        const enchant_vals::mod mod_type = dt_to_ench_dt( dt );
+        if( mod_type == enchant_vals::mod::NUM_MOD ) {
+            return val;
+        } else {
+            return enchantment_cache->modify_value( dt_to_ench_dt( dt ), val );
+        }
+    };
+
+    for( damage_unit du : dam ) {
+        du.amount = modify_damage_type( du.type, du.amount );
+        modified.add( du );
+        types_used.set( du.type, true );
+    }
+
+    for( int i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
+        const damage_type converted = static_cast<damage_type>( i );
+        if( types_used.test( converted ) ) {
+            continue;
+        }
+        modified.add_damage( converted, modify_damage_type( converted, 0.0f ) );
+    }
+
+    return modified;
+}
+
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
 void Character::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
