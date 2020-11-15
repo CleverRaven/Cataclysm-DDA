@@ -113,7 +113,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     }
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
-    mon_faction = jsobj.get_string( "mon_faction", "human" );
+    mon_faction = mfaction_str_id( jsobj.get_string( "mon_faction", "human" ) );
     for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
         epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
                                jao.get_int( "power_max", std::numeric_limits<int>::max() ),
