@@ -138,10 +138,11 @@
     "type": "monstergroup",
     "name": "GROUP_CRYO_LAB",
     "monsters": [
-      { "monster": "mon_mutant_experimental", "freq": 20, "cost_multiplier": 2 },
+      { "monster": "mon_mutant_experimental", "freq": 30, "cost_multiplier": 2 },
       { "monster": "mon_mutant_evolved", "freq": 5, "cost_multiplier": 10 },
       { "monster": "mon_broken_cyborg", "freq": 8, "cost_multiplier": 10 },
-      { "monster": "mon_mutant_cryo", "freq": 20, "cost_multiplier": 2 },
+      { "monster": "mon_mutant_cryo", "freq": 40, "cost_multiplier": 2 },
+      { "monster": "mon_mi_go", "freq": 5, "cost_multiplier": 10, "starts": 500 },
       { "monster": "mon_shoggoth", "freq": 3, "cost_multiplier": 10, "starts": 1086 },
       { "monster": "mon_cryokinetic", "freq": 8, "cost_multiplier": 10 }
     ]
