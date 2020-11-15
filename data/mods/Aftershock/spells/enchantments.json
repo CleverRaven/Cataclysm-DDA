@@ -27,6 +27,6 @@
     "type": "enchantment",
     "id": "protect_cold",
     "condition": "ACTIVE",
-    "values": [ { "value": "ARMOR_COLD", "add": -15 } ],
+    "values": [ { "value": "ARMOR_COLD", "add": -15 } ]
   }
 ]
