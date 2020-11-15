@@ -10,7 +10,7 @@
     "armor_cut": 5,
     "armor_bullet": 5,
     "special_attacks": [ { "type": "bite", "cooldown": 3 } ],
-    "regenerates": 10,
+    "regenerates": 6,
     "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF" ] }
   },
   {
@@ -41,7 +41,7 @@
     "armor_cut": 6,
     "armor_bullet": 6,
     "special_attacks": [ { "type": "bite", "cooldown": 3 } ],
-    "regenerates": 10,
+    "regenerates": 6,
     "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF" ] }
   },
   {
