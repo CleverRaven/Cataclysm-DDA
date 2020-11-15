@@ -3772,7 +3772,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         std::back_inserter( flags ) );
 
         // ...and display those which have an info description
-        for( const flag_id &e : flags ) {
+        for( const flag_id &e : sorted_lex( flags ) ) {
             const json_flag &f = e.obj();
             if( !f.info().empty() ) {
                 info.emplace_back( "DESCRIPTION", string_format( "* %s", f.info() ) );
