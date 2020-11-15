@@ -73,7 +73,7 @@
     "damage_type": "biological",
     "difficulty": 0,
     "spell_class": "NONE",
-    "base_casting_time": 300,
+    "base_casting_time": 6000,
     "base_energy_cost": 2,
     "min_duration": 720000,
     "max_duration": 720000
@@ -96,9 +96,27 @@
     "damage_type": "biological",
     "difficulty": 0,
     "spell_class": "NONE",
-    "base_casting_time": 300,
+    "base_casting_time": 6000,
     "base_energy_cost": 2,
     "min_duration": 720000,
     "max_duration": 720000
+  },
+  {
+    "id": "protection_from_cold",
+    "type": "SPELL",
+    "name": "emergency insulation",
+    "//": "Used for cbm not castable",
+    "description": "You feel a jolt through your body as energy pulses through the wires in your flesh.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "afs_cold_protect",
+    "shape": "blast",
+    "max_level": 0,
+    "spell_class": "NONE",
+    "base_casting_time": 1,
+    "min_duration": 1000,
+    "max_duration": 1000
   }
 ]
