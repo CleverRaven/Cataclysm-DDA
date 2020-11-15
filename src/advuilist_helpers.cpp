@@ -651,7 +651,7 @@ aim_container_t source_char_inv( Character *guy )
     aim_container_t ret;
     for( item &worn_item : guy->worn ) {
         aim_container_t temp =
-            get_stacks<>( worn_item.contents.all_standard_items_top(),
+            get_stacks<>( worn_item.contents.all_items_top( item_pocket::pocket_type::CONTAINER ),
         [guy]( item * it ) {
             return iloc_character( guy, it );
         } );
