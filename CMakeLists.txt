@@ -335,6 +335,8 @@ IF(SOUND)
         "You need the SDL2_mixer development library to be able to compile with sound enabled.\nSee INSTALL file for details and more info\n"
       )
     ENDIF(NOT SDL2_MIXER_FOUND)
+    # Sound requires stdc++fs library for <experimental/filesystem> header
+    SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -lstdc++fs")
 ENDIF(SOUND)
 
 IF(BACKTRACE)
