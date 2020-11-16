@@ -659,7 +659,7 @@ bool veh_interact::can_self_jack()
     return false;
 }
 
-bool veh_interact::can_install_part()
+bool veh_interact::update_part_requirements()
 {
     if( sel_vpart_info == nullptr ) {
         return false;
@@ -990,7 +990,7 @@ void veh_interact::do_install()
     while( true ) {
         sel_vpart_info = tab_vparts.empty() ? nullptr : tab_vparts[pos]; // filtered list can be empty
 
-        bool can_install = can_install_part();
+        bool can_install = update_part_requirements();
 
         ui_manager::redraw();
 
