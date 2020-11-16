@@ -27,7 +27,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "leather eyepatch", "str_pl": "leather eyepatches" },
-    "description": "A patch of black leather to cover an eye, with a string to wear it.  If wearing this doesn't make you feel a pirate, nothing will.",
+    "description": "A patch of black leather to cover an eye, with a string to keep it from falling off.  If wearing this doesn't make you feel a pirate, nothing will.",
     "weight": "50 g",
     "volume": "100 ml",
     "price": 500,

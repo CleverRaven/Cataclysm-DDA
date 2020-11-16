@@ -30,7 +30,7 @@
     "volume": "250 ml",
     "price": 600,
     "price_postapoc": 10,
-    "use_action": { "type": "transform", "msg": "You adjust your %s to cover mouth.", "target": "bandana", "menu_text": "Cover mouth" },
+    "use_action": { "type": "transform", "msg": "You adjust the %s to cover your mouth.", "target": "bandana", "menu_text": "Cover mouth" },
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "scarf",
