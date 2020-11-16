@@ -1800,7 +1800,7 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 {
     item &game_item = *act->targets.front();
 
-    // Cosume battery charges for every minute spent playing
+    // Consume battery charges for every minute spent playing
     if( calendar::once_every( 1_minutes ) ) {
         bool fail = false;
         int const ammo_required = game_item.ammo_required();
