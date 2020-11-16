@@ -719,6 +719,7 @@ class item : public visitable<item>
         // for pocket update stuff, which pocket is @contained in?
         // returns a nullptr if the item is not contaiend, and prints a debug message
         item_pocket *contained_where( const item &contained );
+        const item_pocket *contained_where( const item &contained ) const;
         /** Whether this is a container which can be used to store liquids. */
         bool is_watertight_container() const;
         /** Whether this item has no contents at all. */
