@@ -11,11 +11,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
-    "book_learn": [
-      [ "textbook_atomic", 7 ],
-      [ "recipes_cryolab", 5 ],
-      [ "recipe_augs", 5 ]
-    ],
+    "book_learn": [ [ "textbook_atomic", 7 ], [ "recipes_cryolab", 5 ], [ "recipe_augs", 5 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -52,18 +48,14 @@
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
-    "book_learn": [
-      [ "textbook_atomic", 7 ],
-      [ "recipes_cryolab", 5 ],
-      [ "recipe_augs", 5 ]
-    ],
+    "book_learn": [ [ "textbook_atomic", 7 ], [ "recipes_cryolab", 5 ], [ "recipe_augs", 5 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 400 ], [ "welder_crude", 600 ], [ "toolset", 600 ], [ "soldering_iron", 600 ], [ "oxy_torch", 80 ] ] ],
+    "tools": [ [ [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ], [ "soldering_iron", 450 ], [ "oxy_torch", 60 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "afs_scrap_3", 8 ] ],
