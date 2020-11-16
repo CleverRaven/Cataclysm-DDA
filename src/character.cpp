@@ -3867,25 +3867,22 @@ bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) co
     return false;
 }
 
-bool Character::worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const
+bool Character::worn_with_flag( const flag_id &f, const bodypart_id &bp ) const
 {
-    const flag_id f( flag );
     return std::any_of( worn.begin(), worn.end(), [&f, bp]( const item & it ) {
         return it.has_flag( f ) && ( bp == bodypart_id( "bp_null" ) || it.covers( bp ) );
     } );
 }
 
-bool Character::worn_with_flag( const flag_id &flag ) const
+bool Character::worn_with_flag( const flag_id &f ) const
 {
-    const flag_id f( flag );
     return std::any_of( worn.begin(), worn.end(), [&f]( const item & it ) {
         return it.has_flag( f ) ;
     } );
 }
 
-item Character::item_worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const
+item Character::item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const
 {
-    const flag_id f( flag );
     item it_with_flag;
     for( const item &it : worn ) {
         if( it.has_flag( f ) && ( bp == bodypart_id( "bp_null" ) || it.covers( bp ) ) ) {
@@ -3896,9 +3893,8 @@ item Character::item_worn_with_flag( const flag_id &flag, const bodypart_id &bp 
     return it_with_flag;
 }
 
-item Character::item_worn_with_flag( const flag_id &flag ) const
+item Character::item_worn_with_flag( const flag_id &f ) const
 {
-    const flag_id f( flag );
     item it_with_flag;
     for( const item &it : worn ) {
         if( it.has_flag( f ) ) {
@@ -10252,7 +10248,7 @@ std::vector<item *> Character::inv_dump()
     return ret;
 }
 
-bool Character::covered_with_flag( const flag_id &flag, const body_part_set &parts ) const
+bool Character::covered_with_flag( const flag_id &f, const body_part_set &parts ) const
 {
     if( parts.none() ) {
         return true;
@@ -10260,7 +10256,6 @@ bool Character::covered_with_flag( const flag_id &flag, const body_part_set &par
 
     body_part_set to_cover( parts );
 
-    const flag_id f( flag );
     for( const auto &elem : worn ) {
         if( !elem.has_flag( f ) ) {
             continue;
