@@ -1,0 +1,9 @@
+[
+  {
+    "id": "nanosmithing_standard",
+    "type": "requirement",
+    "//": "Includes forging resources as well as tools needed for most physical material hypertech crafting",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "DIAMONDPRESS", "level": 1 }, { "id": "NANO_FORGE", "level": 1 } ],
+    "tools": [ [ [ "nano_forge", 20 ] ], [ [ "tongs", -1 ] ] ]
+  }
+]
