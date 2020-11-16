@@ -497,6 +497,10 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
         if( !pocket.can_contain( it ).success() ) {
             continue;
         }
+        if( !pocket.settings.accepts_item( it ) ) {
+            // Item forbidden by whitelist / blacklist
+            continue;
+        }
         if( ret.second == nullptr || ret.second->better_pocket( pocket, it ) ) {
             // this pocket is the new candidate for "best"
             ret.first = parent;
