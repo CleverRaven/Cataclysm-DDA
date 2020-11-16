@@ -4329,7 +4329,7 @@ int iuse::portable_game( player *p, item *it, bool t, const tripoint & )
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You're illiterate!" ) );
         return 0;
-    } else if( it->ammo_remaining() < 15 ) {
+    } else if( it->units_remaining( *p ) < it->ammo_required() ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     } else {
@@ -4376,7 +4376,7 @@ int iuse::portable_game( player *p, item *it, bool t, const tripoint & )
         if( loaded_software == "null" ) {
             p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
                                 p->get_item_position( it ), "gaming" );
-            return it->type->charges_to_use();
+            return 0;
         }
         p->assign_activity( ACT_GAME, moves, -1, 0, "gaming" );
         p->activity.targets.push_back( item_location( *p, it ) );
@@ -4402,7 +4402,7 @@ int iuse::portable_game( player *p, item *it, bool t, const tripoint & )
         }
 
     }
-    return it->type->charges_to_use();
+    return 0;
 }
 
 int iuse::hand_crank( player *p, item *it, bool, const tripoint & )

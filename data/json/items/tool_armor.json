@@ -316,6 +316,7 @@
     "coverage": 15,
     "symbol": "[",
     "ammo": "battery",
+    "charges_per_use": 1,
     "use_action": "PORTABLE_GAME",
     "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
   },

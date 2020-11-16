@@ -239,6 +239,8 @@ static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
+static const itype_id itype_UPS( "UPS" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -271,6 +273,7 @@ static const std::string flag_SKINNED( "SKINNED" );
 static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 static const std::string flag_TREE( "TREE" );
+static const std::string flag_USE_UPS( "USE_UPS" );
 
 using namespace activity_handlers;
 
@@ -1825,15 +1828,23 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 {
     item &game_item = *act->targets.front();
 
-    //Deduct 1 battery charge for every minute spent playing
+    // Consume battery charges for every minute spent playing
     if( calendar::once_every( 1_minutes ) ) {
-        game_item.ammo_consume( 1, p->pos() );
-        //1 points/min, almost 2 hours to fill
-        p->add_morale( MORALE_GAME, 1, 100 );
-    }
-    if( game_item.ammo_remaining() == 0 ) {
-        act->moves_left = 0;
-        add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+        bool fail = false;
+        int const ammo_required = game_item.ammo_required();
+        if( game_item.has_flag( flag_USE_UPS ) ) {
+            fail = !p->use_charges_if_avail( itype_UPS, ammo_required );
+        } else {
+            fail = game_item.ammo_consume( ammo_required, p->pos() ) == 0;
+        }
+
+        if( !fail ) {
+            //1 points/min, almost 2 hours to fill
+            p->add_morale( MORALE_GAME, 1, 100 );
+        } else {
+            act->moves_left = 0;
+            add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+        }
     }
 }
 
