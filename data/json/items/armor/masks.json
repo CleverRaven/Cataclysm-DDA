@@ -37,7 +37,12 @@
     "volume": "250 ml",
     "price": 600,
     "price_postapoc": 10,
-    "use_action": { "type": "transform", "msg": "You adjust the %s to cover your head.", "target": "bandana_head", "menu_text": "Cover head" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust the %s to cover your head.",
+      "target": "bandana_head",
+      "menu_text": "Cover head"
+    },
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "scarf",
