@@ -2632,7 +2632,7 @@
     "name": "National Guard",
     "description": "The government activated your National Guard unit to deal with the growing epidemics.  Despite your best efforts, you were unable to form up before all communications ceased and you found yourself alone amongst the dead.",
     "points": 3,
-    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "firstaid" } ],
+    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "firstaid" } ],
     "items": {
       "both": {
         "items": [ "shorts", "tshirt", "socks", "lowtops", "wristwatch" ],
@@ -3810,6 +3810,8 @@
       { "level": 3, "name": "launcher" },
       { "level": 2, "name": "melee" },
       { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "firstaid" },
       { "level": 2, "name": "stabbing" }
     ],
     "items": {
