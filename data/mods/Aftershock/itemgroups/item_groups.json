@@ -20,13 +20,21 @@
       [ "textbook_mechanics", 3 ],
       [ "textbook_biodiesel", 3 ],
       [ "mag_fieldrepair", 4 ],
-      [ "book_icef", 4 ]
+      [ "book_icef", 4 ],
+      [ "recipes_resistance", 2 ]
     ]
   },
   {
     "id": "chem_lab",
     "type": "item_group",
-    "items": [ [ "panacea", 1 ], [ "afs_calorie_pill", 5 ], [ "afs_sundew", 8 ], [ "recipe_unusual_ammos", 3 ] ]
+    "items": [
+      [ "panacea", 1 ],
+      [ "afs_calorie_pill", 5 ],
+      [ "afs_sundew", 8 ],
+      [ "recipe_unusual_ammos", 3 ],
+      [ "recipes_resistance", 2 ],
+      [ "recipes_cryolab", 1 ]
+    ]
   },
   {
     "id": "rare",
@@ -148,7 +156,8 @@
       [ "afs_textbook_shotguns", 20 ],
       [ "afs_textbook_handguns", 20 ],
       [ "afs_textbook_rifles", 20 ],
-      [ "afs_textbook_launchers", 10 ]
+      [ "afs_textbook_launchers", 10 ],
+      [ "recipe_unusual_ammos", 7 ]
     ]
   },
   {
@@ -257,7 +266,8 @@
       [ "afs_material_2", 20 ],
       [ "afs_magnet_1", 20 ],
       [ "afs_energy_storage_1", 20 ],
-      [ "afs_circuitry_1", 20 ]
+      [ "afs_circuitry_1", 20 ],
+      [ "solar_panel_v3", 1 ]
     ]
   },
   {
@@ -402,16 +412,26 @@
     ]
   },
   {
-    "id": "science",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [ [ "solar_panel_v3", 1 ] ]
-  },
-  {
     "id": "crate_sports",
     "type": "item_group",
     "subtype": "collection",
     "items": [ [ "q_solarpack", 1 ] ]
+  },
+  {
+    "id": "cryo_lab_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "recipes_cryolab", "prob": 5 },
+      { "item": "recipes_resistance", "prob": 4 },
+      { "item": "recipe_unusual_ammos", "prob": 4 },
+      { "item": "bio_cold_absorber", "prob": 2 },
+      { "item": "afs_freeze_gauntlet", "prob": 6 },
+      { "group": "afs_scrapgroup", "count": [ 1, 3 ], "prob": 30 },
+      { "group": "exoticplants", "count": [ 1, 3 ], "prob": 30 },
+      { "group": "science", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "subsuit_xl" }
+    ]
   },
   {
     "type": "item_group",
