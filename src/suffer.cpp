@@ -1571,7 +1571,7 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
 void Character::suffer_from_tourniquet()
 {
     // shortcut for the most common scenario.
-    if ( !worn_with_flag( flag_TOURNIQUET ) ) {
+    if( !worn_with_flag( flag_TOURNIQUET ) ) {
         return;
     }
     for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
