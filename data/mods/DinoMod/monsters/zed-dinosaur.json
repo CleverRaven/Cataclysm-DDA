@@ -895,5 +895,25 @@
     "hp": 630,
     "description": "An undead Kosmoceratops, it seems to have forgotten it's herbivore diet, and seems hungry for your flesh.",
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+  },
+   {
+    "type": "MONSTER",
+    "id": "mon_zamargasaurus",
+    "name": { "str": "Undead Amargasaurus" },
+    "copy-from": "mon_zapatosaurus",
+    "looks_like": "mon_zapatosaurus",
+    "volume": "700 L",
+    "weight": "2000 kg",
+    "speed": 55,
+    "melee_skill": 10,
+    "melee_dice": 4,
+    "melee_dice_sides": 7,
+    "melee_cut": 4,
+    "armor_bash": 8,
+    "armor_cut": 8,
+    "armor_bullet": 6,
+    "hp": 720,
+    "description": "A zombie amargasaurus, it has begun using its spikes for hunting.",
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   }
 ]
