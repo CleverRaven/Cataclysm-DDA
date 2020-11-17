@@ -1088,6 +1088,8 @@ class Character : public Creature, public visitable<Character>
         /** Applies encumbrance from mutations and bionics only */
         void mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const;
 
+        void apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const;
+
         /** Return the position in the worn list where new_item would be
          * put by default */
         std::list<item>::iterator position_to_wear_new_item( const item &new_item );
