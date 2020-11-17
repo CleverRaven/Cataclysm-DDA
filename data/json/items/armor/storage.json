@@ -1841,7 +1841,7 @@
     "repairs_like": "backpack",
     "type": "ARMOR",
     "name": { "str": "camera bag" },
-    "description": "A simple bag used to hold a camera, has enough room for a camera as well as an small pocket for accessories.  Comes with a strap",
+    "description": "A simple bag used to hold a camera, with a small pocket on the side for accessories.  Comes with a carry strap.",
     "weight": "600 g",
     "volume": "7000 ml",
     "price": 5500,
