@@ -411,11 +411,7 @@
       "item": {
         "#": { "item": "corn", "chance": 70 },
         "!": { "item": "salt_lick", "chance": 100 },
-        "&": [
-          { "item": "ceramic_plate", "chance": 100 },
-          { "item": "fork", "chance": 100 },
-          { "item": "human_cooked", "chance": 100 }
-        ],
+        "&": [ { "item": "ceramic_plate", "chance": 100 }, { "item": "human_cooked", "chance": 100 } ],
         "?": { "item": "bottle_glass", "chance": 70, "repeat": 6 },
         "^": [ { "item": "bucket", "chance": 100 }, { "item": "mop", "chance": 100 } ],
         "A": { "item": "wheel_wood", "chance": 100 },

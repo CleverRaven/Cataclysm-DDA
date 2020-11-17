@@ -548,7 +548,7 @@
   {
     "method": "json",
     "object": {
-      "place_item": [ { "item": "football", "repeat": 1, "x": 3, "y": 5 }, { "item": "cleats", "repeat": 1, "x": 16, "y": 17 } ],
+      "place_item": [ { "item": "cleats", "repeat": 1, "x": 16, "y": 17 } ],
       "furniture": { ".": "f_null" },
       "place_monsters": [ { "chance": 2, "density": 1, "monster": "GROUP_FOOTBALL", "x": 11, "y": 12 } ],
       "rows": [
@@ -586,7 +586,7 @@
   {
     "method": "json",
     "object": {
-      "place_item": [ { "item": "football", "repeat": 1, "x": 19, "y": 6 }, { "item": "cleats", "repeat": 1, "x": 16, "y": 17 } ],
+      "place_item": [ { "item": "cleats", "repeat": 1, "x": 16, "y": 17 } ],
       "furniture": { ".": "f_null" },
       "place_monsters": [ { "chance": 2, "density": 1, "monster": "GROUP_FOOTBALL", "x": 11, "y": 12 } ],
       "rows": [
@@ -819,7 +819,7 @@
   {
     "method": "json",
     "object": {
-      "place_item": [ { "item": "football", "repeat": 1, "x": 19, "y": 6 }, { "item": "cleats", "repeat": 1, "x": 16, "y": 17 } ],
+      "place_item": [ { "item": "cleats", "repeat": 1, "x": 16, "y": 17 } ],
       "furniture": { ".": "f_null" },
       "place_monsters": [ { "chance": 2, "density": 1, "monster": "GROUP_FOOTBALL", "x": 11, "y": 12 } ],
       "rows": [

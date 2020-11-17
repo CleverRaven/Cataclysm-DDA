@@ -17,7 +17,6 @@
     "subtype": "distribution",
     "entries": [
       { "item": "pan", "prob": 80 },
-      { "item": "rolling_pin", "prob": 25 },
       { "item": "waffleiron", "prob": 25 },
       { "item": "teapot", "prob": 25 },
       { "item": "pot", "prob": 80 },
@@ -42,7 +41,7 @@
     "type": "item_group",
     "id": "pool_table",
     "subtype": "distribution",
-    "entries": [ { "item": "pool_cue", "prob": 4 }, { "item": "pool_ball", "prob": 40 } ]
+    "entries": [ { "item": "pool_cue", "prob": 4 } ]
   },
   {
     "id": "barrels",

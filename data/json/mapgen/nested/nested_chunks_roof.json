@@ -198,10 +198,7 @@
       "place_loot": [
         { "item": "bottle_glass", "x": 0, "y": 0 },
         { "item": "golf_club", "x": 1, "y": 1 },
-        { "item": "golf_bag", "x": 0, "y": 1, "chance": 20 },
-        { "item": "golf_tee", "x": 1, "y": 0 },
-        { "item": "golf_ball", "x": 1, "y": 0 },
-        { "item": "scorecard", "x": 0, "y": 0 }
+        { "item": "golf_bag", "x": 0, "y": 1, "chance": 20 }
       ]
     }
   },

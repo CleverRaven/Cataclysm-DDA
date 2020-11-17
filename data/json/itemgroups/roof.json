@@ -68,7 +68,6 @@
       [ "jar_glass", 10 ],
       [ "jar_3l_glass", 8 ],
       [ "flyer", 10 ],
-      [ "scorecard", 2 ],
       [ "talking_doll", 20 ],
       [ "marble", 15 ],
       [ "creepy_doll", 1 ],
@@ -80,7 +79,6 @@
       [ "frisbee", 30 ],
       [ "disc_golf", 30 ],
       [ "lawn_dart", 30 ],
-      [ "golf_ball", 20 ],
       { "group": "alcohol_bottled_canned", "prob": 343 }
     ]
   }

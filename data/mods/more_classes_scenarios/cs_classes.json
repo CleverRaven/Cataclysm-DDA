@@ -180,7 +180,7 @@
     "points": 0,
     "traits": [ "PROF_SKATER" ],
     "items": {
-      "both": [ "mask_hockey", "hockey_stick", "jersey", "pants", "socks", "sneakers", "mouthpiece", "puck" ],
+      "both": [ "mask_hockey", "hockey_stick", "jersey", "pants", "socks", "sneakers", "mouthpiece" ],
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
     }
@@ -193,7 +193,7 @@
     "points": 0,
     "skills": [ { "level": 1, "name": "bashing" } ],
     "items": {
-      "both": [ "bat", "helmet_ball", "dress_shirt", "pants", "socks", "cleats", "mouthpiece", "baseball" ],
+      "both": [ "bat", "helmet_ball", "dress_shirt", "pants", "socks", "cleats", "mouthpiece" ],
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
     }
@@ -206,17 +206,7 @@
     "points": 0,
     "skills": [ { "level": 2, "name": "dodge" } ],
     "items": {
-      "both": [
-        "football_armor",
-        "tank_top",
-        "helmet_football",
-        "pants",
-        "socks",
-        "cleats",
-        "mouthpiece",
-        "football",
-        "sports_drink"
-      ],
+      "both": [ "football_armor", "tank_top", "helmet_football", "pants", "socks", "cleats", "mouthpiece", "sports_drink" ],
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
     }

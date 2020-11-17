@@ -11,7 +11,6 @@
       [ [ "matches", 1 ] ],
       [ [ "gum", 2 ] ],
       [ [ "paper", 8 ] ],
-      [ [ "spork", 1 ] ],
       [ [ "bag_plastic", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]

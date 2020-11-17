@@ -66,12 +66,7 @@
     "id": "animalshelter_toys",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "baseball", "prob": 30 },
-      { "item": "bone", "prob": 20 },
-      { "item": "bowl_plastic", "prob": 10 },
-      { "item": "rope_6", "prob": 5 }
-    ]
+    "entries": [ { "item": "bone", "prob": 20 }, { "item": "bowl_plastic", "prob": 10 }, { "item": "rope_6", "prob": 5 } ]
   },
   {
     "name": "GROUP_ANIMALSHELTER_CATS",

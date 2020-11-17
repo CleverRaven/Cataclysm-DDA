@@ -132,7 +132,6 @@
       [ "jar_glass", 10 ],
       [ "jar_3l_glass", 8 ],
       [ "flyer", 10 ],
-      [ "scorecard", 10 ],
       [ "talking_doll", 60 ],
       [ "marble", 65 ],
       [ "handflare_dead", 3 ],
@@ -164,7 +163,6 @@
       [ "bag_plastic", 15 ],
       [ "wrapper", 30 ],
       [ "flyer", 15 ],
-      [ "scorecard", 10 ],
       [ "eclipse_glasses", 1 ],
       [ "plastic_sheet", 5 ]
     ]
