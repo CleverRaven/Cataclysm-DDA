@@ -4582,7 +4582,7 @@ int Character::encumb( const bodypart_id &bp ) const
 
 void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const
 {
-    const auto all_muts = get_mutations();
+    const std::vector<trait_id> all_muts = get_mutations();
     std::map<bodypart_str_id, float> total_enc;
 
     // Lower penalty for bps covered only by XL armor
@@ -12711,4 +12711,3 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
 
     return std::max( mv, 25 );
 }
-
