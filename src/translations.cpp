@@ -45,6 +45,15 @@ static void reload_names()
 
 static bool sanity_checked_genders = false;
 
+// int version/generation that is incremented each time language is changed
+// used to invalidate translation cache
+static int current_language_version = INVALID_LANGUAGE_VERSION + 1;
+
+int detail::get_current_language_version()
+{
+    return current_language_version;
+}
+
 #if defined(LOCALIZE)
 #include "debug.h"
 #include "options.h"
@@ -238,6 +247,11 @@ void set_language()
     reload_names();
 
     sanity_checked_genders = false;
+
+    // increment version to invalidate translation cache
+    do {
+        current_language_version++;
+    } while( current_language_version == INVALID_LANGUAGE_VERSION );
 }
 
 #if defined(MACOSX)
@@ -367,42 +381,32 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
     return pgettext( context.c_str(), msg.c_str() );
 }
 
-translation::translation()
-    : ctxt( cata::nullopt ), raw_pl( cata::nullopt )
-{
-}
-
-translation::translation( const plural_tag )
-    : ctxt( cata::nullopt ), raw_pl( std::string() )
-{
-}
+translation::translation( const plural_tag ) : raw_pl( cata::make_value<std::string>() ) {}
 
 translation::translation( const std::string &ctxt, const std::string &raw )
-    : ctxt( ctxt ), raw( raw ), raw_pl( cata::nullopt ), needs_translation( true )
+    : ctxt( cata::make_value<std::string>( ctxt ) ), raw( raw ), needs_translation( true )
 {
 }
 
 translation::translation( const std::string &raw )
-    : ctxt( cata::nullopt ), raw( raw ), raw_pl( cata::nullopt ), needs_translation( true )
+    : raw( raw ), needs_translation( true )
 {
 }
 
 translation::translation( const std::string &raw, const std::string &raw_pl,
                           const plural_tag )
-    : ctxt( cata::nullopt ), raw( raw ), raw_pl( raw_pl ), needs_translation( true )
+    : raw( raw ), raw_pl( cata::make_value<std::string>( raw_pl ) ), needs_translation( true )
 {
 }
 
 translation::translation( const std::string &ctxt, const std::string &raw,
                           const std::string &raw_pl, const plural_tag )
-    : ctxt( ctxt ), raw( raw ), raw_pl( raw_pl ), needs_translation( true )
+    : ctxt( cata::make_value<std::string>( ctxt ) ),
+      raw( raw ), raw_pl( cata::make_value<std::string>( raw_pl ) ), needs_translation( true )
 {
 }
 
-translation::translation( const std::string &str, const no_translation_tag )
-    : ctxt( cata::nullopt ), raw( str ), raw_pl( cata::nullopt )
-{
-}
+translation::translation( const std::string &str, const no_translation_tag ) : raw( str ) {}
 
 translation translation::to_translation( const std::string &raw )
 {
@@ -436,16 +440,23 @@ void translation::make_plural()
         // if plural form has not been enabled yet
         if( !raw_pl ) {
             // copy the singular string without appending "s" to preserve the original behavior
-            raw_pl = raw;
+            raw_pl = cata::make_value<std::string>( raw );
         }
     } else if( !raw_pl ) {
         // just mark plural form as enabled
-        raw_pl = std::string();
+        raw_pl = cata::make_value<std::string>();
     }
+    // reset the cache
+    cached_language_version = INVALID_LANGUAGE_VERSION;
+    cached_translation = nullptr;
 }
 
 void translation::deserialize( JsonIn &jsin )
 {
+    // reset the cache
+    cached_language_version = INVALID_LANGUAGE_VERSION;
+    cached_translation = nullptr;
+
 #ifndef CATA_IN_TOOL
     bool check_style = false;
     std::function<void( const std::string &msg, int offset )> log_error;
@@ -467,20 +478,20 @@ void translation::deserialize( JsonIn &jsin )
             };
         }
 #endif
-        ctxt = cata::nullopt;
+        ctxt = nullptr;
         raw = jsin.get_string();
         // if plural form is enabled
         if( raw_pl ) {
-            raw_pl = raw + "s";
+            raw_pl = cata::make_value<std::string>( raw + "s" );
             auto_plural = true;
         }
         needs_translation = true;
     } else {
         JsonObject jsobj = jsin.get_object();
         if( jsobj.has_string( "ctxt" ) ) {
-            ctxt = jsobj.get_string( "ctxt" );
+            ctxt = cata::make_value<std::string>( jsobj.get_string( "ctxt" ) );
         } else {
-            ctxt = cata::nullopt;
+            ctxt = nullptr;
         }
         if( jsobj.has_member( "str_sp" ) ) {
             // same singular and plural forms
@@ -488,7 +499,7 @@ void translation::deserialize( JsonIn &jsin )
             is_str_sp = true;
             // if plural form is enabled
             if( raw_pl ) {
-                raw_pl = raw;
+                raw_pl = cata::make_value<std::string>( raw );
             } else {
                 try {
                     jsobj.throw_error( "str_sp not supported here", "str_sp" );
@@ -501,9 +512,9 @@ void translation::deserialize( JsonIn &jsin )
             // if plural form is enabled
             if( raw_pl ) {
                 if( jsobj.has_string( "str_pl" ) ) {
-                    raw_pl = jsobj.get_string( "str_pl" );
+                    raw_pl = cata::make_value<std::string>( jsobj.get_string( "str_pl" ) );
                 } else {
-                    raw_pl = raw + "s";
+                    raw_pl = cata::make_value<std::string>( raw + "s" );
                     auto_plural = true;
                 }
             } else if( jsobj.has_string( "str_pl" ) ) {
@@ -536,12 +547,12 @@ void translation::deserialize( JsonIn &jsin )
 #ifndef CATA_IN_TOOL
     // Check text style in translatable json strings.
     if( test_mode && check_style ) {
-        if( raw_pl && !auto_plural && raw_pl.value() == raw + "s" ) {
+        if( raw_pl && !auto_plural && *raw_pl == raw + "s" ) {
             log_error( "\"str_pl\" is not necessary here since the "
                        "plural form can be automatically generated.",
                        1 + raw.length() );
         }
-        if( !is_str_sp && raw_pl && !auto_plural && raw == raw_pl.value() ) {
+        if( !is_str_sp && raw_pl && !auto_plural && raw == *raw_pl ) {
             log_error( "Please use \"str_sp\" instead of \"str\" and \"str_pl\" "
                        "for text with identical singular and plural forms",
                        1 + raw.length() );
@@ -595,19 +606,33 @@ std::string translation::translated( const int num ) const
 {
     if( !needs_translation || raw.empty() ) {
         return raw;
-    } else if( !ctxt ) {
-        if( !raw_pl ) {
-            return _( raw );
+    }
+    // Note1: `raw`, `raw_pl` and `ctxt` are effectively immutable for caching purposes:
+    // in the places where they are changed, cache is explicitly invalidated
+    // Note2: if `raw_pl` is defined, `num` becomes part of the "cache key"
+    // otherwise `num` is ignored (for both translation and cache)
+    if( cached_language_version != current_language_version ||
+        ( raw_pl && cached_num != num ) || !cached_translation ) {
+        cached_language_version = current_language_version;
+        cached_num = num;
+
+        if( !ctxt ) {
+            if( !raw_pl ) {
+                cached_translation = cata::make_value<std::string>( detail::_translate_internal( raw ) );
+            } else {
+                cached_translation = cata::make_value<std::string>(
+                                         ngettext( raw.c_str(), raw_pl->c_str(), num ) );
+            }
         } else {
-            return ngettext( raw.c_str(), raw_pl->c_str(), num );
-        }
-    } else {
-        if( !raw_pl ) {
-            return pgettext( ctxt->c_str(), raw.c_str() );
-        } else {
-            return npgettext( ctxt->c_str(), raw.c_str(), raw_pl->c_str(), num );
+            if( !raw_pl ) {
+                cached_translation = cata::make_value<std::string>( pgettext( ctxt->c_str(), raw.c_str() ) );
+            } else {
+                cached_translation = cata::make_value<std::string>(
+                                         npgettext( ctxt->c_str(), raw.c_str(), raw_pl->c_str(), num ) );
+            }
         }
     }
+    return *cached_translation;
 }
 
 bool translation::empty() const
@@ -632,7 +657,8 @@ bool translation::translated_ne( const translation &that ) const
 
 bool translation::operator==( const translation &that ) const
 {
-    return ctxt == that.ctxt && raw == that.raw && raw_pl == that.raw_pl &&
+    return value_ptr_equals( ctxt, that.ctxt ) && raw == that.raw &&
+           value_ptr_equals( raw_pl, that.raw_pl ) &&
            needs_translation == that.needs_translation;
 }
 
