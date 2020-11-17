@@ -5835,7 +5835,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
         relative_encumbrance = *cached_relative_encumbrance;
     }
 
-    if( cata::optional<armor_portion_data> portion_data = portion_for_bodypart( bodypart ) ) {
+    if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
         encumber = portion_data->encumber;
         encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber -
                                portion_data->encumber ) );
@@ -5922,24 +5922,24 @@ int item::get_avg_coverage() const
 
 int item::get_coverage( const bodypart_id &bodypart ) const
 {
-    if( cata::optional<armor_portion_data> portion_data = portion_for_bodypart( bodypart ) ) {
+    if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
         return portion_data->coverage;
     }
     return 0;
 }
 
-cata::optional<armor_portion_data> item::portion_for_bodypart( const bodypart_id &bodypart ) const
+const armor_portion_data *item::portion_for_bodypart( const bodypart_id &bodypart ) const
 {
     const islot_armor *t = find_armor_data();
     if( !t ) {
-        return cata::optional<armor_portion_data>();
+        return nullptr;
     }
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() && entry.covers->test( bodypart.id() ) ) {
-            return entry;
+            return &entry;
         }
     }
-    return cata::optional<armor_portion_data>();
+    return nullptr;
 }
 
 int item::get_thickness() const
