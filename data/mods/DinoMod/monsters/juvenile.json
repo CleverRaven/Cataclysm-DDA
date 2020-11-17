@@ -706,7 +706,7 @@
       "CANPLAY"
     ]
   },
-   {
+  {
     "id": "mon_amargasaurus_juvenile",
     "type": "MONSTER",
     "name": "Amargasaurus juvenile",
@@ -729,4 +729,4 @@
       "CANPLAY"
     ]
   }
-  ]
+]
