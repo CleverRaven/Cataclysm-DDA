@@ -40,7 +40,7 @@
       { "monster": "mon_zteranodon", "freq": 5, "cost_multiplier": 10, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zianzhousaurus", "freq": 4, "cost_multiplier": 70, "starts": 72, "pack_size": [ 4, 8 ] },
       { "monster": "mon_zosmoceratops", "freq": 3, "cost_multiplier": 70, "starts": 72, "pack_size": [ 4, 9 ] },
-      { "monster": "mon_zamargasaurus", "freq": 5, "cost_multiplier": 72, "starts": 72, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_zamargasaurus", "freq": 5, "cost_multiplier": 72, "starts": 72, "pack_size": [ 4, 12 ] }
     ]
   },
   {
