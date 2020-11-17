@@ -691,7 +691,7 @@
     "default_faction": "qianzhousaurus",
     "upgrades": { "age_grow": 40, "into": "mon_qianzhousaurus_juvenile" }
   },
- {
+  {
     "id": "mon_kosmoceratops_hatchling",
     "type": "MONSTER",
     "name": "kosmoceratops hatchling",
@@ -706,5 +706,5 @@
     "copy-from": "mon_compsognathus_hatchling",
     "default_faction": "amargasaurus",
     "upgrades": { "age_grow": 56, "into": "mon_amargasaurus_juvenile" }
-  }  
+  }
 ]
