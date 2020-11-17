@@ -114,8 +114,8 @@
   {
     "id": "mon_haulerbot",
     "type": "MONSTER",
-    "name": { "str": "lightweight hauler bot" },
-    "description": "A dog-sized, quadrupedal robot designed for commercial and industrial use.  Capable of carrying fairly heavy loads for its size, autonomously stumbling about and surveying the terrain with its various cameras.  Not very useful after the apocalypse, unless it has been reprogrammed to receive commands from a new user.",
+    "name": { "str": "debug hauler bot" },
+    "description": "A dog-sized, quadrupedal robot designed for testing pet-creating monster spawners.  Capable of carrying fairly heavy loads for its size, autonomously stumbling about and surveying the terrain with its various cameras.  Not very useful after the apocalypse, unless it has been reprogrammed to receive commands from a new user.",
     "default_faction": "utility_bot",
     "species": [ "ROBOT" ],
     "volume": "25 L",

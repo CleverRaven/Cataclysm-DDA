@@ -477,8 +477,8 @@
   {
     "id": "bot_haulerbot",
     "type": "TOOL",
-    "name": { "str": "inactive lightweight hauler bot" },
-    "description": "This is an inactive hauler bot for commercial and industrial use, able to autonomously carry up to 15 kilograms (33 pounds).  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully the hauler bot will respond to future commands, serving as a lightweight robotic packmule.",
+    "name": { "str": "inactive debug hauler bot" },
+    "description": "This is an inactive hauler bot for debugging use, able to autonomously carry up to 15 kilograms (33 pounds).  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully the hauler bot will respond to future commands, serving as a lightweight robotic packmule.",
     "weight": "30 kg",
     "volume": "25 L",
     "price": 7000000,

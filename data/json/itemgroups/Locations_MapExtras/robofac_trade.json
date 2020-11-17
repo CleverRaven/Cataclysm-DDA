@@ -31,6 +31,6 @@
     "type": "item_group",
     "id": "robofac_basic_robots",
     "subtype": "distribution",
-    "items": [ [ "bot_manhack", 40 ], [ "bot_skitterbot", 25 ], [ "bot_haulerbot", 20 ] ]
+    "items": [ [ "bot_manhack", 40 ], [ "bot_skitterbot", 25 ] ]
   }
 ]
