@@ -137,7 +137,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_CRYO_LAB",
-    "default": "mon_mutant_cryo"
+    "default": "mon_mutant_cryo",
     "monsters": [
       { "monster": "mon_mutant_experimental", "freq": 30, "cost_multiplier": 2 },
       { "monster": "mon_mutant_evolved", "freq": 5, "cost_multiplier": 10 },
