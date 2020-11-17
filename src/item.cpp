@@ -10427,25 +10427,36 @@ bool item::has_clothing_mod() const
     return false;
 }
 
+static const std::string &get_clothing_mod_val_key( clothing_mod_type type )
+{
+    const static auto cache = ( []() {
+        std::array<std::string, clothing_mods::all_clothing_mod_types.size()> res;
+        for( const clothing_mod_type &type : clothing_mods::all_clothing_mod_types ) {
+            res[type] = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
+                            clothing_mods::all_clothing_mod_types[type]
+                        );
+        }
+        return res;
+    } )();
+
+    return cache[ type ];
+}
+
 float item::get_clothing_mod_val( clothing_mod_type type ) const
 {
-    const std::string key = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
-                                type );
-    return get_var( key, 0.0f );
+    return get_var( get_clothing_mod_val_key( type ), 0.0f );
 }
 
 void item::update_clothing_mod_val()
 {
     for( const clothing_mod_type &type : clothing_mods::all_clothing_mod_types ) {
-        const std::string key = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
-                                    type );
         float tmp = 0.0f;
         for( const clothing_mod &cm : clothing_mods::get_all_with( type ) ) {
             if( has_own_flag( cm.flag ) ) {
                 tmp += cm.get_mod_val( type, *this );
             }
         }
-        set_var( key, tmp );
+        set_var( get_clothing_mod_val_key( type ), tmp );
     }
 }
 
