@@ -19,7 +19,6 @@
 #include "optional.h"
 #include "overmap.h"
 #include "point.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -224,7 +223,7 @@ struct mission_type {
         // Points of origin
         std::vector<mission_origin> origins;
         itype_id item_id = "null";
-        Group_tag group_id = "null";
+        item_group_id group_id;
         itype_id container_id = "null";
         bool remove_container = false;
         itype_id empty_container = "null";
@@ -461,7 +460,7 @@ class mission
 
         static void get_all_item_group_matches(
             std::vector<item *> &items,
-            Group_tag &grp_type,
+            item_group_id &grp_type,
             std::map<itype_id, int> &matches,
             const itype_id &required_container,
             const itype_id &actual_container,

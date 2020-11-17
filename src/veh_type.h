@@ -17,6 +17,7 @@
 #include "optional.h"
 #include "point.h"
 #include "requirements.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -269,7 +270,7 @@ class vpart_info
         int repair_time( const player &p ) const;
 
         /** @ref item_group this part breaks into when destroyed */
-        std::string breaks_into_group = "EMPTY_GROUP";
+        item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );
 
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
@@ -371,7 +372,7 @@ struct vehicle_item_spawn {
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;
     std::vector<itype_id> item_ids;
-    std::vector<std::string> item_groups;
+    std::vector<item_group_id> item_groups;
 };
 
 /**

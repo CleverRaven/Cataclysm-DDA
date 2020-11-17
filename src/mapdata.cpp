@@ -260,7 +260,7 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
     if( j.has_member( "items" ) ) {
         drop_group = item_group::load_item_group( j.get_member( "items" ), "collection" );
     } else {
-        drop_group = "EMPTY_GROUP";
+        drop_group = item_group_id( "EMPTY_GROUP" );
     }
 
     if( j.has_array( "tent_centers" ) ) {

@@ -769,7 +769,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "death_drops" ) ) {
-        death_drops = item_group::load_item_group( jo.get_member( "death_drops" ), "distribution" );
+        death_drops = item_group::load_item_group( jo.get_member( "death_drops" ),
+                      "distribution" );
     }
 
     assign( jo, "harvest", harvest );
@@ -1140,7 +1141,7 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "monster %s has invalid species %s", mon.id.c_str(), spec.c_str() );
             }
         }
-        if( !mon.death_drops.empty() && !item_group::group_is_defined( mon.death_drops ) ) {
+        if( mon.death_drops && !item_group::group_is_defined( mon.death_drops ) ) {
             debugmsg( "monster %s has unknown death drop item group: %s", mon.id.c_str(),
                       mon.death_drops.c_str() );
         }

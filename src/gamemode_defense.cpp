@@ -1098,43 +1098,45 @@ std::string caravan_category_name( caravan_category cat )
 std::vector<itype_id> caravan_items( caravan_category cat )
 {
     std::vector<itype_id> ret;
-    item_group::ItemList item_list;
+    std::string group_id;
     switch( cat ) {
         case CARAVAN_CART:
             return ret;
 
         case CARAVAN_MELEE:
-            item_list = item_group::items_from( "defense_caravan_melee" );
+            group_id = "defense_caravan_melee" ;
             break;
 
         case CARAVAN_RANGED:
-            item_list = item_group::items_from( "defense_caravan_ranged" );
+            group_id = "defense_caravan_ranged" ;
             break;
 
         case CARAVAN_AMMUNITION:
-            item_list = item_group::items_from( "defense_caravan_ammunition" );
+            group_id = "defense_caravan_ammunition" ;
             break;
 
         case CARAVAN_COMPONENTS:
-            item_list = item_group::items_from( "defense_caravan_components" );
+            group_id = "defense_caravan_components" ;
             break;
 
         case CARAVAN_FOOD:
-            item_list = item_group::items_from( "defense_caravan_food" );
+            group_id = "defense_caravan_food" ;
             break;
 
         case CARAVAN_CLOTHES:
-            item_list = item_group::items_from( "defense_caravan_clothes" );
+            group_id = "defense_caravan_clothes" ;
             break;
 
         case CARAVAN_TOOLS:
-            item_list = item_group::items_from( "defense_caravan_tools" );
+            group_id = "defense_caravan_tools" ;
             break;
 
         case NUM_CARAVAN_CATEGORIES:
             DebugLog( D_ERROR, D_GAME ) << "invalid caravan category: " << cat;
-            break;
+            return ret;
     }
+
+    item_group::ItemList item_list = item_group::items_from( item_group_id( group_id ) );
 
     for( auto &it : item_list ) {
         itype_id item_type = it.typeId();

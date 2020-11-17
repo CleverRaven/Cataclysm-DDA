@@ -557,7 +557,7 @@ void Item_factory::finalize_item_blacklist()
             continue;
         }
 
-        for( std::pair<const Group_tag, std::unique_ptr<Item_spawn_data>> &g : m_template_groups ) {
+        for( std::pair<const item_group_id, std::unique_ptr<Item_spawn_data>> &g : m_template_groups ) {
             g.second->remove_item( candidate->first );
         }
 
@@ -586,7 +586,7 @@ void Item_factory::finalize_item_blacklist()
             continue;
         }
 
-        for( std::pair<const Group_tag, std::unique_ptr<Item_spawn_data>> &g : m_template_groups ) {
+        for( std::pair<const item_group_id, std::unique_ptr<Item_spawn_data>> &g : m_template_groups ) {
             g.second->replace_item( migrate.first, migrate.second.replace );
         }
 
@@ -962,8 +962,9 @@ void Item_factory::init()
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
-    m_template_groups["EMPTY_GROUP"] = std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0,
-                                       0 );
+    m_template_groups[item_group_id( "EMPTY_GROUP" )] = std::make_unique<Item_group>
+            ( Item_group::G_COLLECTION, 100, 0,
+              0 );
 }
 
 bool Item_factory::check_ammo_type( std::string &msg, const ammotype &ammo ) const
@@ -1321,7 +1322,7 @@ void Item_factory::check_definitions() const
         }
     }
     for( const auto &elem : m_template_groups ) {
-        elem.second->check_consistency( elem.first );
+        elem.second->check_consistency( elem.first.str() );
     }
 }
 
@@ -1363,7 +1364,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
     return def;
 }
 
-Item_spawn_data *Item_factory::get_group( const Item_tag &group_tag )
+Item_spawn_data *Item_factory::get_group( const item_group_id &group_tag )
 {
     GroupMap::iterator group_iter = m_template_groups.find( group_tag );
     if( group_iter != m_template_groups.end() ) {
@@ -2579,7 +2580,7 @@ static std::string to_string( Item_group::Type t )
     return "BUGGED";
 }
 
-static Item_group *make_group_or_throw( const Group_tag &group_id,
+static Item_group *make_group_or_throw( const item_group_id &group_id,
                                         std::unique_ptr<Item_spawn_data> &isd,
                                         Item_group::Type t, int ammo_chance, int magazine_chance )
 {
@@ -2587,7 +2588,7 @@ static Item_group *make_group_or_throw( const Group_tag &group_id,
     if( ig == nullptr ) {
         isd.reset( ig = new Item_group( t, 100, ammo_chance, magazine_chance ) );
     } else if( ig->type != t ) {
-        throw std::runtime_error( "item group \"" + group_id + "\" already defined with type \"" +
+        throw std::runtime_error( "item group \"" + group_id.str() + "\" already defined with type \"" +
                                   to_string( ig->type ) + "\"" );
     }
     return ig;
@@ -2665,7 +2666,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
     ptr.reset( result );
     for( const auto &elem : entries ) {
         if( elem.second ) {
-            result->add_group_entry( elem.first, prob );
+            result->add_group_entry( item_group_id( elem.first ), prob );
         } else {
             result->add_item_entry( elem.first, prob );
         }
@@ -2747,12 +2748,12 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
 // Load an item group from JSON
 void Item_factory::load_item_group( const JsonObject &jsobj )
 {
-    const Item_tag group_id = jsobj.get_string( "id" );
+    const item_group_id group_id = item_group_id( jsobj.get_string( "id" ) );
     const std::string subtype = jsobj.get_string( "subtype", "old" );
     load_item_group( jsobj, group_id, subtype );
 }
 
-void Item_factory::load_item_group( const JsonArray &entries, const Group_tag &group_id,
+void Item_factory::load_item_group( const JsonArray &entries, const item_group_id &group_id,
                                     const bool is_collection, const int ammo_chance, const int magazine_chance )
 {
     const auto type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
@@ -2764,7 +2765,7 @@ void Item_factory::load_item_group( const JsonArray &entries, const Group_tag &g
     }
 }
 
-void Item_factory::load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
+void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
                                     const std::string &subtype )
 {
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
@@ -2812,10 +2813,10 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const Group_tag &gr
     if( jsobj.has_member( "groups" ) ) {
         for( const JsonValue entry : jsobj.get_array( "groups" ) ) {
             if( entry.test_string() ) {
-                ig->add_group_entry( entry.get_string(), 100 );
+                ig->add_group_entry( item_group_id( entry.get_string() ), 100 );
             } else if( entry.test_array() ) {
                 JsonArray subitem = entry.get_array();
-                ig->add_group_entry( subitem.get_string( 0 ), subitem.get_int( 1 ) );
+                ig->add_group_entry( item_group_id( subitem.get_string( 0 ) ), subitem.get_int( 1 ) );
             } else {
                 JsonObject subobj = entry.get_object();
                 add_entry( *ig, subobj );
@@ -2970,16 +2971,16 @@ item_category_id calc_category( const itype &obj )
     return weap ? item_category_id( "weapons" ) : item_category_id( "other" );
 }
 
-std::vector<Group_tag> Item_factory::get_all_group_names()
+std::vector<item_group_id> Item_factory::get_all_group_names()
 {
-    std::vector<std::string> rval;
+    std::vector<item_group_id> rval;
     for( GroupMap::value_type &group_pair : m_template_groups ) {
-        rval.push_back( group_pair.first );
+        rval.push_back( item_group_id( group_pair.first ) );
     }
     return rval;
 }
 
-bool Item_factory::add_item_to_group( const Group_tag &group_id, const Item_tag &item_id,
+bool Item_factory::add_item_to_group( const item_group_id &group_id, const Item_tag &item_id,
                                       int chance )
 {
     if( m_template_groups.find( group_id ) == m_template_groups.end() ) {
@@ -3001,11 +3002,11 @@ bool Item_factory::add_item_to_group( const Group_tag &group_id, const Item_tag 
 
 void item_group::debug_spawn()
 {
-    std::vector<std::string> groups = item_controller->get_all_group_names();
+    std::vector<item_group_id> groups = item_controller->get_all_group_names();
     uilist menu;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
-        menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i] );
+        menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i].str() );
     }
     while( true ) {
         menu.query();

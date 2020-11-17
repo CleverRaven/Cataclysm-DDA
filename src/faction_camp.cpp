@@ -2684,24 +2684,24 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
                                            "more experience…" ), task_description );
     finish_return( *comp, false, msg, skill_group, 1 );
 
-    std::string itemlist = "forest";
+    item_group_id itemlist = item_group_id( "forest" );
     if( task == "_faction_camp_firewood" ) {
-        itemlist = "gathering_faction_base_camp_firewood";
+        itemlist = item_group_id( "gathering_faction_base_camp_firewood" );
     } else if( task == "_faction_camp_gathering" ) {
         itemlist = get_gatherlist();
     } else if( task == "_faction_camp_foraging" ) {
         switch( season_of_year( calendar::turn ) ) {
             case SPRING:
-                itemlist = "foraging_faction_camp_spring";
+                itemlist = item_group_id( "foraging_faction_camp_spring" );
                 break;
             case SUMMER:
-                itemlist = "foraging_faction_camp_summer";
+                itemlist = item_group_id( "foraging_faction_camp_summer" );
                 break;
             case AUTUMN:
-                itemlist = "foraging_faction_camp_autumn";
+                itemlist = item_group_id( "foraging_faction_camp_autumn" );
                 break;
             case WINTER:
-                itemlist = "foraging_faction_camp_winter";
+                itemlist = item_group_id( "foraging_faction_camp_winter" );
                 break;
             default:
                 debugmsg( "Invalid season" );
@@ -3054,7 +3054,8 @@ int basecamp::recipe_batch_max( const recipe &making ) const
     return max_batch;
 }
 
-void basecamp::search_results( int skill, const Group_tag &group_id, int attempts, int difficulty )
+void basecamp::search_results( int skill, const item_group_id &group_id, int attempts,
+                               int difficulty )
 {
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
@@ -3761,11 +3762,11 @@ std::string basecamp::recruit_description( int npc_count )
 
 std::string basecamp::gathering_description( const std::string &bldg )
 {
-    std::string itemlist;
-    if( item_group::group_is_defined( "gathering_" + bldg ) ) {
-        itemlist = "gathering_" + bldg;
+    item_group_id itemlist;
+    if( item_group::group_is_defined( item_group_id( "gathering_" + bldg ) ) ) {
+        itemlist = item_group_id( "gathering_" + bldg );
     } else {
-        itemlist = "forest";
+        itemlist = item_group_id( "forest" );
     }
     std::string output;
 

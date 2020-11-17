@@ -66,6 +66,9 @@ using harvest_id = string_id<harvest_list>;
 class item_category;
 using item_category_id = string_id<item_category>;
 
+class Item_group;
+using item_group_id = string_id<Item_group>;
+
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
 

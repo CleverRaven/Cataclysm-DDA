@@ -129,7 +129,7 @@ void harvest_list::check_consistency()
             std::string errorlist;
             bool item_valid = true;
             if( !( item::type_is_defined( entry.drop ) || ( entry.type == "bionic_group" &&
-                    item_group::group_is_defined( entry.drop ) ) ) ) {
+                    item_group::group_is_defined( item_group_id( entry.drop ) ) ) ) ) {
                 item_valid = false;
                 errorlist += entry.drop;
             }

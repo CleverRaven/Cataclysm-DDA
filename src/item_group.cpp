@@ -58,7 +58,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
             return item( null_item_id, birthday );
         }
         rec.push_back( id );
-        Item_spawn_data *isd = item_controller->get_group( id );
+        Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
         if( isd == nullptr ) {
             debugmsg( "unknown item spawn list %s", id.c_str() );
             return item( null_item_id, birthday );
@@ -102,7 +102,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
                 return result;
             }
             rec.push_back( id );
-            Item_spawn_data *isd = item_controller->get_group( id );
+            Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
             if( isd == nullptr ) {
                 debugmsg( "unknown item spawn list %s", id.c_str() );
                 return result;
@@ -127,7 +127,7 @@ void Single_item_creator::check_consistency( const std::string &context ) const
             debugmsg( "item id %s is unknown (in %s)", id, context );
         }
     } else if( type == S_ITEM_GROUP ) {
-        if( !item_group::group_is_defined( id ) ) {
+        if( !item_group::group_is_defined( item_group_id( id ) ) ) {
             debugmsg( "item group id %s is unknown (in %s)", id, context );
         }
     } else if( type == S_NONE ) {
@@ -154,7 +154,7 @@ bool Single_item_creator::remove_item( const Item_tag &itemid )
             return true;
         }
     } else if( type == S_ITEM_GROUP ) {
-        Item_spawn_data *isd = item_controller->get_group( id );
+        Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
         if( isd != nullptr ) {
             isd->remove_item( itemid );
         }
@@ -171,11 +171,11 @@ bool Single_item_creator::replace_item( const Item_tag &itemid, const Item_tag &
     }
     if( type == S_ITEM ) {
         if( itemid == id ) {
-            id = replacementid;
+            id = replacementid ;
             return true;
         }
     } else if( type == S_ITEM_GROUP ) {
-        Item_spawn_data *isd = item_controller->get_group( id );
+        Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
         if( isd != nullptr ) {
             isd->replace_item( itemid, replacementid );
         }
@@ -194,7 +194,7 @@ std::set<const itype *> Single_item_creator::every_item() const
         case S_ITEM:
             return { item::find_type( id ) };
         case S_ITEM_GROUP: {
-            Item_spawn_data *isd = item_controller->get_group( id );
+            Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
             if( isd != nullptr ) {
                 return isd->every_item();
             }
@@ -442,10 +442,10 @@ void Item_group::add_item_entry( const Item_tag &itemid, int probability )
                    itemid, Single_item_creator::S_ITEM, probability ) );
 }
 
-void Item_group::add_group_entry( const Group_tag &groupid, int probability )
+void Item_group::add_group_entry( const item_group_id &groupid, int probability )
 {
     add_entry( std::make_unique<Single_item_creator>(
-                   groupid, Single_item_creator::S_ITEM_GROUP, probability ) );
+                   groupid.str(), Single_item_creator::S_ITEM_GROUP, probability ) );
 }
 
 void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
@@ -565,7 +565,8 @@ std::set<const itype *> Item_group::every_item() const
     return result;
 }
 
-item_group::ItemList item_group::items_from( const Group_tag &group_id, const time_point &birthday )
+item_group::ItemList item_group::items_from( const item_group_id &group_id,
+        const time_point &birthday )
 {
     const auto group = item_controller->get_group( group_id );
     if( group == nullptr ) {
@@ -574,12 +575,12 @@ item_group::ItemList item_group::items_from( const Group_tag &group_id, const ti
     return group->create( birthday );
 }
 
-item_group::ItemList item_group::items_from( const Group_tag &group_id )
+item_group::ItemList item_group::items_from( const item_group_id &group_id )
 {
     return items_from( group_id, 0 );
 }
 
-item item_group::item_from( const Group_tag &group_id, const time_point &birthday )
+item item_group::item_from( const item_group_id &group_id, const time_point &birthday )
 {
     const auto group = item_controller->get_group( group_id );
     if( group == nullptr ) {
@@ -588,17 +589,17 @@ item item_group::item_from( const Group_tag &group_id, const time_point &birthda
     return group->create_single( birthday );
 }
 
-item item_group::item_from( const Group_tag &group_id )
+item item_group::item_from( const item_group_id &group_id )
 {
     return item_from( group_id, 0 );
 }
 
-bool item_group::group_is_defined( const Group_tag &group_id )
+bool item_group::group_is_defined( const item_group_id &group_id )
 {
     return item_controller->get_group( group_id ) != nullptr;
 }
 
-bool item_group::group_contains_item( const Group_tag &group_id, const itype_id &type_id )
+bool item_group::group_contains_item( const item_group_id &group_id, const itype_id &type_id )
 {
     const auto group = item_controller->get_group( group_id );
     if( group == nullptr ) {
@@ -607,7 +608,7 @@ bool item_group::group_contains_item( const Group_tag &group_id, const itype_id 
     return group->has_item( type_id );
 }
 
-std::set<const itype *> item_group::every_possible_item_from( const Group_tag &group_id )
+std::set<const itype *> item_group::every_possible_item_from( const item_group_id &group_id )
 {
     Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
@@ -616,13 +617,13 @@ std::set<const itype *> item_group::every_possible_item_from( const Group_tag &g
     return group->every_item();
 }
 
-void item_group::load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
+void item_group::load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
                                   const std::string &subtype )
 {
     item_controller->load_item_group( jsobj, group_id, subtype );
 }
 
-static Group_tag get_unique_group_id()
+static item_group_id get_unique_group_id()
 {
     // This is just a hint what id to use next. Overflow of it is defined and if the group
     // name is already used, we simply go the next id.
@@ -632,19 +633,20 @@ static Group_tag get_unique_group_id()
     // names should not be seen anywhere.
     static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
-        const Group_tag new_group = unique_prefix + to_string( next_id++ );
+        const item_group_id new_group = item_group_id( unique_prefix + to_string( next_id++ ) );
         if( !item_group::group_is_defined( new_group ) ) {
             return new_group;
         }
     }
 }
 
-Group_tag item_group::load_item_group( const JsonValue &value, const std::string &default_subtype )
+item_group_id item_group::load_item_group( const JsonValue &value,
+        const std::string &default_subtype )
 {
     if( value.test_string() ) {
-        return value.get_string();
+        return item_group_id( value.get_string() );
     } else if( value.test_object() ) {
-        const Group_tag group = get_unique_group_id();
+        const item_group_id group = get_unique_group_id();
 
         JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
@@ -652,7 +654,7 @@ Group_tag item_group::load_item_group( const JsonValue &value, const std::string
 
         return group;
     } else if( value.test_array() ) {
-        const Group_tag group = get_unique_group_id();
+        const item_group_id group = get_unique_group_id();
 
         JsonArray jarr = value.get_array();
         // load_item_group needs a bool, invalid subtypes are unexpected and most likely errors
@@ -666,6 +668,6 @@ Group_tag item_group::load_item_group( const JsonValue &value, const std::string
     } else {
         value.throw_error( "invalid item group, must be string (group id) or object/array (the group data)" );
         // stream.error always throws, this is here to prevent a warning
-        return Group_tag{};
+        return item_group_id{};
     }
 }

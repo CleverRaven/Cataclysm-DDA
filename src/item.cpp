@@ -344,7 +344,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( has_flag( flag_NANOFAB_TEMPLATE ) ) {
-        itype_id nanofab_recipe = item_group::item_from( "nanofab_recipes" ).typeId();
+        itype_id nanofab_recipe = item_group::item_from( item_group_id( "nanofab_recipes" ) ).typeId();
         set_var( "NANOFAB_ITEM_ID", nanofab_recipe );
     }
 
