@@ -705,5 +705,28 @@
       "NO_BREED",
       "CANPLAY"
     ]
-  }
-]
+  },
+   {
+    "id": "mon_amargasaurus_juvenile",
+    "type": "MONSTER",
+    "name": "Amargasaurus juvenile",
+    "copy-from": "mon_gallimimus_juvenile",
+    "description": "A juvenile Amargasaurus, seems unbothered by your presence.",
+    "default_faction": "amargasaurus",
+    "color": "orange",
+    "upgrades": { "age_grow": 100, "into": "mon_amargasaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_3",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  ]
