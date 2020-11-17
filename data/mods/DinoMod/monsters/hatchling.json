@@ -698,5 +698,13 @@
     "copy-from": "mon_compsognathus_hatchling",
     "default_faction": "kosmoceratops",
     "upgrades": { "age_grow": 56, "into": "mon_kosmoceratops_juvenile" }
+  },
+  {
+    "id": "mon_amargasaurus_hatchling",
+    "type": "MONSTER",
+    "name": "amargasaurus hatchling",
+    "copy-from": "mon_compsognathus_hatchling",
+    "default_faction": "amargasaurus",
+    "upgrades": { "age_grow": 56, "into": "mon_amargasaurus_juvenile" }
   },  
 ]
