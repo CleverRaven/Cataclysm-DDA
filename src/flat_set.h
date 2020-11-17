@@ -13,7 +13,9 @@ struct transparent_less_than {
 
     template<typename T, typename U>
     constexpr auto operator()( T &&lhs, U &&rhs ) const noexcept
+    // NOLINTNEXTLINE(cata-use-localized-sorting)
     -> decltype( std::forward<T>( lhs ) < std::forward<U>( rhs ) ) {
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
         return std::forward<T>( lhs ) < std::forward<U>( rhs );
     }
 };
