@@ -336,3 +336,66 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
     }
 }
 
+TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
+{
+    static const auto book_has_skill = []( const item & book ) -> bool {
+        REQUIRE( book.is_book() );
+        return bool( book.type->book->skill );
+    };
+
+    avatar dummy;
+    dummy.set_body();
+    dummy.worn.push_back( item( "backpack" ) );
+
+    item &child = dummy.i_add( item( "child_book" ) );
+    item &alpha = dummy.i_add( item( "recipe_alpha" ) );
+
+    SECTION( "you cannot determine mastery for non-book items" ) {
+        item &rag = dummy.i_add( item( "rag" ) );
+        REQUIRE_FALSE( rag.is_book() );
+        CHECK( dummy.get_book_mastery( rag ) == book_mastery::CANT_DETERMINE );
+    }
+    SECTION( "you cannot determine mastery for unidentified books" ) {
+        REQUIRE( alpha.is_book() );
+        REQUIRE_FALSE( dummy.has_identified( alpha.typeId() ) );
+        CHECK( dummy.get_book_mastery( child ) == book_mastery::CANT_DETERMINE );
+    }
+    GIVEN( "an identified book which gives/requires no skill to read" ) {
+        dummy.do_read( child );
+        REQUIRE( dummy.has_identified( child.typeId() ) );
+        REQUIRE_FALSE( book_has_skill( child ) );
+
+        THEN( "you already mastered it" ) {
+            CHECK( dummy.get_book_mastery( child ) == book_mastery::MASTERED );
+        }
+    }
+    GIVEN( "some identified books which gives/requires no skill to read" ) {
+        dummy.do_read( child );
+        dummy.do_read( alpha );
+        REQUIRE( dummy.has_identified( child.typeId() ) );
+        REQUIRE( dummy.has_identified( alpha.typeId() ) );
+
+        WHEN( "it gives/requires no skill" ) {
+            REQUIRE_FALSE( book_has_skill( child ) );
+            THEN( "you already mastered it" ) {
+                CHECK( dummy.get_book_mastery( child ) == book_mastery::MASTERED );
+            }
+        }
+        WHEN( "it requires/give skills" ) {
+            REQUIRE( book_has_skill( alpha ) );
+
+            THEN( "you won't understand it if your skills are too low" ) {
+                dummy.set_skill_level( skill_id( "chemistry" ), 5 );
+                CHECK( dummy.get_book_mastery( alpha ) == book_mastery::CANT_UNDERSTAND );
+            }
+            THEN( "you can learn from it with enough skill" ) {
+                dummy.set_skill_level( skill_id( "chemistry" ), 6 );
+                CHECK( dummy.get_book_mastery( alpha ) == book_mastery::LEARNING );
+            }
+            THEN( "you already mastered it if you have too much skill" ) {
+                dummy.set_skill_level( skill_id( "chemistry" ), 7 );
+                CHECK( dummy.get_book_mastery( alpha ) == book_mastery::MASTERED );
+            }
+        }
+    }
+}

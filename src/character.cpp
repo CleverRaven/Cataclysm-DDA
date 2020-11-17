@@ -12740,7 +12740,7 @@ book_mastery Character::get_book_mastery( const item &book ) const
     }
     // TODO: add illiterate check?
 
-    const auto &type = book.type->book;
+    const cata::value_ptr<islot_book> &type = book.type->book;
     const skill_id &skill = type->skill;
 
     if( !skill ) {
