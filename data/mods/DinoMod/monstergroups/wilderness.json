@@ -20,6 +20,13 @@
         "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_amargasaurus",
+        "freq": 12,
+        "cost_multiplier": 25,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_eoraptor",
         "freq": 3,
         "cost_multiplier": 0,
