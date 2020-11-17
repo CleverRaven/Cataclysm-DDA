@@ -1646,6 +1646,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
+        virtual void identify( const item &item ) = 0;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
