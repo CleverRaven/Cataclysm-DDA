@@ -117,6 +117,20 @@
     "copy-from": "schematics_generic"
   },
   {
+    "id": "schematics_diamond_press",
+    "type": "BOOK",
+    "name": { "str_sp": "diamond press schematics" },
+    "description": "Bearing the logo of Matrioshka Fabritechnics, those are assembly plans, design specs, and technical drawings for the diamond press.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
+  },
+  {
+    "id": "schematics_nano_forge",
+    "type": "BOOK",
+    "name": { "str_sp": "nano forge schematics" },
+    "description": "Bearing the logo of Matrioshka Fabritechnics, those are assembly plans, design specs, and technical drawings for the nano forge.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
+  },
+  {
     "id": "schematics_tankbot",
     "type": "BOOK",
     "name": { "str_sp": "tank drone schematics" },
@@ -232,7 +246,6 @@
     "symbol": "?",
     "looks_like": "adv_chemistry",
     "color": "light_green",
-    "looks_like": "recipe_lab_elec",
     "skill": "chemistry",
     "required_level": 2,
     "max_level": 3,

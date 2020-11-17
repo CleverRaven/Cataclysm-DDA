@@ -10,8 +10,7 @@
     "time": "3 h",
     "reversible": true,
     "decomp_learn": 4,
-    "autolearn": true,
-    "book_learn": [ [ "textbook_atomic", 7 ], [ "recipes_cryolab", 5 ], [ "recipe_augs", 5 ] ],
+    "book_learn": [ [ "schematics_nano_forge", 6 ], [ "recipes_cryolab", 9 ], [ "recipe_augs", 9 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -48,7 +47,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
-    "book_learn": [ [ "textbook_atomic", 7 ], [ "recipes_cryolab", 5 ], [ "recipe_augs", 5 ] ],
+    "book_learn": [ [ "schematics_diamond_press", 7 ], [ "recipes_cryolab", 9 ], [ "recipe_augs", 9 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },

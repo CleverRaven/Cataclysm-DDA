@@ -9,7 +9,9 @@
       [ "afs_hydraulic_gauntlet", 3 ],
       [ "afs_energy_saber_off", 3 ],
       [ "ftk93", 5 ],
-      [ "afs_hardlight_longbow", 2 ]
+      [ "afs_hardlight_longbow", 2 ],
+      [ "grenade_nuclear_detonator", 12 ],
+      [ "afs_freeze_gauntlet", 5 ]
     ]
   },
   {
@@ -21,7 +23,9 @@
       [ "textbook_biodiesel", 3 ],
       [ "mag_fieldrepair", 4 ],
       [ "book_icef", 4 ],
-      [ "recipes_resistance", 2 ]
+      [ "recipes_resistance", 2 ],
+      [ "schematics_nano_forge", 12 ],
+      [ "schematics_diamond_press", 12 ]
     ]
   },
   {
@@ -397,7 +401,8 @@
       { "item": "xlballistic_vest_esapi", "prob": 39 },
       { "item": "xlboots_combat", "prob": 70 },
       { "item": "xlgloves_tactical", "prob": 50 },
-      { "item": "tripaw_xlgloves_tactical", "prob": 48 }
+      { "item": "tripaw_xlgloves_tactical", "prob": 48 },
+      { "item": "grenade_nuclear_detonator", "prob": 10 }
     ]
   },
   {
