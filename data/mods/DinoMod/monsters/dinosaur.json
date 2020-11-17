@@ -1353,4 +1353,19 @@
     "reproduction": { "baby_egg": "egg_kosmoceratops", "baby_count": 24, "baby_timer": 23 },
     "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" }, [ "STRETCH_ATTACK", 7 ] ]
   },
+{
+    "type": "MONSTER",
+    "id": "mon_amargasaurus",
+    "name": { "str_sp": "Amargasaurus" },
+    "copy-from": "mon_apatosaurus",
+    "weight": "2630 kg",
+    "melee_skill": 10,
+    "armor_cut": 8,
+    "armor_bash": 9,
+    "hp": 267,
+    "zombify_into": "mon_zamargasaurus",
+    "description": "A herbivourous sauropod from the cretaceous, it seems to pose little threat to you.",
+    "reproduction": { "baby_egg": "egg_amargasaurus", "baby_count": 25, "baby_timer": 23 },
+    "special_attacks": [ [ "EAT_CROP", 27 ], { "id": "impale" }, [ "STRETCH_ATTACK", 9 ] ]
+  },  
 ]
