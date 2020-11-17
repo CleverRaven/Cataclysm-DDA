@@ -4602,19 +4602,26 @@ int Character::encumb( const bodypart_id &bp ) const
     return get_part_encumbrance_data( bp ).encumbrance;
 }
 
-static void apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals,
-                                   const std::vector<trait_id> &all_muts,
-                                   const body_part_set &oversize )
+void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const
 {
+    const std::vector<trait_id> all_muts = get_mutations();
     std::map<bodypart_str_id, float> total_enc;
+
+    // Lower penalty for bps covered only by XL armor
+    // Initialized on demand for performance reasons:
+    // (calculation is costly, most of players and npcs are don't have encumbering mutations)
+    cata::optional<body_part_set> oversize;
 
     for( const trait_id &mut : all_muts ) {
         for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_always ) {
             total_enc[enc.first] += enc.second;
         }
-
         for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_covered ) {
-            if( !oversize.test( enc.first ) ) {
+            if( !oversize ) {
+                // initialize on demand
+                oversize = exclusive_flag_coverage( flag_OVERSIZE );
+            }
+            if( !oversize->test( enc.first ) ) {
                 total_enc[enc.first] += enc.second;
             }
         }
@@ -4647,9 +4654,7 @@ void Character::mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) 
         vals[bodypart_id( "eyes" )].encumbrance -= 3;
     }
 
-    // Lower penalty for bps covered only by XL armor
-    const body_part_set oversize = exclusive_flag_coverage( flag_OVERSIZE );
-    apply_mut_encumbrance( vals, get_mutations(), oversize );
+    apply_mut_encumbrance( vals );
 }
 
 body_part_set Character::exclusive_flag_coverage( const flag_id &flag ) const
@@ -12727,4 +12732,3 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
 
     return std::max( mv, 25 );
 }
-
