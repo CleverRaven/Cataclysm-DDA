@@ -713,7 +713,7 @@
     "copy-from": "mon_gallimimus_juvenile",
     "description": "A juvenile Amargasaurus, seems unbothered by your presence.",
     "default_faction": "amargasaurus",
-    "color": "orange",
+    "color": "brown",
     "upgrades": { "age_grow": 100, "into": "mon_amargasaurus" },
     "flags": [
       "SEES",
