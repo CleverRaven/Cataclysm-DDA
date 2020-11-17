@@ -1719,12 +1719,12 @@ class item : public visitable<item>
          * This is a per-character setting, different characters may have different number of
          * unread chapters.
          */
-        int get_remaining_chapters( const player &u ) const;
+        int get_remaining_chapters( const Character &u ) const;
         /**
          * Mark one chapter of the book as read by the given player. May do nothing if the book has
          * no unread chapters. This is a per-character setting, see @ref get_remaining_chapters.
          */
-        void mark_chapter_as_read( const player &u );
+        void mark_chapter_as_read( const Character &u );
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
