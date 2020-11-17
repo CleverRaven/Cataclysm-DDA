@@ -2,7 +2,8 @@
 #ifndef CATA_SRC_MUSIC_PLAYER_H
 #define CATA_SRC_MUSIC_PLAYER_H
 
-#if defined(SDL_SOUND)
+// Android not supported <experimental/filesystem> or <filesystem> functions
+#if defined(SDL_SOUND) && !defined(__ANDROID__)
 
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING 1
 #define _LIBCPP_NO_EXPERIMENTAL_DEPRECATION_WARNING_FILESYSTEM 1

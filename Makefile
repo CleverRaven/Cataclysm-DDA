@@ -613,11 +613,11 @@ ifeq ($(SOUND), 1)
     LDFLAGS += -lmpg123 -lshlwapi -lvorbisfile -lvorbis -logg -lflac
   endif
 
+  # For <experimental/filesystem> lib
+  LDFLAGS += -lstdc++fs
+
   CXXFLAGS += -DSDL_SOUND
 endif
-
-# For <experimental/filesystem> lib
-LDFLAGS += -lstdc++fs
 
 ifeq ($(SDL), 1)
   TILES = 1

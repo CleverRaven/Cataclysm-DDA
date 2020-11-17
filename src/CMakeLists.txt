@@ -114,6 +114,7 @@ IF(TILES)
       target_link_libraries(cataclysm-tiles-common ${VORBISFILE_LIBRARY})
       target_include_directories(cataclysm-tiles-common PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
       target_link_libraries(cataclysm-tiles-common ${SDL2_MIXER_LIBRARIES})
+      target_link_libraries(cataclysm-tiles-common stdc++fs)
     ENDIF(SOUND)
 
     IF(WIN32)
@@ -271,6 +272,7 @@ IF(MINGW AND NOT RELEASE)
         find_library(RuntimeLib_vorb_f  "libvorbisfile-3")
         find_library(RuntimeLib_mod  "libmodplug-1")
         find_library(RuntimeLib_mpeg  "smpeg2")
+        find_library(RuntimeLib_stdfc  "stdc++fs")
         SET(RuntimeLib_SDL_SOUND
           ${RuntimeLib_SDL_SND}
           ${RuntimeLib_flak}
@@ -283,6 +285,7 @@ IF(MINGW AND NOT RELEASE)
           ${RuntimeLib_vorb_f}
           ${RuntimeLib_mod}
           ${RuntimeLib_mpeg}
+          ${RuntimeLib_stdfc}
         )
       ENDIF(SOUND)
     ENDIF (TILES)

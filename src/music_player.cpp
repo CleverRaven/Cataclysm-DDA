@@ -1,4 +1,4 @@
-#if defined(SDL_SOUND)
+#if defined(SDL_SOUND) && !defined(__ANDROID__)
 #include <algorithm>
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)

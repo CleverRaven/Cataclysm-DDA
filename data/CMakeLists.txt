@@ -16,6 +16,7 @@ IF(SOUND)
     SET(CATACLYSM_DATA_DIRS
       ${CATACLYSM_DATA_DIRS}
       ${CMAKE_SOURCE_DIR}/data/sound
+      ${CMAKE_SOURCE_DIR}/music
     )
 ENDIF(SOUND)
 
