@@ -896,7 +896,7 @@
     "description": "An undead Kosmoceratops, it seems to have forgotten it's herbivore diet, and seems hungry for your flesh.",
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
-   {
+  {
     "type": "MONSTER",
     "id": "mon_zamargasaurus",
     "name": { "str": "Undead Amargasaurus" },
