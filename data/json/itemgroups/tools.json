@@ -74,7 +74,8 @@
       [ "clamp", 10 ],
       [ "sandpaper", 80 ],
       [ "rake", 15 ],
-      [ "rake_plastic", 25 ]
+      [ "rake_plastic", 25 ],
+      { "group": "writing_utensils", "prob": 5 }
     ]
   },
   {
@@ -540,7 +541,8 @@
       [ "xacto", 4 ],
       [ "cotton_ball", 4 ],
       { "group": "ammo_any_batteries_full", "prob": 50 },
-      [ "acetylene_machine", 1 ]
+      [ "acetylene_machine", 1 ],
+      { "group": "writing_utensils", "prob": 5 }
     ]
   },
   {
@@ -592,7 +594,8 @@
       { "group": "tools_toolbox", "prob": 5 },
       [ "tool_belt", 10 ],
       [ "clamp", 10 ],
-      [ "wrench", 10 ]
+      [ "wrench", 10 ],
+      { "group": "writing_utensils", "prob": 5 }
     ]
   },
   {
