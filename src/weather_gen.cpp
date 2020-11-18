@@ -91,19 +91,19 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
         dayv * daily_magnitude_K +
         seasonality * seasonality_magnitude_K );
     // Interpolate seasons temperature
-    const double mid_season = common.year_fraction * 4 + 0.5; // Scale year_fraction[0,1) to [0.5,4.5). So [0.5-1.5] - spring, [1.5-2.5] - summer, [2.5-3.5] - autumn, [3.5-4.5) - winter.
+    const double quadrum = common.year_fraction * 4; // Scale year_fraction[0, 1) to [0.0, 4.0). So [0.0, 1.0] - spring, [1.0, 2.0] - summer, [2.0, 3.0] - autumn, [3.0, 4.0) - winter.
     const std::vector<std::pair<float, float>> mid_season_temps = { {
-             { 0.0f, wg.winter_temp }, //midwinter
-             { 1.0f, wg.spring_temp }, //midspring
-             { 2.0f, wg.summer_temp }, //midsummer
-             { 3.0f, wg.autumn_temp }, //midautumn
-             { 4.0f, wg.winter_temp }, //midwinter
-             { 5.0f, wg.spring_temp }  //midspring
+             { -0.5f, wg.winter_temp }, //midwinter
+             { 0.5f, wg.spring_temp }, //midspring
+             { 1.5f, wg.summer_temp }, //midsummer
+             { 2.5f, wg.autumn_temp }, //midautumn
+             { 3.5f, wg.winter_temp }, //midwinter
+             { 4.5f, wg.spring_temp }  //midspring
          }
     };
     const double T2 = baseline + raw_noise_4d( x, y, z, modSEED ) * noise_magnitude_K;
 
-    double baseTemp = multi_lerp(mid_season_temps, mid_season);
+    double baseTemp = multi_lerp(mid_season_temps, quadrum);
     const double T = baseTemp + dayv * daily_magnitude_K + raw_noise_4d(x, y, z, modSEED) * noise_magnitude_K;
 
     // Convert from Celsius to Fahrenheit
