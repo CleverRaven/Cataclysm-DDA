@@ -830,18 +830,6 @@ void mapgen_road( mapgendata &dat )
             }
         }
 
-        // draw stop lines
-        if( num_dirs == 4 ) {
-            line( m, t_pavement_y, point( 4, 3 ), point( 10, 3 ) );
-            line( m, t_pavement_y, point( 20, 4 ), point( 20, 10 ) );
-            line( m, t_pavement_y, point( 13, 20 ), point( 19, 20 ) );
-            line( m, t_pavement_y, point( 3, 13 ), point( 3, 19 ) );
-        } else if( num_dirs == 3 ) {
-            line( m, t_pavement_y, point( 20, 4 ), point( 20, 10 ) );
-            line( m, t_pavement_y, point( 4, 3 ), point( 10, 3 ) );
-            line( m, t_pavement_y, point( 3, 13 ), point( 3, 19 ) );
-        }
-
         // draw round pavement for cul de sac late, to overdraw the yellow dots
         if( cul_de_sac ) {
             circle( m, t_pavement, static_cast<double>( SEEX ) - 0.5, static_cast<double>( SEEY ) - 0.5, 11.0 );
@@ -887,7 +875,7 @@ void mapgen_road( mapgendata &dat )
         }
     }
 
-    // place street and traffic lights
+    // place street and traffic lights and draw stop lines
     if( neighbor_sidewalks ) {
         // ordinary roads
         for( int pos = 0; pos < SEEY * 2 - 1; pos += 12 ) {
@@ -916,6 +904,11 @@ void mapgen_road( mapgendata &dat )
             m->furn_set( point( 3, 20 ), f_traffic_light );
             m->furn_set( point( 20, 3 ), f_traffic_light );
             m->furn_set( point( 20, 20 ), f_traffic_light );
+
+            line( m, t_pavement_y, point( 4, 3 ), point( 10, 3 ) );
+            line( m, t_pavement_y, point( 20, 4 ), point( 20, 10 ) );
+            line( m, t_pavement_y, point( 13, 20 ), point( 19, 20 ) );
+            line( m, t_pavement_y, point( 3, 13 ), point( 3, 19 ) );
         }
 
         // tee-shaped roads
@@ -923,6 +916,10 @@ void mapgen_road( mapgendata &dat )
             m->furn_set( point( 3, 3 ), f_traffic_light );
             m->furn_set( point( 20, 3 ), f_traffic_light );
             m->furn_set( point( 3, 20 ), f_traffic_light );
+
+            line( m, t_pavement_y, point( 20, 4 ), point( 20, 10 ) );
+            line( m, t_pavement_y, point( 4, 3 ), point( 10, 3 ) );
+            line( m, t_pavement_y, point( 3, 13 ), point( 3, 19 ) );
         }
     }
 
