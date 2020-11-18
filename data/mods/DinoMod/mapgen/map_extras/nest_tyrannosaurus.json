@@ -28,7 +28,7 @@
         "                 t      ",
         "      t                 ",
         "                        ",
-        "               t       "
+        "               t        "
       ],
       "terrain": {
         "t": [ "t_region_tree", "t_region_groundcover_swamp" ],
