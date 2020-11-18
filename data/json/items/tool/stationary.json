@@ -149,7 +149,7 @@
     "id": "red_pen",
     "type": "TOOL",
     "name": { "str": "red pen" },
-    "description": "Disposable ballpoint pen, offers a smooth writing experience on paper. Shares the same logo as those disposable lighters. This pen is red.",
+    "description": "Disposable ballpoint pen, offers a smooth writing experience on paper.  Shares the same logo as those disposable lighters.  This pen is red.",
     "weight": "6 g",
     "volume": "10 ml",
     "price": 20,
