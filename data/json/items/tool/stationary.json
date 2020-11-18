@@ -109,7 +109,7 @@
     "id": "black_pen",
     "type": "TOOL",
     "name": { "str": "black pen" },
-    "description": "Disposable ballpoint pen, offers a smooth writing experience on paper. Shares the same logo as those disposable lighters. This pen is black.",
+    "description": "Disposable ballpoint pen, offers a smooth writing experience on paper.  Shares the same logo as those disposable lighters.  This pen is black.",
     "weight": "6 g",
     "volume": "10 ml",
     "price": 20,
