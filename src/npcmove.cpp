@@ -460,8 +460,12 @@ void npc::assess_danger()
 
     // find our Character friends and enemies
     std::vector<weak_ptr_fast<Creature>> hostile_guys;
+    const bool clairvoyant = clairvoyance();
     for( const npc &guy : g->all_npcs() ) {
         if( &guy == this ) {
+            continue;
+        }
+        if( !clairvoyant && !here.has_potential_los( pos(), guy.pos() ) ) {
             continue;
         }
 
@@ -480,6 +484,9 @@ void npc::assess_danger()
     }
 
     for( const monster &critter : g->all_monsters() ) {
+        if( !clairvoyant && !here.has_potential_los( pos(), critter.pos() ) ) {
+            continue;
+        }
         Creature::Attitude att = critter.attitude_to( *this );
         if( att == Attitude::FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
