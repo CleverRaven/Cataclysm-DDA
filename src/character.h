@@ -2659,6 +2659,11 @@ class Character : public Creature, public visitable<Character>
         time_duration get_consume_time( const item &it );
 
         int weariness_level() const;
+        int weary_threshold() const;
+        int weariness() const;
+        // the player's activity level for metabolism calculations
+        float attempted_activity_level = NO_EXERCISE;
+
         float activity_level() const;
         float exertion_adjusted_move_multiplier( float level = -1.0f ) const;
         void try_reduce_weariness( float exertion );
@@ -2710,8 +2715,6 @@ class Character : public Creature, public visitable<Character>
         int healthy_mod = 0;
 
         weariness_tracker weary;
-        int weary_threshold() const;
-        int weariness() const;
         // Our bmr at no activity level
         int base_bmr() const;
 
@@ -2721,9 +2724,6 @@ class Character : public Creature, public visitable<Character>
         int init_height = 175;
         /** Size class of character. */
         creature_size size_class = creature_size::medium;
-
-        // the player's activity level for metabolism calculations
-        float attempted_activity_level = NO_EXERCISE;
 
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;
