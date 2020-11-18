@@ -70,7 +70,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "pen" },
-    "description": "This is a fine pen, much better quality than a disposable one.",
+    "description": "This is a fine pen, of much better quality than a disposable model.",
     "weight": "20 g",
     "volume": "10 ml",
     "price": 100,
