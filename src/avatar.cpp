@@ -922,7 +922,7 @@ void avatar::identify( const item &item )
     }
     //It feels wrong to use a pointer to *this, but I can't find any other player pointers in this method.
     if( book_fun_for( book, *this ) != 0 ) {
-        add_msg( m_info, _( "Reading this book affects your morale by %d" ), book_fun_for( book, *this ) );
+        add_msg( m_info, _( "Reading this book affects your morale by %d." ), book_fun_for( book, *this ) );
     }
 
     if( book.type->use_methods.count( "MA_MANUAL" ) ) {
@@ -932,7 +932,7 @@ void avatar::identify( const item &item )
                  martialart_difficulty( style_to_learn ) );
         add_msg( m_info, _( "It would be easier to master if you'd have skill expertise in %s." ),
                  style_to_learn->primary_skill->name() );
-        add_msg( m_info, _( "A training session with this book takes %s" ),
+        add_msg( m_info, _( "A training session with this book takes %s." ),
                  to_string( time_duration::from_minutes( reading->time ) ) );
     } else {
         add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
