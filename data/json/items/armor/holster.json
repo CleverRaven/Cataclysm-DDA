@@ -14,7 +14,8 @@
     "color": "light_gray",
     "covers": [ "torso" ],
     "coverage": 5,
-    "encumbrance": 5,
+    "encumbrance": 3,
+    "max_encumbrance": 15,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -52,6 +53,7 @@
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ],
     "pocket_data": [
       {
+        "magazine_well": "200 ml",
         "pocket_type": "CONTAINER",
         "min_item_volume": "100 ml",
         "max_contains_volume": "400 ml",
@@ -111,10 +113,12 @@
     "covers": [ "leg_l", "leg_r" ],
     "sided": true,
     "coverage": 5,
-    "encumbrance": 5,
+    "encumbrance": 3,
+    "max_encumbrance": 4,
     "material_thickness": 1,
     "pocket_data": [
       {
+        "magazine_well": "350 ml",
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "300 ml",
@@ -136,7 +140,7 @@
     "price_postapoc": 500,
     "armor_portion_data": [
       { "covers": [ "torso" ], "coverage": 5, "encumbrance": [ 1, 1 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 5, "encumbrance": 3 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 5, "encumbrance": [ 2, 3 ] },
       { "sided": true }
     ],
     "pocket_data": [
@@ -190,6 +194,7 @@
     "max_encumbrance": 2,
     "pocket_data": [
       {
+        "magazine_well": "200 ml",
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "100 ml",
@@ -214,8 +219,10 @@
     "material": [ "lycra" ],
     "covers": [ "leg_l", "leg_r" ],
     "encumbrance": 1,
+    "max_encumbrance": 3,
     "pocket_data": [
       {
+        "magazine_well": "150 ml",
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "100 ml",
@@ -243,8 +250,8 @@
     "color": "green",
     "covers": [ "torso" ],
     "coverage": 20,
-    "encumbrance": 1,
-    "max_encumbrance": 2,
+    "encumbrance": 4,
+    "max_encumbrance": 12,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -298,6 +305,7 @@
     "sided": true,
     "coverage": 10,
     "encumbrance": 2,
+    "max_encumbrance": 7,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -307,7 +315,7 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "5 kg",
         "max_item_length": "45 cm",
-        "moves": 50
+        "moves": 70
       }
     ],
     "use_action": { "type": "holster" },
