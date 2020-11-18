@@ -92,7 +92,7 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
         seasonality * seasonality_magnitude_K );
     // Interpolate seasons temperature
     const double mid_season = common.year_fraction * 4 + 0.5; // Scale year_fraction[0,1) to [0.5,4.5). So [0.5-1.5] - spring, [1.5-2.5] - summer, [2.5-3.5] - autumn, [3.5-4.5) - winter.
-    static const std::vector<std::pair<float, float>> mid_season_temps = { {
+    const std::vector<std::pair<float, float>> mid_season_temps = { {
              { 0.0f, wg.winter_temp }, //midwinter
              { 1.0f, wg.spring_temp }, //midspring
              { 2.0f, wg.summer_temp }, //midsummer
