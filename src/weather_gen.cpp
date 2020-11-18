@@ -346,10 +346,10 @@ weather_generator weather_generator::load( const JsonObject &jo )
     ret.spring_temp_manual_mod = jo.get_int( "spring_temp_manual_mod", 0 );
     ret.autumn_temp_manual_mod = jo.get_int( "autumn_temp_manual_mod", 0 );
     ret.winter_temp_manual_mod = jo.get_int( "winter_temp_manual_mod", 0 );
-    ret.spring_temp = jo.get_int("spring_temp", 8);
-    ret.summer_temp = jo.get_int("sumer_temp", 14);
-    ret.autumn_temp = jo.get_int("autumn_temp", 8);
-    ret.winter_temp = jo.get_int("winter_temp", -14);
+    ret.spring_temp = jo.get_int("spring_temp", 0);
+    ret.summer_temp = jo.get_int("sumer_temp", 0);
+    ret.autumn_temp = jo.get_int("autumn_temp", 0);
+    ret.winter_temp = jo.get_int("winter_temp", 0);
     ret.spring_humidity_manual_mod = jo.get_int( "spring_humidity_manual_mod", 0 );
     ret.summer_humidity_manual_mod = jo.get_int( "summer_humidity_manual_mod", 0 );
     ret.autumn_humidity_manual_mod = jo.get_int( "autumn_humidity_manual_mod", 0 );
