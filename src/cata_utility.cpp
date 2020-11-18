@@ -296,6 +296,11 @@ double kelvin_to_fahrenheit( double kelvin )
     return 1.8 * ( kelvin - 273.15 ) + 32;
 }
 
+double celsius_to_fahrenheit( double celsius )
+{
+    return celsius * 9 / 5 + 32;
+}
+
 double clamp_to_width( double value, int width, int &scale )
 {
     return clamp_to_width( value, width, scale, nullptr );

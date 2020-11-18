@@ -39,6 +39,10 @@ class weather_generator
         int spring_temp_manual_mod = 0;
         int autumn_temp_manual_mod = 0;
         int winter_temp_manual_mod = 0;
+        int summer_temp = 0;
+        int spring_temp = 0;
+        int autumn_temp = 0;
+        int winter_temp = 0;
         int spring_humidity_manual_mod = 0;
         int summer_humidity_manual_mod = 0;
         int autumn_humidity_manual_mod = 0;

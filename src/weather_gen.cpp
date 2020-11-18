@@ -36,6 +36,7 @@ struct weather_gen_common {
     double y;
     double z;
     double cyf;
+    double year_fraction;
     unsigned modSEED;
     season_type season;
 };
@@ -56,6 +57,7 @@ static weather_gen_common get_common_data( const tripoint &location, const time_
     const double year_fraction( time_past_new_year( t ) /
                                 calendar::year_length() ); // [0,1)
 
+    result.year_fraction = year_fraction;
     result.cyf = std::cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
     // We add one-eighth to line up `cyf` so that 1 is at
     // midwinter and -1 at midsummer. (Cataclsym DDA years
@@ -88,11 +90,24 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
         seasonal_temp_mod[ season ] +
         dayv * daily_magnitude_K +
         seasonality * seasonality_magnitude_K );
+    // Interpolate seasons temperature
+    const double mid_season = common.year_fraction * 4 + 0.5; // Scale year_fraction[0,1) to [0.5,4.5). So [0.5-1.5] - spring, [1.5-2.5] - summer, [2.5-3.5] - autumn, [3.5-4.5) - winter.
+    static const std::vector<std::pair<float, float>> mid_season_temps = { {
+             { 0.0f, wg.winter_temp }, //midwinter
+             { 1.0f, wg.spring_temp }, //midspring
+             { 2.0f, wg.summer_temp }, //midsummer
+             { 3.0f, wg.autumn_temp }, //midautumn
+             { 4.0f, wg.winter_temp }, //midwinter
+             { 5.0f, wg.spring_temp }  //midspring
+         }
+    };
+    const double T2 = baseline + raw_noise_4d( x, y, z, modSEED ) * noise_magnitude_K;
 
-    const double T = baseline + raw_noise_4d( x, y, z, modSEED ) * noise_magnitude_K;
+    double baseTemp = multi_lerp(mid_season_temps, mid_season);
+    const double T = baseTemp + dayv * daily_magnitude_K + raw_noise_4d(x, y, z, modSEED) * noise_magnitude_K;
 
     // Convert from Celsius to Fahrenheit
-    return T * 9 / 5 + 32;
+    return celsius_to_fahrenheit( T );
 }
 
 double weather_generator::get_weather_temperature( const tripoint &location, const time_point &t,
@@ -331,6 +346,10 @@ weather_generator weather_generator::load( const JsonObject &jo )
     ret.spring_temp_manual_mod = jo.get_int( "spring_temp_manual_mod", 0 );
     ret.autumn_temp_manual_mod = jo.get_int( "autumn_temp_manual_mod", 0 );
     ret.winter_temp_manual_mod = jo.get_int( "winter_temp_manual_mod", 0 );
+    ret.spring_temp = jo.get_int("spring_temp", 8);
+    ret.summer_temp = jo.get_int("sumer_temp", 14);
+    ret.autumn_temp = jo.get_int("autumn_temp", 8);
+    ret.winter_temp = jo.get_int("winter_temp", -14);
     ret.spring_humidity_manual_mod = jo.get_int( "spring_humidity_manual_mod", 0 );
     ret.summer_humidity_manual_mod = jo.get_int( "summer_humidity_manual_mod", 0 );
     ret.autumn_humidity_manual_mod = jo.get_int( "autumn_humidity_manual_mod", 0 );

@@ -265,6 +265,13 @@ double temp_to_kelvin( double fahrenheit );
 double kelvin_to_fahrenheit( double kelvin );
 
 /**
+ * Convert a temperature from Celsius to degrees Fahrenheit.
+ *
+ * @return Temperature in degrees F.
+ */
+double celsius_to_fahrenheit( double celsius );
+
+/**
  * Clamp (number and space wise) value to with,
  * taking into account the specified preferred scale,
  * returning the adjusted (shortened) scale that best fit the width,
