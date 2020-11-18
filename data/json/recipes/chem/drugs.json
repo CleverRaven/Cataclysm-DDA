@@ -6,7 +6,7 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
     "skill_used": "chemistry",
-    "difficulty": 9,
+    "difficulty": 6,
     "time": "10 h",
     "batch_time_factors": [ 99, 2 ],
     "book_learn": [ [ "adv_chemistry", 7 ], [ "recipe_labchem", 7 ] ],

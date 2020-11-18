@@ -246,7 +246,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": "caffeine pill",
-    "description": "No-doz brand caffeine pills, maximum strength.  Useful in pulling an all-nighter, one pill is about equivalent to a strong cup of coffee.",
+    "description": "No-doz brand caffeine pills, maximum strength.  Useful in pulling an all-nighter, each pill is equivalent to a strong cup of coffee.",
     "weight": "100 mg",
     "volume": "250 ml",
     "price": 1000,
