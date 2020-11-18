@@ -833,7 +833,7 @@
     "melee_dice_sides": 1,
     "melee_cut": 4,
     "attack_effs": [ { "id": "venom_weaken", "duration": 250 } ],
-	"//": "13 hits to max intensity, 17 hits to max duration"
+	"//": "13 hits to max intensity, 17 hits to max duration",
     "dodge": 8,
     "armor_cut": 3,
     "armor_bullet": 2,
