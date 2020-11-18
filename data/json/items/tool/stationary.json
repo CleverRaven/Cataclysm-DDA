@@ -169,7 +169,7 @@
     "id": "green_pen",
     "type": "TOOL",
     "name": { "str": "green pen" },
-    "description": "Disposable ballpoint pen, offers a smooth writing experience on paper. Shares the same logo as those disposable lighters. This pen is green.",
+    "description": "Disposable ballpoint pen, offers a smooth writing experience on paper.  Shares the same logo as those disposable lighters.  This pen is green.",
     "weight": "6 g",
     "volume": "10 ml",
     "price": 20,
