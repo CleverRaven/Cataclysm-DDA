@@ -27,7 +27,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
     clear_map();
     zone_manager &zm = zone_manager::get_manager();
 
-    const tripoint origin_pos;
+    const tripoint origin_pos = tripoint_zero;
     create_tile_zone( "Food", zone_type_LOOT_FOOD, tripoint_east );
     create_tile_zone( "Drink", zone_type_LOOT_DRINK, tripoint_west );
 
