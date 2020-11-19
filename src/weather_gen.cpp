@@ -84,8 +84,8 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     const double dayv = std::cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
     // -1 at coldest_hour, +1 twelve hours later
     // Interpolate seasons temperature
-    const double quadrum = common.year_fraction *
-                           4; // Scale year_fraction[0, 1) to [0.0, 4.0). So [0.0, 1.0] - spring, [1.0, 2.0] - summer, [2.0, 3.0] - autumn, [3.0, 4.0) - winter.
+    // Scale year_fraction[0, 1) to [0.0, 4.0). So [0.0, 1.0] - spring, [1.0, 2.0] - summer, [2.0, 3.0] - autumn, [3.0, 4.0) - winter.
+    const double quadrum = common.year_fraction * 4;
     const std::vector<std::pair<float, float>> mid_season_temps = { {
             { -0.5f, wg.winter_temp }, //midwinter
             { 0.5f, wg.spring_temp }, //midspring
@@ -100,7 +100,6 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     const double T = baseTemp + dayv * daily_magnitude_K + raw_noise_4d( x, y, z,
                      modSEED ) * noise_magnitude_K;
 
-    add_msg( m_debug, "Temperature: %f", T );
     // Convert from Celsius to Fahrenheit
     return celsius_to_fahrenheit( T );
 }
@@ -330,10 +329,10 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
 weather_generator weather_generator::load( const JsonObject &jo )
 {
     weather_generator ret;
-    ret.spring_temp = jo.get_int( "spring_temp", 0 );
-    ret.summer_temp = jo.get_int( "summer_temp", 0 );
-    ret.autumn_temp = jo.get_int( "autumn_temp", 0 );
-    ret.winter_temp = jo.get_int( "winter_temp", 0 );
+    ret.spring_temp = jo.get_float( "spring_temp", 0 );
+    ret.summer_temp = jo.get_float( "summer_temp", 0 );
+    ret.autumn_temp = jo.get_float( "autumn_temp", 0 );
+    ret.winter_temp = jo.get_float( "winter_temp", 0 );
     ret.base_humidity = jo.get_float( "base_humidity", 50.0 );
     ret.base_pressure = jo.get_float( "base_pressure", 0.0 );
     ret.base_acid = jo.get_float( "base_acid", 0.0 );

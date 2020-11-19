@@ -507,7 +507,7 @@ The **weather** section defines the base weather attributes used for the region.
 		"spring_temp": 7,
 		"summer_temp": 16,
 		"autumn_temp": 6,
-		"winter_temp": -14
+		"winter_temp": -14,
 		"base_humidity": 66.0,
 		"base_pressure": 1015.0,
 		"base_acid": 0.0,
