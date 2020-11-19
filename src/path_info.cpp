@@ -233,10 +233,6 @@ std::string PATH_INFO::user_font()
 {
     return user_dir_value + "font/";
 }
-std::string PATH_INFO::fontlist()
-{
-    return config_dir_value + "fontlist.txt";
-}
 std::string PATH_INFO::graveyarddir()
 {
     return user_dir_value + "graveyard/";

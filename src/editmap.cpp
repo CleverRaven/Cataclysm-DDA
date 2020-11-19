@@ -719,7 +719,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     int off = 1;
     draw_border( w_info );
 
-    mvwprintz( w_info, point( 2, 0 ), c_light_gray, "< %d,%d >", target.x, target.y );
+    mvwprintz( w_info, point( 2, 0 ), c_light_gray, "< %d,%d,%d >", target.x, target.y, target.z );
 
     mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
     mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d" ), here.ter( target ).to_i(),

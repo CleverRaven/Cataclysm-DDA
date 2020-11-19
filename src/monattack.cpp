@@ -45,6 +45,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -389,7 +390,7 @@ bool mattack::antqueen( monster *z )
         }
 
         if( monster *const mon = g->critter_at<monster>( dest ) ) {
-            if( mon->type->default_faction == mfaction_id( "ant" ) && mon->type->upgrades ) {
+            if( mon->type->default_faction == STATIC( mfaction_str_id( "ant" ) ) && mon->type->upgrades ) {
                 ants.push_back( mon );
             }
 

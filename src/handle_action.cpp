@@ -2552,6 +2552,13 @@ bool game::handle_action()
                 display_transparency();
                 break;
 
+            case ACTION_DISPLAY_REACHABILITY_ZONES:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_reahability_zones();
+                break;
+
             case ACTION_TOGGLE_DEBUG_MODE:
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger

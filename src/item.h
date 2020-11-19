@@ -24,6 +24,7 @@
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "material.h"
 #include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -1242,7 +1243,7 @@ class item : public visitable<item>
         /** Returns the string of the id of the terrain that pumps this fuel, if any. */
         std::string fuel_pump_terrain() const;
         bool has_explosion_data() const;
-        struct fuel_explosion get_explosion_data();
+        fuel_explosion_data get_explosion_data();
 
         /**
          * Can this item have given item/itype as content?
@@ -1631,7 +1632,7 @@ class item : public visitable<item>
             assume_full = 1,
         };
 
-        cata::optional<armor_portion_data> portion_for_bodypart( const bodypart_id &bodypart ) const;
+        const armor_portion_data *portion_for_bodypart( const bodypart_id &bodypart ) const;
 
         /**
          * Returns the average encumbrance value that this item across all portions
