@@ -295,6 +295,12 @@ class armor_inventory_preset: public inventory_selector_preset
             append_cell( [ this ]( const item_location & loc ) {
                 return get_number_string( loc->get_env_resist() );
             }, _( "ENV" ) );
+
+            // Show total storage capacity in user's preferred volume units, to 2 decimal places
+            append_cell( [ this ]( const item_location & loc ) {
+                const int storage_ml = to_milliliter( loc->get_total_capacity() );
+                return get_decimal_string( round_up( convert_volume( storage_ml ), 2 ) );
+            }, string_format( "STORAGE (%s)", volume_units_abbr() ) );
         }
 
     protected:
@@ -302,6 +308,9 @@ class armor_inventory_preset: public inventory_selector_preset
     private:
         std::string get_number_string( int number ) const {
             return number ? string_format( "<%s>%d</color>", color, number ) : std::string();
+        }
+        std::string get_decimal_string( double number ) const {
+            return number ? string_format( "<%s>%.2f</color>", color, number ) : std::string();
         }
 
         const std::string color;
@@ -594,9 +603,6 @@ class comestible_inventory_preset : public inventory_selector_preset
                         break;
                     case rechargeable_cbm::reactor:
                         cbm_name = _( "Reactor" );
-                        break;
-                    case rechargeable_cbm::furnace:
-                        cbm_name = _( "Furnace" );
                         break;
                     case rechargeable_cbm::other:
                         std::vector<bionic_id> bids = p.get_bionic_fueled_with( *loc );

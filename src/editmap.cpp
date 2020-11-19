@@ -719,7 +719,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     int off = 1;
     draw_border( w_info );
 
-    mvwprintz( w_info, point( 2, 0 ), c_light_gray, "< %d,%d >", target.x, target.y );
+    mvwprintz( w_info, point( 2, 0 ), c_light_gray, "< %d,%d,%d >", target.x, target.y, target.z );
 
     mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
     mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d" ), here.ter( target ).to_i(),
@@ -1444,7 +1444,7 @@ void editmap::edit_itm()
             imenu.addentry( imenu_tags, true, -1, pgettext( "item manipulation debug menu entry",
                             "tags: %s" ), debug_menu::iterable_to_string( it.get_flags(), " ",
             []( const flag_id & f ) {
-                return f.id().str();
+                return f.str();
             } ) );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
                             "-[ light emission ]-" ) );
@@ -1476,7 +1476,7 @@ void editmap::edit_itm()
                         case imenu_tags:
                             strval = debug_menu::iterable_to_string( it.get_flags(), " ",
                             []( const flag_id & f ) {
-                                return f.id().str();
+                                return f.str();
                             } );
                             break;
                     }
@@ -1517,7 +1517,7 @@ void editmap::edit_itm()
                                 }
                                 imenu.entries[imenu_tags].txt = debug_menu::iterable_to_string(
                                 it.get_flags(), " ", []( const flag_id & f ) {
-                                    return f.id().str();
+                                    return f.str();
                                 } );
                                 break;
                         }

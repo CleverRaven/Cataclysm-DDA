@@ -110,6 +110,26 @@
     "time": "50 m"
   },
   {
+    "id": "afs_bugbrew_book",
+    "type": "BOOK",
+    "name": { "str": "mealworm farm logbook" },
+    "description": "A binder containing detailed production logs from an industrial mealworm farm.  You could use its recordings to start your own farming operations.",
+    "weight": "700 g",
+    "volume": "750 ml",
+    "price": 5000,
+    "price_postapoc": 1000,
+    "looks_like": "file",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_blue",
+    "intelligence": 12,
+    "skill": "chemistry",
+    "required_level": 0,
+    "max_level": 2,
+    "time": "50 m",
+    "fun": -2
+  },
+  {
     "id": "schematics_chickenbot",
     "type": "BOOK",
     "name": { "str_sp": "chicken walker schematics" },

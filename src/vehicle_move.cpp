@@ -898,7 +898,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                        to_kilogram( parts[ part ].base.weight() ) : to_kilogram( total_mass() );
 
     //Calculate damage resulting from d_E
-    const itype *type = item::find_type( part_info( ret.part ).item );
+    const itype *type = item::find_type( part_info( ret.part ).base_item );
     const auto &mats = type->materials;
     float vpart_dens = 0.0f;
     if( !mats.empty() ) {
@@ -1489,7 +1489,7 @@ rl_vec2d vehicle::velo_vec() const
     return ret;
 }
 
-static inline rl_vec2d angle_to_vec( units::angle angle )
+static inline rl_vec2d angle_to_vec( const units::angle &angle )
 {
     return rl_vec2d( units::cos( angle ), units::sin( angle ) );
 }
@@ -1613,7 +1613,8 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
 }
 
 // rounds turn_dir to 45*X degree, respecting face_dir
-static units::angle get_corrected_turn_dir( units::angle turn_dir, units::angle face_dir )
+static units::angle get_corrected_turn_dir( const units::angle &turn_dir,
+        const units::angle &face_dir )
 {
     units::angle corrected_turn_dir = 0_degrees;
 
@@ -1932,11 +1933,17 @@ void vehicle::check_falling_or_floating()
     }
     is_flying = false;
 
-    auto has_support = [&here]( const tripoint & position ) {
-        if( !here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, position ) ) {
+    auto has_support = [&here]( const tripoint & position, const bool water_supports ) {
+        // if we're at the bottom of the z-levels, we're supported
+        if( position.z == -OVERMAP_DEPTH ) {
             return true;
         }
-        if( position.z == -OVERMAP_DEPTH ) {
+        // water counts as support if we're swimming and checking to see if we're falling, but
+        // not to see if the wheels are supported at all
+        if( here.has_flag_ter_or_furn( TFLAG_SWIMMABLE, position ) ) {
+            return water_supports;
+        }
+        if( !here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, position ) ) {
             return true;
         }
         tripoint below( position.xy(), position.z - 1 );
@@ -1946,7 +1953,7 @@ void vehicle::check_falling_or_floating()
     int supported_wheels = 0;
     for( int wheel_index : wheelcache ) {
         const tripoint &position = global_part_pos3( wheel_index );
-        if( has_support( position ) ) {
+        if( has_support( position, false ) ) {
             ++supported_wheels;
         }
     }
@@ -1978,7 +1985,7 @@ void vehicle::check_falling_or_floating()
         if( !is_falling ) {
             continue;
         }
-        is_falling = !has_support( position );
+        is_falling = !has_support( position, true );
     }
     // floating if 2/3rds of the vehicle is in deep water
     is_floating = 3 * deep_water_tiles >= 2 * pts.size();

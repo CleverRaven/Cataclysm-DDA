@@ -217,8 +217,8 @@ monster::monster()
     ignoring = 0;
     upgrades = false;
     upgrade_time = -1;
-    last_updated = 0;
-    biosig_timer = -1;
+    last_updated = calendar::turn_zero;
+    biosig_timer = calendar::before_time_starts;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
     set_anatomy( anatomy_id( "default_anatomy" ) );
@@ -248,7 +248,7 @@ monster::monster( const mtype_id &id ) : monster()
         itype_id mech_bat = itype_id( type->mech_battery );
         const itype &type = *item::find_type( mech_bat );
         int max_charge = type.magazine->capacity;
-        item mech_bat_item = item( mech_bat, 0 );
+        item mech_bat_item = item( mech_bat, calendar::turn_zero );
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
         battery_item = cata::make_value<item>( mech_bat_item );
     }
@@ -1132,17 +1132,18 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         for( const trait_id &mut : u->get_mutations() ) {
-            for( const std::pair<const species_id, int> &elem : mut.obj().anger_relations ) {
-                if( type->in_species( elem.first ) ) {
-                    effective_anger += elem.second;
-                }
+            const mutation_branch &branch = *mut;
+            if( branch.ignored_by.empty() && branch.anger_relations.empty() ) {
+                continue;
             }
-        }
-
-        for( const trait_id &mut : u->get_mutations() ) {
-            for( const species_id &spe : mut.obj().ignored_by ) {
+            for( const species_id &spe : branch.ignored_by ) {
                 if( type->in_species( spe ) ) {
                     return MATT_IGNORE;
+                }
+            }
+            for( const std::pair<const species_id, int> &elem : branch.anger_relations ) {
+                if( type->in_species( elem.first ) ) {
+                    effective_anger += elem.second;
                 }
             }
         }
@@ -2228,15 +2229,15 @@ void monster::die( Creature *nkiller )
     move_special_item_to_inv( tied_item );
 
     if( has_effect( effect_lightsnare ) ) {
-        add_item( item( "string_36", 0 ) );
-        add_item( item( "snare_trigger", 0 ) );
+        add_item( item( "string_36", calendar::turn_zero ) );
+        add_item( item( "snare_trigger", calendar::turn_zero ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        add_item( item( "rope_6", 0 ) );
-        add_item( item( "snare_trigger", 0 ) );
+        add_item( item( "rope_6", calendar::turn_zero ) );
+        add_item( item( "snare_trigger", calendar::turn_zero ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        add_item( item( "beartrap", 0 ) );
+        add_item( item( "beartrap", calendar::turn_zero ) );
     }
     map &here = get_map();
     if( has_effect( effect_grabbing ) ) {
@@ -2961,7 +2962,8 @@ void monster::on_load()
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {
             regen = 1.0f / to_turns<int>( 1_hours );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "veggy" ) ) ) {
+        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ||
+                   made_of( material_id( "veggy" ) ) ) {
             // Most living stuff here
             regen = 0.25f / to_turns<int>( 1_hours );
         }

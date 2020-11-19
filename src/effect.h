@@ -111,7 +111,6 @@ class effect_type
         time_duration int_dur_factor = 0_turns;
 
         std::set<flag_str_id> flags;
-        mutable cata::flat_set<flag_id> int_flags;
 
         bool main_parts_only = false;
 

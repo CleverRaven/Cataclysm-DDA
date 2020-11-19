@@ -322,7 +322,7 @@ void npc::randomize( const npc_class_id &type )
         setID( g->assign_npc_id() );
     }
 
-    weapon   = item( "null", 0 );
+    weapon   = item( "null", calendar::turn_zero );
     inv->clear();
     personality.aggression = rng( -10, 10 );
     personality.bravery    = rng( -3, 10 );
@@ -1141,33 +1141,30 @@ bool npc::wield( item &it )
         return true;
     }
 
+    item to_wield;
+    if( has_item( it ) ) {
+        to_wield = remove_item( it );
+    } else {
+        to_wield = it;
+    }
+
     invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
-    if( has_wield_conflicts( it ) ) {
+    if( has_wield_conflicts( to_wield ) ) {
         stow_item( weapon );
     }
 
-    if( it.is_null() ) {
+    if( to_wield.is_null() ) {
         weapon = item();
         get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
         return true;
     }
 
     moves -= 15;
-    bool combine_stacks = it.can_combine( weapon );
-    if( has_item( it ) ) {
-        item removed = remove_item( it );
-        if( combine_stacks ) {
-            weapon.combine( removed );
-        } else {
-            weapon = removed;
-        }
+    if( to_wield.can_combine( weapon ) ) {
+        weapon.combine( to_wield );
     } else {
-        if( combine_stacks ) {
-            weapon.combine( it );
-        } else {
-            weapon = it;
-        }
+        weapon = to_wield;
     }
 
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
@@ -2962,9 +2959,8 @@ std::set<tripoint> npc::get_path_avoid() const
 mfaction_id npc::get_monster_faction() const
 {
     if( my_fac ) {
-        string_id<monfaction> my_mon_fac = string_id<monfaction>( my_fac->mon_faction );
-        if( my_mon_fac.is_valid() ) {
-            return my_mon_fac;
+        if( my_fac->mon_faction.is_valid() ) {
+            return my_fac->mon_faction;
         }
     }
 

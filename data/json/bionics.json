@@ -383,7 +383,7 @@
     "name": { "str": "Ethanol Burner" },
     "description": "You burn alcohol as fuel in an extremely efficient reaction.",
     "occupied_bodyparts": [ [ "torso", 26 ] ],
-    "fuel_options": [ "chem_ethanol", "chem_methanol", "denat_alcohol" ],
+    "fuel_options": [ "alcohol" ],
     "fuel_capacity": 500,
     "fuel_efficiency": 0.5,
     "exothermic_power_gen": true,

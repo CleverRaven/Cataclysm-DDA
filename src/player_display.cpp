@@ -434,8 +434,7 @@ static void draw_stats_tab( const catacurses::window &w_stats,
     display_stat( _( "Intelligence:" ), you.get_int(), you.get_int_base(), 3, line_color( 2 ) );
     display_stat( _( "Perception:" ), you.get_per(), you.get_per_base(), 4, line_color( 3 ) );
     mvwprintz( w_stats, point( 1, 5 ), line_color( 4 ), _( "Weight:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 5 ), c_light_gray,
-               you.get_weight_string() );
+    right_print( w_stats, 5, 1, c_light_gray, you.get_weight_string() );
     mvwprintz( w_stats, point( 1, 6 ), line_color( 5 ), _( "Height:" ) );
     mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), c_light_gray,
                you.height_string() );

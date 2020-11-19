@@ -687,7 +687,7 @@
         "....//////////////5...............................%....................."
       ],
       "palettes": [ "ranch_camp" ],
-      "sealed_item": { "#": { "items": { "item": "farming_seeds", "chance": 60 }, "furniture": "f_plant_seedling" } },
+      "sealed_item": { "#": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling", "chance": 60 } },
       "terrain": { "r": "t_dirtfloor", ";": "t_dirtfloor", "ƃ": "t_ramp_down_low", "|": "t_brick_wall", "-": "t_wall_w" },
       "furniture": { "±": "f_rack_wood" },
       "items": {

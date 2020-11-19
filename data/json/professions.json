@@ -91,15 +91,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "army_mags_rm11b",
-    "entries": [
-      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 },
-      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "army_mags_usp45",
     "entries": [
       { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
@@ -304,11 +295,11 @@
   },
   {
     "type": "profession_item_substitutions",
-    "item": "grahmcrackers",
+    "item": "pudding",
     "sub": [
-      { "present": [ "ANTIJUNK" ], "absent": [ "ANTIWHEAT" ], "new": [ "crackers" ] },
+      { "present": [ "ANTIJUNK" ], "absent": [ "LACTOSE" ], "new": [ "yoghurt" ] },
       { "present": [ "ANTIWHEAT" ], "absent": [ "ANTIJUNK" ], "new": [ "neccowafers" ] },
-      { "present": [ "ANTIJUNK", "ANTIWHEAT" ], "new": [ "boiled_egg" ] }
+      { "present": [ "ANTIJUNK", "LACTOSE" ], "new": [ "boiled_egg" ] }
     ]
   },
   {
@@ -964,8 +955,8 @@
         "bandages",
         "adhesive_bandages",
         "aspirin",
-        "grahmcrackers",
-        "stethoscope"
+        "stethoscope",
+        "pudding"
       ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -1284,7 +1275,12 @@
           { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
           { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "holster" },
           { "item": "baton-extended", "container-item": "police_belt" },
-          { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": "shoulder_strap" }
+          {
+            "item": "ksg",
+            "ammo-item": "shot_00",
+            "charges": 7,
+            "contents-item": [ "shoulder_strap", "ksg_aux_shotgun" ]
+          }
         ]
       },
       "male": [ "boxer_shorts" ],

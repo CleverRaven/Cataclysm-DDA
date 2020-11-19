@@ -59,7 +59,6 @@ static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_digestion( "bio_digestion" );
-static const bionic_id bio_furnace( "bio_furnace" );
 static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
@@ -138,9 +137,6 @@ static const std::array<flag_str_id, 4> carnivore_blacklist {{
 static const std::array<flag_str_id, 2> herbivore_blacklist {{
         flag_str_id( "ALLERGEN_MEAT" ), flag_str_id( "ALLERGEN_EGG" )
     }};
-
-// Defines the maximum volume that a internal furnace can consume
-static const units::volume furnace_max_volume( 3_liter );
 
 // TODO: JSONize.
 static const std::map<itype_id, int> plut_charges = {
@@ -622,14 +618,13 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
     } else if( cbm != rechargeable_cbm::none ) {
         std::string item_name = food.tname();
-        itype_id item_type = food.typeId();
+        material_id mat_type = food.get_base_material().id;
         if( food.type->magazine ) {
             const item ammo = item( food.ammo_current() );
             item_name = ammo.tname();
-            item_type = ammo.typeId();
+            mat_type = ammo.get_base_material().id;
         }
-
-        if( get_fuel_capacity( item_type ) <= 0 ) {
+        if( get_fuel_capacity( mat_type ) <= 0 ) {
             return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
         } else {
             return ret_val<edible_rating>::make_success();
@@ -672,6 +667,11 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
                 return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
             }
         }
+        // For all those folks who loved eating marloss berries.  D:< mwuhahaha
+        if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) ) {
+            return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+                    _( "We can't eat that.  It's not right for us." ) );
+        }
     }
     if( food.has_own_flag( flag_FROZEN ) && !food.has_flag( flag_EDIBLE_FROZEN ) &&
         !food.has_flag( flag_MELTS ) ) {
@@ -695,11 +695,6 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         }
     }
 
-    // For all those folks who loved eating marloss berries.  D:< mwuhahaha
-    if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) ) {
-        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
-                _( "We can't eat that.  It's not right for us." ) );
-    }
     // Here's why PROBOSCIS is such a negative trait.
     if( has_trait( trait_PROBOSCIS ) && !( drinkable || food.is_medication() ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "Ugh, you can't drink that!" ) );
@@ -1232,6 +1227,25 @@ double Character::compute_effective_food_volume_ratio( const item &food ) const
     return ratio;
 }
 
+// Remove the water volume from the food, as that gets absorbed and used as water.
+// If the remaining dry volume of the food is less dense than water, crunch it down to a density equal to water.
+// These maths are made easier by the fact that 1 g = 1 mL. Thanks, metric system.
+units::volume Character::masticated_volume( const item &food ) const
+{
+    units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
+                              5_ml : 0_ml;
+    units::mass food_dry_weight = units::from_gram( units::to_gram( food.weight() ) -
+                                  units::to_milliliter( water_vol ) ) / food.count();
+    units::volume food_dry_volume = ( food.volume() - water_vol ) / food.count();
+
+    if( units::to_milliliter( food_dry_volume ) != 0 &&
+        units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
+        food_dry_volume = units::from_milliliter( units::to_gram( food_dry_weight ) );
+    }
+
+    return food_dry_volume;
+}
+
 // Used when displaying effective food satiation values.
 int Character::compute_calories_per_effective_volume( const item &food,
         const nutrients *nutrient /* = nullptr */ )const
@@ -1245,10 +1259,7 @@ int Character::compute_calories_per_effective_volume( const item &food,
     } else {
         kcalories = compute_effective_nutrients( food ).kcal;
     }
-    units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
-                              5_ml : 0_ml;
-    // Water volume is ignored.
-    units::volume food_vol = food.volume() - water_vol * food.count();
+    units::volume food_vol = masticated_volume( food ) * food.count();
     // Divide by 1000 to convert to L. Final quantity is essentially dimensionless, so unit of measurement does not matter.
     const double converted_volume = round_up( ( static_cast<float>( food_vol.value() ) / food.count() )
                                     * 0.001, 2 );
@@ -1376,10 +1387,14 @@ bool Character::consume_effects( item &food )
     }
 
     nutrients food_nutrients = compute_effective_nutrients( food );
-    // TODO: Move quench values to mL and remove the magic number here
-    units::volume water_vol = ( food.type->comestible->quench > 0 ) ? food.type->comestible->quench *
-                              5_ml : 0_ml;
-    units::volume food_vol = food.base_volume() - water_vol;
+    const units::volume water_vol = ( food.get_comestible()->quench > 0 ) ?
+                                    food.get_comestible()->quench *
+                                    5_ml : 0_ml;
+    units::volume food_vol = masticated_volume( food );
+    if( food.count() == 0 ) {
+        debugmsg( "Tried to eat food with count of zero." );
+        return false;
+    }
     units::mass food_weight = ( food.weight() / food.count() );
     const double ratio = compute_effective_food_volume_ratio( food );
     food_summary ingested{
@@ -1448,82 +1463,6 @@ bool Character::feed_reactor_with( item &it )
     return true;
 }
 
-bool Character::can_feed_furnace_with( const item &it ) const
-{
-    if( !it.flammable() || it.has_flag( flag_RADIOACTIVE ) ) {
-        return false;
-    }
-
-    if( !has_active_bionic( bio_furnace ) ) {
-        return false;
-    }
-
-    // Not even one charge fits
-    if( it.charges_per_volume( furnace_max_volume ) < 1 ) {
-        return false;
-    }
-
-    return !it.has_flag( flag_CORPSE );
-}
-
-bool Character::feed_furnace_with( item &it )
-{
-    if( !can_feed_furnace_with( it ) ) {
-        return false;
-    }
-    if( it.is_favorite &&
-        !get_avatar().query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
-        return false;
-    }
-
-    const int consumed_charges =  std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
-    const int energy =  get_acquirable_energy( it, rechargeable_cbm::furnace );
-
-    if( energy == 0 ) {
-        add_msg_player_or_npc( m_info,
-                               _( "You digest your %s, but fail to acquire energy from it." ),
-                               _( "<npcname> digests their %s for energy, but fails to acquire energy from it." ),
-                               it.tname() );
-    } else if( is_max_power() ) {
-        add_msg_player_or_npc(
-            _( "You digest your %s, but you're fully powered already, so the energy is wasted." ),
-            _( "<npcname> digests a %s for energy, they're fully powered already, so the energy is wasted." ),
-            it.tname() );
-    } else {
-        const int profitable_energy = std::min( energy,
-                                                units::to_kilojoule( get_max_power_level() - get_power_level() ) );
-        if( it.count_by_charges() ) {
-            add_msg_player_or_npc( m_info,
-                                   ngettext( "You digest %d %s and recharge %d point of energy.",
-                                             "You digest %d %s and recharge %d points of energy.",
-                                             profitable_energy
-                                           ),
-                                   ngettext( "<npcname> digests %d %s and recharges %d point of energy.",
-                                             "<npcname> digests %d %s and recharges %d points of energy.",
-                                             profitable_energy
-                                           ), consumed_charges, it.tname(), profitable_energy
-                                 );
-        } else {
-            add_msg_player_or_npc( m_info,
-                                   ngettext( "You digest your %s and recharge %d point of energy.",
-                                             "You digest your %s and recharge %d points of energy.",
-                                             profitable_energy
-                                           ),
-                                   ngettext( "<npcname> digests a %s and recharges %d point of energy.",
-                                             "<npcname> digests a %s and recharges %d points of energy.",
-                                             profitable_energy
-                                           ), it.tname(), profitable_energy
-                                 );
-        }
-        mod_power_level( units::from_kilojoule( profitable_energy ) );
-    }
-
-    it.charges -= consumed_charges;
-    mod_moves( -250 );
-
-    return true;
-}
-
 bool Character::fuel_bionic_with( item &it )
 {
     if( !can_fuel_bionic_with( it ) ) {
@@ -1533,21 +1472,24 @@ bool Character::fuel_bionic_with( item &it )
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
     const bool is_magazine = !!it.type->magazine;
-    std::string item_name = it.tname();
-    itype_id item_type = it.typeId();
     int loadable;
+    material_id mat = it.get_base_material().id;
+
     if( is_magazine ) {
         const item ammo = item( it.ammo_current() );
-        item_name = ammo.tname();
-        item_type = ammo.typeId();
-        loadable = std::min( it.ammo_remaining(), get_fuel_capacity( item_type ) );
-        it.ammo_set( item_type, it.ammo_remaining() - loadable );
+        mat = ammo.get_base_material().id;
+        loadable = std::min( it.ammo_remaining(), get_fuel_capacity( mat ) );
+        it.ammo_set( ammo.typeId(), it.ammo_remaining() - loadable );
+    } else if( it.flammable() ) {
+        // This a special case for items that are not fuels and don't have charges
+        loadable = std::min( units::to_milliliter( it.volume() ), get_fuel_capacity( mat ) );
+        it.charges -= it.charges_per_volume( units::from_milliliter( loadable ) );
     } else {
-        loadable = std::min( it.charges, get_fuel_capacity( item_type ) );
+        loadable = std::min( it.charges, get_fuel_capacity( mat ) );
         it.charges -= loadable;
     }
 
-    const std::string str_loaded  = get_value( item_type.str() );
+    const std::string str_loaded  = get_value( mat.str() );
     int loaded = 0;
     if( !str_loaded.empty() ) {
         loaded = std::stoi( str_loaded );
@@ -1556,15 +1498,16 @@ bool Character::fuel_bionic_with( item &it )
     const std::string new_charge = std::to_string( loadable + loaded );
 
     // Type and amount of fuel
-    set_value( item_type.str(), new_charge );
-    update_fuel_storage( item_type );
+    set_value( mat.str(), new_charge );
+    update_fuel_storage( mat );
     add_msg_player_or_npc( m_info,
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
                            ngettext( "You load %1$i charge of %2$s in your %3$s.",
                                      "You load %1$i charges of %2$s in your %3$s.", loadable ),
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
                            ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
-                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, item_name, bio->name );
+                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
+                           bio->name );
     mod_moves( -250 );
     // Return false for magazines because only their ammo is consumed
     return !is_magazine;
@@ -1574,10 +1517,6 @@ rechargeable_cbm Character::get_cbm_rechargeable_with( const item &it ) const
 {
     if( can_feed_reactor_with( it ) ) {
         return rechargeable_cbm::reactor;
-    }
-
-    if( can_feed_furnace_with( it ) ) {
-        return rechargeable_cbm::furnace;
     }
 
     if( can_fuel_bionic_with( it ) ) {
@@ -1600,29 +1539,6 @@ int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) con
             }
 
             break;
-
-        case rechargeable_cbm::furnace: {
-            units::volume consumed_vol = it.volume();
-            units::mass consumed_mass = it.weight();
-            if( it.count_by_charges() && it.charges > it.charges_per_volume( furnace_max_volume ) ) {
-                const double n_stacks = static_cast<double>( it.charges_per_volume( furnace_max_volume ) ) /
-                                        it.type->stack_size;
-                consumed_vol = it.type->volume * n_stacks;
-                // it.type->weight is in 10g units?
-                consumed_mass = it.type->weight * 10 * n_stacks;
-            }
-            int amount = ( consumed_vol / 250_ml + consumed_mass / 1_gram ) / 9;
-
-            // TODO: JSONize.
-            if( it.made_of( material_id( "leather" ) ) ) {
-                amount /= 4;
-            }
-            if( it.made_of( material_id( "wood" ) ) ) {
-                amount /= 2;
-            }
-
-            return amount;
-        }
         case rechargeable_cbm::other:
             const bionic_id &bid = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
             int to_consume;
@@ -1631,6 +1547,9 @@ int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) con
                 item ammo = item( it.ammo_current() );
                 to_consume = std::min( it.ammo_remaining(), bid->fuel_capacity );
                 to_charge = ammo.fuel_energy() * to_consume * bid->fuel_efficiency;
+            } else if( it.flammable() ) {
+                to_consume = std::min( units::to_milliliter( it.volume() ), bid->fuel_capacity );
+                to_charge = it.get_base_material().id->get_fuel_data().energy * to_consume * bid->fuel_efficiency;
             } else {
                 to_consume = std::min( it.charges, bid->fuel_capacity );
                 to_charge = it.fuel_energy() * to_consume * bid->fuel_efficiency;
@@ -1853,7 +1772,6 @@ trinary player::consume( item &target, bool force )
     if( consume_med( target, *this ) ||
         eat( target, *this, force ) ||
         feed_reactor_with( target ) ||
-        feed_furnace_with( target ) ||
         fuel_bionic_with( target ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );

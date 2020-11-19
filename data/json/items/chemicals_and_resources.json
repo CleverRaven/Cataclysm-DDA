@@ -859,14 +859,13 @@
     "name": { "str_sp": "black gunpowder" },
     "symbol": "=",
     "color": "dark_gray",
-    "description": "A handful of black gunpowder, made by mixing charcoal and sulfur with saltpeter.  Pretty useless for making modern cartridges, as the soot produced when it burns will quickly clog any firearm, but it could be used to make some vicious bombs.",
+    "description": "A handful of black gunpowder, a mix of saltpeter, charcoal and sulfur.  Pretty useless for making modern cartridges, as the soot produced when it burns will quickly clog any firearm, but it could be used to make some vicious bombs.",
     "material": [ "powder" ],
-    "volume": "100 ml",
-    "weight": "1 g",
-    "bashing": 1,
+    "volume": "89 ml",
+    "weight": "151 mg",
     "ammo_type": "components",
     "container": "bag_plastic",
-    "count": 100
+    "count": 1000
   },
   {
     "type": "AMMO",
@@ -1487,6 +1486,38 @@
     "explode_in_fire": true,
     "explosion": { "power": 20, "shrapnel": 0 },
     "flags": [ "NO_DROP", "IRREMOVABLE" ]
+  },
+  {
+    "id": "formic_acid",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "formic acid" },
+    "description": "Common in nature as an insect venom, this substance has a number of industrial uses such as preservation and manufacturing.",
+    "weight": "2 g",
+    "volume": "600 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "symbol": "=",
+    "color": "white",
+    "stack_size": 100,
+    "phase": "liquid",
+    "explode_in_fire": true,
+    "explosion": { "power": 5, "shrapnel": 0 },
+    "looks_like": "ether"
+  },
+  {
+    "id": "latex",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "latex" },
+    "description": "A liquid precursor to rubber found in some plants.",
+    "weight": "500 mg",
+    "volume": "50 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "symbol": "=",
+    "color": "white",
+    "stack_size": 100,
+    "phase": "liquid",
+    "looks_like": "milk"
   },
   {
     "type": "COMESTIBLE",

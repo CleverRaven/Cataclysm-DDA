@@ -102,6 +102,7 @@ Below is a table of currently implemented effects, along with special rules for 
 | `spawn_item` | spawns an item that will disappear at the end of its duration.  Default duration is 0.
 | `summon` | summons a monster ID or group ID from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
 | `teleport_random` | teleports the player randomly range spaces with aoe variation
+| `targeted_polymorph` | A targeted monster is permanently transformed into the monster ID specified by  `effect_str` if it has less HP than the spell's damage. If `effect_str` is left empty, the target will transform into a random monster with a similar difficulty rating, alternatively  the flag `"POLYMORPH_GROUP"` can be used to pick a weighted monster ID from a monster group. The player and NPCs are immune to this spell effect.
 | `recover_energy` | recovers an energy source equal to damage of the spell. The energy source recovered is defined in "effect_str" and may be one of "MANA", "STAMINA", "FATIGUE", "PAIN", "BIONIC"
 | `ter_transform` | transform the terrain and furniture in an area centered at the target.  The chance of any one of the points in the area of effect changing is one_in( damage ).  The effect_str is the id of a ter_furn_transform.
 | `vomit` | any creature within its area of effect will instantly vomit, if it's able to do so.
@@ -149,6 +150,8 @@ Spells may have any number of flags, for example:
 | `SWAP_POS` | a projectile spell swaps the positions of the caster and target
 | `HOSTILE_SUMMON` | summon spell always spawns a hostile monster
 | `HOSTILE_50` | summoned monster spawns friendly 50% of the time
+| `FRIENDLY_POLY` | the target of a `targeted_polymorph` spell will become friendly to the caster if the spell resolves successfully.
+| `POLYMORPH_GROUP` | a `targeted_polymorph` spell will transform the target into random monster from the monster group ID matching `effect_str`.
 | `SILENT` | spell makes no noise at target
 | `LOUD` | spell makes extra noise at target
 | `VERBAL` | spell makes noise at caster location, mouth encumbrance affects fail %

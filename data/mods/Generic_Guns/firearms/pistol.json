@@ -70,6 +70,8 @@
     "name": { "str": "police revolver" },
     "ammo": [ "ammo_pistol" ],
     "description": "Revolvers like this, chambered for standard defensive calibers, were a favorite of police departments for nearly a century, up until the 1986 Miami shootout.  Afterwards, the slow reloading and shooting of revolvers were considered liabilities; still, this model's accuracy and moderate recoil make for a serviceable sidearm, and there are no magazines for you to lose or damage.",
+    "volume": "400 ml",
+    "longest_side": "25 cm",
     "clip_size": 6,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "ammo_pistol": 6 }, "rigid": true } ]
   },

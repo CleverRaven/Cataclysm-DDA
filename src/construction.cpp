@@ -710,7 +710,7 @@ construction_id construction_menu( const bool blueprint )
 
         const std::string action = ctxt.handle_input();
         int recmax = static_cast<int>( constructs.size() );
-
+        int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "FILTER" ) {
             string_input_popup popup;
             popup
@@ -746,25 +746,25 @@ construction_id construction_menu( const bool blueprint )
             if( select > 0 ) {
                 select--;
             } else {
-                select = constructs.size() - 1;
+                select = recmax - 1;
             }
         } else if( action == "PAGE_DOWN" ) {
             update_info = true;
             if( select == recmax - 1 ) {
                 select = 0;
-            } else if( select + 10 >= recmax ) {
+            } else if( select + scroll_rate >= recmax ) {
                 select = recmax - 1;
             } else {
-                select += +10;
+                select += +scroll_rate;
             }
         } else if( action == "PAGE_UP" ) {
             update_info = true;
             if( select == 0 ) {
                 select = recmax - 1;
-            } else if( select <= 9 ) {
+            } else if( select <= scroll_rate ) {
                 select = 0;
             } else {
-                select += -10;
+                select += -scroll_rate;
             }
         } else if( action == "LEFT" ) {
             update_info = true;
@@ -1236,7 +1236,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        if( vp.item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
+        if( vp.base_item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
             return vp.get_id();
         }
     }
@@ -1245,7 +1245,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     // such type anyway).
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        if( vp.item == item_id ) {
+        if( vp.base_item == item_id ) {
             return vp.get_id();
         }
     }
@@ -1610,7 +1610,7 @@ void load_construction( const JsonObject &jo )
 
     if( jo.has_member( "byproducts" ) ) {
         con.byproduct_item_group = item_group::load_item_group( jo.get_member( "byproducts" ),
-                                   "collection" );
+                                   "collection", "byproducts of construction " + con.str_id.str() );
     }
 
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{
@@ -1779,7 +1779,7 @@ void finalize_constructions()
         if( !vp.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        frame_items.push_back( item_comp( vp.item, 1 ) );
+        frame_items.push_back( item_comp( vp.base_item, 1 ) );
     }
 
     if( frame_items.empty() ) {

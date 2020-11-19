@@ -64,6 +64,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -966,11 +967,11 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             if( vp ) {
                 const int veh_battery = vp->vehicle().fuel_left( itype_battery, true );
 
-                item welder( itype_welder, 0 );
+                item welder( itype_welder, calendar::turn_zero );
                 welder.charges = veh_battery;
                 welder.set_flag( flag_PSEUDO );
                 temp_inv.add_item( welder );
-                item soldering_iron( itype_soldering_iron, 0 );
+                item soldering_iron( itype_soldering_iron, calendar::turn_zero );
                 soldering_iron.charges = veh_battery;
                 soldering_iron.set_flag( flag_PSEUDO );
                 temp_inv.add_item( soldering_iron );
@@ -1049,7 +1050,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 // If removing this part would make the vehicle non-flyable, avoid it
-                if( veh->would_prevent_flyable( vpinfo ) ) {
+                if( veh->would_removal_prevent_flyable( *part_elem,
+                                                        player_character ) ) {
                     return activity_reason_info::fail( do_activity_reason::WOULD_PREVENT_VEH_FLYING );
                 }
                 // this is the same part that somebody else wants to work on, or already is.
@@ -1061,7 +1063,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 if( !has_skill_for_vehicle_work( vpinfo.removal_skills, p ) ) {
                     continue;
                 }
-                item base( vpinfo.item );
+                item base( vpinfo.base_item );
                 if( base.is_wheel() ) {
                     // no wheel removal yet
                     continue;
@@ -1097,7 +1099,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 // If repairing this part would make the vehicle non-flyable, avoid it
-                if( veh->would_prevent_flyable( vpinfo ) ) {
+                if( veh->would_repair_prevent_flyable( *part_elem,
+                                                       player_character ) ) {
                     return activity_reason_info::fail( do_activity_reason::WOULD_PREVENT_VEH_FLYING );
                 }
                 if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
@@ -1594,7 +1597,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             for( auto it = requirement_map.begin(); it != requirement_map.end(); ) {
                 tripoint pos_here = std::get<0>( *it );
                 itype_id item_here = std::get<1>( *it );
-                item test_item = item( item_here, 0 );
+                item test_item = item( item_here, calendar::turn_zero );
                 if( test_item.has_quality( tool_qual, qual_level ) ) {
                     // it's just this spot that can fulfil the requirement on its own
                     final_map.push_back( std::make_tuple( pos_here, item_here, 1 ) );
@@ -2868,9 +2871,23 @@ int get_auto_consume_moves( player &p, const bool food )
         if( loc.z != p.pos().z ) {
             continue;
         }
-        map_stack food_there = here.i_at( here.getlocal( loc ) );
-        for( item &it : food_there ) {
-            item &comest = p.get_consumable_from( it );
+
+        const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
+        std::vector<item *> items_here;
+        if( vp ) {
+            vehicle_stack vehitems = vp->vehicle().get_items( vp->vehicle().part_with_feature( vp->part_index(),
+                                     "CARGO", false ) );
+            for( item &it : vehitems ) {
+                items_here.push_back( &it );
+            }
+        } else {
+            map_stack mapitems = here.i_at( here.getlocal( loc ) );
+            for( item &it : mapitems ) {
+                items_here.push_back( &it );
+            }
+        }
+        for( item *it : items_here ) {
+            item &comest = p.get_consumable_from( *it );
             if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
                 p.fun_for( comest ).first < -5 ) {
                 // not good eatings.
@@ -2887,7 +2904,7 @@ int get_auto_consume_moves( player &p, const bool food )
                 // wont like it, cannibal meat etc
                 continue;
             }
-            if( !it.is_owned_by( p, true ) ) {
+            if( !it->is_owned_by( p, true ) ) {
                 // it aint ours.
                 continue;
             }
@@ -2895,14 +2912,19 @@ int get_auto_consume_moves( player &p, const bool food )
                 // not quenching enough
                 continue;
             }
-            if( !food && it.is_watertight_container() && comest.made_of( phase_id::SOLID ) ) {
+            if( !food && it->is_watertight_container() && comest.made_of( phase_id::SOLID ) ) {
                 // its frozen
                 continue;
             }
-            int consume_moves = -Pickup::cost_to_move_item( p, it ) * std::max( rl_dist( p.pos(),
+            int consume_moves = -Pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
                                 here.getlocal( loc ) ), 1 );
-            consume_moves += to_moves<int>( p.get_consume_time( it ) );
-            item_location item_loc( map_cursor( here.getlocal( loc ) ), &comest );
+            consume_moves += to_moves<int>( p.get_consume_time( comest ) );
+            item_location item_loc;
+            if( vp ) {
+                item_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), &comest );
+            } else {
+                item_loc = item_location( map_cursor( here.getlocal( loc ) ), &comest );
+            }
 
             p.consume( item_loc );
             // eat() may have removed the item, so check its still there.

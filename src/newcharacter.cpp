@@ -741,7 +741,8 @@ tab_direction set_points( avatar &, points_left &points )
         // Clear the bottom of the screen.
         werase( w_description );
 
-        for( int i = 0; i < static_cast<int>( opts.size() ); i++ ) {
+        const int opts_length = static_cast<int>( opts.size() );
+        for( int i = 0; i < opts_length; i++ ) {
             nc_color color = ( points.limit == std::get<0>( opts[i] ) ? COL_SKILL_USED : c_light_gray );
             if( highlighted == i ) {
                 color = hilite( color );
@@ -766,10 +767,11 @@ tab_direction set_points( avatar &, points_left &points )
         wnoutrefresh( w_description );
     } );
 
+    const int opts_length = static_cast<int>( opts.size() );
     do {
         if( highlighted < 0 ) {
-            highlighted = opts.size() - 1;
-        } else if( highlighted >= static_cast<int>( opts.size() ) ) {
+            highlighted = opts_length - 1;
+        } else if( highlighted >= opts_length ) {
             highlighted = 0;
         }
         ui_manager::redraw();
@@ -812,7 +814,7 @@ tab_direction set_stats( avatar &u, points_left &points )
     const auto init_windows = [&]( ui_adaptor & ui ) {
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 8, TERMX - iSecondColumn - 1,
-                                            point( iSecondColumn, 6 ) );
+                                            point( iSecondColumn, 5 ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -853,20 +855,20 @@ tab_direction set_stats( avatar &u, points_left &points )
 
         draw_points( w, points );
 
-        mvwprintz( w, point( 2, 6 ), c_light_gray, _( "Strength:" ) );
-        mvwprintz( w, point( 16, 6 ), c_light_gray, "%2d", u.str_max );
-        mvwprintz( w, point( 2, 7 ), c_light_gray, _( "Dexterity:" ) );
-        mvwprintz( w, point( 16, 7 ), c_light_gray, "%2d", u.dex_max );
-        mvwprintz( w, point( 2, 8 ), c_light_gray, _( "Intelligence:" ) );
-        mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.int_max );
-        mvwprintz( w, point( 2, 9 ), c_light_gray, _( "Perception:" ) );
-        mvwprintz( w, point( 16, 9 ), c_light_gray, "%2d", u.per_max );
+        mvwprintz( w, point( 2, 5 ), c_light_gray, _( "Strength:" ) );
+        mvwprintz( w, point( 16, 5 ), c_light_gray, "%2d", u.str_max );
+        mvwprintz( w, point( 2, 6 ), c_light_gray, _( "Dexterity:" ) );
+        mvwprintz( w, point( 16, 6 ), c_light_gray, "%2d", u.dex_max );
+        mvwprintz( w, point( 2, 7 ), c_light_gray, _( "Intelligence:" ) );
+        mvwprintz( w, point( 16, 7 ), c_light_gray, "%2d", u.int_max );
+        mvwprintz( w, point( 2, 8 ), c_light_gray, _( "Perception:" ) );
+        mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.per_max );
 
         werase( w_description );
         switch( sel ) {
             case 1:
-                mvwprintz( w, point( 2, 6 ), COL_SELECT, _( "Strength:" ) );
-                mvwprintz( w, point( 16, 6 ), COL_SELECT, "%2d", u.str_max );
+                mvwprintz( w, point( 2, 5 ), COL_SELECT, _( "Strength:" ) );
+                mvwprintz( w, point( 16, 5 ), c_light_gray, "%2d", u.str_max );
                 if( u.str_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Str further costs 2 points" ) );
@@ -884,8 +886,8 @@ tab_direction set_stats( avatar &u, points_left &points )
                 break;
 
             case 2:
-                mvwprintz( w, point( 2, 7 ), COL_SELECT, _( "Dexterity:" ) );
-                mvwprintz( w, point( 16, 7 ), COL_SELECT, "%2d", u.dex_max );
+                mvwprintz( w, point( 2, 6 ), COL_SELECT, _( "Dexterity:" ) );
+                mvwprintz( w, point( 16, 6 ), c_light_gray, "%2d", u.dex_max );
                 if( u.dex_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Dex further costs 2 points" ) );
@@ -905,8 +907,8 @@ tab_direction set_stats( avatar &u, points_left &points )
                 break;
 
             case 3: {
-                mvwprintz( w, point( 2, 8 ), COL_SELECT, _( "Intelligence:" ) );
-                mvwprintz( w, point( 16, 8 ), COL_SELECT, "%2d", u.int_max );
+                mvwprintz( w, point( 2, 7 ), COL_SELECT, _( "Intelligence:" ) );
+                mvwprintz( w, point( 16, 7 ), c_light_gray, "%2d", u.int_max );
                 if( u.int_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Int further costs 2 points" ) );
@@ -926,8 +928,8 @@ tab_direction set_stats( avatar &u, points_left &points )
             break;
 
             case 4:
-                mvwprintz( w, point( 2, 9 ), COL_SELECT, _( "Perception:" ) );
-                mvwprintz( w, point( 16, 9 ), COL_SELECT, "%2d", u.per_max );
+                mvwprintz( w, point( 2, 8 ), COL_SELECT, _( "Perception:" ) );
+                mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.per_max );
                 if( u.per_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Per further costs 2 points" ) );
@@ -1077,7 +1079,7 @@ tab_direction set_traits( avatar &u, points_left &points )
     const int used_pages = vStartingTraits[2].empty() ? 2 : 3;
 
     for( auto &vStartingTrait : vStartingTraits ) {
-        std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_sort );
+        std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_nocolor_sort );
     }
 
     int iCurWorkingPage = 0;
@@ -1088,8 +1090,8 @@ tab_direction set_traits( avatar &u, points_left &points )
         traits_size[i] = vStartingTraits[i].size();
     }
 
-    size_t iContentHeight;
-    size_t page_width;
+    size_t iContentHeight = 0;
+    size_t page_width = 0;
 
     ui_adaptor ui;
     catacurses::window w;
@@ -1671,12 +1673,12 @@ tab_direction set_profession( avatar &u, points_left &points,
                 return !lcmatch( arg->gender_appropriate_name( u.male ), filterstring );
             } );
             sorted_profs.erase( new_end, sorted_profs.end() );
-            profs_length = sorted_profs.size();
-            if( profs_length == 0 ) {
+            if( sorted_profs.empty() ) {
                 popup( _( "Nothing found." ) ); // another case of black box in tiles
                 filterstring.clear();
                 continue;
             }
+            profs_length = static_cast<int>( sorted_profs.size() );
 
             // Sort professions by points.
             // profession_display_sort() keeps "unemployed" at the top.
@@ -1699,9 +1701,11 @@ tab_direction set_profession( avatar &u, points_left &points,
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
+        const int recmax = profs_length;
+        const int scroll_rate = recmax > 20 ? 10 : 2;
         if( action == "DOWN" ) {
             cur_id++;
-            if( cur_id > static_cast<int>( profs_length ) - 1 ) {
+            if( cur_id > recmax - 1 ) {
                 cur_id = 0;
             }
             desc_offset = 0;
@@ -1712,15 +1716,21 @@ tab_direction set_profession( avatar &u, points_left &points,
             }
             desc_offset = 0;
         } else if( action == "PAGE_DOWN" ) {
-            cur_id += iContentHeight - 1;
-            if( cur_id > static_cast<int>( profs_length ) - 1 ) {
+            if( cur_id == recmax - 1 ) {
                 cur_id = 0;
+            } else if( cur_id + scroll_rate >= recmax ) {
+                cur_id = recmax - 1;
+            } else {
+                cur_id += +scroll_rate;
             }
             desc_offset = 0;
         } else if( action == "PAGE_UP" ) {
-            cur_id -= iContentHeight - 1;
-            if( cur_id < 0 ) {
-                cur_id = profs_length - 1;
+            if( cur_id == 0 ) {
+                cur_id = recmax - 1;
+            } else if( cur_id <= scroll_rate ) {
+                cur_id = 0;
+            } else {
+                cur_id += -scroll_rate;
             }
             desc_offset = 0;
         } else if( action == "LEFT" ) {
@@ -1811,8 +1821,10 @@ tab_direction set_skills( avatar &u, points_left &points )
 
     input_context ctxt( "NEW_CHAR_SKILLS" );
     ctxt.register_cardinal();
-    ctxt.register_action( "SCROLL_DOWN" );
-    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "SCROLL_SKILL_INFO_DOWN" );
+    ctxt.register_action( "SCROLL_SKILL_INFO_UP" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1969,6 +1981,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
+        int scroll_rate = num_skills > 20 ? 5 : 2;
         if( action == "DOWN" ) {
             cur_pos++;
             if( cur_pos >= num_skills ) {
@@ -1979,6 +1992,24 @@ tab_direction set_skills( avatar &u, points_left &points )
             cur_pos--;
             if( cur_pos < 0 ) {
                 cur_pos = num_skills - 1;
+            }
+            currentSkill = sorted_skills[cur_pos];
+        } else if( action == "PAGE_DOWN" ) {
+            if( cur_pos == num_skills - 1 ) {
+                cur_pos = 0;
+            } else if( cur_pos + scroll_rate >= num_skills ) {
+                cur_pos = num_skills - 1;
+            } else {
+                cur_pos += +scroll_rate;
+            }
+            currentSkill = sorted_skills[cur_pos];
+        } else if( action == "PAGE_UP" ) {
+            if( cur_pos == 0 ) {
+                cur_pos = num_skills - 1;
+            } else if( cur_pos <= scroll_rate ) {
+                cur_pos = 0;
+            } else {
+                cur_pos += -scroll_rate;
             }
             currentSkill = sorted_skills[cur_pos];
         } else if( action == "LEFT" ) {
@@ -1997,9 +2028,9 @@ tab_direction set_skills( avatar &u, points_left &points )
                 // For balance reasons, increasing a skill from level 0 gives 1 extra level for free
                 u.mod_skill_level( currentSkill->ident(), level == 0 ? +2 : +1 );
             }
-        } else if( action == "SCROLL_DOWN" ) {
+        } else if( action == "SCROLL_SKILL_INFO_DOWN" ) {
             selected++;
-        } else if( action == "SCROLL_UP" ) {
+        } else if( action == "SCROLL_SKILL_INFO_UP" ) {
             selected--;
         } else if( action == "PREV_TAB" ) {
             return tab_direction::BACKWARD;
@@ -2072,6 +2103,8 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
     input_context ctxt( "NEW_CHAR_SCENARIOS" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
@@ -2300,12 +2333,12 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 }
                 sorted_scens.push_back( &scen );
             }
-            scens_length = sorted_scens.size();
-            if( scens_length == 0 ) {
+            if( sorted_scens.empty() ) {
                 popup( _( "Nothing found." ) ); // another case of black box in tiles
                 filterstring.clear();
                 continue;
             }
+            scens_length = static_cast<int>( sorted_scens.size() );
 
             // Sort scenarios by points.
             // scenario_display_sort() keeps "Evacuee" at the top.
@@ -2336,6 +2369,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
+        const int scroll_rate = scens_length > 20 ? 5 : 2;
         if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > scens_length - 1 ) {
@@ -2345,6 +2379,22 @@ tab_direction set_scenario( avatar &u, points_left &points,
             cur_id--;
             if( cur_id < 0 ) {
                 cur_id = scens_length - 1;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( cur_id == scens_length - 1 ) {
+                cur_id = 0;
+            } else if( cur_id + scroll_rate >= scens_length ) {
+                cur_id = scens_length - 1;
+            } else {
+                cur_id += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( cur_id == 0 ) {
+                cur_id = scens_length - 1;
+            } else if( cur_id <= scroll_rate ) {
+                cur_id = 0;
+            } else {
+                cur_id += -scroll_rate;
             }
         } else if( action == "CONFIRM" ) {
             if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
@@ -2480,23 +2530,27 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     catacurses::window w_age;
     catacurses::window w_blood;
     const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int beginx2 = 46;
+        const int ncol2 = 40;
+        const int beginx3 = TERMX <= 88 ? TERMX - TERMX / 4 : 86;
+        const int ncol3 = TERMX - beginx3 - 2;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_name = catacurses::newwin( 2, 42, point( 2, 5 ) );
-        w_gender = catacurses::newwin( 1, 42, point( 2, 7 ) );
-        w_location = catacurses::newwin( 1, TERMX - 92, point( 90, 5 ) );
-        w_vehicle = catacurses::newwin( 1, TERMX - 92, point( 90, 6 ) );
-        w_addictions = catacurses::newwin( 1, TERMX - 92, point( 90, 7 ) );
+        w_name = catacurses::newwin( 2, ncol2 + 2, point( 2, 5 ) );
+        w_gender = catacurses::newwin( 1, ncol2 + 2, point( 2, 7 ) );
+        w_location = catacurses::newwin( 1, ncol3, point( beginx3, 5 ) );
+        w_vehicle = catacurses::newwin( 1, ncol3, point( beginx3, 6 ) );
+        w_addictions = catacurses::newwin( 1, ncol3, point( beginx3, 7 ) );
         w_stats = catacurses::newwin( 6, 20, point( 2, 9 ) );
-        w_traits = catacurses::newwin( TERMY - 10, 24, point( 22, 9 ) );
-        w_bionics = catacurses::newwin( TERMY - 10, TERMX - 92, point( 90, 9 ) );
-        w_proficiencies = catacurses::newwin( TERMY - 20, 20, point( 2, 15 ) );
-        w_scenario = catacurses::newwin( 1, 40, point( 46, 9 ) );
-        w_profession = catacurses::newwin( 1, 40, point( 46, 10 ) );
-        w_skills = catacurses::newwin( TERMY - 12, 40, point( 46, 11 ) );
+        w_traits = catacurses::newwin( TERMY - 10, ncol2, point( beginx2, 9 ) );
+        w_bionics = catacurses::newwin( TERMY - 10, ncol3, point( beginx3, 9 ) );
+        w_proficiencies = catacurses::newwin( TERMY - 20, 19, point( 2, 15 ) );
+        w_scenario = catacurses::newwin( 1, ncol2, point( beginx2, 3 ) );
+        w_profession = catacurses::newwin( 1, ncol3, point( beginx3, 3 ) );
+        w_skills = catacurses::newwin( TERMY - 10, 23, point( 22, 9 ) );
         w_guide = catacurses::newwin( 9, TERMX - 3, point( 2, TERMY - 10 ) );
-        w_height = catacurses::newwin( 1, 20, point( 46, 5 ) );
-        w_age = catacurses::newwin( 1, 12, point( 46, 6 ) );
-        w_blood = catacurses::newwin( 1, 20, point( 46, 7 ) );
+        w_height = catacurses::newwin( 1, ncol2, point( beginx2, 5 ) );
+        w_age = catacurses::newwin( 1, ncol2, point( beginx2, 6 ) );
+        w_blood = catacurses::newwin( 1, ncol2, point( beginx2, 7 ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -2647,7 +2701,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             if( level > 0 ) {
                 mvwprintz( w_skills, point( 0, line ), c_light_gray,
                            elem->name() + ":" );
-                mvwprintz( w_skills, point( 23, line ), c_light_gray, "%-2d", static_cast<int>( level ) );
+                right_print( w_skills, line, 1, c_light_gray, string_format( "%d", static_cast<int>( level ) ) );
                 line++;
                 has_skills = true;
             }
@@ -2686,10 +2740,10 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         std::vector<proficiency_id> prof_proficiencies = you.prof->proficiencies();
         mvwprintz( w_proficiencies, point_zero, COL_HEADER, _( "Proficiencies:" ) );
         if( prof_proficiencies.empty() ) {
-            wprintz( w_proficiencies, c_light_red, _( "\nNone!" ) );
+            mvwprintz( w_proficiencies, point_south, c_light_red, _( "None!" ) );
         } else {
             for( const proficiency_id &prof : prof_proficiencies ) {
-                wprintz( w_proficiencies, c_light_gray, "\n" + prof->name() );
+                wprintz( w_proficiencies, c_light_gray, "\n" + trim_by_length( prof->name(), 18 ) );
             }
         }
         wnoutrefresh( w_proficiencies );

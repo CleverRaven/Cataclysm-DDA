@@ -4261,7 +4261,7 @@
       [ [ "pocket_survival", 1 ] ],
       [ [ "survival_kit_box", 1 ] ]
     ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "FULL_MAGAZINE" ]
   },
   {
     "result": "garlic",

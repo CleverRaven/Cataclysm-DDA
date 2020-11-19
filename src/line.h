@@ -20,7 +20,7 @@ extern bool trigdist;
  * @param vertex the unequal angle
  * @returns base in equivalent units to distance
  */
-double iso_tangent( double distance, units::angle vertex );
+double iso_tangent( double distance, const units::angle &vertex );
 
 //! This compile-time usable function combines the sign of each (x, y, z) component into a single integer
 //! to allow simple runtime and compile-time mapping of (x, y, z) tuples to @ref direction enumerators.

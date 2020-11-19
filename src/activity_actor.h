@@ -11,6 +11,7 @@
 #include "activity_type.h"
 #include "calendar.h"
 #include "clone_ptr.h"
+#include "handle_liquid.h"
 #include "item.h"
 #include "item_location.h"
 #include "memory_fast.h"
@@ -20,6 +21,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "units_fwd.h"
+
 
 class Character;
 class Creature;
@@ -660,20 +662,20 @@ class try_sleep_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
-class unload_mag_activity_actor : public activity_actor
+class unload_activity_actor : public activity_actor
 {
     private:
         int moves_total;
         item_location target;
     public:
-        unload_mag_activity_actor( int moves_total, const item_location &target ) :
+        unload_activity_actor( int moves_total, const item_location &target ) :
             moves_total( moves_total ), target( target ) {}
         activity_id get_type() const override {
-            return activity_id( "ACT_UNLOAD_MAG" );
+            return activity_id( "ACT_UNLOAD" );
         }
 
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
-            const unload_mag_activity_actor &act = static_cast<const unload_mag_activity_actor &>( other );
+            const unload_activity_actor &act = static_cast<const unload_activity_actor &>( other );
             return target == act.target;
         }
 
@@ -685,7 +687,7 @@ class unload_mag_activity_actor : public activity_actor
         static void unload( Character &who, item_location &target );
 
         std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<unload_mag_activity_actor>( *this );
+            return std::make_unique<unload_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;
@@ -873,7 +875,72 @@ class burrow_activity_actor: public activity_actor
 
     private:
         int moves_total;
+};
+class reload_activity_actor : public activity_actor
+{
+    public:
+        reload_activity_actor() = default;
+        reload_activity_actor( int moves, int qty,
+                               std::vector<item_location> &targets ) : moves_total( moves ), quantity( qty ),
+            reload_targets( targets ) {
+        };
 
+        activity_id get_type() const override {
+            return activity_id( "ACT_RELOAD" );
+        }
+
+        void start( player_activity &/*act*/, Character &/*who*/ ) override;
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {};
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &act, Character &/*who*/ ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<reload_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+    private:
+        int moves_total{};
+        int quantity{};
+        std::vector<item_location> reload_targets{};
+
+        bool can_reload() const;
+        void reload_gun( Character &who, item &reloadable, item &ammo ) const;
+        void make_reload_sound( Character &who, item &reloadable ) const;
+
+
+};
+
+class milk_activity_actor : public activity_actor
+{
+    public:
+        milk_activity_actor() = default;
+        milk_activity_actor( int moves, std::vector<tripoint> coords,
+                             std::vector<std::string> str_values ) : total_moves( moves ), monster_coords( coords ),
+            string_values( str_values ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_MILK" );
+        }
+
+        void start( player_activity &act, Character &/*who*/ ) override;
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {};
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &/*act*/, Character &/*who*/ ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<milk_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+    private:
+        int total_moves {};
+        std::vector<tripoint> monster_coords {};
+        std::vector<std::string> string_values {};
 };
 
 namespace activity_actors

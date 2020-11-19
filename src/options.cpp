@@ -2580,6 +2580,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
     input_context ctxt( "OPTIONS" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
@@ -2819,11 +2821,13 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                    get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
             continue;
         }
+        int recmax = static_cast<int>( page_items.size() );
+        int scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "DOWN" ) {
             do {
                 iCurrentLine++;
-                if( iCurrentLine >= static_cast<int>( page_items.size() ) ) {
+                if( iCurrentLine >= recmax ) {
                     iCurrentLine = 0;
                 }
             } while( !page_items[iCurrentLine] );
@@ -2834,6 +2838,28 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                     iCurrentLine = page_items.size() - 1;
                 }
             } while( !page_items[iCurrentLine] );
+        } else if( action == "PAGE_DOWN" ) {
+            if( iCurrentLine == recmax - 1 ) {
+                iCurrentLine = 0;
+            } else if( iCurrentLine + scroll_rate >= recmax ) {
+                iCurrentLine = recmax - 1;
+            } else {
+                iCurrentLine += +scroll_rate;
+                do {
+                    iCurrentLine++;
+                } while( !page_items[iCurrentLine] );
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( iCurrentLine == 0 ) {
+                iCurrentLine = recmax - 1;
+            } else if( iCurrentLine <= scroll_rate ) {
+                iCurrentLine = 0;
+            } else {
+                iCurrentLine += -scroll_rate;
+                do {
+                    iCurrentLine--;
+                } while( !page_items[iCurrentLine] );
+            }
         } else if( action == "RIGHT" ) {
             current_opt.setNext();
         } else if( action == "LEFT" ) {

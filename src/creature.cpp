@@ -65,6 +65,7 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sap( "sap" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
@@ -209,6 +210,11 @@ bool Creature::sees( const Creature &critter ) const
         return true;
     }
 
+    map &here = get_map();
+    if( !here.has_potential_los( pos(), critter.pos() ) ) {
+        return false;
+    }
+
     if( critter.is_hallucination() ) {
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
         // Invisible hallucinations would be pretty useless (nobody would see them at all), therefor
@@ -227,7 +233,7 @@ bool Creature::sees( const Creature &critter ) const
 
     const Character *ch = critter.as_character();
     const int wanted_range = rl_dist( pos(), critter.pos() );
-    map &here = get_map();
+
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
     if( wanted_range <= 1 && ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) ) {
@@ -764,7 +770,9 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     if( proj.proj_effects.count( "ROBOT_DAZZLE" ) ) {
         if( goodhit < accuracy_critical && in_species( species_ROBOT ) ) {
-            add_effect( source, effect_stunned, rng( 6_turns, 8_turns ) );
+            time_duration duration = rng( 6_turns, 8_turns );
+            add_effect( source, effect_stunned, duration );
+            add_effect( source, effect_sensor_stun, duration );
             add_msg( source->is_player() ?
                      _( "You land a clean shot on the %1$s sensors, stunning it." ) :
                      _( "The %1$s is stunned!" ),
@@ -1186,15 +1194,15 @@ bool Creature::remove_effect( const efftype_id &eff_id )
     return remove_effect( eff_id, bodypart_str_id::NULL_ID() );
 }
 
-bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
+bool Creature::has_effect( const efftype_id &eff_id, const bodypart_id &bp ) const
 {
     // bp_null means anything targeted or not
-    if( bp == bodypart_str_id::NULL_ID() ) {
+    if( bp.id() == bodypart_str_id::NULL_ID() ) {
         return effects->count( eff_id );
     } else {
         auto got_outer = effects->find( eff_id );
         if( got_outer != effects->end() ) {
-            auto got_inner = got_outer->second.find( bp );
+            auto got_inner = got_outer->second.find( bp.id() );
             if( got_inner != got_outer->second.end() ) {
                 return true;
             }
@@ -1520,13 +1528,14 @@ void Creature::set_anatomy( const anatomy_id &anat )
     creature_anatomy = anat;
 }
 
-std::map<bodypart_str_id, bodypart> Creature::get_body() const
+const std::map<bodypart_str_id, bodypart> &Creature::get_body() const
 {
     return body;
 }
 
 void Creature::set_body()
 {
+    body.clear();
     for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
         body.emplace( bp.id(), bodypart( bp.id() ) );
     }
@@ -1557,7 +1566,7 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
 
 bool Creature::has_part( const bodypart_id &id ) const
 {
-    return body.find( id.id() ) != body.end();
+    return body.count( id.id() );
 }
 
 bodypart *Creature::get_part( const bodypart_id &id )
@@ -1952,6 +1961,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( get_body_part_flags flags
     bool only_main( flags & get_body_part_flags::only_main );
 
     std::vector<bodypart_id> all_bps;
+    all_bps.reserve( body.size() );
     for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         if( only_main && elem.first->main_part != elem.first ) {
             continue;

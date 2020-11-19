@@ -970,6 +970,13 @@ class game
         achievements_tracker &achievements();
         memorial_logger &memorial();
     public:
+        // setting that specifies which reachability zone cache to display
+        struct debug_reachability_zones_display {
+            public:
+                bool r_cache_vertical;
+                reachability_cache_quadrant quadrant;
+        } debug_rz_display = {};
+        void display_reahability_zones(); // Displays reachability zones
 
         spell_events &spell_events_subscriber();
 
@@ -1020,7 +1027,7 @@ class game
 
         //pixel minimap management
         int pixel_minimap_option = 0;
-        int turnssincelastmon = 0; // needed for auto run mode
+        time_duration turnssincelastmon = 0_turns; // needed for auto run mode
 
         weather_manager weather;
 

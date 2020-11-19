@@ -678,7 +678,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( batch ) {
                 current.clear();
-                for( int i = 1; i <= 20; i++ ) {
+                for( int i = 1; i <= 50; i++ ) {
                     current.push_back( chosen );
                     available.push_back( availability( chosen, i ) );
                 }
@@ -837,6 +837,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         const int scroll_item_info_lines = catacurses::getmaxy( w_iteminfo ) - 4;
         const std::string action = ctxt.handle_input();
         int recmax = current.size();
+        int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "CYCLE_MODE" ) {
             display_mode = display_mode + 1;
             if( display_mode <= 0 ) {
@@ -877,18 +878,18 @@ const recipe *select_crafting_recipe( int &batch_size )
         } else if( action == "PAGE_DOWN" ) {
             if( line == recmax - 1 ) {
                 line = 0;
-            } else if( line + 4 >= recmax ) {
+            } else if( line + scroll_rate >= recmax ) {
                 line = recmax - 1;
             } else {
-                line += +4;
+                line += +scroll_rate;
             }
         } else if( action == "PAGE_UP" ) {
             if( line == 0 ) {
                 line = recmax - 1;
-            } else if( line <= 3 ) {
+            } else if( line <= scroll_rate ) {
                 line = 0;
             } else {
-                line += -4;
+                line += -scroll_rate;
             }
         } else if( action == "CONFIRM" ) {
             if( available.empty() || !available[line].can_craft ) {
@@ -943,9 +944,9 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             std::string description =
                 _( "The default is to search result names.  Some single-character prefixes "
-                   "can be used with a colon (:) to search in other ways.  Additional filters "
-                   "are separated by commas (,).\n"
-                   "\n"
+                   "can be used with a colon <color_red>:</color> to search in other ways.  Additional filters "
+                   "are separated by commas <color_red>,</color>.\n"
+                   "\n\n"
                    "<color_white>Examples:</color>\n" );
 
             {
@@ -965,7 +966,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             description +=
-                _( "\nYou can use <color_white>arrow keys</color> to go through search history\n\n" );
+                _( "\nUse <color_red>up/down arrow</color> to go through your search history." );
+            description += "\n\n\n";
 
             string_input_popup()
             .title( _( "Search:" ) )
