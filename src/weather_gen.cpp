@@ -36,6 +36,7 @@ struct weather_gen_common {
     double y;
     double z;
     double cyf;
+    double year_fraction;
     unsigned modSEED;
     season_type season;
 };
@@ -56,6 +57,7 @@ static weather_gen_common get_common_data( const tripoint &location, const time_
     const double year_fraction( time_past_new_year( t ) /
                                 calendar::year_length() ); // [0,1)
 
+    result.year_fraction = year_fraction;
     result.cyf = std::cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
     // We add one-eighth to line up `cyf` so that 1 is at
     // midwinter and -1 at midsummer. (Cataclsym DDA years
@@ -74,25 +76,30 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     const double z( common.z );
 
     const unsigned modSEED = common.modSEED;
-    const double seasonality = -common.cyf;
-    // -1 in midwinter, +1 in midsummer
-    const season_type season = common.season;
     const double dayFraction = time_past_midnight( t ) / 1_days;
     const double dayv = std::cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
     // -1 at coldest_hour, +1 twelve hours later
 
-    // manually specified seasonal temp variation from region_settings.json
-    const int seasonal_temp_mod[4] = { wg.spring_temp_manual_mod, wg.summer_temp_manual_mod, wg.autumn_temp_manual_mod, wg.winter_temp_manual_mod };
-    const double baseline(
-        wg.base_temperature +
-        seasonal_temp_mod[ season ] +
-        dayv * daily_magnitude_K +
-        seasonality * seasonality_magnitude_K );
+    // Interpolate seasons temperature
+    // Scale year_fraction [0, 1) to [0.0, 4.0). So [0.0, 1.0] - spring, [1.0, 2.0] - summer, [2.0, 3.0] - autumn, [3.0, 4.0) - winter.
+    const double quadrum = common.year_fraction * 4;
+    const std::vector<std::pair<float, float>> mid_season_temps = { {
+            { -0.5f, wg.winter_temp }, // midwinter
+            { 0.5f, wg.spring_temp }, // midspring
+            { 1.5f, wg.summer_temp }, // midsummer
+            { 2.5f, wg.autumn_temp }, // midautumn
+            { 3.5f, wg.winter_temp }, // midwinter
+            { 4.5f, wg.spring_temp }  // midspring
+        }
+    };
 
-    const double T = baseline + raw_noise_4d( x, y, z, modSEED ) * noise_magnitude_K;
+    double baseTemp = multi_lerp( mid_season_temps, quadrum );
+    const double T = baseTemp +
+                     dayv * daily_magnitude_K +
+                     raw_noise_4d( x, y, z, modSEED ) * noise_magnitude_K;
 
     // Convert from Celsius to Fahrenheit
-    return T * 9 / 5 + 32;
+    return celsius_to_fahrenheit( T );
 }
 
 double weather_generator::get_weather_temperature( const tripoint &location, const time_point &t,
@@ -320,17 +327,27 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
 weather_generator weather_generator::load( const JsonObject &jo )
 {
     weather_generator ret;
-    ret.base_temperature = jo.get_float( "base_temperature", 0.0 );
+
+    float base_temp = jo.get_float( "base_temperature", 0.0 );
+    // Handling legacy temperature settings
+    ret.spring_temp = base_temp + jo.get_int( "spring_temp_manual_mod", 0 );
+    ret.summer_temp = base_temp + jo.get_int( "summer_temp_manual_mod", 0 ) + 10;
+    ret.autumn_temp = base_temp + jo.get_int( "autumn_temp_manual_mod", 0 );
+    ret.winter_temp = base_temp + jo.get_int( "winter_temp_manual_mod", 0 ) - 15;
+
+    // Reading temperature settings
+    jo.read( "spring_temp", ret.spring_temp, false );
+    jo.read( "summer_temp", ret.summer_temp, false );
+    jo.read( "autumn_temp", ret.autumn_temp, false );
+    jo.read( "winter_temp", ret.winter_temp, false );
+
+    // Reading other weather settings.
     ret.base_humidity = jo.get_float( "base_humidity", 50.0 );
     ret.base_pressure = jo.get_float( "base_pressure", 0.0 );
     ret.base_acid = jo.get_float( "base_acid", 0.0 );
     ret.base_wind = jo.get_float( "base_wind", 0.0 );
     ret.base_wind_distrib_peaks = jo.get_int( "base_wind_distrib_peaks", 0 );
     ret.base_wind_season_variation = jo.get_int( "base_wind_season_variation", 0 );
-    ret.summer_temp_manual_mod = jo.get_int( "summer_temp_manual_mod", 0 );
-    ret.spring_temp_manual_mod = jo.get_int( "spring_temp_manual_mod", 0 );
-    ret.autumn_temp_manual_mod = jo.get_int( "autumn_temp_manual_mod", 0 );
-    ret.winter_temp_manual_mod = jo.get_int( "winter_temp_manual_mod", 0 );
     ret.spring_humidity_manual_mod = jo.get_int( "spring_humidity_manual_mod", 0 );
     ret.summer_humidity_manual_mod = jo.get_int( "summer_humidity_manual_mod", 0 );
     ret.autumn_humidity_manual_mod = jo.get_int( "autumn_humidity_manual_mod", 0 );

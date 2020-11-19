@@ -602,7 +602,10 @@
       }
     },
     "weather": {
-      "base_temperature": 6.5,
+      "spring_temp": 7,
+      "summer_temp": 16,
+      "autumn_temp": 6,
+      "winter_temp": -14,
       "base_humidity": 70.0,
       "base_pressure": 1015.0,
       "base_acid": 0.0,

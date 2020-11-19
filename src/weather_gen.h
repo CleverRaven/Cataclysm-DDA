@@ -24,8 +24,6 @@ struct w_point {
 class weather_generator
 {
     public:
-        // Average temperature
-        double base_temperature = 0;
         // Average humidity
         double base_humidity = 0;
         // Average atmospheric pressure
@@ -35,10 +33,10 @@ class weather_generator
         double base_wind = 0;
         //How much the wind peaks above average
         int base_wind_distrib_peaks = 0;
-        int summer_temp_manual_mod = 0;
-        int spring_temp_manual_mod = 0;
-        int autumn_temp_manual_mod = 0;
-        int winter_temp_manual_mod = 0;
+        float summer_temp = 0;
+        float spring_temp = 0;
+        float autumn_temp = 0;
+        float winter_temp = 0;
         int spring_humidity_manual_mod = 0;
         int summer_humidity_manual_mod = 0;
         int autumn_humidity_manual_mod = 0;
