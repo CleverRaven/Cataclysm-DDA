@@ -331,13 +331,19 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
 weather_generator weather_generator::load( const JsonObject &jo )
 {
     weather_generator ret;
-    ret.spring_temp = jo.get_float( "spring_temp", 0.0f );
-    ret.summer_temp = jo.get_float( "summer_temp", 0.0f );
-    ret.autumn_temp = jo.get_float( "autumn_temp", 0.0f );
-    ret.winter_temp = jo.get_float( "winter_temp", 0.0f );
-    if( jo.has_number( "base_temperature" ) ) {
+
+    float base_temp = jo.get_float( "base_temperature", 0.0 );
+    ret.spring_temp = base_temp + jo.get_int( "spring_temp_manual_mod", 0 ) + 7;
+    ret.summer_temp = base_temp + jo.get_int( "summer_temp_manual_mod", 0 ) + 16;
+    ret.autumn_temp = base_temp + jo.get_int( "autumn_temp_manual_mod", 0 ) + 6;
+    ret.winter_temp = base_temp + jo.get_int( "winter_temp_manual_mod", 0 ) - 14;
+
+    if( !jo.read( "spring_temp", ret.spring_temp, false ) ||
+        !jo.read( "summer_temp", ret.summer_temp, false ) ||
+        !jo.read( "autumn_temp", ret.autumn_temp, false ) ||
+        !jo.read( "winter_temp", ret.winter_temp, false ) ) {
         debugmsg(
-            std::string( "base_temperature is oudtaded. Use spring_temp, summer_temp, autumn_temp, winter_temp instead" ) );
+            std::string( "Temperatures for seasons are not set. Please set spring_temp, summer_temp, autumn_temp, winter_temp" ) );
     }
     ret.base_humidity = jo.get_float( "base_humidity", 50.0 );
     ret.base_pressure = jo.get_float( "base_pressure", 0.0 );
