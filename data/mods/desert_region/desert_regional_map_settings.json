@@ -695,10 +695,10 @@
       }
     },
     "weather": {
-      "spring_temp": 17,
+      "spring_temp": 19,
       "summer_temp": 26,
-      "autumn_temp": 16,
-      "winter_temp": 12,
+      "autumn_temp": 18,
+      "winter_temp": 14,
       "base_humidity": 20.0,
       "base_pressure": 1025.0,
       "base_acid": 0.0,
