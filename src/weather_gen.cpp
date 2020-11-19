@@ -107,7 +107,8 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     double baseTemp = multi_lerp(mid_season_temps, quadrum);
     const double T = baseTemp + dayv * daily_magnitude_K + raw_noise_4d(x, y, z, modSEED) * noise_magnitude_K;
 
-    add_msg(m_info, "temp New: %f; temp old: %f", baseTemp + dayv * daily_magnitude_K, baseline);
+    add_msg(m_info, "baseTemp New: %f; baseTemp old: %f", baseTemp + dayv * daily_magnitude_K, baseline);
+    add_msg(m_info, "temp New: %f; temp old: %f",T, T2);
     // Convert from Celsius to Fahrenheit
     return celsius_to_fahrenheit( T );
 }
