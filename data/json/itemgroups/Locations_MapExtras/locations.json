@@ -884,7 +884,8 @@
       [ "tinder", 1 ],
       [ "hobo_stove", 1 ],
       [ "l-stick", 1 ],
-      [ "eclipse_glasses", 1 ]
+      [ "eclipse_glasses", 1 ],
+      { "group": "writing_utensils", "prob": 5 }
     ]
   },
   {
@@ -940,7 +941,8 @@
       [ "golf_ball", 90 ],
       [ "towel", 40 ],
       [ "scorecard", 10 ],
-      [ "golf_club", 75 ]
+      [ "golf_club", 75 ],
+      [ "pencil", 20 ]
     ]
   },
   {
@@ -1772,7 +1774,8 @@
       [ "barometer", 3 ],
       [ "badge_doctor", 5 ],
       [ "dnd_handbook", 2 ],
-      [ "bodypillow", 1 ]
+      [ "bodypillow", 1 ],
+      { "group": "writing_utensils", "prob": 10 }
     ]
   },
   {
@@ -1847,7 +1850,8 @@
       [ "eclipse_glasses", 1 ],
       [ "sandbox_kit", 1 ],
       [ "dnd_handbook", 1 ],
-      [ "balloon", 5 ]
+      [ "balloon", 5 ],
+      { "group": "writing_utensils", "prob": 40 }
     ]
   },
   {
@@ -1980,7 +1984,8 @@
       [ "survnote", 1 ],
       [ "magnifying_glass", 8 ],
       [ "camera_control", 2 ],
-      [ "eclipse_glasses", 1 ]
+      [ "eclipse_glasses", 1 ],
+      { "group": "writing_utensils", "prob": 20 }
     ]
   },
   {
@@ -2049,7 +2054,8 @@
       { "item": "pocketwatch", "prob": 2 },
       { "item": "knitting_needles", "prob": 1 },
       { "item": "survnote", "prob": 1 },
-      { "item": "eclipse_glasses", "prob": 1 }
+      { "item": "eclipse_glasses", "prob": 1 },
+      { "group": "writing_utensils", "prob": 20 }
     ]
   },
   {
@@ -2078,7 +2084,8 @@
       { "group": "magazines", "prob": 120 },
       { "group": "newspaper_recent", "prob": 100 },
       [ "survnote", 1 ],
-      [ "dnd_handbook", 1 ]
+      [ "dnd_handbook", 1 ],
+      { "group": "writing_utensils", "prob": 10 }
     ]
   },
   {
@@ -2298,7 +2305,8 @@
       [ "bottle_folding", 6 ],
       [ "mess_tin", 8 ],
       [ "metal_file", 5 ],
-      [ "pin_reamer", 3 ]
+      [ "pin_reamer", 3 ],
+      { "group": "writing_utensils", "prob": 20 }
     ]
   },
   {
