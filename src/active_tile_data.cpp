@@ -1,12 +1,16 @@
 #include "active_tile_data.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
-#include "electric_grid.h"
+#include "distribution_grid.h"
 #include "item.h"
 #include "itype.h"
 #include "json.h"
 #include "map.h"
+#include "mapbuffer.h"
 #include "weather.h"
+
+// TODO: Shouldn't use
+#include "submap.h"
 
 static const std::string flag_RECHARGE( "RECHARGE" );
 static const std::string flag_USE_UPS( "USE_UPS" );
@@ -15,7 +19,7 @@ active_tile_data::~active_tile_data() {}
 
 class null_tile_data : public active_tile_data
 {
-        void update( time_point, time_point, map &, const tripoint & ) override
+        void update_internal( time_point, const tripoint &, distribution_grid & ) override
         {}
         active_tile_data *clone() const override {
             return new null_tile_data( *this );
@@ -40,20 +44,20 @@ inline int ticks_between( const time_point &from, const time_point &to,
             ( from ) / to_turns<int>( tick_length ) );
 }
 
-void solar_tile::update( time_point from, time_point to, map &m, const tripoint &p )
+void solar_tile::update_internal( time_point to, const tripoint &p, distribution_grid &grid )
 {
     constexpr time_duration tick_length = 1_minutes;
-    int ticks = ticks_between( from, to, tick_length );
+    int ticks = ticks_between( get_last_updated(), to, tick_length );
     // This is to cut down on sum_conditions
     if( ticks <= 0 ) {
         return;
     }
 
     // TODO: Use something that doesn't calc a ton of worthless crap
-    int sunlight = sum_conditions( from, to, m.getabs( p ) ).sunlight;
+    int sunlight = sum_conditions( get_last_updated(), to, p ).sunlight;
     // int64 because we can have years in here
     int produced = to_turns<std::int64_t>( tick_length ) * sunlight * ticks / 1000;
-    m.electric_grid_at( ms_to_omt_copy( p ) )->mod_energy( produced );
+    grid.mod_resource( produced );
 }
 
 active_tile_data *solar_tile::clone() const
@@ -83,7 +87,7 @@ void solar_tile::load( JsonObject &jo )
 
 }
 
-void battery_tile::update( time_point, time_point, map &, const tripoint & )
+void battery_tile::update_internal( time_point, const tripoint &, distribution_grid & )
 {
     // TODO: Shouldn't have this function!
 }
@@ -110,7 +114,12 @@ void battery_tile::load( JsonObject &jo )
     jo.read( "max_stored", max_stored );
 }
 
-int battery_tile::mod_energy( int amt )
+int battery_tile::get_resource() const
+{
+    return stored;
+}
+
+int battery_tile::mod_resource( int amt )
 {
     if( amt > 0 ) {
         if( stored + amt >= max_stored ) {
@@ -133,15 +142,17 @@ int battery_tile::mod_energy( int amt )
     }
 }
 
-void charger_tile::update( time_point from, time_point to, map &m, const tripoint &p )
+void charger_tile::update_internal( time_point to, const tripoint &p, distribution_grid &grid )
 {
-    if( !m.has_items( p ) ) {
+    tripoint loc_on_sm = p;
+    const tripoint sm_pos = ms_to_sm_remain( loc_on_sm );
+    submap *sm = MAPBUFFER.lookup_submap( sm_pos );
+    if( sm == nullptr ) {
         return;
     }
-    electric_grid &grid = *m.electric_grid_at( p );
-    int power = this->power * to_seconds<int>( to - from );
+    int power = this->power * to_seconds<int>( to - get_last_updated() );
     // TODO: Make not a copy from map.cpp
-    for( item &outer : m.i_at( p ) ) {
+    for( item &outer : sm->get_items( loc_on_sm.xy() ) ) {
         outer.visit_items( [&power, &grid]( item * it ) {
             item &n = *it;
             if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
@@ -150,7 +161,7 @@ void charger_tile::update( time_point from, time_point to, map &m, const tripoin
             if( n.ammo_capacity() > n.ammo_remaining() ||
                 ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
                 while( power >= 1000 || x_in_y( power, 1000 ) ) {
-                    const int missing = grid.mod_energy( -1 );
+                    const int missing = grid.mod_resource( -1 );
                     if( missing == 0 ) {
                         if( n.is_battery() ) {
                             n.set_energy( 1_kJ );
@@ -191,14 +202,18 @@ void charger_tile::load( JsonObject &jo )
 
 active_tile_data *active_tile_data::create( const std::string &id )
 {
+    active_tile_data *new_tile;
     if( id == "solar" ) {
-        return new solar_tile();
+        new_tile = new solar_tile();
     } else if( id == "battery" ) {
-        return new battery_tile();
+        new_tile = new battery_tile();
     } else if( id == "charger" ) {
-        return new charger_tile();
+        new_tile = new charger_tile();
+    } else {
+        debugmsg( "Invalid active_tile_data id %s", id.c_str() );
+        new_tile = new null_tile_data();
     }
 
-    debugmsg( "Invalid active_tile_data id %s", id.c_str() );
-    return new null_tile_data();
+    new_tile->last_updated = calendar::start_of_cataclysm;
+    return new_tile;
 }

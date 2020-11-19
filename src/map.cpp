@@ -30,8 +30,8 @@
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "distribution_grid.h"
 #include "drawing_primitives.h"
-#include "electric_grid.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -2167,25 +2167,6 @@ void map::process_falling()
         support_cache_dirty.clear();
         for( const tripoint &p : last_cache ) {
             drop_everything( p );
-        }
-    }
-}
-
-void map::process_ter_furn()
-{
-    if( !get_option<bool>( "ELECTRIC_GRID" ) ) {
-        return;
-    }
-
-    for( const tripoint &p : active_tiles ) {
-        // TODO: Cache submap to avoid re-getting
-        point offset;
-        const submap *sm = get_submap_at( p, offset );
-        auto iter = sm->active_furniture.find( offset );
-        if( iter != sm->active_furniture.end() ) {
-            iter->second->update( calendar::turn - 1_seconds, calendar::turn, *this, p );
-        } else {
-            debugmsg( "Cached active tile didn't exist at %d,%d,%d", p.x, p.y, p.z );
         }
     }
 }
@@ -6407,8 +6388,7 @@ void map::load( const tripoint &w, const bool update_vehicle )
     }
     field_furn_locs.clear();
     submaps_with_active_items.clear();
-    parent_electric_grids.clear();
-    active_tiles.clear();
+    parent_distribution_grids.clear();
     set_abs_sub( w );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
@@ -6540,9 +6520,6 @@ void map::shift( const point &sp )
 
     constexpr rectangle boundaries_2d = rectangle( point_zero, point( MAPSIZE_Y, MAPSIZE_X ) );
     const point shift_offset_pt( -sp.x * SEEX, -sp.y * SEEY );
-    if( !active_tiles.empty() ) {
-        shift_tripoint_set( active_tiles, shift_offset_pt, boundaries_2d );
-    }
 
     // Shift the map sx submaps to the right and sy submaps down.
     // sx and sy should never be bigger than +/-1.
@@ -6624,7 +6601,7 @@ void map::shift( const point &sp )
         shift_tripoint_set( support_cache_dirty, shift_offset_pt, boundaries_2d );
     }
     // TODO: Shift instead of rebuilding
-    parent_electric_grids.clear();
+    //parent_distribution_grids.clear();
     if( zlevels ) {
         calc_max_populated_zlev();
     }
@@ -6798,10 +6775,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     }
 
     if( get_option<bool>( "ELECTRIC_GRID" ) && !tmpsub->active_furniture.empty() ) {
-        for( auto &pr : tmpsub->active_furniture ) {
-            tripoint p = sm_to_ms_copy( grid ) + pr.first;
-            active_tiles.emplace( p );
-        }
+        make_distribution_grid_at( sm_to_omt_copy( grid_abs_sub ) );
     }
 
     actualize( grid );
@@ -8525,38 +8499,69 @@ void map::calc_max_populated_zlev()
     }
 }
 
-shared_ptr_fast<electric_grid> map::electric_grid_at( const tripoint &p )
+const distribution_grid &map::distribution_grid_at( const tripoint &p ) const
 {
+    static distribution_grid null_grid;
     const tripoint coord = ms_to_omt_copy( getabs( p ) );
-    shared_ptr_fast<electric_grid> grid = parent_electric_grids[p];
-    if( grid != nullptr ) {
-        return grid;
+    auto iter = parent_distribution_grids.find( coord );
+    if( iter != parent_distribution_grids.end() ) {
+        return *iter->second;
     }
 
-    std::set<tripoint> positions = overmap_buffer.electric_grid_at( coord );
-    std::set<submap *> submaps;
-    for( const tripoint &omt_pos : positions ) {
-        for( int x = 0; x <= 1; x++ ) {
-            for( int y = 0; y <= 1; y++ ) {
-                tripoint sm_pos = omt_to_sm_copy( omt_pos ) + point( x, y );
+    return null_grid;
+}
 
-                submap *sm = MAPBUFFER.lookup_submap( sm_pos );
-                if( sm != nullptr ) {
-                    submaps.insert( sm );
-                } else {
-                    debugmsg( "sm at (%d,%d,%d) was null", sm_pos.x, sm_pos.y, sm_pos.z );
-                }
-            }
-        }
+distribution_grid &map::distribution_grid_at( const tripoint &p )
+{
+    return const_cast<distribution_grid &>( const_cast<const map *>( this )->distribution_grid_at(
+            p ) );
+}
+
+void map::make_distribution_grid_at( const tripoint &grid )
+{
+    const std::set<tripoint> overmap_positions = overmap_buffer.electric_grid_at( grid );
+    std::vector<tripoint> submap_positions;
+    for( const tripoint &omp : overmap_positions ) {
+        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point( 0, 0 ) );
+        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point( 1, 0 ) );
+        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point( 0, 1 ) );
+        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point( 1, 1 ) );
     }
-    grid = make_shared_fast<electric_grid>( submaps );
-    parent_electric_grids[p] = grid;
-    return grid;
+    shared_ptr_fast<distribution_grid> dist_grid = make_shared_fast<distribution_grid>
+            ( submap_positions );
+    if( dist_grid->empty() ) {
+        return;
+    }
+    for( const tripoint &omp : overmap_positions ) {
+        parent_distribution_grids[omp] = dist_grid;
+    }
 }
 
 void map::on_saved()
 {
-    parent_electric_grids.clear();
+    parent_distribution_grids.clear();
+    const tripoint low = sm_to_omt_copy( { get_abs_sub().xy(), -OVERMAP_DEPTH } );
+    const tripoint high = sm_to_omt_copy( { get_abs_sub().xy() + point( my_MAPSIZE, my_MAPSIZE ), OVERMAP_HEIGHT } );
+    for( const tripoint &om_pos : tripoint_range( low, high ) ) {
+        make_distribution_grid_at( om_pos );
+    }
+}
+
+void map::process_distribution_grids()
+{
+    if( !get_option<bool>( "ELECTRIC_GRID" ) ) {
+        return;
+    }
+
+    std::unordered_set<const distribution_grid *> checked;
+    for( const auto &pr : parent_distribution_grids ) {
+        if( checked.count( &*pr.second ) != 0 ) {
+            continue;
+        }
+
+        checked.insert( &*pr.second );
+        pr.second->update( calendar::turn );
+    }
 }
 
 tripoint drawsq_params::center() const

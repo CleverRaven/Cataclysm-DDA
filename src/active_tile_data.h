@@ -9,15 +9,38 @@ class JsonObject;
 class JsonOut;
 class map;
 struct tripoint;
+class distribution_grid;
 
 class active_tile_data
 {
     public:
         static active_tile_data *create( const std::string &id );
 
-        virtual ~active_tile_data();
+    private:
+        time_point last_updated;
 
-        virtual void update( time_point from, time_point to, map &m, const tripoint &p ) = 0;
+    protected:
+        virtual void update_internal( time_point to, const tripoint &p, distribution_grid &grid ) = 0;
+
+    public:
+        void update( time_point to, const tripoint &p, distribution_grid &grid ) {
+            update_internal( to, p, grid );
+            last_updated = to;
+        }
+
+        time_point get_last_updated() {
+            return last_updated;
+        }
+
+        virtual int get_resource() const {
+            return 0;
+        }
+
+        virtual int mod_resource( int amt ) {
+            return amt;
+        }
+
+        virtual ~active_tile_data();
         virtual active_tile_data *clone() const = 0;
         virtual const std::string &get_type() const = 0;
 
@@ -31,7 +54,7 @@ class solar_tile : public active_tile_data
         /* In W */
         int power;
 
-        void update( time_point from, time_point to, map &m, const tripoint &p ) override;
+        void update_internal( time_point to, const tripoint &p, distribution_grid &grid ) override;
         active_tile_data *clone() const override;
         const std::string &get_type() const override;
         void store( JsonOut &jsout ) const override;
@@ -45,13 +68,14 @@ class battery_tile : public active_tile_data
         int stored;
         int max_stored;
 
-        void update( time_point from, time_point to, map &m, const tripoint &p ) override;
+        void update_internal( time_point to, const tripoint &p, distribution_grid &grid ) override;
         active_tile_data *clone() const override;
         const std::string &get_type() const override;
         void store( JsonOut &jsout ) const override;
         void load( JsonObject &jo ) override;
 
-        int mod_energy( int amt );
+        int get_resource() const override;
+        int mod_resource( int amt ) override;
 };
 
 class charger_tile : public active_tile_data
@@ -60,7 +84,7 @@ class charger_tile : public active_tile_data
         /* In W */
         int power;
 
-        void update( time_point from, time_point to, map &m, const tripoint &p ) override;
+        void update_internal( time_point to, const tripoint &p, distribution_grid &grid ) override;
         active_tile_data *clone() const override;
         const std::string &get_type() const override;
         void store( JsonOut &jsout ) const override;

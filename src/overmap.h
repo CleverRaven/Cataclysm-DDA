@@ -346,6 +346,7 @@ class overmap
         bool monster_check( const std::pair<tripoint, monster> &candidate ) const;
 
     private:
+        /** Mapping of overmap coordinate to bits representing NESW+up+down connectivity. */
         std::map<tripoint, std::bitset<six_cardinal_directions.size()>> electric_grid_connections;
     public:
 

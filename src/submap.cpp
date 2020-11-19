@@ -297,4 +297,10 @@ void submap::rotate( int turns )
         rot_comp.emplace( rotate_point( elem.first ), elem.second );
     }
     computers = rot_comp;
+
+    std::map<point, cata::poly_serialized<active_tile_data>> rot_active_furn;
+    for( auto &elem : active_furniture ) {
+        rot_active_furn.emplace( rotate_point( elem.first ), elem.second );
+    }
+    active_furniture = rot_active_furn;
 }

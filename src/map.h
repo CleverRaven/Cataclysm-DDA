@@ -88,7 +88,7 @@ struct pathfinding_cache;
 struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
-class electric_grid;
+class distribution_grid;
 
 class map_stack : public item_stack
 {
@@ -1422,7 +1422,7 @@ class map
          */
         void process_falling();
 
-        void process_ter_furn();
+        void process_distribution_grids();
 
         bool is_cornerfloor( const tripoint &p ) const;
 
@@ -1866,8 +1866,12 @@ class map
         /**
          * Mapping of omt position to grid it belongs to.
          */
-        std::map<tripoint, shared_ptr_fast<electric_grid>> parent_electric_grids;
-        std::set<tripoint> active_tiles;
+        std::map<tripoint, shared_ptr_fast<distribution_grid>> parent_distribution_grids;
+
+        /**
+         * @param omt_pos Absolute overmap tile position of one of the tiles of the grid.
+         */
+        void make_distribution_grid_at( const tripoint &omt_pos );
 
     public:
         const level_cache &get_cache_ref( int zlev ) const {
@@ -1917,9 +1921,13 @@ class map
 
         /**
          * Returns the grid at given local coord.
-         * Always returns non-null.
+         * The grid can be empty.
          */
-        shared_ptr_fast<electric_grid> electric_grid_at( const tripoint &p );
+        /*@{*/
+        const distribution_grid &distribution_grid_at( const tripoint &p ) const;
+        distribution_grid &distribution_grid_at( const tripoint &p );
+        /*@}*/
+
 
         void on_saved();
 };

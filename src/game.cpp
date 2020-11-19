@@ -1515,7 +1515,7 @@ bool game::do_turn()
     m.vehmove();
     m.process_fields();
     m.process_items();
-    m.process_ter_furn();
+    m.process_distribution_grids();
     m.creature_in_field( u );
 
     // Apply sounds from previous turn to monster and NPC AI.
