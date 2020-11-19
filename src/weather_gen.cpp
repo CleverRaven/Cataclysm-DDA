@@ -334,7 +334,7 @@ weather_generator weather_generator::load( const JsonObject &jo )
 
     float base_temp = jo.get_float( "base_temperature", 0.0 );
     ret.spring_temp = base_temp + jo.get_int( "spring_temp_manual_mod", 0 );
-    ret.summer_temp = base_temp + jo.get_int( "summer_temp_manual_mod", 0 ) + 15;
+    ret.summer_temp = base_temp + jo.get_int( "summer_temp_manual_mod", 0 ) + 10;
     ret.autumn_temp = base_temp + jo.get_int( "autumn_temp_manual_mod", 0 );
     ret.winter_temp = base_temp + jo.get_int( "winter_temp_manual_mod", 0 ) - 15;
 
