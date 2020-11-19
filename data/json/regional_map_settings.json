@@ -886,6 +886,7 @@
       }
     },
     "weather": {
+      "base_temperature": 7,
       "spring_temp": 7,
       "summer_temp": 16,
       "autumn_temp": 6,
