@@ -886,9 +886,9 @@
       }
     },
     "weather": {
-      "spring_temp": 7,
+      "spring_temp": 8,
       "summer_temp": 16,
-      "autumn_temp": 6,
+      "autumn_temp": 7,
       "winter_temp": -14,
       "base_humidity": 70.0,
       "base_pressure": 1015.0,
