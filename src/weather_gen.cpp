@@ -98,8 +98,9 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     };
 
     double baseTemp = multi_lerp( mid_season_temps, quadrum );
-    const double T = baseTemp + dayv * daily_magnitude_K + raw_noise_4d( x, y, z,
-                     modSEED ) * noise_magnitude_K;
+    const double T = baseTemp +
+                     dayv * daily_magnitude_K +
+                     raw_noise_4d( x, y, z, modSEED ) * noise_magnitude_K;
 
     // Convert from Celsius to Fahrenheit
     return celsius_to_fahrenheit( T );
