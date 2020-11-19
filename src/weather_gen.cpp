@@ -331,10 +331,10 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
 weather_generator weather_generator::load( const JsonObject &jo )
 {
     weather_generator ret;
-    ret.spring_temp = jo.get_float( "spring_temp", 7.0f );
-    ret.summer_temp = jo.get_float( "summer_temp", 16.0f );
-    ret.autumn_temp = jo.get_float( "autumn_temp", 6.0f );
-    ret.winter_temp = jo.get_float( "winter_temp", -14.0f );
+    ret.spring_temp = jo.get_float( "spring_temp", 0.0f );
+    ret.summer_temp = jo.get_float( "summer_temp", 0.0f );
+    ret.autumn_temp = jo.get_float( "autumn_temp", 0.0f );
+    ret.winter_temp = jo.get_float( "winter_temp", 0.0f );
     if( jo.has_number( "base_temperature" ) ) {
         debugmsg(
             std::string( "base_temperature is oudtaded. Use spring_temp, summer_temp, autumn_temp, winter_temp instead" ) );
