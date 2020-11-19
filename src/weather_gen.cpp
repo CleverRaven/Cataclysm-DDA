@@ -330,10 +330,10 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
 weather_generator weather_generator::load( const JsonObject &jo )
 {
     weather_generator ret;
-    ret.spring_temp = jo.get_float( "spring_temp", 0.0f);
-    ret.summer_temp = jo.get_float( "summer_temp", 0.0f);
-    ret.autumn_temp = jo.get_float( "autumn_temp", 0.0f);
-    ret.winter_temp = jo.get_float( "winter_temp", 0.0f);
+    ret.spring_temp = jo.get_float( "spring_temp", 0.0f );
+    ret.summer_temp = jo.get_float( "summer_temp", 0.0f );
+    ret.autumn_temp = jo.get_float( "autumn_temp", 0.0f );
+    ret.winter_temp = jo.get_float( "winter_temp", 0.0f );
     ret.base_humidity = jo.get_float( "base_humidity", 50.0 );
     ret.base_pressure = jo.get_float( "base_pressure", 0.0 );
     ret.base_acid = jo.get_float( "base_acid", 0.0 );
