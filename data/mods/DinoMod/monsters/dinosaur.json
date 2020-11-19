@@ -1323,7 +1323,7 @@
     "armor_bash": 12,
     "armor_cut": 12,
     "armor_bullet": 12,
-    "hp": 45,
+    "hp": 250,
     "vision_day": 36,
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zianzhousaurus",
