@@ -87,7 +87,6 @@
 #include "weather_type.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
-static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
@@ -2424,10 +2423,11 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
     }
 
     item::reload_option opt = p.select_ammo( mag, true );
+    std::vector<item_location> targets;
     if( opt ) {
-        p.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
-        p.activity.targets.emplace_back( p, &p.i_add( mag ) );
-        p.activity.targets.push_back( std::move( opt.ammo ) );
+        targets.emplace_back( p, &p.i_add( mag ) );
+        targets.push_back( std::move( opt.ammo ) );
+        p.assign_activity( player_activity( reload_activity_actor( opt.moves(), opt.qty(), targets ) ) );
     }
 
     return 0;

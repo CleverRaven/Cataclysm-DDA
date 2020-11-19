@@ -875,7 +875,7 @@ void mapgen_road( mapgendata &dat )
         }
     }
 
-    // place street lights
+    // place street and traffic lights
     if( neighbor_sidewalks ) {
         // ordinary roads
         for( int pos = 0; pos < SEEY * 2 - 1; pos += 12 ) {
@@ -896,6 +896,21 @@ void mapgen_road( mapgendata &dat )
                     }
                 }
             }
+        }
+
+        // four-way intersections
+        if( num_dirs == 4 && one_in( 2 ) ) {
+            m->furn_set( point( 3, 3 ), f_traffic_light );
+            m->furn_set( point( 3, 20 ), f_traffic_light );
+            m->furn_set( point( 20, 3 ), f_traffic_light );
+            m->furn_set( point( 20, 20 ), f_traffic_light );
+        }
+
+        // tee-shaped roads
+        if( num_dirs == 3 && one_in( 2 ) ) {
+            m->furn_set( point( 3, 3 ), f_traffic_light );
+            m->furn_set( point( 20, 3 ), f_traffic_light );
+            m->furn_set( point( 3, 20 ), f_traffic_light );
         }
     }
 

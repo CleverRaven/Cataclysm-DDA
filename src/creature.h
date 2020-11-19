@@ -646,7 +646,7 @@ class Creature : public location, public viewer
         std::vector<bodypart_id> get_all_body_parts(
             get_body_part_flags = get_body_part_flags::none ) const;
 
-        std::map<bodypart_str_id, bodypart> get_body() const;
+        const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
         void calc_all_parts_hp( float hp_mod = 0.0,  float hp_adjust = 0.0, int str_max = 0,
                                 int dex_max = 0,  int per_max = 0,  int int_max = 0, int healthy_mod = 0,

@@ -96,7 +96,7 @@
       "items": {
         "b": { "item": "magazines", "chance": 50 },
         "B": { "item": "hospital_bed", "chance": 80 },
-        "f": { "item": "fridge", "chance": 90 },
+        "f": { "item": "SUS_fridge_breakroom", "chance": 90 },
         "d": { "item": "office", "chance": 80 },
         "C": { "item": "office", "chance": 20 },
         "S": { "item": "bed", "chance": 60 },

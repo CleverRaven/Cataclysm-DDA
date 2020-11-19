@@ -78,6 +78,7 @@
   {
     "id": [
       "bp_10mm_fmj",
+      "bp_357sig_fmj",
       "bp_38_fmj",
       "bp_380_FMJ",
       "bp_40ball",
@@ -128,7 +129,17 @@
     "replace": "reloaded_pistol_jhp"
   },
   {
-    "id": [ "bp_38_special", "bp_380_JHP", "bp_40sw", "bp_45_jhp", "bp_762_25", "bp_9mm", "bp_9x18mm" ],
+    "id": [
+      "bp_357sig_jhp",
+      "bp_38_special",
+      "bp_380_JHP",
+      "bp_40sw",
+      "bp_45_jhp",
+      "bp_45colt_jhp",
+      "bp_762_25",
+      "bp_9mm",
+      "bp_9x18mm"
+    ],
     "type": "MIGRATION",
     "replace": "bp_pistol_jhp"
   },

@@ -883,7 +883,7 @@ std::function<bool( const item & )> recipe::get_component_filter(
     // Disallow usage of non-full magazines as components
     // This is primarily used to require a fully charged battery, but works for any magazine.
     std::function<bool( const item & )> magazine_filter = return_true<item>;
-    if( has_flag( "FULL_MAGAZINE" ) ) {
+    if( has_flag( "NEED_FULL_MAGAZINE" ) ) {
         magazine_filter = []( const item & component ) {
             if( component.ammo_remaining() == 0 ) {
                 return false;
