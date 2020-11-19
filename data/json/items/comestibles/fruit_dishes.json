@@ -280,7 +280,7 @@
     "container": "jar_3l_glass_sealed",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "calories": 180,
+    "calories": 270,
     "description": "Whole fruits preserved in 40 proof or higher alcohol.",
     "price": 50,
     "price_postapoc": 50,
