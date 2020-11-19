@@ -18,8 +18,6 @@
 #include "posix_time.h"
 #include "translations.h"
 #include "type_id.h"
-#include "explosion.h"
-#include "point.h"
 #include "ui_manager.h"
 #include "weather.h"
 
