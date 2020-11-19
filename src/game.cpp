@@ -8997,13 +8997,16 @@ void game::reload( item_location &loc, bool prompt, bool empty )
             moves += 2500;
         }
 
-        u.assign_activity( activity_id( "ACT_RELOAD" ), moves, opt.qty() );
+        std::vector<item_location> targets;
         if( use_loc ) {
-            u.activity.targets.emplace_back( loc );
+            targets.emplace_back( loc );
         } else {
-            u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
+            targets.emplace_back( u, const_cast<item *>( opt.target ) );
         }
-        u.activity.targets.push_back( std::move( opt.ammo ) );
+        targets.push_back( std::move( opt.ammo ) );
+
+        u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
+
     }
 }
 
@@ -9085,10 +9088,11 @@ void game::reload_weapon( bool try_everything )
     turret_data turret;
     if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
         item::reload_option opt = u.select_ammo( *turret.base(), true );
+        std::vector<item_location> targets;
         if( opt ) {
-            u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
-            u.activity.targets.emplace_back( turret.base() );
-            u.activity.targets.push_back( std::move( opt.ammo ) );
+            targets.emplace_back( turret.base() );
+            targets.push_back( std::move( opt.ammo ) );
+            u.assign_activity( player_activity( reload_activity_actor( opt.moves(), opt.qty(), targets ) ) );
         }
         return;
     }
