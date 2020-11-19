@@ -342,8 +342,7 @@ weather_generator weather_generator::load( const JsonObject &jo )
            jo.read( "summer_temp", ret.summer_temp, false ) &&
            jo.read( "autumn_temp", ret.autumn_temp, false ) &&
            jo.read( "winter_temp", ret.winter_temp, false ) ) ) {
-        debugmsg(
-            std::string( "Temperatures for seasons are not set. Please set spring_temp, summer_temp, autumn_temp, winter_temp" ) );
+        debugmsg( "Temperatures for seasons are not set. Please set spring_temp, summer_temp, autumn_temp, winter_temp" );
     }
 
     //Reading actual settings
