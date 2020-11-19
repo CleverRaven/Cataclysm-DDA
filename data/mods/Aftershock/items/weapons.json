@@ -127,10 +127,10 @@
     "symbol": "[",
     "looks_like": "gauntlets_chitin",
     "color": "light_cyan",
-    "bashing": 10,
+    "bashing": 3,
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 30 } ] } ]
-      },
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 43 } ] } ]
+    },
     "to_hit": 0,
     "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "UNARMED_WEAPON" ],
     "techniques": [ "WBLOCK_1" ]
