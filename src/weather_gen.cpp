@@ -332,19 +332,21 @@ weather_generator weather_generator::load( const JsonObject &jo )
 {
     weather_generator ret;
 
+    //Handling legacy temperature settings
     float base_temp = jo.get_float( "base_temperature", 0.0 );
     ret.spring_temp = base_temp + jo.get_int( "spring_temp_manual_mod", 0 );
     ret.summer_temp = base_temp + jo.get_int( "summer_temp_manual_mod", 0 ) + 10;
     ret.autumn_temp = base_temp + jo.get_int( "autumn_temp_manual_mod", 0 );
     ret.winter_temp = base_temp + jo.get_int( "winter_temp_manual_mod", 0 ) - 15;
-
-    if( !jo.read( "spring_temp", ret.spring_temp, false ) ||
-        !jo.read( "summer_temp", ret.summer_temp, false ) ||
-        !jo.read( "autumn_temp", ret.autumn_temp, false ) ||
-        !jo.read( "winter_temp", ret.winter_temp, false ) ) {
+    if( !( jo.read( "spring_temp", ret.spring_temp, false ) &&
+           jo.read( "summer_temp", ret.summer_temp, false ) &&
+           jo.read( "autumn_temp", ret.autumn_temp, false ) &&
+           jo.read( "winter_temp", ret.winter_temp, false ) ) ) {
         debugmsg(
             std::string( "Temperatures for seasons are not set. Please set spring_temp, summer_temp, autumn_temp, winter_temp" ) );
     }
+
+    //Reading actual settings
     ret.base_humidity = jo.get_float( "base_humidity", 50.0 );
     ret.base_pressure = jo.get_float( "base_pressure", 0.0 );
     ret.base_acid = jo.get_float( "base_acid", 0.0 );
