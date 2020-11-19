@@ -37,7 +37,7 @@
   {
     "name": "GROUP_EGG_COOKIE_EGG",
     "type": "monstergroup",
-    "default": "mon_cookie_hydra"
+    "default": "mon_cookie_hydra_youth"
   },
   {
     "name": "GROUP_EGG_GUM",

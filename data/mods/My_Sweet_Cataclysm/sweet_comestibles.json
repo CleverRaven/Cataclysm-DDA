@@ -110,7 +110,7 @@
     "name": "cookie egg",
     "symbol": "%",
     "container": "null",
-    "description": "Sweet and delicious cookies, shaped like eggs.  They shiver under your touch and are shaped like an egg.  Weird!",
+    "description": "Sweet and delicious cookies, shaped like eggs.  They shiver under your touch as if something is inside.  Weird!",
     "copy-from": "cookies",
     "rot_spawn": "GROUP_EGG_COOKIE_EGG",
     "rot_spawn_chance": 100,

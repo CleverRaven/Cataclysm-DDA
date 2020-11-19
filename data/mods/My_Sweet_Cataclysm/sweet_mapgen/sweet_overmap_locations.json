@@ -34,10 +34,10 @@
       ],
       "//": "add furniture of hard rock candy replacing rubble_rock and boulders, maybe cattails.",
       "set": [
-        { "point": "furniture", "id": "f_rubble_rock", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 8, "repeat": [ 1, 5 ] },
+        { "point": "furniture", "id": "f_rubble_rockcandy", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 8, "repeat": [ 1, 5 ] },
         {
           "point": "furniture",
-          "id": "f_boulder_small",
+          "id": "f_candy_boulder_small",
           "x": [ 1, 22 ],
           "y": [ 1, 22 ],
           "chance": 8,
@@ -45,7 +45,7 @@
         },
         {
           "point": "furniture",
-          "id": "f_boulder_medium",
+          "id": "f_candy_boulder_medium",
           "x": [ 1, 22 ],
           "y": [ 1, 22 ],
           "chance": 8,
@@ -53,7 +53,7 @@
         },
         {
           "point": "furniture",
-          "id": "f_boulder_large",
+          "id": "f_candy_boulder_large",
           "x": [ 1, 22 ],
           "y": [ 1, 22 ],
           "chance": 8,
@@ -121,10 +121,10 @@
         "                        "
       ],
       "set": [
-        { "point": "furniture", "id": "f_rubble_rock", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 9, "repeat": [ 1, 5 ] },
+        { "point": "furniture", "id": "f_rubble_rockcandy", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 9, "repeat": [ 1, 5 ] },
         {
           "point": "furniture",
-          "id": "f_boulder_small",
+          "id": "f_candy_boulder_small",
           "x": [ 1, 22 ],
           "y": [ 1, 22 ],
           "chance": 9,
@@ -132,7 +132,7 @@
         },
         {
           "point": "furniture",
-          "id": "f_boulder_medium",
+          "id": "f_candy_boulder_medium",
           "x": [ 1, 22 ],
           "y": [ 1, 22 ],
           "chance": 9,
@@ -140,7 +140,7 @@
         },
         {
           "point": "furniture",
-          "id": "f_boulder_large",
+          "id": "f_candy_boulder_large",
           "x": [ 1, 22 ],
           "y": [ 1, 22 ],
           "chance": 9,
