@@ -881,9 +881,10 @@
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "charges": 8,
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "can_chicken", 2 ] ],
-      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -892,7 +893,7 @@
         [ "seasoning_salt", 4 ],
         [ "pepper", 4 ]
       ],
-      [ [ "sausage_casings", 1 ] ]
+      [ [ "sausage_casings", 8 ] ]
     ]
   },
   {

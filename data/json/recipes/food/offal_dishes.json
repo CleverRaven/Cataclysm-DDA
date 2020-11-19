@@ -425,14 +425,14 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 4,
-    "charges": 2,
+    "charges": 12,
     "time": "10 m",
     "book_learn": [ [ "offalcooking", 3 ] ],
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "components": [
       [ [ "meat_nofish", 2, "LIST" ] ],
-      [ [ "sausage_casings", 2 ] ],
+      [ [ "sausage_casings", 6 ] ],
       [
         [ "salt_water", 4 ],
         [ "saline", 8 ],
