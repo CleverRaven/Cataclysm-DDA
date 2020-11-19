@@ -486,8 +486,11 @@ The **weather** section defines the base weather attributes used for the region.
 ### Fields
 
 |     Identifier                 |                              Description                              |
-| ------------------------------ | --------------------------------------------------------------------- |
-| `base_temperature`             | Base temperature for the region in degrees Celsius.                   |
+| ------------------------------ | --------------------------------------------------------------------- |                 |
+| `spring_temp`                  | Mid spring temperature for the region in degrees Celsius              |
+| `summer_temp`                  | Mid summer temperature for the region in degrees Celsius              |
+| `autumn_temp`                  | Mid autumn temperature for the region in degrees Celsius              |
+| `winter_temp`                  | Mid winter temperature for the region in degrees Celsius              |
 | `base_humidity`                | Base humidity for the region in relative humidity %                   |
 | `base_pressure`                | Base pressure for the region in millibars.                            |
 | `base_acid`                    | Base acid for the region in ? units. Value >= 1 is considered acidic. |
@@ -495,12 +498,16 @@ The **weather** section defines the base weather attributes used for the region.
 | `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
 | `base_wind_season_variation`   | How the wind varies with season. Lower values produce more variation  |
 
+
 ### Example
 
 ```json
 {
 	"weather": {
-		"base_temperature": 6.5,
+		"spring_temp": 7,
+		"summer_temp": 16,
+		"autumn_temp": 6,
+		"winter_temp": -14
 		"base_humidity": 66.0,
 		"base_pressure": 1015.0,
 		"base_acid": 0.0,
