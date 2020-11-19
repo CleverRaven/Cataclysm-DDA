@@ -2050,6 +2050,10 @@ static std::list<item> obtain_activity_items(
                            parent ) == unhandled_containers.end() ) {
                 unhandled_containers.emplace_back( parent );
             }
+        } else {
+            // when parent's encumbrance cannot be marked as dirty,
+            // mark character's encumbrance as dirty instead (correctness over performance)
+            who.set_check_encumbrance( true );
         }
         // Take off the item or remove it from the player's inventory
         if( who.is_worn( *loc ) ) {
