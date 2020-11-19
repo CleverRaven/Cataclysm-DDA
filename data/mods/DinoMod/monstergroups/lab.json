@@ -60,7 +60,21 @@
         "starts": 2160,
         "pack_size": [ 2, 3 ]
       },
-      { "monster": "mon_dimorphodon_bio_op", "freq": 100, "cost_multiplier": 10 }
+      { "monster": "mon_dimorphodon_bio_op", "freq": 100, "cost_multiplier": 10 },
+      {
+        "monster": "mon_qianzhousaurus",
+        "freq": 50,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_qianzhousaurus_juvenile",
+        "freq": 20,
+        "cost_multiplier": 10,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
     ]
   }
 ]

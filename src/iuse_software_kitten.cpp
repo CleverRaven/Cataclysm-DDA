@@ -18,7 +18,6 @@ static constexpr int EMPTY = -1;
 static constexpr int ROBOT = 0;
 static constexpr int KITTEN = 1;
 
-
 robot_finds_kitten::robot_finds_kitten()
 {
     ret = false;

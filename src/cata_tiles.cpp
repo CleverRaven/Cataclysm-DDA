@@ -113,7 +113,8 @@ namespace
 std::string get_ascii_tile_id( const uint32_t sym, const int FG, const int BG )
 {
     return std::string( { 'A', 'S', 'C', 'I', 'I', '_', static_cast<char>( sym ),
-                          static_cast<char>( FG ), static_cast<char>( BG ) } );
+                          static_cast<char>( FG ), static_cast<char>( BG )
+                        } );
 }
 
 pixel_minimap_mode pixel_minimap_mode_from_string( const std::string &mode )
@@ -1315,6 +1316,15 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 draw_debug_tile( intensity, string_format( "%.2f", tr ) );
             }
 
+            if( g->display_overlay_state( ACTION_DISPLAY_REACHABILITY_ZONES ) ) {
+                tripoint tile_pos( x, y, center.z );
+                int value = here.reachability_cache_value( tile_pos,
+                            g->debug_rz_display.r_cache_vertical, g->debug_rz_display.quadrant );
+                // use color to denote reachability from you to the target tile according to the cache
+                bool reachable = here.has_potential_los( you.pos(), tile_pos );
+                draw_debug_tile( reachable ? 0 : 6, std::to_string( value ) );
+            }
+
             if( !invisible[0] && apply_vision_effects( pos, here.get_visibility( ll, cache ) ) ) {
                 const Creature *critter = g->critter_at( pos, true );
                 if( has_draw_override( pos ) || has_memory_at( pos ) ||
@@ -1726,7 +1736,9 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                 col = mt.color;
             }
         } else if( category == C_VEHICLE_PART ) {
-            const vpart_id vpid( found_id.substr( 3 ) );
+            const std::pair<std::string,
+                  std::string> &vpid_data = get_vpart_str_variant( found_id.substr( 3 ) );
+            const vpart_id vpid( vpid_data.first );
             if( vpid.is_valid() ) {
                 const vpart_info &v = vpid.obj();
 
@@ -1736,6 +1748,12 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                     sym = v.sym_broken;
                 } else {
                     sym = v.sym;
+                    if( !vpid_data.second.empty() ) {
+                        const auto &var_data = v.symbols.find( vpid_data.second );
+                        if( var_data != v.symbols.end() ) {
+                            sym = var_data->second;
+                        }
+                    }
                 }
                 subtile = -1;
 
@@ -1760,9 +1778,9 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         } else if( category == C_ITEM ) {
             item tmp;
             if( string_starts_with( found_id, "corpse_" ) ) {
-                tmp = item( itype_corpse, 0 );
+                tmp = item( itype_corpse, calendar::turn_zero );
             } else {
-                tmp = item( found_id, 0 );
+                tmp = item( found_id, calendar::turn_zero );
             }
             sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
             col = tmp.color();

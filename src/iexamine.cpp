@@ -164,7 +164,6 @@ static const itype_id itype_water( "water" );
 
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
@@ -694,7 +693,7 @@ class atm_menu
             }
 
             if( remaining ) {
-                add_msg( m_info, _( "All cash cards at maximum capacity" ) );
+                add_msg( m_info, _( "All cash cards at maximum capacity." ) );
             }
 
             //dst->charges += amount;
@@ -3139,7 +3138,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         }
     }
     if( to_deposit ) {
-        item brew( brew_type, 0 );
+        item brew( brew_type, calendar::turn_zero );
         int charges_held = p.charges_of( brew_type );
         brew.charges = charges_on_ground;
         for( int i = 0; i < charges_held && !vat_full; i++ ) {
@@ -3347,7 +3346,7 @@ void iexamine::keg( player &p, const tripoint &examp )
         //Store liquid chosen in the keg
         itype_id drink_type = drink_types[ drink_index ];
         int charges_held = p.charges_of( drink_type );
-        item drink( drink_type, 0 );
+        item drink( drink_type, calendar::turn_zero );
         drink.set_relative_rot( drink_rot[ drink_index ] );
         drink.charges = 0;
         bool keg_full = false;
@@ -3539,7 +3538,7 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
 
 static item_location maple_tree_sap_container()
 {
-    const item maple_sap = item( "maple_sap", 0 );
+    const item maple_sap = item( "maple_sap", calendar::turn_zero );
     return g->inv_map_splice( [&]( const item & it ) {
         return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
     }, _( "Which container?" ), PICKUP_RANGE );
@@ -3798,7 +3797,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     choose_output.text = string_format( _( "Compact %1$.3f %2$s of %3$s into:" ),
                                         convert_weight( sum_weight ), weight_units(), m.name() );
     for( const itype_id &ci : m.compacts_into() ) {
-        item it = item( ci, 0, item::solitary_tag{} );
+        item it = item( ci, calendar::turn_zero, item::solitary_tag{} );
         const int amount = norm_recover_weight / it.weight();
         //~ %1$d: number of, %2$s: output item
         choose_output.addentry( string_format( _( "about %1$d %2$s" ), amount,
@@ -3823,7 +3822,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     bool out_desired = false;
     bool out_any = false;
     for( auto it = m.compacts_into().begin() + o_idx; it != m.compacts_into().end(); ++it ) {
-        const units::mass ow = item( *it, 0, item::solitary_tag{} ).weight();
+        const units::mass ow = item( *it, calendar::turn_zero, item::solitary_tag{} ).weight();
         int count = sum_weight / ow;
         sum_weight -= count * ow;
         if( count > 0 ) {
@@ -3928,7 +3927,8 @@ void trap::examine( const tripoint &examp ) const
 
         add_msg( m_debug, _( "Rolled %i, mean_roll %g. difficulty %i." ), roll, mean_roll, difficulty );
 
-        if( roll >= difficulty ) {
+        //Difficulty 0 traps should succeed regardless of proficiencies. (i.e caltrops and nailboards)
+        if( roll >= difficulty || difficulty == 0 ) {
             add_msg( _( "You disarm the trap!" ) );
             on_disarmed( here, examp );
             if( difficulty > 1.25 * traps_skill_level ) { // failure might have set off trap
@@ -3948,10 +3948,14 @@ void trap::examine( const tripoint &examp ) const
                 player_character.practice( skill_traps, 2 * difficulty );
             }
         }
-        player_character.practice_proficiency( proficiency_prof_traps, 5_minutes );
-        // Disarming a trap gives you a token bonus to learning to set them properly.
-        player_character.practice_proficiency( proficiency_prof_trapsetting, 30_seconds );
-        player_character.practice_proficiency( proficiency_prof_disarming, 5_minutes );
+        //Picking up bubblewrap continously could powerlevel trap proficiencies, with no risk involved.
+        if( difficulty != 0 ) {
+            player_character.practice_proficiency( proficiency_prof_traps, 5_minutes );
+            // Disarming a trap gives you a token bonus to learning to set them properly.
+            player_character.practice_proficiency( proficiency_prof_trapsetting, 30_seconds );
+            player_character.practice_proficiency( proficiency_prof_disarming, 5_minutes );
+        }
+
         return;
     }
 }
@@ -3967,7 +3971,7 @@ void iexamine::water_source( player &p, const tripoint &examp )
 
 void iexamine::clean_water_source( player &, const tripoint &examp )
 {
-    item water = item( "water_clean", 0, item::INFINITE_CHARGES );
+    item water = item( "water_clean", calendar::turn_zero, item::INFINITE_CHARGES );
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
@@ -4176,10 +4180,10 @@ static int getNearPumpCount( const tripoint &p, std::string &fuel_type )
         const auto t = here.ter( tmp );
         if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
             result++;
-            fuel_type = "gasoline";
+            fuel_type = _( "gasoline" );
         } else if( t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) {
             result++;
-            fuel_type = "diesel";
+            fuel_type = _( "diesel" );
         }
     }
     return result;
@@ -4197,12 +4201,12 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
 
         auto check_for_fuel_tank = here.furn( tmp );
 
-        if( fuel_type == "gasoline" ) {
+        if( fuel_type == _( "gasoline" ) ) {
             if( check_for_fuel_tank != furn_str_id( "f_gas_tank" ) &&
                 here.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
                 continue;
             }
-        } else if( fuel_type == "diesel" ) {
+        } else if( fuel_type == _( "diesel" ) ) {
             if( check_for_fuel_tank != furn_str_id( "f_diesel_tank" ) &&
                 here.ter( tmp ) != ter_str_id( "t_diesel_tank" ) ) {
                 continue;
@@ -4245,16 +4249,8 @@ static int findBestGasDiscount( player &p )
 {
     int discount = 0;
 
-    for( size_t i = 0; i < p.inv->size(); i++ ) {
-        item &it = p.inv->find_item( i );
-
-        if( it.has_flag( flag_GAS_DISCOUNT ) ) {
-
-            int q = getGasDiscountCardQuality( it );
-            if( q > discount ) {
-                discount = q;
-            }
-        }
+    for( const item *it : p.all_items_with_flag( flag_GAS_DISCOUNT ) ) {
+        discount = std::max( discount, getGasDiscountCardQuality( *it ) );
     }
 
     return discount;
@@ -4351,16 +4347,19 @@ static int fromPumpFuel( const tripoint &dst, const tripoint &src )
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( phase_id::LIQUID ) ) {
             // how much do we have in the pump?
-            item liq_d( item_it->type, calendar::turn, item_it->charges );
+            const int amount = item_it->charges;
+            item liq_d( item_it->type, calendar::turn, amount );
 
             // add the charges to the destination
-            const auto backup_tank = here.ter( dst );
+            const ter_id backup_ter = here.ter( dst );
+            const furn_id backup_furn = here.furn( dst );
             here.ter_set( dst, ter_str_id::NULL_ID() );
+            here.furn_set( dst, furn_str_id::NULL_ID() );
             here.add_item_or_charges( dst, liq_d );
-            here.ter_set( dst, backup_tank );
+            here.ter_set( dst, backup_ter );
+            here.furn_set( dst, backup_furn );
 
             // remove the liquid from the pump
-            int amount = item_it->charges;
             items.erase( item_it );
             return amount;
         }
@@ -4374,7 +4373,7 @@ static void turnOnSelectedPump( const tripoint &p, int number, const std::string
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
         const auto t = here.ter( tmp );
-        if( fuel_type == "gasoline" ) {
+        if( fuel_type == _( "gasoline" ) ) {
             if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
                 if( number == k++ ) {
                     here.ter_set( tmp, ter_str_id( "t_gas_pump_a" ) );
@@ -4382,7 +4381,7 @@ static void turnOnSelectedPump( const tripoint &p, int number, const std::string
                     here.ter_set( tmp, ter_str_id( "t_gas_pump" ) );
                 }
             }
-        } else if( fuel_type == "diesel" ) {
+        } else if( fuel_type == _( "diesel" ) ) {
             if( t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) {
                 if( number == k++ ) {
                     here.ter_set( tmp, ter_str_id( "t_diesel_pump_a" ) );
@@ -4544,30 +4543,45 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( refund == choice ) {
-        const int pos = p.inv->position_by_type( itype_id( "cash_card" ) );
-
-        if( pos == INT_MIN ) {
-            add_msg( _( "Never mind." ) );
+        std::vector<item *> cash_cards = p.items_with( []( const item & i ) {
+            return i.typeId() == itype_cash_card;
+        } );
+        if( cash_cards.empty() ) {
+            popup( _( "You do not have a cash card to refund money!" ) );
             return;
         }
 
-        item *cashcard = &( p.i_at( pos ) );
-        // Okay, we have a cash card. Now we need to know what's left in the pump.
         const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
-        int amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0;
-        if( amount >= 0 ) {
-            sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
-                           "gaspump" );
-            cashcard->charges += amount * pricePerUnit / 1000.0f;
-            add_msg( m_info, _( "Your cash cards now hold %s." ),
-                     format_money( p.charges_of( itype_cash_card ) ) );
-            p.moves -= to_moves<int>( 5_seconds );
-            return;
-        } else {
+        int amount_fuel = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : -1;
+        if( amount_fuel < 0 ) {
             popup( _( "Unable to refund, no fuel in pump." ) );
             return;
         }
+        sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
+                       "gaspump" );
+
+        // getGasPricePerLiter( platinum_discount) min price to avoid exploit
+        int amount_money = amount_fuel * getGasPricePerLiter( 3 ) / 1000.0f;
+        std::sort( cash_cards.begin(), cash_cards.end(), []( item * l, const item * r ) {
+            return l->ammo_remaining() > r->ammo_remaining();
+        } );
+        for( item * const &cc : cash_cards ) {
+            if( amount_money == 0 ) {
+                break;
+            }
+            const int transfer = std::min( amount_money, cc->remaining_ammo_capacity() );
+            cc->ammo_set( cc->ammo_default(), transfer + cc->ammo_remaining() );
+            amount_money -= transfer;
+        }
+        if( amount_money ) {
+            add_msg( m_info, _( "All cash cards at maximum capacity." ) );
+            // all fuel already removed from pump, so remaning amount_money simply ignored
+        }
+        add_msg( m_info, _( "Your cash cards now hold %s." ),
+                 format_money( p.charges_of( itype_cash_card ) ) );
+        p.moves -= to_moves<int>( 5_seconds );
+        return;
     }
 }
 
@@ -5017,13 +5031,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 if( !patient.worn_with_flag( flag_SPLINT, part ) ) {
                     item splint;
                     if( part == bodypart_id( "arm_l" ) || part == bodypart_id( "arm_r" ) ) {
-                        splint = item( "arm_splint", 0 );
+                        splint = item( "arm_splint", calendar::turn_zero );
                     } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
-                        splint = item( "leg_splint", 0 );
+                        splint = item( "leg_splint", calendar::turn_zero );
                     }
-                    item &equipped_splint = patient.i_add( splint );
-                    cata::optional<std::list<item>::iterator> worn_item =
-                        patient.wear( equipped_splint, false );
+                    patient.wear_item( splint, false );
                 }
                 patient.add_effect( effect_mending, 0_turns, part, true );
                 effect &mending_effect = patient.get_effect( effect_mending, part );

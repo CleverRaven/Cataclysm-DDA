@@ -241,6 +241,7 @@
         ".....................2x33..............................................."
       ],
       "palettes": [ "necropolis_b1" ],
+      "terrain": { "@": "t_rock_floor", "r": "t_rock_floor", "L": "t_rock_floor", "c": "t_rock_floor" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
@@ -315,6 +316,15 @@
         ".....                  ..... 8                 {{{.....2............33  "
       ],
       "palettes": [ "necropolis_b1" ],
+      "terrain": {
+        "D": "t_metal_floor",
+        "h": "t_metal_floor",
+        "c": "t_metal_floor",
+        "r": "t_metal_floor",
+        "6": "t_metal_floor",
+        "z": "t_rock_floor",
+        "L": "t_rock_floor"
+      },
       "place_items": [
         { "item": "vault_survival", "x": [ 21, 21 ], "y": [ 20, 23 ], "chance": 85 },
         { "item": "vault_survival", "x": [ 22, 23 ], "y": [ 20, 20 ], "chance": 85 },
@@ -396,6 +406,7 @@
         "33   .....233x.........     ........  3333X3333333333333333333 ........."
       ],
       "palettes": [ "necropolis_b1" ],
+      "terrain": { "n": "t_rock_floor", "h": "t_rock_floor", "@": "t_rock_floor", "o": "t_rock_floor" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
@@ -468,6 +479,7 @@
         "................{......................................................."
       ],
       "palettes": [ "necropolis_b1" ],
+      "terrain": { "r": "t_rock_floor" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
@@ -543,6 +555,7 @@
         "...............33.......  ........33x..............................33..."
       ],
       "palettes": [ "necropolis_b1" ],
+      "terrain": { "z": "t_rock_floor" },
       "place_items": [
         { "item": "cannedfood", "x": [ 6, 7 ], "y": [ 15, 16 ], "chance": 90 },
         { "item": "cannedfood", "x": [ 7, 8 ], "y": [ 18, 19 ], "chance": 90 }
@@ -690,6 +703,16 @@
         "..............333..................xa3.................................."
       ],
       "palettes": [ "necropolis_b1" ],
+      "terrain": {
+        "d": "t_rock_floor",
+        "A": "t_rock_floor",
+        "z": "t_rock_floor",
+        "h": "t_rock_floor",
+        "n": "t_rock_floor",
+        "?": "t_rock_floor",
+        "f": "t_rock_floor",
+        "@": "t_rock_floor"
+      },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
@@ -761,6 +784,7 @@
         "................................3..............................33......."
       ],
       "palettes": [ "necropolis_b1" ],
+      "terrain": { "r": "t_rock_floor" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },

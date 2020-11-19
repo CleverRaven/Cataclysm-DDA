@@ -604,9 +604,6 @@ class comestible_inventory_preset : public inventory_selector_preset
                     case rechargeable_cbm::reactor:
                         cbm_name = _( "Reactor" );
                         break;
-                    case rechargeable_cbm::furnace:
-                        cbm_name = _( "Furnace" );
-                        break;
                     case rechargeable_cbm::other:
                         std::vector<bionic_id> bids = p.get_bionic_fueled_with( *loc );
                         if( !bids.empty() ) {

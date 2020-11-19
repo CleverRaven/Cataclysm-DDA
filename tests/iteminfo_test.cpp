@@ -1350,7 +1350,7 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
         CHECK( item_info_str( glock, default_ammo ) ==
                "--\n"
                "Weapon is <color_c_red>not loaded</color>, so stats below assume the default ammo:"
-               " <color_c_light_blue>9x19mm JHP</color>\n" );
+               " <color_c_light_blue>Test 9mm ammo</color>\n" );
     }
 
     SECTION( "critical multiplier" ) {
@@ -2158,10 +2158,8 @@ TEST_CASE( "bionic info", "[iteminfo][bionic]" )
 
     CHECK( item_info_str( burner, {} ) ==
            "--\n"
-           "* This bionic can produce power from the following fuels:"
-           " <color_c_cyan>ethanol</color>,"
-           " <color_c_cyan>methanol</color>,"
-           " and <color_c_cyan>denatured alcohol</color>\n" );
+           "* This bionic can produce power from the following fuel:"
+           " <color_c_cyan>Alcohol</color>\n" );
 
     // NOTE: No trailing newline
     CHECK( item_info_str( power, {} ) ==

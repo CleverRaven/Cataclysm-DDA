@@ -45,6 +45,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -389,7 +390,7 @@ bool mattack::antqueen( monster *z )
         }
 
         if( monster *const mon = g->critter_at<monster>( dest ) ) {
-            if( mon->type->default_faction == mfaction_id( "ant" ) && mon->type->upgrades ) {
+            if( mon->type->default_faction == STATIC( mfaction_str_id( "ant" ) ) && mon->type->upgrades ) {
                 ants.push_back( mon );
             }
 
@@ -3498,7 +3499,7 @@ bool mattack::searchlight( monster *z )
 
         for( int i = 0; i < max_lamp_count; i++ ) {
 
-            item settings( "processor", 0 );
+            item settings( "processor", calendar::turn_zero );
 
             settings.set_var( "SL_PREFER_UP", "TRUE" );
             settings.set_var( "SL_PREFER_DOWN", "TRUE" );
@@ -4771,7 +4772,7 @@ bool mattack::riotbot( monster *z )
         if( choice == ur_arrest ) {
             z->anger = 0;
 
-            item handcuffs( "e_handcuffs", 0 );
+            item handcuffs( "e_handcuffs", calendar::turn_zero );
             handcuffs.charges = handcuffs.type->maximum_charges();
             handcuffs.active = true;
             handcuffs.set_var( "HANDCUFFS_X", foe->posx() );

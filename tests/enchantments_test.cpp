@@ -42,7 +42,7 @@ TEST_CASE( "worn enchantments", "[enchantments][worn][items]" )
 
     // put on the ring
     item &equiped_ring_strplus_one = p.i_add( item( "test_ring_strength_1" ) );
-    p.wear( equiped_ring_strplus_one, false );
+    p.wear( item_location( *p.as_character(), &equiped_ring_strplus_one ), false );
 
     // wait a turn for the effect to kick in
     p.recalculate_enchantment_cache();

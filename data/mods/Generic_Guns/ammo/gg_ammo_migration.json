@@ -78,6 +78,7 @@
   {
     "id": [
       "bp_10mm_fmj",
+      "bp_357sig_fmj",
       "bp_38_fmj",
       "bp_380_FMJ",
       "bp_40ball",
@@ -128,7 +129,17 @@
     "replace": "reloaded_pistol_jhp"
   },
   {
-    "id": [ "bp_38_special", "bp_380_JHP", "bp_40sw", "bp_45_jhp", "bp_762_25", "bp_9mm", "bp_9x18mm" ],
+    "id": [
+      "bp_357sig_jhp",
+      "bp_38_special",
+      "bp_380_JHP",
+      "bp_40sw",
+      "bp_45_jhp",
+      "bp_45colt_jhp",
+      "bp_762_25",
+      "bp_9mm",
+      "bp_9x18mm"
+    ],
     "type": "MIGRATION",
     "replace": "bp_pistol_jhp"
   },
@@ -207,7 +218,7 @@
     "replace": "reloaded_rifle_ball"
   },
   {
-    "id": [ "bp_223", "bp_270win_jsp", "bp_300_winmag", "bp_3006", "bp_300blk", "bp_308" ],
+    "id": [ "bp_223", "bp_270win_jsp", "bp_300_winmag", "bp_3006", "bp_300blk", "bp_308", "bp_762_54R" ],
     "type": "MIGRATION",
     "replace": "bp_rifle_ball"
   },
@@ -269,6 +280,16 @@
     "id": [ "reloaded_50ss", "reloaded_700nx" ],
     "type": "MIGRATION",
     "replace": "reloaded_rifle_huge_AP"
+  },
+  {
+    "id": [ "bp_50ss", "bp_700nx" ],
+    "type": "MIGRATION",
+    "replace": "bp_rifle_huge_AP"
+  },
+  {
+    "id": [ "bp_50_incendiary", "bp_50match" ],
+    "type": "MIGRATION",
+    "replace": "bp_rifle_huge_ball"
   },
   {
     "id": [ "12mm" ],

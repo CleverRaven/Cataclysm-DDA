@@ -241,7 +241,7 @@ struct mtype {
         std::string sym;
         /** hint for tilesets that don't have a tile for this monster */
         std::string looks_like;
-        mfaction_id default_faction;
+        mfaction_str_id default_faction;
         bodytype_id bodytype;
         nc_color color = c_white;
         creature_size size;

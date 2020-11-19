@@ -823,7 +823,7 @@ void player::sort_armor()
             if( loc ) {
                 // wear the item
                 cata::optional<std::list<item>::iterator> new_equip_it =
-                    wear( *loc.obtain( *this ) );
+                    wear( loc.obtain( *this ) );
                 if( new_equip_it ) {
                     const bodypart_id &bp = armor_cat[ tabindex ];
                     if( tabindex == num_of_parts || ( **new_equip_it ).covers( bp ) ) {
@@ -849,8 +849,9 @@ void player::sort_armor()
             // only equip if something valid selected!
             if( loc ) {
                 // wear the item
-                if( cata::optional<std::list<item>::iterator> new_equip_it =
-                        wear( *loc.obtain( *this ) ) ) {
+                cata::optional<std::list<item>::iterator> new_equip_it =
+                    wear( loc.obtain( *this ) );
+                if( new_equip_it ) {
                     // save iterator to cursor's position
                     std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
                     // reorder `worn` vector to place new item at cursor

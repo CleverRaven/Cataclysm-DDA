@@ -175,6 +175,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_VISIBILITY: return "DISPLAY_VISIBILITY";
         case debug_menu::debug_menu_index::DISPLAY_LIGHTING: return "DISPLAY_LIGHTING";
         case debug_menu::debug_menu_index::DISPLAY_TRANSPARENCY: return "DISPLAY_TRANSPARENCY";
+        case debug_menu::debug_menu_index::DISPLAY_REACHABILITY_ZONES: return "DISPLAY_REACHABILITY_ZONES";
         case debug_menu::debug_menu_index::DISPLAY_RADIATION: return "DISPLAY_RADIATION";
         case debug_menu::debug_menu_index::HOUR_TIMER: return "HOUR_TIMER";
         case debug_menu::debug_menu_index::LEARN_SPELLS: return "LEARN_SPELLS";
@@ -253,6 +254,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_TRANSPARENCY, true, 'p', _( "Toggle display transparency" ) ) },
+            { uilist_entry( debug_menu_index::DISPLAY_REACHABILITY_ZONES, true, 'z', _( "Toggle display reachability zones" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( debug_menu_index::SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( debug_menu_index::BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
@@ -733,7 +735,9 @@ void character_edit_menu()
                 int value;
                 if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), p.get_lowest_hp() ) &&
                     value >= 0 ) {
-                    p.set_all_parts_hp_cur( value );
+                    for( bodypart_id part_id : p.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                        p.set_part_hp_cur( part_id, value );
+                    }
                     p.reset_stats();
                 }
             }
@@ -1785,6 +1789,9 @@ void debug()
             break;
         case debug_menu_index::DISPLAY_TRANSPARENCY:
             g->display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
+            break;
+        case debug_menu_index::DISPLAY_REACHABILITY_ZONES:
+            g->display_reahability_zones();
             break;
         case debug_menu_index::HOUR_TIMER:
             g->toggle_debug_hour_timer();

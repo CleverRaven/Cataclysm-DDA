@@ -401,14 +401,7 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
 
 bool effect_type::has_flag( const flag_id &flag ) const
 {
-    // initialize int_flags cache on first usage
-    if( flags.size() > int_flags.size() ) {
-        int_flags.clear();
-        for( const flag_str_id &f : flags ) {
-            int_flags.insert( f );
-        }
-    }
-    return int_flags.count( flag );
+    return flags.count( flag );
 }
 
 effect_rating effect_type::get_rating() const

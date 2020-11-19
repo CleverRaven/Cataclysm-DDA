@@ -489,7 +489,7 @@ void talk_function::bionic_remove( npc &p )
                 bio.id != bio_power_storage_mkII ) {
                 bionic_types.push_back( bio.info().itype() );
                 if( item::type_is_defined( bio.info().itype() ) ) {
-                    item tmp = item( bio.id.str(), 0 );
+                    item tmp = item( bio.id.str(), calendar::turn_zero );
                     bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
                 } else {
                     bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
@@ -508,7 +508,7 @@ void talk_function::bionic_remove( npc &p )
 
     signed int price;
     if( item::type_is_defined( bionic_types[bionic_index] ) ) {
-        price = 50000 + ( item( bionic_types[bionic_index], 0 ).price( true ) / 4 );
+        price = 50000 + ( item( bionic_types[bionic_index], calendar::turn_zero ).price( true ) / 4 );
     } else {
         price = 50000;
     }

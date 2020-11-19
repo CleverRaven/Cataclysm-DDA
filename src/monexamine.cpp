@@ -704,7 +704,7 @@ void monexamine::kill_zslave( monster &z )
 
     if( !one_in( 3 ) ) {
         player_character.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
-        item ball( "pheromone", 0 );
+        item ball( "pheromone", calendar::turn_zero );
         iuse::pheromone( &player_character, &ball, true, player_character.pos() );
     }
 }
@@ -756,15 +756,19 @@ void monexamine::milk_source( monster &source_mon )
     }
     if( milkable_ammo->second > 0 ) {
         const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
+        std::vector<tripoint> coords {};
+        std::vector<std::string> str_values {};
         Character &player_character = get_player_character();
-        player_character.assign_activity( ACT_MILK, moves, -1 );
-        player_character.activity.coords.push_back( get_map().getabs( source_mon.pos() ) );
+        coords.push_back( get_map().getabs( source_mon.pos() ) );
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
             source_mon.add_effect( effect_tied, 1_turns, true );
-            player_character.activity.str_values.push_back( "temp_tie" );
+            str_values.push_back( "temp_tie" );
         }
+        player_character.assign_activity( player_activity( milk_activity_actor( moves, coords,
+                                          str_values ) ) );
+
         add_msg( _( "You milk the %s." ), source_mon.get_name() );
     } else {
         add_msg( _( "The %s has no more milk." ), source_mon.get_name() );

@@ -148,8 +148,8 @@
     "price_postapoc": 500,
     "material": [ "flesh" ],
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 5 ], [ "vitB", 39 ] ],
+    "flags": [ "EATEN_HOT", "SMOKED" ],
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 2 ] ],
     "fun": 5
   },
   {
