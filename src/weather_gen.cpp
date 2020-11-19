@@ -336,8 +336,8 @@ weather_generator weather_generator::load( const JsonObject &jo )
     ret.autumn_temp = jo.get_float( "autumn_temp", 6.0f );
     ret.winter_temp = jo.get_float( "winter_temp", -14.0f );
     if( jo.has_number( "base_temperature" ) ) {
-        jo.throw_error(
-            std::string( "base_temperature is oudtaded. Use spring_temp, summer_temp, autumn_temp, winter_temp instead " ) );
+        debugmsg(
+            std::string( "base_temperature is oudtaded. Use spring_temp, summer_temp, autumn_temp, winter_temp instead" ) );
     }
     ret.base_humidity = jo.get_float( "base_humidity", 50.0 );
     ret.base_pressure = jo.get_float( "base_pressure", 0.0 );
