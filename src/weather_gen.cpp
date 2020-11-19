@@ -85,7 +85,7 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     // -1 at coldest_hour, +1 twelve hours later
 
     // Interpolate seasons temperature
-    // Scale year_fraction[0, 1) to [0.0, 4.0). So [0.0, 1.0] - spring, [1.0, 2.0] - summer, [2.0, 3.0] - autumn, [3.0, 4.0) - winter.
+    // Scale year_fraction [0, 1) to [0.0, 4.0). So [0.0, 1.0] - spring, [1.0, 2.0] - summer, [2.0, 3.0] - autumn, [3.0, 4.0) - winter.
     const double quadrum = common.year_fraction * 4;
     const std::vector<std::pair<float, float>> mid_season_temps = { {
             { -0.5f, wg.winter_temp }, //midwinter
