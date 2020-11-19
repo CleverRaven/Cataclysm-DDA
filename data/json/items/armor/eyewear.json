@@ -481,7 +481,7 @@
     "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of stylish corrective sunglasses", "str_pl": "pairs of stylish corrective sunglasses" },
-    "description": "A pair of stylish sunglasss, looks good while keeping the glare out of the eyes of those who are near-sighted.",
+    "description": "A pair of stylish sunglasses, looks good while keeping the glare out of the eyes of those who are near-sighted.",
     "weight": "30 g",
     "volume": "250 ml",
     "price": 27500,
