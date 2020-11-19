@@ -83,7 +83,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "black_pen_ink": 100 }, "watertight": true, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "STAB", "WRITE_MESSAGE", "NO_RELOAD" ]
+    "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD" ]
   },
   {
     "id": "pencil",
@@ -103,7 +103,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "graphite": 100 }, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "STAB", "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD" ]
+    "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "black_pen",
@@ -123,7 +123,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "black_pen_ink": 100 }, "watertight": true, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "STAB", "WRITE_MESSAGE", "NO_RELOAD" ]
+    "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD" ]
   },
   {
     "id": "blue_pen",
@@ -143,7 +143,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "blue_pen_ink": 100 }, "watertight": true, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "STAB", "WRITE_MESSAGE", "NO_RELOAD" ]
+    "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD" ]
   },
   {
     "id": "red_pen",
@@ -163,7 +163,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "red_pen_ink": 100 }, "watertight": true, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "STAB", "WRITE_MESSAGE", "NO_RELOAD" ]
+    "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD" ]
   },
   {
     "id": "green_pen",
@@ -183,7 +183,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "green_pen_ink": 100 }, "watertight": true, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "STAB", "WRITE_MESSAGE", "NO_RELOAD" ]
+    "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD" ]
   },
   {
     "id": "journal",
