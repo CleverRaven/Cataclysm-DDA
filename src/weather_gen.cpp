@@ -83,6 +83,7 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     const double dayFraction = time_past_midnight( t ) / 1_days;
     const double dayv = std::cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
     // -1 at coldest_hour, +1 twelve hours later
+
     // Interpolate seasons temperature
     // Scale year_fraction[0, 1) to [0.0, 4.0). So [0.0, 1.0] - spring, [1.0, 2.0] - summer, [2.0, 3.0] - autumn, [3.0, 4.0) - winter.
     const double quadrum = common.year_fraction * 4;
