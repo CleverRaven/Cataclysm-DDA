@@ -5323,7 +5323,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "fruit_alcohol_preserved",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5336,7 +5336,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "jarred",
     "container": "jar_glass_sealed",
     "result": "fruit_alcohol_preserved",
@@ -5351,7 +5351,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "jarred_3l",
     "container": "jar_3l_glass_sealed",
     "result": "fruit_alcohol_preserved",
