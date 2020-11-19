@@ -76,9 +76,6 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     const double z( common.z );
 
     const unsigned modSEED = common.modSEED;
-    const double seasonality = -common.cyf;
-    // -1 in midwinter, +1 in midsummer
-    const season_type season = common.season;
     const double dayFraction = time_past_midnight( t ) / 1_days;
     const double dayv = std::cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
     // -1 at coldest_hour, +1 twelve hours later
