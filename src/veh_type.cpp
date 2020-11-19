@@ -378,7 +378,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     }
 
     assign( jo, "name", def.name_ );
-    assign( jo, "item", def.item );
+    assign( jo, "item", def.base_item );
     assign( jo, "location", def.location );
     assign( jo, "durability", def.durability );
     assign( jo, "damage_modifier", def.dmg_mod );
@@ -612,7 +612,7 @@ void vpart_info::check()
         // add the base item to the installation requirements
         // TODO: support multiple/alternative base items
         requirement_data ins;
-        ins.components.push_back( { { { part.item, 1 } } } );
+        ins.components.push_back( { { { part.base_item, 1 } } } );
 
         const requirement_id ins_id( std::string( "inline_vehins_base_" ) + part.id.str() );
         requirement_data::save_requirement( ins, ins_id );
@@ -705,20 +705,21 @@ void vpart_info::check()
             debugmsg( "vehicle part %s has folding part with zero folded volume", part.name() );
         }
         if( !item::type_is_defined( part.default_ammo ) ) {
-            debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(), part.item.c_str() );
+            debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(),
+                      part.base_item.c_str() );
         }
         if( part.size < 0_ml ) {
             debugmsg( "vehicle part %s has negative size", part.id.c_str() );
         }
-        if( !item::type_is_defined( part.item ) ) {
-            debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.item.c_str() );
+        if( !item::type_is_defined( part.base_item ) ) {
+            debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.base_item.c_str() );
         }
-        const itype &base_item_type = *item::find_type( part.item );
+        const itype &base_item_type = *item::find_type( part.base_item );
         // Fuel type errors are serious and need fixing now
         if( !item::type_is_defined( part.fuel_type ) ) {
-            debugmsg( "vehicle part %s uses undefined fuel %s", part.id.c_str(), part.item.c_str() );
+            debugmsg( "vehicle part %s uses undefined fuel %s", part.id.c_str(), part.base_item.c_str() );
             part.fuel_type = itype_id::NULL_ID();
-        } else if( !part.fuel_type.is_null() && !item::find_type( part.fuel_type )->fuel &&
+        } else if( !part.fuel_type.is_null() && !item( part.fuel_type ).is_fuel() &&
                    !type_can_contain( base_item_type, part.fuel_type ) ) {
             // HACK: Tanks are allowed to specify non-fuel "fuel",
             // because currently legacy blazemod uses it as a hack to restrict content types
@@ -756,7 +757,7 @@ void vpart_info::check()
         }
         if( part.has_flag( "WHEEL" ) && !base_item_type.wheel ) {
             debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel.  "
-                      "THIS WILL CRASH!", part.id.str(), part.item.str() );
+                      "THIS WILL CRASH!", part.id.str(), part.base_item.str() );
         }
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
@@ -801,7 +802,7 @@ const std::map<vpart_id, vpart_info> &vpart_info::all()
 std::string vpart_info::name() const
 {
     if( name_.empty() ) {
-        return item::nname( item );
+        return item::nname( base_item );
     } else {
         return name_.translated();
     }
@@ -846,7 +847,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         }
     }
     if( has_flag( "TURRET" ) ) {
-        class::item base( item );
+        class::item base( base_item );
         if( base.ammo_required() && !base.ammo_remaining() ) {
             itype_id default_ammo = base.magazine_current() ? base.common_ammo_default() : base.ammo_default();
             if( !default_ammo.is_null() ) {
@@ -1198,7 +1199,7 @@ void vehicle_prototype::finalize()
 
         blueprint.suspend_refresh();
         for( part_def &pt : proto.parts ) {
-            const itype *base = item::find_type( pt.part->item );
+            const itype *base = item::find_type( pt.part->base_item );
 
             if( !pt.part.is_valid() ) {
                 debugmsg( "unknown vehicle part %s in %s", pt.part.c_str(), id.c_str() );

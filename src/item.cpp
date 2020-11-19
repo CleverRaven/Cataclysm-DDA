@@ -3405,7 +3405,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     const bionic_id bid = type->bionic->id;
-    const std::vector<itype_id> &fuels = bid->fuel_opts;
+    const std::vector<material_id> &fuels = bid->fuel_opts;
     if( !fuels.empty() ) {
         const int &fuel_numb = fuels.size();
 
@@ -3413,7 +3413,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                   ngettext( "* This bionic can produce power from the following fuel: ",
                                             "* This bionic can produce power from the following fuels: ",
                                             fuel_numb ) + enumerate_as_string( fuels.begin(),
-                                                    fuels.end(), []( const itype_id & id ) -> std::string { return "<info>" + item_controller->find_template( id )->nname( 1 ) + "</info>"; } ) ) );
+                                                    fuels.end(), []( const material_id & id ) -> std::string { return "<info>" + id->name() + "</info>"; } ) ) );
     }
 
     insert_separation_line( info );
@@ -6846,7 +6846,16 @@ bool item::is_wheel() const
 
 bool item::is_fuel() const
 {
-    return !!type->fuel;
+    // A fuel is made of only one material
+    if( type->materials.size() != 1 ) {
+        return false;
+    }
+    // and this material has to produce energy
+    if( get_base_material().get_fuel_data().energy <= 0.0 ) {
+        return false;
+    }
+    // and it needs to be have consumable charges
+    return count_by_charges();
 }
 
 bool item::is_toolmod() const
@@ -6878,23 +6887,22 @@ int item::wheel_area() const
 
 float item::fuel_energy() const
 {
-    return is_fuel() ? type->fuel->energy : 0.0f;
+    return get_base_material().get_fuel_data().energy;
 }
 
 std::string item::fuel_pump_terrain() const
 {
-    return is_fuel() ? type->fuel->pump_terrain : "t_null";
+    return get_base_material().get_fuel_data().pump_terrain;
 }
 
 bool item::has_explosion_data() const
 {
-    return is_fuel() ? type->fuel->has_explode_data : false;
+    return !get_base_material().get_fuel_data().explosion_data.is_empty();
 }
 
-struct fuel_explosion item::get_explosion_data()
+struct fuel_explosion_data item::get_explosion_data()
 {
-    static struct fuel_explosion null_data;
-    return has_explosion_data() ? type->fuel->explosion_data : null_data;
+    return get_base_material().get_fuel_data().explosion_data;
 }
 
 bool item::is_container_empty() const

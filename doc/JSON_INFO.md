@@ -637,7 +637,7 @@ For information about tools with option to export ASCII art in format ready to b
 | bullet_protect              | (_optional_) How much bullet protect does this bionic provide on the specified body parts.
 | occupied_bodyparts          | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
 | capacity                    | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| fuel_options                | (_optional_) A list of fuel that this bionic can use to produce bionic power.
+| fuel_options                | (_optional_) A list of materials that this bionic can use to produce bionic power.
 | is_remote_fueled            | (_optional_) If true this bionic allows you to plug your power banks to an external power source (solar backpack, UPS, vehicle etc) via a cable. (default: `false`)
 | fuel_capacity               | (_optional_) Volume of fuel this bionic can store.
 | fuel_efficiency             | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
@@ -842,6 +842,32 @@ There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bulle
 ```
 
 Note that the above example gives floats, not integers, for the vitamins values.  This is likely incorrect; they should be replaced with integers.
+
+
+#### Fuel data
+
+Every material can have fuel data that determines how much horse power it produces per unit consumed. Currently, gasses and plasmas cannot really be fuels.
+
+If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  This is primarily intended for the muscle pseudo-fuel, but mods may take advantage of it to make perpetual motion machines.
+
+```C++
+"fuel_data" : {
+    energy": 34.2,               // battery charges per mL of fuel. batteries have energy 1
+                                 // is also MJ/L from https://en.wikipedia.org/wiki/Energy_density
+                                 // assumes stacksize 250 per volume 1 (250mL). Multiply
+                                 // by 250 / stacksize * volume for other stack sizes and
+                                 // volumes
+   "perpetual": true,            // this material is a perpetual fuel like `wind`, `sunlight`, `muscle`, `animal` and `metabolism`.
+   "pump_terrain": "t_gas_pump", // optional. terrain id for the fuel's pump, if any.
+   "explosion_data": {           // optional for fuels that can cause explosions
+        "chance_hot": 2,         // 1 in chance_hot of explosion when attacked by HEAT weapons
+        "chance_cold": 5,        // 1 in chance_cold of explosion when attacked by other weapons
+        "factor": 1.0,           // explosion factor - larger numbers create more powerful explosions
+        "fiery": true,           // true for fiery explosions
+        "size_factor": 0.1       // size factor - larger numbers make the remaining fuel increase explosion power more
+    }
+}
+```
 
 ### Monster Groups
 
@@ -2094,6 +2120,9 @@ Unless specified as optional, the following fields are mandatory for parts with 
                               // item_ids. An engine can be fueled by any fuel type in its
                               // fuel_options.  If provided, it overrides fuel_type and should
                               // include the fuel in fuel_type.
+                              // To be a fuel an item needs to be made of only one material,
+                              // this material has to produce energy, *ie* have a `data_fuel` entry,
+                              // and it needs to have consumable charges.
 ```
 
 #### The following optional fields are specific to WHEELs.
@@ -2855,30 +2884,6 @@ Every item type can have software data, it does not have any behavior:
 "software_data" : {
     "type": "USELESS", // unused
     "power" : 91 // unused
-}
-```
-
-### Fuel data
-
-Every item type can have fuel data that determines how much horse power it produces per unit consumed. Currently, gasses and plasmas cannot really be fuels.
-
-If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  This is primarily intended for the muscle pseudo-fuel, but mods may take advantage of it to make perpetual motion machines.
-
-```C++
-"fuel" : {
-    energy": 34.2,               // battery charges per mL of fuel. batteries have energy 1
-                                 // is also MJ/L from https://en.wikipedia.org/wiki/Energy_density
-                                 // assumes stacksize 250 per volume 1 (250mL). Multiply
-                                 // by 250 / stacksize * volume for other stack sizes and
-                                 // volumes
-   "pump_terrain": "t_gas_pump", // optional. terrain id for the fuel's pump, if any.
-   "explosion_data": {           // optional for fuels that can cause explosions
-        "chance_hot": 2,         // 1 in chance_hot of explosion when attacked by HEAT weapons
-        "chance_cold": 5,        // 1 in chance_cold of explosion when attacked by other weapons
-        "factor": 1.0,           // explosion factor - larger numbers create more powerful explosions
-        "fiery": true,           // true for fiery explosions
-        "size_factor": 0.1       // size factor - larger numbers make the remaining fuel increase explosion power more
-    }
 }
 ```
 

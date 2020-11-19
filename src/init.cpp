@@ -297,9 +297,6 @@ void DynamicDataLoader::initialize()
     add( "WHEEL", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_wheel( jo, src );
     } );
-    add( "FUEL", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_fuel( jo, src );
-    } );
     add( "GUNMOD", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_gunmod( jo, src );
     } );
