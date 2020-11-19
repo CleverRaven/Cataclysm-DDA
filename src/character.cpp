@@ -2683,6 +2683,21 @@ int Character::amount_worn( const itype_id &id ) const
     return amount;
 }
 
+int Character::count_softwares( const itype_id &id )
+{
+    int count = 0;
+    for( const item_location &it_loc : all_items_loc() ) {
+        if( it_loc->is_software_storage() ) {
+            for( const item *soft : it_loc->softwares() ) {
+                if( soft->typeId() == id ) {
+                    count++;
+                }
+            }
+        }
+    }
+    return count;
+}
+
 std::vector<item_location> Character::nearby( const
         std::function<bool( const item *, const item * )> &func, int radius ) const
 {

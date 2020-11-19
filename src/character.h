@@ -1437,6 +1437,9 @@ class Character : public Creature, public visitable<Character>
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
 
+        /** Returns the amount of software `type' that are in the inventory */
+        int count_softwares( const itype_id &id );
+
         /** Returns nearby items which match the provided predicate */
         std::vector<item_location> nearby( const std::function<bool( const item *, const item * )> &func,
                                            int radius = 1 ) const;
