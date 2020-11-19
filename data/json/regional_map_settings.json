@@ -893,9 +893,9 @@
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
       "base_wind_season_variation": 50,
-      "spring_temp": 8,
+      "spring_temp": 7,
       "summer_temp": 14,
-      "autumn_temp": 8,
+      "autumn_temp": 6,
       "winter_temp": -14
     },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }

@@ -14,6 +14,7 @@
 #include "rng.h"
 #include "simplexnoise.h"
 #include "weather.h"
+#include "messages.h"
 
 namespace
 {
@@ -106,6 +107,7 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     double baseTemp = multi_lerp(mid_season_temps, quadrum);
     const double T = baseTemp + dayv * daily_magnitude_K + raw_noise_4d(x, y, z, modSEED) * noise_magnitude_K;
 
+    add_msg(m_info, "temp New: %f; temp old: %f", baseTemp + dayv * daily_magnitude_K, baseline);
     // Convert from Celsius to Fahrenheit
     return celsius_to_fahrenheit( T );
 }
@@ -347,7 +349,7 @@ weather_generator weather_generator::load( const JsonObject &jo )
     ret.autumn_temp_manual_mod = jo.get_int( "autumn_temp_manual_mod", 0 );
     ret.winter_temp_manual_mod = jo.get_int( "winter_temp_manual_mod", 0 );
     ret.spring_temp = jo.get_int("spring_temp", 0);
-    ret.summer_temp = jo.get_int("sumer_temp", 0);
+    ret.summer_temp = jo.get_int("summer_temp", 0);
     ret.autumn_temp = jo.get_int("autumn_temp", 0);
     ret.winter_temp = jo.get_int("winter_temp", 0);
     ret.spring_humidity_manual_mod = jo.get_int( "spring_humidity_manual_mod", 0 );
