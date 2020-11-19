@@ -435,15 +435,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
                 }
             }
             if( software ) {
-                for( const item_location &it_loc : player_character.all_items_loc() ) {
-                    if( it_loc->is_software_storage() ) {
-                        for( const item *soft : it_loc->softwares() ) {
-                            if( soft->typeId() == type->item_id ) {
-                                found_quantity++;
-                            }
-                        }
-                    }
-                }
+                found_quantity += player_character.count_softwares( type->item_id );
             }
             if( charges ) {
                 return player_character.charges_of( type->item_id ) + found_quantity >= item_count;
