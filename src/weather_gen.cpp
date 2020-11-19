@@ -88,12 +88,12 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     // Scale year_fraction [0, 1) to [0.0, 4.0). So [0.0, 1.0] - spring, [1.0, 2.0] - summer, [2.0, 3.0] - autumn, [3.0, 4.0) - winter.
     const double quadrum = common.year_fraction * 4;
     const std::vector<std::pair<float, float>> mid_season_temps = { {
-            { -0.5f, wg.winter_temp }, //midwinter
-            { 0.5f, wg.spring_temp }, //midspring
-            { 1.5f, wg.summer_temp }, //midsummer
-            { 2.5f, wg.autumn_temp }, //midautumn
-            { 3.5f, wg.winter_temp }, //midwinter
-            { 4.5f, wg.spring_temp }  //midspring
+            { -0.5f, wg.winter_temp }, // midwinter
+            { 0.5f, wg.spring_temp }, // midspring
+            { 1.5f, wg.summer_temp }, // midsummer
+            { 2.5f, wg.autumn_temp }, // midautumn
+            { 3.5f, wg.winter_temp }, // midwinter
+            { 4.5f, wg.spring_temp }  // midspring
         }
     };
 
@@ -332,8 +332,8 @@ weather_generator weather_generator::load( const JsonObject &jo )
 {
     weather_generator ret;
 
-    //Handling legacy temperature settings
     float base_temp = jo.get_float( "base_temperature", 0.0 );
+    // Handling legacy temperature settings
     ret.spring_temp = base_temp + jo.get_int( "spring_temp_manual_mod", 0 );
     ret.summer_temp = base_temp + jo.get_int( "summer_temp_manual_mod", 0 ) + 10;
     ret.autumn_temp = base_temp + jo.get_int( "autumn_temp_manual_mod", 0 );
@@ -345,7 +345,7 @@ weather_generator weather_generator::load( const JsonObject &jo )
         debugmsg( "Temperatures for seasons are not set. Please set spring_temp, summer_temp, autumn_temp, winter_temp" );
     }
 
-    //Reading actual settings
+    // Reading actual settings
     ret.base_humidity = jo.get_float( "base_humidity", 50.0 );
     ret.base_pressure = jo.get_float( "base_pressure", 0.0 );
     ret.base_acid = jo.get_float( "base_acid", 0.0 );
