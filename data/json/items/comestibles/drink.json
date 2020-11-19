@@ -158,6 +158,7 @@
     "copy-from": "tea",
     "color": "green",
     "use_action": [ "SLEEP" ],
+    "stim": 0,
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
