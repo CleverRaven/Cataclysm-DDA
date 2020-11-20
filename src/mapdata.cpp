@@ -509,7 +509,7 @@ ter_id t_null,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
        t_metal_floor,
-       t_pavement, t_pavement_y, t_sidewalk, t_concrete,
+       t_pavement, t_pavement_y, t_sidewalk, t_concrete, t_zebra,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
        t_floor, t_floor_waxed,
        t_dirtfloor,//Dirt floor(Has roof)
@@ -646,6 +646,7 @@ void set_ter_ids()
     t_metal_floor = ter_id( "t_metal_floor" );
     t_pavement = ter_id( "t_pavement" );
     t_pavement_y = ter_id( "t_pavement_y" );
+    t_zebra = ter_id( "t_zebra" );
     t_sidewalk = ter_id( "t_sidewalk" );
     t_concrete = ter_id( "t_concrete" );
     t_thconc_floor = ter_id( "t_thconc_floor" );
