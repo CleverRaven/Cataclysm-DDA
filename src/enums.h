@@ -372,7 +372,7 @@ struct enum_traits<reachability_cache_quadrant> {
 
     inline static reachability_cache_quadrant quadrant( bool S, bool W ) {
         return static_cast<reachability_cache_quadrant>( ( static_cast<int>( W ) << 1 ) |
-                                                           static_cast<int>( S ) );
+                static_cast<int>( S ) );
     }
 };
 
