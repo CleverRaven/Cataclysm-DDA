@@ -335,6 +335,12 @@ IF(SOUND)
         "You need the SDL2_mixer development library to be able to compile with sound enabled.\nSee INSTALL file for details and more info\n"
       )
     ENDIF(NOT SDL2_MIXER_FOUND)
+    find_package(Boost COMPONENTS system filesystem REQUIRED)
+    IF(NOT Boost_FOUND)
+      MESSAGE(FATAL_ERROR
+        "You need the libboost-systen-dev and libbost-filesystem-dev library to be able to compile with sound enabled.\nSee INSTALL file for details and more info\n"
+      )
+    ENDIF(NOT Boost_FOUND)
 ENDIF(SOUND)
 
 IF(BACKTRACE)

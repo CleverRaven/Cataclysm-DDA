@@ -114,8 +114,7 @@ IF(TILES)
       target_link_libraries(cataclysm-tiles-common ${VORBISFILE_LIBRARY})
       target_include_directories(cataclysm-tiles-common PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
       target_link_libraries(cataclysm-tiles-common ${SDL2_MIXER_LIBRARIES})
-      find_package(Boost COMPONENTS system filesystem REQUIRED)
-      include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+      target_include_directories(cataclysm-tiles-common PUBLIC ${Boost_INCLUDE_DIRS})
       target_link_libraries(cataclysm-tiles-common ${Boost_LIBRARIES})
     ENDIF(SOUND)
 
@@ -274,6 +273,7 @@ IF(MINGW AND NOT RELEASE)
         find_library(RuntimeLib_vorb_f  "libvorbisfile-3")
         find_library(RuntimeLib_mod  "libmodplug-1")
         find_library(RuntimeLib_mpeg  "smpeg2")
+        find_library(RuntimeLib_boost  "boost")
         SET(RuntimeLib_SDL_SOUND
           ${RuntimeLib_SDL_SND}
           ${RuntimeLib_flak}
@@ -286,6 +286,7 @@ IF(MINGW AND NOT RELEASE)
           ${RuntimeLib_vorb_f}
           ${RuntimeLib_mod}
           ${RuntimeLib_mpeg}
+          ${RuntimeLib_boost}
         )
       ENDIF(SOUND)
     ENDIF (TILES)

@@ -8,6 +8,7 @@
 #endif
 
 #include "boost/filesystem.hpp"
+
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -18,6 +19,7 @@
 #include "output.h"
 #include "rng.h"
 #include "sdlsound.h"
+#include "translations.h"
 #include "ui_manager.h"
 
 namespace fs = boost::filesystem;
