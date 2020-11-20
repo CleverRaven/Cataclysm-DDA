@@ -619,7 +619,10 @@ void advanced_inventory::recalc_pane( side p )
     }
     // Finally sort all items (category headers will now be moved to their proper position)
     std::stable_sort( pane.items.begin(), pane.items.end(), advanced_inv_sorter( pane.sortby ) );
-    pane.paginate( itemsPerPage );
+    // itemsPerPage is 0 during processing
+    if( itemsPerPage > 0 ) {
+        pane.paginate( itemsPerPage );
+    }
 }
 
 void advanced_inventory::redraw_pane( side p )
