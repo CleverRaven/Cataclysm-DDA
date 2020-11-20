@@ -156,14 +156,43 @@ TEST_CASE( "effect intensity", "[effect][intensity]" )
         eff_debugged.mod_intensity( 2 );
         CHECK( eff_debugged.get_intensity() == 10 );
     }
+}
 
-    // From EFFECTS_JSON.md:
-    // max_intensity: Used for many later fields, defaults to 1
-    // max_effective_intensity: How many intensity levels will apply effects. Other intensity levels
-    //   will only increase duration.
-    //
-    // If "max_intensity" > 1 and the number of entries in "name" >= "max_intensity" then it will
-    // attempt to use the proper intensity name.
+TEST_CASE( "max effective intensity", "[effect][max][intensity]" )
+{
+    const efftype_id eff_id( "max_effected" );
+    effect eff_maxed( effect_source::empty(), &eff_id.obj(), 3_turns, bodypart_str_id( "bp_null" ),
+                      false, 1, calendar::turn );
+
+    REQUIRE( eff_maxed.get_intensity() == 1 );
+    REQUIRE( eff_maxed.get_max_effective_intensity() == 6 );
+    REQUIRE( eff_maxed.get_max_intensity() == 10 );
+
+    SECTION( "scaling_mods apply up to max_effective_intensity" ) {
+        // No scaling_mod effects at baseline intensity (1)
+        eff_maxed.set_intensity( 1 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 0 );
+        // Adds 1 INT per intensity greater than 1, up to max_effective_intensity
+        eff_maxed.set_intensity( 2 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 1 );
+        eff_maxed.set_intensity( 3 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 2 );
+        eff_maxed.set_intensity( 4 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 3 );
+        eff_maxed.set_intensity( 5 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 4 );
+        eff_maxed.set_intensity( 6 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 5 );
+        // The scaling_mods should stop applying above max_effective_intensity (6)
+        eff_maxed.set_intensity( 7 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 5 );
+        eff_maxed.set_intensity( 8 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 5 );
+        eff_maxed.set_intensity( 9 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 5 );
+        eff_maxed.set_intensity( 10 );
+        CHECK( eff_maxed.get_mod( "INT" ) == 5 );
+    }
 }
 
 // Effect decay

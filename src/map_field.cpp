@@ -1691,7 +1691,7 @@ void map::player_in_field( player &u )
             // The gas won't harm you inside a vehicle.
             if( !inside ) {
                 // Full body suits protect you from the effects of the gas.
-                if( !( u.worn_with_flag( STATIC( flag_str_id( "GAS_PROOF" ) ) ) &&
+                if( !( u.worn_with_flag( STATIC( flag_id( "GAS_PROOF" ) ) ) &&
                        u.get_env_resist( bodypart_id( "mouth" ) ) >= 15 &&
                        u.get_env_resist( bodypart_id( "eyes" ) ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();

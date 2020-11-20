@@ -31,7 +31,7 @@ struct enum_traits<mf_attitude> {
 };
 
 using mfaction_att_map = std::map<mfaction_str_id, mf_attitude>;
-using mfaction_att_vec = std::vector<u_int8_t>;
+using mfaction_att_vec = std::vector<uint8_t>;
 static_assert( std::numeric_limits<mfaction_att_vec::value_type>::max() >
                enum_traits<mf_attitude>::last,
                "mfaction_att_vec element size is insufficient to represent all values of mf_attitude" );

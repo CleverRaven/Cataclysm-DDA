@@ -1794,9 +1794,9 @@ healing_options npc::patient_assessment( const Character &c )
         }
 
         int part_threshold = 75;
-        if( part_id.id() == bodypart_str_id( "head" ) ) {
+        if( part_id.id() == body_part_head ) {
             part_threshold += 20;
-        } else if( part_id.id() == bodypart_str_id( "torso" ) ) {
+        } else if( part_id.id() == body_part_torso ) {
             part_threshold += 10;
         }
         part_threshold = std::min( 80, part_threshold );

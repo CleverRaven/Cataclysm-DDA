@@ -376,7 +376,7 @@ class pocket_data
         const FlagsSetType &get_flag_restrictions() const;
         // flag_restrictions are not supposed to be modifiable, but sometimes there is a need to
         // add some, i.e. for tests.
-        void add_flag_restriction( const flag_str_id &flag );
+        void add_flag_restriction( const flag_id &flag );
         // items stored are restricted to these ammo types:
         // the pocket can only contain one of them since the amount is also defined for each ammotype
         std::map<ammotype, int> ammo_restriction;

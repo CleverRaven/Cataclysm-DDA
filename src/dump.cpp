@@ -120,8 +120,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             if( e->armor ) {
                 item obj( e );
                 if( bp == bp_null || obj.covers( bp ) ) {
-                    if( obj.has_flag( STATIC( flag_str_id( "VARSIZE" ) ) ) ) {
-                        obj.set_flag( STATIC( flag_str_id( "FIT" ) ) );
+                    if( obj.has_flag( STATIC( flag_id( "VARSIZE" ) ) ) ) {
+                        obj.set_flag( STATIC( flag_id( "FIT" ) ) );
                     }
                     dump( obj );
                 }
