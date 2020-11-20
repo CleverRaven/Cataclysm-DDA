@@ -2194,7 +2194,7 @@ bionic_id Character::get_remote_fueled_bionic() const
 
 bool Character::can_fuel_bionic_with( const item &it ) const
 {
-    if( !it.is_fuel() && !it.type->magazine && !it.flammable() ) {
+    if( !it.is_fuel() && !it.type->magazine && !it.flammable() || it.is_comestible() ) {
         return false;
     }
 
