@@ -2335,7 +2335,7 @@ void monster::drop_items_on_death()
     if( is_hallucination() ) {
         return;
     }
-    if( type->death_drops ) {
+    if( !type->death_drops ) {
         return;
     }
 
