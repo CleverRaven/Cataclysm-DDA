@@ -669,7 +669,7 @@
     "type": "effect_type",
     "id": "took_xanax_visible",
     "name": [ "Took Xanax" ],
-    "desc": [ "You took Xanax some time ago and you might still be under its influence." ]
+    "desc": [ "You took a fast-acting sedative some time ago and you might still be under its influence." ]
   },
   {
     "type": "effect_type",
@@ -685,7 +685,7 @@
     "type": "effect_type",
     "id": "took_prozac_visible",
     "name": [ "Took Prozac" ],
-    "desc": [ "You took Prozac some time ago and you might still be under its influence." ]
+    "desc": [ "You took an antidepressant some time ago and you might still be under its influence." ]
   },
   {
     "type": "effect_type",
@@ -708,7 +708,7 @@
     "type": "effect_type",
     "id": "took_thorazine_visible",
     "name": [ "Took Thorazine" ],
-    "desc": [ "You took Thorazine some time ago and you might still be under its influence." ]
+    "desc": [ "You took an antipsychotic some time ago and you might still be under its influence." ]
   },
   {
     "type": "effect_type",

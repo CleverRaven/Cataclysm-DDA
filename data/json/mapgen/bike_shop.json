@@ -154,7 +154,7 @@
         "&": { "item": "trash", "chance": 70 },
         "@": { "item": "trash", "chance": 90 },
         "c": { "item": "bikeshop_for_sale", "chance": 60, "repeat": [ 1, 4 ] },
-        "f": { "item": "fridge", "chance": 70, "repeat": [ 1, 8 ] },
+        "f": { "item": "SUS_fridge_breakroom", "chance": 70 },
         "l": { "item": "jackets", "chance": 60 },
         "r": { "item": "bikeshop_tools", "chance": 80, "repeat": [ 1, 4 ] }
       },

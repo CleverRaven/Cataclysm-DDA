@@ -243,6 +243,8 @@ def extract_bodypart(item):
     writestr(outfile, item["encumbrance_text"])
     writestr(outfile, item["heading"])
     writestr(outfile, item["heading_multiple"])
+    if "smash_message" in item:
+        writestr(outfile, item["smash_message"])
     if "hp_bar_ui_text" in item:
         writestr(outfile, item["hp_bar_ui_text"])
 

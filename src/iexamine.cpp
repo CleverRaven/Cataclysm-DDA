@@ -3927,7 +3927,8 @@ void trap::examine( const tripoint &examp ) const
 
         add_msg( m_debug, _( "Rolled %i, mean_roll %g. difficulty %i." ), roll, mean_roll, difficulty );
 
-        if( roll >= difficulty ) {
+        //Difficulty 0 traps should succeed regardless of proficiencies. (i.e caltrops and nailboards)
+        if( roll >= difficulty || difficulty == 0 ) {
             add_msg( _( "You disarm the trap!" ) );
             on_disarmed( here, examp );
             if( difficulty > 1.25 * traps_skill_level ) { // failure might have set off trap
@@ -3947,10 +3948,14 @@ void trap::examine( const tripoint &examp ) const
                 player_character.practice( skill_traps, 2 * difficulty );
             }
         }
-        player_character.practice_proficiency( proficiency_prof_traps, 5_minutes );
-        // Disarming a trap gives you a token bonus to learning to set them properly.
-        player_character.practice_proficiency( proficiency_prof_trapsetting, 30_seconds );
-        player_character.practice_proficiency( proficiency_prof_disarming, 5_minutes );
+        //Picking up bubblewrap continously could powerlevel trap proficiencies, with no risk involved.
+        if( difficulty != 0 ) {
+            player_character.practice_proficiency( proficiency_prof_traps, 5_minutes );
+            // Disarming a trap gives you a token bonus to learning to set them properly.
+            player_character.practice_proficiency( proficiency_prof_trapsetting, 30_seconds );
+            player_character.practice_proficiency( proficiency_prof_disarming, 5_minutes );
+        }
+
         return;
     }
 }

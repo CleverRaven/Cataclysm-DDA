@@ -59,9 +59,9 @@ static const itype_id itype_water( "water" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
-static const flag_str_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
-static const flag_str_id json_flag_RAINPROOF( "RAINPROOF" );
-static const flag_str_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
+static const flag_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
+static const flag_id json_flag_RAINPROOF( "RAINPROOF" );
+static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -123,7 +123,7 @@ void glare( const weather_type_id &w )
         if( player_character.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        player_character.add_env_effect( *effect, bodypart_id( "eyes" ), 2, dur );
+        player_character.add_env_effect( *effect, body_part_eyes, 2, dur );
     }
 }
 
@@ -415,18 +415,18 @@ void wet( Character &target, int amount )
     if( !calendar::once_every( 6_seconds ) ) {
         return;
     }
-    const int warmth_delay = target.warmth( bodypart_id( "torso" ) ) * 4 / 5 + target.warmth(
-                                 bodypart_id( "head" ) ) / 5;
+    const int warmth_delay = target.warmth( body_part_torso ) * 4 / 5 + target.warmth(
+                                 body_part_head ) / 5;
     if( rng( 0, 100 - amount + warmth_delay ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
     }
 
-    body_part_set drenched_parts{ { bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ) } };
-    if( get_player_character().get_part_wetness( bodypart_id( "torso" ) ) * 100 >=
-        get_player_character().get_part_drench_capacity( bodypart_id( "torso" ) ) * 50 ) {
+    body_part_set drenched_parts{ { body_part_torso, body_part_arm_l, body_part_arm_r, body_part_head } };
+    if( get_player_character().get_part_wetness( body_part_torso ) * 100 >=
+        get_player_character().get_part_drench_capacity( body_part_torso ) * 50 ) {
         // Once upper body is 50%+ drenched, start soaking the legs too
-        drenched_parts.unify_set( { { bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } } );
+        drenched_parts.unify_set( { { body_part_leg_l, body_part_leg_r } } );
     }
 
     target.drench( amount, drenched_parts, false );

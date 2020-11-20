@@ -120,8 +120,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             if( e->armor ) {
                 item obj( e );
                 if( bp == bp_null || obj.covers( bp ) ) {
-                    if( obj.has_flag( STATIC( flag_str_id( "VARSIZE" ) ) ) ) {
-                        obj.set_flag( STATIC( flag_str_id( "FIT" ) ) );
+                    if( obj.has_flag( STATIC( flag_id( "VARSIZE" ) ) ) ) {
+                        obj.set_flag( STATIC( flag_id( "FIT" ) ) );
                     }
                     dump( obj );
                 }
@@ -305,7 +305,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             std::vector<std::string> r;
             r.push_back( obj.name() );
             r.push_back( obj.location );
-            r.push_back( to_string( static_cast<int>( std::ceil( to_gram( item( obj.item ).weight() ) /
+            r.push_back( to_string( static_cast<int>( std::ceil( to_gram( item( obj.base_item ).weight() ) /
                                     1000.0 ) ) ) );
             r.push_back( to_string( obj.size / units::legacy_volume_factor ) );
             rows.push_back( r );

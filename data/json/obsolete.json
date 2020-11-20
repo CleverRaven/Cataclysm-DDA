@@ -404,8 +404,12 @@
     "id": "bio_furnace",
     "type": "bionic",
     "name": { "str": "Internal Furnace" },
-    "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
+    "description": "You can use this bionic to burn energy dense organic material as fuel (use 'E'), recharging your power level.  Some materials will produce more power than others.",
     "occupied_bodyparts": [ [ "torso", 40 ] ],
+    "fuel_options": [ "wood", "alcohol", "diesel", "jp8", "avgas", "biodiesel", "gasoline", "lamp_oil", "motor_oil", "charcoal", "coal" ],
+    "fuel_efficiency": 0.25,
+    "fuel_capacity": 1500,
+    "time": 1,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
