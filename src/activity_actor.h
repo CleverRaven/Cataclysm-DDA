@@ -853,7 +853,7 @@ class burrow_activity_actor: public activity_actor
 {
     public:
         burrow_activity_actor() = default;
-        burrow_activity_actor( int moves ) : moves_total( moves ) {
+        burrow_activity_actor( int moves, tripoint& position ) : moves_total( moves ), burrow_position( position ) {
 
         }
 
@@ -862,7 +862,7 @@ class burrow_activity_actor: public activity_actor
         }
 
         void start( player_activity &act, Character & /*who*/ ) override;
-        void do_turn( player_activity &act, Character &/*who*/ ) override;
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;
         void finish( player_activity &act, Character &who ) override;
         void canceled( player_activity &/*act*/, Character &/*who*/ ) override {};
 
@@ -870,11 +870,14 @@ class burrow_activity_actor: public activity_actor
             return std::make_unique<burrow_activity_actor>( *this );
         }
 
-        void serialize( JsonOut &jsonout ) const override;
+        void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 
     private:
-        int moves_total;
+        int moves_total {};
+        tripoint burrow_position {};
+        map& here = get_map();
+
 };
 class reload_activity_actor : public activity_actor
 {

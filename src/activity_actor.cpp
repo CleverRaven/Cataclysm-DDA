@@ -2212,11 +2212,11 @@ void burrow_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves_total;
 }
 
-void burrow_activity_actor::do_turn( player_activity &act, Character & )
+void burrow_activity_actor::do_turn( player_activity &, Character & )
 {
-    sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( act.placement ) );
+    sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( burrow_position ) );
     if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( act.placement, 10, sounds::sound_t::movement,
+        sounds::sound( burrow_position, 10, sounds::sound_t::movement,
                        //~ Sound of a Rat mutant burrowing!
                        _( "ScratchCrunchScrabbleScurry." ) );
     }
@@ -2225,40 +2225,48 @@ void burrow_activity_actor::do_turn( player_activity &act, Character & )
 
 void burrow_activity_actor::finish( player_activity &act, Character &who )
 {
-    const tripoint &pos = act.placement;
-    map &here = get_map();
-    if( here.is_bashable( pos ) && here.has_flag( "SUPPORTS_ROOF", pos ) &&
-        here.ter( pos ) != t_tree ) {
+
+    if( here.is_bashable( burrow_position ) && here.has_flag( "SUPPORTS_ROOF", burrow_position ) &&
+        here.ter( burrow_position ) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Not quite as bad as the pickaxe, though
         who.mod_stored_nutr( 10 );
         who.mod_thirst( 10 );
         who.mod_fatigue( 15 );
         who.mod_pain( 3 * rng( 1, 3 ) );
-    } else if( here.move_cost( pos ) == 2 && here.get_abs_sub().z == 0 &&
-               here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
+    } else if( here.move_cost( burrow_position ) == 2 && here.get_abs_sub().z == 0 &&
+               here.ter( burrow_position ) != t_dirt && here.ter( burrow_position ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         who.mod_stored_nutr( 5 );
         who.mod_thirst( 5 );
         who.mod_fatigue( 10 );
     }
     who.add_msg_if_player( m_good, _( "You finish burrowing." ) );
-    here.destroy( pos, true );
+    here.destroy( burrow_position, true );
 
     act.set_to_null();
 }
 
-void burrow_activity_actor::serialize( JsonOut &jsonout ) const
+void burrow_activity_actor::serialize( JsonOut &jsout ) const
 {
-    jsonout.write_null();
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "burrow_position", burrow_position );
+
+    jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> burrow_activity_actor::deserialize( JsonIn &jsin )
 {
-    burrow_activity_actor actor = burrow_activity_actor( 0 );
+    tripoint tempPoint {};
+    burrow_activity_actor actor = burrow_activity_actor( 0, tempPoint );
 
     JsonObject data = jsin.get_object();
     data.read( "moves_total", actor.moves_total );
+    data.read( "burrow_position", actor.burrow_position );
+
+    return actor.clone();
 }
 
 bool reload_activity_actor::can_reload() const
