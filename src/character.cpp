@@ -447,8 +447,6 @@ Character::Character() :
     fatigue = 0;
     sleep_deprivation = 0;
     set_rad( 0 );
-    tank_plut = 0;
-    reactor_plut = 0;
     slow_rad = 0;
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.

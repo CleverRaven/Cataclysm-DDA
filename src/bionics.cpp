@@ -141,7 +141,6 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
 
 static const bionic_id bio_adrenaline( "bio_adrenaline" );
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_blade_weapon( "bio_blade_weapon" );
 static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
@@ -164,11 +163,9 @@ static const bionic_id bio_magnet( "bio_magnet" );
 static const bionic_id bio_meteorologist( "bio_meteorologist" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_plutdump( "bio_plutdump" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const bionic_id bio_radscrubber( "bio_radscrubber" );
-static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_remote( "bio_remote" );
 static const bionic_id bio_resonator( "bio_resonator" );
 static const bionic_id bio_shockwave( "bio_shockwave" );
@@ -943,17 +940,6 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
             bio.powered = ctr.active;
         } else {
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
-        }
-    } else if( bio.id == bio_plutdump ) {
-        if( query_yn(
-                _( "WARNING: Purging all fuel is likely to result in radiation!  Purge anyway?" ) ) ) {
-            add_msg_activate();
-            slow_rad += ( tank_plut + reactor_plut );
-            tank_plut = 0;
-            reactor_plut = 0;
-        } else {
-            refund_power();
-            return false;
         }
     } else if( bio.info().is_remote_fueled ) {
         std::vector<item *> cables = items_with( []( const item & it ) {
@@ -2106,12 +2092,6 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
     }
 
     Character &player_character = get_player_character();
-    if( ( b_id == bio_reactor ) || ( b_id == bio_advreactor ) ) {
-        if( !player_character.query_yn(
-                _( "WARNING: Removing a reactor may leave radioactive material!  Remove anyway?" ) ) ) {
-            return false;
-        }
-    }
 
     for( const bionic_id &bid : get_bionics() ) {
         if( bid->is_included( b_id ) ) {

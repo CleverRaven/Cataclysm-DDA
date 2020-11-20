@@ -976,7 +976,6 @@ class npc : public player
         /*
          *  CBM management functions
          */
-        void adjust_power_cbms();
         void activate_combat_cbms();
         void deactivate_combat_cbms();
         // find items that can be used to fuel CBM rechargers

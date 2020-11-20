@@ -57,9 +57,7 @@ static const skill_id skill_survival( "survival" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_digestion( "bio_digestion" );
-static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
@@ -1416,53 +1414,6 @@ bool Character::consume_effects( item &food )
     return true;
 }
 
-bool Character::can_feed_reactor_with( const item &it ) const
-{
-    static const std::set<ammotype> acceptable = {{
-            ammotype( "reactor_slurry" ),
-            ammotype( "plutonium" )
-        }
-    };
-
-    if( !it.is_ammo() ) {
-        return false;
-    }
-
-    if( !has_active_bionic( bio_reactor ) && !has_active_bionic( bio_advreactor ) ) {
-        return false;
-    }
-
-    return std::any_of( acceptable.begin(), acceptable.end(), [ &it ]( const ammotype & elem ) {
-        return it.ammo_type() == elem;
-    } );
-}
-
-bool Character::feed_reactor_with( item &it )
-{
-    if( !can_feed_reactor_with( it ) ) {
-        return false;
-    }
-
-    const auto iter = plut_charges.find( it.typeId() );
-    const int max_amount = iter != plut_charges.end() ? iter->second : 0;
-    const int amount = std::min( get_acquirable_energy( it, rechargeable_cbm::reactor ), max_amount );
-
-    if( amount >= PLUTONIUM_CHARGES * 10 &&
-        !query_yn( _( "That is a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
-        return false;
-    }
-
-    add_msg_player_or_npc( _( "You add your %s to your reactor's tank." ),
-                           _( "<npcname> pours %s into their reactor's tank." ),
-                           it.tname() );
-
-    // TODO: Encapsulate
-    tank_plut += amount;
-    it.charges -= 1;
-    mod_moves( -250 );
-    return true;
-}
-
 bool Character::fuel_bionic_with( item &it )
 {
     if( !can_fuel_bionic_with( it ) ) {
@@ -1520,10 +1471,6 @@ bool Character::fuel_bionic_with( item &it )
 
 rechargeable_cbm Character::get_cbm_rechargeable_with( const item &it ) const
 {
-    if( can_feed_reactor_with( it ) ) {
-        return rechargeable_cbm::reactor;
-    }
-
     if( can_fuel_bionic_with( it ) ) {
         return rechargeable_cbm::other;
     }
@@ -1535,14 +1482,6 @@ int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) con
 {
     switch( cbm ) {
         case rechargeable_cbm::none:
-            break;
-
-        case rechargeable_cbm::reactor:
-            if( it.charges > 0 ) {
-                const auto iter = plut_charges.find( it.typeId() );
-                return iter != plut_charges.end() ? it.charges * iter->second : 0;
-            }
-
             break;
         case rechargeable_cbm::other:
             const bionic_id &bid = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
@@ -1776,7 +1715,6 @@ trinary player::consume( item &target, bool force )
     }
     if( consume_med( target, *this ) ||
         eat( target, *this, force ) ||
-        feed_reactor_with( target ) ||
         fuel_bionic_with( target ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
