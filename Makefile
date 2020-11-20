@@ -612,6 +612,8 @@ ifeq ($(SOUND), 1)
   endif
 
   CXXFLAGS += -DSDL_SOUND
+  
+  LDFLAGS += -lboost_filesystem -lboost_system
 endif
 
 ifeq ($(SDL), 1)
