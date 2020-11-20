@@ -909,9 +909,9 @@
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
       { "group": "tinware", "prob": 20 },
-      [ "permanent_marker", 10 ],
       [ "bone_tainted", 5 ],
-      { "group": "corpse_mansion", "prob": 5 }
+      { "group": "corpse_mansion", "prob": 5 },
+      { "group": "writing_utensils", "prob": 10 }
     ]
   },
   {
