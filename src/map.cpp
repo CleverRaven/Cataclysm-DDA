@@ -569,6 +569,12 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
                 veh.damage_all( coll_dmg / 2, coll_dmg, damage_type::BASH, collision_point );
             }
         }
+
+        // prevent vehicle bouncing after the first collision
+        if( vertical && velocity_before < 0 && coll_velocity > 0 ) {
+            veh.vertical_velocity = 0; // also affects `coll_velocity` and thus exits the loop
+        }
+
     } while( collision_attempts-- > 0 && coll_velocity != 0 &&
              sgn( coll_velocity ) == sgn( velocity_before ) &&
              !collisions.empty() && !veh_veh_coll_flag );
