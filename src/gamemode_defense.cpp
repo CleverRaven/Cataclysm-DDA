@@ -979,7 +979,8 @@ void defense_game::caravan()
             if( current_window == 1 && !items[category_selected].empty() ) {
                 item_count[category_selected][item_selected]++;
                 itype_id tmp_itm = items[category_selected][item_selected];
-                total_price += caravan_price( player_character, item( tmp_itm, 0 ).price( false ) );
+                total_price += caravan_price( player_character,
+                                              item( tmp_itm, calendar::turn_zero ).price( false ) );
                 if( category_selected == CARAVAN_CART ) { // Find the item in its category
                     for( int i = 1; i < NUM_CARAVAN_CATEGORIES; i++ ) {
                         for( size_t j = 0; j < items[i].size(); j++ ) {
@@ -1007,7 +1008,8 @@ void defense_game::caravan()
                 item_count[category_selected][item_selected] > 0 ) {
                 item_count[category_selected][item_selected]--;
                 itype_id tmp_itm = items[category_selected][item_selected];
-                total_price -= caravan_price( player_character, item( tmp_itm, 0 ).price( false ) );
+                total_price -= caravan_price( player_character,
+                                              item( tmp_itm, calendar::turn_zero ).price( false ) );
                 if( category_selected == CARAVAN_CART ) { // Find the item in its category
                     for( int i = 1; i < NUM_CARAVAN_CATEGORIES; i++ ) {
                         for( size_t j = 0; j < items[i].size(); j++ ) {
@@ -1245,7 +1247,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
     }
     // THEN print it--if item_selected is valid
     if( item_selected < static_cast<int>( items->size() ) ) {
-        item tmp( ( *items )[item_selected], 0 ); // Dummy item to get info
+        item tmp( ( *items )[item_selected], calendar::turn_zero ); // Dummy item to get info
         fold_and_print( w, point( 1, 12 ), 38, c_white, tmp.info() );
     }
     // Next, clear the item list on the right
@@ -1260,8 +1262,10 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
                    item::nname( ( *items )[i], ( *counts )[i] ) );
         wprintz( w, c_white, " x %2d", ( *counts )[i] );
         if( ( *counts )[i] > 0 ) {
-            int price = caravan_price( player_character, item( ( *items )[i],
-                                       0 ).price( false ) * ( *counts )[i] );
+            int price =
+                caravan_price(
+                    player_character,
+                    item( ( *items )[i], calendar::turn_zero ).price( false ) * ( *counts )[i] );
             wprintz( w, ( price > player_character.cash ? c_red : c_green ), " (%s)", format_money( price ) );
         }
     }

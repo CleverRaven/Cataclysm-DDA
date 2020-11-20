@@ -149,6 +149,8 @@ class item_pocket
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 
+        units::length max_containable_length() const;
+
         // combined volume of contained items
         units::volume contains_volume() const;
         units::volume remaining_volume() const;
@@ -396,11 +398,8 @@ class pocket_data
         void load( const JsonObject &jo );
         void deserialize( JsonIn &jsin );
     private:
-        // `flag_restrictions_str` is filled on load and might be changed by `add_flag_restriction`
-        // when the accessor, `get_flag_restrictions`, is called, flags are moved from
-        // `flag_restrictions_str` into `flag_restrictions_int` and `flag_restrictions_str` is cleared.
-        mutable std::set<flag_str_id> flag_restrictions_str;
-        mutable FlagsSetType flag_restrictions_int;
+
+        FlagsSetType flag_restrictions;
 };
 
 template<>

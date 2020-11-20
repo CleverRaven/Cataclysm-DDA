@@ -57,7 +57,6 @@
 #include "vpart_range.h"
 #include "weather.h"
 
-static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 
@@ -1961,7 +1960,7 @@ void vpart_position::form_inventory( inventory &inv )
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
     if( vp_faucet && inv.provide_pseudo_item( itype_water_faucet, 0 ) ) {
         for( const std::pair<const itype_id, int> &it : vehicle().fuels_left() ) {
-            item fuel( it.first, 0 );
+            item fuel( it.first, calendar::turn_zero );
             if( fuel.made_of( phase_id::LIQUID ) ) {
                 fuel.charges = it.second;
                 inv.add_item( fuel );
@@ -2113,7 +2112,7 @@ void vehicle::interact_with( const vpart_position &vp )
     }
 
     auto tool_wants_battery = []( const itype_id & type ) {
-        item tool( type, 0 );
+        item tool( type, calendar::turn_zero );
         item mag( tool.magazine_default() );
         mag.contents.clear_items();
 
@@ -2122,7 +2121,7 @@ void vehicle::interact_with( const vpart_position &vp )
     };
 
     auto use_vehicle_tool = [&]( const itype_id & tool_type ) {
-        item pseudo( tool_type, 0 );
+        item pseudo( tool_type, calendar::turn_zero );
         pseudo.set_flag( STATIC( flag_str_id( "PSEUDO" ) ) );
         if( !tool_wants_battery( tool_type ) ) {
             player_character.invoke_item( &pseudo );
@@ -2188,7 +2187,7 @@ void vehicle::interact_with( const vpart_position &vp )
             return;
         }
         case DRINK: {
-            item water( itype_water_clean, 0 );
+            item water( itype_water_clean, calendar::turn_zero );
             if( player_character.can_consume( water ) ) {
                 player_character.assign_activity( player_activity( consume_activity_actor( water ) ) );
                 drain( itype_water_clean, 1 );
@@ -2224,10 +2223,12 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         case RELOAD_TURRET: {
             item::reload_option opt = player_character.select_ammo( *turret.base(), true );
+            std::vector<item_location> targets;
             if( opt ) {
-                player_character.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
-                player_character.activity.targets.emplace_back( turret.base() );
-                player_character.activity.targets.push_back( std::move( opt.ammo ) );
+                targets.emplace_back( turret.base() );
+                targets.push_back( std::move( opt.ammo ) );
+                player_character.assign_activity( player_activity( reload_activity_actor( opt.moves(), opt.qty(),
+                                                  targets ) ) );
             }
             return;
         }

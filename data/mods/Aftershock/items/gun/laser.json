@@ -74,7 +74,6 @@
       [ "underbarrel mount", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "ammo_restriction": { "xray_laser_barrel": 3 } } ],
     "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
   },
   {

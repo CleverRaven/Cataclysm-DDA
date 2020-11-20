@@ -18,7 +18,8 @@
       "TRADER_AVOID",
       "MAGIC_FOCUS",
       "DURABLE_MELEE",
-      "WATER_FRIENDLY"
+      "WATER_FRIENDLY",
+      "SHEATH_BOW"
     ],
     "min_strength": 9,
     "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 13 },
@@ -43,7 +44,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "9mm", "9x18", "380", "357mag", "38" ],
-    "ranged_damage": 0,
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 558,
     "durability": 7,
     "blackpowder_tolerance": 66,
@@ -95,5 +96,33 @@
     "flags": [ "RELOAD_ONE", "PUMP_ACTION", "DURABLE_MELEE", "SHEATH_SWORD" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 3 } } ]
+  },
+  {
+    "id": "boreal_mosin",
+    "copy-from": "mosin91_30",
+    "type": "GUN",
+    "name": { "str_sp": "Mosin-Nagant 91/30 Boreal" },
+    "description": "A modernized version of the Mosin-Nagant 1891/30 by Cannith Industries, chambered in 7.62x51 NATO.  The barrel is enchanted to give bullets a minor freezing property.",
+    "ammo": [ "308" ],
+    "ranged_damage": { "damage_type": "cold", "amount": 3 },
+    "clip_size": 5,
+    "barrel_volume": "1000 ml",
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 }, "allowed_speedloaders": [ "borealmosin_clip" ] } ],
+    "proportional": { "price": 3, "price_postaopoc": 3, "bashing": 1.1, "weight": 0.9, "dispersion": 0.9 },
+    "relative": { "to_hit": 1 }
   }
 ]

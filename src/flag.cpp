@@ -321,64 +321,23 @@ const flag_str_id flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 const flag_str_id flag_SOFT( "SOFT" );
 const flag_str_id flag_HARD( "HARD" );
 
-
 namespace
 {
 generic_factory<json_flag> json_flags_all( "json_flags" );
 } // namespace
 
-/** @relates int_id */
+/** @relates string_id */
 template<>
-bool flag_id ::is_valid() const
+bool flag_id::is_valid() const
 {
     return json_flags_all.is_valid( *this );
 }
 
-/** @relates int_id */
+/** @relates string_id */
 template<>
 const json_flag &flag_id::obj() const
 {
     return json_flags_all.obj( *this );
-}
-
-/** @relates int_id */
-template<>
-const flag_str_id &flag_id::id() const
-{
-    return json_flags_all.convert( *this );
-}
-
-/** @relates string_id */
-template<>
-bool flag_str_id ::is_valid() const
-{
-    return json_flags_all.is_valid( *this );
-}
-
-/** @relates string_id */
-template<>
-const json_flag &flag_str_id::obj() const
-{
-    return json_flags_all.obj( *this );
-}
-
-template<>
-flag_id flag_str_id::id_or( const flag_id &fallback ) const
-{
-    return json_flags_all.convert( *this, fallback, false );
-}
-
-/** @relates string_id */
-template<>
-flag_id flag_str_id::id() const
-{
-    return json_flags_all.convert( *this, flag_id( -1 ) );
-}
-
-/** @relates int_id */
-template<>
-flag_id::int_id( const flag_str_id &id ) : _id( id.id() )
-{
 }
 
 json_flag::operator bool() const

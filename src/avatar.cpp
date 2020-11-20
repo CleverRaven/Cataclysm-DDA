@@ -1173,7 +1173,7 @@ void avatar::reset_stats()
         add_miss_reason( _( "Your chitin gets in the way." ), 1 );
     }
     if( has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bodypart_id( "eyes" ) ) ) {
-        mod_per_bonus( 1 );
+        mod_per_bonus( 2 );
     }
     if( has_trait( trait_INSECT_ARMS ) ) {
         add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
@@ -1609,7 +1609,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;
     const int num_methods = use_methods.size();
 
-    const bool has_relic = used->is_relic();
+    const bool has_relic = used->has_relic_activation();
     if( use_methods.empty() && !has_relic ) {
         return false;
     } else if( num_methods == 1 && !has_relic ) {

@@ -83,6 +83,7 @@
     "//": "A typical toolbox filled with tools.",
     "subtype": "collection",
     "container-item": "toolbox_empty",
+    "on_overflow": "discard",
     "items": [
       [ "hammer", 80 ],
       [ "screwdriver_set", 65 ],
@@ -98,6 +99,7 @@
     "//": "A typical toolbox filled with tools.",
     "subtype": "collection",
     "container-item": "toolbox_empty",
+    "on_overflow": "discard",
     "items": [
       [ "hammer", 80 ],
       [ "screwdriver_set", 65 ],
