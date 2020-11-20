@@ -1469,6 +1469,11 @@ bool Character::fuel_bionic_with( item &it )
         return false;
     }
 
+    if( it.is_favorite &&
+        !get_avatar().query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
+        return false;
+    }
+
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
     const bool is_magazine = !!it.type->magazine;
