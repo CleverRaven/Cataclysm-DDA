@@ -1196,7 +1196,7 @@ void avatar::reset_stats()
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
         } else if( !exclusive_flag_coverage( STATIC( flag_id( "OVERSIZE" ) ) )
-                   .test( bodypart_str_id( "torso" ) ) ) {
+                   .test( body_part_torso ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
@@ -1290,8 +1290,8 @@ void avatar::reset_stats()
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {
         static const bodypart_str_id parts[] {
-            bodypart_str_id( "head" ), bodypart_str_id( "arm_r" ), bodypart_str_id( "arm_l" ),
-            bodypart_str_id( "leg_r" ), bodypart_str_id( "leg_l" )
+            body_part_head, body_part_arm_r, body_part_arm_l,
+            body_part_leg_r, body_part_leg_l
         };
         for( const bodypart_str_id &bp : parts ) {
             if( !wearing_something_on( bp ) ) {

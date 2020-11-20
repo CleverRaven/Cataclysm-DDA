@@ -728,7 +728,7 @@ void item::iterate_covered_body_parts_internal( const side s,
     if( is_gun() ) {
         // Currently only used for guns with the should strap mod, other guns might
         // go on another bodypart.
-        cb( STATIC( bodypart_str_id( "torso" ) ) );
+        cb( body_part_torso );
     }
 
     const islot_armor *armor = find_armor_data();
@@ -2732,7 +2732,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 for( const armor_portion_data &piece : t->data ) {
                     if( piece.covers.has_value() ) {
                         for( const bodypart_str_id &covering_id : piece.covers.value() ) {
-                            if( covering_id != bodypart_str_id( "bp_null" ) ) {
+                            if( covering_id != bodypart_str_id::NULL_ID() ) {
                                 to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
                                         get_encumber( player_character, covering_id ),
                                         get_encumber( player_character, covering_id, encumber_flags::assume_full ),
@@ -4326,9 +4326,9 @@ void item::on_wear( Character &p )
         } else if( has_flag( flag_TOURNIQUET ) ) {
             set_side( side::LEFT );
             if( ( covers( bodypart_id( "leg_l" ) ) &&
-                  p.has_effect( effect_bleed, bodypart_str_id( "leg_r" ) ) &&
+                  p.has_effect( effect_bleed, body_part_leg_r ) &&
                   !p.worn_with_flag( flag_TOURNIQUET, bodypart_id( "leg_r" ) ) ) ||
-                ( covers( bodypart_id( "arm_l" ) ) && p.has_effect( effect_bleed, bodypart_str_id( "arm_r" ) ) &&
+                ( covers( bodypart_id( "arm_l" ) ) && p.has_effect( effect_bleed, body_part_arm_r ) &&
                   !p.worn_with_flag( flag_TOURNIQUET, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
