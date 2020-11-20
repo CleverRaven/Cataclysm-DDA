@@ -257,8 +257,6 @@ ifneq ($(CLANG), 0)
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
-    OTHERS += -lc++experimental
-    LDFLAGS += -lc++experimental
   endif
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
@@ -612,9 +610,6 @@ ifeq ($(SOUND), 1)
   ifeq ($(MSYS2),1)
     LDFLAGS += -lmpg123 -lshlwapi -lvorbisfile -lvorbis -logg -lflac
   endif
-
-  # For <experimental/filesystem> lib
-  LDFLAGS += -lstdc++fs
 
   CXXFLAGS += -DSDL_SOUND
 endif

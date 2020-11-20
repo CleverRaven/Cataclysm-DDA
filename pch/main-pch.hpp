@@ -21,7 +21,6 @@
 #include <cwctype>
 #include <deque>
 #include <exception>
-#include <experimental/filesystem>
 #include <forward_list>
 #include <fstream>
 #include <functional>
