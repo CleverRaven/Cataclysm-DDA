@@ -1712,7 +1712,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "plastic beverage bag" },
-    "description": "A transparent, watertight plastic bag meant for mixing beverages in.",
+    "description": "A transparent, watertight plastic bag meant for holding drinks.",
     "weight": "6 g",
     "volume": "262 ml",
     "price": 0,
