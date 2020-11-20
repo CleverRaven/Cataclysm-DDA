@@ -22,8 +22,6 @@ constexpr double coldest_hour = 5;
 // Out of 24 hours
 constexpr double daily_magnitude_K = 5;
 // Greatest absolute change from a day's average temperature, in kelvins
-constexpr double seasonality_magnitude_K = 15;
-// Greatest absolute change from the year's average temperature, in kelvins
 constexpr double noise_magnitude_K = 8;
 // Greatest absolute day-to-day noise, in kelvins
 } //namespace
