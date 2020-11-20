@@ -833,7 +833,7 @@
     "id": "instant_coffee",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str": "instant coffee mix" },
+    "name": { "str_sp": "instant coffee mix" },
     "looks_like": "coffee_raw",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "INEDIBLE" ],
     "weight": "5 g",
