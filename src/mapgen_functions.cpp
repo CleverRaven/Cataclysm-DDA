@@ -877,24 +877,20 @@ void mapgen_road( mapgendata &dat )
 
     // place street and traffic lights and draw stop lines
     if( neighbor_sidewalks ) {
-        // ordinary roads
-        for( int pos = 0; pos < SEEY * 2 - 1; pos += 12 ) {
-            if( m->ter( point( 3, pos ) ) == t_sidewalk ) {
-                m->furn_set( point( 3, pos ), f_street_light );
+        if( diag ) { // diagonal roads
+            if( m->ter( point( 12, 12 ) ) == t_sidewalk ) {
+                m->furn_set( point( 12, 12 ), f_street_light );
             }
-            if( m->ter( point( 20, pos ) ) == t_sidewalk ) {
-                m->furn_set( point( 20, pos ), f_street_light );
+        } else if( num_dirs == 3 ) { // tee-shaped intersections
+            if( m->ter( point( 12, 20 ) ) == t_sidewalk ) {
+                m->furn_set( point( 12, 20 ), f_street_light );
             }
-        }
-
-        // diagonal or tee-shaped roads
-        if( diag || num_dirs == 3 ) {
-            for( int x = 0; x < SEEX * 2 - 1; x += 10 ) {
-                for( int y = 0; y < SEEY * 2 - 1; y += 10 ) {
-                    if( m->ter( point( x, y ) ) == t_sidewalk ) {
-                        m->furn_set( point( x, y ), f_street_light );
-                    }
-                }
+        } else if( num_dirs == 2 || num_dirs == 1 ) { // ordinary roads and dead ends
+            if( m->ter( point( 3, 12 ) ) == t_sidewalk ) {
+                m->furn_set( point( 3, 12 ), f_street_light );
+            }
+            if( m->ter( point( 20, 12 ) ) == t_sidewalk ) {
+                m->furn_set( point( 20, 12 ), f_street_light );
             }
         }
 
