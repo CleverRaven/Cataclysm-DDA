@@ -110,7 +110,7 @@ class effect_type
         int int_decay_tick = 0 ;
         time_duration int_dur_factor = 0_turns;
 
-        std::set<flag_str_id> flags;
+        std::set<flag_id> flags;
 
         bool main_parts_only = false;
 

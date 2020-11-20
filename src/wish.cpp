@@ -444,9 +444,9 @@ static item wishitem_produce( const itype &type, std::string &flags, bool incont
 
     granted.unset_flags();
     for( const auto &tag : debug_menu::string_to_iterable<std::vector<std::string>>( flags, " " ) ) {
-        const flag_str_id flag( tag );
+        const flag_id flag( tag );
         if( flag.is_valid() ) {
-            granted.set_flag( flag_str_id( tag ) );
+            granted.set_flag( flag_id( tag ) );
         }
     }
 
