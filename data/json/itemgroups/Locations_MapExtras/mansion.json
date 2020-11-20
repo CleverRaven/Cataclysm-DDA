@@ -1352,7 +1352,7 @@
       [ "pants_army", 10 ],
       [ "jersey", 40 ],
       [ "linuxtshirt", 20 ],
-      [ "kilt", 5 ]
+      [ "kilt", 3 ]
     ]
   },
   {
@@ -1472,7 +1472,7 @@
       { "group": "neckties", "prob": 5 },
       [ "tieclip", 2 ],
       [ "collarpin", 2 ],
-      [ "kilt", 5 ],
+      [ "kilt", 3 ],
       [ "fedora", 5 ],
       [ "kufi", 2 ],
       [ "kippah", 2 ],

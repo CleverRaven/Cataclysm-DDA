@@ -187,7 +187,7 @@ const pocket_data::FlagsSetType &pocket_data::get_flag_restrictions() const
     return flag_restrictions;
 }
 
-void pocket_data::add_flag_restriction( const flag_str_id &flag )
+void pocket_data::add_flag_restriction( const flag_id &flag )
 {
     flag_restrictions.insert( flag );
 }
