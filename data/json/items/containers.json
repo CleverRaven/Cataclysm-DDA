@@ -1706,5 +1706,30 @@
     ],
     "symbol": ")",
     "color": "red"
+  },
+  {
+    "id": "beverage_bag",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "plastic beverage bag" },
+    "description": "A transparent, watertight plastic bag meant for mixing beverages in.",
+    "weight": "6 g",
+    "volume": "262 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 0,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg"
+      }
+    ]
   }
 ]
