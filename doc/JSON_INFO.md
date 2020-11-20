@@ -1062,21 +1062,6 @@ Example:
 ]
 ```
 
-Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:addictions" and "remove:addictions", removing requires only the addiction type. Example:
-```C++
-{
-    "type": "profession",
-    "id": "hunter",
-    "edit-mode": "modify",
-    "remove:addictions": [
-        "nicotine"
-    ],
-    "add:addictions": [
-        { "type": "alcohol", "intensity": 10 }
-    ]
-}
-```
-
 #### `skills`
 
 (optional, array of skill levels)
@@ -1101,22 +1086,6 @@ List of starting proficiency ids.
 Example:
 ```json
 "proficiencies": [ "prof_knapping" ]
-```
-
-Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:skills" and "remove:skills", removing requires only the skill id. Example:
-```C++
-{
-    "type": "profession",
-    "id": "hunter",
-    "edit-mode": "modify",
-    "remove:skills": [
-        "archery"
-    ],
-    "add:skills": [
-        { "name": "computer", "level": 2 }
-    ]
-}
-
 ```
 
 #### `items`
@@ -1146,30 +1115,6 @@ Example:
 
 This gives the player pants, two rocks, a t-shirt with the snippet id "allyourbase" (giving it a special description), socks and (depending on the gender) briefs or panties.
 
-Mods can modify the lists of existing professions. This requires the "edit-mode" member with value "modify" (see example). Adding items to the lists can be done with via "add:both" / "add:male" / "add:female". It allows the same content (it allows adding items with snippet ids). Removing items is done via "remove:both" / "remove:male" / "remove:female", which may only contain items ids.
-
-Example for mods:
-
-```C++
-{
-    "type": "profession",
-    "id": "hunter",
-    "edit-mode": "modify",
-    "items": {
-        "remove:both": [
-            "rock",
-            "tshirt_text"
-        ],
-        "add:both": [ "2x4" ],
-        "add:female": [
-            ["tshirt_text", "allyourbase"]
-        ]
-    }
-}
-```
-
-This mod removes one of the rocks (the other rock is still created), the t-shirt, adds a 2x4 item and gives female characters a t-shirt with the special snippet id.
-
 #### `pets`
 
 (optional, array of string mtype_ids )
@@ -1193,23 +1138,17 @@ A list of flags. TODO: document those flags here.
 
 - `NO_BONUS_ITEMS` Prevent bonus items (such as inhalers with the ASTHMA trait) from being given to this profession
 
-Mods can modify this via `add:flags` and `remove:flags`.
-
 #### `cbms`
 
 (optional, array of strings)
 
 A list of CBM ids that are implanted in the character.
 
-Mods can modify this via `add:CBMs` and `remove:CBMs`.
-
 #### `traits`
 
 (optional, array of strings)
 
 A list of trait/mutation ids that are applied to the character.
-
-Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Recipes
 
@@ -3676,41 +3615,20 @@ Example:
 ```
 This gives the player pants, two rocks and (depending on the gender) briefs or panties.
 
-Mods can modify the lists of an existing scenario via "add:both" / "add:male" / "add:female" and "remove:both" / "remove:male" / "remove:female".
-
-Example for mods:
-```C++
-{
-    "type": "scenario",
-    "id": "schools_out",
-    "edit-mode": "modify",
-    "items": {
-        "remove:both": [ "rock" ],
-        "add:female": [ "2x4" ]
-    }
-}
-```
-
 ## `flags`
 (optional, array of strings)
 
 A list of flags. TODO: document those flags here.
-
-Mods can modify this via "add:flags" and "remove:flags".
 
 ## `cbms`
 (optional, array of strings)
 
 A list of CBM ids that are implanted in the character.
 
-Mods can modify this via "add:CBMs" and "remove:CBMs".
-
 ## `traits", "forced_traits", "forbidden_traits`
 (optional, array of strings)
 
 Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can't be selected during the character creation. Traits in "forced_traits" are automatically added to character. Traits in "traits" enables them to be chosen, even if they are not starting traits.
-
-Mods can modify this via "add:traits" / "add:forced_traits" / "add:forbidden_traits" and "remove:traits" / "remove:forced_traits" / "remove:forbidden_traits".
 
 ## `allowed_locs`
 (optional, array of strings)
@@ -3767,7 +3685,7 @@ The id of an overmap terrain type (see overmap_terrain.json) of the starting loc
 ## `flags`
 (optional, array of strings)
 
-Arbitrary flags. Mods can modify this via "add:flags" / "remove:flags". TODO: document them.
+Arbitrary flags. TODO: document them.
 
 ### `tile_config`
 Each tileset has a tile_config.json describing how to map the contents of a sprite sheet to various tile identifiers, different orientations, etc. The ordering of the overlays used for displaying mutations can be controlled as well. The ordering can be used to override the default ordering provided in `mutation_ordering.json`. Example:

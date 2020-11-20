@@ -122,12 +122,12 @@ In-game description for the monster.
 ## "categories"
 (array of strings, optional)
 
-Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode.  One can add or remove entries in mods via "add:flags" and "remove:flags".
+Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode.
 
 ## "species"
 (array of strings, optional)
 
-A list of species ids. One can add or remove entries in mods via "add:species" and "remove:species", see Modding below. Properties (currently only triggers) from species are added to the properties of each monster that belong to the species.
+A list of species ids. Properties (currently only triggers) from species are added to the properties of each monster that belong to the species.
 
 In mainline game it can be HUMAN, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WORM, MOLLUSK, AMPHIBIAN, INSECT, SPIDER, FUNGUS, PLANT, NETHER, MUTANT, BLOB, HORROR, ABERRATION, HALLUCINATION and UNKNOWN.
 
@@ -170,7 +170,7 @@ Size flag, see [JSON_FLAGS.md](JSON_FLAGS.md).
 ## "material"
 (array of strings, optional)
 
-The materials the monster is primarily composed of. Must contain valid material ids. An empty array (which is the default) is also allowed, the monster is made of no specific material. One can add or remove entries in mods via "add:material" and "remove:material".
+The materials the monster is primarily composed of. Must contain valid material ids. An empty array (which is the default) is also allowed, the monster is made of no specific material.
 
 ## "phase"
 (string, optional)
@@ -334,7 +334,7 @@ An item group that is used to spawn items when the monster dies. This can be an 
 ## "death_function"
 (array of strings, optional)
 
-How the monster behaves on death. See [JSON_FLAGS.md](JSON_FLAGS.md) for a list of possible functions. One can add or remove entries in mods via "add:death_function" and "remove:death_function".
+How the monster behaves on death. See [JSON_FLAGS.md](JSON_FLAGS.md) for a list of possible functions.
 
 ## "emit_field"
 (array of objects of emit_id and time_duration, optional)
@@ -385,17 +385,10 @@ The new style object should contain at least a "type" member (string) and "coold
 ]
 ```
 
-One can add entries with "add:death_function", which takes the same content as the "special_attacks" member and remove entries with "remove:death_function", which requires an array of attack types. Example:
-
-```JSON
-"remove:special_attacks": [ "GRAB" ],
-"add:special_attacks": [ [ "SHRIEK", 20 ] ]
-```
-
 ## "flags"
 (array of strings, optional)
 
-Monster flags. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list. One can add or remove entries in mods via "add:flags" and "remove:flags".
+Monster flags. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list.
 
 ## "fear_triggers", "anger_triggers", "placate_triggers"
 (array of strings, optional)
@@ -502,41 +495,6 @@ Each element of the array should be an object containing the following members:
 | `avoid_traps`        | (bool, default false) Monster avoids stepping into traps
 | `allow_climb_stairs` | (bool, default true) Monster may climb stairs
 | `avoid_sharp`        | (bool, default false) Monster may avoid sharp things like barbed wire
-
-
-# Modding
-
-Monster types can be overridden or modified in mods. To do so, one has to add an "edit-mode" member, which can contain either:
-- "create" (the default if the member does not exist), an error will be shown if a type with the given id already exists.
-- "override", an existing type (if any) with the given id will be removed and the new data will be loaded as a completely new type.
-- "modify", an existing type will be modified. If there is no type with the given id, an error will be shown.
-
-Mandatory properties (all that are not marked as optional) are only required if edit mode is "create" or "override".
-
-Example (rename the zombie monster, leaves all other properties untouched):
-
-```JSON
-{
-    "type": "MONSTER",
-    "edit-mode": "modify",
-    "id": "mon_zombie",
-    "name": "clown"
-}
-```
-The default edit mode ("create") is suitable for new types, if their id conflicts with the types from other mods or from the core data, an error will be shown. The edit mode "override" is suitable for re-defining a type from scratch, it ensures that all mandatory members are listed and leaves no traces of the previous definitions. Edit mode "modify" is for small changes, like adding a flag or removing a special attack.
-
-Modifying a type overrides the properties with the new values, this example sets the special attacks to contain *only* the "SHRIEK" attack:
-
-```JSON
-{
-    "type": "MONSTER",
-    "edit-mode": "modify",
-    "id": "mon_zombie",
-    "special_attacks": [ [ "SHRIEK", 20 ] ]
-}
-```
-Some properties allow adding and removing entries, as documented above, usually via members with the "add:"/"remove:" prefix.
-
 
 
 # Monster special attack types
