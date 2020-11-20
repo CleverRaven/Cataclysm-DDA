@@ -172,8 +172,11 @@ then
 
     cd android
     # Keystore properties for signing the apk
-    openssl aes-256-cbc -K $encrypted_1de50180da55_key -iv $encrypted_1de50180da55_iv -in keystore.properties.enc -out keystore.properties -d
-    openssl aes-256-cbc -K $encrypted_f0d9c067c540_key -iv $encrypted_f0d9c067c540_iv -in app/bn-release.keystore.enc -out app/bn-release.keystore -d
+    if [[ -n $encrypted_1de50180da55_key && -n $encrypted_f0d9c067c540_key ]]
+    then
+        openssl aes-256-cbc -K $encrypted_1de50180da55_key -iv $encrypted_1de50180da55_iv -in keystore.properties.enc -out keystore.properties -d
+        openssl aes-256-cbc -K $encrypted_f0d9c067c540_key -iv $encrypted_f0d9c067c540_iv -in app/bn-release.keystore.enc -out app/bn-release.keystore -d
+    fi
     # Specify dumb terminal to suppress gradle's constant output of time spent building, which
     # fills the log with nonsense.
     TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs $ANDROID_ABI -Poverride_version=${TRAVIS_BUILD_NUMBER} \
