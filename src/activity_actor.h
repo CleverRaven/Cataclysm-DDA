@@ -853,7 +853,8 @@ class burrow_activity_actor: public activity_actor
 {
     public:
         burrow_activity_actor() = default;
-        burrow_activity_actor( int moves, tripoint& position ) : moves_total( moves ), burrow_position( position ) {
+        burrow_activity_actor( int moves, tripoint &position, const std::string &burrow_tool )
+            : moves_total( moves ), burrow_position( position ), burrow_tool( burrow_tool ) {
 
         }
 
@@ -861,7 +862,7 @@ class burrow_activity_actor: public activity_actor
             return activity_id( "ACT_BURROW" );
         }
 
-        void start( player_activity &act, Character & /*who*/ ) override;
+        void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;
         void finish( player_activity &act, Character &who ) override;
         void canceled( player_activity &/*act*/, Character &/*who*/ ) override {};
@@ -876,7 +877,8 @@ class burrow_activity_actor: public activity_actor
     private:
         int moves_total {};
         tripoint burrow_position {};
-        map& here = get_map();
+        std::string burrow_tool {};
+        map &here = get_map();
 
 };
 class reload_activity_actor : public activity_actor

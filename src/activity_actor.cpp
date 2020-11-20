@@ -2206,10 +2206,12 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
     return actor.clone();
 }
 
-void burrow_activity_actor::start( player_activity &act, Character & ) 
+void burrow_activity_actor::start( player_activity &act, Character &who )
 {
     act.moves_total = moves_total;
     act.moves_left = moves_total;
+    who.add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
+                           here.tername( burrow_position ), burrow_tool );
 }
 
 void burrow_activity_actor::do_turn( player_activity &, Character & )
@@ -2253,18 +2255,19 @@ void burrow_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves_total", moves_total );
     jsout.member( "burrow_position", burrow_position );
+    jsout.member( "burrow_tool", burrow_tool );
 
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> burrow_activity_actor::deserialize( JsonIn &jsin )
 {
-    tripoint tempPoint {};
-    burrow_activity_actor actor = burrow_activity_actor( 0, tempPoint );
+    burrow_activity_actor actor {};
 
     JsonObject data = jsin.get_object();
     data.read( "moves_total", actor.moves_total );
     data.read( "burrow_position", actor.burrow_position );
+    data.read( "burrow_tool", actor.burrow_tool );
 
     return actor.clone();
 }
