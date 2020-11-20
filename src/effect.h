@@ -229,6 +229,10 @@ class effect
         int get_intensity() const;
         /** Returns the maximum intensity of an effect. */
         int get_max_intensity() const;
+        /** Returns the maximum effective intensity of an effect. */
+        int get_max_effective_intensity() const;
+        /** Returns the current effect intensity, capped to max_effective_intensity. */
+        int get_effective_intensity() const;
 
         /**
          * Sets intensity of effect capped by range [1..max_intensity]
