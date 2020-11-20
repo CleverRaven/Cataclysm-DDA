@@ -828,5 +828,20 @@
     "copy-from": "tea_bag",
     "color": "green",
     "description": "Paper sachet with dried wild herbs inside.  Put it into boiling water to make some healthy warm drink."
+  },
+  {
+    "id": "instant_coffee",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str": "instant coffee powder" },
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "INEDIBLE" ],
+    "weight": "5 g",
+    "volume": "10 ml",
+    "color": "brown",
+    "symbol": ",",
+    "material": [ "plastic" ],
+    "price": 50,
+    "price_postapoc": 200,
+    "description": "A small plastic packet of instant coffee powder.  No creamer or sweetener added."
   }
 ]
