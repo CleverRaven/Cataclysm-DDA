@@ -1713,6 +1713,7 @@
     "category": "container",
     "name": { "str": "plastic beverage bag" },
     "description": "A transparent, watertight plastic bag meant for holding drinks.",
+    "looks_like": "bag_plastic",
     "weight": "6 g",
     "volume": "262 ml",
     "price": 0,
