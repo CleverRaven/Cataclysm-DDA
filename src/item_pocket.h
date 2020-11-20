@@ -149,6 +149,8 @@ class item_pocket
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 
+        units::length max_containable_length() const;
+
         // combined volume of contained items
         units::volume contains_volume() const;
         units::volume remaining_volume() const;
@@ -374,7 +376,7 @@ class pocket_data
         const FlagsSetType &get_flag_restrictions() const;
         // flag_restrictions are not supposed to be modifiable, but sometimes there is a need to
         // add some, i.e. for tests.
-        void add_flag_restriction( const flag_str_id &flag );
+        void add_flag_restriction( const flag_id &flag );
         // items stored are restricted to these ammo types:
         // the pocket can only contain one of them since the amount is also defined for each ammotype
         std::map<ammotype, int> ammo_restriction;

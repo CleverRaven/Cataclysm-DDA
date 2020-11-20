@@ -1,5 +1,11 @@
 [
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_mooserider",
+    "entries": [ { "item": "arrow_heavy_fire_hardened_fletched", "charges": 20 } ]
+  },
+  {
     "type": "profession",
     "id": "wizard_novice",
     "name": "Would-be Wizard",
@@ -16,6 +22,7 @@
     "id": "pyromaniac",
     "name": "Pyromaniac Kelvinist",
     "description": "You have loved fire all of your life.  You have now discovered your inner fire, and want to exercise that upon the world.",
+    "spells": [ { "id": "create_lighter", "level": 0 } ],
     "points": 2,
     "items": {
       "both": [ "lighter", "sneakers", "pants", "tshirt", "jacket_light", "pyro" ],
@@ -30,6 +37,9 @@
     "name": "Druid",
     "description": "The ancient circle of druids is gone with the Cataclysm.  Nature must thrive.",
     "points": 4,
+    "skills": [ { "level": 1, "name": "spellcraft" }, { "level": 1, "name": "survival" } ],
+    "proficiencies": [ "prof_fibers" ],
+    "spells": [ { "id": "druid_woodshaft", "level": 2 } ],
     "items": {
       "both": [ "druid_spellbook", "leathersandals", "robe", "rope_makeshift_30", "hide_bag", "hat_fur", "gloves_wraps_fur" ]
     },
@@ -356,6 +366,7 @@
     "name": "Academy Wizard",
     "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells.  With the teachers converted into the undead and classes cancelled, the final lesson has begun.",
     "points": 4,
+    "proficiencies": [ "prof_alchemy" ],
     "spells": [
       { "id": "magic_missile", "level": 6 },
       { "id": "magus_mana_bolt", "level": 2 },
@@ -461,6 +472,209 @@
         "items": [ "under_armor_shorts", "under_armor", "shorts", "gloves_wraps", "headgear", "mouthpiece", "socks", "sneakers" ]
       },
       "female": [ "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "fleshmender",
+    "name": "Illicit Fleshmender",
+    "description": "After failing out of medical school, you took their mundane methods and combined it with magic to save your patients.  Now that they all want to kill you, the lack of a license is the least of your worries.",
+    "points": 4,
+    "spells": [ { "id": "light_healing", "level": 3 } ],
+    "skills": [ { "level": 3, "name": "firstaid" }, { "level": 2, "name": "spellcraft" } ],
+    "items": {
+      "both": {
+        "items": [ "longshirt", "pants", "socks", "sneakers", "gloves_medical", "coat_lab", "xacto", "wristwatch" ],
+        "entries": [
+          { "item": "disinfectant_makeshift", "charges": 10, "container-item": "bottle_plastic_small" },
+          { "item": "bandages", "charges": 15 },
+          { "group": "charged_cell_phone" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "BIOMANCER" ]
+  },
+  {
+    "type": "profession",
+    "id": "moose_rider",
+    "name": "Wildborne Rider",
+    "description": "Abandoned at a young age and raised by moose, you had to master the wilds to survive.  While the modern world has been devoured, you and your steed are no stranger to hardship.",
+    "points": 6,
+    "proficiencies": [ "prof_bowyery", "prof_fibers", "prof_knapping" ],
+    "spells": [
+      { "id": "druidic_healing", "level": 4 },
+      { "id": "purify_seed", "level": 4 },
+      { "id": "druid_woodshaft", "level": 3 }
+    ],
+    "skills": [
+      { "level": 4, "name": "survival" },
+      { "level": 3, "name": "spellcraft" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "archery" },
+      { "level": 1, "name": "tailor" }
+    ],
+    "traits": [ "ANIMALEMPATH", "SLOWREADER" ],
+    "pets": [ { "name": "mon_moose", "amount": 1 } ],
+    "items": {
+      "both": {
+        "items": [
+          "tunic",
+          "chestwrap_leather",
+          "loincloth_leather",
+          "footrags_fur",
+          "shoes_birchbark",
+          "gloves_wraps_fur",
+          "straw_hat",
+          "shortbow",
+          "stone_chopper",
+          "ragpouch"
+        ],
+        "entries": [ { "item": "quiver_birchbark", "contents-group": "quiver_mooserider" } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "whitedeath_expy",
+    "name": "Deep-Cold Marksman",
+    "description": "You were a special operative conducting covert sniper ops in sub-zero temperatures, and had just finished your tour when society was destroyed.  Having retained your gear, it's time to join the new war.",
+    "points": 7,
+    "spells": [ { "id": "create_lighter", "level": 4 }, { "id": "glide_ice", "level": 3 }, { "id": "frost_armor", "level": 3 } ],
+    "skills": [
+      { "level": 5, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 3, "name": "spellcraft" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "survival" },
+      { "level": 1, "name": "fabrication" }
+    ],
+    "traits": [ "KELVINIST" ],
+    "items": {
+      "both": {
+        "items": [
+          "winter_pants_army",
+          "army_top",
+          "winter_jacket_army",
+          "gloves_tactical",
+          "molle_pack",
+          "socks",
+          "boots_combat",
+          "wristwatch",
+          "ammo_satchel",
+          "attached_ear_plugs_off",
+          "helmet_army",
+          "hatchet",
+          "balclava",
+          "rifle_case_soft",
+          "emer_blanket",
+          "mess_tin"
+        ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          {
+            "item": "boreal_mosin",
+            "ammo-item": "762_51",
+            "charges": 5,
+            "contents-item": [ "improve_sights", "suppressor" ]
+          },
+          { "item": "borealmosin_clip", "ammo-item": "762_51", "charges": 5 },
+          { "item": "borealmosin_clip", "ammo-item": "762_51", "charges": 5 },
+          { "item": "m18", "ammo-item": "9mmfmj", "charges": 10, "container-item": "holster" },
+          { "item": "p320mag_10rd_9x19mm", "ammo-item": "9mmfmj", "charges": 10 },
+          { "item": "water_clean", "charges": 6, "container-item": "canteen" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "convict_arsonist",
+    "name": "Arsonist",
+    "description": "Penned in a cell without fuel, you've been extinguished for years for setting buildings on fire.  In your escape, you grabbed your familiar tool to reignite the embers.",
+    "points": 3,
+    "spells": [ { "id": "kelvinist_flamebreath", "level": 2 }, { "id": "burning_hands", "level": 2 } ],
+    "skills": [ { "level": 3, "name": "spellcraft" } ],
+    "traits": [ "KELVINIST" ],
+    "items": {
+      "both": { "items": [ "striped_shirt", "striped_pants", "sneakers", "socks", "sugar" ] },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "convict_ecoterrorist",
+    "name": "Ecoterrorist",
+    "description": "These bastards were destroying Earth far before the undead came, and mauling those execs was worth the federal charges.  Now, you may have greater priorities than pollution.",
+    "points": 5,
+    "spells": [
+      { "id": "druidic_regrowth", "level": 3 },
+      { "id": "druid_feralform", "level": 2 },
+      { "id": "druid_veggrasp", "level": 2 }
+    ],
+    "skills": [
+      { "level": 3, "name": "spellcraft" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "dodge" }
+    ],
+    "traits": [ "DRUID", "PSYCHOPATH" ],
+    "items": {
+      "both": { "items": [ "striped_shirt", "striped_pants", "sneakers", "socks" ] },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "frostcream_man",
+    "name": { "male": "Frost Cream Man", "female": "Frost Cream Woman" },
+    "description": "You learned Kelvinist spells to keep equipment costs down on your ice cream truck.  While their tastes have changed, the kids still scream for you.",
+    "points": 4,
+    "spells": [ { "id": "chilling_touch", "level": 3 }, { "id": "frost_spray", "level": 3 } ],
+    "skills": [
+      { "level": 2, "name": "speech" },
+      { "level": 2, "name": "cooking" },
+      { "level": 2, "name": "spellcraft" },
+      { "level": 2, "name": "driving" }
+    ],
+    "vehicle": "icecream_truck",
+    "items": {
+      "both": {
+        "items": [ "pants", "socks", "sneakers", "apron_leather", "wristwatch", "dress_shirt", "icecream_scoop" ],
+        "entries": [
+          { "item": "icecream_choc", "charges": 17, "container-item": "plastic_bucket", "custom-flags": [ "auto_wield" ] },
+          { "item": "plastic_bowl_kids", "count": 5 },
+          { "item": "plastic_spoon", "count": 5 },
+          { "group": "charged_cell_phone" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "KELVINIST" ]
+  },
+  {
+    "type": "profession",
+    "id": "magic_knifethrower",
+    "name": "Knife Thrower",
+    "description": "You entertained the masses, displaying an expert hand tossing knives conjured from nowhere.  Now, you're bringing the show to them.",
+    "points": 4,
+    "skills": [ { "level": 3, "name": "throw" }, { "level": 1, "name": "stabbing" } ],
+    "items": {
+      "both": {
+        "items": [ "socks", "sneakers", "unitard", "wristwatch", "vest_leather" ],
+        "entries": [ { "item": "mring_blades_lesser", "charges": 5 } ]
+      },
+      "male": [ "under_armor_shorts" ],
+      "female": [ "sports_bra", "panties" ]
     }
   }
 ]

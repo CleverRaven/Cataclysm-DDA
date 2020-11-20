@@ -297,9 +297,6 @@ void DynamicDataLoader::initialize()
     add( "WHEEL", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_wheel( jo, src );
     } );
-    add( "FUEL", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_fuel( jo, src );
-    } );
     add( "GUNMOD", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_gunmod( jo, src );
     } );
@@ -506,6 +503,7 @@ void DynamicDataLoader::unload_data()
     materials::reset();
     mission_type::reset();
     move_mode::reset();
+    monfactions::reset();
     MonsterGenerator::generator().reset();
     MonsterGroupManager::ClearMonsterGroups();
     morale_type_data::reset();

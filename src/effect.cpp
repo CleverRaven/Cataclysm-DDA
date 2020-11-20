@@ -1352,7 +1352,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
-    new_etype.flags = jo.get_tags<flag_str_id>( "flags" );
+    new_etype.flags = jo.get_tags<flag_id>( "flags" );
 
     effect_types[new_etype.id] = new_etype;
 }

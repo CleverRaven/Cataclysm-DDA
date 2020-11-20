@@ -1236,7 +1236,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        if( vp.item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
+        if( vp.base_item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
             return vp.get_id();
         }
     }
@@ -1245,7 +1245,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     // such type anyway).
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        if( vp.item == item_id ) {
+        if( vp.base_item == item_id ) {
             return vp.get_id();
         }
     }
@@ -1779,7 +1779,7 @@ void finalize_constructions()
         if( !vp.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        frame_items.push_back( item_comp( vp.item, 1 ) );
+        frame_items.push_back( item_comp( vp.base_item, 1 ) );
     }
 
     if( frame_items.empty() ) {

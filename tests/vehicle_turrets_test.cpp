@@ -38,7 +38,7 @@ static const vpart_info *biggest_tank( const ammotype &ammo )
 
     for( const auto &e : vpart_info::all() ) {
         const auto &vp = e.second;
-        if( !item( vp.item ).is_watertight_container() ) {
+        if( !item( vp.base_item ).is_watertight_container() ) {
             continue;
         }
 

@@ -581,5 +581,24 @@
       { "monster": "mon_zombie_anklebiter", "freq": 5, "cost_multiplier": 10 },
       { "monster": "mon_zombie_waif", "freq": 5, "cost_multiplier": 7 }
     ]
+  },
+  {
+    "name": "GROUP_FERROUS_UPGRADE",
+    "type": "monstergroup",
+    "default": "mon_zombie_rust",
+    "monsters": [
+      { "monster": "mon_zombie_plated", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_urchin", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_hammer_hands", "freq": 100, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "name": "GROUP_FERROUS",
+    "type": "monstergroup",
+    "default": "mon_zombie_rust",
+    "monsters": [
+      { "monster": "mon_zombie_plated", "freq": 50, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_shell", "freq": 20, "cost_multiplier": 2 }
+    ]
   }
 ]

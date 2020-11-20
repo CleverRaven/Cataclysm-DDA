@@ -24,6 +24,7 @@
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "material.h"
 #include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -1242,7 +1243,7 @@ class item : public visitable<item>
         /** Returns the string of the id of the terrain that pumps this fuel, if any. */
         std::string fuel_pump_terrain() const;
         bool has_explosion_data() const;
-        struct fuel_explosion get_explosion_data();
+        fuel_explosion_data get_explosion_data();
 
         /**
          * Can this item have given item/itype as content?
@@ -1255,6 +1256,9 @@ class item : public visitable<item>
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent );
+
+        units::length max_containable_length() const;
+        units::volume max_containable_volume() const;
 
         /**
          * Is it ever possible to reload this item?
@@ -1365,6 +1369,7 @@ class item : public visitable<item>
 
         bool use_relic( Character &guy, const tripoint &pos );
         bool has_relic_recharge() const;
+        bool has_relic_activation() const;
         std::vector<trait_id> mutations_from_wearing( const Character &guy ) const;
 
         /**
@@ -1627,7 +1632,7 @@ class item : public visitable<item>
             assume_full = 1,
         };
 
-        cata::optional<armor_portion_data> portion_for_bodypart( const bodypart_id &bodypart ) const;
+        const armor_portion_data *portion_for_bodypart( const bodypart_id &bodypart ) const;
 
         /**
          * Returns the average encumbrance value that this item across all portions

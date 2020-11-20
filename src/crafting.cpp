@@ -1205,7 +1205,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
         }
         food_contained.inherit_flags( used, making );
 
-        for( const flag_str_id &flag : making.flags_to_delete ) {
+        for( const flag_id &flag : making.flags_to_delete ) {
             food_contained.unset_flag( flag );
         }
 
@@ -1269,6 +1269,12 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 // Temperature is not functional for non-foods
                 food_contained.set_item_temperature( 293.15 );
             }
+        }
+
+        // If the recipe has a `FULL_MAGAZINE` flag, fill it with ammo
+        if( newit.is_magazine() && making.has_flag( flag_FULL_MAGAZINE ) ) {
+            newit.ammo_set( newit.ammo_default(),
+                            newit.ammo_capacity( item::find_type( newit.ammo_default() )->ammo->type ) );
         }
 
         newit.set_owner( get_faction()->id );

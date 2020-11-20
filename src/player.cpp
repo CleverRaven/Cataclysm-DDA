@@ -672,13 +672,13 @@ void player::pause()
 
         if( is_limb_broken( bodypart_id( "arm_l" ) ) || is_limb_broken( bodypart_id( "arm_r" ) ) ) {
             add_msg_player_or_npc( m_warning,
-                                   _( "Your broken limb significantly hampers your efforts to puting pressure on the bleeding wound!" ),
-                                   _( "<npcname>'s broken limb significantly hampers efforts of putting pressure on the bleeding wound!" ) );
+                                   _( "Your broken limb significantly hampers your efforts to put pressure on the bleeding wound!" ),
+                                   _( "<npcname>'s broken limb significantly hampers their effort to put pressure on the bleeding wound!" ) );
             e.mod_duration( -1_turns );
         } else if( benefit <= penalty ) {
             add_msg_player_or_npc( m_warning,
-                                   _( "Your hands are too encumbred to effectivly put pressure on the bleeding wound!" ),
-                                   _( "<npcname>'s hands are too encumbred to effectivly put pressure on the bleeding wound!" ) );
+                                   _( "Your hands are too encumbered to effectively put pressure on the bleeding wound!" ),
+                                   _( "<npcname>'s hands are too encumbered to effectively put pressure on the bleeding wound!" ) );
             e.mod_duration( -1_turns );
         } else {
             e.mod_duration( - ( benefit - penalty ) );

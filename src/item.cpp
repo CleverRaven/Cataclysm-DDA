@@ -945,6 +945,9 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     if( type != rhs.type ) {
         return false;
     }
+    if( is_relic() ) {
+        return false;
+    }
     if( charges != 0 && rhs.charges != 0 && is_money() ) {
         // Dealing with nonempty cash cards
         return true;
@@ -3402,7 +3405,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     const bionic_id bid = type->bionic->id;
-    const std::vector<itype_id> &fuels = bid->fuel_opts;
+    const std::vector<material_id> &fuels = bid->fuel_opts;
     if( !fuels.empty() ) {
         const int &fuel_numb = fuels.size();
 
@@ -3410,7 +3413,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                   ngettext( "* This bionic can produce power from the following fuel: ",
                                             "* This bionic can produce power from the following fuels: ",
                                             fuel_numb ) + enumerate_as_string( fuels.begin(),
-                                                    fuels.end(), []( const itype_id & id ) -> std::string { return "<info>" + item_controller->find_template( id )->nname( 1 ) + "</info>"; } ) ) );
+                                                    fuels.end(), []( const material_id & id ) -> std::string { return "<info>" + id->name() + "</info>"; } ) ) );
     }
 
     insert_separation_line( info );
@@ -3772,7 +3775,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         std::back_inserter( flags ) );
 
         // ...and display those which have an info description
-        for( const flag_id &e : flags ) {
+        for( const flag_id &e : sorted_lex( flags ) ) {
             const json_flag &f = e.obj();
             if( !f.info().empty() ) {
                 info.emplace_back( "DESCRIPTION", string_format( "* %s", f.info() ) );
@@ -5835,7 +5838,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
         relative_encumbrance = *cached_relative_encumbrance;
     }
 
-    if( cata::optional<armor_portion_data> portion_data = portion_for_bodypart( bodypart ) ) {
+    if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
         encumber = portion_data->encumber;
         encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber -
                                portion_data->encumber ) );
@@ -5922,24 +5925,24 @@ int item::get_avg_coverage() const
 
 int item::get_coverage( const bodypart_id &bodypart ) const
 {
-    if( cata::optional<armor_portion_data> portion_data = portion_for_bodypart( bodypart ) ) {
+    if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
         return portion_data->coverage;
     }
     return 0;
 }
 
-cata::optional<armor_portion_data> item::portion_for_bodypart( const bodypart_id &bodypart ) const
+const armor_portion_data *item::portion_for_bodypart( const bodypart_id &bodypart ) const
 {
     const islot_armor *t = find_armor_data();
     if( !t ) {
-        return cata::optional<armor_portion_data>();
+        return nullptr;
     }
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() && entry.covers->test( bodypart.id() ) ) {
-            return entry;
+            return &entry;
         }
     }
-    return cata::optional<armor_portion_data>();
+    return nullptr;
 }
 
 int item::get_thickness() const
@@ -6843,7 +6846,16 @@ bool item::is_wheel() const
 
 bool item::is_fuel() const
 {
-    return !!type->fuel;
+    // A fuel is made of only one material
+    if( type->materials.size() != 1 ) {
+        return false;
+    }
+    // and this material has to produce energy
+    if( get_base_material().get_fuel_data().energy <= 0.0 ) {
+        return false;
+    }
+    // and it needs to be have consumable charges
+    return count_by_charges();
 }
 
 bool item::is_toolmod() const
@@ -6875,23 +6887,22 @@ int item::wheel_area() const
 
 float item::fuel_energy() const
 {
-    return is_fuel() ? type->fuel->energy : 0.0f;
+    return get_base_material().get_fuel_data().energy;
 }
 
 std::string item::fuel_pump_terrain() const
 {
-    return is_fuel() ? type->fuel->pump_terrain : "t_null";
+    return get_base_material().get_fuel_data().pump_terrain;
 }
 
 bool item::has_explosion_data() const
 {
-    return is_fuel() ? type->fuel->has_explode_data : false;
+    return !get_base_material().get_fuel_data().explosion_data.is_empty();
 }
 
-struct fuel_explosion item::get_explosion_data()
+struct fuel_explosion_data item::get_explosion_data()
 {
-    static struct fuel_explosion null_data;
-    return has_explosion_data() ? type->fuel->explosion_data : null_data;
+    return get_base_material().get_fuel_data().explosion_data;
 }
 
 bool item::is_container_empty() const
@@ -7033,6 +7044,11 @@ bool item::has_relic_recharge() const
     return is_relic() && relic_data->has_recharge();
 }
 
+bool item::has_relic_activation() const
+{
+    return is_relic() && relic_data->has_activation();
+}
+
 std::vector<enchantment> item::get_enchantments() const
 {
     if( !is_relic() ) {
@@ -7077,6 +7093,16 @@ double item::calculate_by_enchantment_wield( double modify, enchant_vals::mod va
         modify = std::round( modify );
     }
     return modify;
+}
+
+units::length item::max_containable_length() const
+{
+    return contents.max_containable_length();
+}
+
+units::volume item::max_containable_volume() const
+{
+    return contents.max_containable_volume();
 }
 
 bool item::can_contain( const item &it ) const
@@ -10174,7 +10200,7 @@ std::string item::type_name( unsigned int quantity ) const
         };
         switch( cname.type ) {
             case condition_type::FLAG:
-                if( has_flag( flag_str_id( cname.condition ) ) ) {
+                if( has_flag( flag_id( cname.condition ) ) ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
                 break;
@@ -10427,25 +10453,36 @@ bool item::has_clothing_mod() const
     return false;
 }
 
+static const std::string &get_clothing_mod_val_key( clothing_mod_type type )
+{
+    const static auto cache = ( []() {
+        std::array<std::string, clothing_mods::all_clothing_mod_types.size()> res;
+        for( const clothing_mod_type &type : clothing_mods::all_clothing_mod_types ) {
+            res[type] = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
+                            clothing_mods::all_clothing_mod_types[type]
+                        );
+        }
+        return res;
+    } )();
+
+    return cache[ type ];
+}
+
 float item::get_clothing_mod_val( clothing_mod_type type ) const
 {
-    const std::string key = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
-                                type );
-    return get_var( key, 0.0f );
+    return get_var( get_clothing_mod_val_key( type ), 0.0f );
 }
 
 void item::update_clothing_mod_val()
 {
     for( const clothing_mod_type &type : clothing_mods::all_clothing_mod_types ) {
-        const std::string key = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
-                                    type );
         float tmp = 0.0f;
         for( const clothing_mod &cm : clothing_mods::get_all_with( type ) ) {
             if( has_own_flag( cm.flag ) ) {
                 tmp += cm.get_mod_val( type, *this );
             }
         }
-        set_var( key, tmp );
+        set_var( get_clothing_mod_val_key( type ), tmp );
     }
 }
 

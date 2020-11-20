@@ -1617,9 +1617,9 @@
       { "point": [ 8, 8, -3 ], "overmap": "necropolis_d_81_north" }
     ],
     "connections": [
-      { "point": [ 5, -1, 0 ], "terrain": "road" },
-      { "point": [ -1, 7, 0 ], "terrain": "road" },
-      { "point": [ 4, 9, 0 ], "terrain": "road" }
+      { "point": [ 5, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 5, 0, 0 ] },
+      { "point": [ -1, 7, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 7, 0 ] },
+      { "point": [ 4, 9, 0 ], "terrain": "road", "connection": "local_road", "from": [ 4, 8, 0 ] }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],

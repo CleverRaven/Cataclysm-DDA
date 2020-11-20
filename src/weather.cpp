@@ -59,9 +59,9 @@ static const itype_id itype_water( "water" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
-static const flag_str_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
-static const flag_str_id json_flag_RAINPROOF( "RAINPROOF" );
-static const flag_str_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
+static const flag_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
+static const flag_id json_flag_RAINPROOF( "RAINPROOF" );
+static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
 
 /**
  * \defgroup Weather "Weather and its implications."

@@ -972,7 +972,7 @@ static void wait()
             actType = ACT_WAIT;
         }
 
-        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) - 1 ), 0 );
+        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) ), 0 );
 
         player_character.assign_activity( new_act, false );
     }
@@ -2550,6 +2550,13 @@ bool game::handle_action()
                     break;    //don't do anything when sharing and not debugger
                 }
                 display_transparency();
+                break;
+
+            case ACTION_DISPLAY_REACHABILITY_ZONES:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_reahability_zones();
                 break;
 
             case ACTION_TOGGLE_DEBUG_MODE:

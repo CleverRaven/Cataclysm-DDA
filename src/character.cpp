@@ -2194,18 +2194,19 @@ bionic_id Character::get_remote_fueled_bionic() const
 
 bool Character::can_fuel_bionic_with( const item &it ) const
 {
-    if( !it.is_fuel() && !it.type->magazine ) {
+    if( !it.is_fuel() && !it.type->magazine && !it.flammable() ) {
         return false;
     }
 
     for( const bionic_id &bid : get_bionics() ) {
-        for( const itype_id &fuel : bid->fuel_opts ) {
-            if( fuel == it.typeId() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == it.get_base_material().id ) {
                 return true;
-            } else if( it.type->magazine && fuel == it.ammo_current() ) {
+            } else if( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) {
                 return true;
             }
         }
+
     }
     return false;
 }
@@ -2215,10 +2216,25 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
     std::vector<bionic_id> bionics;
 
     for( const bionic_id &bid : get_bionics() ) {
-        for( const itype_id &fuel : bid->fuel_opts ) {
-            if( fuel == it.typeId() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == it.get_base_material().id ) {
                 bionics.emplace_back( bid );
-            } else if( it.type->magazine && fuel == it.ammo_current() ) {
+            } else if( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) {
+                bionics.emplace_back( bid );
+            }
+        }
+    }
+
+    return bionics;
+}
+
+std::vector<bionic_id> Character::get_bionic_fueled_with( const material_id &mat ) const
+{
+    std::vector<bionic_id> bionics;
+
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == mat ) {
                 bionics.emplace_back( bid );
             }
         }
@@ -2475,19 +2491,18 @@ void Character::conduct_blood_analysis()
     }
 }
 
-std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) const
+std::vector<material_id> Character::get_fuel_available( const bionic_id &bio ) const
 {
-    std::vector<itype_id> stored_fuels;
-    for( const itype_id &fuel : bio->fuel_opts ) {
-        const item tmp_fuel( fuel );
-        if( !get_value( fuel.str() ).empty() || tmp_fuel.has_flag( flag_PERPETUAL ) ) {
+    std::vector<material_id> stored_fuels;
+    for( const material_id &fuel : bio->fuel_opts ) {
+        if( !get_value( fuel.str() ).empty() || fuel->get_fuel_data().is_perpetual_fuel ) {
             stored_fuels.emplace_back( fuel );
         }
     }
     return stored_fuels;
 }
 
-int Character::get_fuel_capacity( const itype_id &fuel ) const
+int Character::get_fuel_capacity( const material_id &fuel ) const
 {
     int amount_stored = 0;
     if( !get_value( fuel.str() ).empty() ) {
@@ -2495,7 +2510,7 @@ int Character::get_fuel_capacity( const itype_id &fuel ) const
     }
     int capacity = 0;
     for( const bionic_id &bid : get_bionics() ) {
-        for( const itype_id &fl : bid->fuel_opts ) {
+        for( const material_id &fl : bid->fuel_opts ) {
             if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
                 if( fl == fuel ) {
                     capacity += bid->fuel_capacity;
@@ -2506,11 +2521,11 @@ int Character::get_fuel_capacity( const itype_id &fuel ) const
     return capacity - amount_stored;
 }
 
-int Character::get_total_fuel_capacity( const itype_id &fuel ) const
+int Character::get_total_fuel_capacity( const material_id &fuel ) const
 {
     int capacity = 0;
     for( const bionic_id &bid : get_bionics() ) {
-        for( const itype_id &fl : bid->fuel_opts ) {
+        for( const material_id &fl : bid->fuel_opts ) {
             if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
                 if( fl == fuel ) {
                     capacity += bid->fuel_capacity;
@@ -2521,17 +2536,17 @@ int Character::get_total_fuel_capacity( const itype_id &fuel ) const
     return capacity;
 }
 
-void Character::update_fuel_storage( const itype_id &fuel )
+void Character::update_fuel_storage( const material_id &fuel )
 {
-    const item it( fuel );
+
     if( get_value( fuel.str() ).empty() ) {
-        for( const bionic_id &bid : get_bionic_fueled_with( it ) ) {
+        for( const bionic_id &bid : get_bionic_fueled_with( fuel ) ) {
             remove_value( bid.c_str() );
         }
         return;
     }
 
-    std::vector<bionic_id> bids = get_bionic_fueled_with( it );
+    std::vector<bionic_id> bids = get_bionic_fueled_with( fuel );
     if( bids.empty() ) {
         return;
     }
@@ -2701,6 +2716,32 @@ std::vector<item_location> Character::nearby( const
     }
 
     return res;
+}
+
+units::length Character::max_single_item_length() const
+{
+    units::length ret = weapon.max_containable_length();
+
+    for( const item &worn_it : worn ) {
+        units::length candidate = worn_it.max_containable_length();
+        if( candidate > ret ) {
+            ret = candidate;
+        }
+    }
+    return ret;
+}
+
+units::volume Character::max_single_item_volume() const
+{
+    units::volume ret = weapon.max_containable_volume();
+
+    for( const item &worn_it : worn ) {
+        units::volume candidate = worn_it.max_containable_volume();
+        if( candidate > ret ) {
+            ret = candidate;
+        }
+    }
+    return ret;
 }
 
 std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, const item *avoid )
@@ -3839,25 +3880,22 @@ bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) co
     return false;
 }
 
-bool Character::worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const
+bool Character::worn_with_flag( const flag_id &f, const bodypart_id &bp ) const
 {
-    const flag_id f( flag );
     return std::any_of( worn.begin(), worn.end(), [&f, bp]( const item & it ) {
         return it.has_flag( f ) && ( bp == bodypart_str_id::NULL_ID() || it.covers( bp ) );
     } );
 }
 
-bool Character::worn_with_flag( const flag_id &flag ) const
+bool Character::worn_with_flag( const flag_id &f ) const
 {
-    const flag_id f( flag );
     return std::any_of( worn.begin(), worn.end(), [&f]( const item & it ) {
         return it.has_flag( f ) ;
     } );
 }
 
-item Character::item_worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const
+item Character::item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const
 {
-    const flag_id f( flag );
     item it_with_flag;
     for( const item &it : worn ) {
         if( it.has_flag( f ) && ( bp == bodypart_str_id::NULL_ID() || it.covers( bp ) ) ) {
@@ -3868,9 +3906,8 @@ item Character::item_worn_with_flag( const flag_id &flag, const bodypart_id &bp 
     return it_with_flag;
 }
 
-item Character::item_worn_with_flag( const flag_id &flag ) const
+item Character::item_worn_with_flag( const flag_id &f ) const
 {
-    const flag_id f( flag );
     item it_with_flag;
     for( const item &it : worn ) {
         if( it.has_flag( f ) ) {
@@ -4578,19 +4615,26 @@ int Character::encumb( const bodypart_id &bp ) const
     return get_part_encumbrance_data( bp ).encumbrance;
 }
 
-static void apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals,
-                                   const std::vector<trait_id> &all_muts,
-                                   const body_part_set &oversize )
+void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const
 {
+    const std::vector<trait_id> all_muts = get_mutations();
     std::map<bodypart_str_id, float> total_enc;
+
+    // Lower penalty for bps covered only by XL armor
+    // Initialized on demand for performance reasons:
+    // (calculation is costly, most of players and npcs are don't have encumbering mutations)
+    cata::optional<body_part_set> oversize;
 
     for( const trait_id &mut : all_muts ) {
         for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_always ) {
             total_enc[enc.first] += enc.second;
         }
-
         for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_covered ) {
-            if( !oversize.test( enc.first ) ) {
+            if( !oversize ) {
+                // initialize on demand
+                oversize = exclusive_flag_coverage( flag_OVERSIZE );
+            }
+            if( !oversize->test( enc.first ) ) {
                 total_enc[enc.first] += enc.second;
             }
         }
@@ -4623,9 +4667,7 @@ void Character::mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) 
         vals[body_part_eyes].encumbrance -= 3;
     }
 
-    // Lower penalty for bps covered only by XL armor
-    const body_part_set oversize = exclusive_flag_coverage( flag_OVERSIZE );
-    apply_mut_encumbrance( vals, get_mutations(), oversize );
+    apply_mut_encumbrance( vals );
 }
 
 body_part_set Character::exclusive_flag_coverage( const flag_id &flag ) const
@@ -9271,11 +9313,11 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
         if( has_active_bionic( bio_ads ) ) {
             if( elem.amount > 0 && get_power_level() > 24_kJ ) {
                 if( elem.type == damage_type::BASH ) {
-                    elem.amount -= rng( 1, 8 );
+                    elem.amount -= rng( 1, 2 );
                 } else if( elem.type == damage_type::CUT ) {
                     elem.amount -= rng( 1, 4 );
                 } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
-                    elem.amount -= rng( 1, 2 );
+                    elem.amount -= rng( 1, 8 );
                 }
                 mod_power_level( -25_kJ );
             }
@@ -10224,7 +10266,7 @@ std::vector<item *> Character::inv_dump()
     return ret;
 }
 
-bool Character::covered_with_flag( const flag_id &flag, const body_part_set &parts ) const
+bool Character::covered_with_flag( const flag_id &f, const body_part_set &parts ) const
 {
     if( parts.none() ) {
         return true;
@@ -10232,7 +10274,6 @@ bool Character::covered_with_flag( const flag_id &flag, const body_part_set &par
 
     body_part_set to_cover( parts );
 
-    const flag_id f( flag );
     for( const auto &elem : worn ) {
         if( !elem.has_flag( f ) ) {
             continue;
@@ -12704,4 +12745,3 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
 
     return std::max( mv, 25 );
 }
-

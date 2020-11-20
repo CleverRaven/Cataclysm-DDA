@@ -68,8 +68,8 @@ static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 
-static const flag_str_id json_flag_no_auto_equip( "no_auto_equip" );
-static const flag_str_id json_flag_auto_wield( "auto_wield" );
+static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
+static const flag_id json_flag_auto_wield( "auto_wield" );
 
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
@@ -380,7 +380,7 @@ void avatar::add_profession_items()
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
-        if( it.has_flag( STATIC( flag_str_id( "WET" ) ) ) ) {
+        if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
             it.active = true;
             it.item_counter = 450; // Give it some time to dry off
         }
