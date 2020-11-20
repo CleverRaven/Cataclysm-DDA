@@ -1760,7 +1760,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
         _( "\"Red\"" ), _( "\"Blue\"" ), _( "\"Green\"" )
     } );
 
-    flag_str_id newtag;
+    flag_id newtag;
     std::string colorname;
     switch( choice ) {
         case 0:

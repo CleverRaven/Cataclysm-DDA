@@ -224,7 +224,7 @@ void mdeath::splatter( monster &z )
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
-        corpse.set_flag( STATIC( flag_str_id( "GIBBED" ) ) );
+        corpse.set_flag( STATIC( flag_id( "GIBBED" ) ) );
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
@@ -732,7 +732,7 @@ void mdeath::jabberwock( monster &z )
     Character *ch = dynamic_cast<Character *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  ch->weapon.has_flag( STATIC( flag_str_id( "DIAMOND" ) ) ) &&
+                  ch->weapon.has_flag( STATIC( flag_id( "DIAMOND" ) ) ) &&
                   ch->weapon.volume() > 750_ml;
 
     if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {

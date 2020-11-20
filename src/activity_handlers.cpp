@@ -466,7 +466,7 @@ static bool check_butcher_cbm( const int roll )
 }
 
 static void butcher_cbm_item( const itype_id &what, const tripoint &pos,
-                              const time_point &age, const int roll, const std::vector<flag_str_id> &flags,
+                              const time_point &age, const int roll, const std::vector<flag_id> &flags,
                               const std::vector<fault_id> &faults )
 {
     if( roll < 0 ) {
@@ -475,7 +475,7 @@ static void butcher_cbm_item( const itype_id &what, const tripoint &pos,
     map &here = get_map();
     if( item::find_type( what )->bionic ) {
         item cbm( check_butcher_cbm( roll ) ? what : itype_burnt_out_bionic, age );
-        for( const flag_str_id &flg : flags ) {
+        for( const flag_id &flg : flags ) {
             cbm.set_flag( flg );
         }
         for( const fault_id &flt : faults ) {
@@ -485,7 +485,7 @@ static void butcher_cbm_item( const itype_id &what, const tripoint &pos,
         here.add_item( pos, cbm );
     } else if( check_butcher_cbm( roll ) ) {
         item something( what, age );
-        for( const flag_str_id &flg : flags ) {
+        for( const flag_id &flg : flags ) {
             something.set_flag( flg );
         }
         for( const fault_id &flt : faults ) {
@@ -500,7 +500,7 @@ static void butcher_cbm_item( const itype_id &what, const tripoint &pos,
 
 static void butcher_cbm_group(
     const item_group_id &group, const tripoint &pos, const time_point &age, const int roll,
-    const std::vector<flag_str_id> &flags, const std::vector<fault_id> &faults )
+    const std::vector<flag_id> &flags, const std::vector<fault_id> &faults )
 {
     if( roll < 0 ) {
         return;
@@ -512,7 +512,7 @@ static void butcher_cbm_group(
         //The CBM works
         const std::vector<item *> spawned = here.put_items_from_loc( group, pos, age );
         for( item *it : spawned ) {
-            for( const flag_str_id &flg : flags ) {
+            for( const flag_id &flg : flags ) {
                 it->set_flag( flg );
             }
             for( const fault_id &flt : faults ) {
@@ -523,7 +523,7 @@ static void butcher_cbm_group(
     } else {
         //There is a burnt out CBM
         item cbm( itype_burnt_out_bionic, age );
-        for( const flag_str_id &flg : flags ) {
+        for( const flag_id &flg : flags ) {
             cbm.set_flag( flg );
         }
         for( const fault_id &flt : faults ) {
@@ -1031,7 +1031,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                         obj.set_rot( corpse_item->get_rot() );
                     }
                 }
-                for( const flag_str_id &flg : entry.flags ) {
+                for( const flag_id &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
@@ -1051,7 +1051,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                         obj.set_rot( corpse_item->get_rot() );
                     }
                 }
-                for( const flag_str_id &flg : entry.flags ) {
+                for( const flag_id &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
@@ -1070,7 +1070,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                         obj.set_rot( corpse_item->get_rot() );
                     }
                 }
-                for( const flag_str_id &flg : entry.flags ) {
+                for( const flag_id &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
