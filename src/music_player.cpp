@@ -7,6 +7,7 @@
 #    include <SDL_mixer.h>
 #endif
 
+#include "boost/filesystem.hpp"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -19,15 +20,7 @@
 #include "sdlsound.h"
 #include "ui_manager.h"
 
-#if __cplusplus > 201703L
-#include <filesystem> // C++17 standard header file name
-namespace fs = std::filesystem;
-#else
-// c++14
-#include <experimental/filesystem> // Header file for pre-standard implementation
-namespace fs = std::experimental::filesystem;
-#endif
-
+namespace fs = boost::filesystem;
 
 /*---------------private function declarations begin-----------------*/
 
