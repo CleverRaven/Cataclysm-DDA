@@ -43,7 +43,8 @@ jobs:
       run: |
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
-            libsdl2-mixer-dev libpulse-dev ccache gettext libboost-filesystem-dev
+            libsdl2-mixer-dev libpulse-dev ccache gettext libboost-filesystem-dev \
+            libboost-system-dev
     - name: prepare
       run: bash ./build-scripts/requirements.sh
     - uses: ammaraskar/gcc-problem-matcher@master

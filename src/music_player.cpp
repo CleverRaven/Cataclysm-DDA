@@ -82,12 +82,12 @@ bool music_player_interface( const Character &p )
     int selected_button = 2;
     std::vector<std::string> buttons = { " |<< ", " # ", " > ", " || ", " >>| " };
 
-    int selected_list = 0;
-    std::vector<fs::path> file_list;
+    int selected_file = 0;
+    std::vector<fs::path> files_list;
     static fs::path playing_file;
     std::string music_dir = "music/";
-    get_music_files_list( music_dir, file_list );
-    int number_files = static_cast<int>( file_list.size() ) - 1;
+    get_music_files_list( music_dir, files_list );
+    int number_files = static_cast<int>( files_list.size() ) - 1;
     int volume = get_option<int>( "MUSIC_VOLUME" );
 
     const nc_color music_info_color = c_light_green_cyan;
@@ -167,15 +167,15 @@ bool music_player_interface( const Character &p )
         for( p1.y = 0; p1.y < w_list_height; p1.y++ ) {
             mvwprintz( w_music_list, point( 0, p1.y ), selected_music_color, color_line );
         }
-        if( !file_list.empty() ) {
+        if( !files_list.empty() ) {
             // print music list
             p1.x = 1;
             for( p1.y = 0;
-                 p1.y < std::min( w_list_height, number_files - selected_list + 1 );
+                 p1.y < std::min( w_list_height, number_files - selected_file + 1 );
                  p1.y++ ) {
                 nc_color clr = ( p1.y == 0 ) ? selected_music_color : music_list_color;
                 trim_and_print( w_music_list, p1, w_list_width - 3, clr,
-                                file_list.at( p1.y + selected_list ).filename().string() );
+                                files_list.at( p1.y + selected_file ).filename().string() );
             }
             // music list scrollbar
             if( number_files > w_list_height ) {
@@ -183,7 +183,7 @@ bool music_player_interface( const Character &p )
                 .offset_x( w_list_width - 1 )
                 .offset_y( 0 )
                 .content_size( number_files )
-                .viewport_pos( selected_list )
+                .viewport_pos( selected_file )
                 .viewport_size( w_list_height )
                 .slot_color( c_black_green )
                 .bar_color( c_light_green_green )
@@ -204,17 +204,17 @@ bool music_player_interface( const Character &p )
         if( action == "ANY_INPUT" ) {
 
         } else if( action == "UP" ) {
-            selected_list--;
-            selected_list = clamp( selected_list, 0, number_files );
+            selected_file--;
+            selected_file = clamp( selected_file, 0, number_files );
         } else if( action == "DOWN" ) {
-            selected_list++;
-            selected_list = clamp( selected_list, 0, number_files );
+            selected_file++;
+            selected_file = clamp( selected_file, 0, number_files );
         } else if( action == "PAGE_DOWN" ) {
-            selected_list += std::min( w_list_height, number_files );
-            selected_list = clamp( selected_list, 0, number_files );
+            selected_file += std::min( w_list_height, number_files );
+            selected_file = clamp( selected_file, 0, number_files );
         } else if( action == "PAGE_UP" ) {
-            selected_list -= std::min( w_list_height, number_files );
-            selected_list = clamp( selected_list, 0, number_files );
+            selected_file -= std::min( w_list_height, number_files );
+            selected_file = clamp( selected_file, 0, number_files );
         } else if( action == "RIGHT" ) {
             selected_button++;
             selected_button = clamp( selected_button, 0, static_cast<int>( buttons.size() ) - 1 );
@@ -225,11 +225,11 @@ bool music_player_interface( const Character &p )
             switch( selected_button ) {
                 case 0:
                     // button previous track
-                    if( !file_list.empty() ) {
+                    if( !files_list.empty() ) {
                         stop_music();
-                        selected_list--;
-                        selected_list = clamp( selected_list, 0, number_files );
-                        playing_file = file_list.at( selected_list );
+                        selected_file--;
+                        selected_file = clamp( selected_file, 0, number_files );
+                        playing_file = files_list.at( selected_file );
                         if( p.can_hear( p.pos(), volume ) ) {
                             play_music_path( playing_file.string(), 100 );
                         }
@@ -241,9 +241,9 @@ bool music_player_interface( const Character &p )
                     break;
                 case 2:
                     // button play
-                    if( !file_list.empty() ) {
+                    if( !files_list.empty() ) {
                         stop_music();
-                        playing_file = file_list.at( selected_list );
+                        playing_file = files_list.at( selected_file );
                         if( p.can_hear( p.pos(), volume ) ) {
                             play_music_path( playing_file.string(), 100 );
                         }
@@ -259,11 +259,11 @@ bool music_player_interface( const Character &p )
                     break;
                 case 4:
                     // button next track
-                    if( !file_list.empty() ) {
+                    if( !files_list.empty() ) {
                         stop_music();
-                        selected_list++;
-                        selected_list = clamp( selected_list, 0, number_files );
-                        playing_file = file_list.at( selected_list );
+                        selected_file++;
+                        selected_file = clamp( selected_file, 0, number_files );
+                        playing_file = files_list.at( selected_file );
                         if( p.can_hear( p.pos(), volume ) ) {
                             play_music_path( playing_file.string(), 100 );
                         }

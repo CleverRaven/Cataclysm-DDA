@@ -10,6 +10,7 @@
         },
         "sdl2-ttf",
         "gettext",
-        "boost-filesystem"
+        "boost-filesystem",
+        "boost-system"
     ]
 }
