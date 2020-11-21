@@ -7177,13 +7177,13 @@ int item::get_chapters() const
     return type->book->chapters;
 }
 
-int item::get_remaining_chapters( const player &u ) const
+int item::get_remaining_chapters( const Character &u ) const
 {
     const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
     return get_var( var, get_chapters() );
 }
 
-void item::mark_chapter_as_read( const player &u )
+void item::mark_chapter_as_read( const Character &u )
 {
     const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
     if( type->book && type->book->chapters == 0 ) {
