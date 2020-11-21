@@ -685,12 +685,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
-    "components": [
-      [ [ "545_casing", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "chem_black_powder", 13 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "545_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 13 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_545_ap",
@@ -730,12 +725,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
-    "components": [
-      [ [ "545_casing", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "chem_black_powder", 13 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "545_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 13 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_300blk",
@@ -1133,11 +1123,6 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 3 ] ],
-    "components": [
-      [ [ "762_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "chem_black_powder", 15 ] ],
-      [ [ "copper", 2 ] ]
-    ]
+    "components": [ [ [ "762_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 15 ] ], [ [ "copper", 2 ] ] ]
   }
 ]
