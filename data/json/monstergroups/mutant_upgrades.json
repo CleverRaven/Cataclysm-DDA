@@ -4,5 +4,13 @@
     "name": "GROUP_CROW_MUTANT",
     "default": "mon_crow_mutant_small",
     "monsters": [ { "monster": "mon_crow_mutant", "freq": 350, "cost_multiplier": 2 } ]
+  },
+  {
+	"name": "GROUP_CENTIPEDE_ADULT",
+	"default": "mon_centipede_giant",
+	"monsters": [ 
+	  { "monster": "mon_centipede_mega", "freq": 500 },
+	  { "monster": "mon_dragonfly_mega", "freq": 100 }
+	]
   }
 ]
