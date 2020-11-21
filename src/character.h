@@ -263,11 +263,6 @@ enum edible_rating {
     NO_TOOL
 };
 
-enum class rechargeable_cbm : int {
-    none = 0,
-    other
-};
-
 struct aim_type {
     std::string name;
     std::string action;
@@ -2264,8 +2259,6 @@ class Character : public Creature, public visitable<Character>
          */
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
         /** Determine character's capability of recharging their CBMs. */
-        rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
-        int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
         int get_acquirable_energy( const item &it ) const;
 
         /**
@@ -2298,7 +2291,6 @@ class Character : public Creature, public visitable<Character>
         bool can_estimate_rot() const;
         /** Check whether character can consume this very item */
         bool can_consume_as_is( const item &it ) const;
-        bool can_consume_for_bionic( const item &it ) const;
         /**
          * Returns a reference to the item itself (if it's consumable),
          * the first of its contents (if it's consumable) or null item otherwise.
