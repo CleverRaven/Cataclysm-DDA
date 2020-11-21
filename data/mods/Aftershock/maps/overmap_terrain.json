@@ -19,6 +19,15 @@
     "flags": [ "SOURCE_FOOD" ]
   },
   {
+    "id": "afs_crashed_escape_pod",
+    "type": "overmap_terrain",
+    "name": "crashed escape pod",
+    "sym": "+",
+    "color": "i_red",
+    "see_cost": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_GUN", "SOURCE_AMMO" ]
+  },
+  {
     "id": "municipal_reactor_ware",
     "type": "overmap_terrain",
     "name": "warehouse",
