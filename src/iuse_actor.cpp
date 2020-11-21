@@ -2425,9 +2425,10 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
     item::reload_option opt = p.select_ammo( mag, true );
     std::vector<item_location> targets;
     if( opt ) {
+        const int moves = opt.moves();
         targets.emplace_back( p, &p.i_add( mag ) );
         targets.push_back( std::move( opt.ammo ) );
-        p.assign_activity( player_activity( reload_activity_actor( opt.moves(), opt.qty(), targets ) ) );
+        p.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
     }
 
     return 0;
