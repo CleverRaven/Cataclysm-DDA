@@ -154,7 +154,7 @@
     "id": "afs_landfall_kit_2_instructions",
     "type": "BOOK",
     "name": { "str": "landfall survival manual" },
-    "description": "A small folio indicating how to best utilize the equipment of your landfall survival kit during an emergency.  It's first page urges you to remain calm, and to consult your escape pod's control console for further instructions.",
+    "description": "A small folio indicating how to best utilize the equipment of your landfall survival kit during an emergency.  Its first page urges you to remain calm, and to consult your escape pod's control console for further instructions.",
     "weight": "120 g",
     "volume": "500 ml",
     "price": 0,
