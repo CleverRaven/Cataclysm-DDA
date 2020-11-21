@@ -343,6 +343,7 @@
     "description": "A mutant bee the size of a small dog.",
     "copy-from": "mon_bee",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "attack_effs": [ { "id": "venom_weaken", "duration": 75 } ],
     "volume": "15 L",
     "weight": "20 kg",
     "upgrades": { "half_life": 14, "into": "mon_bee" }
@@ -369,6 +370,8 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_cut": 4,
+    "attack_effs": [ { "id": "venom_weaken", "duration": 150 } ],
+    "//": "21 hits to max intensity, 25 hits to max duration",
     "dodge": 4,
     "armor_bash": 4,
     "armor_cut": 6,
@@ -379,7 +382,7 @@
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_bee_mega" },
-    "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE", "LOUDMOVES" ]
+    "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE", "LOUDMOVES" ]
   },
   {
     "id": "mon_bee_mega",
@@ -428,6 +431,8 @@
     "melee_dice": 1,
     "melee_dice_sides": 8,
     "melee_cut": 6,
+    "attack_effs": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ],
+    "//": "4 hits to max intensity, 5 hits to max duration",
     "dodge": 2,
     "armor_bash": 2,
     "armor_cut": 8,
@@ -437,7 +442,7 @@
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_centipede_mega" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_centipede_mega",
@@ -827,6 +832,8 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_cut": 4,
+    "attack_effs": [ { "id": "venom_weaken", "duration": 250 } ],
+    "//": "13 hits to max intensity, 17 hits to max duration",
     "dodge": 8,
     "armor_cut": 3,
     "armor_bullet": 2,
@@ -837,7 +844,7 @@
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_spider_jumping_mega" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_spider_jumping_mega",
@@ -942,6 +949,8 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "melee_cut": 6,
+    "attack_effs": [ { "id": "venom_dmg", "duration": 750, "affect_hit_bp": true } ],
+    "//": "3 hits to max intensity, 3 hits to max duration",
     "dodge": 2,
     "armor_bash": 2,
     "armor_cut": 6,
@@ -951,7 +960,7 @@
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_spider_web_mega" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
     "id": "mon_spider_web_mega",
@@ -1123,6 +1132,8 @@
     "melee_dice": 1,
     "melee_dice_sides": 8,
     "melee_cut": 8,
+    "attack_effs": [ { "id": "venom_dmg", "duration": 400, "affect_hit_bp": true } ],
+    "//": "5 hits to max intensity, 6 hits to max duration",
     "dodge": 4,
     "armor_bash": 4,
     "armor_cut": 8,
@@ -1133,7 +1144,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_spider_wolf_mega" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
     "id": "mon_spider_wolf_mega",
@@ -1170,6 +1181,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_cut": 8,
+    "attack_effs": [ { "id": "venom_weaken", "duration": 100 } ],
     "dodge": 4,
     "armor_bash": 4,
     "armor_cut": 8,
@@ -1180,7 +1192,7 @@
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 14, "into_group": "WASP_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_wasp",
@@ -1204,6 +1216,8 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_cut": 8,
+    "attack_effs": [ { "id": "venom_weaken", "duration": 200 } ],
+    "//": "15 hits to max intensity, 18 hits to max duration",
     "dodge": 4,
     "armor_bash": 4,
     "armor_cut": 8,
@@ -1214,7 +1228,7 @@
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_wasp_mega" },
-    "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_wasp_mega",
