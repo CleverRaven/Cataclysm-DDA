@@ -129,13 +129,13 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
-static const std::array<flag_str_id, 4> carnivore_blacklist {{
-        flag_str_id( "ALLERGEN_VEGGY" ), flag_str_id( "ALLERGEN_FRUIT" ),
-        flag_str_id( "ALLERGEN_WHEAT" ), flag_str_id( "ALLERGEN_NUT" )
+static const std::array<flag_id, 4> carnivore_blacklist {{
+        flag_id( "ALLERGEN_VEGGY" ), flag_id( "ALLERGEN_FRUIT" ),
+        flag_id( "ALLERGEN_WHEAT" ), flag_id( "ALLERGEN_NUT" )
     }};
 
-static const std::array<flag_str_id, 2> herbivore_blacklist {{
-        flag_str_id( "ALLERGEN_MEAT" ), flag_str_id( "ALLERGEN_EGG" )
+static const std::array<flag_id, 2> herbivore_blacklist {{
+        flag_id( "ALLERGEN_MEAT" ), flag_id( "ALLERGEN_EGG" )
     }};
 
 // TODO: JSONize.
@@ -589,7 +589,7 @@ float Character::metabolic_rate() const
 
 morale_type Character::allergy_type( const item &food ) const
 {
-    using allergy_tuple = std::tuple<trait_id, flag_str_id, morale_type>;
+    using allergy_tuple = std::tuple<trait_id, flag_id, morale_type>;
     static const std::array<allergy_tuple, 8> allergy_tuples = {{
             std::make_tuple( trait_VEGETARIAN, flag_ALLERGEN_MEAT, MORALE_VEGETARIAN ),
             std::make_tuple( trait_MEATARIAN, flag_ALLERGEN_VEGGY, MORALE_MEATARIAN ),
@@ -1466,6 +1466,11 @@ bool Character::feed_reactor_with( item &it )
 bool Character::fuel_bionic_with( item &it )
 {
     if( !can_fuel_bionic_with( it ) ) {
+        return false;
+    }
+
+    if( it.is_favorite &&
+        !get_avatar().query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
         return false;
     }
 

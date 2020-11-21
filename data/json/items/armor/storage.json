@@ -1835,5 +1835,46 @@
     "warmth": 1,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "camera_bag",
+    "repairs_like": "backpack",
+    "type": "ARMOR",
+    "name": { "str": "camera bag" },
+    "description": "A simple bag used to hold a camera, with a small pocket on the side for accessories.  Comes with a carry strap.",
+    "weight": "600 g",
+    "volume": "7000 ml",
+    "price": 5500,
+    "price_postapoc": 700,
+    "bashing": 1,
+    "material": [ "cotton", "plastic" ],
+    "symbol": "[",
+    "looks_like": "slingpack",
+    "color": "yellow",
+    "covers": [ "torso" ],
+    "coverage": 25,
+    "encumbrance": 3,
+    "max_encumbrance": 5,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3750 ml",
+        "max_contains_weight": "16 kg",
+        "max_item_length": "26 cm",
+        "magazine_well": "2 L",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "23 cm",
+        "magazine_well": "500 ml",
+        "moves": 115
+      }
+    ],
+    "warmth": 2,
+    "material_thickness": 1,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   }
 ]

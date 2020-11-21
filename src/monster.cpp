@@ -2373,7 +2373,7 @@ void monster::drop_items_on_death()
         std::vector<item> remaining;
         for( const item &it : items ) {
             // Mission items are not affected by item spawn rate
-            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( STATIC( flag_str_id( "MISSION_ITEM" ) ) ) ) {
+            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( STATIC( flag_id( "MISSION_ITEM" ) ) ) ) {
                 remaining.push_back( it );
             }
         }
@@ -2390,7 +2390,7 @@ void monster::drop_items_on_death()
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
-                it->set_flag( STATIC( flag_str_id( "FILTHY" ) ) );
+                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
         }
     }

@@ -64,7 +64,7 @@ bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) con
 
 bool advanced_inventory_pane::is_filtered( const item &it ) const
 {
-    if( it.has_flag( STATIC( flag_str_id( "HIDDEN_ITEM" ) ) ) ) {
+    if( it.has_flag( STATIC( flag_id( "HIDDEN_ITEM" ) ) ) ) {
         return true;
     }
     if( filter.empty() ) {

@@ -2124,9 +2124,6 @@ bool cata_tiles::draw_sprite_at(
                 break;
             case 1:
                 // 90 degrees (and 270, with just two sprites)
-#if defined(_WIN32)
-                destination.y -= 1;
-#endif
                 if( !tile_iso ) {
                     // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, -90, nullptr,
@@ -2149,9 +2146,6 @@ bool cata_tiles::draw_sprite_at(
                 break;
             case 3:
                 // 270 degrees
-#if defined(_WIN32)
-                destination.x -= 1;
-#endif
                 if( !tile_iso ) {
                     // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 90, nullptr,

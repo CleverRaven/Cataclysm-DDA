@@ -187,7 +187,7 @@ const pocket_data::FlagsSetType &pocket_data::get_flag_restrictions() const
     return flag_restrictions;
 }
 
-void pocket_data::add_flag_restriction( const flag_str_id &flag )
+void pocket_data::add_flag_restriction( const flag_id &flag )
 {
     flag_restrictions.insert( flag );
 }
@@ -271,12 +271,8 @@ bool item_pocket::has_item_stacks_with( const item &it ) const
 
 bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
 {
-    if( !this->settings.is_null() || !rhs.settings.is_null() ) {
-        // if this has higher player-set priority then it is automatically better
-        return rhs.settings.is_better_favorite( it, this->settings );
-    }
-
     if( this->settings.priority() != rhs.settings.priority() ) {
+        // Priority overrides all other factors.
         return rhs.settings.priority() > this->settings.priority();
     }
 
@@ -284,31 +280,39 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
     if( has_item_stacks_with( it ) != rhs_it_stack ) {
         return rhs_it_stack;
     }
+
     if( data->ammo_restriction.empty() != rhs.data->ammo_restriction.empty() ) {
         // pockets restricted by ammo should try to get filled first
         return !rhs.data->ammo_restriction.empty();
     }
+
     if( data->get_flag_restrictions().empty() != rhs.data->get_flag_restrictions().empty() ) {
         // pockets restricted by flag should try to get filled first
         return !rhs.data->get_flag_restrictions().empty();
     }
+
     if( it.is_comestible() && it.get_comestible()->spoils != 0_seconds ) {
         // a lower spoil multiplier is better
         return rhs.spoil_multiplier() < spoil_multiplier();
     }
+
     if( it.made_of( phase_id::SOLID ) ) {
         if( data->watertight != rhs.data->watertight ) {
             return !rhs.data->watertight;
         }
     }
+
     if( data->rigid != rhs.data->rigid ) {
+        // Prefer rigid containers, as their fixed volume is wasted unless filled
         return rhs.data->rigid;
     }
-    if( remaining_volume() == rhs.remaining_volume() ) {
-        return rhs.obtain_cost( it ) < obtain_cost( it );
+
+    if( remaining_volume() != rhs.remaining_volume() ) {
+        // we want the least amount of remaining volume
+        return rhs.remaining_volume() < remaining_volume();
     }
-    // we want the least amount of remaining volume
-    return rhs.remaining_volume() < remaining_volume();
+
+    return rhs.obtain_cost( it ) < obtain_cost( it );
 }
 
 bool item_pocket::stacks_with( const item_pocket &rhs ) const
@@ -1529,7 +1533,8 @@ void item_pocket::favorite_settings::set_priority( const int priority )
 bool item_pocket::favorite_settings::is_null() const
 {
     return item_whitelist.empty() && item_blacklist.empty() &&
-           category_whitelist.empty() && category_blacklist.empty();
+           category_whitelist.empty() && category_blacklist.empty() &&
+           priority() == 0;
 }
 
 void item_pocket::favorite_settings::whitelist_item( const itype_id &id )
@@ -1584,26 +1589,20 @@ void item_pocket::favorite_settings::clear_category( const item_category_id &id 
     category_whitelist.erase( id );
 }
 
-bool item_pocket::favorite_settings::is_better_favorite(
-    const item &it, const item_pocket::favorite_settings &rhs ) const
+bool item_pocket::favorite_settings::accepts_item( const item &it ) const
 {
     const itype_id &id = it.typeId();
     const item_category_id &cat = it.get_category_of_contents().id;
 
-    if( category_blacklist.count( cat ) || item_blacklist.count( id ) ||
-        ( !category_whitelist.empty() && !category_whitelist.count( cat ) ) ||
-        ( !item_whitelist.empty() && !item_whitelist.count( id ) ) ) {
-        return false;
+    bool accept_category = ( category_whitelist.empty() || category_whitelist.count( cat ) ) &&
+                           !category_blacklist.count( cat );
+    if( accept_category ) {
+        // Allowed unless explicitly disallowed by the item filters.
+        return ( item_whitelist.empty() || item_whitelist.count( id ) ) && !item_blacklist.count( id );
+    } else {
+        // Disallowed unless explicitly whitelisted
+        return item_whitelist.count( id );
     }
-    if( rhs.category_blacklist.count( cat ) || rhs.item_blacklist.count( id ) ||
-        ( !rhs.category_whitelist.empty() && !rhs.category_blacklist.count( cat ) ) ||
-        ( !rhs.item_whitelist.empty() && !rhs.item_whitelist.count( id ) ) ) {
-        return true;
-    }
-    if( is_null() != rhs.is_null() ) {
-        return !is_null();
-    }
-    return priority_rating > rhs.priority_rating;
 }
 
 template<typename T>

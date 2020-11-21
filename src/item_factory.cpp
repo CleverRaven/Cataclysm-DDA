@@ -216,7 +216,7 @@ void Item_factory::finalize_pre( itype &obj )
         }
     }
     // remove LIGHT_[X] flags
-    erase_if( obj.item_tags, []( const flag_str_id & f ) {
+    erase_if( obj.item_tags, []( const flag_id & f ) {
         return string_starts_with( f.str(), "LIGHT_" );
     } );
 
@@ -495,7 +495,7 @@ void Item_factory::register_cached_uses( const itype &obj )
 
 void Item_factory::finalize_post( itype &obj )
 {
-    erase_if( obj.item_tags, [&]( const flag_str_id & f ) {
+    erase_if( obj.item_tags, [&]( const flag_id & f ) {
         if( !f.is_valid() ) {
             debugmsg( "itype '%s' uses undefined flag '%s'. Please add corresponding 'json_flag' entry to json.",
                       obj.id.str(), f.str() );
@@ -2452,7 +2452,7 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 // Set for all items (not just food and clothing) to avoid edge cases
 void Item_factory::set_allergy_flags( itype &item_template )
 {
-    static const std::pair<material_id, flag_str_id> all_pairs[] = {
+    static const std::pair<material_id, flag_id> all_pairs[] = {
         // First allergens:
         // An item is an allergen even if it has trace amounts of allergenic material
         { material_id( "hflesh" ), flag_CANNIBALISM },

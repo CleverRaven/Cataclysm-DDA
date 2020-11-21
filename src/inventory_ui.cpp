@@ -1300,7 +1300,7 @@ void inventory_selector::add_contained_items( item_location &container )
 
 void inventory_selector::add_contained_items( item_location &container, inventory_column &column )
 {
-    if( container->has_flag( STATIC( flag_str_id( "NO_UNLOAD" ) ) ) ) {
+    if( container->has_flag( STATIC( flag_id( "NO_UNLOAD" ) ) ) ) {
         return;
     }
 

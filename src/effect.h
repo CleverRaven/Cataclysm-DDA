@@ -110,7 +110,7 @@ class effect_type
         int int_decay_tick = 0 ;
         time_duration int_dur_factor = 0_turns;
 
-        std::set<flag_str_id> flags;
+        std::set<flag_id> flags;
 
         bool main_parts_only = false;
 
@@ -229,6 +229,10 @@ class effect
         int get_intensity() const;
         /** Returns the maximum intensity of an effect. */
         int get_max_intensity() const;
+        /** Returns the maximum effective intensity of an effect. */
+        int get_max_effective_intensity() const;
+        /** Returns the current effect intensity, capped to max_effective_intensity. */
+        int get_effective_intensity() const;
 
         /**
          * Sets intensity of effect capped by range [1..max_intensity]
