@@ -16,7 +16,7 @@
         "|........|&..&|........|",
         "|......................|",
         "|....cc.........cc.....|",
-        "|....hx.........xh.....|",
+        "|l...hx.........xh....l|",
         "|....cc.........cc.....|",
         "|......................|",
         "|........C....C........|",
@@ -26,8 +26,8 @@
         "|Wh..................hW|",
         "|.......CP....PC.......|",
         "|........C....C........|",
-        "|......................|",
-        "|....cc.........cc.....|",
+        "|l....................l|",
+        "|l...cc.........cc....l|",
         "|....hx.........xh.....|",
         "|....cc.........cc.....|",
         "|........rlllr.........|",
@@ -38,19 +38,16 @@
       "terrain": { "7": "t_console", "*": "t_thconc_floor" },
       "place_traps": [ { "trap": "tr_cryo_pod_switch", "x": [ 5 ], "y": [ 8 ] } ],
       "mapping": {
-        "l": { "items": [ { "item": "gear_soldier_sidearm", "chance": 33 } ] },
-        "]": { "items": [ { "item": "book_military", "chance": 20 } ] },
-        "t": { "items": [ { "item": "book_military", "chance": 10 } ] },
-        "d": { "items": [ { "item": "office", "chance": 50 } ] },
-        "r": {
+        "l": { "items": [ { "item": "gear_soldier_sidearm", "chance": 10 } ] },
+        "C": { "items": [ { "item": "afs_weapons_rare", "chance": 3 } }
+        "c": {
           "items": [
-            { "item": "military", "chance": 60 },
-            { "item": "ammo_milspec", "chance": 10 },
-            { "item": "guns_milspec", "chance": 10 },
-            { "item": "afs_weapons_rare", "chance": 5 }
+            { "item": "afs_scrapgroup", "chance": 60 },
+            { "item": "surgery", "chance": 10 },
+            { "item": "chem_lab", "chance": 10 },
+            { "item": "schematics", "chance": 5 }
           ]
-        },
-        "*": { "items": [ { "item": "casings", "chance": 10 } ] }
+        }
       },
       "computers": {
         "6": {
