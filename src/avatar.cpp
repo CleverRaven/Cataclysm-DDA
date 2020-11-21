@@ -1552,15 +1552,6 @@ bool avatar::wield( item &target, const int obtain_cost )
         return true;
     }
 
-    // Query whether to draw an item from a holster when attempting to wield the holster
-    if( target.get_use( "holster" ) && !target.contents.empty() ) {
-        //~ %1$s: weapon name
-        if( query_yn( pgettext( "holster", "Draw from %1$s?" ), target.tname() ) ) {
-            invoke_item( &target );
-            return false;
-        }
-    }
-
     // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
     // Worn items (including guns with shoulder straps) are faster but still slower
     // than a skilled player with a holster.
