@@ -31,6 +31,82 @@
     "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW" ]
   },
   {
+    "id": "baldric_holster",
+    "type": "ARMOR",
+    "name": { "str": "baldric holster" },
+    "description": "A leather harness which can hold up to six pistol-sized guns in total, available for quick drawing.  Historically similar harnesses were used by pirates to carry multiple loaded flintlock pistols at once, as reloading them is a lengthy process.  Activate to holster/draw a gun.",
+    "weight": "1320 g",
+    "volume": "3 L",
+    "price": 20000,
+    "price_postapoc": 2000,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "quiver_large",
+    "color": "light_gray",
+    "covers": [ "torso" ],
+    "coverage": 20,
+    "encumbrance": 2,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+  },
+  {
     "id": "bootstrap",
     "type": "ARMOR",
     "name": { "str": "ankle holster" },

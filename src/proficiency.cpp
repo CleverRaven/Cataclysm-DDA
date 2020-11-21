@@ -127,7 +127,6 @@ std::vector<display_proficiency> proficiency_set::display() const
     std::vector<display_proficiency> ret;
 
     for( const std::pair<std::string, proficiency_id> &cur : sorted_known ) {
-        std::cout << "known: " << cur.second.str() << std::endl;
         display_proficiency disp;
         disp.id = cur.second;
         disp.color = c_white;
@@ -138,7 +137,6 @@ std::vector<display_proficiency> proficiency_set::display() const
     }
 
     for( const std::pair<std::string, proficiency_id> &cur : sorted_learning ) {
-        std::cout << "learning: " << cur.second.str() << std::endl;
         display_proficiency disp;
         disp.id = cur.second;
         disp.color = c_light_gray;

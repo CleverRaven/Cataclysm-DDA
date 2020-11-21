@@ -23,6 +23,26 @@
     "flags": [ "SUN_GLASSES" ]
   },
   {
+    "id": "eyepatch_leather",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "leather eyepatch", "str_pl": "leather eyepatches" },
+    "description": "A patch of black leather to cover an eye, with a string to keep it from falling off.  If wearing this doesn't make you feel a pirate, nothing will.",
+    "weight": "50 g",
+    "volume": "100 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "glasses_safety",
+    "color": "light_gray",
+    "covers": [ "eyes" ],
+    "coverage": 50,
+    "encumbrance": 30,
+    "material_thickness": 1,
+    "flags": [ "WATER_FRIENDLY", "SKINTIGHT", "FANCY" ]
+  },
+  {
     "id": "fancy_sunglasses",
     "repairs_like": "sunglasses",
     "type": "ARMOR",

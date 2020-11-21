@@ -2194,7 +2194,7 @@ bionic_id Character::get_remote_fueled_bionic() const
 
 bool Character::can_fuel_bionic_with( const item &it ) const
 {
-    if( !it.is_fuel() && !it.type->magazine && !it.flammable() ) {
+    if( ( !it.is_fuel() && !it.type->magazine && !it.flammable() ) || it.is_comestible() ) {
         return false;
     }
 
@@ -12744,4 +12744,61 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
     }
 
     return std::max( mv, 25 );
+}
+
+static const itype_id itype_cookbook_human( "cookbook_human" );
+static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
+static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+
+
+bool Character::fun_to_read( const item &book ) const
+{
+    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+    if( ( has_trait( trait_CANNIBAL ) || has_trait( trait_PSYCHOPATH ) ||
+          has_trait( trait_SAPIOVORE ) ) &&
+        book.typeId() == itype_cookbook_human ) {
+        return true;
+    } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( flag_INSPIRATIONAL ) ) {
+        return true;
+    } else {
+        return book_fun_for( book, *this ) > 0;
+    }
+}
+
+int Character::book_fun_for( const item &book, const Character &p ) const
+{
+    int fun_bonus = book.type->book->fun;
+    if( !book.is_book() ) {
+        debugmsg( "called avatar::book_fun_for with non-book" );
+        return 0;
+    }
+
+    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+    if( ( p.has_trait( trait_CANNIBAL ) || p.has_trait( trait_PSYCHOPATH ) ||
+          p.has_trait( trait_SAPIOVORE ) ) &&
+        book.typeId() == itype_cookbook_human ) {
+        fun_bonus = std::abs( fun_bonus );
+    } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( flag_INSPIRATIONAL ) ) {
+        fun_bonus = std::abs( fun_bonus * 3 );
+    }
+
+    if( has_trait( trait_LOVES_BOOKS ) ) {
+        fun_bonus++;
+    } else if( has_trait( trait_HATES_BOOKS ) ) {
+        if( book.type->book->fun > 0 ) {
+            fun_bonus = 0;
+        } else {
+            fun_bonus--;
+        }
+    }
+
+    if( fun_bonus > 1 && book.get_chapters() > 0 && book.get_remaining_chapters( p ) == 0 ) {
+        fun_bonus /= 2;
+    }
+
+    return fun_bonus;
 }
