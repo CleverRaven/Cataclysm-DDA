@@ -1,0 +1,39 @@
+[
+  {
+    "type": "palette",
+    "id": "fbmf_2_common_palette",
+    "terrain": {
+      "F": "t_splitrail_fence",
+      "g": "t_splitrail_fencegate_c",
+      "m": "t_dirtmound",
+      "p": "t_palisade",
+      "P": "t_palisade_pulley",
+      "G": "t_palisade_gate",
+      ";": "t_dirt"
+    },
+    "furniture": {  }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmf_0",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbmf_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmf_0" ], "x": 10, "y": 10 } ] }
+  }
+]

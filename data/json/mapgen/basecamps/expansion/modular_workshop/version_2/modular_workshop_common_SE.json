@@ -1,0 +1,166 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_SE",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "    ;;;;;;;;;;;;;;;;;;;;",
+        "    ;;;;;;;;;;;;;;;;;;;;",
+        "    ;;;;;;;;;;;;;;;;;;;;",
+        "    ;;;;;;;;;;;;;;;;;;;;",
+        "    ;;;;;;;;;;;;;;;;;;;;",
+        "    ;;;;;;;;;;;;;;;;;;;;",
+        "    ;;;;;;;;;;;;;;;;;;;;",
+        "    ;;;;         ;;;    ",
+        "    ;;;;                ",
+        "                  ;     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "fbmw_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_SE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_SE" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_smithy_1_SE",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_forge_rock", "x": 7, "y": 6 },
+        { "point": "furniture", "id": "f_table", "x": 6, "y": 6 },
+        { "point": "furniture", "id": "f_dresser", "x": 5, "y": 6 }
+      ],
+      "place_loot": [ { "item": "hammer", "x": 6, "y": 6, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_smithy_2_SE",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_kiln_empty", "x": 6, "y": 9 },
+        { "point": "furniture", "id": "f_kiln_empty", "x": 5, "y": 9 }
+      ],
+      "place_loot": [ { "item": "crucible", "x": 6, "y": 6, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_smithy_3_SE",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_rack_wood", "x": 9, "y": 6 },
+        { "point": "furniture", "id": "f_workbench", "x": 5, "y": 5 },
+        { "point": "furniture", "id": "f_workbench", "x": 5, "y": 4 },
+        { "point": "furniture", "id": "f_workbench", "x": 5, "y": 3 },
+        { "point": "furniture", "id": "f_anvil", "x": 7, "y": 4 }
+      ],
+      "place_loot": [ { "item": "55gal_drum", "x": 7, "y": 3, "chance": 100 }, { "item": "30gal_drum", "x": 7, "y": 2, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_smithy_4_SE",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_table", "x": 14, "y": 6 },
+        { "point": "furniture", "id": "f_armchair", "x": 13, "y": 6 },
+        { "point": "furniture", "id": "f_bookcase", "x": 12, "y": 6 },
+        { "point": "furniture", "id": "f_rack_wood", "x": 11, "y": 6 },
+        { "point": "furniture", "id": "f_stool", "x": 10, "y": 5 }
+      ],
+      "place_loot": [
+        { "item": "tongs", "x": 5, "y": 5, "chance": 100 },
+        { "item": "chisel", "x": 5, "y": 5, "chance": 100 },
+        { "item": "hammer", "x": 5, "y": 5, "chance": 100 },
+        { "item": "swage", "x": 5, "y": 5, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_smithy_5_SE",
+    "method": "json",
+    "object": {
+      "set": [ { "point": "furniture", "id": "f_bellows", "x": 8, "y": 6 } ],
+      "place_loot": [
+        { "item": "hammer_sledge", "x": 5, "y": 4, "chance": 100 },
+        { "item": "knife_combat", "x": 5, "y": 4, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_smithy_6_SE",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_rack", "x": 14, "y": 2 },
+        { "point": "furniture", "id": "f_rack", "x": 13, "y": 2 },
+        { "point": "furniture", "id": "f_rack", "x": 11, "y": 2 },
+        { "point": "furniture", "id": "f_rack", "x": 11, "y": 3 },
+        { "point": "furniture", "id": "f_drophammer", "x": 12, "y": 2 }
+      ],
+      "place_loot": [ { "item": "wrench", "x": 5, "y": 3, "chance": 100 }, { "item": "pliers", "x": 5, "y": 3, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_pottery_SE",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_rack", "x": 22, "y": 6 },
+        { "point": "furniture", "id": "f_rack", "x": 21, "y": 6 },
+        { "point": "furniture", "id": "f_rack", "x": 19, "y": 6 },
+        { "point": "furniture", "id": "f_rack", "x": 18, "y": 6 },
+        { "point": "furniture", "id": "f_rack", "x": 17, "y": 6 },
+        { "point": "furniture", "id": "f_rack", "x": 16, "y": 6 },
+        { "point": "furniture", "id": "f_clay_kiln", "x": 22, "y": 5 },
+        { "point": "furniture", "id": "f_workbench", "x": 20, "y": 4 },
+        { "point": "furniture", "id": "f_workbench", "x": 19, "y": 4 },
+        { "point": "furniture", "id": "f_workbench", "x": 18, "y": 4 },
+        { "point": "furniture", "id": "f_stool", "x": 19, "y": 3 },
+        { "point": "furniture", "id": "f_rack", "x": 22, "y": 4 },
+        { "point": "furniture", "id": "f_rack", "x": 22, "y": 3 },
+        { "point": "furniture", "id": "f_rack", "x": 22, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_recreation_SE",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_bench", "x": 19, "y": 8 },
+        { "point": "furniture", "id": "f_bench", "x": 18, "y": 8 },
+        { "point": "furniture", "id": "f_bench", "x": 17, "y": 8 },
+        { "point": "furniture", "id": "f_55gal_firebarrel", "x": 18, "y": 10 }
+      ]
+    }
+  }
+]

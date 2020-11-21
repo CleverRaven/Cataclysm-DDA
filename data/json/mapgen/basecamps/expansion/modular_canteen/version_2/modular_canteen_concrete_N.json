@@ -1,0 +1,170 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_room_concrete_N",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wvw+wvw",
+        "w......",
+        "v......",
+        "       ",
+        "       ",
+        "       ",
+        "       "
+      ],
+      "palettes": [ "fbmk_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_concrete_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_room_concrete_N" ], "x": 8, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_room_2_concrete_N",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "       ",
+        "       ",
+        "       ",
+        "+.....w",
+        "v......",
+        "w......",
+        "wwwww+w"
+      ],
+      "palettes": [ "fbmk_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_2_concrete_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_room_2_concrete_N" ], "x": 8, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_smoking_area_concrete_N",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "w,,,w",
+        ",,,,v",
+        ",,,,+",
+        ",,,,v",
+        "w,,,w"
+      ],
+      "palettes": [ "fbmk_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_smoking_area_concrete_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_smoking_area_concrete_N" ], "x": 4, "y": 18 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_pantry_concrete_N",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "wwwwwwwww",
+        "........w",
+        "........w",
+        "........w",
+        "........w",
+        "........w",
+        "wwwwwwwww",
+        "         ",
+        "         "
+      ],
+      "palettes": [ "fbmk_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_pantry_concrete_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_pantry_concrete_N" ], "x": 15, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_dining_1_concrete_N",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "w..... ",
+        "v..... ",
+        " ..... ",
+        " ..... ",
+        " ..... ",
+        " ..... ",
+        " +wvww "
+      ],
+      "palettes": [ "fbmk_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_dining_1_concrete_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_dining_1_concrete_N" ], "x": 8, "y": 16 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_dining_2_concrete_N",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "....   ",
+        "....   ",
+        "....   ",
+        "....   ",
+        "....   ",
+        "....   ",
+        "wvww   "
+      ],
+      "palettes": [ "fbmk_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_dining_2_concrete_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_dining_2_concrete_N" ], "x": 14, "y": 16 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_brewery_concrete_N",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "w....w ",
+        "w....w ",
+        "+....w ",
+        "w....w ",
+        "w....w ",
+        "w....w ",
+        "wwwwvw "
+      ],
+      "palettes": [ "fbmk_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_brewery_concrete_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_brewery_concrete_N" ], "x": 18, "y": 16 } ] }
+  }
+]

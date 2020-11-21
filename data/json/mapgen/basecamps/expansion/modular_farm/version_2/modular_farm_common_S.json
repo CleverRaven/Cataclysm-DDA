@@ -1,0 +1,169 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmf_2_S",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";                  ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";                  ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";                 ;;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";                  ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";                  ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";                  ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";                  ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";;;;;;;;;;;;;;;;;;;;    "
+      ],
+      "palettes": [ "fbmf_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_S",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmf_2_S" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_1_S",
+    "method": "json",
+    "object": { "set": [ { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 2, "y2": 2 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_2_S",
+    "method": "json",
+    "object": { "set": [ { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 22, "y2": 22 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_3_S",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 4, "y2": 4 },
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 5, "y2": 5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_4_S",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 7, "y2": 7 },
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 8, "y2": 8 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_5_S",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 10, "y2": 10 },
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 11, "y2": 11 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_6_S",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 13, "y2": 13 },
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 14, "y2": 14 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_7_S",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 16, "y2": 16 },
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 17, "y2": 17 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_8_S",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 19, "y2": 19 },
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 20, "y2": 20 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_fence_1_S",
+    "method": "json",
+    "object": { "set": [ { "line": "terrain", "id": "t_splitrail_fence", "x": 0, "x2": 0, "y": 1, "y2": 23 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_fence_2_S",
+    "method": "json",
+    "object": { "set": [ { "line": "terrain", "id": "t_splitrail_fence", "x": 1, "x2": 19, "y": 23, "y2": 23 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_fence_3_S",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_splitrail_fence", "x": 1, "x2": 17, "y": 1, "y2": 1 },
+        { "point": "terrain", "id": "t_splitrail_fencegate_c", "x": 18, "y": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_fence_4_S",
+    "method": "json",
+    "object": { "set": [ { "line": "terrain", "id": "t_splitrail_fence", "x": 19, "x2": 19, "y": 10, "y2": 23 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_gate_S",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_palisade", "x": 19, "y": 9 },
+        { "line": "terrain", "id": "t_palisade_gate", "x": 19, "x2": 19, "y": 2, "y2": 8 },
+        { "point": "terrain", "id": "t_palisade", "x": 19, "y": 1 },
+        { "point": "terrain", "id": "t_palisade_pulley", "x": 18, "y": 9 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_fence_5_S",
+    "method": "json",
+    "object": { "set": [ { "line": "terrain", "id": "t_splitrail_fence", "x": 19, "x2": 19, "y": 1, "y2": 9 } ] }
+  }
+]

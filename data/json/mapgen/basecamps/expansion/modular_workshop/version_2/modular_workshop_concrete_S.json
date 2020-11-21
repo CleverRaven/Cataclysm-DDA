@@ -1,0 +1,97 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_smithy_1_concrete_S",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vww+vw",
+        ".....w",
+        ".....w",
+        ".....w",
+        ".....v",
+        ".....w"
+      ],
+      "palettes": [ "fbmw_2_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_smithy_1_concrete_S",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_smithy_1_concrete_S" ], "x": 14, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_smithy_2_concrete_S",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwvwww",
+        "  ,,,,",
+        "  w,,w",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbmw_2_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_smithy_2_concrete_S",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_smithy_2_concrete_S" ], "x": 14, "y": 7 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_pottery_concrete_S",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "wwwvwwww",
+        "w.......",
+        "w.......",
+        "w.......",
+        "w.......",
+        "w.......",
+        "www+wwvw",
+        "        "
+      ],
+      "palettes": [ "fbmw_2_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_pottery_concrete_S",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_pottery_concrete_S" ], "x": 0, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_smithy_3_concrete_S",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwvwww ",
+        "w..... ",
+        "w..... ",
+        "+..... ",
+        "w..... ",
+        "w..... ",
+        "wwwvw+ "
+      ],
+      "palettes": [ "fbmw_2_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_smithy_3_concrete_S",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_smithy_3_concrete_S" ], "x": 8, "y": 1 } ] }
+  }
+]

@@ -1,0 +1,168 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_coop_metal_E",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "wwwwwwww",
+        " ,,,,,,w",
+        " ,,,,,,w",
+        " ,,,,,,w",
+        " ,,,,,,w",
+        " ,,,,,,w",
+        "wwwwwwww",
+        "        "
+      ],
+      "palettes": [ "fbml_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_coop_metal_E",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_2_coop_metal_E" ], "x": 16, "y": 4 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_shack_metal_E",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "wwvww",
+        "w,,,w",
+        "+,,,w",
+        "v,,,v",
+        "wv+ww"
+      ],
+      "palettes": [ "fbml_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_shack_metal_E",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbml_2_shack_metal_E" ], "x": 1, "y": 4 },
+        { "chunks": [ "fbml_2_shack_furniture_E" ], "x": 2, "y": 5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_1_metal_E",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "w,,,, ",
+        "w,,,, ",
+        "w   w ",
+        "w,,,w ",
+        "w,,,w ",
+        "wwwww "
+      ],
+      "palettes": [ "fbml_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_1_metal_E",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbml_2_stall_1_metal_E" ], "x": 1, "y": 18 }, { "chunks": [ "fbml_2_stall_1_E" ], "x": 2, "y": 18 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_2_4_metal_E",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        ",,,w  ",
+        ",,,,  ",
+        "   w  ",
+        ",,,w  ",
+        ",,,w  ",
+        "wwww  "
+      ],
+      "palettes": [ "fbml_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_2_metal_E",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbml_2_stall_2_4_metal_E" ], "x": 6, "y": 18 },
+        { "chunks": [ "fbml_2_stall_bench_E" ], "x": 4, "y": 19 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_3_metal_E",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        ",,,,  ",
+        ",,,,  ",
+        "   w  ",
+        ",,,w  ",
+        ",,,w  ",
+        "wwww  "
+      ],
+      "palettes": [ "fbml_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_3_metal_E",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbml_2_stall_3_metal_E" ], "x": 10, "y": 18 }, { "chunks": [ "fbml_2_stall_3_E" ], "x": 10, "y": 20 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_4_metal_E",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbml_2_stall_2_4_metal_E" ], "x": 14, "y": 18 },
+        { "chunks": [ "fbml_2_stall_bench_E" ], "x": 12, "y": 19 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_5_metal_E",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        ",,,,,w",
+        ",,,,,w",
+        "  w  w",
+        ",,w,,w",
+        ",,w,,w",
+        "wwwwww"
+      ],
+      "palettes": [ "fbml_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_5_metal_E",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbml_2_stall_5_metal_E" ], "x": 18, "y": 18 }, { "chunks": [ "fbml_2_stall_5_E" ], "x": 18, "y": 19 } ]
+    }
+  }
+]

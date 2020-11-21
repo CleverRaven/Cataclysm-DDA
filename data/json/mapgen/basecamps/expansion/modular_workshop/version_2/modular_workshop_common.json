@@ -1,0 +1,23 @@
+[
+  {
+    "type": "palette",
+    "id": "fbmw_2_common_palette",
+    "terrain": { ";": "t_dirt" },
+    "furniture": {
+      "t": "f_table",
+      "L": "f_dresser",
+      "x": "f_kiln_empty",
+      "f": "f_forge_rock",
+      "c": "f_workbench",
+      "h": "f_stool",
+      "A": "f_anvil",
+      "r": "f_rack_wood",
+      "Q": "f_bellows",
+      "b": "f_bench",
+      "z": "f_55gal_firebarrel",
+      "k": "f_clay_kiln",
+      "M": "f_armchair",
+      "B": "f_bookcase"
+    }
+  }
+]

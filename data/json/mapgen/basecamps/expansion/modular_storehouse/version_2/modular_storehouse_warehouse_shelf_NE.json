@@ -1,0 +1,98 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_1_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_c" ], "x": 3, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_2_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_d" ], "x": 3, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_3_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_c" ], "x": 3, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_4_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_d" ], "x": 3, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_5_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_c" ], "x": 8, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_6_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_d" ], "x": 8, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_7_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_c" ], "x": 8, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_8_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_d" ], "x": 8, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_9_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_c" ], "x": 14, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_10_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_d" ], "x": 14, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_11_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_c" ], "x": 14, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_12_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_d" ], "x": 14, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_13_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_c" ], "x": 19, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_14_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_d" ], "x": 19, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_15_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_c" ], "x": 19, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_warehouse_shelf_16_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_warehouse_shelf_d" ], "x": 19, "y": 15 } ] }
+  }
+]

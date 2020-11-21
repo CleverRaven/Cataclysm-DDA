@@ -1,0 +1,170 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_room_rammed_earth_SW",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwv    ",
+        "v..    ",
+        "w..    ",
+        "+..    ",
+        "w..    ",
+        "v..    ",
+        "w..    "
+      ],
+      "palettes": [ "fbmk_2_rammed_earth_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_rammed_earth_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_room_rammed_earth_SW" ], "x": 9, "y": 8 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_room_2_rammed_earth_SW",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "+vww   ",
+        "...w   ",
+        "...w   ",
+        "...w   ",
+        "...w   ",
+        "...+   ",
+        "w..w   "
+      ],
+      "palettes": [ "fbmk_2_rammed_earth_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_2_rammed_earth_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_room_2_rammed_earth_SW" ], "x": 12, "y": 8 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_smoking_area_rammed_earth_SW",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "w,,,w",
+        ",,,,,",
+        ",,,,,",
+        ",,,,,",
+        "wv+vw"
+      ],
+      "palettes": [ "fbmk_2_rammed_earth_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_smoking_area_rammed_earth_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_smoking_area_rammed_earth_SW" ], "x": 18, "y": 4 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_pantry_rammed_earth_SW",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "w.....w  ",
+        "w.....w  ",
+        "w.....w  ",
+        "w.....w  ",
+        "w.....w  ",
+        "w.....w  ",
+        "w.....w  ",
+        "w.....w  ",
+        "wwwwwww  "
+      ],
+      "palettes": [ "fbmk_2_rammed_earth_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_pantry_rammed_earth_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_pantry_rammed_earth_SW" ], "x": 9, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_dining_1_rammed_earth_SW",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wv     ",
+        "......+",
+        "......w",
+        "......v",
+        "......w",
+        "......w",
+        "       "
+      ],
+      "palettes": [ "fbmk_2_rammed_earth_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_dining_1_rammed_earth_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_dining_1_rammed_earth_SW" ], "x": 16, "y": 8 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_dining_2_rammed_earth_SW",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "......w",
+        "......v",
+        "......w",
+        "......w",
+        "       ",
+        "       ",
+        "       "
+      ],
+      "palettes": [ "fbmk_2_rammed_earth_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_dining_2_rammed_earth_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_dining_2_rammed_earth_SW" ], "x": 16, "y": 14 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_brewery_rammed_earth_SW",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "ww+wwww",
+        "......v",
+        "......w",
+        "......w",
+        "......w",
+        "wwwwwww",
+        "       "
+      ],
+      "palettes": [ "fbmk_2_rammed_earth_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_brewery_rammed_earth_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_brewery_rammed_earth_SW" ], "x": 16, "y": 18 } ] }
+  }
+]

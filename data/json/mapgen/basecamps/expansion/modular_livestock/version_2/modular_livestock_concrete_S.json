@@ -1,0 +1,174 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_coop_concrete_S",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "w     w ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "wwwwwww "
+      ],
+      "palettes": [ "fbml_2_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_coop_concrete_S",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_2_coop_concrete_S" ], "x": 13, "y": 16 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_shack_concrete_S",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "wv+ww",
+        "v,,,w",
+        "+,,,v",
+        "w,,,w",
+        "wvwww"
+      ],
+      "palettes": [ "fbml_2_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_shack_concrete_S",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbml_2_shack_concrete_S" ], "x": 15, "y": 1 },
+        { "chunks": [ "fbml_2_shack_furniture_S" ], "x": 16, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_1_concrete_S",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwwwww",
+        "w,, ,,",
+        "w,, ,,",
+        "w,, ,,",
+        "wwww,,",
+        "      "
+      ],
+      "palettes": [ "fbml_2_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_1_concrete_S",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbml_2_stall_1_concrete_S" ], "x": 0, "y": 1 }, { "chunks": [ "fbml_2_stall_1_S" ], "x": 3, "y": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_2_4_concrete_S",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "w,, ,,",
+        "w,, ,,",
+        "w,, ,,",
+        "wwww,w",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbml_2_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_2_concrete_S",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbml_2_stall_2_4_concrete_S" ], "x": 0, "y": 6 },
+        { "chunks": [ "fbml_2_stall_bench_S" ], "x": 3, "y": 4 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_3_concrete_S",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "w,, ,,",
+        "w,, ,,",
+        "w,, ,,",
+        "wwww,,",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbml_2_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_3_concrete_S",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbml_2_stall_3_concrete_S" ], "x": 0, "y": 10 },
+        { "chunks": [ "fbml_2_stall_3_S" ], "x": 3, "y": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_4_concrete_S",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbml_2_stall_2_4_concrete_S" ], "x": 0, "y": 14 },
+        { "chunks": [ "fbml_2_stall_bench_S" ], "x": 3, "y": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_5_concrete_S",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "w,, ,,",
+        "w,, ,,",
+        "wwww,,",
+        "w,, ,,",
+        "w,, ,,",
+        "wwwwww"
+      ],
+      "palettes": [ "fbml_2_2_concrete_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_5_concrete_S",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbml_2_stall_5_concrete_S" ], "x": 0, "y": 18 },
+        { "chunks": [ "fbml_2_stall_5_S" ], "x": 3, "y": 18 }
+      ]
+    }
+  }
+]

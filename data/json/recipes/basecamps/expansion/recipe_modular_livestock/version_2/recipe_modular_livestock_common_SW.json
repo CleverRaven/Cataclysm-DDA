@@ -1,0 +1,62 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbml_2_coop_yard_SW",
+    "description": "We could use a fence to contain our chicken and other birds, so build a chickenwire fence to finish the chicken coop area.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_2_coop_yard_SW",
+    "blueprint_name": "chicken coop yard",
+    "blueprint_requires": [ { "id": "fbml_2_coop_SW" } ],
+    "blueprint_provides": [ { "id": "fbml_2_coop_yard_SW" } ],
+    "blueprint_excludes": [ { "id": "fbml_2_coop_yard_SW" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbml_2_remote_fence_SW",
+    "description": "We could use a paddock for the stable, so build a split-rail fence on the remote side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_2_remote_fence_SW",
+    "blueprint_name": "remote paddock fence",
+    "blueprint_requires": [ { "id": "fbml_2_stall_5_SW" }, { "id": "fbml_2_coop_SW" } ],
+    "blueprint_provides": [ { "id": "fbml_2_remote_fence_SW" } ],
+    "blueprint_excludes": [ { "id": "fbml_2_remote_fence_SW" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbml_2_side_fence_SW",
+    "description": "We could use a paddock for the stable, so build a split-rail fence on side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_2_side_fence_SW",
+    "blueprint_name": "side paddock fence",
+    "blueprint_requires": [ { "id": "fbml_2_coop_yard_SW" }, { "id": "fbml_2_shack_SW" } ],
+    "blueprint_provides": [ { "id": "fbml_2_side_fence_SW" } ],
+    "blueprint_excludes": [ { "id": "fbml_2_side_fence_SW" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbml_2_near_fence_SW",
+    "description": "We could use a paddock for the stable, so build a split-rail fence on near side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_2_near_fence_SW",
+    "blueprint_name": "near paddock fence",
+    "blueprint_requires": [ { "id": "fbml_2_stall_1_SW" }, { "id": "fbml_2_shack_SW" } ],
+    "blueprint_provides": [ { "id": "fbml_2_near_fence_SW" } ],
+    "blueprint_excludes": [ { "id": "fbml_2_near_fence_SW" } ]
+  }
+]

@@ -1,0 +1,170 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_room_metal_SE",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "v......",
+        "w......",
+        "wvw+wvw",
+        "       ",
+        "       ",
+        "       ",
+        "       "
+      ],
+      "palettes": [ "fbmk_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_metal_SE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_room_metal_SE" ], "x": 8, "y": 12 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_room_2_metal_SE",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwww+w",
+        "w......",
+        "v......",
+        "+.....w",
+        "       ",
+        "       ",
+        "       "
+      ],
+      "palettes": [ "fbmk_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_2_metal_SE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_room_2_metal_SE" ], "x": 8, "y": 8 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_smoking_area_metal_SE",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "w,,,w",
+        ",,,,v",
+        ",,,,+",
+        ",,,,v",
+        "w,,,w"
+      ],
+      "palettes": [ "fbmk_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_smoking_area_metal_SE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_smoking_area_metal_SE" ], "x": 4, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_pantry_metal_SE",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "wwwwwwwww",
+        "........w",
+        "........w",
+        "........w",
+        "........w",
+        "........w",
+        "wwwwwwwww",
+        "         ",
+        "         "
+      ],
+      "palettes": [ "fbmk_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_pantry_metal_SE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_pantry_metal_SE" ], "x": 15, "y": 8 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_dining_1_metal_SE",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        " +wvww ",
+        " ..... ",
+        " ..... ",
+        " ..... ",
+        " ..... ",
+        "v..... ",
+        "w..... "
+      ],
+      "palettes": [ "fbmk_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_dining_1_metal_SE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_dining_1_metal_SE" ], "x": 8, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_dining_2_metal_SE",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wvww   ",
+        "....   ",
+        "....   ",
+        "....   ",
+        "....   ",
+        "....   ",
+        "....   "
+      ],
+      "palettes": [ "fbmk_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_dining_2_metal_SE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_dining_2_metal_SE" ], "x": 14, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_brewery_metal_SE",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwwvw ",
+        "w....w ",
+        "w....w ",
+        "w....w ",
+        "+....w ",
+        "w....w ",
+        "w....w "
+      ],
+      "palettes": [ "fbmk_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_brewery_metal_SE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_brewery_metal_SE" ], "x": 18, "y": 1 } ] }
+  }
+]

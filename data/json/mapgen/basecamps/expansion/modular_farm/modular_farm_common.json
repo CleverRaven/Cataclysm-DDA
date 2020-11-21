@@ -1,0 +1,25 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmf_0",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbmf_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_farm_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmf_0" ], "x": 10, "y": 10 } ] }
+  }
+]
