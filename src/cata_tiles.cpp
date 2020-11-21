@@ -2124,6 +2124,13 @@ bool cata_tiles::draw_sprite_at(
                 break;
             case 1:
                 // 90 degrees (and 270, with just two sprites)
+#if defined(_WIN32) && defined(CROSS_LINUX)
+                // For an unknown reason, additional offset is required in direcr3d mode
+                // for cross-compiling from Linux to Windows
+                if( get_option<std::string>( "RENDERER" ) == "direct3d" ) {
+                    destination.y -= 1;
+                }
+#endif
                 if( !tile_iso ) {
                     // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, -90, nullptr,
@@ -2146,6 +2153,13 @@ bool cata_tiles::draw_sprite_at(
                 break;
             case 3:
                 // 270 degrees
+#if defined(_WIN32) && defined(CROSS_LINUX)
+                // For an unknown reason, additional offset is required in direcr3d mode
+                // for cross-compiling from Linux to Windows
+                if( get_option<std::string>( "RENDERER" ) == "direct3d" ) {
+                    destination.x -= 1;
+                }
+#endif
                 if( !tile_iso ) {
                     // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 90, nullptr,
