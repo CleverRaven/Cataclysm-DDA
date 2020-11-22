@@ -74,6 +74,14 @@
   },
   {
     "type": "SPECIES",
+    "id": "CENTIPEDE",
+    "description": "a centipede",
+	"footsteps": "skittering.",
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "INSECT_FLYING",
     "description": "a flying insect",
     "footsteps": "BZZZZZZZZZZZZZZZZZ",
