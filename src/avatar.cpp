@@ -658,6 +658,9 @@ object_type avatar::get_grab_type() const
 
 static void skim_book_msg( const item &book, avatar &u )
 {
+    if( !book.type->book ) {
+        return;
+    }
     const auto &reading = book.type->book;
     const skill_id &skill = reading->skill;
 
