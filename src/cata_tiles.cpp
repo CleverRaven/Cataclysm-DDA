@@ -2125,9 +2125,9 @@ bool cata_tiles::draw_sprite_at(
             case 1:
                 // 90 degrees (and 270, with just two sprites)
 #if defined(_WIN32) && defined(CROSS_LINUX)
-                // For an unknown reason, additional offset is required in direcr3d mode
-                // for cross-compiling from Linux to Windows
-                if( get_option<std::string>( "RENDERER" ) == "direct3d" ) {
+                // For an unknown reason, additional offset is required in direct3d mode
+                // for cross-compilation from Linux to Windows
+                if( direct3d_mode ) {
                     destination.y -= 1;
                 }
 #endif
@@ -2154,9 +2154,9 @@ bool cata_tiles::draw_sprite_at(
             case 3:
                 // 270 degrees
 #if defined(_WIN32) && defined(CROSS_LINUX)
-                // For an unknown reason, additional offset is required in direcr3d mode
-                // for cross-compiling from Linux to Windows
-                if( get_option<std::string>( "RENDERER" ) == "direct3d" ) {
+                // For an unknown reason, additional offset is required in direct3d mode
+                // for cross-compilation from Linux to Windows
+                if( direct3d_mode ) {
                     destination.x -= 1;
                 }
 #endif

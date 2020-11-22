@@ -317,6 +317,10 @@ static void WinCreate()
         renderer_name = get_option<std::string>( "RENDERER" );
     }
 
+    if( renderer_name == "direct3d" ) {
+        direct3d_mode = true;
+    }
+
     const int numRenderDrivers = SDL_GetNumRenderDrivers();
     for( int i = 0; i < numRenderDrivers; i++ ) {
         SDL_RendererInfo ri;
