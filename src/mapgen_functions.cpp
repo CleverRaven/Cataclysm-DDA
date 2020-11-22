@@ -900,10 +900,22 @@ void mapgen_road( mapgendata &dat )
 
         // four-way intersections
         if( num_dirs == 4 ) {
-            square( m, t_zebra, point( 4, 1 ), point( 19, 2 ) );
-            square( m, t_zebra, point( 21, 4 ), point( 22, 19 ) );
-            square( m, t_zebra, point( 4, 21 ), point( 19, 22 ) );
-            square( m, t_zebra, point( 1, 4 ), point( 2, 19 ) );
+            if( one_in( 2 ) &&
+                m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
+                square( m, t_zebra, point( 4, 1 ), point( 19, 2 ) );
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
+                square( m, t_zebra, point( 21, 4 ), point( 22, 19 ) );
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 3, 21 ) ) == t_sidewalk && m->ter( point( 20, 22 ) ) == t_sidewalk ) {
+                square( m, t_zebra, point( 4, 21 ), point( 19, 22 ) );
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
+                square( m, t_zebra, point( 1, 4 ), point( 2, 19 ) );
+            }
 
             if( one_in( 2 ) ) {
                 m->furn_set( point( 3, 3 ), f_traffic_light );
@@ -921,9 +933,18 @@ void mapgen_road( mapgendata &dat )
 
         // tee-shaped roads
         if( num_dirs == 3 ) {
-            square( m, t_zebra, point( 4, 1 ), point( 19, 2 ) );
-            square( m, t_zebra, point( 21, 4 ), point( 22, 19 ) );
-            square( m, t_zebra, point( 1, 4 ), point( 2, 19 ) );
+            if( one_in( 2 ) &&
+                m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
+                square( m, t_zebra, point( 4, 1 ), point( 19, 2 ) );
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
+                square( m, t_zebra, point( 21, 4 ), point( 22, 19 ) );
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
+                square( m, t_zebra, point( 1, 4 ), point( 2, 19 ) );
+            }
 
             if( one_in( 2 ) ) {
                 m->furn_set( point( 3, 3 ), f_traffic_light );
