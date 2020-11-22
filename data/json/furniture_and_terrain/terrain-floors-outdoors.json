@@ -208,7 +208,7 @@
     "name": "pedestrian crossing",
     "connects_to": "PAVEMENT",
     "description": "White polymer lines painted on the pavement which indicate places where pedestrians should cross the road.",
-    "symbol": "-",
+    "symbol": ".",
     "color": "white",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
