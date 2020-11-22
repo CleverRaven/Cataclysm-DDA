@@ -1,6 +1,8 @@
 #ifndef CATA_OBJECT_CREATOR_FAKE_SPELL_WINDOW_H
 #define CATA_OBJECT_CREATOR_FAKE_SPELL_WINDOW_H
 
+#undef emit
+#undef forever
 #include "magic.h"
 
 #include <QtWidgets/qcombobox.h>
