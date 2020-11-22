@@ -2595,7 +2595,7 @@
   {
     "id": "turtleneck_shirt_rolled",
     "type": "TOOL_ARMOR",
-    "name": { "str": "turtleneck (rolled)" },
+    "name": { "str": "turtleneck shirt (rolled)" },
     "description": "This turtleneck shirt's neck is rolled out of the way of the mouth.",
     "weight": "300 g",
     "volume": "2000 ml",
