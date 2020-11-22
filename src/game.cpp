@@ -9094,9 +9094,10 @@ void game::reload_weapon( bool try_everything )
         item::reload_option opt = u.select_ammo( *turret.base(), true );
         std::vector<item_location> targets;
         if( opt ) {
+            const int moves = opt.moves();
             targets.emplace_back( turret.base() );
             targets.push_back( std::move( opt.ammo ) );
-            u.assign_activity( player_activity( reload_activity_actor( opt.moves(), opt.qty(), targets ) ) );
+            u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
         }
         return;
     }

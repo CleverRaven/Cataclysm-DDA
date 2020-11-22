@@ -2299,19 +2299,7 @@ void reload_activity_actor::start( player_activity &act, Character &/*who*/ )
     act.moves_left = moves_total;
 }
 
-void reload_activity_actor::reload_gun( Character &who, item &reloadable, item &ammo ) const
-{
-    const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
-    who.recoil = MAX_RECOIL;
-    if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
-        for( int i = 0; i != quantity; ++i ) {
-            add_msg( m_neutral, _( "You insert one %2$s into the %1$s." ), reloadable.tname(), ammo.tname() );
-        }
-    }
-    make_reload_sound( who, reloadable );
-}
-
-void reload_activity_actor::make_reload_sound( Character &who, item &reloadable ) const
+void reload_activity_actor::make_reload_sound( Character &who, item &reloadable )
 {
     if( reloadable.type->gun->reload_noise_volume > 0 ) {
         sfx::play_variant_sound( "reload", reloadable.typeId().str(),
@@ -2330,10 +2318,11 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
 
     item &reloadable = *reload_targets[ 0 ];
     item &ammo = *reload_targets[ 1 ];
-    std::string reloadable_name = reloadable.tname();
-    std::string ammo_name = ammo.tname();
+    const std::string reloadable_name = reloadable.tname();
     // cache check results because reloading deletes the ammo item
+    const std::string ammo_name = ammo.tname();
     const bool ammo_is_filthy = ammo.is_filthy();
+    const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
 
     if( !reloadable.reload( who, std::move( reload_targets[ 1 ] ), quantity ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable_name );
@@ -2351,7 +2340,11 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( reloadable.is_gun() ) {
-        reload_gun( who, reloadable, ammo );
+        who.recoil = MAX_RECOIL;
+        if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
+            add_msg( m_neutral, _( "You insert %dx %s into the %s." ), quantity, ammo_name, reloadable_name );
+        }
+        make_reload_sound( who, reloadable );
     } else if( reloadable.is_watertight_container() ) {
         add_msg( m_neutral, _( "You refill the %s." ), reloadable_name );
     } else {
