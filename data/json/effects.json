@@ -1821,9 +1821,9 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
-    "blood_analysis_description": "Hypocalcemia"
     "base_mods": { "speed_mod": [ -5 ], "str_mod": [ -1 ] },
     "scaling_mods": { "speed_mod": [ -10 ], "str_mod": [ -1.5 ] }
+    "blood_analysis_description": "Hypocalcemia"
   },
   {
     "type": "effect_type",
@@ -1913,9 +1913,9 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
-    "blood_analysis_description": "Vitamin A Deficiency",
     "base_mods": { "per_mod": [ -1 ] },
-    "scaling_mods": { "per_mod": [ -2 ], "int_mod": [ -1 ] }
+    "scaling_mods": { "per_mod": [ -2 ], "int_mod": [ -1 ] },
+    "blood_analysis_description": "Vitamin A Deficiency"
   },
   {
     "type": "effect_type",
@@ -1930,9 +1930,9 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
-    "blood_analysis_description": "Vitamin B Deficiency",
     "base_mods": { "stamina_min": [ -0.5 ], "hurt_chance": [ 125 ], "hurt_tick": [ 60 ] },
-    "scaling_mods": { "stamina_min": [ -0.5 ], "hurt_min": [ 1 ], "hurt_chance": [ -25 ] }
+    "scaling_mods": { "stamina_min": [ -0.5 ], "hurt_min": [ 1 ], "hurt_chance": [ -25 ] },
+    "blood_analysis_description": "Vitamin B Deficiency"
   },
   {
     "type": "effect_type",
@@ -1948,7 +1948,6 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
-    "blood_analysis_description": "Scurvy",
     "base_mods": { "stamina_min": [ -0.5 ], "pain_min": [ 1 ], "pain_chance": [ 100 ], "pain_tick": [ 50 ] },
     "scaling_mods": {
       "str_mod": [ -1.5 ],
@@ -1957,7 +1956,8 @@
       "dex_mod": [ -1 ],
       "stamina_min": [ -1.25 ],
       "pain_chance": [ -30 ]
-    }
+    },
+    "blood_analysis_description": "Scurvy"
   },
   {
     "type": "effect_type",
@@ -1967,7 +1967,6 @@
     "apply_message": "Your metabolism becomes unstable.",
     "remove_message": "Your metabolism becomes more stable.",
     "rating": "bad",
-    "blood_analysis_description": "Hypervitaminosis",
     "base_mods": {
       "stamina_min": [ -1 ],
       "stamina_chance": [ 12 ],
@@ -1978,7 +1977,8 @@
       "thirst_max": [ 2 ],
       "thirst_tick": [ 240 ],
       "thirst_chance": [ 3 ]
-    }
+    },
+    "blood_analysis_description": "Hypervitaminosis",
   },
   {
     "type": "effect_type",
