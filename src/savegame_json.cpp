@@ -2497,6 +2497,8 @@ void item::deserialize( JsonIn &jsin )
     const JsonObject data = jsin.get_object();
     io::JsonObjectInputArchive archive( data );
     io( archive );
+    archive.allow_omitted_members();
+    data.copy_visited_members( archive );
     // first half of the if statement is for migration to nested containers. remove after 0.F
     if( data.has_array( "contents" ) ) {
         std::list<item> items;
@@ -2511,12 +2513,16 @@ void item::deserialize( JsonIn &jsin )
         update_modified_pockets();
         contents.combine( read_contents );
 
-        if( data.has_object( "contents" ) && data.get_object( "contents" ).has_array( "items" ) ) {
-            // migration for nested containers. leave until after 0.F
-            std::list<item> items;
-            data.get_object( "contents" ).read( "items", items );
-            for( const item &it : items ) {
-                migrate_content_item( it );
+        if( data.has_object( "contents" ) ) {
+            JsonObject tested = data.get_object( "contents" );
+            tested.allow_omitted_members();
+            if( tested.has_array( "items" ) ) {
+                // migration for nested containers. leave until after 0.F
+                std::list<item> items;
+                tested.read( "items", items );
+                for( const item &it : items ) {
+                    migrate_content_item( it );
+                }
             }
         }
     }
