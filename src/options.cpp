@@ -1554,7 +1554,7 @@ void options_manager::add_options_interface()
        );
 
     add( "ACHIEVEMENT_COMPLETED_POPUP", "interface",
-         to_translation( "Popup window when achievmement completed" ),
+         to_translation( "Popup window when achievement completed" ),
          to_translation( "Whether to trigger a popup window when completing an achievement.  "
                          "First: when completing an achievement that has not been completed in "
     "a previous game." ), {
