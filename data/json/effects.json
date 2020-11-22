@@ -1978,7 +1978,7 @@
       "thirst_tick": [ 240 ],
       "thirst_chance": [ 3 ]
     },
-    "blood_analysis_description": "Hypervitaminosis",
+    "blood_analysis_description": "Hypervitaminosis"
   },
   {
     "type": "effect_type",
