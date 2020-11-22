@@ -186,10 +186,10 @@
     "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD" ]
   },
   {
-    "id": "journal",
+    "id": "leather_journal",
     "type": "TOOL",
     "category": "tools",
-    "name": { "str": "journal" },
+    "name": { "str": "leather journal" },
     "looks_like": "book_nonf_soft_psych_cggamers",
     "description": "A leather-back journal for preserving notes and maps, has a strap to keep loose pages contained.",
     "volume": "300 ml",
