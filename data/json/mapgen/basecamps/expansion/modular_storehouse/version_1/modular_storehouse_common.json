@@ -1,0 +1,25 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_1",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbms_wood_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_1",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_1" ], "x": 10, "y": 10 } ] }
+  }
+]
