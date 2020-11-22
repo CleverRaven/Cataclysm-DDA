@@ -2552,7 +2552,7 @@
     "id": "turtleneck_rolled",
     "type": "TOOL_ARMOR",
     "name": { "str": "turtleneck (rolled)" },
-    "description": "This wool turtlenecks neck is rolled out of the way of the mouth.",
+    "description": "This wool turtleneck's neck is rolled out of the way of the mouth.",
     "weight": "478 g",
     "volume": "2500 ml",
     "price": 5000,
