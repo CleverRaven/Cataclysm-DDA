@@ -39,7 +39,7 @@
       "place_traps": [ { "trap": "tr_cryo_pod_switch", "x": [ 5 ], "y": [ 8 ] } ],
       "mapping": {
         "l": { "items": [ { "item": "gear_soldier_sidearm", "chance": 10 } ] },
-        "C": { "items": [ { "item": "afs_weapons_rare", "chance": 3 } }
+        "C": { "items": [ { "item": "afs_weapons_rare", "chance": 3 } ] }
         "c": {
           "items": [
             { "item": "afs_scrapgroup", "chance": 60 },
