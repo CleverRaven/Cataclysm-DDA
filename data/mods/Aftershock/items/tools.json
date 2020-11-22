@@ -368,7 +368,7 @@
           { "has": "WORN", "condition": "ALWAYS", "mutations": [ "KILLER", "SCHIZOPHRENIC" ], "values": [ { "value": "PERCEPTION", "add": 1 } ] }
         ],
       "flags": [ "WATCH", "TRADER_AVOID" ]
-    },
+    }
   },
   {
     "id": "nano_forge",
