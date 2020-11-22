@@ -1822,7 +1822,7 @@
     "max_intensity": 3,
     "rating": "bad",
     "base_mods": { "speed_mod": [ -5 ], "str_mod": [ -1 ] },
-    "scaling_mods": { "speed_mod": [ -10 ], "str_mod": [ -1.5 ] }
+    "scaling_mods": { "speed_mod": [ -10 ], "str_mod": [ -1.5 ] },
     "blood_analysis_description": "Hypocalcemia"
   },
   {
