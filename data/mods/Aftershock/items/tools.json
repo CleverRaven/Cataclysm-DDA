@@ -358,7 +358,7 @@
   {
     "id": "vr_laptop_holosuite",
       "copy-from": "vr_laptop",
-      "type": "TOOL",
+      "type": "TOOL_ARMOR",
       "name": { "str": "vr rig - holosuite deployed", "str_pl": "vr rigs - holosuite deployed" },
       "power_draw": 1000,
       "revert_to": "vr_laptop",
