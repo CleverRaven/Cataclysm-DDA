@@ -2571,7 +2571,7 @@
   {
     "id": "turtleneck_shirt",
     "type": "TOOL_ARMOR",
-    "name": { "str": "turtleneck" },
+    "name": { "str": "turtleneck shirt" },
     "description": "A tasteful cotton turtleneck shirt, thick for a shirt, thin for a sweater and completely lacking storage.",
     "weight": "300 g",
     "volume": "2000 ml",
