@@ -13,6 +13,7 @@ ODIR ?= obj
 
 CXXFLAGS += $(QT5_CFLAGS) -I../src -I../tools/format -fPIC
 LDFLAGS += $(QT5_LIBS)
+DEFINES += -DQT_NO_KEYWORDS
 
 object_creator: $(OBJS) $(CATA_LIB)
 	+$(CXX) -o $@ $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
