@@ -1822,6 +1822,8 @@
     "max_intensity": 3,
     "rating": "bad",
     "blood_analysis_description": "Hypocalcemia"
+    "base_mods": { "speed_mod": [ -5 ], "str_mod": [ -1 ] },
+    "scaling_mods": { "speed_mod": [ -10 ], "str_mod": [ -1.5 ] }
   },
   {
     "type": "effect_type",
@@ -1911,7 +1913,9 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
-    "blood_analysis_description": "Vitamin A Deficiency"
+    "blood_analysis_description": "Vitamin A Deficiency",
+    "base_mods": { "per_mod": [ -1 ] },
+    "scaling_mods": { "per_mod": [ -2 ], "int_mod": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -1926,13 +1930,16 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
-    "blood_analysis_description": "Vitamin B Deficiency"
+    "blood_analysis_description": "Vitamin B Deficiency",
+    "base_mods": { "stamina_min": [ -0.5 ], "hurt_chance": [ 125 ], "hurt_tick": [ 60 ] },
+    "scaling_mods": { "stamina_min": [ -0.5 ], "hurt_min": [ 1 ], "hurt_chance": [ -25 ] }
   },
   {
     "type": "effect_type",
     "id": "scurvy",
     "name": [ "Early scurvy", "Scurvy", "Bad Scurvy" ],
     "desc": [ "A lack of vitamin C in your diet will result in progressively worse symptoms of scurvy." ],
+    "miss_messages": [ [ "You body quakes slightly.", 4 ] ],
     "apply_message": "You start to develop symptoms of scurvy.",
     "remove_message": "Your scurvy has resolved.",
     "decay_messages": [
@@ -1941,7 +1948,16 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
-    "blood_analysis_description": "Scurvy"
+    "blood_analysis_description": "Scurvy",
+    "base_mods": { "stamina_min": [ -0.5 ], "pain_min": [ 1 ], "pain_chance": [ 100 ], "pain_tick": [ 50 ] },
+    "scaling_mods": {
+      "str_mod": [ -1.5 ],
+      "per_mod": [ -1 ],
+      "int_mod": [ -0.5 ],
+      "dex_mod": [ -1 ],
+      "stamina_min": [ -1.25 ],
+      "pain_chance": [ -30 ]
+    }
   },
   {
     "type": "effect_type",
@@ -1951,7 +1967,18 @@
     "apply_message": "Your metabolism becomes unstable.",
     "remove_message": "Your metabolism becomes more stable.",
     "rating": "bad",
-    "blood_analysis_description": "Hypervitaminosis"
+    "blood_analysis_description": "Hypervitaminosis",
+    "base_mods": {
+      "stamina_min": [ -1 ],
+      "stamina_chance": [ 12 ],
+      "speed_mod": [ -5 ],
+      "health_amount": [ -1 ],
+      "h_mod_amount": [ -1 ],
+      "thirst_min": [ 1 ],
+      "thirst_max": [ 2 ],
+      "thirst_tick": [ 240 ],
+      "thirst_chance": [ 3 ]
+    }
   },
   {
     "type": "effect_type",
