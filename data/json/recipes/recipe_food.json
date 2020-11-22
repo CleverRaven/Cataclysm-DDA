@@ -4471,6 +4471,30 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "bread_flour",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "5 m",
+    "charges": 20,
+    "autolearn": true,
+    "batch_time_factors": [
+      [ [ "flour", 1 ] ],
+      [
+        [ "wheat", 1 ],
+        [ "buckwheat", 1 ],
+        [ "barley", 1 ],
+        [ "acorns_cooked", 2 ],
+        [ "oats", 4 ],
+        [ "starch", 1 ],
+        [ "dry_rice", 5 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cornmeal",
     "charges": 3,
     "category": "CC_FOOD",
