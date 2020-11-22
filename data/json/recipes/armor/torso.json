@@ -1219,7 +1219,7 @@
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
     "qualities": [ { "id": "KNIT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
-    "using": [ [ "tailoring_wool_knitting", 600 ] ]
+    "using": [ [ "tailoring_wool_knitting", 620 ] ]
   },
   {
     "result": "turtleneck_shirt",
@@ -1234,7 +1234,7 @@
     "reversible": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 14 ] ] ],
+    "components": [ [ [ "rag", 14 ] ] ]
   },
   {
     "result": "tank_top",
