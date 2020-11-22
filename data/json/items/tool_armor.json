@@ -2585,7 +2585,11 @@
     "encumbrance": 4,
     "warmth": 20,
     "material_thickness": 2,
-    "use_action": { "target": "turtleneck_shirt_rolled", "msg": "You adjust the neck and collar of the turtleneck shirt.", "type": "transform" },
+    "use_action": {
+      "target": "turtleneck_shirt_rolled",
+      "msg": "You adjust the neck and collar of the turtleneck shirt.",
+      "type": "transform"
+    },
     "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
