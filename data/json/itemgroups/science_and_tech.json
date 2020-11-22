@@ -136,7 +136,8 @@
       { "item": "gasket_plastic", "prob": 10 },
       { "item": "butane_tank", "prob": 15 },
       { "item": "vac_oven_small", "prob": 5 },
-      { "item": "butane_can", "prob": 2 }
+      { "item": "butane_can", "prob": 2 },
+      { "item": "chem_citric_acid", "prob": 16 }
     ]
   },
   {
@@ -221,6 +222,7 @@
       { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
+      { "item": "chem_citric_acid", "prob": 16, "charges-min": 100 },
       { "item": "denat_alcohol", "prob": 10, "charges-min": 250 }
     ]
   },
@@ -435,6 +437,7 @@
       [ "bfipowder", 15 ],
       [ "quikclot", 10 ],
       [ "anesthetic", 20 ],
+      { "item": "rocuronium", "prob": 10, "count-min": 2, "count-max": 8 },
       { "item": "anesthetic_kit", "prob": 10, "charges-min": 0 }
     ]
   },

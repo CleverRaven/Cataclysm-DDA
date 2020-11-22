@@ -109,7 +109,7 @@
       [ "teleumbrella", 2 ],
       { "group": "kids_books", "prob": 155 },
       [ "novel_pulp", 16 ],
-      [ "radio_car_box", 1 ],
+      { "group": "toy_radio_car", "prob": 1 },
       [ "basketball", 8 ],
       [ "beach_volleyball", 8 ],
       { "item": "radiocontrol", "prob": 5, "charges": [ 0, 100 ] },
@@ -161,7 +161,7 @@
       [ "textbook_armeast", 2 ],
       [ "textbook_armschina", 2 ],
       [ "radio_book", 22 ],
-      [ "radio_car_box", 1 ],
+      { "group": "toy_radio_car", "prob": 1 },
       { "item": "radiocontrol", "prob": 5, "charges": [ 0, 100 ] }
     ]
   },
@@ -223,7 +223,7 @@
       [ "razor_shaving", 5 ],
       [ "toothbrush_plain", 10 ],
       [ "string_floss", 10 ],
-      [ "kilt", 5 ],
+      [ "kilt", 4 ],
       [ "hobo_stove", 1 ],
       [ "tinder", 1 ],
       [ "tinderbox", 1 ],

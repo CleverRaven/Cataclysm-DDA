@@ -2523,6 +2523,11 @@
   },
   {
     "type": "recipe",
+    "result": "survivor_belt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "reloaded_270",
     "obsolete": true
   },
@@ -2664,6 +2669,11 @@
   {
     "type": "recipe",
     "result": "slime_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "element",
     "obsolete": true
   },
   {

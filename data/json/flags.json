@@ -389,8 +389,7 @@
   {
     "id": "MAG_DESTROY",
     "type": "json_flag",
-    "context": [ "MAGAZINE" ],
-    "info": "This food <neutral>melts when not in a very cold climate</neutral>, and tastes much <good>better</good> when <color_light_cyan>frozen</color>."
+    "context": [ "MAGAZINE" ]
   },
   {
     "id": "OUTER",
@@ -669,6 +668,13 @@
     "context": [ "GENERIC", "TOOL" ],
     "restriction": "Item must attach to a spear strap",
     "info": "This item can <info>attach to a spear strap</info> of the appropriate size."
+  },
+  {
+    "id": "SHEATH_BOW",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "restriction": "Item must fit in a bow sling",
+    "info": "This item can <info>fit in a bow sling</info> of the appropriate size."
   },
   {
     "id": "SHEATH_GOLF",
@@ -1489,11 +1495,6 @@
     "context": [  ]
   },
   {
-    "id": "NO_DISPLAY",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "NO_DROP",
     "type": "json_flag",
     "context": [  ]
@@ -1966,6 +1967,16 @@
   },
   {
     "id": "auto_wield",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SOFT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "HARD",
     "type": "json_flag",
     "context": [  ]
   }

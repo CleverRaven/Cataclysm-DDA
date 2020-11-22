@@ -75,6 +75,7 @@ class player_morale;
 class proficiency_set;
 class recipe_subset;
 class vehicle;
+class vpart_reference;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
@@ -265,7 +266,6 @@ enum edible_rating {
 enum class rechargeable_cbm : int {
     none = 0,
     reactor,
-    furnace,
     other
 };
 
@@ -672,7 +672,7 @@ class Character : public Creature, public visitable<Character>
         bool sees_with_specials( const Creature &critter ) const;
 
         /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
-        body_part_set exclusive_flag_coverage( const std::string &flag ) const;
+        body_part_set exclusive_flag_coverage( const flag_id &flag ) const;
 
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
@@ -1087,6 +1087,8 @@ class Character : public Creature, public visitable<Character>
         /** Applies encumbrance from mutations and bionics only */
         void mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const;
 
+        void apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const;
+
         /** Return the position in the worn list where new_item would be
          * put by default */
         std::list<item>::iterator position_to_wear_new_item( const item &new_item );
@@ -1203,6 +1205,7 @@ class Character : public Creature, public visitable<Character>
         bool can_fuel_bionic_with( const item &it ) const;
         /**Return bionic_id of bionics able to use it as fuel*/
         std::vector<bionic_id> get_bionic_fueled_with( const item &it ) const;
+        std::vector<bionic_id> get_bionic_fueled_with( const material_id &mat ) const;
         /**Return bionic_id of fueled bionics*/
         std::vector<bionic_id> get_fueled_bionics() const;
         /**Returns bionic_id of first remote fueled bionic found*/
@@ -1210,13 +1213,13 @@ class Character : public Creature, public visitable<Character>
         /**Return bionic_id of bionic of most fuel efficient bionic*/
         bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
         /**Return list of available fuel for this bionic*/
-        std::vector<itype_id> get_fuel_available( const bionic_id &bio ) const;
+        std::vector<material_id> get_fuel_available( const bionic_id &bio ) const;
         /**Return available space to store specified fuel*/
-        int get_fuel_capacity( const itype_id &fuel ) const;
+        int get_fuel_capacity( const material_id &fuel ) const;
         /**Return total space to store specified fuel*/
-        int get_total_fuel_capacity( const itype_id &fuel ) const;
+        int get_total_fuel_capacity( const material_id &fuel ) const;
         /**Updates which bionic contain fuel and which is empty*/
-        void update_fuel_storage( const itype_id &fuel );
+        void update_fuel_storage( const material_id &fuel );
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
@@ -1302,7 +1305,7 @@ class Character : public Creature, public visitable<Character>
         /**Passively produce power from PERPETUAL fuel*/
         void passive_power_gen( int b );
         /**Find fuel used by remote powered bionic*/
-        itype_id find_remote_fuel( bool look_only = false );
+        material_id find_remote_fuel( bool look_only = false );
         /**Consume fuel used by remote powered bionic, return amount of request unfulfilled (0 if totally successful).*/
         int consume_remote_fuel( int amount );
         void reset_remote_fuel();
@@ -1487,7 +1490,7 @@ class Character : public Creature, public visitable<Character>
          */
         /**@{*/
         bool pour_into( item &container, item &liquid );
-        bool pour_into( vehicle &veh, item &liquid );
+        bool pour_into( const vpart_reference &vp, item &liquid ) const;
         /**@}*/
 
         /**
@@ -1566,6 +1569,23 @@ class Character : public Creature, public visitable<Character>
         hint_rating rate_action_reload( const item &it ) const;
         /** Whether a tool or a gun can be unloaded. */
         hint_rating rate_action_unload( const item &it ) const;
+        /**
+          * So far only called by unload() from game.cpp
+          * @avoid - do not put @it into @avoid
+          */
+        bool add_or_drop_with_msg( item &it, bool unloading = false, const item *avoid = nullptr );
+        /**
+         * Unload item.
+         * @param bypass_activity If item requires an activity for its unloading, unload item immediately instead.
+         */
+        bool unload( item_location &loc, bool bypass_activity = false );
+        /**
+         * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
+         * @param it Item to calculate reload cost for
+         * @param ammo either ammo or magazine to use when reloading the item
+         * @param qty maximum units of ammo to reload. Capped by remaining capacity and ignored if reloading using a magazine.
+         */
+        int item_reload_cost( const item &it, const item &ammo, int qty ) const;
 
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
@@ -1590,6 +1610,9 @@ class Character : public Creature, public visitable<Character>
 
         units::mass weight_carried() const;
         units::volume volume_carried() const;
+
+        units::length max_single_item_length() const;
+        units::volume max_single_item_volume() const;
 
         /// Sometimes we need to calculate hypothetical volume or weight.  This
         /// struct offers two possible tweaks: a collection of items and
@@ -1623,6 +1646,10 @@ class Character : public Creature, public visitable<Character>
 
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
+        virtual void identify( const item &item ) = 0;
+        /** Calculates the total fun bonus relative to this character's traits and chapter progress */
+        bool fun_to_read( const item &book ) const;
+        int book_fun_for( const item &book, const Character &p ) const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
@@ -1682,10 +1709,10 @@ class Character : public Creature, public visitable<Character>
 
         bool is_wielding( const item &target ) const;
 
-        bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
+        bool covered_with_flag( const flag_id &flag, const body_part_set &parts ) const;
         bool is_waterproof( const body_part_set &parts ) const;
         // Carried items may leak radiation or chemicals
-        int leak_level( const std::string &flag ) const;
+        int leak_level( const flag_id &flag ) const;
 
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
@@ -1693,11 +1720,11 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player is wearing the item on the given body part. */
         bool is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) const;
         /** Returns true if the player is wearing an item with the given flag. */
-        bool worn_with_flag( const std::string &flag, const bodypart_id &bp ) const;
-        bool worn_with_flag( const std::string &flag ) const;
+        bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
+        bool worn_with_flag( const flag_id &flag ) const;
         /** Returns the first worn item with a given flag. */
-        item item_worn_with_flag( const std::string &flag, const bodypart_id &bp ) const;
-        item item_worn_with_flag( const std::string &flag ) const;
+        item item_worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
+        item item_worn_with_flag( const flag_id &flag ) const;
 
         // drawing related stuff
         /**
@@ -1766,6 +1793,10 @@ class Character : public Creature, public visitable<Character>
         }
         // magic mod
         pimpl<known_magic> magic;
+
+        // gets all the spells known by this character that have this spell class
+        // spells returned are a copy, do not try to edit them from here, instead use known_magic::get_spell
+        std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
 
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
@@ -1929,11 +1960,11 @@ class Character : public Creature, public visitable<Character>
         bool is_hauling() const;
 
         // Has a weapon, inventory item or worn item with flag
-        bool has_item_with_flag( const std::string &flag, bool need_charges = false ) const;
+        bool has_item_with_flag( const flag_id &flag, bool need_charges = false ) const;
         /**
          * All items that have the given flag (@ref item::has_flag).
          */
-        std::vector<const item *> all_items_with_flag( const std::string &flag ) const;
+        std::vector<const item *> all_items_with_flag( const flag_id &flag ) const;
 
         bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const;
@@ -2241,7 +2272,6 @@ class Character : public Creature, public visitable<Character>
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
         /** Determine character's capability of recharging their CBMs. */
         bool can_feed_reactor_with( const item &it ) const;
-        bool can_feed_furnace_with( const item &it ) const;
         rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
         int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
         int get_acquirable_energy( const item &it ) const;
@@ -2251,8 +2281,6 @@ class Character : public Creature, public visitable<Character>
         * @return true when recharging was successful.
         */
         bool feed_reactor_with( item &it );
-        /** @return true if successful. */
-        bool feed_furnace_with( item &it );
         /** @return true if successful and was not a magazine. */
         bool fuel_bionic_with( item &it );
         /** Used to apply stimulation modifications from food and medication **/
@@ -2267,6 +2295,8 @@ class Character : public Creature, public visitable<Character>
         void modify_health( const islot_comestible &comest );
         /** Used to compute how filling a food is.*/
         double compute_effective_food_volume_ratio( const item &food ) const;
+        /** Used to calculate dry volume of a chewed food **/
+        units::volume masticated_volume( const item &food ) const;
         /** Used to to display how filling a food is. */
         int compute_calories_per_effective_volume( const item &food,
                 const nutrients *nutrient = nullptr ) const;
@@ -2292,10 +2322,10 @@ class Character : public Creature, public visitable<Character>
          * depending on choice of ingredients */
         std::pair<nutrients, nutrients> compute_nutrient_range(
             const item &, const recipe_id &,
-            const cata::flat_set<std::string> &extra_flags = {} ) const;
+            const cata::flat_set<flag_id> &extra_flags = {} ) const;
         /** Same, but across arbitrary recipes */
         std::pair<nutrients, nutrients> compute_nutrient_range(
-            const itype_id &, const cata::flat_set<std::string> &extra_flags = {} ) const;
+            const itype_id &, const cata::flat_set<flag_id> &extra_flags = {} ) const;
         /** Returns allergy type or MORALE_NULL if not allergic for this character */
         morale_type allergy_type( const item &food ) const;
         nutrients compute_effective_nutrients( const item & ) const;
@@ -2321,7 +2351,7 @@ class Character : public Creature, public visitable<Character>
         bool change_side( item &it, bool interactive = true );
         bool change_side( item_location &loc, bool interactive = true );
 
-        bool get_check_encumbrance() {
+        bool get_check_encumbrance() const {
             return check_encumbrance;
         }
         void set_check_encumbrance( bool new_check ) {

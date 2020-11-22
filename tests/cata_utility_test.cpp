@@ -3,25 +3,73 @@
 #include "cata_utility.h"
 #include "units.h"
 #include "units_utility.h"
+#include "debug_menu.h"
+
+// tests both variants of string_starts_with
+template <std::size_t N>
+bool test_string_starts_with( const std::string &s1, const char( &s2 )[N] )
+{
+    CAPTURE( s1, s2, N );
+    bool r1 =  string_starts_with( s1, s2 );
+    bool r2 =  string_starts_with( s1, std::string( s2 ) );
+    CHECK( r1 == r2 );
+    return r1;
+}
+
+// tests both variants of string_ends_with
+template <std::size_t N>
+bool test_string_ends_with( const std::string &s1, const char( &s2 )[N] )
+{
+    CAPTURE( s1, s2, N );
+    bool r1 =  string_ends_with( s1, s2 );
+    bool r2 =  string_ends_with( s1, std::string( s2 ) );
+    CHECK( r1 == r2 );
+    return r1;
+}
 
 TEST_CASE( "string_starts_with", "[utility]" )
 {
-    CHECK( string_starts_with( "", "" ) );
-    CHECK( string_starts_with( "a", "" ) );
-    CHECK_FALSE( string_starts_with( "", "a" ) );
-    CHECK( string_starts_with( "ab", "a" ) );
-    CHECK_FALSE( string_starts_with( "ab", "b" ) );
-    CHECK_FALSE( string_starts_with( "a", "ab" ) );
+    CHECK( test_string_starts_with( "", "" ) );
+    CHECK( test_string_starts_with( "a", "" ) );
+    CHECK_FALSE( test_string_starts_with( "", "a" ) );
+    CHECK( test_string_starts_with( "ab", "a" ) );
+    CHECK_FALSE( test_string_starts_with( "ab", "b" ) );
+    CHECK_FALSE( test_string_starts_with( "a", "ab" ) );
 }
 
 TEST_CASE( "string_ends_with", "[utility]" )
 {
-    CHECK( string_ends_with( "", "" ) );
-    CHECK( string_ends_with( "a", "" ) );
-    CHECK_FALSE( string_ends_with( "", "a" ) );
-    CHECK( string_ends_with( "ba", "a" ) );
-    CHECK_FALSE( string_ends_with( "ba", "b" ) );
-    CHECK_FALSE( string_ends_with( "a", "ba" ) );
+    CHECK( test_string_ends_with( "", "" ) );
+    CHECK( test_string_ends_with( "a", "" ) );
+    CHECK_FALSE( test_string_ends_with( "", "a" ) );
+    CHECK( test_string_ends_with( "ba", "a" ) );
+    CHECK_FALSE( test_string_ends_with( "ba", "b" ) );
+    CHECK_FALSE( test_string_ends_with( "a", "ba" ) );
+}
+
+TEST_CASE( "string_ends_with_benchmark", "[.][utility][benchmark]" )
+{
+    const std::string s1 = "long_string_with_suffix";
+
+    BENCHMARK( "old version" ) {
+        return string_ends_with( s1, std::string( "_suffix" ) );
+    };
+    BENCHMARK( "new version" ) {
+        return string_ends_with( s1, "_suffix" );
+    };
+}
+
+TEST_CASE( "string_ends_with_season_suffix", "[utility]" )
+{
+    constexpr size_t suffix_len = 15;
+    constexpr char season_suffix[4][suffix_len] = {
+        "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
+    };
+
+    CHECK( test_string_ends_with( "t_tile_season_spring", season_suffix[0] ) );
+    CHECK_FALSE( test_string_ends_with( "t_tile", season_suffix[0] ) );
+    CHECK_FALSE( test_string_ends_with( "t_tile_season_summer", season_suffix[0] ) );
+    CHECK_FALSE( test_string_ends_with( "t_tile_season_spring1", season_suffix[0] ) );
 }
 
 TEST_CASE( "divide_round_up", "[utility]" )
@@ -86,7 +134,6 @@ TEST_CASE( "erase_if", "[utility]" )
         check_containers_equal( s, std::vector<int>() );
     }
 }
-
 
 TEST_CASE( "equal_ignoring_elements", "[utility]" )
 {
@@ -173,5 +220,37 @@ TEST_CASE( "equal_ignoring_elements", "[utility]" )
         } );
 
         CHECK( equal_ignoring_elements( set1, set2, ignored_els ) == equal );
+    }
+}
+
+TEST_CASE( "check_debug_menu_string_methods", "[debug_menu]" )
+{
+    std::map<std::string, std::vector<std::string>> split_expect = {
+        { "", { } },
+        { "a", { "a" } },
+        { ",a", { "a" } },
+        { "a,", { "a" } },
+        { ",a,", { "a" } },
+        { ",,a,,", { "a" } },
+        { "a,b,a\nb,фыва,,a,,,b", { "a", "b", "a\nb", "фыва", "a", "b" } },
+    };
+    std::map<std::string, std::vector<std::string>> joined_expects = {
+        { "", { } },
+        { "a", { "a" } },
+        { "a,b,a\nb,фыва,a,b", { "a", "b", "a\nb", "фыва", "a", "b" } },
+    };
+    for( const std::pair<const std::string, std::vector<std::string>> &pair : split_expect ) {
+        std::vector<std::string> split = debug_menu::string_to_iterable<std::vector<std::string>>
+                                         ( pair.first, "," );
+        CAPTURE( pair.first );
+        CAPTURE( pair.second );
+        CHECK( pair.second == split );
+    }
+
+    for( const std::pair<const std::string, std::vector<std::string>> &pair : joined_expects ) {
+        std::string joined = debug_menu::iterable_to_string( pair.second, "," );
+        CAPTURE( pair.first );
+        CAPTURE( pair.second );
+        CHECK( pair.first == joined );
     }
 }

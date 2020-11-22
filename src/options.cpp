@@ -1800,9 +1800,11 @@ void options_manager::add_options_graphics()
          true, COPT_CURSES_HIDE
        );
 
-    add( "ENABLE_ASCII_ART_ITEM", "graphics",
-         to_translation( "Enable ASCII art in item descriptions" ),
-         to_translation( "When available item description will show a picture of the item in ascii art." ),
+    add_empty_line();
+
+    add( "ENABLE_ASCII_ART", "graphics",
+         to_translation( "Enable ASCII art in item and monster descriptions" ),
+         to_translation( "When available item and monster description will show a picture of the object in ascii art." ),
          true, COPT_NO_HIDE
        );
 
@@ -2578,6 +2580,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
     input_context ctxt( "OPTIONS" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
@@ -2817,11 +2821,13 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                    get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
             continue;
         }
+        const int recmax = static_cast<int>( page_items.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "DOWN" ) {
             do {
                 iCurrentLine++;
-                if( iCurrentLine >= static_cast<int>( page_items.size() ) ) {
+                if( iCurrentLine >= recmax ) {
                     iCurrentLine = 0;
                 }
             } while( !page_items[iCurrentLine] );
@@ -2832,6 +2838,28 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                     iCurrentLine = page_items.size() - 1;
                 }
             } while( !page_items[iCurrentLine] );
+        } else if( action == "PAGE_DOWN" ) {
+            if( iCurrentLine == recmax - 1 ) {
+                iCurrentLine = 0;
+            } else if( iCurrentLine + scroll_rate >= recmax ) {
+                iCurrentLine = recmax - 1;
+            } else {
+                iCurrentLine += +scroll_rate;
+                do {
+                    iCurrentLine++;
+                } while( !page_items[iCurrentLine] );
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( iCurrentLine == 0 ) {
+                iCurrentLine = recmax - 1;
+            } else if( iCurrentLine <= scroll_rate ) {
+                iCurrentLine = 0;
+            } else {
+                iCurrentLine += -scroll_rate;
+                do {
+                    iCurrentLine--;
+                } while( !page_items[iCurrentLine] );
+            }
         } else if( action == "RIGHT" ) {
             current_opt.setNext();
         } else if( action == "LEFT" ) {

@@ -41,6 +41,14 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 4 }, "rigid": true } ]
   },
   {
+    "id": "rifle_shotgun_combination_shotgun",
+    "copy-from": "combination_gun_shotgun",
+    "type": "GUNMOD",
+    "name": { "str": "combination gun shotgun" },
+    "gun_data": { "ammo": "ammo_shot", "skill": "shotgun", "range": 2, "dispersion": 345, "durability": 10, "clip_size": 2 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 2 }, "rigid": true } ]
+  },
+  {
     "id": "arredondo_chute",
     "copy-from": "arredondo_chute",
     "type": "GUNMOD",

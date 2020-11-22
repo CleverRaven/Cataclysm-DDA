@@ -13,6 +13,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "iexamine.h"
@@ -43,12 +44,6 @@ static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
 static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_water( "water" );
-static const itype_id itype_water_faucet( "water_faucet" );
-
-static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
-static const std::string flag_LEAK_DAM( "LEAK_DAM" );
-static const std::string flag_WATERPROOF( "WATERPROOF" );
-static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 
 struct itype;
 
@@ -344,14 +339,14 @@ item *inventory::provide_pseudo_item( const itype_id &id, int battery )
     }
 
     item &it = add_item( item( id, calendar::turn, 0 ) );
-    it.set_flag( "PSEUDO" );
+    it.set_flag( flag_PSEUDO );
 
     // if tool doesn't need battery bail out early
     if( battery <= 0 || it.magazine_default().is_null() ) {
         return &it;
     }
     item it_batt( it.magazine_default() );
-    item it_ammo = item( it_batt.ammo_default(), 0 );
+    item it_ammo = item( it_batt.ammo_default(), calendar::turn_zero );
     if( it_ammo.is_null() || it_ammo.typeId() != itype_id( "battery" ) ) {
         return &it;
     }
@@ -748,7 +743,7 @@ bool inventory::has_charges( const itype_id &it, int quantity,
     return ( charges_of( it, INT_MAX, filter ) >= quantity );
 }
 
-int inventory::leak_level( const std::string &flag ) const
+int inventory::leak_level( const flag_id &flag ) const
 {
     int ret = 0;
 

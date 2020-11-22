@@ -58,6 +58,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -209,7 +210,7 @@ void item_pocket::serialize( JsonOut &json ) const
     json.member( "pocket_type", data->type );
     json.member( "contents", contents );
     json.member( "_sealed", _sealed );
-    if( this->settings.priority() != 0 || !this->settings.is_null() ) {
+    if( !this->settings.is_null() ) {
         json.member( "favorite_settings", this->settings );
     }
     json.end_object();
@@ -1244,6 +1245,8 @@ void avatar::store( JsonOut &json ) const
     inv->json_save_invcache( json );
 
     json.member( "calorie_diary", calorie_diary );
+
+    json.member( "preferred_aiming_mode", preferred_aiming_mode );
 }
 
 void avatar::deserialize( JsonIn &jsin )
@@ -1372,6 +1375,8 @@ void avatar::load( const JsonObject &data )
     }
 
     data.read( "calorie_diary", calorie_diary );
+
+    data.read( "preferred_aiming_mode", preferred_aiming_mode );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1632,8 +1637,8 @@ void npc::load( const JsonObject &data )
     tripoint_abs_omt comp_miss_pt;
     std::string classid;
     std::string companion_mission_role;
-    time_point companion_mission_t = 0;
-    time_point companion_mission_t_r = 0;
+    time_point companion_mission_t = calendar::turn_zero;
+    time_point companion_mission_t_r = calendar::turn_zero;
     std::string act_id;
 
     data.read( "name", name );
@@ -1831,7 +1836,7 @@ void npc::load( const JsonObject &data )
     complaints.clear();
     for( const JsonMember member : data.get_object( "complaints" ) ) {
         // TODO: time_point does not have a default constructor, need to read in the map manually
-        time_point p = 0;
+        time_point p = calendar::turn_zero;
         member.read( p );
         complaints.emplace( member.name(), p );
     }
@@ -2107,7 +2112,7 @@ void monster::load( const JsonObject &data )
     }
 
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
-    biosig_timer = data.get_int( "biosig_timer", -1 );
+    biosig_timer = time_point( data.get_int( "biosig_timer", -1 ) );
 
     data.read( "udder_timer", udder_timer );
 
@@ -2350,7 +2355,6 @@ void item::io( Archive &archive )
     archive.io( "temperature", temperature, 0 );
     archive.io( "recipe_charges", recipe_charges, 1 );
     // Legacy: remove flag check/unset after 0.F
-    const std::string flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
     archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
     unset_flag( flag_ETHEREAL_ITEM );
     archive.template io<const itype>( "curammo", curammo, load_curammo,
@@ -2418,14 +2422,13 @@ void item::io( Archive &archive )
     // (item::charges -1 or 0 or anything else) to comestible (and thereby counted by charges),
     // old saves still have invalid charges, this fixes the charges value to the default charges.
     if( count_by_charges() && charges <= 0 ) {
-        charges = item( type, 0 ).charges;
+        charges = item( type, calendar::turn_zero ).charges;
     }
     if( is_food() ) {
         active = true;
     }
-    if( !active &&
-        ( has_own_flag( "HOT" ) > 0 || has_own_flag( "COLD" ) > 0 ||
-          has_own_flag( "WET" ) > 0 ) ) {
+    if( !active && ( has_own_flag( flag_HOT ) || has_own_flag( flag_COLD ) ||
+                     has_own_flag( flag_WET ) ) ) {
         // Some hot/cold items from legacy saves may be inactive
         active = true;
     }
@@ -2453,7 +2456,7 @@ void item::io( Archive &archive )
 
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save
-    if( has_own_flag( "FROZEN" ) && current_phase == phase_id::LIQUID ) {
+    if( has_own_flag( flag_FROZEN ) && current_phase == phase_id::LIQUID ) {
         current_phase = phase_id::SOLID;
     }
 
@@ -2640,13 +2643,15 @@ void vehicle_part::deserialize( JsonIn &jsin )
         data.read( "base", base );
     } else {
         // handle legacy format which didn't include the base item
-        base = item( id.obj().item );
+        base = item( id.obj().base_item );
     }
 
     data.read( "mount_dx", mount.x );
     data.read( "mount_dy", mount.y );
     data.read( "open", open );
-    data.read( "direction", direction );
+    int direction_int;
+    data.read( "direction", direction_int );
+    direction = units::from_degrees( direction_int );
     data.read( "blood", blood );
     data.read( "enabled", enabled );
     data.read( "flags", flags );
@@ -2701,7 +2706,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "mount_dx", mount.x );
     json.member( "mount_dy", mount.y );
     json.member( "open", open );
-    json.member( "direction", direction );
+    json.member( "direction", std::lround( to_degrees( direction ) ) );
     json.member( "blood", blood );
     json.member( "enabled", enabled );
     json.member( "flags", flags );
@@ -2786,7 +2791,9 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "om_id", om_id );
     data.read( "faceDir", fdir );
     data.read( "moveDir", mdir );
-    data.read( "turn_dir", turn_dir );
+    int turn_dir_int;
+    data.read( "turn_dir", turn_dir_int );
+    turn_dir = units::from_degrees( turn_dir_int );
     data.read( "velocity", velocity );
     data.read( "falling", is_falling );
     data.read( "floating", is_floating );
@@ -2805,8 +2812,9 @@ void vehicle::deserialize( JsonIn &jsin )
         last_update = calendar::turn;
     }
 
-    face.init( fdir );
-    move.init( mdir );
+    units::angle fdir_angle = units::from_degrees( fdir );
+    face.init( fdir_angle );
+    move.init( units::from_degrees( mdir ) );
     data.read( "name", name );
     std::string temp_id;
     std::string temp_old_id;
@@ -2833,7 +2841,7 @@ void vehicle::deserialize( JsonIn &jsin )
     // is what they're expecting.
     data.read( "pivot", pivot_anchor[0] );
     pivot_anchor[1] = pivot_anchor[0];
-    pivot_rotation[1] = pivot_rotation[0] = fdir;
+    pivot_rotation[1] = pivot_rotation[0] = fdir_angle;
     data.read( "is_following", is_following );
     data.read( "is_patrolling", is_patrolling );
     data.read( "autodrive_local_target", autodrive_local_target );
@@ -2947,9 +2955,9 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "posx", pos.x );
     json.member( "posy", pos.y );
     json.member( "om_id", om_id );
-    json.member( "faceDir", face.dir() );
-    json.member( "moveDir", move.dir() );
-    json.member( "turn_dir", turn_dir );
+    json.member( "faceDir", std::lround( to_degrees( face.dir() ) ) );
+    json.member( "moveDir", std::lround( to_degrees( move.dir() ) ) );
+    json.member( "turn_dir", std::lround( to_degrees( turn_dir ) ) );
     json.member( "velocity", velocity );
     json.member( "falling", is_falling );
     json.member( "floating", is_floating );
@@ -3964,7 +3972,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
 {
     bool rubpow_update = version < 22;
     if( member_name == "turn_last_touched" ) {
-        last_touched = jsin.get_int();
+        last_touched = time_point( jsin.get_int() );
     } else if( member_name == "temperature" ) {
         temperature = jsin.get_int();
     } else if( member_name == "terrain" ) {
@@ -3972,8 +3980,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
         jsin.start_array();
         // Small duplication here so that the update check is only performed once
         if( rubpow_update ) {
-            item rock = item( "rock", 0 );
-            item chunk = item( "steel_chunk", 0 );
+            item rock = item( "rock", calendar::turn_zero );
+            item chunk = item( "steel_chunk", calendar::turn_zero );
             for( int j = 0; j < SEEY; j++ ) {
                 for( int i = 0; i < SEEX; i++ ) {
                     const ter_str_id tid( jsin.get_string() );

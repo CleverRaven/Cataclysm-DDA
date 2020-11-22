@@ -2,7 +2,7 @@
   {
     "result": "2byshin_guard",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
@@ -188,7 +188,7 @@
   {
     "result": "knee_pads",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
@@ -257,7 +257,7 @@
   {
     "result": "legguard_hard",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -305,7 +305,7 @@
   {
     "result": "legguard_paper",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "survival",
@@ -333,7 +333,7 @@
   {
     "result": "loincloth",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -377,7 +377,7 @@
   {
     "result": "lsurvivor_pants",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -657,7 +657,7 @@
   {
     "result": "chainmail_legs",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",

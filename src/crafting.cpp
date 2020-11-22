@@ -93,18 +93,10 @@ static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
-static const std::string flag_BYPRODUCT( "BYPRODUCT" );
-static const std::string flag_COOKED( "COOKED" );
-static const std::string flag_FIT( "FIT" );
-static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
-static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
-static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
 static const std::string flag_UNCRAFT_SINGLE_CHARGE( "UNCRAFT_SINGLE_CHARGE" );
-static const std::string flag_VARSIZE( "VARSIZE" );
 
 class basecamp;
 
@@ -1213,7 +1205,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
         }
         food_contained.inherit_flags( used, making );
 
-        for( const flag_str_id &flag : making.flags_to_delete ) {
+        for( const flag_id &flag : making.flags_to_delete ) {
             food_contained.unset_flag( flag );
         }
 
@@ -1277,6 +1269,12 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 // Temperature is not functional for non-foods
                 food_contained.set_item_temperature( 293.15 );
             }
+        }
+
+        // If the recipe has a `FULL_MAGAZINE` flag, fill it with ammo
+        if( newit.is_magazine() && making.has_flag( flag_FULL_MAGAZINE ) ) {
+            newit.ammo_set( newit.ammo_default(),
+                            newit.ammo_capacity( item::find_type( newit.ammo_default() )->ammo->type ) );
         }
 
         newit.set_owner( get_faction()->id );
@@ -2366,7 +2364,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         }
 
         if( filthy ) {
-            act_item.set_flag( "FILTHY" );
+            act_item.set_flag( flag_FILTHY );
         }
 
         for( std::list<item>::iterator a = dis_item.components.begin(); a != dis_item.components.end();

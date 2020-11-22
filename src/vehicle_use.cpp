@@ -27,6 +27,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -56,7 +57,6 @@
 #include "vpart_range.h"
 #include "weather.h"
 
-static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 
@@ -82,6 +82,8 @@ static const efftype_id effect_tied( "tied" );
 static const fault_id fault_engine_starter( "fault_engine_starter" );
 
 static const skill_id skill_mechanics( "mechanics" );
+
+static const flag_id json_flag_FILTHY( "FILTHY" );
 
 enum change_types : int {
     OPENCURTAINS = 0,
@@ -155,10 +157,10 @@ void handbrake()
     vehicle *const veh = &vp->vehicle();
     add_msg( _( "You pull a handbrake." ) );
     veh->cruise_velocity = 0;
-    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
+    if( veh->last_turn != 0_degrees && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
         veh->skidding = true;
         add_msg( m_warning, _( "You lose control of %s." ), veh->name );
-        veh->turn( veh->last_turn > 0 ? 60 : -60 );
+        veh->turn( veh->last_turn > 0_degrees ? 60_degrees : -60_degrees );
     } else {
         int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
         if( std::abs( veh->velocity ) < braking_power ) {
@@ -340,6 +342,8 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
             {
                 add_msg( _( "Camera system won't turn on" ) );
             }
+            map &m = get_map();
+            m.invalidate_map_cache( m.get_abs_sub().z );
             refresh();
         } );
     }
@@ -1582,14 +1586,12 @@ void vehicle::open_or_close( const int part_index, const bool opening )
 void vehicle::use_autoclave( int p )
 {
     vehicle_stack items = get_items( p );
-    static const std::string filthy( "FILTHY" );
-    static const std::string no_packed( "NO_PACKED" );
     bool filthy_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( filthy );
+        return i.has_flag( json_flag_FILTHY );
     } );
 
     bool unpacked_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( no_packed );
+        return i.has_flag( STATIC( flag_id( "NO_PACKED" ) ) );
     } );
 
     bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1635,13 +1637,12 @@ void vehicle::use_washing_machine( int p )
     // Get all the items that can be used as detergent
     const inventory &inv = player_character.crafting_inventory();
     std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
-        return it.has_flag( "DETERGENT" ) && inv.has_charges( it.typeId(), 5 );
+        return it.has_flag( STATIC( flag_id( "DETERGENT" ) ) ) && inv.has_charges( it.typeId(), 5 );
     } );
 
     vehicle_stack items = get_items( p );
-    static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( filthy );
+        return i.has_flag( json_flag_FILTHY );
     } );
 
     bool cbms = std::any_of( items.begin(), items.end(), []( const item & i ) {
@@ -1720,9 +1721,8 @@ void vehicle::use_dishwasher( int p )
     avatar &player_character = get_avatar();
     bool detergent_is_enough = player_character.crafting_inventory().has_charges( itype_detergent, 5 );
     vehicle_stack items = get_items( p );
-    static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( filthy );
+        return i.has_flag( json_flag_FILTHY );
     } );
 
     std::string buffer;
@@ -1960,7 +1960,7 @@ void vpart_position::form_inventory( inventory &inv )
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
     if( vp_faucet && inv.provide_pseudo_item( itype_water_faucet, 0 ) ) {
         for( const std::pair<const itype_id, int> &it : vehicle().fuels_left() ) {
-            item fuel( it.first, 0 );
+            item fuel( it.first, calendar::turn_zero );
             if( fuel.made_of( phase_id::LIQUID ) ) {
                 fuel.charges = it.second;
                 inv.add_item( fuel );
@@ -2030,7 +2030,7 @@ void vehicle::interact_with( const vpart_position &vp )
             continue;
         }
 
-        const bool enabled = fuel_left( itype_battery, true ) > tool.charges_to_use();
+        const bool enabled = fuel_left( itype_battery, true ) >= tool.charges_to_use();
         selectmenu.addentry( TOOLS_OFFSET + i, enabled, pair.second, _( "Use " ) + tool.nname( 1 ) );
     }
 
@@ -2112,7 +2112,7 @@ void vehicle::interact_with( const vpart_position &vp )
     }
 
     auto tool_wants_battery = []( const itype_id & type ) {
-        item tool( type, 0 );
+        item tool( type, calendar::turn_zero );
         item mag( tool.magazine_default() );
         mag.contents.clear_items();
 
@@ -2121,8 +2121,8 @@ void vehicle::interact_with( const vpart_position &vp )
     };
 
     auto use_vehicle_tool = [&]( const itype_id & tool_type ) {
-        item pseudo( tool_type, 0 );
-        pseudo.set_flag( "PSEUDO" );
+        item pseudo( tool_type, calendar::turn_zero );
+        pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
         if( !tool_wants_battery( tool_type ) ) {
             player_character.invoke_item( &pseudo );
             return true;
@@ -2187,7 +2187,7 @@ void vehicle::interact_with( const vpart_position &vp )
             return;
         }
         case DRINK: {
-            item water( itype_water_clean, 0 );
+            item water( itype_water_clean, calendar::turn_zero );
             if( player_character.can_consume( water ) ) {
                 player_character.assign_activity( player_activity( consume_activity_actor( water ) ) );
                 drain( itype_water_clean, 1 );
@@ -2223,10 +2223,13 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         case RELOAD_TURRET: {
             item::reload_option opt = player_character.select_ammo( *turret.base(), true );
+            std::vector<item_location> targets;
             if( opt ) {
-                player_character.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
-                player_character.activity.targets.emplace_back( turret.base() );
-                player_character.activity.targets.push_back( std::move( opt.ammo ) );
+                const int moves = opt.moves();
+                targets.emplace_back( turret.base() );
+                targets.push_back( std::move( opt.ammo ) );
+                player_character.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(),
+                                                  targets ) ) );
             }
             return;
         }

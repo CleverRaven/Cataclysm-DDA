@@ -148,8 +148,8 @@
     "price_postapoc": 500,
     "material": [ "flesh" ],
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 5 ], [ "vitB", 39 ] ],
+    "flags": [ "EATEN_HOT", "SMOKED" ],
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 2 ] ],
     "fun": 5
   },
   {
@@ -831,7 +831,7 @@
     "weight": "189 g",
     "color": "brown",
     "spoils_in": "3 days 8 hours",
-    "container": "box_medium",
+    "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,

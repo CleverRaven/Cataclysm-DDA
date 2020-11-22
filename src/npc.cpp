@@ -26,6 +26,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -123,8 +124,6 @@ static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
-static const std::string flag_NPC_SAFE( "NPC_SAFE" );
-
 class monfaction;
 
 static void starting_clothes( npc &who, const npc_class_id &type, bool male );
@@ -198,8 +197,8 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
     }
 
     for( item &e : worn ) {
-        if( e.has_flag( "VARSIZE" ) ) {
-            e.set_flag( "FIT" );
+        if( e.has_flag( flag_VARSIZE ) ) {
+            e.set_flag( flag_FIT );
         }
     }
 }
@@ -323,7 +322,7 @@ void npc::randomize( const npc_class_id &type )
         setID( g->assign_npc_id() );
     }
 
-    weapon   = item( "null", 0 );
+    weapon   = item( "null", calendar::turn_zero );
     inv->clear();
     personality.aggression = rng( -10, 10 );
     personality.bravery    = rng( -3, 10 );
@@ -506,9 +505,9 @@ faction *npc::get_faction() const
 // item id from group "<class-name>_<what>" or from fallback group
 // may still be a null item!
 static item random_item_from( const npc_class_id &type, const std::string &what,
-                              const std::string &fallback )
+                              const item_group_id &fallback )
 {
-    item result = item_group::item_from( type.str() + "_" + what, calendar::turn );
+    item result = item_group::item_from( item_group_id( type.str() + "_" + what ), calendar::turn );
     if( result.is_null() ) {
         result = item_group::item_from( fallback, calendar::turn );
     }
@@ -518,7 +517,7 @@ static item random_item_from( const npc_class_id &type, const std::string &what,
 // item id from "<class-name>_<what>" or from "npc_<what>"
 static item random_item_from( const npc_class_id &type, const std::string &what )
 {
-    return random_item_from( type, what, "npc_" + what );
+    return random_item_from( type, what, item_group_id( "npc_" + what ) );
 }
 
 // item id from "<class-name>_<what>_<gender>" or from "npc_<what>_<gender>"
@@ -529,15 +528,15 @@ static item get_clothing_item( const npc_class_id &type, const std::string &what
     //Then check if it has an ungendered version
     //Only if all that fails, grab from the default class.
     if( male ) {
-        result = random_item_from( type, what + "_male", "null" );
+        result = random_item_from( type, what + "_male", item_group_id::NULL_ID() );
     } else {
-        result = random_item_from( type, what + "_female", "null" );
+        result = random_item_from( type, what + "_female", item_group_id::NULL_ID() );
     }
     if( result.is_null() ) {
         if( male ) {
-            result = random_item_from( type, what, "npc_" + what + "_male" );
+            result = random_item_from( type, what, item_group_id( "npc_" + what + "_male" ) );
         } else {
-            result = random_item_from( type, what, "npc_" + what + "_female" );
+            result = random_item_from( type, what, item_group_id( "npc_" + what + "_female" ) );
         }
     }
 
@@ -561,7 +560,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         ret.push_back( random_item_from( type, "vest" ) );
         ret.push_back( random_item_from( type, "masks" ) );
         // Why is the alternative group not named "npc_glasses" but "npc_eyes"?
-        ret.push_back( random_item_from( type, "glasses", "npc_eyes" ) );
+        ret.push_back( random_item_from( type, "glasses", item_group_id( "npc_eyes" ) ) );
         ret.push_back( random_item_from( type, "hat" ) );
         ret.push_back( random_item_from( type, "scarf" ) );
         ret.push_back( random_item_from( type, "storage" ) );
@@ -576,8 +575,8 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     }
     who.worn.clear();
     for( item &it : ret ) {
-        if( it.has_flag( "VARSIZE" ) ) {
-            it.set_flag( "FIT" );
+        if( it.has_flag( flag_VARSIZE ) ) {
+            it.set_flag( flag_FIT );
         }
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
@@ -630,8 +629,8 @@ void starting_inv( npc &who, const npc_class_id &type )
     while( qty-- != 0 ) {
         item tmp = random_item_from( type, "misc" ).in_its_container();
         if( !tmp.is_null() ) {
-            if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
-                tmp.set_flag( "FIT" );
+            if( !one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
+                tmp.set_flag( flag_FIT );
             }
             if( who.can_pickVolume( tmp ) ) {
                 res.push_back( tmp );
@@ -640,7 +639,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     }
 
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item & e ) {
-        return e.has_flag( "TRADER_AVOID" );
+        return e.has_flag( flag_TRADER_AVOID );
     } ), res.end() );
     for( auto &it : res ) {
         it.set_owner( who );
@@ -813,23 +812,23 @@ void npc::starting_weapon( const npc_class_id &type )
 
     // if NPC has no suitable skills default to stabbing weapon
     if( !best || best == skill_stabbing ) {
-        weapon = random_item_from( type, "stabbing", "survivor_stabbing" );
+        weapon = random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) );
     } else if( best == skill_bashing ) {
-        weapon = random_item_from( type, "bashing", "survivor_bashing" );
+        weapon = random_item_from( type, "bashing", item_group_id( "survivor_bashing" ) );
     } else if( best == skill_cutting ) {
-        weapon = random_item_from( type, "cutting", "survivor_cutting" );
+        weapon = random_item_from( type, "cutting", item_group_id( "survivor_cutting" ) );
     } else if( best == skill_throw ) {
         weapon = random_item_from( type, "throw" );
     } else if( best == skill_archery ) {
         weapon = random_item_from( type, "archery" );
     } else if( best == skill_pistol ) {
-        weapon = random_item_from( type, "pistol", "guns_pistol_common" );
+        weapon = random_item_from( type, "pistol", item_group_id( "guns_pistol_common" ) );
     } else if( best == skill_shotgun ) {
-        weapon = random_item_from( type, "shotgun", "guns_shotgun_common" );
+        weapon = random_item_from( type, "shotgun", item_group_id( "guns_shotgun_common" ) );
     } else if( best == skill_smg ) {
-        weapon = random_item_from( type, "smg", "guns_smg_common" );
+        weapon = random_item_from( type, "smg", item_group_id( "guns_smg_common" ) );
     } else if( best == skill_rifle ) {
-        weapon = random_item_from( type, "rifle", "guns_rifle_common" );
+        weapon = random_item_from( type, "rifle", item_group_id( "guns_rifle_common" ) );
     }
 
     if( weapon.is_gun() ) {
@@ -873,7 +872,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     // Check for conditions that disqualify us
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         fail_reasons.emplace_back( _( "I can't read!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
@@ -1057,7 +1056,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
 
     // Splints ignore limits, but only when being equipped on a broken part
     // TODO: Drop splints when healed
-    if( it.has_flag( "SPLINT" ) ) {
+    if( it.has_flag( flag_SPLINT ) ) {
         for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
             if( is_limb_broken( bp ) && !has_effect( effect_mending, bp.id() ) &&
                 it.covers( bp ) ) {
@@ -1092,7 +1091,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
             auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item & armor ) {
                 return armor.covers( bp );
             } );
-            if( iter != worn.end() && !( is_limb_broken( bp ) && iter->has_flag( "SPLINT" ) ) ) {
+            if( iter != worn.end() && !( is_limb_broken( bp ) && iter->has_flag( flag_SPLINT ) ) ) {
                 took_off = takeoff( *iter );
                 break;
             }
@@ -1142,33 +1141,30 @@ bool npc::wield( item &it )
         return true;
     }
 
+    item to_wield;
+    if( has_item( it ) ) {
+        to_wield = remove_item( it );
+    } else {
+        to_wield = it;
+    }
+
     invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
-    if( has_wield_conflicts( it ) ) {
+    if( has_wield_conflicts( to_wield ) ) {
         stow_item( weapon );
     }
 
-    if( it.is_null() ) {
+    if( to_wield.is_null() ) {
         weapon = item();
         get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
         return true;
     }
 
     moves -= 15;
-    bool combine_stacks = it.stacks_with( weapon, true );
-    if( has_item( it ) ) {
-        item removed = remove_item( it );
-        if( combine_stacks ) {
-            weapon.combine( removed );
-        } else {
-            weapon = removed;
-        }
+    if( to_wield.can_combine( weapon ) ) {
+        weapon.combine( to_wield );
     } else {
-        if( combine_stacks ) {
-            weapon.combine( it );
-        } else {
-            weapon = it;
-        }
+        weapon = to_wield;
     }
 
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
@@ -1374,11 +1370,11 @@ float npc::vehicle_danger( int radius ) const
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
             // FIXME: this can't be the right way to do this
-            float facing = wrapped_veh.v->face.dir();
+            units::angle facing = wrapped_veh.v->face.dir();
 
             point a( wrapped_veh.v->global_pos3().xy() );
-            point b( static_cast<int>( a.x + std::cos( facing * M_PI / 180.0 ) * radius ),
-                     static_cast<int>( a.y + std::sin( facing * M_PI / 180.0 ) * radius ) );
+            point b( static_cast<int>( a.x + units::cos( facing ) * radius ),
+                     static_cast<int>( a.y + units::sin( facing ) * radius ) );
 
             // fake size
             /* This will almost certainly give the wrong size/location on customized
@@ -1610,11 +1606,11 @@ bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
 {
     if( mission == NPC_MISSION_SHOPKEEP ) {
         // Keep items that we never want to trade.
-        if( it.has_flag( "TRADER_KEEP" ) ) {
+        if( it.has_flag( flag_TRADER_KEEP ) ) {
             return false;
         }
         // Also ones we don't want to trade while in use.
-        return !( it.has_flag( "TRADER_KEEP_EQUIPPED" ) && ( is_worn( it ) || is_wielding( it ) ) );
+        return !( it.has_flag( flag_TRADER_KEEP_EQUIPPED ) && ( is_worn( it ) || is_wielding( it ) ) );
     }
 
     if( is_player_ally() ) {
@@ -1705,8 +1701,8 @@ void npc::shop_restock()
     if( is_player_ally() ) {
         return;
     }
-    const Group_tag &from = myclass->get_shopkeeper_items();
-    if( from == "EMPTY_GROUP" ) {
+    const item_group_id &from = myclass->get_shopkeeper_items();
+    if( from == item_group_id( "EMPTY_GROUP" ) ) {
         return;
     }
 
@@ -1784,7 +1780,7 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) ||
+    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ||
         it.made_of( phase_id::LIQUID ) ) {
         // NPCs won't be interested in buying active explosives or spilled liquids
         return -1000;
@@ -2963,9 +2959,8 @@ std::set<tripoint> npc::get_path_avoid() const
 mfaction_id npc::get_monster_faction() const
 {
     if( my_fac ) {
-        string_id<monfaction> my_mon_fac = string_id<monfaction>( my_fac->mon_faction );
-        if( my_mon_fac.is_valid() ) {
-            return my_mon_fac;
+        if( my_fac->mon_faction.is_valid() ) {
+            return my_fac->mon_faction;
         }
     }
 
@@ -3264,11 +3259,6 @@ void npc_follower_rules::toggle_specific_override_state( ally_rule rule, bool st
     } else {
         set_specific_override_state( rule, state );
     }
-}
-
-bool npc::is_hallucination() const
-{
-    return hallucination;
 }
 
 bool npc_follower_rules::has_override_enable( ally_rule test ) const

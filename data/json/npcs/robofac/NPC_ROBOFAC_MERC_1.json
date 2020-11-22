@@ -82,6 +82,11 @@
     "responses": [
       { "text": "About that job…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       {
+        "text": "About those jobs…",
+        "topic": "TALK_MISSION_LIST_ASSIGNED",
+        "condition": "has_many_assigned_missions"
+      },
+      {
         "text": "Who are you?",
         "condition": { "not": { "u_has_var": "robofac_merc_1_stay", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" } },
         "topic": "TALK_ROBOFAC_MERC_1_WHO"

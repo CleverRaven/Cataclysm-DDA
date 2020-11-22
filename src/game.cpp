@@ -68,6 +68,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "filesystem.h"
+#include "flag.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "game_ui.h"
@@ -224,6 +225,7 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_winded( "winded" );
@@ -620,7 +622,7 @@ void game::setup()
     weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
                               get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
 
-    turnssincelastmon = 0; //Auto safe mode init
+    turnssincelastmon = 0_turns; //Auto safe mode init
 
     sounds::reset_sounds();
     clear_zombies();
@@ -879,9 +881,12 @@ vehicle *game::place_vehicle_nearby(
             tinymap target_map;
             target_map.load( project_to<coords::sm>( goal ), false );
             const tripoint tinymap_center( SEEX, SEEY, goal.z() );
-            static const std::vector<int> angles = {0, 90, 180, 270};
-            vehicle *veh = target_map.add_vehicle( id, tinymap_center, random_entry( angles ), rng( 50, 80 ),
-                                                   0, false );
+            static constexpr std::array<units::angle, 4> angles = {{
+                    0_degrees, 90_degrees, 180_degrees, 270_degrees
+                }
+            };
+            vehicle *veh = target_map.add_vehicle(
+                               id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false );
             if( veh ) {
                 tripoint abs_local = m.getlocal( target_map.getabs( tinymap_center ) );
                 veh->sm_pos =  ms_to_sm_remain( abs_local );
@@ -1449,6 +1454,8 @@ bool game::do_turn()
         m.spawn_monsters( false );
     }
 
+    debug_hour_timer.print_time();
+
     u.update_body();
 
     // Auto-save if autosave is enabled
@@ -1563,7 +1570,6 @@ bool game::do_turn()
     m.build_floor_caches();
 
     m.process_falling();
-    autopilot_vehicles();
     m.vehmove();
     m.process_fields();
     m.process_items();
@@ -1681,18 +1687,6 @@ void game::process_activity()
 
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
-    }
-}
-
-void game::autopilot_vehicles()
-{
-    for( wrapped_vehicle &veh : m.get_vehicles() ) {
-        vehicle *&v = veh.v;
-        if( v->is_following ) {
-            v->drive_to_local_target( m.getabs( u.pos() ), true );
-        } else if( v->is_patrolling ) {
-            v->autopilot_patrol();
-        }
     }
 }
 
@@ -2073,7 +2067,7 @@ static hint_rating rate_action_read( const avatar &you, const item &it )
 
 static hint_rating rate_action_take_off( const avatar &you, const item &it )
 {
-    if( !it.is_armor() || it.has_flag( "NO_TAKEOFF" ) ) {
+    if( !it.is_armor() || it.has_flag( flag_NO_TAKEOFF ) ) {
         return hint_rating::cant;
     }
 
@@ -2153,7 +2147,7 @@ int game::inventory_item_menu( item_location locThisItem,
         std::vector<iteminfo> vDummy;
 
         const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
-        const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? hint_rating::cant :
+        const hint_rating rate_drop_item = u.weapon.has_flag( flag_NO_UNWIELD ) ? hint_rating::cant :
                                            hint_rating::good;
 
         uilist action_menu;
@@ -2291,7 +2285,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     avatar_action::eat( u, locThisItem );
                     break;
                 case 'W':
-                    u.wear( oThisItem );
+                    u.wear( locThisItem );
                     handler.handle();
                     break;
                 case 'w':
@@ -2615,6 +2609,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug_visibility" );
     ctxt.register_action( "debug_lighting" );
     ctxt.register_action( "debug_radiation" );
+    ctxt.register_action( "debug_hour_timer" );
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
@@ -4299,10 +4294,9 @@ void game::mon_info_update( )
     const tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
 
-    static int previous_turn = 0;
-    // TODO: change current_turn to time_point
-    const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
-    const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
+    static time_point previous_turn = calendar::turn_zero;
+    const time_duration sm_ignored_turns =
+        time_duration::from_turns( get_option<int>( "SAFEMODEIGNORETURNS" ) );
 
     for( Creature *c : u.get_visible_creatures( MAPSIZE_X ) ) {
         monster *m = dynamic_cast<monster *>( c );
@@ -4390,12 +4384,13 @@ void game::mon_info_update( )
                     if( critter.ignoring > 0 ) {
                         if( safe_mode != SAFE_MODE_ON ) {
                             critter.ignoring = 0;
-                        } else if( ( sm_ignored_turns == 0 || ( critter.lastseen_turn &&
-                                                                to_turn<int>( *critter.lastseen_turn ) > current_turn - sm_ignored_turns ) ) &&
+                        } else if( ( sm_ignored_turns == time_duration() ||
+                                     ( critter.lastseen_turn &&
+                                       *critter.lastseen_turn > calendar::turn - sm_ignored_turns ) ) &&
                                    ( mon_dist > critter.ignoring / 2 || mon_dist < 6 ) ) {
                             passmon = true;
                         }
-                        critter.lastseen_turn = current_turn;
+                        critter.lastseen_turn = calendar::turn;
                     }
 
                     if( !passmon ) {
@@ -4454,14 +4449,16 @@ void game::mon_info_update( )
         } else {
             cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far, _( "Monsters spotted!" ) );
         }
-        turnssincelastmon = 0;
+        turnssincelastmon = 0_turns;
         if( safe_mode == SAFE_MODE_ON ) {
             set_safe_mode( SAFE_MODE_STOP );
         }
-    } else if( current_turn > previous_turn && get_option<bool>( "AUTOSAFEMODE" ) &&
+    } else if( calendar::turn > previous_turn && get_option<bool>( "AUTOSAFEMODE" ) &&
                newseen == 0 ) { // Auto-safe mode, but only if it's a new turn
-        turnssincelastmon += current_turn - previous_turn;
-        if( turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF ) {
+        turnssincelastmon += calendar::turn - previous_turn;
+        time_duration auto_safe_mode =
+            time_duration::from_turns( get_option<int>( "AUTOSAFEMODETURNS" ) );
+        if( turnssincelastmon >= auto_safe_mode && safe_mode == SAFE_MODE_OFF ) {
             set_safe_mode( SAFE_MODE_ON );
             add_msg( m_info, _( "Safe mode ON!" ) );
         }
@@ -4471,7 +4468,7 @@ void game::mon_info_update( )
         set_safe_mode( SAFE_MODE_ON );
     }
 
-    previous_turn = current_turn;
+    previous_turn = calendar::turn;
     mostseen = newseen;
 }
 
@@ -4916,7 +4913,7 @@ void game::use_computer( const tripoint &p )
         add_msg( m_info, _( "You can not see a computer screen!" ) );
         return;
     }
-    if( u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.worn_with_flag( "FIX_FARSIGHT" ) &&
+    if( u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
         !u.has_effect( effect_contacts ) && !u.has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
@@ -5317,8 +5314,8 @@ bool game::revive_corpse( const tripoint &p, item &it )
         // Failed reanimation due to corpse being too burned
         return false;
     }
-    if( it.has_flag( "FIELD_DRESS" ) || it.has_flag( "FIELD_DRESS_FAILED" ) ||
-        it.has_flag( "QUARTERED" ) ) {
+    if( it.has_flag( flag_FIELD_DRESS ) || it.has_flag( flag_FIELD_DRESS_FAILED ) ||
+        it.has_flag( flag_QUARTERED ) ) {
         // Failed reanimation due to corpse being butchered
         return false;
     }
@@ -5558,7 +5555,7 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
     }
     tileray ray( dest_loc.xy() + point( -u.posx(), -u.posy() ) );
     // TODO:: make dir() const correct!
-    const int d = ray.dir();
+    const units::angle d = ray.dir();
     add_msg( _( "You dive from the %s." ), veh->name );
     m.unboard_vehicle( u.pos() );
     u.moves -= 200;
@@ -5569,7 +5566,8 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
         if( veh->velocity > 0 ) {
             fling_creature( &u, veh->face.dir(), veh->velocity / static_cast<float>( 100 ) );
         } else {
-            fling_creature( &u, veh->face.dir() + 180, -( veh->velocity ) / static_cast<float>( 100 ) );
+            fling_creature( &u, veh->face.dir() + 180_degrees,
+                            -( veh->velocity ) / static_cast<float>( 100 ) );
         }
     }
 }
@@ -6379,7 +6377,7 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
         return;
     } else if( m.has_flag( "CONTAINER", lp ) && !m.could_see_items( lp, u ) ) {
         mvwprintw( w_look, point( column, ++line ), _( "You cannot see what is inside of it." ) );
-    } else if( u.has_effect( effect_blind ) || u.worn_with_flag( "BLIND" ) ) {
+    } else if( u.has_effect( effect_blind ) || u.worn_with_flag( flag_BLIND ) ) {
         mvwprintz( w_look, point( column, ++line ), c_yellow,
                    _( "There's something there, but you can't see what it is." ) );
         return;
@@ -6555,6 +6553,8 @@ void game::zones_manager()
     std::string action;
     input_context ctxt( "ZONES_MANAGER" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ADD_ZONE" );
@@ -6740,6 +6740,7 @@ void game::zones_manager()
         wnoutrefresh( w_zones );
     } );
 
+    const int scroll_rate = zone_cnt > 20 ? 10 : 3;
     zones_manager_open = true;
     do {
         if( action == "ADD_ZONE" ) {
@@ -6796,6 +6797,24 @@ void game::zones_manager()
                 active_index++;
                 if( active_index >= zone_cnt ) {
                     active_index = 0;
+                }
+                blink = false;
+            } else if( action == "PAGE_DOWN" ) {
+                if( active_index == zone_cnt - 1 ) {
+                    active_index = 0;
+                } else if( active_index + scroll_rate >= zone_cnt ) {
+                    active_index = zone_cnt - 1;
+                } else {
+                    active_index += +scroll_rate;
+                }
+                blink = false;
+            } else if( action == "PAGE_UP" ) {
+                if( active_index == 0 ) {
+                    active_index = zone_cnt - 1;
+                } else if( active_index <= scroll_rate ) {
+                    active_index = 0;
+                } else {
+                    active_index += -scroll_rate;
                 }
                 blink = false;
             } else if( action == "REMOVE_ZONE" ) {
@@ -7030,6 +7049,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     ctxt.register_action( "debug_visibility" );
     ctxt.register_action( "debug_lighting" );
     ctxt.register_action( "debug_radiation" );
+    ctxt.register_action( "debug_hour_timer" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -7178,10 +7198,16 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_transparency();
             }
+        } else if( action == "display_reachability_zones" ) {
+            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
+                display_reahability_zones();
+            }
         } else if( action == "debug_radiation" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_radiation();
             }
+        } else if( action == "debug_hour_timer" ) {
+            toggle_debug_hour_timer();
         } else if( action == "EXTENDED_DESCRIPTION" ) {
             extended_description( lp );
         } else if( action == "CENTER" ) {
@@ -7638,8 +7664,10 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
     ctxt.register_action( "LEFT", to_translation( "Previous item" ) );
     ctxt.register_action( "RIGHT", to_translation( "Next item" ) );
-    ctxt.register_action( "PAGE_DOWN" );
-    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -7923,11 +7951,11 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
 
         const int item_info_scroll_lines = catacurses::getmaxy( w_item_info ) - 4;
+        const int scroll_rate = iItemNum > 20 ? 10 : 3;
 
         if( action == "UP" ) {
             do {
                 iActive--;
-
             } while( !mSortCategory[iActive].empty() );
             iScrollPos = 0;
             page_num = 0;
@@ -7937,12 +7965,37 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         } else if( action == "DOWN" ) {
             do {
                 iActive++;
-
             } while( !mSortCategory[iActive].empty() );
             iScrollPos = 0;
             page_num = 0;
             if( iActive >= iItemNum ) {
                 iActive = mSortCategory[0].empty() ? 0 : 1;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            iScrollPos = 0;
+            page_num = 0;
+            if( iActive == iItemNum - 1 ) {
+                iActive = mSortCategory[0].empty() ? 0 : 1;
+            } else if( iActive + scroll_rate >= iItemNum ) {
+                iActive = iItemNum - 1;
+            } else {
+                iActive += +scroll_rate - 1;
+                do {
+                    iActive++;
+                } while( !mSortCategory[iActive].empty() );
+            }
+        } else if( action == "PAGE_UP" ) {
+            iScrollPos = 0;
+            page_num = 0;
+            if( mSortCategory[0].empty() ? iActive == 0 : iActive == 1 ) {
+                iActive = iItemNum - 1;
+            } else if( iActive <= scroll_rate ) {
+                iActive = mSortCategory[0].empty() ? 0 : 1;
+            } else {
+                iActive += -scroll_rate + 1;
+                do {
+                    iActive--;
+                } while( !mSortCategory[iActive].empty() );
             }
         } else if( action == "RIGHT" ) {
             if( !filtered_items.empty() && activeItem ) {
@@ -7952,9 +8005,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             }
         } else if( action == "LEFT" ) {
             page_num = std::max( 0, page_num - 1 );
-        } else if( action == "PAGE_UP" ) {
+        } else if( action == "SCROLL_ITEM_INFO_UP" ) {
             iScrollPos -= item_info_scroll_lines;
-        } else if( action == "PAGE_DOWN" ) {
+        } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
             iScrollPos += item_info_scroll_lines;
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
@@ -8054,8 +8107,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     input_context ctxt( "LIST_MONSTERS" );
     ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
     ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "SAFEMODE_BLACKLIST_ADD" );
@@ -8251,6 +8304,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     shared_ptr_fast<draw_callback_t> trail_cb = create_trail_callback( trail_start, trail_end,
             trail_end_x );
     add_draw_callback( trail_cb );
+    const int recmax = static_cast<int>( monster_list.size() );
+    const int scroll_rate = recmax > 20 ? 10 : 3;
 
     do {
         if( action == "UP" ) {
@@ -8259,27 +8314,29 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 if( monster_list.empty() ) {
                     iActive = 0;
                 } else {
-                    iActive = static_cast<int>( monster_list.size() ) - 1;
+                    iActive = recmax - 1;
                 }
             }
         } else if( action == "DOWN" ) {
             iActive++;
-            if( iActive >= static_cast<int>( monster_list.size() ) ) {
+            if( iActive >= recmax ) {
                 iActive = 0;
             }
         } else if( action == "PAGE_UP" ) {
-            iActive -= iMaxRows - 2;
-            if( iActive < 0 ) {
-                if( monster_list.empty() ) {
-                    iActive = 0;
-                } else {
-                    iActive = static_cast<int>( monster_list.size() ) - 1;
-                }
+            if( iActive == 0 ) {
+                iActive = recmax - 1;
+            } else if( iActive <= scroll_rate ) {
+                iActive = 0;
+            } else {
+                iActive += -scroll_rate;
             }
         } else if( action == "PAGE_DOWN" ) {
-            iActive += iMaxRows - 2;
-            if( iActive >= static_cast<int>( monster_list.size() ) ) {
+            if( iActive == recmax - 1 ) {
                 iActive = 0;
+            } else if( iActive + scroll_rate >= recmax ) {
+                iActive = recmax - 1;
+            } else {
+                iActive += +scroll_rate;
             }
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
@@ -8875,7 +8932,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     item *it = loc.get_item();
 
     // bows etc. do not need to reload. select favorite ammo for them instead
-    if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
+    if( it->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         item::reload_option opt = u.select_ammo( *it, prompt );
         if( !opt ) {
             return;
@@ -8918,7 +8975,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     bool use_loc = true;
-    if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+    if( !it->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         it = loc.obtain( u ).get_item();
         use_loc = false;
     }
@@ -8944,13 +9001,16 @@ void game::reload( item_location &loc, bool prompt, bool empty )
             moves += 2500;
         }
 
-        u.assign_activity( activity_id( "ACT_RELOAD" ), moves, opt.qty() );
+        std::vector<item_location> targets;
         if( use_loc ) {
-            u.activity.targets.emplace_back( loc );
+            targets.emplace_back( loc );
         } else {
-            u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
+            targets.emplace_back( u, const_cast<item *>( opt.target ) );
         }
-        u.activity.targets.push_back( std::move( opt.ammo ) );
+        targets.push_back( std::move( opt.ammo ) );
+
+        u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
+
     }
 }
 
@@ -9032,10 +9092,12 @@ void game::reload_weapon( bool try_everything )
     turret_data turret;
     if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
         item::reload_option opt = u.select_ammo( *turret.base(), true );
+        std::vector<item_location> targets;
         if( opt ) {
-            u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
-            u.activity.targets.emplace_back( turret.base() );
-            u.activity.targets.push_back( std::move( opt.ammo ) );
+            const int moves = opt.moves();
+            targets.emplace_back( turret.base() );
+            targets.push_back( std::move( opt.ammo ) );
+            u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
         }
         return;
     }
@@ -9226,7 +9288,7 @@ bool game::disable_robot( const tripoint &p )
         return false;
     }
     monster &critter = *mon_ptr;
-    if( ( critter.friendly == 0 && !critter.has_effect( effect_stunned ) ) ||
+    if( ( critter.friendly == 0 && !critter.has_effect( effect_sensor_stun ) ) ||
         critter.has_flag( MF_RIDEABLE_MECH ) ||
         ( critter.has_flag( MF_PAY_BOT ) && critter.has_effect( effect_paid ) ) ) {
         // Can only disable / reprogram friendly or stunned monsters
@@ -9361,9 +9423,11 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         harmful_stuff.emplace_back( tr.name() );
     }
 
-    static const std::set< bodypart_id > sharp_bps = {
-        bodypart_id( "eyes" ), bodypart_id( "mouth" ), bodypart_id( "head" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" ), bodypart_id( "foot_l" ), bodypart_id( "foot_r" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
-        bodypart_id( "hand_l" ), bodypart_id( "hand_r" ), bodypart_id( "torso" )
+    static const std::set< bodypart_str_id > sharp_bps = {
+        body_part_eyes, body_part_mouth, body_part_head,
+        body_part_leg_l, body_part_leg_r, body_part_foot_l,
+        body_part_foot_r, body_part_arm_l, body_part_arm_r,
+        body_part_hand_l, body_part_hand_r, body_part_torso
     };
 
     const auto sharp_bp_check = [this]( bodypart_id bp ) {
@@ -9943,7 +10007,7 @@ point game::place_player( const tripoint &dest_loc )
     // Drench the player if swimmable
     if( m.has_flag( "SWIMMABLE", u.pos() ) &&
         !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
-        u.drench( 80, { { bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } },
+        u.drench( 80, { { body_part_foot_l, body_part_foot_r, body_part_leg_l, body_part_leg_r } },
         false );
     }
 
@@ -10095,7 +10159,8 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
         //add 1 to tunnel distance for each impassable tile in the line
         tunneldist += 1;
         //Being dimensionally anchored prevents quantum shenanigans.
-        if( u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) || u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
+        if( u.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
+            u.has_effect_with_flag( flag_DIMENSIONAL_ANCHOR ) ) {
             u.add_msg_if_player( m_info, _( "You are repelled by the barrier!" ) );
             u.mod_power_level( -250_kJ ); //cost of tunneling one tile.
             return false;
@@ -10388,7 +10453,7 @@ void game::on_options_changed()
 #endif
 }
 
-void game::fling_creature( Creature *c, const int &dir, float flvel, bool controlled )
+void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled )
 {
     if( c == nullptr ) {
         debugmsg( "game::fling_creature invoked on null target" );
@@ -10601,7 +10666,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 add_msg( m_info, _( "You are already underwater!" ) );
                 return;
             }
-            if( u.worn_with_flag( "FLOTATION" ) ) {
+            if( u.worn_with_flag( flag_FLOTATION ) ) {
                 add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
                 return;
             }
@@ -11713,26 +11778,16 @@ void game::perhaps_add_random_npc()
 
 bool game::display_overlay_state( const action_id action )
 {
-    const auto it = displaying_overlays.find( action );
-    if( it == displaying_overlays.end() ) {
-        return false;
-    }
-
-    return displaying_overlays[action];
+    return displaying_overlays && *displaying_overlays == action;
 }
 
 void game::display_toggle_overlay( const action_id action )
 {
-    const auto it = displaying_overlays.find( action );
-    if( it == displaying_overlays.end() ) {
-        return;
+    if( display_overlay_state( action ) ) {
+        displaying_overlays.reset();
+    } else {
+        displaying_overlays = action;
     }
-
-    const bool action_flag = it->second;
-    std::for_each( displaying_overlays.begin(), displaying_overlays.end(), []( auto & p ) {
-        p.second = false;
-    } );
-    displaying_overlays[action] = !action_flag;
 }
 
 void game::display_scent()
@@ -11802,6 +11857,34 @@ void game::display_visibility()
     }
 }
 
+void game::toggle_debug_hour_timer()
+{
+    debug_hour_timer.toggle();
+}
+
+void game::debug_hour_timer::toggle()
+{
+    enabled = !enabled;
+    start_time = cata::nullopt;
+    add_msg( string_format( "debug timer %s", enabled ? "enabled" : "disabled" ) );
+}
+
+void game::debug_hour_timer::print_time()
+{
+    if( enabled ) {
+        if( calendar::once_every( time_duration::from_hours( 1 ) ) ) {
+            const IRLTimeMs now = std::chrono::time_point_cast<std::chrono::milliseconds>(
+                                      std::chrono::system_clock::now() );
+            if( start_time ) {
+                add_msg( "in-game hour took: %d ms", ( now - *start_time ).count() );
+            } else {
+                add_msg( "starting debug timer" );
+            }
+            start_time = now;
+        }
+    }
+}
+
 void game::display_lighting()
 {
     if( use_tiles ) {
@@ -11839,6 +11922,51 @@ void game::display_transparency()
 {
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
+    }
+}
+
+// Debug menu: askes which reachability cache to display
+void game::display_reahability_zones()
+{
+    if( use_tiles ) {
+        display_toggle_overlay( ACTION_DISPLAY_REACHABILITY_ZONES );
+        if( display_overlay_state( ACTION_DISPLAY_REACHABILITY_ZONES ) ) {
+            const auto &menu_popup = [&]( int prev_value,
+            const std::vector<std::string> &items ) -> cata::optional<int> {
+                uilist menu;
+                int count = 0;
+                for( const auto &menu_str : items )
+                {
+                    menu.addentry( count++, true, MENU_AUTOASSIGN, "%s", menu_str );
+                }
+                menu.selected = prev_value;
+                menu.w_y_setup = 0;
+                menu.query();
+                if( menu.ret < 0 )
+                {
+                    return cata::nullopt;
+                }
+                return menu.ret;
+            };
+            static_assert(
+                static_cast<int>( enum_traits<reachability_cache_quadrant >::last ) == 3,
+                "Debug menu expects at least 4 elements in the `quadrant` enum."
+            );
+            cata::optional<int> cache =
+                menu_popup( debug_rz_display.r_cache_vertical, { "Horizontal", "Vertical (upward)" } );
+            cata::optional<int> quadrant;
+            if( cache ) {
+                quadrant =
+                    menu_popup( static_cast<int>( debug_rz_display.quadrant ),
+                                /**/{ "NE", "SE", "SW", "NW" } );
+            }
+            if( cache && quadrant ) {
+                debug_rz_display.r_cache_vertical = *cache;
+                debug_rz_display.quadrant = static_cast<reachability_cache_quadrant>( *quadrant );
+            } else { // user cancelled selection, toggle overlay off
+                display_toggle_overlay( ACTION_DISPLAY_REACHABILITY_ZONES );
+            }
+        }
     }
 }
 

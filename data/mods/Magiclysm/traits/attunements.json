@@ -419,7 +419,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "The Champion of the Earth, Gaia's Chosen is blessed on all things nature, animate and inanimate.",
+    "enchantments": [ "GAIAS_CHOSEN" ],
     "prereqs": [ "DRUID", "EARTHSHAPER" ],
     "cancels": [
       "ARTIFICER",
@@ -459,6 +460,7 @@
     "valid": false,
     "description": "The power of a Glacier Mage is backed by a thousand tons of ice and snow, with a brutal might in their spells.  While they are skilled with cold spells, their greatest strength is in offense.",
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
+    "spells_learned": [ [ "ice_clave", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",

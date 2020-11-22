@@ -486,7 +486,9 @@ class monster : public Creature
         int fish_population = 1;
 
         void setpos( const tripoint &p ) override;
-        const tripoint &pos() const override;
+        inline const tripoint &pos() const override {
+            return position;
+        }
         inline int posx() const override {
             return position.x;
         }

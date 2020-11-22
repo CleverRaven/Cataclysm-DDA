@@ -62,6 +62,10 @@ static const itype_id itype_id_military( "id_military" );
 static const skill_id skill_survival( "survival" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
+static const flag_id json_flag_TIE_UP( "TIE_UP" );
+static const flag_id json_flag_TACK( "TACK" );
+static const flag_id json_flag_MECH_BAT( "MECH_BAT" );
+
 bool monexamine::pet_menu( monster &z )
 {
     enum choices {
@@ -127,7 +131,7 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( rope, true, 't', _( "Untie" ) );
     } else if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         std::vector<item *> rope_inv = player_character.items_with( []( const item & itm ) {
-            return itm.has_flag( "TIE_UP" );
+            return itm.has_flag( json_flag_TIE_UP );
         } );
         if( !rope_inv.empty() ) {
             amenu.addentry( rope, true, 't', _( "Tie" ) );
@@ -162,13 +166,13 @@ bool monexamine::pet_menu( monster &z )
         }
     }
     if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_monster_saddled ) &&
-        player_character.has_item_with_flag( "TACK" ) &&
+        player_character.has_item_with_flag( json_flag_TACK ) &&
         player_character.get_skill_level( skill_survival ) >= 1 ) {
         amenu.addentry( attach_saddle, true, 'h', _( "Tack up %s" ), pet_name );
     } else if( z.has_flag( MF_PET_MOUNTABLE ) && z.has_effect( effect_monster_saddled ) ) {
         amenu.addentry( remove_saddle, true, 'h', _( "Remove tack from %s" ), pet_name );
     } else if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_monster_saddled ) &&
-               player_character.has_item_with_flag( "TACK" ) &&
+               player_character.has_item_with_flag( json_flag_TACK ) &&
                player_character.get_skill_level( skill_survival ) < 1 ) {
         amenu.addentry( remove_saddle, false, 'h', _( "You don't know how to saddle %s" ), pet_name );
     }
@@ -322,7 +326,7 @@ static item_location pet_armor_loc( monster &z )
 static item_location tack_loc()
 {
     auto filter = []( const item & it ) {
-        return it.has_flag( "TACK" );
+        return it.has_flag( json_flag_TACK );
     };
 
     return game_menus::inv::titled_filter_menu( filter, get_avatar(), _( "Tack" ) );
@@ -342,7 +346,7 @@ void monexamine::insert_battery( monster &z )
     }
     Character &player_character = get_player_character();
     std::vector<item *> bat_inv = player_character.items_with( []( const item & itm ) {
-        return itm.has_flag( "MECH_BAT" );
+        return itm.has_flag( json_flag_MECH_BAT );
     } );
     if( bat_inv.empty() ) {
         return;
@@ -700,7 +704,7 @@ void monexamine::kill_zslave( monster &z )
 
     if( !one_in( 3 ) ) {
         player_character.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
-        item ball( "pheromone", 0 );
+        item ball( "pheromone", calendar::turn_zero );
         iuse::pheromone( &player_character, &ball, true, player_character.pos() );
     }
 }
@@ -716,7 +720,7 @@ void monexamine::tie_or_untie( monster &z )
         }
     } else {
         std::vector<item *> rope_inv = player_character.items_with( []( const item & itm ) {
-            return itm.has_flag( "TIE_UP" );
+            return itm.has_flag( json_flag_TIE_UP );
         } );
         if( rope_inv.empty() ) {
             return;
@@ -752,15 +756,19 @@ void monexamine::milk_source( monster &source_mon )
     }
     if( milkable_ammo->second > 0 ) {
         const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
+        std::vector<tripoint> coords {};
+        std::vector<std::string> str_values {};
         Character &player_character = get_player_character();
-        player_character.assign_activity( ACT_MILK, moves, -1 );
-        player_character.activity.coords.push_back( get_map().getabs( source_mon.pos() ) );
+        coords.push_back( get_map().getabs( source_mon.pos() ) );
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
             source_mon.add_effect( effect_tied, 1_turns, true );
-            player_character.activity.str_values.push_back( "temp_tie" );
+            str_values.push_back( "temp_tie" );
         }
+        player_character.assign_activity( player_activity( milk_activity_actor( moves, coords,
+                                          str_values ) ) );
+
         add_msg( _( "You milk the %s." ), source_mon.get_name() );
     } else {
         add_msg( _( "The %s has no more milk." ), source_mon.get_name() );

@@ -40,6 +40,8 @@
 
 static const skill_id skill_speech( "speech" );
 
+static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
+
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
                                   player &receiver, std::list<item_location *> &from_map,
                                   bool npc_gives )
@@ -106,7 +108,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
     if(
         np.will_exchange_items_freely() &&
         !np.weapon.is_null() &&
-        !np.weapon.has_flag( "NO_UNWIELD" )
+        !np.weapon.has_flag( json_flag_NO_UNWIELD )
     ) {
         result.emplace_back( np, np.weapon, np.value( np.weapon ), false );
     }
@@ -180,7 +182,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
     };
 
     for( item_location loc : seller.all_items_loc() ) {
-        if( seller.is_wielding( *loc ) && loc->has_flag( "NO_UNWIELD" ) ) {
+        if( seller.is_wielding( *loc ) && loc->has_flag( json_flag_NO_UNWIELD ) ) {
             continue;
         }
         check_item( loc, loc->count() );

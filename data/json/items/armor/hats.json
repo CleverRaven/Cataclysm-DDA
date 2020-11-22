@@ -22,6 +22,30 @@
     "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ]
   },
   {
+    "id": "bandana_head",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "head bandana" },
+    "description": "A cotton bandana, worn over the head.",
+    "weight": "42 g",
+    "volume": "250 ml",
+    "price": 600,
+    "price_postapoc": 10,
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust the %s to cover your mouth.",
+      "target": "bandana",
+      "menu_text": "Cover mouth"
+    },
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "scarf",
+    "color": "blue",
+    "covers": [ "head" ],
+    "coverage": 80,
+    "warmth": 5,
+    "material_thickness": 1
+  },
+  {
     "id": "beret",
     "repairs_like": "balclava",
     "type": "ARMOR",

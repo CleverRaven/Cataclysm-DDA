@@ -453,5 +453,22 @@
       [ "seed_lemon", 20 ],
       [ "seed_coconut", 20 ]
     ]
+  },
+  {
+    "id": "SUS_scuba_gear",
+    "type": "item_group",
+    "//": "This group is for an area storing diving equipment.  SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "combat_wetsuit_cecalia", "prob": 20 },
+      { "item": "wetsuit_cecalia", "prob": 70 },
+      { "item": "trident", "prob": 70 }
+    ]
+  },
+  {
+    "id": "seabased_death_drop",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ [ "combat_wetsuit_cecalia", 20 ], [ "wetsuit_cecalia", 70 ], [ "trident", 70 ], [ "dive_bag", 100 ] ]
   }
 ]

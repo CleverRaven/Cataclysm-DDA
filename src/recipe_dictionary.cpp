@@ -15,6 +15,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "make_static.h"
 #include "mapgen.h"
 #include "optional.h"
 #include "output.h"
@@ -184,8 +185,7 @@ std::vector<const recipe *> recipe_subset::search(
             }
 
             case search_type::proficiency:
-                return lcmatch( r->required_proficiencies_string( nullptr ), txt ) ||
-                       lcmatch( r->used_proficiencies_string( nullptr ), txt );
+                return lcmatch( r->recipe_proficiencies_string(), txt );
 
             default:
                 return false;
@@ -390,7 +390,7 @@ void recipe_dictionary::find_items_on_loops()
     items_on_loops.clear();
     std::unordered_map<itype_id, std::vector<itype_id>> potential_components_of;
     for( const itype *i : item_controller->all() ) {
-        if( !i->comestible || i->has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        if( !i->comestible || i->has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) ) ) {
             continue;
         }
         std::vector<itype_id> &potential_components = potential_components_of[i->get_id()];

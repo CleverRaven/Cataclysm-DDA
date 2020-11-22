@@ -77,7 +77,9 @@ enum class debug_menu_index : int {
     DISPLAY_VISIBILITY,
     DISPLAY_LIGHTING,
     DISPLAY_TRANSPARENCY,
+    DISPLAY_REACHABILITY_ZONES,
     DISPLAY_RADIATION,
+    HOUR_TIMER,
     LEARN_SPELLS,
     LEVEL_SPELLS,
     TEST_MAP_EXTRA_DISTRIBUTION,
@@ -110,13 +112,15 @@ _Container string_to_iterable( const std::string &str, const std::string &delimi
     _Container res;
 
     size_t pos = 0;
-    std::string s = str;
-    while( ( pos = s.find( delimiter ) ) != std::string::npos ) {
-        res.push_back( s.substr( 0, pos ) );
-        s.erase( 0, pos + delimiter.length() );
+    size_t start = 0;
+    while( ( pos = str.find( delimiter, start ) ) != std::string::npos ) {
+        if( pos > start ) {
+            res.push_back( str.substr( start, pos - start ) );
+        }
+        start = pos + delimiter.length();
     }
-    if( !s.empty() ) {
-        res.push_back( s );
+    if( start != str.length() ) {
+        res.push_back( str.substr( start, str.length() - start ) );
     }
 
     return res;

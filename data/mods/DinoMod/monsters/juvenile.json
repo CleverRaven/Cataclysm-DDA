@@ -224,6 +224,29 @@
     "harvest": "bird_small"
   },
   {
+    "id": "mon_nothronychus_juvenile",
+    "type": "MONSTER",
+    "name": "green and magenta two-legged juvenile",
+    "description": "A small bipedal plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "herbivore_dino",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "green_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_nothronychus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
     "id": "mon_deinonychus_juvenile",
     "type": "MONSTER",
     "name": "red and green two-legged juvenile",
@@ -444,6 +467,15 @@
     "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" }
   },
   {
+    "id": "mon_dyoplosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "brown and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "brown_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_dyoplosaurus" }
+  },
+  {
     "id": "mon_ankylosaurus_juvenile",
     "type": "MONSTER",
     "name": "brown and magenta four-legged juvenile",
@@ -451,6 +483,24 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "brown_magenta",
     "upgrades": { "age_grow": 365, "into": "mon_ankylosaurus" }
+  },
+  {
+    "id": "mon_nodosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "brown and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "brown_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_nodosaurus" }
+  },
+  {
+    "id": "mon_edmontonia_juvenile",
+    "type": "MONSTER",
+    "name": "brown and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "brown_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_edmontonia" }
   },
   {
     "id": "mon_camptosaurus_juvenile",
@@ -608,6 +658,29 @@
       "CANPLAY",
       "SWIMS",
       "AQUATIC"
+    ]
+  },
+  {
+    "id": "mon_qianzhousaurus_juvenile",
+    "type": "MONSTER",
+    "name": "Qianzhousaurus juvenile",
+    "copy-from": "mon_gallimimus_juvenile",
+    "description": "A juvenile Pinnochio Rex, It looks at you with fear and hatred at the same time.",
+    "default_faction": "qianzhousaurus",
+    "color": "green",
+    "upgrades": { "age_grow": 100, "into": "mon_qianzhousaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
     ]
   }
 ]

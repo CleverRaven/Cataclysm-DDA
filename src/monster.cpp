@@ -27,6 +27,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -216,8 +217,8 @@ monster::monster()
     ignoring = 0;
     upgrades = false;
     upgrade_time = -1;
-    last_updated = 0;
-    biosig_timer = -1;
+    last_updated = calendar::turn_zero;
+    biosig_timer = calendar::before_time_starts;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
     set_anatomy( anatomy_id( "default_anatomy" ) );
@@ -247,7 +248,7 @@ monster::monster( const mtype_id &id ) : monster()
         itype_id mech_bat = itype_id( type->mech_battery );
         const itype &type = *item::find_type( mech_bat );
         int max_charge = type.magazine->capacity;
-        item mech_bat_item = item( mech_bat, 0 );
+        item mech_bat_item = item( mech_bat, calendar::turn_zero );
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
         battery_item = cata::make_value<item>( mech_bat_item );
     }
@@ -281,11 +282,6 @@ void monster::setpos( const tripoint &p )
     if( wandering ) {
         unset_dest();
     }
-}
-
-const tripoint &monster::pos() const
-{
-    return position;
 }
 
 void monster::poly( const mtype_id &id )
@@ -690,6 +686,14 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
                    size_names.at( get_size() ) );
     }
 
+    if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
+        const ascii_art_id art = type->get_picture_id();
+        if( art.is_valid() ) {
+            for( const std::string &line : art->picture ) {
+                fold_and_print( w, point( column, ++vStart ), max_width, c_white, line );
+            }
+        }
+    }
     return ++vStart;
 }
 
@@ -1128,17 +1132,18 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         for( const trait_id &mut : u->get_mutations() ) {
-            for( const std::pair<const species_id, int> &elem : mut.obj().anger_relations ) {
-                if( type->in_species( elem.first ) ) {
-                    effective_anger += elem.second;
-                }
+            const mutation_branch &branch = *mut;
+            if( branch.ignored_by.empty() && branch.anger_relations.empty() ) {
+                continue;
             }
-        }
-
-        for( const trait_id &mut : u->get_mutations() ) {
-            for( const species_id &spe : mut.obj().ignored_by ) {
+            for( const species_id &spe : branch.ignored_by ) {
                 if( type->in_species( spe ) ) {
                     return MATT_IGNORE;
+                }
+            }
+            for( const std::pair<const species_id, int> &elem : branch.anger_relations ) {
+                if( type->in_species( elem.first ) ) {
+                    effective_anger += elem.second;
                 }
             }
         }
@@ -2224,15 +2229,15 @@ void monster::die( Creature *nkiller )
     move_special_item_to_inv( tied_item );
 
     if( has_effect( effect_lightsnare ) ) {
-        add_item( item( "string_36", 0 ) );
-        add_item( item( "snare_trigger", 0 ) );
+        add_item( item( "string_36", calendar::turn_zero ) );
+        add_item( item( "snare_trigger", calendar::turn_zero ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        add_item( item( "rope_6", 0 ) );
-        add_item( item( "snare_trigger", 0 ) );
+        add_item( item( "rope_6", calendar::turn_zero ) );
+        add_item( item( "snare_trigger", calendar::turn_zero ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        add_item( item( "beartrap", 0 ) );
+        add_item( item( "beartrap", calendar::turn_zero ) );
     }
     map &here = get_map();
     if( has_effect( effect_grabbing ) ) {
@@ -2355,7 +2360,7 @@ void monster::drop_items_on_death()
     if( is_hallucination() ) {
         return;
     }
-    if( type->death_drops.empty() ) {
+    if( type->death_drops.is_empty() ) {
         return;
     }
 
@@ -2368,7 +2373,7 @@ void monster::drop_items_on_death()
         std::vector<item> remaining;
         for( const item &it : items ) {
             // Mission items are not affected by item spawn rate
-            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( "MISSION_ITEM" ) ) {
+            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( STATIC( flag_id( "MISSION_ITEM" ) ) ) ) {
                 remaining.push_back( it );
             }
         }
@@ -2385,7 +2390,7 @@ void monster::drop_items_on_death()
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
-                it->set_flag( "FILTHY" );
+                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
         }
     }
@@ -2957,7 +2962,8 @@ void monster::on_load()
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {
             regen = 1.0f / to_turns<int>( 1_hours );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "veggy" ) ) ) {
+        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ||
+                   made_of( material_id( "veggy" ) ) ) {
             // Most living stuff here
             regen = 0.25f / to_turns<int>( 1_hours );
         }

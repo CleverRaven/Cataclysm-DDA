@@ -841,7 +841,7 @@ class npc : public player
         /**
          * Proficiencies we know that the character doesn't
          */
-        std::vector < proficiency_id> proficiencies_offered_to( const Character &guy ) const;
+        std::vector<proficiency_id> proficiencies_offered_to( const Character &guy ) const;
         /**
          * Martial art styles that we known, but the player p doesn't.
          */
@@ -858,7 +858,10 @@ class npc : public player
         bool is_following() const;
         bool is_obeying( const Character &p ) const;
 
-        bool is_hallucination() const override; // true if the NPC isn't actually real
+        // true if the NPC isn't actually real
+        bool is_hallucination() const override {
+            return hallucination;
+        }
 
         // Ally of or traveling with p
         bool is_friendly( const Character &p ) const;
@@ -925,6 +928,9 @@ class npc : public player
         void activate_item( item &it );
         bool has_identified( const itype_id & ) const override {
             return true;
+        }
+        void identify( const item & ) override {
+            // Do nothing
         }
         /**
          * Is the item safe or does the NPC trust you enough?

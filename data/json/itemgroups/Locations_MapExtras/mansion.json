@@ -672,7 +672,7 @@
       [ "football", 20 ],
       [ "frisbee", 40 ],
       [ "disc_golf", 20 ],
-      [ "radio_car_box", 10 ],
+      { "group": "toy_radio_car", "prob": 10 },
       [ "orangesoda", 30 ],
       [ "magic_8_ball", 10 ],
       [ "hairpin", 30 ],
@@ -739,7 +739,8 @@
       [ "leather_cat_ears", 5 ],
       [ "leather_cat_tail", 5 ],
       [ "leather_collar", 5 ],
-      [ "rope_30", 5 ]
+      [ "rope_30", 5 ],
+      { "item": "fog_machine", "prob": 5, "charges": [ 0, 500 ] }
     ]
   },
   {
@@ -879,7 +880,10 @@
       [ "stick", 20 ],
       [ "joint_roach", 10 ],
       { "group": "corpse_mansion", "prob": 5 },
-      [ "survnote", 1 ]
+      [ "survnote", 1 ],
+      { "item": "inflatable_dragon", "prob": 1, "charges": [ 0, 500 ] },
+      { "item": "inflatable_ghost", "prob": 1, "charges": [ 0, 500 ] },
+      { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] }
     ]
   },
   {
@@ -936,7 +940,7 @@
       [ "45_casing", 20 ],
       { "item": "inhaler", "prob": 20, "charges-min": 10, "charges-max": 100 },
       [ "hairpin", 20 ],
-      [ "lighter", 20 ],
+      { "item": "lighter", "prob": 20, "charges": [ 0, 100 ] },
       [ "matches", 20 ],
       [ "jersey", 20 ],
       [ "fanny", 20 ],
@@ -1348,7 +1352,7 @@
       [ "pants_army", 10 ],
       [ "jersey", 40 ],
       [ "linuxtshirt", 20 ],
-      [ "kilt", 5 ]
+      [ "kilt", 3 ]
     ]
   },
   {
@@ -1468,7 +1472,7 @@
       { "group": "neckties", "prob": 5 },
       [ "tieclip", 2 ],
       [ "collarpin", 2 ],
-      [ "kilt", 5 ],
+      [ "kilt", 3 ],
       [ "fedora", 5 ],
       [ "kufi", 2 ],
       [ "kippah", 2 ],
@@ -1530,7 +1534,7 @@
       { "group": "mansion_ammo", "prob": 40 },
       { "group": "tools_lighting", "prob": 30 },
       { "group": "softdrugs", "prob": 30 },
-      [ "lighter", 20 ],
+      { "item": "lighter", "prob": 20, "charges": [ 0, 100 ] },
       [ "matches", 20 ],
       [ "pocket_survival", 5 ]
     ]

@@ -442,7 +442,7 @@ struct vehicle_part {
         bool open = false;
 
         /** direction the part is facing */
-        int direction = 0;
+        units::angle direction = 0_degrees;
 
         /**
          * Coordinates for some kind of target; jumper cables and turrets use this
@@ -854,10 +854,10 @@ class vehicle
         }
         bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
-        std::set<point> immediate_path( int rotate = 0 );
+        std::set<point> immediate_path( const units::angle &rotate = 0_degrees );
         std::set<point> collision_check_points;
         void autopilot_patrol();
-        double get_angle_from_targ( const tripoint &targ );
+        units::angle get_angle_from_targ( const tripoint &targ );
         void drive_to_local_target( const tripoint &target, bool follow_protocol );
         tripoint get_autodrive_target() {
             return autodrive_local_target;
@@ -1078,13 +1078,15 @@ class vehicle
         point coord_translate( const point &p ) const;
 
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
-        void coord_translate( int dir, const point &pivot, const point &p, tripoint &q ) const;
+        void coord_translate( const units::angle &dir, const point &pivot, const point &p,
+                              tripoint &q ) const;
         // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
         // should be faster than previous call for repeated translations
         void coord_translate( tileray tdir, const point &pivot, const point &p, tripoint &q ) const;
 
         // Rotates mount coordinates "p" from old_dir to new_dir along pivot
-        point rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const;
+        point rotate_mount( units::angle old_dir, units::angle new_dir, const point &pivot,
+                            const point &p ) const;
 
         tripoint mount_to_tripoint( const point &mount ) const;
         tripoint mount_to_tripoint( const point &mount, const point &offset ) const;
@@ -1114,7 +1116,7 @@ class vehicle
             bool isHorizontal = false );
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
-        void precalc_mounts( int idir, int dir, const point &pivot );
+        void precalc_mounts( int idir, const units::angle &dir, const point &pivot );
 
         // get a list of part indices where is a passenger inside
         std::vector<int> boarded_parts() const;
@@ -1379,7 +1381,9 @@ class vehicle
         bool is_flyable() const;
         void set_flyable( bool val );
         // Would interacting with this part prevent the vehicle from being flyable?
-        bool would_prevent_flyable( const vpart_info &vpinfo ) const;
+        bool would_install_prevent_flyable( const vpart_info &vpinfo, Character &pc ) const;
+        bool would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const;
+        bool would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
@@ -1449,7 +1453,7 @@ class vehicle
         void cruise_thrust( int amount );
 
         // turn vehicle left (negative) or right (positive), degrees
-        void turn( int deg );
+        void turn( units::angle deg );
 
         // Returns if any collision occurred
         bool collision( std::vector<veh_collision> &colls,
@@ -1746,11 +1750,11 @@ class vehicle
          * &wheels_on_rail          - resulting wheels that land on ter_flag_to_check
          * &turning_wheels_that_are_one_axis_counter - number of wheels that are on one axis and will land on rail
          */
-        void precalculate_vehicle_turning( int new_turn_dir, bool check_rail_direction,
+        void precalculate_vehicle_turning( units::angle new_turn_dir, bool check_rail_direction,
                                            ter_bitflags ter_flag_to_check, int &wheels_on_rail,
                                            int &turning_wheels_that_are_one_axis_counter ) const;
-        bool allow_auto_turn_on_rails( int &corrected_turn_dir ) const;
-        bool allow_manual_turn_on_rails( int &corrected_turn_dir ) const;
+        bool allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const;
+        bool allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) const;
         bool is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int wheel_count,
                 int turning_wheels_that_are_one_axis ) const;
         /**
@@ -1837,6 +1841,10 @@ class vehicle
         std::vector<int> floating;         // List of parts that provide buoyancy to boats
         std::vector<int> batteries;        // List of batteries
         std::vector<int> fuel_containers;  // List parts with non-null ammo_type
+        std::vector<int> turret_locations; // List of turret parts
+        std::vector<int> mufflers; // List of muffler parts
+        std::vector<int> planters; // List of planter parts
+        std::vector<int> accessories; // List of accessory (power consuming) parts
 
         // config values
         std::string name;   // vehicle name
@@ -1898,8 +1906,10 @@ class vehicle
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0;
-        /// Time occupied points were calculated.
-        time_point occupied_cache_time = calendar::before_time_starts;
+        // Global location when cache was last refreshed.
+        tripoint occupied_cache_pos = { -1, -1, -1 };
+        // Vehicle facing when cache was last refreshed.
+        units::angle occupied_cache_direction = 0_degrees;
         // Turn the vehicle was last processed
         time_point last_update = calendar::before_time_starts;
         // save values
@@ -1926,9 +1936,9 @@ class vehicle
         int om_id = 0;
         // direction, to which vehicle is turning (player control). will rotate frame on next move
         // must be a multiple of 15 degrees
-        int turn_dir = 0;
+        units::angle turn_dir = 0_degrees;
         // amount of last turning (for calculate skidding due to handbrake)
-        int last_turn = 0;
+        units::angle last_turn = 0_degrees;
         // goes from ~1 to ~0 while proceeding every turn
         float of_turn = 0.0f;
         // leftover from previous turn
@@ -1939,7 +1949,7 @@ class vehicle
         // the time point when it was successfully stolen
         cata::optional<time_point> theft_time;
         // rotation used for mount precalc values
-        std::array<int, 2> pivot_rotation = { { 0, 0 } };
+        std::array<units::angle, 2> pivot_rotation = { { 0_degrees, 0_degrees } };
 
         bounding_box rail_wheel_bounding_box;
         point front_left;

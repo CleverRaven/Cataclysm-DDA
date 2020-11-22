@@ -649,10 +649,11 @@ void editmap::draw_main_ui_overlay()
                                                           part_mod ) );
                         const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                         bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
-                        int veh_dir = veh.face.dir();
+                        units::angle veh_dir = veh.face.dir();
                         g->draw_vpart_override( map_p, vp_id, part_mod, veh_dir, draw_highlight, vp->mount() );
                     } else {
-                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0, false, point_zero );
+                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false,
+                                                point_zero );
                     }
                     g->draw_below_override( map_p, here.has_zlevels() &&
                                             tmpmap.ter( tmp_p ).obj().has_flag( TFLAG_NO_FLOOR ) );
@@ -718,7 +719,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     int off = 1;
     draw_border( w_info );
 
-    mvwprintz( w_info, point( 2, 0 ), c_light_gray, "< %d,%d >", target.x, target.y );
+    mvwprintz( w_info, point( 2, 0 ), c_light_gray, "< %d,%d,%d >", target.x, target.y, target.z );
 
     mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
     mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d" ), here.ter( target ).to_i(),
@@ -1443,7 +1444,7 @@ void editmap::edit_itm()
             imenu.addentry( imenu_tags, true, -1, pgettext( "item manipulation debug menu entry",
                             "tags: %s" ), debug_menu::iterable_to_string( it.get_flags(), " ",
             []( const flag_id & f ) {
-                return f.id().str();
+                return f.str();
             } ) );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
                             "-[ light emission ]-" ) );
@@ -1475,7 +1476,7 @@ void editmap::edit_itm()
                         case imenu_tags:
                             strval = debug_menu::iterable_to_string( it.get_flags(), " ",
                             []( const flag_id & f ) {
-                                return f.id().str();
+                                return f.str();
                             } );
                             break;
                     }
@@ -1512,11 +1513,11 @@ void editmap::edit_itm()
                                 const auto tags = debug_menu::string_to_iterable<std::vector<std::string>>( strval, " " );
                                 it.unset_flags();
                                 for( const auto &t : tags ) {
-                                    it.set_flag( t );
+                                    it.set_flag( flag_id( t ) );
                                 }
                                 imenu.entries[imenu_tags].txt = debug_menu::iterable_to_string(
                                 it.get_flags(), " ", []( const flag_id & f ) {
-                                    return f.id().str();
+                                    return f.str();
                                 } );
                                 break;
                         }

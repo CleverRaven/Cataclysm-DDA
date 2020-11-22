@@ -38,6 +38,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_was_laserlocked( "was_laserlocked" );
 
@@ -189,11 +190,8 @@ bool mon_spellcasting_actor::call( monster &mon ) const
 
     const tripoint target = self ? mon.pos() : mon.attack_target()->pos();
 
-    // is the spell an attack that needs to hit the target?
-    // examples of spells that don't: summons, teleport self
-    const bool targeted_attack = spell_data.effect() == "attack";
-
-    if( targeted_attack && rl_dist( mon.pos(), target ) > spell_data.range() ) {
+    // Bail out if the target is out of range.
+    if( !self && rl_dist( mon.pos(), target ) > spell_data.range() ) {
         return false;
     }
 
@@ -544,7 +542,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         }
     }
 
-    if( z.has_effect( effect_stunned ) ) {
+    if( z.has_effect( effect_stunned ) || z.has_effect( effect_sensor_stun ) ) {
         return;
     }
 

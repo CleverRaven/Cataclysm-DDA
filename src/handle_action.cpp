@@ -31,6 +31,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h" // IWYU pragma: associated
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -119,14 +120,7 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
 
-static const std::string flag_LITCIG( "LITCIG" );
 static const std::string flag_LOCKED( "LOCKED" );
-static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
-static const std::string flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
-static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
-
-static const std::string flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -366,7 +360,7 @@ inline static void rcdrive( const point &d )
     auto rc_pairs = here.get_rc_items( c );
     auto rc_pair = rc_pairs.begin();
     for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
-        if( rc_pair->second->has_flag( "RADIOCAR" ) && rc_pair->second->active ) {
+        if( rc_pair->second->has_flag( flag_RADIOCAR ) && rc_pair->second->active ) {
             break;
         }
     }
@@ -561,7 +555,6 @@ static void close()
         doors::close_door( get_map(), get_player_character(), *pnt );
     }
 }
-
 
 // Establish or release a grab on a vehicle
 static void grab()
@@ -926,16 +919,16 @@ static void wait()
 
         add_menu_item( 7,  'd',
                        setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till daylight" ),
-                       diurnal_time_before( to_turns<int>( daylight_time( calendar::turn ) - calendar::turn_zero ) ) );
+                       diurnal_time_before( daylight_time( calendar::turn ) ) );
         add_menu_item( 8,  'n',
                        setting_alarm ? _( "Set alarm for noon" ) : _( "Wait till noon" ),
                        diurnal_time_before( last_midnight + 12_hours ) );
         add_menu_item( 9,  'k',
                        setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till night" ),
-                       diurnal_time_before( to_turns<int>( night_time( calendar::turn ) - calendar::turn_zero ) ) );
+                       diurnal_time_before( night_time( calendar::turn ) ) );
         add_menu_item( 10, 'm',
                        setting_alarm ? _( "Set alarm for midnight" ) : _( "Wait till midnight" ),
-                       diurnal_time_before( last_midnight + 0_hours ) );
+                       diurnal_time_before( last_midnight ) );
         if( setting_alarm ) {
             if( player_character.has_effect( effect_alarm_clock ) ) {
                 add_menu_item( 11, 'x', _( "Cancel the currently set alarm." ),
@@ -979,7 +972,7 @@ static void wait()
             actType = ACT_WAIT;
         }
 
-        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) - 1 ), 0 );
+        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) ), 0 );
 
         player_character.assign_activity( new_act, false );
     }
@@ -1131,7 +1124,7 @@ static void loot()
     Character &player_character = get_player_character();
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = player_character.has_item_with_flag( "FERTILIZER" );
+    const bool has_fertilizer = player_character.has_item_with_flag( flag_FERTILIZER );
 
     // Manually update vehicle cache.
     // In theory this would be handled by the related activity (activity_on_turn_move_loot())
@@ -1263,7 +1256,7 @@ static void wear()
     item_location loc = game_menus::inv::wear( player_character );
 
     if( loc ) {
-        player_character.wear( *loc.obtain( player_character ) );
+        player_character.wear( loc );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -2262,7 +2255,7 @@ bool game::handle_action()
                     mostseen = 0;
                     add_msg( m_info, _( "Safe mode ON!" ) );
                 } else {
-                    turnssincelastmon = 0;
+                    turnssincelastmon = 0_turns;
                     set_safe_mode( SAFE_MODE_OFF );
                     add_msg( m_info, get_option<bool>( "AUTOSAFEMODE" )
                              ? _( "Safe mode OFF!  (Auto safe mode still enabled!)" ) : _( "Safe mode OFF!" ) );
@@ -2548,11 +2541,22 @@ bool game::handle_action()
                 display_radiation();
                 break;
 
+            case ACTION_TOGGLE_HOUR_TIMER:
+                toggle_debug_hour_timer();
+                break;
+
             case ACTION_DISPLAY_TRANSPARENCY:
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger
                 }
                 display_transparency();
+                break;
+
+            case ACTION_DISPLAY_REACHABILITY_ZONES:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_reahability_zones();
                 break;
 
             case ACTION_TOGGLE_DEBUG_MODE:

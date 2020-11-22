@@ -1,0 +1,20 @@
+[
+  {
+    "id": "test_truncating_to_container",
+    "type": "item_group",
+    "//": "A baloon with three items, which can't all fit.  The intention is that we should get one or the other",
+    "subtype": "collection",
+    "container-item": "test_balloon",
+    "on_overflow": "discard",
+    "items": [ [ "test_pants_fur", 100 ], [ "test_utility_belt", 100 ], [ "test_nuclear_carafe", 100 ] ]
+  },
+  {
+    "id": "test_spilling_from_container",
+    "type": "item_group",
+    "//": "A baloon with three items, which can't all fit.  The intention is that we should get two in the container and one outside",
+    "subtype": "collection",
+    "container-item": "test_balloon",
+    "on_overflow": "spill",
+    "items": [ [ "test_pants_fur", 100 ], [ "test_utility_belt", 100 ], [ "test_nuclear_carafe", 100 ] ]
+  }
+]

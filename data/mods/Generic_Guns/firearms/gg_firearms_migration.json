@@ -10,7 +10,7 @@
     "replace": "black_powder_revolver"
   },
   {
-    "id": [ "rifle_flintlock", "carbine_flintlock", "carbine_flintlock_double" ],
+    "id": [ "rifle_flintlock", "carbine_flintlock", "carbine_flintlock_double", "longrifle_flintlock" ],
     "type": "MIGRATION",
     "replace": "black_powder_rifle"
   },
@@ -247,6 +247,7 @@
       "m110a1",
       "mosin44_ebr",
       "mosin91_30_ebr",
+      "boreal_mosin",
       "rm11b_sniper_rifle",
       "remington700_270",
       "m2010",
@@ -273,12 +274,14 @@
       "ak74",
       "ak47",
       "arx160",
+      "l_bak_223",
       "mosin91_30",
       "m249_semi",
       "m60_semi",
       "ar15",
       "oa93",
       "ar_pistol",
+      "rifle_223",
       "ruger_mini",
       "sig552",
       "steyr_aug",
@@ -296,6 +299,21 @@
     "replace": "rifle_sporter"
   },
   {
+    "id": [ "pamd68", "pamd71z" ],
+    "type": "MIGRATION",
+    "replace": "rifle_assault_foreign"
+  },
+  {
+    "id": [ "combination_gun", "pipe_combination_gun" ],
+    "type": "MIGRATION",
+    "replace": "rifle_shotgun_combination"
+  },
+  {
+    "id": [ "hk_g80" ],
+    "type": "MIGRATION",
+    "replace": "rifle_rail"
+  },
+  {
     "id": [ "AT4", "LAW_Packed", "LAW" ],
     "type": "MIGRATION",
     "replace": "rocket_disposable"
@@ -306,7 +324,7 @@
     "replace": "rocket_recoilless"
   },
   {
-    "id": [ "shotgun_d", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
+    "id": [ "lever_shotgun", "shotgun_d", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
     "type": "MIGRATION",
     "replace": "shot_double"
   },

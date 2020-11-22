@@ -656,5 +656,11 @@
     "valid": false,
     "purifiable": false,
     "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "LEG_TENTACLES",
+    "copy-from": "LEG_TENTACLES",
+    "extend": { "allow_soft_gear": true }
   }
 ]

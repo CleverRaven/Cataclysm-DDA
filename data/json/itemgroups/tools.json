@@ -83,6 +83,7 @@
     "//": "A typical toolbox filled with tools.",
     "subtype": "collection",
     "container-item": "toolbox_empty",
+    "on_overflow": "discard",
     "items": [
       [ "hammer", 80 ],
       [ "screwdriver_set", 65 ],
@@ -98,6 +99,7 @@
     "//": "A typical toolbox filled with tools.",
     "subtype": "collection",
     "container-item": "toolbox_empty",
+    "on_overflow": "discard",
     "items": [
       [ "hammer", 80 ],
       [ "screwdriver_set", 65 ],
@@ -300,6 +302,38 @@
     ]
   },
   {
+    "id": "full_1st_aid",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "1st_aid_box",
+    "items": [
+      { "item": "medical_tape", "charges": 20 },
+      { "item": "aspirin", "charges": 10 },
+      { "item": "disinfectant" },
+      { "item": "saline" },
+      { "item": "adhesive_bandages", "charges": 6 },
+      { "item": "bandages", "charges": 3 },
+      { "item": "medical_gauze", "count": 6 },
+      { "item": "booklet_firstaid" }
+    ]
+  },
+  {
+    "id": "used_1st_aid",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "1st_aid_box",
+    "items": [
+      { "item": "medical_tape", "charges": [ 0, 20 ] },
+      { "item": "aspirin", "charges": [ 0, 10 ] },
+      { "item": "disinfectant", "prob": 20 },
+      { "item": "saline", "prob": 60 },
+      { "item": "adhesive_bandages", "charges": [ 0, 6 ] },
+      { "item": "bandages", "charges": [ 0, 3 ] },
+      { "item": "medical_gauze", "count": [ 0, 6 ] },
+      { "item": "booklet_firstaid", "prob": 50 }
+    ]
+  },
+  {
     "id": "tools_medical",
     "type": "item_group",
     "//": "Portable medical equipment for doctors and paramedics (excludes consumables)",
@@ -311,6 +345,40 @@
       [ "thermometer", 50 ],
       [ "vacutainer", 50 ],
       [ "bag_body_bag", 10 ]
+    ]
+  },
+  {
+    "id": "full_ifak",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ifak_pouch",
+    "items": [
+      { "item": "medical_tape", "charges": 20 },
+      { "item": "tourniquet_upper" },
+      { "item": "quikclot", "charges": 5 },
+      { "item": "bandages", "charges": 3, "count": 3 },
+      { "item": "medical_gauze", "count": 3 },
+      { "item": "adhesive_bandages", "charges": 3 },
+      { "item": "pur_tablets", "charges": 3 },
+      { "item": "gloves_medical" },
+      { "item": "scissors" }
+    ]
+  },
+  {
+    "id": "used_ifak",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ifak_pouch",
+    "items": [
+      { "item": "medical_tape", "charges": [ 0, 20 ] },
+      { "item": "tourniquet_upper", "prob": 20 },
+      { "item": "quikclot", "charges": [ 0, 5 ] },
+      { "item": "bandages", "charges": [ 0, 3 ], "count": [ 0, 3 ] },
+      { "item": "medical_gauze", "count": [ 0, 3 ] },
+      { "item": "adhesive_bandages", "charges": [ 0, 3 ] },
+      { "item": "pur_tablets", "charges": [ 0, 3 ] },
+      { "item": "gloves_medical", "prob": 50 },
+      { "item": "scissors", "prob": 30 }
     ]
   },
   {
@@ -473,6 +541,19 @@
       [ "cotton_ball", 4 ],
       { "group": "ammo_any_batteries_full", "prob": 50 },
       [ "acetylene_machine", 1 ]
+    ]
+  },
+  {
+    "id": "toy_radio_car",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "rc_car_box",
+    "items": [
+      { "item": "radiocontrol" },
+      { "item": "light_minus_battery_cell", "charges": 50, "count": 3 },
+      { "item": "radio_car" },
+      { "item": "bubblewrap", "count": 2 },
+      { "item": "screwdriver" }
     ]
   },
   {

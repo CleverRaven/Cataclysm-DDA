@@ -22,6 +22,7 @@
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -79,9 +80,6 @@ static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
-static const std::string flag_DIG_TOOL( "DIG_TOOL" );
-static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_RAMP_END( "RAMP_END" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
@@ -566,13 +564,13 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     }
 
     body_part_set drenchFlags{ {
-            bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
-            bodypart_str_id( "arm_r" ), bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
+            body_part_leg_l, body_part_leg_r, body_part_torso, body_part_arm_l,
+            body_part_arm_r, body_part_foot_l, body_part_foot_r, body_part_hand_l, body_part_hand_r
         }
     };
 
     if( you.is_underwater() ) {
-        drenchFlags.unify_set( { { bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" ) } } );
+        drenchFlags.unify_set( { { body_part_head, body_part_eyes, body_part_mouth, body_part_hand_l, body_part_hand_r } } );
     }
     you.drench( 100, drenchFlags, true );
 }
@@ -856,11 +854,6 @@ void avatar_action::eat( avatar &you, const item_location &loc,
 void avatar_action::plthrow( avatar &you, item_location loc,
                              const cata::optional<tripoint> &blind_throw_from_pos )
 {
-    const ret_val<bool> ret = you.can_wield( *loc );
-    if( !ret.success() ) {
-        add_msg( m_info, "%s", ret.c_str() );
-        return;
-    }
     if( you.has_active_mutation( trait_SHELL2 ) ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
         return;
@@ -888,6 +881,13 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         add_msg( _( "Never mind." ) );
         return;
     }
+
+    const ret_val<bool> ret = you.can_wield( *loc );
+    if( !ret.success() ) {
+        add_msg( m_info, "%s", ret.c_str() );
+        return;
+    }
+
     // make a copy and get the original.
     // the copy is thrown and has its and the originals charges set appropiately
     // or deleted from inventory if its charges(1) or not stackable.
@@ -1012,6 +1012,11 @@ void avatar_action::use_item( avatar &you, item_location &loc )
 
     if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         use_in_place = true;
+        // Activate holster on map only if hands are free.
+    } else if( you.can_wield( *loc ).success() && loc->is_holster() && !loc.held_by( you ) ) {
+        use_in_place = true;
+        // Adjustment because in player::wield_contents this amount is refunded.
+        you.mod_moves( -loc.obtain_cost( you ) );
     } else {
         loc = loc.obtain( you );
         if( !loc ) {

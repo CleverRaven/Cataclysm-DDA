@@ -24,7 +24,7 @@ TEST_CASE( "item_volume", "[item]" )
 {
     // Need to pick some item here which is count_by_charges and for which each
     // charge is at least 1_ml.  Battery works for now.
-    item i( "battery", 0, item::default_charges_tag() );
+    item i( "battery", calendar::turn_zero, item::default_charges_tag() );
     REQUIRE( i.count_by_charges() );
     // Would be better with Catch2 generators
     const units::volume big_volume = units::from_milliliter( std::numeric_limits<int>::max() / 2 );
@@ -177,13 +177,13 @@ TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][comb
     liquid_hot.heat_up(); // 60 C (333.15 K)
     liquid_cold.cold_up(); // 3 C (276.15 K)
     liquid_filthy.cold_up(); // 3 C (276.15 K)
-    liquid_filthy.set_flag( "FILTHY" );
+    liquid_filthy.set_flag( flag_id( "FILTHY" ) );
 
     // Temperature is in terms of 0.000001 K
     REQUIRE( std::floor( liquid_hot.temperature / 100000 ) == 333 );
     REQUIRE( std::floor( liquid_cold.temperature / 100000 ) == 276 );
-    REQUIRE( liquid_hot.has_flag( "HOT" ) );
-    REQUIRE( liquid_cold.has_flag( "COLD" ) );
+    REQUIRE( liquid_hot.has_flag( flag_id( "HOT" ) ) );
+    REQUIRE( liquid_cold.has_flag( flag_id( "COLD" ) ) );
 
     SECTION( "liquids at the same temperature can stack together" ) {
         CHECK( liquid_cold.stacks_with( liquid_cold ) );
@@ -206,7 +206,6 @@ TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][comb
         CHECK( !liquid_filthy.can_combine( liquid_cold ) );
     }
 }
-
 
 static void assert_minimum_length_to_volume_ratio( const item &target )
 {
@@ -238,7 +237,7 @@ static void assert_minimum_length_to_volume_ratio( const item &target )
 TEST_CASE( "item length sanity check", "[item]" )
 {
     for( const itype *type : item_controller->all() ) {
-        const item sample( type, 0, item::solitary_tag {} );
+        const item sample( type, calendar::turn_zero, item::solitary_tag {} );
         assert_minimum_length_to_volume_ratio( sample );
     }
 }

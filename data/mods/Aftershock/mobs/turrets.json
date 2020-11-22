@@ -21,11 +21,12 @@
     "armor_bullet": 13,
     "vision_day": 50,
     "revert_to_itype": "bot_laserturret_xray",
+    "starting_ammo": { "xray_laser_barrel": 3 },
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 1,
-        "gun_type": "laser_cannon_xray",
+        "gun_type": "laser_cannon_xray_mon",
         "fake_skills": [ [ "gun", 4 ], [ "rifle", 8 ] ],
         "ranges": [ [ 0, 30, "DEFAULT" ] ]
       }

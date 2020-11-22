@@ -518,18 +518,18 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision]" )
     };
 
     tile_predicate spawn_meth_lab = [&]( map_test_case::tile tile ) {
-        int dir = -1;
+        cata::optional<units::angle> dir;
         if( tile.p_local == point( 2, 0 ) ) {
-            dir = 270;
+            dir = 270_degrees;
         } else if( tile.p_local == point( 4, 7 ) ) {
-            dir = 90;
+            dir = 90_degrees;
         } else if( tile.p_local == point( 0, 4 ) ) {
-            dir = 180;
+            dir = 180_degrees;
         } else if( tile.p_local == point( 7, 2 ) ) {
-            dir = 0;
+            dir = 0_degrees;
         }
-        if( dir != -1 ) {
-            v = get_map().add_vehicle( vproto_id( "meth_lab" ), tile.p, dir, 0, 0 );
+        if( dir ) {
+            v = get_map().add_vehicle( vproto_id( "meth_lab" ), tile.p, *dir, 0, 0 );
             for( const vpart_reference vp : v->get_avail_parts( "OPENABLE" ) ) {
                 v -> close( vp.part_index() );
             }

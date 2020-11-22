@@ -33,7 +33,7 @@
     "color": "pink",
     "skill": "firstaid",
     "max_level": 1,
-    "intelligence": 1,
+    "intelligence": 6,
     "time": "8 m",
     "fun": 1
   },
@@ -52,7 +52,7 @@
     "color": "green",
     "skill": "firstaid",
     "max_level": 3,
-    "intelligence": 7,
+    "intelligence": 8,
     "time": "20 m"
   },
   {

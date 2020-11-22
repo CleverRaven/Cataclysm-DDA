@@ -180,6 +180,7 @@ class avatar : public player
         void do_read( item &book );
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
+        void identify( const item &item ) override;
 
         void wake_up();
         // Grab furniture / vehicle
@@ -215,6 +216,8 @@ class avatar : public player
         faction *get_faction() const override;
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
+        // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
+        std::string preferred_aiming_mode;
 
         void set_movement_mode( const move_mode_id &mode ) override;
 

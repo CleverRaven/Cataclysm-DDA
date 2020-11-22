@@ -53,7 +53,7 @@ mission mission_type::create( const character_id &npc_id ) const
     if( deadline_low != 0_turns || deadline_high != 0_turns ) {
         ret.deadline = calendar::turn + rng( deadline_low, deadline_high );
     } else {
-        ret.deadline = 0;
+        ret.deadline = calendar::turn_zero;
     }
 
     return ret;
@@ -236,7 +236,7 @@ void mission::assign( avatar &u )
         if( type->deadline_low != 0_turns || type->deadline_high != 0_turns ) {
             deadline = calendar::turn + rng( type->deadline_low, type->deadline_high );
         } else {
-            deadline = 0;
+            deadline = calendar::turn_zero;
         }
         type->start( this );
         status = mission_status::in_progress;
@@ -302,7 +302,7 @@ void mission::wrap_up()
             inventory tmp_inv = player_character.crafting_inventory();
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
-            Group_tag grp_type = type->group_id;
+            item_group_id grp_type = type->group_id;
             itype_id container = type->container_id;
             bool specific_container_required = !container.is_null();
             bool remove_container = type->remove_container;
@@ -370,7 +370,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
             inventory tmp_inv = player_character.crafting_inventory();
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
-            Group_tag grp_type = type->group_id;
+            item_group_id grp_type = type->group_id;
             itype_id container = type->container_id;
             bool specific_container_required = !container.is_null();
 
@@ -505,7 +505,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
 }
 
 void mission::get_all_item_group_matches( std::vector<item *> &items,
-        Group_tag &grp_type, std::map<itype_id, int> &matches,
+        item_group_id &grp_type, std::map<itype_id, int> &matches,
         const itype_id &required_container, const itype_id &actual_container,
         bool &specific_container_required )
 {
@@ -547,7 +547,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
 
 bool mission::has_deadline() const
 {
-    return deadline != 0;
+    return deadline != calendar::turn_zero;
 }
 
 time_point mission::get_deadline() const
@@ -621,7 +621,7 @@ void mission::process()
         return;
     }
 
-    if( deadline > 0 && calendar::turn > deadline ) {
+    if( has_deadline() && calendar::turn > deadline ) {
         fail();
     } else if( !npc_id.is_valid() && is_complete( npc_id ) ) { // No quest giver.
         wrap_up();

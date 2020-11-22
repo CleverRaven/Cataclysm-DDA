@@ -169,7 +169,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_corn",
-    "name": { "str_sp": "corn" },
+    "name": { "str_sp": "canned corn" },
     "comestible_type": "FOOD",
     "weight": "178 g",
     "color": "yellow",
@@ -440,7 +440,7 @@
     "weight": "240 g",
     "color": "brown",
     "spoils_in": "3 days",
-    "container": "box_medium",
+    "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,

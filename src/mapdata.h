@@ -46,7 +46,7 @@ struct map_bash_info {
     int fd_bash_move_cost = 100; // cost to bash a field
     bool destroy_only;      // Only used for destroying, not normally bashable
     bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
-    std::string drop_group; // item group of items that are dropped when the object is bashed
+    item_group_id drop_group; // item group of items that are dropped when the object is bashed
     translation sound;      // sound made on success ('You hear a "smash!"')
     translation sound_fail; // sound  made on fail
     translation field_bash_msg_success; // message upon successfully bashing a field
@@ -61,7 +61,8 @@ struct map_bash_info {
         terrain,
         field
     };
-    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type );
+    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type,
+               const std::string &context );
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
@@ -69,11 +70,12 @@ struct map_deconstruct_info {
     // This terrain provided a roof, we need to tear it down now
     bool deconstruct_above;
     // items you get when deconstructing.
-    std::string drop_group;
+    item_group_id drop_group;
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
-    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture );
+    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture,
+               const std::string &context );
 };
 struct furn_workbench_info {
     // Base multiplier applied for crafting here
@@ -589,7 +591,8 @@ extern furn_id f_null,
        f_tourist_table,
        f_camp_chair,
        f_sign,
-       f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el;
+       f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el,
+       f_street_light, f_traffic_light;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

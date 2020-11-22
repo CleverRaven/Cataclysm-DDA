@@ -231,7 +231,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
                 optional( joe, was_loaded, "min_duration", fe.min_duration );
                 optional( joe, was_loaded, "max_duration", fe.max_duration );
                 optional( joe, was_loaded, "intensity", fe.intensity );
-                optional( joe, was_loaded, "body_part", fe.bp, bodypart_str_id( "bp_null" ) );
+                optional( joe, was_loaded, "body_part", fe.bp, bodypart_str_id::NULL_ID() );
                 optional( joe, was_loaded, "is_environmental", fe.is_environmental );
                 optional( joe, was_loaded, "immune_in_vehicle", fe.immune_in_vehicle );
                 optional( joe, was_loaded, "immune_inside_vehicle", fe.immune_inside_vehicle );
@@ -308,7 +308,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "decrease_intensity_on_contact", decrease_intensity_on_contact, false );
 
-    bash_info.load( jo, "bash", map_bash_info::field );
+    bash_info.load( jo, "bash", map_bash_info::field, "field " + id.str() );
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }

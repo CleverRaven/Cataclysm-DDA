@@ -444,9 +444,9 @@ static item wishitem_produce( const itype &type, std::string &flags, bool incont
 
     granted.unset_flags();
     for( const auto &tag : debug_menu::string_to_iterable<std::vector<std::string>>( flags, " " ) ) {
-        const flag_str_id flag( tag );
+        const flag_id flag( tag );
         if( flag.is_valid() ) {
-            granted.set_flag( flag_str_id( tag ) );
+            granted.set_flag( flag_id( tag ) );
         }
     }
 
@@ -477,17 +477,13 @@ class wish_item_callback: public uilist_callback
             if( menu->selected < 0 ) {
                 return;
             }
-            if( standard_itype_ids[menu->selected]->phase == phase_id::LIQUID ) {
-                incontainer = true;
-            } else {
-                incontainer = false;
-            }
+            const itype &selected_itype = *standard_itype_ids[menu->selected];
+            incontainer = selected_itype.phase == phase_id::LIQUID;
 
             // grab default flags for the itype
-            flags = debug_menu::iterable_to_string(
-                        standard_itype_ids[menu->selected]->get_flags(), "",
+            flags = debug_menu::iterable_to_string( selected_itype.get_flags(), " ",
             []( const flag_id & f ) {
-                return f.id().str();
+                return f.str();
             } );
         }
 
@@ -566,7 +562,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     }
     std::vector<std::pair<std::string, const itype *>> opts;
     for( const itype *i : item_controller->all() ) {
-        opts.emplace_back( item( i, 0 ).tname( 1, false ), i );
+        opts.emplace_back( item( i, calendar::turn_zero ).tname( 1, false ), i );
     }
     std::sort( opts.begin(), opts.end(), localized_compare );
     std::vector<const itype *> itypes;
@@ -596,7 +592,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     wmenu.callback = &cb;
 
     for( size_t i = 0; i < opts.size(); i++ ) {
-        item ity( opts[i].second, 0 );
+        item ity( opts[i].second, calendar::turn_zero );
         wmenu.addentry( i, true, 0, opts[i].first );
         mvwzstr &entry_extra_text = wmenu.entries[i].extratxt;
         entry_extra_text.txt = ity.symbol();
