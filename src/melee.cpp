@@ -1225,10 +1225,11 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
 
         // Don't counter if it would exhaust moves.
         if( tec.block_counter || tec.dodge_counter ) {
-            int move_cost = attack_speed( used_weapon() );
+            float move_cost = attack_speed( used_weapon() );
             move_cost *= tec.move_cost_multiplier( *this );
             move_cost += tec.move_cost_penalty( *this );
-
+            float move_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
+            move_cost *= ( 1.0f / move_mult );
             if( get_moves() + get_speed() - move_cost < 0 ) {
                 continue;
             }
