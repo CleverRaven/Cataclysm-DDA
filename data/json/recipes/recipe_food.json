@@ -57,8 +57,9 @@
     "skill_used": "cooking",
     "time": "9 s",
     "autolearn": true,
-    "tools": [ [ [ "water_purifier", 1 ] ] ],
-    "components": [ [ [ "water", 1 ] ] ]
+    "tools": [ [ [ "water_purifier", 1 ], [ "pur_tablets", 1 ], [ "char_purifier", 1 ] ] ],
+    "components": [ [ [ "water", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "type": "recipe",
