@@ -689,7 +689,7 @@
     "name": "Kosmoceratops juvenile",
     "copy-from": "mon_gallimimus_juvenile",
     "description": "A juvenile Kosmoceratops, seems relatively harmless as long as you don't anger it.",
-    "default_faction": "kosmoceratops",
+    "default_faction": "herbivore_dino",
     "color": "brown",
     "upgrades": { "age_grow": 100, "into": "mon_kosmoceratops" },
     "flags": [
