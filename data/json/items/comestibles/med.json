@@ -1694,7 +1694,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "symbol": "!",
     "color": "white",
-    "use_action": { "type": "consume_drug", "activation_message": "You swallow the %s. You wait in anticipation of its effects." }
+    "use_action": { "type": "consume_drug", "activation_message": "You swallow the %s.  You wait in anticipation of its effects." }
   },
   {
     "id": "inj_vitb",
