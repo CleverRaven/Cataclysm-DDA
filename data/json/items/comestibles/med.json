@@ -1678,7 +1678,7 @@
     "charges": 10,
     "stack_size": 10
   },
-    {
+  {
     "id": "homeopathic_pills",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
