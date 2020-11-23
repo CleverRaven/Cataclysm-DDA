@@ -704,7 +704,7 @@
     "type": "MONSTER",
     "name": "amargasaurus hatchling",
     "copy-from": "mon_compsognathus_hatchling",
-    "default_faction": "amargasaurus",
+    "default_faction": "herbivore_dino",
     "upgrades": { "age_grow": 56, "into": "mon_amargasaurus_juvenile" }
   }
 ]
