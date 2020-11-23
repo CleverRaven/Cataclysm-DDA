@@ -326,7 +326,6 @@
     "color": "dark_gray",
     "material": [ "glass", "titanium" ],
     "copy-from": "fancy_sunglasses",
-    "color": "yellow",
     "covers": [ "eyes", "torso" ],
     "ammo": [ "battery" ],
     "charges_per_use": 2,
@@ -368,7 +367,7 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "mutations": [ "KILLER", "SCHIZOPHRENIC" ],
+          "mutations": [ "PSYCHOPATH", "SCHIZOPHRENIC" ],
           "values": [ { "value": "PERCEPTION", "add": 1 } ]
         }
       ],
