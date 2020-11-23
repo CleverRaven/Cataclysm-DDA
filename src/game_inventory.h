@@ -114,7 +114,7 @@ void insert_items( avatar &you, item_location &holster );
 /** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( player &p, item &tool );
 /** Choose item to wear. */
-item_location wear( player &p );
+item_location wear( player &p, const bodypart_id &bp = bodypart_id( "bp_null" ) );
 /** Choose item to take off. */
 item_location take_off( avatar &you );
 /** Item cut up menu. */

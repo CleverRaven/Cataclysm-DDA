@@ -319,12 +319,13 @@ class armor_inventory_preset: public inventory_selector_preset
 class wear_inventory_preset: public armor_inventory_preset
 {
     public:
-        wear_inventory_preset( player &p, const std::string &color ) :
-            armor_inventory_preset( p, color )
+        wear_inventory_preset( player &p, const std::string &color, const bodypart_id &bp ) :
+            armor_inventory_preset( p, color ), bp( bp )
         {}
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_armor() && !p.is_worn( *loc );
+            return loc->is_armor() && !p.is_worn( *loc ) &&
+                   ( bp != bodypart_id( "bp_null" ) ? loc->covers( bp ) : true );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -336,11 +337,15 @@ class wear_inventory_preset: public armor_inventory_preset
 
             return std::string();
         }
+
+    private:
+        const bodypart_id &bp;
+
 };
 
-item_location game_menus::inv::wear( player &p )
+item_location game_menus::inv::wear( player &p, const bodypart_id &bp )
 {
-    return inv_internal( p, wear_inventory_preset( p, "color_yellow" ), _( "Wear item" ), 1,
+    return inv_internal( p, wear_inventory_preset( p, "color_yellow", bp ), _( "Wear item" ), 1,
                          _( "You have nothing to wear." ) );
 }
 
