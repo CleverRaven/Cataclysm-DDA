@@ -696,7 +696,7 @@
     "type": "MONSTER",
     "name": "kosmoceratops hatchling",
     "copy-from": "mon_compsognathus_hatchling",
-    "default_faction": "kosmoceratops",
+    "default_faction": "herbivore_dino",
     "upgrades": { "age_grow": 56, "into": "mon_kosmoceratops_juvenile" }
   },
   {
