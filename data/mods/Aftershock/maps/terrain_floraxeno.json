@@ -85,7 +85,7 @@
     "move_cost": 3,
     "coverage": 20,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE" ],
-    "examine_action": "harvest_furn_nectar",
+    "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "yum_lichen", "base_num": [ 1, 4 ] } ] } ],
     "transforms_into": "t_lichen_harvested",
     "bash": {
@@ -118,21 +118,21 @@
     }
   },
   {
-    "type": "terrain",
-    "id": "t_shrub_moss",
+    "type": "furniture",
+    "id": "f_shrub_moss",
     "name": "moss bush",
     "description": "A mound of moss, with large colorful stems protruding out of it.",
     "symbol": "#",
     "color": "magenta",
-    "move_cost": 8,
+    "move_cost_mod": 8,
     "coverage": 40,
+    "required_str": -1,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHORT" ],
     "bash": {
       "str_min": 4,
       "str_max": 61,
       "sound": "crunch.",
       "sound_fail": "squish.",
-      "ter_set": "t_lichendirt",
       "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
     }
   }
