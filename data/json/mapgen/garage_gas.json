@@ -100,8 +100,8 @@
         { "monster": "GROUP_ZOMBIE", "x": [ 48, 59 ], "y": [ 9, 19 ], "density": 0.15 }
       ],
       "place_vehicles": [
-        { "vehicle": "suburban_home", "x": 8, "y": [ 12, 13 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "suburban_home", "x": 17, "y": [ 12, 13 ], "chance": 100, "rotation": 270 },
+        { "vehicle": "suburban_home", "x": 8, "y": [ 12, 13 ], "chance": 30, "rotation": 90 },
+        { "vehicle": "suburban_home", "x": 17, "y": [ 12, 13 ], "chance": 30, "rotation": 270 },
         { "vehicle": "garage", "x": 41, "y": [ 12, 13 ], "chance": 20, "rotation": 270 },
         { "vehicle": "garage", "x": 51, "y": [ 12, 13 ], "chance": 20, "rotation": 270 }
       ]
