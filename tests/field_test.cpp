@@ -9,7 +9,7 @@
 
 #include <algorithm>
 
-static int count_fields( field_type_str_id &field_type )
+static int count_fields( const field_type_str_id &field_type )
 {
     map &m = get_map();
     int live_fields = 0;
@@ -30,7 +30,7 @@ TEST_CASE( "acid_field_expiry_on_map", "[field]" )
     map &m = get_map();
     const field_type_str_id field_type( "fd_acid" );
     // place a smoke field
-    for( tripoint cursor : m.points_on_zlevel() ) {
+    for( const tripoint &cursor : m.points_on_zlevel() ) {
         m.add_field( cursor, field_type, 1 );
     }
     REQUIRE( count_fields( field_type ) == 17424 );
@@ -85,7 +85,6 @@ static void fire_duration( const std::string &terrain_type, const time_duration 
     clear_map();
     const tripoint fire_loc{ 33, 33, 0 };
     map &m = get_map();
-    //m.ter_set( fire_loc, ter_id( "t_shrub_raspberry" ) );
     m.ter_set( fire_loc, ter_id( terrain_type ) );
     m.add_field( fire_loc, fd_fire, 1, 10_minutes );
     REQUIRE( m.get_field( fire_loc, fd_fire ) );
