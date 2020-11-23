@@ -13,7 +13,7 @@ static int count_fields( field_type_str_id &field_type )
 {
     map &m = get_map();
     int live_fields = 0;
-    for( tripoint cursor : m.points_on_zlevel() ) {
+    for( const tripoint &cursor : m.points_on_zlevel() ) {
         if( m.get_field( cursor, field_type ) != nullptr ) {
             live_fields++;
         }
@@ -28,13 +28,13 @@ TEST_CASE( "acid_field_expiry_on_map", "[field]" )
 {
     clear_map();
     map &m = get_map();
-    field_type_str_id field_type( "fd_acid" );
+    const field_type_str_id field_type( "fd_acid" );
     // place a smoke field
     for( tripoint cursor : m.points_on_zlevel() ) {
         m.add_field( cursor, field_type, 1 );
     }
     REQUIRE( count_fields( field_type ) == 17424 );
-    time_point before_time = calendar::turn;
+    const time_point before_time = calendar::turn;
     // run time forward until it goes away
     while( calendar::turn - before_time < field_type.obj().half_life ) {
         m.process_fields();
@@ -79,23 +79,23 @@ TEST_CASE( "field_expiry", "[field]" )
     test_field_expiry( "fd_electricity" );
 }
 
-static void fire_duration( const std::string &terrain_type, time_duration minimum,
-                           time_duration maximum )
+static void fire_duration( const std::string &terrain_type, const time_duration minimum,
+                           const time_duration maximum )
 {
     clear_map();
-    tripoint fire_loc{ 33, 33, 0 };
+    const tripoint fire_loc{ 33, 33, 0 };
     map &m = get_map();
     //m.ter_set( fire_loc, ter_id( "t_shrub_raspberry" ) );
     m.ter_set( fire_loc, ter_id( terrain_type ) );
     m.add_field( fire_loc, fd_fire, 1, 10_minutes );
     REQUIRE( m.get_field( fire_loc, fd_fire ) );
     CHECK( m.get_field( fire_loc, fd_fire )->is_field_alive() );
-    time_point before_time = calendar::turn;
+    const time_point before_time = calendar::turn;
     bool field_alive = true;
     while( field_alive && calendar::turn - before_time < minimum ) {
         m.process_fields();
         calendar::turn += 1_seconds;
-        int effective_age = to_turns<int>( calendar::turn - before_time );
+        const int effective_age = to_turns<int>( calendar::turn - before_time );
         INFO( effective_age << " seconds" );
         field_entry *this_field = m.get_field( fire_loc, fd_fire );
         field_alive = this_field && this_field->is_field_alive();
@@ -104,7 +104,7 @@ static void fire_duration( const std::string &terrain_type, time_duration minimu
     while( field_alive && calendar::turn - before_time < maximum ) {
         m.process_fields();
         calendar::turn += 1_seconds;
-        int effective_age = to_turns<int>( calendar::turn - before_time );
+        const int effective_age = to_turns<int>( calendar::turn - before_time );
         INFO( effective_age << " seconds" );
         field_entry *this_field = m.get_field( fire_loc, fd_fire );
         field_alive = this_field && this_field->is_field_alive();
