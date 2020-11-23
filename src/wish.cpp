@@ -482,7 +482,7 @@ class wish_item_callback: public uilist_callback
             // Make liquids "contained" by default (toggled with CONTAINER action)
             incontainer = selected_itype.phase == phase_id::LIQUID;
             // Clear instance flags when switching items
-            flags = "";
+            flags.clear();
             // Grab default flags for the itype (added with the FLAG action)
             itype_flags = debug_menu::iterable_to_string( selected_itype.get_flags(), " ",
             []( const flag_id & f ) {
@@ -884,4 +884,3 @@ void debug_menu::wishproficiency( player *p )
         }
     } while( prmenu.ret != UILIST_CANCEL );
 }
-
