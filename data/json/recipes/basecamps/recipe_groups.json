@@ -55,7 +55,7 @@
       },
       {
         "id": "faction_base_saltworks_0",
-        "description": "Saltworks Area (version 1 only. In canteen for version 2)",
+        "description": "Saltworks Area (version 1 only.  In canteen for version 2)",
         "om_terrains": [ "field" ]
       },
       {
