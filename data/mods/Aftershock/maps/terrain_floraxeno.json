@@ -1,5 +1,5 @@
 [
-      {
+  {
     "type": "terrain",
     "id": "t_tree_worm",
     "name": "leviathan annelids",
@@ -9,16 +9,12 @@
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT" ],
-    "//": [ "possibly in the future add that smashing this drops shells and tube worm flesh? maybe even an ability to cut it down for food" ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_deaddirt"
-    }
+    "//": [
+      "possibly in the future add that smashing this drops shells and tube worm flesh? maybe even an ability to cut it down for food"
+    ],
+    "bash": { "str_min": 80, "str_max": 180, "sound": "crunch!", "sound_fail": "whack!", "ter_set": "t_deaddirt" }
   },
-    {
+  {
     "type": "terrain",
     "id": "t_tree_lichen",
     "name": "lichen tree",
@@ -37,7 +33,7 @@
       "items": [ { "item": "yum_lichen", "count": [ 3, 6 ] } ]
     }
   },
-    {
+  {
     "type": "terrain",
     "id": "t_tree_xeno",
     "name": "fossilized conifer",
@@ -56,7 +52,7 @@
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
     }
   },
-      {
+  {
     "type": "terrain",
     "id": "t_tree_xenoinfested",
     "name": "infested fossilized conifer",
@@ -86,7 +82,9 @@
     "coverage": 20,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE" ],
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "yum_lichen", "base_num": [ 1, 4 ] } ] } ],
+    "harvest_by_season": [
+      { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "yum_lichen", "base_num": [ 1, 4 ] } ] }
+    ],
     "transforms_into": "t_lichen_harvested",
     "bash": {
       "str_min": 2,

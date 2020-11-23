@@ -1,5 +1,5 @@
 [
-    {
+  {
     "id": "yum_lichen",
     "type": "COMESTIBLE",
     "name": "clump of lichen",
@@ -16,14 +16,9 @@
     "volume": "5 ml",
     "charges": 3,
     "fun": -8,
-    "vitamins": [
-      [ "calcium", 5 ],
-      [ "iron", 12 ],
-      [ "vitA", 20 ],
-      [ "vitC", 56 ]
-    ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitA", 20 ], [ "vitC", 56 ] ]
   },
-    {
+  {
     "id": "yum_lichen_extra",
     "type": "COMESTIBLE",
     "name": "clump of processed lichen",
@@ -39,11 +34,6 @@
     "volume": "5 ml",
     "charges": 3,
     "fun": -3,
-    "vitamins": [
-      [ "calcium", 5 ],
-      [ "iron", 12 ],
-      [ "vitA", 20 ],
-      [ "vitC", 56 ]
-    ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitA", 20 ], [ "vitC", 56 ] ]
   }
 ]
