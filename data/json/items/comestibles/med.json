@@ -1686,7 +1686,7 @@
     "description": "Some homeopathic pills, prepared through the repeated dilution of an active ingredient.  The label purpots that the pills are able to treat flu-like symptoms and maintain general wellness.",
     "weight": "1 g",
     "volume": "100 ml",
-    "price": 1000
+    "price": 1000,
     "price_postapoc": 1,
     "fun": 1,
     "charges": 20,
