@@ -54,6 +54,8 @@ enum ter_bitflags : int;
 template<typename feature_type>
 class vehicle_part_with_feature_range;
 
+void handbrake();
+
 namespace catacurses
 {
 class window;

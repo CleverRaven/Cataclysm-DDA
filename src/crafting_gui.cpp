@@ -376,7 +376,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                     if( highlight ) {
                         cursor_pos = print_from;
                     }
-                    mvwprintz( w_data, print_from, col, utf8_truncate( tmp_name, 28 ) );
+                    mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, 27 ) );
                 }
             } else if( line >= recmax - dataHalfLines ) {
                 for( int i = recmax - dataLines; i < recmax; ++i ) {
@@ -392,7 +392,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                         cursor_pos = print_from;
                     }
                     mvwprintz( w_data, print_from, col,
-                               utf8_truncate( tmp_name, 28 ) );
+                               trim_by_length( tmp_name, 27 ) );
                 }
             } else {
                 for( int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i ) {
@@ -408,7 +408,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                         cursor_pos = print_from;
                     }
                     mvwprintz( w_data, print_from, col,
-                               utf8_truncate( tmp_name, 28 ) );
+                               trim_by_length( tmp_name, 27 ) );
                 }
             }
         } else {
@@ -423,7 +423,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 if( highlight ) {
                     cursor_pos = print_from;
                 }
-                mvwprintz( w_data, print_from, col, utf8_truncate( tmp_name, 28 ) );
+                mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, 27 ) );
             }
         }
 

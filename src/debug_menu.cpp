@@ -528,11 +528,11 @@ void character_edit_menu()
     }
 
     enum {
-        D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_DESC, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ASTHMA
     };
-    nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
+    nmenu.addentry( D_DESC, true, 'D', "%s", _( "Edit [D]escription - Name, Age, Height" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
     nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
@@ -743,16 +743,50 @@ void character_edit_menu()
             }
         }
         break;
-        case D_NAME: {
-            std::string filterstring = p.name;
-            string_input_popup popup;
-            popup
-            .title( _( "Rename:" ) )
-            .width( 85 )
-            .description( string_format( _( "NPC:\n%s\n" ), p.name ) )
-            .edit( filterstring );
-            if( popup.confirmed() ) {
-                p.name = filterstring;
+        case D_DESC: {
+            uilist smenu;
+            smenu.text = _( "Select a value and press enter to change it." );
+            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current name" ), p.get_name() );
+            smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), p.base_age() );
+            smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), p.base_height() );
+            smenu.query();
+            switch( smenu.ret ) {
+                case 0: {
+                    std::string buf = p.name;
+                    string_input_popup popup;
+                    popup
+                    .title( _( "Rename:" ) )
+                    .width( 85 )
+                    .edit( buf );
+                    if( popup.confirmed() ) {
+                        p.name = buf;
+                    }
+                }
+                break;
+                case 1: {
+                    string_input_popup popup;
+                    popup
+                    .title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
+                    .text( string_format( "%d", p.base_age() ) )
+                    .only_digits( true );
+                    const int result = popup.query_int();
+                    if( result != 0 ) {
+                        p.set_base_age( clamp( result, 16, 55 ) );
+                    }
+                }
+                break;
+                case 2: {
+                    string_input_popup popup;
+                    popup
+                    .title( _( "Enter height in centimeters.  Minimum 145, maximum 200" ) )
+                    .text( string_format( "%d", p.base_height() ) )
+                    .only_digits( true );
+                    const int result = popup.query_int();
+                    if( result != 0 ) {
+                        p.set_base_height( clamp( result, 145, 200 ) );
+                    }
+                }
+                break;
             }
         }
         break;

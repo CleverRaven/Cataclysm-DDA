@@ -586,31 +586,6 @@ static void close()
     }
 }
 
-static void handbrake()
-{
-    const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
-    if( !vp ) {
-        return;
-    }
-    vehicle *const veh = &vp->vehicle();
-    add_msg( _( "You pull a handbrake." ) );
-    veh->cruise_velocity = 0;
-    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
-        veh->skidding = true;
-        add_msg( m_warning, _( "You lose control of %s." ), veh->name );
-        veh->turn( veh->last_turn > 0 ? 60 : -60 );
-    } else {
-        int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
-        if( std::abs( veh->velocity ) < braking_power ) {
-            veh->stop();
-        } else {
-            int sgn = veh->velocity > 0 ? 1 : -1;
-            veh->velocity = sgn * ( std::abs( veh->velocity ) - braking_power );
-        }
-    }
-    g->u.moves = 0;
-}
-
 // Establish or release a grab on a vehicle
 static void grab()
 {

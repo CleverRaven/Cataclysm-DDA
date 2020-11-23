@@ -1199,40 +1199,61 @@ static bool search( const ui_adaptor &om_ui, tripoint &curs, const tripoint &ori
     catacurses::window w_search;
 
     ui_adaptor ui;
+    int search_width = OVERMAP_LEGEND_WIDTH - 1;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w_search = catacurses::newwin( 13, 27, point( TERMX - 27, 3 ) );
+        w_search = catacurses::newwin( 13, search_width, point( TERMX - search_width, 3 ) );
 
         ui.position_from_window( w_search );
     } );
     ui.mark_resize();
 
     input_context ctxt( "OVERMAP_SEARCH" );
-    ctxt.register_leftright();
-    ctxt.register_action( "NEXT_TAB", to_translation( "Next target" ) );
-    ctxt.register_action( "PREV_TAB", to_translation( "Previous target" ) );
-    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "NEXT_TAB", to_translation( "Next result" ) );
+    ctxt.register_action( "PREV_TAB", to_translation( "Previous result" ) );
     ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         //Draw search box
+
+        int a = utf8_width( _( "Search:" ) );
+        int b = utf8_width( _( "Result:" ) );
+        int c = utf8_width( _( "Results:" ) );
+        int d = utf8_width( _( "Direction:" ) );
+        int align_width = 0;
+        int align_w_value[4] = { a, b, c, d};
+        for( int n : align_w_value ) {
+            if( n > align_width ) {
+                align_width = n + 2;
+            }
+        }
+
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_search, point( 1, 1 ), c_light_blue, _( "Search:" ) );
-        mvwprintz( w_search, point( 10, 1 ), c_light_red, "%s", right_justify( term, 12 ) );
+        mvwprintz( w_search, point( align_width, 1 ), c_light_red, "%s", term );
 
-        mvwprintz( w_search, point( 1, 2 ), c_light_blue, _( "Result(s):" ) );
-        mvwprintz( w_search, point( 16, 2 ), c_light_red, "%*d/%d", 3, i + 1, locations.size() );
+        mvwprintz( w_search, point( 1, 2 ), c_light_blue,
+                   locations.size() == 1 ? _( "Result:" ) : _( "Results:" ) );
+        mvwprintz( w_search, point( align_width, 2 ), c_light_red, "%d/%d     ", i + 1,
+                   locations.size() );
 
         mvwprintz( w_search, point( 1, 3 ), c_light_blue, _( "Direction:" ) );
-        mvwprintz( w_search, point( 14, 3 ), c_white, "%*d %s",
-                   5, static_cast<int>( trig_dist( orig, tripoint( locations[i], orig.z ) ) ),
-                   direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) )
-                 );
+        mvwprintz( w_search, point( align_width, 3 ), c_light_red, "%d %s",
+                   static_cast<int>( trig_dist( orig, tripoint( locations[i], orig.z ) ) ),
+                   direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) ) );
 
-        mvwprintz( w_search, point( 1, 6 ), c_white, _( "'<-' '->' Cycle targets." ) );
-        mvwprintz( w_search, point( 1, 10 ), c_white, _( "Enter/Spacebar to select." ) );
-        mvwprintz( w_search, point( 1, 11 ), c_white, _( "q or ESC to return." ) );
+        if( locations.size() > 1 ) {
+            fold_and_print( w_search, point( 1, 6 ), search_width, c_white,
+                            _( "Press [<color_yellow>%s</color>] or [<color_yellow>%s</color>] "
+                               "to cycle through search results." ),
+                            ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+        }
+        fold_and_print( w_search, point( 1, 10 ), search_width, c_white,
+                        _( "Press [<color_yellow>%s</color>] to confirm." ), ctxt.get_desc( "CONFIRM" ) );
+        fold_and_print( w_search, point( 1, 11 ), search_width, c_white,
+                        _( "Press [<color_yellow>%s</color>] to quit." ), ctxt.get_desc( "QUIT" ) );
         draw_border( w_search );
         wrefresh( w_search );
     } );
@@ -1247,9 +1268,9 @@ static bool search( const ui_adaptor &om_ui, tripoint &curs, const tripoint &ori
         if( uistate.overmap_blinking ) {
             uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
         }
-        if( action == "NEXT_TAB" || action == "RIGHT" ) {
+        if( action == "NEXT_TAB" ) {
             i = ( i + 1 ) % locations.size();
-        } else if( action == "PREV_TAB" || action == "LEFT" ) {
+        } else if( action == "PREV_TAB" ) {
             i = ( i + locations.size() - 1 ) % locations.size();
         } else if( action == "QUIT" ) {
             curs = prev_curs;
