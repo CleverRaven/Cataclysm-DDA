@@ -58,6 +58,6 @@
     "melee_damage": [ { "damage_type": "cold", "amount": 8 } ],
     "melee_cut": 0,
     "dodge": 3,
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "cone_cold", "min_level": 6 }, "cooldown": 20 } ]
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "cryo_blast", "min_level": 6, "max_level": 6 }, "cooldown": 20 } ]
   }
 ]
