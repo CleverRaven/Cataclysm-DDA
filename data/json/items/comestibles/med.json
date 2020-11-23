@@ -1678,6 +1678,24 @@
     "charges": 10,
     "stack_size": 10
   },
+    {
+    "id": "sugar_pills",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "homeopathic pill",
+    "description": "Some homeopathic pills, prepared through the repeated dilution of an active ingredient. The label purpots that the pills are able to treat flu-like symptoms and maintain general wellness.",
+    "weight": "1 g",
+    "volume": "100 ml",
+    "price": 1000
+    "price_postapoc": 1,
+    "fun": 1,
+    "charges": 20,
+    "stack_size": 20,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "symbol": "!",
+    "color": "white",
+    "use_action": { "type": "consume_drug", "activation_message": "You swallow the %s. You wait in anticipation of its effects.", }
+  },
   {
     "id": "inj_vitb",
     "type": "COMESTIBLE",
