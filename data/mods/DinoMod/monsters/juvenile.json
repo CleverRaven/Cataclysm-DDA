@@ -712,7 +712,7 @@
     "name": "Amargasaurus juvenile",
     "copy-from": "mon_gallimimus_juvenile",
     "description": "A juvenile Amargasaurus, seems unbothered by your presence.",
-    "default_faction": "amargasaurus",
+    "default_faction": "herbivore_dino",
     "color": "brown",
     "upgrades": { "age_grow": 100, "into": "mon_amargasaurus" },
     "flags": [
