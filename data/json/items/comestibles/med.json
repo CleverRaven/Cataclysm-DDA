@@ -1679,7 +1679,7 @@
     "stack_size": 10
   },
     {
-    "id": "sugar_pills",
+    "id": "homeopathic_pills",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": "homeopathic pill",
