@@ -99,7 +99,7 @@
     "type": "terrain",
     "id": "t_lichen_harvested",
     "name": "lichen shrub",
-    "description": "A small mound of lichen grows here, noticeably bigger than the lichen and moss around it. A few clumps have been removed",
+    "description": "A small mound of lichen grows here, noticeably bigger than the lichen and moss around it. A few clumps have been removed.",
     "symbol": ",",
     "color": "light_red",
     "move_cost": 3,
