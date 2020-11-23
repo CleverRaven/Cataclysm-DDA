@@ -2283,7 +2283,7 @@
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ], [ "scrap", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ], [ "stick", 1 ], [ "2x4", 1 ], [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3659,7 +3659,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water_clean", 2 ], [ "water", 2 ] ],
-      [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ] ],
+      [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ], [ "brain", 3 ] ],
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
       [ [ "edible_tallow_lard", 1, "LIST" ], [ "tallow_tainted", 1 ] ],
       [ [ "cured_hide", 6 ] ]
@@ -3701,7 +3701,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water_clean", 2 ], [ "water", 2 ] ],
-      [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ] ],
+      [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ], [ "brain", 3 ] ],
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
       [ [ "edible_tallow_lard", 1, "LIST" ], [ "tallow_tainted", 1 ] ],
       [ [ "cured_pelt", 6 ] ]

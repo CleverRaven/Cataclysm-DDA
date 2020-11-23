@@ -19,11 +19,12 @@
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
-    "skill_used": "tailor",
+    "skill_used": "firstaid",
     "time": "9 s",
     "autolearn": true,
     "charges": 1,
-    "components": [ [ [ "rag", 1 ] ] ]
+    "components": [ [ [ "rag", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "bandages_makeshift_bleached",
