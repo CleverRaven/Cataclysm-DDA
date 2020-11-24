@@ -150,7 +150,6 @@
     "name": { "str": "Gather meat for Bo Baronyx.  About 8 should do it." },
     "difficulty": 1,
     "value": 10000,
-    "start": { "update_mapgen": { "place_monster": { "group": "GROUP_DINOSAUR_DANGEROUS", "x": 12, "y": 12, "offset_x": 2 } } },
     "goal": "MGOAL_FIND_ITEM",
     "item": "meat",
     "count": 8,
