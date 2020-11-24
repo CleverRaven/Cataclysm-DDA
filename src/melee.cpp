@@ -666,7 +666,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     }
 }
 
-void player::reach_attack( const tripoint &p )
+void Character::reach_attack( const tripoint &p )
 {
     matec_id force_technique = tec_none;
     /** @EFFECT_MELEE >5 allows WHIP_DISARM technique */
@@ -2368,7 +2368,7 @@ double Character::unarmed_value() const
     return melee_value( item() );
 }
 
-void player::disarm( npc &target )
+void avatar::disarm( npc &target )
 {
     if( !target.is_armed() ) {
         return;
