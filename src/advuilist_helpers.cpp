@@ -13,7 +13,7 @@
 
 #include "auto_pickup.h"      // for get_auto_pickup
 #include "avatar.h"           // for avatar, get_avatar
-#include "character.h"        // for get_player_character, Character
+#include "character.h"        // for Character
 #include "color.h"            // for get_all_colors, color_manager
 #include "enums.h"            // for object_type, object_type::VEHICLE
 #include "game.h"             // for g, inventory_item_menu
@@ -187,14 +187,12 @@ aim_container_t source_ground_player_all( aim_advuilist_sourced_t *ui, pane_mute
 
 aim_container_t source_player_ground( tripoint const &offset )
 {
-    Character &u = get_player_character();
-    return source_ground( u.pos() + offset );
+    return source_ground( get_avatar().pos() + offset );
 }
 
 bool source_player_ground_avail( tripoint const &offset )
 {
-    Character &u = get_player_character();
-    return get_map().can_put_items_ter_furn( u.pos() + offset );
+    return get_map().can_put_items_ter_furn( get_avatar().pos() + offset );
 }
 
 bool source_player_dragged_avail()
@@ -209,14 +207,12 @@ bool source_player_dragged_avail()
 
 aim_container_t source_player_vehicle( tripoint const &offset )
 {
-    Character &u = get_player_character();
-    return source_vehicle( u.pos() + offset );
+    return source_vehicle( get_avatar().pos() + offset );
 }
 
 bool source_player_vehicle_avail( tripoint const &offset )
 {
-    Character &u = get_player_character();
-    return source_vehicle_avail( u.pos() + offset );
+    return source_vehicle_avail( get_avatar().pos() + offset );
 }
 
 aim_container_t source_player_dragged()
@@ -227,12 +223,12 @@ aim_container_t source_player_dragged()
 
 aim_container_t source_player_inv()
 {
-    return source_char_inv( &get_player_character() );
+    return source_char_inv( &get_avatar() );
 }
 
 aim_container_t source_player_worn()
 {
-    return source_char_worn( &get_player_character() );
+    return source_char_worn( &get_avatar() );
 }
 
 void player_take_off( aim_transaction_ui_t::select_t const &sel )
@@ -539,8 +535,7 @@ std::string iloc_entry_name( iloc_entry const &it )
 
 std::string iloc_entry_src( iloc_entry const &it )
 {
-    Character &u = get_player_character();
-    tripoint const off = it.stack.front().position() - u.pos();
+    tripoint const off = it.stack.front().position() - get_avatar().pos();
     std::size_t idx = offset_to_slotidx( off );
     return std::get<_tuple_abrev_idx>( aimsources[idx] );
 }
