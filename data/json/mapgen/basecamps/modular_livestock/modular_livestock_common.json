@@ -1,0 +1,117 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_livestock_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_0" ], "x": 15, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_0",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbml_wood_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_coop_yard_chickenwire",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "f    f",
+        "f    f",
+        "f    f",
+        "f    f",
+        "f    f",
+        "fdffff"
+      ],
+      "palettes": [ "fbml_wood_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_coop_yard_chickenwire_east",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_coop_yard_chickenwire" ], "x": 15, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_pasture0_splitrail",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "FFDFFF",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbml_wood_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_pasture0_splitrail_north",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_pasture0_splitrail" ], "x": 9, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_pasture1_splitrail",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "    FF"
+      ],
+      "palettes": [ "fbml_wood_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_pasture1_splitrail_center",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_pasture1_splitrail" ], "x": 9, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_pasture2_splitrail",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "    F ",
+        "    F ",
+        "    D ",
+        "    F ",
+        "    F ",
+        "FFDFF "
+      ],
+      "palettes": [ "fbml_wood_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_pasture2_splitrail_south",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_pasture2_splitrail" ], "x": 9, "y": 15 } ] }
+  }
+]
