@@ -223,7 +223,7 @@
     "id": "recipe_lichenlog",
     "type": "BOOK",
     "name": { "str": "Applications of Salus IV Lichen", "str_pl": "copies of Applications of Salus IV Lichen" },
-    "description": "A sheaf of notes detailing some species of lichen. Most of the information is useless to you except for the fact that the majority of Salus IV lifeform's metabolism rely on a macronutrient that acts like a neurotoxin for humans. One useful note is a detailed procedure to neutralize said neurotoxin.",
+    "description": "A sheaf of notes detailing some species of lichen.  Most of the information is useless to you except for the fact that the majority of Salus IV lifeform's metabolism rely on a macronutrient that acts like a neurotoxin for humans.  One useful note is a detailed procedure to neutralize said neurotoxin.",
     "weight": "50 g",
     "volume": "500 ml",
     "price": "5000 cent",
