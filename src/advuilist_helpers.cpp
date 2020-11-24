@@ -169,31 +169,6 @@ void _get_stacks( item *elem, iloc_stack_t *stacks, stack_cache_t *cache,
     }
 }
 
-aim_container_t source_ground_player_all( aim_advuilist_sourced_t *ui, pane_mutex_t *mutex )
-{
-    // due to operations order in advuilist_sourced, we need to reset the (previous) location mutex
-    // this fixes a bug when switching from a ground source to All in the same pane
-    using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
-    slotidx_t slotidx = std::get<slotidx_t>( ui->getSource() );
-    ( *mutex )[slotidx] = false;
-
-    aim_container_t itemlist;
-    std::size_t idx = 0;
-    tripoint const pos = get_avatar().pos();
-    for( auto const &v : aimsources ) {
-        // only consider entries with is_ground_source = true and not mutex'ed
-        if( std::get<bool>( v ) and !mutex->at( idx ) ) {
-            aim_container_t const &stacks = source_ground( pos + std::get<tripoint>( v ) );
-            itemlist.insert( itemlist.end(), std::make_move_iterator( stacks.begin() ),
-                             std::make_move_iterator( stacks.end() ) );
-        }
-        idx++;
-    }
-
-    ( *mutex )[slotidx] = true;
-    return itemlist;
-}
-
 aim_container_t source_player_ground( tripoint const &offset )
 {
     return source_ground( get_avatar().pos() + offset );
@@ -238,6 +213,40 @@ aim_container_t source_player_inv()
 aim_container_t source_player_worn()
 {
     return source_char_worn( &get_avatar() );
+}
+
+aim_container_t source_player_all( aim_advuilist_sourced_t *ui, pane_mutex_t *mutex )
+{
+    // due to operations order in advuilist_sourced, we need to reset the (previous) location mutex
+    // this fixes a bug when switching from a ground source to All in the same pane
+    using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
+    slotidx_t slotidx = std::get<slotidx_t>( ui->getSource() );
+    ( *mutex )[slotidx] = false;
+    ( *mutex )[idxtovehidx( slotidx )] = false;
+
+    aim_container_t itemlist;
+    std::size_t idx = 0;
+    for( auto const &v : aimsources ) {
+        // only consider entries with is_ground_source = true and not mutex'ed
+        if( std::get<bool>( v ) ) {
+            tripoint const off = std::get<tripoint>( v );
+            if( source_player_ground_avail( off ) and !mutex->at( idx ) ) {
+                aim_container_t const &stacks = source_player_ground( off );
+                itemlist.insert( itemlist.end(), std::make_move_iterator( stacks.begin() ),
+                                 std::make_move_iterator( stacks.end() ) );
+            }
+            if( source_player_vehicle_avail( off ) and !mutex->at( idxtovehidx( idx ) ) ) {
+                aim_container_t const &stacks = source_player_vehicle( off );
+                itemlist.insert( itemlist.end(), std::make_move_iterator( stacks.begin() ),
+                                 std::make_move_iterator( stacks.end() ) );
+            }
+        }
+        idx++;
+    }
+
+    ( *mutex )[slotidx] = true;
+    ( *mutex )[idxtovehidx( slotidx )] = true;
+    return itemlist;
 }
 
 void player_take_off( aim_transaction_ui_t::select_t const &sel )
@@ -794,7 +803,7 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t *mutex 
                 }
                 case SOURCE_ALL_i: {
                     _fs = [ = ]() {
-                        return source_ground_player_all( myadvuilist, mutex );
+                        return source_player_all( myadvuilist, mutex );
                     };
                     _fsb = [ = ]() {
                         return !mutex->at( ALL_IDX );
