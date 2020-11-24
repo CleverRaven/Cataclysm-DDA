@@ -546,6 +546,22 @@ recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation>
         return pos_name_ids.front();
     }
 
+    std::string swap_name;
+    recipe_id swap_id;
+
+    for (size_t i = 0; i < pos_names.size() - 1; i++) {
+        for (size_t k = i + 1; k < pos_names.size(); k++) {
+            if (pos_names[i] > pos_names[k]) {
+                swap_name = pos_names[k];
+                swap_id = pos_name_ids[k];
+                pos_names[k] = pos_names[i];
+                pos_name_ids[k] = pos_name_ids[i];
+                pos_names[i] = swap_name;
+                pos_name_ids[i] = swap_id;
+            }
+        }
+    }
+
     const int choice = uilist( option, pos_names );
     if( choice < 0 || static_cast<size_t>( choice ) >= pos_name_ids.size() ) {
         popup( _( "You choose to wait…" ) );
