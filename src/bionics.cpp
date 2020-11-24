@@ -994,7 +994,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
                     add_msg_if_player( m_info,
                                        _( "You have a cable plugged to a portable power source, but you need to plug it in to the CBM." ) );
                 }
-                if( state == "pay_oyt_cable" ) {
+                if( state == "pay_out_cable" ) {
                     add_msg_if_player( m_info,
                                        _( "You have a cable plugged to a vehicle, but you need to plug it in to the CBM." ) );
                 }
