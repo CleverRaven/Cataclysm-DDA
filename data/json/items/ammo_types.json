@@ -688,5 +688,11 @@
     "id": "glowstick_juice",
     "name": "glowstick juice",
     "default": "glowstick_juice"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "cannon",
+    "name": "cannon",
+    "default": "cannon_shot"
   }
 ]

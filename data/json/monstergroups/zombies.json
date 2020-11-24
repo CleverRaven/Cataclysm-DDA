@@ -583,6 +583,16 @@
     ]
   },
   {
+    "name": "GROUP_FORT",
+    "type": "monstergroup",
+    "default": "mon_zombie_reenactor",
+    "monsters": [
+      { "monster": "mon_zombie", "freq": 25, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_child", "freq": 25, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zombie_reenactor", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
     "name": "GROUP_FERROUS_UPGRADE",
     "type": "monstergroup",
     "default": "mon_zombie_rust",

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "cannon_3in_ordnance",
+    "looks_like": "remington_870",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "3-inch ordnance rifle" },
+    "description": "A light cannon widely used in the American Civil War, noted for its reliability.",
+    "weight": "371946 g",
+    "volume": "134 L",
+    "longest_side": "185 cm",
+    "price": 35000,
+    "price_postapoc": 1000,
+    "to_hit": -4,
+    "bashing": 50,
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "cannon" ],
+    "skill": "launcher",
+    "dispersion": 855,
+    "durability": 3,
+    "loudness": 300,
+    "clip_size": 1,
+    "reload": 30000,
+    "valid_mod_locations": [  ],
+    "flags": [ "MOUNTED_GUN" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "cannon": 1 } } ]
+  }
+]
