@@ -188,10 +188,7 @@
     },
     "goal": "MGOAL_FIND_MONSTER",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "end": {
-      "effect": [ { "u_add_var": "NC_SWAMPER_MISSION_2", "type": "general", "context": "mission", "value": "yes" } ],
-      "update_mapgen": { "place_monster": { "group": "GROUP_DINOSAUR_DANGEROUS", "x": 12, "y": 12, "offset_y": 2 } }
-    },
+    "end": { "effect": [ { "u_add_var": "NC_SWAMPER_MISSION_2", "type": "general", "context": "mission", "value": "yes" } ] },
     "dialogue": {
       "describe": "We serve the eaters",
       "offer": "A little eater has been lost in all of this chaos.  Go search for her and bring her back safely.",
