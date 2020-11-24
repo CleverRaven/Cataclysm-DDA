@@ -384,7 +384,7 @@ void book_proficiency_bonus::deserialize( JsonIn &jsin )
 
 book_proficiency_bonus book_proficiency_bonus::operator+=( const book_proficiency_bonus &rhs )
 {
-    if( id != rhs.id ) {
+    if( !id.is_empty() && id != rhs.id ) {
         debugmsg( "ERROR: Tried to add two book proficiency bonuses with different ids" );
         // can't add them together unless the ids are the same
         return *this;
