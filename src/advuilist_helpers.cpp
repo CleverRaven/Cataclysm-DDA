@@ -218,11 +218,17 @@ aim_container_t source_player_worn()
 aim_container_t source_player_all( aim_advuilist_sourced_t *ui, pane_mutex_t *mutex )
 {
     // due to operations order in advuilist_sourced, we need to reset the (previous) location mutex
-    // this fixes a bug when switching from a ground source to All in the same pane
+    // this fixes a bug when switching from a ground or vehicle source to All in the same pane
     using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
-    slotidx_t slotidx = std::get<slotidx_t>( ui->getSource() );
-    ( *mutex )[slotidx] = false;
-    ( *mutex )[idxtovehidx( slotidx )] = false;
+    using icon_t = aim_advuilist_sourced_t::icon_t;
+    slotidx_t slotidx = 0;
+    icon_t icon = 0;
+    std::tie( slotidx, icon ) = ui->getSource();
+    if( !is_vehicle( icon ) ) {
+        ( *mutex )[slotidx] = false;
+    } else {
+        ( *mutex )[idxtovehidx( slotidx )] = false;
+    }
 
     aim_container_t itemlist;
     std::size_t idx = 0;
@@ -244,8 +250,6 @@ aim_container_t source_player_all( aim_advuilist_sourced_t *ui, pane_mutex_t *mu
         idx++;
     }
 
-    ( *mutex )[slotidx] = true;
-    ( *mutex )[idxtovehidx( slotidx )] = true;
     return itemlist;
 }
 
