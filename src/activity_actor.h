@@ -912,8 +912,7 @@ class reload_activity_actor : public activity_actor
         std::vector<item_location> reload_targets{};
 
         bool can_reload() const;
-        void reload_gun( Character &who, item &reloadable, item &ammo ) const;
-        void make_reload_sound( Character &who, item &reloadable ) const;
+        static void make_reload_sound( Character &who, item &reloadable );
 
 
 };

@@ -1554,7 +1554,7 @@ void options_manager::add_options_interface()
        );
 
     add( "ACHIEVEMENT_COMPLETED_POPUP", "interface",
-         to_translation( "Popup window when achievmement completed" ),
+         to_translation( "Popup window when achievement completed" ),
          to_translation( "Whether to trigger a popup window when completing an achievement.  "
                          "First: when completing an achievement that has not been completed in "
     "a previous game." ), {
@@ -2580,8 +2580,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
     input_context ctxt( "OPTIONS" );
     ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
@@ -2821,8 +2821,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                    get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
             continue;
         }
-        int recmax = static_cast<int>( page_items.size() );
-        int scroll_rate = recmax > 20 ? 10 : 3;
+        const int recmax = static_cast<int>( page_items.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "DOWN" ) {
             do {
