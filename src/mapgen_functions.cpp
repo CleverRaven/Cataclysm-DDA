@@ -895,27 +895,95 @@ void mapgen_road( mapgendata &dat )
         }
 
         // four-way intersections
-        if( num_dirs == 4 && one_in( 2 ) ) {
-            m->furn_set( point( 3, 3 ), f_traffic_light );
-            m->furn_set( point( 3, 20 ), f_traffic_light );
-            m->furn_set( point( 20, 3 ), f_traffic_light );
-            m->furn_set( point( 20, 20 ), f_traffic_light );
+        if( num_dirs == 4 ) {
+            if( one_in( 2 ) &&
+                m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( i, 1 ), t_zebra );
+                    m->ter_set( point( i, 2 ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( 21, i ), t_zebra );
+                    m->ter_set( point( 22, i ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 3, 21 ) ) == t_sidewalk && m->ter( point( 20, 22 ) ) == t_sidewalk ) {
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( i, 21 ), t_zebra );
+                    m->ter_set( point( i, 22 ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( 1, i ), t_zebra );
+                    m->ter_set( point( 2, i ), t_zebra );
+                }
+            }
 
-            line( m, t_pavement_y, point( 4, 0 ), point( 10, 0 ) );
-            line( m, t_pavement_y, point( 23, 4 ), point( 23, 10 ) );
-            line( m, t_pavement_y, point( 13, 23 ), point( 19, 23 ) );
-            line( m, t_pavement_y, point( 0, 13 ), point( 0, 19 ) );
+            if( one_in( 2 ) ) {
+                m->furn_set( point( 3, 3 ), f_traffic_light );
+                m->furn_set( point( 3, 20 ), f_traffic_light );
+                m->furn_set( point( 20, 3 ), f_traffic_light );
+                m->furn_set( point( 20, 20 ), f_traffic_light );
+
+                line( m, t_pavement_y, point( 4, 0 ), point( 10, 0 ) );
+                line( m, t_pavement_y, point( 23, 4 ), point( 23, 10 ) );
+                line( m, t_pavement_y, point( 13, 23 ), point( 19, 23 ) );
+                line( m, t_pavement_y, point( 0, 13 ), point( 0, 19 ) );
+            }
+
         }
 
         // tee-shaped roads
-        if( num_dirs == 3 && one_in( 2 ) ) {
-            m->furn_set( point( 3, 3 ), f_traffic_light );
-            m->furn_set( point( 20, 3 ), f_traffic_light );
-            m->furn_set( point( 3, 20 ), f_traffic_light );
+        if( num_dirs == 3 ) {
+            if( one_in( 2 ) &&
+                m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( i, 1 ), t_zebra );
+                    m->ter_set( point( i, 2 ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( 21, i ), t_zebra );
+                    m->ter_set( point( 22, i ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( 1, i ), t_zebra );
+                    m->ter_set( point( 2, i ), t_zebra );
+                }
+            }
 
-            line( m, t_pavement_y, point( 23, 4 ), point( 23, 10 ) );
-            line( m, t_pavement_y, point( 4, 0 ), point( 10, 0 ) );
-            line( m, t_pavement_y, point( 0, 13 ), point( 0, 19 ) );
+            if( one_in( 2 ) ) {
+                m->furn_set( point( 3, 3 ), f_traffic_light );
+                m->furn_set( point( 20, 3 ), f_traffic_light );
+                m->furn_set( point( 3, 20 ), f_traffic_light );
+
+                line( m, t_pavement_y, point( 23, 4 ), point( 23, 10 ) );
+                line( m, t_pavement_y, point( 4, 0 ), point( 10, 0 ) );
+                line( m, t_pavement_y, point( 0, 13 ), point( 0, 19 ) );
+            }
+        }
+
+        // ordinary straight roads
+        if( num_dirs == 2 && !diag && one_in( 10 ) ) {
+            for( int i = 4; i < 20; i += 2 ) {
+                m->ter_set( point( i, 13 ), t_zebra );
+                m->ter_set( point( i, 14 ), t_zebra );
+            }
+            if( one_in( 2 ) ) {
+                m->furn_set( point( 3, 12 ), f_traffic_light );
+                m->furn_set( point( 20, 15 ), f_traffic_light );
+            }
         }
     }
 
