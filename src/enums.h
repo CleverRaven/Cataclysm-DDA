@@ -334,7 +334,9 @@ struct enum_traits<reachability_cache_quadrant> {
     static constexpr int size = static_cast<int>( last ) + 1;
 
     inline static reachability_cache_quadrant quadrant( bool S, bool W ) {
-        return static_cast<reachability_cache_quadrant>( ( W << 1 ) | S );
+        return static_cast<reachability_cache_quadrant>(
+                   ( static_cast<int>( W ) << 1 ) | static_cast<int>( S )
+               );
     }
 };
 

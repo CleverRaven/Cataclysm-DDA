@@ -4616,26 +4616,28 @@ bool mattack::slimespring( monster *z )
             //~ Lowercase is intended: they're small voices.
             add_msg( _( "\"let me help!\"" ) );
             // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
-            if( player_character.has_effect( effect_bite ) ) {
-                if( one_in( 3 ) ) {
-                    player_character.remove_effect( effect_bite );
-                    add_msg( m_good, _( "The slime cleans you out!" ) );
-                } else {
-                    add_msg( _( "The slime flows over you, but your gouges still ache." ) );
+            for( const bodypart_id &bp_healed :
+                 player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                if( player_character.has_effect( effect_bite, bp_healed.id() ) ) {
+                    if( one_in( 3 ) ) {
+                        player_character.remove_effect( effect_bite, bp_healed );
+                        add_msg( m_good, _( "The slime cleans you out!" ) );
+                    } else {
+                        add_msg( _( "The slime flows over you, but your gouges still ache." ) );
+                    }
                 }
-            }
-            if( player_character.has_effect( effect_bleed ) ) {
-                if( one_in( 2 ) ) {
-                    effect &e = player_character.get_effect( effect_bleed );
-                    e.mod_duration( -e.get_int_dur_factor() * rng( 1, 5 ) );
-                    add_msg( m_good, _( "The slime seals up your leaks!" ) );
-                } else {
-                    add_msg( _( "The slime flows over you, but your fluids are still leaking." ) );
+                if( player_character.has_effect( effect_bleed, bp_healed.id() ) ) {
+                    if( one_in( 2 ) ) {
+                        effect &e = player_character.get_effect( effect_bleed, bp_healed );
+                        e.mod_duration( -e.get_int_dur_factor() * rng( 1, 5 ) );
+                        add_msg( m_good, _( "The slime seals up your leaks!" ) );
+                    } else {
+                        add_msg( _( "The slime flows over you, but your fluids are still leaking." ) );
+                    }
                 }
             }
         }
     }
-
     return true;
 }
 

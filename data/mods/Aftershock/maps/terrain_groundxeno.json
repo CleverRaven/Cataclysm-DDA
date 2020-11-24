@@ -1,0 +1,118 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_lichen",
+    "name": "lichen",
+    "description": "Many colorful species of ice-lichen, thriving above an uncharacteristically fertile segment of ice.  Either endemic, or surviving genecraft from an aborted terraforming project.",
+    "symbol": ",",
+    "looks_like": "t_underbrush_harvested_spring_season_autumn",
+    "color": "light_red",
+    "move_cost": 4,
+    "coverage": 40,
+    "flags": [ "DIGGABLE", "FLAT", "FLAMMABLE_ASH", "TRANSPARENT" ],
+    "bash": { "str_min": 4, "str_max": 30, "sound": "splosh.", "sound_fail": "brush.", "ter_set": "t_ice" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_lichendirt",
+    "name": "grass",
+    "description": "Familiar, yet unfamiliar.  Lichens and moss cling to rocks and lifeless dirt here, providing a squishy but colorful grass.",
+    "symbol": ",",
+    "looks_like": "t_underbrush_harvested_spring_season_autumn",
+    "color": "light_red",
+    "move_cost": 4,
+    "coverage": 40,
+    "flags": [ "DIGGABLE", "FLAT", "FLAMMABLE_ASH", "TRANSPARENT" ],
+    "bash": { "str_min": 4, "str_max": 30, "sound": "splosh.", "sound_fail": "brush.", "ter_set": "t_ice" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ice",
+    "name": "glacial ice",
+    "looks_like": "t_dirt_season_winter",
+    "description": "A small segment from the near planet-wide glacier of Salus IV.  Gets called 'ground' around these parts.",
+    "symbol": ".",
+    "color": "light_blue",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "ROUGH" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "splosh!",
+      "sound_fail": "fweet!",
+      "ter_set": "t_null",
+      "str_min_supported": 100,
+      "bash_below": true
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_deaddirt",
+    "name": "dirt",
+    "looks_like": "t_dirt_season_winter",
+    "description": "A relatively flat area of black dirt with no observable growth on it, caked with shards of rock.  The only real ground besides the glacial ice.",
+    "symbol": ".",
+    "color": "light_blue",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "ROUGH" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "splosh!",
+      "sound_fail": "fweet!",
+      "ter_set": "t_null",
+      "str_min_supported": 100,
+      "bash_below": true
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_basaltfloor",
+    "name": "basalt floor",
+    "looks_like": "t_dirt_season_winter",
+    "description": "A relatively flat area of gray stone, warm to the touch.",
+    "symbol": ".",
+    "color": "light_blue",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "ROUGH" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "splosh!",
+      "sound_fail": "fweet!",
+      "ter_set": "t_null",
+      "str_min_supported": 100,
+      "bash_below": true
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_geo_vent",
+    "name": "geothermal vent",
+    "description": "A basalt column stands here, perpetually emitting foul smelling gas, similar to rotten eggs.  It is very warm to the touch, hot enough to be burning if you aren't careful.",
+    "symbol": "O",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 65,
+    "required_str": -1,
+    "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND", "EMITTER" ],
+    "emissions": [ "emit_smoke_plume" ],
+    "//": [
+      "right now this doesn't give off heat, but it would be great to add to this and make it do so, especially once managing cold starts to get added in"
+    ],
+    "bash": {
+      "str_min": 65,
+      "str_max": 160,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "rock", "count": [ 10, 22 ] },
+        { "item": "sharp_rock", "count": [ 3, 7 ] },
+        { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
+        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 },
+        { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },
+        { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 }
+      ]
+    }
+  }
+]

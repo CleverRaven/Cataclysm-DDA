@@ -2909,7 +2909,7 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "pants", "dress_shirt", "blazer", "socks", "dress_shoes", "wristwatch" ],
+        "items": [ "pants", "dress_shirt", "blazer", "socks", "dress_shoes", "wristwatch", "camera_bag" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" }

@@ -7,6 +7,9 @@ clone_folder: C:\Projects\Cataclysm-DDA
 cache:
   - c:\tools\vcpkg\installed
   - c:\Users\appveyor\AppData\Local\vcpkg\
+install:
+ - cmd: vcpkg install yasm-tool:x86-windows
+ - cmd: vcpkg install mpg123:x64-windows-static
 build:
   project: /msvc-full-features/Cataclysm-vcpkg-static.sln
   parallel: true

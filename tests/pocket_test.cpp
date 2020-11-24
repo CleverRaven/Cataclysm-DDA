@@ -6,6 +6,7 @@
 #include "enums.h"
 #include "flag.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "optional.h"
@@ -1063,6 +1064,14 @@ static bool has_best_pocket( item &container, const item &thing )
     return container.best_pocket( thing, loc ).second != nullptr;
 }
 
+/** Returns the only pocket for an item. */
+static item_pocket *get_only_pocket( item &container )
+{
+    ret_val<std::vector<item_pocket *>> pockets = container.contents.get_all_contained_pockets();
+    REQUIRE( pockets.value().size() == 1 );
+    return pockets.value()[0];
+}
+
 TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
 {
     item_location loc;
@@ -1146,6 +1155,151 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         REQUIRE( can.seal() ); // This must succeed, or next assertion is meaningless
         // Now sealed, the can cannot be best_pocket for liquid
         CHECK_FALSE( has_best_pocket( can, liquid ) );
+    }
+
+    SECTION( "pockets with favorite settings" ) {
+        item liquid( "test_liquid" );
+
+        WHEN( "item is blacklisted" ) {
+            item skin( "test_waterskin" );
+            REQUIRE( has_best_pocket( skin, liquid ) );
+            get_only_pocket( skin )->settings.blacklist_item( liquid.typeId() );
+
+            THEN( "pocket cannot be best pocket" ) {
+                CHECK_FALSE( has_best_pocket( skin, liquid ) );
+            }
+        }
+
+        WHEN( "item is whitelisted" ) {
+            item skin( "test_waterskin" );
+            REQUIRE( has_best_pocket( skin, liquid ) );
+            get_only_pocket( skin )->settings.whitelist_item( liquid.typeId() );
+
+            THEN( "pocket can be best pocket" ) {
+                CHECK( has_best_pocket( skin, liquid ) );
+            }
+        }
+    }
+}
+
+TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
+{
+    item_location loc;
+
+    item test_item( "test_rock" );
+
+    item test_item_same_category( "test_rag" );
+    REQUIRE( test_item.get_category_shallow().id ==
+             test_item_same_category.get_category_shallow().id );
+    REQUIRE_FALSE( test_item.typeId() == test_item_same_category.typeId() );
+
+    item test_item_different_category( "test_apple" );
+    REQUIRE_FALSE( test_item.get_category_shallow().id ==
+                   test_item_different_category.get_category_shallow().id );
+    REQUIRE_FALSE( test_item.typeId() == test_item_different_category.typeId() );
+
+    // Default settings allow all items
+    SECTION( "no favourites" ) {
+        WHEN( "no whitelist or blacklist specified" ) {
+            item_pocket::favorite_settings settings;
+            THEN( "all items allowed" ) {
+                CHECK( settings.accepts_item( test_item ) );
+                CHECK( settings.accepts_item( test_item_same_category ) );
+                CHECK( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+    }
+
+    SECTION( "blacklists" ) {
+        WHEN( "item category blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_category( test_item.get_category_shallow().id );
+            THEN( "that category blocked" ) {
+                REQUIRE_FALSE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "item blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_item( test_item.typeId() );
+            THEN( "that item blocked" ) {
+                REQUIRE_FALSE( settings.accepts_item( test_item ) );
+                REQUIRE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+    }
+
+    SECTION( "whitelists" ) {
+        WHEN( "item category whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_category( test_item.get_category_shallow().id );
+            THEN( "other categories blocked" ) {
+                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "item whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_item( test_item.typeId() );
+            THEN( "other items blocked" ) {
+                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+    }
+
+    SECTION( "mixing whitelist and blacklists" ) {
+        WHEN( "category whitelisted but item blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_category( test_item.get_category_shallow().id );
+            settings.blacklist_item( test_item.typeId() );
+            THEN( "item blacklist override category allownace" ) {
+                REQUIRE_FALSE( settings.accepts_item( test_item ) );
+                REQUIRE( settings.accepts_item( test_item_same_category ) );
+                // Not blacklisted, but not whitelisted either
+                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "category whitelisted and item whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_category( test_item.get_category_shallow().id );
+            settings.whitelist_item( test_item.typeId() );
+            THEN( "both category and item must match" ) {
+                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "category blacklisted but item whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_category( test_item.get_category_shallow().id );
+            settings.whitelist_item( test_item.typeId() );
+            THEN( "item allowance override category restrictions" ) {
+                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                // Not blacklisted, but not whitelisted either
+                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "category blacklisted and item blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_category( test_item_different_category.get_category_shallow().id );
+            settings.blacklist_item( test_item_same_category.typeId() );
+            THEN( "both category and item are blocked" ) {
+                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
     }
 }
 

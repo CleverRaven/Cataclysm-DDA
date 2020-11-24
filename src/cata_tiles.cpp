@@ -2124,9 +2124,6 @@ bool cata_tiles::draw_sprite_at(
                 break;
             case 1:
                 // 90 degrees (and 270, with just two sprites)
-#if defined(_WIN32)
-                destination.y -= 1;
-#endif
                 if( !tile_iso ) {
                     // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, -90, nullptr,
@@ -2149,9 +2146,6 @@ bool cata_tiles::draw_sprite_at(
                 break;
             case 3:
                 // 270 degrees
-#if defined(_WIN32)
-                destination.x -= 1;
-#endif
                 if( !tile_iso ) {
                     // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 90, nullptr,
@@ -2759,7 +2753,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         char part_mod = 0;
         const std::string &vp_id = veh.part_id_string( veh_part, part_mod );
         const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
-        const int rotation = to_degrees( veh.face.dir() );
+        const int rotation = std::round( to_degrees( veh.face.dir() ) );
         const std::string vpname = "vp_" + vp_id;
         avatar &you = get_avatar();
         if( !veh.forward_velocity() && !veh.player_in_control( you ) &&

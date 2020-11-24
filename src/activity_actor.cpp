@@ -2043,6 +2043,10 @@ static std::list<item> obtain_activity_items(
                            parent ) == unhandled_containers.end() ) {
                 unhandled_containers.emplace_back( parent );
             }
+        } else {
+            // when parent's encumbrance cannot be marked as dirty,
+            // mark character's encumbrance as dirty instead (correctness over performance)
+            who.set_check_encumbrance( true );
         }
         // Take off the item or remove it from the player's inventory
         if( who.is_worn( *loc ) ) {
@@ -2197,6 +2201,72 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
     return actor.clone();
 }
 
+void burrow_activity_actor::start( player_activity &act, Character &who )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+    who.add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
+                           here.tername( burrow_position ), burrow_tool );
+}
+
+void burrow_activity_actor::do_turn( player_activity &, Character & )
+{
+    sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( burrow_position ) );
+    if( calendar::once_every( 1_minutes ) ) {
+        sounds::sound( burrow_position, 10, sounds::sound_t::movement,
+                       //~ Sound of a Rat mutant burrowing!
+                       _( "ScratchCrunchScrabbleScurry." ) );
+    }
+
+}
+
+void burrow_activity_actor::finish( player_activity &act, Character &who )
+{
+
+    if( here.is_bashable( burrow_position ) && here.has_flag( "SUPPORTS_ROOF", burrow_position ) &&
+        here.ter( burrow_position ) != t_tree ) {
+        // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
+        // Not quite as bad as the pickaxe, though
+        who.mod_stored_nutr( 10 );
+        who.mod_thirst( 10 );
+        who.mod_fatigue( 15 );
+        who.mod_pain( 3 * rng( 1, 3 ) );
+    } else if( here.move_cost( burrow_position ) == 2 && here.get_abs_sub().z == 0 &&
+               here.ter( burrow_position ) != t_dirt && here.ter( burrow_position ) != t_grass ) {
+        //Breaking up concrete on the surface? not nearly as bad
+        who.mod_stored_nutr( 5 );
+        who.mod_thirst( 5 );
+        who.mod_fatigue( 10 );
+    }
+    who.add_msg_if_player( m_good, _( "You finish burrowing." ) );
+    here.destroy( burrow_position, true );
+
+    act.set_to_null();
+}
+
+void burrow_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "burrow_position", burrow_position );
+    jsout.member( "burrow_tool", burrow_tool );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> burrow_activity_actor::deserialize( JsonIn &jsin )
+{
+    burrow_activity_actor actor {};
+
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "burrow_position", actor.burrow_position );
+    data.read( "burrow_tool", actor.burrow_tool );
+
+    return actor.clone();
+}
+
 bool reload_activity_actor::can_reload() const
 {
     if( reload_targets.size() != 2 || quantity <= 0 ) {
@@ -2223,19 +2293,7 @@ void reload_activity_actor::start( player_activity &act, Character &/*who*/ )
     act.moves_left = moves_total;
 }
 
-void reload_activity_actor::reload_gun( Character &who, item &reloadable, item &ammo ) const
-{
-    const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
-    who.recoil = MAX_RECOIL;
-    if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
-        for( int i = 0; i != quantity; ++i ) {
-            add_msg( m_neutral, _( "You insert one %2$s into the %1$s." ), reloadable.tname(), ammo.tname() );
-        }
-    }
-    make_reload_sound( who, reloadable );
-}
-
-void reload_activity_actor::make_reload_sound( Character &who, item &reloadable ) const
+void reload_activity_actor::make_reload_sound( Character &who, item &reloadable )
 {
     if( reloadable.type->gun->reload_noise_volume > 0 ) {
         sfx::play_variant_sound( "reload", reloadable.typeId().str(),
@@ -2254,10 +2312,11 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
 
     item &reloadable = *reload_targets[ 0 ];
     item &ammo = *reload_targets[ 1 ];
-    std::string reloadable_name = reloadable.tname();
-    std::string ammo_name = ammo.tname();
+    const std::string reloadable_name = reloadable.tname();
     // cache check results because reloading deletes the ammo item
+    const std::string ammo_name = ammo.tname();
     const bool ammo_is_filthy = ammo.is_filthy();
+    const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
 
     if( !reloadable.reload( who, std::move( reload_targets[ 1 ] ), quantity ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable_name );
@@ -2275,7 +2334,11 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( reloadable.is_gun() ) {
-        reload_gun( who, reloadable, ammo );
+        who.recoil = MAX_RECOIL;
+        if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
+            add_msg( m_neutral, _( "You insert %dx %s into the %s." ), quantity, ammo_name, reloadable_name );
+        }
+        make_reload_sound( who, reloadable );
     } else if( reloadable.is_watertight_container() ) {
         add_msg( m_neutral, _( "You refill the %s." ), reloadable_name );
     } else {
@@ -2309,7 +2372,6 @@ std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonIn &jsin
     data.read( "moves_total", actor.moves_total );
     data.read( "qty", actor.quantity );
     data.read( "reload_targets", actor.reload_targets );
-
     return actor.clone();
 }
 
@@ -2384,9 +2446,6 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
 
     return actor.clone();
 }
-
-
-
 namespace activity_actors
 {
 
@@ -2394,6 +2453,7 @@ namespace activity_actors
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
+    { activity_id( "ACT_BURROW" ), &burrow_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },

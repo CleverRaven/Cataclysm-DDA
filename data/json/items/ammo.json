@@ -904,7 +904,7 @@
     "name": { "str": "RA21E medical ampoule" },
     "symbol": "=",
     "color": "cyan",
-    "description": "A tiny glass vial filled with advanced fast-healing chemicals which can only be activated by a Rivtech jet injector device.  A label on the side warns against using more than two doses per hour.",
+    "description": "A tiny glass vial filled with advanced fast-healing chemicals which can only be activated by a Rivtech jet injector device.  The packaged instructions describe its efficacy in dealing with infections, wounds, intoxications, envenomations, and general tiredness in enthusiastic detail.  A short safety section at the end warn - in much smaller typeface - against using more than two doses per hour.",
     "material": [ "glass" ],
     "volume": "250 ml",
     "weight": "1 g",

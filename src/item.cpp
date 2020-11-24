@@ -5832,7 +5832,10 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     float relative_encumbrance = 1.0f;
     // Additional encumbrance from non-rigid pockets
     if( !( flags & encumber_flags::assume_full ) ) {
-        if( !cached_relative_encumbrance ) {
+        // p.get_check_encumbrance() may be set when it's not possible
+        // to reset `cached_relative_encumbrance` for individual items
+        // (e.g. when dropping via AIM, see #42983)
+        if( !cached_relative_encumbrance || p.get_check_encumbrance() ) {
             cached_relative_encumbrance = contents.relative_encumbrance();
         }
         relative_encumbrance = *cached_relative_encumbrance;
@@ -7182,13 +7185,13 @@ int item::get_chapters() const
     return type->book->chapters;
 }
 
-int item::get_remaining_chapters( const player &u ) const
+int item::get_remaining_chapters( const Character &u ) const
 {
     const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
     return get_var( var, get_chapters() );
 }
 
-void item::mark_chapter_as_read( const player &u )
+void item::mark_chapter_as_read( const Character &u )
 {
     const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
     if( type->book && type->book->chapters == 0 ) {

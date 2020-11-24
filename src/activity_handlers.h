@@ -125,7 +125,6 @@ namespace activity_handlers
 
 bool resume_for_multi_activities( player &p );
 /** activity_do_turn functions: */
-void burrow_do_turn( player_activity *act, player *p );
 void fill_liquid_do_turn( player_activity *act, player *p );
 void pickaxe_do_turn( player_activity *act, player *p );
 void drop_do_turn( player_activity *act, player *p );
@@ -186,7 +185,6 @@ extern const std::map< activity_id, std::function<void( player_activity *, playe
 do_turn_functions;
 
 /** activity_finish functions: */
-void burrow_finish( player_activity *act, player *p );
 void butcher_finish( player_activity *act, player *p );
 void firstaid_finish( player_activity *act, player *p );
 void fish_finish( player_activity *act, player *p );
