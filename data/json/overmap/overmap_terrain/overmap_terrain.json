@@ -647,7 +647,6 @@
     "name": "bastion fort",
     "sym": "F",
     "color": "red",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   }
 ]
