@@ -562,7 +562,7 @@ bool iloc_entry_damage_sorter( iloc_entry const &l, iloc_entry const &r )
 
 bool iloc_entry_spoilage_sorter( iloc_entry const &l, iloc_entry const &r )
 {
-    return l.stack.front()->spoilage_sort_order() > r.stack.front()->spoilage_sort_order();
+    return l.stack.front()->spoilage_sort_order() < r.stack.front()->spoilage_sort_order();
 }
 
 bool iloc_entry_price_sorter( iloc_entry const &l, iloc_entry const &r )
