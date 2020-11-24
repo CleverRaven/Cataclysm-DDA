@@ -80,7 +80,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4819;4146;26495;26444;26451;4068</DisableSpecificWarnings>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
-      <AdditionalOptions>/bigobj /utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/bigobj /utf-8 /DQT_STATICPLUGIN %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;_CONSOLE;LOCALIZE;USE_VCPKG;QT_NO_KEYWORDS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 
       <LanguageStandard>stdcpp14</LanguageStandard>
