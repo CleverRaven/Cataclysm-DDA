@@ -1,12 +1,15 @@
 #ifndef CATA_SRC_ADVUILIST_SOURCED_H
 #define CATA_SRC_ADVUILIST_SOURCED_H
 
+#include <cstddef>     // for size_t
+#include <cstdint>     // for uint64_t
 #include <functional>  // for function
 #include <map>         // for map
 #include <memory>      // for shared_ptr, __shared_ptr_access
 #include <string>      // for string, basic_string, operator==
 #include <tuple>       // for tuple
 #include <type_traits> // for declval
+#include <utility>     // for pair
 
 #include "advuilist.h"        // for advuilist
 #include "advuilist_const.h"  // for ACTION_*
@@ -36,10 +39,10 @@ class advuilist_sourced : public advuilist<Container, T>
         using fctxt_t = typename advuilist<Container, T>::fctxt_t;
         using select_t = typename advuilist<Container, T>::select_t;
 
-        advuilist_sourced( point const &srclayout, point size = { -9, -9 },
-                           point origin = { -9, -9 },
-                           std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT,
-                           point reserved_rows = { 2, 1 } );
+        explicit advuilist_sourced( point const &srclayout, point size = { -9, -9 },
+                                    point origin = { -9, -9 },
+                                    std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT,
+                                    point reserved_rows = { 2, 1 } );
 
         /// binds a new source to slot
         void addSource( slotidx_t slot, source_t const &src );
@@ -210,7 +213,7 @@ void advuilist_sourced<Container, T>::initui()
     } );
     _mapui->mark_resize();
 
-    _mapui->on_redraw( [&]( const ui_adaptor & ) {
+    _mapui->on_redraw( [&]( const ui_adaptor & /*ui*/ ) {
         werase( _w );
         draw_border( _w );
         _printmap();

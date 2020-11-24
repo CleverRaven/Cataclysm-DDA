@@ -1,16 +1,22 @@
 #include "advanced_inv.h"
 
-#include <memory>  // for unique_ptr
-#include <string>  // for operator==, basic_string, string
-#include <utility> // for move
-#include <vector>  // for vector
+#include <algorithm> // for max
+#include <memory>    // for unique_ptr
+#include <string>    // for operator==, basic_string, string
+#include <tuple>     // for tie
+#include <utility>   // for move
+#include <vector>    // for vector
 
-#include "activity_type.h"     // for activity_id
+#include "advuilist.h"         // for advuilist<>::groupcont_t, advuili...
 #include "advuilist_helpers.h" // for add_aim_sources, setup_for_aim, iloc_...
-#include "debug.h"             // for debugmsg
+#include "advuilist_sourced.h" // for advuilist_sourced
 #include "options.h"           // for get_option
+#include "output.h"            // for TERMX, FULL_SCREEN_WIDTH, TERMY
 #include "panels.h"            // for panel_manager
+#include "point.h"             // for point
 #include "transaction_ui.h"    // for transaction_ui<>::advuilist_t, transa...
+#include "uistate.h"           // for uistate, uistatedata
+#include "units.h"             // for mass, volume, operator""_kilogram
 
 namespace
 {
@@ -69,8 +75,10 @@ void create_advanced_inv()
 
     }
 
-    aim_advuilist_sourced_t::slotidx_t lidx, ridx;
-    aim_advuilist_sourced_t::icon_t licon, ricon;
+    aim_advuilist_sourced_t::slotidx_t lidx = 0;
+    aim_advuilist_sourced_t::slotidx_t ridx = 0;
+    aim_advuilist_sourced_t::icon_t licon = 0;
+    aim_advuilist_sourced_t::icon_t ricon = 0;
     std::tie( lidx, licon ) = mytrui->left()->getSource();
     std::tie( ridx, ricon ) = mytrui->right()->getSource();
     lidx = licon == SOURCE_VEHICLE_i ? idxtovehidx( lidx ) : lidx;

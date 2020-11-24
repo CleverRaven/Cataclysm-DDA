@@ -7,36 +7,46 @@
 #include <memory>        // for _Destroy, allocator_traits<>::val...
 #include <set>           // for set
 #include <string>        // for allocator, basic_string, string
+#include <tuple>         // for get, tie, tuple, ignore
 #include <unordered_map> // for unordered_map, unordered_map<>::i...
 #include <utility>       // for move, get, pair
 #include <vector>        // for vector
 
-#include "auto_pickup.h"      // for get_auto_pickup
-#include "avatar.h"           // for avatar, get_avatar
-#include "character.h"        // for Character
-#include "color.h"            // for get_all_colors, color_manager
-#include "enums.h"            // for object_type, object_type::VEHICLE
-#include "game.h"             // for g, inventory_item_menu
-#include "input.h"            // for input_event
-#include "item.h"             // for item, iteminfo
-#include "item_category.h"    // for item_category
-#include "item_contents.h"    // for item_contents
-#include "item_location.h"    // for item_location
-#include "item_search.h"      // for item_filter_from_string
-#include "map.h"              // for get_map, map, map_stack
-#include "map_selector.h"     // for map_cursor, map_selector
-#include "optional.h"         // for optional
-#include "options.h"          // for get_option
-#include "output.h"           // for format_volume, draw_item_info
-#include "point.h"            // for tripoint
-#include "string_formatter.h" // for string_format
-#include "translations.h"     // for _, localized_comparator, localize...
-#include "type_id.h"          // for hash, itype_id
-#include "units.h"            // for quantity, operator""_kilogram
-#include "units_utility.h"    // for convert_weight, volume_units_abbr
-#include "vehicle.h"          // for vehicle
-#include "vehicle_selector.h" // for vehicle_cursor
-#include "vpart_position.h"   // for vpart_reference, optional_vpart_p...
+#include "activity_actor.h"    // for drop_or_stash_item_info, drop_act...
+#include "activity_type.h"     // for activity_id
+#include "advuilist_const.h"   // for ACTION_EXAMINE, TOGGLE_AUTO_PICKUP
+#include "advuilist_sourced.h" // for advuilist_sourced
+#include "auto_pickup.h"       // for get_auto_pickup
+#include "avatar.h"            // for avatar, get_avatar
+#include "character.h"         // for Character
+#include "color.h"             // for get_all_colors, color_manager
+#include "enums.h"             // for object_type, object_type::VEHICLE
+#include "game.h"              // for g, inventory_item_menu
+#include "input.h"             // for input_event
+#include "item.h"              // for item, iteminfo
+#include "item_category.h"     // for item_category
+#include "item_contents.h"     // for item_contents
+#include "item_location.h"     // for item_location
+#include "item_pocket.h"       // for item_pocket, item_pocket::pocket_...
+#include "item_search.h"       // for item_filter_from_string
+#include "map.h"               // for get_map, map, map_stack
+#include "map_selector.h"      // for map_cursor, map_selector
+#include "optional.h"          // for optional
+#include "options.h"           // for get_option
+#include "output.h"            // for format_volume, draw_item_info
+#include "player_activity.h"   // for player_activity
+#include "point.h"             // for tripoint
+#include "string_formatter.h"  // for string_format
+#include "transaction_ui.h"    // for transaction_ui<>::advuilist_t
+#include "translations.h"      // for _, localized_comparator, localize...
+#include "type_id.h"           // for hash, itype_id
+#include "ui.h"                // for uilist, MENU_AUTOASSIGN
+#include "ui_manager.h"        // for ui_adaptor
+#include "units.h"             // for quantity, operator""_kilogram
+#include "units_utility.h"     // for convert_weight, volume_units_abbr
+#include "vehicle.h"           // for vehicle
+#include "vehicle_selector.h"  // for vehicle_cursor
+#include "vpart_position.h"    // for vpart_reference, optional_vpart_p...
 
 namespace catacurses
 {
@@ -96,12 +106,11 @@ constexpr std::size_t const WORN_IDX = 13;
 // this could be a constexpr too if we didn't have to use old compilers
 tripoint slotidx_to_offset( aim_advuilist_sourced_t::slotidx_t idx )
 {
-    switch( idx ) {
-        case DRAGGED_IDX:
-            return get_avatar().grab_point;
-        default:
-            return std::get<tripoint>( aimsources[idx] );
+    if( idx == DRAGGED_IDX ) {
+        return get_avatar().grab_point;
     }
+
+    return std::get<tripoint>( aimsources[idx] );
 }
 
 // this could be constexpr in C++20
@@ -395,8 +404,8 @@ void aim_ground_veh_stats( aim_advuilist_sourced_t *ui, aim_stats_t *stats )
     using namespace advuilist_helpers;
     using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
     using icon_t = aim_advuilist_sourced_t::icon_t;
-    slotidx_t src;
-    icon_t srci;
+    slotidx_t src = 0;
+    icon_t srci = 0;
     std::tie( src, srci ) = ui->getSource();
     catacurses::window &w = *ui->get_window();
     avatar &u = get_avatar();
@@ -434,8 +443,10 @@ void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
 {
     using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
     using icon_t = aim_advuilist_sourced_t::icon_t;
-    slotidx_t lsrc, rsrc;
-    icon_t licon, ricon;
+    slotidx_t lsrc = 0;
+    slotidx_t rsrc = 0;
+    icon_t licon = 0;
+    icon_t ricon = 0;
 
     std::tie( lsrc, licon ) = ui->left()->getSource();
     std::tie( rsrc, ricon ) = ui->right()->getSource();
@@ -490,7 +501,6 @@ iloc_stack_t get_stacks( Iterable items, filoc_t const &iloc_helper )
 
 // all_items_top() returns an Iterable of element pointers unlike map::i_at() and friends (which
 // return an Iterable of elements) so we need this specialization and minor code duplication.
-// where is c++17 when you need it?
 template <>
 iloc_stack_t get_stacks<std::list<item *>>( std::list<item *> items, filoc_t const &iloc_helper )
 {
@@ -752,8 +762,10 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t *mutex 
     // Cataclysm: Hacky Stuff Redux
     std::size_t idx = 0;
     for( auto const &src : aimsources ) {
-        fsource_t _fs, _fsv;
-        fsourceb_t _fsb, _fsvb;
+        fsource_t _fs;
+        fsource_t _fsv;
+        fsourceb_t _fsb;
+        fsourceb_t _fsvb;
         char const *str = nullptr;
         icon_t icon = 0;
         tripoint off;
@@ -832,12 +844,14 @@ void aim_add_return_activity()
     u.assign_activity( act_return );
 }
 
-void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t select )
+void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t const &select )
 {
     using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
     using icon_t = aim_advuilist_sourced_t::icon_t;
-    slotidx_t src, dst;
-    icon_t srci, dsti;
+    slotidx_t src = 0;
+    slotidx_t dst = 0;
+    icon_t srci = 0;
+    icon_t dsti = 0;
     std::tie( src, srci ) = ui->curpane()->getSource();
     std::tie( dst, dsti ) = ui->otherpane()->getSource();
 

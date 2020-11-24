@@ -4,6 +4,7 @@
 #include <algorithm>   // for max, find_if, stable_sort
 #include <cmath>       // for ceil
 #include <cstddef>     // for size_t
+#include <cstdint>     // for uint64_t
 #include <functional>  // for function
 #include <iterator>    // for distance
 #include <memory>      // for shared_ptr, unique_ptr, __shared...
@@ -66,9 +67,9 @@ class advuilist
         using selection_t = std::pair<std::size_t, ptr_t>;
         using select_t = std::vector<selection_t>;
 
-        advuilist( Container *list, point size = { -9, -9 }, point origin = { -9, -9 },
-                   std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT,
-                   point reserved_rows = { 2, 1 } );
+        explicit advuilist( Container *list, point size = { -9, -9 }, point origin = { -9, -9 },
+                            std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT,
+                            point reserved_rows = { 2, 1 } );
 
         /// sets up columns and optionally sets up implict sorters
         ///@param columns
@@ -447,7 +448,7 @@ void advuilist<Container, T>::initui()
     } );
     _ui->mark_resize();
 
-    _ui->on_redraw( [&]( const ui_adaptor & ) {
+    _ui->on_redraw( [&]( const ui_adaptor & /*ui*/ ) {
         werase( _w );
         draw_border( _w, _exit ? c_dark_gray : c_light_gray );
         _print();
@@ -541,9 +542,9 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::_peek( std::
 {
     if( _list.empty() ) {
         return select_t();
-    } else {
-        return select_t{ selection_t{ amount, std::get<ptr_t>( _list[_cidx] ) } };
     }
+
+    return select_t{ selection_t{ amount, std::get<ptr_t>( _list[_cidx] ) } };
 }
 
 template <class Container, typename T>
@@ -563,11 +564,11 @@ std::size_t advuilist<Container, T>::_count( std::size_t idx )
 {
     if( _list.empty() ) {
         return 0;
-    } else if( _fcounter ) {
-        return _fcounter( *std::get<ptr_t>( _list[idx] ) );
-    } else {
-        return 1;
     }
+    if( _fcounter ) {
+        return _fcounter( *std::get<ptr_t>( _list[idx] ) );
+    }
+    return 1;
 }
 
 template <class Container, typename T>
@@ -700,7 +701,7 @@ void advuilist<Container, T>::_sort( typename sortcont_t::size_type idx )
     if( idx > 0 ) {
         struct cmp {
             fsort_t const &sorter;
-            cmp( sorter_t const &_s ) : sorter( std::get<fsort_t>( _s ) ) {}
+            explicit cmp( sorter_t const &_s ) : sorter( std::get<fsort_t>( _s ) ) {}
 
             constexpr bool operator()( entry_t const &lhs, entry_t const &rhs ) const {
                 return sorter( *std::get<ptr_t>( lhs ), *std::get<ptr_t>( rhs ) );
@@ -733,7 +734,7 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
     if( idx != 0 ) {
         struct cmp {
             fgsort_t const &fgsort;
-            cmp( grouper_t const &_f ) : fgsort( std::get<fgsort_t>( _f ) ) {}
+            explicit cmp( grouper_t const &_f ) : fgsort( std::get<fgsort_t>( _f ) ) {}
             constexpr bool operator()( entry_t const &lhs, entry_t const &rhs ) const {
                 return fgsort( *std::get<ptr_t>( lhs ), *std::get<ptr_t>( rhs ) );
             }

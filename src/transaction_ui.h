@@ -3,6 +3,7 @@
 
 #include <array>      // for array
 #include <cstddef>    // for size_t
+#include <cstdint>    // for uint64_t
 #include <functional> // for function
 #include <queue>      // for queue
 #include <string>     // for string, operator==, basic_string
@@ -12,6 +13,7 @@
 #include "advuilist_sourced.h" // for advuilist_sourced
 #include "output.h"            // for TERMX, TERMY
 #include "point.h"             // for point
+#include "ui_manager.h"        // for ui_adaptor
 #include "uistate.h"           // for transaction_ui_save_state
 
 /// two-pane transaction ui based on advuilist_sourced
@@ -21,15 +23,15 @@ class transaction_ui
     public:
         using advuilist_t = advuilist_sourced<Container, T>;
         using select_t = typename advuilist_t::select_t;
-        using fselect_t = std::function<void( transaction_ui<Container, T> *, select_t )>;
+        using fselect_t = std::function<void( transaction_ui<Container, T> *, select_t const & )>;
         using fctxt_t = std::function<void( transaction_ui<Container, T> *, std::string const & )>;
         using fresize_t = std::function<void( transaction_ui<Container, T> * )>;
 
         enum class event { QUIT = 0, SWITCH = 1, NEVENTS = 2 };
 
-        transaction_ui( point const &srclayout, point size = { -9, -9 }, point origin = { -9, -9 },
-                        std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT,
-                        point reserved_rows = { 2, 1 } );
+        explicit transaction_ui( point const &srclayout, point size = { -9, -9 }, point origin = { -9, -9 },
+                                 std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT,
+                                 point reserved_rows = { 2, 1 } );
 
         advuilist_t *left();
         advuilist_t *right();
