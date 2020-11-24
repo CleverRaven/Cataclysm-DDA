@@ -2753,7 +2753,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         char part_mod = 0;
         const std::string &vp_id = veh.part_id_string( veh_part, part_mod );
         const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
-        const int rotation = to_degrees( veh.face.dir() );
+        const int rotation = std::round( to_degrees( veh.face.dir() ) );
         const std::string vpname = "vp_" + vp_id;
         avatar &you = get_avatar();
         if( !veh.forward_velocity() && !veh.player_in_control( you ) &&
