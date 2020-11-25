@@ -1255,6 +1255,15 @@ void avatar::load( const JsonObject &data )
 {
     player::load( data );
 
+    // Remove after 0.F
+    // Exists to prevent failed to visit member errors
+    if( data.has_member( "reactor_plut" ) ) {
+        data.get_int( "reactor_plut" );
+    }
+    if( data.has_member( "tank_plut" ) ) {
+        data.get_int( "tank_plut" );
+    }
+
     std::string prof_ident = "(null)";
     if( data.read( "profession", prof_ident ) && string_id<profession>( prof_ident ).is_valid() ) {
         prof = &string_id<profession>( prof_ident ).obj();
@@ -1269,7 +1278,12 @@ void avatar::load( const JsonObject &data )
     if( grab_point.x != 0 || grab_point.y != 0 ) {
         grab_typestr = "OBJECT_VEHICLE";
         data.read( "grab_type", grab_typestr );
+    } else {
+        // we just want to read, but ignore grab_type
+        std::string fake;
+        data.read( "grab_type", fake );
     }
+
     const auto iter = std::find( obj_type_name.begin(), obj_type_name.end(), grab_typestr );
     grab( iter == obj_type_name.end() ?
           object_type::NONE : static_cast<object_type>( std::distance( obj_type_name.begin(), iter ) ),
@@ -1637,9 +1651,19 @@ void npc::load( const JsonObject &data )
     time_point companion_mission_t_r = calendar::turn_zero;
     std::string act_id;
 
+    // Remove after 0.F
+    // Exists to prevent failed to visit member errors
+    if( data.has_member( "reactor_plut" ) ) {
+        data.get_int( "reactor_plut" );
+    }
+    if( data.has_member( "tank_plut" ) ) {
+        data.get_int( "tank_plut" );
+    }
+
     data.read( "name", name );
     data.read( "marked_for_death", marked_for_death );
     data.read( "dead", dead );
+    data.read( "patience", patience );
     if( data.has_number( "myclass" ) ) {
         data.read( "myclass", classtmp );
         myclass = npc_class::from_legacy_int( classtmp );
