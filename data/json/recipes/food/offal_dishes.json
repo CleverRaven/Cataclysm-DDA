@@ -438,6 +438,7 @@
         [ "saline", 8 ],
         [ "salt", 4 ],
         [ "chem_saltpetre", 2 ],
+        [ "chem_black_powder", 94 ],
         [ "soysauce", 2 ],
         [ "seasoning_italian", 4 ],
         [ "wild_herbs", 4 ],

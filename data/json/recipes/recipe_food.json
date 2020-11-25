@@ -175,7 +175,8 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "pepper", 2 ],
-        [ "chem_saltpetre", 1 ]
+        [ "chem_saltpetre", 1 ],
+        [ "chem_black_powder", 47 ]
       ],
       [ [ "sugar_standard", 1, "LIST" ] ],
       [ [ "porkbelly", 1 ] ]
@@ -2248,7 +2249,8 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "pepper", 2 ],
-        [ "chem_saltpetre", 1 ]
+        [ "chem_saltpetre", 1 ],
+        [ "chem_black_powder", 47 ]
       ],
       [ [ "meat_red_raw", 1, "LIST" ] ]
     ]
@@ -6483,6 +6485,7 @@
         [ "saline", 8 ],
         [ "salt", 4 ],
         [ "chem_saltpetre", 2 ],
+        [ "chem_black_powder", 94 ],
         [ "soysauce", 2 ],
         [ "seasoning_italian", 4 ],
         [ "wild_herbs", 4 ],
@@ -6529,6 +6532,7 @@
         [ "saline", 8 ],
         [ "salt", 4 ],
         [ "chem_saltpetre", 2 ],
+        [ "chem_black_powder", 94 ],
         [ "soysauce", 2 ],
         [ "seasoning_italian", 4 ],
         [ "wild_herbs", 4 ],
