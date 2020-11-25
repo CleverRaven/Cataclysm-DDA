@@ -81,8 +81,8 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "charged_smart_phone" },
-          { "item": "afs_rm99_pistol", "ammo-item": "8mm_hvp", "container-item": "holster", "charges": 5 },
-          { "item": "afs_8x40_speedloader5", "ammo-item": "8mm_hvp", "charges": 5 },
+          { "item": "afs_rm99_pistol", "container-item": "holster" },
+          { "item": "afs_8x40_speedloader5" },
           { "item": "knife_rm42", "container-item": "sheath" },
           { "item": "8mm_hvp" },
           { "item": "8mm_hvp" }

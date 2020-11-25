@@ -8,6 +8,7 @@
     "description": "Considered overkill by some, the Rivtech M99 remains an exceedingly powerful addition to the arsenal of any gunslinger.",
     "weight": "1204 g",
     "volume": "750 ml",
+    "longest_side": "20 cm",
     "price": 210000,
     "price_postapoc": 8000,
     "material": [ "superalloy", "ceramic" ],
