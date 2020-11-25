@@ -36,7 +36,7 @@
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
     "difficulty": 3,
-    "charges": 20,
+    "charges": 10,
     "time": "30 m",
     "batch_time_factors": [ 50, 5 ],
     "book_learn": [
@@ -48,12 +48,12 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "bread_flour", 14 ] ],
-      [ [ "flour", 2 ] ],
-      [ [ "cornmeal", 2 ] ],
-      [ [ "molasses", 2 ] ],
-      [ [ "water", 2 ], [ "clean_water", 2 ] ],
-      [ [ "salt", 2 ] ]
+      [ [ "bread_flour", 7 ] ],
+      [ [ "flour", 1 ] ],
+      [ [ "cornmeal", 1 ] ],
+      [ [ "molasses", 1 ] ],
+      [ [ "water", 1 ] ],
+      [ [ "salt", 1 ] ]
     ],
     "//": "Later: this needs baking soda. Also possibility of rewrite to use portions of components' charges."
   }

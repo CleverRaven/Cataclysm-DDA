@@ -289,7 +289,7 @@
     "weight": "45 g",
     "color": "brown",
     "spoils_in": "10 days",
-    "container": "plastic_bag",
+    "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,

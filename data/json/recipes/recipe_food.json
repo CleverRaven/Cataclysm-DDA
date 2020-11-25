@@ -4479,7 +4479,10 @@
     "time": "5 m",
     "charges": 20,
     "autolearn": true,
-    "batch_time_factors": [
+    "batch_time_factors": [ 50, 10 ],
+    "flags": [ "BLIND_EASY" ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "components": [
       [ [ "flour", 1 ] ],
       [
         [ "wheat", 1 ],

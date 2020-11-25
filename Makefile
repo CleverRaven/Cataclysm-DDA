@@ -94,7 +94,7 @@
 # PROFILE is for use with gprof or a similar program -- don't bother generally.
 # RELEASE_FLAGS is flags for release builds.
 RELEASE_FLAGS =
-WARNINGS = \
+#WARNINGS = \
   -Werror -Wall -Wextra \
   -Wformat-signedness \
   -Wlogical-op \
