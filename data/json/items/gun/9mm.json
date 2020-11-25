@@ -214,7 +214,17 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "mp5mag", "mp5mag_10rd", "mp5mag_15rd", "mp5mag_20rd", "mp5mag_38rd", "mp5mag_40rd", "mp5bigmag", "mp5mag_100rd" ]
+        "item_restriction": [
+          "mp5mag",
+          "mp5mag_10rd",
+          "mp5mag_15rd",
+          "mp5mag_20rd",
+          "mp5mag_38rd",
+          "mp5mag_40rd",
+          "mp5bigmag",
+          "mp5mag_100rd",
+          "mp5_makeshiftmag"
+        ]
       }
     ]
   },
@@ -323,7 +333,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "mp5mag", "mp5mag_10rd", "mp5mag_15rd", "mp5mag_20rd" ]
+        "item_restriction": [ "mp5mag", "mp5mag_10rd", "mp5mag_15rd", "mp5mag_20rd", "mp5_makeshiftmag" ]
       }
     ]
   },
@@ -476,7 +486,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "mausermag_20rd", "mausermag_10rd" ]
+        "item_restriction": [ "mausermag_20rd", "mausermag_10rd", "mauser_makeshiftmag" ]
       }
     ]
   },
@@ -524,7 +534,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "mp40mag_32rd" ]
+        "item_restriction": [ "mp40mag_32rd", "mp40_makeshiftmag" ]
       }
     ]
   },
@@ -850,7 +860,16 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "tec9mag", "tec9mag_10rd", "tec9mag_20rd", "tec9mag_30rd", "tec9mag_36rd", "tec9mag_50rd", "tec9mag_72rd" ]
+        "item_restriction": [
+          "tec9mag",
+          "tec9mag_10rd",
+          "tec9mag_20rd",
+          "tec9mag_30rd",
+          "tec9mag_36rd",
+          "tec9mag_50rd",
+          "tec9mag_72rd",
+          "tec9_makeshiftmag"
+        ]
       }
     ]
   },
@@ -932,7 +951,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "uzimag", "uzimag_20rd", "uzimag_25rd", "uzimag_40rd", "uzimag_50rd", "uzimag_100rd" ]
+        "item_restriction": [ "uzimag", "uzimag_20rd", "uzimag_25rd", "uzimag_40rd", "uzimag_50rd", "uzimag_100rd", "uzi_makeshiftmag" ]
       }
     ]
   },
@@ -1420,7 +1439,8 @@
           "btmp9mag_9x19mm_20",
           "btmp9mag_9x19mm_25",
           "btmp9mag_9x19mm_30",
-          "btmp9mag_9x19mm_50rd"
+          "btmp9mag_9x19mm_50rd",
+          "btmp9_makeshiftmag"
         ]
       }
     ]

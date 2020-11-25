@@ -417,6 +417,16 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
+    "id": "mp5_makeshiftmag",
+    "copy-from": "makeshiftmag_smg",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "MP5 20-round makeshift magazine" },
+    "description": "An improvised 20-round straight single-stack box magazine consisting of pieces of sheet metal welded together in the shape of magazine and roughly shaped to fit into a magazine well, with a piece of heavy-duty spring inside to feed the cartridges.  This one is made for use with the H&K MP5 submachine gun.",
+    "ammo_type": [ "9mm" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
+  },
+  {
     "id": "p08mag_8rd",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
@@ -471,6 +481,16 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 10 } } ]
   },
   {
+    "id": "mauser_makeshiftmag",
+    "copy-from": "makeshiftmag_smg",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "Mauser 20-round makeshift magazine" },
+    "description": "An improvised 20-round straight single-stack box magazine consisting of pieces of sheet metal welded together in the shape of magazine and roughly shaped to fit into a magazine well, with a piece of heavy-duty spring inside to feed the cartridges.  This one is made for use with the Mauser pistol, specifically variants which have a detachable magazine.",
+    "ammo_type": [ "9mm" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
+  },
+  {
     "id": "mausermag_10rd",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
@@ -504,6 +524,16 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
+  },
+  {
+    "id": "mp40_makeshiftmag",
+    "copy-from": "makeshiftmag_smg",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "MP 40 20-round makeshift magazine" },
+    "description": "An improvised 20-round straight single-stack box magazine consisting of pieces of sheet metal welded together in the shape of magazine and roughly shaped to fit into a magazine well, with a piece of heavy-duty spring inside to feed the cartridges.  This one is made for use with the MP 40 submachine gun.",
+    "ammo_type": [ "9mm" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
   },
   {
@@ -611,20 +641,22 @@
   },
   {
     "id": "survivor9mm_mag",
+    "copy-from": "makeshiftmag_smg",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": { "str": "STEN 20-round makeshift magazine" },
-    "description": "An improvised magazine that is mostly compatible with the STEN submachine gun, with a simplified feed system.",
-    "weight": "300 g",
-    "volume": "500 ml",
-    "price": 4000,
-    "price_postapoc": 100,
-    "material": [ "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
+    "description": "An improvised 20-round straight single-stack box magazine consisting of pieces of sheet metal welded together in the shape of magazine and roughly shaped to fit into a magazine well, with a piece of heavy-duty spring inside to feed the cartridges.  This one is made for use with the STEN submachine gun.",
     "ammo_type": [ "9mm" ],
-    "reload_time": 160,
-    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
+  },
+  {
+    "id": "tec9_makeshiftmag",
+    "copy-from": "makeshiftmag_smg",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "TEC-9 20-round makeshift magazine" },
+    "description": "An improvised 20-round straight single-stack box magazine consisting of pieces of sheet metal welded together in the shape of magazine and roughly shaped to fit into a magazine well, with a piece of heavy-duty spring inside to feed the cartridges.  This one is made for use with the TEC-9 machine pistol.",
+    "ammo_type": [ "9mm" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
   },
   {
@@ -831,6 +863,16 @@
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ]
+  },
+  {
+    "id": "uzi_makeshiftmag",
+    "copy-from": "makeshiftmag_smg",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "Uzi 20-round makeshift magazine" },
+    "description": "An improvised 20-round straight single-stack box magazine consisting of pieces of sheet metal welded together in the shape of magazine and roughly shaped to fit into a magazine well, with a piece of heavy-duty spring inside to feed the cartridges.  This one is made for use with the Uzi submachine gun.",
+    "ammo_type": [ "9mm" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
   },
   {
     "id": "uzimag_20rd",
@@ -1365,6 +1407,16 @@
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 9 } } ]
+  },
+  {
+    "id": "btmp9_makeshiftmag",
+    "copy-from": "makeshiftmag_smg",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "APC9 20-round makeshift magazine" },
+    "description": "An improvised 20-round straight single-stack box magazine consisting of pieces of sheet metal welded together in the shape of magazine and roughly shaped to fit into a magazine well, with a piece of heavy-duty spring inside to feed the cartridges.  This one is made for use with the Brügger & Thomet MP9 and compatible guns.",
+    "ammo_type": [ "9mm" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
   },
   {
     "id": "btmp9mag_9x19mm_10rd",

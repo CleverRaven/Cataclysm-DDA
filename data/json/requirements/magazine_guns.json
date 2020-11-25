@@ -1,0 +1,60 @@
+[
+  {
+    "id": "gun_mag_stanag",
+    "type": "requirement",
+    "//": "Guns that can accept STANAG magazines.",
+    "tools": [
+      [
+        [ "acr", -1 ],
+        [ "ar15", -1 ],
+        [ "ar_pistol", -1 ],
+        [ "fs2000", -1 ],
+        [ "h&k416a5", -1 ],
+        [ "m249", -1 ],
+        [ "m249_semi", -1 ],
+        [ "m27iar", -1 ],
+        [ "m38dmr", -1 ],
+        [ "m4a1", -1 ],
+        [ "m4_cqbr", -1 ],
+        [ "m16a4", -1 ],
+        [ "m16a3", -1 ],
+        [ "m231pfw", -1 ],
+        [ "oa93", -1 ],
+        [ "scar_l", -1 ],
+        [ "sig552", -1 ],
+        [ "acr_300blk", -1 ],
+        [ "iwi_tavor_x95_300blk", -1 ],
+        [ "ar15_retool_300blk", -1 ],
+        [ "sig_mcx_rattler_sbr", -1 ]
+      ]
+    ]
+  },
+  {
+    "id": "gun_mag_mp5_9x19mm",
+    "type": "requirement",
+    "//": "Guns that can accept 9x19mm MP5 magazines.",
+    "tools": [ [ [ "hk_mp5", -1 ], [ "hk_mp5sd", -1 ], [ "hk_mp5k", -1 ], [ "hk_mp5_semi_pistol", -1 ], [ "briefcase_smg", -1 ] ] ]
+  },
+  {
+    "id": "makeshiftmag_standard",
+    "type": "requirement",
+    "//": "Tools and materials needed to build one crude 20-round (for pistol cartrdiges) or 5-round (for rifle cartridges) straight single-stack box magazine.  Firearm must not use angled feed magazines, and cartridges must be rimless.  Recipe must also use appropriate firearm and casehead requirements.",
+    "tools": [ [ [ "cordless_drill", 5 ] ], [ [ "welder", 30 ], [ "welder_crude", 45 ], [ "toolset", 45 ], [ "oxy_torch", 6 ] ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "FILE", "level": 2 },
+      { "id": "GLARE", "level": 2 }
+    ],
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ] ]
+  },
+  {
+    "id": "clip_standard",
+    "type": "requirement",
+    "//": "Tools and materials needed to build one 10-round (for pistol cartrdiges) or 5-round (for rifle cartridges) clip.  Recipe must also use appropriate firearm and casehead requirements.",
+    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 3 }, { "id": "GLARE", "level": 2 } ],
+    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  }
+]
