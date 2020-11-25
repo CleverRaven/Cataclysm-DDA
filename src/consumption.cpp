@@ -57,9 +57,7 @@ static const skill_id skill_survival( "survival" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_digestion( "bio_digestion" );
-static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
@@ -612,11 +610,10 @@ morale_type Character::allergy_type( const item &food ) const
 
 ret_val<edible_rating> Character::can_eat( const item &food ) const
 {
-
-    const rechargeable_cbm cbm = get_cbm_rechargeable_with( food );
-    if( !food.is_comestible() && cbm == rechargeable_cbm::none ) {
+    bool can_fuel_cbm = can_fuel_bionic_with( food );
+    if( !food.is_comestible() && !can_fuel_cbm ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
-    } else if( cbm != rechargeable_cbm::none ) {
+    } else if( can_fuel_cbm ) {
         std::string item_name = food.tname();
         material_id mat_type = food.get_base_material().id;
         if( food.type->magazine ) {
@@ -1416,53 +1413,6 @@ bool Character::consume_effects( item &food )
     return true;
 }
 
-bool Character::can_feed_reactor_with( const item &it ) const
-{
-    static const std::set<ammotype> acceptable = {{
-            ammotype( "reactor_slurry" ),
-            ammotype( "plutonium" )
-        }
-    };
-
-    if( !it.is_ammo() ) {
-        return false;
-    }
-
-    if( !has_active_bionic( bio_reactor ) && !has_active_bionic( bio_advreactor ) ) {
-        return false;
-    }
-
-    return std::any_of( acceptable.begin(), acceptable.end(), [ &it ]( const ammotype & elem ) {
-        return it.ammo_type() == elem;
-    } );
-}
-
-bool Character::feed_reactor_with( item &it )
-{
-    if( !can_feed_reactor_with( it ) ) {
-        return false;
-    }
-
-    const auto iter = plut_charges.find( it.typeId() );
-    const int max_amount = iter != plut_charges.end() ? iter->second : 0;
-    const int amount = std::min( get_acquirable_energy( it, rechargeable_cbm::reactor ), max_amount );
-
-    if( amount >= PLUTONIUM_CHARGES * 10 &&
-        !query_yn( _( "That is a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
-        return false;
-    }
-
-    add_msg_player_or_npc( _( "You add your %s to your reactor's tank." ),
-                           _( "<npcname> pours %s into their reactor's tank." ),
-                           it.tname() );
-
-    // TODO: Encapsulate
-    tank_plut += amount;
-    it.charges -= 1;
-    mod_moves( -250 );
-    return true;
-}
-
 bool Character::fuel_bionic_with( item &it )
 {
     if( !can_fuel_bionic_with( it ) ) {
@@ -1518,56 +1468,23 @@ bool Character::fuel_bionic_with( item &it )
     return !is_magazine;
 }
 
-rechargeable_cbm Character::get_cbm_rechargeable_with( const item &it ) const
-{
-    if( can_feed_reactor_with( it ) ) {
-        return rechargeable_cbm::reactor;
-    }
-
-    if( can_fuel_bionic_with( it ) ) {
-        return rechargeable_cbm::other;
-    }
-
-    return rechargeable_cbm::none;
-}
-
-int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
-{
-    switch( cbm ) {
-        case rechargeable_cbm::none:
-            break;
-
-        case rechargeable_cbm::reactor:
-            if( it.charges > 0 ) {
-                const auto iter = plut_charges.find( it.typeId() );
-                return iter != plut_charges.end() ? it.charges * iter->second : 0;
-            }
-
-            break;
-        case rechargeable_cbm::other:
-            const bionic_id &bid = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
-            int to_consume;
-            int to_charge;
-            if( it.type->magazine ) {
-                item ammo = item( it.ammo_current() );
-                to_consume = std::min( it.ammo_remaining(), bid->fuel_capacity );
-                to_charge = ammo.fuel_energy() * to_consume * bid->fuel_efficiency;
-            } else if( it.flammable() ) {
-                to_consume = std::min( units::to_milliliter( it.volume() ), bid->fuel_capacity );
-                to_charge = it.get_base_material().id->get_fuel_data().energy * to_consume * bid->fuel_efficiency;
-            } else {
-                to_consume = std::min( it.charges, bid->fuel_capacity );
-                to_charge = it.fuel_energy() * to_consume * bid->fuel_efficiency;
-            }
-            return to_charge;
-    }
-
-    return 0;
-}
-
 int Character::get_acquirable_energy( const item &it ) const
 {
-    return get_acquirable_energy( it, get_cbm_rechargeable_with( it ) );
+    const bionic_id &bid = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
+    int to_consume;
+    int to_charge = 0;
+    if( it.type->magazine ) {
+        item ammo = item( it.ammo_current() );
+        to_consume = std::min( it.ammo_remaining(), bid->fuel_capacity );
+        to_charge = ammo.fuel_energy() * to_consume * bid->fuel_efficiency;
+    } else if( it.flammable() ) {
+        to_consume = std::min( units::to_milliliter( it.volume() ), bid->fuel_capacity );
+        to_charge = it.get_base_material().id->get_fuel_data().energy * to_consume * bid->fuel_efficiency;
+    } else {
+        to_consume = std::min( it.charges, bid->fuel_capacity );
+        to_charge = it.fuel_energy() * to_consume * bid->fuel_efficiency;
+    }
+    return to_charge;
 }
 
 bool Character::can_estimate_rot() const
@@ -1577,12 +1494,7 @@ bool Character::can_estimate_rot() const
 
 bool Character::can_consume_as_is( const item &it ) const
 {
-    return it.is_comestible() || can_consume_for_bionic( it );
-}
-
-bool Character::can_consume_for_bionic( const item &it ) const
-{
-    return get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
+    return it.is_comestible() || can_fuel_bionic_with( it );
 }
 
 bool Character::can_consume( const item &it ) const
@@ -1776,7 +1688,6 @@ trinary player::consume( item &target, bool force )
     }
     if( consume_med( target, *this ) ||
         eat( target, *this, force ) ||
-        feed_reactor_with( target ) ||
         fuel_bionic_with( target ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );

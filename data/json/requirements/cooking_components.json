@@ -533,7 +533,8 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "pepper", 2 ],
-        [ "chem_saltpetre", 1 ]
+        [ "chem_saltpetre", 1 ],
+        [ "chem_black_powder", 47 ]
       ]
     ]
   },

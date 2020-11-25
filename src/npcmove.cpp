@@ -80,7 +80,6 @@ static const ammotype ammo_plutonium( "plutonium" );
 static const skill_id skill_firstaid( "firstaid" );
 
 static const bionic_id bio_ads( "bio_ads" );
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_blade( "bio_blade" );
 static const bionic_id bio_claws( "bio_claws" );
 static const bionic_id bio_faraday( "bio_faraday" );
@@ -95,7 +94,6 @@ static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_plutfilter( "bio_plutfilter" );
 static const bionic_id bio_radscrubber( "bio_radscrubber" );
-static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_soporific( "bio_soporific" );
 
@@ -159,11 +157,6 @@ enum npc_action : int {
 
 namespace
 {
-const std::vector<bionic_id> power_cbms = { {
-        bio_advreactor,
-        bio_reactor,
-    }
-};
 const std::vector<bionic_id> defense_cbms = { {
         bio_ads,
         bio_faraday,
@@ -751,7 +744,6 @@ void npc::move()
         set_attitude( NPCATT_NULL );
     }
     regen_ai_cache();
-    adjust_power_cbms();
     // NPCs under operation should just stay still
     if( activity.id() == ACT_OPERATION ) {
         execute_action( npc_player_activity );
@@ -1595,16 +1587,6 @@ item_location npc::find_usable_ammo( const item &weap ) const
     return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
 
-void npc::adjust_power_cbms()
-{
-    if( !is_player_ally() || wants_to_recharge_cbm() ) {
-        return;
-    }
-    for( const bionic_id &cbm_id : power_cbms ) {
-        deactivate_bionic_by_id( cbm_id );
-    }
-}
-
 void npc::activate_combat_cbms()
 {
     for( const bionic_id &cbm_id : defense_cbms ) {
@@ -1759,18 +1741,6 @@ bool npc::recharge_cbm()
                     complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
                 }
             }
-        }
-    }
-
-    if( use_bionic_by_id( bio_reactor ) || use_bionic_by_id( bio_advreactor ) ) {
-        const std::function<bool( const item & )> reactor_filter = []( const item & it ) {
-            return it.is_ammo() && ( it.ammo_type() == ammo_plutonium ||
-                                     it.ammo_type() == ammo_reactor_slurry );
-        };
-        if( consume_cbm_items( reactor_filter ) ) {
-            return true;
-        } else {
-            complain_about( "need_radioactives", 3_hours, "<need_radioactives>", false );
         }
     }
 

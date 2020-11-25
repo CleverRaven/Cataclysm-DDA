@@ -220,5 +220,19 @@
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
     "price": 1000,
     "price_postapoc": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "cannonball_4lb",
+    "symbol": "o",
+    "color": "dark_gray",
+    "name": { "str": "cannonball" },
+    "description": "A 4 pound cannonball.  With some gunpowder, wadding, and a fuse, it could be prepared to load into a cannon.",
+    "material": [ "steel" ],
+    "weight": "1814 g",
+    "volume": "200 ml",
+    "bashing": 15,
+    "to_hit": -5,
+    "flags": [ "TRADER_AVOID" ]
   }
 ]
