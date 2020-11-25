@@ -22,7 +22,9 @@
       [ "pepto", 20 ],
       [ "saline", 10 ],
       [ "weak_antibiotic", 30 ],
-      [ "homeopathic_pills", 5 ]
+      [ "osc_pills", 5 ],
+      [ "ars_pills", 5 ],
+      [ "allium_pills", 5 ]
     ]
   },
   {
@@ -158,7 +160,9 @@
       [ "nyquil", 70 ],
       [ "disinfectant", 35 ],
       [ "vaccine_shot", 10 ],
-      [ "homeopathic_pills", 5 ],
+      [ "osc_pills", 5 ],
+      [ "ars_pills", 5 ],
+      [ "allium_pills", 5 ]
       {
         "item": "protein_powder",
         "prob": 12,
