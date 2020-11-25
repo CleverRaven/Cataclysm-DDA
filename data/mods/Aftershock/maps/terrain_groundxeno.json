@@ -101,7 +101,7 @@
     "type": "furniture",
     "id": "f_fuma_ice",
     "name": "fumarolic ice tower",
-    "description": "A solid cloud-like structure, formed when water vapor escapes from the crust and meets the freezing air. It is still emitting some gases.",
+    "description": "A solid cloud-like structure, formed when water vapor escapes from the crust and meets the freezing air.  It is still emitting some gases.",
     "symbol": "T",
     "color": "white",
     "move_cost_mod": -1,
