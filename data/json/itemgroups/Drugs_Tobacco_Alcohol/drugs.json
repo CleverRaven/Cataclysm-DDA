@@ -162,7 +162,7 @@
       [ "vaccine_shot", 10 ],
       [ "osc_pills", 5 ],
       [ "ars_pills", 5 ],
-      [ "allium_pills", 5 ]
+      [ "allium_pills", 5 ],
       {
         "item": "protein_powder",
         "prob": 12,
