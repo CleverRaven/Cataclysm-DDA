@@ -734,7 +734,8 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
                 effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
                 effect_pblue, effect_iodine, effect_datura,
                 effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
-                effect_took_flumed, effect_antifungal
+                effect_took_flumed, effect_antifungal, effect_venom_weaken,
+				effect_venom_dmg
             }
         };
 
