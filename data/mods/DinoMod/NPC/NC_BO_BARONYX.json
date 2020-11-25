@@ -158,8 +158,7 @@
       "effect": [
         { "u_add_var": "NC_SWAMPER_MISSION_1", "type": "general", "context": "mission", "value": "yes" },
         { "u_buy_monster": "mon_eoraptor", "count": 1, "name": "Bamm-Bamm" }
-      ],
-      "update_mapgen": { "place_monster": { "group": "GROUP_DINOSAUR_DANGEROUS", "x": 12, "y": 12, "offset_x": -2 } }
+      ]
     },
     "dialogue": {
       "describe": "The eaters are hungry.  They need meat",
