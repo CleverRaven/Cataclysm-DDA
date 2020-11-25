@@ -776,6 +776,10 @@ class Character : public Creature, public visitable<Character>
          */
         void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
                            bool allow_unarmed = true );
+
+        /** Handles reach melee attacks */
+        void reach_attack( const tripoint &p );
+
         /**
          * Calls the to other melee_attack function with an empty technique id (meaning no specific
          * technique should be used).

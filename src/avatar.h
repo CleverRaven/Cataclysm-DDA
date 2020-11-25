@@ -157,6 +157,13 @@ class avatar : public player
                       bool radio_contact = false );
 
         /**
+         * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
+         * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
+         * @param target Target NPC to disarm
+         */
+        void disarm( npc &target );
+
+        /**
          * Helper function for player::read.
          *
          * @param book Book to read
