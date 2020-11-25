@@ -397,7 +397,7 @@
     "type": "terrain",
     "id": "t_water_hot",
     "name": "hot spring water",
-    "description": "Scalding hot water, not particulary safe for swimming. With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "description": "Scalding hot water, not particulary safe for swimming.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
     "symbol": "~",
     "color": "light_blue",
     "move_cost": 5,
