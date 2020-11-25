@@ -4,7 +4,7 @@
     "type": "GUN",
     "copy-from": "rifle_22",
     "name": { "str": "landfall survival gun" },
-    "description": "A lightweight, bolt-action gun that is barely more than a .22 barrel mounted within a flimsy metal assembly. A cheaply made and outdated weapon in all respects, it's only useful in the most extenuating of circumstances.",
+    "description": "A lightweight, bolt-action gun that is barely more than a .22 barrel mounted within a flimsy metal assembly.  Cheaply made and outdated in all respects, it's only useful in the most extenuating of circumstances.",
     "price": 5000,
     "price_postapoc": 5000,
     "material": [ "steel", "plastic" ],

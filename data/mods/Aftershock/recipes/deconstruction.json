@@ -146,8 +146,6 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "result": "afs_radiobeacon",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "electronics",
     "difficulty": 1,
     "time": "15 m",

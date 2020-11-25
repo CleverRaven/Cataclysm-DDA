@@ -177,7 +177,7 @@
     "calories": 500,
     "healthy": 3,
     "charges": 4,
-    "description": "Sealed emergency rations invariably found within an escape pod's inventory, this particular pack should provide around a day's worth of nutrition.  Required by regulation but rarely ever used, the design of these \"meals\" prioritize a long shelf life and a very low bulk-cost. Prioritizing those two attributes lend them their disgusting taste of greased sawdust.",
+    "description": "Sealed emergency rations invariably found within an escape pod's inventory, this particular pack should provide around a day's worth of nutrition.  Required by regulation but rarely ever used, the design of these \"meals\" prioritizes a long shelf life and a very low bulk-cost.  Which lends them their disgusting taste of greased sawdust.",
     "fun": -2,
     "freezing_point": -9999,
     "vitamins": [ [ "vitC", 2 ], [ "bad_food", 1 ] ]
