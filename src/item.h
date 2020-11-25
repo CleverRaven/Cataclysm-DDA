@@ -24,6 +24,7 @@
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "material.h"
 #include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -1242,7 +1243,7 @@ class item : public visitable<item>
         /** Returns the string of the id of the terrain that pumps this fuel, if any. */
         std::string fuel_pump_terrain() const;
         bool has_explosion_data() const;
-        struct fuel_explosion get_explosion_data();
+        fuel_explosion_data get_explosion_data();
 
         /**
          * Can this item have given item/itype as content?
@@ -1719,12 +1720,12 @@ class item : public visitable<item>
          * This is a per-character setting, different characters may have different number of
          * unread chapters.
          */
-        int get_remaining_chapters( const player &u ) const;
+        int get_remaining_chapters( const Character &u ) const;
         /**
          * Mark one chapter of the book as read by the given player. May do nothing if the book has
          * no unread chapters. This is a per-character setting, see @ref get_remaining_chapters.
          */
-        void mark_chapter_as_read( const player &u );
+        void mark_chapter_as_read( const Character &u );
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */

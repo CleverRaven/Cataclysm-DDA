@@ -691,6 +691,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "cannon",
+    "name": "cannon",
+    "default": "cannon_shot"
+  },
+  {
+    "type": "ammunition_type",
     "id": "graphite",
     "name": "graphite",
     "default": "graphite"

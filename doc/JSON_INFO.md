@@ -637,7 +637,7 @@ For information about tools with option to export ASCII art in format ready to b
 | bullet_protect              | (_optional_) How much bullet protect does this bionic provide on the specified body parts.
 | occupied_bodyparts          | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
 | capacity                    | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| fuel_options                | (_optional_) A list of fuel that this bionic can use to produce bionic power.
+| fuel_options                | (_optional_) A list of materials that this bionic can use to produce bionic power.
 | is_remote_fueled            | (_optional_) If true this bionic allows you to plug your power banks to an external power source (solar backpack, UPS, vehicle etc) via a cable. (default: `false`)
 | fuel_capacity               | (_optional_) Volume of fuel this bionic can store.
 | fuel_efficiency             | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
@@ -843,6 +843,32 @@ There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bulle
 
 Note that the above example gives floats, not integers, for the vitamins values.  This is likely incorrect; they should be replaced with integers.
 
+
+#### Fuel data
+
+Every material can have fuel data that determines how much horse power it produces per unit consumed. Currently, gasses and plasmas cannot really be fuels.
+
+If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  This is primarily intended for the muscle pseudo-fuel, but mods may take advantage of it to make perpetual motion machines.
+
+```C++
+"fuel_data" : {
+    energy": 34.2,               // battery charges per mL of fuel. batteries have energy 1
+                                 // is also MJ/L from https://en.wikipedia.org/wiki/Energy_density
+                                 // assumes stacksize 250 per volume 1 (250mL). Multiply
+                                 // by 250 / stacksize * volume for other stack sizes and
+                                 // volumes
+   "perpetual": true,            // this material is a perpetual fuel like `wind`, `sunlight`, `muscle`, `animal` and `metabolism`.
+   "pump_terrain": "t_gas_pump", // optional. terrain id for the fuel's pump, if any.
+   "explosion_data": {           // optional for fuels that can cause explosions
+        "chance_hot": 2,         // 1 in chance_hot of explosion when attacked by HEAT weapons
+        "chance_cold": 5,        // 1 in chance_cold of explosion when attacked by other weapons
+        "factor": 1.0,           // explosion factor - larger numbers create more powerful explosions
+        "fiery": true,           // true for fiery explosions
+        "size_factor": 0.1       // size factor - larger numbers make the remaining fuel increase explosion power more
+    }
+}
+```
+
 ### Monster Groups
 
 #### Group definition
@@ -1036,21 +1062,6 @@ Example:
 ]
 ```
 
-Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:addictions" and "remove:addictions", removing requires only the addiction type. Example:
-```C++
-{
-    "type": "profession",
-    "id": "hunter",
-    "edit-mode": "modify",
-    "remove:addictions": [
-        "nicotine"
-    ],
-    "add:addictions": [
-        { "type": "alcohol", "intensity": 10 }
-    ]
-}
-```
-
 #### `skills`
 
 (optional, array of skill levels)
@@ -1075,22 +1086,6 @@ List of starting proficiency ids.
 Example:
 ```json
 "proficiencies": [ "prof_knapping" ]
-```
-
-Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:skills" and "remove:skills", removing requires only the skill id. Example:
-```C++
-{
-    "type": "profession",
-    "id": "hunter",
-    "edit-mode": "modify",
-    "remove:skills": [
-        "archery"
-    ],
-    "add:skills": [
-        { "name": "computer", "level": 2 }
-    ]
-}
-
 ```
 
 #### `items`
@@ -1120,30 +1115,6 @@ Example:
 
 This gives the player pants, two rocks, a t-shirt with the snippet id "allyourbase" (giving it a special description), socks and (depending on the gender) briefs or panties.
 
-Mods can modify the lists of existing professions. This requires the "edit-mode" member with value "modify" (see example). Adding items to the lists can be done with via "add:both" / "add:male" / "add:female". It allows the same content (it allows adding items with snippet ids). Removing items is done via "remove:both" / "remove:male" / "remove:female", which may only contain items ids.
-
-Example for mods:
-
-```C++
-{
-    "type": "profession",
-    "id": "hunter",
-    "edit-mode": "modify",
-    "items": {
-        "remove:both": [
-            "rock",
-            "tshirt_text"
-        ],
-        "add:both": [ "2x4" ],
-        "add:female": [
-            ["tshirt_text", "allyourbase"]
-        ]
-    }
-}
-```
-
-This mod removes one of the rocks (the other rock is still created), the t-shirt, adds a 2x4 item and gives female characters a t-shirt with the special snippet id.
-
 #### `pets`
 
 (optional, array of string mtype_ids )
@@ -1167,23 +1138,17 @@ A list of flags. TODO: document those flags here.
 
 - `NO_BONUS_ITEMS` Prevent bonus items (such as inhalers with the ASTHMA trait) from being given to this profession
 
-Mods can modify this via `add:flags` and `remove:flags`.
-
 #### `cbms`
 
 (optional, array of strings)
 
 A list of CBM ids that are implanted in the character.
 
-Mods can modify this via `add:CBMs` and `remove:CBMs`.
-
 #### `traits`
 
 (optional, array of strings)
 
 A list of trait/mutation ids that are applied to the character.
-
-Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Recipes
 
@@ -2094,6 +2059,9 @@ Unless specified as optional, the following fields are mandatory for parts with 
                               // item_ids. An engine can be fueled by any fuel type in its
                               // fuel_options.  If provided, it overrides fuel_type and should
                               // include the fuel in fuel_type.
+                              // To be a fuel an item needs to be made of only one material,
+                              // this material has to produce energy, *ie* have a `data_fuel` entry,
+                              // and it needs to have consumable charges.
 ```
 
 #### The following optional fields are specific to WHEELs.
@@ -2855,30 +2823,6 @@ Every item type can have software data, it does not have any behavior:
 "software_data" : {
     "type": "USELESS", // unused
     "power" : 91 // unused
-}
-```
-
-### Fuel data
-
-Every item type can have fuel data that determines how much horse power it produces per unit consumed. Currently, gasses and plasmas cannot really be fuels.
-
-If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  This is primarily intended for the muscle pseudo-fuel, but mods may take advantage of it to make perpetual motion machines.
-
-```C++
-"fuel" : {
-    energy": 34.2,               // battery charges per mL of fuel. batteries have energy 1
-                                 // is also MJ/L from https://en.wikipedia.org/wiki/Energy_density
-                                 // assumes stacksize 250 per volume 1 (250mL). Multiply
-                                 // by 250 / stacksize * volume for other stack sizes and
-                                 // volumes
-   "pump_terrain": "t_gas_pump", // optional. terrain id for the fuel's pump, if any.
-   "explosion_data": {           // optional for fuels that can cause explosions
-        "chance_hot": 2,         // 1 in chance_hot of explosion when attacked by HEAT weapons
-        "chance_cold": 5,        // 1 in chance_cold of explosion when attacked by other weapons
-        "factor": 1.0,           // explosion factor - larger numbers create more powerful explosions
-        "fiery": true,           // true for fiery explosions
-        "size_factor": 0.1       // size factor - larger numbers make the remaining fuel increase explosion power more
-    }
 }
 ```
 
@@ -3671,41 +3615,20 @@ Example:
 ```
 This gives the player pants, two rocks and (depending on the gender) briefs or panties.
 
-Mods can modify the lists of an existing scenario via "add:both" / "add:male" / "add:female" and "remove:both" / "remove:male" / "remove:female".
-
-Example for mods:
-```C++
-{
-    "type": "scenario",
-    "id": "schools_out",
-    "edit-mode": "modify",
-    "items": {
-        "remove:both": [ "rock" ],
-        "add:female": [ "2x4" ]
-    }
-}
-```
-
 ## `flags`
 (optional, array of strings)
 
 A list of flags. TODO: document those flags here.
-
-Mods can modify this via "add:flags" and "remove:flags".
 
 ## `cbms`
 (optional, array of strings)
 
 A list of CBM ids that are implanted in the character.
 
-Mods can modify this via "add:CBMs" and "remove:CBMs".
-
 ## `traits", "forced_traits", "forbidden_traits`
 (optional, array of strings)
 
 Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can't be selected during the character creation. Traits in "forced_traits" are automatically added to character. Traits in "traits" enables them to be chosen, even if they are not starting traits.
-
-Mods can modify this via "add:traits" / "add:forced_traits" / "add:forbidden_traits" and "remove:traits" / "remove:forced_traits" / "remove:forbidden_traits".
 
 ## `allowed_locs`
 (optional, array of strings)
@@ -3762,7 +3685,7 @@ The id of an overmap terrain type (see overmap_terrain.json) of the starting loc
 ## `flags`
 (optional, array of strings)
 
-Arbitrary flags. Mods can modify this via "add:flags" / "remove:flags". TODO: document them.
+Arbitrary flags. TODO: document them.
 
 ### `tile_config`
 Each tileset has a tile_config.json describing how to map the contents of a sprite sheet to various tile identifiers, different orientations, etc. The ordering of the overlays used for displaying mutations can be controlled as well. The ordering can be used to override the default ordering provided in `mutation_ordering.json`. Example:

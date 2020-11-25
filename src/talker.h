@@ -64,7 +64,7 @@ class talker
             return {};
         }
         virtual void check_missions() {}
-        virtual void update_missions( const std::vector<mission *> &, const character_id & ) {}
+        virtual void update_missions( const std::vector<mission *> & ) {}
         virtual bool check_hostile_response( int ) const {
             return false;
         }

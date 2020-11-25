@@ -266,7 +266,6 @@ enum edible_rating {
 enum class rechargeable_cbm : int {
     none = 0,
     reactor,
-    furnace,
     other
 };
 
@@ -1206,6 +1205,7 @@ class Character : public Creature, public visitable<Character>
         bool can_fuel_bionic_with( const item &it ) const;
         /**Return bionic_id of bionics able to use it as fuel*/
         std::vector<bionic_id> get_bionic_fueled_with( const item &it ) const;
+        std::vector<bionic_id> get_bionic_fueled_with( const material_id &mat ) const;
         /**Return bionic_id of fueled bionics*/
         std::vector<bionic_id> get_fueled_bionics() const;
         /**Returns bionic_id of first remote fueled bionic found*/
@@ -1213,13 +1213,13 @@ class Character : public Creature, public visitable<Character>
         /**Return bionic_id of bionic of most fuel efficient bionic*/
         bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
         /**Return list of available fuel for this bionic*/
-        std::vector<itype_id> get_fuel_available( const bionic_id &bio ) const;
+        std::vector<material_id> get_fuel_available( const bionic_id &bio ) const;
         /**Return available space to store specified fuel*/
-        int get_fuel_capacity( const itype_id &fuel ) const;
+        int get_fuel_capacity( const material_id &fuel ) const;
         /**Return total space to store specified fuel*/
-        int get_total_fuel_capacity( const itype_id &fuel ) const;
+        int get_total_fuel_capacity( const material_id &fuel ) const;
         /**Updates which bionic contain fuel and which is empty*/
-        void update_fuel_storage( const itype_id &fuel );
+        void update_fuel_storage( const material_id &fuel );
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
@@ -1305,7 +1305,7 @@ class Character : public Creature, public visitable<Character>
         /**Passively produce power from PERPETUAL fuel*/
         void passive_power_gen( int b );
         /**Find fuel used by remote powered bionic*/
-        itype_id find_remote_fuel( bool look_only = false );
+        material_id find_remote_fuel( bool look_only = false );
         /**Consume fuel used by remote powered bionic, return amount of request unfulfilled (0 if totally successful).*/
         int consume_remote_fuel( int amount );
         void reset_remote_fuel();
@@ -1646,6 +1646,10 @@ class Character : public Creature, public visitable<Character>
 
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
+        virtual void identify( const item &item ) = 0;
+        /** Calculates the total fun bonus relative to this character's traits and chapter progress */
+        bool fun_to_read( const item &book ) const;
+        int book_fun_for( const item &book, const Character &p ) const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
@@ -2268,7 +2272,6 @@ class Character : public Creature, public visitable<Character>
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
         /** Determine character's capability of recharging their CBMs. */
         bool can_feed_reactor_with( const item &it ) const;
-        bool can_feed_furnace_with( const item &it ) const;
         rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
         int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
         int get_acquirable_energy( const item &it ) const;
@@ -2278,8 +2281,6 @@ class Character : public Creature, public visitable<Character>
         * @return true when recharging was successful.
         */
         bool feed_reactor_with( item &it );
-        /** @return true if successful. */
-        bool feed_furnace_with( item &it );
         /** @return true if successful and was not a magazine. */
         bool fuel_bionic_with( item &it );
         /** Used to apply stimulation modifications from food and medication **/
@@ -2350,7 +2351,7 @@ class Character : public Creature, public visitable<Character>
         bool change_side( item &it, bool interactive = true );
         bool change_side( item_location &loc, bool interactive = true );
 
-        bool get_check_encumbrance() {
+        bool get_check_encumbrance() const {
             return check_encumbrance;
         }
         void set_check_encumbrance( bool new_check ) {

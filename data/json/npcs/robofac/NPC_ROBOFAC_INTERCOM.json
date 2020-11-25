@@ -334,7 +334,7 @@
         "truefalsetext": {
           "condition": { "npc_has_effect": "npc_said" },
           "true": "There are other things I need to bring up…",
-          "false": "npc_intercom_job_speech"
+          "false": "We have nothing else to offer currently."
         },
         "condition": {
           "and": [

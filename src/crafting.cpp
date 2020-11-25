@@ -1205,7 +1205,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
         }
         food_contained.inherit_flags( used, making );
 
-        for( const flag_str_id &flag : making.flags_to_delete ) {
+        for( const flag_id &flag : making.flags_to_delete ) {
             food_contained.unset_flag( flag );
         }
 

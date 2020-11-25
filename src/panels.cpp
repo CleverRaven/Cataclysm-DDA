@@ -65,8 +65,8 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 static const efftype_id effect_got_checked( "got_checked" );
 
-static const flag_str_id json_flag_THERMOMETER( "THERMOMETER" );
-static const flag_str_id json_flag_SPLINT( "SPLINT" );
+static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
+static const flag_id json_flag_SPLINT( "SPLINT" );
 
 // constructor
 window_panel::window_panel(
@@ -1617,11 +1617,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     werase( w );
 
-    // Classic 5x5 minimap in a 7x7 frame
+    // 7x7 minimap
     const tripoint_abs_omt curs = u.global_omt_location();
-    draw_rectangle( w, c_light_gray, point_zero, point( 6, 6 ) );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    overmap_ui::draw_overmap_chunk( w, u, curs, point( 1, 1 ), 5, 5 );
+    overmap_ui::draw_overmap_chunk( w, u, curs, point_zero, 7, 7 );
 
     // print limb health
     int i = 0;

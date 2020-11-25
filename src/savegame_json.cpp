@@ -210,7 +210,7 @@ void item_pocket::serialize( JsonOut &json ) const
     json.member( "pocket_type", data->type );
     json.member( "contents", contents );
     json.member( "_sealed", _sealed );
-    if( this->settings.priority() != 0 || !this->settings.is_null() ) {
+    if( !this->settings.is_null() ) {
         json.member( "favorite_settings", this->settings );
     }
     json.end_object();
@@ -2643,7 +2643,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
         data.read( "base", base );
     } else {
         // handle legacy format which didn't include the base item
-        base = item( id.obj().item );
+        base = item( id.obj().base_item );
     }
 
     data.read( "mount_dx", mount.x );

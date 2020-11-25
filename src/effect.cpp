@@ -561,7 +561,7 @@ std::string effect::disp_name() const
             }
         }
     }
-    if( bp != bodypart_str_id( "bp_null" ) ) {
+    if( bp != bodypart_str_id::NULL_ID() ) {
         ret += string_format( " (%s)", body_part_name( bp.id() ) );
     }
 
@@ -841,6 +841,18 @@ int effect::get_max_intensity() const
 {
     return eff_type->max_intensity;
 }
+int effect::get_max_effective_intensity() const
+{
+    return eff_type->max_effective_intensity;
+}
+int effect::get_effective_intensity() const
+{
+    if( eff_type->max_effective_intensity > 0 ) {
+        return std::min( eff_type->max_effective_intensity, intensity );
+    } else {
+        return intensity;
+    }
+}
 
 int effect::set_intensity( int val, bool alert )
 {
@@ -906,7 +918,7 @@ int effect::get_mod( const std::string &arg, bool reduced ) const
     }
     found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "min" ) );
     if( found != mod_data.end() ) {
-        min += found->second * ( intensity - 1 );
+        min += found->second * ( get_effective_intensity() - 1 );
     }
     // Get the maximum total
     found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "max" ) );
@@ -915,7 +927,7 @@ int effect::get_mod( const std::string &arg, bool reduced ) const
     }
     found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "max" ) );
     if( found != mod_data.end() ) {
-        max += found->second * ( intensity - 1 );
+        max += found->second * ( get_effective_intensity() - 1 );
     }
     if( static_cast<int>( max ) != 0 ) {
         // Return a random value between [min, max]
@@ -938,7 +950,7 @@ int effect::get_avg_mod( const std::string &arg, bool reduced ) const
     }
     found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "min" ) );
     if( found != mod_data.end() ) {
-        min += found->second * ( intensity - 1 );
+        min += found->second * ( get_effective_intensity() - 1 );
     }
     // Get the maximum total
     found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "max" ) );
@@ -947,7 +959,7 @@ int effect::get_avg_mod( const std::string &arg, bool reduced ) const
     }
     found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "max" ) );
     if( found != mod_data.end() ) {
-        max += found->second * ( intensity - 1 );
+        max += found->second * ( get_effective_intensity() - 1 );
     }
     if( static_cast<int>( max ) != 0 ) {
         // Return an average of min and max
@@ -960,8 +972,6 @@ int effect::get_avg_mod( const std::string &arg, bool reduced ) const
 
 int effect::get_amount( const std::string &arg, bool reduced ) const
 {
-    int intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
-                               eff_type->max_effective_intensity, intensity ) : intensity;
     const auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "amount" ) );
@@ -970,7 +980,7 @@ int effect::get_amount( const std::string &arg, bool reduced ) const
     }
     found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "amount" ) );
     if( found != mod_data.end() ) {
-        ret += found->second * ( intensity_capped - 1 );
+        ret += found->second * ( get_effective_intensity() - 1 );
     }
     return static_cast<int>( ret );
 }
@@ -1352,7 +1362,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
-    new_etype.flags = jo.get_tags<flag_str_id>( "flags" );
+    new_etype.flags = jo.get_tags<flag_id>( "flags" );
 
     effect_types[new_etype.id] = new_etype;
 }

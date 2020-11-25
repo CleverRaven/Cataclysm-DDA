@@ -549,7 +549,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::string can_see;
     nc_color see_color;
 
-    static const flag_str_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
+    static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
     bool u_has_radio = player_character.has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?

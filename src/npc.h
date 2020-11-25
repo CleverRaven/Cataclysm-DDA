@@ -929,6 +929,9 @@ class npc : public player
         bool has_identified( const itype_id & ) const override {
             return true;
         }
+        void identify( const item & ) override {
+            // Do nothing
+        }
         /**
          * Is the item safe or does the NPC trust you enough?
          * Is not recursive, only checks the item that is the parameter.

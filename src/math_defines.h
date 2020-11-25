@@ -30,4 +30,8 @@
 #define M_SQRT2 1.41421356237309504880
 #endif
 
+#ifndef M_LOG2E
+#define M_LOG2E 1.44269504088896340736
+#endif
+
 #endif // CATA_SRC_MATH_DEFINES_H
