@@ -48,7 +48,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "bread_flour", 7 ] ],
+      [ [ "bread_flour", 1 ] ],
       [ [ "flour", 1 ] ],
       [ [ "cornmeal", 1 ] ],
       [ [ "molasses", 1 ] ],
