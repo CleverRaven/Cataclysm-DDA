@@ -1026,8 +1026,6 @@ void player::store( JsonOut &json ) const
     // energy
     json.member( "last_sleep_check", last_sleep_check );
     // misc levels
-    json.member( "tank_plut", tank_plut );
-    json.member( "reactor_plut", reactor_plut );
     json.member( "slow_rad", slow_rad );
     json.member( "scent", static_cast<int>( scent ) );
 
@@ -1100,8 +1098,6 @@ void player::load( const JsonObject &data )
     JsonArray parray;
     character_id tmpid;
 
-    data.read( "tank_plut", tank_plut );
-    data.read( "reactor_plut", reactor_plut );
     data.read( "slow_rad", slow_rad );
     data.read( "scent", scent );
     data.read( "male", male );
