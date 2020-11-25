@@ -58,6 +58,7 @@
 #include "weather.h"
 
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
+static const activity_id ACT_RELOAD_WEAPON( "ACT_RELOAD_WEAPON" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 
 static const itype_id fuel_type_battery( "battery" );
@@ -2032,9 +2033,11 @@ void vehicle::build_veh_tools_menu( const vpart_position &vp,
                tool.ammo_capacity( ammotype( "battery" ) ) > 0;
     };
 
+    const static flag_id flag_pseudo( "PSEUDO" );
+
     auto use_vehicle_tool = [&tool_wants_battery, vp]( const itype_id & tool_type ) {
         item pseudo( tool_type, calendar::turn_zero );
-        pseudo.set_flag( STATIC( flag_str_id( "PSEUDO" ) ) );
+        pseudo.set_flag( flag_pseudo );
         if( !tool_wants_battery( tool_type ) ) {
             get_avatar().invoke_item( &pseudo );
             return true;
@@ -2137,10 +2140,12 @@ void vehicle::build_interact_menu( const tripoint &pos,
             const turret_data turret = turret_query( pos );
             avatar &player_character = get_avatar();
             item::reload_option opt = player_character.select_ammo( *turret.base(), true );
+            std::vector<item_location> targets;
             if( opt ) {
-                player_character.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
-                player_character.activity.targets.emplace_back( turret.base() );
-                player_character.activity.targets.push_back( std::move( opt.ammo ) );
+                targets.emplace_back( turret.base() );
+                targets.push_back( std::move( opt.ammo ) );
+                player_character.assign_activity( player_activity(
+                                                      reload_activity_actor( opt.moves(), opt.qty(), targets ) ) );
             }
             return true;
         } );
