@@ -1717,7 +1717,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": "Allium cepa pill",
-    "description": "Some Allium cepa homeopathic pills, prepared through the dilution of one part onion with 10^30 parts water.  The label states that these pills can ameliorate symptoms of asthma, gastrointestinal disorders, and bronchitis. You briefly wonder if they may cure fungal infections.",
+    "description": "Some Allium cepa homeopathic pills, prepared through the dilution of one part onion with 10^30 parts water.  The label states that these pills can ameliorate symptoms of asthma, gastrointestinal disorders, and bronchitis.  You briefly wonder if they may cure fungal infections.",
     "weight": "1 g",
     "volume": "100 ml",
     "price": 1000,
