@@ -247,7 +247,7 @@
     "roof": "t_ice",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
-    "bash": { "str_min": 50, "str_max": 100, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null" }
+    "bash": { "str_min": 50, "str_max": 100, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_ice" }
   },
   {
     "type": "terrain",
