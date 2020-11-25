@@ -224,11 +224,8 @@ aim_container_t source_player_all( aim_advuilist_sourced_t *ui, pane_mutex_t *mu
     slotidx_t slotidx = 0;
     icon_t icon = 0;
     std::tie( slotidx, icon ) = ui->getSource();
-    if( !is_vehicle( icon ) ) {
-        ( *mutex )[slotidx] = false;
-    } else {
-        ( *mutex )[idxtovehidx( slotidx )] = false;
-    }
+    slotidx = is_vehicle( icon ) ? idxtovehidx( slotidx ) : slotidx;
+    ( *mutex )[slotidx] = false;
 
     aim_container_t itemlist;
     std::size_t idx = 0;

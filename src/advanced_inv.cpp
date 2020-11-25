@@ -66,7 +66,6 @@ void create_advanced_inv()
             aim_ctxthandler( ui, action, &pane_mutex );
         } );
         mytrui->loadstate( &uistate.transfer_save, false );
-        reset_mutex( &*mytrui, &pane_mutex );
 
     } else if( full_screen != _fs ) {
         full_screen = _fs;
@@ -75,6 +74,7 @@ void create_advanced_inv()
 
     }
 
+    reset_mutex( &*mytrui, &pane_mutex );
     aim_advuilist_sourced_t::slotidx_t lidx = 0;
     aim_advuilist_sourced_t::slotidx_t ridx = 0;
     aim_advuilist_sourced_t::icon_t licon = 0;
