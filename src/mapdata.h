@@ -275,6 +275,7 @@ struct map_data_common_t {
         int light_emitted = 0;
         // The amount of movement points required to pass this terrain by default.
         int movecost = 0;
+        int heat_radiation = 0;
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
         // Maximal volume of items that can be stored in/on this furniture
