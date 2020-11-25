@@ -10,11 +10,7 @@
     "charges": 24,
     "time": "50 m",
     "batch_time_factors": [ 50, 4 ],
-    "book_learn": [
-      [ "family_cookbook", 1 ],
-      [ "baking_book", 1 ],
-      [ "cookbook", 2 ]
-    ],
+    "book_learn": [ [ "family_cookbook", 1 ], [ "baking_book", 1 ], [ "cookbook", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
@@ -39,12 +35,7 @@
     "charges": 10,
     "time": "30 m",
     "batch_time_factors": [ 50, 5 ],
-    "book_learn": [
-      [ "family_cookbook", 1 ],
-      [ "baking_book", 2 ],
-      [ "cookbook", 2 ],
-      [ "cookbook_daintydishes", 2 ]
-    ],
+    "book_learn": [ [ "family_cookbook", 1 ], [ "baking_book", 2 ], [ "cookbook", 2 ], [ "cookbook_daintydishes", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
