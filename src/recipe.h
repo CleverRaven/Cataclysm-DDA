@@ -168,7 +168,7 @@ class recipe
         // Format the proficiencies string.
         std::string required_proficiencies_string( const Character *c ) const;
         std::string used_proficiencies_string( const Character *c ) const;
-        std::string missing_proficiencies_string( const Character *c ) const;
+        std::string missing_proficiencies_string( Character *c ) const;
         // Proficiencies for search
         std::string recipe_proficiencies_string() const;
         // Required proficiencies
