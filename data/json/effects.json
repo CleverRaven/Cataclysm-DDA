@@ -1820,14 +1820,8 @@
       [ "Your have better control of your muscles as your calcium deficiency improves.", "good" ]
     ],
     "max_intensity": 3,
-    "base_mods": {
-      "dex_mod": [ -1 ],
-      "speed_mod": [ -10 ]
-    },
-    "scaling_mods": {
-      "dex_mod": [ -2 ],
-      "speed_mod": [ -15 ]
-    },
+    "base_mods": { "dex_mod": [ -1 ], "speed_mod": [ -10 ] },
+    "scaling_mods": { "dex_mod": [ -2 ], "speed_mod": [ -15 ] },
     "rating": "bad",
     "blood_analysis_description": "Hypocalcemia"
   },
@@ -1927,11 +1921,11 @@
     "type": "effect_type",
     "id": "hypovitB",
     "name": [ "B12 deficiency", "B12 anemia", "B12 dementia" ],
-    "desc": [ 
+    "desc": [
       "A lack of vitamin B12 in your diet causes early symptoms of anemia.",
       "Prolonged lack of vitamin B12 in your diet causes anemia, loss of taste, problems with focus and fading memory.",
       "Severe vitamin B12 deficiency causes bad case of anemia, loss of taste, and damaged memory, causing dementia.  Your skills rust."
-     ],
+    ],
     "apply_message": "Your skin is more pale then usual.",
     "remove_message": "Your skin tone comes back to its normal color.",
     "decay_messages": [
