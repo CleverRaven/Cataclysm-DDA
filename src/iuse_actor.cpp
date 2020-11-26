@@ -1084,6 +1084,7 @@ int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) con
     }
 
     here.furn_set( pnt, furn_type );
+    it.spill_contents( pnt );
     p.mod_moves( to_turns<int>( 2_seconds ) );
     return 1;
 }
