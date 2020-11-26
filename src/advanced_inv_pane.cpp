@@ -11,6 +11,7 @@
 #include "advanced_inv_pane.h"
 #include "avatar.h"
 #include "cata_assert.h"
+#include "flag.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_search.h"
@@ -64,7 +65,7 @@ bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) con
 
 bool advanced_inventory_pane::is_filtered( const item &it ) const
 {
-    if( it.has_flag( STATIC( flag_str_id( "HIDDEN_ITEM" ) ) ) ) {
+    if( it.has_flag( STATIC( flag_id( "HIDDEN_ITEM" ) ) ) ) {
         return true;
     }
     if( filter.empty() ) {
@@ -109,7 +110,7 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
 
     int worn_index = -2;
     for( item &worn_item : worn ) {
-        if( worn_item.contents.empty() ) {
+        if( worn_item.contents.empty() || worn_item.has_flag( flag_NO_UNLOAD ) ) {
             continue;
         }
         for( const std::vector<item *> &it_stack : item_list_to_stack(

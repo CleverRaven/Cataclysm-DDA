@@ -346,8 +346,8 @@ construction_id construction_menu( const bool blueprint )
     ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
     ctxt.register_action( "RIGHT", to_translation( "Move tab right" ) );
     ctxt.register_action( "LEFT", to_translation( "Move tab left" ) );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "SCROLL_STAGE_UP" );
     ctxt.register_action( "SCROLL_STAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
@@ -709,8 +709,8 @@ construction_id construction_menu( const bool blueprint )
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
-        int recmax = static_cast<int>( constructs.size() );
-        int scroll_rate = recmax > 20 ? 10 : 3;
+        const int recmax = static_cast<int>( constructs.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "FILTER" ) {
             string_input_popup popup;
             popup
@@ -1236,7 +1236,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        if( vp.item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
+        if( vp.base_item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
             return vp.get_id();
         }
     }
@@ -1245,7 +1245,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     // such type anyway).
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        if( vp.item == item_id ) {
+        if( vp.base_item == item_id ) {
             return vp.get_id();
         }
     }
@@ -1779,7 +1779,7 @@ void finalize_constructions()
         if( !vp.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        frame_items.push_back( item_comp( vp.item, 1 ) );
+        frame_items.push_back( item_comp( vp.base_item, 1 ) );
     }
 
     if( frame_items.empty() ) {

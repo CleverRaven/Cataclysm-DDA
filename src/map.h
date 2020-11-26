@@ -36,6 +36,7 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "units_fwd.h"
+#include "reachability_cache.h"
 
 struct scent_block;
 template <typename T> class safe_reference;
@@ -189,6 +190,12 @@ struct level_cache {
     // units: "transparency" (see LIGHT_TRANSPARENCY_OPEN_AIR)
     float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
 
+    // materialized  (transparency_cache[i][j] > LIGHT_TRANSPARENCY_SOLID)
+    // doesn't consider fields (i.e. if tile is covered in thick smoke, it's still
+    // considered transparent for the purpuses of this cache)
+    // true, if tile is not opaque
+    std::array<std::bitset<MAPSIZE_Y>, MAPSIZE_X> transparent_cache_wo_fields;
+
     // stores "adjusted transparency" of the tiles
     // initial values derived from transparency_cache, uses same units
     // examples of adjustment: changed transparency on player's tile and special case for crouching
@@ -201,6 +208,16 @@ struct level_cache {
     // same as `seen_cache` (same units) but contains values for cameras and mirrors
     // effective "visibility_cache" is calculated as "max(seen_cache, camera_cache)"
     float camera_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // reachability caches
+    // Note: indirection here is introduced, because caches are quite large:
+    // at least (MAPSIZE_X * MAPSIZE_Y) * 4 bytes (≈69,696 bytes) each
+    // so having them directly as part of the level_cache interferes with
+    // CPU cache coherency of level_cache
+    cata::value_ptr<reachability_cache_horizontal>r_hor_cache =
+        cata::make_value<reachability_cache_horizontal>();
+    cata::value_ptr<reachability_cache_vertical> r_up_cache =
+        cata::make_value<reachability_cache_vertical>();
 
     // stores resulting apparent brightness to player, calculated by map::apparent_light_at
     lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
@@ -260,16 +277,25 @@ class map
         void set_transparency_cache_dirty( const int zlev ) {
             if( inbounds_z( zlev ) ) {
                 get_cache( zlev ).transparency_cache_dirty.set();
+                get_cache( zlev ).r_hor_cache->invalidate();
+                get_cache( zlev ).r_up_cache->invalidate();
             }
         }
 
         // more granular version of the transparency cache invalidation
         // preferred over map::set_transparency_cache_dirty( const int zlev )
         // p is in local coords ("ms")
-        void set_transparency_cache_dirty( const tripoint &p ) {
+        // @param field denotes if change comes from the field
+        //      fields are not considered for some caches, such as reachability_caches
+        //      so passing field=true allows to skip rebuilding of such caches
+        void set_transparency_cache_dirty( const tripoint &p, bool field = false ) {
             if( inbounds( p ) ) {
                 const tripoint smp = ms_to_sm_copy( p );
                 get_cache( smp.z ).transparency_cache_dirty.set( smp.x * MAPSIZE + smp.y );
+                if( !field ) {
+                    get_cache( smp.z ).r_hor_cache->invalidate( p.xy() );
+                    get_cache( smp.z ).r_up_cache->invalidate( p.xy() );
+                }
             }
         }
 
@@ -320,9 +346,9 @@ class map
             if( inbounds_z( zlev ) ) {
                 level_cache &ch = get_cache( zlev );
                 ch.floor_cache_dirty = true;
-                ch.transparency_cache_dirty.set();
                 ch.seen_cache_dirty = true;
                 ch.outside_cache_dirty = true;
+                set_transparency_cache_dirty( zlev );
             }
         }
 
@@ -340,6 +366,31 @@ class map
             }
             return false;
         }
+
+        /**
+         * A pre-filter for bresenham LOS.
+         * true, if there might be is a potential bresenham path between two points.
+         * false, if such path definitely not possible.
+         */
+        bool has_potential_los( const tripoint &from, const tripoint &to,
+                                bool bounds_check = true ) const {
+            if( bounds_check && ( !inbounds( from ) || !inbounds( to ) ) ) {
+                return false;
+            }
+            if( from.z == to.z ) {
+                level_cache &cache = get_cache( from.z );
+                return cache.r_hor_cache->has_potential_los( from.xy(), to.xy(), cache ) &&
+                       cache.r_hor_cache->has_potential_los( to.xy(), from.xy(), cache ) ;
+            }
+            tripoint upper, lower;
+            std::tie( upper, lower ) = from.z > to.z ? std::make_pair( from, to ) : std::make_pair( to, from );
+            // z-bounds depend on the invariant that both points are inbounds and their z are different
+            return get_cache( lower.z ).r_up_cache->has_potential_los(
+                       lower.xy(), upper.xy(), get_cache( lower.z ), get_cache( lower.z + 1 ) );
+        }
+
+        int reachability_cache_value( const tripoint &p, bool vertical_cache,
+                                      reachability_cache_quadrant quadrant ) const;
 
         /**
          * Callback invoked when a vehicle has moved.
@@ -1322,6 +1373,10 @@ class map
          */
         int set_field_intensity( const tripoint &p, const field_type_id &type, int new_intensity,
                                  bool isoffset = false );
+
+        // returns true, if there **might** be a field at `p`
+        // if false, there's no fields at `p`
+        bool has_field_at( const tripoint &p, bool check_bounds = true );
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.

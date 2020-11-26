@@ -10,8 +10,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "animal" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",
@@ -36,8 +36,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "muscle" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",
@@ -50,8 +50,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "wind" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",
@@ -64,8 +64,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "sunlight" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",
@@ -78,8 +78,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "metabolism" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",

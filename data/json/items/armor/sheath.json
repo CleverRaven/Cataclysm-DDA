@@ -18,7 +18,7 @@
     "material_thickness": 1,
     "pocket_data": [
       {
-        "moves": 10,
+        "moves": 30,
         "max_contains_volume": "3250 ml",
         "max_contains_weight": "5 kg",
         "max_item_length": "100 cm",
@@ -46,13 +46,15 @@
     "covers": [ "torso" ],
     "coverage": 10,
     "encumbrance": 3,
+    "max_encumbrance": 5,
     "material_thickness": 1,
     "pocket_data": [
       {
+        "magazine_well": "1500 ml",
         "max_contains_volume": "3 L",
         "max_contains_weight": "4 kg",
         "max_item_length": "130 cm",
-        "moves": 10,
+        "moves": 30,
         "holster": true,
         "flag_restriction": [ "SHEATH_SWORD" ]
       }
@@ -77,10 +79,12 @@
     "covers": [ "foot_l", "foot_r" ],
     "sided": true,
     "coverage": 5,
-    "encumbrance": 3,
+    "encumbrance": 2,
+    "max_encumbrance": 3,
     "material_thickness": 1,
     "pocket_data": [
       {
+        "magazine_well": "200 ml",
         "holster": true,
         "flag_restriction": [ "SHEATH_KNIFE" ],
         "moves": 30,
@@ -108,10 +112,12 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 10,
-    "encumbrance": 3,
+    "encumbrance": 6,
+    "max_encumbrance": 10,
     "material_thickness": 1,
     "pocket_data": [
       {
+        "magazine_well": "1750 ml",
         "max_contains_volume": "3750 ml",
         "max_contains_weight": "5 kg",
         "max_item_length": "180 cm",
@@ -141,13 +147,16 @@
     "sided": true,
     "coverage": 15,
     "encumbrance": 3,
+    "max_encumbrance": 4,
     "material_thickness": 1,
     "pocket_data": [
       {
+        "magazine_well": "1250 ml",
         "max_contains_volume": "2 L",
         "max_contains_weight": "4 kg",
         "max_item_length": "100 cm",
         "holster": true,
+        "moves": 30,
         "flag_restriction": [ "SHEATH_SWORD" ]
       }
     ],
@@ -170,14 +179,16 @@
     "covers": [ "leg_l", "leg_r" ],
     "sided": true,
     "coverage": 5,
+    "max_encumbrance": 1,
     "material_thickness": 1,
     "pocket_data": [
       {
+        "magazine_well": "350 ml",
         "holster": true,
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
-        "moves": 3,
+        "moves": 20,
         "flag_restriction": [ "SHEATH_KNIFE" ]
       }
     ],
@@ -200,7 +211,7 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 5,
-    "encumbrance": 4,
+    "encumbrance": 2,
     "material_thickness": 1,
     "pocket_data": [
       {

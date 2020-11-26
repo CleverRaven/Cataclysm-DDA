@@ -341,7 +341,7 @@ void vehicle::add_missing_frames()
         }
         if( !found ) {
             // Install missing frame
-            parts.emplace_back( frame_id, "vertical", i.mount, item( frame_id->item ) );
+            parts.emplace_back( frame_id, "vertical", i.mount, item( frame_id->base_item ) );
         }
     }
 }
@@ -1659,7 +1659,7 @@ int vehicle::install_part( const point &dp, const vpart_id &id, const std::strin
     if( !( force || can_mount( dp, id ) ) ) {
         return -1;
     }
-    return install_part( dp, vehicle_part( id, variant_id, dp, item( id.obj().item ) ) );
+    return install_part( dp, vehicle_part( id, variant_id, dp, item( id.obj().base_item ) ) );
 }
 
 int vehicle::install_part( const point &dp, const vpart_id &id, item &&obj,
@@ -6684,7 +6684,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
     if( !fuel.has_explosion_data() ) {
         return false;
     }
-    fuel_explosion data = fuel.get_explosion_data();
+    const fuel_explosion_data &data = fuel.get_explosion_data();
 
     if( parts[ p ].is_broken() ) {
         leak_fuel( parts[ p ] );
@@ -6760,7 +6760,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     if( parts[p].is_fuel_store() ) {
         explode_fuel( p, type );
     } else if( parts[ p ].is_broken() && part_flag( p, "UNMOUNT_ON_DAMAGE" ) ) {
-        here.spawn_item( global_part_pos3( p ), part_info( p ).item, 1, 0, calendar::turn );
+        here.spawn_item( global_part_pos3( p ), part_info( p ).base_item, 1, 0, calendar::turn );
         monster *mon = get_pet( p );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             mon->remove_effect( effect_harnessed );

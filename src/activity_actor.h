@@ -11,6 +11,7 @@
 #include "activity_type.h"
 #include "calendar.h"
 #include "clone_ptr.h"
+#include "handle_liquid.h"
 #include "item.h"
 #include "item_location.h"
 #include "memory_fast.h"
@@ -20,6 +21,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "units_fwd.h"
+
 
 class Character;
 class Creature;
@@ -845,6 +847,104 @@ class stash_activity_actor: public activity_actor
         std::vector<drop_or_stash_item_info> items;
         std::vector<item_location> unhandled_containers;
         tripoint placement;
+};
+
+class burrow_activity_actor: public activity_actor
+{
+    public:
+        burrow_activity_actor() = default;
+        burrow_activity_actor( int moves, tripoint &position, const std::string &burrow_tool )
+            : moves_total( moves ), burrow_position( position ), burrow_tool( burrow_tool ) {
+
+        }
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_BURROW" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &/*act*/, Character &/*who*/ ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<burrow_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+    private:
+        int moves_total {};
+        tripoint burrow_position {};
+        std::string burrow_tool {};
+        map &here = get_map();
+
+};
+class reload_activity_actor : public activity_actor
+{
+    public:
+        reload_activity_actor() = default;
+        reload_activity_actor( int moves, int qty,
+                               std::vector<item_location> &targets ) : moves_total( moves ), quantity( qty ),
+            reload_targets( targets ) {
+        };
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_RELOAD" );
+        }
+
+        void start( player_activity &/*act*/, Character &/*who*/ ) override;
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {};
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &act, Character &/*who*/ ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<reload_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+    private:
+        int moves_total{};
+        int quantity{};
+        std::vector<item_location> reload_targets{};
+
+        bool can_reload() const;
+        static void make_reload_sound( Character &who, item &reloadable );
+
+
+};
+
+class milk_activity_actor : public activity_actor
+{
+    public:
+        milk_activity_actor() = default;
+        milk_activity_actor( int moves, std::vector<tripoint> coords,
+                             std::vector<std::string> str_values ) : total_moves( moves ), monster_coords( coords ),
+            string_values( str_values ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_MILK" );
+        }
+
+        void start( player_activity &act, Character &/*who*/ ) override;
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {};
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &/*act*/, Character &/*who*/ ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<milk_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+    private:
+        int total_moves {};
+        std::vector<tripoint> monster_coords {};
+        std::vector<std::string> string_values {};
 };
 
 namespace activity_actors

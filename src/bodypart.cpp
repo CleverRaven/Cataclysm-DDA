@@ -14,6 +14,19 @@
 #include "json.h"
 #include "type_id.h"
 
+const bodypart_str_id body_part_head( "head" );
+const bodypart_str_id body_part_eyes( "eyes" );
+const bodypart_str_id body_part_mouth( "mouth" );
+const bodypart_str_id body_part_torso( "torso" );
+const bodypart_str_id body_part_arm_l( "arm_l" );
+const bodypart_str_id body_part_arm_r( "arm_r" );
+const bodypart_str_id body_part_hand_l( "hand_l" );
+const bodypart_str_id body_part_hand_r( "hand_r" );
+const bodypart_str_id body_part_leg_l( "leg_l" );
+const bodypart_str_id body_part_foot_l( "foot_l" );
+const bodypart_str_id body_part_leg_r( "leg_r" );
+const bodypart_str_id body_part_foot_r( "foot_r" );
+
 side opposite_side( side s )
 {
     switch( s ) {
@@ -134,19 +147,19 @@ int_id<body_part_type>::int_id( const string_id<body_part_type> &id ) : _id( id.
 const bodypart_str_id &convert_bp( body_part bp )
 {
     static const std::vector<bodypart_str_id> body_parts = {
-        bodypart_str_id( "torso" ),
-        bodypart_str_id( "head" ),
-        bodypart_str_id( "eyes" ),
-        bodypart_str_id( "mouth" ),
-        bodypart_str_id( "arm_l" ),
-        bodypart_str_id( "arm_r" ),
-        bodypart_str_id( "hand_l" ),
-        bodypart_str_id( "hand_r" ),
-        bodypart_str_id( "leg_l" ),
-        bodypart_str_id( "leg_r" ),
-        bodypart_str_id( "foot_l" ),
-        bodypart_str_id( "foot_r" ),
-        bodypart_str_id( "bp_null" ),
+        body_part_torso,
+        body_part_head,
+        body_part_eyes,
+        body_part_mouth,
+        body_part_arm_l,
+        body_part_arm_r,
+        body_part_hand_l,
+        body_part_hand_r,
+        body_part_leg_l,
+        body_part_leg_r,
+        body_part_foot_l,
+        body_part_foot_r,
+        bodypart_str_id::NULL_ID(),
     };
     if( bp > num_bp || bp < bp_torso ) {
         debugmsg( "Invalid body part token %d", bp );
@@ -164,6 +177,11 @@ void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
 bool body_part_type::has_flag( const std::string &flag ) const
 {
     return flags.count( flag ) > 0;
+}
+
+const std::vector<body_part_type> &body_part_type::get_all()
+{
+    return body_part_factory.get_all();
 }
 
 void body_part_type::load( const JsonObject &jo, const std::string & )

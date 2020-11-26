@@ -216,7 +216,7 @@ void Item_factory::finalize_pre( itype &obj )
         }
     }
     // remove LIGHT_[X] flags
-    erase_if( obj.item_tags, []( const flag_str_id & f ) {
+    erase_if( obj.item_tags, []( const flag_id & f ) {
         return string_starts_with( f.str(), "LIGHT_" );
     } );
 
@@ -495,7 +495,7 @@ void Item_factory::register_cached_uses( const itype &obj )
 
 void Item_factory::finalize_post( itype &obj )
 {
-    erase_if( obj.item_tags, [&]( const flag_str_id & f ) {
+    erase_if( obj.item_tags, [&]( const flag_id & f ) {
         if( !f.is_valid() ) {
             debugmsg( "itype '%s' uses undefined flag '%s'. Please add corresponding 'json_flag' entry to json.",
                       obj.id.str(), f.str() );
@@ -1461,10 +1461,6 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->fuel && !type->count_by_charges() ) {
-            msg += "fuel value set, but item isn't count_by_charges.\n";
-        }
-
         if( !migrations.count( type->id ) ) {
             // If type has a default ammo then check it can fit within
             item tmp_item( type );
@@ -1733,34 +1729,6 @@ void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
             def.wheel = cata::make_value<islot_wheel>();
         }
         def.wheel->load( jo );
-        load_basic_info( jo, def, src );
-    }
-}
-
-void Item_factory::load( islot_fuel &slot, const JsonObject &jo, const std::string &src )
-{
-    bool strict = src == "dda";
-
-    assign( jo, "energy", slot.energy, strict, 0.001f );
-    if( jo.has_member( "pump_terrain" ) ) {
-        slot.pump_terrain = jo.get_string( "pump_terrain" );
-    }
-    if( jo.has_member( "explosion_data" ) ) {
-        slot.has_explode_data = true;
-        JsonObject jo_ed = jo.get_object( "explosion_data" );
-        slot.explosion_data.explosion_chance_hot = jo_ed.get_int( "chance_hot" );
-        slot.explosion_data.explosion_chance_cold = jo_ed.get_int( "chance_cold" );
-        slot.explosion_data.explosion_factor = jo_ed.get_float( "factor" );
-        slot.explosion_data.fiery_explosion = jo_ed.get_bool( "fiery" );
-        slot.explosion_data.fuel_size_factor = jo_ed.get_float( "size_factor" );
-    }
-}
-
-void Item_factory::load_fuel( const JsonObject &jo, const std::string &src )
-{
-    itype def;
-    if( load_definition( jo, src, def ) ) {
-        load_slot( def.fuel, jo, src );
         load_basic_info( jo, def, src );
     }
 }
@@ -2484,7 +2452,7 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 // Set for all items (not just food and clothing) to avoid edge cases
 void Item_factory::set_allergy_flags( itype &item_template )
 {
-    static const std::pair<material_id, flag_str_id> all_pairs[] = {
+    static const std::pair<material_id, flag_id> all_pairs[] = {
         // First allergens:
         // An item is an allergen even if it has trace amounts of allergenic material
         { material_id( "hflesh" ), flag_CANNIBALISM },
@@ -3035,7 +3003,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "ammo_data", def.ammo, src == "dda" );
     assign( jo, "seed_data", def.seed, src == "dda" );
     assign( jo, "brewable", def.brewable, src == "dda" );
-    load_slot_optional( def.fuel, jo, "fuel", src );
     load_slot_optional( def.relic_data, jo, "relic_data", src );
     assign( jo, "milling", def.milling_data, src == "dda" );
 
