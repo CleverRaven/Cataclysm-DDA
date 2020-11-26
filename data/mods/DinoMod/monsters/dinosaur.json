@@ -1365,6 +1365,6 @@
     "hp": 267,
     "zombify_into": "mon_zamargasaurus",
     "description": "A herbivourous sauropod from the cretaceous, it seems to pose little threat to you.",
-    "reproduction": { "baby_egg": "egg_amargasaurus", "baby_count": 25, "baby_timer": 23 },
+    "reproduction": { "baby_egg": "egg_amargasaurus", "baby_count": 25, "baby_timer": 23 }
   }
 ]
