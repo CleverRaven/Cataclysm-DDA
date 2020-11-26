@@ -3720,8 +3720,6 @@ If it is an object - it has following attributes:
   parts delimited by an underscore) of the overmap terrain id. For example,
   "forest" will match "forest" or "forest_thick" but not "forestcabin".
 
-Arbitrary flags. TODO: document them.
-
 * `CONTAINS` - The provided string must be contained within the overmap terrain
   id, but may occur at the beginning, end, or middle and does not have any rules
   about underscore delimiting.
