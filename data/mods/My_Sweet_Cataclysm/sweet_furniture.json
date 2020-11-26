@@ -30,6 +30,7 @@
     "description": "Blocking your path.  Should be easy to move.  It can be used as a primitive anvil.",
     "symbol": "o",
     "color": "dark_gray",
+    "material": "rock_candy",
     "move_cost_mod": 3,
     "coverage": 30,
     "required_str": 10,
@@ -40,7 +41,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "candy3", "count": [ 1, 6 ] }, { "item": "marshmallow", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "rock_candy_chunk", "count": [ 1, 6 ] } ]
     }
   },
   {
@@ -50,6 +51,7 @@
     "description": "Blocking your path.  It'll be a struggle to move.  It can be used as a primitive anvil.",
     "symbol": "0",
     "color": "dark_gray",
+    "material": "rock_candy",
     "move_cost_mod": 6,
     "coverage": 45,
     "required_str": 16,
@@ -60,7 +62,7 @@
       "str_max": 80,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "candy3", "count": [ 5, 11 ] }, { "item": "marshmallow", "count": [ 1, 4 ] } ]
+      "items": [ { "item": "rock_candy_chunk", "count": [ 5, 11 ] } ]
     }
   },
   {
@@ -70,6 +72,7 @@
     "description": "Now how are you going to move this?",
     "symbol": "O",
     "color": "dark_gray",
+    "material": "rock_candy",
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": 32,
@@ -79,14 +82,7 @@
       "str_max": 160,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [
-        { "item": "candy3", "count": [ 10, 22 ] },
-        { "item": "marshmallow", "count": [ 3, 7 ] },
-        { "item": "smores", "charges": [ 2, 5 ], "prob": 30 },
-        { "item": "grahmcrackers", "count": [ 0, 1 ], "prob": 10 },
-        { "item": "cookies_egg", "count": [ 0, 1 ], "prob": 1 },
-        { "item": "cookies", "count": [ 0, 5 ], "prob": 2 }
-      ]
+      "items": [ { "item": "rock_candy_chunk", "count": [ 10, 22 ] }, { "item": "sugar", "count": [ 3, 7 ] } ]
     }
   }
 ]

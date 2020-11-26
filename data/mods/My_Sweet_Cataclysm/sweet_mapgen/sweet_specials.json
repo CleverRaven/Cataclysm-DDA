@@ -2,7 +2,7 @@
   {
     "type": "overmap_special",
     "id": "chocolate bog",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pond_swamp_chocolate_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pond_swamp_chocolate" } ],
     "locations": [ "swamp" ],
     "city_distance": [ 1, -1 ],
     "occurrences": [ 0, 9 ],
