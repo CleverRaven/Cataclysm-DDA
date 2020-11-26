@@ -701,21 +701,21 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
             }
         }
 
-        for( size_t i = 0; i < order.size(); i++ ) {
+        for( const size_t index : order ) {
             const base_camps::miss_data &miss_info = base_camps::miss_info["_faction_upgrade_exp_"];
-            comp_list npc_list = get_mission_workers( upgrades[order[i]].bldg + "_faction_upgrade_exp_" +
+            comp_list npc_list = get_mission_workers( upgrades[index].bldg + "_faction_upgrade_exp_" +
                                  dir_id );
             if( npc_list.empty() ) {
-                entry = om_upgrade_description( upgrades[order[i]].bldg );
-                mission_key.add_start( dir_id + miss_info.miss_id + upgrades[order[i]].bldg,
-                                       dir_abbr + miss_info.desc + " " + upgrades[order[i]].name, dir, entry,
-                                       upgrades[order[i]].avail );
+                entry = om_upgrade_description( upgrades[index].bldg );
+                mission_key.add_start( dir_id + miss_info.miss_id + upgrades[index].bldg,
+                                       dir_abbr + miss_info.desc + " " + upgrades[index].name, dir, entry,
+                                       upgrades[index].avail );
             } else {
                 entry = miss_info.action.translated();
                 bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( "Recover Ally, " + dir_id + " Expansion" + upgrades[order[i]].bldg,
+                mission_key.add_return( "Recover Ally, " + dir_id + " Expansion" + upgrades[index].bldg,
                                         _( "Recover Ally, " ) + dir_abbr + _( " Expansion" ) +
-                                        " " + upgrades[order[i]].name, dir, entry, avail );
+                                        " " + upgrades[index].name, dir, entry, avail );
             }
         }
 
@@ -1093,16 +1093,14 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     }
 
     std::map<recipe_id, translation> craft_recipes = recipe_deck( dir );
-    if( true ) {
-        comp_list npc_list = get_mission_workers( "_faction_camp_crafting_" + dir_id );
-        const base_camps::miss_data &miss_info =
-            base_camps::miss_info["_faction_camp_crafting_"];
-        if( !npc_list.empty() ) {
-            entry = miss_info.action.translated();
-            bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( dir_id + miss_info.ret_miss_id,
-                                    dir_abbr + miss_info.ret_desc, dir, entry, avail );
-        }
+    comp_list npc_list = get_mission_workers( "_faction_camp_crafting_" + dir_id );
+    const base_camps::miss_data &miss_info =
+        base_camps::miss_info["_faction_camp_crafting_"];
+    if( !npc_list.empty() ) {
+        entry = miss_info.action.translated();
+        bool avail = update_time_left( entry, npc_list );
+        mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                dir_abbr + miss_info.ret_desc, dir, entry, avail );
     }
 
     if( has_provides( "kitchen", dir ) ) {
@@ -1267,38 +1265,23 @@ void basecamp::get_available_missions( mission_data &mission_key )
         }
     }
 
-    for( size_t i = 0; i < order.size(); i++ ) {
+    for( const size_t index : order ) {
+        //    for( size_t i = 0; i < order.size(); i++ ) {
         const base_camps::miss_data &miss_info = base_camps::miss_info["_faction_upgrade_camp"];
-        comp_list npc_list = get_mission_workers( upgrades[order[i]].bldg + "_faction_upgrade_camp" );
-        if( npc_list.empty() && !upgrades[order[i]].in_progress ) {
-            entry = om_upgrade_description( upgrades[order[i]].bldg );
-            mission_key.add_start( miss_info.miss_id + upgrades[order[i]].bldg,
-                                   miss_info.desc + " " + upgrades[order[i]].name, base_camps::base_dir,
-                                   entry, upgrades[order[i]].avail );
-        } else if( !npc_list.empty() && upgrades[order[i]].in_progress ) {
+        comp_list npc_list = get_mission_workers( upgrades[index].bldg + "_faction_upgrade_camp" );
+        if( npc_list.empty() && !upgrades[index].in_progress ) {
+            entry = om_upgrade_description( upgrades[index].bldg );
+            mission_key.add_start( miss_info.miss_id + upgrades[index].bldg,
+                                   miss_info.desc + " " + upgrades[index].name, base_camps::base_dir,
+                                   entry, upgrades[index].avail );
+        } else if( !npc_list.empty() && upgrades[index].in_progress ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id + upgrades[order[i]].bldg,
-                                    miss_info.ret_desc + " " + upgrades[order[i]].name, base_camps::base_dir,
+            mission_key.add_return( miss_info.ret_miss_id + upgrades[index].bldg,
+                                    miss_info.ret_desc + " " + upgrades[index].name, base_camps::base_dir,
                                     entry, avail );
         }
     }
-    //    for( const basecamp_upgrade &upgrade : available_upgrades( base_camps::base_dir ) ) {
-    //        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_camp" ];
-    //        comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_camp" );
-    //        if( npc_list.empty() && !upgrade.in_progress ) {
-    //            entry = om_upgrade_description( upgrade.bldg );
-    //            mission_key.add_start( miss_info.miss_id + upgrade.bldg,
-    //                                   miss_info.desc + " " + upgrade.name, base_camps::base_dir,
-    //                                   entry, upgrade.avail );
-    //        } else if( !npc_list.empty() && upgrade.in_progress ) {
-    //            entry = miss_info.action.translated();
-    //            bool avail = update_time_left( entry, npc_list );
-    //            mission_key.add_return( miss_info.ret_miss_id + upgrade.bldg,
-    //                                    miss_info.ret_desc + " " + upgrade.name, base_camps::base_dir,
-    //                                    entry, avail );
-    //        }
-    //    }
 
     // Missions that belong exclusively to the central tile
     comp_list npc_list = get_mission_workers( "_faction_camp_crafting_" + base_dir_id );
