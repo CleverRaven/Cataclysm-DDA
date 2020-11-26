@@ -165,7 +165,7 @@
     "color": "red",
     "comestible_type": "FOOD",
     "material": [ "junk" ],
-    "description": "A swirly confectionary treat in strings of sweet tasting candy.  You think you've seen them wriggle a bit.  How strange...",
+    "description": "A swirly confectionary treat in strings of sweet tasting candy.  You think you've seen them wriggle a bit.  How strange…",
     "price": 340,
     "charges": 1,
     "quench": -1,
