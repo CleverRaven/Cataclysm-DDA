@@ -996,7 +996,13 @@ tab_direction set_traits( avatar &u, points_left &points )
     int num_good = 0;
     int num_bad = 0;
 
-    std::vector<trait_id> vStartingTraits[3];
+    struct trait_entry {
+        trait_id id;
+        bool avatar_has;
+        bool conflicts;
+        bool forbidden;
+    };
+    std::vector<trait_entry> vStartingTraits[3];
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
         // Don't list blacklisted traits
@@ -1010,29 +1016,42 @@ tab_direction set_traits( avatar &u, points_left &points )
                                              traits_iter.id ) != proftraits.end();
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
         if( traits_iter.startingtrait || g->scen->traitquery( traits_iter.id ) || is_proftrait ) {
+            size_t page;
             if( traits_iter.points > 0 ) {
-                vStartingTraits[0].push_back( traits_iter.id );
-
+                page = 0;
                 if( u.has_trait( traits_iter.id ) ) {
                     num_good += traits_iter.points;
                 }
             } else if( traits_iter.points < 0 ) {
-                vStartingTraits[1].push_back( traits_iter.id );
-
+                page = 1;
                 if( u.has_trait( traits_iter.id ) ) {
                     num_bad += traits_iter.points;
                 }
             } else {
-                vStartingTraits[2].push_back( traits_iter.id );
+                page = 2;
             }
+            vStartingTraits[page].push_back( { traits_iter.id, false, false, g->scen->is_forbidden_trait( traits_iter.id ) } );
         }
     }
     //If the third page is empty, only use the first two.
     const int used_pages = vStartingTraits[2].empty() ? 2 : 3;
 
     for( auto &vStartingTrait : vStartingTraits ) {
-        std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_sort );
+        std::sort( vStartingTrait.begin(), vStartingTrait.end(), []( const trait_entry & a,
+        const trait_entry & b ) {
+            return trait_display_sort( a.id, b.id );
+        } );
     }
+
+    const auto recalc_display_cache = [&]() {
+        for( int page = 0; page < used_pages; page++ ) {
+            for( trait_entry &entry : vStartingTraits[page] ) {
+                entry.conflicts = u.has_conflicting_trait( entry.id );
+                entry.avatar_has = u.has_trait( entry.id );
+            }
+        }
+    };
+    recalc_display_cache();
 
     int iCurWorkingPage = 0;
     int iStartPos[3] = { 0, 0, 0 };
@@ -1102,8 +1121,6 @@ tab_direction set_traits( avatar &u, points_left &points )
                     col_on_pas = COL_TR_GOOD_ON_PAS;
                     col_off_pas = COL_TR_GOOD_OFF_PAS;
                     col_tr = COL_TR_GOOD;
-                    hi_on = hilite( col_on_act );
-                    hi_off = hilite( col_off_act );
                     break;
                 case 1:
                     col_on_act = COL_TR_BAD_ON_ACT;
@@ -1111,8 +1128,6 @@ tab_direction set_traits( avatar &u, points_left &points )
                     col_on_pas = COL_TR_BAD_ON_PAS;
                     col_off_pas = COL_TR_BAD_OFF_PAS;
                     col_tr = COL_TR_BAD;
-                    hi_on = hilite( col_on_act );
-                    hi_off = hilite( col_off_act );
                     break;
                 default:
                     col_on_act = COL_TR_NEUT_ON_ACT;
@@ -1120,8 +1135,6 @@ tab_direction set_traits( avatar &u, points_left &points )
                     col_on_pas = COL_TR_NEUT_ON_PAS;
                     col_off_pas = COL_TR_NEUT_OFF_PAS;
                     col_tr = COL_TR_NEUT;
-                    hi_on = hilite( col_on_act );
-                    hi_off = hilite( col_off_act );
                     break;
             }
 
@@ -1131,8 +1144,8 @@ tab_direction set_traits( avatar &u, points_left &points )
             int end = start + static_cast<int>( std::min( traits_size[iCurrentPage], iContentHeight ) );
 
             for( int i = start; i < end; i++ ) {
-                const trait_id &cur_trait = vStartingTraits[iCurrentPage][i];
-                const mutation_branch &mdata = cur_trait.obj();
+                const trait_entry &entry = vStartingTraits[iCurrentPage][i];
+                const mutation_branch &mdata = entry.id.obj();
                 if( current == i && iCurrentPage == iCurWorkingPage ) {
                     int points = mdata.points;
                     bool negativeTrait = points < 0;
@@ -1149,35 +1162,31 @@ tab_direction set_traits( avatar &u, points_left &points )
                                     mdata.desc() );
                 }
 
-                nc_color cLine = col_off_pas;
+                nc_color col;
                 if( iCurWorkingPage == iCurrentPage ) {
-                    cLine = col_off_act;
-                    if( current == i ) {
-                        cLine = hi_off;
-                        if( u.has_conflicting_trait( cur_trait ) ) {
-                            cLine = hilite( c_dark_gray );
-                        } else if( u.has_trait( cur_trait ) ) {
-                            cLine = hi_on;
-                        }
+                    if( entry.avatar_has ) {
+                        col = col_on_act;
+                    } else if( entry.conflicts || entry.forbidden ) {
+                        col = c_dark_gray;
                     } else {
-                        if( u.has_conflicting_trait( cur_trait ) || g->scen->is_forbidden_trait( cur_trait ) ) {
-                            cLine = c_dark_gray;
-
-                        } else if( u.has_trait( cur_trait ) ) {
-                            cLine = col_on_act;
-                        }
+                        col = col_off_act;
                     }
-                } else if( u.has_trait( cur_trait ) ) {
-                    cLine = col_on_pas;
-
-                } else if( u.has_conflicting_trait( cur_trait ) || g->scen->is_forbidden_trait( cur_trait ) ) {
-                    cLine = c_light_gray;
+                    if( current == i ) {
+                        col = hilite( col );
+                    }
+                } else {
+                    if( entry.avatar_has ) {
+                        col = col_on_pas;
+                    } else if( entry.conflicts || entry.forbidden ) {
+                        col = c_light_gray;
+                    } else {
+                        col = col_off_pas;
+                    }
                 }
 
-                int cur_line_y = 5 + i - start;
-                int cur_line_x = 2 + iCurrentPage * page_width;
-                mvwprintz( w, point( cur_line_x, cur_line_y ), cLine, utf8_truncate( mdata.name(),
-                           page_width - 2 ) );
+                int cur_y = 5 + i - start;
+                int cur_x = 2 + iCurrentPage * page_width;
+                mvwprintz( w, point( cur_x, cur_y ), col, utf8_truncate( mdata.name(), page_width - 2 ) );
             }
 
             draw_scrollbar( w, iCurrentLine[iCurrentPage], iContentHeight, traits_size[iCurrentPage],
@@ -1214,7 +1223,7 @@ tab_direction set_traits( avatar &u, points_left &points )
             }
         } else if( action == "CONFIRM" ) {
             int inc_type = 0;
-            const trait_id cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
+            const trait_id cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]].id;
             const mutation_branch &mdata = cur_trait.obj();
 
             // Look through the profession bionics, and see if any of them conflict with this trait
@@ -1275,6 +1284,8 @@ tab_direction set_traits( avatar &u, points_left &points )
                     num_bad += mdata.points * inc_type;
                 }
             }
+
+            recalc_display_cache();
         } else if( action == "PREV_TAB" ) {
             return tab_direction::BACKWARD;
         } else if( action == "NEXT_TAB" ) {
