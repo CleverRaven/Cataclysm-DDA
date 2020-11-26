@@ -8803,10 +8803,11 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
 
         if( e->is_tool() ) {
             if( e->typeId() == what ) {
-                int n = std::min( e->ammo_remaining(), qty );
-                qty -= n;
+                if( ( e->is_magazine() || e->magazine_current() != nullptr )
+                    && e->ammo_current() != itype_id::NULL_ID() ) {
 
-                if( e->is_magazine() || e->magazine_current() != nullptr ) {
+                    int n = std::min( e->ammo_remaining(), qty );
+                    qty -= n;
                     item temp( *e );
                     temp.ammo_set( e->ammo_current(), n );
                     used.push_back( temp );
