@@ -19,6 +19,7 @@
       { "item": "can_tomato", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "meat_pickled", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "veggy_pickled", "prob": 20, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "brandied_fruit", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "sauce_red", "prob": 60, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" }
@@ -610,7 +611,8 @@
       { "group": "mixed_alcoholic_drinks", "prob": 141 },
       { "item": "dandelion_wine", "prob": 8 },
       { "item": "hb_beer", "prob": 8 },
-      { "item": "moonshine", "prob": 8 }
+      { "item": "moonshine", "prob": 8 },
+      { "item": "brandied_fruit", "prob": 2, "charges": 12, "container-item": "jar_3l_glass_sealed" }
     ]
   },
   {

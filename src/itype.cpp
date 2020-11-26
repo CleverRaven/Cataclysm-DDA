@@ -151,7 +151,7 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( has_flag( STATIC( flag_str_id( "CAN_HAVE_CHARGES" ) ) ) ) {
+    if( has_flag( STATIC( flag_id( "CAN_HAVE_CHARGES" ) ) ) ) {
         return true;
     }
     return false;

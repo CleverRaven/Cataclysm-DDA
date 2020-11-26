@@ -10,7 +10,7 @@
 TEST_CASE( "sizeof_new_id", "[.][int_id][string_id]" )
 {
     DYNAMIC_SECTION( "sizeof: int_id: " << sizeof( flag_id ) ) {}
-    DYNAMIC_SECTION( "sizeof: interned string_id: " << sizeof( flag_str_id ) ) {}
+    DYNAMIC_SECTION( "sizeof: interned string_id: " << sizeof( flag_id ) ) {}
     DYNAMIC_SECTION( "sizeof: dynamic string_id: " << sizeof( trait_group::Trait_group_tag ) ) {}
 }
 

@@ -318,6 +318,22 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "fried_eggs",
+    "name": { "str_sp": "fried eggs" },
+    "copy-from": "scrambled_eggs",
+    "color": "yellow",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 222,
+    "description": "Sunny-side up eggs fried with a runny yolk and just a bit of crisp on the edges.",
+    "price": 500,
+    "price_postapoc": 120,
+    "material": [ "egg" ],
+    "fun": 2,
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "pickled_egg",
     "name": "pickled egg",
     "copy-from": "egg_chicken",

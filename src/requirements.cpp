@@ -70,6 +70,15 @@ const requirement_data &string_id<requirement_data>::obj() const
     return found->second;
 }
 
+std::vector<requirement_data> requirement_data::get_all()
+{
+    std::vector<requirement_data> ret;
+    for( const std::pair<const requirement_id, requirement_data> &pair : requirements_all ) {
+        ret.push_back( pair.second );
+    }
+    return ret;
+}
+
 namespace
 {
 generic_factory<quality> quality_factory( "tool quality" );
@@ -1109,7 +1118,7 @@ requirement_data requirement_data::disassembly_requirements() const
     []( std::vector<item_comp> &cov ) {
         cov.erase( std::remove_if( cov.begin(), cov.end(),
         []( const item_comp & comp ) {
-            return !comp.recoverable || item( comp.type ).has_flag( STATIC( flag_str_id( "UNRECOVERABLE" ) ) );
+            return !comp.recoverable || item( comp.type ).has_flag( STATIC( flag_id( "UNRECOVERABLE" ) ) );
         } ), cov.end() );
         return cov.empty();
     } ), ret.components.end() );

@@ -101,6 +101,8 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
         _burn_data.emplace_back( mbd );
     }
 
+    optional( jsobj, was_loaded, "fuel_data", fuel );
+
     jsobj.read( "burn_products", _burn_products, true );
 
     optional( jsobj, was_loaded, "compact_accepts", _compact_accepts,
@@ -256,6 +258,11 @@ bool material_type::reinforces() const
     return _reinforces;
 }
 
+fuel_data material_type::get_fuel_data() const
+{
+    return fuel;
+}
+
 const mat_burn_data &material_type::burn_data( size_t intensity ) const
 {
     return _burn_data[ std::min<size_t>( intensity, _burn_data.size() ) - 1 ];
@@ -325,4 +332,39 @@ std::set<material_id> materials::get_rotting()
     }
 
     return rotting;
+}
+
+void fuel_data::load( const JsonObject &jsobj )
+{
+    mandatory( jsobj, was_loaded, "energy", energy );
+    optional( jsobj, was_loaded, "pump_terrain", pump_terrain );
+    optional( jsobj, was_loaded, "explosion_data", explosion_data );
+    optional( jsobj, was_loaded, "perpetual", is_perpetual_fuel );
+}
+
+void fuel_data::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+    load( jo );
+}
+
+bool fuel_explosion_data::is_empty()
+{
+    return explosion_chance_cold == 0 && explosion_chance_hot == 0 && explosion_factor == 0.0f &&
+           !fiery_explosion && fuel_size_factor == 0.0f;
+}
+
+void fuel_explosion_data::load( const JsonObject &jsobj )
+{
+    optional( jsobj, was_loaded, "chance_hot", explosion_chance_hot );
+    optional( jsobj, was_loaded, "chance_cold", explosion_chance_cold );
+    optional( jsobj, was_loaded, "factor", explosion_factor );
+    optional( jsobj, was_loaded, "size_factor", fuel_size_factor );
+    optional( jsobj, was_loaded, "fiery", fiery_explosion );
+}
+
+void fuel_explosion_data::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+    load( jo );
 }

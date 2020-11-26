@@ -569,6 +569,12 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
                 veh.damage_all( coll_dmg / 2, coll_dmg, damage_type::BASH, collision_point );
             }
         }
+
+        // prevent vehicle bouncing after the first collision
+        if( vertical && velocity_before < 0 && coll_velocity > 0 ) {
+            veh.vertical_velocity = 0; // also affects `coll_velocity` and thus exits the loop
+        }
+
     } while( collision_attempts-- > 0 && coll_velocity != 0 &&
              sgn( coll_velocity ) == sgn( velocity_before ) &&
              !collisions.empty() && !veh_veh_coll_flag );
@@ -4860,7 +4866,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
                 flag = temperature_flag::HEATER;
             }
             // some vehicle parts provide insulation, default is 1
-            it_insulation = item::find_type( pti.item )->insulation_factor;
+            it_insulation = item::find_type( pti.base_item )->insulation_factor;
 
             if( pt.enabled && pti.has_flag( VPFLAG_FRIDGE ) ) {
                 it_insulation = 1; // ignore fridge insulation if on
@@ -5368,9 +5374,15 @@ int map::get_field_intensity( const tripoint &p, const field_type_id &type ) con
     return ( field_ptr == nullptr ? 0 : field_ptr->get_field_intensity() );
 }
 
+bool map::has_field_at( const tripoint &p, bool check_bounds )
+{
+    const tripoint sm = ms_to_sm_copy( p );
+    return ( !check_bounds || inbounds( p ) ) && get_cache( p.z ).field_cache[sm.x + sm.y * MAPSIZE];
+}
+
 field_entry *map::get_field( const tripoint &p, const field_type_id &type )
 {
-    if( !inbounds( p ) ) {
+    if( !inbounds( p ) || !has_field_at( p, false ) ) {
         return nullptr;
     }
 
@@ -5439,7 +5451,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
 
     // Dirty the transparency cache now that field processing doesn't always do it
     if( fd_type.dirty_transparency_cache || !fd_type.is_transparent() ) {
-        set_transparency_cache_dirty( p );
+        set_transparency_cache_dirty( p, true );
         set_seen_cache_dirty( p );
     }
 
@@ -5476,7 +5488,7 @@ void map::remove_field( const tripoint &p, const field_type_id &field_to_remove 
         }
         const auto &fdata = field_to_remove.obj();
         if( fdata.dirty_transparency_cache || !fdata.is_transparent() ) {
-            set_transparency_cache_dirty( p );
+            set_transparency_cache_dirty( p, true );
             set_seen_cache_dirty( p );
         }
         if( fdata.is_dangerous() ) {
@@ -8077,7 +8089,11 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         const bool affects_seen_cache =  z == zlev || fov_3d;
         build_outside_cache( z );
         build_transparency_cache( z );
-        seen_cache_dirty |= ( build_floor_cache( z ) && affects_seen_cache );
+        bool floor_cache_was_dirty = build_floor_cache( z );
+        seen_cache_dirty |= ( floor_cache_was_dirty && affects_seen_cache );
+        if( floor_cache_was_dirty && z > -OVERMAP_DEPTH ) {
+            get_cache( z - 1 ).r_up_cache->invalidate();
+        }
         seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
     }
     // needs a separate pass as it changes the caches on neighbour z-levels (e.g. floor_cache);
@@ -8842,5 +8858,25 @@ void map::invalidate_max_populated_zlev( int zlev )
 {
     if( max_populated_zlev && max_populated_zlev->second < zlev ) {
         max_populated_zlev->second = zlev;
+    }
+}
+
+// Get cache value for debug purposes
+int map::reachability_cache_value( const tripoint &p, bool vertical_cache,
+                                   reachability_cache_quadrant quadrant ) const
+{
+    if( !inbounds( p ) ) {
+        return -2;
+    }
+
+    // rebuild caches, so valid values are shown
+    has_potential_los( p, p ); // rebuild horizontal cache;
+    has_potential_los( p, p + tripoint_above ); // rebuild "up" cache
+
+    const level_cache &lc = get_cache( p.z );
+    if( vertical_cache ) {
+        return lc.r_up_cache->get_value( quadrant, p.xy() );
+    } else {
+        return lc.r_hor_cache->get_value( quadrant, p.xy() );
     }
 }

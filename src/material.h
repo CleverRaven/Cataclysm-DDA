@@ -26,6 +26,33 @@ using mat_compacts_into = std::vector<itype_id>;
 using material_list = std::vector<material_type>;
 using material_id_list = std::vector<material_id>;
 
+struct fuel_explosion_data {
+    int explosion_chance_hot = 0;
+    int explosion_chance_cold = 0;
+    float explosion_factor = 0.0f;
+    bool fiery_explosion = false;
+    float fuel_size_factor = 0.0f;
+
+    bool is_empty();
+
+    bool was_loaded = false;
+    void load( const JsonObject &jsobj );
+    void deserialize( JsonIn &jsin );
+};
+
+struct fuel_data {
+    public:
+        /** Energy of the fuel (kilojoules per charge) */
+        float energy = 0.0f;
+        fuel_explosion_data explosion_data;
+        std::string pump_terrain = "t_null";
+        bool is_perpetual_fuel = false;
+
+        bool was_loaded = false;
+        void load( const JsonObject &jsobj );
+        void deserialize( JsonIn &jsin );
+};
+
 class material_type
 {
     public:
@@ -60,6 +87,8 @@ class material_type
         std::map<vitamin_id, double> _vitamins;
 
         std::vector<mat_burn_data> _burn_data;
+
+        fuel_data fuel;
 
         //Burn products defined in JSON as "burn_products": [ [ "X", float efficiency ], [ "Y", float efficiency ] ]
         mat_burn_products _burn_products;
@@ -108,6 +137,8 @@ class material_type
             const auto iter = _vitamins.find( id );
             return iter != _vitamins.end() ? iter->second : 0;
         }
+
+        fuel_data get_fuel_data() const;
 
         const mat_burn_data &burn_data( size_t intensity ) const;
         const mat_burn_products &burn_products() const;

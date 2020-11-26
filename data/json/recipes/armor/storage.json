@@ -41,6 +41,25 @@
     "extend": { "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ] }
   },
   {
+    "result": "baldric_holster",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "pistol", 1 ],
+    "time": "6 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_leather", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
+    "components": [ [ [ "strap_small", 6, "LIST" ] ], [ [ "clasps", 6, "LIST" ] ] ]
+  },
+  {
     "result": "stone_pouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

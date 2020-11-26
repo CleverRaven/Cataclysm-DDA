@@ -876,7 +876,8 @@ class jmapgen_npc : public jmapgen_piece
             npc_class( jsi.get_string( "class" ) )
             , target( jsi.get_bool( "target", false ) ) {
             if( !npc_class.is_valid() ) {
-                set_mapgen_defer( jsi, "class", "unknown npc class" );
+                set_mapgen_defer( jsi, "class", string_format( "unknown npc template %s",
+                                  jsi.get_string( "class" ) ) );
             }
             if( jsi.has_string( "add_trait" ) ) {
                 std::string new_trait = jsi.get_string( "add_trait" );
