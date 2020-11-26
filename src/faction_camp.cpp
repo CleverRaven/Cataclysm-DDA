@@ -685,7 +685,6 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         // Generate upgrade missions for expansions
         std::vector<basecamp_upgrade> upgrades = available_upgrades( dir );
         std::vector<size_t> order;
-        size_t swap_temp;
 
         for( size_t i = 0; i < upgrades.size(); i++ ) {
             order.push_back( i );
@@ -694,9 +693,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         for( size_t i = 0; i + 1 < upgrades.size(); i++ ) {
             for( size_t k = i + 1; k < upgrades.size(); k++ ) {
                 if( upgrades[order[k]].name.translated_lt( upgrades[order[i]].name ) ) {
-                    swap_temp = order[i];
-                    order[i] = order[k];
-                    order[k] = swap_temp;
+                    std::swap( order[i], order[k] );
                 }
             }
         }
@@ -1230,7 +1227,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
     }
     std::vector<basecamp_upgrade> upgrades = available_upgrades( base_camps::base_dir );
     std::vector<size_t> order;
-    size_t swap_temp;
 
     for( size_t i = 0; i < upgrades.size(); i++ ) {
         order.push_back( i );
@@ -1239,9 +1235,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
     for( size_t i = 0; i + 1 < upgrades.size(); i++ ) {
         for( size_t k = i + 1; k < upgrades.size(); k++ ) {
             if( upgrades[order[k]].name.translated_lt( upgrades[order[i]].name ) ) {
-                swap_temp = order[i];
-                order[i] = order[k];
-                order[k] = swap_temp;
+                std::swap( order[i], order[k] );
             }
         }
     }
