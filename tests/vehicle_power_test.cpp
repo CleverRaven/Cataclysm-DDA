@@ -192,7 +192,6 @@ TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
         REQUIRE( veh_ptr != nullptr );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) > 1000 );
         veh_ptr->update_time( calendar::turn_zero );
-        g->refresh_all();
 
         auto cargo_part_index = veh_ptr->part_with_feature( {0, 0}, "CARGO", true );
         REQUIRE( cargo_part_index >= 0 );
