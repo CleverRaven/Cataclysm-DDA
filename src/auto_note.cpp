@@ -15,7 +15,9 @@
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
+#include "string_input_popup.h"
 #include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 namespace auto_notes
@@ -57,6 +59,27 @@ bool auto_note_settings::save()
         }
         jout.end_array();
 
+        if( !custom_symbols.empty() ) {
+            jout.member( "custom_symbols" );
+            jout.start_array();
+            for( const std::pair<const string_id<map_extra> &, const auto_notes::custom_symbol &> symbol_entry :
+                 custom_symbols ) {
+                jout.start_object();
+
+                jout.member( "map_extra" );
+                jout.write( symbol_entry.first.str() );
+
+                jout.member( "symbol" );
+                jout.write( symbol_entry.second.get_symbol_string() );
+
+                jout.member( "color" );
+                jout.write( symbol_entry.second.get_color_string() );
+
+                jout.end_object();
+            }
+            jout.end_array();
+        }
+
         jout.end_object();
 
     }, _( "auto notes configuration" ) );
@@ -83,6 +106,18 @@ void auto_note_settings::load()
                 while( !jin.end_array() ) {
                     const std::string entry = jin.get_string();
                     discovered.insert( string_id<map_extra> {entry} );
+                }
+            } else if( name == "custom_symbols" ) {
+                jin.start_array();
+                while( !jin.end_array() ) {
+                    JsonObject joSymbols = jin.get_object();
+                    const std::string entry = joSymbols.get_string( "map_extra" );
+                    const std::string custom_symbol_str = joSymbols.get_string( "symbol" );
+                    const std::string custom_color = joSymbols.get_string( "color" );
+                    custom_symbol sym;
+                    sym.set_symbol( custom_symbol_str );
+                    sym.set_color( custom_color );
+                    custom_symbols.insert( std::make_pair( string_id<map_extra> {entry}, sym ) );
                 }
             } else {
                 jin.skip_value();
@@ -143,6 +178,25 @@ void auto_note_settings::set_auto_note_status( const string_id<map_extra> &mapEx
     }
 }
 
+cata::optional<custom_symbol> auto_note_settings::get_custom_symbol(
+    const string_id<map_extra> &mapExtId ) const
+{
+    auto entry = custom_symbols.find( mapExtId );
+    return entry == custom_symbols.end() ? cata::nullopt
+           : cata::optional<custom_symbol>( entry->second );
+}
+
+void auto_note_settings::set_custom_symbol( const string_id<map_extra> &mapExtId,
+        const custom_symbol &symbol )
+{
+    custom_symbols.emplace( mapExtId, symbol );
+}
+
+void auto_note_settings::clear_all_custom_symbols()
+{
+    custom_symbols.clear();
+}
+
 auto_note_manager_gui::auto_note_manager_gui()
 {
     const auto_note_settings &settings = get_auto_notes_settings();
@@ -154,20 +208,44 @@ auto_note_manager_gui::auto_note_manager_gui()
             continue;
         }
 
-        bool isAutoNoteEnabled = settings.has_auto_note_enabled( extra.id );
+        bool is_auto_note_enabled = settings.has_auto_note_enabled( extra.id );
 
         mapExtraCache.emplace( std::make_pair( extra.id, std::make_pair( extra,
-                                               isAutoNoteEnabled ) ) );
+                                               is_auto_note_enabled ) ) );
 
         if( settings.was_discovered( extra.id ) ) {
             displayCache.push_back( extra.id );
         }
     }
+
+    fill_custom_symbols_cache();
 }
 
 bool auto_note_manager_gui::was_changed() const
 {
     return wasChanged;
+}
+
+void auto_note_manager_gui::fill_custom_symbols_cache()
+{
+    const auto_note_settings &settings = get_auto_notes_settings();
+    custom_symbol_cache.clear();
+
+    for( const std::pair<const string_id<map_extra> &, const auto_notes::custom_symbol &> symbol_entry :
+         settings.custom_symbols ) {
+        custom_symbol_cache.emplace( symbol_entry.first, symbol_entry.second );
+    }
+}
+
+void auto_note_manager_gui::set_cached_custom_symbol( const string_id<map_extra> &mapExtId,
+        const custom_symbol &symbol )
+{
+    auto found = custom_symbol_cache.find( mapExtId );
+    if( found == custom_symbol_cache.end() ) {
+        custom_symbol_cache.emplace( mapExtId, symbol );
+    } else {
+        found->second = symbol;
+    }
 }
 
 void auto_note_manager_gui::show()
@@ -294,8 +372,12 @@ void auto_note_manager_gui::show()
                 const nc_color lineColor = ( i == currentLine ) ? hilite( c_white ) : c_white;
                 const nc_color statusColor = cacheEntry.second ? c_green : c_red;
                 const std::string statusString = cacheEntry.second ? _( "yes" ) : _( "no" );
-                const nc_color charColor = cacheEntry.first.color;
-                const std::string displayChar = cacheEntry.first.get_symbol();
+                auto found_custom_symbol = custom_symbol_cache.find( displayCacheEntry );
+                const bool has_custom_symbol = ( found_custom_symbol != custom_symbol_cache.end() );
+                const nc_color charColor = has_custom_symbol ? found_custom_symbol->second.get_color():
+                                           cacheEntry.first.color;
+                const std::string displayChar = has_custom_symbol ? found_custom_symbol->second.get_symbol_string() :
+                                                cacheEntry.first.get_symbol();
 
                 mvwprintz( w, point( 1, i - startPosition ), lineColor, "" );
 
@@ -309,6 +391,9 @@ void auto_note_manager_gui::show()
 
                 // Print the character this map extra is indicated by on the map
                 mvwprintz( w, point( 55, i - startPosition ), charColor, "%s", displayChar );
+                if( has_custom_symbol ) {
+                    mvwprintz( w, point( 56, i - startPosition ), c_white, "*" );
+                }
                 // Since yes is longer than no, we need to clear the space for the status string before
                 // displaying the current text. Otherwise artifacts might occur.
                 mvwprintz( w, point( 64, i - startPosition ), statusColor, "     " );
@@ -381,6 +466,55 @@ void auto_note_manager_gui::show()
         } else if( currentAction == "DISABLE_MAPEXTRA_NOTE" ) {
             entry.second = false;
             wasChanged = true;
+        } else if( currentAction == "CHANGE_MAPEXTRA_CHARACTER" ) {
+            string_input_popup custom_symbol_popup;
+            custom_symbol_popup
+            .title( _( "Enter a map extra custom symbol (empty to unset):" ) )
+            .width( 2 )
+            .query_string();
+
+            if( !custom_symbol_popup.canceled() ) {
+                std::string custom_symbol_str = custom_symbol_popup.text();
+                if( custom_symbol_str.empty() ) {
+                    custom_symbol_cache.erase( currentItem );
+                } else {
+                    uilist ui_colors;
+                    ui_colors.text = _( "Pick a color:" );
+                    int i = 0;
+                    const std::unordered_map<std::string, note_color> &note_color_names = get_note_color_names();
+                    for( const std::pair<const std::string, note_color> &color_pair : note_color_names ) {
+                        ui_colors.addentry( string_format( pgettext( "note color", "%1$s:%2$s, " ), color_pair.first,
+                                                           colorize( color_pair.second.name, color_pair.second.color ) ) );
+                        if( entry.first.color == color_pair.second.color ) {
+                            ui_colors.selected = i;
+                        }
+                        i++;
+                    }
+                    // Default note color is the last one
+                    const nc_color color_default = c_yellow;
+                    const color_manager &colors = get_all_colors();
+                    const std::string color_default_name = colors.get_name( color_default );
+                    const translation color_yellow = to_translation( "color", "yellow" );
+                    ui_colors.addentry( string_format( _( "Default: %s" ),
+                                                        colorize( color_yellow.translated(), color_default ) ) );
+
+                    ui_colors.query();
+                    std::string custom_symbol_color;
+                    if( ui_colors.ret >= 0 && static_cast<size_t>( ui_colors.ret ) < note_color_names.size() ) {
+                        auto iter = note_color_names.begin();
+                        std::advance( iter, ui_colors.ret );
+
+                        // selected color
+                        custom_symbol_color = colors.get_name( iter->second.color );
+                    }
+
+                    custom_symbol value_to_set;
+                    value_to_set.set_symbol( custom_symbol_str );
+                    value_to_set.set_color( custom_symbol_color );
+                    set_cached_custom_symbol( currentItem, value_to_set );
+                }
+                wasChanged = true;
+            }
         } else if( currentAction == "CONFIRM" ) {
             entry.second = !entry.second;
             wasChanged = true;
@@ -396,6 +530,10 @@ void auto_note_manager_gui::show()
 
         for( const auto &entry : mapExtraCache ) {
             settings.set_auto_note_status( entry.second.first.id, entry.second.second );
+        }
+        settings.clear_all_custom_symbols();
+        for( const auto &entry : custom_symbol_cache ) {
+            settings.set_custom_symbol( entry.first, entry.second );
         }
     }
 }
