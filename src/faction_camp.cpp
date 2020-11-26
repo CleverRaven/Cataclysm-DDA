@@ -718,25 +718,6 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                                         " " + upgrades[index].name, dir, entry, avail );
             }
         }
-
-
-        //        for( const basecamp_upgrade &upgrade : available_upgrades( dir ) ) {
-        //            const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_exp_" ];
-        //            comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_exp_" +
-        //                                 dir_id );
-        //            if( npc_list.empty() ) {
-        //                entry = om_upgrade_description( upgrade.bldg );
-        //                mission_key.add_start( dir_id + miss_info.miss_id + upgrade.bldg,
-        //                                       dir_abbr + miss_info.desc + " " + upgrade.name, dir, entry,
-        //                                       upgrade.avail );
-        //            } else {
-        //                entry = miss_info.action.translated();
-        //                bool avail = update_time_left( entry, npc_list );
-        //                mission_key.add_return( "Recover Ally, " + dir_id + " Expansion" + upgrade.bldg,
-        //                                        _( "Recover Ally, " ) + dir_abbr + _( " Expansion" ) +
-        //                                        " " + upgrade.name, dir, entry, avail );
-        //            }
-        //        }
     }
 
     if( has_provides( "gathering", dir ) ) {
