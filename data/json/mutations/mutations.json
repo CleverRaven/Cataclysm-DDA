@@ -689,7 +689,7 @@
     "type": "mutation",
     "id": "BADCARDIO",
     "name": { "str": "Languorous" },
-    "points": -2,
+    "points": -4,
     "description": "Whether due to lack of exercise and poor diet, or due to a natural disinclination to physical endurance, you tire due to physical exertion much more readily than others.  Your maximum stamina is 25% lower than usual.",
     "starting_trait": true,
     "valid": false,

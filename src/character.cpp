@@ -6944,7 +6944,8 @@ void Character::update_stamina( int turns )
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
     // max stamina modifers from mutation also affect stamina multi
-    float stamina_multiplier = 1.0f + mutation_value( stamina_regen_modifier ) + ( mutation_value( "max_stamina_modifier" ) - 1.0f );
+    float stamina_multiplier = 1.0f + mutation_value( stamina_regen_modifier ) +
+                               ( mutation_value( "max_stamina_modifier" ) - 1.0f );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         base_regen_rate - ( encumb( bp_mouth ) / 5.0f ) );
