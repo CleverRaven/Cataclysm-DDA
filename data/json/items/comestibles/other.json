@@ -826,7 +826,6 @@
     "type": "COMESTIBLE",
     "name": { "str": "herbal tea bag" },
     "copy-from": "tea_bag",
-    "calories": 27,
     "description": "A paper sachet with dried wild herbs inside.  Put it into boiling water to make a cup of herbal tea."
   },
   {
