@@ -1546,7 +1546,7 @@ void map::player_in_field( player &u )
                     }
 
                     int total_damage = 0;
-                    for( const bodypart_id part_burned : parts_burned ) {
+                    for( const bodypart_id &part_burned : parts_burned ) {
                         const dealt_damage_instance dealt = u.deal_damage( nullptr, part_burned,
                                                             damage_instance( damage_type::HEAT, rng( burn_min, burn_max ) ) );
                         total_damage += dealt.type_damage( damage_type::HEAT );
