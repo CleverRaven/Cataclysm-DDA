@@ -198,11 +198,33 @@
     "style": "number"
   },
   {
+    "id": "focus_pool_graph",
+    "type": "widget",
+    "label": "Focus",
+    "var": "focus",
+    "var_max": 200,
+    "style": "graph",
+    "fill": "pool",
+    "symbols": ".fF",
+    "width": 5
+  },
+  {
     "id": "speed_num",
     "type": "widget",
     "label": "Speed",
     "var": "speed",
     "style": "number"
+  },
+  {
+    "id": "speed_pool_graph",
+    "type": "widget",
+    "label": "Speed",
+    "var": "speed",
+    "var_max": 500,
+    "style": "graph",
+    "fill": "pool",
+    "symbols": ".sS",
+    "width": 5
   },
   {
     "id": "stamina_num",
@@ -262,6 +284,18 @@
     "label": "Move",
     "var": "move",
     "style": "number"
+  },
+  {
+    "id": "move_pool_graph",
+    "type": "widget",
+    "label": "Move",
+    "var": "move",
+    "var_max": 500,
+    "style": "graph",
+    "fill": "pool",
+    "symbols": ".mM",
+    "width": 10,
+    "colors": [ "c_white", "c_yellow", "c_light_red", "c_red" ]
   },
   {
     "id": "pain_num",
@@ -381,6 +415,13 @@
     "widgets": [ "speed_num", "move_num" ]
   },
   {
+    "id": "speed_move_graph_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "speed_pool_graph", "move_pool_graph" ]
+  },
+  {
     "id": "sound_speed_move_layout",
     "type": "widget",
     "style": "layout",
@@ -431,6 +472,7 @@
       "hitpoints_top_layout",
       "hitpoints_bottom_layout",
       "sound_speed_move_layout",
+      "speed_move_graph_layout",
       "stats_layout",
       "stamina_focus_layout",
       "weariness_fatigue_layout",
