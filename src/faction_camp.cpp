@@ -537,13 +537,6 @@ recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation>
 {
     std::vector<recipe_id> pos_name_ids;
     std::vector<std::string> pos_names;
-    std::vector<translation> translations;
-
-    for( const auto &it : pos_options ) {
-        translations.push_back( it.second );
-        pos_names.push_back( it.second.translated() );
-        pos_name_ids.push_back( it.first );
-    }
 
     if( pos_name_ids.size() == 1 ) {
         return pos_name_ids.front();
@@ -551,18 +544,14 @@ recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation>
 
     std::string swap_name;
     recipe_id swap_id;
-    translation swap_translation;
 
-    for( size_t i = 0; i < translations.size() - 1; i++ ) {
-        for( size_t k = i + 1; k < translations.size(); k++ ) {
-            if( translations[k].translated_lt( translations[i] ) ) {
-                swap_translation = translations[k];
+    for( size_t i = 0; i < pos_names.size() - 1; i++ ) {
+        for( size_t k = i + 1; k < pos_names.size(); k++ ) {
+            if( localized_compare(pos_names[k], pos_names[i]) ) {
                 swap_name = pos_names[k];
                 swap_id = pos_name_ids[k];
-                translations[k] = translations[i];
                 pos_names[k] = pos_names[i];
                 pos_name_ids[k] = pos_name_ids[i];
-                translations[i] = translations[k];
                 pos_names[i] = swap_name;
                 pos_name_ids[i] = swap_id;
             }
