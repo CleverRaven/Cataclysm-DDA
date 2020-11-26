@@ -59,6 +59,8 @@
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
 
+static const efftype_id effect_tied( "tied" );
+
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
@@ -1779,29 +1781,26 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     // broken limbs as long as they are not involved by the machine
     bool hand_equipment = here.has_flag_furn( "WORKOUT_ARMS", location );
     bool leg_equipment = here.has_flag_furn( "WORKOUT_LEGS", location );
-    static const bodypart_str_id arm_l = bodypart_str_id( "arm_l" );
-    static const bodypart_str_id arm_r = bodypart_str_id( "arm_r" );
-    static const bodypart_str_id leg_l = bodypart_str_id( "leg_l" );
-    static const bodypart_str_id leg_r = bodypart_str_id( "leg_r" );
-    if( hand_equipment && ( ( who.is_limb_broken( arm_l ) ) ||
-                            who.is_limb_broken( arm_r ) ) ) {
+
+    if( hand_equipment && ( ( who.is_limb_broken( body_part_arm_l ) ) ||
+                            who.is_limb_broken( body_part_arm_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken arm." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
         return;
     }
-    if( leg_equipment && ( ( who.is_limb_broken( leg_l ) ) ||
-                           who.is_limb_broken( leg_r ) ) ) {
+    if( leg_equipment && ( ( who.is_limb_broken( body_part_leg_l ) ) ||
+                           who.is_limb_broken( body_part_leg_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken leg." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
         return;
     }
     if( !hand_equipment && !leg_equipment &&
-        ( who.is_limb_broken( arm_l ) ||
-          who.is_limb_broken( arm_r ) ||
-          who.is_limb_broken( leg_l ) ||
-          who.is_limb_broken( leg_r ) ) ) {
+        ( who.is_limb_broken( body_part_arm_l ) ||
+          who.is_limb_broken( body_part_arm_r ) ||
+          who.is_limb_broken( body_part_leg_l ) ||
+          who.is_limb_broken( body_part_leg_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train freely with a broken limb." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
@@ -2050,6 +2049,10 @@ static std::list<item> obtain_activity_items(
                            parent ) == unhandled_containers.end() ) {
                 unhandled_containers.emplace_back( parent );
             }
+        } else {
+            // when parent's encumbrance cannot be marked as dirty,
+            // mark character's encumbrance as dirty instead (correctness over performance)
+            who.set_check_encumbrance( true );
         }
         // Take off the item or remove it from the player's inventory
         if( who.is_worn( *loc ) ) {
@@ -2204,6 +2207,251 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
     return actor.clone();
 }
 
+void burrow_activity_actor::start( player_activity &act, Character &who )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+    who.add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
+                           here.tername( burrow_position ), burrow_tool );
+}
+
+void burrow_activity_actor::do_turn( player_activity &, Character & )
+{
+    sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( burrow_position ) );
+    if( calendar::once_every( 1_minutes ) ) {
+        sounds::sound( burrow_position, 10, sounds::sound_t::movement,
+                       //~ Sound of a Rat mutant burrowing!
+                       _( "ScratchCrunchScrabbleScurry." ) );
+    }
+
+}
+
+void burrow_activity_actor::finish( player_activity &act, Character &who )
+{
+
+    if( here.is_bashable( burrow_position ) && here.has_flag( "SUPPORTS_ROOF", burrow_position ) &&
+        here.ter( burrow_position ) != t_tree ) {
+        // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
+        // Not quite as bad as the pickaxe, though
+        who.mod_stored_nutr( 10 );
+        who.mod_thirst( 10 );
+        who.mod_fatigue( 15 );
+        who.mod_pain( 3 * rng( 1, 3 ) );
+    } else if( here.move_cost( burrow_position ) == 2 && here.get_abs_sub().z == 0 &&
+               here.ter( burrow_position ) != t_dirt && here.ter( burrow_position ) != t_grass ) {
+        //Breaking up concrete on the surface? not nearly as bad
+        who.mod_stored_nutr( 5 );
+        who.mod_thirst( 5 );
+        who.mod_fatigue( 10 );
+    }
+    who.add_msg_if_player( m_good, _( "You finish burrowing." ) );
+    here.destroy( burrow_position, true );
+
+    act.set_to_null();
+}
+
+void burrow_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "burrow_position", burrow_position );
+    jsout.member( "burrow_tool", burrow_tool );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> burrow_activity_actor::deserialize( JsonIn &jsin )
+{
+    burrow_activity_actor actor {};
+
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "burrow_position", actor.burrow_position );
+    data.read( "burrow_tool", actor.burrow_tool );
+
+    return actor.clone();
+}
+
+bool reload_activity_actor::can_reload() const
+{
+    if( reload_targets.size() != 2 || quantity <= 0 ) {
+        debugmsg( "invalid arguments to ACT_RELOAD" );
+        return false;
+    }
+
+    if( !reload_targets[0] ) {
+        debugmsg( "reload target is null, failed to reload" );
+        return false;
+    }
+
+    if( !reload_targets[1] ) {
+        debugmsg( "ammo target is null, failed to reload" );
+        return false;
+    }
+
+    return true;
+}
+
+void reload_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void reload_activity_actor::make_reload_sound( Character &who, item &reloadable )
+{
+    if( reloadable.type->gun->reload_noise_volume > 0 ) {
+        sfx::play_variant_sound( "reload", reloadable.typeId().str(),
+                                 sfx::get_heard_volume( who.pos() ) );
+        sounds::ambient_sound( who.pos(), reloadable.type->gun->reload_noise_volume,
+                               sounds::sound_t::activity, reloadable.type->gun->reload_noise.translated() );
+    }
+}
+
+void reload_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    if( !can_reload() ) {
+        return;
+    }
+
+    item &reloadable = *reload_targets[ 0 ];
+    item &ammo = *reload_targets[ 1 ];
+    const std::string reloadable_name = reloadable.tname();
+    // cache check results because reloading deletes the ammo item
+    const std::string ammo_name = ammo.tname();
+    const bool ammo_is_filthy = ammo.is_filthy();
+    const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
+
+    if( !reloadable.reload( who, std::move( reload_targets[ 1 ] ), quantity ) ) {
+        add_msg( m_info, _( "Can't reload the %s." ), reloadable_name );
+        return;
+    }
+
+    if( ammo_is_filthy ) {
+        reloadable.set_flag( flag_FILTHY );
+    }
+
+    if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
+        add_msg( m_neutral, _( "You manage to loosen some debris and make your %s somewhat operational." ),
+                 reloadable_name );
+        reloadable.set_var( "dirt", ( reloadable.get_var( "dirt", 0 ) - rng( 790, 2750 ) ) );
+    }
+
+    if( reloadable.is_gun() ) {
+        who.recoil = MAX_RECOIL;
+        if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
+            add_msg( m_neutral, _( "You insert %dx %s into the %s." ), quantity, ammo_name, reloadable_name );
+        }
+        make_reload_sound( who, reloadable );
+    } else if( reloadable.is_watertight_container() ) {
+        add_msg( m_neutral, _( "You refill the %s." ), reloadable_name );
+    } else {
+        add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
+    }
+}
+
+void reload_activity_actor::canceled( player_activity &act, Character &/*who*/ )
+{
+    act.moves_total = 0;
+    act.moves_left = 0;
+}
+
+void reload_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "qty", quantity );
+    jsout.member( "reload_targets", reload_targets );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonIn &jsin )
+{
+    reload_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.moves_total );
+    data.read( "qty", actor.quantity );
+    data.read( "reload_targets", actor.reload_targets );
+    return actor.clone();
+}
+
+void milk_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    act.moves_total = total_moves;
+    act.moves_left = total_moves;
+}
+
+
+void milk_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( monster_coords.empty() ) {
+        debugmsg( "milking activity with no position of monster stored" );
+        return;
+    }
+    map &here = get_map();
+    const tripoint source_pos = here.getlocal( monster_coords.at( 0 ) );
+    monster *source_mon = g->critter_at<monster>( source_pos );
+    if( source_mon == nullptr ) {
+        debugmsg( "could not find source creature for liquid transfer" );
+        return;
+    }
+    auto milked_item = source_mon->ammo.find( source_mon->type->starting_ammo.begin()->first );
+    if( milked_item == source_mon->ammo.end() ) {
+        debugmsg( "animal has no milkable ammo type" );
+        return;
+    }
+    if( milked_item->second <= 0 ) {
+        debugmsg( "started milking but udders are now empty before milking finishes" );
+        return;
+    }
+    item milk( milked_item->first, calendar::turn, milked_item->second );
+    milk.set_item_temperature( 311.75 );
+    if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, source_mon ) ) {
+        milked_item->second = 0;
+        if( milk.charges > 0 ) {
+            milked_item->second = milk.charges;
+        } else {
+            who.add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );
+        }
+    }
+    // if the monster was not manually tied up, but needed to be fixed in place temporarily then
+    // remove that now.
+    if( !string_values.empty() && string_values[0] == "temp_tie" ) {
+        source_mon->remove_effect( effect_tied );
+    }
+
+    act.set_to_null();
+}
+
+void milk_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "total_moves", total_moves );
+    jsout.member( "monster_coords", monster_coords );
+    jsout.member( "string_values", string_values );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
+{
+    milk_activity_actor actor;
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.total_moves );
+    data.read( "monster_coords", actor.monster_coords );
+    data.read( "string_values", actor.string_values );
+
+
+    return actor.clone();
+}
 namespace activity_actors
 {
 
@@ -2211,6 +2459,7 @@ namespace activity_actors
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
+    { activity_id( "ACT_BURROW" ), &burrow_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
@@ -2221,9 +2470,11 @@ deserialize_functions = {
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
+    { activity_id( "ACT_MILK" ), &milk_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
+    { activity_id( "ACT_RELOAD" ), &reload_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
     { activity_id( "ACT_UNLOAD" ), &unload_activity_actor::deserialize },

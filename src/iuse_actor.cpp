@@ -87,7 +87,6 @@
 #include "weather_type.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
-static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
@@ -2424,10 +2423,12 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
     }
 
     item::reload_option opt = p.select_ammo( mag, true );
+    std::vector<item_location> targets;
     if( opt ) {
-        p.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
-        p.activity.targets.emplace_back( p, &p.i_add( mag ) );
-        p.activity.targets.push_back( std::move( opt.ammo ) );
+        const int moves = opt.moves();
+        targets.emplace_back( p, &p.i_add( mag ) );
+        targets.push_back( std::move( opt.ammo ) );
+        p.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
     }
 
     return 0;
@@ -3068,7 +3069,7 @@ void heal_actor::load( const JsonObject &obj )
         u.read( "id", used_up_item_id, true );
         used_up_item_quantity = u.get_int( "quantity", used_up_item_quantity );
         used_up_item_charges = u.get_int( "charges", used_up_item_charges );
-        used_up_item_flags = u.get_tags<flag_str_id>( "flags" );
+        used_up_item_flags = u.get_tags<flag_id>( "flags" );
     }
 }
 
@@ -3105,7 +3106,7 @@ int heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
 
     player &patient = get_patient( p, pos );
     const bodypart_str_id hpp = use_healing_item( p, patient, it, false ).id();
-    if( hpp == bodypart_str_id( "bp_null" ) ) {
+    if( hpp == bodypart_str_id::NULL_ID() ) {
         return 0;
     }
 
@@ -4232,7 +4233,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // Gives us an item with the mod added or removed (toggled)
-    const auto modded_copy = []( const item & proto, const flag_str_id & mod_type ) {
+    const auto modded_copy = []( const item & proto, const flag_id & mod_type ) {
         item mcopy = proto;
         if( mcopy.has_own_flag( mod_type ) == 0 ) {
             mcopy.set_flag( mod_type );

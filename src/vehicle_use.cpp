@@ -57,7 +57,6 @@
 #include "vpart_range.h"
 #include "weather.h"
 
-static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 
@@ -84,7 +83,7 @@ static const fault_id fault_engine_starter( "fault_engine_starter" );
 
 static const skill_id skill_mechanics( "mechanics" );
 
-static const flag_str_id json_flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_FILTHY( "FILTHY" );
 
 enum change_types : int {
     OPENCURTAINS = 0,
@@ -1592,7 +1591,7 @@ void vehicle::use_autoclave( int p )
     } );
 
     bool unpacked_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( STATIC( flag_str_id( "NO_PACKED" ) ) );
+        return i.has_flag( STATIC( flag_id( "NO_PACKED" ) ) );
     } );
 
     bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1638,7 +1637,7 @@ void vehicle::use_washing_machine( int p )
     // Get all the items that can be used as detergent
     const inventory &inv = player_character.crafting_inventory();
     std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
-        return it.has_flag( STATIC( flag_str_id( "DETERGENT" ) ) ) && inv.has_charges( it.typeId(), 5 );
+        return it.has_flag( STATIC( flag_id( "DETERGENT" ) ) ) && inv.has_charges( it.typeId(), 5 );
     } );
 
     vehicle_stack items = get_items( p );
@@ -2123,7 +2122,7 @@ void vehicle::interact_with( const vpart_position &vp )
 
     auto use_vehicle_tool = [&]( const itype_id & tool_type ) {
         item pseudo( tool_type, calendar::turn_zero );
-        pseudo.set_flag( STATIC( flag_str_id( "PSEUDO" ) ) );
+        pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
         if( !tool_wants_battery( tool_type ) ) {
             player_character.invoke_item( &pseudo );
             return true;
@@ -2224,10 +2223,13 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         case RELOAD_TURRET: {
             item::reload_option opt = player_character.select_ammo( *turret.base(), true );
+            std::vector<item_location> targets;
             if( opt ) {
-                player_character.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
-                player_character.activity.targets.emplace_back( turret.base() );
-                player_character.activity.targets.push_back( std::move( opt.ammo ) );
+                const int moves = opt.moves();
+                targets.emplace_back( turret.base() );
+                targets.push_back( std::move( opt.ammo ) );
+                player_character.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(),
+                                                  targets ) ) );
             }
             return;
         }

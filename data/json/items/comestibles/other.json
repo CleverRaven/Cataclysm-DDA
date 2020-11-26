@@ -843,5 +843,21 @@
     "name": { "str": "chamomile tea bag" },
     "copy-from": "tea_bag",
     "description": "A paper sachet with dried chamomile inside.  Put it into boiling water to make a cup of chamomile tea."
+  },
+  {
+    "id": "instant_coffee",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "instant coffee mix" },
+    "looks_like": "coffee_raw",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "INEDIBLE" ],
+    "weight": "5 g",
+    "volume": "10 ml",
+    "color": "brown",
+    "symbol": ",",
+    "material": [ "plastic" ],
+    "price": 50,
+    "price_postapoc": 200,
+    "description": "A small packet of commercial instant coffee powder.  No creamer or sweetener added."
   }
 ]

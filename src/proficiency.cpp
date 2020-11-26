@@ -109,15 +109,15 @@ std::vector<display_proficiency> proficiency_set::display() const
 {
     // The proficiencies are sorted by whether or not you know them
     // and then alphabetically
-    std::vector<std::pair<proficiency_id, std::string>> sorted_known;
-    std::vector<std::pair<proficiency_id, std::string>> sorted_learning;
+    std::vector<std::pair<std::string, proficiency_id>> sorted_known;
+    std::vector<std::pair<std::string, proficiency_id>> sorted_learning;
 
     for( const proficiency_id &cur : known ) {
-        sorted_known.push_back( { cur, cur->name() } );
+        sorted_known.push_back( { cur->name(), cur } );
     }
 
     for( const learning_proficiency &cur : learning ) {
-        sorted_learning.push_back( { cur.id, cur.id->name() } );
+        sorted_learning.push_back( { cur.id->name(), cur.id } );
     }
 
     std::sort( sorted_known.begin(), sorted_known.end(), localized_compare );
@@ -126,29 +126,29 @@ std::vector<display_proficiency> proficiency_set::display() const
     // Our display_proficiencies, sorted in the order above
     std::vector<display_proficiency> ret;
 
-    for( const std::pair<proficiency_id, std::string> &cur : sorted_known ) {
+    for( const std::pair<std::string, proficiency_id> &cur : sorted_known ) {
         display_proficiency disp;
-        disp.id = cur.first;
+        disp.id = cur.second;
         disp.color = c_white;
         disp.practice = 1.0f;
-        disp.spent = cur.first->time_to_learn();
+        disp.spent = cur.second->time_to_learn();
         disp.known = true;
         ret.insert( ret.end(), disp );
     }
 
-    for( const std::pair<proficiency_id, std::string> &cur : sorted_learning ) {
+    for( const std::pair<std::string, proficiency_id> &cur : sorted_learning ) {
         display_proficiency disp;
-        disp.id = cur.first;
+        disp.id = cur.second;
         disp.color = c_light_gray;
         time_duration practiced;
         for( const learning_proficiency &cursor : learning ) {
-            if( cursor.id == cur.first ) {
+            if( cursor.id == cur.second ) {
                 practiced = cursor.practiced;
                 break;
             }
         }
         disp.spent = practiced;
-        disp.practice = practiced / cur.first->time_to_learn();
+        disp.practice = practiced / cur.second->time_to_learn();
         disp.known = false;
         ret.insert( ret.end(), disp );
     }

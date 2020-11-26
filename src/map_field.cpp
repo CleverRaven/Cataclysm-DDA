@@ -684,16 +684,16 @@ void map::process_fields_in_submap( submap *const current_submap,
                             pushee->age() < 1_turns ) {
                             pushee++;
                         } else {
-                            item tmp = *pushee;
-                            tmp.set_age( 0_turns );
-                            pushee = items.erase( pushee );
                             std::vector<tripoint> valid;
                             for( const tripoint &dst : points_in_radius( p, 1 ) ) {
-                                if( get_field( dst, fd_push_items ) != nullptr ) {
+                                if( dst != p and get_field( dst, fd_push_items ) != nullptr ) {
                                     valid.push_back( dst );
                                 }
                             }
                             if( !valid.empty() ) {
+                                item tmp = *pushee;
+                                tmp.set_age( 0_turns );
+                                pushee = items.erase( pushee );
                                 tripoint newp = random_entry( valid );
                                 add_item_or_charges( newp, tmp );
                                 if( player_character.pos() == newp ) {
@@ -715,6 +715,8 @@ void map::process_fields_in_submap( submap *const current_submap,
                                     add_msg_if_player_sees( newp, _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
                                     mon->check_dead_state();
                                 }
+                            } else {
+                                pushee++;
                             }
                         }
                     }
@@ -876,7 +878,7 @@ void map::process_fields_in_submap( submap *const current_submap,
             }
 
             if( dirty_transparency_cache ) {
-                set_transparency_cache_dirty( thep );
+                set_transparency_cache_dirty( thep, true );
                 set_seen_cache_dirty( thep );
             }
         }
@@ -1689,7 +1691,7 @@ void map::player_in_field( player &u )
             // The gas won't harm you inside a vehicle.
             if( !inside ) {
                 // Full body suits protect you from the effects of the gas.
-                if( !( u.worn_with_flag( STATIC( flag_str_id( "GAS_PROOF" ) ) ) &&
+                if( !( u.worn_with_flag( STATIC( flag_id( "GAS_PROOF" ) ) ) &&
                        u.get_env_resist( bodypart_id( "mouth" ) ) >= 15 &&
                        u.get_env_resist( bodypart_id( "eyes" ) ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();

@@ -62,9 +62,9 @@ static const itype_id itype_id_military( "id_military" );
 static const skill_id skill_survival( "survival" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
-static const flag_str_id json_flag_TIE_UP( "TIE_UP" );
-static const flag_str_id json_flag_TACK( "TACK" );
-static const flag_str_id json_flag_MECH_BAT( "MECH_BAT" );
+static const flag_id json_flag_TIE_UP( "TIE_UP" );
+static const flag_id json_flag_TACK( "TACK" );
+static const flag_id json_flag_MECH_BAT( "MECH_BAT" );
 
 bool monexamine::pet_menu( monster &z )
 {
@@ -756,15 +756,19 @@ void monexamine::milk_source( monster &source_mon )
     }
     if( milkable_ammo->second > 0 ) {
         const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
+        std::vector<tripoint> coords {};
+        std::vector<std::string> str_values {};
         Character &player_character = get_player_character();
-        player_character.assign_activity( ACT_MILK, moves, -1 );
-        player_character.activity.coords.push_back( get_map().getabs( source_mon.pos() ) );
+        coords.push_back( get_map().getabs( source_mon.pos() ) );
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
             source_mon.add_effect( effect_tied, 1_turns, true );
-            player_character.activity.str_values.push_back( "temp_tie" );
+            str_values.push_back( "temp_tie" );
         }
+        player_character.assign_activity( player_activity( milk_activity_actor( moves, coords,
+                                          str_values ) ) );
+
         add_msg( _( "You milk the %s." ), source_mon.get_name() );
     } else {
         add_msg( _( "The %s has no more milk." ), source_mon.get_name() );

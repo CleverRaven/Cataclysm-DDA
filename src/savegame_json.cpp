@@ -210,7 +210,7 @@ void item_pocket::serialize( JsonOut &json ) const
     json.member( "pocket_type", data->type );
     json.member( "contents", contents );
     json.member( "_sealed", _sealed );
-    if( this->settings.priority() != 0 || !this->settings.is_null() ) {
+    if( !this->settings.is_null() ) {
         json.member( "favorite_settings", this->settings );
     }
     json.end_object();
@@ -1026,8 +1026,6 @@ void player::store( JsonOut &json ) const
     // energy
     json.member( "last_sleep_check", last_sleep_check );
     // misc levels
-    json.member( "tank_plut", tank_plut );
-    json.member( "reactor_plut", reactor_plut );
     json.member( "slow_rad", slow_rad );
     json.member( "scent", static_cast<int>( scent ) );
 
@@ -1100,8 +1098,6 @@ void player::load( const JsonObject &data )
     JsonArray parray;
     character_id tmpid;
 
-    data.read( "tank_plut", tank_plut );
-    data.read( "reactor_plut", reactor_plut );
     data.read( "slow_rad", slow_rad );
     data.read( "scent", scent );
     data.read( "male", male );
@@ -2643,7 +2639,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
         data.read( "base", base );
     } else {
         // handle legacy format which didn't include the base item
-        base = item( id.obj().item );
+        base = item( id.obj().base_item );
     }
 
     data.read( "mount_dx", mount.x );

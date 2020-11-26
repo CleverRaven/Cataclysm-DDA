@@ -929,6 +929,9 @@ class npc : public player
         bool has_identified( const itype_id & ) const override {
             return true;
         }
+        void identify( const item & ) override {
+            // Do nothing
+        }
         /**
          * Is the item safe or does the NPC trust you enough?
          * Is not recursive, only checks the item that is the parameter.
@@ -976,7 +979,6 @@ class npc : public player
         /*
          *  CBM management functions
          */
-        void adjust_power_cbms();
         void activate_combat_cbms();
         void deactivate_combat_cbms();
         // find items that can be used to fuel CBM rechargers
