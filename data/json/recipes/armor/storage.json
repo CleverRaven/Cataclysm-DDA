@@ -26,6 +26,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
+    "time": "1 h 30 m",
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 1 ] ],
@@ -36,7 +37,6 @@
     "id_suffix": "from leather",
     "copy-from": "ammo_satchel",
     "type": "recipe",
-    "time": "1 h 30 m",
     "using": [ [ "strap_small", 1 ], [ "tailoring_leather_small", 2 ], [ "fastener_small", 1 ] ],
     "extend": { "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ] }
   },
