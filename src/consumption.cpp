@@ -1470,7 +1470,11 @@ bool Character::fuel_bionic_with( item &it )
 
 int Character::get_acquirable_energy( const item &it ) const
 {
-    const bionic_id &bid = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
+    std::vector<bionic_id> bids = get_bionic_fueled_with( it );
+    if( bids.empty() ) {
+        return 0;
+    }
+    const bionic_id &bid = get_most_efficient_bionic( bids );
     int to_consume;
     int to_charge = 0;
     if( it.type->magazine ) {
