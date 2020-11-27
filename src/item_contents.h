@@ -191,7 +191,6 @@ class item_contents
         void favorite_settings_menu( const std::string &item_name );
 
         item_pocket *contained_where( const item &contained );
-        const item_pocket *contained_where( const item &contained ) const;
         void on_pickup( Character &guy );
         bool spill_contents( const tripoint &pos );
         // spill items that don't fit in the container

@@ -528,16 +528,6 @@ item_pocket *item_contents::contained_where( const item &contained )
     return nullptr;
 }
 
-const item_pocket *item_contents::contained_where( const item &contained ) const
-{
-    for( item_pocket const &pocket : contents ) {
-        if( pocket.has_item( contained ) ) {
-            return &pocket;
-        }
-    }
-    return nullptr;
-}
-
 units::length item_contents::max_containable_length() const
 {
     units::length ret = 0_mm;
