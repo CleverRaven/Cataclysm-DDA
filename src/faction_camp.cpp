@@ -535,33 +535,38 @@ static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_
 recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation> &pos_options,
         const std::string &option )
 {
-    std::vector<recipe_id> pos_name_ids;
     std::vector<std::string> pos_names;
+    int choice = 0;
 
     for( const auto &it : pos_options ) {
         pos_names.push_back( it.second.translated() );
-        pos_name_ids.push_back( it.first );
     }
 
-    if( pos_name_ids.size() == 1 ) {
-        return pos_name_ids.front();
-    }
 
-    for( size_t i = 0; i < pos_names.size() - 1; i++ ) {
-        for( size_t k = i + 1; k < pos_names.size(); k++ ) {
-            if( localized_compare( pos_names[k], pos_names[i] ) ) {
-                std::swap( pos_names[i], pos_names[k] );
-                std::swap( pos_name_ids[i], pos_name_ids[k] );
+    if( pos_options.size() != 1 ) {
+        for( size_t i = 0; i < pos_names.size() - 1; i++ ) {
+            for( size_t k = i + 1; k < pos_names.size(); k++ ) {
+                if( localized_compare( pos_names[k], pos_names[i] ) ) {
+                    std::swap( pos_names[i], pos_names[k] );
+                }
             }
         }
+
+        choice = uilist( option, pos_names );
     }
 
-    const int choice = uilist( option, pos_names );
-    if( choice < 0 || static_cast<size_t>( choice ) >= pos_name_ids.size() ) {
+    if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
         popup( _( "You choose to wait…" ) );
         return recipe_id::NULL_ID();
     }
-    return pos_name_ids[choice];
+
+    std::string selected_name = pos_names[choice];
+
+    std::map<recipe_id, translation>::const_iterator iter = find_if( pos_options.begin(),
+    pos_options.end(), [selected_name]( const std::pair<const recipe_id, translation> &node ) {
+        return node.second.translated() == selected_name;
+    } );
+    return iter->first;
 }
 
 void talk_function::start_camp( npc &p )
