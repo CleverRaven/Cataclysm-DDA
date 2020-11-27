@@ -2356,7 +2356,7 @@
     "id": "mon_reindeer",
     "type": "MONSTER",
     "name": { "str": "Reindeer" },
-    "description": "Also known as the Caribou, this deer is an icon of Christmas tradition.",
+    "description": "Also known as the Caribou, this deer is native to North America and parts of Eurasia, although usually friendly, they can be aggressive during mating season as well as when hungry.",
     "default_faction": "herbivore",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
