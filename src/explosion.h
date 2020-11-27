@@ -64,6 +64,7 @@ void explosion(
 );
 
 void explosion( const tripoint &p, const explosion_data &ex );
+void _explosion( const tripoint &p, const explosion_data &ex );
 
 /** Triggers a flashbang explosion at p. */
 void flashbang( const tripoint &p, bool player_immune = false );

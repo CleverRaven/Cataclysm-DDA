@@ -23,6 +23,7 @@
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
+#include "explosion.h"
 #include "game_constants.h"
 #include "item_location.h"
 #include "memory_fast.h"
@@ -193,6 +194,8 @@ class game
          * @brief Should be invoked whenever options change.
          */
         void on_options_changed();
+
+        void queue_explosion( const tripoint &p, const explosion_data &ex );
 
     protected:
         /** Loads dynamic data from the given directory. May throw. */
@@ -961,6 +964,8 @@ class game
 
         map &m;
         avatar &u;
+        using queued_explosion = std::pair<tripoint, explosion_data>;
+        std::vector<queued_explosion> _explosions;
         scent_map &scent;
         const scenario *scen = nullptr;
 

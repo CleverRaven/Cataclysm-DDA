@@ -502,6 +502,11 @@ void explosion( const tripoint &p, float power, float factor, bool fire,
 
 void explosion( const tripoint &p, const explosion_data &ex )
 {
+    g->queue_explosion( p, ex );
+}
+
+void _explosion( const tripoint &p, const explosion_data &ex )
+{
     const int noise = ex.power * ( ex.fire ? 2 : 10 );
     if( noise >= 30 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
