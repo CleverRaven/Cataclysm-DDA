@@ -176,6 +176,8 @@ struct drawsq_params {
          * Allows to speed up drawing by taking advantage of automatic cursor movement.
          */
         bool batch = false;
+        /** Whether the tile should be memorized. Used only in map::draw(). */
+        bool memorize = false;
 
         /** Set view center. By default, uses avatar's current view center. */
         void set_view_center( const tripoint &p ) {
