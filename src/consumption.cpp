@@ -1470,7 +1470,7 @@ bool Character::fuel_bionic_with( item &it )
 
 int Character::get_acquirable_energy( const item &it ) const
 {
-    std::vector<bionic_id> bids = get_bionic_fueled_with( it );
+    const std::vector<bionic_id> &bids = get_bionic_fueled_with( it );
     if( bids.empty() ) {
         return 0;
     }
