@@ -3240,7 +3240,7 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
 
 Fixed string, must be `furniture` to identify the JSON object as such.
 
-`"id", "name", "symbol", "looks_like", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flgs`
+`"id", "name", "symbol", "looks_like", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flags"`
 
 Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
@@ -3306,7 +3306,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 Fixed string, must be "terrain" to identify the JSON object as such.
 
-`"id", "name", "symbol", "looks_like", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flgs`
+`"id", "name", "symbol", "looks_like", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flags"`
 
 Same as for furniture, see below in the chapter "Common to furniture and terrain".
 
