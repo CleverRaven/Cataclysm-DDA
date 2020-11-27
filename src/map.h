@@ -810,6 +810,10 @@ class map
          */
         bool has_nearby_chair( const tripoint &p, int radius = 1 );
         /**
+         * Checks whether a specific trap is nearby.
+        */
+        bool has_nearby_trap( const tripoint &p, const trap_id &type, int radius = 1 );
+        /**
          * Checks whether a specific terrain is nearby.
         */
         bool has_nearby_ter( const tripoint &p, const ter_id &type, int radius = 1 );
