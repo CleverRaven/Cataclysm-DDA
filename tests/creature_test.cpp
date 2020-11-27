@@ -123,3 +123,13 @@ TEST_CASE( "body_part_sorting_main", "[bodypart]" )
             get_body_part_flags::sorted | get_body_part_flags::only_main );
     CHECK( observed == expected );
 }
+
+TEST_CASE( "mtype_species_test", "[monster]" )
+{
+    CHECK( mtype_id( "mon_zombie" )->same_species( *mtype_id( "mon_zombie" ) ) );
+    CHECK( mtype_id( "mon_zombie" )->same_species( *mtype_id( "mon_zombie_cop" ) ) );
+    CHECK( mtype_id( "mon_zombie_cop" )->same_species( *mtype_id( "mon_zombie" ) ) );
+
+    CHECK_FALSE( mtype_id( "mon_zombie" )->same_species( *mtype_id( "mon_fish_trout" ) ) );
+    CHECK_FALSE( mtype_id( "mon_fish_trout" )->same_species( *mtype_id( "mon_zombie" ) ) );
+}

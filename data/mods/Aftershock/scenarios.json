@@ -82,5 +82,16 @@
     "allowed_locs": [ "sloc_robot_dispatch" ],
     "flags": [ "CITY_START" ],
     "start_name": "Robot Dispatch"
+  },
+  {
+    "type": "scenario",
+    "id": "escape_pod",
+    "name": "Stranded Spacer",
+    "points": 1,
+    "description": "What was to be a routine cargo transfer ended in tragedy when, in a brief moment of chaos, your space ship was intercepted and destroyed by a StO missile.  As soon as the MAW alarm flared to life, you scrambled to the nearest escape pod and barely managed reach the uncertain safety of the planet below.",
+    "allowed_locs": [ "sloc_escape_pod" ],
+    "professions": [ "afs_espatier", "afs_rating" ],
+    "flags": [ "LONE_START" ],
+    "start_name": "Escape Pod"
   }
 ]

@@ -2026,6 +2026,15 @@ static std::list<item> obtain_activity_items(
 
         who.mod_moves( -consumed_moves );
 
+        // Take off the item or remove it from the player's inventory
+        if( who.is_worn( *loc ) ) {
+            who.as_player()->takeoff( *loc, &res );
+        } else if( loc->count_by_charges() ) {
+            res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
+        } else {
+            res.push_back( who.i_rem( &*loc ) );
+        }
+
         // If item is inside another (container/pocket), unseal it, and update encumbrance
         if( loc.has_parent() ) {
             item_location parent = loc.parent_item();
@@ -2047,14 +2056,6 @@ static std::list<item> obtain_activity_items(
             // when parent's encumbrance cannot be marked as dirty,
             // mark character's encumbrance as dirty instead (correctness over performance)
             who.set_check_encumbrance( true );
-        }
-        // Take off the item or remove it from the player's inventory
-        if( who.is_worn( *loc ) ) {
-            who.as_player()->takeoff( *loc, &res );
-        } else if( loc->count_by_charges() ) {
-            res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
-        } else {
-            res.push_back( who.i_rem( &*loc ) );
         }
     }
 

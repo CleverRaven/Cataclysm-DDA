@@ -48,7 +48,7 @@ void butchery_requirements::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
 
-    for( const JsonMember &member : jo.get_object( "requirements" ) ) {
+    for( const JsonMember member : jo.get_object( "requirements" ) ) {
         float modifier = std::stof( member.name() );
         requirements.emplace( modifier, std::map<creature_size, std::map<butcher_type, requirement_id>> {} );
 

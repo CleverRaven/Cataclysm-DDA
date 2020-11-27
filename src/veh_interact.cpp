@@ -2944,7 +2944,7 @@ void veh_interact::complete_vehicle( player &p )
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
         if( !p.activity.coord_set.empty() ) {
-            for( const tripoint pt : p.activity.coord_set ) {
+            for( const tripoint &pt : p.activity.coord_set ) {
                 vp = here.veh_at( here.getlocal( pt ) );
                 if( vp ) {
                     break;

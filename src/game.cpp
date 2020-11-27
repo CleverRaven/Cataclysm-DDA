@@ -1586,7 +1586,7 @@ bool game::do_turn()
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
-        for( const tripoint elem : m.get_furn_field_locations() ) {
+        for( const tripoint &elem : m.get_furn_field_locations() ) {
             const auto &furn = m.furn( elem ).obj();
             for( const emit_id &e : furn.emissions ) {
                 m.emit_field( elem, e );
@@ -2336,6 +2336,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
+                    handler.handle();
                     break;
                 case 'v':
                     if( oThisItem.has_pockets() ) {
@@ -5614,7 +5615,7 @@ void game::control_vehicle()
         int num_valid_controls = 0;
         cata::optional<tripoint> vehicle_position;
         cata::optional<vpart_reference> vehicle_controls;
-        for( const tripoint elem : m.points_in_radius( get_player_character().pos(), 1 ) ) {
+        for( const tripoint &elem : m.points_in_radius( get_player_character().pos(), 1 ) ) {
             if( const optional_vpart_position vp = m.veh_at( elem ) ) {
                 const cata::optional<vpart_reference> controls = vp.value().part_with_feature( "CONTROLS", true );
                 if( controls ) {

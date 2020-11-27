@@ -1546,6 +1546,36 @@
   },
   {
     "type": "recipe",
+    "result": "herbal_tea",
+    "id_suffix": "from_tea_bag",
+    "activity_level": "NO_EXERCISE",
+    "copy-from": "tea",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "herbal_tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dandelion_tea",
+    "id_suffix": "from_tea_bag",
+    "activity_level": "NO_EXERCISE",
+    "copy-from": "tea",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "tea_bag_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chamomile_tea",
+    "id_suffix": "from_tea_bag",
+    "activity_level": "NO_EXERCISE",
+    "copy-from": "tea",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "tea_bag_chamomile", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "herbal_tea",
     "category": "CC_FOOD",
@@ -1557,7 +1587,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "wild_herbs", 10 ], [ "herbal_tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "wild_herbs", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4471,6 +4501,33 @@
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
     "components": [
+      [
+        [ "wheat", 1 ],
+        [ "buckwheat", 1 ],
+        [ "barley", 1 ],
+        [ "acorns_cooked", 2 ],
+        [ "oats", 4 ],
+        [ "starch", 1 ],
+        [ "dry_rice", 5 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "bread_flour",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "5 m",
+    "charges": 20,
+    "autolearn": true,
+    "batch_time_factors": [ 50, 10 ],
+    "flags": [ "BLIND_EASY" ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "components": [
+      [ [ "flour", 1 ] ],
       [
         [ "wheat", 1 ],
         [ "buckwheat", 1 ],

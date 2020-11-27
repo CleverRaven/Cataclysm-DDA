@@ -2245,7 +2245,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle Panel Admin",
+    "name": "Sidebar Options",
     "category": "DEFAULTMODE",
     "id": "toggle_panel_adm",
     "bindings": [ { "input_method": "keyboard_char", "key": "}" }, { "input_method": "keyboard_code", "key": "]", "mod": [ "shift" ] } ]

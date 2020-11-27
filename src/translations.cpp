@@ -304,6 +304,11 @@ std::string getOSXSystemLang()
 #include <cstring> // strcmp
 #include <map>
 
+std::string locale_dir()
+{
+    return "mo/";
+}
+
 bool isValidLanguage( const std::string &/*lang*/ )
 {
     return true;

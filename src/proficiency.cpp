@@ -345,7 +345,7 @@ void proficiency_set::deserialize( JsonIn &jsin )
 
 void proficiency_set::deserialize_legacy( const JsonArray &jo )
 {
-    for( const std::string &prof : jo ) {
+    for( const std::string prof : jo ) {
         known.insert( proficiency_id( prof ) );
     }
 }

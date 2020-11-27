@@ -1876,13 +1876,13 @@ it is present to help catch errors.
 	**Triggers:**
 		| trigger_type  | Description
 		|---            |---
-		| MOOD          | Trigger depends of the mood value.
-		| MOON          | Trigger depends of the pahse of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
-		| HUNGER        | Trigger depends of the hunger value. Very Hungry ~= 110
-		| THIRST        | Trigger depends of the thirst value.
-		| PAIN          | Trigger depends of the pain value.
-		| STAMINA       | Trigger depends of the stamina value.
-		| TIME          | Trigger depends of the time of the day. [ 1am = 1, Midnight = 24 ]
+		| MOOD          | Trigger depends on the mood value.
+		| MOON          | Trigger depends on the phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
+		| HUNGER        | Trigger depends on the hunger value. Very Hungry ~= 110
+		| THIRST        | Trigger depends on the thirst value.
+		| PAIN          | Trigger depends on the pain value.
+		| STAMINA       | Trigger depends on the stamina value.
+		| TIME          | Trigger depends on the time of the day. [ 1am = 1, Midnight = 24 ]
 
 ### Traps
 
@@ -3240,7 +3240,7 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
 
 Fixed string, must be `furniture` to identify the JSON object as such.
 
-`"id", "name", "symbol", "looks_like", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flgs`
+`"id", "name", "symbol", "looks_like", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flags"`
 
 Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
@@ -3306,7 +3306,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 Fixed string, must be "terrain" to identify the JSON object as such.
 
-`"id", "name", "symbol", "looks_like", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flgs`
+`"id", "name", "symbol", "looks_like", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flags"`
 
 Same as for furniture, see below in the chapter "Common to furniture and terrain".
 

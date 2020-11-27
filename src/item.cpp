@@ -5002,7 +5002,7 @@ units::mass item::weight( bool, bool integral ) const
             ret *= 0.85;
         }
 
-    } else if( magazine_integral() && !is_magazine() ) {
+    } else if( magazine_integral() && ( !is_magazine() || is_gun() ) ) {
         if( ammo_current() == itype_plut_cell ) {
             ret += ammo_remaining() * find_type( ammotype(
                     *ammo_types().begin() )->default_ammotype() )->weight / PLUTONIUM_CHARGES;
@@ -5030,6 +5030,9 @@ units::mass item::weight( bool, bool integral ) const
     if( is_gun() ) {
         for( const item *elem : gunmods() ) {
             ret += elem->weight( true, true );
+        }
+        if( magazine_current() ) {
+            ret += magazine_current()->weight();
         }
     } else {
         ret += contents.item_weight_modifier();
@@ -6825,6 +6828,11 @@ bool item::is_container() const
 item_pocket *item::contained_where( const item &contained )
 {
     return contents.contained_where( contained );
+}
+
+const item_pocket *item::contained_where( const item &contained ) const
+{
+    return const_cast<item *>( this )->contained_where( contained );
 }
 
 bool item::is_watertight_container() const
@@ -8803,10 +8811,11 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
 
         if( e->is_tool() ) {
             if( e->typeId() == what ) {
-                int n = std::min( e->ammo_remaining(), qty );
-                qty -= n;
+                if( ( e->is_magazine() || e->magazine_current() != nullptr )
+                    && e->ammo_current() != itype_id::NULL_ID() ) {
 
-                if( e->is_magazine() || e->magazine_current() != nullptr ) {
+                    int n = std::min( e->ammo_remaining(), qty );
+                    qty -= n;
                     item temp( *e );
                     temp.ammo_set( e->ammo_current(), n );
                     used.push_back( temp );

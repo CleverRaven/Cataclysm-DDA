@@ -994,6 +994,7 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
 
 std::unordered_set<std::string> options_manager::get_langs_with_translation_files()
 {
+#if defined(LOCALIZE)
     const std::string start_str = locale_dir();
     std::vector<std::string> lang_dirs =
         get_directories_with( PATH_INFO::lang_file(), start_str, true );
@@ -1005,6 +1006,9 @@ std::unordered_set<std::string> options_manager::get_langs_with_translation_file
         dir = dir.substr( start, len );
     } );
     return std::unordered_set<std::string>( lang_dirs.begin(), lang_dirs.end() );
+#else // !LOCALIZE
+    return std::unordered_set<std::string>();
+#endif // LOCALIZE
 }
 
 std::vector<options_manager::id_and_option> options_manager::get_lang_options()

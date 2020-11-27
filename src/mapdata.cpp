@@ -201,7 +201,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
 
 static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )
 {
-    for( const std::string &line : ja ) {
+    for( const std::string line : ja ) {
         centers.emplace_back( line );
     }
 }

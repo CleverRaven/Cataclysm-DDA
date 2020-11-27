@@ -262,7 +262,7 @@ void scen_blacklist::load( const JsonObject &jo, const std::string & )
         jo.throw_error( "Blacklist subtype is not a valid subtype." );
     }
 
-    for( const std::string &line : jo.get_array( "scenarios" ) ) {
+    for( const std::string line : jo.get_array( "scenarios" ) ) {
         scenarios.emplace( line );
     }
 }

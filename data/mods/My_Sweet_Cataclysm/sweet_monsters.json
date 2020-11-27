@@ -464,7 +464,7 @@
   {
     "id": "mon_licorice_snake_hatchling",
     "type": "MONSTER",
-    "name": { "str": "Licorice Snake Hatchling", "str_pl": "Licorice Snake Hatchlings" },
+    "name": { "str": "Licorice Snake Hatchling" },
     "description": "A baby snake made entirely out of licorice, possibly the children of the larger Licorice Snakes.",
     "copy-from": "mon_licorice_snake",
     "harvest": "licorice_snake",
