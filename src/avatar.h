@@ -293,9 +293,6 @@ class avatar : public player
     private:
         map_memory player_map_memory;
         bool show_map_memory;
-        /** Used in max_memorized_tiles to cache memory capacity. **/
-        mutable time_point current_map_memory_turn = calendar::before_time_starts;
-        mutable size_t current_map_memory_capacity = 0;
 
         friend class debug_menu::mission_debug;
         /**
