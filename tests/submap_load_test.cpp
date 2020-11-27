@@ -8,7 +8,7 @@
 #include "trap.h"
 #include "vehicle.h"
 
-static const point corner_ne = point_zero;
+static const point &corner_ne = point_zero;
 static const point corner_nw( SEEX - 1, 0 );
 static const point corner_se( 0, SEEY - 1 );
 static const point corner_sw( SEEX - 1, SEEY - 1 );
