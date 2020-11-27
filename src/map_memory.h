@@ -4,6 +4,7 @@
 
 #include <iosfwd>
 
+#include "game_constants.h"
 #include "lru_cache.h"
 #include "point.h" // IWYU pragma: keep
 
@@ -17,6 +18,13 @@ struct memorized_terrain_tile {
     int rotation;
 };
 
+struct memorized_submap {
+    memorized_terrain_tile tiles[SEEX][SEEY];
+    int symbols[SEEX][SEEY];
+
+    memorized_submap();
+};
+
 class map_memory
 {
     public:
@@ -25,18 +33,19 @@ class map_memory
         void load( const JsonObject &jsin );
 
         /** Memorizes a given tile; finalize_tile_memory needs to be called after it */
-        void memorize_tile( int limit, const tripoint &pos, const std::string &ter,
+        void memorize_tile( const tripoint &pos, const std::string &ter,
                             int subtile, int rotation );
         /** Returns last stored map tile in given location */
         memorized_terrain_tile get_tile( const tripoint &pos ) const;
 
-        void memorize_symbol( int limit, const tripoint &pos, int symbol );
+        void memorize_symbol( const tripoint &pos, int symbol );
         int get_symbol( const tripoint &pos ) const;
 
         void clear_memorized_tile( const tripoint &pos );
     private:
-        lru_cache<tripoint, memorized_terrain_tile> tile_cache;
-        lru_cache<tripoint, int> symbol_cache;
+        const memorized_submap &get_submap( const tripoint &sm_pos ) const;
+        memorized_submap &get_submap( const tripoint &sm_pos );
+        std::map<tripoint, memorized_submap> submaps;
 };
 
 #endif // CATA_SRC_MAP_MEMORY_H

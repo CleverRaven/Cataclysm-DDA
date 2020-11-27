@@ -3491,8 +3491,9 @@ void player_morale::load( const JsonObject &jsin )
     jsin.read( "morale", points );
 }
 
-void map_memory::store( JsonOut &jsout ) const
+void map_memory::store( JsonOut &/*jsout*/ ) const
 {
+    /*
     jsout.start_array();
     jsout.start_array();
     for( const auto &elem : tile_cache.list() ) {
@@ -3518,10 +3519,12 @@ void map_memory::store( JsonOut &jsout ) const
     }
     jsout.end_array();
     jsout.end_array();
+    */
 }
 
-void map_memory::load( JsonIn &jsin )
+void map_memory::load( JsonIn &/*jsin*/ )
 {
+    /*
     // Legacy loading of object version.
     if( jsin.test_object() ) {
         JsonObject jsobj = jsin.get_object();
@@ -3561,11 +3564,13 @@ void map_memory::load( JsonIn &jsin )
         }
         jsin.end_array();
     }
+    */
 }
 
 // Deserializer for legacy object-based memory map.
-void map_memory::load( const JsonObject &jsin )
+void map_memory::load( const JsonObject &/*jsin*/ )
 {
+    /*
     tile_cache.clear();
     for( JsonObject pmap : jsin.get_array( "map_memory_tiles" ) ) {
         pmap.allow_omitted_members();
@@ -3580,6 +3585,7 @@ void map_memory::load( const JsonObject &jsin )
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
         memorize_symbol( std::numeric_limits<int>::max(), p, pmap.get_int( "symbol" ) );
     }
+    */
 }
 
 void point::deserialize( JsonIn &jsin )
