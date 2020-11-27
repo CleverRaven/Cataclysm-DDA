@@ -148,6 +148,7 @@
     "id": "MISSION_SWAMPER_GATHER_MEAT",
     "type": "mission_definition",
     "name": { "str": "Gather meat for Bo Baronyx.  About 8 should do it." },
+    "description": "Gather meat",
     "difficulty": 1,
     "value": 10000,
     "goal": "MGOAL_FIND_ITEM",
@@ -176,6 +177,7 @@
     "id": "MISSION_SWAMPER_LOST_RAPTOR",
     "type": "mission_definition",
     "name": { "str": "Raptor Rescue" },
+    "description": "Rescue a raptor",
     "difficulty": 3,
     "value": 10000,
     "start": {
