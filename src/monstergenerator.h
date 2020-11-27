@@ -95,7 +95,7 @@ class MonsterGenerator
 
         // finalization
         void apply_species_attributes( mtype &mon );
-        void set_species_ids( mtype &mon );
+        void validate_species_ids( mtype &mon );
         void finalize_pathfinding_settings( mtype &mon );
 
         friend class string_id<mtype>;
