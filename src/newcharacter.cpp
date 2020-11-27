@@ -1125,11 +1125,11 @@ tab_direction set_traits( avatar &u, points_left &points )
 
     input_context ctxt( "NEW_CHAR_TRAITS" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
 
@@ -1416,8 +1416,8 @@ tab_direction set_profession( avatar &u, points_left &points,
 
     input_context ctxt( "NEW_CHAR_PROFESSIONS" );
     ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "PREV_TAB" );
@@ -1831,8 +1831,8 @@ tab_direction set_skills( avatar &u, points_left &points )
 
     input_context ctxt( "NEW_CHAR_SKILLS" );
     ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "SCROLL_SKILL_INFO_DOWN" );
     ctxt.register_action( "SCROLL_SKILL_INFO_UP" );
     ctxt.register_action( "PREV_TAB" );
@@ -1991,7 +1991,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        int scroll_rate = num_skills > 20 ? 5 : 2;
+        const int scroll_rate = num_skills > 20 ? 5 : 2;
         if( action == "DOWN" ) {
             cur_pos++;
             if( cur_pos >= num_skills ) {
@@ -2113,8 +2113,8 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
     input_context ctxt( "NEW_CHAR_SCENARIOS" );
     ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );

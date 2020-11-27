@@ -19,9 +19,12 @@
 #include "worldfactory.h"
 
 #include <QtWidgets/qapplication.h>
+#ifdef QT_STATICPLUGIN
 #include <QtCore/QtPlugin>
-
+#ifdef _WIN32
 Q_IMPORT_PLUGIN( QWindowsIntegrationPlugin );
+#endif
+#endif
 
 struct MOD_INFORMATION;
 using mod_id = string_id<MOD_INFORMATION>;

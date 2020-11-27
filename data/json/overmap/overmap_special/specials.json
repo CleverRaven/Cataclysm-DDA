@@ -7248,5 +7248,40 @@
     "city_sizes": [ 1, 20 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "LAKE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Bastion Fort",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "fort_1a_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "fort_2a_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "fort_3a_north" },
+      { "point": [ 3, 0, 0 ], "overmap": "fort_4a_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "fort_1b_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "fort_2b_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "fort_3b_north" },
+      { "point": [ 3, 1, 0 ], "overmap": "fort_4b_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "fort_1c_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "fort_2c_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "fort_3c_north" },
+      { "point": [ 3, 2, 0 ], "overmap": "fort_4c_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "fort_1a_1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "fort_2a_1_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "fort_3a_1_north" },
+      { "point": [ 3, 0, 1 ], "overmap": "fort_4a_1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "fort_1b_1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "fort_2b_1_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "fort_3b_1_north" },
+      { "point": [ 3, 1, 1 ], "overmap": "fort_4b_1_north" },
+      { "point": [ 0, 2, 1 ], "overmap": "fort_1c_1_north" },
+      { "point": [ 1, 2, 1 ], "overmap": "fort_2c_1_north" },
+      { "point": [ 2, 2, 1 ], "overmap": "fort_3c_1_north" },
+      { "point": [ 3, 2, 1 ], "overmap": "fort_4c_1_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 10, 100 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 1, 10 ],
+    "flags": [ "CLASSIC", "UNIQUE" ]
   }
 ]

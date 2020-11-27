@@ -206,8 +206,6 @@ struct mtype {
 
         ascii_art_id picture_id;
 
-        std::set< const species_type * > species_ptrs;
-
         enum_bitset<m_flag> flags;
 
         enum_bitset<mon_trigger> anger;
@@ -380,7 +378,6 @@ struct mtype {
         bool has_placate_trigger( mon_trigger trigger ) const;
         bool in_category( const std::string &category ) const;
         bool in_species( const species_id &spec ) const;
-        bool in_species( const species_type &spec ) const;
         std::vector<std::string> species_descriptions() const;
         //Used for corpses.
         field_type_id bloodType() const;

@@ -758,8 +758,8 @@ void color_manager::show_gui()
     bool bStuffChanged = false;
     input_context ctxt( "COLORS" );
     ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "REMOVE_CUSTOM" );
@@ -845,14 +845,14 @@ void color_manager::show_gui()
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
-        int recmax = static_cast<int>( iMaxColors );
-        int scroll_rate = recmax > 20 ? 10 : 3;
+        const int recmax = iMaxColors;
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "QUIT" ) {
             break;
         } else if( action == "UP" ) {
             iCurrentLine--;
             if( iCurrentLine < 0 ) {
-                iCurrentLine = iMaxColors - 1;
+                iCurrentLine = recmax - 1;
             }
         } else if( action == "DOWN" ) {
             iCurrentLine++;

@@ -21,7 +21,8 @@
       [ "medical_tape", 20 ],
       [ "pepto", 20 ],
       [ "saline", 10 ],
-      [ "weak_antibiotic", 30 ]
+      [ "weak_antibiotic", 30 ],
+      [ "homeopathic_pills", 10 ]
     ]
   },
   {
@@ -157,6 +158,7 @@
       [ "nyquil", 70 ],
       [ "disinfectant", 35 ],
       [ "vaccine_shot", 10 ],
+      [ "homeopathic_pills", 10 ],
       {
         "item": "protein_powder",
         "prob": 12,

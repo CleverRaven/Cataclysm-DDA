@@ -313,8 +313,8 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CYCLE_MODE" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
     ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
     ctxt.register_action( "PREV_TAB" );
@@ -836,8 +836,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         ui_manager::redraw();
         const int scroll_item_info_lines = catacurses::getmaxy( w_iteminfo ) - 4;
         const std::string action = ctxt.handle_input();
-        int recmax = current.size();
-        int scroll_rate = recmax > 20 ? 10 : 3;
+        const int recmax = static_cast<int>( current.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "CYCLE_MODE" ) {
             display_mode = display_mode + 1;
             if( display_mode <= 0 ) {

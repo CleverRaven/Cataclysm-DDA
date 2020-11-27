@@ -515,8 +515,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
     input_context ctxt( "PICK_WORLD_DIALOG" );
     ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
@@ -527,8 +527,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
-        size_t recmax = world_pages[selpage].size();
-        size_t scroll_rate = recmax > 20 ? 10 : 3;
+        const size_t recmax = world_pages[selpage].size();
+        const size_t scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "QUIT" ) {
             break;
@@ -864,8 +864,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
     input_context ctxt( "MODMANAGER_DIALOG" );
     ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "LEFT", to_translation( "Switch to other list" ) );
     ctxt.register_action( "RIGHT", to_translation( "Switch to other list" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );

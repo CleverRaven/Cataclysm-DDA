@@ -627,7 +627,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &w
 {
     std::unordered_set<tripoint> res;
     map &here = get_map();
-    for( const tripoint elem : here.points_in_radius( here.getlocal( where ), radius ) ) {
+    for( const tripoint &elem : here.points_in_radius( here.getlocal( where ), radius ) ) {
         const zone_data *zone = get_zone_at( here.getabs( elem ) );
         // if not a LOOT zone
         if( ( !zone ) || ( zone->get_type().str().substr( 0, 4 ) != "LOOT" ) ) {
@@ -839,17 +839,40 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     }
 
     if( cat.get_id() == item_category_food ) {
-        // skip food without comestible, like MREs
-        if( const item *it_food = it.get_food() ) {
+        const item *it_food = nullptr;
+        bool perishable = false;
+        // Look for food, and whether any contents which will spoil if left out.
+        // Food crafts and food without comestible, like MREs, will fall down to LOOT_FOOD.
+        it.visit_items( [&it_food, &perishable]( const item * node, const item * parent ) {
+            if( node && node->is_food() ) {
+                it_food = node;
+
+                if( node->goes_bad() ) {
+                    float spoil_multiplier = 1.0f;
+                    if( parent ) {
+                        const item_pocket *parent_pocket = parent->contained_where( *node );
+                        if( parent_pocket ) {
+                            spoil_multiplier = parent_pocket->spoil_multiplier();
+                        }
+                    }
+                    if( spoil_multiplier > 0.0f ) {
+                        perishable = true;
+                    }
+                }
+            }
+            return VisitResponse::NEXT;
+        } );
+
+        if( it_food != nullptr ) {
             if( it_food->get_comestible()->comesttype == "DRINK" ) {
-                if( it_food->goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
+                if( perishable && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_PDRINK" );
                 } else if( has_near( zone_type_id( "LOOT_DRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_DRINK" );
                 }
             }
 
-            if( it_food->goes_bad() && has_near( zone_type_id( "LOOT_PFOOD" ), where, range ) ) {
+            if( perishable && has_near( zone_type_id( "LOOT_PFOOD" ), where, range ) ) {
                 return zone_type_id( "LOOT_PFOOD" );
             }
         }

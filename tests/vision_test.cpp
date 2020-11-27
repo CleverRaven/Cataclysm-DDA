@@ -530,7 +530,7 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision]" )
         }
         if( dir ) {
             v = get_map().add_vehicle( vproto_id( "meth_lab" ), tile.p, *dir, 0, 0 );
-            for( const vpart_reference vp : v->get_avail_parts( "OPENABLE" ) ) {
+            for( const vpart_reference &vp : v->get_avail_parts( "OPENABLE" ) ) {
                 v -> close( vp.part_index() );
             }
             open_door();

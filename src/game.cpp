@@ -1586,7 +1586,7 @@ bool game::do_turn()
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
-        for( const tripoint elem : m.get_furn_field_locations() ) {
+        for( const tripoint &elem : m.get_furn_field_locations() ) {
             const auto &furn = m.furn( elem ).obj();
             for( const emit_id &e : furn.emissions ) {
                 m.emit_field( elem, e );
@@ -2336,6 +2336,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
+                    handler.handle();
                     break;
                 case 'v':
                     if( oThisItem.has_pockets() ) {
@@ -5614,7 +5615,7 @@ void game::control_vehicle()
         int num_valid_controls = 0;
         cata::optional<tripoint> vehicle_position;
         cata::optional<vpart_reference> vehicle_controls;
-        for( const tripoint elem : m.points_in_radius( get_player_character().pos(), 1 ) ) {
+        for( const tripoint &elem : m.points_in_radius( get_player_character().pos(), 1 ) ) {
             if( const optional_vpart_position vp = m.veh_at( elem ) ) {
                 const cata::optional<vpart_reference> controls = vp.value().part_with_feature( "CONTROLS", true );
                 if( controls ) {
@@ -6553,8 +6554,8 @@ void game::zones_manager()
     std::string action;
     input_context ctxt( "ZONES_MANAGER" );
     ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ADD_ZONE" );
@@ -6740,7 +6741,7 @@ void game::zones_manager()
         wnoutrefresh( w_zones );
     } );
 
-    int scroll_rate = zone_cnt > 20 ? 10 : 3;
+    const int scroll_rate = zone_cnt > 20 ? 10 : 3;
     zones_manager_open = true;
     do {
         if( action == "ADD_ZONE" ) {
@@ -7664,8 +7665,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
     ctxt.register_action( "LEFT", to_translation( "Previous item" ) );
     ctxt.register_action( "RIGHT", to_translation( "Next item" ) );
-    ctxt.register_action( "PAGE_DOWN" );
-    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
     ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
     ctxt.register_action( "NEXT_TAB" );
@@ -7951,7 +7952,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
 
         const int item_info_scroll_lines = catacurses::getmaxy( w_item_info ) - 4;
-        int scroll_rate = iItemNum > 20 ? 10 : 3;
+        const int scroll_rate = iItemNum > 20 ? 10 : 3;
 
         if( action == "UP" ) {
             do {
@@ -8107,8 +8108,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     input_context ctxt( "LIST_MONSTERS" );
     ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
     ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "SAFEMODE_BLACKLIST_ADD" );
@@ -8304,8 +8305,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     shared_ptr_fast<draw_callback_t> trail_cb = create_trail_callback( trail_start, trail_end,
             trail_end_x );
     add_draw_callback( trail_cb );
-    int recmax = static_cast<int>( monster_list.size() );
-    int scroll_rate = recmax > 20 ? 10 : 3;
+    const int recmax = static_cast<int>( monster_list.size() );
+    const int scroll_rate = recmax > 20 ? 10 : 3;
 
     do {
         if( action == "UP" ) {
@@ -9094,9 +9095,10 @@ void game::reload_weapon( bool try_everything )
         item::reload_option opt = u.select_ammo( *turret.base(), true );
         std::vector<item_location> targets;
         if( opt ) {
+            const int moves = opt.moves();
             targets.emplace_back( turret.base() );
             targets.push_back( std::move( opt.ammo ) );
-            u.assign_activity( player_activity( reload_activity_actor( opt.moves(), opt.qty(), targets ) ) );
+            u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
         }
         return;
     }
