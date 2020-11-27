@@ -479,7 +479,7 @@
       {
         "distribution": [
           { "item": "coffee_raw", "prob": 30 },
-          { "item": "instant_coffee", "prob": 40, "count": [ 1, 15 ] },
+          { "item": "instant_coffee", "prob": 40, "count": [ 1, 5 ] },
           { "item": "coffee_raw", "prob": 30, "charges": [ 1, 200 ], "container-item": "can_food_big" }
         ],
         "prob": 80
