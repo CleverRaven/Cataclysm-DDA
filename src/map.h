@@ -157,6 +157,37 @@ struct bash_params {
     bool bashing_from_above = false;
 };
 
+/** Draw parameters used by map::drawsq() and similar methods. */
+struct drawsq_params {
+    private:
+        tripoint view_center = tripoint_min;
+
+    public:
+        /** Highlight the tile. On TILES, draws an overlay; on CURSES, reverts color. */
+        bool highlight = false;
+        /** Whether to draw items on the tile. */
+        bool show_items = true;
+        /** Whether tile is low light, and should be drawn with muted color. */
+        bool low_light = false;
+        /** Whether tile is in bright light. Affects NV overlay, and nothing else. */
+        bool bright_light = false;
+        /**
+         * Set to 'true' when doing batch drawing (e.g. map::draw()).
+         * Allows to speed up drawing by taking advantage of automatic cursor movement.
+         */
+        bool batch = false;
+
+        /** Set view center. By default, uses avatar's current view center. */
+        void set_view_center( const tripoint &p ) {
+            view_center = p;
+        }
+        /** Reset view center to avatar's view center */
+        void reset_view_center() {
+            view_center = tripoint_min;
+        }
+        tripoint get_view_center() const;
+};
+
 /**
  * Manage and cache data about a part of the map.
  *
@@ -381,21 +412,14 @@ class map
          */
         void draw( const catacurses::window &w, const tripoint &center );
 
-        /** Draw the map tile at the given coordinate. Called by `map::draw()`.
-        *
-        * @param w The window we are drawing in
-        * @param u The player
-        * @param p The tile on this map to draw.
-        * @param invert Invert colors if this flag is true
-        * @param show_items Draw items in tile if this flag is true see `center` in `map::draw()`
-        */
-        void drawsq( const catacurses::window &w, player &u, const tripoint &p,
-                     bool invert, bool show_items,
-                     const tripoint &view_center,
-                     bool low_light = false, bool bright_light = false,
-                     bool inorder = false ) const;
-        void drawsq( const catacurses::window &w, player &u, const tripoint &p,
-                     bool invert = false, bool show_items = true ) const;
+        /**
+         * Draw the map tile at the given coordinate. Called by `map::draw()`.
+         *
+         * @param w The window we are drawing in
+         * @param p The tile on this map to draw.
+         * @param params Draw parameters.
+         */
+        void drawsq( const catacurses::window &w, const tripoint &p, const drawsq_params &params ) const;
 
         /**
          * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -1780,21 +1804,16 @@ class map
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
          * Returns false if it has drawn all it should, true if `draw_from_above` should be called after.
          */
-        bool draw_maptile( const catacurses::window &w, const player &u, const tripoint &p,
-                           const maptile &tile,
-                           bool invert, bool show_items,
-                           const tripoint &view_center,
-                           bool low_light, bool bright_light, bool inorder ) const;
+        bool draw_maptile( const catacurses::window &w, const tripoint &p,
+                           const maptile &tile, const drawsq_params &params ) const;
         bool draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
                                        const tripoint &view_center,
                                        bool move_cursor = true ) const;
         /**
          * Draws the tile as seen from above.
          */
-        void draw_from_above( const catacurses::window &w, const player &u, const tripoint &p,
-                              const maptile &tile, bool invert,
-                              const tripoint &view_center,
-                              bool low_light, bool bright_light, bool inorder ) const;
+        void draw_from_above( const catacurses::window &w, const tripoint &p,
+                              const maptile &tile, const drawsq_params &params ) const;
 
         int determine_wall_corner( const tripoint &p ) const;
         // apply a circular light pattern immediately, however it's best to use...

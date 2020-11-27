@@ -6117,8 +6117,10 @@ void game::pickup()
 void game::pickup( const tripoint &p )
 {
     // Highlight target
+    drawsq_params params;
+    params.highlight = true;
     shared_ptr_fast<game::draw_callback_t> hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
-        m.drawsq( w_terrain, u, p, true, true, u.pos() + u.view_offset );
+        m.drawsq( w_terrain, p, params );
     } );
     add_draw_callback( hilite_cb );
 
@@ -6212,7 +6214,10 @@ void game::draw_look_around_cursor( const tripoint &lp, const visibility_variabl
             if( creature != nullptr && u.sees( *creature ) ) {
                 creature->draw( w_terrain, view_center, true );
             } else {
-                m.drawsq( w_terrain, u, lp, true, true, view_center );
+                drawsq_params params;
+                params.highlight = true;
+                params.set_view_center( view_center );
+                m.drawsq( w_terrain, lp, params );
             }
         } else {
             std::string visibility_indicator;
