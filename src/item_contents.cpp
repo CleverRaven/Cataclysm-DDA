@@ -1024,12 +1024,12 @@ std::list<const item *> item_contents::all_items_top( item_pocket::pocket_type p
     return all_items_internal;
 }
 
-std::list<item *> item_contents::all_standard_items_top()
+std::list<const item *> item_contents::all_standard_items_top() const
 {
-    std::list<item *> all_items_internal;
-    for( item_pocket &pocket : contents ) {
+    std::list<const item *> all_items_internal;
+    for( const item_pocket &pocket : contents ) {
         if( pocket.is_standard_type() ) {
-            std::list<item *> contained_items = pocket.all_items_top();
+            std::list<const item *> contained_items = pocket.all_items_top();
             all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
                                        contained_items.end() );
         }
