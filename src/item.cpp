@@ -5002,7 +5002,7 @@ units::mass item::weight( bool, bool integral ) const
             ret *= 0.85;
         }
 
-    } else if( magazine_integral() && !is_magazine() ) {
+    } else if( magazine_integral() && ( !is_magazine() || is_gun() ) ) {
         if( ammo_current() == itype_plut_cell ) {
             ret += ammo_remaining() * find_type( ammotype(
                     *ammo_types().begin() )->default_ammotype() )->weight / PLUTONIUM_CHARGES;
@@ -5030,6 +5030,9 @@ units::mass item::weight( bool, bool integral ) const
     if( is_gun() ) {
         for( const item *elem : gunmods() ) {
             ret += elem->weight( true, true );
+        }
+        if( magazine_current() ) {
+            ret += magazine_current()->weight();
         }
     } else {
         ret += contents.item_weight_modifier();
