@@ -364,16 +364,7 @@ TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
         REQUIRE_FALSE( dummy.has_identified( alpha.typeId() ) );
         CHECK( dummy.get_book_mastery( child ) == book_mastery::CANT_DETERMINE );
     }
-    GIVEN( "an identified book which gives/requires no skill to read" ) {
-        dummy.do_read( child );
-        REQUIRE( dummy.has_identified( child.typeId() ) );
-        REQUIRE_FALSE( book_has_skill( child ) );
-
-        THEN( "you already mastered it" ) {
-            CHECK( dummy.get_book_mastery( child ) == book_mastery::MASTERED );
-        }
-    }
-    GIVEN( "some identified books which gives/requires no skill to read" ) {
+    GIVEN( "some identified books" ) {
         dummy.do_read( child );
         dummy.do_read( alpha );
         REQUIRE( dummy.has_identified( child.typeId() ) );
@@ -381,11 +372,11 @@ TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
 
         WHEN( "it gives/requires no skill" ) {
             REQUIRE_FALSE( book_has_skill( child ) );
-            THEN( "you already mastered it" ) {
+            THEN( "you've already mastered it" ) {
                 CHECK( dummy.get_book_mastery( child ) == book_mastery::MASTERED );
             }
         }
-        WHEN( "it requires/give skills" ) {
+        WHEN( "it gives/requires skills" ) {
             REQUIRE( book_has_skill( alpha ) );
 
             THEN( "you won't understand it if your skills are too low" ) {
