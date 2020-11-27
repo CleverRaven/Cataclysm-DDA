@@ -40,7 +40,7 @@
         "O": { "item": "softdrugs", "chance": 80, "repeat": [ 2, 6 ] },
         "S": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
         "c": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
-        "e": { "item": "fridge", "chance": 80, "repeat": [ 2, 4 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 80 },
         "t": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
         "f": { "item": "office_paper", "chance": 70, "repeat": [ 1, 3 ] }
       },
@@ -309,7 +309,7 @@
         "B": { "item": "hospital_bed", "chance": 60 },
         "R": { "item": "trash", "chance": 50 },
         "o": { "item": "doctors_books", "chance": 60 },
-        "e": { "item": "fridge", "chance": 80, "repeat": [ 1, 3 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 80 },
         "C": { "item": "dresser", "chance": 75 },
         "O": { "item": "bionics", "chance": 40 },
         "T": { "item": "office_breakroom", "chance": 80 },

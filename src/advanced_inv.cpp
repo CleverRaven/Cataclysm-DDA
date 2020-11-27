@@ -929,6 +929,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
         if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
             player_character.activity.coords.push_back( player_character.pos() );
             std::vector<item_location> target_items;
+            std::vector<item_location> target_items_favorites;
             std::vector<int> quantities;
             item_stack::iterator stack_begin, stack_end;
             if( panes[src].in_vehicle() ) {
@@ -955,9 +956,18 @@ bool advanced_inventory::move_all_items( bool nested_call )
                     continue;
                 }
                 if( spane.in_vehicle() ) {
-                    target_items.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
+                    if( it->is_favorite ) {
+                        target_items_favorites.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
+                    } else {
+                        target_items.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
+                    }
+
                 } else {
-                    target_items.emplace_back( map_cursor( sarea.pos ), &*it );
+                    if( it->is_favorite ) {
+                        target_items_favorites.emplace_back( map_cursor( sarea.pos ), &*it );
+                    } else {
+                        target_items.emplace_back( map_cursor( sarea.pos ), &*it );
+                    }
                 }
                 // quantity of 0 means move all
                 quantities.push_back( 0 );
@@ -966,6 +976,12 @@ bool advanced_inventory::move_all_items( bool nested_call )
             if( filtered_any_bucket ) {
                 add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
             }
+
+            // move all the favorite items only if there are no other items.
+            if( target_items.empty() ) {
+                target_items = target_items_favorites;
+            }
+
             player_character.assign_activity( player_activity( pickup_activity_actor(
                                                   target_items,
                                                   quantities,
@@ -986,6 +1002,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
 
             // Find target items and quantities thereof for the new activity
             std::vector<item_location> target_items;
+            std::vector<item_location> target_items_favorites;
+
             std::vector<int> quantities;
 
             item_stack::iterator stack_begin, stack_end;
@@ -1012,9 +1030,18 @@ bool advanced_inventory::move_all_items( bool nested_call )
                     continue;
                 }
                 if( spane.in_vehicle() ) {
-                    target_items.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
+                    if( it->is_favorite ) {
+                        target_items_favorites.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
+                    } else {
+                        target_items.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
+                    }
+
                 } else {
-                    target_items.emplace_back( map_cursor( sarea.pos ), &*it );
+                    if( it->is_favorite ) {
+                        target_items_favorites.emplace_back( map_cursor( sarea.pos ), &*it );
+                    } else {
+                        target_items.emplace_back( map_cursor( sarea.pos ), &*it );
+                    }
                 }
                 // quantity of 0 means move all
                 quantities.push_back( 0 );
@@ -1022,6 +1049,11 @@ bool advanced_inventory::move_all_items( bool nested_call )
 
             if( filtered_any_bucket ) {
                 add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
+            }
+
+            // move all the favorite items only if there are no other items.
+            if( target_items.empty() ) {
+                target_items = target_items_favorites;
             }
 
             player_character.assign_activity( player_activity( move_items_activity_actor(

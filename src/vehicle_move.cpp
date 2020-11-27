@@ -451,7 +451,7 @@ void vehicle::thrust( int thd, int z )
     //so 1000 = 100% and 453 = 45.3%
     int load;
     // Keep exact cruise control speed
-    if( cruise_on ) {
+    if( cruise_on && accel != 0 ) {
         int effective_cruise = std::min( cruise_velocity, max_vel );
         if( thd > 0 ) {
             vel_inc = std::min( vel_inc, effective_cruise - velocity );
@@ -898,7 +898,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                        to_kilogram( parts[ part ].base.weight() ) : to_kilogram( total_mass() );
 
     //Calculate damage resulting from d_E
-    const itype *type = item::find_type( part_info( ret.part ).item );
+    const itype *type = item::find_type( part_info( ret.part ).base_item );
     const auto &mats = type->materials;
     float vpart_dens = 0.0f;
     if( !mats.empty() ) {
@@ -1489,7 +1489,7 @@ rl_vec2d vehicle::velo_vec() const
     return ret;
 }
 
-static inline rl_vec2d angle_to_vec( units::angle angle )
+static inline rl_vec2d angle_to_vec( const units::angle &angle )
 {
     return rl_vec2d( units::cos( angle ), units::sin( angle ) );
 }
@@ -1613,7 +1613,8 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
 }
 
 // rounds turn_dir to 45*X degree, respecting face_dir
-static units::angle get_corrected_turn_dir( units::angle turn_dir, units::angle face_dir )
+static units::angle get_corrected_turn_dir( const units::angle &turn_dir,
+        const units::angle &face_dir )
 {
     units::angle corrected_turn_dir = 0_degrees;
 

@@ -151,7 +151,7 @@ class recipe
         // Books containing this recipe, and the skill level required
         std::map<itype_id, book_recipe_data> booksets;
 
-        std::set<flag_str_id> flags_to_delete; // Flags to delete from the resultant item.
+        std::set<flag_id> flags_to_delete; // Flags to delete from the resultant item.
 
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)

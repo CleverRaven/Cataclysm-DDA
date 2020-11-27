@@ -49,7 +49,7 @@ struct clothing_mod {
     clothing_mod_id id;
     bool was_loaded = false;
 
-    flag_str_id flag;
+    flag_id flag;
     itype_id item_string;
     translation implement_prompt;
     translation destroy_prompt;

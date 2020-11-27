@@ -47,7 +47,7 @@ struct ma_requirements {
     std::vector<std::pair<damage_type, int>> min_damage;
 
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
-    std::set<flag_str_id> req_flags; // any item flags required for this technique
+    std::set<flag_id> req_flags; // any item flags required for this technique
 
     ma_requirements() {
         unarmed_allowed = false;

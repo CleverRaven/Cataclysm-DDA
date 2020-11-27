@@ -512,6 +512,9 @@ Effects for the item that has the enchantment:
 * ITEM_DAMAGE_ELEC
 * ITEM_DAMAGE_ACID
 * ITEM_DAMAGE_BIO
+
+The damage enchantment values are for melee only.
+
 * ITEM_DAMAGE_AP
 * ITEM_ARMOR_BASH
 * ITEM_ARMOR_CUT

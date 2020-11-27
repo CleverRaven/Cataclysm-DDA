@@ -44,7 +44,6 @@ static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
 static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_water( "water" );
-static const itype_id itype_water_faucet( "water_faucet" );
 
 struct itype;
 
@@ -347,7 +346,7 @@ item *inventory::provide_pseudo_item( const itype_id &id, int battery )
         return &it;
     }
     item it_batt( it.magazine_default() );
-    item it_ammo = item( it_batt.ammo_default(), 0 );
+    item it_ammo = item( it_batt.ammo_default(), calendar::turn_zero );
     if( it_ammo.is_null() || it_ammo.typeId() != itype_id( "battery" ) ) {
         return &it;
     }

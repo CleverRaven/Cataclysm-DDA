@@ -746,7 +746,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool ra
     d_win.open_dialogue( text_only );
     // Main dialogue loop
     do {
-        d.beta->update_missions( d.missions_assigned, getID() );
+        d.beta->update_missions( d.missions_assigned );
         const talk_topic next = d.opt( d_win, name, d.topic_stack.back() );
         if( next.id == "TALK_NONE" ) {
             int cat = topic_category( d.topic_stack.back() );
@@ -881,6 +881,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         alpha->shout();
         if( alpha->is_deaf() ) {
             return _( "&You yell, but can't hear yourself." );
+        } else {
             if( alpha->is_mute() ) {
                 return _( "&You yell, but can't form words." );
             } else {

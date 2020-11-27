@@ -876,7 +876,8 @@ class jmapgen_npc : public jmapgen_piece
             npc_class( jsi.get_string( "class" ) )
             , target( jsi.get_bool( "target", false ) ) {
             if( !npc_class.is_valid() ) {
-                set_mapgen_defer( jsi, "class", "unknown npc class" );
+                set_mapgen_defer( jsi, "class", string_format( "unknown npc template %s",
+                                  jsi.get_string( "class" ) ) );
             }
             if( jsi.has_string( "add_trait" ) ) {
                 std::string new_trait = jsi.get_string( "add_trait" );
@@ -1125,6 +1126,9 @@ class jmapgen_liquid_item : public jmapgen_piece
             amount( jsi, "amount", 0, 0 )
             , liquid( jsi.get_string( "liquid" ) )
             , chance( jsi, "chance", 1, 1 ) {
+            // Itemgroups apply migrations when being loaded, but we need to migrate
+            // individual items here.
+            liquid = item_controller->migrate_id( itype_id( liquid ) ).str();
             if( !item::type_is_defined( itype_id( liquid ) ) ) {
                 set_mapgen_defer( jsi, "liquid", "no such item type '" + liquid + "'" );
             }
@@ -1427,6 +1431,9 @@ class jmapgen_spawn_item : public jmapgen_piece
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 )
             , flags( jsi.get_tags<flag_id>( "custom-flags" ) ) {
+            // Itemgroups apply migrations when being loaded, but we need to migrate
+            // individual items here.
+            type = item_controller->migrate_id( type );
             if( !item::type_is_defined( type ) ) {
                 set_mapgen_defer( jsi, "item", "no such item" );
             }
@@ -4205,7 +4212,7 @@ void map::draw_lab( mapgendata &dat )
                     int marker_y = center.y + rng( -2, 2 );
                     if( one_in( 4 ) ) {
                         spawn_item( point( marker_x, marker_y ),
-                                    "mininuke", 1, 1, 0, rng( 2, 4 ) );
+                                    "mininuke", 1, 1, calendar::turn_zero, rng( 2, 4 ) );
                     } else {
                         item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
                         newliquid.charges = 1;
@@ -5328,7 +5335,7 @@ void map::draw_spiral( const mapgendata &dat )
             ter_set( point( orx + 3, ory + 3 ), t_rock );
             ter_set( point( orx + 2, ory + 3 ), t_rock_floor );
             place_items( item_group_id( "spiral" ), 60, point( orx + 2, ory + 3 ),
-                         point( orx + 2, ory + 3 ), false, 0 );
+                         point( orx + 2, ory + 3 ), false, calendar::turn_zero );
         }
     }
 }
@@ -5771,7 +5778,7 @@ void map::place_spawns( const mongroup_id &group, const int chance,
 
 void map::place_gas_pump( const point &p, int charges, const std::string &fuel_type )
 {
-    item fuel( fuel_type, 0 );
+    item fuel( fuel_type, calendar::start_of_cataclysm );
     fuel.charges = charges;
     add_item( p, fuel );
     ter_set( p, ter_id( fuel.fuel_pump_terrain() ) );
@@ -5779,7 +5786,7 @@ void map::place_gas_pump( const point &p, int charges, const std::string &fuel_t
 
 void map::place_toilet( const point &p, int charges )
 {
-    item water( "water", 0 );
+    item water( "water", calendar::start_of_cataclysm );
     water.charges = charges;
     add_item( p, water );
     furn_set( p, f_toilet );
@@ -5939,25 +5946,25 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
     place_on_submap->spawns.push_back( tmp );
 }
 
-vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle dir,
+vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
                            const int veh_fuel, const int veh_status, const bool merge_wrecks )
 {
     return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
 }
 
-vehicle *map::add_vehicle( const vgroup_id &type, const point &p, units::angle dir,
+vehicle *map::add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
                            int veh_fuel, int veh_status, bool merge_wrecks )
 {
     return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
 }
 
-vehicle *map::add_vehicle( const vproto_id &type, const point &p, units::angle dir,
+vehicle *map::add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
                            int veh_fuel, int veh_status, bool merge_wrecks )
 {
     return add_vehicle( type, tripoint( p, abs_sub.z ), dir, veh_fuel, veh_status, merge_wrecks );
 }
 
-vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle dir,
+vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
                            const int veh_fuel, const int veh_status, const bool merge_wrecks )
 {
     if( !type.is_valid() ) {
@@ -6599,7 +6606,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( item_group_id( "bionics_common" ), 70, point( biox, bioy ),
-                                point( biox, bioy ), false, 0 );
+                                point( biox, bioy ), false, calendar::turn_zero );
 
                 m->furn_set( point( biox - 2, bioy ), furn_str_id( "f_console" ) );
                 computer *tmpcomp2 = m->add_computer( tripoint( biox - 2,  bioy, z ), _( "Bionic access" ), 2 );

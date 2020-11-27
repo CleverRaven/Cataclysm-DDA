@@ -844,7 +844,7 @@ void player::sort_armor()
             }
         } else if( action == "EQUIP_ARMOR_HERE" ) {
             // filter inventory for all items that are armor/clothing
-            item_location loc = game_menus::inv::wear( *this );
+            item_location loc = game_menus::inv::wear( *this, armor_cat[tabindex] );
 
             // only equip if something valid selected!
             if( loc ) {

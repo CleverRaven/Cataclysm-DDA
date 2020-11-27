@@ -119,7 +119,7 @@ static int time_to_attack( const Character &p, const itype &firing );
 * @param ammo   Ammo used.
 * @param pos    Character position.
 */
-static void cycle_action( item &weap, itype_id ammo, const tripoint &pos );
+static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos );
 static void make_gun_sound_effect( const player &p, bool burst, item *weapon );
 
 class target_ui
@@ -638,8 +638,8 @@ bool player::handle_gun_damage( item &it )
         it.inc_damage();
     }
     if( !it.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
-        if( ( ( it.ammo_data()->ammo->recoil < firing.min_cycle_recoil ) ||
-              ( it.has_fault_flag( "BAD_CYCLING" ) && one_in( 16 ) ) ) &&
+        if( it.ammo_data() != nullptr && ( ( it.ammo_data()->ammo->recoil < firing.min_cycle_recoil ) ||
+                                           ( it.has_fault_flag( "BAD_CYCLING" ) && one_in( 16 ) ) ) &&
             it.faults_potential().count( fault_gun_chamber_spent ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
                                    _( "<npcname>'s %s fails to cycle!" ),
@@ -1562,7 +1562,7 @@ int time_to_attack( const Character &p, const itype &firing )
                      info.base_time - info.time_reduction_per_level * p.get_skill_level( skill_used ) );
 }
 
-static void cycle_action( item &weap, itype_id ammo, const tripoint &pos )
+static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos )
 {
     map &here = get_map();
     // eject casings and linkages in random direction avoiding walls using player position as fallback

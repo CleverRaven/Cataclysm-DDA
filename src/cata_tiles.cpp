@@ -113,7 +113,8 @@ namespace
 std::string get_ascii_tile_id( const uint32_t sym, const int FG, const int BG )
 {
     return std::string( { 'A', 'S', 'C', 'I', 'I', '_', static_cast<char>( sym ),
-                          static_cast<char>( FG ), static_cast<char>( BG ) } );
+                          static_cast<char>( FG ), static_cast<char>( BG )
+                        } );
 }
 
 pixel_minimap_mode pixel_minimap_mode_from_string( const std::string &mode )
@@ -1315,6 +1316,15 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 draw_debug_tile( intensity, string_format( "%.2f", tr ) );
             }
 
+            if( g->display_overlay_state( ACTION_DISPLAY_REACHABILITY_ZONES ) ) {
+                tripoint tile_pos( x, y, center.z );
+                int value = here.reachability_cache_value( tile_pos,
+                            g->debug_rz_display.r_cache_vertical, g->debug_rz_display.quadrant );
+                // use color to denote reachability from you to the target tile according to the cache
+                bool reachable = here.has_potential_los( you.pos(), tile_pos );
+                draw_debug_tile( reachable ? 0 : 6, std::to_string( value ) );
+            }
+
             if( !invisible[0] && apply_vision_effects( pos, here.get_visibility( ll, cache ) ) ) {
                 const Creature *critter = g->critter_at( pos, true );
                 if( has_draw_override( pos ) || has_memory_at( pos ) ||
@@ -1768,9 +1778,9 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         } else if( category == C_ITEM ) {
             item tmp;
             if( string_starts_with( found_id, "corpse_" ) ) {
-                tmp = item( itype_corpse, 0 );
+                tmp = item( itype_corpse, calendar::turn_zero );
             } else {
-                tmp = item( found_id, 0 );
+                tmp = item( found_id, calendar::turn_zero );
             }
             sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
             col = tmp.color();
@@ -2114,9 +2124,6 @@ bool cata_tiles::draw_sprite_at(
                 break;
             case 1:
                 // 90 degrees (and 270, with just two sprites)
-#if defined(_WIN32)
-                destination.y -= 1;
-#endif
                 if( !tile_iso ) {
                     // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, -90, nullptr,
@@ -2139,9 +2146,6 @@ bool cata_tiles::draw_sprite_at(
                 break;
             case 3:
                 // 270 degrees
-#if defined(_WIN32)
-                destination.x -= 1;
-#endif
                 if( !tile_iso ) {
                     // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 90, nullptr,
@@ -2749,7 +2753,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         char part_mod = 0;
         const std::string &vp_id = veh.part_id_string( veh_part, part_mod );
         const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
-        const int rotation = to_degrees( veh.face.dir() );
+        const int rotation = std::round( to_degrees( veh.face.dir() ) );
         const std::string vpname = "vp_" + vp_id;
         avatar &you = get_avatar();
         if( !veh.forward_velocity() && !veh.player_in_control( you ) &&

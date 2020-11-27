@@ -994,17 +994,21 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
 
 std::unordered_set<std::string> options_manager::get_langs_with_translation_files()
 {
-    std::vector<std::string> lang_dirs = get_directories_with( PATH_INFO::lang_file(),
-                                         PATH_INFO::langdir(), true );
-    const std::string start_str = "mo/";
+#if defined(LOCALIZE)
+    const std::string start_str = locale_dir();
+    std::vector<std::string> lang_dirs =
+        get_directories_with( PATH_INFO::lang_file(), start_str, true );
     const std::size_t start_len = start_str.length();
     const std::string end_str = "/LC_MESSAGES";
     std::for_each( lang_dirs.begin(), lang_dirs.end(), [&]( std::string & dir ) {
-        const std::size_t start = dir.find( start_str ) + start_len;
+        const std::size_t start = dir.find( start_str ) + start_len + 1;
         const std::size_t len = dir.rfind( end_str ) - start;
         dir = dir.substr( start, len );
     } );
     return std::unordered_set<std::string>( lang_dirs.begin(), lang_dirs.end() );
+#else // !LOCALIZE
+    return std::unordered_set<std::string>();
+#endif // LOCALIZE
 }
 
 std::vector<options_manager::id_and_option> options_manager::get_lang_options()
@@ -1554,7 +1558,7 @@ void options_manager::add_options_interface()
        );
 
     add( "ACHIEVEMENT_COMPLETED_POPUP", "interface",
-         to_translation( "Popup window when achievmement completed" ),
+         to_translation( "Popup window when achievement completed" ),
          to_translation( "Whether to trigger a popup window when completing an achievement.  "
                          "First: when completing an achievement that has not been completed in "
     "a previous game." ), {
@@ -2580,8 +2584,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
     input_context ctxt( "OPTIONS" );
     ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
@@ -2821,8 +2825,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                    get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
             continue;
         }
-        int recmax = static_cast<int>( page_items.size() );
-        int scroll_rate = recmax > 20 ? 10 : 3;
+        const int recmax = static_cast<int>( page_items.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "DOWN" ) {
             do {

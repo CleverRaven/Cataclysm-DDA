@@ -967,11 +967,11 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             if( vp ) {
                 const int veh_battery = vp->vehicle().fuel_left( itype_battery, true );
 
-                item welder( itype_welder, 0 );
+                item welder( itype_welder, calendar::turn_zero );
                 welder.charges = veh_battery;
                 welder.set_flag( flag_PSEUDO );
                 temp_inv.add_item( welder );
-                item soldering_iron( itype_soldering_iron, 0 );
+                item soldering_iron( itype_soldering_iron, calendar::turn_zero );
                 soldering_iron.charges = veh_battery;
                 soldering_iron.set_flag( flag_PSEUDO );
                 temp_inv.add_item( soldering_iron );
@@ -1063,7 +1063,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 if( !has_skill_for_vehicle_work( vpinfo.removal_skills, p ) ) {
                     continue;
                 }
-                item base( vpinfo.item );
+                item base( vpinfo.base_item );
                 if( base.is_wheel() ) {
                     // no wheel removal yet
                     continue;
@@ -1597,7 +1597,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             for( auto it = requirement_map.begin(); it != requirement_map.end(); ) {
                 tripoint pos_here = std::get<0>( *it );
                 itype_id item_here = std::get<1>( *it );
-                item test_item = item( item_here, 0 );
+                item test_item = item( item_here, calendar::turn_zero );
                 if( test_item.has_quality( tool_qual, qual_level ) ) {
                     // it's just this spot that can fulfil the requirement on its own
                     final_map.push_back( std::make_tuple( pos_here, item_here, 1 ) );

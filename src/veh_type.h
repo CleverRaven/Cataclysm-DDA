@@ -218,7 +218,7 @@ class vpart_category
         std::string id_;
         translation name_;
         translation short_name_;
-        int priority_; // order of tab in the UI
+        int priority_ = 0; // order of tab in the UI
 };
 
 class vpart_info
@@ -401,7 +401,7 @@ class vpart_info
         translation description;
 
         /** base item for this part */
-        itype_id item;
+        itype_id base_item;
 
         /** What slot of the vehicle tile does this part occupy? */
         std::string location;

@@ -271,7 +271,7 @@ static void eff_fun_bleed( Character &u, effect &it )
     // QuikClot or bandages per the recipe.)
     const int intense = it.get_intensity();
     // tourniquet reduces effective bleeding by 2/3 but doesn't modify the effect's intensity
-    bool tourniquet = u.worn_with_flag( STATIC( flag_str_id( "TOURNIQUET" ) ),  it.get_bp() );
+    bool tourniquet = u.worn_with_flag( STATIC( flag_id( "TOURNIQUET" ) ),  it.get_bp() );
     if( !( tourniquet && one_in( 3 ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
         u.vitamin_mod( vitamin_redcells, -intense );
@@ -399,28 +399,28 @@ static void eff_fun_cold( Character &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
     static const std::map<std::pair<bodypart_str_id, int>, temperature_effect> effs = {{
-            { { bodypart_str_id( "head" ), 3 }, { 0, 0, 3, 0, to_translation( "Your thoughts are unclear." ), 2400, translation() } },
-            { { bodypart_str_id( "head" ), 2 }, { 0, 0, 1, 0, translation(), 0, translation() } },
-            { { bodypart_str_id( "mouth" ), 3 }, { 0, 0, 0, 3, to_translation( "Your face is stiff from the cold." ), 2400, translation() } },
-            { { bodypart_str_id( "mouth" ), 2 }, { 0, 0, 0, 1, translation(), 0, translation() } },
-            { { bodypart_str_id( "torso" ), 3 }, { 0, 4, 0, 0, to_translation( "Your torso is freezing cold.  You should put on a few more layers." ), 400, to_translation( "You quiver from the cold." ) } },
-            { { bodypart_str_id( "torso" ), 2 }, { 0, 2, 0, 0, translation(), 0, to_translation( "Your shivering makes you unsteady." ) } },
-            { { bodypart_str_id( "arm_l" ), 3 }, { 0, 2, 0, 0, to_translation( "Your left arm is shivering." ), 4800, to_translation( "Your left arm trembles from the cold." ) } },
-            { { bodypart_str_id( "arm_l" ), 2 }, { 0, 1, 0, 0, to_translation( "Your left arm is shivering." ), 4800, to_translation( "Your left arm trembles from the cold." ) } },
-            { { bodypart_str_id( "arm_r" ), 3 }, { 0, 2, 0, 0, to_translation( "Your right arm is shivering." ), 4800, to_translation( "Your right arm trembles from the cold." ) } },
-            { { bodypart_str_id( "arm_r" ), 2 }, { 0, 1, 0, 0, to_translation( "Your right arm is shivering." ), 4800, to_translation( "Your right arm trembles from the cold." ) } },
-            { { bodypart_str_id( "hand_l" ), 3 }, { 0, 2, 0, 0, to_translation( "Your left hand feels like ice." ), 4800, to_translation( "Your left hand quivers in the cold." ) } },
-            { { bodypart_str_id( "hand_l" ), 2 }, { 0, 1, 0, 0, to_translation( "Your left hand feels like ice." ), 4800, to_translation( "Your left hand quivers in the cold." ) } },
-            { { bodypart_str_id( "hand_r" ), 3 }, { 0, 2, 0, 0, to_translation( "Your right hand feels like ice." ), 4800, to_translation( "Your right hand quivers in the cold." ) } },
-            { { bodypart_str_id( "hand_r" ), 2 }, { 0, 1, 0, 0, to_translation( "Your right hand feels like ice." ), 4800, to_translation( "Your right hand quivers in the cold." ) } },
-            { { bodypart_str_id( "leg_l" ), 3 }, { 2, 2, 0, 0, to_translation( "Your left leg trembles against the relentless cold." ), 4800, to_translation( "Your legs uncontrollably shake from the cold." ) } },
-            { { bodypart_str_id( "leg_l" ), 2 }, { 1, 1, 0, 0, to_translation( "Your left leg trembles against the relentless cold." ), 4800, to_translation( "Your legs uncontrollably shake from the cold." ) } },
-            { { bodypart_str_id( "leg_r" ), 3 }, { 2, 2, 0, 0, to_translation( "Your right leg trembles against the relentless cold." ), 4800, to_translation( "Your legs uncontrollably shake from the cold." ) } },
-            { { bodypart_str_id( "leg_r" ), 2 }, { 1, 1, 0, 0, to_translation( "Your right leg trembles against the relentless cold." ), 4800, to_translation( "Your legs uncontrollably shake from the cold." ) } },
-            { { bodypart_str_id( "foot_l" ), 3 }, { 2, 2, 0, 0, to_translation( "Your left foot feels frigid." ), 4800, to_translation( "Your left foot is as nimble as a block of ice." ) } },
-            { { bodypart_str_id( "foot_l" ), 2 }, { 1, 1, 0, 0, to_translation( "Your left foot feels frigid." ), 4800, to_translation( "Your freezing left foot messes up your balance." ) } },
-            { { bodypart_str_id( "foot_r" ), 3 }, { 2, 2, 0, 0, to_translation( "Your right foot feels frigid." ), 4800, to_translation( "Your right foot is as nimble as a block of ice." ) } },
-            { { bodypart_str_id( "foot_r" ), 2 }, { 1, 1, 0, 0, to_translation( "Your right foot feels frigid." ), 4800, to_translation( "Your freezing right foot messes up your balance." ) } },
+            { { body_part_head, 3 }, { 0, 0, 3, 0, to_translation( "Your thoughts are unclear." ), 2400, translation() } },
+            { { body_part_head, 2 }, { 0, 0, 1, 0, translation(), 0, translation() } },
+            { { body_part_mouth, 3 }, { 0, 0, 0, 3, to_translation( "Your face is stiff from the cold." ), 2400, translation() } },
+            { { body_part_mouth, 2 }, { 0, 0, 0, 1, translation(), 0, translation() } },
+            { { body_part_torso, 3 }, { 0, 4, 0, 0, to_translation( "Your torso is freezing cold.  You should put on a few more layers." ), 400, to_translation( "You quiver from the cold." ) } },
+            { { body_part_torso, 2 }, { 0, 2, 0, 0, translation(), 0, to_translation( "Your shivering makes you unsteady." ) } },
+            { { body_part_arm_l, 3 }, { 0, 2, 0, 0, to_translation( "Your left arm is shivering." ), 4800, to_translation( "Your left arm trembles from the cold." ) } },
+            { { body_part_arm_l, 2 }, { 0, 1, 0, 0, to_translation( "Your left arm is shivering." ), 4800, to_translation( "Your left arm trembles from the cold." ) } },
+            { { body_part_arm_r, 3 }, { 0, 2, 0, 0, to_translation( "Your right arm is shivering." ), 4800, to_translation( "Your right arm trembles from the cold." ) } },
+            { { body_part_arm_r, 2 }, { 0, 1, 0, 0, to_translation( "Your right arm is shivering." ), 4800, to_translation( "Your right arm trembles from the cold." ) } },
+            { { body_part_hand_l, 3 }, { 0, 2, 0, 0, to_translation( "Your left hand feels like ice." ), 4800, to_translation( "Your left hand quivers in the cold." ) } },
+            { { body_part_hand_l, 2 }, { 0, 1, 0, 0, to_translation( "Your left hand feels like ice." ), 4800, to_translation( "Your left hand quivers in the cold." ) } },
+            { { body_part_hand_r, 3 }, { 0, 2, 0, 0, to_translation( "Your right hand feels like ice." ), 4800, to_translation( "Your right hand quivers in the cold." ) } },
+            { { body_part_hand_r, 2 }, { 0, 1, 0, 0, to_translation( "Your right hand feels like ice." ), 4800, to_translation( "Your right hand quivers in the cold." ) } },
+            { { body_part_leg_l, 3 }, { 2, 2, 0, 0, to_translation( "Your left leg trembles against the relentless cold." ), 4800, to_translation( "Your legs uncontrollably shake from the cold." ) } },
+            { { body_part_leg_l, 2 }, { 1, 1, 0, 0, to_translation( "Your left leg trembles against the relentless cold." ), 4800, to_translation( "Your legs uncontrollably shake from the cold." ) } },
+            { { body_part_leg_r, 3 }, { 2, 2, 0, 0, to_translation( "Your right leg trembles against the relentless cold." ), 4800, to_translation( "Your legs uncontrollably shake from the cold." ) } },
+            { { body_part_leg_r, 2 }, { 1, 1, 0, 0, to_translation( "Your right leg trembles against the relentless cold." ), 4800, to_translation( "Your legs uncontrollably shake from the cold." ) } },
+            { { body_part_foot_l, 3 }, { 2, 2, 0, 0, to_translation( "Your left foot feels frigid." ), 4800, to_translation( "Your left foot is as nimble as a block of ice." ) } },
+            { { body_part_foot_l, 2 }, { 1, 1, 0, 0, to_translation( "Your left foot feels frigid." ), 4800, to_translation( "Your freezing left foot messes up your balance." ) } },
+            { { body_part_foot_r, 3 }, { 2, 2, 0, 0, to_translation( "Your right foot feels frigid." ), 4800, to_translation( "Your right foot is as nimble as a block of ice." ) } },
+            { { body_part_foot_r, 2 }, { 1, 1, 0, 0, to_translation( "Your right foot feels frigid." ), 4800, to_translation( "Your freezing right foot messes up your balance." ) } },
         }
     };
     const auto iter = effs.find( { it.get_bp().id(), it.get_intensity() } );
@@ -433,22 +433,22 @@ static void eff_fun_hot( Character &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
     static const std::map<std::pair<bodypart_str_id, int>, temperature_effect> effs = {{
-            { { bodypart_str_id( "head" ), 3 }, { 0, 0, 0, 0, to_translation( "Your head is pounding from the heat." ), 2400, translation() } },
-            { { bodypart_str_id( "head" ), 2 }, { 0, 0, 0, 0, translation(), 0, translation() } },
-            { { bodypart_str_id( "torso" ), 3 }, { 2, 0, 0, 0, to_translation( "You are sweating profusely." ), 2400, translation() } },
-            { { bodypart_str_id( "torso" ), 2 }, { 1, 0, 0, 0, translation(), 0, translation() } },
-            { { bodypart_str_id( "hand_l" ), 3 }, { 0, 2, 0, 0, translation(), 0, to_translation( "Your left hand's too sweaty to grip well." ) } },
-            { { bodypart_str_id( "hand_l" ), 2 }, { 0, 1, 0, 0, translation(), 0, to_translation( "Your left hand's too sweaty to grip well." ) } },
-            { { bodypart_str_id( "hand_r" ), 3 }, { 0, 2, 0, 0, translation(), 0, to_translation( "Your right hand's too sweaty to grip well." ) } },
-            { { bodypart_str_id( "hand_r" ), 2 }, { 0, 1, 0, 0, translation(), 0, to_translation( "Your right hand's too sweaty to grip well." ) } },
-            { { bodypart_str_id( "leg_l" ), 3 }, { 0, 0, 0, 0, to_translation( "Your left leg is cramping up." ), 4800, translation() } },
-            { { bodypart_str_id( "leg_l" ), 2 }, { 0, 0, 0, 0, translation(), 0, translation() } },
-            { { bodypart_str_id( "leg_r" ), 3 }, { 0, 0, 0, 0, to_translation( "Your right leg is cramping up." ), 4800, translation() } },
-            { { bodypart_str_id( "leg_r" ), 2 }, { 0, 0, 0, 0, translation(), 0, translation() } },
-            { { bodypart_str_id( "foot_l" ), 3 }, { 0, 0, 0, 0, to_translation( "Your left foot is swelling in the heat." ), 4800, translation() } },
-            { { bodypart_str_id( "foot_l" ), 2 }, { 0, 0, 0, 0, translation(), 0, translation() } },
-            { { bodypart_str_id( "foot_r" ), 3 }, { 0, 0, 0, 0, to_translation( "Your right foot is swelling in the heat." ), 4800, translation() } },
-            { { bodypart_str_id( "foot_r" ), 2 }, { 0, 0, 0, 0, translation(), 0, translation() } },
+            { { body_part_head, 3 }, { 0, 0, 0, 0, to_translation( "Your head is pounding from the heat." ), 2400, translation() } },
+            { { body_part_head, 2 }, { 0, 0, 0, 0, translation(), 0, translation() } },
+            { { body_part_torso, 3 }, { 2, 0, 0, 0, to_translation( "You are sweating profusely." ), 2400, translation() } },
+            { { body_part_torso, 2 }, { 1, 0, 0, 0, translation(), 0, translation() } },
+            { { body_part_hand_l, 3 }, { 0, 2, 0, 0, translation(), 0, to_translation( "Your left hand's too sweaty to grip well." ) } },
+            { { body_part_hand_l, 2 }, { 0, 1, 0, 0, translation(), 0, to_translation( "Your left hand's too sweaty to grip well." ) } },
+            { { body_part_hand_r, 3 }, { 0, 2, 0, 0, translation(), 0, to_translation( "Your right hand's too sweaty to grip well." ) } },
+            { { body_part_hand_r, 2 }, { 0, 1, 0, 0, translation(), 0, to_translation( "Your right hand's too sweaty to grip well." ) } },
+            { { body_part_leg_l, 3 }, { 0, 0, 0, 0, to_translation( "Your left leg is cramping up." ), 4800, translation() } },
+            { { body_part_leg_l, 2 }, { 0, 0, 0, 0, translation(), 0, translation() } },
+            { { body_part_leg_r, 3 }, { 0, 0, 0, 0, to_translation( "Your right leg is cramping up." ), 4800, translation() } },
+            { { body_part_leg_r, 2 }, { 0, 0, 0, 0, translation(), 0, translation() } },
+            { { body_part_foot_l, 3 }, { 0, 0, 0, 0, to_translation( "Your left foot is swelling in the heat." ), 4800, translation() } },
+            { { body_part_foot_l, 2 }, { 0, 0, 0, 0, translation(), 0, translation() } },
+            { { body_part_foot_r, 3 }, { 0, 0, 0, 0, to_translation( "Your right foot is swelling in the heat." ), 4800, translation() } },
+            { { body_part_foot_r, 2 }, { 0, 0, 0, 0, translation(), 0, translation() } },
         }
     };
 
@@ -475,14 +475,14 @@ static void eff_fun_frostbite( Character &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
     static const std::map<std::pair<bodypart_str_id, int>, temperature_effect> effs = {{
-            { { bodypart_str_id( "hand_l" ), 2 }, { 0, 2, 0, 0, translation(), 0, to_translation( "You have trouble grasping with your numb fingers." ) } },
-            { { bodypart_str_id( "hand_r" ), 2 }, { 0, 2, 0, 0, translation(), 0, to_translation( "You have trouble grasping with your numb fingers." ) } },
-            { { bodypart_str_id( "foot_l" ), 2 }, { 0, 0, 0, 0, to_translation( "Your foot has gone numb." ), 4800, translation() } },
-            { { bodypart_str_id( "foot_l" ), 1 }, { 0, 0, 0, 0, to_translation( "Your foot has gone numb." ), 4800, translation() } },
-            { { bodypart_str_id( "foot_r" ), 2 }, { 0, 0, 0, 0, to_translation( "Your foot has gone numb." ), 4800, translation() } },
-            { { bodypart_str_id( "foot_r" ), 1 }, { 0, 0, 0, 0, to_translation( "Your foot has gone numb." ), 4800, translation() } },
-            { { bodypart_str_id( "mouth" ), 2 }, { 0, 0, 0, 3, to_translation( "Your face feels numb." ), 4800, translation() } },
-            { { bodypart_str_id( "mouth" ), 1 }, { 0, 0, 0, 1, to_translation( "Your face feels numb." ), 4800, translation() } },
+            { { body_part_hand_l, 2 }, { 0, 2, 0, 0, translation(), 0, to_translation( "You have trouble grasping with your numb fingers." ) } },
+            { { body_part_hand_r, 2 }, { 0, 2, 0, 0, translation(), 0, to_translation( "You have trouble grasping with your numb fingers." ) } },
+            { { body_part_foot_l, 2 }, { 0, 0, 0, 0, to_translation( "Your foot has gone numb." ), 4800, translation() } },
+            { { body_part_foot_l, 1 }, { 0, 0, 0, 0, to_translation( "Your foot has gone numb." ), 4800, translation() } },
+            { { body_part_foot_r, 2 }, { 0, 0, 0, 0, to_translation( "Your foot has gone numb." ), 4800, translation() } },
+            { { body_part_foot_r, 1 }, { 0, 0, 0, 0, to_translation( "Your foot has gone numb." ), 4800, translation() } },
+            { { body_part_mouth, 2 }, { 0, 0, 0, 3, to_translation( "Your face feels numb." ), 4800, translation() } },
+            { { body_part_mouth, 1 }, { 0, 0, 0, 1, to_translation( "Your face feels numb." ), 4800, translation() } },
         }
     };
     const auto iter = effs.find( { it.get_bp().id(), it.get_intensity() } );
