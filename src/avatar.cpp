@@ -71,8 +71,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-extern int memorized_tile_count;
-
 static const activity_id ACT_READ( "ACT_READ" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
