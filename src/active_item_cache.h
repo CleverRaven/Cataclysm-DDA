@@ -82,6 +82,8 @@ class active_item_cache
         /** Subtract delta from every item_reference's location */
         void subtract_locations( const point &delta );
         void rotate_locations( int turns, const point &dim );
+        void mirror_horizontally( const point &dim );
+        void mirror_vertically( const point &dim );
 };
 
 #endif // CATA_SRC_ACTIVE_ITEM_CACHE_H

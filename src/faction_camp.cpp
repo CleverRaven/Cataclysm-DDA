@@ -514,6 +514,130 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
     return avail;
 }
 
+bool extract_and_check_orientation_flags( const recipe_id recipe,
+        const point &dir,
+        bool &mirror_horizontal,
+        bool &mirror_vertical,
+        int &rotation,
+        const std::string base_error_message,
+        const std::string actor )
+{
+    mirror_horizontal = recipe->has_flag( "MAP_MIRROR_HORIZONTAL" );
+    mirror_vertical = recipe->has_flag( "MAP_MIRROR_VERTICAL" );
+    rotation = 0;
+    std::string dir_string;
+
+    if( recipe->has_flag( "MAP_ROTATE_90" ) ) {
+        if( rotation != 0 ) {
+            popup( _( ( base_error_message +
+                        ", the blueprint specifies multiple concurrent rotations, which is not supported" ).c_str() ),
+                   actor,
+                   recipe->get_blueprint() );
+            return false;
+        }
+        rotation = 1;
+    }
+
+    if( recipe->has_flag( "MAP_ROTATE_180" ) ) {
+        if( rotation != 0 ) {
+            popup( _( ( base_error_message +
+                        ", the blueprint specifies multiple concurrent rotations, which is not supported" ).c_str() ),
+                   actor,
+                   recipe->get_blueprint() );
+            return false;
+        }
+        rotation = 2;
+    }
+
+    if( recipe->has_flag( "MAP_ROTATE_270" ) ) {
+        if( rotation != 0 ) {
+            popup( _( ( base_error_message +
+                        ", the blueprint specifies multiple concurrent rotations, which is not supported" ).c_str() ),
+                   actor,
+                   recipe->get_blueprint() );
+            return false;
+        }
+        rotation = 3;
+    }
+
+    if( dir.x == -1 && dir.y == -1 ) {
+        dir_string = "NW";
+    } else if( dir.x == 0 && dir.y == -1 ) {
+        dir_string = "N";
+    } else if( dir.x == 1 && dir.y == -1 ) {
+        dir_string = "NE";
+    } else if( dir.x == -1 && dir.y == 0 ) {
+        dir_string = "W";
+    } else if( dir.x == 0 && dir.y == 0 ) {
+        dir_string = "";  //  Will result in "hidden" flags that can actually affect the core.
+    } else if( dir.x == 1 && dir.y == 0 ) {
+        dir_string = "E";
+    } else if( dir.x == -1 && dir.y == 1 ) {
+        dir_string = "SW";
+    } else if( dir.x == 0 && dir.y == 1 ) {
+        dir_string = "S";
+    } else if( dir.x == 1 && dir.y == 1 ) {
+        dir_string = "SE";
+    }
+
+    if( recipe->has_flag( "MAP_MIRROR_HORIZONTAL_IF_" + dir_string ) ) {
+        if( mirror_horizontal ) {
+            popup( _( ( base_error_message +
+                        ", the blueprint specifies multiple concurrent horizontal mirroring, which is not supported" ).c_str() ),
+                   actor,
+                   recipe->get_blueprint() );
+            return false;
+        }
+        mirror_horizontal = true;
+    }
+
+    if( recipe->has_flag( "MAP_MIRROR_VERTICAL_IF_" + dir_string ) ) {
+        if( mirror_vertical ) {
+            popup( _( ( base_error_message +
+                        ", the blueprint specifies multiple concurrent vertical mirroring, which is not supported" ).c_str() ),
+                   actor,
+                   recipe->get_blueprint() );
+            return false;
+        }
+        mirror_vertical = true;
+    }
+
+    if( recipe->has_flag( "MAP_ROTATE_90_IF_" + dir_string ) ) {
+        if( rotation != 0 ) {
+            popup( _( ( base_error_message +
+                        ", the blueprint specifies multiple concurrent rotations, which is not supported" ).c_str() ),
+                   actor,
+                   recipe->get_blueprint() );
+            return false;
+        }
+        rotation = 1;
+    }
+
+    if( recipe->has_flag( "MAP_ROTATE_180_IF_" + dir_string ) ) {
+        if( rotation != 0 ) {
+            popup( _( ( base_error_message +
+                        ", the blueprint specifies multiple concurrent rotations, which is not supported" ).c_str() ),
+                   actor,
+                   recipe->get_blueprint() );
+            return false;
+        }
+        rotation = 2;
+    }
+
+    if( recipe->has_flag( "MAP_ROTATE_270_IF_" + dir_string ) ) {
+        if( rotation != 0 ) {
+            popup( _( ( base_error_message +
+                        ", the blueprint specifies multiple concurrent rotations, which is not supported" ).c_str() ),
+                   actor,
+                   recipe->get_blueprint() );
+            return false;
+        }
+        rotation = 3;
+    }
+
+    return true;
+};
+
 static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_type = "default" )
 {
 
@@ -2600,7 +2724,23 @@ bool basecamp::upgrade_return( const point &dir, const std::string &miss,
     if( comp == nullptr ) {
         return false;
     }
-    if( !run_mapgen_update_func( making.get_blueprint(), upos ) ) {
+
+    bool mirror_horizontal;
+    bool mirror_vertical;
+    int rotation;
+
+    if( !extract_and_check_orientation_flags( making.ident(),
+            dir,
+            mirror_horizontal,
+            mirror_vertical,
+            rotation,
+            "%s failed to build the %s upgrade",
+            comp->disp_name() ) ) {
+        return false;
+    }
+
+    if( !run_mapgen_update_func( making.get_blueprint(), upos, nullptr, true, mirror_horizontal,
+                                 mirror_vertical, rotation ) ) {
         popup( _( "%s failed to build the %s upgrade, perhaps there is a vehicle in the way." ),
                comp->disp_name(),
                making.get_blueprint() );
@@ -2941,7 +3081,22 @@ bool basecamp::survey_return()
     const recipe_id expansion_type = base_camps::select_camp_option( pos_expansions,
                                      _( "Select an expansion:" ) );
 
-    if( !run_mapgen_update_func( expansion_type.str(), where ) ) {
+    bool mirror_horizontal;
+    bool mirror_vertical;
+    int rotation;
+
+    if( !extract_and_check_orientation_flags( expansion_type,
+            dir,
+            mirror_horizontal,
+            mirror_vertical,
+            rotation,
+            "%s failed to build the %s expansion",
+            comp->disp_name() ) ) {
+        return false;
+    }
+
+    if( !run_mapgen_update_func( expansion_type.str(), where, nullptr, true, mirror_horizontal,
+                                 mirror_vertical, rotation ) ) {
         popup( _( "%s failed to add the %s expansion, perhaps there is a vehicle in the way." ),
                comp->disp_name(),
                expansion_type->blueprint_name() );

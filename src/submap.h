@@ -225,6 +225,8 @@ class submap : maptile_soa<SEEX, SEEY>
         bool contains_vehicle( vehicle * );
 
         void rotate( int turns );
+        void mirror_horizontally();
+        void mirror_vertically();
 
         void store( JsonOut &jsout ) const;
         void load( JsonIn &jsin, const std::string &member_name, int version );
