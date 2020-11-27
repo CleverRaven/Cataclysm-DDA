@@ -2336,6 +2336,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
+                    handler.handle();
                     break;
                 case 'v':
                     if( oThisItem.has_pockets() ) {
