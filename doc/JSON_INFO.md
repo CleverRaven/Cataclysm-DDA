@@ -1431,6 +1431,8 @@ completed when you wake up for the first time after 24 hours into the game.
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
 "mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
+"stamina_regen_modifier": 0.5 // Extra stamina regeneration rate multiplier. 1.0 doubles regen, -0.5 halves. 
+"max_stamina_modifier": 1.5 // Multiplier on maximum stamina.  Stamina regeneration is proportionally modified by the same rate, so this includes stamina_regen_modifier implicitly. See Character::update_stamina in Character.cpp.
 "transform": { "target": "BIOLUM1", // Trait_id of the mutation this one will transfomr into
                "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
                "active": false , // Will the target mutation start powered ( turn ON ).
