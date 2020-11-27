@@ -2860,6 +2860,16 @@ bool map::has_nearby_ter( const tripoint &p, const ter_id &type, int radius )
     return false;
 }
 
+bool map::has_nearby_trap( const tripoint &p, const trap_id &type, int radius )
+{
+    for( const tripoint &pt : points_in_radius( p, radius ) ) {
+        if( trap( pt ) == type ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool map::mop_spills( const tripoint &p )
 {
     bool retval = false;

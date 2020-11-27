@@ -113,6 +113,7 @@ class computer_session
         void action_radio_archive();
         void action_release();
         void action_release_bionics();
+        void action_release_cryo();
         void action_release_disarm();
         void action_repeater_mod();
         void action_research();
