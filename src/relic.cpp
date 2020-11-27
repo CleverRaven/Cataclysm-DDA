@@ -137,7 +137,7 @@ void relic_procgen_data::enchantment_active::deserialize( JsonIn &jsin )
 
 void relic_procgen_data::load( const JsonObject &jo, const std::string & )
 {
-    for( const JsonObject &jo_inner : jo.get_array( "passive_add_procgen_values" ) ) {
+    for( const JsonObject jo_inner : jo.get_array( "passive_add_procgen_values" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
         relic_procgen_data::enchantment_value_passive<int> val;
@@ -146,7 +146,7 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
         passive_add_procgen_values.add( val, weight );
     }
 
-    for( const JsonObject &jo_inner : jo.get_array( "passive_mult_procgen_values" ) ) {
+    for( const JsonObject jo_inner : jo.get_array( "passive_mult_procgen_values" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
         relic_procgen_data::enchantment_value_passive<float> val;
@@ -155,7 +155,7 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
         passive_mult_procgen_values.add( val, weight );
     }
 
-    for( const JsonObject &jo_inner : jo.get_array( "type_weights" ) ) {
+    for( const JsonObject jo_inner : jo.get_array( "type_weights" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
         relic_procgen_data::type val = relic_procgen_data::type::last;
@@ -164,7 +164,7 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
         type_weights.add( val, weight );
     }
 
-    for( const JsonObject &jo_inner : jo.get_array( "items" ) ) {
+    for( const JsonObject jo_inner : jo.get_array( "items" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
         itype_id it;
@@ -173,7 +173,7 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
         item_weights.add( it, weight );
     }
 
-    for( const JsonObject &jo_inner : jo.get_array( "active_procgen_values" ) ) {
+    for( const JsonObject jo_inner : jo.get_array( "active_procgen_values" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
         relic_procgen_data::enchantment_active val;
@@ -182,7 +182,7 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
         active_procgen_values.add( val, weight );
     }
 
-    for( const JsonObject &jo_inner : jo.get_array( "charge_types" ) ) {
+    for( const JsonObject jo_inner : jo.get_array( "charge_types" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
         relic_charge_template charge;

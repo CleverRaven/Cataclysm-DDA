@@ -2867,7 +2867,7 @@ int get_auto_consume_moves( player &p, const bool food )
     if( dest_set.empty() ) {
         return 0;
     }
-    for( const tripoint loc : dest_set ) {
+    for( const tripoint &loc : dest_set ) {
         if( loc.z != p.pos().z ) {
             continue;
         }
