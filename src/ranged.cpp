@@ -1797,7 +1797,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( critter != nullptr ) {
                 g->draw_critter( *critter, center );
             } else if( g->m.pl_sees( dst, -1 ) ) {
-                g->m.drawsq( g->w_terrain, pc, dst, false, true, center );
+                drawsq_params params;
+                params.set_view_center( center );
+                g->m.drawsq( g->w_terrain, dst, params );
             } else {
                 mvwputch( g->w_terrain, point( POSX, POSY ), c_black, 'X' );
             }
@@ -2218,8 +2220,11 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
         }
 
         g->draw_cursor( dst );
+        drawsq_params params;
+        params.highlight = true;
+        params.set_view_center( center );
         for( const tripoint &area : spell_aoe ) {
-            g->m.drawsq( g->w_terrain, pc, area, true, true, center );
+            g->m.drawsq( g->w_terrain, area, params );
         }
 
         if( casting.aoe() > 0 ) {
@@ -2321,7 +2326,9 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
             if( critter != nullptr ) {
                 g->draw_critter( *critter, center );
             } else if( g->m.pl_sees( dst, -1 ) ) {
-                g->m.drawsq( g->w_terrain, pc, dst, false, true, center );
+                drawsq_params params;
+                params.set_view_center( center );
+                g->m.drawsq( g->w_terrain, dst, params );
             }
 
             // constrain by range
