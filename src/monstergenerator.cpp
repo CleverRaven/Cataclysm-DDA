@@ -375,7 +375,6 @@ void MonsterGenerator::finalize_mtypes()
 
         apply_species_attributes( mon );
         validate_species_ids( mon );
-        validate_species_ids( mon );
         mon.size = volume_to_size( mon.volume );
 
         // adjust for worldgen difficulty parameters
