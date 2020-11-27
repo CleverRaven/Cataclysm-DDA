@@ -5621,6 +5621,25 @@ void map::draw( const catacurses::window &w, const tripoint &center )
 
     const auto &visibility_cache = get_cache_ref( center.z ).visibility_cache;
 
+    int wnd_h = getmaxy( w );
+    int wnd_w = getmaxx( w );
+
+    // Map memory should be at least the size of the view range
+    // so that new tiles can be memorized, and at least the size of the terminal
+    // since displayed area may be bigger than view range.
+    const point min_mm_reg = point(
+                                 std::min( 0, center.x - wnd_w / 2 ),
+                                 std::min( 0, center.y - wnd_h / 2 )
+                             );
+    const point max_mm_reg = point(
+                                 std::max( MAPSIZE_X, center.x - wnd_w / 2 + wnd_w ),
+                                 std::max( MAPSIZE_Y, center.y - wnd_h / 2 + wnd_h )
+                             );
+    g->u.prepare_map_memory_region(
+        g->m.getabs( tripoint( min_mm_reg, center.z ) ),
+        g->m.getabs( tripoint( max_mm_reg, center.z ) )
+    );
+
     // X and y are in map coordinates, but might be out of range of the map.
     // When they are out of range, we just draw '#'s.
     tripoint p;
@@ -5630,15 +5649,16 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     const bool do_map_memory = g->u.should_show_map_memory();
     drawsq_params params;
     params.set_view_center( center );
-    for( y = center.y - getmaxy( w ) / 2; y <= center.y + getmaxy( w ) / 2; y++ ) {
-        if( y - center.y + getmaxy( w ) / 2 >= getmaxy( w ) ) {
+    params.memorize = true;
+    for( y = center.y - wnd_h / 2; y <= center.y + wnd_h / 2; y++ ) {
+        if( y - center.y + wnd_h / 2 >= wnd_h ) {
             continue;
         }
 
-        wmove( w, point( 0, y - center.y + getmaxy( w ) / 2 ) );
+        wmove( w, point( 0, y - center.y + wnd_h / 2 ) );
 
-        const int maxxrender = center.x - getmaxx( w ) / 2 + getmaxx( w );
-        x = center.x - getmaxx( w ) / 2;
+        const int maxxrender = center.x - wnd_w / 2 + wnd_w;
+        x = center.x - wnd_w / 2;
         if( y < 0 || y >= MAPSIZE_Y ) {
             for( ; x < maxxrender; x++ ) {
                 if( !do_map_memory || !draw_maptile_from_memory( w, p, center, false ) ) {
@@ -5869,7 +5889,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
         }
     }
 
-    if( check_and_set_seen_cache( p ) ) {
+    if( param.memorize && check_and_set_seen_cache( p ) ) {
         g->u.memorize_symbol( getabs( p ), memory_sym );
     }
 
