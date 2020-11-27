@@ -6827,6 +6827,11 @@ item_pocket *item::contained_where( const item &contained )
     return contents.contained_where( contained );
 }
 
+const item_pocket *item::contained_where( const item &contained ) const
+{
+    return const_cast<item *>( this )->contained_where( contained );
+}
+
 bool item::is_watertight_container() const
 {
     return contents.can_contain_liquid( true );
