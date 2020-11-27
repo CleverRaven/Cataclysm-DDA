@@ -68,13 +68,16 @@ static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 
-static const flag_str_id json_flag_no_auto_equip( "no_auto_equip" );
-static const flag_str_id json_flag_auto_wield( "auto_wield" );
+static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
+static const flag_id json_flag_auto_wield( "auto_wield" );
 
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
+
+// Responsive screen behavior for small terminal sizes
+static bool isWide = false;
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_SELECT          h_light_gray   // Selected value
@@ -380,7 +383,7 @@ void avatar::add_profession_items()
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
-        if( it.has_flag( STATIC( flag_str_id( "WET" ) ) ) ) {
+        if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
             it.active = true;
             it.item_counter = 450; // Give it some time to dry off
         }
@@ -732,6 +735,8 @@ tab_direction set_points( avatar &, points_left &points )
     int highlighted = 0;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
+        isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
         draw_character_tabs( w, _( "POINTS" ) );
 
         const auto &cur_opt = opts[highlighted];
@@ -754,15 +759,20 @@ tab_direction set_points( avatar &, points_left &points )
                         COL_SKILL_USED, std::get<2>( cur_opt ) );
 
         // Helptext points tab
-        fold_and_print( w, point( 2, TERMY - 4 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
-                        _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
-                           "Press <color_light_green>%s</color> or <color_light_green>%s</color> to select pool and "
-                           "<color_light_green>%s</color> to confirm selection.\n"
-                           "Press <color_light_green>%s</color> to go to the next tab or "
-                           "<color_light_green>%s</color> to return to main menu." ),
-                        ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                        ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
-
+        if( isWide ) {
+            fold_and_print( w, point( 2, TERMY - 4 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
+                            _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
+                               "Press <color_light_green>%s</color> or <color_light_green>%s</color> to select pool and "
+                               "<color_light_green>%s</color> to confirm selection.\n"
+                               "Press <color_light_green>%s</color> to go to the next tab or "
+                               "<color_light_green>%s</color> to return to main menu." ),
+                            ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
+                            ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+        } else {
+            fold_and_print( w, point( 2, TERMY - 2 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
+                            _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
+                            ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+        }
         wnoutrefresh( w );
         wnoutrefresh( w_description );
     } );
@@ -1115,11 +1125,11 @@ tab_direction set_traits( avatar &u, points_left &points )
 
     input_context ctxt( "NEW_CHAR_TRAITS" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
 
@@ -1406,8 +1416,8 @@ tab_direction set_profession( avatar &u, points_left &points,
 
     input_context ctxt( "NEW_CHAR_PROFESSIONS" );
     ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "PREV_TAB" );
@@ -1821,8 +1831,8 @@ tab_direction set_skills( avatar &u, points_left &points )
 
     input_context ctxt( "NEW_CHAR_SKILLS" );
     ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "SCROLL_SKILL_INFO_DOWN" );
     ctxt.register_action( "SCROLL_SKILL_INFO_UP" );
     ctxt.register_action( "PREV_TAB" );
@@ -1981,7 +1991,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        int scroll_rate = num_skills > 20 ? 5 : 2;
+        const int scroll_rate = num_skills > 20 ? 5 : 2;
         if( action == "DOWN" ) {
             cur_pos++;
             if( cur_pos >= num_skills ) {
@@ -2103,8 +2113,8 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
     input_context ctxt( "NEW_CHAR_SCENARIOS" );
     ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
@@ -2125,6 +2135,8 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
+        const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
+        isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
         draw_character_tabs( w, _( "SCENARIO" ) );
 
         // Draw filter indicator
@@ -2156,16 +2168,26 @@ tab_direction set_scenario( avatar &u, points_left &points,
             draw_points( w, points, netPointCost );
 
             const char *scen_msg_temp;
-            if( negativeScen ) {
-                //~ 1s - scenario name, 2d - current character points.
-                scen_msg_temp = ngettext( "Scenario %1$s earns %2$d point",
-                                          "Scenario %1$s earns %2$d points",
-                                          pointsForScen );
+            if( isWide ) {
+                if( negativeScen ) {
+                    //~ 1s - scenario name, 2d - current character points.
+                    scen_msg_temp = ngettext( "Scenario %1$s earns %2$d point",
+                                              "Scenario %1$s earns %2$d points",
+                                              pointsForScen );
+                } else {
+                    //~ 1s - scenario name, 2d - current character points.
+                    scen_msg_temp = ngettext( "Scenario %1$s costs %2$d point",
+                                              "Scenario %1$s cost %2$d points",
+                                              pointsForScen );
+                }
             } else {
-                //~ 1s - scenario name, 2d - current character points.
-                scen_msg_temp = ngettext( "Scenario %1$s costs %2$d point",
-                                          "Scenario %1$s cost %2$d points",
-                                          pointsForScen );
+                if( negativeScen ) {
+                    scen_msg_temp = ngettext( "Scenario earns %2$d point",
+                                              "Scenario earns %2$d points", pointsForScen );
+                } else {
+                    scen_msg_temp = ngettext( "Scenario costs %2$d point",
+                                              "Scenario cost %2$d points", pointsForScen );
+                }
             }
 
             int pMsg_length = utf8_width( remove_color_tags( points.to_string() ) );
@@ -2530,28 +2552,49 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     catacurses::window w_age;
     catacurses::window w_blood;
     const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
+        isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
         const int beginx2 = 46;
         const int ncol2 = 40;
         const int beginx3 = TERMX <= 88 ? TERMX - TERMX / 4 : 86;
         const int ncol3 = TERMX - beginx3 - 2;
-        w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_name = catacurses::newwin( 2, ncol2 + 2, point( 2, 5 ) );
-        w_gender = catacurses::newwin( 1, ncol2 + 2, point( 2, 7 ) );
-        w_location = catacurses::newwin( 1, ncol3, point( beginx3, 5 ) );
-        w_vehicle = catacurses::newwin( 1, ncol3, point( beginx3, 6 ) );
-        w_addictions = catacurses::newwin( 1, ncol3, point( beginx3, 7 ) );
-        w_stats = catacurses::newwin( 6, 20, point( 2, 9 ) );
-        w_traits = catacurses::newwin( TERMY - 10, ncol2, point( beginx2, 9 ) );
-        w_bionics = catacurses::newwin( TERMY - 10, ncol3, point( beginx3, 9 ) );
-        w_proficiencies = catacurses::newwin( TERMY - 20, 19, point( 2, 15 ) );
-        w_scenario = catacurses::newwin( 1, ncol2, point( beginx2, 3 ) );
-        w_profession = catacurses::newwin( 1, ncol3, point( beginx3, 3 ) );
-        w_skills = catacurses::newwin( TERMY - 10, 23, point( 22, 9 ) );
-        w_guide = catacurses::newwin( 9, TERMX - 3, point( 2, TERMY - 10 ) );
-        w_height = catacurses::newwin( 1, ncol2, point( beginx2, 5 ) );
-        w_age = catacurses::newwin( 1, ncol2, point( beginx2, 6 ) );
-        w_blood = catacurses::newwin( 1, ncol2, point( beginx2, 7 ) );
-        ui.position_from_window( w );
+        const int ncol_small = ( TERMX / 2 ) - 2;
+        const int begin_sncol = ( TERMX / 2 );
+        if( isWide ) {
+            w = catacurses::newwin( TERMY, TERMX, point_zero );
+            w_name = catacurses::newwin( 2, ncol2 + 2, point( 2, 5 ) );
+            w_gender = catacurses::newwin( 1, ncol2 + 2, point( 2, 7 ) );
+            w_location = catacurses::newwin( 1, ncol3, point( beginx3, 5 ) );
+            w_vehicle = catacurses::newwin( 1, ncol3, point( beginx3, 6 ) );
+            w_addictions = catacurses::newwin( 1, ncol3, point( beginx3, 7 ) );
+            w_stats = catacurses::newwin( 6, 20, point( 2, 9 ) );
+            w_traits = catacurses::newwin( TERMY - 10, ncol2, point( beginx2, 9 ) );
+            w_bionics = catacurses::newwin( TERMY - 10, ncol3, point( beginx3, 9 ) );
+            w_proficiencies = catacurses::newwin( TERMY - 20, 19, point( 2, 15 ) );
+            w_scenario = catacurses::newwin( 1, ncol2, point( beginx2, 3 ) );
+            w_profession = catacurses::newwin( 1, ncol3, point( beginx3, 3 ) );
+            w_skills = catacurses::newwin( TERMY - 10, 23, point( 22, 9 ) );
+            w_guide = catacurses::newwin( 9, TERMX - 3, point( 2, TERMY - 10 ) );
+            w_height = catacurses::newwin( 1, ncol2, point( beginx2, 5 ) );
+            w_age = catacurses::newwin( 1, ncol2, point( beginx2, 6 ) );
+            w_blood = catacurses::newwin( 1, ncol2, point( beginx2, 7 ) );
+            ui.position_from_window( w );
+        } else {
+            w = catacurses::newwin( TERMY, TERMX, point_zero );
+            w_name = catacurses::newwin( 1, ncol_small, point( 2, 5 ) );
+            w_gender = catacurses::newwin( 1, ncol_small, point( 2, 6 ) );
+            w_height = catacurses::newwin( 1, ncol_small, point( 2, 7 ) );
+            w_age = catacurses::newwin( 1, ncol_small, point( begin_sncol, 5 ) );
+            w_blood = catacurses::newwin( 1, ncol_small, point( begin_sncol, 6 ) );
+            w_location = catacurses::newwin( 1, ncol_small, point( begin_sncol, 7 ) );
+            w_stats = catacurses::newwin( 6, ncol_small, point( 2, 9 ) );
+            w_scenario = catacurses::newwin( 1, ncol_small, point( begin_sncol, 9 ) );
+            w_profession = catacurses::newwin( 1, ncol_small, point( begin_sncol, 10 ) );
+            w_vehicle = catacurses::newwin( 2, ncol_small, point( begin_sncol, 12 ) );
+            w_addictions = catacurses::newwin( 2, ncol_small, point( begin_sncol, 14 ) );
+            w_guide = catacurses::newwin( 2, TERMX - 3, point( 2, TERMY - 3 ) );
+            ui.position_from_window( w );
+        }
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );
@@ -2657,153 +2700,167 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         mvwprintz( w_stats, point( pos + 1, 4 ), c_light_gray, "%2d", you.per_max );
         wnoutrefresh( w_stats );
 
-        mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
-        std::vector<trait_id> current_traits = points.limit == points_left::TRANSFER ? you.get_mutations() :
-                                               you.get_base_traits();
-        std::sort( current_traits.begin(), current_traits.end(), trait_display_sort );
-        if( current_traits.empty() ) {
-            wprintz( w_traits, c_light_red, _( "None!" ) );
-        } else {
-            for( size_t i = 0; i < current_traits.size(); i++ ) {
-                const auto current_trait = current_traits[i];
-                trim_and_print( w_traits, point( 0, i + 1 ), getmaxx( w_traits ) - 1,
-                                current_trait->get_display_color(), current_trait->name() );
+        if( isWide ) {
+            mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
+            std::vector<trait_id> current_traits = points.limit == points_left::TRANSFER ? you.get_mutations() :
+                                                   you.get_base_traits();
+            std::sort( current_traits.begin(), current_traits.end(), trait_display_sort );
+            if( current_traits.empty() ) {
+                wprintz( w_traits, c_light_red, _( "None!" ) );
+            } else {
+                for( size_t i = 0; i < current_traits.size(); i++ ) {
+                    const auto current_trait = current_traits[i];
+                    trim_and_print( w_traits, point( 0, i + 1 ), getmaxx( w_traits ) - 1,
+                                    current_trait->get_display_color(), current_trait->name() );
+                }
             }
         }
         wnoutrefresh( w_traits );
 
-        mvwprintz( w_skills, point_zero, COL_HEADER, _( "Skills:" ) );
+        if( isWide ) {
+            mvwprintz( w_skills, point_zero, COL_HEADER, _( "Skills:" ) );
 
-        auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
-            const int level_a = you.get_skill_level_object( a.ident() ).exercised_level();
-            const int level_b = you.get_skill_level_object( b.ident() ).exercised_level();
-            return localized_compare( std::make_pair( -level_a, a.name() ),
-                                      std::make_pair( -level_b, b.name() ) );
-        } );
+            auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
+                const int level_a = you.get_skill_level_object( a.ident() ).exercised_level();
+                const int level_b = you.get_skill_level_object( b.ident() ).exercised_level();
+                return localized_compare( std::make_pair( -level_a, a.name() ),
+                                          std::make_pair( -level_b, b.name() ) );
+            } );
 
-        int line = 1;
-        bool has_skills = false;
-        profession::StartingSkillList list_skills = you.prof->skills();
-        for( auto &elem : skillslist ) {
-            int level = you.get_skill_level( elem->ident() );
+            int line = 1;
+            bool has_skills = false;
+            profession::StartingSkillList list_skills = you.prof->skills();
+            for( auto &elem : skillslist ) {
+                int level = you.get_skill_level( elem->ident() );
 
-            if( points.limit != points_left::TRANSFER ) {
-                profession::StartingSkillList::iterator i = list_skills.begin();
-                while( i != list_skills.end() ) {
-                    if( i->first == ( elem )->ident() ) {
-                        level += i->second;
-                        break;
+                if( points.limit != points_left::TRANSFER ) {
+                    profession::StartingSkillList::iterator i = list_skills.begin();
+                    while( i != list_skills.end() ) {
+                        if( i->first == ( elem )->ident() ) {
+                            level += i->second;
+                            break;
+                        }
+                        ++i;
                     }
-                    ++i;
+                }
+
+                if( level > 0 ) {
+                    mvwprintz( w_skills, point( 0, line ), c_light_gray,
+                               elem->name() + ":" );
+                    right_print( w_skills, line, 1, c_light_gray, string_format( "%d", static_cast<int>( level ) ) );
+                    line++;
+                    has_skills = true;
                 }
             }
-
-            if( level > 0 ) {
-                mvwprintz( w_skills, point( 0, line ), c_light_gray,
-                           elem->name() + ":" );
-                right_print( w_skills, line, 1, c_light_gray, string_format( "%d", static_cast<int>( level ) ) );
-                line++;
-                has_skills = true;
+            if( !has_skills ) {
+                mvwprintz( w_skills, point( utf8_width( _( "Skills:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
             }
-        }
-        if( !has_skills ) {
-            mvwprintz( w_skills, point( utf8_width( _( "Skills:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
         }
         wnoutrefresh( w_skills );
 
-        werase( w_bionics );
-        // Profession bionics description tab, active bionics shown first
-        auto prof_CBMs = you.prof->CBMs();
-        std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( const bionic_id & a, const bionic_id & b ) {
-            return a->activated && !b->activated;
-        } );
-        mvwprintz( w_bionics, point_zero, COL_HEADER, _( "Bionics:" ) );
-        if( prof_CBMs.empty() ) {
-            mvwprintz( w_bionics, point( utf8_width( _( "Bionics:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
-        } else {
-            for( const auto &b : prof_CBMs ) {
-                const auto &cbm = b.obj();
+        if( isWide ) {
+            werase( w_bionics );
+            // Profession bionics description tab, active bionics shown first
+            auto prof_CBMs = you.prof->CBMs();
+            std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( const bionic_id & a, const bionic_id & b ) {
+                return a->activated && !b->activated;
+            } );
+            mvwprintz( w_bionics, point_zero, COL_HEADER, _( "Bionics:" ) );
+            if( prof_CBMs.empty() ) {
+                mvwprintz( w_bionics, point( utf8_width( _( "Bionics:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
+            } else {
+                for( const auto &b : prof_CBMs ) {
+                    const auto &cbm = b.obj();
 
-                if( cbm.activated && cbm.has_flag( "BIONIC_TOGGLED" ) ) {
-                    wprintz( w_bionics, c_light_gray, string_format( _( "\n%s (toggled)" ), cbm.name ) );
-                } else if( cbm.activated ) {
-                    wprintz( w_bionics, c_light_gray, string_format( _( "\n%s (activated)" ), cbm.name ) );
-                } else {
-                    wprintz( w_bionics, c_light_gray, "\n" + cbm.name );
+                    if( cbm.activated && cbm.has_flag( "BIONIC_TOGGLED" ) ) {
+                        wprintz( w_bionics, c_light_gray, string_format( _( "\n%s (toggled)" ), cbm.name ) );
+                    } else if( cbm.activated ) {
+                        wprintz( w_bionics, c_light_gray, string_format( _( "\n%s (activated)" ), cbm.name ) );
+                    } else {
+                        wprintz( w_bionics, c_light_gray, "\n" + cbm.name );
+                    }
                 }
             }
+            wnoutrefresh( w_bionics );
         }
-        wnoutrefresh( w_bionics );
 
         werase( w_proficiencies );
         // Proficiencies description tab
-        std::vector<proficiency_id> prof_proficiencies = you.prof->proficiencies();
-        mvwprintz( w_proficiencies, point_zero, COL_HEADER, _( "Proficiencies:" ) );
-        if( prof_proficiencies.empty() ) {
-            mvwprintz( w_proficiencies, point_south, c_light_red, _( "None!" ) );
-        } else {
-            for( const proficiency_id &prof : prof_proficiencies ) {
-                wprintz( w_proficiencies, c_light_gray, "\n" + trim_by_length( prof->name(), 18 ) );
+        if( isWide ) {
+            std::vector<proficiency_id> prof_proficiencies = you.prof->proficiencies();
+            mvwprintz( w_proficiencies, point_zero, COL_HEADER, _( "Proficiencies:" ) );
+            if( prof_proficiencies.empty() ) {
+                mvwprintz( w_proficiencies, point_south, c_light_red, _( "None!" ) );
+            } else {
+                for( const proficiency_id &prof : prof_proficiencies ) {
+                    wprintz( w_proficiencies, c_light_gray, "\n" + trim_by_length( prof->name(), 18 ) );
+                }
             }
         }
         wnoutrefresh( w_proficiencies );
 
         // Helptext description window
-        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 9 ), ( TERMX ), c_light_gray,
-                        _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
-                        ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+        if( isWide ) {
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 9 ), ( TERMX ), c_light_gray,
+                            _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
+                            ctxt.get_desc( "HELP_KEYBINDINGS" ) );
 
-        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 8 ), ( TERMX ), c_light_gray,
-                        _( "Press <color_light_green>%s</color> to save character template." ),
-                        ctxt.get_desc( "SAVE_TEMPLATE" ) );
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 8 ), ( TERMX ), c_light_gray,
+                            _( "Press <color_light_green>%s</color> to save character template." ),
+                            ctxt.get_desc( "SAVE_TEMPLATE" ) );
 
-        if( !MAP_SHARING::isSharing() && allow_reroll ) { // no random names when sharing maps
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), ( TERMX ), c_light_gray,
-                            _( "Press <color_light_green>%s</color> to pick a random name, "
-                               "<color_light_green>%s</color> to randomize all description values, "
-                               "<color_light_green>%s</color> to randomize all but scenario or "
-                               "<color_light_green>%s</color> to randomize everything." ),
-                            ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
-                            ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ),
-                            ctxt.get_desc( "REROLL_CHARACTER" ),
-                            ctxt.get_desc( "REROLL_CHARACTER_WITH_SCENARIO" ) );
+            if( !MAP_SHARING::isSharing() && allow_reroll ) { // no random names when sharing maps
+                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), ( TERMX ), c_light_gray,
+                                _( "Press <color_light_green>%s</color> to pick a random name, "
+                                   "<color_light_green>%s</color> to randomize all description values, "
+                                   "<color_light_green>%s</color> to randomize all but scenario or "
+                                   "<color_light_green>%s</color> to randomize everything." ),
+                                ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
+                                ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ),
+                                ctxt.get_desc( "REROLL_CHARACTER" ),
+                                ctxt.get_desc( "REROLL_CHARACTER_WITH_SCENARIO" ) );
+            } else {
+                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), ( TERMX ), c_light_gray,
+                                _( "Press <color_light_green>%s</color> to pick a random name, "
+                                   "<color_light_green>%s</color> to randomize all description values." ),
+                                ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
+                                ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
+            }
+
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 6 ), ( TERMX ), c_light_gray,
+                            _( "Press <color_light_green>%s</color> to switch gender." ),
+                            ctxt.get_desc( "CHANGE_GENDER" ) );
+
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), ( TERMX ), c_light_gray,
+                            _( "Press <color_light_green>%s</color> to select a specific starting location." ),
+                            ctxt.get_desc( "CHOOSE_LOCATION" ) );
+
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), ( TERMX ), c_light_gray,
+                            _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "
+                               "to cycle through editable values." ),
+                            ctxt.get_desc( "UP" ),
+                            ctxt.get_desc( "DOWN" ) );
+
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 3 ), ( TERMX ), c_light_gray,
+                            _( "Press <color_light_green>%s</color> and <color_light_green>%s</color> to change gender, height, age, and blood type." ),
+                            ctxt.get_desc( "LEFT" ),
+                            ctxt.get_desc( "RIGHT" ) );
+
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), ( TERMX ), c_light_gray,
+                            _( "Press <color_light_green>%s</color> to edit value via popup input." ),
+                            ctxt.get_desc( "CONFIRM" ) );
+
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), ( TERMX ), c_light_gray,
+                            _( "Press <color_light_green>%s</color> to finish character creation "
+                               "or <color_light_green>%s</color> to return to the previous TAB." ),
+                            ctxt.get_desc( "NEXT_TAB" ),
+                            ctxt.get_desc( "PREV_TAB" ) );
         } else {
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), ( TERMX ), c_light_gray,
-                            _( "Press <color_light_green>%s</color> to pick a random name, "
-                               "<color_light_green>%s</color> to randomize all description values." ),
-                            ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
-                            ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), ( TERMX ), c_light_gray,
+                            _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
+                            ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+
         }
-
-        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 6 ), ( TERMX ), c_light_gray,
-                        _( "Press <color_light_green>%s</color> to switch gender." ),
-                        ctxt.get_desc( "CHANGE_GENDER" ) );
-
-        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), ( TERMX ), c_light_gray,
-                        _( "Press <color_light_green>%s</color> to select a specific starting location." ),
-                        ctxt.get_desc( "CHOOSE_LOCATION" ) );
-
-        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), ( TERMX ), c_light_gray,
-                        _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "
-                           "to cycle through editable values." ),
-                        ctxt.get_desc( "UP" ),
-                        ctxt.get_desc( "DOWN" ) );
-
-        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 3 ), ( TERMX ), c_light_gray,
-                        _( "Press <color_light_green>%s</color> and <color_light_green>%s</color> to change gender, height, age, and blood type." ),
-                        ctxt.get_desc( "LEFT" ),
-                        ctxt.get_desc( "RIGHT" ) );
-
-        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), ( TERMX ), c_light_gray,
-                        _( "Press <color_light_green>%s</color> to edit value via popup input." ),
-                        ctxt.get_desc( "CONFIRM" ) );
-
-        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), ( TERMX ), c_light_gray,
-                        _( "Press <color_light_green>%s</color> to finish character creation "
-                           "or <color_light_green>%s</color> to return to the previous TAB." ),
-                        ctxt.get_desc( "NEXT_TAB" ),
-                        ctxt.get_desc( "PREV_TAB" ) );
-
         wnoutrefresh( w_guide );
 
         wclear( w_name );
@@ -2826,31 +2883,59 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         char_creation::draw_location( w_location, you, current_selector == char_creation::LOCATION );
 
         werase( w_vehicle );
+        // Player vehicle description tab
         const vproto_id scen_veh = get_scenario()->vehicle();
         const vproto_id prof_veh = you.prof->vehicle();
-        if( scen_veh ) {
-            mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle (scenario): " ) );
-            wprintz( w_vehicle, c_white, "%s", scen_veh->name );
-        } else if( prof_veh ) {
-            mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle (profession): " ) );
-            wprintz( w_vehicle, c_white, "%s", prof_veh->name );
+        if( isWide ) {
+            if( scen_veh ) {
+                mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle (scenario): " ) );
+                wprintz( w_vehicle, c_white, "%s", scen_veh->name );
+            } else if( prof_veh ) {
+                mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle (profession): " ) );
+                wprintz( w_vehicle, c_white, "%s", prof_veh->name );
+            } else {
+                mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle: " ) );
+                wprintz( w_vehicle, c_light_red, _( "None!" ) );
+            }
         } else {
-            mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle: " ) );
-            wprintz( w_vehicle, c_light_red, _( "None!" ) );
+            if( scen_veh ) {
+                mvwprintz( w_vehicle, point_zero, COL_HEADER, _( "Starting vehicle (scenario): " ) );
+                wprintz( w_vehicle, c_light_gray, "\n%s", scen_veh->name );
+            } else if( prof_veh ) {
+                mvwprintz( w_vehicle, point_zero, COL_HEADER, _( "Starting vehicle (profession): " ) );
+                wprintz( w_vehicle, c_light_gray, "\n%s", prof_veh->name );
+            } else {
+                mvwprintz( w_vehicle, point_zero, COL_HEADER, _( "Starting vehicle: " ) );
+                wprintz( w_vehicle, c_light_red, _( "None!" ) );
+            }
         }
         wnoutrefresh( w_vehicle );
 
         werase( w_addictions );
         // Profession addictions description tab
         const auto prof_addictions = you.prof->addictions();
-        if( prof_addictions.empty() ) {
-            mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
-            wprintz( w_addictions, c_light_red, _( "None!" ) );
+        if( isWide ) {
+            if( prof_addictions.empty() ) {
+                mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
+                wprintz( w_addictions, c_light_red, _( "None!" ) );
+            } else {
+                mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
+                for( const addiction &a : prof_addictions ) {
+                    const char *format = "%1$s (%2$d) ";
+                    wprintz( w_addictions, c_white, string_format( format, addiction_name( a ), a.intensity ) );
+                }
+            }
         } else {
-            mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
-            for( const addiction &a : prof_addictions ) {
-                const char *format = "%1$s (%2$d) ";
-                wprintz( w_addictions, c_white, string_format( format, addiction_name( a ), a.intensity ) );
+            if( prof_addictions.empty() ) {
+                mvwprintz( w_addictions, point_zero, COL_HEADER, _( "Starting addictions: " ) );
+                wprintz( w_addictions, c_light_red, _( "None!" ) );
+            } else {
+                mvwprintz( w_addictions, point_zero, COL_HEADER, _( "Starting addictions: " ) );
+                for( const addiction &a : prof_addictions ) {
+                    const char *format = "%1$s (%2$d) ";
+                    wprintz( w_addictions, c_light_gray, ( "\n" ) );
+                    wprintz( w_addictions, c_light_gray, string_format( format, addiction_name( a ), a.intensity ) );
+                }
             }
         }
         wnoutrefresh( w_addictions );
@@ -3139,7 +3224,6 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     break;
                 }
             }
-
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             return tab_direction::QUIT;
         }

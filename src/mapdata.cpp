@@ -509,7 +509,7 @@ ter_id t_null,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
        t_metal_floor,
-       t_pavement, t_pavement_y, t_sidewalk, t_concrete,
+       t_pavement, t_pavement_y, t_sidewalk, t_concrete, t_zebra,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
        t_floor, t_floor_waxed,
        t_dirtfloor,//Dirt floor(Has roof)
@@ -646,6 +646,7 @@ void set_ter_ids()
     t_metal_floor = ter_id( "t_metal_floor" );
     t_pavement = ter_id( "t_pavement" );
     t_pavement_y = ter_id( "t_pavement_y" );
+    t_zebra = ter_id( "t_zebra" );
     t_sidewalk = ter_id( "t_sidewalk" );
     t_concrete = ter_id( "t_concrete" );
     t_thconc_floor = ter_id( "t_thconc_floor" );
@@ -982,7 +983,7 @@ furn_id f_null,
         f_tourist_table,
         f_camp_chair,
         f_sign,
-        f_street_light;
+        f_street_light, f_traffic_light;
 
 static furn_id f_ball_mach, f_bluebell, f_dahlia, f_dandelion, f_datura, f_floor_canvas,
        f_indoor_plant_y, f_lane, f_statue;
@@ -1107,6 +1108,7 @@ void set_furn_ids()
     f_gunsafe_mj = furn_id( "f_gunsafe_mj" );
     f_gun_safe_el = furn_id( "f_gun_safe_el" );
     f_street_light = furn_id( "f_street_light" );
+    f_traffic_light = furn_id( "f_traffic_light" );
 }
 
 size_t ter_t::count()

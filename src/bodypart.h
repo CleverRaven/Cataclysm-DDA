@@ -21,6 +21,24 @@ class JsonObject;
 class JsonOut;
 template <typename E> struct enum_traits;
 
+struct body_part_type;
+
+using bodypart_str_id = string_id<body_part_type>;
+using bodypart_id = int_id<body_part_type>;
+
+extern const bodypart_str_id body_part_head;
+extern const bodypart_str_id body_part_eyes;
+extern const bodypart_str_id body_part_mouth;
+extern const bodypart_str_id body_part_torso;
+extern const bodypart_str_id body_part_arm_l;
+extern const bodypart_str_id body_part_arm_r;
+extern const bodypart_str_id body_part_hand_l;
+extern const bodypart_str_id body_part_hand_r;
+extern const bodypart_str_id body_part_leg_l;
+extern const bodypart_str_id body_part_foot_l;
+extern const bodypart_str_id body_part_leg_r;
+extern const bodypart_str_id body_part_foot_r;
+
 // The order is important ; pldata.h has to be in the same order
 enum body_part : int {
     bp_torso = 0,
@@ -65,11 +83,6 @@ constexpr std::array<body_part, 12> all_body_parts = {{
         bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
     }
 };
-
-struct body_part_type;
-
-using bodypart_str_id = string_id<body_part_type>;
-using bodypart_id = int_id<body_part_type>;
 
 struct stat_hp_mods {
 
@@ -150,6 +163,7 @@ struct body_part_type {
         void check() const;
 
         static void load_bp( const JsonObject &jo, const std::string &src );
+        static const std::vector<body_part_type> &get_all();
 
         // Clears all bps
         static void reset();
@@ -225,7 +239,7 @@ class bodypart
         encumbrance_data encumb_data;
 
     public:
-        bodypart(): id( bodypart_str_id( "bp_null" ) ), hp_cur( 0 ), hp_max( 0 ) {}
+        bodypart(): id( bodypart_str_id::NULL_ID() ), hp_cur( 0 ), hp_max( 0 ) {}
         bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ) {}
 
         bodypart_id get_id() const;

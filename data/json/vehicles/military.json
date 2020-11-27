@@ -714,5 +714,27 @@
       { "x": 0, "y": 2, "chance": 2, "item_groups": [ "mil_accessories" ] },
       { "x": 0, "y": 2, "chance": 2, "item_groups": [ "gunmod_milspec" ] }
     ]
+  },
+  {
+    "id": "cannon_3in",
+    "type": "vehicle",
+    "name": "cannon",
+    "blueprint": [ "HUH" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_wood", "turret_mount", "mounted_3in_ordnance_rifle" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_wood", "wheel_mount_wood", "wheel_wood" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_wood", "wheel_mount_wood", "wheel_wood" ] }
+    ]
+  },
+  {
+    "id": "cannon_3in_plugged",
+    "type": "vehicle",
+    "name": "cannon",
+    "blueprint": [ "HUH" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_wood", "turret_mount", "plugged_3in_ordnance_rifle" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_wood", "wheel_mount_wood", "wheel_wood" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_wood", "wheel_mount_wood", "wheel_wood" ] }
+    ]
   }
 ]

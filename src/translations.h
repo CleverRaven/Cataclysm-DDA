@@ -201,6 +201,7 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
 
 bool isValidLanguage( const std::string &lang );
 std::string getLangFromLCID( const int &lcid );
+std::string locale_dir();
 void select_language();
 void set_language();
 

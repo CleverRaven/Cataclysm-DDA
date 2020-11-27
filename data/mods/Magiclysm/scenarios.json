@@ -56,5 +56,29 @@
     "start_name": "Exiled",
     "allowed_locs": [ "sloc_hermit_shack", "sloc_cabin", "sloc_lmoe", "sloc_lighthouse_ground", "sloc_cabin_lake" ],
     "professions": [ "druid", "novice_necromancer" ]
+  },
+  {
+    "copy-from": "alcatraz",
+    "type": "scenario",
+    "extend": { "professions": [ "convict_arsonist", "convict_ecoterrorist", "storm_police" ] },
+    "id": "alcatraz"
+  },
+  {
+    "copy-from": "prisonbreak",
+    "type": "scenario",
+    "extend": { "professions": [ "convict_arsonist", "convict_ecoterrorist", "storm_police" ] },
+    "id": "prisonbreak"
+  },
+  {
+    "copy-from": "overrun",
+    "type": "scenario",
+    "extend": { "professions": [ "whitedeath_expy" ] },
+    "id": "overrun"
+  },
+  {
+    "copy-from": "heli_crash",
+    "type": "scenario",
+    "extend": { "professions": [ "whitedeath_expy" ] },
+    "id": "heli_crash"
   }
 ]

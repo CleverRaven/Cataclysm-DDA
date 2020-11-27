@@ -457,23 +457,6 @@ struct islot_wheel {
         void deserialize( JsonIn &jsin );
 };
 
-struct fuel_explosion {
-    int explosion_chance_hot = 0;
-    int explosion_chance_cold = 0;
-    float explosion_factor = 0.0f;
-    bool fiery_explosion = false;
-    float fuel_size_factor = 0.0f;
-};
-
-struct islot_fuel {
-    public:
-        /** Energy of the fuel (kilojoules per charge) */
-        float energy = 0.0f;
-        struct fuel_explosion explosion_data;
-        bool has_explode_data = false;
-        std::string pump_terrain = "t_null";
-};
-
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_ranged_data {
     /**
@@ -855,7 +838,6 @@ struct itype {
         cata::value_ptr<islot_mod> mod;
         cata::value_ptr<islot_engine> engine;
         cata::value_ptr<islot_wheel> wheel;
-        cata::value_ptr<islot_fuel> fuel;
         cata::value_ptr<islot_gun> gun;
         cata::value_ptr<islot_gunmod> gunmod;
         cata::value_ptr<islot_magazine> magazine;

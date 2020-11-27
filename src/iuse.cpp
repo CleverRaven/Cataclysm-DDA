@@ -1760,7 +1760,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
         _( "\"Red\"" ), _( "\"Blue\"" ), _( "\"Green\"" )
     } );
 
-    flag_str_id newtag;
+    flag_id newtag;
     std::string colorname;
     switch( choice ) {
         case 0:
@@ -3551,10 +3551,7 @@ int iuse::burrow( player *p, item *it, bool, const tripoint &pos )
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
     }
-    p->assign_activity( ACT_BURROW, moves, -1, 0 );
-    p->activity.placement = pnt;
-    p->add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
-                          here.tername( pnt ), it->tname() );
+    p->assign_activity( player_activity( burrow_activity_actor( moves, pnt,  it->tname() ) ) );
     return 0; // handled when the activity finishes
 }
 
@@ -4551,7 +4548,7 @@ int iuse::portable_game( player *p, item *it, bool active, const tripoint & )
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You're illiterate!" ) );
         return 0;
-    } else if( it->ammo_remaining() < 15 ) {
+    } else if( it->units_remaining( *p ) < it->ammo_required() ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     } else {
@@ -4598,7 +4595,7 @@ int iuse::portable_game( player *p, item *it, bool active, const tripoint & )
         if( loaded_software == "null" ) {
             p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
                                 p->get_item_position( it ), "gaming" );
-            return it->type->charges_to_use();
+            return 0;
         }
         p->assign_activity( ACT_GAME, moves, -1, 0, "gaming" );
         p->activity.targets.push_back( item_location( *p, it ) );
@@ -4624,7 +4621,7 @@ int iuse::portable_game( player *p, item *it, bool active, const tripoint & )
         }
 
     }
-    return it->type->charges_to_use();
+    return 0;
 }
 
 int iuse::fitness_check( player *p, item *it, bool, const tripoint & )
@@ -7875,6 +7872,11 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::foodperson( player *p, item *it, bool t, const tripoint &pos )
 {
+    // Prevent crash if battery was somehow removed.
+    if( !it->magazine_current() ) {
+        return 0;
+    }
+
     if( t ) {
         if( calendar::once_every( 1_minutes ) ) {
             const SpeechBubble &speech = get_speech( "foodperson_mask" );

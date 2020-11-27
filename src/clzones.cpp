@@ -818,7 +818,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_type_id( "LOOT_CUSTOM" );
         }
     }
-    if( it.has_flag( STATIC( flag_str_id( "FIREWOOD" ) ) ) ) {
+    if( it.has_flag( STATIC( flag_id( "FIREWOOD" ) ) ) ) {
         if( has_near( zone_type_id( "LOOT_WOOD" ), where, range ) ) {
             return zone_type_id( "LOOT_WOOD" );
         }

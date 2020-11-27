@@ -595,7 +595,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         ui_adaptor ui;
         ui.on_screen_resize( [&]( ui_adaptor & ui ) {
             const int itemsH = std::min( 25, TERMY / 2 );
-            const int pickupBorderRows = 3;
+            const int pickupBorderRows = 4;
 
             // The pickup list may consume the entire terminal, minus space needed for its
             // header/footer and the item info window.
@@ -644,8 +644,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         input_context ctxt( "PICKUP", keyboard_mode::keychar );
         ctxt.register_action( "UP" );
         ctxt.register_action( "DOWN" );
-        ctxt.register_action( "PAGE_UP" );
-        ctxt.register_action( "PAGE_DOWN" );
+        ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+        ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
         ctxt.register_action( "RIGHT" );
         ctxt.register_action( "LEFT" );
         ctxt.register_action( "NEXT_TAB", to_translation( "Next page" ) );
@@ -786,22 +786,22 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 }
             }
 
-            mvwprintw( w_pickup, point( 0, maxitems + 1 ), _( "[%s] Unmark" ),
+            mvwprintw( w_pickup, point( 0, maxitems + 2 ), _( "[%s] Unmark" ),
                        ctxt.get_desc( "LEFT", 1 ) );
 
-            center_print( w_pickup, maxitems + 1, c_light_gray, string_format( _( "[%s] Help" ),
+            center_print( w_pickup, maxitems + 2, c_light_gray, string_format( _( "[%s] Help" ),
                           ctxt.get_desc( "HELP_KEYBINDINGS", 1 ) ) );
 
-            right_print( w_pickup, maxitems + 1, 0, c_light_gray, string_format( _( "[%s] Mark" ),
+            right_print( w_pickup, maxitems + 2, 0, c_light_gray, string_format( _( "[%s] Mark" ),
                          ctxt.get_desc( "RIGHT", 1 ) ) );
 
-            mvwprintw( w_pickup, point( 0, maxitems + 2 ), _( "[%s] Prev" ),
+            mvwprintw( w_pickup, point( 0, maxitems + 3 ), _( "[%s] Prev" ),
                        ctxt.get_desc( "PREV_TAB", 1 ) );
 
-            center_print( w_pickup, maxitems + 2, c_light_gray, string_format( _( "[%s] All" ),
+            center_print( w_pickup, maxitems + 3, c_light_gray, string_format( _( "[%s] All" ),
                           ctxt.get_desc( "SELECT_ALL", 1 ) ) );
 
-            right_print( w_pickup, maxitems + 2, 0, c_light_gray, string_format( _( "[%s] Next" ),
+            right_print( w_pickup, maxitems + 3, 0, c_light_gray, string_format( _( "[%s] Next" ),
                          ctxt.get_desc( "NEXT_TAB", 1 ) ) );
 
             const std::string fmted_weight_predict = colorize(
@@ -844,8 +844,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             // -2 lines for border, -2 to preserve a line at top/bottom for context
             const int scroll_lines = catacurses::getmaxy( w_item_info ) - 4;
             int idx = -1;
-            int recmax = static_cast<int>( matches.size() );
-            int scroll_rate = recmax > 20 ? 10 : 3;
+            const int recmax = static_cast<int>( matches.size() );
+            const int scroll_rate = recmax > 20 ? 10 : 3;
 
             if( action == "ANY_INPUT" &&
                 raw_input_char >= '0' && raw_input_char <= '9' ) {

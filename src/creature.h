@@ -392,10 +392,13 @@ class Creature : public location, public viewer
         // returns hit - dodge (>=0 = hit, <0 = miss)
         virtual int deal_melee_attack( Creature *source, int hitroll );
 
+        // modifies the damage dealt based on the creature's enchantments
+        // since creatures currently don't have enchantmnts, this is just virtual
+        virtual damage_instance modify_damage_dealt_with_enchantments( const damage_instance &dam ) const;
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
         virtual void deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
-                                     const damage_instance &dam, dealt_damage_instance &dealt_dam );
+                                     damage_instance dam, dealt_damage_instance &dealt_dam );
 
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.
@@ -646,7 +649,7 @@ class Creature : public location, public viewer
         std::vector<bodypart_id> get_all_body_parts(
             get_body_part_flags = get_body_part_flags::none ) const;
 
-        std::map<bodypart_str_id, bodypart> get_body() const;
+        const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
         void calc_all_parts_hp( float hp_mod = 0.0,  float hp_adjust = 0.0, int str_max = 0,
                                 int dex_max = 0,  int per_max = 0,  int int_max = 0, int healthy_mod = 0,
