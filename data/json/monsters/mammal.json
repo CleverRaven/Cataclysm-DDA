@@ -2393,7 +2393,7 @@
     "type": "MONSTER",
     "copy-from": "mon_reindeer",
     "name": { "str": "Reindeer fawn" },
-    "description": "A juvenile Caribou, it seems to be smaller than its adult counterparts, as well as having shorter horns.",
+    "description": "A juvenile Caribou, it seems to be smaller than its adult counterparts, as well as having shorter antlers.",
     "volume": "30000 ml",
     "weight": "120 g",
     "hp": 35,
