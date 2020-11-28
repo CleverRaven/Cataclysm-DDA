@@ -356,6 +356,13 @@ class handle_contents_changed_helper
         item_pocket *pocket;
 };
 
+enum class book_mastery {
+    CANT_DETERMINE, // book not yet identified, so you don't know yet
+    CANT_UNDERSTAND, // does not have enough skill to read
+    LEARNING,
+    MASTERED // can no longer increase skill by reading
+};
+
 class Character : public Creature, public visitable<Character>
 {
     public:
@@ -1647,6 +1654,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
+        book_mastery get_book_mastery( const item &book ) const;
         virtual void identify( const item &item ) = 0;
         /** Calculates the total fun bonus relative to this character's traits and chapter progress */
         bool fun_to_read( const item &book ) const;
