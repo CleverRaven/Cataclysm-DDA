@@ -68,8 +68,9 @@ class map_memory
          * @param p1 top-left corner of the region, in global ms coords
          * @param p2 bottom-right corner of the region, in global ms coords
          * Both coords are inclusive and should be on the same Z level.
+         * @return whether the region was re-cached
          */
-        void prepare_region( const tripoint &p1, const tripoint &p2 );
+        bool prepare_region( const tripoint &p1, const tripoint &p2 );
 
         /**
          * Memorizes given tile, overwriting old value.
