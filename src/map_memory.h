@@ -82,7 +82,7 @@ class map_memory
          * Returns memorized tile.
          * @param pos tile position, in global ms coords.
          */
-        memorized_terrain_tile get_tile( const tripoint &pos ) const;
+        const memorized_terrain_tile &get_tile( const tripoint &pos ) const;
 
         /**
          * Memorizes given symbol, overwriting old value.

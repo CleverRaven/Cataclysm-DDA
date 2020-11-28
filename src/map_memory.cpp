@@ -2,6 +2,7 @@
 #include "cached_options.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
+#include "cuboid_rectangle.h"
 #include "filesystem.h"
 #include "game.h"
 #include "line.h"
@@ -41,7 +42,7 @@ map_memory::map_memory()
     clear_cache();
 }
 
-memorized_terrain_tile map_memory::get_tile( const tripoint &pos ) const
+const memorized_terrain_tile &map_memory::get_tile( const tripoint &pos ) const
 {
     coord_pair p( pos );
     const memorized_submap &sm = get_submap( p.sm );
@@ -88,8 +89,9 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     tripoint sm_pos = coord_pair( p1 ).sm - point( 1, 1 );
     point sm_size = ( coord_pair( p2 ).sm - sm_pos ).xy() + point( 1, 1 );
     if( sm_pos.z == cache_pos.z ) {
-        rectangle rect( cache_pos.xy(), cache_pos.xy() + cache_size );
-        if( rect.contains_half_open( sm_pos.xy() ) && rect.contains_inclusive( sm_pos.xy() + sm_size ) ) {
+        half_open_rectangle<point> half_rect( cache_pos.xy(), cache_pos.xy() + cache_size );
+        inclusive_rectangle<point> incl_rect( cache_pos.xy(), cache_pos.xy() + cache_size );
+        if( half_rect.contains( sm_pos.xy() ) && incl_rect.contains( sm_pos.xy() + sm_size ) ) {
             return false;
         }
     }

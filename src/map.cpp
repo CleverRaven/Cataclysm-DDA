@@ -59,6 +59,7 @@
 #include "line.h"
 #include "location.h"
 #include "map_iterator.h"
+#include "map_memory.h"
 #include "map_selector.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
