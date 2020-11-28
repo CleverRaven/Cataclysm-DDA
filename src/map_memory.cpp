@@ -77,7 +77,7 @@ void map_memory::clear_memorized_tile( const tripoint &pos )
     sm.tiles[p.loc.x][p.loc.y] = default_tile;
 }
 
-void map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
+bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
 {
     assert( p1.z == p2.z );
     assert( p1.x <= p2.x && p1.y <= p2.y );
@@ -85,7 +85,7 @@ void map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     tripoint sm_pos = coord_pair( p1 ).sm - point( 1, 1 );
     point sm_size = ( coord_pair( p2 ).sm - sm_pos ).xy() + point( 1, 1 );
     if( ( sm_pos == cache_pos ) && ( sm_size == cache_size ) ) {
-        return;
+        return false;
     }
 
     cache_pos = sm_pos;
@@ -97,6 +97,7 @@ void map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
             cached.push_back( fetch_submap( cache_pos + point( dx, dy ) ) );
         }
     }
+    return true;
 }
 
 shared_ptr_fast<memorized_submap> map_memory::fetch_submap( const tripoint &sm_pos )
@@ -121,6 +122,10 @@ shared_ptr_fast<memorized_submap> map_memory::allocate_submap()
 
 shared_ptr_fast<memorized_submap> map_memory::load_submap( const tripoint &sm_pos )
 {
+    if( test_mode ) {
+        return nullptr;
+    }
+
     const std::string dirname = find_mm_dir();
     const std::string path = find_submap_path( dirname, sm_pos );
 
