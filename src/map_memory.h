@@ -20,6 +20,7 @@ struct memorized_terrain_tile {
 };
 
 struct memorized_submap {
+    bool clean;
     memorized_terrain_tile tiles[SEEX][SEEY];
     int symbols[SEEX][SEEY];
 

@@ -26,7 +26,8 @@ static std::string find_submap_path( const std::string &dirname, const tripoint 
     return string_format( "%s/%d.%d.%d.mm", dirname, p.x, p.y, p.z );
 }
 
-memorized_submap::memorized_submap() : tiles{{ default_tile }}, symbols{{ default_symbol }} {}
+memorized_submap::memorized_submap() : clean( true ),
+    tiles{{ default_tile }}, symbols{{ default_symbol }} {}
 
 map_memory::coord_pair::coord_pair( const tripoint &p ) : loc( p.xy() )
 {
@@ -45,6 +46,7 @@ void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
 {
     coord_pair p( pos );
     memorized_submap &sm = get_submap( p.sm );
+    sm.clean = false;
     sm.tiles[p.loc.x][p.loc.y] = memorized_terrain_tile{ ter, subtile, rotation };
 }
 
@@ -59,6 +61,7 @@ void map_memory::memorize_symbol( const tripoint &pos, const int symbol )
 {
     coord_pair p( pos );
     memorized_submap &sm = get_submap( p.sm );
+    sm.clean = false;
     sm.symbols[p.loc.x][p.loc.y] = symbol;
 }
 
@@ -126,6 +129,7 @@ shared_ptr_fast<memorized_submap> map_memory::load_submap( const tripoint &sm_po
     const auto loader = [&]( JsonIn & jsin ) {
         // Don't allocate submap unless we know its file exists
         sm = allocate_submap();
+        sm->clean = false;
         sm->deserialize( jsin );
     };
 
@@ -197,6 +201,9 @@ bool map_memory::save( const tripoint &/*pos*/ )
     assure_dir_exist( dirname );
 
     for( const auto &it : submaps ) {
+        if( it.second->clean ) {
+            continue;
+        }
         const tripoint &sm_pos = it.first;
         const std::string path = find_submap_path( dirname, sm_pos );
         const std::string descr = string_format(

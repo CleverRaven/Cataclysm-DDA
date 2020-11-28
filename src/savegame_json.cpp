@@ -3562,6 +3562,7 @@ void map_memory::load_legacy( JsonIn &jsin )
         shared_ptr_fast<memorized_submap> sm = nullptr;
         if( sm_iter == submaps.end() ) {
             sm = allocate_submap();
+            sm->clean = false;
             submaps.insert( std::make_pair( cp.sm, sm ) );
         } else {
             sm = sm_iter->second;
