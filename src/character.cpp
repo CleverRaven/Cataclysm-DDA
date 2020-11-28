@@ -257,6 +257,7 @@ static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
 static const trait_id trait_FUR( "FUR" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
@@ -347,6 +348,7 @@ static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
@@ -12829,4 +12831,107 @@ int Character::book_fun_for( const item &book, const Character &p ) const
     }
 
     return fun_bonus;
+}
+
+namespace read_criteria
+{
+
+bool item_is_book( const read_criteria_context &ctx )
+{
+    return ctx.reading_material.is_book();
+}
+
+bool reader_not_driving( const read_criteria_context &ctx )
+{
+    const optional_vpart_position vp = get_map().veh_at( ctx.reader.pos() );
+    return !vp || !vp->vehicle().player_in_control( ctx.reader );
+}
+
+bool reader_has_enough_morale( const read_criteria_context &ctx )
+{
+    if( !ctx.reader.has_identified( ctx.reading_material.typeId() ) ) {
+        // skimming/identification does not require morale
+        return true;
+    }
+    if( ctx.reader.fun_to_read( ctx.reading_material ) ) {
+        return true;
+    }
+    return ctx.reader.has_morale_to_read();
+}
+
+bool reader_has_enough_skill( const read_criteria_context &ctx )
+{
+    const cata::value_ptr<islot_book> type = ctx.reading_material.type->book;
+    const skill_id &skill = type->skill;
+    const int skill_level = ctx.reader.get_skill_level( skill );
+
+    if( !ctx.reader.has_identified( ctx.reading_material.typeId() ) ) {
+        // skimming/identification requires no skill
+        return true;
+    }
+    if( !skill ) {
+        // reading material requires no skill to read
+        return true;
+    }
+    return skill_level >= type->req;
+}
+
+bool reader_can_learn( const read_criteria_context &ctx )
+{
+    const cata::value_ptr<islot_book> type = ctx.reading_material.type->book;
+    const skill_id &skill = type->skill;
+    const int skill_level = ctx.reader.get_skill_level( skill );
+
+    if( !skill ) {
+        // reading material gives no skill
+        return false;
+    }
+    return skill_level < type->level;
+}
+
+bool reader_doesnt_need_reading_glasses( const read_criteria_context &ctx )
+{
+    if( !ctx.reader.has_trait( trait_HYPEROPIC ) ) {
+        return true;
+    }
+    if( ctx.reader.has_effect( effect_contacts ) ) {
+        return true;
+    }
+    if( ctx.reader.has_bionic( bio_eye_optic ) ) {
+        return true;
+    }
+    if( ctx.reader.worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) ) {
+        return true;
+    }
+    return false;
+}
+
+bool reader_not_illiterate( const read_criteria_context &ctx )
+{
+    const cata::value_ptr<islot_book> type = ctx.reading_material.type->book;
+    if( type->intel <= 0 ) {
+        // skip check if intelligence not required
+        return true;
+    }
+    return !ctx.reader.has_trait( trait_ILLITERATE );
+}
+
+bool reader_not_blind( const read_criteria_context &ctx )
+{
+    return !ctx.reader.is_blind();
+}
+
+bool reader_can_see_listener( const read_criteria_context &ctx )
+{
+    return ctx.reader.sees( ctx.listener );
+}
+
+bool not_too_dark( const read_criteria_context &ctx )
+{
+    // irl, the reader and listener can just swap places if it's too dark
+    const float vision_mod = std::min( ctx.reader.fine_detail_vision_mod(),
+                                       ctx.listener.fine_detail_vision_mod() );
+    return vision_mod <= 4;
+}
+
 }

@@ -336,6 +336,32 @@ enum class character_stat : char {
     DUMMY_STAT
 };
 
+struct read_criteria_context {
+    const item &reading_material;
+    const Character &reader;
+    const Character &listener;
+
+    read_criteria_context( const Character &reader, const item &reading_material,
+                           const Character &listener )
+        : reading_material( reading_material ), reader( reader ), listener( listener ) {}
+    read_criteria_context( const Character &reader, const item &reading_material )
+        : reading_material( reading_material ), reader( reader ), listener( reader ) {}
+};
+
+namespace read_criteria
+{
+bool item_is_book( const read_criteria_context &ctx );
+bool reader_not_driving( const read_criteria_context &ctx );
+bool reader_has_enough_morale( const read_criteria_context &ctx );
+bool reader_has_enough_skill( const read_criteria_context &ctx );
+bool reader_can_learn( const read_criteria_context &ctx );
+bool reader_doesnt_need_reading_glasses( const read_criteria_context &ctx );
+bool reader_not_illiterate( const read_criteria_context &ctx );
+bool reader_not_blind( const read_criteria_context &ctx );
+bool reader_can_see_listener( const read_criteria_context &ctx );
+bool not_too_dark( const read_criteria_context &ctx );
+}
+
 /**
  * Secures the container and pocket of an item (if any), and calls
  * `Character::handle_contents_changed` when `handle()` is called.
@@ -1666,6 +1692,7 @@ class Character : public Creature, public visitable<Character>
         /** Calculates the total fun bonus relative to this character's traits and chapter progress */
         bool fun_to_read( const item &book ) const;
         int book_fun_for( const item &book, const Character &p ) const;
+        std::string get_read_fail_message( read_fail_reason reason, const item &book ) const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;

@@ -848,7 +848,10 @@ void npc::starting_weapon( const npc_class_id &type )
 
 bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
 {
-    if( !book.is_book() ) {
+    using namespace read_criteria;
+
+    read_criteria_context ctx( *this, book );
+    if( !item_is_book( ctx ) ) {
         fail_reasons.push_back( string_format( _( "This %s is not good reading material." ),
                                                book.tname() ) );
         return false;
@@ -857,25 +860,21 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     if( !pl ) {
         return false;
     }
-    const auto &type = book.type->book;
-    const skill_id &skill = type->skill;
-    const int skill_level = pl->get_skill_level( skill );
-    if( skill && skill_level < type->req ) {
+    if( !reader_has_enough_skill( ctx ) ) {
         fail_reasons.push_back( string_format( _( "I'm not smart enough to read this book." ) ) );
         return false;
     }
-    if( !skill || skill_level >= type->level ) {
+    if( !reader_can_learn( ctx ) ) {
         fail_reasons.push_back( string_format( _( "I won't learn anything from this book." ) ) );
         return false;
     }
 
     // Check for conditions that disqualify us
-    if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
+    if( !reader_not_illiterate( ctx ) ) {
         fail_reasons.emplace_back( _( "I can't read!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
-               !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
+    } else if( !reader_doesnt_need_reading_glasses( ctx ) ) {
         fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
-    } else if( fine_detail_vision_mod() > 4 ) {
+    } else if( !not_too_dark( ctx ) ) {
         // Too dark to read only applies if the player can read to himself
         fail_reasons.emplace_back( _( "It's too dark to read!" ) );
         return false;
