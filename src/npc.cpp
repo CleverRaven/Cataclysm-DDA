@@ -849,11 +849,14 @@ void npc::starting_weapon( const npc_class_id &type )
 bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
 {
     using namespace read_criteria;
+    const auto push_message = [ &fail_reasons ]( const read_criteria_context & ctx,
+    read_fail_reason reason ) {
+        fail_reasons.push_back( get_fail_message( ctx, reason ) );
+    };
 
     read_criteria_context ctx( *this, book );
     if( !item_is_book( ctx ) ) {
-        fail_reasons.push_back( string_format( _( "This %s is not good reading material." ),
-                                               book.tname() ) );
+        push_message( ctx, item_is_book.fail_reason );
         return false;
     }
     player *pl = dynamic_cast<player *>( this );
@@ -861,22 +864,22 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
         return false;
     }
     if( !has_enough_skill( ctx ) ) {
-        fail_reasons.push_back( string_format( _( "I'm not smart enough to read this book." ) ) );
+        push_message( ctx, has_enough_skill.fail_reason );
         return false;
     }
     if( !can_learn( ctx ) ) {
-        fail_reasons.push_back( string_format( _( "I won't learn anything from this book." ) ) );
+        push_message( ctx, can_learn.fail_reason );
         return false;
     }
 
     // Check for conditions that disqualify us
     if( !not_illiterate( ctx ) ) {
-        fail_reasons.emplace_back( _( "I can't read!" ) );
+        push_message( ctx, not_illiterate.fail_reason );
     } else if( !doesnt_need_reading_glasses( ctx ) ) {
-        fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
+        push_message( ctx, doesnt_need_reading_glasses.fail_reason );
     } else if( !not_too_dark( ctx ) ) {
         // Too dark to read only applies if the player can read to himself
-        fail_reasons.emplace_back( _( "It's too dark to read!" ) );
+        push_message( ctx, not_too_dark.fail_reason );
         return false;
     }
     return true;

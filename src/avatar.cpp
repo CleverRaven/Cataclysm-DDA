@@ -267,13 +267,16 @@ void avatar::on_mission_finished( mission &cur_mission )
 const player *avatar::get_book_reader( const item &book, std::vector<std::string> &reasons ) const
 {
     using namespace read_criteria;
+    const auto push_message = [ &reasons ]( const read_criteria_context & ctx,
+    read_fail_reason reason ) {
+        reasons.push_back( get_fail_message( ctx, reason ) );
+    };
     const player *reader = nullptr;
 
     read_criteria_context player_ctx( *this, book );
 
     if( !item_is_book( player_ctx ) ) {
-        reasons.push_back( string_format( _( "Your %s is not good reading material." ),
-                                          book.tname() ) );
+        push_message( player_ctx, item_is_book.fail_reason );
         return nullptr;
     }
 
@@ -284,30 +287,25 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
 
     // Check for conditions that immediately disqualify the player from reading:
     if( !not_driving( player_ctx ) ) {
-        reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
+        push_message( player_ctx, not_driving.fail_reason );
         return nullptr;
     }
     if( !has_enough_morale( player_ctx ) ) {
-        reasons.emplace_back( _( "What's the point of studying?  (Your morale is too low!)" ) );
+        push_message( player_ctx, has_enough_morale.fail_reason );
         return nullptr;
     }
     if( !has_enough_skill( player_ctx ) ) {
-        const auto &type = book.type->book;
-        const skill_id &skill = type->skill;
-        const int skill_level = get_skill_level( skill );
-        reasons.push_back( string_format( _( "%s %d needed to understand.  You have %d" ),
-                                          book_skill->name(), book_skill_requirement, get_skill_level( book_skill ) ) );
+        push_message( player_ctx, has_enough_skill.fail_reason );
         return nullptr;
     }
 
     // Check for conditions that disqualify us only if no NPCs can read to us
     if( !not_illiterate( player_ctx ) ) {
-        reasons.emplace_back( _( "You're illiterate!" ) );
+        push_message( player_ctx, not_illiterate.fail_reason );
     } else if( !doesnt_need_reading_glasses( player_ctx ) ) {
-        reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
+        push_message( player_ctx, doesnt_need_reading_glasses.fail_reason );
     } else if( !not_too_dark( player_ctx ) ) {
-        // Too dark to read only applies if the player can read to himself
-        reasons.emplace_back( _( "It's too dark to read!" ) );
+        push_message( player_ctx, not_too_dark.fail_reason );
         return nullptr;
     } else {
         return this;
@@ -327,28 +325,19 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
         read_criteria_context npc_ctx( *elem, book, *this );
         // Check for disqualifying factors:
         if( !not_illiterate( npc_ctx ) ) {
-            reasons.push_back( string_format( _( "%s is illiterate!" ),
-                                              elem->disp_name() ) );
+            push_message( npc_ctx, not_illiterate.fail_reason );
         } else if( !has_enough_skill( npc_ctx ) ) {
-            const auto &type = book.type->book;
-            const skill_id &skill = type->skill;
-            reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
-                                              skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
+            push_message( npc_ctx, has_enough_skill.fail_reason );
         } else if( !doesnt_need_reading_glasses( npc_ctx ) ) {
-            reasons.push_back( string_format( _( "%s needs reading glasses!" ),
-                                              elem->disp_name() ) );
+            push_message( npc_ctx, doesnt_need_reading_glasses.fail_reason );
         } else if( !not_too_dark( npc_ctx ) ) {
-            reasons.push_back( string_format(
-                                   _( "It's too dark for %s to read!" ),
-                                   elem->disp_name() ) );
+            push_message( npc_ctx, not_too_dark.fail_reason );
         } else if( !can_see_listener( npc_ctx ) ) {
-            reasons.push_back( string_format( _( "%s could read that to you, but they can't see you." ),
-                                              elem->disp_name() ) );
+            push_message( npc_ctx, can_see_listener.fail_reason );
         } else if( !has_enough_morale( npc_ctx ) ) {
-            // Low morale still permits skimming
-            reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
+            push_message( npc_ctx, has_enough_morale.fail_reason );
         } else if( !not_blind( npc_ctx ) ) {
-            reasons.push_back( string_format( _( "%s is blind." ), elem->disp_name() ) );
+            push_message( npc_ctx, not_blind.fail_reason );
         } else {
             int proj_time = time_to_read( book, *elem );
             if( proj_time < time_taken ) {

@@ -364,10 +364,11 @@ enum class read_fail_reason {
 namespace read_criteria
 {
 
+// a criteria returns true if it is satisfied in the current context
 using func_type = std::function<bool( const read_criteria_context & )>;
 struct type {
     const func_type &check;
-    const read_fail_reason reason;
+    const read_fail_reason fail_reason;
     bool operator()( const read_criteria_context &ctx ) const {
         return check( ctx );
     }
@@ -383,6 +384,8 @@ extern const type not_illiterate;
 extern const type not_blind;
 extern const type can_see_listener;
 extern const type not_too_dark;
+
+std::string get_fail_message( const read_criteria_context &ctx, read_fail_reason fail_reason );
 
 } // end namespace read_criteria
 

@@ -12951,4 +12951,91 @@ const type not_blind                    { criteria::not_blind,                  
 const type can_see_listener             { criteria::can_see_listener,               fail_reason::cant_see_listener };
 const type not_too_dark                 { criteria::not_too_dark,                   fail_reason::too_dark };
 
+std::string get_fail_message( const read_criteria_context &ctx, read_fail_reason fail_reason )
+{
+    using r = read_fail_reason;
+
+    const Character &reader = ctx.reader;
+    const Character &listener = ctx.listener;
+    const item &book = ctx.reading_material;
+
+    const bool reading_to_self = ( reader.getID() == listener.getID() );
+
+    if( reader.is_avatar() ) {
+        // does not matter if reading to self or not
+        switch( fail_reason ) {
+            case r::item_not_readable:
+                return string_format( _( "Your %s is not good reading material." ), book.tname() );
+            case r::driving:
+                return _( "It's a bad idea to read while driving!" );
+            case r::not_enough_morale:
+                return _( "What's the point of studying?  (Your morale is too low!)" );
+            case r::not_enough_skill: {
+                const auto &type = book.type->book;
+                const skill_id &skill = type->skill;
+                const std::string fmt = _( "%s %d needed to understand.  You have %d" );
+                return string_format( fmt, skill->name(), type->req, reader.get_skill_level( skill ) );
+            }
+            case r::illiterate:
+                return _( "You're illiterate!" );
+            case r::needs_reading_glasses:
+                return _( "Your eyes won't focus without reading glasses." );
+            case r::too_dark:
+                return _( "It's too dark to read!" );
+            default:
+                // do nothing, will be handled outside
+                break;
+        }
+    } else if( reader.is_npc() && reading_to_self ) {
+        // npc is asked to study by player
+        switch( fail_reason ) {
+            case r::item_not_readable:
+                return string_format( _( "This %s is not good reading material." ), book.tname() );
+            case r::not_enough_skill:
+                return _( "I'm not smart enough to read this book." );
+            case r::illiterate:
+                return _( "I can't read!" );
+            case r::needs_reading_glasses:
+                return _( "I can't read without my glasses." );
+            case r::too_dark:
+                return _( "It's too dark to read!" );
+            case r::cant_learn:
+                return _( "I won't learn anything from this book." );
+            default:
+                // do nothing, will be handled outside
+                break;
+        }
+    } else if( reader.is_npc() && !reading_to_self ) {
+        // player is looking for an NPC to be the reader, see avatar::get_book_reader
+        switch( fail_reason ) {
+            case r::not_enough_morale:
+                return string_format( _( "%s morale is too low!" ), reader.disp_name( true ) );
+            case r::not_enough_skill: {
+                const auto &type = book.type->book;
+                const skill_id &skill = type->skill;
+                const std::string fmt = _( "%s %d needed to understand.  %s has %d" );
+                return string_format( fmt, skill->name(), type->req, reader.disp_name(),
+                                      reader.get_skill_level( skill ) );
+            }
+            case r::illiterate:
+                return string_format( _( "%s is illiterate!" ), reader.disp_name() );
+            case r::needs_reading_glasses:
+                return string_format( _( "%s needs reading glasses!" ), reader.disp_name() );
+            case r::too_dark:
+                return string_format( _( "It's too dark for %s to read!" ), reader.disp_name() );
+            case r::blind:
+                return string_format( _( "%s is blind." ), reader.disp_name() );
+            case r::cant_see_listener:
+                return string_format( _( "%s could read that to you, but they can't see you." ),
+                                      reader.disp_name() );
+            default:
+                // do nothing, will be handled outside
+                break;
+        }
+    }
+
+    debugmsg( "Unhandled read_fail_reason" );
+    return string_format( _( "%s can't read %s." ), reader.disp_name(), book.tname() );
+}
+
 } // end namespace read_criteria
