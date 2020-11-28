@@ -535,6 +535,10 @@ static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_
 recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation> &pos_options,
         const std::string &option )
 {
+    if( pos_options.size() == 1 ) {
+        return pos_options.begin()->first;
+    }
+
     std::vector<std::string> pos_names;
     int choice = 0;
 
@@ -542,18 +546,9 @@ recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation>
         pos_names.push_back( it.second.translated() );
     }
 
+    std::sort( pos_names.begin(), pos_names.end(), localized_compare );
 
-    if( pos_options.size() != 1 ) {
-        for( size_t i = 0; i < pos_names.size() - 1; i++ ) {
-            for( size_t k = i + 1; k < pos_names.size(); k++ ) {
-                if( localized_compare( pos_names[k], pos_names[i] ) ) {
-                    std::swap( pos_names[i], pos_names[k] );
-                }
-            }
-        }
-
-        choice = uilist( option, pos_names );
-    }
+    choice = uilist( option, pos_names );
 
     if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
         popup( _( "You choose to wait…" ) );
