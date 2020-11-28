@@ -527,37 +527,30 @@ bool extract_and_check_orientation_flags( const recipe_id recipe,
     rotation = 0;
     std::string dir_string;
 
-    if( recipe->has_flag( "MAP_ROTATE_90" ) ) {
-        if( rotation != 0 ) {
-            popup( _( ( base_error_message +
-                        ", the blueprint specifies multiple concurrent rotations, which is not supported" ).c_str() ),
-                   actor,
-                   recipe->get_blueprint() );
-            return false;
+    const auto check_rotation = [&]( const std::string & flag, int rotation_value ) {
+        if( recipe->has_flag( flag ) ) {
+            if( rotation != 0 ) {
+                popup( _( ( base_error_message +
+                            ", the blueprint specifies multiple concurrent rotations, which is not supported" ).c_str() ),
+                       actor,
+                       recipe->get_blueprint() );
+                return false;
+            }
+            rotation = rotation_value;
         }
-        rotation = 1;
+        return true;
+    };
+
+    if( !check_rotation( "MAP_ROTATE_90", 1 ) ) {
+        return false;
     }
 
-    if( recipe->has_flag( "MAP_ROTATE_180" ) ) {
-        if( rotation != 0 ) {
-            popup( _( ( base_error_message +
-                        ", the blueprint specifies multiple concurrent rotations, which is not supported" ).c_str() ),
-                   actor,
-                   recipe->get_blueprint() );
-            return false;
-        }
-        rotation = 2;
+    if( !check_rotation( "MAP_ROTATE_180", 2 ) ) {
+        return false;
     }
 
-    if( recipe->has_flag( "MAP_ROTATE_270" ) ) {
-        if( rotation != 0 ) {
-            popup( _( ( base_error_message +
-                        ", the blueprint specifies multiple concurrent rotations, which is not supported" ).c_str() ),
-                   actor,
-                   recipe->get_blueprint() );
-            return false;
-        }
-        rotation = 3;
+    if( !check_rotation( "MAP_ROTATE_270", 3 ) ) {
+        return false;
     }
 
     if( dir.x == -1 && dir.y == -1 ) {
@@ -602,37 +595,16 @@ bool extract_and_check_orientation_flags( const recipe_id recipe,
         mirror_vertical = true;
     }
 
-    if( recipe->has_flag( "MAP_ROTATE_90_IF_" + dir_string ) ) {
-        if( rotation != 0 ) {
-            popup( _( ( base_error_message +
-                        ", the blueprint specifies multiple concurrent rotations, which is not supported" ).c_str() ),
-                   actor,
-                   recipe->get_blueprint() );
-            return false;
-        }
-        rotation = 1;
+    if( !check_rotation( "MAP_ROTATE_90_IF_" + dir_string, 1 ) ) {
+        return false;
     }
 
-    if( recipe->has_flag( "MAP_ROTATE_180_IF_" + dir_string ) ) {
-        if( rotation != 0 ) {
-            popup( _( ( base_error_message +
-                        ", the blueprint specifies multiple concurrent rotations, which is not supported" ).c_str() ),
-                   actor,
-                   recipe->get_blueprint() );
-            return false;
-        }
-        rotation = 2;
+    if( !check_rotation( "MAP_ROTATE_180_IF_" + dir_string, 2 ) ) {
+        return false;
     }
 
-    if( recipe->has_flag( "MAP_ROTATE_270_IF_" + dir_string ) ) {
-        if( rotation != 0 ) {
-            popup( _( ( base_error_message +
-                        ", the blueprint specifies multiple concurrent rotations, which is not supported" ).c_str() ),
-                   actor,
-                   recipe->get_blueprint() );
-            return false;
-        }
-        rotation = 3;
+    if( !check_rotation( "MAP_ROTATE_270_IF_" + dir_string, 3 ) ) {
+        return false;
     }
 
     return true;

@@ -300,44 +300,43 @@ void submap::rotate( int turns )
     computers = rot_comp;
 }
 
-void submap::mirror_horizontally()
+void submap::mirror( bool horizontally )
 {
-    for( int i = 0, ie = SEEX / 2; i < ie; i++ ) {
-        for( int k = 0; k < SEEY; k++ ) {
-            swap_soa_tile( { i, k }, {SEEX - 1 - i, k} );
-        }
-    }
-
-    for( auto &elem : cosmetics ) {
-        elem.pos = {SEEX - 1 - elem.pos.x, elem.pos.y};
-    }
-
-    active_items.mirror_horizontally( { SEEX, SEEY } );
-
     std::map<point, computer> mirror_comp;
-    for( auto &elem : computers ) {
-        mirror_comp.emplace( point( SEEX - 1 - elem.first.x, elem.first.y ), elem.second );
-    }
-    computers = mirror_comp;
-}
 
-void submap::mirror_vertically()
-{
-    for( int k = 0, ke = SEEY / 2; k < ke; k++ ) {
-        for( int i = 0; i < SEEX; i++ ) {
-            swap_soa_tile( { i, k }, { i, SEEY - 1 - k } );
+    if( horizontally ) {
+        for( int i = 0, ie = SEEX / 2; i < ie; i++ ) {
+            for( int k = 0; k < SEEY; k++ ) {
+                swap_soa_tile( { i, k }, { SEEX - 1 - i, k } );
+            }
         }
-    }
 
-    for( auto &elem : cosmetics ) {
-        elem.pos = { elem.pos.x, SEEY - 1 - elem.pos.y };
-    }
+        for( auto &elem : cosmetics ) {
+            elem.pos = { SEEX - 1 - elem.pos.x, elem.pos.y };
+        }
 
-    active_items.mirror_vertically( { SEEX, SEEY } );
+        active_items.mirror( { SEEX, SEEY }, true );
 
-    std::map<point, computer> mirror_comp;
-    for( auto &elem : computers ) {
-        mirror_comp.emplace( point( elem.first.x, SEEY - 1 - elem.first.y ), elem.second );
+        for( auto &elem : computers ) {
+            mirror_comp.emplace( point( SEEX - 1 - elem.first.x, elem.first.y ), elem.second );
+        }
+        computers = mirror_comp;
+    } else {
+        for( int k = 0, ke = SEEY / 2; k < ke; k++ ) {
+            for( int i = 0; i < SEEX; i++ ) {
+                swap_soa_tile( { i, k }, { i, SEEY - 1 - k } );
+            }
+        }
+
+        for( auto &elem : cosmetics ) {
+            elem.pos = { elem.pos.x, SEEY - 1 - elem.pos.y };
+        }
+
+        active_items.mirror( { SEEX, SEEY }, false );
+
+        for( auto &elem : computers ) {
+            mirror_comp.emplace( point( elem.first.x, SEEY - 1 - elem.first.y ), elem.second );
+        }
+        computers = mirror_comp;
     }
-    computers = mirror_comp;
 }

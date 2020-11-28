@@ -6320,10 +6320,10 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
             }
 
             if( mirror_horizontal ) {
-                sm->mirror_horizontally();
+                sm->mirror( true );
             }
             if( mirror_vertical ) {
-                sm->mirror_vertically();
+                sm->mirror( false );
             }
         }
     }

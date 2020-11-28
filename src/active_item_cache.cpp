@@ -120,20 +120,15 @@ void active_item_cache::rotate_locations( int turns, const point &dim )
     }
 }
 
-void active_item_cache::mirror_horizontally( const point &dim )
+void active_item_cache::mirror( const point &dim, bool horizontally )
 {
     for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
         for( item_reference &ir : pair.second ) {
-            ir.location = { dim.x - 1 - ir.location.x, ir.location.y };
-        }
-    }
-}
-
-void active_item_cache::mirror_vertically( const point &dim )
-{
-    for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
-        for( item_reference &ir : pair.second ) {
-            ir.location = { ir.location.x, dim.y - 1 - ir.location.y };
+            if( horizontally ) {
+                ir.location.x = dim.x - 1 - ir.location.x;
+            } else {
+            }
+            ir.location.y = dim.y - 1 - ir.location.y;
         }
     }
 }
