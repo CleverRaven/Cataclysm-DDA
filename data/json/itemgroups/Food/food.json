@@ -183,6 +183,7 @@
       { "item": "can_chowder", "prob": 35 },
       { "item": "can_herring", "prob": 30 },
       { "item": "can_chicken", "prob": 40 },
+      { "item": "bread_canned", "prob": 25 },
       { "item": "broth", "prob": 15 },
       { "item": "crackers", "prob": 10 },
       { "item": "grahmcrackers", "prob": 10 },

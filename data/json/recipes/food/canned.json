@@ -1662,5 +1662,24 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
     "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "sweet_fruit", 12, "LIST" ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "bread_canned",
+    "id_suffix": "canned",
+    "container": "can_medium",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 2,
+    "time": "20 m",
+    "charges": 10,
+    "book_learn": [ [ "manual_canning", 1 ] ],
+    "batch_time_factors": [ 50, 5 ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "can_sealer", -1 ] ] ],
+    "components": [ [ [ "can_medium", 1 ] ], [ [ "scrap", 1 ] ], [ [ "brown_bread", 1 ] ] ]
   }
 ]

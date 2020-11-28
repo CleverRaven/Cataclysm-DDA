@@ -296,12 +296,25 @@
     "calories": 74,
     "description": "A sweet bread, like cake.",
     "price": "272 cent",
-    "price_postapoc": "4 USD",
+    "price_postapoc": "2 USD",
     "material": [ "wheat" ],
     "volume": "48 ml",
     "charges": 10,
     "flags": [ "EATEN_HOT", "EATEN_COLD" ],
     "fun": 3,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "bread_canned",
+    "name": { "str_sp": "canned bread" },
+    "copy-from": "brown_bread",
+    "spoils_in": "2 years",
+    "container": "can_medium",
+    "description": "It reads: New England's Finest.",
+    "price": "3 USD",
+    "//": "more expensive because it's canned and lasts longer",
+    "price_postapoc": "5 USD",
+    "fun": 4
   }
 ]
