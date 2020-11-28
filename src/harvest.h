@@ -52,6 +52,8 @@ class harvest_list
             return entries().empty();
         }
 
+        bool has_entry_type( std::string type ) const;
+
         /**
          * Returns a set of cached, translated names of the items this harvest entry could produce.
          * Filled in at finalization and not valid before that stage.

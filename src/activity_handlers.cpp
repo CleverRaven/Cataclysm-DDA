@@ -686,7 +686,8 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
             not_this_one( _( "This is already quartered." ), butcherable_rating::already_quartered );
         }
         if( !( corpse_item.has_flag( flag_FIELD_DRESS ) ||
-               corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
+               corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) &&
+            corpse_item.get_mtype()->harvest->has_entry_type( "offal" ) ) {
             not_this_one( _( "You need to perform field dressing before quartering." ),
                           butcherable_rating::needs_dressing );
         }
