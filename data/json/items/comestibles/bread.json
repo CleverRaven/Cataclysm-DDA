@@ -309,7 +309,7 @@
     "id": "bread_canned",
     "name": { "str_sp": "canned bread" },
     "copy-from": "brown_bread",
-    "spoils_in": "2 years",
+    "spoils_in": "730 days",
     "container": "can_medium",
     "description": "It reads: New England's Finest.",
     "price": "3 USD",
