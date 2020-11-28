@@ -78,7 +78,7 @@ void butchery_requirements::check_consistency()
 {
     for( const butchery_requirements &req : get_all() ) {
         for( const auto &size_req : req.requirements ) {
-            if( size_req.second.size() != creature_size::num_sizes - 1 ) {
+            if( size_req.second.size() != static_cast<size_t>(creature_size::num_sizes - 1) ) {
                 debugmsg( "ERROR: %s needs exactly %d entries to cover all creature sizes",
                           req.id.c_str(), static_cast<int>( creature_size::num_sizes ) - 1 );
             }
