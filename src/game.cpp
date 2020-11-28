@@ -64,6 +64,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "explosion.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -1573,10 +1574,7 @@ bool game::do_turn()
     m.vehmove();
     m.process_fields();
     m.process_items();
-    for( const queued_explosion &ex : _explosions ) {
-        explosion_handler::_explosion( ex.first, ex.second );
-    }
-    _explosions.clear();
+    explosion_handler::process_explosions();
     m.creature_in_field( u );
 
     // Apply sounds from previous turn to monster and NPC AI.
@@ -12304,11 +12302,6 @@ bool game::slip_down( bool check_for_traps )
         return true;
     }
     return false;
-}
-
-void game::queue_explosion( const tripoint &p, const explosion_data &ex )
-{
-    _explosions.emplace_back( p, ex );
 }
 
 namespace cata_event_dispatch
