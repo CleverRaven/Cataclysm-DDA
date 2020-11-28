@@ -480,11 +480,11 @@ void computer_session::action_release_bionics()
 
 void computer_session::action_release_cryo()
 {
+    get_event_bus().send<event_type::character_triggers_trap>();
     Character &player_character = get_player_character();
     sounds::sound( player_character.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
                    "environment",
                    "alarm" );
-    get_map().translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, player_character.pos(), true );
     query_any( _( "Cryogenic pods opened.  Press any key…" ) );
 }
 
