@@ -2728,9 +2728,7 @@ bool game::load( const save_t &name )
         return false;
     }
 
-    read_from_file_optional_json( playerpath + SAVE_EXTENSION_MAP_MEMORY, [&]( JsonIn & jsin ) {
-        u.deserialize_map_memory( jsin );
-    } );
+    u.load_map_memory();
 
     weather.nextweather = calendar::turn;
 
@@ -2936,11 +2934,7 @@ bool game::save_player_data()
     const bool saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
         serialize( fout );
     }, _( "player data" ) );
-    const bool saved_map_memory = write_to_file( playerfile + SAVE_EXTENSION_MAP_MEMORY, [&](
-    std::ostream & fout ) {
-        JsonOut jsout( fout );
-        u.serialize_map_memory( jsout );
-    }, _( "player map memory" ) );
+    const bool saved_map_memory = u.save_map_memory();
     const bool saved_log = write_to_file( playerfile + SAVE_EXTENSION_LOG, [&](
     std::ostream & fout ) {
         fout << memorial().dump();
