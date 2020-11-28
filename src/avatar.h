@@ -13,7 +13,6 @@
 #include "enums.h"
 #include "item.h"
 #include "magic_teleporter_list.h"
-#include "map_memory.h"
 #include "player.h"
 #include "pldata.h"
 #include "point.h"
@@ -25,6 +24,8 @@ class faction;
 class mission;
 class monster;
 class npc;
+class map_memory;
+struct memorized_terrain_tile;
 
 namespace debug_menu
 {
@@ -54,6 +55,11 @@ class avatar : public player
 {
     public:
         avatar();
+        avatar( const avatar & ) = delete;
+        avatar( avatar && );
+        ~avatar();
+        avatar &operator=( const avatar & ) = delete;
+        avatar &operator=( avatar && );
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
@@ -85,7 +91,7 @@ class avatar : public player
         void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
                             int rotation );
         /** Returns last stored map tile in given location in tiles mode */
-        memorized_terrain_tile get_memorized_tile( const tripoint &p ) const;
+        const memorized_terrain_tile &get_memorized_tile( const tripoint &p ) const;
         /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
         void memorize_symbol( const tripoint &pos, int symbol );
         /** Returns last stored map tile in given location in curses mode */
@@ -213,7 +219,7 @@ class avatar : public player
         }
 
     private:
-        map_memory player_map_memory;
+        std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory;
 
         friend class debug_menu::mission_debug;

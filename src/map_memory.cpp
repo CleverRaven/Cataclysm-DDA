@@ -38,7 +38,7 @@ map_memory::map_memory()
     clear_cache();
 }
 
-memorized_terrain_tile map_memory::get_tile( const tripoint &pos ) const
+const memorized_terrain_tile &map_memory::get_tile( const tripoint &pos ) const
 {
     coord_pair p( pos );
     const memorized_submap &sm = get_submap( p.sm );
