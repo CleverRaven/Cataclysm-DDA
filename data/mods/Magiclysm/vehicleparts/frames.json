@@ -15,7 +15,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "4 m", "using": [ [ "welding_standard", 4 ] ] }
     },
-    "flags": [ "INITIAL_PART", "MOUNTABLE"],
+    "flags": [ "INITIAL_PART", "MOUNTABLE" ],
     "damage_reduction": { "all": 58 }
   },
   {
