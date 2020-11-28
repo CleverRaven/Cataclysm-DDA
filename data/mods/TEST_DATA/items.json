@@ -1057,7 +1057,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": [ "9mm" ],
+    "ammo": [ "test_9mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 6,
