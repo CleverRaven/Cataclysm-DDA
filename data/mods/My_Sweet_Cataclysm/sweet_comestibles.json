@@ -157,21 +157,11 @@
     "id": "licorice",
     "name": "licorice",
     "symbol": "%",
-    "volume": "40 ml",
-    "weight": "78 g",
-    "spoils_in": "230 days",
+    "copy-from": "licorice",
     "rot_spawn": "GROUP_EGG_LICORICE",
     "rot_spawn_chance": 100,
+    "container": "null",
     "color": "red",
-    "comestible_type": "FOOD",
-    "material": [ "junk" ],
-    "description": "A swirly confectionary treat in strings of sweet tasting candy.  You think you've seen them wriggle a bit.  How strange…",
-    "price": 340,
-    "charges": 1,
-    "quench": -1,
-    "calories": 135,
-    "stim": 1,
-    "fun": 7,
-    "flags": [ "EDIBLE_FROZEN" ]
+    "description": "A swirly confectionary treat in strings of sweet tasting candy.  You think you've seen them wriggle a bit.  How strange…"
   }
 ]
