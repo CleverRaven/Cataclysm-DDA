@@ -127,8 +127,8 @@ void active_item_cache::mirror( const point &dim, bool horizontally )
             if( horizontally ) {
                 ir.location.x = dim.x - 1 - ir.location.x;
             } else {
+                ir.location.y = dim.y - 1 - ir.location.y;
             }
-            ir.location.y = dim.y - 1 - ir.location.y;
-        }
+         }
     }
 }
