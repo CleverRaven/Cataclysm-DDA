@@ -478,6 +478,16 @@ void computer_session::action_release_bionics()
     query_any( _( "Containment shields opened.  Press any key…" ) );
 }
 
+void computer_session::action_release_cryo()
+{
+    Character &player_character = get_player_character();
+    sounds::sound( player_character.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
+                   "environment",
+                   "alarm" );
+    get_map().translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, player_character.pos(), true );
+    query_any( _( "Cryogenic pods opened.  Press any key…" ) );
+}
+
 void computer_session::action_terminate()
 {
     get_event_bus().send<event_type::terminates_subspace_specimens>();
