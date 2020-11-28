@@ -233,6 +233,24 @@
     "min_aoe": 2,
     "max_aoe": 12,
     "base_casting_time": 100
+  },  
+  {
+    "type": "SPELL",
+    "id": "centipede_mom_summon",
+    "name": "Summon Centipede",
+    "description": "Summons a small, pissed off centipede.",
+    "flags": [ "HOSTILE_SUMMON", "PERMANENT", "NO_PROJECTILE" ],
+    "valid_targets": [ "ground" ],
+    "base_casting_time": 200,
+	"min_range": 1,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
+	"hit_self": true, 
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_centipede_small"
   },
   {
     "type": "SPELL",

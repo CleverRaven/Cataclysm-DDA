@@ -409,9 +409,9 @@
     "volume": "15 L",
     "weight": "20 kg",
     "hp": 30,
-    "speed": 120,
+    "speed": 100,
     "agression": 0,
-	"morale": 0,
+	"morale": -10,
     "melee_dice": 1,
     "melee_dice_sides": 3,
 	"melee_skill": 5,
@@ -425,7 +425,8 @@
           { "damage_type": "cut", "amount": 5, "armor_penetration": 3 }
         ],
         "effects": [ { "id": "venom_dmg", "duration": 250, "affect_hit_bp": true } ]
-      }
+      },
+	  { "type": "spell", "spell_id": "centipede_mom_summon", "spell_level": 1, "cooldown": 1}
     ],
     "dodge": 6,
     "armor_bash": 2,
@@ -536,17 +537,19 @@
 		"cooldown": 3,
 		"move_cost": 120,
 		"damage_max_instance": [
-		  { "damage_type": "cut", "amount": 25, "armor_penetration": 15 },
-		  { "damage_type": "stab", "amount": 25, "armor_penetration": 15 } 
+		  { "damage_type": "cut", "amount": 25, "armor_penetration": 50 },
+		  { "damage_type": "stab", "amount": 25, "armor_penetration": 50 } 
 		 ],
 		"effects": [ { "id": "venom_dmg", "duration": 750, "affect_hit_bp": true } ]
 	  }
 	 ],
 	"//": "3 hits to max intensity, 4 to max duration",
-    "dodge": 0,
-	"armor_bash": 20,
-	"armor_bullet": 50,
-	"armor_cut": 25,
+	"armor_bash": 25,
+	"armor_bullet": 45,
+	"armor_cut": 35,
+	"armor_stab": 20,
+	"vision_day": 8,
+	"vision_night": 5,
     "flags": [ 
 	  "SEES", 
 	  "SMELLS", 
