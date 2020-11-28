@@ -403,15 +403,15 @@
     "type": "MONSTER",
     "name": { "str": "centipede" },
     "description": "A brightly colored mutant centipede the size of a small dog, skittering quickly in the underbrush.  Probably won't think you're suitable prey, but beware its venom.",
-	"copy-from": "mon_centipede_giant",
 	"symbol": "a",
     "color": "light_green",
+	"copy-from": "mon_centipede_giant",
     "volume": "15 L",
     "weight": "20 kg",
     "hp": 30,
     "speed": 100,
-    "agression": 0,
-	"morale": -10,
+    "aggression": -99,
+	"morale": 0,
     "melee_dice": 1,
     "melee_dice_sides": 3,
 	"melee_skill": 5,
@@ -425,17 +425,18 @@
           { "damage_type": "cut", "amount": 5, "armor_penetration": 3 }
         ],
         "effects": [ { "id": "venom_dmg", "duration": 250, "affect_hit_bp": true } ]
-      },
-	  { "type": "spell", "spell_id": "centipede_mom_summon", "spell_level": 1, "cooldown": 1}
+      }
     ],
     "dodge": 6,
     "armor_bash": 2,
     "armor_cut": 4,
     "armor_bullet": 2,
-    "vision_day": 8,
-    "vision_night": 8,
-    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "upgrades": { "age_grow": 30, "into_group": "GROUP_CENTIPEDE_ADULT" }
+    "vision_day": 5,
+    "vision_night": 5,
+	"anger_triggers": [ "PLAYER_CLOSE" ],
+	"death_function": [ "NORMAL" ],
+	"flags": [ "SEES", "HEARS" ],
+	"upgrades": { "age_grow": 30, "into_group": "GROUP_CENTIPEDE_ADULT" }
   },
   {
     "id": "mon_centipede_giant",
@@ -496,6 +497,25 @@
     "weight": "400 kg",
 	"speed": 85,
     "melee_skill": 4,
+	"special_attacks": [ 
+	  [ "GRAB", 8 ],
+	  {
+	    "type": "bite",
+		"cooldown": 5,
+		"move_cost": 120,
+		"damage_max_instance": [
+		  { "damage_type": "cut", "amount": 12, "armor_penetration": 9 },
+		  { "damage_type": "stab", "amount": 12, "armor_penetration": 9 } 
+		 ],
+		"effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ]
+	  },
+	  {
+	    "type": "spell",
+		"spell_data": { "id": "centipede_mom_summon" },
+		"monster_message": "A small centipede is shaken off in the scuffle. It's less than pleased.",
+		"cooldown": 1
+	  }
+	 ],
     "dodge": 0,
 	"harvest": "arachnid_centipede_mom",
 	"reproduction": { "baby_monster": "mon_centipede_small", "baby_count": 2, "baby_timer": 2 },
