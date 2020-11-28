@@ -318,6 +318,15 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "cow_candy",
+    "name": "candy cattle",
+    "description": "A handful of chocolate candies shaped like cows.",
+    "symbol": "*",
+    "copy-from": "candy2",
+    "color": "brown"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "licorice",
     "name": "licorice",
     "container": "bag_plastic",

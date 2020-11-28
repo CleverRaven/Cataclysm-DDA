@@ -421,6 +421,7 @@
       { "item": "candy", "prob": 70 },
       { "item": "candy2", "prob": 70 },
       { "item": "candy3", "prob": 70 },
+      { "item": "cow_candy", "prob": 20 },
       { "item": "maltballs", "prob": 60 },
       { "item": "mintpatties", "prob": 60 },
       { "item": "neccowafers", "prob": 55 },
