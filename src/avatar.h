@@ -107,8 +107,6 @@ class avatar : public player
         void memorize_symbol( const tripoint &pos, int symbol );
         /** Returns last stored map tile in given location in curses mode */
         int get_memorized_symbol( const tripoint &p ) const;
-        /** Returns the amount of tiles survivor can remember. */
-        size_t max_memorized_tiles() const;
         void clear_memorized_tile( const tripoint &pos );
 
         nc_color basic_symbol_color() const override;

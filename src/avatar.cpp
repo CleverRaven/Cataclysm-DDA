@@ -169,21 +169,6 @@ int avatar::get_memorized_symbol( const tripoint &p ) const
     return player_map_memory.get_symbol( p );
 }
 
-size_t avatar::max_memorized_tiles() const
-{
-    // Only check traits once a turn since this is called a huge number of times.
-    if( current_map_memory_turn != calendar::turn ) {
-        current_map_memory_turn = calendar::turn;
-        float map_memory_capacity_multiplier =
-            mutation_value( "map_memory_capacity_multiplier" );
-        if( has_active_bionic( bio_memory ) ) {
-            map_memory_capacity_multiplier = 50;
-        }
-        current_map_memory_capacity = 2 * SEEX * 2 * SEEY * 100 * map_memory_capacity_multiplier;
-    }
-    return current_map_memory_capacity;
-}
-
 void avatar::clear_memorized_tile( const tripoint &pos )
 {
     player_map_memory.clear_memorized_tile( pos );

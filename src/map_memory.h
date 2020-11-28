@@ -5,7 +5,6 @@
 #include <iosfwd>
 
 #include "game_constants.h"
-#include "lru_cache.h"
 #include "memory_fast.h"
 #include "point.h" // IWYU pragma: keep
 
@@ -39,15 +38,24 @@ struct memorized_submap {
  */
 class map_memory
 {
+    private:
+        /**
+         * Helper class for converting global ms coord into
+         * global sm coord + ms coord within the submap.
+         */
+        struct coord_pair {
+            tripoint sm;
+            point loc;
+
+            coord_pair( const tripoint &p );
+        };
+
     public:
         /** Load memorized submaps around given (global) pos. */
         void load( const tripoint &pos );
 
         /** Load legacy memory file. TODO: remove after 0.F (or whatever BN will have instead). */
-        ///@{
-        void load_legacy( const std::string &path );
         void load_legacy( JsonIn &jsin );
-        ///@}
 
         /** Save memorized submaps to disk, drop far-away ones */
         bool save( const tripoint &pos );
@@ -73,7 +81,7 @@ class map_memory
         memorized_terrain_tile get_tile( const tripoint &pos ) const;
 
         /**
-         * Memorizes given value, overwriting old value.
+         * Memorizes given symbol, overwriting old value.
          * @param pos tile position, in global ms coords.
         */
         void memorize_symbol( const tripoint &pos, int symbol );
@@ -91,25 +99,24 @@ class map_memory
         void clear_memorized_tile( const tripoint &pos );
 
     private:
-        struct coord_pair {
-            tripoint sm;
-            point loc;
-
-            coord_pair( const tripoint &p );
-        };
-
         std::map<tripoint, shared_ptr_fast<memorized_submap>> submaps;
 
         std::vector<shared_ptr_fast<memorized_submap>> cached;
         tripoint cache_pos;
         point cache_size;
 
+        /** Make sure submap exists within 'submaps' and return its pointer */
         shared_ptr_fast<memorized_submap> fetch_submap( const tripoint &sm_pos );
+        /** Load submap from disk. @returns nullptr if failed. */
         shared_ptr_fast<memorized_submap> load_submap( const tripoint &sm_pos );
+        /** Allocate empty submap */
         shared_ptr_fast<memorized_submap> allocate_submap();
 
+        /** Get submap from within the cache */
+        //@{
         const memorized_submap &get_submap( const tripoint &sm_pos ) const;
         memorized_submap &get_submap( const tripoint &sm_pos );
+        //@}
 };
 
 #endif // CATA_SRC_MAP_MEMORY_H
