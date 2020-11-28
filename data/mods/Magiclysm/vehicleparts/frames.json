@@ -16,7 +16,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "4 m", "using": [ [ "welding_standard", 4 ] ] }
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE"],
-    "damage_reduction": { "all": 40 }
+    "damage_reduction": { "all": 58 }
   },
   {
     "id": "folding_orichalcum_frame",
