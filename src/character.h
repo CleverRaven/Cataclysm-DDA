@@ -471,8 +471,7 @@ class Character : public Creature, public visitable<Character>
         virtual int get_hunger() const;
         virtual int get_starvation() const;
         virtual int get_thirst() const;
-        /** Gets character's minimum hunger and thirst */
-        int stomach_capacity() const;
+
         std::pair<std::string, nc_color> get_thirst_description() const;
         std::pair<std::string, nc_color> get_hunger_description() const;
         std::pair<std::string, nc_color> get_fatigue_description() const;

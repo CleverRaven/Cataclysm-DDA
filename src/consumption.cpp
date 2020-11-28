@@ -143,23 +143,6 @@ static const std::map<itype_id, int> plut_charges = {
     { itype_id( "plut_slurry" ),       PLUTONIUM_CHARGES / 2 }
 };
 
-int Character::stomach_capacity() const
-{
-    if( has_trait( trait_GIZZARD ) ) {
-        return 0;
-    }
-
-    if( has_active_mutation( trait_HIBERNATE ) ) {
-        return -620;
-    }
-
-    if( has_trait( trait_GOURMAND ) || has_trait( trait_HIBERNATE ) ) {
-        return -60;
-    }
-
-    return -20;
-}
-
 // TODO: Move pizza scraping here.
 static int compute_default_effective_kcal( const item &comest, const Character &you,
         const cata::flat_set<flag_id> &extra_flags = {} )
@@ -1342,8 +1325,6 @@ bool Character::consume_effects( item &food )
             mod_fatigue( nutr );
         }
     }
-    // TODO: remove this
-    int capacity = stomach_capacity();
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( trait_SLIMESPAWNER ) &&
@@ -1363,24 +1344,6 @@ bool Character::consume_effects( item &food )
         //~ slimespawns have *small voices* which may be the Nice equivalent
         //~ of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
         add_msg_if_player( m_good, _( "hey, you look like me!  let's work together!" ) );
-    }
-
-    // Last thing that happens before capping hunger
-    if( get_hunger() < capacity && has_trait( trait_EATHEALTH ) ) {
-        int excess_food = capacity - get_hunger();
-        add_msg_player_or_npc( _( "You feel the %s filling you out." ),
-                               _( "<npcname> looks better after eating the %s." ),
-                               food.tname() );
-        // Guaranteed 1 HP healing, no matter what.  You're welcome.  ;-)
-        if( excess_food <= 5 ) {
-            healall( 1 );
-        } else {
-            // Straight conversion, except it's divided amongst all your body parts.
-            healall( excess_food /= 5 );
-        }
-
-        // Note: We want this here to prevent "you can't finish this" messages
-        set_hunger( capacity );
     }
 
     nutrients food_nutrients = compute_effective_nutrients( food );
