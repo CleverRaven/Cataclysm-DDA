@@ -82,7 +82,6 @@
       [ "toastem2", 10 ],
       [ "toastem3", 12 ],
       [ "cookies", 80 ],
-      [ "crack", 8 ],
       [ "bat", 60 ],
       { "group": "softdrinks_canned", "prob": 55 },
       { "item": "cola", "prob": 6, "container-item": "bottle_plastic", "sealed": false },
