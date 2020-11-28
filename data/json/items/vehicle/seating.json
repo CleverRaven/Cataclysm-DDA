@@ -18,12 +18,26 @@
   {
     "type": "GENERIC",
     "copy-from": "seat",
+    "id": "seat_back",
+    "name": { "str": "back seat" },
+    "description": "A soft benchlike seat in a vehicle.  Mostly found in the second row, also known as the back or rear seat."
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "seat",
     "id": "seat_leather",
     "name": { "str": "leather seat" },
     "description": "A soft car seat covered with leather.",
     "material": [ "leather", "cotton", "aluminum" ],
     "price": 60000,
     "price_postapoc": 250
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "seat_leather",
+    "id": "seat_back_leather",
+    "name": { "str": "back seat" },
+    "description": "A soft with leather covered benchlike seat in a vehicle.  Mostly found in the second row, also known as the back or rear seat."
   },
   {
     "type": "GENERIC",
