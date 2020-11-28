@@ -129,6 +129,6 @@ void active_item_cache::mirror( const point &dim, bool horizontally )
             } else {
                 ir.location.y = dim.y - 1 - ir.location.y;
             }
-         }
+        }
     }
 }
