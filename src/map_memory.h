@@ -9,6 +9,7 @@
 #include "memory_fast.h"
 #include "point.h" // IWYU pragma: keep
 
+class JsonOut;
 class JsonIn;
 class JsonObject;
 class JsonOut;
@@ -24,6 +25,9 @@ struct memorized_submap {
     int symbols[SEEX][SEEY];
 
     memorized_submap();
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 /**
@@ -36,9 +40,17 @@ struct memorized_submap {
 class map_memory
 {
     public:
-        void store( JsonOut &jsout ) const;
-        void load( JsonIn &jsin );
-        void load( const JsonObject &jsin );
+        /** Load memorized submaps around given (global) pos. */
+        void load( const tripoint &pos );
+
+        /** Load legacy memory file. TODO: remove after 0.F (or whatever BN will have instead). */
+        ///@{
+        void load_legacy( const std::string &path );
+        void load_legacy( JsonIn &jsin );
+        ///@}
+
+        /** Save memorized submaps to disk, drop far-away ones */
+        bool save( const tripoint &pos );
 
         /**
          * Prepares map memory for rendering and/or memorization of given region.
@@ -79,13 +91,22 @@ class map_memory
         void clear_memorized_tile( const tripoint &pos );
 
     private:
+        struct coord_pair {
+            tripoint sm;
+            point loc;
+
+            coord_pair( const tripoint &p );
+        };
+
         std::map<tripoint, shared_ptr_fast<memorized_submap>> submaps;
 
         std::vector<shared_ptr_fast<memorized_submap>> cached;
         tripoint cache_pos;
         point cache_size;
 
-        shared_ptr_fast<memorized_submap> prepare_submap( const tripoint &sm_pos );
+        shared_ptr_fast<memorized_submap> fetch_submap( const tripoint &sm_pos );
+        shared_ptr_fast<memorized_submap> load_submap( const tripoint &sm_pos );
+        shared_ptr_fast<memorized_submap> allocate_submap();
 
         const memorized_submap &get_submap( const tripoint &sm_pos ) const;
         memorized_submap &get_submap( const tripoint &sm_pos );

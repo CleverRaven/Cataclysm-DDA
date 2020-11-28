@@ -1432,10 +1432,6 @@ void avatar::load( const JsonObject &data )
         }
     }
 
-    //Load from legacy map_memory save location (now in its own file <playername>.mm)
-    if( data.has_member( "map_memory_tiles" ) || data.has_member( "map_memory_curses" ) ) {
-        player_map_memory.load( data );
-    }
     data.read( "show_map_memory", show_map_memory );
 
     for( JsonArray pair : data.get_array( "assigned_invlet" ) ) {
@@ -3491,101 +3487,89 @@ void player_morale::load( const JsonObject &jsin )
     jsin.read( "morale", points );
 }
 
-void map_memory::store( JsonOut &/*jsout*/ ) const
+void memorized_submap::serialize( JsonOut &jsout ) const
 {
-    /*
     jsout.start_array();
-    jsout.start_array();
-    for( const auto &elem : tile_cache.list() ) {
-        jsout.start_array();
-        jsout.write( elem.first.x );
-        jsout.write( elem.first.y );
-        jsout.write( elem.first.z );
-        jsout.write( elem.second.tile );
-        jsout.write( elem.second.subtile );
-        jsout.write( elem.second.rotation );
-        jsout.end_array();
+    for( size_t y = 0; y < SEEY; y++ ) {
+        for( size_t x = 0; x < SEEX; x++ ) {
+            const memorized_terrain_tile &elem = tiles[x][y];
+            jsout.start_array();
+            jsout.write( elem.tile );
+            jsout.write( elem.subtile );
+            jsout.write( elem.rotation );
+            jsout.write( symbols[x][y] );
+            jsout.end_array();
+        }
     }
     jsout.end_array();
-
-    jsout.start_array();
-    for( const auto &elem : symbol_cache.list() ) {
-        jsout.start_array();
-        jsout.write( elem.first.x );
-        jsout.write( elem.first.y );
-        jsout.write( elem.first.z );
-        jsout.write( elem.second );
-        jsout.end_array();
-    }
-    jsout.end_array();
-    jsout.end_array();
-    */
 }
 
-void map_memory::load( JsonIn &/*jsin*/ )
+void memorized_submap::deserialize( JsonIn &jsin )
 {
-    /*
-    // Legacy loading of object version.
-    if( jsin.test_object() ) {
-        JsonObject jsobj = jsin.get_object();
-        jsobj.allow_omitted_members();
-        load( jsobj );
-    } else {
-        // This file is large enough that it's more than called for to minimize the
-        // amount of data written and read and make it a bit less "friendly",
-        // and use the streaming interface.
-        jsin.start_array();
-        tile_cache.clear();
-        jsin.start_array();
-        while( !jsin.end_array() ) {
+    jsin.start_array();
+    for( size_t y = 0; y < SEEY; y++ ) {
+        for( size_t x = 0; x < SEEX; x++ ) {
+            memorized_terrain_tile &elem = tiles[x][y];
             jsin.start_array();
-            tripoint p;
-            p.x = jsin.get_int();
-            p.y = jsin.get_int();
-            p.z = jsin.get_int();
-            const std::string tile = jsin.get_string();
-            const int subtile = jsin.get_int();
-            const int rotation = jsin.get_int();
-            memorize_tile( std::numeric_limits<int>::max(), p,
-                           tile, subtile, rotation );
+            elem.tile = jsin.get_string();
+            elem.subtile = jsin.get_int();
+            elem.rotation = jsin.get_int();
+            symbols[x][y] = jsin.get_int();
             jsin.end_array();
         }
-        symbol_cache.clear();
+    }
+    jsin.end_array();
+}
+
+void map_memory::load_legacy( JsonIn &jsin )
+{
+    struct mig_elem {
+        int symbol;
+        memorized_terrain_tile tile;
+    };
+    std::map<tripoint, mig_elem> elems;
+
+    jsin.start_array();
+    jsin.start_array();
+    while( !jsin.end_array() ) {
         jsin.start_array();
-        while( !jsin.end_array() ) {
-            jsin.start_array();
-            tripoint p;
-            p.x = jsin.get_int();
-            p.y = jsin.get_int();
-            p.z = jsin.get_int();
-            const int symbol = jsin.get_int();
-            memorize_symbol( std::numeric_limits<int>::max(), p, symbol );
-            jsin.end_array();
-        }
+        tripoint p;
+        p.x = jsin.get_int();
+        p.y = jsin.get_int();
+        p.z = jsin.get_int();
+        mig_elem &elem = elems[p];
+        elem.tile.tile = jsin.get_string();
+        elem.tile.subtile = jsin.get_int();
+        elem.tile.rotation = jsin.get_int();
         jsin.end_array();
     }
-    */
-}
-
-// Deserializer for legacy object-based memory map.
-void map_memory::load( const JsonObject &/*jsin*/ )
-{
-    /*
-    tile_cache.clear();
-    for( JsonObject pmap : jsin.get_array( "map_memory_tiles" ) ) {
-        pmap.allow_omitted_members();
-        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
-        memorize_tile( std::numeric_limits<int>::max(), p, pmap.get_string( "tile" ),
-                       pmap.get_int( "subtile" ), pmap.get_int( "rotation" ) );
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        jsin.start_array();
+        tripoint p;
+        p.x = jsin.get_int();
+        p.y = jsin.get_int();
+        p.z = jsin.get_int();
+        elems[p].symbol = jsin.get_int();
+        jsin.end_array();
     }
+    jsin.end_array();
 
-    symbol_cache.clear();
-    for( JsonObject pmap : jsin.get_array( "map_memory_curses" ) ) {
-        pmap.allow_omitted_members();
-        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
-        memorize_symbol( std::numeric_limits<int>::max(), p, pmap.get_int( "symbol" ) );
+    for( const std::pair<const tripoint, mig_elem> &elem : elems ) {
+        coord_pair cp( elem.first );
+
+        auto sm_iter = submaps.find( cp.sm );
+        shared_ptr_fast<memorized_submap> sm = nullptr;
+        if( sm_iter == submaps.end() ) {
+            sm = allocate_submap();
+            submaps.insert( std::make_pair( cp.sm, sm ) );
+        } else {
+            sm = sm_iter->second;
+        }
+
+        sm->tiles[cp.loc.x][cp.loc.y] = elem.second.tile;
+        sm->symbols[cp.loc.x][cp.loc.y] = elem.second.symbol;
     }
-    */
 }
 
 void point::deserialize( JsonIn &jsin )

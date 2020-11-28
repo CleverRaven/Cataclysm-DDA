@@ -75,8 +75,8 @@ class avatar : public player
         void load( const JsonObject &data );
         void serialize( JsonOut &json ) const override;
         void deserialize( JsonIn &jsin ) override;
-        void serialize_map_memory( JsonOut &jsout ) const;
-        void deserialize_map_memory( JsonIn &jsin );
+        bool save_map_memory();
+        void load_map_memory();
 
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );

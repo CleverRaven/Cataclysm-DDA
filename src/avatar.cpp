@@ -133,14 +133,14 @@ bool avatar::should_show_map_memory()
     return show_map_memory;
 }
 
-void avatar::serialize_map_memory( JsonOut &jsout ) const
+bool avatar::save_map_memory()
 {
-    player_map_memory.store( jsout );
+    return player_map_memory.save( pos() );
 }
 
-void avatar::deserialize_map_memory( JsonIn &jsin )
+void avatar::load_map_memory()
 {
-    player_map_memory.load( jsin );
+    player_map_memory.load( pos() );
 }
 
 void avatar::prepare_map_memory_region( const tripoint &p1, const tripoint &p2 )
