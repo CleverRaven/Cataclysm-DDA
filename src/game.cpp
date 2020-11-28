@@ -6418,9 +6418,10 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
 
     const int max_width = getmaxx( w_look ) - column - 2;
     if( m.has_graffiti_at( lp ) ) {
-        fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
+        const int lines = fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
                         m.ter( lp ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                         m.graffiti_at( lp ) );
+        line += lines - 1;
     }
 }
 
