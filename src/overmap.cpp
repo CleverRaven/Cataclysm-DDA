@@ -4067,11 +4067,7 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
 
         const oter_id &tid = ter( rp );
 
-        if( rp.z() == 0 ) {
-            return elem.can_be_placed_on( tid );
-        } else {
-            return tid == get_default_terrain( rp.z() );
-        }
+        return elem.can_be_placed_on( tid ) || ( rp.z() != 0 && tid == get_default_terrain( rp.z() ) );
     } );
 }
 
