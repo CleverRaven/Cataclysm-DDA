@@ -3279,7 +3279,7 @@
     "id": "EATHEALTH",
     "name": { "str": "Hyper-Metabolism" },
     "points": 15,
-    "description": "Your particular metabolism allows you to burn calories at a prodigious rate to regenerate tissues in a matter of minutes, this is however a very wastefull process. Activate to start healing.",
+    "description": "Your particular metabolism allows you to burn calories at a prodigious rate to regenerate tissues in a matter of minutes, this is however a very wastefull process.  Activate to start healing.",
     "prereqs": [ "HUNGER3" ],
     "types": [ "METABOLISM" ],
     "threshreq": [ "THRESH_CHIMERA" ],
