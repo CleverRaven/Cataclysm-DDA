@@ -11,7 +11,7 @@ static const int default_symbol = 0;
 
 static std::string find_legacy_mm_file()
 {
-    return g->get_player_base_save_path() + SAVE_EXTENSION_MAP_MEMORY;
+    return g->get_player_base_save_path() + ".mm";
 }
 
 static std::string find_mm_dir()
