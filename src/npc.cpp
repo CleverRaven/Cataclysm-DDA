@@ -860,19 +860,19 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     if( !pl ) {
         return false;
     }
-    if( !reader_has_enough_skill( ctx ) ) {
+    if( !has_enough_skill( ctx ) ) {
         fail_reasons.push_back( string_format( _( "I'm not smart enough to read this book." ) ) );
         return false;
     }
-    if( !reader_can_learn( ctx ) ) {
+    if( !can_learn( ctx ) ) {
         fail_reasons.push_back( string_format( _( "I won't learn anything from this book." ) ) );
         return false;
     }
 
     // Check for conditions that disqualify us
-    if( !reader_not_illiterate( ctx ) ) {
+    if( !not_illiterate( ctx ) ) {
         fail_reasons.emplace_back( _( "I can't read!" ) );
-    } else if( !reader_doesnt_need_reading_glasses( ctx ) ) {
+    } else if( !doesnt_need_reading_glasses( ctx ) ) {
         fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
     } else if( !not_too_dark( ctx ) ) {
         // Too dark to read only applies if the player can read to himself

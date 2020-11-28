@@ -348,19 +348,43 @@ struct read_criteria_context {
         : reading_material( reading_material ), reader( reader ), listener( reader ) {}
 };
 
+enum class read_fail_reason {
+    item_not_readable,
+    driving,
+    not_enough_morale,
+    not_enough_skill,
+    cant_learn,
+    needs_reading_glasses,
+    illiterate,
+    blind,
+    cant_see_listener,
+    too_dark
+};
+
 namespace read_criteria
 {
-bool item_is_book( const read_criteria_context &ctx );
-bool reader_not_driving( const read_criteria_context &ctx );
-bool reader_has_enough_morale( const read_criteria_context &ctx );
-bool reader_has_enough_skill( const read_criteria_context &ctx );
-bool reader_can_learn( const read_criteria_context &ctx );
-bool reader_doesnt_need_reading_glasses( const read_criteria_context &ctx );
-bool reader_not_illiterate( const read_criteria_context &ctx );
-bool reader_not_blind( const read_criteria_context &ctx );
-bool reader_can_see_listener( const read_criteria_context &ctx );
-bool not_too_dark( const read_criteria_context &ctx );
-}
+
+using func_type = std::function<bool( const read_criteria_context & )>;
+struct type {
+    const func_type &check;
+    const read_fail_reason reason;
+    bool operator()( const read_criteria_context &ctx ) const {
+        return check( ctx );
+    }
+};
+
+extern const type item_is_book;
+extern const type not_driving;
+extern const type has_enough_morale;
+extern const type has_enough_skill;
+extern const type can_learn;
+extern const type doesnt_need_reading_glasses;
+extern const type not_illiterate;
+extern const type not_blind;
+extern const type can_see_listener;
+extern const type not_too_dark;
+
+} // end namespace read_criteria
 
 /**
  * Secures the container and pocket of an item (if any), and calls

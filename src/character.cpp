@@ -12836,18 +12836,21 @@ int Character::book_fun_for( const item &book, const Character &p ) const
 namespace read_criteria
 {
 
+namespace criteria
+{
+
 bool item_is_book( const read_criteria_context &ctx )
 {
     return ctx.reading_material.is_book();
 }
 
-bool reader_not_driving( const read_criteria_context &ctx )
+bool not_driving( const read_criteria_context &ctx )
 {
     const optional_vpart_position vp = get_map().veh_at( ctx.reader.pos() );
     return !vp || !vp->vehicle().player_in_control( ctx.reader );
 }
 
-bool reader_has_enough_morale( const read_criteria_context &ctx )
+bool has_enough_morale( const read_criteria_context &ctx )
 {
     if( !ctx.reader.has_identified( ctx.reading_material.typeId() ) ) {
         // skimming/identification does not require morale
@@ -12859,7 +12862,7 @@ bool reader_has_enough_morale( const read_criteria_context &ctx )
     return ctx.reader.has_morale_to_read();
 }
 
-bool reader_has_enough_skill( const read_criteria_context &ctx )
+bool has_enough_skill( const read_criteria_context &ctx )
 {
     const cata::value_ptr<islot_book> type = ctx.reading_material.type->book;
     const skill_id &skill = type->skill;
@@ -12876,7 +12879,7 @@ bool reader_has_enough_skill( const read_criteria_context &ctx )
     return skill_level >= type->req;
 }
 
-bool reader_can_learn( const read_criteria_context &ctx )
+bool can_learn( const read_criteria_context &ctx )
 {
     const cata::value_ptr<islot_book> type = ctx.reading_material.type->book;
     const skill_id &skill = type->skill;
@@ -12889,7 +12892,7 @@ bool reader_can_learn( const read_criteria_context &ctx )
     return skill_level < type->level;
 }
 
-bool reader_doesnt_need_reading_glasses( const read_criteria_context &ctx )
+bool doesnt_need_reading_glasses( const read_criteria_context &ctx )
 {
     if( !ctx.reader.has_trait( trait_HYPEROPIC ) ) {
         return true;
@@ -12906,7 +12909,7 @@ bool reader_doesnt_need_reading_glasses( const read_criteria_context &ctx )
     return false;
 }
 
-bool reader_not_illiterate( const read_criteria_context &ctx )
+bool not_illiterate( const read_criteria_context &ctx )
 {
     const cata::value_ptr<islot_book> type = ctx.reading_material.type->book;
     if( type->intel <= 0 ) {
@@ -12916,12 +12919,12 @@ bool reader_not_illiterate( const read_criteria_context &ctx )
     return !ctx.reader.has_trait( trait_ILLITERATE );
 }
 
-bool reader_not_blind( const read_criteria_context &ctx )
+bool not_blind( const read_criteria_context &ctx )
 {
     return !ctx.reader.is_blind();
 }
 
-bool reader_can_see_listener( const read_criteria_context &ctx )
+bool can_see_listener( const read_criteria_context &ctx )
 {
     return ctx.reader.sees( ctx.listener );
 }
@@ -12934,4 +12937,18 @@ bool not_too_dark( const read_criteria_context &ctx )
     return vision_mod <= 4;
 }
 
-}
+} // end namespace internal
+
+using fail_reason = read_fail_reason;
+const type item_is_book                 { criteria::item_is_book,                   fail_reason::item_not_readable };
+const type not_driving                  { criteria::not_driving,                    fail_reason::driving };
+const type has_enough_morale            { criteria::has_enough_morale,              fail_reason::not_enough_morale };
+const type has_enough_skill             { criteria::has_enough_skill,               fail_reason::not_enough_skill };
+const type can_learn                    { criteria::can_learn,                      fail_reason::cant_learn };
+const type doesnt_need_reading_glasses  { criteria::doesnt_need_reading_glasses,    fail_reason::needs_reading_glasses };
+const type not_illiterate               { criteria::not_illiterate,                 fail_reason::illiterate };
+const type not_blind                    { criteria::not_blind,                      fail_reason::blind };
+const type can_see_listener             { criteria::can_see_listener,               fail_reason::cant_see_listener };
+const type not_too_dark                 { criteria::not_too_dark,                   fail_reason::too_dark };
+
+} // end namespace read_criteria
