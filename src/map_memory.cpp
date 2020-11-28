@@ -3,6 +3,7 @@
 #include "coordinate_conversions.h"
 #include "filesystem.h"
 #include "game.h"
+#include "line.h"
 #include "map_memory.h"
 #include "path_info.h"
 
@@ -32,6 +33,11 @@ memorized_submap::memorized_submap() : clean( true ),
 map_memory::coord_pair::coord_pair( const tripoint &p ) : loc( p.xy() )
 {
     sm = tripoint( ms_to_sm_remain( loc.x, loc.y ), p.z );
+}
+
+map_memory::map_memory()
+{
+    clear_cache();
 }
 
 memorized_terrain_tile map_memory::get_tile( const tripoint &pos ) const
@@ -171,6 +177,8 @@ void map_memory::load( const tripoint &pos )
 {
     const std::string dirname = find_mm_dir();
 
+    clear_cache();
+
     if( !dir_exist( dirname ) ) {
         // Old saves have [plname].mm file and no [plname].mm1 folder
         const std::string legacy_file = find_legacy_mm_file();
@@ -195,31 +203,48 @@ void map_memory::load( const tripoint &pos )
     }
 }
 
-bool map_memory::save( const tripoint &/*pos*/ )
+bool map_memory::save( const tripoint &pos )
 {
+    tripoint sm_center = coord_pair( pos ).sm;
     const std::string dirname = find_mm_dir();
     assure_dir_exist( dirname );
 
-    for( const auto &it : submaps ) {
-        if( it.second->clean ) {
-            continue;
-        }
-        const tripoint &sm_pos = it.first;
-        const std::string path = find_submap_path( dirname, sm_pos );
-        const std::string descr = string_format(
-                                      _( "player map memory for (%d,%d,%d)" ),
-                                      sm_pos.x, sm_pos.y, sm_pos.z
-                                  );
+    clear_cache();
 
-        write_to_file( path, [&]( std::ostream & fout ) -> void {
-            fout << serialize_wrapper( [&]( JsonOut & jsout )
-            {
-                it.second->serialize( jsout );
-            } );
-        }, descr.c_str() );
+    bool result = true;
+
+    for( auto it = submaps.cbegin(); it != submaps.cend(); ) {
+        const tripoint &sm_pos = it->first;
+        if( !it->second->clean ) {
+            const std::string path = find_submap_path( dirname, sm_pos );
+            const std::string descr = string_format(
+                                          _( "player map memory for (%d,%d,%d)" ),
+                                          sm_pos.x, sm_pos.y, sm_pos.z
+                                      );
+
+            const auto writer = [&]( std::ostream & fout ) -> void {
+                fout << serialize_wrapper( [&]( JsonOut & jsout )
+                {
+                    it->second->serialize( jsout );
+                } );
+            };
+
+            const bool res = write_to_file( path, writer, descr.c_str() );
+            result = result & res;
+        }
+        if( square_dist( sm_center, sm_pos ) > MM_SIZE ) {
+            it = submaps.erase( it );
+        } else {
+            ++it;
+        }
     }
 
-    // TODO: drop unused submaps
+    return result;
+}
 
-    return true;
+void map_memory::clear_cache()
+{
+    cached.clear();
+    cache_pos = tripoint_min;
+    cache_size = point_zero;
 }

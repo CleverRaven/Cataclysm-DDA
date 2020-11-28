@@ -52,6 +52,8 @@ class map_memory
         };
 
     public:
+        map_memory();
+
         /** Load memorized submaps around given (global) pos. */
         void load( const tripoint &pos );
 
@@ -118,6 +120,8 @@ class map_memory
         const memorized_submap &get_submap( const tripoint &sm_pos ) const;
         memorized_submap &get_submap( const tripoint &sm_pos );
         //@}
+
+        void clear_cache();
 };
 
 #endif // CATA_SRC_MAP_MEMORY_H
