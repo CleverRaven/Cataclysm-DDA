@@ -336,18 +336,6 @@ enum class character_stat : char {
     DUMMY_STAT
 };
 
-struct read_criteria_context {
-    const item &reading_material;
-    const Character &reader;
-    const Character &listener;
-
-    read_criteria_context( const Character &reader, const item &reading_material,
-                           const Character &listener )
-        : reading_material( reading_material ), reader( reader ), listener( listener ) {}
-    read_criteria_context( const Character &reader, const item &reading_material )
-        : reading_material( reading_material ), reader( reader ), listener( reader ) {}
-};
-
 enum class read_fail_reason {
     item_not_readable,
     driving,
@@ -361,17 +349,28 @@ enum class read_fail_reason {
     too_dark
 };
 
+struct read_criteria_context {
+    const item &reading_material;
+    const Character &reader;
+    const Character &listener;
+
+    read_criteria_context( const Character &reader, const item &reading_material,
+                           const Character &listener )
+        : reading_material( reading_material ), reader( reader ), listener( listener ) {}
+
+    // reader is also the listener
+    read_criteria_context( const Character &reader, const item &reading_material )
+        : reading_material( reading_material ), reader( reader ), listener( reader ) {}
+};
+
 namespace read_criteria
 {
 
-// a criteria returns true if it is satisfied in the current context
-using func_type = std::function<bool( const read_criteria_context & )>;
+// a criteria func returns true only if it is satisfied in the current context
+using criteria_func_type = std::function<bool( const read_criteria_context & )>;
 struct type {
-    const func_type &check;
+    const criteria_func_type &check;
     const read_fail_reason fail_reason;
-    bool operator()( const read_criteria_context &ctx ) const {
-        return check( ctx );
-    }
 };
 
 extern const type item_is_book;
@@ -388,6 +387,40 @@ extern const type not_too_dark;
 std::string get_fail_message( const read_criteria_context &ctx, read_fail_reason fail_reason );
 
 } // end namespace read_criteria
+
+class read_eval
+{
+    public:
+        static read_eval make_success();
+        static read_eval make_fail( read_fail_reason reason, const std::string &message );
+
+        bool can_read() const;
+        read_fail_reason get_fail_reason() const;
+        std::string get_fail_message() const;
+
+    private:
+        read_eval() = default;
+        read_eval( read_fail_reason fail_reason, const std::string &fail_message )
+            : fail_reason( fail_reason ), fail_message( fail_message ) {}
+
+        const cata::optional<read_fail_reason> fail_reason;
+        const cata::optional<std::string> fail_message;
+};
+
+class readability_evaluator
+{
+    public:
+        readability_evaluator( const std::vector<read_criteria::type> &criterias )
+            : criterias( criterias ) {}
+
+        read_eval do_eval( const Character &reader, const item &item, const Character &listener ) const;
+
+        // reader is also listener
+        read_eval do_eval( const Character &reader, const item &item ) const;
+
+    private:
+        const std::vector<read_criteria::type> criterias;
+};
 
 /**
  * Secures the container and pocket of an item (if any), and calls

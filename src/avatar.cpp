@@ -267,48 +267,30 @@ void avatar::on_mission_finished( mission &cur_mission )
 const player *avatar::get_book_reader( const item &book, std::vector<std::string> &reasons ) const
 {
     using namespace read_criteria;
-    const auto push_message = [ &reasons ]( const read_criteria_context & ctx,
-    read_fail_reason reason ) {
-        reasons.push_back( get_fail_message( ctx, reason ) );
-    };
-    const player *reader = nullptr;
+    using r = read_fail_reason;
 
-    read_criteria_context player_ctx( *this, book );
+    static const readability_evaluator player_evaluator( {
+        item_is_book,
+        not_driving,
+        has_enough_morale,
+        has_enough_skill,
+        not_illiterate,
+        doesnt_need_reading_glasses,
+        not_too_dark,
+    } );
 
-    if( !item_is_book( player_ctx ) ) {
-        push_message( player_ctx, item_is_book.fail_reason );
-        return nullptr;
-    }
-
-    const cata::value_ptr<islot_book> &type = book.type->book;
-    const skill_id &book_skill = type->skill;
-    const int book_skill_requirement = type->req;
-    const bool book_requires_intelligence = type->intel > 0;
-
-    // Check for conditions that immediately disqualify the player from reading:
-    if( !not_driving( player_ctx ) ) {
-        push_message( player_ctx, not_driving.fail_reason );
-        return nullptr;
-    }
-    if( !has_enough_morale( player_ctx ) ) {
-        push_message( player_ctx, has_enough_morale.fail_reason );
-        return nullptr;
-    }
-    if( !has_enough_skill( player_ctx ) ) {
-        push_message( player_ctx, has_enough_skill.fail_reason );
-        return nullptr;
-    }
-
-    // Check for conditions that disqualify us only if no NPCs can read to us
-    if( !not_illiterate( player_ctx ) ) {
-        push_message( player_ctx, not_illiterate.fail_reason );
-    } else if( !doesnt_need_reading_glasses( player_ctx ) ) {
-        push_message( player_ctx, doesnt_need_reading_glasses.fail_reason );
-    } else if( !not_too_dark( player_ctx ) ) {
-        push_message( player_ctx, not_too_dark.fail_reason );
-        return nullptr;
-    } else {
+    const read_eval eval = player_evaluator.do_eval( *this, book );
+    if( eval.can_read() ) {
         return this;
+    } else {
+        reasons.push_back( eval.get_fail_message() );
+        switch( eval.get_fail_reason() ) {
+            case r::illiterate:
+            case r::needs_reading_glasses:
+                break; // can be assisted, check for NPC readers
+            default:
+                return nullptr;
+        }
     }
 
     //Check for NPCs to read for you, negates Illiterate and Far Sighted
@@ -320,24 +302,22 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
 
     int time_taken = INT_MAX;
     auto candidates = get_crafting_helpers();
+    const player *reader = nullptr;
 
     for( const npc *elem : candidates ) {
-        read_criteria_context npc_ctx( *elem, book, *this );
-        // Check for disqualifying factors:
-        if( !not_illiterate( npc_ctx ) ) {
-            push_message( npc_ctx, not_illiterate.fail_reason );
-        } else if( !has_enough_skill( npc_ctx ) ) {
-            push_message( npc_ctx, has_enough_skill.fail_reason );
-        } else if( !doesnt_need_reading_glasses( npc_ctx ) ) {
-            push_message( npc_ctx, doesnt_need_reading_glasses.fail_reason );
-        } else if( !not_too_dark( npc_ctx ) ) {
-            push_message( npc_ctx, not_too_dark.fail_reason );
-        } else if( !can_see_listener( npc_ctx ) ) {
-            push_message( npc_ctx, can_see_listener.fail_reason );
-        } else if( !has_enough_morale( npc_ctx ) ) {
-            push_message( npc_ctx, has_enough_morale.fail_reason );
-        } else if( !not_blind( npc_ctx ) ) {
-            push_message( npc_ctx, not_blind.fail_reason );
+        static const readability_evaluator npc_evaluator( {
+            not_illiterate,
+            has_enough_skill,
+            doesnt_need_reading_glasses,
+            not_too_dark,
+            can_see_listener,
+            has_enough_morale,
+            not_blind
+        } );
+
+        const read_eval eval = npc_evaluator.do_eval( *elem, book, *this );
+        if( !eval.can_read() ) {
+            reasons.push_back( eval.get_fail_message() );
         } else {
             int proj_time = time_to_read( book, *elem );
             if( proj_time < time_taken ) {

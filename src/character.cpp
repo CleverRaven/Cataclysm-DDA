@@ -13039,3 +13039,42 @@ std::string get_fail_message( const read_criteria_context &ctx, read_fail_reason
 }
 
 } // end namespace read_criteria
+
+read_eval read_eval::make_success()
+{
+    return read_eval();
+}
+read_eval read_eval::make_fail( read_fail_reason reason, const std::string &message )
+{
+    return read_eval( reason, message );
+}
+bool read_eval::can_read() const
+{
+    return !fail_reason.has_value();
+}
+read_fail_reason read_eval::get_fail_reason() const
+{
+    return fail_reason.value();
+}
+std::string read_eval::get_fail_message() const
+{
+    return fail_message.value();
+}
+
+read_eval readability_evaluator::do_eval( const Character &reader, const item &item,
+        const Character &listener ) const
+{
+    const read_criteria_context ctx( reader, item, listener );
+    for( const read_criteria::type &criteria : criterias ) {
+        if( !criteria.check( ctx ) ) {
+            const std::string fail_message = read_criteria::get_fail_message( ctx, criteria.fail_reason );
+            return read_eval::make_fail( criteria.fail_reason, fail_message );
+        }
+    }
+    return read_eval::make_success();
+}
+
+read_eval readability_evaluator::do_eval( const Character &reader, const item &item ) const
+{
+    return do_eval( reader, item, reader );
+}

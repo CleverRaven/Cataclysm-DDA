@@ -849,39 +849,22 @@ void npc::starting_weapon( const npc_class_id &type )
 bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
 {
     using namespace read_criteria;
-    const auto push_message = [ &fail_reasons ]( const read_criteria_context & ctx,
-    read_fail_reason reason ) {
-        fail_reasons.push_back( get_fail_message( ctx, reason ) );
-    };
 
-    read_criteria_context ctx( *this, book );
-    if( !item_is_book( ctx ) ) {
-        push_message( ctx, item_is_book.fail_reason );
-        return false;
-    }
-    player *pl = dynamic_cast<player *>( this );
-    if( !pl ) {
-        return false;
-    }
-    if( !has_enough_skill( ctx ) ) {
-        push_message( ctx, has_enough_skill.fail_reason );
-        return false;
-    }
-    if( !can_learn( ctx ) ) {
-        push_message( ctx, can_learn.fail_reason );
+    const readability_evaluator evaluator( {
+        item_is_book,
+        has_enough_skill,
+        can_learn,
+        not_illiterate,
+        doesnt_need_reading_glasses,
+        not_too_dark
+    } );
+
+    const read_eval eval = evaluator.do_eval( *this, book );
+    if( !eval.can_read() ) {
+        fail_reasons.push_back( eval.get_fail_message() );
         return false;
     }
 
-    // Check for conditions that disqualify us
-    if( !not_illiterate( ctx ) ) {
-        push_message( ctx, not_illiterate.fail_reason );
-    } else if( !doesnt_need_reading_glasses( ctx ) ) {
-        push_message( ctx, doesnt_need_reading_glasses.fail_reason );
-    } else if( !not_too_dark( ctx ) ) {
-        // Too dark to read only applies if the player can read to himself
-        push_message( ctx, not_too_dark.fail_reason );
-        return false;
-    }
     return true;
 }
 
