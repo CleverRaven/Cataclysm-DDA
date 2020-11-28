@@ -1736,6 +1736,24 @@ std::list<item> Character::consume_items( const std::vector<item_comp> &componen
                           filter );
 }
 
+bool Character::consume_software_container( const itype_id &software_id )
+{
+    for( auto it = all_items_loc().begin(); it != all_items_loc().end(); ++it ) {
+        if( !it->get_item() ) {
+            continue;
+        }
+        if( it->get_item()->is_software_storage() ) {
+            for( const item *soft : it->get_item()->softwares() ) {
+                if( soft->typeId() == software_id ) {
+                    it->remove_item();
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 comp_selection<tool_comp>
 Character::select_tool_component( const std::vector<tool_comp> &tools, int batch,
                                   inventory &map_inv, bool can_cancel, bool player_inv,
