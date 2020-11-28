@@ -87,8 +87,11 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
 
     tripoint sm_pos = coord_pair( p1 ).sm - point( 1, 1 );
     point sm_size = ( coord_pair( p2 ).sm - sm_pos ).xy() + point( 1, 1 );
-    if( ( sm_pos == cache_pos ) && ( sm_size == cache_size ) ) {
-        return false;
+    if( sm_pos.z == cache_pos.z ) {
+        rectangle rect( cache_pos.xy(), cache_pos.xy() + cache_size );
+        if( rect.contains_half_open( sm_pos.xy() ) && rect.contains_inclusive( sm_pos.xy() + sm_size ) ) {
+            return false;
+        }
     }
 
     cache_pos = sm_pos;
