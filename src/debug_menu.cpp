@@ -74,6 +74,7 @@
 #include "player.h"
 #include "pldata.h"
 #include "point.h"
+#include "popup.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
 #include "sounds.h"
@@ -460,7 +461,6 @@ void spawn_nested_mapgen()
         target_map.save();
         g->load_npcs();
         g->m.invalidate_map_cache( g->get_levz() );
-        g->refresh_all();
     }
 }
 
@@ -1156,13 +1156,19 @@ void draw_benchmark( const int max_difference )
     auto end_tick = std::chrono::steady_clock::now();
     int64_t difference = 0;
     int draw_counter = 0;
+
+    static_popup popup;
+    popup.on_top( true ).message( "%s", _( "Benchmark in progress…" ) );
+
     while( true ) {
         end_tick = std::chrono::steady_clock::now();
         difference = std::chrono::duration_cast<std::chrono::milliseconds>( end_tick - start_tick ).count();
         if( difference >= max_difference ) {
             break;
         }
-        g->draw();
+        g->invalidate_main_ui_adaptor();
+        ui_manager::redraw_invalidated();
+        refresh_display();
         draw_counter++;
     }
 
@@ -1187,7 +1193,6 @@ void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
     int action = debug_menu_uilist( debug_menu_has_hotkey );
-    g->refresh_all();
     avatar &u = g->u;
     map &m = g->m;
     switch( action ) {
@@ -1709,7 +1714,6 @@ void debug()
                     MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     g->load_npcs();
                     g->m.invalidate_map_cache( g->get_levz() );
-                    g->refresh_all();
                 }
             }
             break;
@@ -1894,9 +1898,7 @@ void debug()
             MapExtras::debug_spawn_test();
             break;
     }
-    catacurses::erase();
     m.invalidate_map_cache( g->get_levz() );
-    g->refresh_all();
 }
 
 } // namespace debug_menu

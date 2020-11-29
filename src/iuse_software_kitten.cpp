@@ -328,7 +328,7 @@ void robot_finds_kitten::show() const
     input_context ctxt( "IUSE_SOFTWARE_KITTEN" );
 
     draw_border( bkatwin );
-    wrefresh( bkatwin );
+    wnoutrefresh( bkatwin );
 
     werase( w );
     if( current_ui_state != ui_state::instructions ) {
@@ -411,7 +411,7 @@ void robot_finds_kitten::show() const
         case ui_state::exit:
             break;
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void robot_finds_kitten::process_input()

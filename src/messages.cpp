@@ -619,7 +619,7 @@ void Messages::dialog::show()
     }
 
     if( filtering ) {
-        wrefresh( w );
+        wnoutrefresh( w );
         // Print the help text
         werase( w_filter_help );
         draw_border( w_filter_help, border_color );
@@ -631,7 +631,7 @@ void Messages::dialog::show()
         mvwprintz( w_filter_help, point( border_width, w_fh_height - 1 ), border_color, "< " );
         mvwprintz( w_filter_help, point( w_fh_width - border_width - 2, w_fh_height - 1 ), border_color,
                    " >" );
-        wrefresh( w_filter_help );
+        wnoutrefresh( w_filter_help );
 
         // This line is preventing this method from being const
         filter.query( false, true ); // Draw only
@@ -644,7 +644,7 @@ void Messages::dialog::show()
             mvwprintz( w, point( border_width, w_height - 1 ), border_color, "< %s >", filter_str );
             mvwprintz( w, point( border_width + 2, w_height - 1 ), filter_color, "%s", filter_str );
         }
-        wrefresh( w );
+        wnoutrefresh( w );
     }
 }
 

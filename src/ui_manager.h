@@ -38,9 +38,13 @@ class ui_adaptor
         // Note that `topleft` and `size` are in console cells on both tiles
         // and curses build.
         void position( const point &topleft, const point &size );
-        // Set redraw and resizing callbacks. These callbacks should NOT call
-        // `debugmsg`, construct new `ui_adaptor` instances, deconstruct old
+        // Set redraw and resizing callbacks. These callbacks should NOT
+        // construct new `ui_adaptor` instances, deconstruct old
         // `ui_adaptor` instances, call `redraw`, or call `screen_resized`.
+        //
+        // As a special case, calling `debugmsg` inside the callbacks is (semi-)
+        // supported, but may cause display glitches after the debug message is
+        // closed.
         //
         // The redraw callback should also not call `position_from_window`,
         // otherwise it may cause UI glitch if the window position changes.
@@ -60,7 +64,7 @@ class ui_adaptor
         // Reset all callbacks and dimensions
         void reset();
 
-        static void invalidate( const rectangle &rect );
+        static void invalidate( const rectangle &rect, bool reenable_uis_below );
         static void redraw();
         static void redraw_invalidated();
         static void screen_resized();
@@ -92,7 +96,7 @@ class background_pane
 namespace ui_manager
 {
 // rect is the pixel dimensions in tiles or console cell dimensions in curses
-void invalidate( const rectangle &rect );
+void invalidate( const rectangle &rect, bool reenable_uis_below );
 // invalidate the top window and redraw all invalidated windows
 void redraw();
 // redraw all invalidated windows without invalidating the top window

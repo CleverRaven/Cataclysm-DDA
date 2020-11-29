@@ -1771,6 +1771,7 @@ bool handle_resize( int w, int h )
         WindowHeight = h;
         TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
+        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
         SetupRenderTarget();
         game_ui::init_ui();
         ui_manager::screen_resized();
@@ -2893,9 +2894,11 @@ static void CheckMessages()
                         }
 #endif
                         break;
-                    case SDL_WINDOWEVENT_RESIZED:
+                    case SDL_WINDOWEVENT_RESIZED: {
+                        restore_on_out_of_scope<input_event> prev_last_input( last_input );
                         needupdate = handle_resize( ev.window.data1, ev.window.data2 );
                         break;
+                    }
                     default:
                         break;
                 }
@@ -3229,13 +3232,14 @@ static void CheckMessages()
         }
     }
     if( need_redraw ) {
+        restore_on_out_of_scope<input_event> prev_last_input( last_input );
         // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
         // when restoring the window after system sleep, rather than immediately
         // on focus gain. This seems to mess up the first redraw and
         // causes black screen that lasts ~0.5 seconds before the screen
         // contents are redrawn in the following code.
         window_dimensions dim = get_window_dimensions( catacurses::stdscr );
-        ui_manager::invalidate( rectangle( point_zero, dim.window_size_pixel ) );
+        ui_manager::invalidate( rectangle( point_zero, dim.window_size_pixel ), false );
         ui_manager::redraw();
     }
     if( needupdate ) {

@@ -222,7 +222,7 @@ void uilist::filterlist()
             fentries.push_back( i );
             if( i == selected && ( hilight_disabled || entries[i].enabled ) ) {
                 fselected = f;
-            } else if( i > selected && fselected == -1 ) {
+            } else if( i > selected && fselected == -1 && ( hilight_disabled || entries[i].enabled ) ) {
                 // Past the previously selected entry, which has been filtered out,
                 // choose another nearby entry instead.
                 fselected = f;
@@ -669,7 +669,7 @@ void uilist::show()
     }
     apply_scrollbar();
 
-    wrefresh( window );
+    wnoutrefresh( window );
     if( callback != nullptr ) {
         callback->refresh( this );
     }

@@ -181,8 +181,7 @@ void catacurses::mvwvline( const window &win, const point &p, chtype ch, int n )
     wattroff( win, BORDER_COLOR );
 }
 
-//Refreshes a window, causing it to redraw on top.
-void catacurses::wrefresh( const window &win_ )
+void catacurses::wnoutrefresh( const window &win_ )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     // TODO: log win == nullptr
@@ -191,10 +190,22 @@ void catacurses::wrefresh( const window &win_ )
     }
 }
 
+//Refreshes a window, causing it to redraw on top.
+void catacurses::wrefresh( const window &win )
+{
+    wnoutrefresh( win );
+    doupdate();
+}
+
 //Refreshes the main window, causing it to redraw on top.
 void catacurses::refresh()
 {
     return wrefresh( stdscr );
+}
+
+void catacurses::doupdate()
+{
+    refresh_display();
 }
 
 void catacurses::wredrawln( const window &/*win*/, int /*beg_line*/, int /*num_lines*/ )
@@ -381,7 +392,6 @@ void catacurses::werase( const window &win_ )
     }
     win->draw = true;
     wmove( win_, point_zero );
-    //    wrefresh(win);
     handle_additional_window_clear( win );
 }
 

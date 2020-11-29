@@ -23,7 +23,6 @@ TEST_CASE( "vehicle_split_section" )
             veh_ptr = vehs_v.v;
             g->m.destroy_vehicle( veh_ptr );
         }
-        g->refresh_all();
         REQUIRE( g->m.get_vehicles().empty() );
         veh_ptr = g->m.add_vehicle( vproto_id( "cross_split_test" ), vehicle_origin, dir, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
@@ -65,7 +64,6 @@ TEST_CASE( "vehicle_split_section" )
             g->m.destroy_vehicle( vehs[ 1 ].v );
             g->m.destroy_vehicle( vehs[ 0 ].v );
         }
-        g->refresh_all();
         REQUIRE( g->m.get_vehicles().empty() );
         vehicle_origin = tripoint( 20, 20, 0 );
         veh_ptr = g->m.add_vehicle( vproto_id( "circle_split_test" ), vehicle_origin, dir, 0, 0 );

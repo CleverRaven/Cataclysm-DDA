@@ -1541,10 +1541,6 @@ bool basecamp::handle_mission( const std::string &miss_id,
         emergency_recall();
     }
 
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels( true );
-
     return true;
 
 }
@@ -1693,7 +1689,7 @@ void basecamp::worker_assignment_ui()
         }
         mvwprintz( w_followers, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
                    _( "Press %s to assign this follower to this camp." ), ctxt.get_desc( "CONFIRM" ) );
-        wrefresh( w_followers );
+        wnoutrefresh( w_followers );
     } );
 
     while( true ) {
@@ -1806,7 +1802,7 @@ void basecamp::job_assignment_ui()
         }
         mvwprintz( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
                    _( "Press %s to change this workers job priorities." ), ctxt.get_desc( "CONFIRM" ) );
-        wrefresh( w_jobs );
+        wnoutrefresh( w_jobs );
     } );
 
     while( true ) {
@@ -1917,7 +1913,6 @@ void basecamp::start_cut_logs()
                        chop_time, travel_time, dist, 2, time_to_food( work_time ) ) ) ) {
             return;
         }
-        g->draw_ter();
 
         npc_ptr comp = start_mission( "_faction_camp_cut_log", work_time, true,
                                       _( "departs to cut logs…" ), false, {},
@@ -1963,7 +1958,6 @@ void basecamp::start_clearcut()
                        chop_time, travel_time, dist, 2, time_to_food( work_time ) ) ) ) {
             return;
         }
-        g->draw_ter();
 
         npc_ptr comp = start_mission( "_faction_camp_clearcut", work_time,
                                       true, _( "departs to clear a forest…" ), false, {},
@@ -3010,7 +3004,7 @@ void talk_function::draw_camp_tabs( const catacurses::window &win,
         tab_space += tab_step + utf8_width( t );
         tab_x++;
     }
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 std::string talk_function::name_mission_tabs( const tripoint &omt_pos, const std::string &role_id,
@@ -3556,9 +3550,6 @@ std::vector<item *> basecamp::give_equipment( std::vector<item *> equipment,
 {
     std::vector<item *> equipment_lost;
     do {
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-
         std::vector<std::string> names;
         names.reserve( equipment.size() );
         for( auto &i : equipment ) {
