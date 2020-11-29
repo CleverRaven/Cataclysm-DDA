@@ -32,6 +32,7 @@
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "distribution_grid.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -2739,10 +2740,6 @@ void iexamine::fireplace( player &p, const tripoint &examp )
     const bool has_bionic_firestarter = p.has_bionic( bio_lighter ) &&
                                         p.enough_power_for( bio_lighter );
 
-    auto firequenchers = p.items_with( []( const item & it ) {
-        return it.damage_melee( DT_BASH );
-    } );
-
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
     selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
@@ -2752,10 +2749,8 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         if( has_bionic_firestarter ) {
             selection_menu.addentry( 2, true, 'b', _( "Use a CBM to start a fire" ) );
         }
-    } else if( !firequenchers.empty() ) {
-        selection_menu.addentry( 4, true, 'e', _( "Extinguish fire" ) );
     } else {
-        selection_menu.addentry( 4, false, 'e', _( "Extinguish fire (bashing item required)" ) );
+        selection_menu.addentry( 4, true, 'e', _( "Extinguish fire" ) );
     }
     if( furn_is_deployed ) {
         selection_menu.addentry( 3, true, 't', _( "Take down the %s" ), g->m.furnname( examp ) );
@@ -5643,6 +5638,12 @@ void iexamine::dimensional_portal( player &p, const tripoint &pos )
     }
 }
 
+void iexamine::check_power( player &, const tripoint &pos )
+{
+    int amt = g->m.distribution_grid_at( pos ).get_resource();
+    add_msg( m_info, _( "This electric grid stores %d kJ of electric power." ), amt );
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -5730,7 +5731,8 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "smoker_options", &iexamine::smoker_options },
             { "open_safe", &iexamine::open_safe },
             { "workbench", &iexamine::workbench },
-            {"dimensional_portal", &iexamine::dimensional_portal},
+            { "dimensional_portal", &iexamine::dimensional_portal },
+            { "check_power", &iexamine::check_power },
         }
     };
 

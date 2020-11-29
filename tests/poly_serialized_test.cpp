@@ -11,8 +11,8 @@ class has_type
     public:
         virtual ~has_type() = default;
 
-        virtual void load( JsonObject &jo ) = 0;
-        virtual void store( JsonOut &jsout ) const = 0;
+        virtual void serialize( JsonOut &jsout ) const = 0;
+        virtual void deserialize( JsonIn &jsin ) = 0;
         virtual std::string get_type() const = 0;
 
         static has_type *create( std::string type );
@@ -23,11 +23,11 @@ class has_int : public has_type
     public:
         int a;
 
-        void load( JsonObject &jo ) override {
-            jo.read( "a", a );
-        }
-        void store( JsonOut &jsout ) const override {
+        void serialize( JsonOut &jsout ) const override {
             jsout.member( "a", a );
+        }
+        void deserialize( JsonIn &jsin ) override {
+            a = JsonObject( jsin ).get_int( "a" );
         }
         std::string get_type() const override {
             return "has_int";
@@ -39,11 +39,11 @@ class has_float : public has_type
     public:
         float b;
 
-        void load( JsonObject &jo ) override {
-            jo.read( "b", b );
-        }
-        void store( JsonOut &jsout ) const override {
+        void serialize( JsonOut &jsout ) const override {
             jsout.member( "b", b );
+        }
+        void deserialize( JsonIn &jsin ) override {
+            b = JsonObject( jsin ).get_float( "b" );
         }
         std::string get_type() const override {
             return "has_float";

@@ -168,5 +168,14 @@
     "range": 100,
     "dispersion": 1000,
     "ranged_damage": { "damage_type": "stab", "amount": 30 }
+  },
+  {
+    "id": "fake_oven",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "oven" },
+    "sub": "hotplate",
+    "max_charges": 1000,
+    "flags": [ "USES_GRID_POWER" ]
   }
 ]

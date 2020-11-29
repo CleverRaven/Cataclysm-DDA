@@ -343,11 +343,12 @@
     "id": "f_oven",
     "name": "oven",
     "symbol": "#",
-    "description": "Used for heating and cooking food with electricity.  Doesn't look like it's working, although it still has parts.  It might be safe to light a fire inside of it, if you had to.",
+    "description": "Used for heating and cooking food with electricity.  Might still work, if you manage to power it.  It's safe to light a fire inside of it.",
     "color": "dark_gray",
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
+    "crafting_pseudo_item": "fake_oven",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
     "examine_action": "fireplace",
     "deconstruct": {
@@ -587,8 +588,7 @@
         { "item": "steel_chunk", "count": 3 },
         { "item": "pipe", "count": 4 },
         { "item": "2x4", "count": 4 },
-        { "item": "solar_panel", "count": 1 },
-        { "item": "medium_storage_battery", "count": 1 }
+        { "item": "solar_panel", "count": 1 }
       ]
     },
     "bash": {
@@ -598,10 +598,11 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "solar_cell", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
         { "item": "amplifier", "prob": 50 },
         { "item": "cable", "charges": [ 10, 15 ] },
         { "item": "power_supply", "prob": 50 },
-        { "item": "scrap", "count": [ 7, 12 ] },
+        { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": 3 }
       ]
@@ -619,6 +620,7 @@
     "coverage": 90,
     "required_str": -1,
     "active": [ "battery", { "max_stored": 7000 } ],
+    "examine_action": "check_power",
     "deconstruct": {
       "items": [
         { "item": "sheet_metal_small", "count": [ 4, 6 ] },

@@ -31,7 +31,7 @@ class poly_serialized : public std::unique_ptr<T>
             if( this->get() ) {
                 jsout.write( this->get()->get_type() );
                 jsout.start_object();
-                this->get()->store( jsout );
+                this->get()->serialize( jsout );
                 jsout.end_object();
             } else {
                 jsout.write_null();
@@ -47,8 +47,7 @@ class poly_serialized : public std::unique_ptr<T>
                 std::decay_t < decltype( this->get()->get_type() ) > read_type;
                 jsin.read( read_type );
                 this->reset( T::create( read_type ) );
-                JsonObject jo( jsin );
-                this->get()->load( jo );
+                this->get()->deserialize( jsin );
             }
             jsin.end_array();
         }

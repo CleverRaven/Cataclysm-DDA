@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <map>
+#include "active_tile_data.h"
 #include "calendar.h"
 #include "memory_fast.h"
 #include "point.h"

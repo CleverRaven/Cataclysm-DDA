@@ -17,6 +17,19 @@ static const std::string flag_USE_UPS( "USE_UPS" );
 
 active_tile_data::~active_tile_data() {}
 
+void active_tile_data::serialize( JsonOut &jsout ) const
+{
+    jsout.member( "last_updated", last_updated );
+    store( jsout );
+}
+
+void active_tile_data::deserialize( JsonIn &jsin )
+{
+    JsonObject jo( jsin );
+    jo.read( "last_updated", last_updated );
+    load( jo );
+}
+
 class null_tile_data : public active_tile_data
 {
         void update_internal( time_point, const tripoint &, distribution_grid & ) override
@@ -46,18 +59,27 @@ inline int ticks_between( const time_point &from, const time_point &to,
 
 void solar_tile::update_internal( time_point to, const tripoint &p, distribution_grid &grid )
 {
-    constexpr time_duration tick_length = 1_minutes;
-    int ticks = ticks_between( get_last_updated(), to, tick_length );
+    constexpr time_point zero = time_point::from_turn( 0 );
+    constexpr time_duration tick_length = 10_minutes;
+    constexpr int tick_turns = to_turns<int>( tick_length );
+    time_duration till_then = get_last_updated() - zero;
+    time_duration till_now = to - zero;
+    // This is just for rounding to nearest tick
+    time_duration ticks_then = till_then / tick_turns;
+    time_duration ticks_now = till_now / tick_turns;
     // This is to cut down on sum_conditions
-    if( ticks <= 0 ) {
+    if( ticks_then == ticks_now ) {
         return;
     }
+    time_duration rounded_then = ticks_then * tick_turns;
+    time_duration rounded_now = ticks_now * tick_turns;
 
     // TODO: Use something that doesn't calc a ton of worthless crap
-    int sunlight = sum_conditions( get_last_updated(), to, p ).sunlight;
+    float sunlight = sum_conditions( zero + rounded_then, zero + rounded_now,
+                                     p ).sunlight / default_daylight_level();
     // int64 because we can have years in here
-    int produced = to_turns<std::int64_t>( tick_length ) * sunlight * ticks / 1000;
-    grid.mod_resource( produced );
+    std::int64_t produced = power * static_cast<std::int64_t>( sunlight ) / 1000;
+    grid.mod_resource( static_cast<int>( std::min( static_cast<std::int64_t>( INT_MAX ), produced ) ) );
 }
 
 active_tile_data *solar_tile::clone() const
@@ -121,24 +143,17 @@ int battery_tile::get_resource() const
 
 int battery_tile::mod_resource( int amt )
 {
-    if( amt > 0 ) {
-        if( stored + amt >= max_stored ) {
-            amt = stored + amt - max_stored;
-            stored = max_stored;
-            return amt;
-        } else {
-            stored += max_stored;
-            return 0;
-        }
+    // TODO: Avoid int64 math if possible
+    std::int64_t sum = static_cast<std::int64_t>( stored ) + amt;
+    if( sum >= max_stored ) {
+        stored = max_stored;
+        return sum - max_stored;
+    } else if( sum <= 0 ) {
+        stored = 0;
+        return sum - stored;
     } else {
-        if( stored - amt <= 0 ) {
-            amt += stored;
-            stored = 0;
-            return amt;
-        } else {
-            stored += amt;
-            return 0;
-        }
+        stored = sum;
+        return 0;
     }
 }
 
@@ -150,7 +165,7 @@ void charger_tile::update_internal( time_point to, const tripoint &p, distributi
     if( sm == nullptr ) {
         return;
     }
-    int power = this->power * to_seconds<int>( to - get_last_updated() );
+    std::int64_t power = this->power * to_seconds<std::int64_t>( to - get_last_updated() );
     // TODO: Make not a copy from map.cpp
     for( item &outer : sm->get_items( loc_on_sm.xy() ) ) {
         outer.visit_items( [&power, &grid]( item * it ) {

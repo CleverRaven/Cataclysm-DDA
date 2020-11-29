@@ -32,6 +32,9 @@ class active_tile_data
             return last_updated;
         }
 
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
+
         virtual int get_resource() const {
             return 0;
         }

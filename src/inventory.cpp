@@ -10,6 +10,7 @@
 
 #include "avatar.h"
 #include "debug.h"
+#include "distribution_grid.h"
 #include "game.h"
 #include "iexamine.h"
 #include "map.h"
@@ -446,7 +447,11 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                 const itype *ammo = f.crafting_ammo_item_type();
                 item furn_item( type, calendar::turn, 0 );
                 furn_item.item_tags.insert( "PSEUDO" );
-                furn_item.charges = ammo ? count_charges_in_list( ammo, m.i_at( p ) ) : 0;
+                if( furn_item.has_flag( "USES_GRID_POWER" ) ) {
+                    furn_item.charges = m.distribution_grid_at( p ).get_resource();
+                } else {
+                    furn_item.charges = ammo ? count_charges_in_list( ammo, m.i_at( p ) ) : 0;
+                }
                 add_item( furn_item );
             }
         }

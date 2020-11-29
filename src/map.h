@@ -1928,7 +1928,6 @@ class map
         distribution_grid &distribution_grid_at( const tripoint &p );
         /*@}*/
 
-
         void on_saved();
 };
 

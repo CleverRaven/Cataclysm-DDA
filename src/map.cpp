@@ -103,6 +103,7 @@ static const efftype_id effect_crushed( "crushed" );
 
 static const std::string flag_RECHARGE( "RECHARGE" );
 static const std::string flag_USE_UPS( "USE_UPS" );
+static const std::string flag_USES_GRID_POWER( "USES_GRID_POWER" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1340,9 +1341,11 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
 
     if( old_t.active ) {
         current_submap->active_furniture.erase( l );
+        make_distribution_grid_at( ms_to_omt_copy( getabs( p ) ) );
     }
     if( new_t.active ) {
         current_submap->active_furniture[l].reset( new_t.active->clone() );
+        make_distribution_grid_at( ms_to_omt_copy( getabs( p ) ) );
     }
 }
 
@@ -4784,7 +4787,9 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
             // Setting it separately circumvents that it is synchronized with the code that creates
             // the pseudo item (and fills its charges) in inventory.cpp
             furn_item.charges = iter->charges;
-            if( furn_item.use_charges( type, quantity, ret, p ) ) {
+            if( furn_item.has_flag( flag_USES_GRID_POWER ) ) {
+                iter->charges -= m->distribution_grid_at( p ).mod_resource( iter->charges );
+            } else if( furn_item.use_charges( type, quantity, ret, p ) ) {
                 stack.erase( iter );
             } else {
                 iter->charges = furn_item.charges;
@@ -8530,6 +8535,9 @@ void map::make_distribution_grid_at( const tripoint &grid )
     shared_ptr_fast<distribution_grid> dist_grid = make_shared_fast<distribution_grid>
             ( submap_positions );
     if( dist_grid->empty() ) {
+        for( const tripoint &omp : overmap_positions ) {
+            parent_distribution_grids.erase( omp );
+        }
         return;
     }
     for( const tripoint &omp : overmap_positions ) {
