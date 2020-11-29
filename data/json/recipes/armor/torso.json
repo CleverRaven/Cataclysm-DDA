@@ -248,6 +248,21 @@
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
+    "result": "coat_straw",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "survival", 8 ],
+    "time": "8 d",
+    "book_learn": [ [ "tailor_japanese", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "straw_pile", 40 ] ], [ [ "cordage", 3, "LIST" ] ] ]
+  },
+  {
     "result": "cuirass_lightplate",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -673,6 +688,21 @@
     "using": [ [ "sewing_standard", 120 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "felt_patch", 30 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "shirt_straw",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "12 h",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_weaving" } ],
+    "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "grass_yarn", 5 ] ] ]
   },
   {
     "result": "poncho",
