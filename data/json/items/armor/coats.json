@@ -193,6 +193,28 @@
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
   },
   {
+    "id": "coat_straw",
+    "type": "ARMOR",
+    "name": { "str": "straw cape" },
+    "description": "A bulky traditional Japanese raincoat made from straw, which covers the entire body.  Also known as mino.",
+    "weight": "907 g",
+    "volume": "4 L",
+    "price": 9000,
+    "price_postapoc": 25,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "yellow",
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 12 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 40, "encumbrance": 2 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 50, "encumbrance": 0 }
+    ],
+    "warmth": 15,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "WATERPROOF", "OUTER" ]
+  },
+  {
     "id": "coat_gut",
     "type": "ARMOR",
     "name": { "str": "gutskin parka" },
