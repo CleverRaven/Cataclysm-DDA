@@ -650,7 +650,7 @@
         { "item": "afs_energy_storage_1", "count": [ 2, 4 ] },
         { "item": "afs_energy_transfer_1", "count": [ 5, 18 ] },
         { "item": "afs_energy_transfer_3", "count": [ 5, 12 ] },
-        { "item": "circuit", "count": [ 2, 5 ] },
+        { "item": "circuit", "count": [ 2, 5 ] }
       ]
     },
     "bash": {
@@ -666,5 +666,33 @@
         { "item": "circuit", "count": [ 0, 2 ] },
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_toposcan_terminal",
+    "name": "DIRT terminal interface",
+    "copy-from": "f_mil_comms_terminal",
+    "description": "Main data interface for a rover-mounted Driving Intelligent Realtime Topography system."
+  },
+  {
+    "type": "furniture",
+    "id": "f_toposcan_process",
+    "name": "DIRT computation core",
+    "copy-from": "f_mil_comms_process",
+    "description": "Data analysis and computing core for a Driving Intelligent Realtime Topography system.  Contains valuable electronic components."
+  },
+  {
+    "type": "furniture",
+    "id": "f_toposcan_process_broken",
+    "name": "DIRT computation core",
+    "copy-from": "f_mil_comms_process_broken",
+    "description": "Stripped-down computation core for Driving Intelligent Realtime Topography system.  With anything of value missing, this sabotaged module is nothing more than a metal box."
+  },
+  {
+    "type": "furniture",
+    "id": "f_toposcan_scanner",
+    "name": "DIRT scanner array",
+    "copy-from": "f_mil_comms_sat",
+    "description": "A daunting construct of various sensors and scanners, belonging to a rover-mounted Driving Intelligent Realtime Topography system."
   }
 ]
