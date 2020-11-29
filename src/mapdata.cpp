@@ -1365,7 +1365,6 @@ void furn_t::check() const
                       e.str().c_str() );
         }
     }
-
 }
 
 void check_furniture_and_terrain()
