@@ -3527,8 +3527,6 @@ What the `PLANT` furniture turn into when it grows a stage, or what a `PLANTABLE
 
 (Optional) An array listing the `emit_id` of the fields the terrain/furniture will produce every 10 seconds.
 
-> **NOTE**: Terrains only need the `emissions` array, BUT furnitures also need the `EMITTER` flag.
-
 #### `base`
 
 What the 'base' furniture of the `PLANT` furniture is - what it would be if there was not a plant growing there. Used when monsters 'eat' the plant to preserve what furniture it is.

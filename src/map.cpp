@@ -1389,7 +1389,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
             c->remove_effect( effect_crushed );
         }
     }
-    if( new_t.has_flag( "EMITTER" ) ) {
+    if( !new_t.emissions.empty() ) {
         field_furn_locs.push_back( p );
     }
     if( old_t.transparent != new_t.transparent ) {
@@ -7310,7 +7310,7 @@ void map::actualize( const tripoint &grid )
             const point p( x, y );
             const furn_t &furn = this->furn( pnt ).obj();
             const ter_t &terr = this->ter( pnt ).obj();
-            if( furn.has_flag( "EMITTER" ) ) {
+            if( !furn.emissions.empty() ) {
                 field_furn_locs.push_back( pnt );
             }
             if( !terr.emissions.empty() ) {
