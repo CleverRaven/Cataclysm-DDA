@@ -298,7 +298,7 @@
     "price": "272 cent",
     "price_postapoc": "2 USD",
     "material": [ "wheat" ],
-    "volume": "48 ml",
+    "volume": "480 ml",
     "charges": 10,
     "flags": [ "EATEN_HOT", "EATEN_COLD" ],
     "fun": 3,
