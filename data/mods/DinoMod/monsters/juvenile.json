@@ -190,7 +190,6 @@
     "default_faction": "herbivore_dino",
     "categories": [ "DINOSAUR" ],
     "species": [ "DINOSAUR" ],
-    "diff": 10,
     "volume": "10 L",
     "weight": "10 kg",
     "hp": 10,
