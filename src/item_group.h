@@ -242,7 +242,7 @@ class Item_modifier
         /**
          * Custom flags to be added to the item.
          */
-        std::vector<flag_str_id> custom_flags;
+        std::vector<flag_id> custom_flags;
 
         Item_modifier();
         Item_modifier( Item_modifier && ) = default;

@@ -206,8 +206,6 @@ struct mtype {
 
         ascii_art_id picture_id;
 
-        std::set< const species_type * > species_ptrs;
-
         enum_bitset<m_flag> flags;
 
         enum_bitset<mon_trigger> anger;
@@ -241,7 +239,7 @@ struct mtype {
         std::string sym;
         /** hint for tilesets that don't have a tile for this monster */
         std::string looks_like;
-        mfaction_id default_faction;
+        mfaction_str_id default_faction;
         bodytype_id bodytype;
         nc_color color = c_white;
         creature_size size;
@@ -380,7 +378,6 @@ struct mtype {
         bool has_placate_trigger( mon_trigger trigger ) const;
         bool in_category( const std::string &category ) const;
         bool in_species( const species_id &spec ) const;
-        bool in_species( const species_type &spec ) const;
         std::vector<std::string> species_descriptions() const;
         //Used for corpses.
         field_type_id bloodType() const;

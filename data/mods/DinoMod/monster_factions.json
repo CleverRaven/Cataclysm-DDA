@@ -135,5 +135,35 @@
     "name": "herbivore",
     "base_faction": "animal",
     "neutral": [ "small_animal", "herbivore_dino", "fishing_dino" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "camptosaurus",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ceratosaurus",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gallimimus",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "pachycephalosaurus",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "qianzhousaurus",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "tyrannosaurus",
+    "//": "TODO assign base faction and/or attitude"
   }
 ]

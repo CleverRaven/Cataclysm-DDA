@@ -186,7 +186,7 @@
         { "item": "antenna", "count": [ 0, 1 ] },
         { "item": "exodii_module", "count": [ 0, 1 ] },
         { "item": "exodii_motor", "count": [ 0, 1 ] },
-        { "item": "cable", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 0, 2 ] },
         { "item": "scrap_copper", "count": [ 2, 10 ] }
       ]
     }
@@ -244,7 +244,7 @@
         { "item": "scrap_copper", "count": [ 2, 10 ] },
         { "item": "exodii_computer", "count": [ 0, 1 ] },
         { "item": "exodii_motor", "count": [ 0, 1 ] },
-        { "item": "cable", "count": [ 0, 3 ] },
+        { "item": "cable", "charges": [ 0, 3 ] },
         { "item": "exodii_scanner_dish", "count": [ 0, 1 ] }
       ]
     }
@@ -273,7 +273,7 @@
         { "item": "scrap_copper", "count": [ 2, 10 ] },
         { "item": "amplifier", "count": [ 0, 5 ] },
         { "item": "power_supply", "count": [ 0, 1 ] },
-        { "item": "cable", "count": [ 0, 5 ] }
+        { "item": "cable", "charges": [ 0, 5 ] }
       ]
     }
   },
@@ -517,7 +517,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] },
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "e_scrap", "count": [ 2, 6 ] },
@@ -549,7 +549,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] },
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "e_scrap", "count": [ 2, 6 ] },
@@ -582,7 +582,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 2, 5 ] },
         { "item": "amplifier", "count": [ 2, 5 ] },
@@ -611,7 +611,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 1, 3 ] },
         { "item": "amplifier", "count": [ 1, 3 ] },

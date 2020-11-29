@@ -325,7 +325,7 @@
     "result": "purifier_smart_shot",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "skills_required": [ "firstaid", 6 ],
     "difficulty": 10,
     "time": 120000,

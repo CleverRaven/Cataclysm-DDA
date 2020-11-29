@@ -17,9 +17,9 @@
     "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
     "volume": "100 ml",
     "ammo_type": "crystallized_mana",
+    "material": [ "crystallized_mana" ],
     "count": 100,
-    "looks_like": "battery",
-    "fuel": { "energy": 1 }
+    "looks_like": "battery"
   },
   {
     "id": "small_mana_crystal",

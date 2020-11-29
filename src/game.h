@@ -970,6 +970,13 @@ class game
         achievements_tracker &achievements();
         memorial_logger &memorial();
     public:
+        // setting that specifies which reachability zone cache to display
+        struct debug_reachability_zones_display {
+            public:
+                bool r_cache_vertical;
+                reachability_cache_quadrant quadrant;
+        } debug_rz_display = {};
+        void display_reahability_zones(); // Displays reachability zones
 
         spell_events &spell_events_subscriber();
 

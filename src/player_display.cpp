@@ -342,8 +342,8 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
         if( !cur.known && cur.id->can_learn() ) {
             static_assert( grid_width == 26, "Reminder to update formatting"
                            "for this string when grid width changes" );
-            name = string_format( "%-22s%2.0f%%", trim_by_length( cur.id->name(), width - 4 ),
-                                  cur.practice * 100 );
+            name = string_format( "%-21s %2.0f%%", trim_by_length( cur.id->name(), width - 4 ),
+                                  std::floor( cur.practice * 100 ) );
         } else {
             name = trim_by_length( cur.id->name(), width );
         }

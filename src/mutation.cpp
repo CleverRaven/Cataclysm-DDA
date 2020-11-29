@@ -420,7 +420,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     }
 
     remove_worn_items_with( [&]( item & armor ) {
-        if( armor.has_flag( STATIC( flag_str_id( "OVERSIZE" ) ) ) ) {
+        if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
             return false;
         }
         if( !branch.conflicts_with_item( armor ) ) {
@@ -567,7 +567,7 @@ bool Character::can_use_heal_item( const item &med ) const
         }
     }
     if( !got_restriction ) {
-        can_use = !med.has_flag( STATIC( flag_str_id( "CANT_HEAL_EVERYONE" ) ) );
+        can_use = !med.has_flag( STATIC( flag_id( "CANT_HEAL_EVERYONE" ) ) );
     }
 
     if( !can_use ) {

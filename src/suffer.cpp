@@ -59,7 +59,6 @@
 #include "weather.h"
 #include "weather_type.h"
 
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
 static const bionic_id bio_drain( "bio_drain" );
@@ -69,9 +68,7 @@ static const bionic_id bio_glowy( "bio_glowy" );
 static const bionic_id bio_itchy( "bio_itchy" );
 static const bionic_id bio_leaky( "bio_leaky" );
 static const bionic_id bio_noise( "bio_noise" );
-static const bionic_id bio_plut_filter( "bio_plut_filter" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
-static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
 static const bionic_id bio_spasm( "bio_spasm" );
@@ -869,7 +866,7 @@ void Character::suffer_from_sunburn()
     }
 
     // If all body parts are protected, there is no suffering
-    if( count_affected_bp == 0 || most_exposed_bp == bodypart_str_id( "bp_null" ) ) {
+    if( count_affected_bp == 0 || most_exposed_bp == bodypart_str_id::NULL_ID() ) {
         return;
     }
 
@@ -995,7 +992,7 @@ void Character::suffer_from_other_mutations()
     }
 
     if( has_trait( trait_SORES ) ) {
-        for( const bodypart_id bp : get_all_body_parts() ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             if( bp == bodypart_id( "head" ) ) {
                 continue;
             }
@@ -1163,77 +1160,6 @@ void Character::suffer_from_radiation()
         mod_rad( -5 );
     }
 
-    if( !reactor_plut && !tank_plut && !slow_rad ) {
-        return;
-    }
-    // Microreactor CBM and supporting bionics
-    if( has_bionic( bio_reactor ) || has_bionic( bio_advreactor ) ) {
-        //first do the filtering of plutonium from storage to reactor
-        if( tank_plut > 0 ) {
-            int plut_trans;
-            if( has_active_bionic( bio_plut_filter ) ) {
-                plut_trans = tank_plut * 0.025;
-            } else {
-                plut_trans = tank_plut * 0.005;
-            }
-            if( plut_trans < 1 ) {
-                plut_trans = 1;
-            }
-            tank_plut -= plut_trans;
-            reactor_plut += plut_trans;
-        }
-        //leaking radiation, reactor is unshielded, but still better than a simple tank
-        slow_rad += ( ( tank_plut * 0.1 ) + ( reactor_plut * 0.01 ) );
-        //begin power generation
-        if( reactor_plut > 0 ) {
-            int power_gen = 0;
-            if( has_bionic( bio_advreactor ) ) {
-                if( ( reactor_plut * 0.05 ) > 2000 ) {
-                    power_gen = 2000;
-                } else {
-                    power_gen = reactor_plut * 0.05;
-                    if( power_gen < 1 ) {
-                        power_gen = 1;
-                    }
-                }
-                slow_rad += ( power_gen * 3 );
-                while( slow_rad >= 50 ) {
-                    if( power_gen >= 1 ) {
-                        slow_rad -= 50;
-                        power_gen -= 1;
-                        reactor_plut -= 1;
-                    } else {
-                        break;
-                    }
-                }
-            } else if( has_bionic( bio_reactor ) ) {
-                if( ( reactor_plut * 0.025 ) > 500 ) {
-                    power_gen = 500;
-                } else {
-                    power_gen = reactor_plut * 0.025;
-                    if( power_gen < 1 ) {
-                        power_gen = 1;
-                    }
-                }
-                slow_rad += ( power_gen * 3 );
-            }
-            reactor_plut -= power_gen;
-            while( power_gen >= 250 ) {
-                apply_damage( nullptr, bodypart_id( "torso" ), 1 );
-                mod_pain( 1 );
-                add_msg_if_player( m_bad,
-                                   _( "Your chest burns as your power systems overload!" ) );
-                mod_power_level( 50_kJ );
-                power_gen -= 60; // ten units of power lost due to short-circuiting into you
-            }
-            mod_power_level( units::from_kilojoule( power_gen ) );
-        }
-    } else {
-        slow_rad += ( reactor_plut + tank_plut ) * 40;
-        //plutonium in body without any kind of container.  Not good at all.
-        reactor_plut *= 0.6;
-        tank_plut *= 0.6;
-    }
     while( slow_rad >= 1000 ) {
         mod_rad( 1 );
         slow_rad -= 1000;
@@ -1570,6 +1496,10 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
 
 void Character::suffer_from_tourniquet()
 {
+    // shortcut for the most common scenario.
+    if( !worn_with_flag( flag_TOURNIQUET ) ) {
+        return;
+    }
     for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
         if( worn_with_flag( flag_TOURNIQUET, bp ) && one_turn_in( 30_seconds ) ) {
             mod_pain( 1 );

@@ -61,6 +61,21 @@
   },
   {
     "type": "item_group",
+    "id": "guns_rifle_common",
+    "items": [ { "item": "boreal_mosin", "prob": 3, "charges-min": 0, "charges-max": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display",
+    "items": [ { "item": "boreal_mosin", "prob": 3, "charges-min": 0, "charges-max": 0 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_rifle_rare",
+    "items": [ [ "borealmosin_clip", 5 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "displays",
     "items": [
       [ "mana_potion_lesser", 50 ],

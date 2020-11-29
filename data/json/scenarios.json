@@ -94,7 +94,8 @@
       "sloc_lmoe",
       "sloc_horse_ranch",
       "sloc_lighthouse_ground",
-      "sloc_cabin_lake"
+      "sloc_cabin_lake",
+      "sloc_freshwater_research_station"
     ],
     "start_name": "Safe Building",
     "flags": [ "LONE_START" ]

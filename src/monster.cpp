@@ -1132,17 +1132,18 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         for( const trait_id &mut : u->get_mutations() ) {
-            for( const std::pair<const species_id, int> &elem : mut.obj().anger_relations ) {
-                if( type->in_species( elem.first ) ) {
-                    effective_anger += elem.second;
-                }
+            const mutation_branch &branch = *mut;
+            if( branch.ignored_by.empty() && branch.anger_relations.empty() ) {
+                continue;
             }
-        }
-
-        for( const trait_id &mut : u->get_mutations() ) {
-            for( const species_id &spe : mut.obj().ignored_by ) {
+            for( const species_id &spe : branch.ignored_by ) {
                 if( type->in_species( spe ) ) {
                     return MATT_IGNORE;
+                }
+            }
+            for( const std::pair<const species_id, int> &elem : branch.anger_relations ) {
+                if( type->in_species( elem.first ) ) {
+                    effective_anger += elem.second;
                 }
             }
         }
@@ -2372,7 +2373,7 @@ void monster::drop_items_on_death()
         std::vector<item> remaining;
         for( const item &it : items ) {
             // Mission items are not affected by item spawn rate
-            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( STATIC( flag_str_id( "MISSION_ITEM" ) ) ) ) {
+            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( STATIC( flag_id( "MISSION_ITEM" ) ) ) ) {
                 remaining.push_back( it );
             }
         }
@@ -2389,7 +2390,7 @@ void monster::drop_items_on_death()
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
-                it->set_flag( STATIC( flag_str_id( "FILTHY" ) ) );
+                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
         }
     }

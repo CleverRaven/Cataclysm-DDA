@@ -497,6 +497,10 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
         if( !pocket.can_contain( it ).success() ) {
             continue;
         }
+        if( !pocket.settings.accepts_item( it ) ) {
+            // Item forbidden by whitelist / blacklist
+            continue;
+        }
         if( ret.second == nullptr || ret.second->better_pocket( pocket, it ) ) {
             // this pocket is the new candidate for "best"
             ret.first = parent;
@@ -522,6 +526,37 @@ item_pocket *item_contents::contained_where( const item &contained )
         }
     }
     return nullptr;
+}
+
+units::length item_contents::max_containable_length() const
+{
+    units::length ret = 0_mm;
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        units::length candidate = pocket.max_containable_length();
+        if( candidate > ret ) {
+            ret = candidate;
+        }
+    }
+    return ret;
+}
+
+units::volume item_contents::max_containable_volume() const
+{
+    units::volume ret = 0_ml;
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        units::volume candidate = pocket.remaining_volume();
+        if( candidate > ret ) {
+            ret = candidate;
+        }
+
+    }
+    return ret;
 }
 
 ret_val<bool> item_contents::can_contain_rigid( const item &it ) const
@@ -645,9 +680,9 @@ int item_contents::ammo_consume( int qty, const tripoint &pos )
             item &mag = pocket.front();
             const int res = mag.ammo_consume( qty, pos );
             if( res && mag.ammo_remaining() == 0 ) {
-                if( mag.has_flag( STATIC( flag_str_id( "MAG_DESTROY" ) ) ) ) {
+                if( mag.has_flag( STATIC( flag_id( "MAG_DESTROY" ) ) ) ) {
                     pocket.remove_item( mag );
-                } else if( mag.has_flag( STATIC( flag_str_id( "MAG_EJECT" ) ) ) ) {
+                } else if( mag.has_flag( STATIC( flag_id( "MAG_EJECT" ) ) ) ) {
                     get_map().add_item( pos, mag );
                     pocket.remove_item( mag );
                 }
@@ -726,7 +761,7 @@ const item &item_contents::first_ammo() const
         if( !pocket.is_type( item_pocket::pocket_type::MAGAZINE ) || pocket.empty() ) {
             continue;
         }
-        static const flag_str_id json_flag_CASING( "CASING" );
+        static const flag_id json_flag_CASING( "CASING" );
         if( pocket.front().has_flag( json_flag_CASING ) ) {
             for( const item *i : pocket.all_items_top() ) {
                 if( !i->has_flag( json_flag_CASING ) ) {
