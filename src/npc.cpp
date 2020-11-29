@@ -850,7 +850,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
 {
     using namespace read_criteria;
 
-    const readability_evaluator evaluator( {
+    static const reader_evaluator evaluator( {
         item_is_book,
         has_enough_skill,
         can_learn,
@@ -859,7 +859,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
         not_too_dark
     } );
 
-    const read_eval eval = evaluator.do_eval( *this, book );
+    const reader_eval eval = evaluator.do_eval( *this, book );
     if( !eval.can_read() ) {
         fail_reasons.push_back( eval.get_fail_message() );
         return false;

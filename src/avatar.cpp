@@ -267,9 +267,8 @@ void avatar::on_mission_finished( mission &cur_mission )
 const player *avatar::get_book_reader( const item &book, std::vector<std::string> &reasons ) const
 {
     using namespace read_criteria;
-    using r = read_fail_reason;
 
-    static const readability_evaluator player_evaluator( {
+    static const reader_evaluator player_evaluator( {
         item_is_book,
         not_driving,
         has_enough_morale,
@@ -279,33 +278,27 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
         not_too_dark,
     } );
 
-    const read_eval eval = player_evaluator.do_eval( *this, book );
+    const reader_eval eval = player_evaluator.do_eval( *this, book );
     if( eval.can_read() ) {
         return this;
-    } else {
-        reasons.push_back( eval.get_fail_message() );
-        switch( eval.get_fail_reason() ) {
-            case r::illiterate:
-            case r::needs_reading_glasses:
-                break; // can be assisted, check for NPC readers
-            default:
-                return nullptr;
-        }
     }
 
-    //Check for NPCs to read for you, negates Illiterate and Far Sighted
-    //The fastest-reading NPC is chosen
-    if( is_deaf() ) {
+    reasons.push_back( eval.get_fail_message() );
+    if( !eval.can_read() && !eval.can_be_assisted() ) {
+        return nullptr;
+    }
+    if( eval.can_be_assisted() && is_deaf() ) {
         reasons.emplace_back( _( "Maybe someone could read that to you, but you're deaf!" ) );
         return nullptr;
     }
 
+    //Check for NPCs to read for you, the fastest reader is chosen
     int time_taken = INT_MAX;
     auto candidates = get_crafting_helpers();
     const player *reader = nullptr;
 
     for( const npc *elem : candidates ) {
-        static const readability_evaluator npc_evaluator( {
+        static const reader_evaluator npc_evaluator( {
             not_illiterate,
             has_enough_skill,
             doesnt_need_reading_glasses,
@@ -315,7 +308,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
             not_blind
         } );
 
-        const read_eval eval = npc_evaluator.do_eval( *elem, book, *this );
+        const reader_eval eval = npc_evaluator.do_eval( *elem, book, *this );
         if( !eval.can_read() ) {
             reasons.push_back( eval.get_fail_message() );
         } else {

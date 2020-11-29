@@ -384,39 +384,44 @@ extern const type not_blind;
 extern const type can_see_listener;
 extern const type not_too_dark;
 
+// Can someone else read for a character given they failed due to reason X?
+bool can_be_assisted( read_fail_reason reason );
 std::string get_fail_message( const read_criteria_context &ctx, read_fail_reason fail_reason );
 
 } // end namespace read_criteria
 
-class read_eval
+class reader_eval
 {
     public:
-        static read_eval make_success();
-        static read_eval make_fail( read_fail_reason reason, const std::string &message );
+        static reader_eval make_success();
+        static reader_eval make_fail( read_fail_reason reason, const std::string &message );
 
         bool can_read() const;
+        bool can_be_assisted() const;
         read_fail_reason get_fail_reason() const;
         std::string get_fail_message() const;
 
     private:
-        read_eval() = default;
-        read_eval( read_fail_reason fail_reason, const std::string &fail_message )
+        reader_eval() = default;
+        reader_eval( read_fail_reason fail_reason, const std::string &fail_message )
             : fail_reason( fail_reason ), fail_message( fail_message ) {}
 
         const cata::optional<read_fail_reason> fail_reason;
         const cata::optional<std::string> fail_message;
 };
 
-class readability_evaluator
+// Determine if a reader can read a certain book
+// And if present, if the reader can read to another listener
+class reader_evaluator
 {
     public:
-        readability_evaluator( const std::vector<read_criteria::type> &criterias )
+        reader_evaluator( const std::vector<read_criteria::type> &criterias )
             : criterias( criterias ) {}
 
-        read_eval do_eval( const Character &reader, const item &item, const Character &listener ) const;
+        reader_eval do_eval( const Character &reader, const item &item, const Character &listener ) const;
 
         // reader is also listener
-        read_eval do_eval( const Character &reader, const item &item ) const;
+        reader_eval do_eval( const Character &reader, const item &item ) const;
 
     private:
         const std::vector<read_criteria::type> criterias;

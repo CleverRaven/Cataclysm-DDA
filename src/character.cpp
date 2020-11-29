@@ -12937,7 +12937,7 @@ bool not_too_dark( const read_criteria_context &ctx )
     return vision_mod <= 4;
 }
 
-} // end namespace internal
+} // end namespace criteria
 
 using fail_reason = read_fail_reason;
 const type item_is_book                 { criteria::item_is_book,                   fail_reason::item_not_readable };
@@ -12950,6 +12950,30 @@ const type not_illiterate               { criteria::not_illiterate,             
 const type not_blind                    { criteria::not_blind,                      fail_reason::blind };
 const type can_see_listener             { criteria::can_see_listener,               fail_reason::cant_see_listener };
 const type not_too_dark                 { criteria::not_too_dark,                   fail_reason::too_dark };
+
+bool can_be_assisted( read_fail_reason reason )
+{
+    using r = read_fail_reason;
+    switch( reason ) {
+        case r::illiterate:
+        case r::needs_reading_glasses:
+        case r::blind:
+            return true;
+
+        case r::item_not_readable:
+        case r::driving:
+        case r::not_enough_morale:
+        case r::not_enough_skill:
+        case r::cant_learn:
+        case r::cant_see_listener:
+        case r::too_dark:
+            return false;
+
+        default:
+            debugmsg( "Unhandled read_fail_reason" );
+            return false;
+    }
+}
 
 std::string get_fail_message( const read_criteria_context &ctx, read_fail_reason fail_reason )
 {
@@ -13040,41 +13064,48 @@ std::string get_fail_message( const read_criteria_context &ctx, read_fail_reason
 
 } // end namespace read_criteria
 
-read_eval read_eval::make_success()
+reader_eval reader_eval::make_success()
 {
-    return read_eval();
+    return reader_eval();
 }
-read_eval read_eval::make_fail( read_fail_reason reason, const std::string &message )
+reader_eval reader_eval::make_fail( read_fail_reason reason, const std::string &message )
 {
-    return read_eval( reason, message );
+    return reader_eval( reason, message );
 }
-bool read_eval::can_read() const
+bool reader_eval::can_read() const
 {
     return !fail_reason.has_value();
 }
-read_fail_reason read_eval::get_fail_reason() const
+bool reader_eval::can_be_assisted() const
+{
+    if( can_read() ) {
+        return false;
+    }
+    return read_criteria::can_be_assisted( get_fail_reason() );
+}
+read_fail_reason reader_eval::get_fail_reason() const
 {
     return fail_reason.value();
 }
-std::string read_eval::get_fail_message() const
+std::string reader_eval::get_fail_message() const
 {
     return fail_message.value();
 }
 
-read_eval readability_evaluator::do_eval( const Character &reader, const item &item,
-        const Character &listener ) const
+reader_eval reader_evaluator::do_eval( const Character &reader, const item &item,
+                                       const Character &listener ) const
 {
     const read_criteria_context ctx( reader, item, listener );
     for( const read_criteria::type &criteria : criterias ) {
         if( !criteria.check( ctx ) ) {
             const std::string fail_message = read_criteria::get_fail_message( ctx, criteria.fail_reason );
-            return read_eval::make_fail( criteria.fail_reason, fail_message );
+            return reader_eval::make_fail( criteria.fail_reason, fail_message );
         }
     }
-    return read_eval::make_success();
+    return reader_eval::make_success();
 }
 
-read_eval readability_evaluator::do_eval( const Character &reader, const item &item ) const
+reader_eval reader_evaluator::do_eval( const Character &reader, const item &item ) const
 {
     return do_eval( reader, item, reader );
 }
