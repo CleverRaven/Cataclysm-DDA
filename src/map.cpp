@@ -4771,7 +4771,9 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     }
 
     const itype *itt = f.crafting_pseudo_item_type();
-    if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
+    if( itt != nullptr && itt->item_tags.count( flag_USES_GRID_POWER ) > 0 ) {
+        quantity = m->distribution_grid_at( p ).mod_resource( -quantity );
+    } else if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
         const itype_id ammo = ammotype( *itt->tool->ammo_id.begin() )->default_ammotype();
         auto stack = m->i_at( p );
         auto iter = std::find_if( stack.begin(), stack.end(),
@@ -4783,13 +4785,11 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
             if( !filter( furn_item ) ) {
                 return;
             }
-            // The const itemructor limits the charges to the (type specific) maximum.
+            // The item constructor limits the charges to the (type specific) maximum.
             // Setting it separately circumvents that it is synchronized with the code that creates
             // the pseudo item (and fills its charges) in inventory.cpp
             furn_item.charges = iter->charges;
-            if( furn_item.has_flag( flag_USES_GRID_POWER ) ) {
-                iter->charges -= m->distribution_grid_at( p ).mod_resource( iter->charges );
-            } else if( furn_item.use_charges( type, quantity, ret, p ) ) {
+            if( furn_item.use_charges( type, quantity, ret, p ) ) {
                 stack.erase( iter );
             } else {
                 iter->charges = furn_item.charges;
