@@ -236,9 +236,6 @@ void Character::suffer_mutation_power( const trait_id &mut_id )
                 mod_fatigue( mut_id->cost );
             }
         }
-        if( !has_active_mutation( mut_id ) ) {
-            apply_mods( mut_id, false );
-        }
     }
 }
 
