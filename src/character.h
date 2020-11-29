@@ -1151,6 +1151,11 @@ class Character : public Creature, public visitable<Character>
         void mutation_loss_effect( const trait_id &mut );
 
         bool has_active_mutation( const trait_id &b ) const;
+
+        int get_cost_timer( const trait_id &mut_id ) const;
+        void set_cost_timer( const trait_id &mut, int set );
+        void mod_cost_timer( const trait_id &mut, int mod );
+
         /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
         void mutate();
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
@@ -2753,8 +2758,8 @@ class Character : public Creature, public visitable<Character>
         std::map<bodypart_id, float> bodypart_exposure();
     private:
         /** suffer() subcalls */
-        void suffer_water_damage( const mutation_branch &mdata );
-        void suffer_mutation_power( const mutation_branch &mdata, Character::trait_data &tdata );
+        void suffer_water_damage( const trait_id &mut_id );
+        void suffer_mutation_power( const trait_id &mut_id );
         void suffer_while_underwater();
         void suffer_from_addictions();
         void suffer_while_awake( int current_stim );
