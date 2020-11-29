@@ -3299,7 +3299,7 @@
     "name": { "str": "Hyper-Metabolism: burning" },
     "description": "You're burning calories like crazy to heal your wounds.",
     "copy-from": "EATHEALTH",
-    "cost": 3,
+    "cost": 1,
     "time": 1,
     "hunger": true,
     "healing_awake": 300.0,
