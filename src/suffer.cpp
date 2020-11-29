@@ -204,33 +204,36 @@ void Character::suffer_mutation_power( const trait_id &mut_id )
             set_cost_timer( mut_id, mut_id->cooldown - 1 );
         }
         if( mut_id->hunger ) {
-            // does not directly modify hunger, but burns kcal
-            mod_stored_nutr( mut_id->cost );
             if( get_bmi() < character_weight_category::underweight ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too malnourished to keep your %s going." ),
                                    mut_id->name() );
                 deactivate_mutation( mut_id );
+            } else {
+                // does not directly modify hunger, but burns kcal
+                mod_stored_nutr( mut_id->cost );
             }
         }
         if( mut_id->thirst ) {
-            mod_thirst( mut_id->cost );
             // Well into Dehydrated
             if( get_thirst() >= 260 ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too dehydrated to keep your %s going." ),
                                    mut_id->name() );
                 deactivate_mutation( mut_id );
+            } else {
+                mod_thirst( mut_id->cost );
             }
         }
         if( mut_id->fatigue ) {
-            mod_fatigue( mut_id->cost );
             // Exhausted
             if( get_fatigue() >= fatigue_levels::EXHAUSTED ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too exhausted to keep your %s going." ),
                                    mut_id->name() );
                 deactivate_mutation( mut_id );
+            } else {
+                mod_fatigue( mut_id->cost );
             }
         }
         if( !has_active_mutation( mut_id ) ) {
