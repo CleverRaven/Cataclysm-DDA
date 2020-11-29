@@ -315,6 +315,7 @@ std::string enum_to_string<computer_action>( const computer_action act )
         case COMPACT_PORTAL: return "portal";
         case COMPACT_RADIO_ARCHIVE: return "radio_archive";
         case COMPACT_RELEASE: return "release";
+        case COMPACT_RELEASE_CRYO: return "release_cryo";
         case COMPACT_RELEASE_BIONICS: return "release_bionics";
         case COMPACT_RELEASE_DISARM: return "release_disarm";
         case COMPACT_REPEATER_MOD: return "repeater_mod";
