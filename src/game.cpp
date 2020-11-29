@@ -1587,13 +1587,13 @@ bool game::do_turn()
     }
     if( calendar::once_every( 10_seconds ) ) {
         for( const tripoint &elem : m.get_furn_field_locations() ) {
-            const furn_t &furn = m.furn( elem ).obj();
+            const furn_t &furn = *m.furn( elem );
             for( const emit_id &e : furn.emissions ) {
                 m.emit_field( elem, e );
             }
         }
         for( const tripoint &elem : m.get_ter_field_locations() ) {
-            const ter_t &ter = m.ter( elem ).obj();
+            const ter_t &ter = *m.ter( elem );
             for( const emit_id &e : ter.emissions ) {
                 m.emit_field( elem, e );
             }

@@ -7308,8 +7308,8 @@ void map::actualize( const tripoint &grid )
         for( int y = 0; y < SEEY; y++ ) {
             const tripoint pnt = sm_to_ms_copy( grid ) + point( x, y );
             const point p( x, y );
-            const furn_t &furn = this->furn( pnt ).obj();
-            const ter_t &terr = this->ter( pnt ).obj();
+            const furn_t &furn = *this->furn( pnt );
+            const ter_t &terr = *this->ter( pnt );
             if( !furn.emissions.empty() ) {
                 field_furn_locs.push_back( pnt );
             }
