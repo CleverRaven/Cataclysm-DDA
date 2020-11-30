@@ -633,6 +633,8 @@ For information about tools with option to export ASCII art in format ready to b
 | included_bionics            | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | included                    | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | env_protec                  | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
+| fire_protec                 | (_optional_) How much fire protection does this bionic provide on the specified body parts.
+| acid_protec                 | (_optional_) How much acid protection does this bionic provide on the specified body parts.
 | bash_protec                 | (_optional_) How much bash protection does this bionic provide on the specified body parts.
 | cut_protec                  | (_optional_) How much cut protection does this bionic provide on the specified body parts.
 | bullet_protect              | (_optional_) How much bullet protect does this bionic provide on the specified body parts.

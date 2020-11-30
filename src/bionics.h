@@ -78,6 +78,10 @@ struct bionic_data {
     emit_id power_gen_emission = emit_id::NULL_ID();
     /**Amount of environmental protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> env_protec;
+    /**Amount of fire protection offered by this bionic*/
+    std::map<bodypart_str_id, size_t> fire_protec;
+    /**Amount of acid protection offered by this bionic*/
+    std::map<bodypart_str_id, size_t> acid_protec;
 
     /**Amount of bash protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> bash_protec;

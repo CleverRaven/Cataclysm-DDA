@@ -651,15 +651,26 @@ void player::pause()
                                    _( "<npcname> attempts to put out the fire on them!" ) );
         }
     }
-    // put pressure on bleeding wound, prioritizing most severe bleeding
+    // put pressure on bleeding wound, prioritizing most severe uncovered bleeding
     if( !is_armed() && has_effect( effect_bleed ) ) {
         int most = 0;
         bodypart_id bp_id;
+        int most_covered = 0;
+        bool is_wound_covered = false;
+        bodypart_id bp_id_covered;
         for( const bodypart_id &bp : get_all_body_parts() ) {
-            if( most <= get_effect_int( effect_bleed, bp ) ) {
+            if( !is_bp_armored( bp ) && most <= get_effect_int( effect_bleed, bp ) ) {
                 most = get_effect_int( effect_bleed, bp );
-                bp_id =  bp ;
+                bp_id = bp;
             }
+            if( is_bp_armored( bp ) && most_covered <= get_effect_int( effect_bleed, bp ) ) {
+                most_covered = get_effect_int( effect_bleed, bp );
+                bp_id_covered = bp;
+            } 
+        }
+        if( most == 0 ) {
+            bp_id = bp_id_covered;
+            is_wound_covered = true;
         }
         effect &e = get_effect( effect_bleed, bp_id );
         time_duration penalty = 1_turns * ( encumb( bodypart_id( "hand_r" ) ) + encumb(
@@ -675,6 +686,11 @@ void player::pause()
             add_msg_player_or_npc( m_warning,
                                    _( "Your hands are too encumbered to effectively put pressure on the bleeding wound!" ),
                                    _( "<npcname>'s hands are too encumbered to effectively put pressure on the bleeding wound!" ) );
+            e.mod_duration( -1_turns );
+        } else if( is_wound_covered ) {
+            add_msg_player_or_npc( m_warning,
+                                   _( "Your bleeding wound is covered with solid alloy armor plates, which makes it useless to put pressure on it!" ),
+                                   _( "<npcname>'s bleeding wound is covered with solid alloy armor plates, which makes it useless to put pressure on it!" ) );
             e.mod_duration( -1_turns );
         } else {
             e.mod_duration( - ( benefit - penalty ) );

@@ -4126,7 +4126,7 @@ bool mattack::stretch_bite( monster *z )
                                        z->name(),
                                        body_part_name_accusative( hit ) );
 
-        if( one_in( 16 - dam ) ) {
+        if( one_in( 16 - dam ) && ( ( target->is_avatar() || target->is_npc() ) && target->as_character()->is_bp_armored( hit ) ? !one_in( 4 ) : true ) ) {
             if( target->has_effect( effect_bite, hit.id() ) ) {
                 target->add_effect( effect_bite, 40_minutes, hit, true );
             } else if( target->has_effect( effect_infected, hit.id() ) ) {

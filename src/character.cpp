@@ -121,6 +121,11 @@ static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_watch( "bio_watch" );
+static const bionic_id bio_armor_arms( "bio_armor_arms" );
+static const bionic_id bio_armor_legs( "bio_armor_legs" );
+static const bionic_id bio_armor_head( "bio_armor_head" );
+static const bionic_id bio_armor_torso( "bio_armor_torso" );
+
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -301,6 +306,7 @@ static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
+
 // Aftershock stuff!
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 
@@ -1489,6 +1495,14 @@ bool Character::is_limb_broken( const bodypart_id &limb ) const
 bool Character::can_run() const
 {
     return get_stamina() > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
+}
+
+bool Character::is_bp_armored( const bodypart_id &bp ) const
+{
+    return ( bp->token == bp_torso && has_bionic( bio_armor_torso ) ) || \
+           ( bp->token == bp_head && has_bionic( bio_armor_head ) ) || \
+           ( ( bp->token == bp_arm_l || bp->token == bp_arm_r ) && has_bionic( bio_armor_arms ) ) || \
+           ( ( bp->token == bp_leg_l || bp->token == bp_leg_r ) && has_bionic( bio_armor_legs ) );
 }
 
 void Character::try_remove_downed()
@@ -8331,7 +8345,9 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
         case damage_type::BULLET:
             return get_armor_bullet( bp );
         case damage_type::ACID:
+            return get_armor_acid_base( bp );
         case damage_type::HEAT:
+            return get_armor_fire_base( bp );
         case damage_type::COLD:
         case damage_type::ELECTRIC: {
             int ret = 0;
@@ -8432,6 +8448,46 @@ int Character::get_env_resist( bodypart_id bp ) const
     if( bp == body_part_eyes && has_trait( trait_SEESLEEP ) ) {
         ret += 8;
     }
+    return ret;
+}
+
+int Character::get_armor_fire_base( bodypart_id bp ) const
+{
+    int ret = 0;
+    for( const item &i : worn ) {
+        if( i.covers( bp ) ) {
+            ret += i.fire_resist();
+        }
+    }
+
+    for( const bionic_id &bid : get_bionics() ) {
+        const auto fire_prot = bid->fire_protec.find( bp.id() );
+        if( fire_prot != bid->fire_protec.end() ) {
+            ret += fire_prot->second;
+        }
+    }
+
+    ret += mutation_armor( bp, damage_type::HEAT );
+    return ret;
+}
+
+int Character::get_armor_acid_base( bodypart_id bp ) const
+{
+    int ret = 0;
+    for( const item &i : worn ) {
+        if( i.covers( bp ) ) {
+            ret += i.acid_resist();
+        }
+    }
+
+    for( const bionic_id &bid : get_bionics() ) {
+        const auto acid_prot = bid->acid_protec.find( bp.id() );
+        if( acid_prot != bid->acid_protec.end() ) {
+            ret += acid_prot->second;
+        }
+    }
+
+    ret += mutation_armor( bp, damage_type::ACID );
     return ret;
 }
 
@@ -9620,6 +9676,20 @@ float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) con
             const auto bullet_prot = bid->bullet_protec.find( bp.id() );
             if( bullet_prot != bid->bullet_protec.end() ) {
                 result += bullet_prot->second;
+            }
+        }
+    } else if( dt == damage_type::ACID ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto acid_prot = bid->acid_protec.find( bp.id() );
+            if( acid_prot != bid->acid_protec.end() ) {
+                result += acid_prot->second;
+            }
+        }
+    } else if( dt == damage_type::HEAT ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto fire_prot = bid->fire_protec.find( bp.id() );
+            if( fire_prot != bid->fire_protec.end() ) {
+                result += fire_prot->second;
             }
         }
     }

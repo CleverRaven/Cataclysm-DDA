@@ -180,6 +180,11 @@ static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 static const bionic_id bio_water_extractor( "bio_water_extractor" );
 static const bionic_id bio_tools_extend( "bio_tools_extend" );
+static const bionic_id bio_armor_head( "bio_armor_head" );
+static const bionic_id bio_armor_torso( "bio_armor_torso" );
+static const bionic_id bio_armor_arms( "bio_armor_arms" );
+static const bionic_id bio_armor_legs( "bio_armor_legs" );
+
 // Aftershock stuff!
 static const bionic_id afs_bio_dopamine_stimulators( "afs_bio_dopamine_stimulators" );
 
@@ -337,6 +342,20 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
         env_protec.clear();
         for( JsonArray ja : jsobj.get_array( "env_protec" ) ) {
             env_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
+        }
+    }
+    if( jsobj.has_array( "fire_protec" ) ) {
+        // clear data first so that copy-from can override it
+        fire_protec.clear();
+        for( JsonArray ja : jsobj.get_array( "fire_protec" ) ) {
+            fire_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
+        }
+    }
+    if( jsobj.has_array( "acid_protec" ) ) {
+        // clear data first so that copy-from can override it
+        acid_protec.clear();
+        for( JsonArray ja : jsobj.get_array( "acid_protec" ) ) {
+            acid_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
         }
     }
     if( jsobj.has_array( "bash_protec" ) ) {
@@ -2104,6 +2123,12 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
 
     if( b_id == bio_eye_optic ) {
         popup( _( "The Telescopic Lenses are part of %s eyes now.  Removing them would leave %s blind." ),
+               disp_name( true ), disp_name() );
+        return false;
+    }
+    
+    if( b_id == bio_armor_arms || b_id == bio_armor_legs || b_id == bio_armor_head || b_id == bio_armor_torso ) {
+        popup( _( "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled." ),
                disp_name( true ), disp_name() );
         return false;
     }

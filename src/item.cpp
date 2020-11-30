@@ -3499,6 +3499,26 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
     }
 
+    if( !bid->fire_protec.empty() ) {
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  _( "<bold>Fire Protection</bold>:" ),
+                                  iteminfo::no_newline ) );
+        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->fire_protec ) ) {
+            info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
+                                      " <num>", iteminfo::no_newline, element.second ) );
+        }
+    }
+
+    if( !bid->acid_protec.empty() ) {
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  _( "<bold>Acid Protection</bold>:" ),
+                                  iteminfo::no_newline ) );
+        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->acid_protec ) ) {
+            info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
+                                      " <num>", iteminfo::no_newline, element.second ) );
+        }
+    }
+
     if( !bid->bash_protec.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Bash Protection</bold>:" ),
