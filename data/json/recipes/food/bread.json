@@ -40,9 +40,9 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "bread_flour", 1 ] ],
-      [ [ "flour", 1 ] ],
-      [ [ "cornmeal", 1 ] ],
-      [ [ "molasses", 1 ] ],
+      [ [ "flour", 6 ] ],
+      [ [ "cornmeal", 6 ] ],
+      [ [ "molasses", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "salt", 1 ] ]
     ],
