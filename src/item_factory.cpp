@@ -1384,7 +1384,7 @@ void Item_factory::check_definitions() const
             const itype_id &default_ammo = type->magazine->default_ammo;
             const itype *da = find_template( default_ammo );
             if( da->ammo && type->magazine->type.count( da->ammo->type ) ) {
-                if( !migrations.count( type->id ) ) {
+                if( !migrations.count( type->id ) && !item_is_blacklisted( type->id ) ) {
                     // Verify that the default amnmo can actually be put in this
                     // item
                     item( type ).ammo_set( default_ammo, 1 );
@@ -1461,7 +1461,7 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( !migrations.count( type->id ) ) {
+        if( !migrations.count( type->id ) && !item_is_blacklisted( type->id ) ) {
             // If type has a default ammo then check it can fit within
             item tmp_item( type );
             if( tmp_item.is_gun() || tmp_item.is_magazine() ) {
