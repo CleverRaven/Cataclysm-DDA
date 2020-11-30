@@ -290,6 +290,15 @@ void conditional_t<T>::set_is_pressure( const JsonObject &jo, const std::string 
 }
 
 template<class T>
+void conditional_t<T>::set_is_distance_apart( const JsonObject &jo, const std::string &member )
+{
+    const int distance_min = jo.get_int( member );
+    condition = [distance_min]( const T & d ) {
+        return rl_dist( d.alpha->pos(), d.beta->pos() ) >= distance_min;
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_has_worn_with_flag( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
@@ -865,7 +874,7 @@ template<class T>
 void conditional_t<T>::set_is_outside( bool is_npc )
 {
     condition = [is_npc]( const T & d ) {
-        return is_creature_outside( *d.actor( is_npc )->get_character() );
+        return is_creature_outside( *d.actor( is_npc )->get_creature() );
     };
 }
 
@@ -1106,6 +1115,8 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_is_humidity( jo, "is_humidity" );
     } else if( jo.has_member( "is_pressure" ) ) {
         set_is_pressure( jo, "is_pressure" );
+    } else if( jo.has_member( "is_distance_apart" ) ) {
+        set_is_distance_apart( jo, "is_distance_apart" );
     } else if( jo.has_int( "u_is_height" ) ) {
         set_is_height( jo, "u_is_height" );
     } else if( jo.has_int( "npc_is_height" ) ) {

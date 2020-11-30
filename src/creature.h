@@ -20,6 +20,7 @@
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -269,6 +270,7 @@ class Creature : public location, public viewer
         virtual const monster *as_monster() const {
             return nullptr;
         }
+
         /** return the direction the creature is facing, for sdl horizontal flip **/
         FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
@@ -1101,6 +1103,20 @@ class Creature : public location, public viewer
          *
          */
         std::string replace_with_npc_name( std::string input ) const;
+
+        /**
+         * Global position, expressed in map square coordinate system
+         * (the most detailed coordinate system), used by the @ref map.
+         */
+        virtual tripoint global_square_location() const;
+        /**
+        * Returns the location of the player in global submap coordinates.
+        */
+        tripoint global_sm_location() const;
+        /**
+        * Returns the location of the player in global overmap terrain coordinates.
+        */
+        tripoint_abs_omt global_omt_location() const;
     protected:
         /**
          * These two functions are responsible for storing and loading the members
@@ -1136,4 +1152,6 @@ class Creature : public location, public viewer
         int pain;
 };
 
+std::unique_ptr<talker> get_talker_for( Creature &me );
+std::unique_ptr<talker> get_talker_for( Creature *me );
 #endif // CATA_SRC_CREATURE_H

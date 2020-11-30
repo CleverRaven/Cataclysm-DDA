@@ -581,4 +581,6 @@ class monster : public Creature
         void process_one_effect( effect &it, bool is_new ) override;
 };
 
+std::unique_ptr<talker> get_talker_for( monster &me );
+std::unique_ptr<talker> get_talker_for( monster *me );
 #endif // CATA_SRC_MONSTER_H

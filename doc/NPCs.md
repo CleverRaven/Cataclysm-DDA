@@ -570,7 +570,7 @@ Effect | Description
 #### General
 Effect | Description
 ---|---
-`message: message_string`, (*optional* `sound: sound_bool`),(*optional* `outdoor_only: outdoor_only_bool`),(*optional* `snippet: snippet_bool`) | Displays a message to the player of `message_string`. If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category.  If `sound` is true(defaults to false) it will only display the message if the player is not deaf.  `outdoor_only`(defaults to false) only matters when `sound` is true and will make the message less likely to be heard if the player is underground.
+`message: message_string`, (*optional* `sound: sound_bool`),(*optional* `outdoor_only: outdoor_only_bool`),(*optional* `snippet: snippet_bool`),(*optional* `type: type_string`),(*optional* `popup: popup_bool`) | Displays a message to the player of `message_string`. If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category.  If `sound` is true(defaults to false) it will only display the message if the player is not deaf.  `outdoor_only`(defaults to false) only matters when `sound` is true and will make the message less likely to be heard if the player is underground. Message will display as type of `type_string`. Type affects the color of message and can be any of the following values: good, neutral, bad, mixed, warning, info, debug, headshot, critical, grazing.  enums.h has more info on each types use. If `popup_bool` is true the message will be in a modal popup the user has to dismiss to continue.
 `set_queue_effect_on_condition: effect_on_condition_id_string`, `time_in_future: time_in_future_int` | Will queue up `effect_on_condition_id_string` effect_on_condition to be run in `time_in_future_int` seconds in the future.
 `sound_effect: sound_effect_id_string`, *optional* `outdoor_event: outdoor_event` | Will play a sound effect of type `sound_effect_id_string`. If `outdoor_event`(defaults to false) is true this will be less likely to play if the player is underground.
 
@@ -681,6 +681,7 @@ Condition | Type | Description
 `"npc_allies"` | int | `true` if the player character has at least `npc_allies` number of NPC allies.
 `"npc_following"` | simple string | `true` if the NPC is following the player character.
 `"is_by_radio"` | simple string | `true` if the player is talking to the NPC over a radio.
+`"is_distance_apart"` | int | `true` if player character and npc are at least `is_distance_apart` spaces apart.
 
 #### NPC only conditions
 

@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_TALKER_H
 #define CATA_SRC_TALKER_H
 
+#include "coordinates.h"
+
 class faction;
 class item;
 class mission;
@@ -10,6 +12,7 @@ class player;
 class recipe;
 struct tripoint;
 class vehicle;
+class monster;
 
 /*
  * Talker is an entity independent way of providing a participant in a dialogue.
@@ -31,6 +34,18 @@ class talker
             return nullptr;
         }
         virtual npc *get_npc() const {
+            return nullptr;
+        }
+        virtual monster *get_monster() {
+            return nullptr;
+        }
+        virtual monster *get_monster() const {
+            return nullptr;
+        }
+        virtual Creature *get_creature() {
+            return nullptr;
+        }
+        virtual Creature *get_creature() const {
             return nullptr;
         }
 

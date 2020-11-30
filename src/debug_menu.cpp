@@ -2023,7 +2023,7 @@ void debug()
         break;
 
         case debug_menu_index::WRITE_EOCS: {
-            effect_on_conditions::write_eocs();
+            effect_on_conditions::write_eocs_to_file();
         }
         break;
         case debug_menu_index::SAVE_SCREENSHOT: {

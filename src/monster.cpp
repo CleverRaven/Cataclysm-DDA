@@ -54,6 +54,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "talker_monster.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -2326,10 +2327,17 @@ void monster::die( Creature *nkiller )
     for( const auto &deathfunction : type->dies ) {
         deathfunction( *this );
     }
-
+    dialogue d;
+    standard_npc default_npc( "Default" );
+    d.alpha = get_talker_for( this );
+    if( nkiller ) {
+        d.beta = get_talker_for( *nkiller );
+    } else {
+        d.beta = get_talker_for( default_npc );
+    }
     //Not a hallucination, go process the death effect on conditions.
     for( const effect_on_condition_id &eoc : type->death_eocs ) {
-        eoc->activate();
+        eoc->activate( d );
     }
     // If our species fears seeing one of our own die, process that
     int anger_adjust = 0;
@@ -3024,4 +3032,13 @@ const pathfinding_settings &monster::get_pathfinding_settings() const
 std::set<tripoint> monster::get_path_avoid() const
 {
     return std::set<tripoint>();
+}
+
+std::unique_ptr<talker> get_talker_for( monster &me )
+{
+    return std::make_unique<talker_monster>( &me );
+}
+std::unique_ptr<talker> get_talker_for( monster *me )
+{
+    return std::make_unique<talker_monster>( me );
 }

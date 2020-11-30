@@ -35,7 +35,12 @@ class talker_npc : public talker_character
         npc *get_npc() const override {
             return me_npc;
         }
-
+        Creature *get_creature() override {
+            return me_npc;
+        }
+        Creature *get_creature() const override {
+            return me_npc;
+        }
         // identity and location
         std::string distance_to_goal() const override;
 

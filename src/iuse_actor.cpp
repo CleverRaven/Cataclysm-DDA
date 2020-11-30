@@ -73,6 +73,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "talker.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -4519,8 +4520,14 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
 
 int effect_on_conditons_actor::use( player &, item &it, bool, const tripoint & ) const
 {
+    dialogue d;
+    standard_npc default_npc( "Default" );
+    d.alpha = get_talker_for( get_avatar() );
+    ///TODO make this talker item
+    d.beta = get_talker_for( default_npc );
+
     for( const effect_on_condition_id &eoc : eocs ) {
-        eoc->activate();
+        eoc->activate( d );
     }
     return it.type->charges_to_use();
 }

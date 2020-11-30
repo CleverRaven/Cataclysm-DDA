@@ -1,8 +1,9 @@
 [
   {
-    "id": "thunder",
     "type": "effect_on_condition",
-    "once_every": 1,
+    "id": "thunder",
+    "recurrence_min": 1,
+    "recurrence_max": 1,
     "condition": {
       "and": [
         { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] },
@@ -10,16 +11,19 @@
         { "u_is_height": 0 }
       ]
     },
+    "deactivate_condition": { "not": { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] } },
     "effect": [
       { "message": "You hear a distant rumble of thunder.", "sound": true },
       { "sound_effect": "thunder_far", "outdoor_event": true }
     ]
   },
   {
-    "id": "lightning",
     "type": "effect_on_condition",
-    "once_every": 1,
+    "id": "lightning",
+    "recurrence_min": 1,
+    "recurrence_max": 1,
     "condition": { "and": [ { "is_weather": "lightning" }, { "one_in_chance": 600 }, { "u_is_height": 0 } ] },
+    "deactivate_condition": { "not": { "is_weather": "lightning" } },
     "effect": [
       { "message": "A flash of lightning illuminates your surroundings!" },
       { "sound_effect": "thunder_near" },
@@ -27,16 +31,19 @@
     ]
   },
   {
-    "id": "acid_drizzle",
     "type": "effect_on_condition",
-    "once_every": 1,
+    "id": "acid_drizzle",
+    "recurrence_min": 1,
+    "recurrence_max": 1,
     "condition": { "and": [ { "is_weather": "acid_drizzle" }, "u_is_outside", { "not": { "u_has_pain": 30 } } ] },
+    "deactivate_condition": { "not": { "is_weather": "acid_drizzle" } },
     "effect": [ { "message": "The acid rain stings, but is mostly harmless for now…" }, { "u_mod_pain": 1 } ]
   },
   {
-    "id": "acid_rain",
     "type": "effect_on_condition",
-    "once_every": 1,
+    "id": "acid_rain",
+    "recurrence_min": 1,
+    "recurrence_max": 1,
     "condition": {
       "and": [
         { "is_weather": "acid_rain" },
@@ -47,20 +54,25 @@
         }
       ]
     },
+    "deactivate_condition": { "not": { "is_weather": "acid_rain" } },
     "effect": [ { "message": "The acid rain burns!" }, { "u_mod_pain": 3 } ]
   },
   {
-    "id": "snow",
     "type": "effect_on_condition",
-    "once_every": 6,
+    "id": "snow",
+    "recurrence_min": 6,
+    "recurrence_max": 6,
     "condition": { "and": [ { "is_weather": "snow" }, "u_is_outside" ] },
+    "deactivate_condition": { "not": { "is_weather": "snow" } },
     "effect": [ { "u_add_wet": 10 } ]
   },
   {
-    "id": "snowstorm",
     "type": "effect_on_condition",
-    "once_every": 6,
+    "id": "snowstorm",
+    "recurrence_min": 6,
+    "recurrence_max": 6,
     "condition": { "and": [ { "is_weather": "snowstorm" }, "u_is_outside" ] },
+    "deactivate_condition": { "not": { "is_weather": "snowstorm" } },
     "effect": [ { "u_add_wet": 40 } ]
   }
 ]

@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "ballistics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -5810,8 +5811,17 @@ bool mattack::effect_on_conditions( monster *z )
     if( distance > z->type->special_attack_eoc_range || !z->sees( *target ) ) {
         return false;
     }
+    dialogue d;
+    d.beta = get_talker_for( z );
+    if( target->is_monster() ) {
+        d.alpha = get_talker_for( ( monster * )target );
+    } else if( target->is_avatar() ) {
+        d.alpha = get_talker_for( ( avatar * )target );
+    } else {
+        d.alpha = get_talker_for( ( npc * )target );
+    }
     for( const effect_on_condition_id &eoc : z->type->special_attack_eocs ) {
-        if( eoc->activate() ) {
+        if( eoc->activate( d ) ) {
             retval = true;
         }
     }

@@ -48,7 +48,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "one_in_chance",
         "is_temperature", "is_windpower", "is_humidity", "is_pressure", "u_is_height", "npc_is_height",
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
-        "u_has_pain", "npc_has_pain", "u_has_focus", "npc_has_focus", "u_has_morale", "npc_has_morale"
+        "u_has_pain", "npc_has_pain", "u_has_focus", "npc_has_focus", "u_has_morale", "npc_has_morale", "is_distance_apart"
     }
 };
 } // namespace dialogue_data
@@ -103,6 +103,7 @@ struct conditional_t {
         void set_has_worn_with_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_humidity( const JsonObject &jo, const std::string &member );
         void set_is_pressure( const JsonObject &jo, const std::string &member );
+        void set_is_distance_apart( const JsonObject &jo, const std::string &member );
         void set_has_wielded_with_flag( const JsonObject &jo, const std::string &member,
                                         bool is_npc = false );
         void set_is_wearing( const JsonObject &jo, const std::string &member, bool is_npc = false );
