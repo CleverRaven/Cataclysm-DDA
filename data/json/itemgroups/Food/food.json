@@ -161,7 +161,7 @@
       { "item": "can_corn", "prob": 1 },
       { "item": "cooked_pumpkin", "prob": 1 },
       { "item": "veggy_canned", "prob": 1 }
-   ]
+    ]
   },
   {
     "type": "item_group",
