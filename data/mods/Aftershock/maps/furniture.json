@@ -955,10 +955,6 @@
       ]
     },
     "bash": {
-      "str_min": 3,
-      "str_max": 45,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
       "items": [
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 1, 6 ], "prob": 50 },
