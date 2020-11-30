@@ -250,7 +250,7 @@
 	"hit_self": true, 
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_centipede_small"
+    "effect_str": "mon_centipede_small_pissed"
   },
   {
     "type": "SPELL",

@@ -410,7 +410,7 @@
     "weight": "20 kg",
     "hp": 30,
     "speed": 100,
-    "aggression": -99,
+    "aggression": 0,
 	"morale": 0,
     "melee_dice": 1,
     "melee_dice_sides": 3,
@@ -432,11 +432,15 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "vision_day": 5,
-    "vision_night": 5,
 	"anger_triggers": [ "PLAYER_CLOSE" ],
-	"death_function": [ "NORMAL" ],
-	"flags": [ "SEES", "HEARS" ],
 	"upgrades": { "age_grow": 30, "into_group": "GROUP_CENTIPEDE_ADULT" }
+  },
+  {
+	"id": "mon_centipede_small_pissed",
+	"type": "MONSTER",
+	"copy-from": "mon_centipede_small",
+	"description": "A brightly colored mutant centipede the size of a small dog, shaken free of the tangle of eggs,legs, and rotting prey it called home until now.  It looks displeased with this development",
+	"aggression": 100
   },
   {
     "id": "mon_centipede_giant",
@@ -469,6 +473,7 @@
 		  { "damage_type": "cut", "amount": 12, "armor_penetration": 9 },
 		  { "damage_type": "stab", "amount": 12, "armor_penetration": 9 } 
 		 ],
+		"no_infection_chance": 5,
 		"effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ]
 	  }
 	 ],
@@ -477,8 +482,9 @@
     "armor_bash": 4,
     "armor_cut": 8,
     "armor_bullet": 6,
-    "vision_day": 5,
+    "vision_day": 8,
     "vision_night": 5,
+	"anger_triggers": [ "STALK" ],
     "harvest": "arachnid_centipede",
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 15, "into_group": "GROUP_CENTIPEDE_GIANT" },
@@ -512,7 +518,7 @@
 	  {
 	    "type": "spell",
 		"spell_data": { "id": "centipede_mom_summon" },
-		"monster_message": "A small centipede is shaken off in the scuffle. It's less than pleased.",
+		"monster_message": "A small centipede is shaken off in the struggle!",
 		"cooldown": 1
 	  }
 	 ],
@@ -560,6 +566,7 @@
 		  { "damage_type": "cut", "amount": 25, "armor_penetration": 50 },
 		  { "damage_type": "stab", "amount": 25, "armor_penetration": 50 } 
 		 ],
+		"no_infection_chance": 2,
 		"effects": [ { "id": "venom_dmg", "duration": 750, "affect_hit_bp": true } ]
 	  }
 	 ],
