@@ -1206,6 +1206,8 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
 
+    optional( jo, was_loaded, "emissions", emissions );
+
     bash.load( jo, "bash", map_bash_info::terrain, "terrain " + id.str() );
     deconstruct.load( jo, "deconstruct", false, "terrain " + id.str() );
 }
@@ -1267,6 +1269,11 @@ void ter_t::check() const
     }
     if( transforms_into && transforms_into == id ) {
         debugmsg( "%s transforms_into itself", id.c_str() );
+    }
+    for( const emit_id &e : emissions ) {
+        if( !e.is_valid() ) {
+            debugmsg( "ter %s has invalid emission %s set", id.c_str(), e.str().c_str() );
+        }
     }
 }
 
@@ -1352,16 +1359,10 @@ void furn_t::check() const
     if( !close.is_valid() ) {
         debugmsg( "invalid furniture %s for closing %s", close.c_str(), id.c_str() );
     }
-    if( has_flag( "EMITTER" ) ) {
-        if( emissions.empty() ) {
-            debugmsg( "furn %s has the EMITTER flag, but no emissions were set", id.c_str() );
-        } else {
-            for( const emit_id &e : emissions ) {
-                if( !e.is_valid() ) {
-                    debugmsg( "furn %s has the EMITTER flag, but invalid emission %s was set", id.c_str(),
-                              e.str().c_str() );
-                }
-            }
+    for( const emit_id &e : emissions ) {
+        if( !e.is_valid() ) {
+            debugmsg( "furn %s has invalid emission %s set", id.c_str(),
+                      e.str().c_str() );
         }
     }
 }

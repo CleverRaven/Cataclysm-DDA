@@ -3523,6 +3523,10 @@ The terrain / furniture that will be set after the original has been deconstruct
 
 What the `PLANT` furniture turn into when it grows a stage, or what a `PLANTABLE` furniture turns into when it is planted on.
 
+#### `emissions`
+
+(Optional) An array listing the `emit_id` of the fields the terrain/furniture will produce every 10 seconds.
+
 #### `base`
 
 What the 'base' furniture of the `PLANT` furniture is - what it would be if there was not a plant growing there. Used when monsters 'eat' the plant to preserve what furniture it is.

@@ -538,7 +538,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
 - ```DOOR``` Can be opened (used for NPC path-finding).
 - ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
-- ```EMITTER``` This furniture will emit fields automatically as defined by its emissions entry
 - ```FIRE_CONTAINER``` Stops fire from spreading (brazier, wood stove, etc.)
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
 - ```FLAMMABLE_HARD``` Harder to light on fire, but still possible.
