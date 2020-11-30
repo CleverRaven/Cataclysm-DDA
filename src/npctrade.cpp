@@ -92,7 +92,7 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
 std::vector<item_pricing> npc_trading::init_selling( npc &np )
 {
     std::vector<item_pricing> result;
-    const std::vector<item *> inv_all = np.items_with( []( const item &it ) {
+    const std::vector<item *> inv_all = np.items_with( []( const item & it ) {
         return !it.made_of( phase_id::LIQUID );
     } );
     for( item *i : inv_all ) {
