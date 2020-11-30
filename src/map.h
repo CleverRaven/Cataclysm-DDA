@@ -1683,7 +1683,6 @@ class map
         void copy_grid( const tripoint &to, const tripoint &from );
         void draw_map( mapgendata &dat );
 
-        void draw_office_tower( const mapgendata &dat );
         void draw_lab( mapgendata &dat );
         void draw_temple( const mapgendata &dat );
         void draw_mine( mapgendata &dat );
