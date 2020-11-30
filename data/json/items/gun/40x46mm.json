@@ -17,6 +17,7 @@
     "ammo": [ "40x46mm" ],
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "clip_size": 1,
     "reload": 350,
     "valid_mod_locations": [
@@ -50,6 +51,7 @@
     "ammo": [ "40x46mm" ],
     "dispersion": 270,
     "durability": 9,
+    "blackpowder_tolerance": 60,
     "clip_size": 1,
     "reload": 150,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ]
@@ -73,6 +75,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 150,
     "durability": 8,
+    "blackpowder_tolerance": 60,
     "clip_size": 1,
     "reload": 250,
     "valid_mod_locations": [
@@ -105,6 +108,7 @@
     "ammo": [ "40x46mm" ],
     "dispersion": 270,
     "durability": 8,
+    "blackpowder_tolerance": 60,
     "clip_size": 6,
     "reload": 300,
     "valid_mod_locations": [
@@ -138,6 +142,7 @@
     "ammo": [ "40x46mm" ],
     "dispersion": 140,
     "durability": 9,
+    "blackpowder_tolerance": 60,
     "clip_size": 4,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -185,6 +190,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 300,
     "durability": 10,
+    "blackpowder_tolerance": 60,
     "reload": 400,
     "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ] ],
     "clip_size": 6,
