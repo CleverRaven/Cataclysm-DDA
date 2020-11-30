@@ -4578,6 +4578,8 @@ void Character::update_needs( int rate_multiplier )
 
             if( npc_no_food && get_fatigue() > fatigue_levels::tired ) {
                 set_fatigue( static_cast<int>( fatigue_levels::tired ) );
+            }
+            if( npc_no_food ) {
                 set_sleep_deprivation( 0 );
             }
         }
