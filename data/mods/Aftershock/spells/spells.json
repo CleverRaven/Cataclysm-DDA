@@ -109,7 +109,6 @@
     "description": "You feel a jolt through your body as energy pulses through the wires in your flesh.",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
-    "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "afs_cold_protect",
     "shape": "blast",
