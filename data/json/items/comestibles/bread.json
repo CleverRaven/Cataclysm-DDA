@@ -289,7 +289,7 @@
     "weight": "45 g",
     "color": "brown",
     "spoils_in": "10 days",
-    "container": "bag_plastic",
+    "container": "can_medium",
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
@@ -303,18 +303,5 @@
     "flags": [ "EATEN_HOT", "EATEN_COLD" ],
     "fun": 3,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "bread_canned",
-    "name": { "str_sp": "canned brown bread" },
-    "copy-from": "brown_bread",
-    "spoils_in": "360 days",
-    "container": "can_medium",
-    "description": "New England's finest.  Brown bread in a can, what can get better than this?",
-    "price": "3 USD",
-    "//": "more expensive because it's canned and lasts longer",
-    "price_postapoc": "5 USD",
-    "fun": 4
   }
 ]

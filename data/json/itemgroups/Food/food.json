@@ -128,6 +128,7 @@
       { "item": "apple_canned", "prob": 1 },
       { "item": "can_cheese", "prob": 1 },
       { "item": "fish_canned", "prob": 1 },
+      { "item": "brown_bread", "prob": 1 },
       { "item": "can_spam", "prob": 1 },
       { "item": "can_sardine", "prob": 1 },
       { "item": "ravioli", "prob": 1 },
@@ -159,9 +160,8 @@
       { "item": "soup_cullenskink", "prob": 1 },
       { "item": "can_corn", "prob": 1 },
       { "item": "cooked_pumpkin", "prob": 1 },
-      { "item": "veggy_canned", "prob": 1 },
-      { "item": "bread_canned", "prob": 1 }
-    ]
+      { "item": "veggy_canned", "prob": 1 }
+   ]
   },
   {
     "type": "item_group",
@@ -184,7 +184,7 @@
       { "item": "can_chowder", "prob": 35 },
       { "item": "can_herring", "prob": 30 },
       { "item": "can_chicken", "prob": 40 },
-      { "item": "bread_canned", "prob": 5 },
+      { "item": "brown_bread": "prob": 20 },
       { "item": "broth", "prob": 15 },
       { "item": "crackers", "prob": 10 },
       { "item": "grahmcrackers", "prob": 10 },
