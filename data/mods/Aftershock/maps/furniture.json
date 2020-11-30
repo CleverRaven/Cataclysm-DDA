@@ -694,5 +694,48 @@
     "name": "DIRT scanner array",
     "copy-from": "f_mil_comms_sat",
     "description": "A daunting construct of various sensors and scanners, belonging to a rover-mounted Driving Intelligent Realtime Topography system."
+  },
+  {
+    "type": "furniture",
+    "id": "f_dronestation",
+    "name": "BIRD automated recharge dock",
+    "copy-from": "f_utility_shelf",
+    "description": "Also known as \"Bird nest\" or just \"A nest,\" this large metallic two-tier shelf has repeating rows of various electronic components.  Square-shaped markings indicate landing and wireless recharging docks for BIRD units.",
+    "//": "BIRD stands for B-something Intelligent Reconnaissance Drone.",
+    "delete": { "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ] },
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal", "count": [ 3, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 6 ] },
+        { "item": "plastic_chunk", "count": [ 2, 6 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 5, 15 ] },
+        { "item": "cable", "charges": [ 10, 40 ] },
+        { "item": "scrap_copper", "count": [ 5, 20 ] },
+        { "item": "afs_energy_storage_3", "count": [ 0, 4 ] },
+        { "item": "afs_energy_transfer_2", "count": [ 4, 18 ] },
+        { "item": "circuit", "count": [ 2, 5 ] },
+        { "item": "e_scrap", "count": [ 2, 8 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] }
+      ]
+    },
+    "bash": {
+      "items": [
+        { "item": "sheet_metal", "count": [ 0, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 6 ] },
+        { "item": "plastic_chunk", "count": [ 2, 8 ] },
+        { "item": "pipe", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 5, 25 ] },
+        { "item": "cable", "charges": [ 5, 20 ] },
+        { "item": "scrap_copper", "count": [ 5, 25 ] },
+        { "item": "afs_energy_storage_3", "count": [ 0, 2 ], "prob": 25 },
+        { "item": "afs_energy_transfer_2", "count": [ 0, 10 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 3 ] },
+        { "item": "e_scrap", "count": [ 0, 8 ] },
+        { "item": "power_supply", "count": [ 0, 2 ] },
+        { "item": "amplifier", "count": [ 0, 2 ] }
+      ]
+    }
   }
 ]
