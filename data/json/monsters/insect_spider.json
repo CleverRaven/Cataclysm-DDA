@@ -519,10 +519,11 @@
 	    "type": "spell",
 		"spell_data": { "id": "centipede_mom_summon" },
 		"monster_message": "A small centipede is shaken off in the struggle!",
-		"cooldown": 1
+		"cooldown": 10
 	  }
 	 ],
     "dodge": 0,
+	"vision_day": 5,
 	"harvest": "arachnid_centipede_mom",
 	"reproduction": { "baby_monster": "mon_centipede_small", "baby_count": 2, "baby_timer": 2 },
 	"baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
@@ -563,8 +564,8 @@
 		"cooldown": 3,
 		"move_cost": 120,
 		"damage_max_instance": [
-		  { "damage_type": "cut", "amount": 25, "armor_penetration": 50 },
-		  { "damage_type": "stab", "amount": 25, "armor_penetration": 50 } 
+		  { "damage_type": "cut", "amount": 25, "armor_penetration": 100 },
+		  { "damage_type": "stab", "amount": 25, "armor_penetration": 100 } 
 		 ],
 		"no_infection_chance": 2,
 		"effects": [ { "id": "venom_dmg", "duration": 750, "affect_hit_bp": true } ]
