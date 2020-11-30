@@ -15,6 +15,12 @@ function run_tests
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH
 
+# In OSX, gettext isn't in PATH
+if [ -n "BREWGETTEXT" ]
+then
+    export PATH="/usr/local/opt/gettext/bin:$PATH"
+fi
+
 if [ -n "$DEPLOY" ]
 then
     : # No-op, for now

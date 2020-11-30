@@ -457,6 +457,11 @@ ifeq ($(NATIVE), osx)
       # recent versions of brew will not allow you to link
       LDFLAGS += -L/usr/local/opt/gettext/lib
       CXXFLAGS += -I/usr/local/opt/gettext/include
+      ifneq ($(TILES), 1)
+        # Same for curses
+        LDFLAGS += -L/usr/local/opt/ncurses/lib
+        CPPFLAGS += -I/usr/local/opt/ncurses/include
+      endif
     endif
     ifeq ($(MACPORTS), 1)
       ifneq ($(TILES), 1)

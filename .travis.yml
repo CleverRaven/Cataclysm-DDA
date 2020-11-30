@@ -88,6 +88,7 @@ jobs:
           packages: ["g++-8", "g++-8-multilib", "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
 
+    # OSX
     - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 RELEASE=1 TILES=1 SOUND=1 BREWGETTEXT=1 DEPLOY=1 BUILD_NAME=osx32-tiles
       name: "Xcode 10.1 Make build with Tiles and sound (macOS 32 bit)"
       os: osx
