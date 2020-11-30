@@ -735,8 +735,8 @@
           [ "t_region_shrub", 2 ],
           [ "t_region_tree", 1 ]
         ],
-        "-": "t_wall",
-        "|": "t_wall",
+        "-": "t_concrete_wall",
+        "|": "t_concrete_wall",
         "a": "t_linoleum_white",
         "C": "t_floor",
         "х": "t_elevator",
