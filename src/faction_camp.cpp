@@ -530,10 +530,8 @@ bool extract_and_check_orientation_flags( const recipe_id recipe,
     const auto check_rotation = [&]( const std::string & flag, int rotation_value ) {
         if( recipe->has_flag( flag ) ) {
             if( rotation != 0 ) {
-                popup( _( ( base_error_message +
-                            ", the blueprint specifies multiple concurrent rotations, which is not supported" ).c_str() ),
-                       actor,
-                       recipe->get_blueprint() );
+                debugmsg( "%s, the blueprint specifies multiple concurrent rotations, which is not supported",
+                          string_format( base_error_message, actor, recipe->get_blueprint() ) );
                 return false;
             }
             rotation = rotation_value;
@@ -575,10 +573,8 @@ bool extract_and_check_orientation_flags( const recipe_id recipe,
 
     if( recipe->has_flag( "MAP_MIRROR_HORIZONTAL_IF_" + dir_string ) ) {
         if( mirror_horizontal ) {
-            popup( _( ( base_error_message +
-                        ", the blueprint specifies multiple concurrent horizontal mirroring, which is not supported" ).c_str() ),
-                   actor,
-                   recipe->get_blueprint() );
+            debugmsg( "%s, the blueprint specifies multiple concurrent horizontal mirroring, which is not supported",
+                      string_format( base_error_message, actor, recipe->get_blueprint() ) );
             return false;
         }
         mirror_horizontal = true;
@@ -586,10 +582,8 @@ bool extract_and_check_orientation_flags( const recipe_id recipe,
 
     if( recipe->has_flag( "MAP_MIRROR_VERTICAL_IF_" + dir_string ) ) {
         if( mirror_vertical ) {
-            popup( _( ( base_error_message +
-                        ", the blueprint specifies multiple concurrent vertical mirroring, which is not supported" ).c_str() ),
-                   actor,
-                   recipe->get_blueprint() );
+            debugmsg( "%s, the blueprint specifies multiple concurrent vertical mirroring, which is not supported",
+                      string_format( base_error_message, actor, recipe->get_blueprint() ) );
             return false;
         }
         mirror_vertical = true;

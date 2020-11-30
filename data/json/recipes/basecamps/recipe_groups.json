@@ -34,12 +34,12 @@
     "recipes": [
       {
         "id": "faction_base_farm_0",
-        "description": "Farm version 1. Shed, plots, some farming recipes",
+        "description": "Farm version 1.  Shed, plots, some farming recipes",
         "om_terrains": [ "field" ]
       },
       {
         "id": "faction_base_farm_2_0",
-        "description": "Farm version 2. Just plots, fence (optional gate for tractor), no recipes",
+        "description": "Farm version 2.  Just plots, fence (optional gate for tractor), no recipes",
         "om_terrains": [ "field" ]
       },
       { "id": "faction_base_garage_0", "description": "Garage", "om_terrains": [ "field" ] },
