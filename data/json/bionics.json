@@ -50,6 +50,8 @@
     "acid_protec": [ [ "arm_l", 2 ], [ "arm_r", 2 ] ],
     "encumbrance": [ [ "arm_l", 5 ], [ "arm_r", 5 ] ],
     "wet_protection": [ { "part": "arm_l", "ignored": 4 }, { "part": "arm_r", "ignored": 4 } ],
+    "block_unins": true,
+    "block_unins_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -77,6 +79,8 @@
     "acid_protec": [ [ "head", 2 ] ],
     "encumbrance": [ [ "head", 5 ] ],
     "wet_protection": [ { "part": "head", "ignored": 4 } ],
+    "block_unins": true,
+    "block_unins_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -92,6 +96,8 @@
     "acid_protec": [ [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "encumbrance": [ [ "leg_l", 5 ], [ "leg_r", 5 ] ],
     "wet_protection": [ { "part": "leg_l", "ignored": 4 }, { "part": "leg_r", "ignored": 4 } ],
+    "block_unins": true,
+    "block_unins_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -107,6 +113,8 @@
     "acid_protec": [ [ "torso", 2 ] ],
     "encumbrance": [ [ "torso", 5 ] ],
     "wet_protection": [ { "part": "torso", "ignored": 4 } ],
+    "block_unins": true,
+    "block_unins_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -431,6 +439,8 @@
     "name": { "str": "Telescopic Eyes" },
     "description": "Much of the material in your inner eye has been surgically removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any vision problems you might have had are now gone.",
     "occupied_bodyparts": [ [ "eyes", 2 ] ],
+    "block_unins": true,
+    "block_unins_msg": "The Telescopic Lenses are part of %s eyes now.  Removing them would leave %s blind.",
     "canceled_mutations": [
       "HYPEROPIC",
       "MYOPIC",

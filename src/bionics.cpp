@@ -296,6 +296,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "exothermic_power_gen", exothermic_power_gen );
     optional( jsobj, was_loaded, "power_gen_emission", power_gen_emission );
     optional( jsobj, was_loaded, "coverage_power_gen_penalty", coverage_power_gen_penalty );
+    optional( jsobj, was_loaded, "block_unins", block_unins );
     optional( jsobj, was_loaded, "is_remote_fueled", is_remote_fueled );
 
     optional( jsobj, was_loaded, "learned_spells", learned_spells );
@@ -312,6 +313,8 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "installation_requirement", installation_requirement );
 
     optional( jsobj, was_loaded, "vitamin_absorb_mod", vitamin_absorb_mod, 1.0f );
+    
+    optional( jsobj, was_loaded, "block_unins_msg", block_unins_msg );
 
     if( jsobj.has_array( "stat_bonus" ) ) {
         // clear data first so that copy-from can override it
@@ -2105,12 +2108,6 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         return false;
     }
 
-    if( b_id == bio_blaster ) {
-        popup( _( "Removing %s Fusion Blaster Arm would leave %s with a useless stump." ),
-               disp_name( true ), disp_name() );
-        return false;
-    }
-
     Character &player_character = get_player_character();
 
     for( const bionic_id &bid : get_bionics() ) {
@@ -2121,15 +2118,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
-    if( b_id == bio_eye_optic ) {
-        popup( _( "The Telescopic Lenses are part of %s eyes now.  Removing them would leave %s blind." ),
-               disp_name( true ), disp_name() );
-        return false;
-    }
-
-    if( b_id == bio_armor_arms || b_id == bio_armor_legs || b_id == bio_armor_head ||
-        b_id == bio_armor_torso ) {
-        popup( _( "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled." ),
+    if( b_id->block_unins ) {
+        popup( b_id->block_unins_msg.c_str(),
                disp_name( true ), disp_name() );
         return false;
     }
