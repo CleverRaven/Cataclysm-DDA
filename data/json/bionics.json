@@ -48,8 +48,8 @@
     "bullet_protec": [ [ "arm_l", 5 ], [ "arm_r", 5 ] ],
     "fire_protec": [ [ "arm_l", 2 ], [ "arm_r", 2 ] ],
     "acid_protec": [ [ "arm_l", 2 ], [ "arm_r", 2 ] ],
-    "encumbrance": [ [ "arm_l", 5], [ "arm_r", 5 ] ],
-    "wet_protection":[{ "part": "arm_l", "ignored": 4 }, { "part": "arm_r", "ignored":4 } ],
+    "encumbrance": [ [ "arm_l", 5 ], [ "arm_r", 5 ] ],
+    "wet_protection": [ { "part": "arm_l", "ignored": 4 }, { "part": "arm_r", "ignored": 4 } ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -76,7 +76,7 @@
     "fire_protec": [ [ "head", 2 ] ],
     "acid_protec": [ [ "head", 2 ] ],
     "encumbrance": [ [ "head", 5 ] ],
-    "wet_protection":[{ "part": "head", "ignored": 4 } ],
+    "wet_protection": [ { "part": "head", "ignored": 4 } ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -90,8 +90,8 @@
     "bullet_protec": [ [ "leg_l", 5 ], [ "leg_r", 5 ] ],
     "fire_protec": [ [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "acid_protec": [ [ "leg_l", 2 ], [ "leg_r", 2 ] ],
-    "encumbrance": [ [ "leg_l", 5], [ "leg_r", 5 ] ],
-    "wet_protection":[{ "part": "leg_l", "ignored": 4 }, { "part": "leg_r", "ignored":4 } ],
+    "encumbrance": [ [ "leg_l", 5 ], [ "leg_r", 5 ] ],
+    "wet_protection": [ { "part": "leg_l", "ignored": 4 }, { "part": "leg_r", "ignored": 4 } ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -106,7 +106,7 @@
     "fire_protec": [ [ "torso", 2 ] ],
     "acid_protec": [ [ "torso", 2 ] ],
     "encumbrance": [ [ "torso", 5 ] ],
-    "wet_protection":[{ "part": "torso", "ignored": 4 } ],
+    "wet_protection": [ { "part": "torso", "ignored": 4 } ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
