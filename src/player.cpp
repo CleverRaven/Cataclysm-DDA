@@ -666,7 +666,7 @@ void player::pause()
             if( is_bp_armored( bp ) && most_covered <= get_effect_int( effect_bleed, bp ) ) {
                 most_covered = get_effect_int( effect_bleed, bp );
                 bp_id_covered = bp;
-            } 
+            }
         }
         if( most == 0 ) {
             bp_id = bp_id_covered;

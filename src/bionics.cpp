@@ -2126,8 +2126,9 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
                disp_name( true ), disp_name() );
         return false;
     }
-    
-    if( b_id == bio_armor_arms || b_id == bio_armor_legs || b_id == bio_armor_head || b_id == bio_armor_torso ) {
+
+    if( b_id == bio_armor_arms || b_id == bio_armor_legs || b_id == bio_armor_head ||
+        b_id == bio_armor_torso ) {
         popup( _( "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled." ),
                disp_name( true ), disp_name() );
         return false;
