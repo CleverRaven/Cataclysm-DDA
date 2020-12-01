@@ -40,7 +40,8 @@
     "count": 100,
     "price_postapoc": 400,
     "dispersion": 0,
-    "proportional": { "range": 0.6, "damage": { "damage_type": "stab", "amount": 0.67 }, "recoil": 0.5 },
+    "relative": { "damage": { "damage_type": "stab", "amount": -6, "armor_penetration": -2 } },
+    "proportional": { "range": 0.6, "recoil": 0.5 },
     "extend": { "effects": [ "SHOT", "NOGIB" ] }
   },
   {
