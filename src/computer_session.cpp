@@ -296,7 +296,7 @@ computer_session::computer_action_functions = {
     { COMPACT_RADIO_ARCHIVE, &computer_session::action_radio_archive },
     { COMPACT_RELEASE, &computer_session::action_release },
     { COMPACT_RELEASE_BIONICS, &computer_session::action_release_bionics },
-    { COMPACT_RELEASE_CRYO, &computer_session::action_release_cryo },
+    { COMPACT_ACTIVATE_CRYO, &computer_session::action_activate_cryo },
     { COMPACT_RELEASE_DISARM, &computer_session::action_release_disarm },
     { COMPACT_REPEATER_MOD, &computer_session::action_repeater_mod },
     { COMPACT_RESEARCH, &computer_session::action_research },
@@ -329,7 +329,7 @@ bool computer_session::can_activate( computer_action action )
         case COMPACT_RELEASE_DISARM:
             return get_map().has_nearby_ter( get_player_character().pos(), t_reinforced_glass, 25 );
 
-        case COMPACT_RELEASE_CRYO:
+        case COMPACT_ACTIVATE_CRYO:
             return get_map().has_nearby_trap( get_player_character().pos(), map_regen, 8 );
 
         case COMPACT_RELEASE_BIONICS:
@@ -478,7 +478,7 @@ void computer_session::action_release_bionics()
     query_any( _( "Containment shields opened.  Press any key…" ) );
 }
 
-void computer_session::action_release_cryo()
+void computer_session::action_activate_cryo()
 {
     get_event_bus().send<event_type::character_triggers_trap>();
     Character &player_character = get_player_character();
