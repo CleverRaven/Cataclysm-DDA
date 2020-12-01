@@ -154,7 +154,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
-    "calories": 220,
+    "calories": 55,
     "description": "This white flour is useful for adding more stretch and chew to bread while baking.",
     "price": "200 cent",
     "price_postapoc": "95 cent",
