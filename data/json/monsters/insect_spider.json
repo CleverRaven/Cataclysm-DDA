@@ -410,7 +410,7 @@
     "weight": "20 kg",
     "hp": 30,
     "speed": 100,
-    "aggression": 0,
+    "aggression": -1,
 	"morale": 0,
     "melee_dice": 1,
     "melee_dice_sides": 3,
@@ -434,13 +434,6 @@
     "vision_day": 5,
 	"anger_triggers": [ "PLAYER_CLOSE" ],
 	"upgrades": { "age_grow": 30, "into_group": "GROUP_CENTIPEDE_ADULT" }
-  },
-  {
-	"id": "mon_centipede_small_pissed",
-	"type": "MONSTER",
-	"copy-from": "mon_centipede_small",
-	"description": "A brightly colored mutant centipede the size of a small dog, shaken free of the tangle of eggs,legs, and rotting prey it called home until now.  It looks displeased with this development",
-	"aggression": 100
   },
   {
     "id": "mon_centipede_giant",
