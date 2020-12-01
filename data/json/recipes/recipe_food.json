@@ -5009,7 +5009,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "hotdogs_cooked", 1 ] ],
-      [ [ "meat_fatty_cooked", 1 ], [ "meat_cooked", 1 ], [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ] ]
+      [ [ "meat_fatty_cooked", 1 ], [ "meat_cooked", 1 ], [ "onion", 1 ], [ "irradiated_onion", 1 ] ]
     ]
   },
   {
