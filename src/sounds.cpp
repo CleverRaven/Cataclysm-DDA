@@ -1398,39 +1398,56 @@ void sfx::do_footstep()
         static const std::set<ter_str_id> chain_fence = {
             ter_str_id( "t_chainfence" ),
         };
-        if( !player_character.wearing_something_on( bodypart_id( "foot_l" ) ) ) {
-            play_variant_sound( "plmove", "walk_barefoot", heard_volume, 0_degrees, 0.8, 1.2 );
+
+        const auto play_plmove_sound_variant = [&]( const std::string & variant ) {
+            play_variant_sound( "plmove", variant, heard_volume, 0_degrees, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
-        } else if( sfx::has_variant_sound( "plmove", terrain.str() ) ) {
-            play_variant_sound( "plmove", terrain.str(), heard_volume, 0_degrees, 0.8, 1.2 );
-            start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
-        } else if( grass.count( terrain ) > 0 ) {
-            play_variant_sound( "plmove", "walk_grass", heard_volume, 0_degrees, 0.8, 1.2 );
-            start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
-        } else if( dirt.count( terrain ) > 0 ) {
-            play_variant_sound( "plmove", "walk_dirt", heard_volume, 0_degrees, 0.8, 1.2 );
-            start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
-        } else if( metal.count( terrain ) > 0 ) {
-            play_variant_sound( "plmove", "walk_metal", heard_volume, 0_degrees, 0.8, 1.2 );
-            start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
-        } else if( terrain->has_flag( TFLAG_DEEP_WATER ) || terrain->has_flag( TFLAG_SHALLOW_WATER ) ) {
-            play_variant_sound( "plmove", "walk_water", heard_volume, 0_degrees, 0.8, 1.2 );
-            start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
-        } else if( chain_fence.count( terrain ) > 0 ) {
-            play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0_degrees, 0.8, 1.2 );
-            start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
-        } else {
-            play_variant_sound( "plmove", "walk_tarmac", heard_volume, 0_degrees, 0.8, 1.2 );
-            start_sfx_timestamp = std::chrono::high_resolution_clock::now();
+        };
+
+        auto veh_displayed_part = get_map().veh_at( player_character.pos() ).part_displayed();
+
+        if( !veh_displayed_part && ( terrain->has_flag( TFLAG_DEEP_WATER ) ||
+                                     terrain->has_flag( TFLAG_SHALLOW_WATER ) ) ) {
+            play_plmove_sound_variant( "walk_water" );
             return;
         }
+        if( !player_character.wearing_something_on( bodypart_id( "foot_l" ) ) ) {
+            play_plmove_sound_variant( "walk_barefoot" );
+            return;
+        }
+        if( veh_displayed_part ) {
+            const std::string &part_id = veh_displayed_part->part().info().get_id().str();
+            if( has_variant_sound( "plmove", part_id ) ) {
+                play_plmove_sound_variant( part_id );
+            } else if( veh_displayed_part->has_feature( VPFLAG_AISLE ) ) {
+                play_plmove_sound_variant( "walk_tarmac" );
+            } else {
+                play_plmove_sound_variant( "clear_obstacle" );
+            }
+            return;
+        }
+        if( sfx::has_variant_sound( "plmove", terrain.str() ) ) {
+            play_plmove_sound_variant( terrain.str() );
+            return;
+        }
+        if( grass.count( terrain ) > 0 ) {
+            play_plmove_sound_variant( "walk_grass" );
+            return;
+        }
+        if( dirt.count( terrain ) > 0 ) {
+            play_plmove_sound_variant( "walk_dirt" );
+            return;
+        }
+        if( metal.count( terrain ) > 0 ) {
+            play_plmove_sound_variant( "walk_metal" );
+            return;
+        }
+        if( chain_fence.count( terrain ) > 0 ) {
+            play_plmove_sound_variant( "clear_obstacle" );
+            return;
+        }
+
+        play_plmove_sound_variant( "walk_tarmac" );
     }
 }
 
@@ -1446,6 +1463,8 @@ void sfx::do_obstacle( const std::string &obst )
     } else {
         play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0_degrees, 0.8, 1.2 );
     }
+    // prevent footsteps from triggering
+    start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 }
 
 void sfx::play_activity_sound( const std::string &id, const std::string &variant, int volume )
