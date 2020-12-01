@@ -209,12 +209,10 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "atomic_survival", 3 ], [ "survival_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
-    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_W", "level": 2 },
-      { "id": "CUT", "level": 1 },
-      { "id": "BOIL", "level": 1 }
+      { "id": "CUT", "level": 1 }
     ],
     "components": [
       [ [ "2x4", 8 ] ],
