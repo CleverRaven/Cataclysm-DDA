@@ -60,6 +60,7 @@
           { "item": "onion_rings", "charges-min": 1, "prob": 10 },
           { "item": "milkshake", "charges-min": 1, "prob": 10 },
           { "item": "milkshake_fastfood", "charges-min": 1, "prob": 10 },
+          { "item": "frozen_lemonade", "charges-min": 1, "prob": 10 },
           { "item": "milkshake_deluxe", "charges-min": 1, "prob": 5 },
           { "item": "pizza_meat", "charges-min": 1, "prob": 10 },
           { "item": "pizza_veggy", "charges-min": 1, "prob": 10 },
@@ -72,7 +73,11 @@
           { "item": "sloppyjoe", "charges-min": 1, "prob": 10 },
           { "item": "sandwich_t", "charges-min": 1, "prob": 10 },
           { "item": "junk_burrito", "charges-min": 1, "prob": 10 },
-          { "item": "chili", "charges-min": 1, "prob": 10 }
+          { "item": "chili", "charges-min": 1, "prob": 10 },
+          { "item": "hotdogs_cooked", "charges-min": 1, "prob": 10 },
+          { "item": "hotdogs_newyork", "charges-min": 1, "prob": 5 },
+          { "item": "crab_cakes", "charges-min": 1, "prob": 5 },
+          { "item": "stuffed_clams", "charges-min": 1, "prob": 3 }
         ],
         "prob": 75
       },
@@ -330,6 +335,7 @@
       { "item": "onion_rings", "charges-min": 1, "prob": 10 },
       { "item": "milkshake", "charges-min": 1, "prob": 10 },
       { "item": "milkshake_fastfood", "charges-min": 1, "prob": 10 },
+      { "item": "frozen_lemonade", "charges-min": 1, "prob": 10 },
       { "item": "milkshake_deluxe", "charges-min": 1, "prob": 5 },
       { "item": "pizza_meat", "charges-min": 1, "prob": 10 },
       { "item": "pizza_veggy", "charges-min": 1, "prob": 10 },
@@ -347,6 +353,10 @@
       { "item": "sandwich_t", "charges-min": 1, "prob": 10 },
       { "item": "junk_burrito", "charges-min": 1, "prob": 10 },
       { "item": "chili", "charges-min": 1, "prob": 10 },
+      { "item": "hotdogs_cooked", "charges-min": 1, "prob": 10 },
+      { "item": "hotdogs_newyork", "charges-min": 1, "prob": 5 },
+      { "item": "crab_cakes", "charges-min": 1, "prob": 5 },
+      { "item": "stuffed_clams", "charges-min": 1, "prob": 3 },
       {
         "distribution": [
           {
@@ -634,6 +644,7 @@
           { "item": "onion_rings", "charges-min": 1, "prob": 10 },
           { "item": "milkshake", "charges-min": 1, "prob": 10 },
           { "item": "milkshake_fastfood", "charges-min": 1, "prob": 10 },
+          { "item": "frozen_lemonade", "charges-min": 1, "prob": 10 },
           { "item": "milkshake_deluxe", "charges-min": 1, "prob": 5 },
           { "item": "pizza_meat", "charges-min": 1, "prob": 10 },
           { "item": "pizza_veggy", "charges-min": 1, "prob": 10 },
@@ -646,7 +657,11 @@
           { "item": "sloppyjoe", "charges-min": 1, "prob": 10 },
           { "item": "sandwich_t", "charges-min": 1, "prob": 10 },
           { "item": "junk_burrito", "charges-min": 1, "prob": 10 },
-          { "item": "chili", "charges-min": 1, "prob": 10 }
+          { "item": "chili", "charges-min": 1, "prob": 10 },
+          { "item": "hotdogs_cooked", "charges-min": 1, "prob": 10 },
+          { "item": "hotdogs_newyork", "charges-min": 1, "prob": 5 },
+          { "item": "crab_cakes", "charges-min": 1, "prob": 5 },
+          { "item": "stuffed_clams", "charges-min": 1, "prob": 3 }
         ],
         "prob": 20
       },
