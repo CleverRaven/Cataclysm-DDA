@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "result": "tea_willowbark",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
