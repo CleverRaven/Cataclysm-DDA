@@ -1357,7 +1357,6 @@
     "id": "mon_amargasaurus",
     "name": { "str_sp": "Amargasaurus" },
     "copy-from": "mon_apatosaurus",
-    "weight": "2630 kg",
     "melee_skill": 10,
     "armor_cut": 8,
     "armor_bash": 9,
