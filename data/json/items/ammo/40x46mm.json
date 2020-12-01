@@ -99,7 +99,7 @@
     "copy-from": "40x46mm_slug_m118",
     "type": "AMMO",
     "name": { "str": "40x46mm-M199 slug, reloaded" },
-    "description": "An improvised 40x46mm load resembling an oversized shotgun slug, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than most people would expect.",
+    "description": "An improvised 40x46mm load resembling a shotgun slug, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than most people would expect.",
     "casing": "40x46mm_m199_casing"
   },
   {
@@ -124,7 +124,7 @@
     "copy-from": "bp_40x46mm_buckshot_m199",
     "type": "AMMO",
     "name": { "str": "40x46mm-M118 buckshot, black powder" },
-    "description": "An improvised 40x46mm buckshot load somewhat resembling M576, loaded into a M118 canister.",
+    "description": "An improvised 40x46mm buckshot load somewhat resembling M576, loaded into a M118 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than most people would expect.",
     "casing": "40x46mm_m118_casing"
   },
   {
@@ -160,7 +160,7 @@
     "copy-from": "bp_40x46mm_slug_m118",
     "type": "AMMO",
     "name": { "str": "40x46mm-M199 slug, black powder" },
-    "description": "An improvised 40x46mm load resembling an oversized shotgun slug, loaded into a M199 canister.",
+    "description": "An improvised 40x46mm load resembling an oversized shotgun slug, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than most people would expect.",
     "casing": "40x46mm_m199_casing"
   },
   {
@@ -177,7 +177,7 @@
     "copy-from": "bp_40x46mm_flechette_m118",
     "type": "AMMO",
     "name": { "str": "40x46mm-M199 flechette, black powder" },
-    "description": "An improvised 40x46mm flechette load containing 70 steel darts, loaded into a M199 canister.",
+    "description": "An improvised 40x46mm flechette load containing 10 steel darts, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than most people would expect.",
     "casing": "40x46mm_m199_casing"
   }
 ]
