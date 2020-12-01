@@ -84,14 +84,13 @@
       [
         [ "22_casing", -1 ],
         [ "22_casing_new", -1 ],
-        [ "22_fmj", -1 ],
+        [ "22_cphp", -1 ],
         [ "22_lr", -1 ],
-        [ "22_cb", -1 ],
         [ "22_ratshot", -1 ],
-        [ "bp_22_fmj", -1 ],
+        [ "bp_22_cphp", -1 ],
         [ "bp_22_lr", -1 ],
         [ "reloaded_22_lr", -1 ],
-        [ "reloaded_22_fmj", -1 ]
+        [ "reloaded_22_cphp", -1 ]
       ]
     ]
   },

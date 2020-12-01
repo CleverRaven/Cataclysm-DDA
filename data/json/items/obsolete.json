@@ -3303,5 +3303,45 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     }
+  },
+  {
+    "id": "22_cb",
+    "copy-from": "22_lr",
+    "type": "AMMO",
+    "name": { "str": ".22 CB" },
+    "description": "The .22 Conical Ball is a variety of .22 ammunition that propels its bullet using a primer instead of gunpowder.  The end result is a subsonic round that is so weak as to be nearly useless given your predicament.",
+    "price": 100,
+    "price_postapoc": 1000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "count": 100,
+    "stack_size": 150,
+    "recoil": 39,
+    "proportional": { "range": 0.6, "damage": { "damage_type": "stab", "amount": 0.5 }, "dispersion": 1.2 },
+    "extend": { "effects": [ "NOGIB" ] }
+  },
+  {
+    "result": "22_cb",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder_pistol", 1 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "22_fmj",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "reloaded_22_fmj",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_22_fmj",
+    "type": "recipe",
+    "obsolete": true
   }
 ]
