@@ -122,12 +122,7 @@
         "cost_multiplier": 1,
         "conditions": [ "DAWN", "DUSK", "DAY", "SPRING", "SUMMER", "AUTUMN" ]
       },
-      {
-        "monster": "mon_pigeon",
-        "freq": 50,
-        "cost_multiplier": 1,
-        "conditions": [ "DAWN", "DUSK", "DAY", "WINTER" ]
-      },
+      { "monster": "mon_pigeon", "freq": 50, "cost_multiplier": 1, "conditions": [ "DAWN", "DUSK", "DAY", "WINTER" ] },
       { "monster": "mon_fox_gray", "freq": 15, "cost_multiplier": 1 },
       { "monster": "mon_fox_red", "freq": 15, "cost_multiplier": 1 },
       { "monster": "mon_dog", "freq": 15, "cost_multiplier": 2 },
