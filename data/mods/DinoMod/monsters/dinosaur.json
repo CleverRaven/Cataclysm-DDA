@@ -1343,7 +1343,6 @@
     "id": "mon_kosmoceratops",
     "name": { "str_sp": "Kosmoceratops" },
     "copy-from": "mon_triceratops",
-    "weight": "1814 kg",
     "melee_skill": 9,
     "armor_cut": 7,
     "armor_bash": 8,
