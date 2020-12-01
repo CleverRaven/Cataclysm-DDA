@@ -3666,7 +3666,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     };
 
     ter_id terrain = ter( p );
-    if( terrain->has_flag( "TFLAG_NO_SHOOT" ) ) {
+    if( terrain->has_flag( TFLAG_NO_SHOOT ) ) { 
         dam = 0.0f;
         add_msg( _( "The shot is stopped by the %s" ), terrain->name() );
     } else if( terrain == t_wall_wood_broken ||
