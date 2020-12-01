@@ -220,7 +220,6 @@
       [ [ "2x4", 8 ] ],
       [ [ "nail", 16 ] ],
       [ [ "wire", 1 ] ],
-      [ [ "wax", 2 ] ],
       [ [ "duct_tape", 20 ], [ "medical_tape", 20 ], [ "superglue", 2 ], [ "bone_glue", 2 ] ]
     ]
   },
