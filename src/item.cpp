@@ -4617,11 +4617,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( !contents.empty() ) {
             contents_suffix_text = string_format( npgettext( "item name",
                                                   //~ [container item name] "with [count] item"
-                                                  " with %1$zd item",
-                                                  //~ [container item name] "with [count] item"
-                                                  " with %1$zd items",
-                                                  contents.num_item_stacks() ),
-                                                  contents.num_item_stacks() );
+                                                  " with %1$zd item", " with %1$zd items",
+                                                  contents.num_item_stacks() ), contents.num_item_stacks() );
         }
     }
 
