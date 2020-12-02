@@ -1286,6 +1286,7 @@ class map
 
         void remove_trap( const tripoint &p );
         const std::vector<tripoint> &get_furn_field_locations() const;
+        const std::vector<tripoint> &get_ter_field_locations() const;
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
 
         /**
@@ -1911,6 +1912,10 @@ class map
          * Vector of tripoints containing active field-emitting furniture
          */
         std::vector<tripoint> field_furn_locs;
+        /**
+         * Vector of tripoints containing active field-emitting terrain
+         */
+        std::vector<tripoint> field_ter_locs;
         /**
          * Holds caches for visibility, light, transparency and vehicles
          */

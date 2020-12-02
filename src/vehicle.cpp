@@ -5805,7 +5805,7 @@ void vehicle::refresh()
         if( vpi.has_flag( "UNMOUNT_ON_MOVE" ) ) {
             loose_parts.push_back( p );
         }
-        if( vpi.has_flag( "EMITTER" ) ) {
+        if( !vpi.emissions.empty() || !vpi.exhaust.empty() ) {
             emitters.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
