@@ -654,8 +654,10 @@ For information about tools with option to export ASCII art in format ready to b
 | learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when unintalling
 | installation_requirement    | (_optional_) Requirment id pointing to a requirment defining the tools and componentsnt necessary to install this CBM.
 | vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorbtion, affects all vitamins. (default: `1.0`)
-| cant_uninstal_msg             | (_optional_) The text shown when trying to uninstall a bionic which cannot be uninstalled. Should be with a possessive pronouns & a nominative one, both replaced with '%s'.
+| cant_uninstal_msg           | (_optional_) The text shown when trying to uninstall a bionic which cannot be uninstalled. Should be with a possessive pronouns & a nominative one, both replaced with '%s'.
 | covered_bodyparts           | (_optional_) A list of covered bodyparts, which resist bites and bleeding but are unable to be compressed.
+| no_bite_chance              | (_optional_) Chance to avoid bites offered by this bionic.
+| no_bleed_chance             | (_optional_) Chance to avoid bleeding offered by this bionic.
 
 
 ```C++

@@ -197,6 +197,7 @@ static const std::string flag_BIO_GUN( "BIONIC_GUN" );
 static const std::string flag_BIO_WEAPON( "BIONIC_WEAPON" );
 static const std::string flag_BIO_TOGGLED( "BIONIC_TOGGLED" );
 static const std::string flag_BIO_CANT_UNINSTAL( "BIONIC_CANT_UNINSTAL" );
+static const std::string flag_BIO_CANT_COMPRESS( "BIONIC_CANT_COMPRESS" );
 static const std::string flag_SEALED( "SEALED" );
 
 struct Character::auto_toggle_bionic_result {
@@ -309,7 +310,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "installation_requirement", installation_requirement );
 
     optional( jsobj, was_loaded, "vitamin_absorb_mod", vitamin_absorb_mod, 1.0f );
-	
+
     optional( jsobj, was_loaded, "no_bleed_chance", no_bleed_chance, 0.0f );
     optional( jsobj, was_loaded, "no_bite_chance", no_bite_chance, 0.0f );
 

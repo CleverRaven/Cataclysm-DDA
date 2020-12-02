@@ -51,6 +51,8 @@
     "encumbrance": [ [ "arm_l", 5 ], [ "arm_r", 5 ] ],
     "wet_protection": [ { "part": "arm_l", "ignored": 4 }, { "part": "arm_r", "ignored": 4 } ],
     "covered_bodyparts": [ "arm_l", "arm_r" ],
+    "no_bleed_chance": 0.25,
+    "no_bite_chance": 0.33,
     "cant_uninstal_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTAL", "BIONIC_CANT_COMPRESS" ]
   },
@@ -80,6 +82,8 @@
     "encumbrance": [ [ "head", 5 ] ],
     "wet_protection": [ { "part": "head", "ignored": 4 } ],
     "covered_bodyparts": [ "head" ],
+    "no_bleed_chance": 0.25,
+    "no_bite_chance": 0.33,
     "cant_uninstal_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTAL", "BIONIC_CANT_COMPRESS" ]
   },
@@ -97,6 +101,8 @@
     "encumbrance": [ [ "leg_l", 5 ], [ "leg_r", 5 ] ],
     "wet_protection": [ { "part": "leg_l", "ignored": 4 }, { "part": "leg_r", "ignored": 4 } ],
     "covered_bodyparts": [ "leg_l", "leg_r" ],
+    "no_bleed_chance": 0.25,
+    "no_bite_chance": 0.33,
     "cant_uninstal_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTAL", "BIONIC_CANT_COMPRESS" ]
   },
@@ -114,6 +120,8 @@
     "encumbrance": [ [ "torso", 5 ] ],
     "wet_protection": [ { "part": "torso", "ignored": 4 } ],
     "covered_bodyparts": [ "torso" ],
+    "no_bleed_chance": 0.25,
+    "no_bite_chance": 0.33,
     "cant_uninstal_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTAL", "BIONIC_CANT_COMPRESS" ]
   },
