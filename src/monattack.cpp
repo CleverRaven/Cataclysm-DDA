@@ -4117,6 +4117,7 @@ bool mattack::stretch_bite( monster *z )
     dam = target->deal_damage( z, hit, damage_instance( damage_type::STAB, dam ) ).total_damage();
 
     if( dam > 0 ) {
+		double bite_chance = target->as_character()->bp_bite_chance( hit );
         game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
         target->add_msg_player_or_npc( msg_type,
                                        //~ 1$s is monster name, 2$s bodypart in accusative
@@ -4127,7 +4128,7 @@ bool mattack::stretch_bite( monster *z )
                                        body_part_name_accusative( hit ) );
 
         if( one_in( 16 - dam ) && ( ( target->is_avatar() || target->is_npc() ) &&
-                                    target->as_character()->is_bp_armored( hit ) ? !one_in( 4 ) : true ) ) {
+                                    x_in_y( bite_chance, 1.0f ) ) ) {
             if( target->has_effect( effect_bite, hit.id() ) ) {
                 target->add_effect( effect_bite, 40_minutes, hit, true );
             } else if( target->has_effect( effect_infected, hit.id() ) ) {

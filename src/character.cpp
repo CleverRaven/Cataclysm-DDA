@@ -1491,15 +1491,48 @@ bool Character::can_run() const
     return get_stamina() > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
 }
 
-bool Character::is_bp_armored( const bodypart_id &bp ) const
+bool Character::is_bp_armored( const bodypart_id &bp, bool cant_compr ) const
 {
-    for( const bionic_id &bid : get_bionics() ) {
-        if( find( bid->covered_bodyparts.begin(), bid->covered_bodyparts.end(),
-                  bp.id() ) != bid->covered_bodyparts.end() ) {
-            return true;
+    if( cant_compr ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            if( find( bid->covered_bodyparts.begin(), bid->covered_bodyparts.end(),
+                      bp.id() ) != bid->covered_bodyparts.end() && bid->has_flag( flag_BIO_CANT_COMPRESS ) ) {
+                return true;
+            }
+        }    
+    } else {
+        for( const bionic_id &bid : get_bionics() ) {
+            if( find( bid->covered_bodyparts.begin(), bid->covered_bodyparts.end(),
+                      bp.id() ) != bid->covered_bodyparts.end() ) {
+                return true;
+            }
         }
     }
     return false;
+}
+
+double Character::bp_bite_chance( const bodypart_id &bp ) const
+{
+	double modifier = 1.0f;
+    for( const bionic_id &bid : get_bionics() ) {
+        if( find( bid->covered_bodyparts.begin(), bid->covered_bodyparts.end(),
+                  bp.id() ) != bid->covered_bodyparts.end() ) {
+            modifier *= ( 1.0f - bid->no_bite_chance );
+        }
+    }
+	return modifier;
+}
+
+double Character::bp_bleed_chance( const bodypart_id &bp ) const
+{
+	double modifier = 1.0f;
+    for( const bionic_id &bid : get_bionics() ) {
+        if( find( bid->covered_bodyparts.begin(), bid->covered_bodyparts.end(),
+                  bp.id() ) != bid->covered_bodyparts.end() ) {
+            modifier *= ( 1.0f - bid->no_bleed_chance );
+        }
+    }
+	return modifier;
 }
 
 void Character::try_remove_downed()

@@ -309,6 +309,9 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "installation_requirement", installation_requirement );
 
     optional( jsobj, was_loaded, "vitamin_absorb_mod", vitamin_absorb_mod, 1.0f );
+	
+    optional( jsobj, was_loaded, "no_bleed_chance", no_bleed_chance, 0.0f );
+    optional( jsobj, was_loaded, "no_bite_chance", no_bite_chance, 0.0f );
 
     optional( jsobj, was_loaded, "cant_uninstal_msg", cant_uninstal_msg );
 

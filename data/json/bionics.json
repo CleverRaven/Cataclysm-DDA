@@ -52,7 +52,7 @@
     "wet_protection": [ { "part": "arm_l", "ignored": 4 }, { "part": "arm_r", "ignored": 4 } ],
     "covered_bodyparts": [ "arm_l", "arm_r" ],
     "cant_uninstal_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF","BIONIC_CANT_UNINSTAL" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTAL", "BIONIC_CANT_COMPRESS" ]
   },
   {
     "id": "bio_armor_eyes",
@@ -81,7 +81,7 @@
     "wet_protection": [ { "part": "head", "ignored": 4 } ],
     "covered_bodyparts": [ "head" ],
     "cant_uninstal_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF","BIONIC_CANT_UNINSTAL" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTAL", "BIONIC_CANT_COMPRESS" ]
   },
   {
     "id": "bio_armor_legs",
@@ -98,7 +98,7 @@
     "wet_protection": [ { "part": "leg_l", "ignored": 4 }, { "part": "leg_r", "ignored": 4 } ],
     "covered_bodyparts": [ "leg_l", "leg_r" ],
     "cant_uninstal_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF","BIONIC_CANT_UNINSTAL" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTAL", "BIONIC_CANT_COMPRESS" ]
   },
   {
     "id": "bio_armor_torso",
@@ -115,7 +115,7 @@
     "wet_protection": [ { "part": "torso", "ignored": 4 } ],
     "covered_bodyparts": [ "torso" ],
     "cant_uninstal_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF","BIONIC_CANT_UNINSTAL" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTAL", "BIONIC_CANT_COMPRESS" ]
   },
   {
     "id": "bio_batteries",

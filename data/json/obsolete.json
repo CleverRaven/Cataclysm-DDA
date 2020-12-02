@@ -681,7 +681,7 @@
     "act_cost": 50,
     "fake_item": "bio_blaster_gun",
     "cant_uninstal_msg": "Removing %s Fusion Blaster Arm would leave %s with a useless stump.",
-    "flags": [ "BIONIC_GUN","BIONIC_CANT_UNINSTAL" ]
+    "flags": [ "BIONIC_GUN", "BIONIC_CANT_UNINSTAL" ]
   },
   {
     "id": "fusion_gun",

@@ -659,11 +659,11 @@ void player::pause()
         bool is_wound_covered = false;
         bodypart_id bp_id_covered;
         for( const bodypart_id &bp : get_all_body_parts() ) {
-            if( !is_bp_armored( bp ) && most <= get_effect_int( effect_bleed, bp ) ) {
+            if( !is_bp_armored( bp, true ) && most <= get_effect_int( effect_bleed, bp ) ) {
                 most = get_effect_int( effect_bleed, bp );
                 bp_id = bp;
             }
-            if( is_bp_armored( bp ) && most_covered <= get_effect_int( effect_bleed, bp ) ) {
+            if( is_bp_armored( bp, true ) && most_covered <= get_effect_int( effect_bleed, bp ) ) {
                 most_covered = get_effect_int( effect_bleed, bp );
                 bp_id_covered = bp;
             }
