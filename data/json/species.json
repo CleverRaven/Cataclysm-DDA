@@ -77,7 +77,6 @@
     "id": "CENTIPEDE",
     "description": "a centipede",
 	"footsteps": "skittering.",
-    "anger_triggers": [ "HURT", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE" ]
   },
   {

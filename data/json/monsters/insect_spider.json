@@ -410,19 +410,19 @@
     "weight": "20 kg",
     "hp": 30,
     "speed": 100,
-    "aggression": -1,
-	"morale": 0,
+    "aggression": 0,
+	"morale": 7,
     "melee_dice": 1,
     "melee_dice_sides": 3,
 	"melee_skill": 5,
     "special_attacks": [
       {
         "type": "bite",
-        "cooldown": 15,
+        "cooldown": 10,
 		"move_cost": 120,
         "damage_max_instance": [
-          { "damage_type": "stab", "amount": 5, "armor_penetration": 3 },
-          { "damage_type": "cut", "amount": 5, "armor_penetration": 3 }
+          { "damage_type": "stab", "amount": 5, "armor_penetration": 5 },
+          { "damage_type": "cut", "amount": 5, "armor_penetration": 5 }
         ],
         "effects": [ { "id": "venom_dmg", "duration": 250, "affect_hit_bp": true } ]
       }
@@ -431,8 +431,8 @@
     "armor_bash": 2,
     "armor_cut": 4,
     "armor_bullet": 2,
-    "vision_day": 5,
 	"anger_triggers": [ "PLAYER_CLOSE" ],
+	"fear_triggers": [ "HURT" ],
 	"upgrades": { "age_grow": 30, "into_group": "GROUP_CENTIPEDE_ADULT" }
   },
   {
@@ -477,7 +477,7 @@
     "armor_bullet": 6,
     "vision_day": 8,
     "vision_night": 5,
-	"anger_triggers": [ "STALK" ],
+	"anger_triggers": [ "STALK", "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ],
     "harvest": "arachnid_centipede",
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 15, "into_group": "GROUP_CENTIPEDE_GIANT" },
