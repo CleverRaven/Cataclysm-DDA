@@ -1551,10 +1551,11 @@ bool game::do_turn()
                         }
                     }
 
-                    const std::vector<tripoint> path = get_map().route( hostile_critter->pos(), u.pos(),
-                                                       hostile_critter->get_pathfinding_settings(), hostile_critter->get_path_avoid() );
+                    const pathfinding_settings pf_settings = pathfinding_settings { 8, DANGEROUS_PROXIMITY, DANGEROUS_PROXIMITY * 2, 4, true, false, true, false, false };
+                    static const std::set<tripoint> path_avoid = {};
 
-                    if( hostile_critter->has_flag( MF_RANGED_ATTACKER ) || ranged_attack_monster || !path.empty() ) {
+                    if( hostile_critter->has_flag( MF_RANGED_ATTACKER ) || ranged_attack_monster ||
+                        !get_map().route( u.pos(), hostile_critter->pos(), pf_settings, path_avoid ).empty() ) {
                         cancel_activity_or_ignore_query( distraction_type::hostile_spotted_near,
                                                          string_format( _( "The %s is dangerously close!" ),
                                                                  hostile_critter->get_name() ) );
