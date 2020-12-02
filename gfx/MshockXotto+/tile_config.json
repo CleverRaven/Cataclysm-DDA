@@ -6513,6 +6513,7 @@
           "fg": [ 2922, 2922 ],
           "bg": [ 2948, 2947 ],
           "additional_tiles": [ { "id": "broken", "fg": 2923, "bg": [ 2948, 2947 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
@@ -6829,84 +6830,98 @@
           "id": [ "vp_windshield", "vp_windshield_horizontal", "vp_windshield_horizontal_front", "vp_windshield_front_edge" ],
           "fg": [ 2990, 2997, 2996, 2995 ],
           "additional_tiles": [ { "id": "broken", "fg": 2684, "bg": [ 2990, 2997, 2996, 2995 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
           "id": [ "vp_windshield_horizontal_rear" ],
           "fg": [ 3018, 3025, 3024, 3023 ],
           "additional_tiles": [ { "id": "broken", "fg": 2684, "bg": [ 3018, 3025, 3024, 3023 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
           "id": [ "vp_windshield_horizontal_front_edge" ],
           "fg": [ 2992, 2994, 2993, 2991 ],
           "additional_tiles": [ { "id": "broken", "fg": 2684, "bg": [ 2992, 2994, 2993, 2991 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
           "id": [ "vp_windshield_horizontal_rear_edge" ],
           "fg": [ 3019, 3022, 3021, 3020 ],
           "additional_tiles": [ { "id": "broken", "fg": 2684, "bg": [ 3019, 3022, 3021, 3020 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
           "id": "vp_windshield_nw",
           "fg": [ 3010, 3017, 3016, 3015 ],
           "additional_tiles": [ { "id": "broken", "fg": 2686, "bg": [ 3010, 3017, 3016, 3015 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
           "id": "vp_windshield_ne",
           "fg": [ 3002, 3009, 3008, 3007 ],
           "additional_tiles": [ { "id": "broken", "fg": 2685, "bg": [ 3002, 3009, 3008, 3007 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
           "id": "vp_windshield_sw",
           "fg": [ 3043, 3045, 3044, 3042 ],
           "additional_tiles": [ { "id": "broken", "fg": 2686, "bg": [ 3043, 3045, 3044, 3042 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
           "id": "vp_windshield_se",
           "fg": [ 3035, 3037, 3036, 3034 ],
           "additional_tiles": [ { "id": "broken", "fg": 2685, "bg": [ 3035, 3037, 3036, 3034 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
           "id": "vp_windshield_nw_edge",
           "fg": [ 3012, 3014, 3013, 3011 ],
           "additional_tiles": [ { "id": "broken", "fg": 2686, "bg": [ 3012, 3014, 3013, 3011 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
           "id": "vp_windshield_ne_edge",
           "fg": [ 3004, 3006, 3005, 3003 ],
           "additional_tiles": [ { "id": "broken", "fg": 2685, "bg": [ 3004, 3006, 3005, 3003 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
           "id": "vp_windshield_sw_edge",
           "fg": [ 3038, 3041, 3040, 3039 ],
           "additional_tiles": [ { "id": "broken", "fg": 2686, "bg": [ 3038, 3041, 3040, 3039 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
           "id": "vp_windshield_se_edge",
           "fg": [ 3030, 3033, 3032, 3031 ],
           "additional_tiles": [ { "id": "broken", "fg": 2685, "bg": [ 3030, 3033, 3032, 3031 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
           "id": [ "vp_windshield_vertical_left", "vp_windshield_left" ],
           "fg": [ 2998, 3001, 3000, 2999 ],
           "additional_tiles": [ { "id": "broken", "fg": 2685, "bg": [ 2998, 3001, 3000, 2999 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
           "id": [ "vp_windshield_vertical_right", "vp_windshield_right" ],
           "fg": [ 3026, 3029, 3028, 3027 ],
           "additional_tiles": [ { "id": "broken", "fg": 2686, "bg": [ 3026, 3029, 3028, 3027 ] } ],
+          "multitile": true,
           "rotates": true
         },
         {
