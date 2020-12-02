@@ -60,8 +60,6 @@ struct bionic_data {
     units::mass weight_capacity_bonus = 0_gram;
     /**Map of stats and their corresponding bonuses passively granted by a bionic*/
     std::map<character_stat, int> stat_bonus;
-    /** If true the bionic cannot be uninstalled from character*/
-    bool cant_uninstal = false;
     /**This bionic draws power through a cable*/
     bool is_remote_fueled = false;
     /**Fuel types that can be used by this bionic*/

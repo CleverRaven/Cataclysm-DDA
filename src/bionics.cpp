@@ -196,6 +196,7 @@ static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 static const std::string flag_BIO_GUN( "BIONIC_GUN" );
 static const std::string flag_BIO_WEAPON( "BIONIC_WEAPON" );
 static const std::string flag_BIO_TOGGLED( "BIONIC_TOGGLED" );
+static const std::string flag_BIO_CANT_UNINSTAL( "BIONIC_CANT_UNINSTAL" );
 static const std::string flag_SEALED( "SEALED" );
 
 struct Character::auto_toggle_bionic_result {
@@ -292,7 +293,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "exothermic_power_gen", exothermic_power_gen );
     optional( jsobj, was_loaded, "power_gen_emission", power_gen_emission );
     optional( jsobj, was_loaded, "coverage_power_gen_penalty", coverage_power_gen_penalty );
-    optional( jsobj, was_loaded, "cant_uninstal", cant_uninstal );
     optional( jsobj, was_loaded, "is_remote_fueled", is_remote_fueled );
 
     optional( jsobj, was_loaded, "learned_spells", learned_spells );
@@ -2117,7 +2117,7 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
-    if( b_id->cant_uninstal ) {
+    if( b_id->has_flag( flag_BIO_CANT_UNINSTAL ) ) {
         popup( b_id->cant_uninstal_msg.c_str(),
                disp_name( true ), disp_name() );
         return false;

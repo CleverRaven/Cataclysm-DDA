@@ -298,6 +298,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BIONIC_TOGGLED``` This bionic only has a function when activated, else it causes it's effect every turn.
 - ```BIONIC_WEAPON``` This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects.
 - ```BIONIC_SHOCKPROOF``` This bionic can't be incapacitated by electrical attacks.
+- ```BIONIC_CANT_UNINSTAL``` This bionic can't be uninstalled.
 
 
 ## Books
