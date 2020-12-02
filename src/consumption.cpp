@@ -1158,6 +1158,35 @@ void Character::modify_morale( item &food, const int nutr )
         }
     }
 
+    // While raw flesh usually means negative morale, carnivores and cullers get a small bonus.
+    // Hunters, predators, and apex predators don't mind raw flesh at all, maybe even like it.
+    // Cooked flesh is unaffected, because people with these traits *prefer* it raw. Fat is unaffected.
+    // Organs are still usually negative due to fun values as low as -35.
+    // The PREDATOR_FUN flag shouldn't be on human flesh, to not interfere with sapiovores/cannibalism.
+    if( food.has_flag( flag_PREDATOR_FUN ) ) {
+        const bool carnivore = has_trait( trait_CARNIVORE );
+        const bool culler = has_trait_flag( "PRED1" );
+        const bool hunter = has_trait_flag( "PRED2" );
+        const bool predator = has_trait_flag( "PRED3" );
+        const bool apex_predator = has_trait_flag( "PRED4" );
+        if( apex_predator ) {
+            // Largest bonus, balances out to around +5 or +10. Some organs may still be negative.
+            add_morale( MORALE_MEATARIAN, 20, 10 );
+            add_msg_if_player( m_good,
+                               _( "As you tear into the raw flesh, you feel satisfied with your meal." ) );
+        } else if( predator || hunter ) {
+            // Should approximately balance the fun to 0 for normal meat.
+            add_morale( MORALE_MEATARIAN, 15, 5 );
+            add_msg_if_player( m_good,
+                               _( "Raw flesh doesn't taste all that bad, actually." ) );
+        } else if( carnivore || culler ) {
+            // Only a small bonus (+5), still negative fun.
+            add_morale( MORALE_MEATARIAN, 5, 0 );
+            add_msg_if_player( m_bad,
+                               _( "This doesn't taste very good, but meat is meat." ) );
+        }
+    }
+
     // Allergy check for food that is ingested (not gum)
     if( !food.has_flag( flag_NO_INGEST ) ) {
         const auto allergy = allergy_type( food );
