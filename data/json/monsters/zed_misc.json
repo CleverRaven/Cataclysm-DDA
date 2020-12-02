@@ -53,7 +53,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {
@@ -283,7 +284,8 @@
       "REVIVES",
       "PUSH_MON",
       "PUSH_VEH",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {
@@ -470,7 +472,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {
@@ -1170,7 +1173,8 @@
       "REVIVES",
       "PUSH_MON",
       "PUSH_VEH",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {
@@ -1250,7 +1254,19 @@
     "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 } ],
     "death_drops": "mon_zombie_technician_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "RANGED_ATTACKER"
+    ]
   },
   {
     "id": "mon_zombie_thorny",
