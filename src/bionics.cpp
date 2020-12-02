@@ -1787,15 +1787,11 @@ int Character::bionics_pl_skill( const skill_id &most_important_skill,
     // Medical residents have some idea what they're doing
     if( has_trait( trait_PROF_MED ) ) {
         pl_skill += 3;
-        add_msg_player_or_npc( m_neutral, _( "You prep to begin surgery." ),
-                               _( "<npcname> prepares for surgery." ) );
     }
 
     // People trained in bionics gain an additional advantage towards using it
     if( has_trait( trait_PROF_AUTODOC ) ) {
         pl_skill += 7;
-        add_msg( m_neutral, _( "A lifetime of augmentation has taught %s a thing or two…" ),
-                 disp_name() );
     }
     return pl_skill;
 }
