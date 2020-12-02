@@ -718,8 +718,45 @@
     "type": "furniture",
     "id": "f_toposcan_terminal",
     "name": "DIRT terminal interface",
-    "copy-from": "f_mil_comms_terminal",
-    "description": "Main data interface for a rover-mounted Driving Intelligent Realtime Topography system."
+    "description": "Main data interface for a rover-mounted Driving Intelligent Realtime Topography system.",
+    "looks_like": "f_console",
+    "symbol": "6",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "PERMEABLE", "DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_1", "count": [ 2, 4 ] },
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "large_lcd_screen", "count": 1 },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ], "prob": 80 },
+        { "item": "processor", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 4, 5 ], "prob": 50 },
+        { "item": "e_scrap", "count": [ 8, 16 ] },
+        { "item": "circuit", "count": [ 0, 5 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 10, 20 ], "prob": 50 },
+        { "item": "scrap", "count": [ 6, 12 ], "prob": 50 }
+      ]
+    }
   },
   {
     "type": "furniture",
@@ -731,16 +768,107 @@
   {
     "type": "furniture",
     "id": "f_toposcan_process_broken",
-    "name": "DIRT computation core",
-    "copy-from": "f_mil_comms_process_broken",
-    "description": "Stripped-down computation core for Driving Intelligent Realtime Topography system.  With anything of value missing, this sabotaged module is nothing more than a metal box."
+    "name": "stripped DIRT computation core",
+    "description": "Stripped-down computation core for Driving Intelligent Realtime Topography system.  With anything of value missing, this sabotaged module is nothing more than a metal box.",
+    "looks_like": "f_utility_shelf",
+    "symbol": ":",
+    "color": "light_gray",
+    "move_cost_mod": -10,
+    "coverage": 90,
+    "required_str": 8,
+    "flags": [ "BLOCKSDOOR", "NOITEM" ],
+    "description": "Master computing array of a Standard Interstellar Communications Cluster.  Probably beyond repair, but it contains valuable electronic components.",
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 6, 9 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "pipe_fittings", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 15, 35 ] },
+        { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
+        { "item": "afs_circuitry_3", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "processor", "count": [ 3, 4 ] },
+        { "item": "circuit", "count": [ 4, 5 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 1, 3 ], "prob": 50 },
+        { "item": "pipe", "count": [ 1, 3 ], "prob": 50 },
+        { "item": "pipe_fittings", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 10, 20 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ], "prob": 25 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 25 },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "processor", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "circuit", "count": [ 1, 3 ], "prob": 50 },
+        { "item": "power_supply", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "amplifier", "count": [ 0, 2 ], "prob": 50 }
+      ]
+    }
   },
   {
     "type": "furniture",
     "id": "f_toposcan_scanner",
     "name": "DIRT scanner array",
-    "copy-from": "f_mil_comms_sat",
-    "description": "A daunting construct of various sensors and scanners, belonging to a rover-mounted Driving Intelligent Realtime Topography system."
+    "description": "A daunting construct of various sensors and scanners, belonging to a rover-mounted Driving Intelligent Realtime Topography system.",
+    "looks_like": "t_radio_tower",
+    "symbol": ")",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 70,
+    "required_str": -1,
+    "description": "Large satellite dish belonging to a Standard Interstellar Communications Cluster.  Specifically calibrated for a linked orbital satellite that probably doesn't exist anymore.",
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 4, 6 ] },
+        { "item": "rebar", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 6, 12 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 5 ] },
+        { "item": "cable", "charges": [ 10, 18 ] },
+        { "item": "pipe_fittings", "count": [ 2, 8 ] },
+        { "item": "motor", "count": [ 0, 1 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 4 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
+        { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 3, 4 ] },
+        { "item": "processor", "count": [ 2, 3 ] },
+        { "item": "circuit", "count": [ 2, 3 ] },
+        { "item": "power_supply", "count": [ 1, 2 ] },
+        { "item": "amplifier", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 2, 3 ] },
+        { "item": "rebar", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 6, 12 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 6 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "pipe_fittings", "count": [ 0, 4 ], "prob": 50 },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ], "prob": 25 },
+        { "item": "afs_circuitry_2", "count": [ 0, 1 ], "prob": 25 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 25 },
+        { "item": "e_scrap", "count": [ 3, 4 ] },
+        { "item": "processor", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "count": [ 0, 1 ], "prob": 25 },
+        { "item": "amplifier", "count": [ 0, 1 ], "prob": 25 }
+      ]
+    }
   },
   {
     "type": "furniture",
