@@ -656,6 +656,8 @@ For information about tools with option to export ASCII art in format ready to b
 | vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorbtion, affects all vitamins. (default: `1.0`)
 | block_unins                 | (_optional_) Whether the bionic can be uninstalled or not. (default: `false`)
 | block_unins_msg             | (_optional_) The text shown when trying to uninstall a bionic which cannot be uninstalled. Should be with a possessive pronouns & a nominative one, both replaced with '%s'.
+| covered_bodyparts           | (_optional_) A list of covered bodyparts, which resist bites and bleeding but are unable to be compressed.
+
 
 ```C++
 {

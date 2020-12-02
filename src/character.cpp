@@ -1499,10 +1499,13 @@ bool Character::can_run() const
 
 bool Character::is_bp_armored( const bodypart_id &bp ) const
 {
-    return ( bp->token == bp_torso && has_bionic( bio_armor_torso ) ) || \
-           ( bp->token == bp_head && has_bionic( bio_armor_head ) ) || \
-           ( ( bp->token == bp_arm_l || bp->token == bp_arm_r ) && has_bionic( bio_armor_arms ) ) || \
-           ( ( bp->token == bp_leg_l || bp->token == bp_leg_r ) && has_bionic( bio_armor_legs ) );
+    for( const bionic_id &bid : get_bionics() ) {
+        if( find( bid->covered_bodyparts.begin(), bid->covered_bodyparts.end(),
+                  bp.id() ) != bid->covered_bodyparts.end() ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void Character::try_remove_downed()

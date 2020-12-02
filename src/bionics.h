@@ -60,8 +60,8 @@ struct bionic_data {
     units::mass weight_capacity_bonus = 0_gram;
     /**Map of stats and their corresponding bonuses passively granted by a bionic*/
     std::map<character_stat, int> stat_bonus;
-	/** If true the bionic cannot be uninstalled from character*/
-	bool block_unins = false;
+    /** If true the bionic cannot be uninstalled from character*/
+    bool block_unins = false;
     /**This bionic draws power through a cable*/
     bool is_remote_fueled = false;
     /**Fuel types that can be used by this bionic*/
@@ -146,9 +146,12 @@ struct bionic_data {
 
     /**Requirement to bionic installation*/
     requirement_id installation_requirement;
-	
-	/**Message shown when bionic cannot be uninstalled*/
-	std::string block_unins_msg;
+
+    /**Message shown when bionic cannot be uninstalled*/
+    std::string block_unins_msg;
+
+    /**Covered bodyparts, which resist bites and bleeding but are unable to be compressed*/
+    std::vector<bodypart_str_id> covered_bodyparts;
 
     cata::flat_set<std::string> flags;
     bool has_flag( const std::string &flag ) const;

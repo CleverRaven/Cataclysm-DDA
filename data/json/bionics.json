@@ -50,6 +50,7 @@
     "acid_protec": [ [ "arm_l", 2 ], [ "arm_r", 2 ] ],
     "encumbrance": [ [ "arm_l", 5 ], [ "arm_r", 5 ] ],
     "wet_protection": [ { "part": "arm_l", "ignored": 4 }, { "part": "arm_r", "ignored": 4 } ],
+    "covered_bodyparts": [ "arm_l", "arm_r" ],
     "block_unins": true,
     "block_unins_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
@@ -79,6 +80,7 @@
     "acid_protec": [ [ "head", 2 ] ],
     "encumbrance": [ [ "head", 5 ] ],
     "wet_protection": [ { "part": "head", "ignored": 4 } ],
+    "covered_bodyparts": [ "head" ],
     "block_unins": true,
     "block_unins_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
@@ -96,6 +98,7 @@
     "acid_protec": [ [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "encumbrance": [ [ "leg_l", 5 ], [ "leg_r", 5 ] ],
     "wet_protection": [ { "part": "leg_l", "ignored": 4 }, { "part": "leg_r", "ignored": 4 } ],
+    "covered_bodyparts": [ "leg_l", "leg_r" ],
     "block_unins": true,
     "block_unins_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
@@ -113,6 +116,7 @@
     "acid_protec": [ [ "torso", 2 ] ],
     "encumbrance": [ [ "torso", 5 ] ],
     "wet_protection": [ { "part": "torso", "ignored": 4 } ],
+    "covered_bodyparts": [ "torso" ],
     "block_unins": true,
     "block_unins_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]

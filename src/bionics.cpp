@@ -313,8 +313,11 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "installation_requirement", installation_requirement );
 
     optional( jsobj, was_loaded, "vitamin_absorb_mod", vitamin_absorb_mod, 1.0f );
-    
+
     optional( jsobj, was_loaded, "block_unins_msg", block_unins_msg );
+
+    optional( jsobj, was_loaded, "covered_bodyparts", covered_bodyparts );
+
 
     if( jsobj.has_array( "stat_bonus" ) ) {
         // clear data first so that copy-from can override it
