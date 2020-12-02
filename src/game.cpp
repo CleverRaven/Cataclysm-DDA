@@ -1533,7 +1533,7 @@ bool game::do_turn()
 
             mon_info_update();
 
-            // If player is performing a task, a monster is dangerously close, 
+            // If player is performing a task, a monster is dangerously close,
             // and monster can reach to the player or it has some sort of a ranged attack,
             // warn them regardless of previous safemode warnings
             if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
