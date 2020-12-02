@@ -1008,7 +1008,7 @@ class Character : public Creature, public visitable
 
         /** Return true if bionics hamper compression on bodypart to stop bleeding */
         bool is_bp_armored( const bodypart_id &bp ) const;
-        
+
         /** Return bodypart's bite chance modifier */
         double bp_bite_chance( const bodypart_id &bp ) const;
         /** Return bodypart's bleed chance modifier */

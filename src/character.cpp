@@ -1499,7 +1499,7 @@ bool Character::is_bp_armored( const bodypart_id &bp ) const
                   bp.id() ) != bid->covered_bodyparts.end() && bid->has_flag( flag_BIO_CANT_COMPRESS ) ) {
             return true;
         }
-    }    
+    }
     return false;
 }
 

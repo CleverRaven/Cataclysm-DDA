@@ -956,8 +956,8 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
     }
 
     float div = 4.0f;
-    
-	switch( du.type ) {
+
+    switch( du.type ) {
         case damage_type::BASH:
             // Bashing damage is less painful
             div = 5.0f;

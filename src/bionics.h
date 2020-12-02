@@ -89,12 +89,12 @@ struct bionic_data {
     std::map<bodypart_str_id, size_t> cut_protec;
     /**Amount of bullet protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> bullet_protec;
-    
+
     /**Chance to avoid bleeding offered by this bionic*/
     double no_bleed_chance = 0.0f;
     /**Chance to avoid bites offered by this bionic*/
     double no_bite_chance = 0.0f;
-    
+
 
     float vitamin_absorb_mod = 1.0f;
 
