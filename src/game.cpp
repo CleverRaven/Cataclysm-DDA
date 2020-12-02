@@ -1533,17 +1533,32 @@ bool game::do_turn()
 
             mon_info_update();
 
-            // If player is performing a task, a monster is dangerously close, and monster can reach to the player,
+            // If player is performing a task, a monster is dangerously close, 
+            // and monster can reach to the player or it has some sort of a ranged attack,
             // warn them regardless of previous safemode warnings
             if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
                 u.activity.moves_left > 0 &&
                 !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
                 Creature *hostile_critter = is_hostile_very_close();
-                if( hostile_critter != nullptr &&
-                    get_map().clear_path( hostile_critter->pos(), u.pos(), DANGEROUS_PROXIMITY, 1, 100 ) ) {
-                    cancel_activity_or_ignore_query( distraction_type::hostile_spotted_near,
-                                                     string_format( _( "The %s is dangerously close!" ),
-                                                             hostile_critter->get_name() ) );
+
+                bool ranged_attack_monster = false;
+                if( hostile_critter != nullptr ) {
+                    for( const std::pair<std::string, mtype_special_attack> &attack :
+                         hostile_critter->as_monster()->type->special_attacks ) {
+                        if( attack.second->id == "gun" ) {
+                            ranged_attack_monster = true;
+                            break;
+                        }
+                    }
+
+                    const std::vector<tripoint> path = get_map().route( hostile_critter->pos(), u.pos(),
+                                                       hostile_critter->get_pathfinding_settings(), hostile_critter->get_path_avoid() );
+
+                    if( hostile_critter->has_flag( MF_RANGED_ATTACKER ) || ranged_attack_monster || !path.empty() ) {
+                        cancel_activity_or_ignore_query( distraction_type::hostile_spotted_near,
+                                                         string_format( _( "The %s is dangerously close!" ),
+                                                                 hostile_critter->get_name() ) );
+                    }
                 }
             }
 
