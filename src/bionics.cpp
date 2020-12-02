@@ -180,10 +180,6 @@ static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 static const bionic_id bio_water_extractor( "bio_water_extractor" );
 static const bionic_id bio_tools_extend( "bio_tools_extend" );
-static const bionic_id bio_armor_head( "bio_armor_head" );
-static const bionic_id bio_armor_torso( "bio_armor_torso" );
-static const bionic_id bio_armor_arms( "bio_armor_arms" );
-static const bionic_id bio_armor_legs( "bio_armor_legs" );
 
 // Aftershock stuff!
 static const bionic_id afs_bio_dopamine_stimulators( "afs_bio_dopamine_stimulators" );
@@ -296,7 +292,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "exothermic_power_gen", exothermic_power_gen );
     optional( jsobj, was_loaded, "power_gen_emission", power_gen_emission );
     optional( jsobj, was_loaded, "coverage_power_gen_penalty", coverage_power_gen_penalty );
-    optional( jsobj, was_loaded, "block_unins", block_unins );
+    optional( jsobj, was_loaded, "cant_uninstal", cant_uninstal );
     optional( jsobj, was_loaded, "is_remote_fueled", is_remote_fueled );
 
     optional( jsobj, was_loaded, "learned_spells", learned_spells );
@@ -314,7 +310,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
 
     optional( jsobj, was_loaded, "vitamin_absorb_mod", vitamin_absorb_mod, 1.0f );
 
-    optional( jsobj, was_loaded, "block_unins_msg", block_unins_msg );
+    optional( jsobj, was_loaded, "cant_uninstal_msg", cant_uninstal_msg );
 
     optional( jsobj, was_loaded, "covered_bodyparts", covered_bodyparts );
 
@@ -2121,8 +2117,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
-    if( b_id->block_unins ) {
-        popup( b_id->block_unins_msg.c_str(),
+    if( b_id->cant_uninstal ) {
+        popup( b_id->cant_uninstal_msg.c_str(),
                disp_name( true ), disp_name() );
         return false;
     }
