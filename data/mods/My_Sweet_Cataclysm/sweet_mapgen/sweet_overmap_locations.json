@@ -82,8 +82,8 @@
       },
       "place_monsters": [
         { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_EGG_CRACKER_ROE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_EGG_GUMMY_GATOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 }
+        { "monster": "GROUP_EGG_CRACKER_ROE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 20, "repeat": [ 1, 2 ] },
+        { "monster": "GROUP_EGG_GUMMY_GATOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 20 }
       ]
     }
   },
@@ -176,9 +176,9 @@
         "~": [ [ "t_chocolate_dp", 8 ], "t_dirt", "t_grass", "t_underbrush", "t_tree_willow" ]
       },
       "place_monsters": [
-        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_EGG_CRACKER_ROE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_EGG_GUMMY_GATOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 }
+        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 20 },
+        { "monster": "GROUP_EGG_CRACKER_ROE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 20, "repeat": [ 1, 2 ] },
+        { "monster": "GROUP_EGG_GUMMY_GATOR", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 20 }
       ]
     }
   }
