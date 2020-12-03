@@ -13,14 +13,18 @@
     "copy-from": "afs_scrap_2",
     "name": { "str_sp": "supercritical coolant" },
     "description": "Capable of withstanding extreme temperature gradients, fulleroclathrate supercritical coolants are the lifeblood of high-energy systems, from cutting-edge aerospace engines to experimental small arms tech.  Liquid at room conditions, it has to be used in a pressurized closed-loop system at 450 psi or greater.",
-    "looks_like": "scrap"
+    "looks_like": "napalm",
+    "symbol": "~",
+    "weight": "263 g",
+    "volume": "250 ml",
+    "phase": "liquid",
   },
   {
     "type": "GENERIC",
     "id": "afs_heat_3",
     "copy-from": "afs_scrap_3",
     "name": { "str": "carbon-lattice heatsink" },
-    "description": "Sections of dark, translucent, monocrystalline carbon fins, functionally identical to diamond.  Microscopic etches on the inside allows the flow of high-pressure coolant.  Crystalline carbon lattices are extremely heat-conductive, moreso than even the best metallic conductors.",
+    "description": "Sections of dark, translucent, monocrystalline carbon fins, functionally identical to diamond.  Microscopic etches on the inside allows the flow of high-pressure coolant.  Crystalline carbon lattices exhibit far superior thermal conductivity and deformation resistance than any other conventional metals.",
     "looks_like": "scrap"
   },
   {
@@ -38,5 +42,18 @@
     "name": { "str": "maxwellian entropic chirality generator" },
     "description": "A nondescript square piece of metal somewhat resembling a computer chip.  One side is cold to the touch, while the other is uncomfortably hot.  Hermetically sealed and devoid of any identifying feature, this peculiar device gives off an unexplainable, sinister aura.",
     "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_heat_2_salvage",
+    "copy-from": "afs_scrap_2",
+    "//": "This item drops from disassembly instead of afs_heat_2 because that is a liquid. Intended as a QOL detail in case player forgot/didn't know to bring watertight containers when disassembling a relevant object. DO NOT use in crafting recipes, use afs_heat_2 instead.",
+    "name": { "str": "salvaged coolant system" },
+    "description": "Rusty fluid resorvoirs and decomposing high-pressure tubings containing some useable supercritical coolant.  It would be wise to transfer the coolant to a watertight container and dispose of all these useless scraps.",
+    "looks_like": "scrap",
+    "price": 1,
+    "price_postapoc": 1,
+    "weight": "4500 g",
+    "volume": "3200 ml"
   }
 ]
