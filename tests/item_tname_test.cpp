@@ -438,24 +438,26 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
     item purse( itype_id( "purse" ) );
     item rock( itype_id( "test_rock" ) );
     item rock2( itype_id( "rock" ) );
-
     const std::string color_pref = "<color_c_light_green>||\u00A0</color>";
+
+    const std::string nesting_sym = ">";
 
     SECTION( "single stack inside" ) {
 
         backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
 
         SECTION( "single rock" ) {
-            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack with TEST rock" );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " TEST rock" );
         }
         SECTION( "several rocks" ) {
             backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
-            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack with TEST rocks" );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym +
+                   " TEST rocks" );
         }
         SECTION( "several stacks" ) {
             backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
             backpack_hiking.put_in( rock2, item_pocket::pocket_type::CONTAINER );
-            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack with 2 items" );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
         }
     }
 
@@ -465,7 +467,8 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
         SECTION( "single rock" ) {
             backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
             CHECK( backpack_hiking.tname( 1 ) ==
-                   color_pref + "hiking backpack with " + color_pref + "purse with 1 item" );
+                   color_pref + "hiking backpack " + nesting_sym + " " + color_pref + "purse " + nesting_sym +
+                   " 1 item" );
         }
 
         SECTION( "several rocks" ) {
@@ -474,14 +477,15 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
             backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
 
             CHECK( backpack_hiking.tname( 1 ) ==
-                   color_pref + "hiking backpack with " + color_pref + "purse with 2 items" );
+                   color_pref + "hiking backpack " + nesting_sym + " " + color_pref + "purse " + nesting_sym +
+                   " 2 items" );
         }
 
         SECTION( "several purses" ) {
             backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
             backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
 
-            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack with 2 items" );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
         }
     }
 }

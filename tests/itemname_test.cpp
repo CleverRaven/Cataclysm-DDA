@@ -150,6 +150,6 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
     CHECK( quiver.ammo_remaining() == 10 );
     CHECK( quiver.display_name() ==
            "<color_c_light_green>||\u00A0</color>"
-           "test quiver with test wooden broadhead arrows (10)" );
+           "test quiver > test wooden broadhead arrows (10)" );
 }
 
