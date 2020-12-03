@@ -1437,6 +1437,9 @@ class Character : public Creature, public visitable<Character>
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
 
+        /** Returns the amount of software `type' that are in the inventory */
+        int count_softwares( const itype_id &id );
+
         /** Returns nearby items which match the provided predicate */
         std::vector<item_location> nearby( const std::function<bool( const item *, const item * )> &func,
                                            int radius = 1 ) const;
@@ -2530,6 +2533,7 @@ class Character : public Creature, public visitable<Character>
                                        const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
                                        const std::function<bool( const item & )> &filter = return_true<item> );
+        bool consume_software_container( const itype_id &software_id );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                bool can_cancel = false, bool player_inv = true,
