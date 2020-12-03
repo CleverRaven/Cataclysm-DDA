@@ -52,12 +52,7 @@
     "copy-from": "22_cphp",
     "type": "AMMO",
     "name": { "str": ".22 LR CPHP, black powder" },
-    "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.57 },
-      "recoil": 0.57,
-      "dispersion": 1.2
-    },
+    "proportional": { "price": 0.3, "damage": { "damage_type": "stab", "amount": 0.57 }, "recoil": 0.57, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
