@@ -40,12 +40,12 @@
   {
     "id": "bio_armor_arms",
     "type": "bionic",
-    "name": { "str": "Alloy Plating - Arms" },
-    "description": "The flesh on your arms has been surgically replaced by alloy plating.  Provides passive protection and can be used in conjunction with bionic martial arts.",
+    "name": { "str": "Subdermal Armor - Arms" },
+    "description": "A thin layer of alloy armor is implanted under your skin, protecting your arms.  Can be used in conjunction with bionic martial arts.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ] ],
-    "bash_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
-    "cut_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
-    "bullet_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
+    "bash_protec": [ [ "arm_l", 4 ], [ "arm_r", 4 ] ],
+    "cut_protec": [ [ "arm_l", 4 ], [ "arm_r", 4 ] ],
+    "bullet_protec": [ [ "arm_l", 4 ], [ "arm_r", 4 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -63,34 +63,34 @@
   {
     "id": "bio_armor_head",
     "type": "bionic",
-    "name": { "str": "Alloy Plating - head" },
-    "description": "The flesh on your head has been surgically replaced by alloy plating, protecting both your head and jaw regions.",
+    "name": { "str": "Subdermal Armor - Head" },
+    "description": "A thin layer of alloy armor is implanted under your skin, protecting both your head and jaw regions.",
     "occupied_bodyparts": [ [ "head", 5 ], [ "mouth", 1 ] ],
-    "bash_protec": [ [ "head", 3 ] ],
-    "cut_protec": [ [ "head", 3 ] ],
-    "bullet_protec": [ [ "head", 3 ] ],
+    "bash_protec": [ [ "head", 4 ], [ "mouth", 4 ] ],
+    "cut_protec": [ [ "head", 4 ], [ "mouth", 4 ] ],
+    "bullet_protec": [ [ "head", 4 ], [ "mouth", 4 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_armor_legs",
     "type": "bionic",
-    "name": { "str": "Alloy Plating - Legs" },
-    "description": "The flesh on your legs has been surgically replaced by alloy plating.  Provides passive protection and can be used in conjunction with bionic martial arts.",
+    "name": { "str": "Subdermal Armor - Legs" },
+    "description": "A thin layer of alloy armor is implanted under your skin, protecting your legs.  Can be used in conjunction with bionic martial arts.",
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ] ],
-    "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "bash_protec": [ [ "leg_l", 4 ], [ "leg_r", 4 ] ],
+    "cut_protec": [ [ "leg_l", 4 ], [ "leg_r", 4 ] ],
+    "bullet_protec": [ [ "leg_l", 4 ], [ "leg_r", 4 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_armor_torso",
     "type": "bionic",
-    "name": { "str": "Alloy Plating - torso" },
-    "description": "The flesh on your torso has been surgically replaced by alloy plating, protecting it from physical trauma.",
+    "name": { "str": "Subdermal Armor - Torso" },
+    "description": "A thin layer of alloy armor is implanted under your skin, protecting your torso.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "bash_protec": [ [ "torso", 3 ] ],
-    "cut_protec": [ [ "torso", 3 ] ],
-    "bullet_protec": [ [ "torso", 3 ] ],
+    "bash_protec": [ [ "torso", 4 ] ],
+    "cut_protec": [ [ "torso", 4 ] ],
+    "bullet_protec": [ [ "torso", 4 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -165,7 +165,7 @@
     "id": "bio_carbon",
     "type": "bionic",
     "name": { "str": "Subdermal Carbon Filament" },
-    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This reduces bashing damage by 2 and cutting damage by 4.",
+    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This reduces bashing damage by 2 and cutting damage by 4.  Can be combined with alloy armor.",
     "occupied_bodyparts": [
       [ "torso", 5 ],
       [ "head", 2 ],
@@ -181,6 +181,7 @@
     "bash_protec": [
       [ "torso", 2 ],
       [ "head", 2 ],
+      [ "mouth", 2 ],
       [ "arm_l", 2 ],
       [ "arm_r", 2 ],
       [ "hand_l", 2 ],
@@ -193,6 +194,7 @@
     "cut_protec": [
       [ "torso", 4 ],
       [ "head", 4 ],
+      [ "mouth", 4 ],
       [ "arm_l", 4 ],
       [ "arm_r", 4 ],
       [ "hand_l", 4 ],
@@ -205,6 +207,7 @@
     "bullet_protec": [
       [ "torso", 4 ],
       [ "head", 4 ],
+      [ "mouth", 4 ],
       [ "arm_l", 4 ],
       [ "arm_r", 4 ],
       [ "hand_l", 4 ],
