@@ -1832,8 +1832,8 @@ int get_heat_radiation( const tripoint &location, bool direct )
         int ffire = maptile_field_intensity( mt, fd_fire );
         if( ffire > 0 ) {
             heat_intensity = ffire;
-        } else if( here.tr_at( dest ) == tr_lava ) {
-            heat_intensity = 3;
+        } else  {
+            heat_intensity = here.ter( dest )->heat_radiation;
         }
         if( heat_intensity == 0 ) {
             // No heat source here

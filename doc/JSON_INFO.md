@@ -109,6 +109,7 @@ Use the `Home` key to return to the top.
     + [Terrain](#terrain)
       - [`type`](#-type--2)
       - [`move_cost`](#-move-cost-)
+      - [`heat_radiation`](#-heat_radiation-)
       - [`light_emitted`](#-light-emitted--1)
       - [`trap`](#-trap-)
       - [`harvestable`](#-harvestable-)
@@ -3248,6 +3249,7 @@ Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
 Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the underlying terrain.
 
+
 #### `light_emitted`
 
 How much light the furniture produces.  10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
@@ -3313,6 +3315,10 @@ Same as for furniture, see below in the chapter "Common to furniture and terrain
 #### `move_cost`
 
 Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2\*50 = 100 move points when moving across the terrain.
+
+#### `heat_radiation`
+
+Heat emitted for a terrain. A value of 0 means no fire (i.e, same as not having it). A value of 1 equals a fire of intensity of 1.
 
 #### `light_emitted`
 
