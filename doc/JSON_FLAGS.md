@@ -1060,7 +1060,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```FUNGUS``` Releases fungal spores and attempts to infect the player.
 - ```GENERATOR``` Regenerates health.
 - ```GENE_STING``` Shoot a dart at the player that causes a mutation if it connects.
-- ```GRAB``` GRAB the target, and drag it around.
+- ```GRAB_DRAG``` GRAB the target, and drag it around.
 - ```GRAB``` Grabs the player, slowing on hit, making movement and dodging impossible and blocking harder.
 - ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`.
 - ```GROW_VINE``` Grows creeper vines.
