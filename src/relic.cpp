@@ -707,7 +707,7 @@ bool operator==(relic source_relic ,relic &target_relic)
     is_the_same &= (source_relic.get_enchantments().size() == target_relic.get_enchantments().size());
     if (is_the_same) 
     {
-        for (int i = 0; i < source_relic.get_enchantments().size(); i++)
+        for (std::size_t i = 0; i < source_relic.get_enchantments().size(); i++)
         {
             is_the_same &= source_relic.get_enchantments()[i]==target_relic.get_enchantments()[i];
         }
