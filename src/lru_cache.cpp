@@ -6,7 +6,6 @@
 #include <memory>
 #include <string>
 
-#include "map_memory.h"
 #include "memory_fast.h"
 #include "point.h"
 
