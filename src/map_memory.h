@@ -19,6 +19,7 @@ struct memorized_terrain_tile {
     int rotation;
 };
 
+/** Represent a submap-sized chunk of tile memory. */
 struct mm_submap {
     /** Whether this mm_submap is empty. Empty submaps are skipped during saving. */
     bool empty;
@@ -27,6 +28,22 @@ struct mm_submap {
     int symbols[SEEX][SEEY];
 
     mm_submap();
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
+};
+
+/**
+ * Represents a square of mm_submaps.
+ * For faster save/load, submaps are collected into regions
+ * and each region is saved in its own file.
+ */
+struct mm_region {
+    shared_ptr_fast<mm_submap> submaps[MM_REG_SIZE][MM_REG_SIZE];
+
+    mm_region();
+
+    bool is_empty() const;
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
@@ -111,12 +128,14 @@ class map_memory
         tripoint cache_pos;
         point cache_size;
 
-        /** Make sure submap exists within 'submaps' and return its pointer */
+        /** Find, load or allocate a submap. @returns the submap. */
         shared_ptr_fast<mm_submap> fetch_submap( const tripoint &sm_pos );
+        /** Find submap amongst the loaded submaps. @returns nullptr if failed. */
+        shared_ptr_fast<mm_submap> find_submap( const tripoint &sm_pos );
         /** Load submap from disk. @returns nullptr if failed. */
         shared_ptr_fast<mm_submap> load_submap( const tripoint &sm_pos );
-        /** Allocate empty submap */
-        shared_ptr_fast<mm_submap> allocate_submap();
+        /** Allocate empty submap. @returns the submap. */
+        shared_ptr_fast<mm_submap> allocate_submap( const tripoint &sm_pos );
 
         /** Get submap from within the cache */
         //@{

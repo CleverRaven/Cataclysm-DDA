@@ -24,13 +24,40 @@ static std::string find_mm_dir()
     return string_format( "%s.mm1", PATH_INFO::player_base_save_path() );
 }
 
-static std::string find_submap_path( const std::string &dirname, const tripoint &p )
+static std::string find_region_path( const std::string &dirname, const tripoint &p )
 {
-    return string_format( "%s/%d.%d.%d.mm", dirname, p.x, p.y, p.z );
+    return string_format( "%s/%d.%d.%d.mmr", dirname, p.x, p.y, p.z );
 }
+
+/**
+ * Helper class for converting global sm coord into
+ * global mm_region coord + sm coord within the region.
+ */
+struct reg_coord_pair {
+    tripoint reg;
+    point sm_loc;
+
+    reg_coord_pair( const tripoint &p ) : sm_loc( p.xy() ) {
+        reg = tripoint( sm_to_mmr_remain( sm_loc.x, sm_loc.y ), p.z );
+    }
+};
 
 mm_submap::mm_submap() : empty( true ),
     tiles{{ default_tile }}, symbols{{ default_symbol }} {}
+
+mm_region::mm_region() : submaps {{ nullptr }} {}
+
+bool mm_region::is_empty() const
+{
+    for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
+        for( size_t x  = 0; x < MM_REG_SIZE; x++ ) {
+            if( !submaps[x][y]->empty ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
 map_memory::coord_pair::coord_pair( const tripoint &p ) : loc( p.xy() )
 {
@@ -110,22 +137,46 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
 
 shared_ptr_fast<mm_submap> map_memory::fetch_submap( const tripoint &sm_pos )
 {
+    shared_ptr_fast<mm_submap> sm = find_submap( sm_pos );
+    if( sm ) {
+        return sm;
+    }
+    sm = load_submap( sm_pos );
+    if( sm ) {
+        return sm;
+    }
+    return allocate_submap( sm_pos );
+}
+
+shared_ptr_fast<mm_submap> map_memory::allocate_submap( const tripoint &sm_pos )
+{
+    // Since all save/load operations are done on regions of submaps,
+    // we need to allocate the whole region at once.
+    shared_ptr_fast<mm_submap> ret;
+    tripoint reg = reg_coord_pair( sm_pos ).reg;
+
+    for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
+        for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
+            tripoint pos = mmr_to_sm_copy( reg ) + tripoint( x, y, 0 );
+            shared_ptr_fast<mm_submap> sm = make_shared_fast<mm_submap>();
+            if( pos == sm_pos ) {
+                ret = sm;
+            }
+            submaps.insert( std::make_pair( pos, sm ) );
+        }
+    }
+
+    return ret;
+}
+
+shared_ptr_fast<mm_submap> map_memory::find_submap( const tripoint &sm_pos )
+{
     auto sm = submaps.find( sm_pos );
     if( sm == submaps.end() ) {
-        shared_ptr_fast<mm_submap> sm1 = load_submap( sm_pos );
-        if( !sm1 ) {
-            sm1 = allocate_submap();
-        }
-        submaps.insert( std::make_pair( sm_pos, sm1 ) );
-        return sm1;
+        return nullptr;
     } else {
         return sm->second;
     }
-}
-
-shared_ptr_fast<mm_submap> map_memory::allocate_submap()
-{
-    return make_shared_fast<mm_submap>();
 }
 
 shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
@@ -135,31 +186,44 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
     }
 
     const std::string dirname = find_mm_dir();
-    const std::string path = find_submap_path( dirname, sm_pos );
+    reg_coord_pair p( sm_pos );
+    const std::string path = find_region_path( dirname, p.reg );
 
     if( !dir_exist( dirname ) ) {
         // Old saves don't have [plname].mm1 folder
         return nullptr;
     }
 
-    shared_ptr_fast<mm_submap> sm = nullptr;
+    mm_region mmr;
     const auto loader = [&]( JsonIn & jsin ) {
-        // Don't allocate submap unless we know its file exists
-        sm = allocate_submap();
-        sm->empty = false;
-        sm->deserialize( jsin );
+        mmr.deserialize( jsin );
     };
 
     try {
-        if( read_from_file_optional_json( path, loader ) ) {
-            return sm;
+        if( !read_from_file_optional_json( path, loader ) ) {
+            // Region not found
+            return nullptr;
         }
     } catch( const std::exception &err ) {
-        debugmsg( "Failed to load memory submap (%d,%d,%d): %s",
-                  sm_pos.x, sm_pos.y, sm_pos.z, err.what() );
+        debugmsg( "Failed to load memory map region (%d,%d,%d): %s",
+                  p.reg.x, p.reg.y, p.reg.z, err.what() );
+        return nullptr;
     }
 
-    return nullptr;
+    shared_ptr_fast<mm_submap> ret;
+
+    for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
+        for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
+            tripoint pos = mmr_to_sm_copy( p.reg ) + tripoint( x, y, 0 );
+            shared_ptr_fast<mm_submap> &sm = mmr.submaps[x][y];
+            if( pos == sm_pos ) {
+                ret = sm;
+            }
+            submaps.insert( std::make_pair( pos, sm ) );
+        }
+    }
+
+    return ret;
 }
 
 static mm_submap null_mz_submap;
@@ -222,31 +286,51 @@ bool map_memory::save( const tripoint &pos )
 
     clear_cache();
 
+    // Since mm_submaps are always allocated in regions,
+    // we are certain that each region will be filled.
+    std::map<tripoint, mm_region> regions;
+    for( auto &it : submaps ) {
+        const reg_coord_pair p( it.first );
+        regions[p.reg].submaps[p.sm_loc.x][p.sm_loc.y] = it.second;
+    }
+    submaps.clear();
+
+    constexpr point MM_SIZE_P = point( MM_SIZE, MM_SIZE );
+    rectangle<point> rect_keep( sm_center.xy() - MM_SIZE_P, sm_center.xy() + MM_SIZE_P );
+
     bool result = true;
 
-    for( auto it = submaps.cbegin(); it != submaps.cend(); ) {
-        const tripoint &sm_pos = it->first;
-        if( !it->second->empty ) {
-            const std::string path = find_submap_path( dirname, sm_pos );
+    for( auto &it : regions ) {
+        const tripoint &regp = it.first;
+        mm_region &reg = it.second;
+        if( !reg.is_empty() ) {
+            const std::string path = find_region_path( dirname, regp );
             const std::string descr = string_format(
-                                          _( "player map memory for (%d,%d,%d)" ),
-                                          sm_pos.x, sm_pos.y, sm_pos.z
+                                          _( "memory map region for (%d,%d,%d)" ),
+                                          regp.x, regp.y, regp.z
                                       );
 
             const auto writer = [&]( std::ostream & fout ) -> void {
                 fout << serialize_wrapper( [&]( JsonOut & jsout )
                 {
-                    it->second->serialize( jsout );
+                    reg.serialize( jsout );
                 } );
             };
 
             const bool res = write_to_file( path, writer, descr.c_str() );
             result = result & res;
         }
-        if( square_dist( sm_center, sm_pos ) > MM_SIZE ) {
-            it = submaps.erase( it );
-        } else {
-            ++it;
+        half_open_rectangle<point> rect_reg( mmr_to_sm_copy( regp ).xy(),
+                                             point( MM_REG_SIZE, MM_REG_SIZE ) );
+        if( rect_reg.overlaps( rect_keep ) ) {
+            // Put submaps back
+            for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
+                for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
+                    tripoint p = regp + tripoint( x, y, 0 );
+                    shared_ptr_fast<mm_submap> &sm = reg.submaps[x][y];
+                    submaps.insert( std::make_pair( p, sm ) );
+                }
+            }
         }
     }
 

@@ -3521,6 +3521,40 @@ void mm_submap::deserialize( JsonIn &jsin )
     jsin.end_array();
 }
 
+void mm_region::serialize( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
+        for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
+            const shared_ptr_fast<mm_submap> &sm = submaps[x][y];
+            if( sm->empty ) {
+                jsout.write_null();
+            } else {
+                sm->serialize( jsout );
+            }
+        }
+    }
+    jsout.end_array();
+}
+
+void mm_region::deserialize( JsonIn &jsin )
+{
+    jsin.start_array();
+    for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
+        for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
+            shared_ptr_fast<mm_submap> &sm = submaps[x][y];
+            sm = make_shared_fast<mm_submap>();
+            if( jsin.test_null() ) {
+                jsin.skip_null();
+            } else {
+                sm->empty = false;
+                sm->deserialize( jsin );
+            }
+        }
+    }
+    jsin.end_array();
+}
+
 void map_memory::load_legacy( JsonIn &jsin )
 {
     struct mig_elem {
@@ -3557,17 +3591,11 @@ void map_memory::load_legacy( JsonIn &jsin )
 
     for( const std::pair<const tripoint, mig_elem> &elem : elems ) {
         coord_pair cp( elem.first );
-
-        auto sm_iter = submaps.find( cp.sm );
-        shared_ptr_fast<mm_submap> sm = nullptr;
-        if( sm_iter == submaps.end() ) {
-            sm = allocate_submap();
-            sm->empty = false;
-            submaps.insert( std::make_pair( cp.sm, sm ) );
-        } else {
-            sm = sm_iter->second;
+        shared_ptr_fast<mm_submap> sm = find_submap( cp.sm );
+        if( !sm ) {
+            sm = allocate_submap( cp.sm );
         }
-
+        sm->empty = false;
         sm->tiles[cp.loc.x][cp.loc.y] = elem.second.tile;
         sm->symbols[cp.loc.x][cp.loc.y] = elem.second.symbol;
     }
