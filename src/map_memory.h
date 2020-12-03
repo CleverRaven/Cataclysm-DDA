@@ -19,12 +19,12 @@ struct memorized_terrain_tile {
     int rotation;
 };
 
-struct memorized_submap {
+struct mm_submap {
     bool clean;
     memorized_terrain_tile tiles[SEEX][SEEY];
     int symbols[SEEX][SEEY];
 
-    memorized_submap();
+    mm_submap();
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
@@ -103,23 +103,23 @@ class map_memory
         void clear_memorized_tile( const tripoint &pos );
 
     private:
-        std::map<tripoint, shared_ptr_fast<memorized_submap>> submaps;
+        std::map<tripoint, shared_ptr_fast<mm_submap>> submaps;
 
-        std::vector<shared_ptr_fast<memorized_submap>> cached;
+        std::vector<shared_ptr_fast<mm_submap>> cached;
         tripoint cache_pos;
         point cache_size;
 
         /** Make sure submap exists within 'submaps' and return its pointer */
-        shared_ptr_fast<memorized_submap> fetch_submap( const tripoint &sm_pos );
+        shared_ptr_fast<mm_submap> fetch_submap( const tripoint &sm_pos );
         /** Load submap from disk. @returns nullptr if failed. */
-        shared_ptr_fast<memorized_submap> load_submap( const tripoint &sm_pos );
+        shared_ptr_fast<mm_submap> load_submap( const tripoint &sm_pos );
         /** Allocate empty submap */
-        shared_ptr_fast<memorized_submap> allocate_submap();
+        shared_ptr_fast<mm_submap> allocate_submap();
 
         /** Get submap from within the cache */
         //@{
-        const memorized_submap &get_submap( const tripoint &sm_pos ) const;
-        memorized_submap &get_submap( const tripoint &sm_pos );
+        const mm_submap &get_submap( const tripoint &sm_pos ) const;
+        mm_submap &get_submap( const tripoint &sm_pos );
         //@}
 
         void clear_cache();

@@ -29,7 +29,7 @@ static std::string find_submap_path( const std::string &dirname, const tripoint 
     return string_format( "%s/%d.%d.%d.mm", dirname, p.x, p.y, p.z );
 }
 
-memorized_submap::memorized_submap() : clean( true ),
+mm_submap::mm_submap() : clean( true ),
     tiles{{ default_tile }}, symbols{{ default_symbol }} {}
 
 map_memory::coord_pair::coord_pair( const tripoint &p ) : loc( p.xy() )
@@ -45,7 +45,7 @@ map_memory::map_memory()
 const memorized_terrain_tile &map_memory::get_tile( const tripoint &pos ) const
 {
     coord_pair p( pos );
-    const memorized_submap &sm = get_submap( p.sm );
+    const mm_submap &sm = get_submap( p.sm );
     return sm.tiles[p.loc.x][p.loc.y];
 }
 
@@ -53,7 +53,7 @@ void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
                                 const int subtile, const int rotation )
 {
     coord_pair p( pos );
-    memorized_submap &sm = get_submap( p.sm );
+    mm_submap &sm = get_submap( p.sm );
     sm.clean = false;
     sm.tiles[p.loc.x][p.loc.y] = memorized_terrain_tile{ ter, subtile, rotation };
 }
@@ -61,14 +61,14 @@ void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
 int map_memory::get_symbol( const tripoint &pos ) const
 {
     coord_pair p( pos );
-    const memorized_submap &sm = get_submap( p.sm );
+    const mm_submap &sm = get_submap( p.sm );
     return sm.symbols[p.loc.x][p.loc.y];
 }
 
 void map_memory::memorize_symbol( const tripoint &pos, const int symbol )
 {
     coord_pair p( pos );
-    memorized_submap &sm = get_submap( p.sm );
+    mm_submap &sm = get_submap( p.sm );
     sm.clean = false;
     sm.symbols[p.loc.x][p.loc.y] = symbol;
 }
@@ -76,7 +76,7 @@ void map_memory::memorize_symbol( const tripoint &pos, const int symbol )
 void map_memory::clear_memorized_tile( const tripoint &pos )
 {
     coord_pair p( pos );
-    memorized_submap &sm = get_submap( p.sm );
+    mm_submap &sm = get_submap( p.sm );
     sm.symbols[p.loc.x][p.loc.y] = default_symbol;
     sm.tiles[p.loc.x][p.loc.y] = default_tile;
 }
@@ -108,11 +108,11 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     return true;
 }
 
-shared_ptr_fast<memorized_submap> map_memory::fetch_submap( const tripoint &sm_pos )
+shared_ptr_fast<mm_submap> map_memory::fetch_submap( const tripoint &sm_pos )
 {
     auto sm = submaps.find( sm_pos );
     if( sm == submaps.end() ) {
-        shared_ptr_fast<memorized_submap> sm1 = load_submap( sm_pos );
+        shared_ptr_fast<mm_submap> sm1 = load_submap( sm_pos );
         if( !sm1 ) {
             sm1 = allocate_submap();
         }
@@ -123,12 +123,12 @@ shared_ptr_fast<memorized_submap> map_memory::fetch_submap( const tripoint &sm_p
     }
 }
 
-shared_ptr_fast<memorized_submap> map_memory::allocate_submap()
+shared_ptr_fast<mm_submap> map_memory::allocate_submap()
 {
-    return make_shared_fast<memorized_submap>();
+    return make_shared_fast<mm_submap>();
 }
 
-shared_ptr_fast<memorized_submap> map_memory::load_submap( const tripoint &sm_pos )
+shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
 {
     if( test_mode ) {
         return nullptr;
@@ -142,7 +142,7 @@ shared_ptr_fast<memorized_submap> map_memory::load_submap( const tripoint &sm_po
         return nullptr;
     }
 
-    shared_ptr_fast<memorized_submap> sm = nullptr;
+    shared_ptr_fast<mm_submap> sm = nullptr;
     const auto loader = [&]( JsonIn & jsin ) {
         // Don't allocate submap unless we know its file exists
         sm = allocate_submap();
@@ -162,9 +162,9 @@ shared_ptr_fast<memorized_submap> map_memory::load_submap( const tripoint &sm_po
     return nullptr;
 }
 
-static memorized_submap null_mz_submap;
+static mm_submap null_mz_submap;
 
-const memorized_submap &map_memory::get_submap( const tripoint &sm_pos ) const
+const mm_submap &map_memory::get_submap( const tripoint &sm_pos ) const
 {
     point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
@@ -174,7 +174,7 @@ const memorized_submap &map_memory::get_submap( const tripoint &sm_pos ) const
     }
 }
 
-memorized_submap &map_memory::get_submap( const tripoint &sm_pos )
+mm_submap &map_memory::get_submap( const tripoint &sm_pos )
 {
     point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {

@@ -3487,7 +3487,7 @@ void player_morale::load( const JsonObject &jsin )
     jsin.read( "morale", points );
 }
 
-void memorized_submap::serialize( JsonOut &jsout ) const
+void mm_submap::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
     for( size_t y = 0; y < SEEY; y++ ) {
@@ -3504,7 +3504,7 @@ void memorized_submap::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
-void memorized_submap::deserialize( JsonIn &jsin )
+void mm_submap::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
     for( size_t y = 0; y < SEEY; y++ ) {
@@ -3559,7 +3559,7 @@ void map_memory::load_legacy( JsonIn &jsin )
         coord_pair cp( elem.first );
 
         auto sm_iter = submaps.find( cp.sm );
-        shared_ptr_fast<memorized_submap> sm = nullptr;
+        shared_ptr_fast<mm_submap> sm = nullptr;
         if( sm_iter == submaps.end() ) {
             sm = allocate_submap();
             sm->clean = false;
