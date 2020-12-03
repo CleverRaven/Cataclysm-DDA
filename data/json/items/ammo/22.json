@@ -5,8 +5,10 @@
     "type": "AMMO",
     "name": { "str": ".22 CPHP" },
     "description": ".22 Long Rifle ammunition with 30gr copper-plated, hollow-point bullets.  Has a higher velocity and slightly more stopping power than lead round-nose ammunition, but armor will have a magnified effect on its already-low penetration.",
-    "relative": { "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": -7 } },
-    "proportional": { "range": 1.1, "recoil": 1.1 }
+    "//": "Hollowpoint damage increase of 25%",
+    "damage": { "damage_type": "stab", "amount": 20, "armor_penetration": 0 },
+    "relative": { "range": 3 },
+    "proportional": { "recoil": 1.5 }
   },
   {
     "id": "22_lr",
@@ -26,6 +28,7 @@
     "ammo_type": "22",
     "casing": "22_casing",
     "range": 13,
+    "//": "Base muzzle energy of ~144 joules, balance increase of one-third.",
     "damage": { "damage_type": "stab", "amount": 16, "armor_penetration": 7 },
     "dispersion": 60,
     "recoil": 150,
@@ -33,15 +36,15 @@
   },
   {
     "id": "22_ratshot",
-    "copy-from": "22_lr",
+    "copy-from": "22_cphp",
     "type": "AMMO",
     "name": { "str": ".22 rat-shot" },
     "description": "A .22 caliber cartridge loaded with very small pieces of shot contained within a fragmenting plastic capsule.  It has an extremely short range and penetration ability, but it can hit targets with greater ease.",
     "count": 100,
     "price_postapoc": 400,
     "dispersion": 0,
-    "relative": { "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": -7 } },
-    "proportional": { "range": 0.6, "recoil": 0.5 },
+    "relative": { "range": -9 },
+    "proportional": { "recoil": 0.334 },
     "extend": { "effects": [ "SHOT", "NOGIB" ] }
   },
   {
@@ -51,7 +54,7 @@
     "name": { "str": ".22 LR CPHP, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.57, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "stab", "amount": 0.57 },
       "recoil": 0.57,
       "dispersion": 1.2
     },

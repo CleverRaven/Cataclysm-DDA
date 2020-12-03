@@ -2479,5 +2479,25 @@
     "result": "broken_turretuncraft",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "result": "22_cbuncraft",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "22_fmjuncraft",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "reloaded_22_fmj",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_22_fmj",
+    "type": "recipe",
+    "obsolete": true
   }
 ]
