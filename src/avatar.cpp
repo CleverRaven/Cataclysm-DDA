@@ -141,12 +141,12 @@ bool avatar::should_show_map_memory()
 
 bool avatar::save_map_memory()
 {
-    return player_map_memory->save( pos() );
+    return player_map_memory->save( g->m.getabs( pos() ) );
 }
 
 void avatar::load_map_memory()
 {
-    player_map_memory->load( pos() );
+    player_map_memory->load( g->m.getabs( pos() ) );
 }
 
 void avatar::prepare_map_memory_region( const tripoint &p1, const tripoint &p2 )

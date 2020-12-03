@@ -73,13 +73,13 @@ class map_memory
     public:
         map_memory();
 
-        /** Load memorized submaps around given (global) pos. */
+        /** Load memorized submaps around given global map square pos. */
         void load( const tripoint &pos );
 
         /** Load legacy memory file. TODO: remove after 0.F (or whatever BN will have instead). */
         void load_legacy( JsonIn &jsin );
 
-        /** Save memorized submaps to disk, drop far-away ones */
+        /** Save memorized submaps to disk, drop ones far from given global map square pos. */
         bool save( const tripoint &pos );
 
         /**
