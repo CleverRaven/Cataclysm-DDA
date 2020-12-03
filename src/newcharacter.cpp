@@ -2101,9 +2101,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 4, TERMX - 2, point( 1, TERMY - 5 ) );
         const int second_column_w =  TERMX / 2 - 1;
-        const int second_column_origin_x = second_column_w + 1;
-        const int second_column_origin_y = 5;
-        point origin = point( second_column_origin_x, second_column_origin_y );
+        point origin = point( second_column_w + 1, 5 );
         const int w_sorting_h = 2;
         const int w_profession_h = 4;
         const int w_location_h = 3;
