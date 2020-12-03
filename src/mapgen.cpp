@@ -1313,7 +1313,7 @@ class jmapgen_monster : public jmapgen_piece
                 const JsonObject &sd = jsi.get_object( "spawn_data" );
                 if( sd.has_array( "ammo" ) ) {
                     const JsonArray &ammos = sd.get_array( "ammo" );
-                    for( const JsonObject &adata : ammos ) {
+                    for( const JsonObject adata : ammos ) {
                         data.ammo.emplace( itype_id( adata.get_string( "ammo_id" ) ), jmapgen_int( adata, "qty" ) );
                     }
                 }
@@ -1390,7 +1390,7 @@ class jmapgen_vehicle : public jmapgen_piece
             , fuel( jsi.get_int( "fuel", -1 ) )
             , status( jsi.get_int( "status", -1 ) ) {
             if( jsi.has_array( "rotation" ) ) {
-                for( const JsonValue &elt : jsi.get_array( "rotation" ) ) {
+                for( const JsonValue elt : jsi.get_array( "rotation" ) ) {
                     rotation.push_back( units::from_degrees( elt.get_int() ) );
                 }
             } else {

@@ -3281,10 +3281,6 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         std::set<ammotype> ammo = obj.ammo_types();
 
         src.visit_items( [&src, &nested, &out, ammo]( item * node, item * parent ) {
-            if( node->is_gun() || node->is_tool() ) {
-                // guns/tools never contain usable ammo so most efficient to skip them now
-                return VisitResponse::SKIP;
-            }
             if( !node->made_of_from_type( phase_id::SOLID ) && parent == nullptr ) {
                 // some liquids are ammo but we can't reload with them unless within a container or frozen
                 return VisitResponse::SKIP;
@@ -3313,7 +3309,9 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                     out = item_location( src, node );
                 }
             }
-            if( node->is_magazine() && node->has_flag( flag_SPEEDLOADER ) ) {
+            if( node->is_magazine() &&
+                ( parent == nullptr || node != parent->magazine_current() ) &&
+                node->has_flag( flag_SPEEDLOADER ) ) {
                 if( node->ammo_remaining() ) {
                     out = item_location( src, node );
                 }
@@ -3324,11 +3322,9 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         // find compatible magazines excluding those already loaded in tools/guns
         const auto mags = obj.magazine_compatible();
 
-        src.visit_items( [&src, &nested, &out, mags, empty]( item * node ) {
-            if( node->is_gun() || node->is_tool() ) {
-                return VisitResponse::SKIP;
-            }
-            if( node->is_magazine() ) {
+        src.visit_items( [&src, &nested, &out, mags, empty]( item * node, item * parent ) {
+            if( node->is_magazine() &&
+                ( parent == nullptr || node != parent->magazine_current() ) ) {
                 if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
                     out = item_location( src, node );
                 }
@@ -12742,6 +12738,34 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
     }
 
     return std::max( mv, 25 );
+}
+
+book_mastery Character::get_book_mastery( const item &book ) const
+{
+    if( !book.is_book() || !has_identified( book.typeId() ) ) {
+        return book_mastery::CANT_DETERMINE;
+    }
+    // TODO: add illiterate check?
+
+    const cata::value_ptr<islot_book> &type = book.type->book;
+    const skill_id &skill = type->skill;
+
+    if( !skill ) {
+        // book gives no skill
+        return book_mastery::MASTERED;
+    }
+
+    const int skill_level = get_skill_level( skill );
+    const int skill_requirement = type->req;
+    const int max_skill_learnable = type->level;
+
+    if( skill_requirement > skill_level ) {
+        return book_mastery::CANT_UNDERSTAND;
+    }
+    if( skill_level >= max_skill_learnable ) {
+        return book_mastery::MASTERED;
+    }
+    return book_mastery::LEARNING;
 }
 
 static const itype_id itype_cookbook_human( "cookbook_human" );

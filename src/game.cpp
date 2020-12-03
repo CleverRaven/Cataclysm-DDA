@@ -1586,9 +1586,15 @@ bool game::do_turn()
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
-        for( const tripoint elem : m.get_furn_field_locations() ) {
-            const auto &furn = m.furn( elem ).obj();
+        for( const tripoint &elem : m.get_furn_field_locations() ) {
+            const furn_t &furn = *m.furn( elem );
             for( const emit_id &e : furn.emissions ) {
+                m.emit_field( elem, e );
+            }
+        }
+        for( const tripoint &elem : m.get_ter_field_locations() ) {
+            const ter_t &ter = *m.ter( elem );
+            for( const emit_id &e : ter.emissions ) {
                 m.emit_field( elem, e );
             }
         }
@@ -2336,6 +2342,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
+                    handler.handle();
                     break;
                 case 'v':
                     if( oThisItem.has_pockets() ) {
@@ -5614,7 +5621,7 @@ void game::control_vehicle()
         int num_valid_controls = 0;
         cata::optional<tripoint> vehicle_position;
         cata::optional<vpart_reference> vehicle_controls;
-        for( const tripoint elem : m.points_in_radius( get_player_character().pos(), 1 ) ) {
+        for( const tripoint &elem : m.points_in_radius( get_player_character().pos(), 1 ) ) {
             if( const optional_vpart_position vp = m.veh_at( elem ) ) {
                 const cata::optional<vpart_reference> controls = vp.value().part_with_feature( "CONTROLS", true );
                 if( controls ) {
@@ -6185,9 +6192,14 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
     if( !inbounds ) {
         return;
     }
+    const int max_width = getmaxx( w_look ) - column - 1;
+
     auto this_sound = sounds::sound_at( lp );
     if( !this_sound.empty() ) {
-        mvwprintw( w_look, point( 1, ++line ), _( "You heard %s from here." ), this_sound );
+        const int lines = fold_and_print( w_look, point( 1, ++line ), max_width, c_light_gray,
+                                          _( "You heard %s from here." ),
+                                          this_sound );
+        line += lines - 1;
     } else {
         // Check other z-levels
         tripoint tmp = lp;
@@ -6198,8 +6210,10 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
 
             auto zlev_sound = sounds::sound_at( tmp );
             if( !zlev_sound.empty() ) {
-                mvwprintw( w_look, point( 1, ++line ), tmp.z > lp.z ?
-                           _( "You heard %s from above." ) : _( "You heard %s from below." ), zlev_sound );
+                const int lines = fold_and_print( w_look, point( 1, ++line ), max_width, c_light_gray,
+                                                  tmp.z > lp.z ?
+                                                  _( "You heard %s from above." ) : _( "You heard %s from below." ), this_sound );
+                line += lines - 1;
             }
         }
     }
@@ -6417,9 +6431,10 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
 
     const int max_width = getmaxx( w_look ) - column - 2;
     if( m.has_graffiti_at( lp ) ) {
-        fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
-                        m.ter( lp ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
-                        m.graffiti_at( lp ) );
+        const int lines = fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
+                                          m.ter( lp ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
+                                          m.graffiti_at( lp ) );
+        line += lines - 1;
     }
 }
 

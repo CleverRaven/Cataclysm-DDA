@@ -175,7 +175,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         const int market_price = it.price( true );
         int val = np.value( it, market_price );
         if( ( is_npc && np.wants_to_sell( it, val, market_price ) ) ||
-            np.wants_to_buy( it, val, market_price ) ) {
+            ( !is_npc && np.wants_to_buy( it, val, market_price ) ) ) {
             result.emplace_back( std::move( loc ), val, count );
             result.back().adjust_values( adjust, fac );
         }

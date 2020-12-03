@@ -1649,7 +1649,7 @@ void Character::process_bionic( const int b )
     } else if( bio.id == bio_nanobots ) {
         if( get_power_level() >= 40_J ) {
             std::forward_list<bodypart_id> bleeding_bp_parts;
-            for( const bodypart_id bp : get_all_body_parts() ) {
+            for( const bodypart_id &bp : get_all_body_parts() ) {
                 if( has_effect( effect_bleed, bp.id() ) ) {
                     bleeding_bp_parts.push_front( bp );
                 }

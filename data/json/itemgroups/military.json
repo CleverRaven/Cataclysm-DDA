@@ -474,6 +474,7 @@
       { "item": "pork_beans", "prob": 40 },
       { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 35 },
       { "item": "saline", "prob": 10 },
+      { "item": "instant_coffee", "prob": 25 },
       { "item": "con_milk", "prob": 10 },
       { "item": "milk_UHT", "prob": 25 },
       { "item": "cereal", "prob": 20 },

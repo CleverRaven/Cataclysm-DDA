@@ -6,6 +6,11 @@
   },
   {
     "type": "item_group",
+    "id": "afs_basic_biomedical_scrapgroup",
+    "items": [ [ "afs_biomaterial_1", 40 ], [ "afs_biomaterial_2", 20 ], [ "afs_neural_io_1", 40 ], [ "afs_neural_io_2", 20 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "afs_scrapgroup",
     "items": [
       [ "afs_biomaterial_1", 40 ],

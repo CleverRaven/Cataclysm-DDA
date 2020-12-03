@@ -1888,7 +1888,7 @@ void islot_armor::load( const JsonObject &jo )
             }
         }
 
-        for( const JsonObject &obj : jo.get_array( "armor_portion_data" ) ) {
+        for( const JsonObject obj : jo.get_array( "armor_portion_data" ) ) {
             // If this item used copy-from, data[0] is already set, so skip adding first data
             if( dont_add_first ) {
                 obj.allow_omitted_members();
@@ -2181,7 +2181,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "cooks_like", slot.cooks_like, strict );
     assign( jo, "smoking_result", slot.smoking_result, strict );
 
-    for( const JsonObject &jsobj : jo.get_array( "contamination" ) ) {
+    for( const JsonObject jsobj : jo.get_array( "contamination" ) ) {
         slot.contamination.emplace( diseasetype_id( jsobj.get_string( "disease" ) ),
                                     jsobj.get_int( "probability" ) );
     }

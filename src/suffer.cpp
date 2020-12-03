@@ -992,7 +992,7 @@ void Character::suffer_from_other_mutations()
     }
 
     if( has_trait( trait_SORES ) ) {
-        for( const bodypart_id bp : get_all_body_parts() ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             if( bp == bodypart_id( "head" ) ) {
                 continue;
             }

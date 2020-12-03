@@ -1,0 +1,7 @@
+[
+  {
+    "id": "supplies_xenoreagents_lab",
+    "type": "item_group",
+    "items": [ [ "yum_lichen", 10 ] ]
+  }
+]
