@@ -461,8 +461,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
     }
-    drawsq_params params;
-    params.set_view_center( center );
+    drawsq_params params = drawsq_params().center( center );
     for( const tripoint &p : tripoint_range( start, end ) ) {
         int sym = game_map ? '%' : ' ';
         if( p.x >= 0 && p.x < msize && p.y >= 0 && p.y < msize ) {
@@ -514,10 +513,7 @@ void editmap::draw_main_ui_overlay()
     if( critter != nullptr ) {
         critter->draw( g->w_terrain, target, true );
     } else {
-        drawsq_params params;
-        params.highlight = true;
-        params.set_view_center( target );
-        g->m.drawsq( g->w_terrain, target, params );
+        g->m.drawsq( g->w_terrain, target, drawsq_params().highlight( true ).center( target ) );
     }
 #ifdef TILES
     // give some visual indication of different cursor moving modes
@@ -680,8 +676,7 @@ void editmap::draw_main_ui_overlay()
 #endif
             hilights["mapgentgt"].draw( *this, true );
             tmpmap.reset_vehicle_cache( target.z );
-            drawsq_params params;
-            params.set_view_center( tripoint( SEEX - 1, SEEY - 1, target.z ) );
+            drawsq_params params = drawsq_params().center( tripoint( SEEX - 1, SEEY - 1, target.z ) );
             for( const tripoint &p : tmpmap.points_on_zlevel() ) {
                 tmpmap.drawsq( g->w_terrain, p, params );
             }

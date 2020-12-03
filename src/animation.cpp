@@ -453,9 +453,7 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
 
     shared_ptr_fast<game::draw_callback_t> bullet_cb = make_shared_fast<game::draw_callback_t>( [&]() {
         if( p != nullptr && p->z == vp.z ) {
-            drawsq_params params;
-            params.set_view_center( vp );
-            m.drawsq( g->w_terrain, *p, params );
+            m.drawsq( g->w_terrain, *p, drawsq_params().center( vp ) );
         }
         mvwputch( g->w_terrain, t.xy() - vp.xy() + point( POSX, POSY ), c_red, bullet );
     } );
@@ -620,9 +618,7 @@ namespace
 void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoint> &ret,
                        bool noreveal )
 {
-    drawsq_params params;
-    params.highlight = true;
-    params.set_view_center( center );
+    drawsq_params params = drawsq_params().highlight( true ).center( center );
     for( const tripoint &p : ret ) {
         const auto critter = g.critter_at( p, true );
 
@@ -676,10 +672,8 @@ namespace
 {
 void draw_line_curses( game &g, const std::vector<tripoint> &points )
 {
-    drawsq_params params;
-    params.highlight = true;
     for( const tripoint &p : points ) {
-        g.m.drawsq( g.w_terrain, p, params );
+        g.m.drawsq( g.w_terrain, p, drawsq_params().highlight( true ) );
     }
 
     const tripoint p = points.empty() ? tripoint {POSX, POSY, 0} :
