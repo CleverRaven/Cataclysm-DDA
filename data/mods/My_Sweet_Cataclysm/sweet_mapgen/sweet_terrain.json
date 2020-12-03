@@ -15,7 +15,7 @@
     "type": "terrain",
     "id": "t_chocolate_dp",
     "name": "deep chocolate",
-    "description": "The chocolate isn't too deep here.  With a watertight container, you could gather what looks to be pure melted cacao.  This will not be tasty.",
+    "description": "The chocolate here is deep enough to drown in.  With a watertight container, you could gather what looks to be pure melted cacao.  This will not be tasty.",
     "symbol": "~",
     "color": "light_blue",
     "move_cost": 5,
