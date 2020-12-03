@@ -2122,7 +2122,7 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
     }
 
     if( b_id->has_flag( flag_BIO_CANT_UNINSTAL ) ) {
-        popup( b_id->cant_uninstal_msg.c_str(),
+        popup( _( b_id->cant_uninstal_msg.c_str() ),
                disp_name( true ), disp_name() );
         return false;
     }
