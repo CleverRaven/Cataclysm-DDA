@@ -20,7 +20,9 @@ struct memorized_terrain_tile {
 };
 
 struct mm_submap {
-    bool clean;
+    /** Whether this mm_submap is empty. Empty submaps are skipped during saving. */
+    bool empty;
+
     memorized_terrain_tile tiles[SEEX][SEEY];
     int symbols[SEEX][SEEY];
 
