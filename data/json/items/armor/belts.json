@@ -15,8 +15,10 @@
     "color": "yellow",
     "covers": [ "torso" ],
     "coverage": 5,
-    "encumbrance": 4,
+    "encumbrance": 2,
+    "max_encumbrance": 4,
     "pocket_data": [
+      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
       {
         "max_contains_volume": "2 L",
         "max_contains_weight": "6 kg",
@@ -162,8 +164,10 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 5,
-    "encumbrance": 6,
+    "encumbrance": 2,
+    "max_encumbrance": 4,
     "pocket_data": [
+      { "max_contains_volume": "500 ml", "max_contains_weight": "1500 g", "moves": 100 },
       {
         "holster": true,
         "max_contains_volume": "2250 ml",
@@ -191,7 +195,8 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 15,
-    "encumbrance": 4,
+    "encumbrance": 3,
+    "max_encumbrance": 8,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -225,7 +230,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
         "max_item_length": "50 cm",
         "moves": 50,
@@ -234,7 +239,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
         "max_item_length": "50 cm",
         "moves": 50,
@@ -243,7 +248,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
         "max_item_length": "50 cm",
         "moves": 50,
@@ -270,6 +275,7 @@
     "covers": [ "torso" ],
     "coverage": 20,
     "encumbrance": 2,
+    "max_encumbrance": 12,
     "material_thickness": 2,
     "pocket_data": [
       { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
@@ -294,7 +300,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
         "max_item_length": "50 cm",
         "moves": 50,
@@ -303,7 +309,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
         "max_item_length": "50 cm",
         "moves": 50,
@@ -312,7 +318,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1500 g",
         "max_item_length": "50 cm",
         "moves": 50,
