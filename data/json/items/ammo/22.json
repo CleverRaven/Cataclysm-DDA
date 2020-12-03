@@ -5,7 +5,7 @@
     "type": "AMMO",
     "name": { "str": ".22 CPHP" },
     "description": ".22 Long Rifle ammunition with 30gr copper-plated, hollow-point bullets.  Has a higher velocity and slightly more stopping power than lead round-nose ammunition, but armor will have a magnified effect on its already-low penetration.",
-    "relative": { "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": -6 } },
+    "relative": { "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": -7 } },
     "proportional": { "range": 1.1, "recoil": 1.1 }
   },
   {
@@ -26,7 +26,7 @@
     "ammo_type": "22",
     "casing": "22_casing",
     "range": 13,
-    "damage": { "damage_type": "stab", "amount": 16, "armor_penetration": 6 },
+    "damage": { "damage_type": "stab", "amount": 16, "armor_penetration": 7 },
     "dispersion": 60,
     "recoil": 150,
     "effects": [ "COOKOFF" ]
@@ -40,7 +40,7 @@
     "count": 100,
     "price_postapoc": 400,
     "dispersion": 0,
-    "relative": { "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": -6 } },
+    "relative": { "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": -7 } },
     "proportional": { "range": 0.6, "recoil": 0.5 },
     "extend": { "effects": [ "SHOT", "NOGIB" ] }
   },
