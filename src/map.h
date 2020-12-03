@@ -161,33 +161,115 @@ struct bash_params {
 struct drawsq_params {
     private:
         tripoint view_center = tripoint_min;
+        bool do_highlight = false;
+        bool do_show_items = true;
+        bool do_low_light = false;
+        bool do_bright_light = false;
+        bool do_batch = false;
+        bool do_memorize = false;
 
     public:
-        /** Highlight the tile. On TILES, draws an overlay; on CURSES, reverts color. */
-        bool highlight = false;
-        /** Whether to draw items on the tile. */
-        bool show_items = true;
-        /** Whether tile is low light, and should be drawn with muted color. */
-        bool low_light = false;
-        /** Whether tile is in bright light. Affects NV overlay, and nothing else. */
-        bool bright_light = false;
-        /**
-         * Set to 'true' when doing batch drawing (e.g. map::draw()).
-         * Allows to speed up drawing by taking advantage of automatic cursor movement.
-         */
-        bool batch = false;
-        /** Whether the tile should be memorized. Used only in map::draw(). */
-        bool memorize = false;
+        constexpr drawsq_params() = default;
 
-        /** Set view center. By default, uses avatar's current view center. */
-        void set_view_center( const tripoint &p ) {
+        /**
+         * Highlight the tile. On TILES, draws an overlay; on CURSES, inverts color.
+         * Default: false.
+         */
+        //@{
+        constexpr drawsq_params &highlight( bool v ) {
+            do_highlight = v;
+            return *this;
+        }
+        constexpr bool highlight() const {
+            return do_highlight;
+        }
+        //@}
+
+        /**
+         * Whether to draw items on the tile.
+         * Default: true.
+         */
+        //@{
+        constexpr drawsq_params &show_items( bool v ) {
+            do_show_items = v;
+            return *this;
+        }
+        constexpr bool show_items() const {
+            return do_show_items;
+        }
+        //@}
+
+        /**
+         * Whether tile is low light, and should be drawn with muted color.
+         * Default: false.
+         */
+        //@{
+        constexpr drawsq_params &low_light( bool v ) {
+            do_low_light = v;
+            return *this;
+        }
+        constexpr bool low_light() const {
+            return do_low_light;
+        }
+        //@}
+
+        /**
+         * Whether tile is in bright light. Affects NV overlay, and nothing else.
+         * Default: false;
+         */
+        //@{
+        constexpr drawsq_params &bright_light( bool v ) {
+            do_bright_light = v;
+            return *this;
+        }
+        constexpr bool bright_light() const {
+            return do_bright_light;
+        }
+        //@}
+
+        /**
+         * Speed up drawing by taking advantage of automatic cursor movement.
+         * Default: false.
+         */
+        //@{
+        constexpr drawsq_params &batch( bool v ) {
+            do_batch = v;
+            return *this;
+        }
+        constexpr bool batch() const {
+            return do_batch;
+        }
+        //@}
+
+        /**
+         * Whether the tile should be memorized. Used only in map::draw().
+         * Default: false.
+         */
+        //@{
+        constexpr drawsq_params &memorize( bool v ) {
+            do_memorize = v;
+            return *this;
+        }
+        constexpr bool memorize() const {
+            return do_memorize;
+        }
+        //@}
+
+        /**
+         * Set view center.
+         * Default: uses avatar's current view center.
+         */
+        //@{
+        constexpr drawsq_params &center( const tripoint &p ) {
             view_center = p;
+            return *this;
         }
-        /** Reset view center to avatar's view center */
-        void reset_view_center() {
+        constexpr drawsq_params &center_at_avatar() {
             view_center = tripoint_min;
+            return *this;
         }
-        tripoint get_view_center() const;
+        tripoint center() const;
+        //@}
 };
 
 /**

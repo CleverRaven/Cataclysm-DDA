@@ -946,13 +946,10 @@ void place_construction( const construction_group_str_id &group )
         }
     }
 
-    drawsq_params params;
-    params.highlight = true;
-    params.show_items = false;
     shared_ptr_fast<game::draw_callback_t> draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
         map &here = get_map();
         for( auto &elem : valid ) {
-            here.drawsq( g->w_terrain, elem.first, params );
+            here.drawsq( g->w_terrain, elem.first, drawsq_params().highlight( true ).show_items( true ) );
         }
     } );
     g->add_draw_callback( draw_valid );
