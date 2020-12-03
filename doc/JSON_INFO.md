@@ -159,11 +159,11 @@ Use the `Home` key to return to the top.
   * [`professions`](#-professions-)
   * [`map_special`](#-map-special-)
   * [`missions`](#-missions-)
+  * [`custom_initial_date`](#-custom-initial-date-)
 - [Starting locations](#starting-locations)
   * [`name`](#-name--3)
-  * [`target`](#-target-)
+  * [`terrain`](#-terrain-)
   * [`flags`](#-flags--3)
-    + [`tile_config`](#-tile-config-)
 - [Mutation overlay ordering](#mutation-overlay-ordering)
   * [`id`](#-id--2)
   * [`order`](#-order-)
@@ -3659,6 +3659,22 @@ Add a map special to the starting location, see JSON_FLAGS for the possible spec
 
 A list of mission ids that will be started and assigned to the player at the start of the game. Only missions with the ORIGIN_GAME_START origin are allowed. The last mission in the list will be the active mission, if multiple missions are assigned.
 
+## `custom_initial_date`
+(optional, object with optional members "hour", "day", "season" and "year")
+
+Allows customizing initial date. If not set - corresponding values from world options are used. Random value is used for each parameter that is not explicitly.
+
+```C++
+"custom_initial_date": { "hour": 3, "day": 10, "season": "winter", "year": 1 }
+```
+
+ Identifier            | Description
+---                    | ---
+`hour`                 | (optional, integer) Hour of the day for initial date
+`day`                  | (optional, integer) Day of the season for initial date
+`season`               | (optional, integer) Season for initial date
+`year`                 | (optional, integer) Year for initial date
+
 # Starting locations
 
 Starting locations are specified as JSON object with "type" member set to "start_location":
@@ -3667,7 +3683,7 @@ Starting locations are specified as JSON object with "type" member set to "start
     "type": "start_location",
     "id": "field",
     "name": "An empty field",
-    "target": "field",
+    "terrain": [ "field", { "om_terrain": "hospital", "om_terrain_match_type": "PREFIX" } ],
     ...
 }
 ```
@@ -3681,127 +3697,49 @@ The following properties (mandatory, except if noted otherwise) are supported:
 
 The in-game name of the location.
 
-## `target`
-(string)
+## `terrain`
+(array of strings and/or objects)
 
-The id of an overmap terrain type (see overmap_terrain.json) of the starting location. The game will chose a random place with that terrain.
+String here contains the id of an overmap terrain type (see overmap_terrain.json) of the starting location. The game will chose a random place with that terrain.
+
+If it is an object - it has following attributes:
+
+ Identifier            | Description
+---                    | ---
+`om_terrain`           | ID of overmap terrain which will be selected as the target. Mandatory.
+`om_terrain_match_type`| Matching rule to use with `om_terrain`. Defaults to TYPE. Details are below.
+
+
+`om_terrain_match_type` defaults to TYPE if unspecified, and has the following possible values:
+
+* `EXACT` - The provided string must completely match the overmap terrain id,
+  including linear direction suffixes for linear terrain types or rotation
+  suffixes for rotated terrain types.
+
+* `TYPE` - The provided string must completely match the base type id of the
+  overmap terrain id, which means that suffixes for rotation and linear terrain
+  types are ignored.
+
+* `PREFIX` - The provided string must be a complete prefix (with additional
+  parts delimited by an underscore) of the overmap terrain id. For example,
+  "forest" will match "forest" or "forest_thick" but not "forestcabin".
+
+* `CONTAINS` - The provided string must be contained within the overmap terrain
+  id, but may occur at the beginning, end, or middle and does not have any rules
+  about underscore delimiting.
 
 ## `flags`
 (optional, array of strings)
 
-Arbitrary flags. TODO: document them.
-
-### `tile_config`
-Each tileset has a tile_config.json describing how to map the contents of a sprite sheet to various tile identifiers, different orientations, etc. The ordering of the overlays used for displaying mutations can be controlled as well. The ordering can be used to override the default ordering provided in `mutation_ordering.json`. Example:
-
+Arbitrary flags.  Two flags are supported in the code: `ALLOW_OUTSIDE` and `BOARDED` (see [JSON_FLAGS.md](JSON_FLAGS.md)). Mods can modify this via "extend" / "delete".
 ```C++
-  {                                             // whole file is a single object
-    "tile_info": [                              // tile_info is mandatory
-      {
-        "height": 32,
-        "width": 32,
-        "iso" : true,                             //  Optional. Indicates an isometric tileset. Defaults to false.
-        "pixelscale" : 2                          //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
-      }
-    ],
-    "tiles-new": [                              // tiles-new is an array of sprite sheets
-      {                                           //   alternately, just one "tiles" array
-        "file": "tiles.png",                      // file containing sprites in a grid
-        "tiles": [                                // array with one entry per tile
-          {
-            "id": "10mm",                         // id is how the game maps things to sprites
-            "fg": 1,                              //   lack of prefix mostly indicates items
-            "bg": 632,                            // fg and bg can be sprite indexes in the image
-            "rotates": false
-          },
-          {
-            "id": "t_wall",                       // "t_" indicates terrain
-            "fg": [2918, 2919, 2918, 2919],       // 2 or 4 sprite numbers indicates pre-rotated
-            "bg": 633,
-            "rotates": true,
-            "multitile": true,
-            "additional_tiles": [                 // connected/combined versions of sprite
-              {                                   //   or variations, see below
-                "id": "center",
-                "fg": [2919, 2918, 2919, 2918]
-              },
-              {
-                "id": "corner",
-                "fg": [2924, 2922, 2922, 2923]
-              },
-              {
-                "id": "end_piece",
-                "fg": [2918, 2919, 2918, 2919]
-              },
-              {
-                "id": "t_connection",
-                "fg": [2919, 2918, 2919, 2918]
-              },
-              {
-                "id": "unconnected",
-                "fg": 2235
-              }
-            ]
-          },
-          {
-            "id": "vp_atomic_lamp",               // "vp_" vehicle part
-            "fg": 3019,
-            "bg": 632,
-            "rotates": false,
-            "multitile": true,
-            "additional_tiles": [
-              {
-                "id": "broken",                   // variant sprite
-                "fg": 3021
-              }
-            ]
-          },
-          {
-            "id": "t_dirt",
-            "rotates": false,
-            "fg": [
-              { "weight":50, "sprite":640},       // weighted random variants
-              { "weight":1, "sprite":3620},
-              { "weight":1, "sprite":3621},
-              { "weight":1, "sprite":3622}
-            ]
-          },
-          {
-            "id": [
-              "overlay_mutation_GOURMAND",        // character overlay for mutation
-              "overlay_mutation_male_GOURMAND",   // overlay for specified gender
-              "overlay_mutation_active_GOURMAND"  // overlay for activated mutation
-            ],
-            "fg": 4040
-          }
-        ]
-      },
-      {                                           // second entry in tiles-new
-        "file": "moretiles.png",                  // another sprite sheet
-        "tiles": [
-          {
-            "id": ["xxx","yyy"],                  // define two ids at once
-            "fg": 1,
-            "bg": 234
-          }
-        ]
-      }
-    ],
-    "overlay_ordering": [
-      {
-        "id" : "WINGS_BAT",                         // mutation name, in a string or array of strings
-        "order" : 1000                              // range from 0 - 9999, 9999 being the topmost layer
-      },
-      {
-        "id" : [ "PLANTSKIN", "BARK" ],             // mutation name, in a string or array of strings
-        "order" : 3500                              // order is applied to all items in the array
-      },
-      {
-        "id" : "bio_armor_torso",                   // Overlay order of bionics is controlled in the same way
-        "order" : 500
-      }
-    ]
-  }
+{
+    "type": "start_location",
+    "id": "sloc_house_boarded",
+    "copy-from": "sloc_house",
+    "name": "House (boarded up)",
+    "extend": { "flags": [ "BOARDED" ] }
+},
 ```
 
 # Mutation overlay ordering

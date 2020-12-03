@@ -12047,31 +12047,14 @@ void game::autosave()
 
 void game::start_calendar()
 {
-    const bool scen_season = scen->has_flag( "SPR_START" ) || scen->has_flag( "SUM_START" ) ||
-                             scen->has_flag( "AUT_START" ) || scen->has_flag( "WIN_START" ) ||
-                             scen->has_flag( "SUM_ADV_START" );
-
-    if( scen_season ) {
+    if( scen->custom_initial_date() ) {
         // Configured starting date overridden by scenario, calendar::start is left as Spring 1
-        calendar::start_of_cataclysm = calendar::turn_zero + 1_hours * get_option<int>( "INITIAL_TIME" );
-        calendar::start_of_game = calendar::turn_zero + 1_hours * get_option<int>( "INITIAL_TIME" );
-        if( scen->has_flag( "SPR_START" ) ) {
-            calendar::initial_season = SPRING;
-        } else if( scen->has_flag( "SUM_START" ) ) {
-            calendar::initial_season = SUMMER;
-            calendar::start_of_game += calendar::season_length();
-        } else if( scen->has_flag( "AUT_START" ) ) {
-            calendar::initial_season = AUTUMN;
-            calendar::start_of_game += calendar::season_length() * 2;
-        } else if( scen->has_flag( "WIN_START" ) ) {
-            calendar::initial_season = WINTER;
-            calendar::start_of_game += calendar::season_length() * 3;
-        } else if( scen->has_flag( "SUM_ADV_START" ) ) {
-            calendar::initial_season = SUMMER;
-            calendar::start_of_game += calendar::season_length() * 5;
-        } else {
-            debugmsg( "The Unicorn" );
-        }
+        calendar::start_of_cataclysm = calendar::turn_zero + 1_hours * scen->initial_hour();
+        calendar::start_of_game = calendar::turn_zero + 1_hours * scen->initial_hour();
+        calendar::initial_season = scen->initial_season();
+        calendar::start_of_game += calendar::season_length() * (
+                                       static_cast<int>( scen->initial_season() ) +
+                                       static_cast<int>( season_type::NUM_SEASONS ) * scen->initial_year() );
     } else {
         // No scenario, so use the starting date+time configured in world options
         int initial_days = get_option<int>( "INITIAL_DAY" );

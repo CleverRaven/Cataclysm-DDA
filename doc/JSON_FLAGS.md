@@ -1232,9 +1232,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 
 ### Flags
 
-- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start.
 - ```BAD_DAY``` Player starts the game drunk, depressed and sick with the flu.
-- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors).
 - ```CHALLENGE``` Game won't choose this scenario in random game types.
 - ```CITY_START``` Scenario is available only when city size value in world options is more than 0.
 - ```FIRE_START``` Player starts the game with fire nearby.
@@ -1242,17 +1240,16 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```INFECTED``` Player starts the game infected.
 - ```FUNGAL_INFECTION``` Player starts the game with fungal infection.
 - ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
-- ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 - ```SUR_START``` Surrounded start, zombies outside the starting location.
 
-#### Season Flags
+#### Profession Flags
 
-- ```AUT_START``` ... start in autumn.
-- ```SPR_START``` ... start in spring.
-- ```SUM_ADV_START``` ... start second summer after Cataclysm.
-- ```SUM_START``` ... start in summer.
-- ```WIN_START``` ... start in winter.
+- ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 
+#### Starting Location Flags
+
+- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start.
+- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors).
 
 ## Skills
 
