@@ -1,0 +1,42 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "afs_heat_1",
+    "copy-from": "afs_scrap_1",
+    "name": { "str": "conductive thermoplastic" },
+    "description": "An excellent heat conductor but also an electrical insulator, conductive thermoplastics were introduced to the civilian market nearly two centuries ago, and have tightly integrated itself into the modern society since then.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_heat_2",
+    "copy-from": "afs_scrap_2",
+    "name": { "str_sp": "supercritical coolant" },
+    "description": "Capable of withstanding extreme temperature gradients, fulleroclathrate supercritical coolants are the lifeblood of high-energy systems, from cutting-edge aerospace engines to experimental small arms tech.  Liquid at room conditions, it has to be used in a pressurized closed-loop system at 450 psi or greater.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_heat_3",
+    "copy-from": "afs_scrap_3",
+    "name": { "str": "carbon-lattice heatsink" },
+    "description": "Sections of dark, translucent, monocrystalline carbon fins, functionally identical to diamond.  Microscopic etches on the inside allows the flow of high-pressure coolant.  Crystalline carbon lattices are extremely heat-conductive, moreso than even the best metallic conductors.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_heat_4",
+    "copy-from": "afs_scrap_4",
+    "name": { "str": "fermionic nanoribbon" },
+    "description": "This delicate bundle of silvery, iridescent cables are capable of transporting heat energy between its connections instantly without ever heating up by itself.  Even the slightest damage to the casing will destroy the quantum stability of the Fermi-Dirac superfluid matrix.  Handle with care!",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_heat_5",
+    "copy-from": "afs_scrap_5",
+    "name": { "str": "maxwellian entropic chirality generator" },
+    "description": "A nondescript square piece of metal somewhat resembling a computer chip.  One side is cold to the touch, while the other is uncomfortably hot.  Hermetically sealed and devoid of any identifying feature, this peculiar device gives off an unexplainable, sinister aura.",
+    "looks_like": "scrap"
+  }
+]
