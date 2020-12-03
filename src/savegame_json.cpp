@@ -3487,35 +3487,84 @@ void player_morale::load( const JsonObject &jsin )
     jsin.read( "morale", points );
 }
 
+struct mm_elem {
+    memorized_terrain_tile tile;
+    int symbol;
+
+    bool operator==( const mm_elem &rhs ) {
+        return symbol == rhs.symbol && tile.subtile == rhs.tile.subtile &&
+               tile.rotation == rhs.tile.rotation && tile.tile == rhs.tile.tile;
+    }
+};
+
 void mm_submap::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
+
+    // Uses RLE for compression.
+
+    mm_elem last;
+    int num_same = 1;
+
+    const auto write_seq = [&]() {
+        jsout.start_array();
+        jsout.write( last.tile.tile );
+        jsout.write( last.tile.subtile );
+        jsout.write( last.tile.rotation );
+        jsout.write( last.symbol );
+        if( num_same != 1 ) {
+            jsout.write( num_same );
+        }
+        jsout.end_array();
+    };
+
     for( size_t y = 0; y < SEEY; y++ ) {
         for( size_t x = 0; x < SEEX; x++ ) {
-            const memorized_terrain_tile &elem = tiles[x][y];
-            jsout.start_array();
-            jsout.write( elem.tile );
-            jsout.write( elem.subtile );
-            jsout.write( elem.rotation );
-            jsout.write( symbols[x][y] );
-            jsout.end_array();
+            const mm_elem elem = { tiles[x][y], symbols[x][y] };
+            if( x == 0 && y == 0 ) {
+                last = elem;
+                continue;
+            }
+            if( last == elem ) {
+                num_same += 1;
+                continue;
+            }
+            write_seq();
+            num_same = 1;
+            last = elem;
         }
     }
+    write_seq();
+
     jsout.end_array();
 }
 
 void mm_submap::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
+
+    // Uses RLE for compression.
+
+    mm_elem elem;
+    size_t remaining = 0;
+
     for( size_t y = 0; y < SEEY; y++ ) {
         for( size_t x = 0; x < SEEX; x++ ) {
-            memorized_terrain_tile &elem = tiles[x][y];
-            jsin.start_array();
-            elem.tile = jsin.get_string();
-            elem.subtile = jsin.get_int();
-            elem.rotation = jsin.get_int();
-            symbols[x][y] = jsin.get_int();
-            jsin.end_array();
+            if( remaining > 0 ) {
+                remaining -= 1;
+            } else {
+                jsin.start_array();
+                elem.tile.tile = jsin.get_string();
+                elem.tile.subtile = jsin.get_int();
+                elem.tile.rotation = jsin.get_int();
+                elem.symbol = jsin.get_int();
+                if( jsin.test_int() ) {
+                    remaining = jsin.get_int() - 1;
+                }
+                jsin.end_array();
+            }
+            tiles[x][y] = elem.tile;
+            symbols[x][y] = elem.symbol;
         }
     }
     jsin.end_array();
