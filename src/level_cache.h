@@ -105,18 +105,18 @@ struct level_cache {
         std::set<vehicle *> vehicle_list;
         std::set<vehicle *> zone_vehicles;
 
-        /*
-            bool get_veh_in_active_range() const;
-            bool get_veh_exists_at( const point &pt ) const;
-            std::pair<vehicle *, int> get_veh_cached_parts( const tripoint &pt ) const;
+        bool get_veh_in_active_range() const;
+        bool get_veh_exists_at( const tripoint &pt ) const;
+        std::pair<vehicle *, int> get_veh_cached_parts( const tripoint &pt ) const;
 
-            void set_veh_in_active_range( bool is_active );
-            void set_veh_exists_at( const point &pt, bool exists_at );
-            void set_veh_cached_parts( const tripoint &pt, vehicle *veh, int part_num );
+        void set_veh_in_active_range( bool is_active );
+        void set_veh_exists_at( const tripoint &pt, bool exists_at );
+        void set_veh_cached_parts( const tripoint &pt, vehicle *veh, int part_num );
+        void verify_vehicle_cache();
+        void clear_vehicle_cache();
+        void clear_veh_from_veh_cached_parts( const tripoint &pt, vehicle *veh );
 
-        private:
-            bool veh_cache_dirty = true;
-        */
+    private:
         bool veh_in_active_range = false;
         bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
         std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
