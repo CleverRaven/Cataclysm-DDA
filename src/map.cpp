@@ -5556,55 +5556,21 @@ visibility_type map::get_visibility( const lit_level ll, const visibility_variab
     return VIS_HIDDEN;
 }
 
-bool map::apply_vision_effects( const catacurses::window &w, const visibility_type vis ) const
+static bool has_memory_at( const tripoint &p )
 {
-    int symbol = ' ';
-    nc_color color = c_black;
-
-    switch( vis ) {
-        case VIS_CLEAR:
-            // Drew the tile, so bail out now.
-            return false;
-        case VIS_LIT:
-            // can only tell that this square is bright
-            symbol = '#';
-            color = c_light_gray;
-            break;
-        case VIS_BOOMER:
-            symbol = '#';
-            color = c_pink;
-            break;
-        case VIS_BOOMER_DARK:
-            symbol = '#';
-            color = c_magenta;
-            break;
-        case VIS_DARK:
-        // can't see this square at all
-        case VIS_HIDDEN:
-            symbol = ' ';
-            color = c_black;
-            break;
+    if( g->u.should_show_map_memory() ) {
+        int t = g->u.get_memorized_symbol( g->m.getabs( p ) );
+        return t != 0;
     }
-    wputch( w, color, symbol );
-    return true;
+    return false;
 }
 
-bool map::draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
-                                    const tripoint &view_center, bool move_cursor ) const
+static int get_memory_at( const tripoint &p )
 {
-    int sym = g->u.get_memorized_symbol( getabs( p ) );
-    if( sym == 0 ) {
-        return false;
+    if( g->u.should_show_map_memory() ) {
+        return g->u.get_memorized_symbol( g->m.getabs( p ) );
     }
-    if( move_cursor ) {
-        const int k = p.x + getmaxx( w ) / 2 - view_center.x;
-        const int j = p.y + getmaxy( w ) / 2 - view_center.y;
-
-        mvwputch( w, point( k, j ), c_brown, sym );
-    } else {
-        wputch( w, c_brown, sym );
-    }
-    return true;
+    return ' ';
 }
 
 void map::draw( const catacurses::window &w, const tripoint &center )
@@ -5623,93 +5589,87 @@ void map::draw( const catacurses::window &w, const tripoint &center )
 
     int wnd_h = getmaxy( w );
     int wnd_w = getmaxx( w );
+    const tripoint offs = center - tripoint( wnd_w / 2, wnd_h / 2, 0 );
 
     // Map memory should be at least the size of the view range
     // so that new tiles can be memorized, and at least the size of the terminal
     // since displayed area may be bigger than view range.
     const point min_mm_reg = point(
-                                 std::min( 0, center.x - wnd_w / 2 ),
-                                 std::min( 0, center.y - wnd_h / 2 )
+                                 std::min( 0, offs.x ),
+                                 std::min( 0, offs.y )
                              );
     const point max_mm_reg = point(
-                                 std::max( MAPSIZE_X, center.x - wnd_w / 2 + wnd_w ),
-                                 std::max( MAPSIZE_Y, center.y - wnd_h / 2 + wnd_h )
+                                 std::max( MAPSIZE_X, offs.x + wnd_w ),
+                                 std::max( MAPSIZE_Y, offs.y + wnd_h )
                              );
     g->u.prepare_map_memory_region(
         g->m.getabs( tripoint( min_mm_reg, center.z ) ),
         g->m.getabs( tripoint( max_mm_reg, center.z ) )
     );
 
-    // X and y are in map coordinates, but might be out of range of the map.
-    // When they are out of range, we just draw '#'s.
-    tripoint p;
-    p.z = center.z;
-    int &x = p.x;
-    int &y = p.y;
-    const bool do_map_memory = g->u.should_show_map_memory();
-    drawsq_params params = drawsq_params().center( center ).memorize( true );
-    for( y = center.y - wnd_h / 2; y <= center.y + wnd_h / 2; y++ ) {
-        if( y - center.y + wnd_h / 2 >= wnd_h ) {
-            continue;
+    const auto draw_background = [&]( const tripoint & p ) {
+        int sym = ' ';
+        nc_color col = c_black;
+        if( has_memory_at( p ) ) {
+            sym = get_memory_at( p );
+            col = c_brown;
         }
+        wputch( w, col, sym );
+    };
 
-        wmove( w, point( 0, y - center.y + wnd_h / 2 ) );
-
-        const int maxxrender = center.x - wnd_w / 2 + wnd_w;
-        x = center.x - wnd_w / 2;
-        if( y < 0 || y >= MAPSIZE_Y ) {
-            for( ; x < maxxrender; x++ ) {
-                if( !do_map_memory || !draw_maptile_from_memory( w, p, center, false ) ) {
-                    wputch( w, c_black, ' ' );
-                }
-            }
-            continue;
+    const auto draw_vision_effect = [&]( const visibility_type vis ) -> bool {
+        int sym = '#';
+        nc_color col;
+        switch( vis )
+        {
+            case VIS_LIT:
+                // can only tell that this square is bright
+                col = c_light_gray;
+                break;
+            case VIS_BOOMER:
+                col = c_pink;
+                break;
+            case VIS_BOOMER_DARK:
+                col = c_magenta;
+                break;
+            default:
+                return false;
         }
+        wputch( w, col, sym );
+        return true;
+    };
 
-        while( x < 0 ) {
-            if( !do_map_memory || !draw_maptile_from_memory( w, p, center, false ) ) {
-                wputch( w, c_black, ' ' );
+    drawsq_params params = drawsq_params().memorize( true );
+    for( int wy = 0; wy < wnd_h; wy++ ) {
+        for( int wx = 0; wx < wnd_w; wx++ ) {
+            wmove( w, point( wx, wy ) );
+            const tripoint p = offs + tripoint( wx, wy, 0 );
+            if( !inbounds( p ) ) {
+                draw_background( p );
+                continue;
             }
-            x++;
-        }
 
-        point l;
-        const int maxx = std::min( MAPSIZE_X, maxxrender );
-        while( x < maxx ) {
-            submap *cur_submap = get_submap_at( p, l );
-            submap *sm_below = p.z > -OVERMAP_DEPTH ?
-                               get_submap_at( {p.xy(), p.z - 1}, l ) : cur_submap;
-            while( l.x < SEEX && x < maxx )  {
-                const lit_level lighting = visibility_cache[x][y];
-                const visibility_type vis = get_visibility( lighting, cache );
-                if( !apply_vision_effects( w, vis ) ) {
-                    const maptile curr_maptile = maptile( cur_submap, l );
-                    params
-                    .low_light( lighting == LL_LOW )
-                    .bright_light( lighting == LL_BRIGHT )
-                    .batch( true );
-                    const bool just_this_z = draw_maptile( w, p, curr_maptile, params );
-                    if( !just_this_z ) {
-                        p.z--;
-                        const maptile tile_below = maptile( sm_below, l );
-                        params.batch( false );
-                        draw_from_above( w, p, tile_below, params );
-                        p.z++;
-                    }
-                } else if( do_map_memory && ( vis == VIS_HIDDEN || vis == VIS_DARK ) ) {
-                    draw_maptile_from_memory( w, p, center );
-                }
+            const lit_level lighting = visibility_cache[p.x][p.y];
+            const visibility_type vis = get_visibility( lighting, cache );
 
-                l.x++;
-                x++;
+            if( draw_vision_effect( vis ) ) {
+                continue;
             }
-        }
 
-        while( x < maxxrender ) {
-            if( !do_map_memory || !draw_maptile_from_memory( w, p, center, false ) ) {
-                wputch( w, c_black, ' ' );
+            if( vis == VIS_HIDDEN || vis == VIS_DARK ) {
+                draw_background( p );
+                continue;
             }
-            x++;
+
+            const maptile curr_maptile = maptile_at_internal( p );
+            params
+            .low_light( lighting == LL_LOW )
+            .bright_light( lighting == LL_BRIGHT );
+            if( draw_maptile( w, p, curr_maptile, params ) ) {
+                continue;
+            }
+            const maptile tile_below = maptile_at_internal( p - tripoint( 0, 0, 1 ) );
+            draw_from_above( w, tripoint( p.xy(), p.z - 1 ), tile_below, params );
         }
     }
 }
@@ -5729,15 +5689,19 @@ void map::drawsq( const catacurses::window &w, const tripoint &p,
         return;
     }
 
+    const tripoint view_center = params.center();
+    const int k = p.x + getmaxx( w ) / 2 - view_center.x;
+    const int j = p.y + getmaxy( w ) / 2 - view_center.y;
+    wmove( w, point( k, j ) );
+
     const maptile tile = maptile_at( p );
-    const bool done = draw_maptile( w, p, tile, params );
-    if( !done ) {
-        tripoint below( p.xy(), p.z - 1 );
-        const maptile tile_below = maptile_at( below );
-        drawsq_params params2 = params;
-        params2.batch( false );
-        draw_from_above( w, below, tile_below, params2 );
+    if( draw_maptile( w, p, tile, params ) ) {
+        return;
     }
+
+    tripoint below( p.xy(), p.z - 1 );
+    const maptile tile_below = maptile_at( below );
+    draw_from_above( w, below, tile_below, params );
 }
 
 // a check to see if the lower floor needs to be rendered in tiles
@@ -5916,27 +5880,22 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
         tercol = red_background( tercol );
     }
 
-    if( param.batch() ) {
-        // Rastering the whole map, take advantage of automatically moving the cursor.
-        if( item_sym.empty() ) {
-            wputch( w, tercol, sym );
+    if( item_sym.empty() && sym == ' ' ) {
+        if( !zlevels || p.z <= -OVERMAP_DEPTH || !curr_ter.has_flag( TFLAG_NO_FLOOR ) ) {
+            // Print filler symbol
+            sym = ' ';
+            tercol = c_black;
         } else {
-            wprintz( w, tercol, item_sym );
-        }
-    } else {
-        // Otherwise move the cursor before drawing.
-        const tripoint view_center = param.center();
-        const int k = p.x + getmaxx( w ) / 2 - view_center.x;
-        const int j = p.y + getmaxy( w ) / 2 - view_center.y;
-        if( item_sym.empty() ) {
-            mvwputch( w, point( k, j ), tercol, sym );
-        } else {
-            mvwprintz( w, point( k, j ), tercol, item_sym );
+            // Draw tile underneath this one instead
+            return false;
         }
     }
-
-    return !zlevels || sym != ' ' || !item_sym.empty() || p.z <= -OVERMAP_DEPTH ||
-           !curr_ter.has_flag( TFLAG_NO_FLOOR );
+    if( item_sym.empty() ) {
+        wputch( w, tercol, sym );
+    } else {
+        wprintz( w, tercol, item_sym );
+    }
+    return true;
 }
 
 void map::draw_from_above( const catacurses::window &w, const tripoint &p,
@@ -6008,14 +5967,7 @@ void map::draw_from_above( const catacurses::window &w, const tripoint &p,
         tercol = invert_color( tercol );
     }
 
-    if( params.batch() ) {
-        wputch( w, tercol, sym );
-    } else {
-        const tripoint view_center = params.center();
-        const int k = p.x + getmaxx( w ) / 2 - view_center.x;
-        const int j = p.y + getmaxy( w ) / 2 - view_center.y;
-        mvwputch( w, point( k, j ), tercol, sym );
-    }
+    wputch( w, tercol, sym );
 }
 
 bool map::sees( const tripoint &F, const tripoint &T, const int range ) const
