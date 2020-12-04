@@ -2338,6 +2338,7 @@
       { "point": [ 6, 1, 0 ], "overmap": "mall_a_75_south" },
       { "point": [ 5, 1, 0 ], "overmap": "mall_a_76_south" },
       { "point": [ 4, 1, 0 ], "overmap": "mall_a_77_south" },
+      { "point": [ 4, 1, -2 ], "overmap": "microlab_sub_connector_north" },
       { "point": [ 3, 1, 0 ], "overmap": "mall_a_78_south" },
       { "point": [ 2, 1, 0 ], "overmap": "mall_a_79_south" },
       { "point": [ 1, 1, 0 ], "overmap": "mall_a_80_south" },
