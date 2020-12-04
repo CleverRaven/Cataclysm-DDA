@@ -694,7 +694,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
     return ret;
 }
 
-bool operator==( relic source_relic, relic &target_relic )
+bool operator==( const relic &source_relic, const relic &target_relic )
 {
     bool is_the_same = true;
     is_the_same &= ( source_relic.charges() == target_relic.charges() );
