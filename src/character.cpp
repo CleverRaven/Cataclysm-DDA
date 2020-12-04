@@ -10992,10 +10992,11 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
     return false;
 }
 
-std::list<item> Character::use_charges( const itype_id &what, int qty,
+std::list<item> Character::use_charges( const itype_id &what, int qty, const int radius,
                                         const std::function<bool( const item & )> &filter )
 {
     std::list<item> res;
+    inventory inv = crafting_inventory( pos(), radius, true );
 
     if( qty <= 0 ) {
         return res;
@@ -11023,16 +11024,16 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
             qty -= std::min( qty, bio );
         }
 
-        int adv = charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.6 ) ) );
+        int adv = inv.charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.6 ) ) );
         if( adv > 0 ) {
-            std::list<item> found = use_charges( itype_adv_UPS_off, adv );
+            std::list<item> found = use_charges( itype_adv_UPS_off, adv, radius );
             res.splice( res.end(), found );
             qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
         }
 
-        int ups = charges_of( itype_UPS_off, qty );
+        int ups = inv.charges_of( itype_UPS_off, qty );
         if( ups > 0 ) {
-            std::list<item> found = use_charges( itype_UPS_off, ups );
+            std::list<item> found = use_charges( itype_UPS_off, ups, radius );
             res.splice( res.end(), found );
             qty -= std::min( qty, ups );
         }
@@ -11042,25 +11043,42 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
     std::vector<item *> del;
 
     bool has_tool_with_UPS = false;
-    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS, &filter]( item * e ) {
-        if( e->use_charges( what, qty, res, pos(), filter ) ) {
-            del.push_back( e );
-        }
+    // Detection of UPS tool
+    inv.visit_items( [ &what, &qty, &has_tool_with_UPS, &filter]( item * e ) {
         if( filter( *e ) && e->typeId() == what && e->has_flag( flag_USE_UPS ) ) {
             has_tool_with_UPS = true;
+            return VisitResponse::ABORT;
         }
         return qty > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
 
+    if( radius >= 0 ) {
+        get_map().use_charges( pos(), radius, what, qty, return_true<item> );
+    }
+    if( qty > 0 ) {
+        visit_items( [this, &what, &qty, &res, &del, &filter]( item * e ) {
+            if( e->use_charges( what, qty, res, pos(), filter ) ) {
+                del.push_back( e );
+            }
+            return qty > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
+        } );
+    }
+
     for( item *e : del ) {
-        remove_item( *e );
+        inv.remove_item( e );
     }
 
     if( has_tool_with_UPS ) {
-        use_charges( itype_UPS, qty );
+        use_charges( itype_UPS, qty, radius );
     }
 
     return res;
+}
+
+std::list<item> Character::use_charges( const itype_id &what, int qty,
+                                        const std::function<bool( const item & )> &filter )
+{
+    return use_charges( what, qty, -1, filter );
 }
 
 bool Character::has_fire( const int quantity ) const
