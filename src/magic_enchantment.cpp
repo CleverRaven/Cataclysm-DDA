@@ -515,11 +515,13 @@ bool operator==( const enchantment &source_enchantement, const enchantment &targ
     is_the_same &= source_enchantement.values_multiply.size() ==
                    target_enchantment.values_multiply.size();
     is_the_same &= source_enchantement.values_add.size() == target_enchantment.values_add.size();
-    for( auto mod : source_enchantement.values_multiply ) {
-        is_the_same &= mod.second == target_enchantment.values_multiply.at( mod.first );
-    }
-    for( auto mod : source_enchantement.values_add ) {
-        is_the_same &= mod.second == target_enchantment.values_add.at( mod.first );
+    if( is_the_same ) {
+        for( auto mod : source_enchantement.values_multiply ) {
+            is_the_same &= mod.second == target_enchantment.values_multiply.at( mod.first );
+        }
+        for( auto mod : source_enchantement.values_add ) {
+            is_the_same &= mod.second == target_enchantment.values_add.at( mod.first );
+        }
     }
     return is_the_same;
 }
