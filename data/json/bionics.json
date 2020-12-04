@@ -54,8 +54,8 @@
     "covered_bodyparts": [ "arm_l", "arm_r" ],
     "no_bleed_chance": 0.25,
     "no_bite_chance": 0.33,
-    "cant_uninstal_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTAL", "BIONIC_CANT_COMPRESS" ]
+    "cant_uninstall_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTALL", "BIONIC_CANT_COMPRESS" ]
   },
   {
     "id": "bio_armor_eyes",
@@ -86,8 +86,8 @@
     "covered_bodyparts": [ "head" ],
     "no_bleed_chance": 0.25,
     "no_bite_chance": 0.33,
-    "cant_uninstal_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTAL", "BIONIC_CANT_COMPRESS" ]
+    "cant_uninstall_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTALL", "BIONIC_CANT_COMPRESS" ]
   },
   {
     "id": "bio_armor_legs",
@@ -106,8 +106,8 @@
     "covered_bodyparts": [ "leg_l", "leg_r" ],
     "no_bleed_chance": 0.25,
     "no_bite_chance": 0.33,
-    "cant_uninstal_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTAL", "BIONIC_CANT_COMPRESS" ]
+    "cant_uninstall_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTALL", "BIONIC_CANT_COMPRESS" ]
   },
   {
     "id": "bio_armor_torso",
@@ -126,8 +126,8 @@
     "covered_bodyparts": [ "torso" ],
     "no_bleed_chance": 0.25,
     "no_bite_chance": 0.33,
-    "cant_uninstal_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTAL", "BIONIC_CANT_COMPRESS" ]
+    "cant_uninstall_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTALL", "BIONIC_CANT_COMPRESS" ]
   },
   {
     "id": "bio_batteries",
@@ -451,7 +451,7 @@
     "name": { "str": "Telescopic Eyes" },
     "description": "Much of the material in your inner eye has been surgically removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any vision problems you might have had are now gone.",
     "occupied_bodyparts": [ [ "eyes", 2 ] ],
-    "cant_uninstal_msg": "The Telescopic Lenses are part of %s eyes now.  Removing them would leave %s blind.",
+    "cant_uninstall_msg": "The Telescopic Lenses are part of %s eyes now.  Removing them would leave %s blind.",
     "canceled_mutations": [
       "HYPEROPIC",
       "MYOPIC",

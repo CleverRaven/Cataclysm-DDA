@@ -180,7 +180,6 @@ static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 static const bionic_id bio_water_extractor( "bio_water_extractor" );
 static const bionic_id bio_tools_extend( "bio_tools_extend" );
-
 // Aftershock stuff!
 static const bionic_id afs_bio_dopamine_stimulators( "afs_bio_dopamine_stimulators" );
 
@@ -196,7 +195,7 @@ static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 static const std::string flag_BIO_GUN( "BIONIC_GUN" );
 static const std::string flag_BIO_WEAPON( "BIONIC_WEAPON" );
 static const std::string flag_BIO_TOGGLED( "BIONIC_TOGGLED" );
-static const std::string flag_BIO_CANT_UNINSTAL( "BIONIC_CANT_UNINSTAL" );
+static const std::string flag_BIO_CANT_UNINSTALL( "BIONIC_CANT_UNINSTALL" );
 static const std::string flag_BIO_CANT_COMPRESS( "BIONIC_CANT_COMPRESS" );
 static const std::string flag_SEALED( "SEALED" );
 
@@ -314,7 +313,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "no_bleed_chance", no_bleed_chance, 0.0f );
     optional( jsobj, was_loaded, "no_bite_chance", no_bite_chance, 0.0f );
 
-    optional( jsobj, was_loaded, "cant_uninstal_msg", cant_uninstal_msg );
+    optional( jsobj, was_loaded, "cant_uninstall_msg", cant_uninstall_msg );
 
     optional( jsobj, was_loaded, "covered_bodyparts", covered_bodyparts );
 
@@ -2121,8 +2120,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
-    if( b_id->has_flag( flag_BIO_CANT_UNINSTAL ) ) {
-        popup( _( b_id->cant_uninstal_msg.c_str() ),
+    if( b_id->has_flag( flag_BIO_CANT_UNINSTALL ) ) {
+        popup( _( b_id->cant_uninstall_msg.c_str() ),
                disp_name( true ), disp_name() );
         return false;
     }

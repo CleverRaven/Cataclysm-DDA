@@ -152,7 +152,7 @@ struct bionic_data {
     requirement_id installation_requirement;
 
     /**Message shown when bionic cannot be uninstalled*/
-    std::string cant_uninstal_msg;
+    std::string cant_uninstall_msg;
 
     /**Covered bodyparts, which resist bites and bleeding but are unable to be compressed*/
     std::vector<bodypart_str_id> covered_bodyparts;

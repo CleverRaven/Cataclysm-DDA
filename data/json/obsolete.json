@@ -680,8 +680,8 @@
     "occupied_bodyparts": [ [ "arm_l", 20 ], [ "hand_l", 5 ] ],
     "act_cost": 50,
     "fake_item": "bio_blaster_gun",
-    "cant_uninstal_msg": "Removing %s Fusion Blaster Arm would leave %s with a useless stump.",
-    "flags": [ "BIONIC_GUN", "BIONIC_CANT_UNINSTAL" ]
+    "cant_uninstall_msg": "Removing %s Fusion Blaster Arm would leave %s with a useless stump.",
+    "flags": [ "BIONIC_GUN", "BIONIC_CANT_UNINSTALL" ]
   },
   {
     "id": "fusion_gun",
