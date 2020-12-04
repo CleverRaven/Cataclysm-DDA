@@ -165,7 +165,6 @@ struct drawsq_params {
         bool do_show_items = true;
         bool do_low_light = false;
         bool do_bright_light = false;
-        bool do_batch = false;
         bool do_memorize = false;
 
     public:
@@ -224,20 +223,6 @@ struct drawsq_params {
         }
         constexpr bool bright_light() const {
             return do_bright_light;
-        }
-        //@}
-
-        /**
-         * Speed up drawing by taking advantage of automatic cursor movement.
-         * Default: false.
-         */
-        //@{
-        constexpr drawsq_params &batch( bool v ) {
-            do_batch = v;
-            return *this;
-        }
-        constexpr bool batch() const {
-            return do_batch;
         }
         //@}
 
@@ -476,8 +461,6 @@ class map
         lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache ) const;
         visibility_type get_visibility( lit_level ll,
                                         const visibility_variables &cache ) const;
-
-        bool apply_vision_effects( const catacurses::window &w, visibility_type vis ) const;
 
         // See field.cpp
         std::tuple<maptile, maptile, maptile> get_wind_blockers( const int &winddirection,
@@ -1890,9 +1873,6 @@ class map
          */
         bool draw_maptile( const catacurses::window &w, const tripoint &p,
                            const maptile &tile, const drawsq_params &params ) const;
-        bool draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
-                                       const tripoint &view_center,
-                                       bool move_cursor = true ) const;
         /**
          * Draws the tile as seen from above.
          */
