@@ -196,7 +196,6 @@ static const std::string flag_BIO_GUN( "BIONIC_GUN" );
 static const std::string flag_BIO_WEAPON( "BIONIC_WEAPON" );
 static const std::string flag_BIO_TOGGLED( "BIONIC_TOGGLED" );
 static const std::string flag_BIO_CANT_UNINSTALL( "BIONIC_CANT_UNINSTALL" );
-static const std::string flag_BIO_CANT_COMPRESS( "BIONIC_CANT_COMPRESS" );
 static const std::string flag_SEALED( "SEALED" );
 
 struct Character::auto_toggle_bionic_result {
