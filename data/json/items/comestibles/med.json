@@ -1992,5 +1992,17 @@
     "addiction_type": "cocaine",
     "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "bleed": 20, "move_cost": 100, "effects": [ { "id": "pkill1", "duration": 720 } ] }
+  },
+  {
+    "id": "bfi_bandages",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "antiseptic bandage" },
+    "copy-from": "bandages",
+    "description": "Sterilized bandages coated in antiseptic powder.  Used for stopping bloodloss while disinfecting and protecting wounds from external factors.",
+    "price_postapoc": 1000,
+    "charges": 1,
+    "flags": [ "NO_INGEST" ],
+    "use_action": { "type": "heal", "bandages_power": 4, "disinfectant_power": 4, "bite": 0.95, "bleed": 15, "move_cost": 300 }
   }
 ]
