@@ -42,7 +42,7 @@
     "components": [
       [ [ "bread_flour", 1 ] ],
       [ [ "flour", 5 ] ],
-      [ [ "cornmeal", 4 ] ],
+      [ [ "cornmeal", 5 ] ],
       [ [ "molasses", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "salt", 1 ] ]
