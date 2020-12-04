@@ -57,7 +57,7 @@
     "color": "light_blue",
     "comestible_type": "MED",
     "flags": [ "EATEN_COLD" ],
-    "phase": "powder",
+    "phase": "solid",
     "price": 2500
   },
   {
@@ -75,7 +75,7 @@
     "color": "light_blue",
     "comestible_type": "MED",
     "flags": [ "EATEN_COLD" ],
-    "phase": "powder",
+    "phase": "solid",
     "price": 5000
   }
 ]
