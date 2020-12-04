@@ -2203,8 +2203,7 @@ void editmap::cleartmpmap( tinymap &tmpmap )
     }
 
     auto &ch = tmpmap.get_cache( target.z );
-    std::memset( ch.veh_exists_at, 0, sizeof( ch.veh_exists_at ) );
-    ch.veh_cached_parts.clear();
+    ch.clear_vehicle_cache();
     ch.vehicle_list.clear();
     ch.zone_vehicles.clear();
 }
