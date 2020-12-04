@@ -1855,7 +1855,7 @@
       "h_mod_chance": [ 900 ]
     },
     "scaling_mods": {
-      "str_mod": [ -2 ],
+      "str_mod": [ -1 ],
       "stamina_max": [ -500 ],
       "fatigue_max": [ 20 ],
       "stamina_chance": [ -300 ],
@@ -1920,7 +1920,7 @@
   {
     "type": "effect_type",
     "id": "hypovitB",
-    "name": [ "B12 deficiency", "B12 anemia", "B12 dementia" ],
+    "name": [ "B12 deficiency", "B12 anemia", "B12 severe anemia", "B12 dementia" ],
     "desc": [
       "A lack of vitamin B12 in your diet causes early symptoms of anemia.",
       "Prolonged lack of vitamin B12 in your diet causes anemia, loss of taste, problems with focus and fading memory.",
@@ -1932,10 +1932,8 @@
       [ "Your vitamin B12 deficiency is starting to resolve.", "good" ],
       [ "Your ability to remember things returns as your Vitamin B12 deficiency improves.", "good" ]
     ],
-    "max_intensity": 3,
+    "max_intensity": 4,
     "base_mods": {
-      "int_mod": [ -1 ],
-      "dex_mod": [ -1 ],
       "fatigue_min": [ 5 ],
       "fatigue_max": [ 10 ],
       "fatigue_chance": [ 900 ],
@@ -1944,10 +1942,12 @@
       "h_mod_chance": [ 900 ]
     },
     "scaling_mods": {
-      "int_mod": [ -2 ],
-      "dex_mod": [ -2 ],
-      "speed_mod": [ -5 ],
-      "fatigue_chance": [ -200 ],
+      "dex_mod": [ -1 ],
+      "int_mod": [ -0.5 ],
+      "per_mod": [ -0.5 ],
+      "str_mod": [ -0.2, -0.5, -1 ],
+      "speed_mod": [ -2 ],
+      "fatigue_chance": [ -100 ],
       "h_mod_min": [ -1 ],
       "h_mod_chance": [ -200 ]
     },
@@ -1978,11 +1978,13 @@
       "h_mod_chance": [ 900 ]
     },
     "scaling_mods": {
-      "pain_chance": [ -300 ],
+      "pain_chance": [ -150 ],
       "fatigue_chance": [ -200 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ -100 ],
-      "h_mod_chance": [ -300 ]
+      "h_mod_chance": [ -300 ],
+      "str_mod": [ -0.5 ],
+      "speed_mod": [ -2 ]
     },
     "rating": "bad",
     "blood_analysis_description": "Scurvy"
