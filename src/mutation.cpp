@@ -1307,7 +1307,7 @@ bool Character::mutate_towards( const trait_id &mut )
     set_mutation( mut );
 
     set_highest_cat_level();
-    drench_mut_calc();
+    drench_mod_calc();
     return true;
 }
 
@@ -1516,7 +1516,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     }
 
     set_highest_cat_level();
-    drench_mut_calc();
+    drench_mod_calc();
 }
 
 bool Character::has_child_flag( const trait_id &flag ) const

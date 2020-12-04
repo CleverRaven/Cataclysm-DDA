@@ -90,6 +90,8 @@ struct bionic_data {
     /**Amount of bullet protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> bullet_protec;
 
+    std::map<bodypart_str_id, tripoint> protection; // Bionic wet effects
+
     /**Chance to avoid bleeding offered by this bionic*/
     double no_bleed_chance = 0.0f;
     /**Chance to avoid bites offered by this bionic*/

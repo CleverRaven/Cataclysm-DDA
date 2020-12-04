@@ -1329,7 +1329,7 @@ void avatar::load( const JsonObject &data )
     data.read( "magic", magic );
 
     set_highest_cat_level();
-    drench_mut_calc();
+    drench_mod_calc();
     std::string scen_ident = "(null)";
     if( data.read( "scenario", scen_ident ) && string_id<scenario>( scen_ident ).is_valid() ) {
         set_scenario( &string_id<scenario>( scen_ident ).obj() );

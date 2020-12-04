@@ -387,6 +387,14 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
         }
     }
 
+    for( JsonObject wp : jsobj.get_array( "wet_protection" ) ) {
+        int ignored = wp.get_int( "ignored", 0 );
+        int neutral = wp.get_int( "neutral", 0 );
+        int good = wp.get_int( "good", 0 );
+        tripoint protect = tripoint( ignored, neutral, good );
+        protection[bodypart_str_id( wp.get_string( "part" ) )] = protect;
+    }
+
     activated = has_flag( flag_BIO_TOGGLED ) ||
                 power_activate > 0_kJ ||
                 charge_time > 0;
@@ -2231,6 +2239,7 @@ void Character::perform_uninstall( const bionic_id &bid, int difficulty, int suc
 
     }
     here.invalidate_map_cache( here.get_abs_sub().z );
+    drench_mod_calc();
 }
 
 bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
@@ -2477,6 +2486,7 @@ void Character::perform_install( const bionic_id &bid, const bionic_id &upbid, i
     }
     map &here = get_map();
     here.invalidate_map_cache( here.get_abs_sub().z );
+    drench_mod_calc();
 }
 
 void Character::bionics_install_failure( const bionic_id &bid, const std::string &installer,

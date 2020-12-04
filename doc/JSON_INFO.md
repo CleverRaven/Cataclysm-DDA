@@ -658,6 +658,7 @@ For information about tools with option to export ASCII art in format ready to b
 | covered_bodyparts           | (_optional_) A list of covered bodyparts, which resist bites and bleeding but are unable to be compressed.
 | no_bite_chance              | (_optional_) Chance to avoid bites offered by this bionic.
 | no_bleed_chance             | (_optional_) Chance to avoid bleeding offered by this bionic.
+| wet_protection              | (_optional_) Wet Protection on specific bodyparts offered by this bionic. Good increases pos and cancels neg, neut cancels neg, ignored cancels both.
 
 
 ```C++
@@ -688,6 +689,26 @@ For information about tools with option to export ASCII art in format ready to b
     "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
+},
+{
+    "id": "bio_armor_legs",
+    "type": "bionic",
+    "name": { "str": "Alloy Plating - Legs" },
+    "description": "The skin and flesh on your legs has been surgically replaced by alloy plating.  Provides passive physical and chemical protection and can be used in conjunction with bionic martial arts at the cost of flexibility.",
+    "occupied_bodyparts": [ [ "leg_l", 7 ], [ "leg_r", 7 ] ],
+    "bash_protec": [ [ "leg_l", 7 ], [ "leg_r", 7 ] ],
+    "cut_protec": [ [ "leg_l", 5 ], [ "leg_r", 5 ] ],
+    "bullet_protec": [ [ "leg_l", 5 ], [ "leg_r", 5 ] ],
+    "fire_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "acid_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "env_protec": [ [ "leg_l", 2 ], [ "leg_r", 2 ] ],
+    "encumbrance": [ [ "leg_l", 4 ], [ "leg_r", 4 ] ],
+    "wet_protection": [ { "part": "leg_l", "ignored": 4 }, { "part": "leg_r", "ignored": 4 } ],
+    "covered_bodyparts": [ "leg_l", "leg_r" ],
+    "no_bleed_chance": 0.25,
+    "no_bite_chance": 0.33,
+    "cant_uninstall_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTALL", "BIONIC_CANT_COMPRESS" ]
 }
 ```
 
