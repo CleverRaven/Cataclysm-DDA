@@ -4,5 +4,18 @@
     "id": "UPLIFT",
     "description": "an intelligent animal created by man before the Cataclysm",
     "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "MOXIE",
+    "description": "a humanoid monster",
+    "footsteps": "shuffling."
+  },
+  {
+    "type": "SPECIES",
+    "id": "BIOMACHINE",
+    "description": "an unusual creature",
+    "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ],
+    "footsteps": "shuffling."
   }
 ]

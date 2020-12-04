@@ -79,5 +79,17 @@
       { "group": "military", "prob": 50 },
       { "group": "mil_food", "prob": 100 }
     ]
+  },
+  {
+    "id": "frost_human",
+    "type": "harvest",
+    "entries": [
+      { "drop": "frost_human_flesh", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "frost_hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "frost_human_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "frost_bone_human", "type": "bone", "mass_ratio": 0.12 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "frost_raw_hleather", "type": "skin", "mass_ratio": 0.01 }
+    ]
   }
 ]
