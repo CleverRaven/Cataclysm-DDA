@@ -73,7 +73,7 @@
     "name": { "str": "Arms Alloy Plating CBM" },
     "description": "Alloy plating that replaces skin and flesh on the user's arms.  Provides passive physical and chemical protection and can be used in conjunction with bionic martial arts at the cost of flexibility.",
     "price": 350000,
-    "difficulty": 7
+    "difficulty": 6
   },
   {
     "id": "bio_armor_eyes",
@@ -95,7 +95,7 @@
     "description": "Alloy plating that replaces skin and flesh on the user's head, protecting both their head and jaw regions from physical and chemical injuries at the cost of flexibility.",
     "price": 350000,
     "weight": "1000 g",
-    "difficulty": 8
+    "difficulty": 7
   },
   {
     "id": "bio_armor_legs",
@@ -105,7 +105,7 @@
     "looks_like": "bio_int_enhancer",
     "description": "Alloy plating that replaces skin and flesh on the user's legs.  Provides passive physical and chemical protection and can be used in conjunction with bionic martial arts at the cost of flexibility.",
     "price": 350000,
-    "difficulty": 7
+    "difficulty": 6
   },
   {
     "id": "bio_armor_torso",
@@ -116,7 +116,7 @@
     "description": "Alloy plating that replaces skin and flesh on the user's torso, protecting it from physical and chemical injuries at the cost of flexibility.",
     "price": 350000,
     "weight": "3000 g",
-    "difficulty": 8
+    "difficulty": 7
   },
   {
     "id": "bio_batteries",
