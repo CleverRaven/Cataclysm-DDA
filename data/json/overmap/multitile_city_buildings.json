@@ -1812,7 +1812,16 @@
       { "point": [ 2, 1, 0 ], "overmap": "hospital_4_north" },
       { "point": [ 0, 2, 0 ], "overmap": "hospital_9_north" },
       { "point": [ 1, 2, 0 ], "overmap": "hospital_8_north" },
-      { "point": [ 2, 2, 0 ], "overmap": "hospital_7_north" }
+      { "point": [ 2, 2, 0 ], "overmap": "hospital_7_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "hospital_3_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "hospital_2_roof_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "hospital_1_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "hospital_6_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "hospital_5_roof_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "hospital_4_roof_north" },
+      { "point": [ 0, 2, 1 ], "overmap": "hospital_9_roof_north" },
+      { "point": [ 1, 2, 1 ], "overmap": "hospital_8_roof_north" },
+      { "point": [ 2, 2, 1 ], "overmap": "hospital_7_roof_north" }
     ]
   },
   {
