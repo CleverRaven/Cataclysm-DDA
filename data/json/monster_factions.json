@@ -264,9 +264,9 @@
   {
     "type": "MONSTER_FACTION",
     "name": "wasp",
-	"base_faction": "insect",
-	"neutral": [ "spider", "centipede" ],
-	"hate": [ "insect", "small_animal" ]
+    "base_faction": "insect",
+    "neutral": [ "spider", "centipede" ],
+    "hate": [ "insect", "small_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -298,8 +298,8 @@
     "type": "MONSTER_FACTION",
     "name": "centipede",
     "base_faction": "insect",
-	"neutral": [ "spider", "bee", "wasp" ],
-	"hate": [ "insect", "animal", "zombie" ]
+    "neutral": [ "spider", "bee", "wasp" ],
+    "hate": [ "insect", "animal", "zombie" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -310,8 +310,8 @@
     "type": "MONSTER_FACTION",
     "name": "spider",
     "base_faction": "insect",
-	"neutral": [ "centipede", "bee" ],
-	"hate": [ "insect", "animal" ]
+    "neutral": [ "centipede", "bee" ],
+    "hate": [ "insect", "animal" ]
   },
   {
     "type": "MONSTER_FACTION",
