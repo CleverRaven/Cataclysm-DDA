@@ -1539,27 +1539,12 @@ bool game::do_turn()
             if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
                 u.activity.moves_left > 0 &&
                 !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
-                Creature *hostile_critter = is_hostile_very_close();
+                Creature *hostile_critter = is_hostile_very_close( true );
 
-                bool ranged_attack_monster = false;
                 if( hostile_critter != nullptr ) {
-                    for( const std::pair<std::string, mtype_special_attack> &attack :
-                         hostile_critter->as_monster()->type->special_attacks ) {
-                        if( attack.second->id == "gun" ) {
-                            ranged_attack_monster = true;
-                            break;
-                        }
-                    }
-
-                    const pathfinding_settings pf_settings = pathfinding_settings { 8, DANGEROUS_PROXIMITY, DANGEROUS_PROXIMITY * 2, 4, true, false, true, false, false };
-                    static const std::set<tripoint> path_avoid = {};
-
-                    if( hostile_critter->has_flag( MF_RANGED_ATTACKER ) || ranged_attack_monster ||
-                        !get_map().route( u.pos(), hostile_critter->pos(), pf_settings, path_avoid ).empty() ) {
-                        cancel_activity_or_ignore_query( distraction_type::hostile_spotted_near,
-                                                         string_format( _( "The %s is dangerously close!" ),
-                                                                 hostile_critter->get_name() ) );
-                    }
+                    cancel_activity_or_ignore_query( distraction_type::hostile_spotted_near,
+                                                     string_format( _( "The %s is dangerously close!" ),
+                                                             hostile_critter->get_name() ) );
                 }
             }
 
@@ -4067,15 +4052,34 @@ Creature *game::is_hostile_nearby()
     return is_hostile_within( distance );
 }
 
-Creature *game::is_hostile_very_close()
+Creature *game::is_hostile_very_close( bool dangerous )
 {
-    return is_hostile_within( DANGEROUS_PROXIMITY );
+    return is_hostile_within( DANGEROUS_PROXIMITY, dangerous );
 }
 
-Creature *game::is_hostile_within( int distance )
+Creature *game::is_hostile_within( int distance, bool dangerous )
 {
     for( auto &critter : u.get_visible_creatures( distance ) ) {
         if( u.attitude_to( *critter ) == Creature::Attitude::HOSTILE ) {
+            if( dangerous ) {
+                if( critter->has_flag( MF_RANGED_ATTACKER ) ) {
+                    return critter;
+                }
+
+                for( const std::pair<std::string, mtype_special_attack> &attack :
+                     critter->as_monster()->type->special_attacks ) {
+                    if( attack.second->id == "gun" ) {
+                        return critter;
+                    }
+                }
+
+                const pathfinding_settings pf_settings = pathfinding_settings { 8, DANGEROUS_PROXIMITY, DANGEROUS_PROXIMITY * 2, 4, true, false, true, false, false };
+                static const std::set<tripoint> path_avoid = {};
+
+                if( !get_map().route( u.pos(), critter->pos(), pf_settings, path_avoid ).empty() ) {
+                    return critter;
+                }
+            }
             return critter;
         }
     }
