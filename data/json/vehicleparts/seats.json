@@ -118,7 +118,8 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "size": 100,
-    "symbol": "#",
+    "standard_symbols": false,
+    "symbols": { "vertical": "#", "vertical_left": "#", "vertical_right": "#", "horizontal": "#", "left": "#", "right": "#" },
     "type": "vehicle_part"
   },
   {
