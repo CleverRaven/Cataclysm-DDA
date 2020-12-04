@@ -612,12 +612,12 @@ item &item::ammo_unset()
         if( is_money() ) { // charges are set wrong on cash cards.
             charges = 0;
         }
-        contents.clear_items();
+        contents.clear_magazines();
     } else if( magazine_integral() ) {
         curammo = nullptr;
         charges = 0;
         if( is_gun() ) {
-            contents.clear_items();
+            contents.clear_magazines();
         }
     } else if( magazine_current() ) {
         magazine_current()->ammo_unset();
