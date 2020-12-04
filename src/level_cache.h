@@ -117,6 +117,12 @@ struct level_cache {
         void clear_veh_from_veh_cached_parts( const tripoint &pt, vehicle *veh );
 
     private:
+        // Whether the state of the cache has been changed through any set operation, even
+        // a set operation that cleared a boolean value
+        bool veh_cache_dirty = true;
+        // Whether the cache is empty or not; if true, nothing has been added to the cache
+        // since the most recent call to clear_vehicle_cache()
+        bool veh_cache_active = false;
         bool veh_in_active_range = false;
         bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
         std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
