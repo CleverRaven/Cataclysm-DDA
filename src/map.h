@@ -166,6 +166,7 @@ struct drawsq_params {
         bool do_low_light = false;
         bool do_bright_light = false;
         bool do_memorize = false;
+        bool do_output = true;
 
     public:
         constexpr drawsq_params() = default;
@@ -237,6 +238,21 @@ struct drawsq_params {
         }
         constexpr bool memorize() const {
             return do_memorize;
+        }
+        //@}
+
+        /**
+         * HACK: Whether the tile should be printed. Used only in map::draw()
+         * as a hack for memorizing off-screen tiles.
+         * Default: true.
+         */
+        //@{
+        constexpr drawsq_params &output( bool v ) {
+            do_output = v;
+            return *this;
+        }
+        constexpr bool output() const {
+            return do_output;
         }
         //@}
 

@@ -5820,6 +5820,33 @@ void map::draw( const catacurses::window &w, const tripoint &center )
             draw_from_above( w, tripoint( p.xy(), p.z - 1 ), tile_below, params );
         }
     }
+
+    // Memorize off-screen tiles
+    rectangle display( offs.xy(), offs.xy() + point( wnd_w, wnd_h ) );
+    drawsq_params mm_params = drawsq_params().memorize( true ).output( false );
+    for( int y = 0; y < MAPSIZE_Y; y++ ) {
+        for( int x = 0; x < MAPSIZE_X; x++ ) {
+            const tripoint p( x, y, center.z );
+            if( display.contains_half_open( p.xy() ) ) {
+                // Have been memorized during display loop
+                continue;
+            }
+
+            const lit_level lighting = visibility_cache[p.x][p.y];
+            const visibility_type vis = get_visibility( lighting, cache );
+
+            if( vis != VIS_CLEAR ) {
+                continue;
+            }
+
+            const maptile curr_maptile = maptile_at_internal( p );
+            params
+            .low_light( lighting == LL_LOW )
+            .bright_light( lighting == LL_BRIGHT );
+
+            draw_maptile( w, p, curr_maptile, mm_params );
+        }
+    }
 }
 
 void map::drawsq( const catacurses::window &w, const tripoint &p,
@@ -6045,10 +6072,13 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
             return false;
         }
     }
-    if( item_sym.empty() ) {
-        wputch( w, tercol, sym );
-    } else {
-        wprintz( w, tercol, item_sym );
+
+    if( params.output() ) {
+        if( item_sym.empty() ) {
+            wputch( w, tercol, sym );
+        } else {
+            wprintz( w, tercol, item_sym );
+        }
     }
     return true;
 }
@@ -6122,7 +6152,9 @@ void map::draw_from_above( const catacurses::window &w, const tripoint &p,
         tercol = invert_color( tercol );
     }
 
-    wputch( w, tercol, sym );
+    if( params.output() ) {
+        wputch( w, tercol, sym );
+    }
 }
 
 bool map::sees( const tripoint &F, const tripoint &T, const int range ) const
