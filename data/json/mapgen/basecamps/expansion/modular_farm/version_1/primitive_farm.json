@@ -2,6 +2,29 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "fbmf_0",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_farm_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmf_0" ], "x": 10, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "bc_prim_farm_long_fields",
     "object": {
       "mapgensize": [ 6, 6 ],

@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmsw_1",
+    "nested_mapgen_id": "fbmsw_0",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -18,9 +18,9 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmsw_1",
+    "update_mapgen_id": "fbmsw_0",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_1" ], "x": 15, "y": 3 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_0" ], "x": 15, "y": 3 } ] }
   },
   {
     "type": "mapgen",

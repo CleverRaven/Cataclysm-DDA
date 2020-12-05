@@ -2,6 +2,22 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_workshop_0",
+    "description": "Survey land for a workshop.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_base_workshop_0",
+    "blueprint_name": "workshop survey",
+    "time": "3 h",
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_provides": [ { "id": "fbmw_0" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_workshop_room1_common_northeast",
     "description": "Let's install a metal working forge and a charcoal kiln.  We'll need a few tools too, so we'll include some storage space.",
     "category": "CC_BUILDING",

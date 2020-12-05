@@ -10,7 +10,7 @@
     "never_learn": true,
     "construction_blueprint": "fbms_room0_wood_east",
     "blueprint_name": "east storage wing",
-    "blueprint_requires": [ { "id": "fbms_1" } ],
+    "blueprint_requires": [ { "id": "fbms_0" } ],
     "blueprint_provides": [ { "id": "fbms_east" } ],
     "blueprint_excludes": [ { "id": "fbms_east" } ],
     "blueprint_needs": {
@@ -34,7 +34,7 @@
     "never_learn": true,
     "construction_blueprint": "fbms_room1_wood_west",
     "blueprint_name": "west storage wing",
-    "blueprint_requires": [ { "id": "fbms_1" } ],
+    "blueprint_requires": [ { "id": "fbms_0" } ],
     "blueprint_provides": [ { "id": "fbms_west" } ],
     "blueprint_excludes": [ { "id": "fbms_west" } ],
     "blueprint_needs": {

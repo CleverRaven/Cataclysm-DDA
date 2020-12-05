@@ -10,7 +10,7 @@
     "never_learn": true,
     "construction_blueprint": "fbml_coop_metal_northeast",
     "blueprint_name": "northeast coop",
-    "blueprint_requires": [ { "id": "fbml_1" } ],
+    "blueprint_requires": [ { "id": "fbml_0" } ],
     "blueprint_provides": [ { "id": "fbml_northeast" }, { "id": "chicken_coop" } ],
     "blueprint_excludes": [ { "id": "fbml_northeast" } ],
     "blueprint_needs": {
@@ -41,7 +41,7 @@
     "never_learn": true,
     "construction_blueprint": "fbml_shack_metal_southeast",
     "blueprint_name": "southeast storage room",
-    "blueprint_requires": [ { "id": "fbml_1" } ],
+    "blueprint_requires": [ { "id": "fbml_0" } ],
     "blueprint_provides": [ { "id": "fbml_southeast" } ],
     "blueprint_excludes": [ { "id": "fbml_southeast" } ],
     "blueprint_needs": {
@@ -79,7 +79,7 @@
     "never_learn": true,
     "construction_blueprint": "fbml_stable0_metal_southwest",
     "blueprint_name": "southwest stable",
-    "blueprint_requires": [ { "id": "fbml_1" } ],
+    "blueprint_requires": [ { "id": "fbml_0" } ],
     "blueprint_provides": [ { "id": "fbml_southwest" }, { "id": "stables" } ],
     "blueprint_excludes": [ { "id": "fbml_southwest" } ],
     "blueprint_needs": {

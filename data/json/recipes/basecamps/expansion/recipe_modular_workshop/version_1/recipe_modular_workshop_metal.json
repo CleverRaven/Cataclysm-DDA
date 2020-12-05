@@ -10,7 +10,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmw_room0_metal_northeast",
     "blueprint_name": "northeast wall",
-    "blueprint_requires": [ { "id": "fbmw_1" } ],
+    "blueprint_requires": [ { "id": "fbmw_0" } ],
     "blueprint_provides": [ { "id": "fbmw_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmw_northeast" } ],
     "blueprint_needs": {

@@ -32,7 +32,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmk_1",
+    "nested_mapgen_id": "fbmk_0",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -48,9 +48,9 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmk_1",
+    "update_mapgen_id": "faction_base_canteen_0",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmk_1" ], "x": 10, "y": 10 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmk_0" ], "x": 10, "y": 10 } ] }
   },
   {
     "type": "mapgen",

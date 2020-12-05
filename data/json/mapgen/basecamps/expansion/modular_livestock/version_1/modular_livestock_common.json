@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbml_1",
+    "nested_mapgen_id": "fbml_0",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -18,9 +18,9 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbml_1",
+    "update_mapgen_id": "faction_base_livestock_0",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_1" ], "x": 10, "y": 10 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbml_0" ], "x": 10, "y": 10 } ] }
   },
   {
     "type": "mapgen",

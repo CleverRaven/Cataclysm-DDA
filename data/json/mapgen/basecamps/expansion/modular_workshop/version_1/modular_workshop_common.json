@@ -18,7 +18,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmw_1",
+    "nested_mapgen_id": "fbmw_0",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -34,9 +34,9 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmw_1",
+    "update_mapgen_id": "faction_base_modular_workshop_0",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmw_1" ], "x": 10, "y": 10 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmw_0" ], "x": 10, "y": 10 } ] }
   },
   {
     "type": "mapgen",

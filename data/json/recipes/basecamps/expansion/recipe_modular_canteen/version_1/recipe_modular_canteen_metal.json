@@ -10,7 +10,7 @@
     "never_learn": true,
     "construction_blueprint": "faction_base_canteen_metal",
     "blueprint_name": "build the metal wall central kitchen room",
-    "blueprint_requires": [ { "id": "fbmk_1" } ],
+    "blueprint_requires": [ { "id": "fbmk_0" } ],
     "blueprint_provides": [ { "id": "fbmk_center" } ],
     "blueprint_excludes": [ { "id": "fbmk_center" } ],
     "blueprint_needs": {
