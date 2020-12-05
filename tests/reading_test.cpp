@@ -10,6 +10,7 @@
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
+#include "npc.h"
 #include "player_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -392,5 +393,75 @@ TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
                 CHECK( dummy.get_book_mastery( alpha ) == book_mastery::MASTERED );
             }
         }
+    }
+}
+
+TEST_CASE( "You can't access the failure reason for a successful reader_eval (since there is none)",
+           "[reading][evaluation]" )
+{
+    reader_eval eval = reader_eval::make_success();
+    REQUIRE( eval.can_read() );
+
+    CHECK_THROWS( eval.get_fail_reason() );
+    CHECK_THROWS( eval.get_fail_message() );
+}
+
+TEST_CASE( "A character who can read needs no assistance", "[reading][evaluation]" )
+{
+    reader_eval eval = reader_eval::make_success();
+    REQUIRE( eval.can_read() );
+
+    CHECK_FALSE( eval.can_be_assisted() );
+}
+
+TEST_CASE( "A reader_evaluator with no criteria always evaluates the reader as being able to read",
+           "[reading][evaluation]" )
+{
+    reader_evaluator evaluator( {} );
+
+    avatar dummy1;
+    npc dummy2;
+    item null_item;
+
+    CHECK( evaluator.do_eval( dummy1, null_item, dummy2 ).can_read() );
+    CHECK( evaluator.do_eval( dummy2, null_item ).can_read() ); // reading alone
+}
+
+TEST_CASE( "A reader_evaluator evaluates criterias in the order they were declared",
+           "[reading][evaluation]" )
+{
+    using namespace read_criteria;
+    clear_avatar();
+    Character &dummy = get_avatar();
+
+
+    item null_item; // item does not matter for this test
+    dummy.worn.push_back( item( "blindfold" ) );
+
+    // wearing a blindfold should fail the following criterias
+    REQUIRE_FALSE( not_blind.check( { dummy, null_item } ) );
+    REQUIRE_FALSE( not_too_dark.check( { dummy, null_item } ) );
+
+    SECTION( "check if the reader is not blind first" ) {
+        read_fail_reason expected_reason = not_blind.fail_reason;
+        reader_evaluator evaluator( {
+            not_blind,
+            not_too_dark,
+        } );
+        reader_eval eval = evaluator.do_eval( dummy, null_item );
+
+        CHECK_FALSE( eval.can_read() );
+        CHECK( expected_reason == eval.get_fail_reason() );
+    }
+    SECTION( "check if the it's not too dark first" ) {
+        read_fail_reason expected_reason = not_too_dark.fail_reason;
+        reader_evaluator evaluator( {
+            not_too_dark,
+            not_blind,
+        } );
+        reader_eval eval = evaluator.do_eval( dummy, null_item );
+
+        CHECK_FALSE( eval.can_read() );
+        CHECK( expected_reason == eval.get_fail_reason() );
     }
 }

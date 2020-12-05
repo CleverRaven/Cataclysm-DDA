@@ -1757,7 +1757,6 @@ class Character : public Creature, public visitable<Character>
         /** Calculates the total fun bonus relative to this character's traits and chapter progress */
         bool fun_to_read( const item &book ) const;
         int book_fun_for( const item &book, const Character &p ) const;
-        std::string get_read_fail_message( read_fail_reason reason, const item &book ) const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;

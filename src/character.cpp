@@ -12864,32 +12864,20 @@ bool has_enough_morale( const read_criteria_context &ctx )
 
 bool has_enough_skill( const read_criteria_context &ctx )
 {
-    const cata::value_ptr<islot_book> type = ctx.reading_material.type->book;
-    const skill_id &skill = type->skill;
-    const int skill_level = ctx.reader.get_skill_level( skill );
+    using m = book_mastery;
 
     if( !ctx.reader.has_identified( ctx.reading_material.typeId() ) ) {
         // skimming/identification requires no skill
         return true;
     }
-    if( !skill ) {
-        // reading material requires no skill to read
-        return true;
-    }
-    return skill_level >= type->req;
+
+    const book_mastery mastery = ctx.reader.get_book_mastery( ctx.reading_material );
+    return mastery == m::LEARNING || mastery == m::MASTERED;
 }
 
 bool can_learn( const read_criteria_context &ctx )
 {
-    const cata::value_ptr<islot_book> type = ctx.reading_material.type->book;
-    const skill_id &skill = type->skill;
-    const int skill_level = ctx.reader.get_skill_level( skill );
-
-    if( !skill ) {
-        // reading material gives no skill
-        return false;
-    }
-    return skill_level < type->level;
+    return ctx.reader.get_book_mastery( ctx.reading_material ) == book_mastery::LEARNING;
 }
 
 bool doesnt_need_reading_glasses( const read_criteria_context &ctx )
@@ -12985,6 +12973,9 @@ std::string get_fail_message( const read_criteria_context &ctx, read_fail_reason
 
     const bool reading_to_self = ( reader.getID() == listener.getID() );
 
+    // the cases handled below are the things actually being used within the game
+    // since different contexts only cares about a subset of all fail reasons
+
     if( reader.is_avatar() ) {
         // does not matter if reading to self or not
         switch( fail_reason ) {
@@ -13006,6 +12997,8 @@ std::string get_fail_message( const read_criteria_context &ctx, read_fail_reason
                 return _( "Your eyes won't focus without reading glasses." );
             case r::too_dark:
                 return _( "It's too dark to read!" );
+            case r::blind:
+                return _( "You're blind!" );
             default:
                 // do nothing, will be handled outside
                 break;
