@@ -362,6 +362,7 @@
     "power_draw": 1000,
     "revert_to": "vr_laptop",
     "use_action": { "target": "vr_laptop", "msg": "You power down the virtual overlay.", "menu_text": "Turn off", "type": "transform" },
+    "flags": [ "WATCH", "TRADER_AVOID" ],
     "relic_data": {
       "passive_effects": [
         {
@@ -370,8 +371,7 @@
           "mutations": [ "PSYCHOPATH", "SCHIZOPHRENIC" ],
           "values": [ { "value": "PERCEPTION", "add": 1 } ]
         }
-      ],
-      "flags": [ "WATCH", "TRADER_AVOID" ]
+      ]
     }
   },
   {
