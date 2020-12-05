@@ -113,6 +113,7 @@ static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
+static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
@@ -288,6 +289,7 @@ activity_handlers::do_turn_functions = {
     { ACT_CRACKING, cracking_do_turn },
     { ACT_FISH, fish_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
+    { ACT_BLEED, butcher_do_turn },
     { ACT_BUTCHER, butcher_do_turn },
     { ACT_BUTCHER_FULL, butcher_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
@@ -319,6 +321,7 @@ activity_handlers::do_turn_functions = {
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
 activity_handlers::finish_functions = {
+    { ACT_BLEED, butcher_finish },
     { ACT_BUTCHER, butcher_finish },
     { ACT_BUTCHER_FULL, butcher_finish },
     { ACT_FIELD_DRESS, butcher_finish },
@@ -386,6 +389,7 @@ template<>
 std::string enum_to_string<butcher_type>( butcher_type data )
 {
     switch( data ) {
+    case butcher_type::BLEED: return "BLEED";
     case butcher_type::DISMEMBER: return "DISMEMBER";
     case butcher_type::DISSECT: return "DISSECT";
     case butcher_type::FIELD_DRESS: return "FIELD_DRESS";
@@ -562,6 +566,14 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         return;
     }
 
+    if( action == butcher_type::BLEED && ( corpse_item.has_flag( flag_BLED ) ||
+                                           corpse_item.has_flag( flag_QUARTERED ) || corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ||
+                                           corpse_item.has_flag( flag_FIELD_DRESS ) ) ) {
+        u.add_msg_if_player( m_info, _( "This corpse hase already been bled." ) );
+        act.targets.pop_back();
+        return;
+    }
+
     if( action == butcher_type::DISSECT && ( corpse_item.has_flag( flag_QUARTERED ) ||
             corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
         u.add_msg_if_player( m_info,
@@ -680,6 +692,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
 
     switch( action ) {
         case butcher_type::QUICK:
+        case butcher_type::BLEED:
             break;
         case butcher_type::FULL:
             if( !corpse_item.has_flag( flag_FIELD_DRESS ) || corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) {
@@ -927,6 +940,13 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
         }
 
+        // you only get the blood from bleeding
+        if( action == butcher_type::BLEED ) {
+            if( entry.type != "blood" ) {
+                continue;
+            }
+        }
+
         // you only get the skin from skinning
         if( action == butcher_type::SKIN ) {
             if( entry.type != "skin" ) {
@@ -1059,6 +1079,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             monster_weight_remaining -= monster_weight * 3 / 4;
         } else if( action == butcher_type::SKIN ) {
             monster_weight_remaining -= monster_weight * 0.85;
+        } else if( action == butcher_type::BLEED ) {
+            monster_weight_remaining -= monster_weight * 0.1;
         } else {
             // a carcass is 75% of the weight of the unmodified creature's weight
             if( ( corpse_item->has_flag( flag_FIELD_DRESS ) ||
@@ -1138,6 +1160,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         action = butcher_type::QUARTER;
     } else if( act->id() == ACT_DISSECT ) {
         action = butcher_type::DISSECT;
+    } else if( act->id() == ACT_BLEED ) {
+        action = butcher_type::BLEED;
     } else if( act->id() == ACT_SKIN ) {
         action = butcher_type::SKIN;
     } else if( act->id() == ACT_DISMEMBER ) {
@@ -1353,6 +1377,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                     break;
             }
             corpse_item.set_flag( flag_SKINNED );
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
+            break;
+        case butcher_type::BLEED:
+            p->add_msg_if_player( m_good, _( "You bleed the %s." ), corpse->nname() );
+            corpse_item.set_flag( flag_BLED );
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
