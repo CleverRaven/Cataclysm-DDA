@@ -166,7 +166,7 @@
       { "x": -1, "y": -1, "parts": [ "frame_horizontal_2", "roof", "seat_back_left", "seatbelt" ] },
       { "x": -1, "y": -2, "parts": [ "frame_vertical_T_left", "roof", "door_sw" ] },
       { "x": -1, "y": -2, "part": "tank", "fuel": "gasoline" },
-      { "x": -1, "y": 0, "parts": [ "frame_horizontal_2", "roof", "seat_back_horizontal", "seatbelt" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_horizontal_2", "roof", "seat_back", "seatbelt" ] },
       { "x": -1, "y": 1, "parts": [ "frame_horizontal_2", "roof", "seat_back_right", "seatbelt" ] },
       { "x": -1, "y": 2, "parts": [ "frame_vertical_T_right", "roof", "door_se" ] },
       { "x": -1, "y": 2, "part": "tank", "fuel": "gasoline" },
