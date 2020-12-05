@@ -471,8 +471,7 @@ class Character : public Creature, public visitable<Character>
         virtual int get_hunger() const;
         virtual int get_starvation() const;
         virtual int get_thirst() const;
-        /** Gets character's minimum hunger and thirst */
-        int stomach_capacity() const;
+
         std::pair<std::string, nc_color> get_thirst_description() const;
         std::pair<std::string, nc_color> get_hunger_description() const;
         std::pair<std::string, nc_color> get_fatigue_description() const;
@@ -1152,6 +1151,11 @@ class Character : public Creature, public visitable<Character>
         void mutation_loss_effect( const trait_id &mut );
 
         bool has_active_mutation( const trait_id &b ) const;
+
+        int get_cost_timer( const trait_id &mut_id ) const;
+        void set_cost_timer( const trait_id &mut, int set );
+        void mod_cost_timer( const trait_id &mut, int mod );
+
         /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
         void mutate();
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
@@ -1436,6 +1440,9 @@ class Character : public Creature, public visitable<Character>
 
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
+
+        /** Returns the amount of software `type' that are in the inventory */
+        int count_softwares( const itype_id &id );
 
         /** Returns nearby items which match the provided predicate */
         std::vector<item_location> nearby( const std::function<bool( const item *, const item * )> &func,
@@ -2530,6 +2537,7 @@ class Character : public Creature, public visitable<Character>
                                        const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
                                        const std::function<bool( const item & )> &filter = return_true<item> );
+        bool consume_software_container( const itype_id &software_id );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                bool can_cancel = false, bool player_inv = true,
@@ -2754,8 +2762,8 @@ class Character : public Creature, public visitable<Character>
         std::map<bodypart_id, float> bodypart_exposure();
     private:
         /** suffer() subcalls */
-        void suffer_water_damage( const mutation_branch &mdata );
-        void suffer_mutation_power( const mutation_branch &mdata, Character::trait_data &tdata );
+        void suffer_water_damage( const trait_id &mut_id );
+        void suffer_mutation_power( const trait_id &mut_id );
         void suffer_while_underwater();
         void suffer_from_addictions();
         void suffer_while_awake( int current_stim );

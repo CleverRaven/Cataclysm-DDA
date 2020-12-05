@@ -2683,6 +2683,21 @@ int Character::amount_worn( const itype_id &id ) const
     return amount;
 }
 
+int Character::count_softwares( const itype_id &id )
+{
+    int count = 0;
+    for( const item_location &it_loc : all_items_loc() ) {
+        if( it_loc->is_software_storage() ) {
+            for( const item *soft : it_loc->softwares() ) {
+                if( soft->typeId() == id ) {
+                    count++;
+                }
+            }
+        }
+    }
+    return count;
+}
+
 std::vector<item_location> Character::nearby( const
         std::function<bool( const item *, const item * )> &func, int radius ) const
 {
@@ -12779,16 +12794,7 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
 bool Character::fun_to_read( const item &book ) const
 {
-    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if( ( has_trait( trait_CANNIBAL ) || has_trait( trait_PSYCHOPATH ) ||
-          has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == itype_cookbook_human ) {
-        return true;
-    } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( flag_INSPIRATIONAL ) ) {
-        return true;
-    } else {
-        return book_fun_for( book, *this ) > 0;
-    }
+    return book_fun_for( book, *this ) > 0;
 }
 
 int Character::book_fun_for( const item &book, const Character &p ) const

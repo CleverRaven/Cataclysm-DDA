@@ -616,9 +616,9 @@
     "weight": "2200 g",
     "volume": "3000 ml",
     "longest_side": "160 cm",
-    "bashing": 25,
-    "cutting": 27,
-    "to_hit": 2,
+    "bashing": 28,
+    "cutting": 31,
+    "to_hit": 1,
     "price_postapoc": 5000,
     "qualities": [ [ "COOK", 1 ] ]
   },

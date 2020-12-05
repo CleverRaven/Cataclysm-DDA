@@ -622,8 +622,7 @@
       "SEALED",
       "ALLOW_FIELD_EFFECT",
       "SHORT",
-      "RUBBLE",
-      "EMITTER"
+      "RUBBLE"
     ]
   },
   {
@@ -715,7 +714,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 32,
-    "flags": [ "BASHABLE" ],
+    "flags": [ "BASHABLE", "TRANSPARENT" ],
     "bash": {
       "str_min": 30,
       "str_max": 100,
@@ -742,7 +741,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 32,
-    "flags": [ "BASHABLE" ],
+    "flags": [ "BASHABLE", "TRANSPARENT" ],
     "bash": {
       "str_min": 30,
       "str_max": 100,

@@ -64,6 +64,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "explosion.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -1573,6 +1574,7 @@ bool game::do_turn()
     m.vehmove();
     m.process_fields();
     m.process_items();
+    explosion_handler::process_explosions();
     m.creature_in_field( u );
 
     // Apply sounds from previous turn to monster and NPC AI.
@@ -1587,8 +1589,14 @@ bool game::do_turn()
     }
     if( calendar::once_every( 10_seconds ) ) {
         for( const tripoint &elem : m.get_furn_field_locations() ) {
-            const auto &furn = m.furn( elem ).obj();
+            const furn_t &furn = *m.furn( elem );
             for( const emit_id &e : furn.emissions ) {
+                m.emit_field( elem, e );
+            }
+        }
+        for( const tripoint &elem : m.get_ter_field_locations() ) {
+            const ter_t &ter = *m.ter( elem );
+            for( const emit_id &e : ter.emissions ) {
                 m.emit_field( elem, e );
             }
         }
@@ -1826,8 +1834,8 @@ int get_heat_radiation( const tripoint &location, bool direct )
         int ffire = maptile_field_intensity( mt, fd_fire );
         if( ffire > 0 ) {
             heat_intensity = ffire;
-        } else if( here.tr_at( dest ) == tr_lava ) {
-            heat_intensity = 3;
+        } else  {
+            heat_intensity = here.ter( dest )->heat_radiation;
         }
         if( heat_intensity == 0 ) {
             // No heat source here
@@ -6186,9 +6194,14 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
     if( !inbounds ) {
         return;
     }
+    const int max_width = getmaxx( w_look ) - column - 1;
+
     auto this_sound = sounds::sound_at( lp );
     if( !this_sound.empty() ) {
-        mvwprintw( w_look, point( 1, ++line ), _( "You heard %s from here." ), this_sound );
+        const int lines = fold_and_print( w_look, point( 1, ++line ), max_width, c_light_gray,
+                                          _( "You heard %s from here." ),
+                                          this_sound );
+        line += lines - 1;
     } else {
         // Check other z-levels
         tripoint tmp = lp;
@@ -6199,8 +6212,10 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
 
             auto zlev_sound = sounds::sound_at( tmp );
             if( !zlev_sound.empty() ) {
-                mvwprintw( w_look, point( 1, ++line ), tmp.z > lp.z ?
-                           _( "You heard %s from above." ) : _( "You heard %s from below." ), zlev_sound );
+                const int lines = fold_and_print( w_look, point( 1, ++line ), max_width, c_light_gray,
+                                                  tmp.z > lp.z ?
+                                                  _( "You heard %s from above." ) : _( "You heard %s from below." ), this_sound );
+                line += lines - 1;
             }
         }
     }
@@ -12034,31 +12049,14 @@ void game::autosave()
 
 void game::start_calendar()
 {
-    const bool scen_season = scen->has_flag( "SPR_START" ) || scen->has_flag( "SUM_START" ) ||
-                             scen->has_flag( "AUT_START" ) || scen->has_flag( "WIN_START" ) ||
-                             scen->has_flag( "SUM_ADV_START" );
-
-    if( scen_season ) {
+    if( scen->custom_initial_date() ) {
         // Configured starting date overridden by scenario, calendar::start is left as Spring 1
-        calendar::start_of_cataclysm = calendar::turn_zero + 1_hours * get_option<int>( "INITIAL_TIME" );
-        calendar::start_of_game = calendar::turn_zero + 1_hours * get_option<int>( "INITIAL_TIME" );
-        if( scen->has_flag( "SPR_START" ) ) {
-            calendar::initial_season = SPRING;
-        } else if( scen->has_flag( "SUM_START" ) ) {
-            calendar::initial_season = SUMMER;
-            calendar::start_of_game += calendar::season_length();
-        } else if( scen->has_flag( "AUT_START" ) ) {
-            calendar::initial_season = AUTUMN;
-            calendar::start_of_game += calendar::season_length() * 2;
-        } else if( scen->has_flag( "WIN_START" ) ) {
-            calendar::initial_season = WINTER;
-            calendar::start_of_game += calendar::season_length() * 3;
-        } else if( scen->has_flag( "SUM_ADV_START" ) ) {
-            calendar::initial_season = SUMMER;
-            calendar::start_of_game += calendar::season_length() * 5;
-        } else {
-            debugmsg( "The Unicorn" );
-        }
+        calendar::start_of_cataclysm = calendar::turn_zero + 1_hours * scen->initial_hour();
+        calendar::start_of_game = calendar::turn_zero + 1_hours * scen->initial_hour();
+        calendar::initial_season = scen->initial_season();
+        calendar::start_of_game += calendar::season_length() * (
+                                       static_cast<int>( scen->initial_season() ) +
+                                       static_cast<int>( season_type::NUM_SEASONS ) * scen->initial_year() );
     } else {
         // No scenario, so use the starting date+time configured in world options
         int initial_days = get_option<int>( "INITIAL_DAY" );

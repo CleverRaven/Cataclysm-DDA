@@ -612,12 +612,12 @@ item &item::ammo_unset()
         if( is_money() ) { // charges are set wrong on cash cards.
             charges = 0;
         }
-        contents.clear_items();
+        contents.clear_magazines();
     } else if( magazine_integral() ) {
         curammo = nullptr;
         charges = 0;
         if( is_gun() ) {
-            contents.clear_items();
+            contents.clear_magazines();
         }
     } else if( magazine_current() ) {
         magazine_current()->ammo_unset();
@@ -945,7 +945,7 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     if( type != rhs.type ) {
         return false;
     }
-    if( is_relic() ) {
+    if( is_relic() && !( *relic_data == *rhs.relic_data ) ) {
         return false;
     }
     if( charges != 0 && rhs.charges != 0 && is_money() ) {
@@ -4496,7 +4496,8 @@ void item::on_damage( int, damage_type )
 
 }
 
-std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate ) const
+std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate,
+                         bool with_contents ) const
 {
     int dirt_level = get_var( "dirt", 0 ) / 2000;
     std::string dirt_symbol;
@@ -4574,6 +4575,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     std::string maintext;
+    std::string contents_suffix_text;
+
     if( is_corpse() || typeId() == itype_blood || item_vars.find( "name" ) != item_vars.end() ) {
         maintext = type_name( quantity );
     } else if( is_gun() || is_tool() || is_magazine() ) {
@@ -4587,8 +4590,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         if( amt ) {
             maintext += string_format( "+%d", amt );
         }
-    } else if( is_armor() && has_clothing_mod() ) {
-        maintext = label( quantity ) + "+1";
     } else if( is_craft() ) {
         maintext = string_format( _( "in progress %s" ), craft_data_->making->result_name() );
         if( charges > 1 ) {
@@ -4596,23 +4597,29 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
         const int percent_progress = item_counter / 100000;
         maintext += string_format( " (%d%%)", percent_progress );
-    } else if( contents.num_item_stacks() == 1 ) {
-        const item &contents_item = contents.only_item();
-        const unsigned contents_count =
-            ( ( contents_item.made_of( phase_id::LIQUID ) || contents_item.is_food() ) &&
-              contents_item.charges > 1 )
-            ? contents_item.charges
-            : quantity;
-        maintext = string_format( pgettext( "item name", "%2$s (%1$s)" ), label( quantity ),
-                                  contents_item.tname( contents_count, with_prefix ) );
-    } else if( !contents.empty() ) {
-        maintext = string_format( npgettext( "item name",
-                                             //~ %1$s: item name, %2$zd: content size
-                                             "%1$s with %2$zd item",
-                                             "%1$s with %2$zd items", contents.num_item_stacks() ),
-                                  label( quantity ), contents.num_item_stacks() );
     } else {
-        maintext = label( quantity );
+        maintext = label( quantity ) + ( is_armor() && has_clothing_mod() ? "+1" : "" );
+
+        /* only expand full contents name if with_contents == true */
+        if( with_contents && contents.num_item_stacks() == 1 ) {
+            const item &contents_item = contents.only_item();
+            const unsigned contents_count =
+                ( ( contents_item.made_of( phase_id::LIQUID ) ||
+                    contents_item.is_food() || contents_item.count_by_charges() ) &&
+                  contents_item.charges > 1 )
+                ? contents_item.charges
+                : 1;
+            contents_suffix_text = string_format( pgettext( "item name",
+                                                  //~ [container item name] " > [inner item  name]"
+                                                  " > %1$s" ),
+                                                  /* with_contents=false for nested items to prevent excessively long names */
+                                                  contents_item.tname( contents_count, true, 0, false ) );
+        } else if( !contents.empty() ) {
+            contents_suffix_text = string_format( npgettext( "item name",
+                                                  //~ [container item name] " > [count] item"
+                                                  " > %1$zd item", " > %1$zd items",
+                                                  contents.num_item_stacks() ), contents.num_item_stacks() );
+        }
     }
 
     Character &player_character = get_player_character();
@@ -4744,9 +4751,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
     }
 
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (poor fit)").
-    std::string ret = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext, burntext, modtext,
-                                     vehtext, maintext, tagtext );
+    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (poor fit)").%7s: inner contents suffix (e.g. " > rock" or " > 5 items").
+    std::string ret = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s%7$s" ), damtext, burntext, modtext,
+                                     vehtext, maintext, tagtext, contents_suffix_text );
 
     if( truncate != 0 ) {
         ret = utf8_truncate( ret, truncate + truncate_override );
