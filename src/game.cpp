@@ -4072,6 +4072,7 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                 if( !get_map().route( u.pos(), critter->pos(), pf_settings, path_avoid ).empty() ) {
                     return critter;
                 }
+                continue;
             }
             return critter;
         }
