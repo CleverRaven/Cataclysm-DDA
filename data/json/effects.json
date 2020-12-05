@@ -1945,7 +1945,7 @@
       "dex_mod": [ -1 ],
       "int_mod": [ -0.5 ],
       "per_mod": [ -0.5 ],
-      "str_mod": [ -0.2, -0.5, -1 ],
+      "str_mod": [ -0.3 ],
       "speed_mod": [ -2 ],
       "fatigue_chance": [ -100 ],
       "h_mod_min": [ -1 ],
