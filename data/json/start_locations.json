@@ -440,6 +440,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_freshwater_research_station",
+    "name": "Freshwater Research Station",
+    "terrain": [ "sealab_small_surface" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_gas_station",
     "name": "Gas Station",
     "terrain": [ "s_gas_rural" ]

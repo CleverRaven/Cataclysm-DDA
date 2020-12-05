@@ -47,12 +47,5 @@
     "type": "martial_art",
     "name": { "str": "Silat" },
     "extend": { "weapons": [ "afs_energy_saber_on" ] }
-  },
-  {
-    "id": "style_sojutsu",
-    "copy-from": "style_sojutsu",
-    "type": "martial_art",
-    "name": { "str": "Sojutsu" },
-    "extend": { "weapons": [ "afs_titanium_bat" ] }
   }
 ]

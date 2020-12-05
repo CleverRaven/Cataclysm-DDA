@@ -244,7 +244,7 @@ struct new_field {
         if( jo.size() != 1 ) {
             jo.throw_error( "new field specifications must have exactly one entry" );
         }
-        for( const JsonMember &m : jo ) {
+        for( const JsonMember m : jo ) {
             const std::string &transformation_name = m.name();
             auto it = event_field_transformations.find( transformation_name );
             if( it == event_field_transformations.end() ) {

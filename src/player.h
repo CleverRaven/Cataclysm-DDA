@@ -183,9 +183,6 @@ class player : public Character
          */
         int fire_gun( const tripoint &target, int shots, item &gun );
 
-        /** Handles reach melee attacks */
-        void reach_attack( const tripoint &p );
-
         /**
          * Checks both the neighborhoods of from and to for climbable surfaces,
          * returns move cost of climbing from `from` to `to`.
@@ -431,13 +428,6 @@ class player : public Character
 
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
-
-        /**
-         * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
-         * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
-         * @param target Target NPC to disarm
-         */
-        void disarm( npc &target );
 
     protected:
 

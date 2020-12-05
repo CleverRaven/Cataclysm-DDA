@@ -809,6 +809,22 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_sulphuric_acid",
+    "id_suffix": "with platinum",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "15 m",
+    "autolearn": true,
+    "//": "burning sulfur with platinum catalyst to create SO3, dissolving in water to create H2SO4",
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "platinum_small", -1 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "chem_sulphur", 375 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_nitric_acid",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",

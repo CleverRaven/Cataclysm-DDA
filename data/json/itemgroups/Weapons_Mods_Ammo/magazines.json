@@ -128,11 +128,13 @@
       [ "glockmag", 33 ],
       [ "glock40mag", 7 ],
       [ "glock_20mag", 3 ],
+      [ "glock_21mag", 5 ],
       [ "glock_29mag", 2 ],
       [ "m1911mag", 25 ],
       [ "m1911_10mag", 2 ],
       [ "mosquitomag", 10 ],
       [ "kpf9mag", 5 ],
+      [ "kpf9mag_8rd", 2 ],
       [ "kp3atmag", 4 ],
       [ "rugerlcpmag", 10 ],
       [ "sw22mag", 10 ],
@@ -159,6 +161,7 @@
       [ "cz75mag_20rd", 5 ],
       [ "cz75mag_26rd", 2 ],
       [ "ccpmag", 4 ],
+      [ "ccpmag_9rd", 1 ],
       [ "xd_10_mag", 1 ],
       [ "wp22mag", 7 ]
     ]
@@ -181,6 +184,7 @@
       [ "500_speedloader5", 5 ],
       [ "glock_drum_50rd", 5 ],
       [ "glock_drum_100rd", 5 ],
+      [ "glock_21mag26", 5 ],
       [ "90two40mag", 5 ],
       [ "deaglemag", 40 ],
       [ "fn57mag", 80 ],
@@ -201,7 +205,11 @@
       [ "j22mag", 1 ],
       [ "kp32mag", 5 ],
       [ "fn1910mag", 2 ],
-      [ "ppkmag", 15 ]
+      [ "ppkmag", 15 ],
+      [ "usp9mag_10rd", 5 ],
+      [ "usp9mag_18rd", 5 ],
+      [ "usp9mag_20rd", 3 ],
+      [ "usp9mag_32rd", 1 ]
     ]
   },
   {
@@ -218,6 +226,12 @@
       [ "mp5mag_20rd", 2 ],
       [ "stenmag", 5 ],
       [ "tec9mag", 10 ],
+      [ "tec9mag_10rd", 6 ],
+      [ "tec9mag_20rd", 3 ],
+      [ "tec9mag_30rd", 5 ],
+      [ "tec9mag_36rd", 1 ],
+      [ "tec9mag_50rd", 3 ],
+      [ "tec9mag_72rd", 1 ],
       [ "tdi_mag", 5 ],
       [ "thompson_mag", 5 ],
       [ "ump45mag", 5 ],
@@ -251,10 +265,12 @@
       [ "uzimag_100rd", 5 ],
       [ "thompson_bigmag", 5 ],
       [ "thompson_drum", 98 ],
+      [ "btmp9mag_9x19mm_10rd", 1 ],
       [ "btmp9mag_9x19mm_15", 1 ],
       [ "btmp9mag_9x19mm_20", 1 ],
       [ "btmp9mag_9x19mm_25", 1 ],
-      [ "btmp9mag_9x19mm_30", 1 ]
+      [ "btmp9mag_9x19mm_30", 1 ],
+      [ "btmp9mag_9x19mm_50rd", 1 ]
     ]
   },
   {

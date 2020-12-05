@@ -162,6 +162,32 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "id": "bag_paper_powder_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small powder paper bag" },
+    "looks_like": "bag_plastic",
+    "description": "A small but sturdy paper bag.  Rock solid when packed full with powder.",
+    "weight": "5 g",
+    "volume": "10 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": -1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": false,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "moves": 200
+      }
+    ],
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "bag_zipper",
     "type": "GENERIC",
     "category": "container",
@@ -1706,5 +1732,31 @@
     ],
     "symbol": ")",
     "color": "red"
+  },
+  {
+    "id": "beverage_bag",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "plastic beverage bag" },
+    "description": "A transparent, watertight plastic bag meant for holding drinks.",
+    "looks_like": "bag_plastic",
+    "weight": "6 g",
+    "volume": "262 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 1,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg"
+      }
+    ]
   }
 ]

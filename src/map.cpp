@@ -1389,7 +1389,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
             c->remove_effect( effect_crushed );
         }
     }
-    if( new_t.has_flag( "EMITTER" ) ) {
+    if( !new_t.emissions.empty() ) {
         field_furn_locs.push_back( p );
     }
     if( old_t.transparent != new_t.transparent ) {
@@ -1706,7 +1706,9 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     if( new_t.trap != tr_null && new_t.trap != tr_ledge ) {
         traplocs[new_t.trap.to_i()].push_back( p );
     }
-
+    if( !new_t.emissions.empty() ) {
+        field_ter_locs.push_back( p );
+    }
     if( old_t.transparent != new_t.transparent ) {
         set_transparency_cache_dirty( p );
         set_seen_cache_dirty( p );
@@ -3666,9 +3668,12 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     };
 
     ter_id terrain = ter( p );
-    if( terrain == t_wall_wood_broken ||
-        terrain == t_wall_log_broken ||
-        terrain == t_door_b ) {
+    if( terrain->has_flag( TFLAG_NO_SHOOT ) ) {
+        dam = 0.0f;
+        add_msg( _( "The shot is stopped by the %s" ), terrain->name() );
+    } else if( terrain == t_wall_wood_broken ||
+               terrain == t_wall_log_broken ||
+               terrain == t_door_b ) {
         if( hit_items || one_in( 8 ) ) { // 1 in 8 chance of hitting the door
             dam -= rng( 20, 40 );
             if( dam > 0 ) {
@@ -6569,6 +6574,7 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
         traps.clear();
     }
     field_furn_locs.clear();
+    field_ter_locs.clear();
     submaps_with_active_items.clear();
     // TODO: fix point types
     set_abs_sub( w.raw() );
@@ -6599,6 +6605,15 @@ void map::shift_traps( const tripoint &shift )
             ++iter;
         } else {
             iter = field_furn_locs.erase( iter );
+        }
+    }
+    for( auto iter = field_ter_locs.begin(); iter != field_ter_locs.end(); ) {
+        tripoint &pos = *iter;
+        pos += offset;
+        if( inbounds( pos ) ) {
+            ++iter;
+        } else {
+            iter = field_ter_locs.erase( iter );
         }
     }
     for( auto &traps : traplocs ) {
@@ -7296,9 +7311,13 @@ void map::actualize( const tripoint &grid )
         for( int y = 0; y < SEEY; y++ ) {
             const tripoint pnt = sm_to_ms_copy( grid ) + point( x, y );
             const point p( x, y );
-            const auto &furn = this->furn( pnt ).obj();
-            if( furn.has_flag( "EMITTER" ) ) {
+            const furn_t &furn = *this->furn( pnt );
+            const ter_t &terr = *this->ter( pnt );
+            if( !furn.emissions.empty() ) {
                 field_furn_locs.push_back( pnt );
+            }
+            if( !terr.emissions.empty() ) {
+                field_ter_locs.push_back( pnt );
             }
 
             const auto trap_here = tmpsub->get_trap( p );
@@ -7643,6 +7662,11 @@ void map::clear_traps()
 const std::vector<tripoint> &map::get_furn_field_locations() const
 {
     return field_furn_locs;
+}
+
+const std::vector<tripoint> &map::get_ter_field_locations() const
+{
+    return field_ter_locs;
 }
 
 const std::vector<tripoint> &map::trap_locations( const trap_id &type ) const

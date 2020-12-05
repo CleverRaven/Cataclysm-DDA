@@ -652,7 +652,7 @@ void player::sort_armor()
         cata::flat_set<bodypart_id> rl;
         // Right list
         rightListSize = 0;
-        for( const bodypart_id cover : armor_cat ) {
+        for( const bodypart_id &cover : armor_cat ) {
             if( !combine_bp( cover ) || rl.count( cover.obj().opposite_part ) == 0 ) {
                 rightListSize += items_cover_bp( *this, cover ).size() + 1;
                 rl.insert( cover );
@@ -664,7 +664,7 @@ void player::sort_armor()
             rightListOffset = rightListSize - rightListLines;
         }
         int pos = 1, curr = 0;
-        for( const bodypart_id cover : rl ) {
+        for( const bodypart_id &cover : rl ) {
             if( cover == bodypart_id( "bp_null" ) ) {
                 continue;
             }
@@ -844,7 +844,7 @@ void player::sort_armor()
             }
         } else if( action == "EQUIP_ARMOR_HERE" ) {
             // filter inventory for all items that are armor/clothing
-            item_location loc = game_menus::inv::wear( *this );
+            item_location loc = game_menus::inv::wear( *this, armor_cat[tabindex] );
 
             // only equip if something valid selected!
             if( loc ) {

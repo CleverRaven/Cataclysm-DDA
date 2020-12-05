@@ -7,6 +7,7 @@ import itertools
 import subprocess
 from optparse import OptionParser
 from sys import platform
+from sys import exit
 
 # Must parse command line arguments here
 # 'options' variable is referenced in our defined functions below
@@ -84,7 +85,6 @@ ignorable = {
     "emit",
     "enchantment",
     "event_transformation",
-    "event_statistic",
     "EXTERNAL_OPTION",
     "hit_range",
     "ITEM_BLACKLIST",
@@ -201,6 +201,11 @@ needs_plural = {
     "TOOLMOD",
     "TOOL_ARMOR",
     "WHEEL",
+}
+
+# These objects use a plural form in their description
+needs_plural_desc = {
+    "event_statistic"
 }
 
 # these objects can be automatically converted, but use format strings
@@ -1219,7 +1224,11 @@ def extract(item, infilename):
             c = "Description for {}".format(name)
         else:
             c = None
-        writestr(outfile, item["description"], comment=c, **kwargs)
+        if object_type in needs_plural_desc:
+            writestr(outfile, item["description"], comment=c, pl_fmt=True,
+                     **kwargs)
+        else:
+            writestr(outfile, item["description"], comment=c, **kwargs)
         wrote = True
     if "detailed_definition" in item:
         writestr(outfile, item["detailed_definition"], **kwargs)
@@ -1382,6 +1391,21 @@ def prepare_git_file_list():
 #
 #  EXTRACTION
 #
+
+ignored_types = []
+
+# first, make sure we aren't erroneously ignoring types
+for ignored in ignorable:
+    if ignored in automatically_convertible:
+        ignored_types.append(ignored)
+    if ignored in extract_specials:
+        ignored_types.append(ignored)
+
+if len(ignored_types) != 0:
+    print("ERROR: Some types set to be both extracted and ignored:")
+    for ignored in ignored_types:
+        print(ignored)
+    exit(-1)
 
 print("==> Generating the list of all Git tracked files")
 prepare_git_file_list()

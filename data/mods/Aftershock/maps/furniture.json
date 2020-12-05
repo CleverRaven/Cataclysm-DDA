@@ -67,6 +67,23 @@
   },
   {
     "type": "furniture",
+    "id": "f_afs_escape_pod_seat",
+    "name": "escape pod seat",
+    "copy-from": "f_seat_airplane",
+    "description": "The cushioned and upright facing seat of single-seater escape pod.  A storage space beneath it holds survival supplies.",
+    "symbol": "H",
+    "color": "light_red",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 3,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "deconstruct": { "items": [ { "item": "pipe", "count": 10 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "rope_6" } ] },
+    "required_str": 20
+  },
+  {
+    "type": "furniture",
     "id": "f_autodoc_super",
     "name": "chirurgic suite",
     "symbol": "&",
