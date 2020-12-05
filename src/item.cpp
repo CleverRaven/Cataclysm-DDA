@@ -9711,6 +9711,7 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     bool submerged = false;
     bool precipitation = false;
     bool windtoostrong = false;
+    bool in_veh = carrier != nullptr && carrier->in_vehicle;
     w_point weatherPoint = *get_weather().weather_precise;
     int windpower = get_weather().windspeed;
     switch( get_weather().weather_id->precip ) {
@@ -9727,11 +9728,11 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
             break;
     }
     map &here = get_map();
-    if( in_inv && here.has_flag( flag_DEEP_WATER, pos ) ) {
+    if( in_inv && here.has_flag( flag_DEEP_WATER, pos ) && !in_veh) {
         extinguish = true;
         submerged = true;
     }
-    if( ( !in_inv && here.has_flag( flag_LIQUID, pos ) ) ||
+    if( ( !in_inv && here.has_flag( flag_LIQUID, pos ) && !here.veh_at(pos) ) ||
         ( precipitation && !g->is_sheltered( pos ) ) ) {
         extinguish = true;
     }
