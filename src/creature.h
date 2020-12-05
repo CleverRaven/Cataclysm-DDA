@@ -442,6 +442,11 @@ class Creature : public location, public viewer
         virtual void on_hit( Creature *source, bodypart_id bp_hit,
                              float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
 
+        /** Returns true if this monster has any sort of ranged attack. This doesn't necessarily means direct damage ranged attack,
+        * but also includes any sort of potentially dangerous ranged interaction, e.g. monster with RANGED_PULL special attack will fit here too.
+         */
+        virtual bool is_ranged_attacker() const;
+
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const;
