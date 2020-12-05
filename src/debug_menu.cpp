@@ -1646,7 +1646,7 @@ void debug()
                 return;
             }
 
-            sounds::sound( *where, volume, sounds::sound_t::order, string_format( _( "DEBUG SOUNG %d" ),
+            sounds::sound( *where, volume, sounds::sound_t::order, string_format( _( "DEBUG SOUND ( %d )" ),
                            volume ) );
         }
         break;
