@@ -4062,18 +4062,11 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
     for( auto &critter : u.get_visible_creatures( distance ) ) {
         if( u.attitude_to( *critter ) == Creature::Attitude::HOSTILE ) {
             if( dangerous ) {
-                if( critter->has_flag( MF_RANGED_ATTACKER ) ) {
+                if( critter->is_ranged_attacker() ) {
                     return critter;
                 }
 
-                for( const std::pair<std::string, mtype_special_attack> &attack :
-                     critter->as_monster()->type->special_attacks ) {
-                    if( attack.second->id == "gun" ) {
-                        return critter;
-                    }
-                }
-
-                const pathfinding_settings pf_settings = pathfinding_settings { 8, DANGEROUS_PROXIMITY, DANGEROUS_PROXIMITY * 2, 4, true, false, true, false, false };
+                const pathfinding_settings pf_settings = pathfinding_settings { 8, distance, distance * 2, 4, true, false, true, false, false };
                 static const std::set<tripoint> path_avoid = {};
 
                 if( !get_map().route( u.pos(), critter->pos(), pf_settings, path_avoid ).empty() ) {
