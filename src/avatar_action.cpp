@@ -1149,6 +1149,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
                      loc->tname() );
             return;
         }
+
+        loc = item_location( you, &you.weapon );
     }
 
     // Shift our position to our "peeking" position, so that the UI
@@ -1177,7 +1179,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( loc != item_location( you, &you.weapon ) ) {
+    if( &*loc != &you.weapon ) {
         // This is to represent "implicit offhand wielding"
         int extra_cost = you.item_handling_cost( *loc, true, INVENTORY_HANDLING_PENALTY / 2 );
         you.mod_moves( -extra_cost );
