@@ -3668,9 +3668,12 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     };
 
     ter_id terrain = ter( p );
-    if( terrain == t_wall_wood_broken ||
-        terrain == t_wall_log_broken ||
-        terrain == t_door_b ) {
+    if( terrain->has_flag( TFLAG_NO_SHOOT ) ) {
+        dam = 0.0f;
+        add_msg( _( "The shot is stopped by the %s" ), terrain->name() );
+    } else if( terrain == t_wall_wood_broken ||
+               terrain == t_wall_log_broken ||
+               terrain == t_door_b ) {
         if( hit_items || one_in( 8 ) ) { // 1 in 8 chance of hitting the door
             dam -= rng( 20, 40 );
             if( dam > 0 ) {
