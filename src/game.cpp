@@ -64,6 +64,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "explosion.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -1573,6 +1574,7 @@ bool game::do_turn()
     m.vehmove();
     m.process_fields();
     m.process_items();
+    explosion_handler::process_explosions();
     m.creature_in_field( u );
 
     // Apply sounds from previous turn to monster and NPC AI.
