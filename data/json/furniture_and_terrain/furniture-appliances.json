@@ -583,11 +583,10 @@
     "flags": [ "TRANSPARENT", "BASHABLE", "ELECTRIC_GRID" ],
     "deconstruct": {
       "items": [
-        { "item": "scrap", "count": [ 4, 6 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": 6 },
+        { "item": "plastic_chunk", "count": 2 },
         { "item": "steel_chunk", "count": 3 },
         { "item": "pipe", "count": 4 },
-        { "item": "2x4", "count": 4 },
         { "item": "solar_panel", "count": 1 }
       ]
     },

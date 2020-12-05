@@ -1964,7 +1964,7 @@
     "id": "constr_woodstove",
     "description": "Build Wood Stove",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 3 ] ],
+    "required_skills": [ [ "fabrication", 4 ], [ "mechanics", 0 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "metal_tank", 1 ] ], [ [ "pipe", 1 ] ] ],
@@ -2089,7 +2089,7 @@
     "id": "constr_wardrobe",
     "description": "Build Wardrobe",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 4 ] ],
+    "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "2x4", 10 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 24 ] ], [ [ "pipe", 2 ] ] ],
@@ -4046,5 +4046,58 @@
     "components": [ [ [ "glass_sheet", 2 ] ] ],
     "pre_terrain": "t_skylight_frame",
     "post_terrain": "t_glass_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_solar_unit",
+    "description": "Install Solar Panel",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "pipe", 4 ] ], [ [ "solar_panel", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_solar_unit"
+  },
+  {
+    "type": "construction",
+    "id": "constr_battery",
+    "description": "Install Battery",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [
+      [ [ "sheet_metal_small", 6 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "medium_storage_battery", 1 ] ]
+    ],
+    "pre_note": "Will only work if constructed in a building with an electric grid.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_battery"
+  },
+  {
+    "type": "construction",
+    "id": "constr_oven",
+    "description": "Build Oven",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "45 m",
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "components": [
+      [ [ "sheet_metal", 6 ] ],
+      [ [ "steel_chunk", 5 ] ],
+      [ [ "element", 4 ] ],
+      [ [ "cable", 5 ] ],
+      [ [ "pilot_light", 1 ] ]
+    ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_oven"
   }
 ]
