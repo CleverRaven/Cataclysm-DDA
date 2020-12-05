@@ -255,10 +255,10 @@ CachedTTFFont::CachedTTFFont(
 
     for( const std::string &tf : typefaces ) {
         if( !file_exist( tf ) ) {
-            dbg( D_ERROR ) << "Not found " << tf;
+            dbg( D_INFO ) << "Not found " << tf;
             continue;
         }
-        dbg( D_ERROR ) << "Loading truetype font " << tf;
+        dbg( D_INFO ) << "Loading truetype font " << tf;
         typeface = tf;
         break;
     }
