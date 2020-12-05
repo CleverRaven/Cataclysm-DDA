@@ -412,7 +412,7 @@
     "speed": 115,
 	"attack_cost": 115,
     "aggression": 0,
-	"morale": 7,
+	"morale": 5,
     "melee_dice_sides": 3,
 	"melee_skill": 5,
     "special_attacks": [
@@ -451,7 +451,8 @@
     "volume": "80 L",
     "weight": "110 kg",
     "hp": 80,
-    "speed": 120,
+    "speed": 125,
+	"attack_cost": 125,
     "aggression": 40,
     "morale": 50,
     "melee_skill": 6,

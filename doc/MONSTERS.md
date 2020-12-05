@@ -368,7 +368,7 @@ The old style array should contain 2 elements: the id of the attack (see [JSON_F
 "special_attacks": [ [ "GRAB", 10 ] ]
 ```
 
-The new style object should contain at least a "type" member (string) and "cooldown" member (integer). It may contain additional members as required by the specific type. Possible types are listed below. Example:
+The new style object can contain a "type" member (string) - "cooldown" member (integer) pair for the three types listed below, the "id" of an explicitly defined monster attack (from monster_attacks.json) or a spell (see MAGIC.md). It may contain additional members as required by the specific attack. Possible types are listed below. Example:
 
 ```JSON
 "special_attacks": [
