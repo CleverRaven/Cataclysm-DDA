@@ -130,7 +130,7 @@
       { "x": -1, "y": -1, "parts": [ "xlframe_vertical_2", "engine_electric", "seat_back_left" ] },
       { "x": -1, "y": -2, "parts": [ "xlframe_vertical_left", "door_nw" ] },
       { "x": -1, "y": -1, "parts": [ "seatbelt", "roof" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_vertical_2", "seat_back_horizontal", "engine_electric" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical_2", "seat_back", "engine_electric" ] },
       { "x": -1, "y": 0, "parts": [ "minireactor", "seatbelt", "roof", "headlight" ] },
       { "x": -1, "y": 1, "parts": [ "xlframe_vertical_2", "engine_electric", "seat_back_right" ] },
       { "x": -1, "y": 1, "parts": [ "seatbelt", "roof" ] },
