@@ -8797,7 +8797,7 @@ void game::butcher()
         return;
     }
 
-    Creature *hostile_critter = is_hostile_very_close();
+    Creature *hostile_critter = is_hostile_very_close( true );
     if( hostile_critter != nullptr ) {
         if( !query_yn( _( "You see %s nearby!  Start butchering anyway?" ),
                        hostile_critter->disp_name() ) ) {
