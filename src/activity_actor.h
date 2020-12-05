@@ -128,7 +128,7 @@ class move_furniture_activity_actor : public activity_actor
 
     public:
         move_furniture_activity_actor( const tripoint &dp, bool via_ramp ) :
-            dp( dp ), via_ramp(via_ramp) {}
+            dp( dp ), via_ramp( via_ramp ) {}
         activity_id get_type() const override {
             return activity_id( "ACT_FURNITURE_MOVE" );
         }
