@@ -141,6 +141,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::CHANGE_WEATHER: return "CHANGE_WEATHER";
         case debug_menu::debug_menu_index::WIND_DIRECTION: return "WIND_DIRECTION";
         case debug_menu::debug_menu_index::WIND_SPEED: return "WIND_SPEED";
+        case debug_menu::debug_menu_index::GEN_SOUND: return "GEN_SOUND";
         case debug_menu::debug_menu_index::KILL_MONS: return "KILL_MONS";
         case debug_menu::debug_menu_index::DISPLAY_HORDES: return "DISPLAY_HORDES";
         case debug_menu::debug_menu_index::TEST_IT_GROUP: return "TEST_IT_GROUP";
@@ -329,6 +330,7 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
         { uilist_entry( debug_menu_index::WIND_DIRECTION, true, 'd', _( "Change wind direction" ) ) },
         { uilist_entry( debug_menu_index::WIND_SPEED, true, 's', _( "Change wind speed" ) ) },
+        { uilist_entry( debug_menu_index::GEN_SOUND, true, 'G', _( "Generate sound" ) ) },
         { uilist_entry( debug_menu_index::KILL_MONS, true, 'K', _( "Kill all monsters" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_TIME, true, 't', _( "Change time" ) ) },
         { uilist_entry( debug_menu_index::OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
@@ -1626,6 +1628,26 @@ void debug()
                 g->weather.windspeed_override = selected_wind_speed;
                 g->weather.set_nextweather( calendar::turn );
             }
+        }
+        break;
+
+        case debug_menu_index::GEN_SOUND: {
+            const cata::optional<tripoint> where = g->look_around();
+            if( !where ) {
+                return;
+            }
+
+            int volume;
+            if( !query_int( volume, _( "Volume of sound: " ) ) ) {
+                return;
+            }
+
+            if( volume < 0 ) {
+                return;
+            }
+
+            sounds::sound( *where, volume, sounds::sound_t::order, string_format( _( "DEBUG SOUNG %d" ),
+                           volume ) );
         }
         break;
 
