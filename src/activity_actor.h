@@ -119,6 +119,32 @@ class activity_actor
 void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout );
 void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin );
 
+
+class move_furniture_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        item_location target;
+    public:
+        move_furniture_activity_actor( int moves_total, const item_location &target ) :
+            moves_total( moves_total ), target( target ) {}
+        activity_id get_type() const override {
+            return activity_id( "ACT_UNLOAD" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<unload_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+
 namespace activity_actors
 {
 

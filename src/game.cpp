@@ -10310,12 +10310,15 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( canmove ) {
         u.increase_activity_level( ACTIVE_EXERCISE );
     }
+    int moves_total = 0;
+    bool actually_move = true;
+    std::string message = "";
     const float weary_mult = 1.0f / u.exertion_adjusted_move_multiplier();
     if( !canmove ) {
         // TODO: What is something?
         add_msg( _( "The %s collides with something." ), furntype.name() );
-        u.moves -= 50 * weary_mult;
-        return true;
+        moves_total = 50 * weary_mult;
+        actually_move = false;
         ///\EFFECT_STR determines ability to drag furniture
     } else if( str_req > u.get_str() &&
                one_in( std::max( 20 - str_req - u.get_str(), 2 ) ) ) {

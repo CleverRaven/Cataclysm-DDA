@@ -2363,12 +2363,27 @@ void reload_activity_actor::canceled( player_activity &act, Character &/*who*/ )
 }
 
 void reload_activity_actor::serialize( JsonOut &jsout ) const
+void move_furniture_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_left = moves_total;
+    act.moves_total = moves_total;
+}
+
+void move_furniture_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    
+}
+
+
+void move_furniture_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
     jsout.member( "moves_total", moves_total );
     jsout.member( "qty", quantity );
     jsout.member( "reload_targets", reload_targets );
+    jsout.member( "target", target );
 
     jsout.end_object();
 }
@@ -2376,6 +2391,9 @@ void reload_activity_actor::serialize( JsonOut &jsout ) const
 std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonIn &jsin )
 {
     reload_activity_actor actor;
+std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( JsonIn &jsin )
+{
+    move_furniture_activity_actor actor = move_furniture_activity_actor( 0, item_location::nowhere );
 
     JsonObject data = jsin.get_object();
 
@@ -2456,6 +2474,11 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
 
     return actor.clone();
 }
+    data.read( "target", actor.target );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
