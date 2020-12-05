@@ -2365,16 +2365,24 @@ void reload_activity_actor::canceled( player_activity &act, Character &/*who*/ )
 void reload_activity_actor::serialize( JsonOut &jsout ) const
 void move_furniture_activity_actor::start( player_activity &act, Character & )
 {
-    act.moves_left = moves_total;
-    act.moves_total = moves_total;
+    int moves = g->grabbed_furn_move_time( dp );
+    act.moves_left = moves;
+    act.moves_total = moves;
 }
 
 void move_furniture_activity_actor::finish( player_activity &act, Character &who )
 {
+    if( !g->grabbed_furn_move( dp ) ) {
+        g->walk_move( who.pos() + dp, via_ramp, true );
+    }
     act.set_to_null();
-    
 }
 
+void move_furniture_activity_actor::canceled( player_activity &, Character &who )
+{
+    add_msg( m_warning, _( "You let go of the grabbed object." ) );
+    get_avatar().grab( object_type::NONE );
+}
 
 void move_furniture_activity_actor::serialize( JsonOut &jsout ) const
 {
@@ -2385,6 +2393,8 @@ void move_furniture_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "reload_targets", reload_targets );
     jsout.member( "target", target );
 
+    jsout.member( "dp", dp );
+    jsout.member( "via_ramp", via_ramp );
     jsout.end_object();
 }
 
@@ -2393,7 +2403,7 @@ std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonIn &jsin
     reload_activity_actor actor;
 std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( JsonIn &jsin )
 {
-    move_furniture_activity_actor actor = move_furniture_activity_actor( 0, item_location::nowhere );
+    move_furniture_activity_actor actor = move_furniture_activity_actor( tripoint( 0, 0, 0 ), false );
 
     JsonObject data = jsin.get_object();
 
@@ -2475,6 +2485,8 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
     return actor.clone();
 }
     data.read( "target", actor.target );
+    data.read( "dp", actor.dp );
+    data.read( "via_ramp", actor.via_ramp );
 
     return actor.clone();
 }
@@ -2509,6 +2521,7 @@ deserialize_functions = {
     { activity_id( "ACT_WORKOUT_ACTIVE" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_MODERATE" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_LIGHT" ), &workout_activity_actor::deserialize },
+    { activity_id( "ACT_FURNITURE_MOVE" ), &move_furniture_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

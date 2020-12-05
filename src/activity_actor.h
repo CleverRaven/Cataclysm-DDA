@@ -123,21 +123,23 @@ void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin );
 class move_furniture_activity_actor : public activity_actor
 {
     private:
-        int moves_total;
-        item_location target;
+        tripoint dp;
+        bool via_ramp;
+
     public:
-        move_furniture_activity_actor( int moves_total, const item_location &target ) :
-            moves_total( moves_total ), target( target ) {}
+        move_furniture_activity_actor( const tripoint &dp, bool via_ramp ) :
+            dp( dp ), via_ramp(via_ramp) {}
         activity_id get_type() const override {
-            return activity_id( "ACT_UNLOAD" );
+            return activity_id( "ACT_FURNITURE_MOVE" );
         }
 
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override {}
         void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &act, Character &who ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<unload_activity_actor>( *this );
+            return std::make_unique<move_furniture_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;
