@@ -117,7 +117,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "size": 100,
+    "size": 120,
     "standard_symbols": false,
     "symbols": { "vertical": "#", "vertical_left": "#", "vertical_right": "#", "left": "#", "right": "#" },
     "type": "vehicle_part"
