@@ -5840,7 +5840,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
             }
 
             const maptile curr_maptile = maptile_at_internal( p );
-            params
+            mm_params
             .low_light( lighting == LL_LOW )
             .bright_light( lighting == LL_BRIGHT );
 
