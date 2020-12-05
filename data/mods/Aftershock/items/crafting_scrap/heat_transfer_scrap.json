@@ -4,7 +4,7 @@
     "id": "afs_heat_1",
     "copy-from": "afs_scrap_1",
     "name": { "str": "conductive thermoplastic" },
-    "description": "An excellent heat conductor but also an electrical insulator, conductive thermoplastics were introduced to the civillian market nearly two centuries ago, and have tightly integrated themselves into the modern society since then.",
+    "description": "An excellent heat conductor and electrical insulator.  Conductive thermoplastics were introduced to the civilian market nearly two centuries ago, and have tightly integrated themselves into the modern society since then.",
     "looks_like": "scrap"
   },
   {
@@ -56,7 +56,7 @@
     "copy-from": "afs_scrap_2",
     "//": "This item drops from disassembly instead of afs_heat_2 because that is a liquid. Intended as a QOL detail in case player forgot/didn't know to bring watertight containers when disassembling a relevant object. DO NOT use in crafting recipes, use afs_heat_2 instead.",
     "name": { "str": "salvaged coolant system" },
-    "description": "Rusty fluid resorvoirs and decomposing high-pressure tubings containing some useable supercritical coolant.  It would be wise to transfer the coolant to a watertight container and dispose of all these useless scraps.",
+    "description": "Rusty fluid reservoirs and decomposing high-pressure tubing containing still usable supercritical coolant.   You could disassemble it to separate the liquid coolant from the rest of the scrap.",
     "looks_like": "scrap",
     "price": 1,
     "price_postapoc": 1,
