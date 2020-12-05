@@ -119,7 +119,7 @@
     },
     "size": 100,
     "standard_symbols": false,
-    "symbols": { "vertical": "#", "vertical_left": "#", "vertical_right": "#", "horizontal": "#", "left": "#", "right": "#" },
+    "symbols": { "vertical": "#", "vertical_left": "#", "vertical_right": "#", "left": "#", "right": "#" },
     "type": "vehicle_part"
   },
   {
