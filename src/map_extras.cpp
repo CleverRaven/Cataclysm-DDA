@@ -1796,9 +1796,11 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.xy(), loc.xy(), 1, true );
             }
             const int radius = 6;
-            const int x = rng( std::max( p.x - radius, radius ), SEEX * 2 - std::min( SEEX * 2 - p.x, SEEX - radius ) );
-            const int y = rng( std::max( p.y - radius, radius ), SEEY * 2 - std::min( SEEY * 2 - p.y, SEEY - radius ) );
-            const point pos = point(x, y);
+            const int x = rng( std::max( p.x - radius, radius ), SEEX * 2 - std::min( SEEX * 2 - p.x,
+                               SEEX - radius ) );
+            const int y = rng( std::max( p.y - radius, radius ), SEEY * 2 - std::min( SEEY * 2 - p.y,
+                               SEEY - radius ) );
+            const point pos = point( x, y );
             circle( &m, ter_id( "t_wall_resin" ), pos, radius );
             rough_circle( &m, ter_id( "t_floor_resin" ), pos, radius - 1 );
             break;
