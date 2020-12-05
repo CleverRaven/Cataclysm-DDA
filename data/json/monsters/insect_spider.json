@@ -409,20 +409,23 @@
     "volume": "15 L",
     "weight": "20 kg",
     "hp": 30,
-    "speed": 100,
+    "speed": 115,
+	"attack_cost": 115,
     "aggression": 0,
 	"morale": 7,
-    "melee_dice": 1,
     "melee_dice_sides": 3,
 	"melee_skill": 5,
     "special_attacks": [
       {
         "type": "bite",
-        "cooldown": 1,
-		"move_cost": 120,
+        "cooldown": 5,
+		"move_cost": 115,
         "damage_max_instance": [
-          { "damage_type": "stab", "amount": 20, "armor_penetration": 5 }
+          { "damage_type": "stab", "amount": 2, "armor_penetration": 6 }
         ],
+		"min_mul": 3,
+		"max_mul": 5.4,
+		"//": "Bite does 6-10 dmg, armor penetration 5, 8 hits to max venom intensity",
         "effects": [ { "id": "venom_dmg", "duration": 250, "affect_hit_bp": true } ]
       }
     ],
@@ -550,7 +553,7 @@
       }
 	 ],
 	"special_attacks": [ 
-	  [ "GRAB", 5 ],
+	  [ "GRAB_DRAG", 5 ],
 	  {
 	    "type": "bite",
 		"cooldown": 3,
@@ -559,6 +562,8 @@
 		  { "damage_type": "cut", "amount": 25, "armor_penetration": 100 },
 		  { "damage_type": "stab", "amount": 25, "armor_penetration": 100 } 
 		 ],
+		"min_mul": 0.8,
+		"max_mul": 1,
 		"no_infection_chance": 2,
 		"effects": [ { "id": "venom_dmg", "duration": 750, "affect_hit_bp": true } ]
 	  }
