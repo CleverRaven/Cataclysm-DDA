@@ -12836,21 +12836,22 @@ int Character::book_fun_for( const item &book, const Character &p ) const
 namespace read_criteria
 {
 
-namespace criteria
+namespace // unnamed
 {
+// these are the actual check functions for criterias
 
-bool item_is_book( const read_criteria_context &ctx )
+bool _item_is_book( const read_criteria_context &ctx )
 {
     return ctx.reading_material.is_book();
 }
 
-bool not_driving( const read_criteria_context &ctx )
+bool _not_driving( const read_criteria_context &ctx )
 {
     const optional_vpart_position vp = get_map().veh_at( ctx.reader.pos() );
     return !vp || !vp->vehicle().player_in_control( ctx.reader );
 }
 
-bool has_enough_morale( const read_criteria_context &ctx )
+bool _has_enough_morale( const read_criteria_context &ctx )
 {
     if( !ctx.reader.has_identified( ctx.reading_material.typeId() ) ) {
         // skimming/identification does not require morale
@@ -12862,7 +12863,7 @@ bool has_enough_morale( const read_criteria_context &ctx )
     return ctx.reader.has_morale_to_read();
 }
 
-bool has_enough_skill( const read_criteria_context &ctx )
+bool _has_enough_skill( const read_criteria_context &ctx )
 {
     using m = book_mastery;
 
@@ -12875,12 +12876,12 @@ bool has_enough_skill( const read_criteria_context &ctx )
     return mastery == m::LEARNING || mastery == m::MASTERED;
 }
 
-bool can_learn( const read_criteria_context &ctx )
+bool _can_learn( const read_criteria_context &ctx )
 {
     return ctx.reader.get_book_mastery( ctx.reading_material ) == book_mastery::LEARNING;
 }
 
-bool doesnt_need_reading_glasses( const read_criteria_context &ctx )
+bool _doesnt_need_reading_glasses( const read_criteria_context &ctx )
 {
     if( !ctx.reader.has_trait( trait_HYPEROPIC ) ) {
         return true;
@@ -12897,7 +12898,7 @@ bool doesnt_need_reading_glasses( const read_criteria_context &ctx )
     return false;
 }
 
-bool not_illiterate( const read_criteria_context &ctx )
+bool _not_illiterate( const read_criteria_context &ctx )
 {
     const cata::value_ptr<islot_book> type = ctx.reading_material.type->book;
     if( type->intel <= 0 ) {
@@ -12907,17 +12908,17 @@ bool not_illiterate( const read_criteria_context &ctx )
     return !ctx.reader.has_trait( trait_ILLITERATE );
 }
 
-bool not_blind( const read_criteria_context &ctx )
+bool _not_blind( const read_criteria_context &ctx )
 {
     return !ctx.reader.is_blind();
 }
 
-bool can_see_listener( const read_criteria_context &ctx )
+bool _can_see_listener( const read_criteria_context &ctx )
 {
     return ctx.reader.sees( ctx.listener );
 }
 
-bool not_too_dark( const read_criteria_context &ctx )
+bool _not_too_dark( const read_criteria_context &ctx )
 {
     // irl, the reader and listener can just swap places if it's too dark
     const float vision_mod = std::min( ctx.reader.fine_detail_vision_mod(),
@@ -12925,19 +12926,19 @@ bool not_too_dark( const read_criteria_context &ctx )
     return vision_mod <= 4;
 }
 
-} // end namespace criteria
+} // end unnamed namespace
 
 using fail_reason = read_fail_reason;
-const type item_is_book                 { criteria::item_is_book,                   fail_reason::item_not_readable };
-const type not_driving                  { criteria::not_driving,                    fail_reason::driving };
-const type has_enough_morale            { criteria::has_enough_morale,              fail_reason::not_enough_morale };
-const type has_enough_skill             { criteria::has_enough_skill,               fail_reason::not_enough_skill };
-const type can_learn                    { criteria::can_learn,                      fail_reason::cant_learn };
-const type doesnt_need_reading_glasses  { criteria::doesnt_need_reading_glasses,    fail_reason::needs_reading_glasses };
-const type not_illiterate               { criteria::not_illiterate,                 fail_reason::illiterate };
-const type not_blind                    { criteria::not_blind,                      fail_reason::blind };
-const type can_see_listener             { criteria::can_see_listener,               fail_reason::cant_see_listener };
-const type not_too_dark                 { criteria::not_too_dark,                   fail_reason::too_dark };
+const type item_is_book                 { _item_is_book,                 fail_reason::item_not_readable };
+const type not_driving                  { _not_driving,                  fail_reason::driving };
+const type has_enough_morale            { _has_enough_morale,            fail_reason::not_enough_morale };
+const type has_enough_skill             { _has_enough_skill,             fail_reason::not_enough_skill };
+const type can_learn                    { _can_learn,                    fail_reason::cant_learn };
+const type doesnt_need_reading_glasses  { _doesnt_need_reading_glasses,  fail_reason::needs_reading_glasses };
+const type not_illiterate               { _not_illiterate,               fail_reason::illiterate };
+const type not_blind                    { _not_blind,                    fail_reason::blind };
+const type can_see_listener             { _can_see_listener,             fail_reason::cant_see_listener };
+const type not_too_dark                 { _not_too_dark,                 fail_reason::too_dark };
 
 bool can_be_assisted( read_fail_reason reason )
 {
