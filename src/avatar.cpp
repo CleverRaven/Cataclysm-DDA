@@ -38,6 +38,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "kill_tracker.h"
+#include "make_static.h"
 #include "map.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -118,8 +119,6 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
-
-static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
 avatar::avatar()
 {
@@ -270,11 +269,16 @@ void avatar::on_mission_finished( mission &cur_mission )
 const player *avatar::get_book_reader( const item &book, std::vector<std::string> &reasons ) const
 {
     const player *reader = nullptr;
+
     if( !book.is_book() ) {
-        reasons.push_back( string_format( _( "Your %s is not good reading material." ),
-                                          book.tname() ) );
+        reasons.push_back( string_format( _( "Your %s is not good reading material." ), book.tname() ) );
         return nullptr;
     }
+
+    const cata::value_ptr<islot_book> &type = book.type->book;
+    const skill_id &book_skill = type->skill;
+    const int book_skill_requirement = type->req;
+    const bool book_requires_intelligence = type->intel > 0;
 
     // Check for conditions that immediately disqualify the player from reading:
     const optional_vpart_position vp = get_map().veh_at( pos() );
@@ -282,24 +286,22 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
         reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
         return nullptr;
     }
-    const auto &type = book.type->book;
     if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
         // Low morale still permits skimming
         reasons.emplace_back( _( "What's the point of studying?  (Your morale is too low!)" ) );
         return nullptr;
     }
-    const skill_id &skill = type->skill;
-    const int skill_level = get_skill_level( skill );
-    if( skill && skill_level < type->req && has_identified( book.typeId() ) ) {
+    if( get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
         reasons.push_back( string_format( _( "%s %d needed to understand.  You have %d" ),
-                                          skill.obj().name(), type->req, skill_level ) );
+                                          book_skill->name(), book_skill_requirement, get_skill_level( book_skill ) ) );
         return nullptr;
     }
 
     // Check for conditions that disqualify us only if no NPCs can read to us
-    if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
+    if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
         reasons.emplace_back( _( "You're illiterate!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
+    } else if( has_trait( trait_HYPEROPIC ) &&
+               !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
@@ -322,14 +324,15 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
 
     for( const npc *elem : candidates ) {
         // Check for disqualifying factors:
-        if( type->intel > 0 && elem->has_trait( trait_ILLITERATE ) ) {
+        if( book_requires_intelligence && elem->has_trait( trait_ILLITERATE ) ) {
             reasons.push_back( string_format( _( "%s is illiterate!" ),
                                               elem->disp_name() ) );
-        } else if( skill && elem->get_skill_level( skill ) < type->req &&
-                   has_identified( book.typeId() ) ) {
+        } else if( elem->get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
-                                              skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
-        } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( flag_FIX_FARSIGHT ) &&
+                                              book_skill->name(), book_skill_requirement, elem->disp_name(),
+                                              elem->get_skill_level( book_skill ) ) );
+        } else if( elem->has_trait( trait_HYPEROPIC ) &&
+                   !elem->worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
                    !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
                                               elem->disp_name() ) );
@@ -458,32 +461,33 @@ bool avatar::read( item &it, const bool continuous )
     std::map<npc *, std::string> nonlearners;
     auto candidates = get_crafting_helpers();
     for( npc *elem : candidates ) {
-        const int lvl = elem->get_skill_level( skill );
-        const bool skill_req = ( elem->fun_to_read( it ) && ( !skill || lvl >= type->req ) ) ||
-                               ( skill && lvl < type->level && lvl >= type->req );
+        const book_mastery mastery = elem->get_book_mastery( it );
         const bool morale_req = elem->fun_to_read( it ) || elem->has_morale_to_read();
 
-        if( !skill_req && elem != reader ) {
-            if( skill && lvl < type->req ) {
-                nonlearners.insert( { elem, string_format( _( " (needs %d %s)" ), type->req, skill_name ) } );
-            } else if( skill ) {
-                nonlearners.insert( { elem, string_format( _( " (already has %d %s)" ), type->level, skill_name ) } );
-            } else {
-                nonlearners.insert( { elem, _( " (uninterested)" ) } );
-            }
-        } else if( elem->is_deaf() && reader != elem ) {
+        // Note that the reader cannot be a nonlearner
+        // since a reader should always have enough morale to read
+        // and at the very least be able to understand the book
+
+        if( elem->is_deaf() && elem != reader ) {
             nonlearners.insert( { elem, _( " (deaf)" ) } );
-        } else if( !morale_req ) {
-            nonlearners.insert( { elem, _( " (too sad)" ) } );
-        } else if( skill && lvl < type->level ) {
-            const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
-            learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
-            act.values.push_back( elem->getID().get_value() );
-            act.str_values.push_back( to_string( penalty ) );
-        } else {
+        } else if( mastery == book_mastery::MASTERED && elem->fun_to_read( it ) ) {
             fun_learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : "" } );
             act.values.push_back( elem->getID().get_value() );
             act.str_values.emplace_back( "1" );
+        } else if( mastery == book_mastery::LEARNING && morale_req ) {
+            learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
+            const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
+            act.str_values.push_back( to_string( penalty ) );
+        } else {
+            std::string reason = _( " (uninterested)" );
+            if( !morale_req ) {
+                reason = _( " (too sad)" );
+            } else if( mastery == book_mastery::CANT_UNDERSTAND ) {
+                reason = string_format( _( " (needs %d %s)" ), type->req, skill_name );
+            } else if( mastery == book_mastery::MASTERED ) {
+                reason = string_format( _( " (already has %d %s)" ), type->level, skill_name );
+            }
+            nonlearners.insert( { elem, reason } );
         }
     }
 
@@ -702,62 +706,7 @@ void avatar::do_read( item &book )
     const skill_id &skill = reading->skill;
 
     if( !has_identified( book.typeId() ) ) {
-        // Note that we've read the book.
-        items_identified.insert( book.typeId() );
-
-        add_msg( _( "You skim %s to find out what's in it." ), book.type_name() );
-        if( skill && get_skill_level_object( skill ).can_train() ) {
-            add_msg( m_info, _( "Can bring your %s skill to %d." ),
-                     skill.obj().name(), reading->level );
-            if( reading->req != 0 ) {
-                add_msg( m_info, _( "Requires %s level %d to understand." ),
-                         skill.obj().name(), reading->req );
-            }
-        }
-
-        if( reading->intel != 0 ) {
-            add_msg( m_info, _( "Requires intelligence of %d to easily read." ), reading->intel );
-        }
-        //It feels wrong to use a pointer to *this, but I can't find any other player pointers in this method.
-        if( book_fun_for( book, *this ) != 0 ) {
-            add_msg( m_info, _( "Reading this book affects your morale by %d" ), book_fun_for( book, *this ) );
-        }
-
-        if( book.type->use_methods.count( "MA_MANUAL" ) ) {
-            const matype_id style_to_learn = martial_art_learned_from( *book.type );
-            add_msg( m_info, _( "You can learn %s style from it." ), style_to_learn->name );
-            add_msg( m_info, _( "This fighting style is %s to learn." ),
-                     martialart_difficulty( style_to_learn ) );
-            add_msg( m_info, _( "It would be easier to master if you'd have skill expertise in %s." ),
-                     style_to_learn->primary_skill->name() );
-            add_msg( m_info, _( "A training session with this book takes %s" ),
-                     to_string( time_duration::from_minutes( reading->time ) ) );
-        } else {
-            add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
-                                       "A chapter of this book takes %d minutes to read.", reading->time ),
-                     reading->time );
-        }
-
-        std::vector<std::string> recipe_list;
-        for( const auto &elem : reading->recipes ) {
-            // If the player knows it, they recognize it even if it's not clearly stated.
-            if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
-                continue;
-            }
-            recipe_list.push_back( elem.name );
-        }
-        if( !recipe_list.empty() ) {
-            std::string recipe_line =
-                string_format( ngettext( "This book contains %1$zu crafting recipe: %2$s",
-                                         "This book contains %1$zu crafting recipes: %2$s",
-                                         recipe_list.size() ),
-                               recipe_list.size(),
-                               enumerate_as_string( recipe_list ) );
-            add_msg( m_info, recipe_line );
-        }
-        if( recipe_list.size() != reading->recipes.size() ) {
-            add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
-        }
+        identify( book );
         activity.set_to_null();
         return;
     }
@@ -941,6 +890,79 @@ void avatar::do_read( item &book )
 bool avatar::has_identified( const itype_id &item_id ) const
 {
     return items_identified.count( item_id ) > 0;
+}
+
+void avatar::identify( const item &item )
+{
+    if( has_identified( item.typeId() ) ) {
+        return;
+    }
+    if( !item.is_book() ) {
+        debugmsg( "tried to identify non-book item" );
+        return;
+    }
+
+    const auto &book = item; // alias
+    cata_assert( !has_identified( item.typeId() ) );
+    items_identified.insert( item.typeId() );
+    cata_assert( has_identified( item.typeId() ) );
+
+    const auto &reading = item.type->book;
+    const skill_id &skill = reading->skill;
+
+    add_msg( _( "You skim %s to find out what's in it." ), book.type_name() );
+    if( skill && get_skill_level_object( skill ).can_train() ) {
+        add_msg( m_info, _( "Can bring your %s skill to %d." ),
+                 skill.obj().name(), reading->level );
+        if( reading->req != 0 ) {
+            add_msg( m_info, _( "Requires %s level %d to understand." ),
+                     skill.obj().name(), reading->req );
+        }
+    }
+
+    if( reading->intel != 0 ) {
+        add_msg( m_info, _( "Requires intelligence of %d to easily read." ), reading->intel );
+    }
+    //It feels wrong to use a pointer to *this, but I can't find any other player pointers in this method.
+    if( book_fun_for( book, *this ) != 0 ) {
+        add_msg( m_info, _( "Reading this book affects your morale by %d." ), book_fun_for( book, *this ) );
+    }
+
+    if( book.type->use_methods.count( "MA_MANUAL" ) ) {
+        const matype_id style_to_learn = martial_art_learned_from( *book.type );
+        add_msg( m_info, _( "You can learn %s style from it." ), style_to_learn->name );
+        add_msg( m_info, _( "This fighting style is %s to learn." ),
+                 martialart_difficulty( style_to_learn ) );
+        add_msg( m_info, _( "It would be easier to master if you'd have skill expertise in %s." ),
+                 style_to_learn->primary_skill->name() );
+        add_msg( m_info, _( "A training session with this book takes %s." ),
+                 to_string( time_duration::from_minutes( reading->time ) ) );
+    } else {
+        add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
+                                   "A chapter of this book takes %d minutes to read.", reading->time ),
+                 reading->time );
+    }
+
+    std::vector<std::string> recipe_list;
+    for( const auto &elem : reading->recipes ) {
+        // If the player knows it, they recognize it even if it's not clearly stated.
+        if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
+            continue;
+        }
+        recipe_list.push_back( elem.name() );
+    }
+    if( !recipe_list.empty() ) {
+        std::string recipe_line =
+            string_format( ngettext( "This book contains %1$zu crafting recipe: %2$s",
+                                     "This book contains %1$zu crafting recipes: %2$s",
+                                     recipe_list.size() ),
+                           recipe_list.size(),
+                           enumerate_as_string( recipe_list ) );
+        add_msg( m_info, recipe_line );
+    }
+    if( recipe_list.size() != reading->recipes.size() ) {
+        add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
+    }
 }
 
 void avatar::wake_up()
@@ -1172,7 +1194,7 @@ void avatar::reset_stats()
         add_miss_reason( _( "Your chitin gets in the way." ), 1 );
     }
     if( has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bodypart_id( "eyes" ) ) ) {
-        mod_per_bonus( 1 );
+        mod_per_bonus( 2 );
     }
     if( has_trait( trait_INSECT_ARMS ) ) {
         add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
@@ -1194,7 +1216,8 @@ void avatar::reset_stats()
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bodypart_str_id( "torso" ) ) ) {
+        } else if( !exclusive_flag_coverage( STATIC( flag_id( "OVERSIZE" ) ) )
+                   .test( body_part_torso ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
@@ -1274,10 +1297,10 @@ void avatar::reset_stats()
                      ( encumb( bodypart_id( "leg_l" ) ) + encumb( bodypart_id( "leg_r" ) ) ) / 20.0f - encumb(
                          bodypart_id( "torso" ) ) / 10.0f );
     // Whiskers don't work so well if they're covered
-    if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
+    if( has_trait( trait_WHISKERS ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );
     }
-    if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
+    if( has_trait( trait_WHISKERS_RAT ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 2 );
     }
     // depending on mounts size, attacks will hit the mount and use their dodge rating.
@@ -1287,8 +1310,11 @@ void avatar::reset_stats()
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {
-        static const std::array<bodypart_id, 5> parts{ { bodypart_id( "head" ), bodypart_id( "arm_r" ), bodypart_id( "arm_l" ), bodypart_id( "leg_r" ), bodypart_id( "leg_l" ) } };
-        for( const bodypart_id &bp : parts ) {
+        static const bodypart_str_id parts[] {
+            body_part_head, body_part_arm_r, body_part_arm_l,
+            body_part_leg_r, body_part_leg_l
+        };
+        for( const bodypart_str_id &bp : parts ) {
             if( !wearing_something_on( bp ) ) {
                 mod_dodge_bonus( +1 );
             }
@@ -1538,21 +1564,13 @@ bool avatar::wield( item &target, const int obtain_cost )
         return false;
     }
 
-    if( !unwield() ) {
+    bool combine_stacks = target.can_combine( weapon );
+    if( !combine_stacks && !unwield() ) {
         return false;
     }
     cached_info.erase( "weapon_value" );
     if( target.is_null() ) {
         return true;
-    }
-
-    // Query whether to draw an item from a holster when attempting to wield the holster
-    if( target.get_use( "holster" ) && !target.contents.empty() ) {
-        //~ %1$s: weapon name
-        if( query_yn( pgettext( "holster", "Draw from %1$s?" ), target.tname() ) ) {
-            invoke_item( &target );
-            return false;
-        }
     }
 
     // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
@@ -1571,9 +1589,18 @@ bool avatar::wield( item &target, const int obtain_cost )
     moves -= mv;
 
     if( has_item( target ) ) {
-        weapon = i_rem( &target );
+        item removed = i_rem( &target );
+        if( combine_stacks ) {
+            weapon.combine( removed );
+        } else {
+            weapon = removed;
+        }
     } else {
-        weapon = target;
+        if( combine_stacks ) {
+            weapon.combine( target );
+        } else {
+            weapon = target;
+        }
     }
 
     last_item = weapon.typeId();
@@ -1594,7 +1621,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;
     const int num_methods = use_methods.size();
 
-    const bool has_relic = used->is_relic();
+    const bool has_relic = used->has_relic_activation();
     if( use_methods.empty() && !has_relic ) {
         return false;
     } else if( num_methods == 1 && !has_relic ) {

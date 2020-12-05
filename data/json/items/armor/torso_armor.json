@@ -23,6 +23,14 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
   {
+    "id": "xl_armor_cuirass",
+    "type": "ARMOR",
+    "name": { "str": "xl bell cuirass", "str_pl": "xl bell cuirasses" },
+    "copy-from": "armor_cuirass",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+  },
+  {
     "id": "armor_lamellar",
     "type": "ARMOR",
     "name": { "str": "lamellar cuirass", "str_pl": "lamellar cuirasses" },
@@ -42,6 +50,14 @@
     "warmth": 20,
     "material_thickness": 8,
     "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "xl_armor_lamellar",
+    "type": "ARMOR",
+    "name": { "str": "xl lamellar cuirass", "str_pl": "xl lamellar cuirasses" },
+    "copy-from": "armor_lamellar",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "armor_lorica",
@@ -64,6 +80,14 @@
     "warmth": 15,
     "material_thickness": 4,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+  },
+  {
+    "id": "xl_armor_lorica",
+    "type": "ARMOR",
+    "name": { "str_sp": "oversized lorica segmentata" },
+    "copy-from": "armor_lorica",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
   },
   {
     "id": "bookplate",
@@ -107,6 +131,14 @@
     "encumbrance": 20,
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "xl_chainmail_vest",
+    "type": "ARMOR",
+    "name": { "str": "xl chainmail vest" },
+    "copy-from": "chainmail_vest",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "chestguard_hard",
@@ -155,6 +187,14 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
   {
+    "id": "xl_cuirass_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "xl cuirass", "str_pl": "xl cuirasses" },
+    "copy-from": "cuirass_lightplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+  },
+  {
     "id": "cuirass_scrap",
     "type": "ARMOR",
     "category": "armor",
@@ -177,6 +217,14 @@
     "warmth": 20,
     "material_thickness": 2,
     "flags": [ "OUTER" ]
+  },
+  {
+    "id": "xl_cuirass_scrap",
+    "type": "ARMOR",
+    "name": { "str": "xl scrap cuirass", "str_pl": "xl scrap cuirasses" },
+    "copy-from": "cuirass_scrap",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "OVERSIZE", "OUTER" ]
   },
   {
     "id": "fencing_jacket",
@@ -354,6 +402,14 @@
     "material_thickness": 4,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "xl_lsurvivor_armor",
+    "type": "ARMOR",
+    "name": { "str": "light survivor body armor" },
+    "copy-from": "lsurvivor_armor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "motorbike_armor",

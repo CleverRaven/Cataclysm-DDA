@@ -37,7 +37,7 @@ static const efftype_id effect_blind( "blind" );
 static void clear_game( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
-    calendar::turn = 0;
+    calendar::turn = calendar::turn_zero;
     clear_creatures();
     clear_npcs();
     clear_vehicles();
@@ -59,7 +59,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     // First we need to find the fuels to set
     // That is, fuels actually used by some engine
     std::set<itype_id> actually_used;
-    for( const vpart_reference vp : v.get_all_parts() ) {
+    for( const vpart_reference &vp : v.get_all_parts() ) {
         vehicle_part &pt = vp.part();
         if( pt.is_engine() ) {
             actually_used.insert( pt.info().fuel_type );
@@ -88,7 +88,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     std::map<itype_id, int> ret;
     const itype_id itype_battery( "battery" );
     const ammotype ammo_battery( "battery" );
-    for( const vpart_reference vp : v.get_all_parts() ) {
+    for( const vpart_reference &vp : v.get_all_parts() ) {
         vehicle_part &pt = vp.part();
 
         if( pt.is_battery() ) {
@@ -123,7 +123,7 @@ static float fuel_percentage_left( vehicle &v, const std::map<itype_id, int> &st
 {
     std::map<itype_id, int> fuel_amount;
     std::set<itype_id> consumed_fuels;
-    for( const vpart_reference vp : v.get_all_parts() ) {
+    for( const vpart_reference &vp : v.get_all_parts() ) {
         vehicle_part &pt = vp.part();
 
         if( ( pt.is_battery() || pt.is_reactor() || pt.is_tank() ) &&
@@ -174,7 +174,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
 
     const tripoint map_starting_point( 60, 60, 0 );
     map &here = get_map();
-    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90, 0, 0 );
+    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
 
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
@@ -184,11 +184,11 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     vehicle &veh = *veh_ptr;
 
     // Remove all items from cargo to normalize weight.
-    for( const vpart_reference vp : veh.get_all_parts() ) {
+    for( const vpart_reference &vp : veh.get_all_parts() ) {
         veh_ptr->get_items( vp.part_index() ).clear();
         vp.part().ammo_consume( vp.part().ammo_remaining(), vp.pos() );
     }
-    for( const vpart_reference vp : veh.get_avail_parts( "OPENABLE" ) ) {
+    for( const vpart_reference &vp : veh.get_avail_parts( "OPENABLE" ) ) {
         veh.close( vp.part_index() );
     }
 
@@ -248,7 +248,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
                 veh.cruise_velocity = accelerating ? target_velocity : 0;
             } else {
                 veh.velocity = 0;
-                veh.last_turn = 0;
+                veh.last_turn = 0_degrees;
                 veh.of_turn_carry = 0;
             }
             reset_counter = 0;

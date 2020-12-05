@@ -13,6 +13,7 @@
 #include "color.h"
 #include "damage.h"
 #include "debug.h"
+#include "flat_set.h"
 #include "json.h"
 #include "units.h"
 
@@ -170,9 +171,11 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
     return true;
 }
 
-template <typename T>
-typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
+namespace details
+{
+
+template <typename T, typename Set>
+bool assign_set( const JsonObject &jo, const std::string &name, Set &val )
 {
     JsonObject add = jo.get_object( "extend" );
     add.allow_omitted_members();
@@ -180,7 +183,7 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     del.allow_omitted_members();
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
-        val = jo.get_tags<T>( name );
+        val = jo.get_tags<T, Set>( name );
 
         if( add.has_member( name ) || del.has_member( name ) ) {
             // ill-formed to (re)define a value and then extend/delete within same definition
@@ -205,6 +208,21 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     }
 
     return res;
+}
+} // namespace details
+
+template <typename T>
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+    const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
+{
+    return details::assign_set<T, std::set<T>>( jo, name, val );
+}
+
+template <typename T>
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+    const JsonObject &jo, const std::string &name, cata::flat_set<T> &val, bool = false )
+{
+    return details::assign_set<T, cata::flat_set<T>>( jo, name, val );
 }
 
 inline bool assign( const JsonObject &jo, const std::string &name, units::volume &val,
@@ -843,25 +861,28 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         float amount = 0.0f;
         float arpen = 0.0f;
         float unc_dmg_mult = 1.0f;
+        bool with_legacy = false;
 
         // There will always be either a prop_damage or damage (name)
         if( jo.has_member( name ) ) {
+            with_legacy = true;
             amount = jo.get_float( name );
         } else if( jo.has_member( "prop_damage" ) ) {
+            with_legacy = true;
             unc_dmg_mult = jo.get_float( "prop_damage" );
         }
         // And there may or may not be armor penetration
         if( jo.has_member( "pierce" ) ) {
+            with_legacy = true;
             arpen = jo.get_float( "pierce" );
         }
 
-        if( amount != 0.0f || arpen != 0.0f || unc_dmg_mult != 1.0f ) {
+        if( with_legacy ) {
             // Give a load warning, it's likely anything loading damage this way
             // is a gun, and as such is using the wrong damage type
             debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
+            out.add_damage( damage_type::STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
         }
-
-        out.add_damage( damage_type::STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
     }
 
     // Object via which to report errors which differs for proportional/relative values

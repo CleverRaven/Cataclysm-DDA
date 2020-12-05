@@ -25,8 +25,6 @@
 #include "type_id.h"
 #include "visitable.h"
 
-static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
-
 enum inventory_location {
     GROUND,
     INVENTORY,
@@ -381,14 +379,14 @@ static void move_item( player &p, const int id, const inventory_location from,
                     FAIL( "unimplemented" );
                     break;
                 case WORN:
-                    p.wear( item_at( p, id, from ), false );
+                    p.wear( item_location( *p.as_character(), &item_at( p, id, from ) ), false );
                     break;
                 case WIELDED_OR_WORN:
                     if( p.weapon.is_null() ) {
                         p.wield( item_at( p, id, from ) );
                     } else {
                         // since we can only wield one item, wear the item instead
-                        p.wear( item_at( p, id, from ), false );
+                        p.wear( item_location( *p.as_character(), &item_at( p, id, from ) ), false );
                     }
                     break;
             }
@@ -758,9 +756,6 @@ TEST_CASE( "Inventory letter test", "[.invlet]" )
     dummy.setpos( spot );
     get_map().ter_set( spot, ter_id( "t_dirt" ) );
     get_map().furn_set( spot, furn_id( "f_null" ) );
-    if( !dummy.has_trait( trait_DEBUG_STORAGE ) ) {
-        dummy.set_mutation( trait_DEBUG_STORAGE );
-    }
 
     invlet_test_autoletter_off( "Picking up items from the ground", dummy, GROUND, INVENTORY );
     invlet_test_autoletter_off( "Wearing items from the ground", dummy, GROUND, WORN );

@@ -53,7 +53,8 @@ static void check_lethality( const std::string &explosive_id, const int range, f
             }
             num_subjects++;
             num_subjects_this_time++;
-            spawn_test_monster( "mon_zombie", monster_position );
+            monster &new_monster = spawn_test_monster( "mon_zombie", monster_position );
+            new_monster.no_extra_death_drops = true;
         }
         // Set off an explosion
         item grenade( explosive_id );
@@ -110,7 +111,8 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     clear_map_and_put_player_underground();
     tripoint origin( 30, 30, 0 );
 
-    vehicle *target_vehicle = get_map().add_vehicle( vproto_id( vehicle_id ), origin, 0, -1, 0 );
+    vehicle *target_vehicle = get_map().add_vehicle( vproto_id( vehicle_id ), origin, 0_degrees,
+                              -1, 0 );
     std::vector<int> before_hp = get_part_hp( target_vehicle );
 
     while( get_map().veh_at( origin ) ) {

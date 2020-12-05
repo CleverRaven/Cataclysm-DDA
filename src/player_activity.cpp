@@ -241,9 +241,10 @@ void player_activity::do_turn( player &p )
             }
         }
     }
+    const float activity_mult = p.exertion_adjusted_move_multiplier();
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
-            moves_left -= 100;
+            moves_left -= 100 * activity_mult;
             p.moves = 0;
         } else {
             p.moves -= p.moves * moves_left / 100;
@@ -251,7 +252,7 @@ void player_activity::do_turn( player &p )
         }
     } else if( type->based_on() == based_on_type::SPEED ) {
         if( p.moves <= moves_left ) {
-            moves_left -= p.moves;
+            moves_left -= p.moves * activity_mult;
             p.moves = 0;
         } else {
             p.moves -= moves_left;
@@ -316,7 +317,6 @@ void player_activity::do_turn( player &p )
                 set_to_null();
             }
         }
-        p.reset_activity_level();
     }
     if( !*this ) {
         // Make sure data of previous activity is cleared

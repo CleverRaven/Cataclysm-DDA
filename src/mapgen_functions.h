@@ -52,7 +52,6 @@ void mapgen_highway( mapgendata &dat );
 void mapgen_river_curved_not( mapgendata &dat );
 void mapgen_river_straight( mapgendata &dat );
 void mapgen_river_curved( mapgendata &dat );
-void mapgen_parking_lot( mapgendata &dat );
 void mapgen_cave( mapgendata &dat );
 void mapgen_cave_rat( mapgendata &dat );
 void mapgen_cavern( mapgendata &dat );
@@ -75,6 +74,7 @@ void mapgen_ants_larvae( mapgendata &dat );
 void mapgen_ants_queen( mapgendata &dat );
 void mapgen_tutorial( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
+void mapgen_ravine_edge( mapgendata &dat );
 
 // Temporary wrappers
 void mremove_trap( map *m, const point & );

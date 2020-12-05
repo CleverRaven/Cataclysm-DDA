@@ -1,12 +1,9 @@
 #include "map_helpers.h"
 
 #include <memory>
-#include <string>
-#include <utility>
 #include <vector>
 
 #include "cata_assert.h"
-#include "field.h"
 #include "game.h"
 #include "game_constants.h"
 #include "location.h"
@@ -16,6 +13,7 @@
 #include "npc.h"
 #include "point.h"
 #include "type_id.h"
+#include "clzones.h"
 
 // Remove all vehicles from the map
 void clear_vehicles()
@@ -88,6 +86,19 @@ void clear_items( const int zlevel )
     }
 }
 
+void clear_zones()
+{
+    zone_manager &zm = zone_manager::get_manager();
+    for( auto zone_ref : zm.get_zones( faction_id( "your_followers" ) ) ) {
+        if( !zone_ref.get().get_is_vehicle() ) {
+            // Trying to delete vehicle zones fails with a message that the zone isn't loaded.
+            // Don't need it right now and the errors spam up the test output, so skip.
+            continue;
+        }
+        zm.remove( zone_ref.get() );
+    }
+}
+
 void clear_map()
 {
     // Clearing all z-levels is rather slow, so just clear the ones I know the
@@ -95,6 +106,7 @@ void clear_map()
     for( int z = -2; z <= 0; ++z ) {
         clear_fields( z );
     }
+    clear_zones();
     wipe_map_terrain();
     clear_npcs();
     clear_creatures();
@@ -133,4 +145,13 @@ void build_test_map( const ter_id &terrain )
 
     here.invalidate_map_cache( 0 );
     here.build_map_cache( 0, true );
+}
+
+void player_add_headlamp()
+{
+    item headlamp( "wearable_light_on" );
+    item battery( "light_battery_cell" );
+    battery.ammo_set( battery.ammo_default(), -1 );
+    headlamp.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+    get_player_character().worn.push_back( headlamp );
 }

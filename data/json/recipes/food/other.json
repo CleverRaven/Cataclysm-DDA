@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "result": "molasses",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",

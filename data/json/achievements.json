@@ -636,21 +636,6 @@
     ]
   },
   {
-    "id": "achievement_lvl_7_barter",
-    "type": "achievement",
-    "name": "Free Trader",
-    "description": "Extraordinary gizmos for obscenely low prices!",
-    "requirements": [ { "event_statistic": "num_gains_barter_level_7", "is": ">=", "target": 1 } ]
-  },
-  {
-    "id": "achievement_lvl_10_barter",
-    "type": "achievement",
-    "name": "Cut-Me-Own-Throat Dibbler",
-    "description": "My Inuit friend, I'm selling you this ice for such a low price, that it's cutting me own throat.",
-    "requirements": [ { "event_statistic": "num_gains_barter_level_10", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_7_barter" ]
-  },
-  {
     "id": "achievement_lvl_7_speech",
     "type": "achievement",
     "name": "Eloquent",
@@ -1039,21 +1024,6 @@
     "description": "To be your own weapon.",
     "requirements": [ { "event_statistic": "num_gains_unarmed_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_unarmed" ]
-  },
-  {
-    "id": "achievement_lvl_7_lockpick",
-    "type": "achievement",
-    "name": "Burglar",
-    "description": "Crowbar?  Such a barbarity.",
-    "requirements": [ { "event_statistic": "num_gains_lockpick_level_7", "is": ">=", "target": 1 } ]
-  },
-  {
-    "id": "achievement_lvl_10_lockpick",
-    "type": "achievement",
-    "name": "Locksmith",
-    "description": "If there is a lock, there is a key.",
-    "requirements": [ { "event_statistic": "num_gains_lockpick_level_10", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_7_lockpick" ]
   },
   {
     "id": "achievement_lvl_7_chemistry",

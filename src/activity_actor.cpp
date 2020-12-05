@@ -17,6 +17,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "gates.h"
@@ -58,17 +59,18 @@
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
 
+static const efftype_id effect_tied( "tied" );
+
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
 static const skill_id skill_computer( "computer" );
-static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_traps( "traps" );
 
-static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
-static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
+static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
+static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
@@ -77,8 +79,6 @@ static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
-
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
 aim_activity_actor::aim_activity_actor()
 {
@@ -359,13 +359,16 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             here.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
             here.furn_set( location, f_coffin_c );
         }
-        std::vector<item *> dropped = here.place_items( "allclothes", 50, location, location, false,
-                                      calendar::turn );
-        here.place_items( "grave", 25, location, location, false, calendar::turn );
-        here.place_items( "jewelry_front", 20, location, location, false, calendar::turn );
+        std::vector<item *> dropped =
+            here.place_items( item_group_id( "allclothes" ), 50, location, location, false,
+                              calendar::turn );
+        here.place_items( item_group_id( "grave" ), 25, location, location, false,
+                          calendar::turn );
+        here.place_items( item_group_id( "jewelry_front" ), 20, location, location, false,
+                          calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
-                it->item_tags.insert( "FILTHY" );
+                it->set_flag( flag_FILTHY );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }
@@ -499,6 +502,103 @@ std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn 
     data.read( "byproducts_location", actor.byproducts_location );
     data.read( "byproducts_count", actor.byproducts_count );
     data.read( "byproducts_item_group", actor.byproducts_item_group );
+
+    return actor.clone();
+}
+
+void gunmod_remove_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void gunmod_remove_activity_actor::finish( player_activity &act, Character &who )
+{
+    item *it_gun = gun.get_item();
+    if( !it_gun ) {
+        debugmsg( "ACT_GUNMOD_REMOVE lost target gun" );
+        act.set_to_null();
+        return;
+    }
+    item *it_mod = nullptr;
+    std::vector<item *> mods = it_gun->gunmods();
+    if( gunmod_idx >= 0 && mods.size() > static_cast<size_t>( gunmod_idx ) ) {
+        it_mod = mods[gunmod_idx];
+    } else {
+        debugmsg( "ACT_GUNMOD_REMOVE lost target gunmod" );
+        act.set_to_null();
+        return;
+    }
+    act.set_to_null();
+    gunmod_remove( who, *it_gun, *it_mod );
+}
+
+bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
+{
+    if( gunmod.has_flag( flag_BRASS_CATCHER ) ) {
+        // Exclude brass catchers so that removing them wouldn't spill the casings
+        return true;
+    }
+    // TODO: unloading gunmods happens instantaneously in some cases, but should take time
+    item_location loc = item_location( who, &gunmod );
+    return !( gunmod.ammo_remaining() && !who.as_player()->unload( loc, true ) );
+}
+
+void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, item &mod )
+{
+    if( !gunmod_unload( who, mod ) ) {
+        return;
+    }
+
+    gun.gun_set_mode( gun_mode_id( "DEFAULT" ) );
+    const itype *modtype = mod.type;
+
+    who.i_add_or_drop( mod );
+    gun.remove_item( mod );
+
+    // If the removed gunmod added mod locations, check to see if any mods are in invalid locations
+    if( !modtype->gunmod->add_mod.empty() ) {
+        std::map<gunmod_location, int> mod_locations = gun.get_mod_locations();
+        for( const auto &slot : mod_locations ) {
+            int free_slots = gun.get_free_mod_locations( slot.first );
+
+            for( item *the_mod : gun.gunmods() ) {
+                if( the_mod->type->gunmod->location == slot.first && free_slots < 0 ) {
+                    gunmod_remove( who, gun, *the_mod );
+                    free_slots++;
+                } else if( mod_locations.find( the_mod->type->gunmod->location ) ==
+                           mod_locations.end() ) {
+                    gunmod_remove( who, gun, *the_mod );
+                }
+            }
+        }
+    }
+
+    //~ %1$s - gunmod, %2$s - gun.
+    who.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), modtype->nname( 1 ),
+                           gun.tname() );
+}
+
+void gunmod_remove_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "gun", gun );
+    jsout.member( "gunmod", gunmod_idx );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> gunmod_remove_activity_actor::deserialize( JsonIn &jsin )
+{
+    gunmod_remove_activity_actor actor( 0, item_location(), -1 );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.moves_total );
+    data.read( "gun", actor.gun );
+    data.read( "gunmod", actor.gunmod_idx );
 
     return actor.clone();
 }
@@ -785,7 +885,9 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             }
             const tripoint src = target.position();
             const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance );
+            // Yuck, I'm sticking weariness scaling based on activity level here
+            const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
+            who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance * weary_mult );
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
             } else {
@@ -951,7 +1053,6 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     std::string open_message;
     if( ter_type == t_chaingate_l ) {
         new_ter_type = t_chaingate_c;
-        open_message = _( "With a satisfying click, the chain-link gate opens." );
     } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
                ter_type == t_door_locked_interior ) {
         new_ter_type = t_door_c;
@@ -974,17 +1075,48 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     bool perfect = it->has_flag( flag_PERFECT_LOCKPICK );
     bool destroy = false;
 
-    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    int pick_roll = std::pow( 1.5, who.get_skill_level( skill_lockpick ) ) *
-                    ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
-                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
-                    who.dex_cur / 4.0;
-    int lock_roll = rng( 1, 120 );
-    int xp_gain = 0;
+    // Your devices skill is the primary skill that applies to your roll. Your mechanics skill has a little input.
+    const float weighted_skill_average = ( 3.0f * who.get_skill_level(
+            skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4.0f;
+
+    // Your dexterity determines most of your stat contribution, but your intelligence and perception combined are about half as much.
+    const float weighted_stat_average = ( 6.0f * who.dex_cur + 2.0f * who.per_cur +
+                                          who.int_cur ) / 9.0f;
+
+    // Get a bonus from your lockpick quality if the quality is higher than 3, or a penalty if it is lower. For a bobby pin this puts you at -2, for a locksmith kit, +2.
+    const float tool_effect = ( it->get_quality( qual_LOCKPICK ) - 3 ) - ( it->damage() / 2000.0 );
+
+    // Without at least a basic lockpick proficiency, your skill level is effectively 6 levels lower.
+    int proficiency_effect = -3;
+    if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
+        // If you have the basic lockpick prof, negate the above penalty
+        proficiency_effect = 0;
+    }
+    if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+        // If you have the locksmith proficiency, your skill level is effectively 4 levels higher.
+        proficiency_effect = 3;
+    }
+
+    // We get our average roll by adding the above factors together. For a person with no skill, average stats, no proficiencies, and an improvised lockpick, mean_roll will be 2.
+    const float mean_roll = weighted_skill_average + ( weighted_stat_average / 4 ) + proficiency_effect
+                            + tool_effect;
+
+    // A standard deviation of 2 means that about 2/3 of rolls will come within 2 points of your mean_roll. Lockpicking
+    int pick_roll = std::round( normal_roll( mean_roll, 2 ) );
+
+    // Lock_roll should be replaced with a flat value defined by the door, soon.
+    // In the meantime, let's roll 3d5-3, giving us a range of 0-12.
+    int lock_roll = rng( 0, 4 ) + rng( 0, 4 ) + rng( 0, 4 );
+
+    add_msg( m_debug, _( "Rolled %i. Mean_roll %g. Difficulty %i." ), pick_roll, mean_roll, lock_roll );
+
+    // Your base skill XP gain is derived from the lock difficulty (which is currently random but shouldn't be).
+    int xp_gain = 3 * lock_roll;
     if( perfect || ( pick_roll >= lock_roll ) ) {
-        xp_gain += lock_roll;
+        if( !perfect ) {
+            // Increase your XP if you successfully pick the lock, unless you were using a Perfect Lockpick.
+            xp_gain = xp_gain * 2;
+        }
         here.has_furn( target ) ?
         here.furn_set( target, new_furn_type ) :
         static_cast<void>( here.ter_set( target, new_ter_type ) );
@@ -1006,11 +1138,15 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( avatar *you = dynamic_cast<avatar *>( &who ) ) {
-        if( !perfect ) {
-            // You don't gain much skill since the item does all the hard work for you
-            xp_gain += std::pow( 2, you->get_skill_level( skill_lockpick ) ) + 1;
+        // Gives another boost to XP, reduced by your skill level.
+        // Higher skill levels require more difficult locks to gain a meaningful amount of xp.
+        // Again, we're using randomized lock_roll until a defined lock difficulty is implemented.
+        if( lock_roll > you->get_skill_level( skill_traps ) ) {
+            xp_gain += lock_roll + ( xp_gain / ( you->get_skill_level( skill_traps ) + 1 ) );
+        } else {
+            xp_gain += xp_gain / ( you->get_skill_level( skill_traps ) + 1 );
         }
-        you->practice( skill_lockpick, xp_gain );
+        you->practice( skill_traps, xp_gain );
     }
 
     if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
@@ -1200,6 +1336,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     const std::vector<item_location> temp_selected_items = consume_menu_selected_items;
     const std::string temp_filter = consume_menu_filter;
     item_location consume_loc = consume_location;
+    activity_id new_act = type;
 
     avatar &player_character = get_avatar();
     if( !canceled ) {
@@ -1218,17 +1355,18 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     if( act.id() == activity_id( "ACT_CONSUME" ) ) {
         act.set_to_null();
     }
+
     if( !temp_selections.empty() || !temp_selected_items.empty() || !temp_filter.empty() ) {
         if( act.is_null() ) {
-            player_character.assign_activity( ACT_EAT_MENU );
+            player_character.assign_activity( new_act );
             player_character.activity.values = temp_selections;
             player_character.activity.targets = temp_selected_items;
-            player_character.activity.str_values = { temp_filter };
+            player_character.activity.str_values = { temp_filter, "true" };
         } else {
-            player_activity eat_menu( ACT_EAT_MENU );
+            player_activity eat_menu( new_act );
             eat_menu.values = temp_selections;
             eat_menu.targets = temp_selected_items;
-            eat_menu.str_values = { temp_filter };
+            eat_menu.str_values = { temp_filter, "true" };
             player_character.backlog.push_back( eat_menu );
         }
     }
@@ -1350,22 +1488,47 @@ std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
-void unload_mag_activity_actor::start( player_activity &act, Character & )
+void unload_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_left = moves_total;
     act.moves_total = moves_total;
 }
 
-void unload_mag_activity_actor::finish( player_activity &act, Character &who )
+void unload_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
     unload( who, target );
 }
 
-void unload_mag_activity_actor::unload( Character &who, item_location &target )
+void unload_activity_actor::unload( Character &who, item_location &target )
 {
     int qty = 0;
     item &it = *target.get_item();
+
+    if( it.is_container() ) {
+
+        bool changed = false;
+        for( item *contained : it.contents.all_items_top() ) {
+            int old_charges = contained->charges;
+            const bool consumed = who.add_or_drop_with_msg( *contained, true, &it );
+            if( consumed || contained->charges != old_charges ) {
+                changed = true;
+                item_pocket *const parent_pocket = it.contained_where( *contained );
+                if( parent_pocket ) {
+                    parent_pocket->unseal();
+                }
+            }
+            if( consumed ) {
+                it.remove_item( *contained );
+            }
+        }
+
+        if( changed ) {
+            it.on_contents_changed();
+            who.invalidate_weight_carried_cache();
+        }
+        return;
+    }
 
     std::vector<item *> remove_contained;
     for( item *contained : it.contents.all_items_top() ) {
@@ -1395,7 +1558,7 @@ void unload_mag_activity_actor::unload( Character &who, item_location &target )
     }
 }
 
-void unload_mag_activity_actor::serialize( JsonOut &jsout ) const
+void unload_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
@@ -1405,9 +1568,9 @@ void unload_mag_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> unload_mag_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> unload_activity_actor::deserialize( JsonIn &jsin )
 {
-    unload_mag_activity_actor actor = unload_mag_activity_actor( 0, item_location::nowhere );
+    unload_activity_actor actor = unload_activity_actor( 0, item_location::nowhere );
 
     JsonObject data = jsin.get_object();
 
@@ -1485,8 +1648,11 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // Current expected total moves, includes crafting speed modifiers and assistants
     const double cur_total_moves = std::max( 1, rec.batch_time( crafter, craft.charges, crafting_speed,
                                    assistants ) );
-    // Delta progress in moves adjusted for current crafting speed
-    const double delta_progress = crafter.get_moves() * base_total_moves / cur_total_moves;
+    // Delta progress in moves adjusted for current crafting speed /
+    //crafter.exertion_adjusted_move_multiplier( exertion_level() )
+    int spent_moves = crafter.get_moves() * crafter.exertion_adjusted_move_multiplier(
+                          exertion_level() );
+    const double delta_progress = spent_moves * base_total_moves / cur_total_moves;
     // Current progress in moves
     const double current_progress = craft.item_counter * base_total_moves / 10'000'000.0 +
                                     delta_progress;
@@ -1552,6 +1718,10 @@ void craft_activity_actor::finish( player_activity &act, Character & )
 
 std::string craft_activity_actor::get_progress_message( const player_activity & ) const
 {
+    if( !craft_item ) {
+        //We have somehow lost the craft item.  This will be handled in do_turn in the check_if_craft_is_ok call.
+        return "";
+    }
     return craft_item.get_item()->tname();
 }
 
@@ -1611,29 +1781,26 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     // broken limbs as long as they are not involved by the machine
     bool hand_equipment = here.has_flag_furn( "WORKOUT_ARMS", location );
     bool leg_equipment = here.has_flag_furn( "WORKOUT_LEGS", location );
-    static const bodypart_id arm_l = bodypart_id( "arm_l" );
-    static const bodypart_id arm_r = bodypart_id( "arm_r" );
-    static const bodypart_id leg_l = bodypart_id( "leg_l" );
-    static const bodypart_id leg_r = bodypart_id( "leg_r" );
-    if( hand_equipment && ( ( who.is_limb_broken( arm_l ) ) ||
-                            who.is_limb_broken( arm_r ) ) ) {
+
+    if( hand_equipment && ( ( who.is_limb_broken( body_part_arm_l ) ) ||
+                            who.is_limb_broken( body_part_arm_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken arm." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
         return;
     }
-    if( leg_equipment && ( ( who.is_limb_broken( leg_l ) ) ||
-                           who.is_limb_broken( leg_r ) ) ) {
+    if( leg_equipment && ( ( who.is_limb_broken( body_part_leg_l ) ) ||
+                           who.is_limb_broken( body_part_leg_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken leg." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
         return;
     }
     if( !hand_equipment && !leg_equipment &&
-        ( who.is_limb_broken( arm_l ) ||
-          who.is_limb_broken( arm_r ) ||
-          who.is_limb_broken( leg_l ) ||
-          who.is_limb_broken( leg_r ) ) ) {
+        ( who.is_limb_broken( body_part_arm_l ) ||
+          who.is_limb_broken( body_part_arm_r ) ||
+          who.is_limb_broken( body_part_leg_l ) ||
+          who.is_limb_broken( body_part_leg_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train freely with a broken limb." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
@@ -1865,6 +2032,15 @@ static std::list<item> obtain_activity_items(
 
         who.mod_moves( -consumed_moves );
 
+        // Take off the item or remove it from the player's inventory
+        if( who.is_worn( *loc ) ) {
+            who.as_player()->takeoff( *loc, &res );
+        } else if( loc->count_by_charges() ) {
+            res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
+        } else {
+            res.push_back( who.i_rem( &*loc ) );
+        }
+
         // If item is inside another (container/pocket), unseal it, and update encumbrance
         if( loc.has_parent() ) {
             item_location parent = loc.parent_item();
@@ -1882,14 +2058,10 @@ static std::list<item> obtain_activity_items(
                            parent ) == unhandled_containers.end() ) {
                 unhandled_containers.emplace_back( parent );
             }
-        }
-        // Take off the item or remove it from the player's inventory
-        if( who.is_worn( *loc ) ) {
-            who.as_player()->takeoff( *loc, &res );
-        } else if( loc->count_by_charges() ) {
-            res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
         } else {
-            res.push_back( who.i_rem( &*loc ) );
+            // when parent's encumbrance cannot be marked as dirty,
+            // mark character's encumbrance as dirty instead (correctness over performance)
+            who.set_check_encumbrance( true );
         }
     }
 
@@ -1996,7 +2168,6 @@ static void stash_on_pet( const std::list<item> &items, monster &pet, Character 
     }
 }
 
-
 void stash_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint pos = placement + who.pos();
@@ -2037,6 +2208,251 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
     return actor.clone();
 }
 
+void burrow_activity_actor::start( player_activity &act, Character &who )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+    who.add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
+                           here.tername( burrow_position ), burrow_tool );
+}
+
+void burrow_activity_actor::do_turn( player_activity &, Character & )
+{
+    sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( burrow_position ) );
+    if( calendar::once_every( 1_minutes ) ) {
+        sounds::sound( burrow_position, 10, sounds::sound_t::movement,
+                       //~ Sound of a Rat mutant burrowing!
+                       _( "ScratchCrunchScrabbleScurry." ) );
+    }
+
+}
+
+void burrow_activity_actor::finish( player_activity &act, Character &who )
+{
+
+    if( here.is_bashable( burrow_position ) && here.has_flag( "SUPPORTS_ROOF", burrow_position ) &&
+        here.ter( burrow_position ) != t_tree ) {
+        // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
+        // Not quite as bad as the pickaxe, though
+        who.mod_stored_nutr( 10 );
+        who.mod_thirst( 10 );
+        who.mod_fatigue( 15 );
+        who.mod_pain( 3 * rng( 1, 3 ) );
+    } else if( here.move_cost( burrow_position ) == 2 && here.get_abs_sub().z == 0 &&
+               here.ter( burrow_position ) != t_dirt && here.ter( burrow_position ) != t_grass ) {
+        //Breaking up concrete on the surface? not nearly as bad
+        who.mod_stored_nutr( 5 );
+        who.mod_thirst( 5 );
+        who.mod_fatigue( 10 );
+    }
+    who.add_msg_if_player( m_good, _( "You finish burrowing." ) );
+    here.destroy( burrow_position, true );
+
+    act.set_to_null();
+}
+
+void burrow_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "burrow_position", burrow_position );
+    jsout.member( "burrow_tool", burrow_tool );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> burrow_activity_actor::deserialize( JsonIn &jsin )
+{
+    burrow_activity_actor actor {};
+
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "burrow_position", actor.burrow_position );
+    data.read( "burrow_tool", actor.burrow_tool );
+
+    return actor.clone();
+}
+
+bool reload_activity_actor::can_reload() const
+{
+    if( reload_targets.size() != 2 || quantity <= 0 ) {
+        debugmsg( "invalid arguments to ACT_RELOAD" );
+        return false;
+    }
+
+    if( !reload_targets[0] ) {
+        debugmsg( "reload target is null, failed to reload" );
+        return false;
+    }
+
+    if( !reload_targets[1] ) {
+        debugmsg( "ammo target is null, failed to reload" );
+        return false;
+    }
+
+    return true;
+}
+
+void reload_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void reload_activity_actor::make_reload_sound( Character &who, item &reloadable )
+{
+    if( reloadable.type->gun->reload_noise_volume > 0 ) {
+        sfx::play_variant_sound( "reload", reloadable.typeId().str(),
+                                 sfx::get_heard_volume( who.pos() ) );
+        sounds::ambient_sound( who.pos(), reloadable.type->gun->reload_noise_volume,
+                               sounds::sound_t::activity, reloadable.type->gun->reload_noise.translated() );
+    }
+}
+
+void reload_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    if( !can_reload() ) {
+        return;
+    }
+
+    item &reloadable = *reload_targets[ 0 ];
+    item &ammo = *reload_targets[ 1 ];
+    const std::string reloadable_name = reloadable.tname();
+    // cache check results because reloading deletes the ammo item
+    const std::string ammo_name = ammo.tname();
+    const bool ammo_is_filthy = ammo.is_filthy();
+    const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
+
+    if( !reloadable.reload( who, std::move( reload_targets[ 1 ] ), quantity ) ) {
+        add_msg( m_info, _( "Can't reload the %s." ), reloadable_name );
+        return;
+    }
+
+    if( ammo_is_filthy ) {
+        reloadable.set_flag( flag_FILTHY );
+    }
+
+    if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
+        add_msg( m_neutral, _( "You manage to loosen some debris and make your %s somewhat operational." ),
+                 reloadable_name );
+        reloadable.set_var( "dirt", ( reloadable.get_var( "dirt", 0 ) - rng( 790, 2750 ) ) );
+    }
+
+    if( reloadable.is_gun() ) {
+        who.recoil = MAX_RECOIL;
+        if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
+            add_msg( m_neutral, _( "You insert %dx %s into the %s." ), quantity, ammo_name, reloadable_name );
+        }
+        make_reload_sound( who, reloadable );
+    } else if( reloadable.is_watertight_container() ) {
+        add_msg( m_neutral, _( "You refill the %s." ), reloadable_name );
+    } else {
+        add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
+    }
+}
+
+void reload_activity_actor::canceled( player_activity &act, Character &/*who*/ )
+{
+    act.moves_total = 0;
+    act.moves_left = 0;
+}
+
+void reload_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "qty", quantity );
+    jsout.member( "reload_targets", reload_targets );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonIn &jsin )
+{
+    reload_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.moves_total );
+    data.read( "qty", actor.quantity );
+    data.read( "reload_targets", actor.reload_targets );
+    return actor.clone();
+}
+
+void milk_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    act.moves_total = total_moves;
+    act.moves_left = total_moves;
+}
+
+
+void milk_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( monster_coords.empty() ) {
+        debugmsg( "milking activity with no position of monster stored" );
+        return;
+    }
+    map &here = get_map();
+    const tripoint source_pos = here.getlocal( monster_coords.at( 0 ) );
+    monster *source_mon = g->critter_at<monster>( source_pos );
+    if( source_mon == nullptr ) {
+        debugmsg( "could not find source creature for liquid transfer" );
+        return;
+    }
+    auto milked_item = source_mon->ammo.find( source_mon->type->starting_ammo.begin()->first );
+    if( milked_item == source_mon->ammo.end() ) {
+        debugmsg( "animal has no milkable ammo type" );
+        return;
+    }
+    if( milked_item->second <= 0 ) {
+        debugmsg( "started milking but udders are now empty before milking finishes" );
+        return;
+    }
+    item milk( milked_item->first, calendar::turn, milked_item->second );
+    milk.set_item_temperature( 311.75 );
+    if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, source_mon ) ) {
+        milked_item->second = 0;
+        if( milk.charges > 0 ) {
+            milked_item->second = milk.charges;
+        } else {
+            who.add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );
+        }
+    }
+    // if the monster was not manually tied up, but needed to be fixed in place temporarily then
+    // remove that now.
+    if( !string_values.empty() && string_values[0] == "temp_tie" ) {
+        source_mon->remove_effect( effect_tied );
+    }
+
+    act.set_to_null();
+}
+
+void milk_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "total_moves", total_moves );
+    jsout.member( "monster_coords", monster_coords );
+    jsout.member( "string_values", string_values );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
+{
+    milk_activity_actor actor;
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.total_moves );
+    data.read( "monster_coords", actor.monster_coords );
+    data.read( "string_values", actor.string_values );
+
+
+    return actor.clone();
+}
 namespace activity_actors
 {
 
@@ -2044,21 +2460,25 @@ namespace activity_actors
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
+    { activity_id( "ACT_BURROW" ), &burrow_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
+    { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
+    { activity_id( "ACT_MILK" ), &milk_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
+    { activity_id( "ACT_RELOAD" ), &reload_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
-    { activity_id( "ACT_UNLOAD_MAG" ), &unload_mag_activity_actor::deserialize },
+    { activity_id( "ACT_UNLOAD" ), &unload_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_ACTIVE" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_MODERATE" ), &workout_activity_actor::deserialize },

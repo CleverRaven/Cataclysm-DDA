@@ -48,8 +48,8 @@ struct enum_traits<recipe_filter_flags> {
 struct recipe_proficiency {
     proficiency_id id;
     bool required = false;
-    float time_multiplier = 1.0f;
-    float fail_multiplier = 2.5f;
+    float time_multiplier = 0.0f;
+    float fail_multiplier = 0.0f;
     float learning_time_mult = 1.0f;
     cata::optional<time_duration> max_experience = cata::nullopt;
 
@@ -75,7 +75,7 @@ class recipe
 
         int time = 0; // in movement points (100 per turn)
 
-        float exertion;
+        float exertion = 0.0f;
 
     public:
         recipe();
@@ -151,7 +151,7 @@ class recipe
         // Books containing this recipe, and the skill level required
         std::map<itype_id, book_recipe_data> booksets;
 
-        std::set<std::string> flags_to_delete; // Flags to delete from the resultant item.
+        std::set<flag_id> flags_to_delete; // Flags to delete from the resultant item.
 
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
@@ -166,7 +166,11 @@ class recipe
         std::string required_skills_string( const Character *, bool include_primary_skill,
                                             bool print_skill_level ) const;
         // Format the proficiencies string.
-        std::string required_proficiencies_string( const Character &c ) const;
+        std::string required_proficiencies_string( const Character *c ) const;
+        std::string used_proficiencies_string( const Character *c ) const;
+        std::string missing_proficiencies_string( const Character *c ) const;
+        // Proficiencies for search
+        std::string recipe_proficiencies_string() const;
         // Required proficiencies
         std::set<proficiency_id> required_proficiencies() const;
         //
@@ -174,7 +178,9 @@ class recipe
         // Helpful proficiencies
         std::set<proficiency_id> assist_proficiencies() const;
         // The time malus due to proficiencies lacking
-        float proficiency_maluses( const Character &guy ) const;
+        float proficiency_time_maluses( const Character &guy ) const;
+        // The failure malus due to proficiencies lacking
+        float proficiency_failure_maluses( const Character &guy ) const;
 
         // How active of exercise this recipe is
         float exertion_level() const;

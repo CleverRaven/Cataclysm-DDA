@@ -65,10 +65,10 @@ void map::add_light_from_items( const tripoint &p, const item_stack::iterator &b
 {
     for( auto itm_it = begin; itm_it != end; ++itm_it ) {
         float ilum = 0.0f; // brightness
-        int iwidth = 0; // 0-360 degrees. 0 is a circular light_source
-        int idir = 0;   // otherwise, it's a light_arc pointed in this direction
+        units::angle iwidth = 0_degrees; // 0-360 degrees. 0 is a circular light_source
+        units::angle idir = 0_degrees;   // otherwise, it's a light_arc pointed in this direction
         if( itm_it->getlight( ilum, iwidth, idir ) ) {
-            if( iwidth > 0 ) {
+            if( iwidth > 0_degrees ) {
                 apply_light_arc( p, idir, ilum, iwidth );
             } else {
                 add_light_source( p, ilum );
@@ -81,6 +81,7 @@ void map::add_light_from_items( const tripoint &p, const item_stack::iterator &b
 bool map::build_transparency_cache( const int zlev )
 {
     auto &map_cache = get_cache( zlev );
+    auto &transparent_cache_wo_fields = map_cache.transparent_cache_wo_fields;
     auto &transparency_cache = map_cache.transparency_cache;
     auto &outside_cache = map_cache.outside_cache;
 
@@ -95,6 +96,9 @@ bool map::build_transparency_cache( const int zlev )
         // Default to just barely not transparent.
         std::uninitialized_fill_n( &transparency_cache[0][0], MAPSIZE_X * MAPSIZE_Y,
                                    static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
+        for( auto &row : transparent_cache_wo_fields ) {
+            row.set(); // true means transparent
+        }
     }
 
     const float sight_penalty = get_weather().weather_id->sight_penalty;
@@ -123,7 +127,7 @@ bool map::build_transparency_cache( const int zlev )
 
                 if( !( cur_submap->get_ter( sp ).obj().transparent &&
                        cur_submap->get_furn( sp ).obj().transparent ) ) {
-                    return LIGHT_TRANSPARENCY_SOLID;
+                    return std::make_pair( LIGHT_TRANSPARENCY_SOLID, LIGHT_TRANSPARENCY_SOLID );
                 }
                 if( outside_cache[p.x][p.y] ) {
                     // FIXME: Places inside vehicles haven't been marked as
@@ -131,6 +135,7 @@ bool map::build_transparency_cache( const int zlev )
                     // weather in vehicles.
                     value *= sight_penalty;
                 }
+                float value_wo_fields = value;
                 for( const auto &fld : cur_submap->get_field( sp ) ) {
                     const field_entry &cur = fld.second;
                     if( cur.is_transparent() ) {
@@ -140,16 +145,24 @@ bool map::build_transparency_cache( const int zlev )
                     value = value * cur.translucency();
                 }
                 // TODO: [lightmap] Have glass reduce light as well
-                return value;
+                return std::make_pair( value, value_wo_fields );
             };
 
             if( cur_submap->is_uniform ) {
-                float value = calc_transp( sm_offset );
+                float value, dummy;
+                std::tie( value, dummy ) = calc_transp( sm_offset );
                 // if rebuild_all==true all values were already set to LIGHT_TRANSPARENCY_OPEN_AIR
                 if( !rebuild_all || value != LIGHT_TRANSPARENCY_OPEN_AIR ) {
+                    bool opaque = value <= LIGHT_TRANSPARENCY_SOLID;
                     for( int sx = 0; sx < SEEX; ++sx ) {
                         // init all sy indices in one go
                         std::uninitialized_fill_n( &transparency_cache[sm_offset.x + sx][sm_offset.y], SEEY, value );
+                        if( opaque ) {
+                            auto &bs = transparent_cache_wo_fields[sm_offset.x + sx];
+                            for( int i = 0; i < SEEY; i++ ) {
+                                bs[sm_offset.y + i] = false;
+                            }
+                        }
                     }
                 }
             } else {
@@ -157,7 +170,9 @@ bool map::build_transparency_cache( const int zlev )
                     const int x = sx + sm_offset.x;
                     for( int sy = 0; sy < SEEY; ++sy ) {
                         const int y = sy + sm_offset.y;
-                        transparency_cache[x][y] = calc_transp( { x, y } );
+                        float transp_wo_fields;
+                        std::tie( transparency_cache[x][y], transp_wo_fields ) = calc_transp( {x, y } );
+                        transparent_cache_wo_fields[x][y] = transp_wo_fields > LIGHT_TRANSPARENCY_SOLID;
                     }
                 }
             }
@@ -375,6 +390,8 @@ void map::generate_lightmap( const int zlev )
     auto &lm = map_cache.lm;
     auto &sm = map_cache.sm;
     auto &outside_cache = map_cache.outside_cache;
+    auto &prev_floor_cache = get_cache( clamp( zlev + 1, -OVERMAP_DEPTH, OVERMAP_DEPTH ) ).floor_cache;
+    bool top_floor = zlev == OVERMAP_DEPTH;
     std::memset( lm, 0, sizeof( lm ) );
     std::memset( sm, 0, sizeof( sm ) );
 
@@ -426,22 +443,22 @@ void map::generate_lightmap( const int zlev )
                     const int y = sy + smy * SEEY;
                     const tripoint p( x, y, zlev );
                     // Project light into any openings into buildings.
-                    if( !outside_cache[p.x][p.y] ) {
+                    if( !outside_cache[p.x][p.y] || ( !top_floor && prev_floor_cache[p.x][p.y] ) ) {
                         // Apply light sources for external/internal divide
                         for( int i = 0; i < 4; ++i ) {
                             point neighbour = p.xy() + point( dir_x[i], dir_y[i] );
                             if( lightmap_boundaries.contains( neighbour )
-                                && outside_cache[neighbour.x][neighbour.y]
+                                && outside_cache[neighbour.x][neighbour.y] &&
+                                ( top_floor || !prev_floor_cache[neighbour.x][neighbour.y] )
                               ) {
+                                const float source_light =
+                                    std::min( natural_light, lm[neighbour.x][neighbour.y].max() );
                                 if( light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID ) {
-                                    update_light_quadrants(
-                                        lm[p.x][p.y], natural_light, quadrant::default_ );
-                                    apply_directional_light( p, dir_d[i], natural_light );
+                                    update_light_quadrants( lm[p.x][p.y], source_light, quadrant::default_ );
+                                    apply_directional_light( p, dir_d[i], source_light );
                                 } else {
-                                    update_light_quadrants(
-                                        lm[p.x][p.y], natural_light, dir_quadrants[i][0] );
-                                    update_light_quadrants(
-                                        lm[p.x][p.y], natural_light, dir_quadrants[i][1] );
+                                    update_light_quadrants( lm[p.x][p.y], source_light, dir_quadrants[i][0] );
+                                    update_light_quadrants( lm[p.x][p.y], source_light, dir_quadrants[i][1] );
                                 }
                             }
                         }
@@ -525,18 +542,20 @@ void map::generate_lightmap( const int zlev )
             if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
                 if( veh_luminance > lit_level::LIT ) {
                     add_light_source( src, M_SQRT2 ); // Add a little surrounding light
-                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 45 );
+                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance,
+                                     45_degrees );
                 }
 
             } else if( vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
                 if( veh_luminance > lit_level::LIT ) {
                     add_light_source( src, M_SQRT2 ); // Add a little surrounding light
-                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 90 );
+                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance,
+                                     90_degrees );
                 }
 
             } else if( vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
                 add_light_source( src, M_SQRT2 ); // Add a little surrounding light
-                apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180 );
+                apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 const bool odd_turn = calendar::once_every( 2_turns );
@@ -693,7 +712,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     } else {
         // This is the simple case, for a non-opaque tile light from all
         // directions is equivalent
-        apparent_light = vis * map_cache.lm[p.x][p.y][quadrant::default_];
+        apparent_light = vis * map_cache.lm[p.x][p.y].max();
     }
     return { obstructed, apparent_light };
 }
@@ -795,281 +814,6 @@ static constexpr quadrant quadrant_from_x_y( int x, int y )
            ( ( y > 0 ) ? quadrant::NW : quadrant::SW ) :
            ( ( y > 0 ) ? quadrant::NE : quadrant::SE );
 }
-
-// Add defaults for when method is invoked for the first time.
-template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
-         T( *calc )( const T &, const T &, const int & ),
-         bool( *check )( const T &, const T & ),
-         T( *accumulate )( const T &, const T &, const int & )>
-void cast_zlight_segment(
-    const array_of_grids_of<T> &output_caches,
-    const array_of_grids_of<const T> &input_arrays,
-    const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &offset, int offset_distance,
-    T numerator = 1.0f, int row = 1,
-    float start_major = 0.0f, float end_major = 1.0f,
-    float start_minor = 0.0f, float end_minor = 1.0f,
-    T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
-
-template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
-         T( *calc )( const T &, const T &, const int & ),
-         bool( *check )( const T &, const T & ),
-         T( *accumulate )( const T &, const T &, const int & )>
-void cast_zlight_segment(
-    const array_of_grids_of<T> &output_caches,
-    const array_of_grids_of<const T> &input_arrays,
-    const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &offset, const int offset_distance,
-    const T numerator, const int row,
-    float start_major, const float end_major,
-    float start_minor, const float end_minor,
-    T cumulative_transparency )
-{
-    if( start_major >= end_major || start_minor >= end_minor ) {
-        return;
-    }
-
-    float radius = 60.0f - offset_distance;
-
-    constexpr int min_z = -OVERMAP_DEPTH;
-    constexpr int max_z = OVERMAP_HEIGHT;
-
-    float new_start_minor = 1.0f;
-
-    T last_intensity = 0.0;
-    tripoint delta;
-    tripoint current;
-    for( int distance = row; distance <= radius; distance++ ) {
-        delta.y = distance;
-        bool started_block = false;
-        T current_transparency = 0.0f;
-
-        // TODO: Precalculate min/max delta.z based on start/end and distance
-        for( delta.z = 0; delta.z <= std::min( fov_3d_z_range, distance ); delta.z++ ) {
-            float trailing_edge_major = ( delta.z - 0.5f ) / ( delta.y + 0.5f );
-            float leading_edge_major = ( delta.z + 0.5f ) / ( delta.y - 0.5f );
-            current.z = offset.z + delta.x * 00 + delta.y * 00 + delta.z * zz;
-            if( current.z > max_z || current.z < min_z ) {
-                continue;
-            } else if( start_major > leading_edge_major ) {
-                continue;
-            } else if( end_major < trailing_edge_major ) {
-                break;
-            }
-
-            bool started_span = false;
-            const int z_index = current.z + OVERMAP_DEPTH;
-            for( delta.x = 0; delta.x <= distance; delta.x++ ) {
-                current.x = offset.x + delta.x * xx + delta.y * xy + delta.z * xz;
-                current.y = offset.y + delta.x * yx + delta.y * yy + delta.z * yz;
-                float trailing_edge_minor = ( delta.x - 0.5f ) / ( delta.y + 0.5f );
-                float leading_edge_minor = ( delta.x + 0.5f ) / ( delta.y - 0.5f );
-
-                if( !( current.x >= 0 && current.y >= 0 &&
-                       current.x < MAPSIZE_X &&
-                       current.y < MAPSIZE_Y ) || start_minor > leading_edge_minor ) {
-                    continue;
-                } else if( end_minor < trailing_edge_minor ) {
-                    break;
-                }
-
-                T new_transparency = ( *input_arrays[z_index] )[current.x][current.y];
-                // If we're looking at a tile with floor or roof from the floor/roof side,
-                //  that tile is actually invisible to us.
-                bool floor_block = false;
-                if( current.z < offset.z ) {
-                    if( z_index < ( OVERMAP_LAYERS - 1 ) &&
-                        ( *floor_caches[z_index + 1] )[current.x][current.y] ) {
-                        floor_block = true;
-                        new_transparency = LIGHT_TRANSPARENCY_SOLID;
-                    }
-                } else if( current.z > offset.z ) {
-                    if( ( *floor_caches[z_index] )[current.x][current.y] ) {
-                        floor_block = true;
-                        new_transparency = LIGHT_TRANSPARENCY_SOLID;
-                    }
-                }
-
-                if( !started_block ) {
-                    started_block = true;
-                    current_transparency = new_transparency;
-                }
-
-                const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
-                last_intensity = calc( numerator, cumulative_transparency, dist );
-
-                if( !floor_block ) {
-                    ( *output_caches[z_index] )[current.x][current.y] =
-                        std::max( ( *output_caches[z_index] )[current.x][current.y], last_intensity );
-                }
-
-                if( !started_span ) {
-                    // Need to reset minor slope, because we're starting a new line
-                    new_start_minor = leading_edge_minor;
-                    // Need more precision or artifacts happen
-                    leading_edge_minor = start_minor;
-                    started_span = true;
-                }
-
-                if( new_transparency == current_transparency ) {
-                    // All in order, no need to recurse
-                    new_start_minor = leading_edge_minor;
-                    continue;
-                }
-
-                // We split the block into 4 sub-blocks (sub-frustums actually, this is the view from the origin looking out):
-                // +-------+ <- end major
-                // |   D   |
-                // +---+---+ <- ???
-                // | B | C |
-                // +---+---+ <- major mid
-                // |   A   |
-                // +-------+ <- start major
-                // ^       ^
-                // |       end minor
-                // start minor
-                // A is previously processed row(s).
-                // B is already-processed tiles from current row.
-                // C is remainder of current row.
-                // D is not yet processed row(s).
-                // One we processed fully in 2D and only need to extend in last D
-                // Only cast recursively horizontally if previous span was not opaque.
-                if( check( current_transparency, last_intensity ) ) {
-                    T next_cumulative_transparency = accumulate( cumulative_transparency, current_transparency,
-                                                     distance );
-                    // Blocks can be merged if they are actually a single rectangle
-                    // rather than rectangle + line shorter than rectangle's width
-                    const bool merge_blocks = end_minor <= trailing_edge_minor;
-                    // trailing_edge_major can be less than start_major
-                    const float trailing_clipped = std::max( trailing_edge_major, start_major );
-                    const float major_mid = merge_blocks ? leading_edge_major : trailing_clipped;
-                    cast_zlight_segment<xx, xy, xz, yx, yy, yz, zz, T, calc, check, accumulate>(
-                        output_caches, input_arrays, floor_caches,
-                        offset, offset_distance, numerator, distance + 1,
-                        start_major, major_mid, start_minor, end_minor,
-                        next_cumulative_transparency );
-                    if( !merge_blocks ) {
-                        // One line that is too short to be part of the rectangle above
-                        cast_zlight_segment<xx, xy, xz, yx, yy, yz, zz, T, calc, check, accumulate>(
-                            output_caches, input_arrays, floor_caches,
-                            offset, offset_distance, numerator, distance + 1,
-                            major_mid, leading_edge_major, start_minor, trailing_edge_minor,
-                            next_cumulative_transparency );
-                    }
-                }
-
-                // One from which we shaved one line ("processed in 1D")
-                const float old_start_minor = start_minor;
-                // The new span starts at the leading edge of the previous square if it is opaque,
-                // and at the trailing edge of the current square if it is transparent.
-                if( !check( current_transparency, last_intensity ) ) {
-                    start_minor = new_start_minor;
-                } else {
-                    // Note this is the same slope as one of the recursive calls we just made.
-                    start_minor = std::max( start_minor, trailing_edge_minor );
-                    start_major = std::max( start_major, trailing_edge_major );
-                }
-
-                // leading_edge_major plus some epsilon
-                float after_leading_edge_major = ( delta.z + 0.50001f ) / ( delta.y - 0.5f );
-                cast_zlight_segment<xx, xy, xz, yx, yy, yz, zz, T, calc, check, accumulate>(
-                    output_caches, input_arrays, floor_caches,
-                    offset, offset_distance, numerator, distance,
-                    after_leading_edge_major, end_major, old_start_minor, start_minor,
-                    cumulative_transparency );
-
-                // One we just entered ("processed in 0D" - the first point)
-                // No need to recurse, we're processing it right now
-
-                current_transparency = new_transparency;
-                new_start_minor = leading_edge_minor;
-            }
-
-            if( !check( current_transparency, last_intensity ) ) {
-                start_major = leading_edge_major;
-            }
-        }
-
-        if( !started_block ) {
-            // If we didn't scan at least 1 z-level, don't iterate further
-            // Otherwise we may "phase" through tiles without checking them
-            break;
-        }
-
-        if( !check( current_transparency, last_intensity ) ) {
-            // If we reach the end of the span with terrain being opaque, we don't iterate further.
-            break;
-        }
-        // Cumulative average of the values encountered.
-        cumulative_transparency = accumulate( cumulative_transparency, current_transparency, distance );
-    }
-}
-
-template<typename T, T( *calc )( const T &, const T &, const int & ),
-         bool( *check )( const T &, const T & ),
-         T( *accumulate )( const T &, const T &, const int & )>
-void cast_zlight(
-    const array_of_grids_of<T> &output_caches,
-    const array_of_grids_of<const T> &input_arrays,
-    const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &origin, const int offset_distance, const T numerator )
-{
-    // Down
-    cast_zlight_segment < 0, 1, 0, 1, 0, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    cast_zlight_segment < 1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-
-    cast_zlight_segment < 0, -1, 0, 1, 0, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    cast_zlight_segment < -1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-
-    cast_zlight_segment < 0, 1, 0, -1, 0, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    cast_zlight_segment < 1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-
-    cast_zlight_segment < 0, -1, 0, -1, 0, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    cast_zlight_segment < -1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-
-    // Up
-    cast_zlight_segment<0, 1, 0, 1, 0, 0, 1, T, calc, check, accumulate>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    cast_zlight_segment<1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-
-    cast_zlight_segment < 0, -1, 0, 1, 0, 0, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    cast_zlight_segment < -1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-
-    cast_zlight_segment < 0, 1, 0, -1, 0, 0, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    cast_zlight_segment < 1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-
-    cast_zlight_segment < 0, -1, 0, -1, 0, 0, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    cast_zlight_segment < -1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-}
-
-// I can't figure out how to make implicit instantiation work when the parameters of
-// the template-supplied function pointers are involved, so I'm explicitly instantiating instead.
-template void cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-    const array_of_grids_of<float> &output_caches,
-    const array_of_grids_of<const float> &input_arrays,
-    const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &origin, int offset_distance, float numerator );
-
-template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
-    const array_of_grids_of<fragment_cloud> &output_caches,
-    const array_of_grids_of<const fragment_cloud> &input_arrays,
-    const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &origin, int offset_distance, fragment_cloud numerator );
 
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *calc )( const T &, const T &, const int & ),
@@ -1261,6 +1005,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         array_of_grids_of<const float> transparency_caches;
         array_of_grids_of<float> seen_caches;
         array_of_grids_of<const bool> floor_caches;
+        vertical_direction directions_to_cast = vertical_direction::BOTH;
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             auto &cur_cache = get_cache( z );
             transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
@@ -1269,12 +1014,15 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             std::uninitialized_fill_n(
                 &cur_cache.seen_cache[0][0], map_dimensions, light_transparency_solid );
             cur_cache.seen_cache_dirty = false;
+            if( origin.z == z && cur_cache.no_floor_gaps ) {
+                directions_to_cast = vertical_direction::UP;
+            }
         }
         if( origin.z == target_z ) {
             get_cache( origin.z ).seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
         }
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-            seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
+            seen_caches, transparency_caches, floor_caches, origin, 0, 1.0, directions_to_cast );
     }
 
     const optional_vpart_position vp = veh_at( origin );
@@ -1345,6 +1093,7 @@ float fastexp( float x )
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wpragmas"
+#pragma GCC diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
     u.i = static_cast<long long>( 6051102 * x + 1056478197 );
     v.i = static_cast<long long>( 1056478197 - 6051102 * x );
@@ -1483,7 +1232,8 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
     }
 }
 
-void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle )
+void map::apply_light_arc( const tripoint &p, const units::angle &angle, float luminance,
+                           const units::angle &wideangle )
 {
     if( luminance <= LIGHT_SOURCE_LOCAL ) {
         return;
@@ -1494,12 +1244,11 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     apply_light_source( p, LIGHT_SOURCE_LOCAL );
 
     // Normalize (should work with negative values too)
-    const double wangle = wideangle / 2.0;
+    const units::angle wangle = wideangle / 2.0;
 
-    int nangle = angle % 360;
+    units::angle nangle = fmod( angle, 360_degrees );
 
     tripoint end;
-    double rad = M_PI * static_cast<double>( nangle ) / 180;
     int range = LIGHT_RANGE( luminance );
     calc_ray_end( nangle, range, p, end );
     apply_light_ray( lit, p, end, luminance );
@@ -1513,23 +1262,22 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     }
 
     // attempt to determine beam intensity required to cover all squares
-    const double wstep = ( wangle / ( wdist * M_SQRT2 ) );
+    const units::angle wstep = ( wangle / ( wdist * M_SQRT2 ) );
 
     // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
-    for( double ao = wstep; ao <= wangle; ao += wstep ) {
+    for( units::angle ao = wstep; ao <= wangle; ao += wstep ) {
         if( trigdist ) {
             double fdist = ( ao * M_PI_2 ) / wangle;
-            double orad = ( M_PI * ao / 180.0 );
-            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * std::cos(
-                                          rad + orad ) );
-            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * std::sin(
-                                          rad + orad ) );
+            end.x = static_cast<int>(
+                        p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( nangle + ao ) );
+            end.y = static_cast<int>(
+                        p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( nangle + ao ) );
             apply_light_ray( lit, p, end, luminance );
 
-            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * std::cos(
-                                          rad - orad ) );
-            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * std::sin(
-                                          rad - orad ) );
+            end.x = static_cast<int>(
+                        p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( nangle - ao ) );
+            end.y = static_cast<int>(
+                        p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( nangle - ao ) );
             apply_light_ray( lit, p, end, luminance );
         } else {
             calc_ray_end( nangle + ao, range, p, end );

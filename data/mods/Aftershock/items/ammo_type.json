@@ -7,6 +7,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "xray_laser_barrel",
+    "name": "ray laser barrel",
+    "default": "xray_laser_barrel"
+  },
+  {
+    "type": "ammunition_type",
     "id": "afs_foam",
     "name": "industrial foam",
     "default": "afs_foamcrete"

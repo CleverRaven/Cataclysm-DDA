@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "ascii_art.h"
 #include "behavior.h"
 #include "calendar.h"
 #include "color.h"
@@ -203,7 +204,7 @@ struct mtype {
         translation name;
         translation description;
 
-        std::set< const species_type * > species_ptrs;
+        ascii_art_id picture_id;
 
         enum_bitset<m_flag> flags;
 
@@ -226,7 +227,7 @@ struct mtype {
 
         std::map<itype_id, int> starting_ammo; // Amount of ammo the monster spawns with.
         // Name of item group that is used to create item dropped upon death, or empty.
-        std::string death_drops;
+        item_group_id death_drops;
 
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
@@ -238,7 +239,7 @@ struct mtype {
         std::string sym;
         /** hint for tilesets that don't have a tile for this monster */
         std::string looks_like;
-        mfaction_id default_faction;
+        mfaction_str_id default_faction;
         bodytype_id bodytype;
         nc_color color = c_white;
         creature_size size;
@@ -377,7 +378,6 @@ struct mtype {
         bool has_placate_trigger( mon_trigger trigger ) const;
         bool in_category( const std::string &category ) const;
         bool in_species( const species_id &spec ) const;
-        bool in_species( const species_type &spec ) const;
         std::vector<std::string> species_descriptions() const;
         //Used for corpses.
         field_type_id bloodType() const;
@@ -387,6 +387,7 @@ struct mtype {
         itype_id get_meat_itype() const;
         int get_meat_chunks_count() const;
         std::string get_description() const;
+        ascii_art_id get_picture_id() const;
         std::string get_footsteps() const;
         void set_strategy();
         void add_goal( const std::string &goal_id );

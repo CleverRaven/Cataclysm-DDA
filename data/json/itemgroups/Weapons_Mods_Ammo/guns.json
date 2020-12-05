@@ -7,6 +7,7 @@
       { "item": "glock_17", "prob": 35, "charges-min": 0, "charges-max": 15 },
       { "item": "glock_19", "prob": 50, "charges-min": 0, "charges-max": 15 },
       { "item": "glock_20", "prob": 4, "charges-min": 0, "charges-max": 15 },
+      { "item": "glock_21", "prob": 8, "charges-min": 0, "charges-max": 15 },
       { "item": "glock_22", "prob": 35, "charges-min": 0, "charges-max": 15 },
       { "item": "glock_29", "prob": 2, "charges-min": 0, "charges-max": 10 },
       { "item": "glock_31", "prob": 15, "charges-min": 0, "charges-max": 15 },
@@ -56,6 +57,7 @@
       { "item": "glock_19", "prob": 50, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_22", "prob": 35, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_20", "prob": 4, "charges-min": 0, "charges-max": 0 },
+      { "item": "glock_21", "prob": 8, "charges-min": 0, "charges-max": 15 },
       { "item": "glock_40", "prob": 2, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_31", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "m1911", "prob": 50, "charges-min": 0, "charges-max": 0 },
@@ -162,14 +164,23 @@
       { "item": "m1911-460", "prob": 3, "charges-min": 0, "charges-max": 7 },
       { "item": "lemat_revolver", "prob": 150, "charges-min": 0, "charges-max": 9 },
       { "item": "makarov", "prob": 100, "charges-min": 0, "charges-max": 8 },
+      { "item": "mauser_c96", "prob": 39, "charges-min": 0, "charges-max": 10 },
       { "item": "moss_brownie", "prob": 100, "charges-min": 0, "charges-max": 4 },
+      { "item": "p08", "prob": 121, "charges-min": 0, "charges-max": 8 },
       { "item": "pistol_flintlock", "prob": 150 },
       { "item": "raging_bull", "prob": 100, "charges-min": 0, "charges-max": 5 },
       { "item": "raging_judge", "prob": 20, "charges-min": 0, "charges-max": 5 },
       { "item": "tokarev", "prob": 100, "charges-min": 0, "charges-max": 8 },
       { "item": "walther_ppk", "prob": 100, "charges-min": 0, "charges-max": 8 },
-      { "item": "colt_saa", "prob": 150, "charges-min": 0, "charges-max": 6 }
+      { "item": "colt_saa", "prob": 150, "charges-min": 0, "charges-max": 6 },
+      { "group": "guns_pistol_collectible", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_collectible",
+    "//": "Extremely rare factory-made pistols that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Always unloaded.",
+    "items": [ { "item": "mauser_m714", "prob": 60, "charges-min": 0, "charges-max": 0 } ]
   },
   {
     "type": "item_group",
@@ -186,6 +197,8 @@
     "id": "guns_smg_common",
     "//": "SMGs commonly owned by citizens and found in many locations.",
     "items": [
+      { "item": "mp40semi", "prob": 200, "charges-min": 0, "charges-max": 32 },
+      { "item": "mp40", "prob": 185, "charges-min": 0, "charges-max": 32 },
       { "item": "tommygun", "prob": 70, "charges-min": 0, "charges-max": 20 },
       { "item": "hk_mp5_semi_pistol", "prob": 70, "charges-min": 0, "charges-max": 30 },
       { "item": "sten", "prob": 100, "charges-min": 0, "charges-max": 32 },
@@ -260,8 +273,15 @@
       { "item": "ppsh", "prob": 150, "charges-min": 0, "charges-max": 35 },
       { "item": "hk_mp5_10_semi", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "skorpion_61", "prob": 100, "charges-min": 0, "charges-max": 20 },
-      { "item": "skorpion_82", "prob": 100, "charges-min": 0, "charges-max": 20 }
+      { "item": "skorpion_82", "prob": 100, "charges-min": 0, "charges-max": 20 },
+      { "group": "guns_smg_collectible", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_smg_collectible",
+    "//": "Extremely rare factory-made submachine guns that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Always unloaded.",
+    "items": [ { "item": "mp18", "prob": 3, "charges-min": 0, "charges-max": 0 } ]
   },
   {
     "type": "item_group",
@@ -441,12 +461,7 @@
     "type": "item_group",
     "id": "guns_rifle_improvised",
     "//": "Makeshift or otherwise poor quality rifles.",
-    "items": [
-      { "item": "rifle_22", "prob": 60 },
-      { "item": "rifle_3006", "prob": 30 },
-      { "item": "rifle_9mm", "prob": 60 },
-      { "item": "surv_carbine_223", "prob": 120, "charges-min": 0, "charges-max": 5 }
-    ]
+    "items": [ { "item": "rifle_22", "prob": 60 }, { "item": "rifle_3006", "prob": 30 }, { "item": "rifle_9mm", "prob": 60 } ]
   },
   {
     "type": "item_group",

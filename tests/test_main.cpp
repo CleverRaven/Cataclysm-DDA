@@ -22,6 +22,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "help.h"
 #include "loading_ui.h"
 #include "map.h"
 #include "messages.h"
@@ -121,6 +122,8 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->new_game = true;
     g->load_static_data();
 
+    get_help().load();
+
     world_generator->set_active_world( nullptr );
     world_generator->init();
     WORLDPTR test_world = world_generator->make_new_world( mods );
@@ -137,6 +140,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     get_avatar() = avatar();
     get_avatar().create( character_type::NOW );
+    get_avatar().setID( g->assign_npc_id(), false );
 
     get_map() = map();
 
@@ -300,21 +304,20 @@ int main( int argc, const char *argv[] )
     // Set the seed for mapgen (the seed will also be reset before each test)
     const unsigned int seed = session.config().rngSeed();
     if( seed ) {
-        srand( seed );
         rng_set_engine_seed( seed );
 
         // If the run is terminated due to a crash during initialization, we won't
         // see the seed unless it's printed out in advance, so do that here.
-        printf( "Randomness seeded to: %u\n", seed );
+        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
     }
 
     try {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
     } catch( const std::exception &err ) {
-        fprintf( stderr, "Terminated: %s\n", err.what() );
-        fprintf( stderr,
-                 "Make sure that you're in the correct working directory and your data isn't corrupted.\n" );
+        DebugLog( D_ERROR, DC_ALL ) << "Terminated:\n" << err.what();
+        DebugLog( D_INFO, DC_ALL ) <<
+                                   "Make sure that you're in the correct working directory and your data isn't corrupted.";
         return EXIT_FAILURE;
     }
 
@@ -324,7 +327,7 @@ int main( int argc, const char *argv[] )
     std::time_t start_time = std::chrono::system_clock::to_time_t( start );
     // Leading newline in case there were debug messages during
     // initialization.
-    printf( "\nStarting the actual test at %s", std::ctime( &start_time ) );
+    DebugLog( D_INFO, DC_ALL ) << "Starting the actual test at " << std::ctime( &start_time );
     result = session.run();
     const auto end = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t( end );
@@ -333,24 +336,30 @@ int main( int argc, const char *argv[] )
     if( result == 0 || dont_save ) {
         world_generator->delete_world( world_name, true );
     } else {
-        printf( "Test world \"%s\" left for inspection.\n", world_name.c_str() );
+        DebugLog( D_INFO, DC_ALL ) << "Test world " << world_name << " left for inspection.";
     }
 
     std::chrono::duration<double> elapsed_seconds = end - start;
-    printf( "Ended test at %sThe test took %.3f seconds\n", std::ctime( &end_time ),
-            elapsed_seconds.count() );
+    DebugLog( D_INFO, DC_ALL ) << "Ended test at " << std::ctime( &end_time );
+    DebugLog( D_INFO, DC_ALL ) << "The test took " << elapsed_seconds.count() << " seconds";
+
+    if( seed ) {
+        // Also print the seed at the end so it can be easily found
+        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
+    }
 
     if( error_during_initialization ) {
-        printf( "\nTreating result as failure due to error logged during initialization.\n" );
-        printf( "Randomness seeded to: %u\n", seed );
+        DebugLog( D_INFO, DC_ALL ) <<
+                                   "Treating result as failure due to error logged during initialization.";
         return 1;
     }
 
     if( debug_has_error_been_observed() ) {
-        printf( "\nTreating result as failure due to error logged during tests.\n" );
-        printf( "Randomness seeded to: %u\n", seed );
+        DebugLog( D_INFO, DC_ALL ) << "Treating result as failure due to error logged during tests.";
         return 1;
     }
+
+    printf( "\n" );
 
     return result;
 }

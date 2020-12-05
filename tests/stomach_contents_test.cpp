@@ -107,7 +107,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
 
     // A specific BMR isn't the real target of this test, the number of days
     // is, but it helps to debug the test faster if this value is wrong.
-    REQUIRE( dummy.get_bmr() == 1739 );
+    REQUIRE( dummy.get_bmr() == 1738 );
 
     constexpr int expected_day = 36;
     int day = 0;
@@ -273,7 +273,7 @@ TEST_CASE( "hunger" )
         printf( "%d minutes til hunger sets in\n", hunger_time );
     }
     CHECK( hunger_time <= 285 );
-    CHECK( hunger_time >= 255 );
+    CHECK( hunger_time >= 240 );
     if( print_tests ) {
         print_stomach_contents( dummy, print_tests );
         printf( "eat 16 veggy\n" );
@@ -290,7 +290,7 @@ TEST_CASE( "hunger" )
         print_stomach_contents( dummy, print_tests );
     }
     CHECK( hunger_time <= 390 );
-    CHECK( hunger_time >= 360 );
+    CHECK( hunger_time >= 330 );
     if( print_tests ) {
         printf( "eat 16 veggy with extreme metabolism\n" );
     }
@@ -309,5 +309,5 @@ TEST_CASE( "hunger" )
         print_stomach_contents( dummy, print_tests );
     }
     CHECK( hunger_time <= 240 );
-    CHECK( hunger_time >= 210 );
+    CHECK( hunger_time >= 180 );
 }

@@ -175,7 +175,9 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_VISIBILITY: return "DISPLAY_VISIBILITY";
         case debug_menu::debug_menu_index::DISPLAY_LIGHTING: return "DISPLAY_LIGHTING";
         case debug_menu::debug_menu_index::DISPLAY_TRANSPARENCY: return "DISPLAY_TRANSPARENCY";
+        case debug_menu::debug_menu_index::DISPLAY_REACHABILITY_ZONES: return "DISPLAY_REACHABILITY_ZONES";
         case debug_menu::debug_menu_index::DISPLAY_RADIATION: return "DISPLAY_RADIATION";
+        case debug_menu::debug_menu_index::HOUR_TIMER: return "HOUR_TIMER";
         case debug_menu::debug_menu_index::LEARN_SPELLS: return "LEARN_SPELLS";
         case debug_menu::debug_menu_index::LEVEL_SPELLS: return "LEVEL_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
@@ -252,9 +254,11 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_TRANSPARENCY, true, 'p', _( "Toggle display transparency" ) ) },
+            { uilist_entry( debug_menu_index::DISPLAY_REACHABILITY_ZONES, true, 'z', _( "Toggle display reachability zones" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( debug_menu_index::SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( debug_menu_index::BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
+            { uilist_entry( debug_menu_index::HOUR_TIMER, true, 'E', _( "Toggle hour timer" ) ) },
             { uilist_entry( debug_menu_index::TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
             { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
@@ -565,12 +569,14 @@ void character_edit_menu()
     }
 
     enum {
-        D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_DESC, D_SKILLS, D_PROF, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA
     };
-    nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
+    nmenu.addentry( D_DESC, true, 'D', "%s",
+                    _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
+    nmenu.addentry( D_PROF, true, 'P', "%s", _( "Edit [P]roficiencies" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
     nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
     nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _( "[d]elete (all) items" ) );
@@ -587,7 +593,7 @@ void character_edit_menu()
                     hotkey_for_action( ACTION_PL_INFO, /*maximum_modifier_count=*/1 ),
                     "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
-    nmenu.addentry( D_ADD_EFFECT, true, 't', "%s", _( "Add an effec[t]" ) );
+    nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an [E]ffect" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
@@ -635,6 +641,9 @@ void character_edit_menu()
             }
         }
         break;
+        case D_PROF:
+            wishproficiency( &p );
+            break;
         case D_ITEMS:
             wishitem( &p );
             break;
@@ -686,27 +695,27 @@ void character_edit_menu()
 
             switch( smenu.ret ) {
                 case 0:
-                    bp = bodypart_str_id( "torso" );
+                    bp = body_part_torso;
                     bp_ptr = torso_hp;
                     break;
                 case 1:
-                    bp = bodypart_str_id( "head" );
+                    bp = body_part_head;
                     bp_ptr = head_hp;
                     break;
                 case 2:
-                    bp = bodypart_str_id( "arm_l" );
+                    bp = body_part_arm_l;
                     bp_ptr = arm_l_hp;
                     break;
                 case 3:
-                    bp = bodypart_str_id( "arm_r" );
+                    bp = body_part_arm_r;
                     bp_ptr = arm_r_hp;
                     break;
                 case 4:
-                    bp = bodypart_str_id( "leg_l" );
+                    bp = body_part_leg_l;
                     bp_ptr = leg_l_hp;
                     break;
                 case 5:
-                    bp = bodypart_str_id( "leg_r" );
+                    bp = body_part_leg_r;
                     bp_ptr = leg_r_hp;
                     break;
                 case 6:
@@ -726,7 +735,9 @@ void character_edit_menu()
                 int value;
                 if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), p.get_lowest_hp() ) &&
                     value >= 0 ) {
-                    p.set_all_parts_hp_cur( value );
+                    for( bodypart_id part_id : p.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                        p.set_part_hp_cur( part_id, value );
+                    }
                     p.reset_stats();
                 }
             }
@@ -795,16 +806,74 @@ void character_edit_menu()
             }
         }
         break;
-        case D_NAME: {
-            std::string filterstring = p.name;
-            string_input_popup popup;
-            popup
-            .title( _( "Rename:" ) )
-            .width( 85 )
-            .description( string_format( _( "NPC:\n%s\n" ), p.name ) )
-            .edit( filterstring );
-            if( popup.confirmed() ) {
-                p.name = filterstring;
+        case D_DESC: {
+            uilist smenu;
+            std::string current_bloodt = io::enum_to_string( p.my_blood_type ) + ( p.blood_rh_factor ? "+" :
+                                         "-" );
+            smenu.text = _( "Select a value and press enter to change it." );
+            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current name" ), p.get_name() );
+            smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), p.base_age() );
+            smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), p.base_height() );
+            smenu.addentry( 3, true, 'b', "%s: %s", _( "Current blood type:" ), current_bloodt );
+            smenu.query();
+            switch( smenu.ret ) {
+                case 0: {
+                    std::string filterstring = p.name;
+                    string_input_popup popup;
+                    popup
+                    .title( _( "Rename:" ) )
+                    .width( 85 )
+                    .edit( filterstring );
+                    if( popup.confirmed() ) {
+                        p.name = filterstring;
+                    }
+                }
+                break;
+                case 1: {
+                    string_input_popup popup;
+                    popup.title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
+                    .text( string_format( "%d", p.base_age() ) )
+                    .only_digits( true );
+                    const int result = popup.query_int();
+                    if( result != 0 ) {
+                        p.set_base_age( clamp( result, 16, 55 ) );
+                    }
+                }
+                break;
+                case 2: {
+                    string_input_popup popup;
+                    popup.title( _( "Enter height in centimeters.  Minimum 145, maximum 200" ) )
+                    .text( string_format( "%d", p.base_height() ) )
+                    .only_digits( true );
+                    const int result = popup.query_int();
+                    if( result != 0 ) {
+                        p.set_base_height( clamp( result, 145, 200 ) );
+                    }
+                }
+                break;
+                case 3: {
+                    uilist btype;
+                    btype.text = _( "Select blood type" );
+                    btype.addentry( static_cast<int>( blood_type::blood_O ), true, '1', "O" );
+                    btype.addentry( static_cast<int>( blood_type::blood_A ), true, '2', "A" );
+                    btype.addentry( static_cast<int>( blood_type::blood_B ), true, '3', "B" );
+                    btype.addentry( static_cast<int>( blood_type::blood_AB ), true, '4', "AB" );
+                    btype.query();
+                    if( btype.ret < 0 ) {
+                        break;
+                    }
+                    uilist bfac;
+                    bfac.text = _( "Select Rh factor" );
+                    bfac.addentry( 0, true, '-', _( "negative" ) );
+                    bfac.addentry( 1, true, '+', _( "positive" ) );
+                    bfac.query();
+                    if( bfac.ret < 0 ) {
+                        break;
+                    }
+                    p.my_blood_type = static_cast<blood_type>( btype.ret );
+                    p.blood_rh_factor = static_cast<bool>( bfac.ret );
+                    break;
+                }
             }
         }
         break;
@@ -1314,9 +1383,10 @@ void debug()
 
         case debug_menu_index::GAME_STATE: {
             std::string mfus;
-            std::vector<std::pair<m_flag, int>> sorted(
-                                                 MonsterGenerator::generator().m_flag_usage_stats.begin(),
-                                                 MonsterGenerator::generator().m_flag_usage_stats.end() );
+            std::vector<std::pair<m_flag, int>> sorted;
+            for( int f = 0; f < m_flag::MF_MAX; f++ ) {
+                sorted.push_back( {static_cast<m_flag>( f ), MonsterGenerator::generator().m_flag_usage_stats[f]} );
+            }
             std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
                 return a.second != b.second ? a.second > b.second : a.first < b.first;
             } );
@@ -1326,7 +1396,8 @@ void debug()
                                        m_flag_stat.second );
             }
             DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
-            MonsterGenerator::generator().m_flag_usage_stats.clear();
+            std::fill( MonsterGenerator::generator().m_flag_usage_stats.begin(),
+                       MonsterGenerator::generator().m_flag_usage_stats.end(), 0 );
             popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
 
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
@@ -1412,7 +1483,7 @@ void debug()
                     if( elem == vproto_id( "custom" ) ) {
                         continue;
                     }
-                    veh_strings.emplace_back( _( elem->name ), elem );
+                    veh_strings.emplace_back( elem->name.translated(), elem );
                 }
                 std::sort( veh_strings.begin(), veh_strings.end(), localized_compare );
                 uilist veh_menu;
@@ -1438,7 +1509,8 @@ void debug()
 
                     if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
                         // TODO: Allow picking this when add_vehicle has 3d argument
-                        vehicle *veh = here.add_vehicle( selected_opt, dest, -90, 100, veh_cond_menu.ret - 1 );
+                        vehicle *veh = here.add_vehicle(
+                                           selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1 );
                         if( veh != nullptr ) {
                             here.board_vehicle( dest, &player_character );
                         }
@@ -1658,7 +1730,7 @@ void debug()
                     break;
             }
             if( query_int( intensity, _( "Add bleeding duration in minutes, equal to intensity:" ) ) ) {
-                player_character.make_bleed( part, 1_minutes * intensity );
+                player_character.make_bleed( effect_source::empty(), part, 1_minutes * intensity );
             }
         }
         break;
@@ -1717,6 +1789,12 @@ void debug()
             break;
         case debug_menu_index::DISPLAY_TRANSPARENCY:
             g->display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
+            break;
+        case debug_menu_index::DISPLAY_REACHABILITY_ZONES:
+            g->display_reahability_zones();
+            break;
+        case debug_menu_index::HOUR_TIMER:
+            g->toggle_debug_hour_timer();
             break;
         case debug_menu_index::CHANGE_TIME: {
             auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {

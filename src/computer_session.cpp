@@ -799,7 +799,7 @@ void computer_session::action_download_software()
             return;
         }
         get_player_character().moves -= 30;
-        item software( miss->get_item_id(), 0 );
+        item software( miss->get_item_id(), calendar::turn_zero );
         software.mission_id = comp.mission_id;
         usb->contents.clear_items();
         usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
@@ -840,7 +840,7 @@ void computer_session::action_blood_anal()
                     print_line( _( "Pathogen bonded to erythrocytes and leukocytes." ) );
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
-                            item software( "software_blood_data", 0 );
+                            item software( "software_blood_data", calendar::turn_zero );
                             usb->contents.clear_items();
                             usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
                             print_line( _( "Software downloaded." ) );
@@ -1072,7 +1072,7 @@ void computer_session::action_irradiator()
                                        "alarm" );
                         here.i_rem( dest, it );
                         here.make_rubble( dest );
-                        here.propagate_field( dest, field_type_id( "fd_nuke_gas" ), 100, 3 );
+                        here.propagate_field( dest, fd_nuke_gas, 100, 3 );
                         here.translate_radius( t_water_pool, t_sewage, 8.0, dest, true );
                         here.adjust_radiation( dest, rng( 50, 500 ) );
                         for( const tripoint &radorigin : here.points_in_radius( dest, 5 ) ) {
@@ -1260,13 +1260,13 @@ void computer_session::action_deactivate_shock_vent()
     bool has_generator = false;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 10 ) ) {
-        if( here.get_field( dest, field_type_id( "fd_shock_vent" ) ) != nullptr ) {
+        if( here.get_field( dest, fd_shock_vent ) != nullptr ) {
             has_vent = true;
         }
         if( here.ter( dest ) == t_plut_generator ) {
             has_generator = true;
         }
-        here.remove_field( dest, field_type_id( "fd_shock_vent" ) );
+        here.remove_field( dest, fd_shock_vent );
     }
     print_line( _( "Initiating POWER-DIAG ver.2.34…" ) );
     if( has_vent ) {

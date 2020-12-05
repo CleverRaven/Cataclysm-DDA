@@ -108,5 +108,87 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "scratched"
+  },
+  {
+    "type": "material",
+    "id": "dragon_blood",
+    "name": "Dragon blood",
+    "density": 1,
+    "specific_heat_liquid": 0.5,
+    "specific_heat_solid": 0.5,
+    "latent_heat": 518,
+    "bash_resist": 0,
+    "cut_resist": 0,
+    "bullet_resist": 0,
+    "acid_resist": 0,
+    "fire_resist": 0,
+    "elec_resist": 0,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "burn_data": [
+      { "fuel": 300, "smoke": 6, "burn": 1 },
+      { "fuel": 600, "smoke": 6, "burn": 2 },
+      { "fuel": 900, "smoke": 6, "burn": 3 }
+    ],
+    "fuel_data": {
+      "energy": 50,
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
+    "id": "blood",
+    "name": "Blood",
+    "density": 1,
+    "specific_heat_liquid": 4.186,
+    "specific_heat_solid": 2.108,
+    "latent_heat": 333,
+    "edible": true,
+    "bash_resist": 0,
+    "cut_resist": 0,
+    "bullet_resist": 0,
+    "acid_resist": 0,
+    "fire_resist": 1,
+    "elec_resist": 0,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "burn_data": [
+      { "fuel": -100, "smoke": 1, "burn": 1 },
+      { "fuel": -50, "smoke": 2, "burn": 1 },
+      { "fuel": -10, "smoke": 2, "burn": 2 }
+    ],
+    "fuel_data": { "energy": 1 }
+  },
+  {
+    "type": "material",
+    "id": "tainted_blood",
+    "name": "Tainted blood",
+    "copy-from": "blood",
+    "fuel_data": { "energy": 5 }
+  },
+  {
+    "type": "material",
+    "id": "alumentum",
+    "name": "Alumentum",
+    "copy-from": "wood",
+    "fuel_data": { "energy": 150 }
+  },
+  {
+    "type": "material",
+    "id": "crystallized_mana",
+    "name": "Crystallized mana",
+    "copy-from": "stone",
+    "fuel_data": { "energy": 1 }
+  },
+  {
+    "type": "material",
+    "id": "mana",
+    "name": "Mana",
+    "copy-from": "pseudo_fuel",
+    "fuel_data": { "energy": 500, "perpetual": true }
   }
 ]

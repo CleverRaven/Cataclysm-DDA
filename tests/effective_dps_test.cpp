@@ -299,6 +299,7 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "halberd_fake", 15.0 );
         calc_expected_dps( test_guy, "ji", 35.0 );
         calc_expected_dps( test_guy, "glaive", 34.5 );
+        calc_expected_dps( test_guy, "makeshift_halberd", 20.5 );
         calc_expected_dps( test_guy, "naginata", 35.0 );
         calc_expected_dps( test_guy, "naginata_inferior", 21.5 );
         calc_expected_dps( test_guy, "naginata_fake", 10.0 );
@@ -334,8 +335,8 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "halligan", 15.25 );
         calc_expected_dps( test_guy, "stick_long", 6.0 );
     }
-    SECTION( "two-handed flails" ) { // expected value ideally around 28
-        calc_expected_dps( test_guy, "2h_flail_steel", 25.0 );
+    SECTION( "two-handed flails" ) { // expected value ideally around 20
+        calc_expected_dps( test_guy, "2h_flail_steel", 21.0 );
         calc_expected_dps( test_guy, "2h_flail_wood", 20.0 );
         calc_expected_dps( test_guy, "homewrecker", 13.0 );
     }

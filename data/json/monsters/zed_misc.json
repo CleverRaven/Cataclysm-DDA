@@ -531,7 +531,7 @@
     "armor_bash": 8,
     "armor_cut": 12,
     "armor_bullet": 10,
-    "vision_day": 50,
+    "vision_day": 83,
     "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [ [ "SMASH", 20 ] ],
@@ -935,6 +935,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_SHADY_UPGRADES" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -1296,5 +1297,14 @@
       "FILTHY",
       "PARALYZEVENOM"
     ]
+  },
+  {
+    "id": "mon_zombie_reenactor",
+    "type": "MONSTER",
+    "name": { "str": "ravenous reenactor" },
+    "description": "This shambling corpse is dressed in the tatters of an antiquated soldier's uniform.  Either it was a historical reenactor, or zombies have also started to time travel.",
+    "copy-from": "mon_zombie",
+    "death_drops": "zombie_reenactor_drops",
+    "color": "blue"
   }
 ]

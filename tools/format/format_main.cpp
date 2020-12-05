@@ -14,13 +14,10 @@
 #include <sstream>
 #include <string>
 
-#if defined(MSYS2) || defined(_MSC_VER)
+#if defined(_WIN32)
 static void erase_char( std::string &s, const char &c )
 {
-    size_t pos = std::string::npos;
-    while( ( pos  = s.find( c ) ) != std::string::npos ) {
-        s.erase( pos, 1 );
-    }
+    s.erase( std::remove( s.begin(), s.end(), c ), s.end() );
 }
 #endif
 
@@ -79,7 +76,7 @@ int main( int argc, char *argv[] )
         std::cout << out.str();
     } else {
         std::string in_str = in.str();
-#if defined(MSYS2) || defined(_MSC_VER)
+#if defined(_WIN32)
         erase_char( in_str, '\r' );
 #endif
 

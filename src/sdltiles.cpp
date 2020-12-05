@@ -42,6 +42,7 @@
 #include "cursesport.h"
 #include "debug.h"
 #include "filesystem.h"
+#include "flag.h"
 #include "font_loader.h"
 #include "game.h"
 #include "game_ui.h"
@@ -314,6 +315,10 @@ static void WinCreate()
         renderer_name = "software";
     } else {
         renderer_name = get_option<std::string>( "RENDERER" );
+    }
+
+    if( renderer_name == "direct3d" ) {
+        direct3d_mode = true;
     }
 
     const int numRenderDrivers = SDL_GetNumRenderDrivers();
@@ -2219,7 +2224,7 @@ static void CheckMessages()
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( player_character.weapon.is_gun() || player_character.weapon.has_flag( "REACH_ATTACK" ) ) {
+                    if( player_character.weapon.is_gun() || player_character.weapon.has_flag( flag_REACH_ATTACK ) ) {
                         actions.insert( ACTION_FIRE );
                     }
                 }

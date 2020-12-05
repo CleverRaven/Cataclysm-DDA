@@ -287,7 +287,7 @@ void submap::rotate( int turns )
         elem->pos = new_pos;
         // turn the steering wheel, vehicle::turn does not actually
         // move the vehicle.
-        elem->turn( turns * 90 );
+        elem->turn( turns * 90_degrees );
         // The facing direction and recalculate the positions of the parts
         elem->face = elem->turn_dir;
         elem->precalc_mounts( 0, elem->turn_dir, elem->pivot_anchor[0] );

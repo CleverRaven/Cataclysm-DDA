@@ -762,6 +762,20 @@ bool item_location::parents_can_contain_recursive( item *it ) const
     return false;
 }
 
+int item_location::max_charges_by_parent_recursive( const item &it ) const
+{
+    if( !has_parent() ) {
+        return item::INFINITE_CHARGES;
+    }
+
+    item_location parent = parent_item();
+    item_pocket *pocket = parent->contents.contained_where( *get_item() );
+
+    return std::min( { it.charges_per_volume( pocket->remaining_volume() ),
+                       it.charges_per_weight( pocket->remaining_weight() ),
+                       pocket->rigid() ? item::INFINITE_CHARGES : parent.max_charges_by_parent_recursive( it ) } );
+}
+
 item_location::type item_location::where() const
 {
     return ptr->where();

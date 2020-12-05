@@ -244,7 +244,7 @@ struct new_field {
         if( jo.size() != 1 ) {
             jo.throw_error( "new field specifications must have exactly one entry" );
         }
-        for( const JsonMember &m : jo ) {
+        for( const JsonMember m : jo ) {
             const std::string &transformation_name = m.name();
             auto it = event_field_transformations.find( transformation_name );
             if( it == event_field_transformations.end() ) {
@@ -261,7 +261,7 @@ struct new_field {
                 const cata::event::fields_type &input_fields ) const {
         auto it = input_fields.find( input_field );
         if( it == input_fields.end() ) {
-            debugmsg( "event_transformation %s specifies transformation on field %s but not such "
+            debugmsg( "event_transformation %s specifies transformation on field %s but no such "
                       "field exists on the input", context_name, input_field );
             return;
         }
@@ -285,6 +285,11 @@ struct new_field {
             // Field missing, probably due to stale data.  Reporting an error
             // would spam, so we rely on the fact that it should already have
             // been reported at startup time.
+            return result;
+        }
+        if( !it->second.get_string().empty() && !it->second.is_valid() ) {
+            // Field value is non-empty and invalid; event_transformation_functions are not
+            // required to handle invalid values, so just skip it
             return result;
         }
         for( const cata_variant &v : transformation.function( it->second ) ) {

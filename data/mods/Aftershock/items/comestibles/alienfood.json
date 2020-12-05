@@ -1,0 +1,39 @@
+[
+  {
+    "id": "yum_lichen",
+    "type": "COMESTIBLE",
+    "name": "clump of lichen",
+    "weight": "10 g",
+    "color": "red",
+    "use_action": [ "BLECH" ],
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 400,
+    "healthy": -20,
+    "quench": 15,
+    "description": "A clump of moist squishy lichen.  You get the impression that it might not be the safest thing to eat considering how it makes your hand tingle.",
+    "price": "20 cent",
+    "volume": "5 ml",
+    "charges": 3,
+    "fun": -8,
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitA", 20 ], [ "vitC", 56 ] ]
+  },
+  {
+    "id": "yum_lichen_extra",
+    "type": "COMESTIBLE",
+    "name": "clump of processed lichen",
+    "weight": "10 g",
+    "color": "red",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 300,
+    "healthy": 3,
+    "quench": 10,
+    "description": "A clump of squishy lichen, while it isn't as wet as it used to be, your hands no longer tingle holding it.",
+    "price": "20 cent",
+    "volume": "5 ml",
+    "charges": 3,
+    "fun": -3,
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitA", 20 ], [ "vitC", 56 ] ]
+  }
+]

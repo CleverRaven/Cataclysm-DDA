@@ -58,7 +58,7 @@
       },
       "set": [ { "square": "radiation", "amount": [ 20, 60 ], "x": 3, "y": 3, "x2": 21, "y2": 16 } ],
       "furniture": { "R": "f_rack", "A": "f_dumpster" },
-      "place_signs": [ { "signage": "RESTRICTED AREA! AUTHORIZED PERSONNEL ONLY", "x": 10, "y": 23 } ],
+      "place_signs": [ { "signage": "RESTRICTED AREA!  AUTHORIZED PERSONNEL ONLY", "x": 10, "y": 23 } ],
       "items": {
         "R": { "item": "toxic_dump_equipment", "chance": 60 },
         "A": { "item": "sewer", "chance": 60 },

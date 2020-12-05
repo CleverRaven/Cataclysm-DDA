@@ -35,6 +35,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "handle_liquid.h"
@@ -118,11 +119,11 @@ static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_under_operation( "under_operation" );
 static const efftype_id effect_visuals( "visuals" );
 
-static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_metabolism( "metabolism" );
-static const itype_id fuel_type_muscle( "muscle" );
-static const itype_id fuel_type_sun_light( "sunlight" );
-static const itype_id fuel_type_wind( "wind" );
+static const material_id fuel_type_battery( "battery" );
+static const material_id fuel_type_metabolism( "metabolism" );
+static const material_id fuel_type_muscle( "muscle" );
+static const material_id fuel_type_sun_light( "sunlight" );
+static const material_id fuel_type_wind( "wind" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_anesthetic( "anesthetic" );
@@ -140,7 +141,6 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
 
 static const bionic_id bio_adrenaline( "bio_adrenaline" );
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_blade_weapon( "bio_blade_weapon" );
 static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
@@ -163,11 +163,9 @@ static const bionic_id bio_magnet( "bio_magnet" );
 static const bionic_id bio_meteorologist( "bio_meteorologist" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_plutdump( "bio_plutdump" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const bionic_id bio_radscrubber( "bio_radscrubber" );
-static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_remote( "bio_remote" );
 static const bionic_id bio_resonator( "bio_resonator" );
 static const bionic_id bio_shockwave( "bio_shockwave" );
@@ -189,26 +187,15 @@ static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
-static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
-static const std::string flag_AURA( "AURA" );
-static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
-static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
-static const std::string flag_PERPETUAL( "PERPETUAL" );
-static const std::string flag_PERSONAL( "PERSONAL" );
-static const std::string flag_SEALED( "SEALED" );
-static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
-
 static const std::string flag_BIO_GUN( "BIONIC_GUN" );
 static const std::string flag_BIO_WEAPON( "BIONIC_WEAPON" );
 static const std::string flag_BIO_TOGGLED( "BIONIC_TOGGLED" );
+static const std::string flag_SEALED( "SEALED" );
 
 struct Character::auto_toggle_bionic_result {
     bool can_burn_fuel = false;
     bool has_burnable_fuel = false;
-    itype_id burnable_fuel_id;
+    material_id burnable_fuel_id;
     enum class fuel_type_t {
         metabolism,
         perpetual,
@@ -770,7 +757,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
         if( pnt && here.is_flammable( *pnt ) ) {
             add_msg_activate();
-            here.add_field( *pnt, field_type_id( "fd_fire" ), 1 );
+            here.add_field( *pnt, fd_fire, 1 );
             mod_moves( -100 );
         } else {
             refund_power();
@@ -943,9 +930,9 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         if( choice >= 0 && choice <= 1 ) {
             item ctr;
             if( choice == 0 ) {
-                ctr = item( "remotevehcontrol", 0 );
+                ctr = item( "remotevehcontrol", calendar::turn_zero );
             } else {
-                ctr = item( "radiocontrol", 0 );
+                ctr = item( "radiocontrol", calendar::turn_zero );
             }
             ctr.charges = units::to_kilojoule( get_power_level() );
             int power_use = invoke_item( &ctr );
@@ -953,17 +940,6 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
             bio.powered = ctr.active;
         } else {
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
-        }
-    } else if( bio.id == bio_plutdump ) {
-        if( query_yn(
-                _( "WARNING: Purging all fuel is likely to result in radiation!  Purge anyway?" ) ) ) {
-            add_msg_activate();
-            slow_rad += ( tank_plut + reactor_plut );
-            tank_plut = 0;
-            reactor_plut = 0;
-        } else {
-            refund_power();
-            return false;
         }
     } else if( bio.info().is_remote_fueled ) {
         std::vector<item *> cables = items_with( []( const item & it ) {
@@ -1004,7 +980,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
                     add_msg_if_player( m_info,
                                        _( "You have a cable plugged to a portable power source, but you need to plug it in to the CBM." ) );
                 }
-                if( state == "pay_oyt_cable" ) {
+                if( state == "pay_out_cable" ) {
                     add_msg_if_player( m_info,
                                        _( "You have a cable plugged to a vehicle, but you need to plug it in to the CBM." ) );
                 }
@@ -1166,10 +1142,10 @@ Character::auto_toggle_bionic_result Character::auto_toggle_bionic( const int b,
         return result;
     }
     result.can_burn_fuel = true;
-    std::vector<itype_id> fuel_available = get_fuel_available( bio.id );
+    std::vector<material_id> fuel_available = get_fuel_available( bio.id );
 
     const bool is_remote_fueled = bio.info().is_remote_fueled;
-    itype_id remote_fuel;
+    material_id remote_fuel;
     if( is_remote_fueled ) {
         remote_fuel = find_remote_fuel();
         if( !remote_fuel.is_empty() ) {
@@ -1205,15 +1181,14 @@ Character::auto_toggle_bionic_result Character::auto_toggle_bionic( const int b,
     } else {
         std::string msg_player;
         std::string msg_npc;
-        for( const itype_id &fuel : fuel_available ) {
-            const item &tmp_fuel = item( fuel );
-            const int fuel_energy = tmp_fuel.fuel_energy();
+        for( const material_id &fuel : fuel_available ) {
+            const int fuel_energy = fuel->get_fuel_data().energy;
             const bool is_metabolism_powered = fuel == fuel_type_metabolism;
-            const bool is_perpetual_fuel = tmp_fuel.has_flag( flag_PERPETUAL );
+            const bool is_perpetual_fuel = fuel->get_fuel_data().is_perpetual_fuel;
             const bool is_remote_fuel = is_remote_fueled && fuel == remote_fuel;
             float effective_efficiency = get_effective_efficiency( b, bio.info().fuel_efficiency );
             if( is_remote_fuel && fuel == fuel_type_sun_light ) {
-                effective_efficiency *= item_worn_with_flag( "SOLARPACK_ON" ).type->solar_efficiency;
+                effective_efficiency *= item_worn_with_flag( flag_SOLARPACK_ON ).type->solar_efficiency;
             }
             int current_fuel_stock = 0;
             if( is_metabolism_powered ) {
@@ -1407,13 +1382,12 @@ void Character::passive_power_gen( int b )
         return;
     }
     const float effective_passive_efficiency = get_effective_efficiency( b, passive_fuel_efficiency );
-    const std::vector<itype_id> &fuel_available = get_fuel_available( bio.id );
+    const std::vector<material_id> &fuel_available = get_fuel_available( bio.id );
     map &here = get_map();
 
-    for( const itype_id &fuel : fuel_available ) {
-        const item &tmp_fuel = item( fuel );
-        const int fuel_energy = tmp_fuel.fuel_energy();
-        if( !tmp_fuel.has_flag( flag_PERPETUAL ) ) {
+    for( const material_id &fuel : fuel_available ) {
+        const int fuel_energy = fuel->get_fuel_data().energy;
+        if( !fuel->get_fuel_data().is_perpetual_fuel ) {
             continue;
         }
 
@@ -1441,9 +1415,9 @@ void Character::passive_power_gen( int b )
     }
 }
 
-itype_id Character::find_remote_fuel( bool look_only )
+material_id Character::find_remote_fuel( bool look_only )
 {
-    itype_id remote_fuel;
+    material_id remote_fuel;
     map &here = get_map();
 
     const std::vector<item *> cables = items_with( []( const item & it ) {
@@ -1486,7 +1460,7 @@ itype_id Character::find_remote_fuel( bool look_only )
             continue;
         }
         if( !look_only ) {
-            set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( fuel_type_battery,
+            set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( itype_id( "battery" ),
                        true ) ) );
         }
         remote_fuel = fuel_type_battery;
@@ -1532,7 +1506,7 @@ int Character::consume_remote_fuel( int amount )
 
 void Character::reset_remote_fuel()
 {
-    if( get_bionic_fueled_with( item( fuel_type_sun_light ) ).empty() ) {
+    if( get_bionic_fueled_with( fuel_type_sun_light ).empty() ) {
         remove_value( "sunlight" );
     }
     remove_value( "rem_battery" );
@@ -1675,7 +1649,7 @@ void Character::process_bionic( const int b )
     } else if( bio.id == bio_nanobots ) {
         if( get_power_level() >= 40_J ) {
             std::forward_list<bodypart_id> bleeding_bp_parts;
-            for( const bodypart_id bp : get_all_body_parts() ) {
+            for( const bodypart_id &bp : get_all_body_parts() ) {
                 if( has_effect( effect_bleed, bp.id() ) ) {
                     bleeding_bp_parts.push_front( bp );
                 }
@@ -2118,12 +2092,6 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
     }
 
     Character &player_character = get_player_character();
-    if( ( b_id == bio_reactor ) || ( b_id == bio_advreactor ) ) {
-        if( !player_character.query_yn(
-                _( "WARNING: Removing a reactor may leave radioactive material!  Remove anyway?" ) ) ) {
-            return false;
-        }
-    }
 
     for( const bionic_id &bid : get_bionics() ) {
         if( bid->is_included( b_id ) ) {
@@ -2256,7 +2224,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         return false;
     }
 
-    item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
+    item bionic_to_uninstall = item( target_cbm.id.str(), calendar::turn_zero );
     const itype *itemtype = bionic_to_uninstall.type;
     int difficulty = itemtype->bionic->difficulty;
     int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
@@ -2643,7 +2611,12 @@ std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_i
 
 int Character::get_total_bionics_slots( const bodypart_id &bp ) const
 {
-    return bp->bionic_slots();
+    const bodypart_str_id &id = bp.id();
+    int mut_bio_slots = 0;
+    for( const trait_id &mut : get_mutations() ) {
+        mut_bio_slots += mut->bionic_slot_bonus( id );
+    }
+    return bp->bionic_slots() + mut_bio_slots;
 }
 
 int Character::get_free_bionics_slots( const bodypart_id &bp ) const
@@ -2829,9 +2802,9 @@ int bionic::get_quality( const quality_id &quality ) const
     return item( i.fake_item ).get_quality( quality );
 }
 
-bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const
+bool bionic::is_this_fuel_powered( const material_id &this_fuel ) const
 {
-    const std::vector<itype_id> fuel_op = info().fuel_opts;
+    const std::vector<material_id> fuel_op = info().fuel_opts;
     return std::find( fuel_op.begin(), fuel_op.end(), this_fuel ) != fuel_op.end();
 }
 

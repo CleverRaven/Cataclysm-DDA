@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""Update a tags file with locations of the definitions of CDDA json entities.
+
+If you already have a tags file with some data in, this will only
+replace tags in json files, not e.g. cpp files, so it should be safe
+to use after running e.g. ctags.
+"""
 
 import argparse
 import json
@@ -21,16 +27,16 @@ def is_json_tag_line(line):
 
 
 def main(args):
-    parser = argparse.ArgumentParser(description="""
-Update a tags file with locations of the definitions of CDDA json entities.
-
-If you already have a tags file with some data in, this will only replace tags
-in json files, not e.g. cpp files, so it should be safe to use after running
-e.g. ctags.""")
+    parser = argparse.ArgumentParser(description=__doc__)
 
     parser.parse_args(args)
 
     definitions = []
+
+    # JSON keys to generate tags for
+    id_keys = (
+        'id', 'abstract', 'ident',
+        'nested_mapgen_id', 'update_mapgen_id', 'result')
 
     for dirpath, dirnames, filenames in os.walk(JSON_DIR):
         for filename in filenames:
@@ -54,13 +60,14 @@ e.g. ctags.""")
                             "expected a list." % filename)
                         continue
 
+                    # Check each object in json_data for taggable keys
                     for obj in json_data:
-                        for id_key in ('id', 'abstract', 'ident',
-                                       'nested_mapgen_id', 'update_mapgen_id', 'result'):
+                        for id_key in id_keys:
                             if id_key in obj:
                                 id = obj[id_key]
                                 if type(id) == str and id:
-                                    definitions.append((id_key, id, relative_path))
+                                    definitions.append(
+                                        (id_key, id, relative_path))
 
     json_tags_lines = [make_tags_line(*d) for d in definitions]
     existing_tags_lines = []

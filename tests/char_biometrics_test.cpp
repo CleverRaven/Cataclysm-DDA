@@ -7,6 +7,7 @@
 #include "creature.h"
 #include "game_constants.h"
 #include "options.h"
+#include "output.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "type_id.h"
@@ -54,7 +55,7 @@ static int kcal_speed_penalty_at_bmi( player &dummy, float bmi )
 static std::string weight_string_at_bmi( player &dummy, float bmi )
 {
     set_player_bmi( dummy, bmi );
-    return dummy.get_weight_string();
+    return remove_color_tags( dummy.get_weight_string() );
 }
 
 // Return `bodyweight` in kilograms for a player at the given body mass index.
@@ -614,27 +615,27 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
         REQUIRE( dummy.get_size() == creature_size::medium );
 
         SECTION( "normal metabolism" ) {
-            CHECK( 1739 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 6955 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 17388 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 1738 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 6952 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 17380 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
 
         SECTION( "very fast metabolism" ) {
             set_single_trait( dummy, "HUNGER2" );
             REQUIRE( dummy.metabolic_rate_base() == 2.0f );
 
-            CHECK( 3478 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 13910 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 34775 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 3476 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 13904 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 34760 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
 
         SECTION( "very slow (cold-blooded) metabolism" ) {
             set_single_trait( dummy, "COLDBLOOD3" );
             REQUIRE( dummy.metabolic_rate_base() == 0.5f );
 
-            CHECK( 870 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 3478 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 8694 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 869 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 3476 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 8690 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
     }
 
@@ -642,18 +643,18 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
         set_single_trait( dummy, "SMALL" );
         REQUIRE( dummy.get_size() == creature_size::small );
 
-        CHECK( 1052 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-        CHECK( 4205 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-        CHECK( 10513 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+        CHECK( 1051 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+        CHECK( 4204 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+        CHECK( 10510 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
     }
 
     SECTION( "large body size" ) {
         set_single_trait( dummy, "LARGE" );
         REQUIRE( dummy.get_size() == creature_size::large );
 
-        CHECK( 2552 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-        CHECK( 10205 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-        CHECK( 25513 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+        CHECK( 2551 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+        CHECK( 10204 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+        CHECK( 25510 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
     }
 }
 

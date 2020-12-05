@@ -27,6 +27,7 @@
 #include "itype.h"
 #include "kill_tracker.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mattack_actors.h"
@@ -223,7 +224,7 @@ void mdeath::splatter( monster &z )
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
-        corpse.set_flag( "GIBBED" );
+        corpse.set_flag( STATIC( flag_id( "GIBBED" ) ) );
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
@@ -241,7 +242,7 @@ void mdeath::acid( monster &z )
             add_msg( m_warning, _( "The %s's body leaks acid." ), z.name() );
         }
     }
-    get_map().add_field( z.pos(), field_type_id( "fd_acid" ), 3 );
+    get_map().add_field( z.pos(), fd_acid, 3 );
 }
 
 void mdeath::boomer( monster &z )
@@ -262,7 +263,7 @@ void mdeath::boomer( monster &z )
         player_character.add_env_effect( effect_boomered, bodypart_id( "eyes" ), 2, 24_turns );
     }
 
-    here.propagate_field( z.pos(), field_type_id( "fd_bile" ), 15, 1 );
+    here.propagate_field( z.pos(), fd_bile, 15, 1 );
 }
 
 void mdeath::boomer_glow( monster &z )
@@ -289,7 +290,7 @@ void mdeath::boomer_glow( monster &z )
         }
     }
 
-    here.propagate_field( z.pos(), field_type_id( "fd_bile" ), 30, 2 );
+    here.propagate_field( z.pos(), fd_bile, 30, 2 );
 }
 
 void mdeath::kill_vines( monster &z )
@@ -480,7 +481,7 @@ void mdeath::blobsplit( monster &z )
         if( z.type->dies.size() == 1 ) {
             add_msg( m_good, _( "The %s splits in two!" ), z.name() );
         } else {
-            add_msg( m_bad, _( "Two small blobs slither out of the corpse." ) );
+            add_msg( m_bad, _( "Two small slimes slither out of the corpse." ) );
         }
     }
 
@@ -603,7 +604,7 @@ void mdeath::focused_beam( monster &z )
             if( !here.is_transparent( elem ) ) {
                 break;
             }
-            here.add_field( elem, field_type_id( "fd_dazzling" ), 2 );
+            here.add_field( elem, fd_dazzling, 2 );
         }
     }
 
@@ -716,7 +717,7 @@ void mdeath::fungalburst( monster &z )
 {
     map &here = get_map();
     // If the fungus died from anti-fungal poison, don't pouf
-    if( here.get_field_intensity( z.pos(), field_type_id( "fd_fungicidal_gas" ) ) ) {
+    if( here.get_field_intensity( z.pos(), fd_fungicidal_gas ) ) {
         add_msg_if_player_sees( z, m_good, _( "The %s inflates and melts away." ), z.name() );
         return;
     }
@@ -731,7 +732,7 @@ void mdeath::jabberwock( monster &z )
     Character *ch = dynamic_cast<Character *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  ch->weapon.has_flag( "DIAMOND" ) &&
+                  ch->weapon.has_flag( STATIC( flag_id( "DIAMOND" ) ) ) &&
                   ch->weapon.volume() > 750_ml;
 
     if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {
@@ -800,7 +801,7 @@ void mdeath::preg_roach( monster &z )
 void mdeath::fireball( monster &z )
 {
     if( one_in( 10 ) ) {
-        get_map().propagate_field( z.pos(), field_type_id( "fd_fire" ), 15, 3 );
+        get_map().propagate_field( z.pos(), fd_fire, 15, 3 );
         std::string explode = string_format( _( "an explosion of tank of the %s's flamethrower!" ),
                                              z.name() );
         sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "default" );
@@ -814,7 +815,7 @@ void mdeath::conflagration( monster &z )
 {
     map &here = get_map();
     for( const auto &dest : here.points_in_radius( z.pos(), 1 ) ) {
-        here.propagate_field( dest, field_type_id( "fd_fire" ), 18, 3 );
+        here.propagate_field( dest, fd_fire, 18, 3 );
     }
     const std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );

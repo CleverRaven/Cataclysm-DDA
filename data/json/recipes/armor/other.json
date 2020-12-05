@@ -9,7 +9,7 @@
     "time": "80 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 35 ] ] ]
+    "components": [ [ [ "rag", 60 ] ] ]
   },
   {
     "result": "electric_blanket",
@@ -22,13 +22,14 @@
     "skills_required": [ "electronics", 2 ],
     "time": "120 m",
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
-    "using": [ [ "sewing_standard", 20 ] ],
+    "using": [ [ "sewing_standard", 20 ], [ "soldering_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "components": [ [ [ "rag", 35 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "element", 8 ] ], [ [ "cable", 10 ] ], [ [ "amplifier", 1 ] ] ]
   },
   {
     "result": "gold_ring",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
@@ -36,6 +37,7 @@
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
     "using": [ [ "blacksmithing_standard", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "gold_small", 3 ] ] ]
@@ -43,7 +45,7 @@
   {
     "result": "gold_bracelet",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
@@ -51,6 +53,7 @@
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
     "using": [ [ "blacksmithing_standard", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "gold_small", 12 ] ] ]
@@ -58,7 +61,7 @@
   {
     "result": "copper_bracelet",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
@@ -66,13 +69,14 @@
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
     "using": [ [ "blacksmithing_standard", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "silver_bracelet",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
@@ -81,13 +85,14 @@
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
     "using": [ [ "blacksmithing_standard", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "silver_small", 15 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "result": "bead_bracelet",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
@@ -106,7 +111,7 @@
     "reversible": true,
     "autolearn": true,
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "components": [ [ [ "wooden_bead", 30 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
@@ -120,7 +125,7 @@
     "time": "85 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ]
+    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 160 ] ] ]
   },
   {
     "result": "fur_blanket",
@@ -136,6 +141,7 @@
     "decomp_learn": 0,
     "autolearn": true,
     "using": [ [ "sewing_standard", 24 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
     "components": [ [ [ "rag", 30 ] ], [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ] ]
   },
   {
@@ -149,6 +155,7 @@
     "time": "30 m",
     "book_learn": [ [ "mag_animecon", 3 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "fur", 4 ] ],
@@ -167,6 +174,7 @@
     "time": "30 m",
     "book_learn": [ [ "mag_animecon", 3 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "faux_fur", 4 ] ],
@@ -185,6 +193,7 @@
     "time": "20 m",
     "book_learn": [ [ "mag_animecon", 3 ] ],
     "using": [ [ "sewing_standard", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "fur", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -199,13 +208,14 @@
     "time": "20 m",
     "book_learn": [ [ "mag_animecon", 3 ] ],
     "using": [ [ "sewing_standard", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "faux_fur", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "basket_laundry",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
@@ -213,6 +223,7 @@
     "time": "60 m",
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "welding_book", 4 ] ],
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "WELD", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 20 ] ] ]
   },
@@ -227,6 +238,7 @@
     "time": "30 m",
     "book_learn": [ [ "mag_animecon", 3 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "leather", 4 ] ],
@@ -245,6 +257,7 @@
     "time": "20 m",
     "book_learn": [ [ "mag_animecon", 3 ] ],
     "using": [ [ "sewing_standard", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "leather", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -358,26 +371,8 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ], [ "pocket_survival", 1 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
     "components": [ [ [ "rag", 10 ] ], [ [ "fur", 20 ], [ "tanned_pelt", 3 ] ] ]
-  },
-  {
-    "result": "survivor_belt",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_OTHER",
-    "skill_used": "fabrication",
-    "time": "1 m",
-    "reversible": true,
-    "autolearn": true,
-    "components": [
-      [ [ "survivor_belt_notools", 1 ] ],
-      [ [ "screwdriver_set", 1 ] ],
-      [ [ "wrench", 1 ] ],
-      [ [ "saw", 1 ] ],
-      [ [ "hacksaw", 1 ] ],
-      [ [ "hammer", 1 ] ]
-    ]
   },
   {
     "result": "survivor_belt_notools",
@@ -391,6 +386,7 @@
     "time": "80 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 140 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ],
       [ [ "duct_tape", 100 ] ],
@@ -413,7 +409,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "towel",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",

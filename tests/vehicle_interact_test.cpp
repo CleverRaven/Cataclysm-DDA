@@ -32,7 +32,8 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     }
 
     const tripoint vehicle_origin = test_origin + tripoint_south_east;
-    vehicle *veh_ptr = get_map().add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90, 0, 0 );
+    vehicle *veh_ptr = get_map().add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90_degrees,
+                       0, 0 );
     REQUIRE( veh_ptr != nullptr );
     // Find the frame at the origin.
     vehicle_part *origin_frame = nullptr;
@@ -70,10 +71,10 @@ TEST_CASE( "repair_vehicle_part" )
     }
     SECTION( "UPS_modded_welder" ) {
         std::vector<item> tools;
-        item welder( "welder", -1, 0 );
+        item welder( "welder", calendar::turn_zero, 0 );
         welder.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
         tools.push_back( welder );
-        tools.emplace_back( "UPS_off", -1, 500 );
+        tools.emplace_back( "UPS_off", calendar::turn_zero, 500 );
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, true );
     }
@@ -90,10 +91,10 @@ TEST_CASE( "repair_vehicle_part" )
     }
     SECTION( "UPS_modded_welder_missing_charges" ) {
         std::vector<item> tools;
-        item welder( "welder", -1, 0 );
+        item welder( "welder", calendar::turn_zero, 0 );
         welder.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
         tools.push_back( welder );
-        tools.emplace_back( "UPS_off", -1, 5 );
+        tools.emplace_back( "UPS_off", calendar::turn_zero, 5 );
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, false );
     }

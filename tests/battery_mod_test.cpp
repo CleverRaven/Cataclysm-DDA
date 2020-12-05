@@ -1,22 +1,18 @@
 #include "catch/catch.hpp"
 
-#include <map>
 #include <memory>
 #include <set>
 #include <string>
-#include <vector>
 
 #include "avatar.h"
-#include "flat_set.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "make_static.h"
 #include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include "value_ptr.h"
 
 // Includes functions:
 // item::magazine_compatible
@@ -88,7 +84,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
         REQUIRE( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MOD ) );
 
         WHEN( "medium battery mod is installed" ) {
-            med_mod.item_tags.insert( "IRREMOVABLE" );
+            med_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
             flashlight.put_in( med_mod, item_pocket::pocket_type::MOD );
 
             THEN( "tool modification is successful" ) {

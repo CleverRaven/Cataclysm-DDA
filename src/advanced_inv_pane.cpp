@@ -11,9 +11,11 @@
 #include "advanced_inv_pane.h"
 #include "avatar.h"
 #include "cata_assert.h"
+#include "flag.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_search.h"
+#include "make_static.h"
 #include "map.h"
 #include "options.h"
 #include "uistate.h"
@@ -56,8 +58,6 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     filter = save_state->filter;
 }
 
-static const std::string flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
-
 bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) const
 {
     return is_filtered( *it.items.front() );
@@ -65,7 +65,7 @@ bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) con
 
 bool advanced_inventory_pane::is_filtered( const item &it ) const
 {
-    if( it.has_flag( flag_HIDDEN_ITEM ) ) {
+    if( it.has_flag( STATIC( flag_id( "HIDDEN_ITEM" ) ) ) ) {
         return true;
     }
     if( filter.empty() ) {
@@ -110,7 +110,7 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
 
     int worn_index = -2;
     for( item &worn_item : worn ) {
-        if( worn_item.contents.empty() ) {
+        if( worn_item.contents.empty() || worn_item.has_flag( flag_NO_UNLOAD ) ) {
             continue;
         }
         for( const std::vector<item *> &it_stack : item_list_to_stack(

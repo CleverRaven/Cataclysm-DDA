@@ -20,6 +20,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -146,6 +147,26 @@ void Character::toggle_trait( const trait_id &trait_ )
         set_mutation( trait );
     } else {
         unset_mutation( trait );
+    }
+}
+
+void Character::set_mutations( const std::vector<trait_id> &traits )
+{
+    for( const trait_id &trait : traits ) {
+        const auto iter = my_mutations.find( trait );
+        if( iter != my_mutations.end() ) {
+            continue;
+        }
+        my_mutations.emplace( trait, trait_data{} );
+        cached_mutations.push_back( &trait.obj() );
+        mutation_effect( trait, false );
+    }
+    recalc_sight_limits();
+    calc_encumbrance();
+
+    // If the stamina is higher than the max (Languorous), set it back to max
+    if( get_stamina() > get_stamina_max() ) {
+        set_stamina( get_stamina_max() );
     }
 }
 
@@ -399,8 +420,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     }
 
     remove_worn_items_with( [&]( item & armor ) {
-        static const std::string mutation_safe = "OVERSIZE";
-        if( armor.has_flag( mutation_safe ) ) {
+        if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
             return false;
         }
         if( !branch.conflicts_with_item( armor ) ) {
@@ -547,7 +567,7 @@ bool Character::can_use_heal_item( const item &med ) const
         }
     }
     if( !got_restriction ) {
-        can_use = !med.has_flag( "CANT_HEAL_EVERYONE" );
+        can_use = !med.has_flag( STATIC( flag_id( "CANT_HEAL_EVERYONE" ) ) );
     }
 
     if( !can_use ) {
@@ -627,7 +647,7 @@ void Character::activate_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        get_map().add_field( pos(), field_type_id( "fd_web" ), 1 );
+        get_map().add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;
