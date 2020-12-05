@@ -565,7 +565,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NO_FLOOR``` Things should fall when placed on this tile
 - ```NO_SIGHT``` Creature on this tile have their sight reduced to one tile
 - ```NO_SCENT``` This tile cannot have scent values, which prevents scent diffusion through this tile
-- ```NO_SHOOT``` Terrain with this flag cannot be damaged by ranged attacks
+- ```NO_SHOOT``` Terrain with this flag cannot be damaged by ranged attacks, and ranged attacks will not pass through it.
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
