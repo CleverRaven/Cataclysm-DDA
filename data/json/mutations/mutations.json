@@ -3279,13 +3279,32 @@
     "id": "EATHEALTH",
     "name": { "str": "Hyper-Metabolism" },
     "points": 15,
-    "description": "You metabolize nutrients so rapidly that you can convert food directly into useful tissue.  Excess nutrition will convert to HP, rather than being wasted.  Activate to skip prompt for overeating.",
+    "description": "Your particular metabolism allows you to burn calories at a prodigious rate to regenerate tissues in a matter of minutes, this is however a very wasteful process.  Activate to start healing.",
     "prereqs": [ "HUNGER3" ],
     "types": [ "METABOLISM" ],
     "threshreq": [ "THRESH_CHIMERA" ],
     "category": [ "CHIMERA" ],
     "valid": false,
-    "active": true
+    "active": true,
+    "transform": {
+      "target": "EATHEALTH_active",
+      "msg_transform": "Your hyper-metabolism starts burning up calories.",
+      "active": true,
+      "moves": 0
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "EATHEALTH_active",
+    "name": { "str": "Hyper-Metabolism: burning" },
+    "description": "You're burning calories like crazy to heal your wounds.",
+    "copy-from": "EATHEALTH",
+    "cost": 1,
+    "time": 1,
+    "hunger": true,
+    "healing_awake": 300.0,
+    "healing_resting": 350.0,
+    "transform": { "target": "EATHEALTH", "msg_transform": "Your hyper-metabolism slows down.", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
