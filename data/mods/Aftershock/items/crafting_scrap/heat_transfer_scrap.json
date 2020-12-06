@@ -56,7 +56,7 @@
     "copy-from": "afs_scrap_2",
     "//": "This item drops from disassembly instead of afs_heat_2 because that is a liquid. Intended as a QOL detail in case player forgot/didn't know to bring watertight containers when disassembling a relevant object. DO NOT use in crafting recipes, use afs_heat_2 instead.",
     "name": { "str": "salvaged coolant system" },
-    "description": "Rusty fluid reservoirs and decomposing high-pressure tubing containing still usable supercritical coolant.   You could disassemble it to separate the liquid coolant from the rest of the scrap.",
+    "description": "Rusty fluid reservoirs and decomposing high-pressure tubing containing still usable supercritical coolant.  You could disassemble it to separate the liquid coolant from the rest of the scrap.",
     "looks_like": "scrap",
     "price": 1,
     "price_postapoc": 1,
