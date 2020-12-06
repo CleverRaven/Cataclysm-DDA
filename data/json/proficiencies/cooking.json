@@ -1,0 +1,23 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_baking_basic",
+    "name": { "str": "Basic Baking" },
+    "description": "The cooking of breads or pastries without burning or undercooking.",
+    "can_learn": true,
+    "default_time_multiplier": 1,
+    "default_fail_multiplier": 1.2,
+    "time_to_learn": "3 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_cooking",
+    "name": { "str": "General Cooking" },
+    "description": "An understanding of cooking food and how to prepair meals.",
+    "can_learn": true,
+    "default_time_multiplier": 1,
+    "default_fail_multiplier": 1.1,
+    "time_to_learn": "2 h"
+  }
+]
+

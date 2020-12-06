@@ -13,6 +13,9 @@
     "components": [
       [ [ "spaghetti_raw", 1 ], [ "macaroni_raw", 1 ], [ "noodles_fast", 1 ], [ "lasagne_raw", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_cooking", "required": false, "time_multiplier": 1.1 }
     ]
   },
   {
@@ -31,6 +34,9 @@
       [ [ "spaghetti_raw", 1 ], [ "macaroni_raw", 1 ], [ "noodles_fast", 1 ] ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_cooking", "required": false, "time_multiplier": 1.1 }
     ]
   },
   {
@@ -58,6 +64,9 @@
         [ "wild_herbs", 10 ]
       ],
       [ [ "meat_red", 1, "LIST" ], [ "can_chicken", 1 ], [ "dry_meat", 1 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_cooking", "required": false, "time_multiplier": 1.2 }
     ]
   },
   {
@@ -86,6 +95,9 @@
       ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
       [ [ "meat_red", 1, "LIST" ], [ "can_chicken", 1 ], [ "dry_meat", 1 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_cooking", "required": false, "time_multiplier": 1.2 }
     ]
   },
   {
@@ -118,6 +130,9 @@
         [ "morel_cooked", 2 ],
         [ "dry_mushroom", 2 ]
       ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_cooking", "required": false, "time_multiplier": 1.3 }
     ]
   },
   {
@@ -144,7 +159,10 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_cooking", "required": false, "time_multiplier": 1.4 }
+    ]
   },
   {
     "result": "lasagne_raw",
@@ -157,7 +175,10 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_cooking", "required": false, "time_multiplier": 1.2 }
+    ]
   },
   {
     "result": "macaroni_raw",
@@ -170,7 +191,10 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_cooking", "required": false, "time_multiplier": 1.4 }
+    ]
   },
   {
     "result": "macaroni_helper",
@@ -204,6 +228,9 @@
       ],
       [ [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_cooking", "required": false, "time_multiplier": 1.2 }
     ]
   }
 ]

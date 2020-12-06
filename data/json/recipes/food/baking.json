@@ -23,6 +23,9 @@
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "salt", 2 ] ],
       [ [ "cinnamon", 2 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.2 }
     ]
   }
 ]

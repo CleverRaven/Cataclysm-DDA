@@ -97,6 +97,9 @@
       ],
       [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ],
       [ [ "water_clean", 1 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_cooking", "required": false, "time_multiplier": 1.2 }
     ]
   },
   {
@@ -126,6 +129,9 @@
       ],
       [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ],
       [ [ "water_clean", 1 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_cooking", "required": false, "time_multiplier": 1.2 }
     ]
   },
   {
