@@ -234,5 +234,19 @@
     "bashing": 15,
     "to_hit": -5,
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "radio_car_wheel",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "RC car wheel" },
+    "description": "Little rubber wheels that go to a radio controlled car.",
+    "weight": "30 g",
+    "volume": "120 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "material": [ "rubber" ],
+    "symbol": "o",
+    "color": "dark_gray"
   }
 ]
