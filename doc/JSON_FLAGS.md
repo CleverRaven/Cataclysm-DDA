@@ -367,7 +367,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PHEROMONE``` Makes zombies ignore you.
 - ```PICK_LOCK``` Pick a lock on a door. Speed and success chance are determined by skill, 'LOCKPICK' item quality and 'PERFECT_LOCKPICK' item flag
 - ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
-- ```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
+- ```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead chooses randomly.
 - ```PORTABLE_GAME``` Play games.
 - ```PORTAL``` Create portal traps.
 - ```RADIO_OFF``` Turn the radio on.
@@ -961,7 +961,7 @@ Other monster flags.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
 - ```LEATHER``` May produce leather when butchered.
-- ```LOUDMOVES``` Mkes move noises as if ~2 sizes louder, even if flying.
+- ```LOUDMOVES``` Makes move noises as if ~2 sizes louder, even if flying.
 - ```MECH_RECON_VISION``` This mech grants you night-vision and enhanced overmap sight radius when piloted.
 - ```MECH_DEFENSIVE``` This mech can protect you thoroughly when piloted.
 - ```MILITARY_MECH``` Is a military-grade mech.
@@ -1221,7 +1221,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BLIND_EASY``` Easy to craft with little to no light.
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
 - ```SECRET``` Not automatically learned at character creation time based on high skill levels.
-- ```UNCRAFT_BY_QUANTITY``` Supresses the per-charge handling of uncraft recipes.
+- ```UNCRAFT_BY_QUANTITY``` Suppresses the per-charge handling of uncraft recipes.
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
 - ```NEED_FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.
@@ -1313,7 +1313,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 
 These flags **do not apply to item types**.
 
-Those flags are added by the game code to specific items (for example, that specific thingamabob, not *all* thingamabob).  These flags are **not** assigned in JSON by content contributors, they are set programatically.
+Those flags are added by the game code to specific items (for example, that specific thingamabob, not *all* thingamabob).  These flags are **not** assigned in JSON by content contributors, they are set programmatically.
 
 - ```COLD``` Item is cold (see EATEN_COLD).
 - ```DIRTY``` Item (liquid) was dropped on the ground and is now irreparably dirty.
@@ -1399,7 +1399,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```NOINSTALL``` Cannot be installed.
 - ```NO_INSTALL_PLAYER``` Cannot be installed by a player, but can be installed on vehicles.
 - ```NO_MODIFY_VEHICLE``` Installing a part with this flag on a vehicle will mean that it can no longer be modified. Parts with this flag should not be installable by players.
-- ```NO_UNINSTALL``` Cannot be unintalled
+- ```NO_UNINSTALL``` Cannot be uninstalled
 - ```NO_REPAIR``` Cannot be repaired
 - ```NO_JACK```
 - ```OBSTACLE``` Cannot walk through part, unless the part is also ```OPENABLE```.
@@ -1426,7 +1426,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```SEAT``` A seat where the player can sit or sleep.
 - ```SECURITY```
 - ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
-- ```SHOCK_ABSORBER``` This part protects non-frame parts on the same tile from shock damage from collisions.  It doesn't provide protect against diret impacts or other attacks.
+- ```SHOCK_ABSORBER``` This part protects non-frame parts on the same tile from shock damage from collisions.  It doesn't provide protect against direct impacts or other attacks.
 - ```SIMPLE_PART``` This part can be installed or removed from that otherwise prevent modification.
 - ```SMASH_REMOVE``` When you remove this part, instead of getting the item back, you will get the bash results.
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
@@ -1487,8 +1487,8 @@ General fault flag:
 
 Vehicle fault flags:
 - ```NO_ALTERNATOR_CHARGE``` The alternator connected to this engine does not work.
-- ```BAD_COLD_START``` The engine starts as if the themperature was 20 F colder. Does not stack with multiples of itself.
-- ```IMMOBILIZER``` Prevents engine from starting and makes it beeb.
+- ```BAD_COLD_START``` The engine starts as if the temperature was 20 F colder. Does not stack with multiples of itself.
+- ```IMMOBILIZER``` Prevents engine from starting and makes it beep.
 - ```BAD_FUEL_PUMP``` Prevents engine from starting and makes it stutter.
 - ```BAD_STARTER``` Prevents engine from starting and makes click noise.
 - ```DOUBLE_FUEL_CONSUMPTION``` Doubles fuel consumption of the engine. Does not stack with multiples of itself.

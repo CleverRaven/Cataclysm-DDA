@@ -170,7 +170,7 @@ Move ascii arts to their own file to avoid bloat.
 Enforce that functions should not have separate x, y parameters.
 Add tests for sun-related functions.
 Jsonize Anatomy: replace enum body_part with bodypart_id.
-Implement installation requirment for CBMs.
+Implement installation requirement for CBMs.
 Fields can now override local light levels.
 Convert itype_id to string_id<itype>.
 Test and refactor item info display functions.
@@ -543,7 +543,7 @@ Obsolete flaming weapons.
 Obsolete survivor helmets.
 Realistic gun volume campaign.
 Migrates+obsoletes firearms incongruent with lore.
-Tameable Piglets.
+Tamable Piglets.
 Cat Reproduction.
 
 ## Interface:
@@ -2392,7 +2392,7 @@ Support loading worlds from CLI.
 Always require RFC 4627 compliant JSON.
 Include numeric to fix OSX compile.
 Add a switch to retain debug symbols for profiling.
-Update MXE ICE workaround to blacklist anything targetting x86_64-w64-mingw32.static
+Update MXE ICE workaround to blacklist anything targeting x86_64-w64-mingw32.static
 Don't keep _GLIBCXX_DEBUG when DEBUG_SYMBOLS is set.
 Allow installation in a path with whitespaces.
 Add a compile mode that checks for printf format errors.
