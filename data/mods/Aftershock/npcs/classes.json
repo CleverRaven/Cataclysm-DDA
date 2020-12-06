@@ -162,7 +162,7 @@
   },
   {
     "type": "npc",
-    "id": " cryo_hacker",
+    "id": "cryo_hacker",
     "name_suffix": "thawed hacker",
     "class": "CRYO_HACKER",
     "attitude": 0,
@@ -172,7 +172,7 @@
   },
   {
     "type": "npc",
-    "id": " cryo_doctor",
+    "id": "cryo_doctor",
     "name_suffix": "thawed doctor",
     "class": "CRYO_DOCTOR",
     "attitude": 0,
@@ -182,7 +182,7 @@
   },
   {
     "type": "npc",
-    "id": " cryo_scientist",
+    "id": "cryo_scientist",
     "name_suffix": "thawed scientist",
     "class": "CRYO_SCIENTIST",
     "attitude": 0,
