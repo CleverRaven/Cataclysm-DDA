@@ -5540,6 +5540,23 @@ int item::get_comestible_fun() const
     return fun;
 }
 
+item_pocket &item::get_containing_pocket( Character &who )
+{
+    item_pocket *pocket = nullptr;
+    item *parent = nullptr;
+    who.visit_items( [this, &pocket, &parent]( item * node ) {
+        if( node->is_container() ) {
+            parent = node;
+        }
+        if( this == node ) {
+            pocket = parent->contained_where( *node );
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return *pocket;
+}
+
 bool item::goes_bad() const
 {
     if( item_internal::goes_bad_cache_is_for( this ) ) {

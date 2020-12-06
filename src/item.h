@@ -853,6 +853,12 @@ class item : public visitable<item>
         void reset_temp_check();
 
         int get_comestible_fun() const;
+        /**
+        * Find the containing pocket for this item in the character's inventory.
+        * @param who Character holding the item.
+        * @returns item_pocket Containing pocket. nullptr if not found.
+        */
+        item_pocket &get_containing_pocket( Character &who );
 
         /** whether an item is perishable (can rot) */
         bool goes_bad() const;
