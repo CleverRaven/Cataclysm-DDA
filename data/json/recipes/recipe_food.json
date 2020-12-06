@@ -2956,10 +2956,10 @@
     "components": [
       [ [ "flour", 6 ] ],
       [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ] ],
-      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.1 }
-    ]
     ]
   },
   {
