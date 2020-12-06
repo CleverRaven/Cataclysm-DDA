@@ -212,7 +212,7 @@ struct mutation_branch {
 
         cata::value_ptr<mut_transform> transform;
 
-        std::vector<std::vector<reflex_activation_data>> triger_list;
+        std::vector<std::vector<reflex_activation_data>> trigger_list;
 
         /**Map of crafting skills modifiers, can be negative*/
         std::map<skill_id, int> craft_skill_bonus;

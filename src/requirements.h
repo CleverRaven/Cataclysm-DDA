@@ -32,7 +32,7 @@ template <typename E> struct enum_traits;
 enum class available_status : int {
     a_true = +1, // yes, it's available
     a_false = -1, // no, it's not available
-    a_insufficent = 0, // nearly, but not enough for tool+component
+    a_insufficient = 0, // nearly, but not enough for tool+component
 };
 
 enum class component_type : int {

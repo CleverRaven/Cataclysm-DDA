@@ -1116,8 +1116,8 @@ tab_direction set_traits( avatar &u, points_left &points )
         for( int i = 0; i < 3; i++ ) {
             // Shift start position to avoid iterating beyond end
             int total = static_cast<int>( traits_size[i] );
-            int heigth = static_cast<int>( iContentHeight );
-            iStartPos[i] = std::min( iStartPos[i], std::max( 0, total - heigth ) );
+            int height = static_cast<int>( iContentHeight );
+            iStartPos[i] = std::min( iStartPos[i], std::max( 0, total - height ) );
         }
     };
     init_windows( ui );

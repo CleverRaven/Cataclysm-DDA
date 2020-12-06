@@ -6347,9 +6347,9 @@ void Character::update_bodytemp()
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
                                     get_part_temp_cur( bp ) );
         // Produces a smooth curve between 30.0 and 60.0.
-        double homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
-        int clothing_warmth_adjustement = static_cast<int>( homeostasis_adjustement * warmth( bp ) );
-        int clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustement * bonus_item_warmth(
+        double homeostasis_adjustment = 30.0 * ( 1.0 + scaled_temperature );
+        int clothing_warmth_adjustment = static_cast<int>( homeostasis_adjustment * warmth( bp ) );
+        int clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustment * bonus_item_warmth(
                 bp ) );
         // WINDCHILL
 
@@ -6378,7 +6378,7 @@ void Character::update_bodytemp()
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         set_part_temp_conv( bp, BODYTEMP_NORM + adjusted_temp + windchill * 100 +
-                            clothing_warmth_adjustement );
+                            clothing_warmth_adjustment );
         // HUNGER / STARVATION
         mod_part_temp_conv( bp, hunger_warmth );
         // FATIGUE

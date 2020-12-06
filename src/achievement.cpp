@@ -272,7 +272,7 @@ void achievement::time_bound::deserialize( JsonIn &jin )
     if( !( jo.read( "since", epoch_ ) &&
            jo.read( "is", comparison_ ) &&
            jo.read( "target", period_ ) ) ) {
-        jo.throw_error( "Mandatory field missing for achievement time_constaint" );
+        jo.throw_error( "Mandatory field missing for achievement time_constraint" );
     }
 }
 
