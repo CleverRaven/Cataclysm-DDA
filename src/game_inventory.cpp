@@ -863,6 +863,9 @@ class activatable_inventory_preset : public pickup_inventory_preset
             if( it.is_medication() && !p.can_use_heal_item( it ) && !it.is_craft() ) {
                 return _( "Your biology is not compatible with that item." );
             }
+            if( it.is_deployable() && !p.can_wield( it ).success() ) {
+                return string_format( _( "Your can't wield the %s to deploy it." ), it.tname() );
+            }
 
             if( !p.has_enough_charges( it, false ) ) {
                 return string_format(
