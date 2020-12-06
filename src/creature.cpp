@@ -739,7 +739,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( proj.proj_effects.count( "TANGLE" ) ) {
         monster *z = dynamic_cast<monster *>( this );
         Character *n = dynamic_cast<Character *>( this );
-        // if its a tamable animal, its a good way to catch them if they are running away, like them ranchers do!
+        // if its a tameable animal, its a good way to catch them if they are running away, like them ranchers do!
         // we assume immediate success, then certain monster types immediately break free in monster.cpp move_effects()
         if( z ) {
             const item &drop_item = proj.get_drop();

@@ -543,7 +543,7 @@ Obsolete flaming weapons.
 Obsolete survivor helmets.
 Realistic gun volume campaign.
 Migrates+obsoletes firearms incongruent with lore.
-Tamable Piglets.
+Tameable Piglets.
 Cat Reproduction.
 
 ## Interface:
@@ -1217,7 +1217,7 @@ Include/Exclude filter for overmap search.
 Carrion can now eat adjacent crops or food.
 Allow place_monster to optionally place a randomized monster using a weighted list.
 Adds firewood source that automatically adds fuel to fire when it is 2/3s consumed.
-Make chickens and other small domestic birds tamable (Chickenfeed)
+Make chickens and other small domestic birds tameable (Chickenfeed)
 Vehicles: Open all doors.
 Implement player faction base.
 Artifact dreams.
