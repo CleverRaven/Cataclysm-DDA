@@ -593,7 +593,7 @@
     "looks_like": "jacket_windbreaker",
     "color": "light_blue",
     "armor_portion_data": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 11  ] },
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 11 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
     ],
     "pocket_data": [
