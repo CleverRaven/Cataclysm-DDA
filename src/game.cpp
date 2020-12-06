@@ -10341,8 +10341,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     const bool shifting_furniture = !pushing_furniture && !pulling_furniture;
 
     tripoint fdest = fpos + dp; // intended destination of furniture.
-    // Check floor: floorless tiles don't need to be flat and have no traps
-    const bool has_floor = m.has_floor( fdest );
+
     // Unfortunately, game::is_empty fails for tiles we're standing on,
     // which will forbid pulling, so:
     const bool canmove = can_move_furniture( fdest, dp );
@@ -10379,7 +10378,6 @@ bool game::grabbed_furn_move( const tripoint &dp )
     }
     str_req += furniture_contents_weight / 4_kilogram;
 
-    const float weary_mult = 1.0f / u.exertion_adjusted_move_multiplier();
     if( !canmove ) {
         // TODO: What is something?
         add_msg( _( "The %s collides with something." ), furntype.name() );
