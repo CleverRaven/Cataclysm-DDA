@@ -296,13 +296,14 @@
     "calories": 74,
     "description": "A sweet bread, like cake.",
     "price": "272 cent",
-    "price_postapoc": "2 USD",
+    "price_postapoc": "4 USD",
     "material": [ "wheat" ],
     "volume": "48 ml",
     "charges": 10,
     "flags": [ "EATEN_HOT", "EATEN_COLD" ],
     "fun": 3,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
+<<<<<<< HEAD
   },
   {
     "type": "COMESTIBLE",
@@ -316,5 +317,7 @@
     "//": "more expensive because it's canned and lasts longer",
     "price_postapoc": "5 USD",
     "fun": 4
+=======
+>>>>>>> parent of d4bf0c9a80... Canned bread yay
   }
 ]

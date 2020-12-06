@@ -33,7 +33,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "charges": 10,
-    "time": "1 h 30 m",
+    "time": "30 m",
     "batch_time_factors": [ 50, 5 ],
     "book_learn": [ [ "family_cookbook", 1 ], [ "baking_book", 2 ], [ "cookbook", 2 ], [ "cookbook_daintydishes", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
@@ -43,7 +43,7 @@
       [ [ "flour", 1 ] ],
       [ [ "cornmeal", 1 ] ],
       [ [ "molasses", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1] ],
+      [ [ "water", 1 ] ],
       [ [ "salt", 1 ] ]
     ],
     "//": "Later: this needs baking soda. Also possibility of rewrite to use portions of components' charges."
