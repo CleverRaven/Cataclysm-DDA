@@ -717,7 +717,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Statistics" ), &event_statistic::check_consistency },
             { _( "Scent types" ), &scent_type::check_scent_consistency },
             { _( "Scores" ), &score::check_consistency },
-            { _( "Achivements" ), &achievement::check_consistency },
+            { _( "Achievements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
         }

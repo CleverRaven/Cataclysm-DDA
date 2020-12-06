@@ -950,7 +950,7 @@ void overmap_lake_settings::finalize()
     for( shore_extendable_overmap_terrain_alias &alias : shore_extendable_overmap_terrain_aliases ) {
         if( std::find( shore_extendable_overmap_terrain.begin(), shore_extendable_overmap_terrain.end(),
                        alias.alias ) == shore_extendable_overmap_terrain.end() ) {
-            debugmsg( " %s was referenced as an alias in overmap_lake_settings shore_extendable_overmap_terrain_alises, but the value is not present in the shore_extendable_overmap_terrain.",
+            debugmsg( " %s was referenced as an alias in overmap_lake_settings shore_extendable_overmap_terrain_aliases, but the value is not present in the shore_extendable_overmap_terrain.",
                       alias.alias.c_str() );
             continue;
         }
