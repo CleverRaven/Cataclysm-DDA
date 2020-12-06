@@ -528,7 +528,7 @@ class game
         void catch_a_monster( monster *fish, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
         /**
-         * Get the contiguous fishable locations starting at fish_pos, out to the specificed distance.
+         * Get the contiguous fishable locations starting at fish_pos, out to the specified distance.
          * @param distance Distance around the fish_pos to examine for contiguous fishable locations.
          * @param fish_pos The location being fished.
          * @return A set of locations representing the valid contiguous fishable locations.

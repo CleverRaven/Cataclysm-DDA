@@ -3481,7 +3481,7 @@ void overmap::place_ravines()
         }
     }
     // We look at the 8 adjacent locations of each ravine point and see if they are also part of a
-    // ravine, if at least one of them isn't, the location is part of the ravine's edge. Whathever the
+    // ravine, if at least one of them isn't, the location is part of the ravine's edge. Whatever the
     // case, the chosen ravine terrain is then propagated downwards until the ravine_depth specified
     // by the region settings.
     for( const point_om_omt &p : rift_points ) {
@@ -4280,7 +4280,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     overmap_special_batch custom_overmap_specials = overmap_special_batch( enabled_specials );
 
     // Check for any unplaced mandatory specials, and if there are any, attempt to
-    // place them on adajacent uncreated overmaps.
+    // place them on adjacent uncreated overmaps.
     if( std::any_of( custom_overmap_specials.begin(), custom_overmap_specials.end(),
     []( overmap_special_placement placement ) {
     return placement.instances_placed <

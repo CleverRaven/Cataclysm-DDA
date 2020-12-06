@@ -1145,7 +1145,7 @@ bool Character::check_mount_is_spooked()
     }
     // chance to spook per monster nearby:
     // base 1% per turn.
-    // + 1% per square closer than 15 distanace. (1% - 15%)
+    // + 1% per square closer than 15 distance. (1% - 15%)
     // * 2 if hostile monster is bigger than or same size as mounted creature.
     // -0.25% per point of dexterity (low -1%, average -2%, high -3%, extreme -3.5%)
     // -0.1% per point of strength ( low -0.4%, average -0.8%, high -1.2%, extreme -1.4% )
@@ -11204,7 +11204,7 @@ int Character::heartrate_bpm() const
         temperature_modifier = 0.005f;
     }
     average_heartbeat *= 1 + ( ( player_local_temp - 65 ) * temperature_modifier );
-    //Limit avg from below with 20, arbitary
+    //Limit avg from below with 20, arbitrary
     average_heartbeat = std::max( 20, average_heartbeat );
     const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
     float stamina_effect = 0.0f;
@@ -11243,10 +11243,10 @@ int Character::heartrate_bpm() const
     //health effect that can make things better or worse is applied in the end.
     //Based on get_max_healthy that already has bmi factored
     const int healthy = get_max_healthy();
-    //a bit arbitary formula that can use some love
+    //a bit arbitrary formula that can use some love
     float healthy_modifier = -0.05f * std::round( healthy / 20.0f );
     heartbeat += average_heartbeat * healthy_modifier;
-    //Pain simply adds 2% per point after it reaches 5 (that's arbitary)
+    //Pain simply adds 2% per point after it reaches 5 (that's arbitrary)
     const int cur_pain = get_perceived_pain();
     float pain_modifier = 0.0f;
     if( cur_pain > 5 ) {

@@ -401,7 +401,7 @@ class map
             bool obstructed;
             float apparent_light;
         };
-        /** Helper function for light claculation; exposed here for map editor
+        /** Helper function for light calculation; exposed here for map editor
          */
         static apparent_light_info apparent_light_helper( const level_cache &map_cache,
                 const tripoint &p );
@@ -1803,7 +1803,7 @@ class map
         /**
          * Conditionally invalidates max_pupulated_zlev cache if the submap uniformity change occurs above current
          *  max_pupulated_zlev value
-         * @param zlev zlevel where uniformity change occured
+         * @param zlev zlevel where uniformity change occurred
          */
         void invalidate_max_populated_zlev( int zlev );
 
@@ -1901,7 +1901,7 @@ class map
          */
         std::vector<submap *> grid;
         /**
-         * This vector contains an entry for each trap type, it has therefor the same size
+         * This vector contains an entry for each trap type, it has therefore the same size
          * as the traplist vector. Each entry contains a list of all point on the map that
          * contain a trap of that type. The first entry however is always empty as it denotes the
          * tr_null trap.

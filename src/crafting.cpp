@@ -669,7 +669,7 @@ static item *set_item_inventory( Character &p, item &newit )
 
 /**
  * Helper for @ref set_item_map_or_vehicle
- * This is needed to still get a vaild item_location if overflow occurs
+ * This is needed to still get a valid item_location if overflow occurs
  */
 static item_location set_item_map( const tripoint &loc, item &newit )
 {

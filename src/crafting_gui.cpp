@@ -1143,7 +1143,7 @@ int related_menu_fill( uilist &rmenu,
 
             if( defferent_recipes ) {
                 std::string prev_item_name;
-                // 2nd pass: add defferent recipes
+                // 2nd pass: add different recipes
                 for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
                     std::string cur_item_name = current_part[recipe_n]->result_name();
                     if( cur_item_name != prev_item_name ) {

@@ -83,7 +83,7 @@ bool advanced_inventory_pane::is_filtered( const item &it ) const
     return !filtercache[str]( it );
 }
 
-/** converts a raw list of items to "stacks" - itms that are not count_by_charges that otherwise stack go into one stack */
+/** converts a raw list of items to "stacks" - items that are not count_by_charges that otherwise stack go into one stack */
 static std::vector<std::vector<item *>> item_list_to_stack( std::list<item *> item_list )
 {
     std::vector<std::vector<item *>> ret;

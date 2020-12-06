@@ -11942,7 +11942,7 @@ void game::display_transparency()
     }
 }
 
-// Debug menu: askes which reachability cache to display
+// Debug menu: asks which reachability cache to display
 void game::display_reahability_zones()
 {
     if( use_tiles ) {

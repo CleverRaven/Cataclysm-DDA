@@ -1679,7 +1679,7 @@ static int petfood( player &p, item &it, Petfood animal_food_type )
             return 0;
         }
 
-        // This switch handles each petfood for each type of tameable monster.
+        // This switch handles each petfood for each type of tamable monster.
         switch( animal_food_type ) {
             case DOGFOOD:
                 if( mon.type->id == mon_dog_thing ) {

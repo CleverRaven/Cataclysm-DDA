@@ -3210,7 +3210,7 @@ void veh_interact::complete_vehicle( player &p )
                     get_map().clear_vehicle_point_from_cache( veh, part_pos );
                 }
             }
-            // This will be part of an NPC "job" where they need to clean up the acitivty
+            // This will be part of an NPC "job" where they need to clean up the activity
             // items afterwards
             if( p.is_npc() ) {
                 for( item &it : resulting_items ) {

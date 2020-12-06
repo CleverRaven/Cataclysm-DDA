@@ -615,7 +615,7 @@ std::string achievement_state::ui_text( const achievement *ach ) const
     // Next: the requirements
     const std::vector<achievement_requirement> &reqs = ach->requirements();
     // If these two vectors are of different sizes then the definition must
-    // have changed since it was complated / failed, so we don't print any
+    // have changed since it was completed / failed, so we don't print any
     // requirements info.
     std::vector<cata::optional<std::string>> req_texts;
     if( final_values.size() == reqs.size() ) {
