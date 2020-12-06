@@ -11919,7 +11919,7 @@
          "multitile" : false
       },
       {
-         "id" : "flamable_arrow",
+         "id" : "flammable_arrow",
          "fg" : 1543,
          "bg" : 193,
          "rotates" : false,

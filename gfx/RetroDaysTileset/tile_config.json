@@ -3711,7 +3711,7 @@
         { "id": "bolt_bone", "fg": 1237, "rotates": false },
         { "id": "arrow_small_game_fletched", "fg": 1238, "rotates": false },
         {
-          "id": [ "arrow_wood_heavy", "arrow_field_point_fletched", "arrow_heavy_field_point_fletched", "flamable_arrow", "arrow_wood" ],
+          "id": [ "arrow_wood_heavy", "arrow_field_point_fletched", "arrow_heavy_field_point_fletched", "flammable_arrow", "arrow_wood" ],
           "fg": 1239,
           "rotates": false
         },
