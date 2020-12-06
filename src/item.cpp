@@ -9728,7 +9728,7 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
             break;
     }
     map &here = get_map();
-    if( in_inv && here.has_flag( flag_DEEP_WATER, pos ) && !in_veh) {
+    if( in_inv && !in_veh && here.has_flag( flag_DEEP_WATER, pos ) ) {
         extinguish = true;
         submerged = true;
     }
