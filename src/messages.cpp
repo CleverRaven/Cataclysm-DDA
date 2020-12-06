@@ -35,7 +35,7 @@ namespace
 
 struct game_message : public JsonDeserializer, public JsonSerializer {
     std::string       message;
-    time_point timestamp_in_turns  = 0;
+    time_point timestamp_in_turns  = calendar::turn_zero;
     int               timestamp_in_user_actions = 0;
     int               count = 1;
     // number of times this message has been seen while it was in cooldown.
@@ -116,7 +116,7 @@ class messages_impl
     public:
         std::deque<game_message> messages;   // Messages to be printed
         std::vector<game_message> cooldown_templates; // Message cooldown
-        time_point curmes = 0; // The last-seen message.
+        time_point curmes = calendar::turn_zero; // The last-seen message.
         bool active = true;
 
         bool has_undisplayed_messages() const {
@@ -201,7 +201,7 @@ class messages_impl
         void hide_message_in_cooldown( game_message &message ) {
             message.cooldown_hidden = false;
 
-            if( message_cooldown <= 0 || message.turn() <= 0 ) {
+            if( message_cooldown <= 0 || message.turn() <= calendar::turn_zero ) {
                 return;
             }
 
@@ -262,7 +262,7 @@ class messages_impl
          */
         void refresh_cooldown( const game_message &message, const game_message_flags flags ) {
             // is cooldown used? (also checks for messages arriving here at game initialization: we don't care about them).
-            if( message_cooldown <= 0 || message.turn() <= 0 ) {
+            if( message_cooldown <= 0 || message.turn() <= calendar::turn_zero ) {
                 return;
             }
 

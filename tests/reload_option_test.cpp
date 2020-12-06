@@ -17,9 +17,10 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
     avatar dummy;
     dummy.worn.push_back( item( "backpack" ) );
 
-    item &gun = dummy.i_add( item( "sw_619", 0, 0 ) );
+    item &gun = dummy.i_add( item( "sw_619", calendar::turn_zero, 0 ) );
     const ammotype &gun_ammo_type = item::find_type( gun.ammo_default() )->ammo->type;
-    item &ammo = dummy.i_add( item( "38_special", 0, gun.ammo_capacity( gun_ammo_type ) ) );
+    item &ammo = dummy.i_add( item( "38_special", calendar::turn_zero,
+                                    gun.ammo_capacity( gun_ammo_type ) ) );
     item_location ammo_location( dummy, &ammo );
     REQUIRE( gun.has_flag( flag_id( "RELOAD_ONE" ) ) );
     REQUIRE( gun.ammo_remaining() == 0 );
@@ -28,7 +29,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
     REQUIRE( gun_option.qty() == 1 );
 
     ammo_location = item_location( dummy, &ammo );
-    item &speedloader = dummy.i_add( item( "38_speedloader", 0, 0 ) );
+    item &speedloader = dummy.i_add( item( "38_speedloader", calendar::turn_zero, 0 ) );
     REQUIRE( speedloader.ammo_remaining() == 0 );
 
     const item::reload_option speedloader_option( &dummy, &speedloader, &speedloader,
@@ -47,9 +48,10 @@ TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
     avatar dummy;
     dummy.worn.push_back( item( "backpack" ) );
 
-    item &magazine = dummy.i_add( item( "glockmag", 0, 0 ) );
+    item &magazine = dummy.i_add( item( "glockmag", calendar::turn_zero, 0 ) );
     const ammotype &mag_ammo_type = item::find_type( magazine.ammo_default() )->ammo->type;
-    item &ammo = dummy.i_add( item( "9mm", 0, magazine.ammo_capacity( mag_ammo_type ) ) );
+    item &ammo = dummy.i_add( item( "9mm", calendar::turn_zero,
+                                    magazine.ammo_capacity( mag_ammo_type ) ) );
     item_location ammo_location( dummy, &ammo );
 
     const item::reload_option magazine_option( &dummy, &magazine, &magazine,
@@ -58,7 +60,7 @@ TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
 
     magazine.put_in( ammo, item_pocket::pocket_type::MAGAZINE );
     item_location magazine_location( dummy, &magazine );
-    item &gun = dummy.i_add( item( "glock_19", 0, 0 ) );
+    item &gun = dummy.i_add( item( "glock_19", calendar::turn_zero, 0 ) );
     const item::reload_option gun_option( &dummy, &gun, &gun, magazine_location );
     CHECK( gun_option.qty() == 1 );
 }
@@ -69,10 +71,11 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
     dummy.set_body();
     dummy.worn.push_back( item( "backpack" ) );
 
-    item &belt = dummy.i_add( item( "belt308", 0, 0 ) );
+    item &belt = dummy.i_add( item( "belt308", calendar::turn_zero, 0 ) );
     const ammotype &belt_ammo_type = item::find_type( belt.ammo_default() )->ammo->type;
-    item &ammo = dummy.i_add( item( "308", 0, belt.ammo_capacity( belt_ammo_type ) ) );
-    dummy.i_add( item( "ammolink308", 0, belt.ammo_capacity( belt_ammo_type ) ) );
+    item &ammo = dummy.i_add( item( "308", calendar::turn_zero,
+                                    belt.ammo_capacity( belt_ammo_type ) ) );
+    dummy.i_add( item( "ammolink308", calendar::turn_zero, belt.ammo_capacity( belt_ammo_type ) ) );
     item_location ammo_location( dummy, &ammo );
     // Belt is populated with "charges" rounds by the item constructor.
     belt.ammo_unset();
@@ -83,7 +86,7 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 
     belt.put_in( ammo, item_pocket::pocket_type::MAGAZINE );
     item_location belt_location( dummy, &ammo );
-    item &gun = dummy.i_add( item( "m134", 0, 0 ) );
+    item &gun = dummy.i_add( item( "m134", calendar::turn_zero, 0 ) );
 
     const item::reload_option gun_option( &dummy, &gun, &gun, belt_location );
 
@@ -96,7 +99,7 @@ TEST_CASE( "canteen_reload_option", "[reload],[reload_option],[liquid]" )
     dummy.worn.push_back( item( "backpack" ) );
 
     item &bottle = dummy.i_add( item( "bottle_plastic" ) );
-    item water( "water_clean", 0, 2 );
+    item water( "water_clean", calendar::turn_zero, 2 );
     // add an extra bottle with water
     item_location water_bottle( dummy, &dummy.i_add( bottle ) );
     water_bottle->put_in( water, item_pocket::pocket_type::CONTAINER );

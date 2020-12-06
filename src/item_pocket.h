@@ -93,8 +93,8 @@ class item_pocket
                 void blacklist_category( const item_category_id &id );
                 void clear_category( const item_category_id &id );
 
-                // essentially operator> but needs extra input. checks if *this is better
-                bool is_better_favorite( const item &it, const favorite_settings &rhs ) const;
+                /** Whether an item passes the current whitelist and blacklist filters. */
+                bool accepts_item( const item &it ) const;
 
                 void info( std::vector<iteminfo> &info ) const;
 
@@ -148,6 +148,8 @@ class item_pocket
         ret_val<contain_code> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
+
+        units::length max_containable_length() const;
 
         // combined volume of contained items
         units::volume contains_volume() const;
@@ -287,7 +289,12 @@ class item_pocket
         /** same as above, except returns the stack where input item was placed */
         item *restack( /*const*/ item *it );
         bool has_item_stacks_with( const item &it ) const;
-        // returns true if @rhs is a better pocket than this
+
+        /**
+         * Whether another pocket is a better fit for an item.
+         *
+         * This assumes that both pockets are able to and allowed to contain the item.
+         */
         bool better_pocket( const item_pocket &rhs, const item &it ) const;
 
         bool operator==( const item_pocket &rhs ) const;
@@ -374,7 +381,7 @@ class pocket_data
         const FlagsSetType &get_flag_restrictions() const;
         // flag_restrictions are not supposed to be modifiable, but sometimes there is a need to
         // add some, i.e. for tests.
-        void add_flag_restriction( const flag_str_id &flag );
+        void add_flag_restriction( const flag_id &flag );
         // items stored are restricted to these ammo types:
         // the pocket can only contain one of them since the amount is also defined for each ammotype
         std::map<ammotype, int> ammo_restriction;

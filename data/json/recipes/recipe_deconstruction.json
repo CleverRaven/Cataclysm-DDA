@@ -2665,15 +2665,6 @@
   {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_butter",
-    "time": "2 m",
-    "//": "I have no clue how this makes sense, but im not removing it -Esoop1 2020",
-    "components": [ [ [ "spike", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "knife_butcher",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
@@ -4261,7 +4252,7 @@
       [ [ "pocket_survival", 1 ] ],
       [ [ "survival_kit_box", 1 ] ]
     ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "FULL_MAGAZINE" ]
   },
   {
     "result": "garlic",

@@ -53,7 +53,7 @@ mission mission_type::create( const character_id &npc_id ) const
     if( deadline_low != 0_turns || deadline_high != 0_turns ) {
         ret.deadline = calendar::turn + rng( deadline_low, deadline_high );
     } else {
-        ret.deadline = 0;
+        ret.deadline = calendar::turn_zero;
     }
 
     return ret;
@@ -236,7 +236,7 @@ void mission::assign( avatar &u )
         if( type->deadline_low != 0_turns || type->deadline_high != 0_turns ) {
             deadline = calendar::turn + rng( type->deadline_low, type->deadline_high );
         } else {
-            deadline = 0;
+            deadline = calendar::turn_zero;
         }
         type->start( this );
         status = mission_status::in_progress;
@@ -297,6 +297,7 @@ void mission::wrap_up()
     status = mission_status::success;
     player_character.on_mission_finished( *this );
     std::vector<item_comp> comps;
+    const item item_sought( type->item_id );
     switch( type->goal ) {
         case MGOAL_FIND_ITEM_GROUP: {
             inventory tmp_inv = player_character.crafting_inventory();
@@ -334,8 +335,20 @@ void mission::wrap_up()
         break;
 
         case MGOAL_FIND_ITEM:
-            comps.push_back( item_comp( type->item_id, item_count ) );
-            player_character.consume_items( comps );
+            if( item_sought.is_software() ) {
+                int consumed = 0;
+                while( consumed < item_count ) {
+                    if( player_character.consume_software_container( type->item_id ) ) {
+                        consumed++;
+                    } else {
+                        debugmsg( "Tried to consume more software %s than available", type->item_id.c_str() );
+                        break;
+                    }
+                }
+            } else {
+                comps.push_back( item_comp( type->item_id, item_count ) );
+                player_character.consume_items( comps );
+            }
             break;
         case MGOAL_FIND_ANY_ITEM:
             player_character.remove_mission_items( uid );
@@ -399,10 +412,19 @@ bool mission::is_complete( const character_id &_npc_id ) const
             map &here = get_map();
             int found_quantity = 0;
             bool charges = item_sought.count_by_charges();
-            auto count_items = [this, &found_quantity, &player_character, charges]( item_stack && items ) {
+            bool software = item_sought.is_software();
+            auto count_items = [this, &found_quantity, &player_character, charges, software]( item_stack &&
+            items ) {
                 for( const item &i : items ) {
                     if( !i.is_owned_by( player_character, true ) ) {
                         continue;
+                    }
+                    if( software ) {
+                        for( const item *soft : i.softwares() ) {
+                            if( soft->typeId() == type->item_id ) {
+                                found_quantity ++;
+                            }
+                        }
                     }
                     if( charges ) {
                         found_quantity += i.charges_of( type->item_id, item_count - found_quantity );
@@ -424,6 +446,9 @@ bool mission::is_complete( const character_id &_npc_id ) const
                         break;
                     }
                 }
+            }
+            if( software ) {
+                found_quantity += player_character.count_softwares( type->item_id );
             }
             if( charges ) {
                 return player_character.charges_of( type->item_id ) + found_quantity >= item_count;
@@ -547,7 +572,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
 
 bool mission::has_deadline() const
 {
-    return deadline != 0;
+    return deadline != calendar::turn_zero;
 }
 
 time_point mission::get_deadline() const
@@ -621,7 +646,7 @@ void mission::process()
         return;
     }
 
-    if( deadline > 0 && calendar::turn > deadline ) {
+    if( has_deadline() && calendar::turn > deadline ) {
         fail();
     } else if( !npc_id.is_valid() && is_complete( npc_id ) ) { // No quest giver.
         wrap_up();

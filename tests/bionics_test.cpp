@@ -26,7 +26,7 @@ static void clear_bionics( player &p )
 static void test_consumable_charges( player &p, std::string &itemname, bool when_none,
                                      bool when_max )
 {
-    item it = item( itemname, 0, 0 );
+    item it = item( itemname, calendar::turn_zero, 0 );
 
     INFO( "\'" + it.tname() + "\' is count-by-charges" );
     CHECK( it.count_by_charges() );
@@ -43,7 +43,7 @@ static void test_consumable_charges( player &p, std::string &itemname, bool when
 static void test_consumable_ammo( player &p, std::string &itemname, bool when_empty,
                                   bool when_full )
 {
-    item it = item( itemname, 0, 0 );
+    item it = item( itemname, calendar::turn_zero, 0 );
 
     it.ammo_unset();
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
@@ -79,14 +79,13 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     CHECK( !dummy.has_power() );
     REQUIRE( dummy.has_max_power() );
 
-    SECTION( "bio_advreactor" ) {
-        give_and_activate_bionic( dummy, bionic_id( "bio_advreactor" ) );
+    SECTION( "bio_fuel_cell_gasoline" ) {
+        dummy.add_bionic( bionic_id( "bio_fuel_cell_gasoline" ) );
 
         static const std::list<std::string> always = {
-            "plut_cell",  // solid
-            "plut_slurry" // uncontained liquid! not shown in game menu
+            "gasoline"
         };
-        for( auto it : always ) {
+        for( std::string it : always ) {
             test_consumable_charges( dummy, it, true, true );
         }
 
@@ -94,7 +93,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
             "light_atomic_battery_cell", // TOOLMOD, no ammo actually
             "rm13_armor"      // TOOL_ARMOR
         };
-        for( auto it : never ) {
+        for( std::string it : never ) {
             test_consumable_ammo( dummy, it, false, false );
         }
     }

@@ -150,6 +150,15 @@ void JsonObject::allow_omitted_members() const
 #endif
 }
 
+void JsonObject::copy_visited_members( const JsonObject &rhs ) const
+{
+#ifndef CATA_IN_TOOL
+    visited_members = rhs.visited_members;
+#else
+    static_cast<void>( rhs );
+#endif
+}
+
 int JsonObject::verify_position( const std::string &name,
                                  const bool throw_exception ) const
 {

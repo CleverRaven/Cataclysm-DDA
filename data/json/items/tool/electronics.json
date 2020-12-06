@@ -495,6 +495,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "charges_per_use": 1,
     "use_action": [ "PORTABLE_GAME" ],
     "pocket_data": [
       {

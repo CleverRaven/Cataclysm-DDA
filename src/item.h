@@ -24,6 +24,7 @@
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "material.h"
 #include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -349,9 +350,11 @@ class item : public visitable<item>
          * @param with_prefix determines whether to include more item properties, such as
          * the extent of damage and burning (was created to sort by name without prefix
          * in additional inventory)
+         * @param with_contents determines whether to add a suffix with the full name of the contents
+         * of this item (if with_contents = false and item is not empty, "n items" will be added)
          */
         std::string tname( unsigned int quantity = 1, bool with_prefix = true,
-                           unsigned int truncate = 0 ) const;
+                           unsigned int truncate = 0, bool with_contents = true ) const;
         std::string display_money( unsigned int quantity, unsigned int total,
                                    const cata::optional<unsigned int> &selected = cata::nullopt ) const;
         /**
@@ -719,6 +722,7 @@ class item : public visitable<item>
         // for pocket update stuff, which pocket is @contained in?
         // returns a nullptr if the item is not contaiend, and prints a debug message
         item_pocket *contained_where( const item &contained );
+        const item_pocket *contained_where( const item &contained ) const;
         /** Whether this is a container which can be used to store liquids. */
         bool is_watertight_container() const;
         /** Whether this item has no contents at all. */
@@ -1242,7 +1246,7 @@ class item : public visitable<item>
         /** Returns the string of the id of the terrain that pumps this fuel, if any. */
         std::string fuel_pump_terrain() const;
         bool has_explosion_data() const;
-        struct fuel_explosion get_explosion_data();
+        fuel_explosion_data get_explosion_data();
 
         /**
          * Can this item have given item/itype as content?
@@ -1255,6 +1259,9 @@ class item : public visitable<item>
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent );
+
+        units::length max_containable_length() const;
+        units::volume max_containable_volume() const;
 
         /**
          * Is it ever possible to reload this item?
@@ -1365,6 +1372,7 @@ class item : public visitable<item>
 
         bool use_relic( Character &guy, const tripoint &pos );
         bool has_relic_recharge() const;
+        bool has_relic_activation() const;
         std::vector<trait_id> mutations_from_wearing( const Character &guy ) const;
 
         /**
@@ -1627,7 +1635,7 @@ class item : public visitable<item>
             assume_full = 1,
         };
 
-        cata::optional<armor_portion_data> portion_for_bodypart( const bodypart_id &bodypart ) const;
+        const armor_portion_data *portion_for_bodypart( const bodypart_id &bodypart ) const;
 
         /**
          * Returns the average encumbrance value that this item across all portions
@@ -1715,12 +1723,12 @@ class item : public visitable<item>
          * This is a per-character setting, different characters may have different number of
          * unread chapters.
          */
-        int get_remaining_chapters( const player &u ) const;
+        int get_remaining_chapters( const Character &u ) const;
         /**
          * Mark one chapter of the book as read by the given player. May do nothing if the book has
          * no unread chapters. This is a per-character setting, see @ref get_remaining_chapters.
          */
-        void mark_chapter_as_read( const player &u );
+        void mark_chapter_as_read( const Character &u );
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */

@@ -157,6 +157,13 @@ class avatar : public player
                       bool radio_contact = false );
 
         /**
+         * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
+         * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
+         * @param target Target NPC to disarm
+         */
+        void disarm( npc &target );
+
+        /**
          * Helper function for player::read.
          *
          * @param book Book to read
@@ -180,6 +187,7 @@ class avatar : public player
         void do_read( item &book );
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
+        void identify( const item &item ) override;
 
         void wake_up();
         // Grab furniture / vehicle

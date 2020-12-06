@@ -538,7 +538,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
 - ```DOOR``` Can be opened (used for NPC path-finding).
 - ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
-- ```EMITTER``` This furniture will emit fields automatically as defined by its emissions entry
 - ```FIRE_CONTAINER``` Stops fire from spreading (brazier, wood stove, etc.)
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
 - ```FLAMMABLE_HARD``` Harder to light on fire, but still possible.
@@ -1225,16 +1224,15 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```UNCRAFT_BY_QUANTITY``` Supresses the per-charge handling of uncraft recipes.
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
-- ```FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.  For deconstruction recipes, it will spawn a full magazine when deconstructed.
+- ```NEED_FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.
+- ```FULL_MAGAZINE``` Crafted or deconstructed items from this recipe will have fully-charged magazines.
 
 
 ## Scenarios
 
 ### Flags
 
-- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start.
 - ```BAD_DAY``` Player starts the game drunk, depressed and sick with the flu.
-- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors).
 - ```CHALLENGE``` Game won't choose this scenario in random game types.
 - ```CITY_START``` Scenario is available only when city size value in world options is more than 0.
 - ```FIRE_START``` Player starts the game with fire nearby.
@@ -1242,17 +1240,16 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```INFECTED``` Player starts the game infected.
 - ```FUNGAL_INFECTION``` Player starts the game with fungal infection.
 - ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
-- ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 - ```SUR_START``` Surrounded start, zombies outside the starting location.
 
-#### Season Flags
+#### Profession Flags
 
-- ```AUT_START``` ... start in autumn.
-- ```SPR_START``` ... start in spring.
-- ```SUM_ADV_START``` ... start second summer after Cataclysm.
-- ```SUM_START``` ... start in summer.
-- ```WIN_START``` ... start in winter.
+- ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 
+#### Starting Location Flags
+
+- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start.
+- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors).
 
 ## Skills
 
@@ -1382,7 +1379,6 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```E_HEATER``` Is an engine and has a heater to warm internal vehicle items when on.
 - ```E_HIGHER_SKILL``` Is an engine that is more difficult to install as more engines are installed.
 - ```E_STARTS_INSTANTLY``` Is an engine that starts instantly, like food pedals.
-- ```EMITTER``` Is a part has emission (defined in ```emissions```).
 - ```FLAT_SURF``` Part with a flat hard surface (e.g. table).
 - ```FOLDABLE```
 - ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.

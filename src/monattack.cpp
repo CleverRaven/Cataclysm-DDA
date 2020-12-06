@@ -45,6 +45,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -389,7 +390,7 @@ bool mattack::antqueen( monster *z )
         }
 
         if( monster *const mon = g->critter_at<monster>( dest ) ) {
-            if( mon->type->default_faction == mfaction_id( "ant" ) && mon->type->upgrades ) {
+            if( mon->type->default_faction == STATIC( mfaction_str_id( "ant" ) ) && mon->type->upgrades ) {
                 ants.push_back( mon );
             }
 
@@ -3498,7 +3499,7 @@ bool mattack::searchlight( monster *z )
 
         for( int i = 0; i < max_lamp_count; i++ ) {
 
-            item settings( "processor", 0 );
+            item settings( "processor", calendar::turn_zero );
 
             settings.set_var( "SL_PREFER_UP", "TRUE" );
             settings.set_var( "SL_PREFER_DOWN", "TRUE" );
@@ -4615,26 +4616,28 @@ bool mattack::slimespring( monster *z )
             //~ Lowercase is intended: they're small voices.
             add_msg( _( "\"let me help!\"" ) );
             // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
-            if( player_character.has_effect( effect_bite ) ) {
-                if( one_in( 3 ) ) {
-                    player_character.remove_effect( effect_bite );
-                    add_msg( m_good, _( "The slime cleans you out!" ) );
-                } else {
-                    add_msg( _( "The slime flows over you, but your gouges still ache." ) );
+            for( const bodypart_id &bp_healed :
+                 player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                if( player_character.has_effect( effect_bite, bp_healed.id() ) ) {
+                    if( one_in( 3 ) ) {
+                        player_character.remove_effect( effect_bite, bp_healed );
+                        add_msg( m_good, _( "The slime cleans you out!" ) );
+                    } else {
+                        add_msg( _( "The slime flows over you, but your gouges still ache." ) );
+                    }
                 }
-            }
-            if( player_character.has_effect( effect_bleed ) ) {
-                if( one_in( 2 ) ) {
-                    effect &e = player_character.get_effect( effect_bleed );
-                    e.mod_duration( -e.get_int_dur_factor() * rng( 1, 5 ) );
-                    add_msg( m_good, _( "The slime seals up your leaks!" ) );
-                } else {
-                    add_msg( _( "The slime flows over you, but your fluids are still leaking." ) );
+                if( player_character.has_effect( effect_bleed, bp_healed.id() ) ) {
+                    if( one_in( 2 ) ) {
+                        effect &e = player_character.get_effect( effect_bleed, bp_healed );
+                        e.mod_duration( -e.get_int_dur_factor() * rng( 1, 5 ) );
+                        add_msg( m_good, _( "The slime seals up your leaks!" ) );
+                    } else {
+                        add_msg( _( "The slime flows over you, but your fluids are still leaking." ) );
+                    }
                 }
             }
         }
     }
-
     return true;
 }
 
@@ -4771,7 +4774,7 @@ bool mattack::riotbot( monster *z )
         if( choice == ur_arrest ) {
             z->anger = 0;
 
-            item handcuffs( "e_handcuffs", 0 );
+            item handcuffs( "e_handcuffs", calendar::turn_zero );
             handcuffs.charges = handcuffs.type->maximum_charges();
             handcuffs.active = true;
             handcuffs.set_var( "HANDCUFFS_X", foe->posx() );

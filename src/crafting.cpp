@@ -1205,7 +1205,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
         }
         food_contained.inherit_flags( used, making );
 
-        for( const flag_str_id &flag : making.flags_to_delete ) {
+        for( const flag_id &flag : making.flags_to_delete ) {
             food_contained.unset_flag( flag );
         }
 
@@ -1269,6 +1269,12 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 // Temperature is not functional for non-foods
                 food_contained.set_item_temperature( 293.15 );
             }
+        }
+
+        // If the recipe has a `FULL_MAGAZINE` flag, fill it with ammo
+        if( newit.is_magazine() && making.has_flag( flag_FULL_MAGAZINE ) ) {
+            newit.ammo_set( newit.ammo_default(),
+                            newit.ammo_capacity( item::find_type( newit.ammo_default() )->ammo->type ) );
         }
 
         newit.set_owner( get_faction()->id );
@@ -1515,7 +1521,11 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             // Can't use pseudo items as components
             if( player_inv ) {
                 bool found = false;
-                if( has_amount( type, count, false, filter ) ) {
+                const item item_sought( type );
+                if( item_sought.is_software() && count_softwares( type ) > 0 ) {
+                    player_has.push_back( component );
+                    found = true;
+                } else if( has_amount( type, count, false, filter ) ) {
                     player_has.push_back( component );
                     found = true;
                 }
@@ -1724,6 +1734,24 @@ std::list<item> Character::consume_items( const std::vector<item_comp> &componen
     map_inv.form_from_map( pos(), PICKUP_RANGE, this );
     return consume_items( select_item_component( components, batch, map_inv, false, filter ), batch,
                           filter );
+}
+
+bool Character::consume_software_container( const itype_id &software_id )
+{
+    for( item_location it : all_items_loc() ) {
+        if( !it.get_item() ) {
+            continue;
+        }
+        if( it.get_item()->is_software_storage() ) {
+            for( const item *soft : it.get_item()->softwares() ) {
+                if( soft->typeId() == software_id ) {
+                    it.remove_item();
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 comp_selection<tool_comp>

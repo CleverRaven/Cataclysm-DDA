@@ -1,0 +1,47 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_crashed_escape_pod" ],
+    "weight": 500,
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         ,,,,,          ",
+        "        ,##,,,,         ",
+        "       ,,#-+-#,,        ",
+        "       ,,#q!-##,        ",
+        "       ,,#---##,        ",
+        "        ,,##,#,         ",
+        "         ,,,,,          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                       ,"
+      ],
+      "terrain": {
+        "-": "t_afs_space_ship_hull_wall",
+        "+": "t_afs_space_ship_hatch_c",
+        "q": "t_afs_escapepod_g",
+        "!": "t_metal_floor",
+        ",": "t_dirt",
+        "#": "t_dirtmound"
+      },
+      "furniture": { "!": "f_afs_escape_pod_seat" },
+      "items": { "!": { "item": "afs_escape_pod_suppliesII", "chance": 100 } }
+    }
+  }
+]

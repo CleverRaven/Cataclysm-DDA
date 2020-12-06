@@ -210,7 +210,7 @@ void item_pocket::serialize( JsonOut &json ) const
     json.member( "pocket_type", data->type );
     json.member( "contents", contents );
     json.member( "_sealed", _sealed );
-    if( this->settings.priority() != 0 || !this->settings.is_null() ) {
+    if( !this->settings.is_null() ) {
         json.member( "favorite_settings", this->settings );
     }
     json.end_object();
@@ -1026,8 +1026,6 @@ void player::store( JsonOut &json ) const
     // energy
     json.member( "last_sleep_check", last_sleep_check );
     // misc levels
-    json.member( "tank_plut", tank_plut );
-    json.member( "reactor_plut", reactor_plut );
     json.member( "slow_rad", slow_rad );
     json.member( "scent", static_cast<int>( scent ) );
 
@@ -1100,8 +1098,6 @@ void player::load( const JsonObject &data )
     JsonArray parray;
     character_id tmpid;
 
-    data.read( "tank_plut", tank_plut );
-    data.read( "reactor_plut", reactor_plut );
     data.read( "slow_rad", slow_rad );
     data.read( "scent", scent );
     data.read( "male", male );
@@ -1637,8 +1633,8 @@ void npc::load( const JsonObject &data )
     tripoint_abs_omt comp_miss_pt;
     std::string classid;
     std::string companion_mission_role;
-    time_point companion_mission_t = 0;
-    time_point companion_mission_t_r = 0;
+    time_point companion_mission_t = calendar::turn_zero;
+    time_point companion_mission_t_r = calendar::turn_zero;
     std::string act_id;
 
     data.read( "name", name );
@@ -1836,7 +1832,7 @@ void npc::load( const JsonObject &data )
     complaints.clear();
     for( const JsonMember member : data.get_object( "complaints" ) ) {
         // TODO: time_point does not have a default constructor, need to read in the map manually
-        time_point p = 0;
+        time_point p = calendar::turn_zero;
         member.read( p );
         complaints.emplace( member.name(), p );
     }
@@ -2112,7 +2108,7 @@ void monster::load( const JsonObject &data )
     }
 
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
-    biosig_timer = data.get_int( "biosig_timer", -1 );
+    biosig_timer = time_point( data.get_int( "biosig_timer", -1 ) );
 
     data.read( "udder_timer", udder_timer );
 
@@ -2422,7 +2418,7 @@ void item::io( Archive &archive )
     // (item::charges -1 or 0 or anything else) to comestible (and thereby counted by charges),
     // old saves still have invalid charges, this fixes the charges value to the default charges.
     if( count_by_charges() && charges <= 0 ) {
-        charges = item( type, 0 ).charges;
+        charges = item( type, calendar::turn_zero ).charges;
     }
     if( is_food() ) {
         active = true;
@@ -2501,6 +2497,8 @@ void item::deserialize( JsonIn &jsin )
     const JsonObject data = jsin.get_object();
     io::JsonObjectInputArchive archive( data );
     io( archive );
+    archive.allow_omitted_members();
+    data.copy_visited_members( archive );
     // first half of the if statement is for migration to nested containers. remove after 0.F
     if( data.has_array( "contents" ) ) {
         std::list<item> items;
@@ -2515,12 +2513,16 @@ void item::deserialize( JsonIn &jsin )
         update_modified_pockets();
         contents.combine( read_contents );
 
-        if( data.has_object( "contents" ) && data.get_object( "contents" ).has_array( "items" ) ) {
-            // migration for nested containers. leave until after 0.F
-            std::list<item> items;
-            data.get_object( "contents" ).read( "items", items );
-            for( const item &it : items ) {
-                migrate_content_item( it );
+        if( data.has_object( "contents" ) ) {
+            JsonObject tested = data.get_object( "contents" );
+            tested.allow_omitted_members();
+            if( tested.has_array( "items" ) ) {
+                // migration for nested containers. leave until after 0.F
+                std::list<item> items;
+                tested.read( "items", items );
+                for( const item &it : items ) {
+                    migrate_content_item( it );
+                }
             }
         }
     }
@@ -2643,7 +2645,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
         data.read( "base", base );
     } else {
         // handle legacy format which didn't include the base item
-        base = item( id.obj().item );
+        base = item( id.obj().base_item );
     }
 
     data.read( "mount_dx", mount.x );
@@ -2874,29 +2876,6 @@ void vehicle::deserialize( JsonIn &jsin )
         //Set turret control unit's state equal to turret's targeting mode on loading save
         for( const vpart_reference &turret_part : get_any_parts( "TURRET_CONTROLS" ) ) {
             turret_part.part().enabled = vp.part().enabled;
-        }
-    }
-
-    // Add vehicle mounts to cars that are missing them.
-    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
-        if( vp.info().has_flag( "STEERABLE" ) ) {
-            install_part( vp.mount(), vpart_id( "wheel_mount_light_steerable" ) );
-        } else {
-            install_part( vp.mount(), vpart_id( "wheel_mount_light" ) );
-        }
-    }
-    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_MEDIUM" ) ) {
-        if( vp.info().has_flag( "STEERABLE" ) ) {
-            install_part( vp.mount(), vpart_id( "wheel_mount_medium_steerable" ) );
-        } else {
-            install_part( vp.mount(), vpart_id( "wheel_mount_medium" ) );
-        }
-    }
-    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_HEAVY" ) ) {
-        if( vp.info().has_flag( "STEERABLE" ) ) {
-            install_part( vp.mount(), vpart_id( "wheel_mount_heavy_steerable" ) );
-        } else {
-            install_part( vp.mount(), vpart_id( "wheel_mount_heavy" ) );
         }
     }
 
@@ -3972,7 +3951,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
 {
     bool rubpow_update = version < 22;
     if( member_name == "turn_last_touched" ) {
-        last_touched = jsin.get_int();
+        last_touched = time_point( jsin.get_int() );
     } else if( member_name == "temperature" ) {
         temperature = jsin.get_int();
     } else if( member_name == "terrain" ) {
@@ -3980,8 +3959,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
         jsin.start_array();
         // Small duplication here so that the update check is only performed once
         if( rubpow_update ) {
-            item rock = item( "rock", 0 );
-            item chunk = item( "steel_chunk", 0 );
+            item rock = item( "rock", calendar::turn_zero );
+            item chunk = item( "steel_chunk", calendar::turn_zero );
             for( int j = 0; j < SEEY; j++ ) {
                 for( int i = 0; i < SEEX; i++ ) {
                     const ter_str_id tid( jsin.get_string() );

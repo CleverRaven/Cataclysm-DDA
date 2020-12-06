@@ -569,6 +569,12 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
                 veh.damage_all( coll_dmg / 2, coll_dmg, damage_type::BASH, collision_point );
             }
         }
+
+        // prevent vehicle bouncing after the first collision
+        if( vertical && velocity_before < 0 && coll_velocity > 0 ) {
+            veh.vertical_velocity = 0; // also affects `coll_velocity` and thus exits the loop
+        }
+
     } while( collision_attempts-- > 0 && coll_velocity != 0 &&
              sgn( coll_velocity ) == sgn( velocity_before ) &&
              !collisions.empty() && !veh_veh_coll_flag );
@@ -1383,7 +1389,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
             c->remove_effect( effect_crushed );
         }
     }
-    if( new_t.has_flag( "EMITTER" ) ) {
+    if( !new_t.emissions.empty() ) {
         field_furn_locs.push_back( p );
     }
     if( old_t.transparent != new_t.transparent ) {
@@ -1700,7 +1706,9 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     if( new_t.trap != tr_null && new_t.trap != tr_ledge ) {
         traplocs[new_t.trap.to_i()].push_back( p );
     }
-
+    if( !new_t.emissions.empty() ) {
+        field_ter_locs.push_back( p );
+    }
     if( old_t.transparent != new_t.transparent ) {
         set_transparency_cache_dirty( p );
         set_seen_cache_dirty( p );
@@ -3660,9 +3668,12 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     };
 
     ter_id terrain = ter( p );
-    if( terrain == t_wall_wood_broken ||
-        terrain == t_wall_log_broken ||
-        terrain == t_door_b ) {
+    if( terrain->has_flag( TFLAG_NO_SHOOT ) ) {
+        dam = 0.0f;
+        add_msg( _( "The shot is stopped by the %s" ), terrain->name() );
+    } else if( terrain == t_wall_wood_broken ||
+               terrain == t_wall_log_broken ||
+               terrain == t_door_b ) {
         if( hit_items || one_in( 8 ) ) { // 1 in 8 chance of hitting the door
             dam -= rng( 20, 40 );
             if( dam > 0 ) {
@@ -4860,7 +4871,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
                 flag = temperature_flag::HEATER;
             }
             // some vehicle parts provide insulation, default is 1
-            it_insulation = item::find_type( pti.item )->insulation_factor;
+            it_insulation = item::find_type( pti.base_item )->insulation_factor;
 
             if( pt.enabled && pti.has_flag( VPFLAG_FRIDGE ) ) {
                 it_insulation = 1; // ignore fridge insulation if on
@@ -5040,18 +5051,16 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
             return i.typeId() == ammo;
         } );
         if( iter != stack.end() ) {
-            item furn_item( itt, -1, iter->charges );
+            item furn_item( itt, calendar::turn_zero );
+            furn_item.ammo_set( ammo, iter->charges );
+
             if( !filter( furn_item ) ) {
                 return;
             }
-            // The const itemructor limits the charges to the (type specific) maximum.
-            // Setting it separately circumvents that it is synchronized with the code that creates
-            // the pseudo item (and fills its charges) in inventory.cpp
-            furn_item.charges = iter->charges;
             if( furn_item.use_charges( type, quantity, ret, p ) ) {
                 stack.erase( iter );
             } else {
-                iter->charges = furn_item.charges;
+                iter->charges = furn_item.ammo_remaining();
             }
         }
     }
@@ -5370,9 +5379,15 @@ int map::get_field_intensity( const tripoint &p, const field_type_id &type ) con
     return ( field_ptr == nullptr ? 0 : field_ptr->get_field_intensity() );
 }
 
+bool map::has_field_at( const tripoint &p, bool check_bounds )
+{
+    const tripoint sm = ms_to_sm_copy( p );
+    return ( !check_bounds || inbounds( p ) ) && get_cache( p.z ).field_cache[sm.x + sm.y * MAPSIZE];
+}
+
 field_entry *map::get_field( const tripoint &p, const field_type_id &type )
 {
-    if( !inbounds( p ) ) {
+    if( !inbounds( p ) || !has_field_at( p, false ) ) {
         return nullptr;
     }
 
@@ -5441,7 +5456,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
 
     // Dirty the transparency cache now that field processing doesn't always do it
     if( fd_type.dirty_transparency_cache || !fd_type.is_transparent() ) {
-        set_transparency_cache_dirty( p );
+        set_transparency_cache_dirty( p, true );
         set_seen_cache_dirty( p );
     }
 
@@ -5478,7 +5493,7 @@ void map::remove_field( const tripoint &p, const field_type_id &field_to_remove 
         }
         const auto &fdata = field_to_remove.obj();
         if( fdata.dirty_transparency_cache || !fdata.is_transparent() ) {
-            set_transparency_cache_dirty( p );
+            set_transparency_cache_dirty( p, true );
             set_seen_cache_dirty( p );
         }
         if( fdata.is_dangerous() ) {
@@ -6559,6 +6574,7 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
         traps.clear();
     }
     field_furn_locs.clear();
+    field_ter_locs.clear();
     submaps_with_active_items.clear();
     // TODO: fix point types
     set_abs_sub( w.raw() );
@@ -6589,6 +6605,15 @@ void map::shift_traps( const tripoint &shift )
             ++iter;
         } else {
             iter = field_furn_locs.erase( iter );
+        }
+    }
+    for( auto iter = field_ter_locs.begin(); iter != field_ter_locs.end(); ) {
+        tripoint &pos = *iter;
+        pos += offset;
+        if( inbounds( pos ) ) {
+            ++iter;
+        } else {
+            iter = field_ter_locs.erase( iter );
         }
     }
     for( auto &traps : traplocs ) {
@@ -7286,9 +7311,13 @@ void map::actualize( const tripoint &grid )
         for( int y = 0; y < SEEY; y++ ) {
             const tripoint pnt = sm_to_ms_copy( grid ) + point( x, y );
             const point p( x, y );
-            const auto &furn = this->furn( pnt ).obj();
-            if( furn.has_flag( "EMITTER" ) ) {
+            const furn_t &furn = *this->furn( pnt );
+            const ter_t &terr = *this->ter( pnt );
+            if( !furn.emissions.empty() ) {
                 field_furn_locs.push_back( pnt );
+            }
+            if( !terr.emissions.empty() ) {
+                field_ter_locs.push_back( pnt );
             }
 
             const auto trap_here = tmpsub->get_trap( p );
@@ -7633,6 +7662,11 @@ void map::clear_traps()
 const std::vector<tripoint> &map::get_furn_field_locations() const
 {
     return field_furn_locs;
+}
+
+const std::vector<tripoint> &map::get_ter_field_locations() const
+{
+    return field_ter_locs;
 }
 
 const std::vector<tripoint> &map::trap_locations( const trap_id &type ) const
@@ -8079,7 +8113,11 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         const bool affects_seen_cache =  z == zlev || fov_3d;
         build_outside_cache( z );
         build_transparency_cache( z );
-        seen_cache_dirty |= ( build_floor_cache( z ) && affects_seen_cache );
+        bool floor_cache_was_dirty = build_floor_cache( z );
+        seen_cache_dirty |= ( floor_cache_was_dirty && affects_seen_cache );
+        if( floor_cache_was_dirty && z > -OVERMAP_DEPTH ) {
+            get_cache( z - 1 ).r_up_cache->invalidate();
+        }
         seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
     }
     // needs a separate pass as it changes the caches on neighbour z-levels (e.g. floor_cache);
@@ -8308,9 +8346,9 @@ void map::add_corpse( const tripoint &p )
         body.set_flag( flag_REVIVE_SPECIAL );
     }
 
-    put_items_from_loc( item_group_id( "default_zombie_clothes" ), p, 0 );
+    put_items_from_loc( item_group_id( "default_zombie_clothes" ), p, calendar::turn_zero );
     if( one_in( 3 ) ) {
-        put_items_from_loc( item_group_id( "default_zombie_items" ), p, 0 );
+        put_items_from_loc( item_group_id( "default_zombie_items" ), p, calendar::turn_zero );
     }
 
     add_item_or_charges( p, body );
@@ -8844,5 +8882,25 @@ void map::invalidate_max_populated_zlev( int zlev )
 {
     if( max_populated_zlev && max_populated_zlev->second < zlev ) {
         max_populated_zlev->second = zlev;
+    }
+}
+
+// Get cache value for debug purposes
+int map::reachability_cache_value( const tripoint &p, bool vertical_cache,
+                                   reachability_cache_quadrant quadrant ) const
+{
+    if( !inbounds( p ) ) {
+        return -2;
+    }
+
+    // rebuild caches, so valid values are shown
+    has_potential_los( p, p ); // rebuild horizontal cache;
+    has_potential_los( p, p + tripoint_above ); // rebuild "up" cache
+
+    const level_cache &lc = get_cache( p.z );
+    if( vertical_cache ) {
+        return lc.r_up_cache->get_value( quadrant, p.xy() );
+    } else {
+        return lc.r_hor_cache->get_value( quadrant, p.xy() );
     }
 }

@@ -20,5 +20,20 @@
     "name": "stray",
     "//": "largely neutral to animals and things that don't live",
     "neutral": [ "small_animal", "fish", "animal", "fox", "cat", "dog", "invader_alien" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "lurker",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "packliz",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bileworm",
+    "//": "TODO assign base faction and/or attitude"
   }
 ]

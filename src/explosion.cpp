@@ -502,6 +502,11 @@ void explosion( const tripoint &p, float power, float factor, bool fire,
 
 void explosion( const tripoint &p, const explosion_data &ex )
 {
+    _explosions.emplace_back( p, ex );
+}
+
+void _make_explosion( const tripoint &p, const explosion_data &ex )
+{
     const int noise = ex.power * ( ex.fire ? 2 : 10 );
     if( noise >= 30 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
@@ -572,8 +577,8 @@ void flashbang( const tripoint &p, bool player_immune )
             } else if( player_character.has_bionic( bio_sunglasses ) ||
                        player_character.is_wearing( itype_rm13_armor_on ) ) {
                 flash_mod = 6;
-            } else if( player_character.worn_with_flag( STATIC( flag_str_id( "BLIND" ) ) ) ||
-                       player_character.worn_with_flag( STATIC( flag_str_id( "FLASH_PROTECTION" ) ) ) ) {
+            } else if( player_character.worn_with_flag( STATIC( flag_id( "BLIND" ) ) ) ||
+                       player_character.worn_with_flag( STATIC( flag_id( "FLASH_PROTECTION" ) ) ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
             player_character.add_env_effect( effect_blind, bodypart_id( "eyes" ), ( 12 - flash_mod - dist ) / 2,
@@ -758,7 +763,7 @@ void emp_blast( const tripoint &p )
         // TODO: More effects?
         //e-handcuffs effects
         if( player_character.weapon.typeId() == itype_e_handcuffs && player_character.weapon.charges > 0 ) {
-            player_character.weapon.unset_flag( STATIC( flag_str_id( "NO_UNWIELD" ) ) );
+            player_character.weapon.unset_flag( STATIC( flag_id( "NO_UNWIELD" ) ) );
             player_character.weapon.charges = 0;
             player_character.weapon.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
@@ -857,6 +862,14 @@ void resonance_cascade( const tripoint &p )
             }
         }
     }
+}
+
+void process_explosions()
+{
+    for( const queued_explosion &ex : _explosions ) {
+        _make_explosion( ex.first, ex.second );
+    }
+    _explosions.clear();
 }
 
 } // namespace explosion_handler
