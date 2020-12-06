@@ -795,7 +795,7 @@
     "id": "small_repairkit",
     "type": "TOOL",
     "name": { "str": "firearm repair kit" },
-    "description": "This is a portable toolkit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 100 charges of battery power per use.",
+    "description": "This is a portable toolbox containing various tools for maintaining and repairing firearms.  It has a compartment for standard medium batteries.  Consumes 100 battery charges per use.",
     "weight": "2420 g",
     "volume": "1500 ml",
     "price": 1500,
@@ -811,16 +811,20 @@
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
       [ "PRY", 1 ],
-      [ "SAW_M_FINE", 1 ],
-      [ "SAW_M", 2 ],
-      [ "SAW_W", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "WRENCH", 2 ],
       [ "SCREW_FINE", 1 ],
-      [ "SCREW", 1 ],
-      [ "CHISEL", 3 ]
+      [ "SCREW", 1 ]
     ],
-    "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
+    "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER",{
+      "type": "repair_item",
+      "item_action_type": "repair_metal",
+      "materials": [ "plastic", "lead", "tin", "zinc" ],
+      "skill": "fabrication",
+      "cost_scaling": 0.1,
+      "move_cost": 1500
+    },
+    { "flame": false, "type": "cauterize" } ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {

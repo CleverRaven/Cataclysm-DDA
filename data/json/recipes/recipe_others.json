@@ -788,9 +788,9 @@
       [ [ "soldering_iron", 1 ] ],
       [ [ "screwdriver_set", 1 ] ],
       [ [ "wrench", 1 ] ],
-      [ [ "chisel", 1 ] ],
-      [ [ "hacksaw", 1 ] ],
-      [ [ "hammer", 1 ] ]
+      [ [ "hammer", 1 ] ],
+      [ [ "magazine_battery_medium_mod", 1 ] ],
+      [ [ "toolbox_empty", 1 ] ]
     ]
   },
   {
