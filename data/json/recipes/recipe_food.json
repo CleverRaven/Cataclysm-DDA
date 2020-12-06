@@ -22,7 +22,7 @@
       [ [ "water", 6 ], [ "water_clean", 6 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.4 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.4 }
     ]
   },
   {
@@ -45,7 +45,7 @@
       [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.2 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.2 }
     ]
   },
   {
@@ -2666,7 +2666,7 @@
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.5 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.5 }
     ]
   },
   {
@@ -2691,7 +2691,7 @@
       [ [ "weed", 5 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.1 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.1 }
     ]
   },
   {
@@ -2716,7 +2716,7 @@
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.1 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.1 }
     ]
   },
   {
@@ -2742,7 +2742,7 @@
       [ [ "weed", 5 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.1 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.1 }
     ]
   },
   {
@@ -2762,7 +2762,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [ [ [ "flour", 11 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.05 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.05 }
     ]
   },
   {
@@ -2916,7 +2916,7 @@
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "cornmeal", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.2 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.2 }
     ]
   },
   {
@@ -2935,7 +2935,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [ [ [ "cornmeal", 4 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.1 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.1 }
     ]
   },
   {
@@ -2958,7 +2958,7 @@
       [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.1 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.1 }
     ]
     ]
   },
@@ -3006,7 +3006,7 @@
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.1 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.1 }
     ]
   },
   {
@@ -3801,7 +3801,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.1 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.1 }
     ]
   },
   {
@@ -3826,7 +3826,7 @@
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.2 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.2 }
     ]
   },
   {
@@ -3851,7 +3851,7 @@
       [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.1 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.1 }
     ]
   },
   {
@@ -3905,7 +3905,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.1 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.1 }
     ]
   },
   {
@@ -3930,7 +3930,7 @@
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.2 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.2 }
     ]
   },
   {
@@ -4016,7 +4016,7 @@
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "choco_coffee_beans", 5 ], [ "chocolate", 1 ], [ "jam_fruit", 1 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.05 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.05 }
     ]
   },
   {
@@ -4139,7 +4139,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.3 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.3 }
     ]
   },
   {
@@ -4157,7 +4157,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [ [ [ "flour", 30 ] ], [ [ "veggy_any", 8, "LIST" ], [ "wild_herbs", 40 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.3 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.3 }
     ]
   },
   {
@@ -4188,7 +4188,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.3 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.3 }
     ]
   },
   {
@@ -4211,7 +4211,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.3 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.3 }
     ]
   },
   {
@@ -5730,7 +5730,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.8 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.8 }
     ]
   },
   {
@@ -5918,7 +5918,7 @@
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.5 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.5 }
     ]
   },
   {
@@ -7127,7 +7127,7 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "flour", 4 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 2 }
     ]
   },
   {
@@ -7166,7 +7166,7 @@
       [ [ "water_clean", 1 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_baking", "required": false, "time_multiplier": 1.5 }
+      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.5 }
     ]
   },
   {
