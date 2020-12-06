@@ -10244,6 +10244,19 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
     return false;
 }
 
+bool game::can_move_furniture( tripoint fdest, const tripoint &dp )
+{
+    const bool pulling_furniture = dp == -u.grab_point;
+    const bool has_floor = m.has_floor( fdest );
+    return  m.passable( fdest ) &&
+            critter_at<npc>( fdest ) == nullptr &&
+            critter_at<monster>( fdest ) == nullptr &&
+            ( !pulling_furniture || is_empty( u.pos() + dp ) ) &&
+            ( !has_floor || m.has_flag( "FLAT", fdest ) ) &&
+            !m.has_furn( fdest ) &&
+            !m.veh_at( fdest ) &&
+            ( !has_floor || m.tr_at( fdest ).is_null() );
+}
 
 int game::grabbed_furn_move_time( const tripoint &dp )
 {
@@ -10255,28 +10268,9 @@ int game::grabbed_furn_move_time( const tripoint &dp )
         return 0;
     }
 
-    const bool pulling_furniture = dp == -u.grab_point;
-
     tripoint fdest = fpos + dp; // intended destination of furniture.
-    // Check floor: floorless tiles don't need to be flat and have no traps
-    const bool has_floor = m.has_floor( fdest );
-    // Unfortunately, game::is_empty fails for tiles we're standing on,
-    // which will forbid pulling, so:
-    const bool canmove = (
-                             m.passable( fdest ) &&
-                             critter_at<npc>( fdest ) == nullptr &&
-                             critter_at<monster>( fdest ) == nullptr &&
-                             ( !pulling_furniture || is_empty( u.pos() + dp ) ) &&
-                             ( !has_floor || m.has_flag( "FLAT", fdest ) ) &&
-                             !m.has_furn( fdest ) &&
-                             !m.veh_at( fdest ) &&
-                             ( !has_floor || m.tr_at( fdest ).is_null() )
-                         );
-    // @TODO: it should be possible to move over invisible traps. This should probably
-    // trigger the trap.
-    // The current check (no move if trap) allows a player to detect invisible traps by
-    // attempting to move stuff onto it.
 
+    const bool canmove = can_move_furniture( fdest, dp );
     const furn_t furntype = m.furn( fpos ).obj();
     const int dst_items = m.i_at( fdest ).size();
 
@@ -10351,16 +10345,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     const bool has_floor = m.has_floor( fdest );
     // Unfortunately, game::is_empty fails for tiles we're standing on,
     // which will forbid pulling, so:
-    const bool canmove = (
-                             m.passable( fdest ) &&
-                             critter_at<npc>( fdest ) == nullptr &&
-                             critter_at<monster>( fdest ) == nullptr &&
-                             ( !pulling_furniture || is_empty( u.pos() + dp ) ) &&
-                             ( !has_floor || m.has_flag( "FLAT", fdest ) ) &&
-                             !m.has_furn( fdest ) &&
-                             !m.veh_at( fdest ) &&
-                             ( !has_floor || m.tr_at( fdest ).is_null() )
-                         );
+    const bool canmove = can_move_furniture( fdest, dp );
     // @TODO: it should be possible to move over invisible traps. This should probably
     // trigger the trap.
     // The current check (no move if trap) allows a player to detect invisible traps by

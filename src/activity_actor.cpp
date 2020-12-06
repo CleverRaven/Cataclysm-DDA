@@ -2211,6 +2211,47 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
     return actor.clone();
 }
 
+void move_furniture_activity_actor::start( player_activity &act, Character & )
+{
+    int moves = g->grabbed_furn_move_time( dp );
+    act.moves_left = moves;
+    act.moves_total = moves;
+}
+
+void move_furniture_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( !g->grabbed_furn_move( dp ) ) {
+        g->walk_move( who.pos() + dp, via_ramp, true );
+    }
+    act.set_to_null();
+}
+
+void move_furniture_activity_actor::canceled( player_activity &, Character & )
+{
+    add_msg( m_warning, _( "You let go of the grabbed object." ) );
+    get_avatar().grab( object_type::NONE );
+}
+
+void move_furniture_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "dp", dp );
+    jsout.member( "via_ramp", via_ramp );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( JsonIn &jsin )
+{
+    move_furniture_activity_actor actor = move_furniture_activity_actor( tripoint_zero, false );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "dp", actor.dp );
+    data.read( "via_ramp", actor.via_ramp );
+
+    return actor.clone();
+}
+
 void burrow_activity_actor::start( player_activity &act, Character &who )
 {
     act.moves_total = moves_total;
