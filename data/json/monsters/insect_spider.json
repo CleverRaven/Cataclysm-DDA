@@ -412,27 +412,27 @@
     "speed": 115,
 	"attack_cost": 115,
     "aggression": 0,
-	"morale": 5,
-    "melee_dice_sides": 3,
+	"morale": 0,
 	"melee_skill": 5,
     "special_attacks": [
       {
         "type": "bite",
-        "cooldown": 5,
+        "cooldown": 10,
 		"move_cost": 115,
         "damage_max_instance": [
-          { "damage_type": "stab", "amount": 2, "armor_penetration": 6 }
+          { "damage_type": "stab", "amount": 2, "armor_penetration": 8 }
         ],
 		"min_mul": 3,
 		"max_mul": 5.4,
 		"//": "Bite does 6-10 dmg, armor penetration 5, 8 hits to max venom intensity",
-        "effects": [ { "id": "venom_dmg", "duration": 250, "affect_hit_bp": true } ]
+        "effects": [ { "id": "venom_dmg", "duration": 250, "affect_hit_bp": true, "chance": 66 } ]
       }
     ],
     "dodge": 6,
-    "armor_bash": 2,
-    "armor_cut": 4,
+    "armor_bash": 1,
+    "armor_cut": 3,
     "armor_bullet": 2,
+	"armor_stab": 2,
 	"anger_triggers": [ "PLAYER_CLOSE" ],
 	"fear_triggers": [ "HURT" ],
 	"upgrades": { "age_grow": 30, "into_group": "GROUP_CENTIPEDE_ADULT" }
@@ -441,7 +441,7 @@
     "id": "mon_centipede_giant",
     "type": "MONSTER",
     "name": { "str": "giant centipede" },
-    "description": "A two meter long centipede with a menacing set of venom claws and a worrying number of mandibles, moving swiftly on dozens of spindly legs.  It has a pair of small compound eyes, but seems to mostly orient itself with its antennae.",
+    "description": "A two meter long centipede with a menacing set of venom claws and a worrying number of grabbing appendages, moving swiftly on dozens of spindly legs.  It has a pair of small compound eyes, but seems to mostly orient itself with its antennae.",
     "symbol": "a",
     "color": "light_green",
     "default_faction": "centipede",
@@ -450,14 +450,14 @@
     "species": [ "CENTIPEDE" ],
     "volume": "80 L",
     "weight": "110 kg",
-    "hp": 80,
+    "hp": 110,
     "speed": 125,
 	"attack_cost": 125,
     "aggression": 40,
-    "morale": 50,
+    "morale": 20,
     "melee_skill": 6,
     "melee_dice": 2,
-    "melee_dice_sides": 6,
+    "melee_dice_sides": 3,
     "melee_cut": 6,
 	"special_attacks": [ 
 	  [ "GRAB", 5 ],
@@ -466,10 +466,11 @@
 		"cooldown": 5,
 		"move_cost": 120,
 		"damage_max_instance": [
-		  { "damage_type": "cut", "amount": 12, "armor_penetration": 9 },
-		  { "damage_type": "stab", "amount": 12, "armor_penetration": 9 } 
+		  { "damage_type": "stab", "amount": 10, "armor_penetration": 12 } 
 		 ],
-		"no_infection_chance": 5,
+		"min_mul": 1,
+		"max_mul": 2.1,
+		"no_infection_chance": 25,
 		"effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ]
 	  }
 	 ],
@@ -478,7 +479,8 @@
     "armor_bash": 4,
     "armor_cut": 8,
     "armor_bullet": 6,
-    "vision_day": 8,
+	"armor_stab": 6,
+    "vision_day": 12,
     "vision_night": 5,
 	"anger_triggers": [ "STALK", "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ],
     "harvest": "arachnid_centipede",

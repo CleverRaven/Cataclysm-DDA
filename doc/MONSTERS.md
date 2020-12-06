@@ -357,34 +357,6 @@ Monster regenerates very quickly in poorly lit tiles.
 
 Will stop fleeing if at max hp, and regen anger and morale.
 
-## "special_attacks"
-(array of special attack definitions, optional)
-
-Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
-
-The old style array should contain 2 elements: the id of the attack (see [JSON_FLAGS.md](JSON_FLAGS.md) for a list) and the cooldown for that attack. Example (grab attack every 10 turns):
-
-```JSON
-"special_attacks": [ [ "GRAB", 10 ] ]
-```
-
-The new style object can contain a "type" member (string) - "cooldown" member (integer) pair for the three types listed below, the "id" of an explicitly defined monster attack (from monster_attacks.json) or a spell (see MAGIC.md). It may contain additional members as required by the specific attack. Possible types are listed below. Example:
-
-```JSON
-"special_attacks": [
-    { "type": "leap", "cooldown": 10, "max_range": 4 }
-]
-```
-
-"special_attacks" may contain any mixture of old and new style entries:
-
-```JSON
-"special_attacks": [
-    [ "GRAB", 10 ],
-    { "type": "leap", "cooldown": 10, "max_range": 4 }
-]
-```
-
 ## "flags"
 (array of strings, optional)
 
@@ -496,6 +468,33 @@ Each element of the array should be an object containing the following members:
 | `allow_climb_stairs` | (bool, default true) Monster may climb stairs
 | `avoid_sharp`        | (bool, default false) Monster may avoid sharp things like barbed wire
 
+## "special_attacks"
+(array of special attack definitions, optional)
+
+Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
+
+The old style array should contain 2 elements: the id of the attack (see [JSON_FLAGS.md](JSON_FLAGS.md) for a list) and the cooldown for that attack. Example (grab attack every 10 turns):
+
+```JSON
+"special_attacks": [ [ "GRAB", 10 ] ]
+```
+
+The new style object can contain a "type" member (string) - "cooldown" member (integer) pair for the three types listed below, the "id" of an explicitly defined monster attack (from monster_attacks.json) or a spell (see MAGIC.md). It may contain additional members as required by the specific attack. Possible types are listed below. Example:
+
+```JSON
+"special_attacks": [
+    { "type": "leap", "cooldown": 10, "max_range": 4 }
+]
+```
+
+"special_attacks" may contain any mixture of old and new style entries:
+
+```JSON
+"special_attacks": [
+    [ "GRAB", 10 ],
+    { "type": "leap", "cooldown": 10, "max_range": 4 }
+]
+```
 
 # Monster special attack types
 The listed attack types can be as monster special attacks (see "special_attacks").
@@ -516,7 +515,7 @@ Makes the monster leap a few tiles. It supports the following additional propert
 
 ## "bite"
 
-Makes monster use teeth to bite opponent. Some monsters can give infection by doing so.
+Makes monster use teeth to bite opponent. Monster bites can give infections if the target is grabbed at the same time.
 
 | field                 | description
 | ---                   | ---
@@ -524,7 +523,7 @@ Makes monster use teeth to bite opponent. Some monsters can give infection by do
 | `min_mul`, `max_mul`  | How hard is to get free of bite without killing attacker.
 | `move_cost`           | Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
 | `accuracy`            | (Integer) How accurate it is. Not many monsters use it though.
-| `no_infection_chance` | Chance to not give infection.
+| `no_infection_chance` | Chance to not give infection. The exact chance to infect is 1-in-( no_infection_chance - damage dealt). 
 
 
 ## "gun"
