@@ -14,6 +14,8 @@ static const int default_symbol = 0;
 
 #define MM_SIZE (MAPSIZE * 2)
 
+#define dbg(x) DebugLog((x),D_MMAP) << __FILE__ << ":" << __LINE__ << ": "
+
 static std::string find_legacy_mm_file()
 {
     return PATH_INFO::player_base_save_path() + SAVE_EXTENSION_MAP_MEMORY;
@@ -125,6 +127,9 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
             return false;
         }
     }
+
+    dbg( D_INFO ) << "Preparing memory map for area: pos: " << sm_pos << " size: " << sm_size;
+
     cache_pos = sm_pos;
     cache_size = sm_size;
     cached.clear();
@@ -156,6 +161,8 @@ shared_ptr_fast<mm_submap> map_memory::allocate_submap( const tripoint &sm_pos )
     // we need to allocate the whole region at once.
     shared_ptr_fast<mm_submap> ret;
     tripoint reg = reg_coord_pair( sm_pos ).reg;
+
+    dbg( D_INFO ) << "Allocated mm_region " << reg << " [" << mmr_to_sm_copy( reg ) << "]";
 
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
@@ -211,6 +218,8 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
                   p.reg.x, p.reg.y, p.reg.z, err.what() );
         return nullptr;
     }
+
+    dbg( D_INFO ) << "Loaded mm_region " << p.reg << " [" << mmr_to_sm_copy( p.reg ) << "]";
 
     shared_ptr_fast<mm_submap> ret;
 
@@ -273,11 +282,14 @@ void map_memory::load( const tripoint &pos )
 
     coord_pair p( pos );
     tripoint start = p.sm - tripoint( MM_SIZE / 2, MM_SIZE / 2, 0 );
+    dbg( D_INFO ) << "[LOAD] Loading memory map around " << p.sm << ". Loading submaps within " << start
+                  << "->" << start + tripoint( MM_SIZE, MM_SIZE, 0 );
     for( int dy = 0; dy < MM_SIZE; dy++ ) {
         for( int dx = 0; dx < MM_SIZE; dx++ ) {
             fetch_submap( start + tripoint( dx, dy, 0 ) );
         }
     }
+    dbg( D_INFO ) << "[LOAD] Done.";
 }
 
 bool map_memory::save( const tripoint &pos )
@@ -287,6 +299,8 @@ bool map_memory::save( const tripoint &pos )
     assure_dir_exist( dirname );
 
     clear_cache();
+
+    dbg( D_INFO ) << "N submaps before save: " << submaps.size();
 
     // Since mm_submaps are always allocated in regions,
     // we are certain that each region will be filled.
@@ -299,6 +313,9 @@ bool map_memory::save( const tripoint &pos )
 
     constexpr point MM_HSIZE_P = point( MM_SIZE / 2, MM_SIZE / 2 );
     rectangle<point> rect_keep( sm_center.xy() - MM_HSIZE_P, sm_center.xy() + MM_HSIZE_P );
+
+    dbg( D_INFO ) << "[SAVE] Saving memory map around " << sm_center << ". Keeping submaps within " <<
+                  rect_keep.p_min << "->" << rect_keep.p_max;
 
     bool result = true;
 
@@ -325,6 +342,7 @@ bool map_memory::save( const tripoint &pos )
         point regp_sm = mmr_to_sm_copy( regp ).xy();
         half_open_rectangle<point> rect_reg( regp_sm, regp_sm + point( MM_REG_SIZE, MM_REG_SIZE ) );
         if( rect_reg.overlaps( rect_keep ) ) {
+            dbg( D_INFO ) << "Keeping mm_region " << regp << " [" << mmr_to_sm_copy( regp ) << "]";
             // Put submaps back
             for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
                 for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
@@ -333,8 +351,13 @@ bool map_memory::save( const tripoint &pos )
                     submaps.insert( std::make_pair( p, sm ) );
                 }
             }
+        } else {
+            dbg( D_INFO ) << "Dropping mm_region " << regp << " [" << mmr_to_sm_copy( regp ) << "]";
         }
     }
+
+    dbg( D_INFO ) << "[SAVE] Done.";
+    dbg( D_INFO ) << "N submaps after save: " << submaps.size();
 
     return result;
 }
