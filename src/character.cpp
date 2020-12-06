@@ -8690,7 +8690,17 @@ bool Character::consume_charges( item &used, int qty )
 
     // Tools which don't require ammo are instead destroyed
     if( used.is_tool() && !used.ammo_required() ) {
-        i_rem( &used );
+        if( has_item( used ) ) {
+            i_rem( &used );
+        } else {
+            map_stack items = get_map().i_at( pos() );
+            for( item_stack::iterator iter = items.begin(); iter != items.end(); iter++ ) {
+                if( &( *iter ) == &used ) {
+                    iter = items.erase( iter );
+                    break;
+                }
+            }
+        }
         return true;
     }
 
