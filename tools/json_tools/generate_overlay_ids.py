@@ -22,8 +22,15 @@ from util import import_data
 
 
 CPP_IDS = (
-    'footstep', 'cursor', 'highlight', 'highlight_item', 'line_target',
-    'line_trail', 'animation_line', 'animation_hit', 'zombie_revival_indicator'
+    'cursor', 'highlight', 'highlight_item', 'footstep', 'graffiti',
+    'zombie_revival_indicator',
+    'weather_rain_drop', 'weather_acid_drop', 'weather_snowflake',
+    'animation_bullet_normal', 'animation_bullet_shrapnel',
+    'animation_bullet_flame',
+    'explosion', 'explosion_weak', 'explosion_medium',
+    'animation_hit', 'player_male', 'player_female', 'npc_male', 'npc_female',
+    'animation_line', 'line_target', 'line_trail',
+    'infrared_creature',
 )
 ATTITUDES = ('hostile', 'neutral', 'friendly', 'other')
 
