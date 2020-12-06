@@ -390,6 +390,10 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_nano_forge" },
     "to_hit": -2,
     "bashing": 5,
+    "ammo": [ "batteries" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 5000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
+    "max_charges": 5000,
     "material": [ "superalloy" ],
     "flags": [ "LEAK_DAM", "DURABLE_MELEE" ]
   },
