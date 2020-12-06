@@ -1943,7 +1943,7 @@ bool Character::has_enough_anesth( const itype &cbm )
     return true;
 }
 
-void Character::consume_anesth_requirment( const itype &cbm, player &patient )
+void Character::consume_anesth_requirement( const itype &cbm, player &patient )
 {
     const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
     const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
@@ -1957,7 +1957,7 @@ void Character::consume_anesth_requirment( const itype &cbm, player &patient )
     invalidate_crafting_inventory();
 }
 
-bool Character::has_installation_requirment( const bionic_id &bid )
+bool Character::has_installation_requirement( const bionic_id &bid )
 {
     if( bid->installation_requirement.is_empty() ) {
         return false;
@@ -1975,7 +1975,7 @@ bool Character::has_installation_requirment( const bionic_id &bid )
     return true;
 }
 
-void Character::consume_installation_requirment( const bionic_id &bid )
+void Character::consume_installation_requirement( const bionic_id &bid )
 {
     for( const auto &e : bid->installation_requirement->get_components() ) {
         as_player()->consume_items( e, 1, is_crafting_component );
@@ -2303,7 +2303,7 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
     // if we're doing self install
     if( !autodoc && installer.is_avatar() ) {
         return installer.has_enough_anesth( type ) &&
-               installer.has_installation_requirment( bioid );
+               installer.has_installation_requirement( bioid );
     }
 
     int chance_of_success = bionic_success_chance( autodoc, skill_level, difficult, installer );

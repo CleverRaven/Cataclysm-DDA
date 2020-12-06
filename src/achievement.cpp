@@ -217,7 +217,7 @@ struct achievement_requirement {
         }
     }
 
-    bool satisifed_by( const cata_variant &v ) const {
+    bool satisfied_by( const cata_variant &v ) const {
         switch( comparison ) {
             case achievement_comparison::equal:
                 return v == target;
@@ -480,7 +480,7 @@ static cata::optional<std::string> text_for_requirement(
     const cata_variant &current_value,
     achievement_completion ach_completed )
 {
-    bool is_satisfied = req.satisifed_by( current_value );
+    bool is_satisfied = req.satisfied_by( current_value );
     if( !req.is_visible( ach_completed, is_satisfied ) ) {
         return cata::nullopt;
     }
@@ -544,7 +544,7 @@ class requirement_watcher : stat_watcher
         void new_value( const cata_variant &new_value, stats_tracker & ) override;
 
         bool is_satisfied( stats_tracker &stats ) {
-            return requirement_->satisifed_by( requirement_->statistic->value( stats ) );
+            return requirement_->satisfied_by( requirement_->statistic->value( stats ) );
         }
 
         cata::optional<std::string> ui_text() const {
@@ -564,7 +564,7 @@ void requirement_watcher::new_value( const cata_variant &new_value, stats_tracke
     }
     // set_requirement can result in this being deleted, so it must be the last
     // thing in this function
-    tracker_->set_requirement( this, requirement_->satisifed_by( current_value_ ) );
+    tracker_->set_requirement( this, requirement_->satisfied_by( current_value_ ) );
 }
 
 namespace io

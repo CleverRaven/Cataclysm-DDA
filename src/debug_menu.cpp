@@ -1791,7 +1791,7 @@ void debug()
             g->display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
             break;
         case debug_menu_index::DISPLAY_REACHABILITY_ZONES:
-            g->display_reahability_zones();
+            g->display_reachability_zones();
             break;
         case debug_menu_index::HOUR_TIMER:
             g->toggle_debug_hour_timer();

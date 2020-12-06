@@ -1261,10 +1261,10 @@ class Character : public Creature, public visitable<Character>
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype &cbm, player &patient );
         bool has_enough_anesth( const itype &cbm );
-        void consume_anesth_requirment( const itype &cbm, player &patient );
+        void consume_anesth_requirement( const itype &cbm, player &patient );
         /**Has the required equipment for manual installation*/
-        bool has_installation_requirment( const bionic_id &bid );
-        void consume_installation_requirment( const bionic_id &bid );
+        bool has_installation_requirement( const bionic_id &bid );
+        void consume_installation_requirement( const bionic_id &bid );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );

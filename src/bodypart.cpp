@@ -450,7 +450,7 @@ int bodypart::get_wetness() const
     return wetness;
 }
 
-int bodypart::get_frotbite_timer() const
+int bodypart::get_frostbite_timer() const
 {
     return frostbite_timer;
 }

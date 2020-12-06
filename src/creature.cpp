@@ -1679,7 +1679,7 @@ int Creature::get_part_temp_conv( const bodypart_id &id ) const
 
 int Creature::get_part_frostbite_timer( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, &bodypart::get_frotbite_timer );
+    return get_part_helper( *this, id, &bodypart::get_frostbite_timer );
 }
 
 float Creature::get_part_wetness_percentage( const bodypart_id &id ) const

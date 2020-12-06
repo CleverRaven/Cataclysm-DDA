@@ -921,7 +921,7 @@ class scrollingcombattext
                 }
                 int getPosX() const;
                 int getPosY() const;
-                direction getDirecton() const {
+                direction getDirection() const {
                     return oDir;
                 }
                 int getInitPosX() const {

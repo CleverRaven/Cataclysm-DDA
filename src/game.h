@@ -976,7 +976,7 @@ class game
                 bool r_cache_vertical;
                 reachability_cache_quadrant quadrant;
         } debug_rz_display = {};
-        void display_reahability_zones(); // Displays reachability zones
+        void display_reachability_zones(); // Displays reachability zones
 
         spell_events &spell_events_subscriber();
 

@@ -60,7 +60,7 @@ class player_morale
         int get_total_negative_value() const;
 
         /** Returns perceived pain. Only used in morale_test.cpp*/
-        int get_percieved_pain() const;
+        int get_perceived_pain() const;
 
         void on_mutation_gain( const trait_id &mid );
         void on_mutation_loss( const trait_id &mid );

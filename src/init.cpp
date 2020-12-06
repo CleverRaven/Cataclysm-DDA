@@ -616,7 +616,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Constructions" ), &finalize_constructions },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
-            { _( "Martial arts" ), &finialize_martial_arts },
+            { _( "Martial arts" ), &finalize_martial_arts },
             { _( "NPC classes" ), &npc_class::finalize_all },
             { _( "Missions" ), &mission_type::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
