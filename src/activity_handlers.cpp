@@ -2689,8 +2689,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     }
 
     //get skill list from mending method, iterate through and give xp
-    const std::map<skill_id, int> skills_trained = method->skills;
-    for( const std::pair<const skill_id, int> &e : skills_trained ) {
+    for( const std::pair<const skill_id, int> &e : method->skills ) {
         p->practice( e.first, 10, static_cast<int>( e.second * 1.25 ) );
     }
 
