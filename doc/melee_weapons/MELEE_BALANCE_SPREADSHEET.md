@@ -45,7 +45,7 @@ Finally,
 * Column Au "Value" is the average of columns Z, AI, and AR, multiplied by 1.5 for Reach 2 weapons and 1.75 for Reach 3 weapons.
 
 ### New Formula Sorted
-This compares the old weapon values versus the values from the new formula, and sorts weapons by decreasing new value by weapon category to make it easier to spot weapons that are unsually good (I'm looking at you, broadsword) or bad for their category.
+This compares the old weapon values versus the values from the new formula, and sorts weapons by decreasing new value by weapon category to make it easier to spot weapons that are unusually good (I'm looking at you, broadsword) or bad for their category.
 
 ### Proposed Values
 This repeats the New Formula tab, except that Columns C-J were copied over and pasted as values, and then adjusted to make the numbers nice.
