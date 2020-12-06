@@ -89,7 +89,6 @@
     "description": "A garishly-colored faux fur coat with a couple small pockets.  Although not as warm as the natural fur, it gives you some of that unique flair.",
     "material": [ "faux_fur", "cotton" ],
     "color": "pink",
-    "covers": [ "torso", "arm_l", "arm_r" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ],
     "warmth": 70
   },
@@ -301,7 +300,6 @@
     "name": { "str": "faux fur duster" },
     "description": "A thick faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
     "warmth": 40
   },
@@ -1063,7 +1061,6 @@
     "name": { "str": "sleeveless faux fur duster" },
     "description": "A thick, sleeveless faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
-    "covers": [ "torso", "leg_l", "leg_r" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
     "warmth": 40
   },
@@ -1206,7 +1203,6 @@
     "name": { "str": "sleeveless faux fur trenchcoat" },
     "description": "A thick faux fur trenchcoat without sleeves.  Has plenty of storage space, and looks pretty good.",
     "material": [ "faux_fur", "cotton" ],
-    "covers": [ "torso" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
     "warmth": 40
   },
@@ -1390,7 +1386,6 @@
     "name": { "str": "faux fur trenchcoat" },
     "description": "A thick faux fur trenchcoat, lined with pockets.  Great for storage, and makes you the talk of the town.",
     "material": [ "faux_fur", "cotton" ],
-    "covers": [ "torso", "arm_l", "arm_r" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
     "warmth": 40
   },
