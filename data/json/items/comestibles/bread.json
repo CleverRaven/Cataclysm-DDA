@@ -303,21 +303,5 @@
     "flags": [ "EATEN_HOT", "EATEN_COLD" ],
     "fun": 3,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
-<<<<<<< HEAD
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "bread_canned",
-    "name": { "str_sp": "canned bread" },
-    "copy-from": "brown_bread",
-    "spoils_in": "2 years",
-    "container": "can_medium",
-    "description": "It reads: New England's Finest.",
-    "price": "3 USD",
-    "//": "more expensive because it's canned and lasts longer",
-    "price_postapoc": "5 USD",
-    "fun": 4
-=======
->>>>>>> parent of d4bf0c9a80... Canned bread yay
   }
 ]
