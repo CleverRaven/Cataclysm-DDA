@@ -382,7 +382,7 @@
   {
     "id": "mon_moxie_regenerator",
     "type": "MONSTER",
-    "name": { "str": "Regenerator" },
+    "name": { "str": "MoxPhore Regenerator" },
     "description": "A human stands here, comically thin and scratching It's scar-ridden flesh, any flesh it rips off grows back in seconds.",
     "default_faction": "moxie",
     "bodytype": "human",
