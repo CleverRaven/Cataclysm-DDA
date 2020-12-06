@@ -111,7 +111,7 @@ struct level_cache {
 
         void set_veh_in_active_range( bool is_active );
         void set_veh_exists_at( const tripoint &pt, bool exists_at );
-        void set_veh_cached_parts( const tripoint &pt, vehicle *veh, int part_num );
+        void set_veh_cached_parts( const tripoint &pt, vehicle &veh, int part_num );
         void verify_vehicle_cache();
         void clear_vehicle_cache();
         void clear_veh_from_veh_cached_parts( const tripoint &pt, vehicle *veh );

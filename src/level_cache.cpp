@@ -59,11 +59,11 @@ void level_cache::set_veh_exists_at( const tripoint &pt, bool exists_at )
     veh_cache_active |= exists_at;
 }
 
-void level_cache::set_veh_cached_parts( const tripoint &pt, vehicle *veh, int part_num )
+void level_cache::set_veh_cached_parts( const tripoint &pt, vehicle &veh, int part_num )
 {
-    veh_cached_parts[ pt ] = std::make_pair( veh, part_num );
+    veh_cached_parts[ pt ] = std::make_pair( &veh, part_num );
     veh_cache_dirty = true;
-    veh_cache_active |= veh != nullptr;
+    veh_cache_active = true;
 }
 
 void level_cache::verify_vehicle_cache()
