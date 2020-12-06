@@ -113,16 +113,18 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     cata_assert( p1.z == p2.z );
     cata_assert( p1.x <= p2.x && p1.y <= p2.y );
 
-    tripoint sm_pos = coord_pair( p1 ).sm - point( 1, 1 );
-    point sm_size = ( coord_pair( p2 ).sm - sm_pos ).xy() + point( 1, 1 );
+    tripoint sm_p1 = coord_pair( p1 ).sm - point( 1, 1 );
+    tripoint sm_p2 = coord_pair( p2 ).sm + point( 1, 1 );
+
+    tripoint sm_pos = sm_p1;
+    point sm_size = sm_p2.xy() - sm_p1.xy();
+
     if( sm_pos.z == cache_pos.z ) {
-        half_open_rectangle<point> half_rect( cache_pos.xy(), cache_pos.xy() + cache_size );
-        inclusive_rectangle<point> incl_rect( cache_pos.xy(), cache_pos.xy() + cache_size );
-        if( half_rect.contains( sm_pos.xy() ) && incl_rect.contains( sm_pos.xy() + sm_size ) ) {
+        inclusive_rectangle<point> rect( cache_pos.xy(), cache_pos.xy() + cache_size );
+        if( rect.contains( sm_p1.xy() ) && rect.contains( sm_p2.xy() ) ) {
             return false;
         }
     }
-
     cache_pos = sm_pos;
     cache_size = sm_size;
     cached.clear();
@@ -295,8 +297,8 @@ bool map_memory::save( const tripoint &pos )
     }
     submaps.clear();
 
-    constexpr point MM_SIZE_P = point( MM_SIZE, MM_SIZE );
-    rectangle<point> rect_keep( sm_center.xy() - MM_SIZE_P, sm_center.xy() + MM_SIZE_P );
+    constexpr point MM_HSIZE_P = point( MM_SIZE / 2, MM_SIZE / 2 );
+    rectangle<point> rect_keep( sm_center.xy() - MM_HSIZE_P, sm_center.xy() + MM_HSIZE_P );
 
     bool result = true;
 
@@ -320,13 +322,13 @@ bool map_memory::save( const tripoint &pos )
             const bool res = write_to_file( path, writer, descr.c_str() );
             result = result & res;
         }
-        half_open_rectangle<point> rect_reg( mmr_to_sm_copy( regp ).xy(),
-                                             point( MM_REG_SIZE, MM_REG_SIZE ) );
+        point regp_sm = mmr_to_sm_copy( regp ).xy();
+        half_open_rectangle<point> rect_reg( regp_sm, regp_sm + point( MM_REG_SIZE, MM_REG_SIZE ) );
         if( rect_reg.overlaps( rect_keep ) ) {
             // Put submaps back
             for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
                 for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
-                    tripoint p = regp + tripoint( x, y, 0 );
+                    tripoint p = regp_sm + tripoint( x, y, 0 );
                     shared_ptr_fast<mm_submap> &sm = reg.submaps[x][y];
                     submaps.insert( std::make_pair( p, sm ) );
                 }

@@ -5822,12 +5822,12 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     }
 
     // Memorize off-screen tiles
-    rectangle display( offs.xy(), offs.xy() + point( wnd_w, wnd_h ) );
+    half_open_rectangle<point> display( offs.xy(), offs.xy() + point( wnd_w, wnd_h ) );
     drawsq_params mm_params = drawsq_params().memorize( true ).output( false );
     for( int y = 0; y < MAPSIZE_Y; y++ ) {
         for( int x = 0; x < MAPSIZE_X; x++ ) {
             const tripoint p( x, y, center.z );
-            if( display.contains_half_open( p.xy() ) ) {
+            if( display.contains( p.xy() ) ) {
                 // Have been memorized during display loop
                 continue;
             }
@@ -5835,14 +5835,14 @@ void map::draw( const catacurses::window &w, const tripoint &center )
             const lit_level lighting = visibility_cache[p.x][p.y];
             const visibility_type vis = get_visibility( lighting, cache );
 
-            if( vis != VIS_CLEAR ) {
+            if( vis != visibility_type::CLEAR ) {
                 continue;
             }
 
             const maptile curr_maptile = maptile_at_internal( p );
             mm_params
-            .low_light( lighting == LL_LOW )
-            .bright_light( lighting == LL_BRIGHT );
+            .low_light( lighting == lit_level::LOW )
+            .bright_light( lighting == lit_level::BRIGHT );
 
             draw_maptile( w, p, curr_maptile, mm_params );
         }
