@@ -783,7 +783,7 @@ class game
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
         // Handle pushing during move, returns true if it handled the move
-        bool grabbed_move( const tripoint &dp, const bool via_ramp );
+        bool grabbed_move( const tripoint &dp, bool via_ramp );
         bool grabbed_veh_move( const tripoint &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
