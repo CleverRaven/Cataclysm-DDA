@@ -705,7 +705,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         }
     }
 
-    if( unarmed_flag_set ) {
+    if( unarmed_flag_set && !cur_weapon->is_null() ) {
         cur_weapon->unset_flag( flag_UNARMED_WEAPON );
     }
 
