@@ -2438,7 +2438,7 @@ item_group::ItemList vehicle_part::pieces_for_broken_part() const
 {
     const item_group_id &group = info().breaks_into_group;
     // TODO: make it optional? Or use id of empty item group?
-    if( group ) {
+    if( !group ) {
         return {};
     }
 
