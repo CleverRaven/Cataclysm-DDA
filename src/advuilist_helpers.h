@@ -87,6 +87,7 @@ item_location iloc_character( Character *guy, item *it );
 item_location iloc_vehicle( vehicle_cursor const &cursor, item *it );
 template <class Iterable>
 iloc_stack_t get_stacks( Iterable items, filoc_t const &iloc_helper );
+iloc_stack_t get_stacks( std::list<item *> const &items, filoc_t const &iloc_helper );
 
 std::size_t iloc_entry_counter( iloc_entry const &it );
 std::string iloc_entry_count( iloc_entry const &it );

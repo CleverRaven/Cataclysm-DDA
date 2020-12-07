@@ -511,8 +511,7 @@ iloc_stack_t get_stacks( Iterable items, filoc_t const &iloc_helper )
 
 // all_items_top() returns an Iterable of element pointers unlike map::i_at() and friends (which
 // return an Iterable of elements) so we need this specialization and minor code duplication.
-template <>
-iloc_stack_t get_stacks<std::list<item *>>( std::list<item *> items, filoc_t const &iloc_helper )
+iloc_stack_t get_stacks( std::list<item *> const &items, filoc_t const &iloc_helper )
 {
     iloc_stack_t stacks;
     stack_cache_t cache;
@@ -650,7 +649,7 @@ aim_container_t source_vehicle( tripoint const &loc )
 {
     cata::optional<vpart_reference> vp = veh_cargo_at( loc );
 
-    return get_stacks( vp->vehicle().get_items( vp->part_index() ), [&]( item * it ) {
+    return get_stacks<>( vp->vehicle().get_items( vp->part_index() ), [&]( item * it ) {
         return iloc_vehicle( vehicle_cursor( vp->vehicle(), vp->part_index() ), it );
     } );
 }
@@ -666,7 +665,7 @@ aim_container_t source_char_inv( Character *guy )
     aim_container_t ret;
     for( item &worn_item : guy->worn ) {
         aim_container_t temp =
-            get_stacks<>( worn_item.contents.all_items_top( item_pocket::pocket_type::CONTAINER ),
+            get_stacks( worn_item.contents.all_items_top( item_pocket::pocket_type::CONTAINER ),
         [guy]( item * it ) {
             return iloc_character( guy, it );
         } );
