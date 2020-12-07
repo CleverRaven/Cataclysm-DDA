@@ -739,7 +739,7 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
                 return fgsort( *std::get<ptr_t>( lhs ), *std::get<ptr_t>( rhs ) );
             }
         };
-        std::sort( _list.begin(), _list.end(), cmp( _groupers[idx] ) );
+        std::stable_sort( _list.begin(), _list.end(), cmp( _groupers[idx] ) );
     }
 
     // build group and page index pairs
