@@ -2941,8 +2941,16 @@ void overmap::place_cities()
     const string_id<overmap_connection> local_road_id( "local_road" );
     const overmap_connection &local_road( *local_road_id );
 
+    // if there is only a single free tile, the probability of NOT finding it after MAX_PLACEMENT_ATTEMTPS attempts
+    // is (1 - 1/(OMAPX * OMAPY))^MAX_PLACEMENT_ATTEMTPS ≈ 36% for the OMAPX=OMAPY=180 and MAX_PLACEMENT_ATTEMTPS=OMAPX * OMAPY
+    const int MAX_PLACEMENT_ATTEMTPS = OMAPX * OMAPY;
+    int placement_attempts = 0;
+
     // place a seed for NUM_CITIES cities, and maybe one more
-    while( cities.size() < static_cast<size_t>( NUM_CITIES ) ) {
+    while( cities.size() < static_cast<size_t>( NUM_CITIES ) &&
+           placement_attempts < MAX_PLACEMENT_ATTEMTPS ) {
+        placement_attempts++;
+
         // randomly make some cities smaller or larger
         int size = rng( op_city_size - 1, op_city_size + 1 );
         if( one_in( 3 ) ) {      // 33% tiny
@@ -2962,6 +2970,7 @@ void overmap::place_cities()
         const tripoint_om_omt p( c, 0 );
 
         if( ter( p ) == settings.default_oter ) {
+            placement_attempts = 0;
             ter_set( p, oter_id( "road_nesw" ) ); // every city starts with an intersection
             city tmp;
             tmp.pos = p.xy();
@@ -4067,11 +4076,7 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
 
         const oter_id &tid = ter( rp );
 
-        if( rp.z() == 0 ) {
-            return elem.can_be_placed_on( tid );
-        } else {
-            return tid == get_default_terrain( rp.z() );
-        }
+        return elem.can_be_placed_on( tid ) || ( rp.z() != 0 && tid == get_default_terrain( rp.z() ) );
     } );
 }
 

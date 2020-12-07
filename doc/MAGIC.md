@@ -530,3 +530,12 @@ The damage enchantment values are for melee only.
 * ITEM_COVERAGE
 * ITEM_ATTACK_SPEED
 * ITEM_WET_PROTECTION
+
+Examples
+    { "value": "ARMOR_ELEC", "add": -20 } subtracts 20 points of electrical damage
+    { "value": "ATTACK_SPEED", "add": -60 } subtracts 60 moves from attacking making the attack faster
+    { "value": "ARMOR_COLD", "multiply": -0.4 } subtracts 40 percent of the any cold damage
+    { "value": "ARMOR_HEAT", "multiply": 0.4 } increases damage taken from fire by 40 percent
+    { "value": "ARMOR_CUT", "add": 2 } increases cut damage taken by 2
+    { "value": "ARMOR_BIO", "multiply": -1.4 } subtracts 140 percent of the any bio damage giving 40% of damage dealt as increased health
+    { "value": "ARMOR_ACID", "multiply": 1.4 } increases damage taken from acid by 140 percent

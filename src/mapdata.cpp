@@ -158,6 +158,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile
         { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
         { "WALL",                     TFLAG_WALL },           // connects to other walls
+        { "NO_SHOOT",                 TFLAG_NO_SHOOT },       // terrain cannot be damaged by ranged attacks
         { "NO_SCENT",                 TFLAG_NO_SCENT },       // cannot have scent values, which prevents scent diffusion through this tile
         { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
         { "SHALLOW_WATER",            TFLAG_SHALLOW_WATER },  // Water, but not deep enough to submerge the player
@@ -1182,6 +1183,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "coverage", coverage );
     assign( jo, "max_volume", max_volume, src == "dda" );
     optional( jo, was_loaded, "trap", trap_id_str );
+    optional( jo, was_loaded, "heat_radiation", heat_radiation );
 
     optional( jo, was_loaded, "light_emitted", light_emitted );
 
@@ -1205,6 +1207,8 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
+
+    optional( jo, was_loaded, "emissions", emissions );
 
     bash.load( jo, "bash", map_bash_info::terrain, "terrain " + id.str() );
     deconstruct.load( jo, "deconstruct", false, "terrain " + id.str() );
@@ -1267,6 +1271,11 @@ void ter_t::check() const
     }
     if( transforms_into && transforms_into == id ) {
         debugmsg( "%s transforms_into itself", id.c_str() );
+    }
+    for( const emit_id &e : emissions ) {
+        if( !e.is_valid() ) {
+            debugmsg( "ter %s has invalid emission %s set", id.c_str(), e.str().c_str() );
+        }
     }
 }
 
@@ -1352,16 +1361,10 @@ void furn_t::check() const
     if( !close.is_valid() ) {
         debugmsg( "invalid furniture %s for closing %s", close.c_str(), id.c_str() );
     }
-    if( has_flag( "EMITTER" ) ) {
-        if( emissions.empty() ) {
-            debugmsg( "furn %s has the EMITTER flag, but no emissions were set", id.c_str() );
-        } else {
-            for( const emit_id &e : emissions ) {
-                if( !e.is_valid() ) {
-                    debugmsg( "furn %s has the EMITTER flag, but invalid emission %s was set", id.c_str(),
-                              e.str().c_str() );
-                }
-            }
+    for( const emit_id &e : emissions ) {
+        if( !e.is_valid() ) {
+            debugmsg( "furn %s has invalid emission %s set", id.c_str(),
+                      e.str().c_str() );
         }
     }
 }

@@ -9,8 +9,8 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "40x53mm_m169_casing", 1 ] ],
-      [ [ "combatnail", 100 ] ],
-      [ [ "gunpowder_shotgun", 2 ] ],
+      [ [ "combatnail", 115 ] ],
+      [ [ "gunpowder_shotgun", 86 ] ],
       [ [ "lgrifle_primer", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

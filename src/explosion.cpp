@@ -502,6 +502,11 @@ void explosion( const tripoint &p, float power, float factor, bool fire,
 
 void explosion( const tripoint &p, const explosion_data &ex )
 {
+    _explosions.emplace_back( p, ex );
+}
+
+void _make_explosion( const tripoint &p, const explosion_data &ex )
+{
     const int noise = ex.power * ( ex.fire ? 2 : 10 );
     if( noise >= 30 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
@@ -857,6 +862,14 @@ void resonance_cascade( const tripoint &p )
             }
         }
     }
+}
+
+void process_explosions()
+{
+    for( const queued_explosion &ex : _explosions ) {
+        _make_explosion( ex.first, ex.second );
+    }
+    _explosions.clear();
 }
 
 } // namespace explosion_handler

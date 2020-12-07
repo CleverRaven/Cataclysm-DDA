@@ -8012,24 +8012,17 @@ static void sendRadioSignal( player &p, const flag_id &signal )
                 if( it.has_flag( flag_RADIO_INVOKE_PROC ) ) {
                     // Invoke to transform a radio-modded explosive into its active form
                     it.type->invoke( p, it, loc );
-                    it.ammo_unset();
                 }
-            } else if( it.has_flag( flag_RADIO_CONTAINER ) && !it.contents.empty() ) {
+            } else if( !it.contents.empty_container() ) {
                 item *itm = it.contents.get_item_with( [&signal]( const item & c ) {
                     return c.has_flag( signal );
                 } );
 
                 if( itm != nullptr ) {
                     sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
-                    // Invoke twice: first to transform, then later to proc
+                    // Invoke to transform a radio-modded explosive into its active form
                     if( itm->has_flag( flag_RADIO_INVOKE_PROC ) ) {
                         itm->type->invoke( p, *itm, loc );
-                        itm->ammo_unset();
-                        // The type changed
-                    }
-                    if( itm->has_flag( flag_BOMB ) ) {
-                        itm->type->invoke( p, *itm, loc );
-                        it.contents.clear_items();
                     }
                 }
             }

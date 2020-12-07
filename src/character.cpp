@@ -2683,6 +2683,21 @@ int Character::amount_worn( const itype_id &id ) const
     return amount;
 }
 
+int Character::count_softwares( const itype_id &id )
+{
+    int count = 0;
+    for( const item_location &it_loc : all_items_loc() ) {
+        if( it_loc->is_software_storage() ) {
+            for( const item *soft : it_loc->softwares() ) {
+                if( soft->typeId() == id ) {
+                    count++;
+                }
+            }
+        }
+    }
+    return count;
+}
+
 std::vector<item_location> Character::nearby( const
         std::function<bool( const item *, const item * )> &func, int radius ) const
 {
@@ -3281,10 +3296,6 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         std::set<ammotype> ammo = obj.ammo_types();
 
         src.visit_items( [&src, &nested, &out, ammo]( item * node, item * parent ) {
-            if( node->is_gun() || node->is_tool() ) {
-                // guns/tools never contain usable ammo so most efficient to skip them now
-                return VisitResponse::SKIP;
-            }
             if( !node->made_of_from_type( phase_id::SOLID ) && parent == nullptr ) {
                 // some liquids are ammo but we can't reload with them unless within a container or frozen
                 return VisitResponse::SKIP;
@@ -3313,7 +3324,9 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                     out = item_location( src, node );
                 }
             }
-            if( node->is_magazine() && node->has_flag( flag_SPEEDLOADER ) ) {
+            if( node->is_magazine() &&
+                ( parent == nullptr || node != parent->magazine_current() ) &&
+                node->has_flag( flag_SPEEDLOADER ) ) {
                 if( node->ammo_remaining() ) {
                     out = item_location( src, node );
                 }
@@ -3324,11 +3337,9 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         // find compatible magazines excluding those already loaded in tools/guns
         const auto mags = obj.magazine_compatible();
 
-        src.visit_items( [&src, &nested, &out, mags, empty]( item * node ) {
-            if( node->is_gun() || node->is_tool() ) {
-                return VisitResponse::SKIP;
-            }
-            if( node->is_magazine() ) {
+        src.visit_items( [&src, &nested, &out, mags, empty]( item * node, item * parent ) {
+            if( node->is_magazine() &&
+                ( parent == nullptr || node != parent->magazine_current() ) ) {
                 if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
                     out = item_location( src, node );
                 }
@@ -5948,6 +5959,54 @@ needs_rates Character::calc_needs_rates() const
     rates.thirst = enchantment_cache->modify_value( enchant_vals::mod::THIRST, rates.thirst );
 
     return rates;
+}
+
+item Character::reduce_charges( item *it, int quantity )
+{
+    if( !has_item( *it ) ) {
+        debugmsg( "invalid item (name %s) for reduce_charges", it->tname() );
+        return item();
+    }
+    if( it->charges <= quantity ) {
+        return i_rem( it );
+    }
+    it->mod_charges( -quantity );
+    item result( *it );
+    result.charges = quantity;
+    return result;
+}
+
+bool Character::can_interface_armor() const
+{
+    bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
+    []( const bionic & b ) {
+        return b.powered && b.info().has_flag( "BIONIC_ARMOR_INTERFACE" );
+    } );
+    return okay;
+}
+
+bool Character::has_mission_item( int mission_id ) const
+{
+    return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
+}
+
+bool Character::has_gun_for_ammo( const ammotype &at ) const
+{
+    return has_item_with( [at]( const item & it ) {
+        // item::ammo_type considers the active gunmod.
+        return it.is_gun() && it.ammo_types().count( at );
+    } );
+}
+
+bool Character::has_magazine_for_ammo( const ammotype &at ) const
+{
+    return has_item_with( [&at]( const item & it ) {
+        return !it.has_flag( flag_NO_RELOAD ) &&
+               ( ( it.is_magazine() && it.ammo_types().count( at ) ) ||
+                 ( it.is_gun() && it.magazine_integral() && it.ammo_types().count( at ) ) ||
+                 ( it.is_gun() && it.magazine_current() != nullptr &&
+                   it.magazine_current()->ammo_types().count( at ) ) );
+    } );
 }
 
 void Character::check_needs_extremes()
@@ -8679,7 +8738,17 @@ bool Character::consume_charges( item &used, int qty )
 
     // Tools which don't require ammo are instead destroyed
     if( used.is_tool() && !used.ammo_required() ) {
-        i_rem( &used );
+        if( has_item( used ) ) {
+            i_rem( &used );
+        } else {
+            map_stack items = get_map().i_at( pos() );
+            for( item_stack::iterator iter = items.begin(); iter != items.end(); iter++ ) {
+                if( &( *iter ) == &used ) {
+                    iter = items.erase( iter );
+                    break;
+                }
+            }
+        }
         return true;
     }
 
@@ -12269,6 +12338,9 @@ bool Character::sees( const Creature &critter ) const
     if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
         return true;
     }
+    if( dist < MAX_CLAIRVOYANCE && dist < clairvoyance() ) {
+        return true;
+    }
     if( field_fd_clairvoyant.is_valid() &&
         get_map().get_field( critter.pos(), field_fd_clairvoyant ) ) {
         return true;
@@ -12744,6 +12816,34 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
     return std::max( mv, 25 );
 }
 
+book_mastery Character::get_book_mastery( const item &book ) const
+{
+    if( !book.is_book() || !has_identified( book.typeId() ) ) {
+        return book_mastery::CANT_DETERMINE;
+    }
+    // TODO: add illiterate check?
+
+    const cata::value_ptr<islot_book> &type = book.type->book;
+    const skill_id &skill = type->skill;
+
+    if( !skill ) {
+        // book gives no skill
+        return book_mastery::MASTERED;
+    }
+
+    const int skill_level = get_skill_level( skill );
+    const int skill_requirement = type->req;
+    const int max_skill_learnable = type->level;
+
+    if( skill_requirement > skill_level ) {
+        return book_mastery::CANT_UNDERSTAND;
+    }
+    if( skill_level >= max_skill_learnable ) {
+        return book_mastery::MASTERED;
+    }
+    return book_mastery::LEARNING;
+}
+
 static const itype_id itype_cookbook_human( "cookbook_human" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
@@ -12755,16 +12855,7 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
 bool Character::fun_to_read( const item &book ) const
 {
-    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if( ( has_trait( trait_CANNIBAL ) || has_trait( trait_PSYCHOPATH ) ||
-          has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == itype_cookbook_human ) {
-        return true;
-    } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( flag_INSPIRATIONAL ) ) {
-        return true;
-    } else {
-        return book_fun_for( book, *this ) > 0;
-    }
+    return book_fun_for( book, *this ) > 0;
 }
 
 int Character::book_fun_for( const item &book, const Character &p ) const

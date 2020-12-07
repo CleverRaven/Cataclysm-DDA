@@ -441,6 +441,12 @@
     "info": "As a weapon, this item needs considerable space to use properly and does 70% of its normal damage to adjacent enemies."
   },
   {
+    "id": "PREDATOR_FUN",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
+  },
+  {
     "id": "STAB",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ]
