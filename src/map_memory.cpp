@@ -339,10 +339,11 @@ bool map_memory::save( const tripoint &pos )
             const bool res = write_to_file( path, writer, descr.c_str() );
             result = result & res;
         }
-        point regp_sm = mmr_to_sm_copy( regp ).xy();
-        half_open_rectangle<point> rect_reg( regp_sm, regp_sm + point( MM_REG_SIZE, MM_REG_SIZE ) );
+        tripoint regp_sm = mmr_to_sm_copy( regp );
+        half_open_rectangle<point> rect_reg( regp_sm.xy(), regp_sm.xy() + point( MM_REG_SIZE,
+                                             MM_REG_SIZE ) );
         if( rect_reg.overlaps( rect_keep ) ) {
-            dbg( D_INFO ) << "Keeping mm_region " << regp << " [" << mmr_to_sm_copy( regp ) << "]";
+            dbg( D_INFO ) << "Keeping mm_region " << regp << " [" << regp_sm << "]";
             // Put submaps back
             for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
                 for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
@@ -352,7 +353,7 @@ bool map_memory::save( const tripoint &pos )
                 }
             }
         } else {
-            dbg( D_INFO ) << "Dropping mm_region " << regp << " [" << mmr_to_sm_copy( regp ) << "]";
+            dbg( D_INFO ) << "Dropping mm_region " << regp << " [" << regp_sm << "]";
         }
     }
 
