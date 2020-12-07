@@ -284,7 +284,7 @@
     "time": "6 h",
     "reversible": true,
     "decomp_learn": 7,
-    "book_learn": [ [ "recipe_cryo_lab", 5 ] ],
+    "book_learn": [ [ "recipes_cryolab", 5 ] ],
     "using": [ [ "soldering_standard", 400 ] ],
     "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [

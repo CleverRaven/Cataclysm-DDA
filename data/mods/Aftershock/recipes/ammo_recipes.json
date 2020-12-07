@@ -45,7 +45,7 @@
     "time": "45 m",
     "book_learn": [ [ "recipe_unusual_ammos", 3 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "NANO_FORGE", "level": 1 }, { "id": "HAMMER_FINE", "level": 1 } ],
-    "using": [ [ "nano_forge", 20 ] ],
+    "using": [ [ "nanosmithing_standard", 5 ] ],
     "components": [ [ [ "afs_material_2", 4 ] ], [ [ "afs_material_3", 3 ] ] ]
   }
 ]

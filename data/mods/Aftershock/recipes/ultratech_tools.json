@@ -20,8 +20,8 @@
     "tools": [ [ [ "welder", 400 ], [ "welder_crude", 600 ], [ "toolset", 600 ], [ "soldering_iron", 600 ], [ "oxy_torch", 80 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
-      [ [ "afs_scrap_4", 8 ] ],
-      [ [ "afs_scrap_2", 12 ] ],
+      [ [ "afs_material_4", 8 ] ],
+      [ [ "afs_material_2", 12 ] ],
       [ [ "cable", 40 ] ],
       [ [ "afs_magnet_3", 4 ] ],
       [ [ "afs_magnet_2", 12 ] ],
@@ -57,9 +57,9 @@
     "tools": [ [ [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ], [ "soldering_iron", 450 ], [ "oxy_torch", 60 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
-      [ [ "afs_scrap_3", 8 ] ],
-      [ [ "afs_scrap_2", 12 ] ],
-      [ [ "afs_scrap_1", 28 ] ],
+      [ [ "afs_material_3", 8 ] ],
+      [ [ "afs_material_2", 12 ] ],
+      [ [ "afs_material_1", 28 ] ],
       [ [ "cable", 40 ] ],
       [ [ "afs_magnet_3", 8 ] ],
       [ [ "afs_magnet_2", 12 ] ],
