@@ -718,12 +718,12 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
 
     aim_default_columns( myadvuilist );
     myadvuilist->setcountingf( iloc_entry_counter );
-    // use numeric sorters instead of advuilist's lexicographic ones
-    myadvuilist->addSorter( sorter_t{ "count", iloc_entry_count_sorter } );
-    myadvuilist->addSorter( sorter_t{ "weight", iloc_entry_weight_sorter } );
-    myadvuilist->addSorter( sorter_t{ "vol", iloc_entry_volume_sorter } );
-    // we need to replace name sorter too due to color tags
+    // we need to replace name sorter due to color tags
     myadvuilist->addSorter( sorter_t{ "Name", iloc_entry_name_sorter } );
+    // use numeric sorters instead of advuilist's lexicographic ones
+    myadvuilist->addSorter( sorter_t{ "amount", iloc_entry_count_sorter } );
+    myadvuilist->addSorter( sorter_t{ "weight", iloc_entry_weight_sorter } );
+    myadvuilist->addSorter( sorter_t{ "volume", iloc_entry_volume_sorter } );
     // extra sorters
     myadvuilist->addSorter( sorter_t{ "damage", iloc_entry_damage_sorter} );
     myadvuilist->addSorter( sorter_t{ "spoilage", iloc_entry_spoilage_sorter} );
