@@ -1233,5 +1233,20 @@
     "id": "esbi_plate",
     "type": "MIGRATION",
     "replace": "ceramic_armor"
+  },
+  {
+    "id": "22_fmj",
+    "type": "MIGRATION",
+    "replace": "22_cphp"
+  },
+  {
+    "id": "bp_22_fmj",
+    "type": "MIGRATION",
+    "replace": "bp_22_cphp"
+  },
+  {
+    "id": "reloaded_22_fmj",
+    "type": "MIGRATION",
+    "replace": "reloaded_22_cphp"
   }
 ]

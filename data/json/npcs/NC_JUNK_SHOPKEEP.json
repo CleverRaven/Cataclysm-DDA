@@ -104,7 +104,7 @@
       { "item": "ax", "prob": 25 },
       { "item": "spear_knife", "prob": 30 },
       { "item": "22_lr", "prob": 25 },
-      { "item": "22_fmj", "prob": 1 },
+      { "item": "22_cphp", "prob": 1 },
       { "item": "223", "prob": 15 },
       { "item": "308", "prob": 10 },
       { "item": "3006", "prob": 10 },

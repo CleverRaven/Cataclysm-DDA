@@ -155,8 +155,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "223", "prob": 60 },
-      { "item": "22_cb", "prob": 30 },
-      { "item": "22_fmj", "prob": 50 },
+      { "item": "22_cphp", "prob": 50 },
       { "item": "22_lr", "prob": 100 },
       { "item": "22_ratshot", "prob": 30 },
       { "item": "270win_jsp", "prob": 25 },
@@ -226,7 +225,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "reloaded_223", "prob": 60 },
-      { "item": "reloaded_22_fmj", "prob": 20 },
+      { "item": "reloaded_22_cphp", "prob": 20 },
       { "item": "reloaded_22_lr", "prob": 70 },
       { "item": "reloaded_270win_jsp", "prob": 15 },
       { "item": "reloaded_300_winmag", "prob": 15 },
