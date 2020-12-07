@@ -10135,10 +10135,11 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest )
     }
     const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : m.get_abs_sub().z;
     const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : m.get_abs_sub().z;
+    m.clear_all_vehicle_caches( m.get_abs_sub().z );
     for( int z = minz; z <= maxz; z++ ) {
-        m.clear_vehicle_cache( z );
         m.clear_vehicle_list( z );
     }
+    m.build_all_vehicle_caches( m.get_abs_sub().z );
     m.access_cache( m.get_abs_sub().z ).map_memory_seen_cache.reset();
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
@@ -11258,7 +11259,7 @@ void game::vertical_shift( const int z_after )
     const tripoint abs_sub = m.get_abs_sub();
     const int z_before = abs_sub.z;
     if( !m.has_zlevels() ) {
-        m.clear_vehicle_cache( z_before );
+        m.clear_all_vehicle_caches( z_before );
         m.access_cache( z_before ).vehicle_list.clear();
         m.access_cache( z_before ).zone_vehicles.clear();
         m.access_cache( z_before ).map_memory_seen_cache.reset();
@@ -11268,6 +11269,7 @@ void game::vertical_shift( const int z_after )
         m.load( tripoint_abs_sm( point_abs_sm( abs_sub.xy() ), z_after ), true );
         shift_monsters( tripoint( 0, 0, z_after - z_before ) );
         reload_npcs();
+        m.build_all_vehicle_caches( z_after );
     } else {
         // Shift the map itself
         m.vertical_shift( z_after );
