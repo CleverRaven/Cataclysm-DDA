@@ -706,7 +706,7 @@
     "decomp_learn": 5,
     "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 }, { "proficiency": "prof_elec_soldering" } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
