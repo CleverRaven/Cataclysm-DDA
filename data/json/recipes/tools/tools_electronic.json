@@ -699,24 +699,28 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "electronics",
-    "skills_required": [ "mechanics", 4 ],
-    "difficulty": 7,
-    "time": "2 h 45 m",
+    "skills_required": [ [ "mechanics", 4 ], [ "fabrication", 6 ] ],
+    "difficulty": 6,
+    "time": "4 h 45 m",
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 }, { "proficiency": "prof_elec_soldering" } ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
-      [ [ "superglue", 1 ] ],
+      [ [ "superglue", 4 ], [ "bone_glue", 4 ] ],
       [ [ "antenna", 1 ] ],
-      [ [ "motor_micro", 2 ] ],
+      [ [ "motor_micro", 4 ] ],
+      [ [ "amplifier", 2 ] ],
       [ [ "receiver", 1 ] ],
-      [ [ "plastic_chunk", 4 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "cable", 4 ] ],
-      [ [ "radio_car_wheel", 4 ] ]
+      [ [ "plastic_chunk", 12 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "cable", 8 ] ],
+      [ [ "spring", 2 ] ],
+      [ [ "radio_car_wheel", 1 ] ]
     ]
   }
 ]
