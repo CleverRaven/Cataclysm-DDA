@@ -272,7 +272,7 @@
     "id": "mon_moxie_scavenger",
     "type": "MONSTER",
     "name": { "str": "MoxPhore Scavenger" },
-    "description": "A human stands here, towering around 2 meters high.  It's flesh is frozen solid, colored black and blue from frostbite.  It constantly scratches at its flesh with its claw like hands, surveying the land with frozen and foggy eyes.  ",
+    "description": "A human stands here, towering around 2 meters high.  It's flesh is frozen solid, colored black and blue from frostbite.  It constantly scratches at its flesh with its claw like hands, surveying the land with frozen and foggy eyes.",
     "default_faction": "moxie",
     "bodytype": "human",
     "species": [ "MOXIE" ],
