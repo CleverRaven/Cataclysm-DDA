@@ -816,15 +816,20 @@
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ]
     ],
-    "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER",{
-      "type": "repair_item",
-      "item_action_type": "repair_metal",
-      "materials": [ "plastic", "lead", "tin", "zinc" ],
-      "skill": "fabrication",
-      "cost_scaling": 0.1,
-      "move_cost": 1500
-    },
-    { "flame": false, "type": "cauterize" } ],
+    "use_action": [
+      "GUN_REPAIR",
+      "CROWBAR",
+      "HAMMER",
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      },
+      { "flame": false, "type": "cauterize" }
+    ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
