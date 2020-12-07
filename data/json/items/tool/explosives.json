@@ -794,7 +794,7 @@
     "material": [ "steel" ],
     "symbol": "*",
     "color": "dark_gray",
-    "use_action": { "type": "countdown", "name": "Arm grenade", "message": "You pull the pin on the %s." },
+    "use_action": { "type": "countdown", "name": "Arm grenade", "message": "You pull the pin on the %s.", "need_wielding": true },
     "countdown_interval": 5,
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
