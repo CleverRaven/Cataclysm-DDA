@@ -120,6 +120,8 @@ std::vector<Creature *> targetable_creatures( const Character &c, int range );
 std::vector<Creature *> targetable_creatures( const Character &c, int range,
         const turret_data &turret );
 
+int burst_penalty( const Character &p, const item &gun, int gun_recoil );
+
 } // namespace ranged
 
 #endif // CATA_SRC_RANGED_H

@@ -1817,7 +1817,7 @@ class item : public visitable<item>
          *  @param bipod whether any bipods should be considered
          *  @return effective recoil (per shot) or zero if gun uses ammo and none is loaded
          */
-        int gun_recoil( const player &p, bool bipod = false ) const;
+        int gun_recoil( const Character &p, bool bipod = false ) const;
 
         /**
          * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.

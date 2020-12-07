@@ -446,6 +446,14 @@ class Character : public Creature, public visitable<Character>
         /* Calculate aim improvement per move spent aiming at a given @ref recoil */
         double aim_per_move( const item &gun, double recoil ) const;
 
+        /** Get maximum recoil penalty due to vehicle motion */
+        double recoil_vehicle() const;
+
+        double recoil_mode() const;
+
+        /** Current total maximum recoil penalty from all sources */
+        double recoil_total() const;
+
         /** Combat getters */
         float get_dodge_base() const override;
         float get_hit_base() const override;

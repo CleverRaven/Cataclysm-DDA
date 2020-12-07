@@ -1991,9 +1991,16 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     []( const std::pair<gun_mode_id, gun_mode> &e ) {
     return e.second.qty > 1 && !e.second.melee();
     } ) ) {
-        info.emplace_back( "GUN", _( "Recommended strength (burst): " ), "",
-                           iteminfo::lower_is_better, std::ceil( mod->type->weight / 333.0_gram ) );
+        info.emplace_back( "GUN", _( "Burst fire penalty: " ), "",
+                           iteminfo::no_newline | iteminfo::lower_is_better,
+                           ranged::burst_penalty( g->u, *this, loaded_mod->gun_recoil( g->u ) ) );
+        if( bipod ) {
+            info.emplace_back( "GUN", "bipod_burst", _( " (with bipod <num>)" ),
+                               iteminfo::lower_is_better | iteminfo::no_name,
+                               ranged::burst_penalty( g->u, *this, loaded_mod->gun_recoil( g->u, true ) ) );
+        }
     }
+    info.back().bNewLine = true;
 
     if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
         info.emplace_back( "GUN", _( "Reload time: " ),
@@ -6736,15 +6743,11 @@ damage_instance item::gun_damage( bool with_ammo ) const
     return ret;
 }
 
-int item::gun_recoil( const player &p, bool bipod ) const
+int item::gun_recoil( const Character &, bool bipod ) const
 {
     if( !is_gun() || ( ammo_required() && !ammo_remaining() ) ) {
         return 0;
     }
-
-    ///\EFFECT_STR improves the handling of heavier weapons
-    // we consider only base weight to avoid exploits
-    double wt = std::min( type->weight, p.str_cur * 333_gram ) / 333.0_gram;
 
     double handling = type->gun->handling;
     for( const item *mod : gunmods() ) {
@@ -6755,9 +6758,7 @@ int item::gun_recoil( const player &p, bool bipod ) const
 
     // rescale from JSON units which are intentionally specified as integral values
     handling /= 10;
-
-    // algorithm is biased so heavier weapons benefit more from improved handling
-    handling = std::pow( wt, 0.8 ) * std::pow( handling, 1.2 );
+    handling = std::pow( handling, 1.2 );
 
     int qty = type->gun->recoil;
     if( ammo_data() ) {
