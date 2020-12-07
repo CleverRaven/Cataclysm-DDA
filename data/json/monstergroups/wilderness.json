@@ -2881,7 +2881,7 @@
         "freq": 15,
         "cost_multiplier": 0,
         "pack_size": [ 1, 7 ],
-        "conditions": [ "DAWN", "DUSK", "DAY" ]
+        "conditions": [ "DAWN", "DUSK", "DAY", "WINTER" ]
       },
       { "monster": "mon_cat", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_chipmunk", "freq": 50, "cost_multiplier": 0 },
