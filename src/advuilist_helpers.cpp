@@ -545,7 +545,10 @@ std::string iloc_entry_volume( iloc_entry const &it )
 std::string iloc_entry_name( iloc_entry const &it )
 {
     item const &i = *it.stack[0];
-    std::string const name = i.count_by_charges() ? i.tname() : i.display_name();
+    std::string name = i.count_by_charges() ? i.tname() : i.display_name();
+    if( !i.is_owned_by( get_avatar(), true ) ) {
+        name = string_format( "%s %s", "<color_light_red>!</color>", name );
+    }
     nc_color const basecolor = i.color_in_inventory();
     nc_color const color =
         get_auto_pickup().has_rule( &i ) ? magenta_background( basecolor ) : basecolor;
