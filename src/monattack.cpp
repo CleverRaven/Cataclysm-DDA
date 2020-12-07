@@ -5761,6 +5761,7 @@ bool mattack::zombie_fuse( monster *z )
         critter = g->critter_at<monster>( p );
         if( critter != nullptr && critter->faction == z->faction
             && critter != z && critter->get_size() <= z->get_size() ) {
+            critter = nullptr;
             break;
         }
     }
