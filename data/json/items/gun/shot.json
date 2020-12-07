@@ -854,7 +854,6 @@
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
-    "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "2 rd.", 2 ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "stock mount", 1 ],
