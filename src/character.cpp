@@ -5961,6 +5961,54 @@ needs_rates Character::calc_needs_rates() const
     return rates;
 }
 
+item Character::reduce_charges( item *it, int quantity )
+{
+    if( !has_item( *it ) ) {
+        debugmsg( "invalid item (name %s) for reduce_charges", it->tname() );
+        return item();
+    }
+    if( it->charges <= quantity ) {
+        return i_rem( it );
+    }
+    it->mod_charges( -quantity );
+    item result( *it );
+    result.charges = quantity;
+    return result;
+}
+
+bool Character::can_interface_armor() const
+{
+    bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
+    []( const bionic & b ) {
+        return b.powered && b.info().has_flag( "BIONIC_ARMOR_INTERFACE" );
+    } );
+    return okay;
+}
+
+bool Character::has_mission_item( int mission_id ) const
+{
+    return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
+}
+
+bool Character::has_gun_for_ammo( const ammotype &at ) const
+{
+    return has_item_with( [at]( const item & it ) {
+        // item::ammo_type considers the active gunmod.
+        return it.is_gun() && it.ammo_types().count( at );
+    } );
+}
+
+bool Character::has_magazine_for_ammo( const ammotype &at ) const
+{
+    return has_item_with( [&at]( const item & it ) {
+        return !it.has_flag( flag_NO_RELOAD ) &&
+               ( ( it.is_magazine() && it.ammo_types().count( at ) ) ||
+                 ( it.is_gun() && it.magazine_integral() && it.ammo_types().count( at ) ) ||
+                 ( it.is_gun() && it.magazine_current() != nullptr &&
+                   it.magazine_current()->ammo_types().count( at ) ) );
+    } );
+}
+
 void Character::check_needs_extremes()
 {
     // Check if we've overdosed... in any deadly way.
