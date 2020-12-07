@@ -56,7 +56,6 @@ int message_cooldown;
 bool fov_3d;
 int fov_3d_z_range;
 bool tile_iso;
-int memorized_tile_count;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
@@ -2007,11 +2006,6 @@ void options_manager::add_options_debug()
          translate_marker( "If true, enables completely unfinished electric grid system that only slows downs the game." ),
          false
        );
-
-    add( "MEMORIZED_TILE_COUNT", "debug", translate_marker( "Tile memory capacity" ),
-         translate_marker( "Controls number of memorized seen map tiles.  High values increase memory usage and time to recall a tile." ),
-         0, INT_MAX, 2 * SEEX * 2 * SEEY * 1000
-       );
 }
 
 void options_manager::add_options_world_default()
@@ -3008,7 +3002,6 @@ bool options_manager::save()
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
-    memorized_tile_count = ::get_option<int>( "MEMORIZED_TILE_COUNT" );
 
     update_music_volume();
 
@@ -3042,7 +3035,6 @@ void options_manager::load()
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
-    memorized_tile_count = ::get_option<int>( "MEMORIZED_TILE_COUNT" );
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif

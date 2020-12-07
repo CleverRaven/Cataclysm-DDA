@@ -456,12 +456,12 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
         bool draw_fld=true;
         bool draw_veh=true;
     */
-    bool draw_itm = true;
     bool game_map = m == &g->m || w == g->w_terrain;
     const int msize = MAPSIZE_X;
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
     }
+    drawsq_params params = drawsq_params().center( center );
     for( const tripoint &p : tripoint_range( start, end ) ) {
         int sym = game_map ? '%' : ' ';
         if( p.x >= 0 && p.x < msize && p.y >= 0 && p.y < msize ) {
@@ -470,7 +470,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                 if( critter != nullptr ) {
                     critter->draw( w, center.xy(), false );
                 } else {
-                    m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
+                    m->drawsq( w, p, params );
                 }
                 if( refresh_mplans ) {
                     monster *mon = dynamic_cast<monster *>( critter );
@@ -481,7 +481,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                     }
                 }
             } else {
-                m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
+                m->drawsq( w, p, params );
             }
         } else {
             mvwputch( w, p.xy() - start.xy(), c_dark_gray, sym );
@@ -513,7 +513,7 @@ void editmap::draw_main_ui_overlay()
     if( critter != nullptr ) {
         critter->draw( g->w_terrain, target, true );
     } else {
-        g->m.drawsq( g->w_terrain, g->u, target, true, true, target );
+        g->m.drawsq( g->w_terrain, target, drawsq_params().highlight( true ).center( target ) );
     }
 #ifdef TILES
     // give some visual indication of different cursor moving modes
@@ -676,9 +676,9 @@ void editmap::draw_main_ui_overlay()
 #endif
             hilights["mapgentgt"].draw( *this, true );
             tmpmap.reset_vehicle_cache( target.z );
-            const tripoint center( SEEX - 1, SEEY - 1, target.z );
+            drawsq_params params = drawsq_params().center( tripoint( SEEX - 1, SEEY - 1, target.z ) );
             for( const tripoint &p : tmpmap.points_on_zlevel() ) {
-                tmpmap.drawsq( g->w_terrain, g->u, p, false, true, center, false, true );
+                tmpmap.drawsq( g->w_terrain, p, params );
             }
 #ifdef TILES
         }

@@ -453,7 +453,7 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
 
     shared_ptr_fast<game::draw_callback_t> bullet_cb = make_shared_fast<game::draw_callback_t>( [&]() {
         if( p != nullptr && p->z == vp.z ) {
-            m.drawsq( g->w_terrain, g->u, *p, false, true, vp );
+            m.drawsq( g->w_terrain, *p, drawsq_params().center( vp ) );
         }
         mvwputch( g->w_terrain, t.xy() - vp.xy() + point( POSX, POSY ), c_red, bullet );
     } );
@@ -618,6 +618,7 @@ namespace
 void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoint> &ret,
                        bool noreveal )
 {
+    drawsq_params params = drawsq_params().highlight( true ).center( center );
     for( const tripoint &p : ret ) {
         const auto critter = g.critter_at( p, true );
 
@@ -634,7 +635,7 @@ void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoi
             mvwputch( w, point( k, j ), col, sym );
         } else {
             // This function reveals tile at p and writes it to the player's memory
-            g.m.drawsq( g.w_terrain, g.u, p, true, true, center );
+            g.m.drawsq( g.w_terrain, p, params );
         }
     }
 }
@@ -672,7 +673,7 @@ namespace
 void draw_line_curses( game &g, const std::vector<tripoint> &points )
 {
     for( const tripoint &p : points ) {
-        g.m.drawsq( g.w_terrain, g.u, p, true, true );
+        g.m.drawsq( g.w_terrain, p, drawsq_params().highlight( true ) );
     }
 
     const tripoint p = points.empty() ? tripoint {POSX, POSY, 0} :

@@ -891,8 +891,7 @@ void place_construction( const std::string &desc )
 
     shared_ptr_fast<game::draw_callback_t> draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
         for( auto &elem : valid ) {
-            g->m.drawsq( g->w_terrain, g->u, elem.first, true, false,
-                         g->u.pos() + g->u.view_offset );
+            g->m.drawsq( g->w_terrain, elem.first, drawsq_params().highlight( true ).show_items( true ) );
         }
     } );
     g->add_draw_callback( draw_valid );

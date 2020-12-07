@@ -1048,6 +1048,22 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     const auto &ch = g->m.access_cache( center.z );
 
+    // Map memory should be at least the size of the view range
+    // so that new tiles can be memorized, and at least the size of the display
+    // since at farthest zoom displayed area may be bigger than view range.
+    const point min_mm_reg = point(
+                                 std::min( o.x, min_visible_x ),
+                                 std::min( o.y, min_visible_y )
+                             );
+    const point max_mm_reg = point(
+                                 std::max( sx + o.x, max_visible_x ),
+                                 std::max( sy + o.y, max_visible_y )
+                             );
+    g->u.prepare_map_memory_region(
+        g->m.getabs( tripoint( min_mm_reg, center.z ) ),
+        g->m.getabs( tripoint( max_mm_reg, center.z ) )
+    );
+
     //set up a default tile for the edges outside the render area
     visibility_type offscreen_type = VIS_DARK;
     if( cache.u_is_boomered ) {

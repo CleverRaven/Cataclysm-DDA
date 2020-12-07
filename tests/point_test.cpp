@@ -20,6 +20,65 @@ TEST_CASE( "rectangle_containment", "[point]" )
     CHECK( !r.contains_inclusive( point( 0, 3 ) ) );
 }
 
+TEST_CASE( "rectangle_overlapping", "[point]" )
+{
+    rectangle r1( point( 0, 0 ), point( 2, 2 ) ); // NOLINT(cata-use-named-point-constants)
+    rectangle r2( point( 2, 2 ), point( 3, 3 ) );
+    rectangle r3( point( 0, 0 ), point( 2, 1 ) ); // NOLINT(cata-use-named-point-constants)
+    rectangle r4( point( -2, -4 ), point( 4, -1 ) );
+    rectangle r5( point( -1, -3 ), point( 0, -2 ) );
+
+    CHECK( r1.overlaps_inclusive( r1 ) );
+    CHECK( r1.overlaps_inclusive( r2 ) );
+    CHECK( r1.overlaps_inclusive( r3 ) );
+    CHECK( !r1.overlaps_inclusive( r4 ) );
+    CHECK( !r1.overlaps_inclusive( r5 ) );
+
+    CHECK( r2.overlaps_inclusive( r1 ) );
+    CHECK( r2.overlaps_inclusive( r2 ) );
+    CHECK( !r2.overlaps_inclusive( r3 ) );
+    CHECK( !r2.overlaps_inclusive( r4 ) );
+    CHECK( !r2.overlaps_inclusive( r5 ) );
+
+    CHECK( r3.overlaps_inclusive( r1 ) );
+    CHECK( !r3.overlaps_inclusive( r2 ) );
+    CHECK( r3.overlaps_inclusive( r3 ) );
+    CHECK( !r3.overlaps_inclusive( r4 ) );
+    CHECK( !r3.overlaps_inclusive( r5 ) );
+
+    CHECK( !r4.overlaps_inclusive( r1 ) );
+    CHECK( !r4.overlaps_inclusive( r2 ) );
+    CHECK( !r4.overlaps_inclusive( r3 ) );
+    CHECK( r4.overlaps_inclusive( r4 ) );
+    CHECK( r4.overlaps_inclusive( r5 ) );
+    CHECK( r5.overlaps_inclusive( r4 ) );
+
+    CHECK( r1.overlaps_half_open( r1 ) );
+    CHECK( !r1.overlaps_half_open( r2 ) );
+    CHECK( r1.overlaps_half_open( r3 ) );
+    CHECK( !r1.overlaps_half_open( r4 ) );
+    CHECK( !r1.overlaps_half_open( r5 ) );
+
+    CHECK( !r2.overlaps_half_open( r1 ) );
+    CHECK( r2.overlaps_half_open( r2 ) );
+    CHECK( !r2.overlaps_half_open( r3 ) );
+    CHECK( !r2.overlaps_half_open( r4 ) );
+    CHECK( !r2.overlaps_half_open( r5 ) );
+
+    CHECK( r3.overlaps_half_open( r1 ) );
+    CHECK( !r3.overlaps_half_open( r2 ) );
+    CHECK( r3.overlaps_half_open( r3 ) );
+    CHECK( !r3.overlaps_half_open( r4 ) );
+    CHECK( !r3.overlaps_half_open( r5 ) );
+
+    CHECK( !r4.overlaps_half_open( r1 ) );
+    CHECK( !r4.overlaps_half_open( r2 ) );
+    CHECK( !r4.overlaps_half_open( r3 ) );
+    CHECK( r4.overlaps_half_open( r4 ) );
+    CHECK( r4.overlaps_half_open( r5 ) );
+    CHECK( r5.overlaps_half_open( r4 ) );
+}
+
 TEST_CASE( "box_shrinks", "[point]" )
 {
     box b( tripoint_zero, tripoint( 3, 3, 3 ) );

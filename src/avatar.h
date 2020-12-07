@@ -13,7 +13,6 @@
 #include "enums.h"
 #include "item.h"
 #include "magic_teleporter_list.h"
-#include "map_memory.h"
 #include "player.h"
 #include "pldata.h"
 #include "point.h"
@@ -25,6 +24,8 @@ class faction;
 class mission;
 class monster;
 class npc;
+class map_memory;
+struct memorized_terrain_tile;
 
 namespace debug_menu
 {
@@ -54,13 +55,18 @@ class avatar : public player
 {
     public:
         avatar();
+        avatar( const avatar & ) = delete;
+        avatar( avatar && );
+        ~avatar();
+        avatar &operator=( const avatar & ) = delete;
+        avatar &operator=( avatar && );
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
         void serialize( JsonOut &json ) const override;
         void deserialize( JsonIn &jsin ) override;
-        void serialize_map_memory( JsonOut &jsout ) const;
-        void deserialize_map_memory( JsonIn &jsin );
+        bool save_map_memory();
+        void load_map_memory();
 
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
@@ -80,11 +86,12 @@ class avatar : public player
 
         void toggle_map_memory();
         bool should_show_map_memory();
+        void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
         /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
         void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
                             int rotation );
         /** Returns last stored map tile in given location in tiles mode */
-        memorized_terrain_tile get_memorized_tile( const tripoint &p ) const;
+        const memorized_terrain_tile &get_memorized_tile( const tripoint &p ) const;
         /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
         void memorize_symbol( const tripoint &pos, int symbol );
         /** Returns last stored map tile in given location in curses mode */
@@ -212,11 +219,8 @@ class avatar : public player
         }
 
     private:
-        map_memory player_map_memory;
+        std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory;
-        /** Used in max_memorized_tiles to cache memory capacity. **/
-        mutable time_point current_map_memory_turn = calendar::before_time_starts;
-        mutable size_t current_map_memory_capacity = 0;
 
         friend class debug_menu::mission_debug;
         /**

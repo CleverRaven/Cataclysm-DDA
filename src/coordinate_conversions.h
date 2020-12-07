@@ -18,6 +18,14 @@
  * om.y /= SEG_SIZE
  * (with special handling for negative values).
  *
+ * memory map region (mmr): Memory map region is a unit of tile memory saved to a directory.
+ * Each region contains MM_REG_SIZExMM_REG_SIZE memorized submaps, and is used only for
+ * saving/loading memorized submaps, see map_memory.cpp.
+ * Translation from sm to mmr:
+ * sm.x /= MM_REG_SIZE
+ * sm.y /= MM_REG_SIZE
+ * (with special handling for negative values).
+ *
  * overmap terrain (omt): the position of a overmap terrain (oter_id).
  * Each overmap contains (OMAPX * OMAPY) overmap terrains.
  * Translation from omt to om:
@@ -190,5 +198,10 @@ inline point ms_to_omt_remain( point &p )
 }
 // overmap terrain to map segment.
 tripoint omt_to_seg_copy( const tripoint &p );
+// Submap to memory map region.
+point sm_to_mmr_remain( int &x, int &y );
+// Memory map region to submap.
+// Note: this produces sm coords of top-left corner of the region.
+tripoint mmr_to_sm_copy( const tripoint &p );
 
 #endif // CATA_SRC_COORDINATE_CONVERSIONS_H
