@@ -477,7 +477,7 @@
     "name": "Chef",
     "description": "Bork bork!  Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with your trusty butcher knife and only a small collection of stains on your uniform.",
     "points": 1,
-    "proficiencies": [ "prof_cooking", "prof_baking_basic"],
+    "proficiencies": [ "prof_cooking", "prof_baking_basic" ],
     "skills": [ { "name": "cooking", "level": 4 } ],
     "items": {
       "both": {

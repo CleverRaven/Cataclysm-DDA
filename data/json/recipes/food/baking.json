@@ -24,8 +24,6 @@
       [ [ "salt", 2 ] ],
       [ [ "cinnamon", 2 ] ]
     ],
-    "proficiencies": [
-      { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.2 }
-    ]
+    "proficiencies": [ { "proficiency": "prof_baking_basic", "required": false, "time_multiplier": 1.2 } ]
   }
 ]
