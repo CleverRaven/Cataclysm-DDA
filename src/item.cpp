@@ -2775,7 +2775,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                   piece.second.portion.max_encumber ) );
 
                         info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
-                                                  iteminfo::lower_is_better,
+                                                  iteminfo::no_flags,
                                                   piece.second.portion.coverage ) );
                     }
                 }
