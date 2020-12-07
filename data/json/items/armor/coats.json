@@ -701,6 +701,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "jacket_leather",
+    "repairs_like": "jacket_leather",
     "color": "red",
     "covers": [ "torso", "arm_l", "arm_r" ],
     "coverage": 90,
