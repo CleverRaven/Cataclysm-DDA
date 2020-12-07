@@ -868,7 +868,7 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t cons
     aim_add_return_activity();
 
     // select a valid destination if otherpane is showing the ALL source
-    if( dsti == SOURCE_ALL_i ) {
+    if( dst == ALL_IDX ) {
         int const newdst = query_destination();
         if( newdst < 0 ) {
             // transfer cancelled
@@ -878,13 +878,13 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t cons
         dsti = std::get<char>( aimsources[dst] );
     }
 
-    if( dsti == SOURCE_WORN_i ) {
+    if( dst == WORN_IDX ) {
         player_wear( select );
-    } else if( srci == SOURCE_WORN_i and dsti == SOURCE_INV_i ) {
+    } else if( src == WORN_IDX and dst == INV_IDX ) {
         player_take_off( select );
-    } else if( srci == SOURCE_WORN_i or srci == SOURCE_INV_i ) {
+    } else if( src == WORN_IDX or src == INV_IDX ) {
         player_drop( select, slotidx_to_offset( dst ), is_vehicle( dsti ) );
-    } else if( dsti == SOURCE_INV_i ) {
+    } else if( dst == INV_IDX ) {
         player_pick_up( select, is_vehicle( srci ) );
     } else {
         player_move_items( select, slotidx_to_offset( dst ), is_vehicle( dsti ) );
