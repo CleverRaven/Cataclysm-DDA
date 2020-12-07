@@ -966,6 +966,11 @@ void avatar::identify( const item &item )
     }
 }
 
+void avatar::clear_identified()
+{
+    items_identified.clear();
+}
+
 void avatar::wake_up()
 {
     if( has_effect( effect_sleep ) ) {
