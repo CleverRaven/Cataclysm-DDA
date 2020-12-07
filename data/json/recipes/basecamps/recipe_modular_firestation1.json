@@ -244,7 +244,7 @@
     "blueprint_resources": [ "fake_fireplace", "pot" ],
     "blueprint_needs": {
       "time": "1 h",
-      "skills": [ [ "fabrication", 5 ], [ "mechanics", 3 ] ],
+      "skills": [ [ "mechanics", 0 ], [ "fabrication", 4 ] ],
       "inline": { "tools": [  ], "qualities": [ [ { "id": "SAW_M" } ] ], "components": [ [ [ "metal_tank", 1 ] ], [ [ "pipe", 1 ] ] ] }
     },
     "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]

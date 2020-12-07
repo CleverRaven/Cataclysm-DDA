@@ -110,16 +110,16 @@
     "blueprint_resources": [ "fake_fireplace", "pot" ],
     "blueprint_needs": {
       "time": "1 h 30 m",
-      "skills": [ [ "fabrication", 5 ], [ "mechanics", 3 ] ],
+      "skills": [ [ "mechanics", 0 ], [ "fabrication", 4 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "SAW_W" } ] ],
+        "qualities": [ [ { "id": "SAW_M" } ], [ { "id": "SAW_W" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 4 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
-          [ [ "nail", 8 ] ],
           [ [ "metal_tank", 1 ] ],
-          [ [ "pipe", 1 ] ]
+          [ [ "nail", 8 ] ],
+          [ [ "pipe", 1 ] ],
+          [ [ "wood_panel", 1 ], [ "wood_sheet", 1 ] ]
         ]
       }
     },

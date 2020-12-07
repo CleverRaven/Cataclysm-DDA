@@ -29,18 +29,18 @@
     "blueprint_excludes": [ { "id": "fbmsw_southwest1_still" } ],
     "blueprint_needs": {
       "time": "2 h 56 m",
-      "skills": [ [ "fabrication", 5 ], [ "mechanics", 3 ] ],
+      "skills": [ [ "mechanics", 0 ], [ "fabrication", 4 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
+        "qualities": [ [ { "id": "SAW_M" } ], [ { "id": "SAW_W" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
         "components": [
+          [ [ "2x4", 8 ] ],
+          [ [ "metal_tank", 1 ] ],
+          [ [ "nail", 16 ] ],
           [ [ "pipe", 13 ] ],
           [ [ "sheet_metal", 2 ] ],
-          [ [ "2x4", 8 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
-          [ [ "nail", 16 ] ],
-          [ [ "metal_tank", 1 ] ],
-          [ [ "still", 1 ] ]
+          [ [ "still", 1 ] ],
+          [ [ "wood_panel", 1 ], [ "wood_sheet", 1 ] ]
         ]
       }
     }

@@ -104,7 +104,7 @@
     "blueprint_excludes": [ { "id": "fbmh_fire_northeast" } ],
     "blueprint_needs": {
       "time": "1 h",
-      "skills": [ [ "fabrication", 5 ], [ "mechanics", 3 ] ],
+      "skills": [ [ "mechanics", 0 ], [ "fabrication", 4 ] ],
       "inline": { "tools": [  ], "qualities": [ [ { "id": "SAW_M" } ] ], "components": [ [ [ "metal_tank", 1 ] ], [ [ "pipe", 1 ] ] ] }
     }
   },
@@ -813,16 +813,16 @@
     "blueprint_provides": [ { "id": "trapping" }, { "id": "hunting" }, { "id": "kitchen" }, { "id": "kitchen_recipes_1" } ],
     "blueprint_needs": {
       "time": "1 h 30 m",
-      "skills": [ [ "fabrication", 5 ], [ "mechanics", 3 ] ],
+      "skills": [ [ "mechanics", 0 ], [ "fabrication", 4 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "SAW_W" } ] ],
+        "qualities": [ [ { "id": "SAW_M" } ], [ { "id": "SAW_W" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 2 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ],
-          [ [ "nail", 8 ] ],
           [ [ "metal_tank", 1 ] ],
-          [ [ "pipe", 1 ] ]
+          [ [ "nail", 8 ] ],
+          [ [ "pipe", 1 ] ],
+          [ [ "wood_panel", 2 ], [ "wood_sheet", 1 ] ]
         ]
       }
     }
