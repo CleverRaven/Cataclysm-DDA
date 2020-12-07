@@ -3153,16 +3153,18 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
-    "time": "6 m",
+    "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "antenna", 1 ] ],
-      [ [ "cable", 4 ] ],
-      [ [ "motor_micro", 2 ] ],
-      [ [ "plastic_chunk", 4 ] ],
+      [ [ "cable", 8 ] ],
+      [ [ "motor_micro", 4 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "plastic_chunk", 8 ] ],
       [ [ "receiver", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "radio_car_wheel", 4 ] ]
+      [ [ "e_scrap", 2 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "radio_car_wheel", 1 ] ]
     ]
   },
   {
