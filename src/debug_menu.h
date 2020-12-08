@@ -14,6 +14,10 @@ class player;
 
 namespace debug_menu
 {
+enum bench_kind {
+    DRAW,
+    FPS
+};
 
 void teleport_short();
 void teleport_long();
@@ -27,7 +31,7 @@ void wishmonster( const cata::optional<tripoint> &p );
 void wishmutate( player *p );
 void wishskill( player *p );
 void mutation_wish();
-void draw_benchmark( int max_difference );
+void benchmark( const int max_difference, bench_kind kind );
 
 void debug();
 
