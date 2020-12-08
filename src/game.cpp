@@ -12057,7 +12057,8 @@ void game::start_calendar()
                               + 1_hours * scen->initial_hour()
                               + 1_days * scen->initial_day()
                               + get_option<int>( "SEASON_LENGTH" ) * 1_days * scen->initial_season()
-                              + 4 * get_option<int>( "SEASON_LENGTH" ) * 1_days * scen->initial_year();
+                              + 4 * get_option<int>( "SEASON_LENGTH" ) * 1_days * scen->initial_year()
+                              + 1_days * get_option<int>( "SPAWN_DELAY" );
     calendar::turn = calendar::start_of_game;
 }
 
