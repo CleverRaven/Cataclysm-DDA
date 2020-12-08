@@ -125,22 +125,24 @@
     "rot_spawn_chance": 60
   },
   {
-    "type": "abstract",
-	"id": "egg_insect",
-	"//": "5x the weight and 3x the nutrition of real chicken eggs, toxins equal 296g mutant meat",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": "Insect Egg",
+    "abstract": "egg_insect",
+    "//": "5x the weight and 3x the nutrition of real chicken eggs, toxins equal 296g mutant meat",
     "color": "white",
     "symbol": "%",
     "material": [ "egg" ],
     "stack_size": 1,
     "volume": "250 ml",
-	"weight": "300 g",
+    "weight": "300 g",
     "calories": 240,
     "quench": 10,
-    "fun": -20
+    "fun": -20,
     "price": 0,
     "price_postapoc": 100,
     "flags": [ "FREEZERBURN", "RAW" ],
-    "vitamins": [ [ "vitA", 19 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 66 ],  [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "vitA", 19 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 66 ], [ "mutant_toxin", 25 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -149,13 +151,11 @@
     "copy-from": "egg_insect",
     "color": "white",
     "symbol": "%",
-    "quench": 10,
     "description": "A large, heavy ant egg, the size of a softball.  Extremely nutritious, but incredibly gross.",
     "price": 175,
     "price_postapoc": 500,
     "material": [ "egg" ],
     "volume": "600 ml",
-    "fun": -10,
     "proportional": { "weight": 3, "calories": 3 },
     "vitamins": [ [ "vitA", 108 ], [ "calcium", 36 ], [ "iron", 48 ], [ "vitB", 252 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
@@ -168,8 +168,7 @@
     "copy-from": "egg_insect",
     "color": "white",
     "symbol": "%",
-    "quench": 10,
-    "description": "A fist-sized egg from a giant spider.  Incredibly gross.",
+    "description": "A fist-sized egg from a giant spider.  Incredibly gross."
   },
   {
     "type": "COMESTIBLE",
@@ -231,7 +230,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_centipede",
-    "name": "firefly egg",
+    "name": "centipede egg",
     "copy-from": "egg_insect",
     "color": "light_green",
     "symbol": "o",
