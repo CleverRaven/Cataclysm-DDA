@@ -134,6 +134,7 @@ enum debug_menu_index {
     DEBUG_CHANGE_WEATHER,
     DEBUG_WIND_DIRECTION,
     DEBUG_WIND_SPEED,
+    DEBUG_GEN_SOUND,
     DEBUG_KILL_MONS,
     DEBUG_DISPLAY_HORDES,
     DEBUG_TEST_IT_GROUP,
@@ -296,6 +297,7 @@ static int map_uilist()
         { uilist_entry( DEBUG_CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
         { uilist_entry( DEBUG_WIND_DIRECTION, true, 'd', _( "Change wind direction" ) ) },
         { uilist_entry( DEBUG_WIND_SPEED, true, 's', _( "Change wind speed" ) ) },
+        { uilist_entry( DEBUG_GEN_SOUND, true, 'S', _( "Generate sound" ) ) },
         { uilist_entry( DEBUG_KILL_MONS, true, 'K', _( "Kill all monsters" ) ) },
         { uilist_entry( DEBUG_CHANGE_TIME, true, 't', _( "Change time" ) ) },
         { uilist_entry( DEBUG_OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
@@ -1458,6 +1460,26 @@ void debug()
                 g->weather.windspeed_override = selected_wind_speed;
                 g->weather.set_nextweather( calendar::turn );
             }
+        }
+        break;
+
+        case DEBUG_GEN_SOUND: {
+            const cata::optional<tripoint> where = g->look_around();
+            if( !where ) {
+                return;
+            }
+
+            int volume;
+            if( !query_int( volume, _( "Volume of sound: " ) ) ) {
+                return;
+            }
+
+            if( volume < 0 ) {
+                return;
+            }
+
+            sounds::sound( *where, volume, sounds::sound_t::order, string_format( _( "DEBUG SOUND ( %d )" ),
+                           volume ) );
         }
         break;
 
