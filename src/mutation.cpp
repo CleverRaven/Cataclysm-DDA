@@ -343,7 +343,7 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
         return false;
     }
 
-    for( auto allowed : allowed_items ) {
+    for( const flag_id &allowed : allowed_items ) {
         if( it.has_flag( allowed ) ) {
             return false;
         }
