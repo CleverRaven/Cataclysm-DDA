@@ -477,6 +477,7 @@ bool avatar::read( item &it, const bool continuous )
         } else if( mastery == book_mastery::LEARNING && morale_req ) {
             learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
             const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
+            act.values.push_back( elem->getID().get_value() );
             act.str_values.push_back( to_string( penalty ) );
         } else {
             std::string reason = _( " (uninterested)" );
@@ -963,6 +964,11 @@ void avatar::identify( const item &item )
     if( recipe_list.size() != reading->recipes.size() ) {
         add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
     }
+}
+
+void avatar::clear_identified()
+{
+    items_identified.clear();
 }
 
 void avatar::wake_up()

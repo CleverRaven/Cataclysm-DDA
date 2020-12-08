@@ -95,7 +95,7 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
-static const proficiency_id proficiency_aircraft_mechanic( "aircraft_mechanic" );
+static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
@@ -4178,7 +4178,7 @@ bool vehicle::would_install_prevent_flyable( const vpart_info &vpinfo, Character
 {
     if( flyable && !rotors.empty() && !( vpinfo.has_flag( "SIMPLE_PART" ) ||
                                          vpinfo.has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) ) {
-        return !pc.has_proficiency( proficiency_aircraft_mechanic );
+        return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
     } else {
         return false;
     }
@@ -4193,7 +4193,7 @@ bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) co
                                                    index_of_part( const_cast<vehicle_part *>( &vp ) ) );
             return !vppos.is_inside();
         } else {
-            return !pc.has_proficiency( proficiency_aircraft_mechanic );
+            return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
         }
     } else {
         return false;
@@ -4203,7 +4203,7 @@ bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) co
 bool vehicle::would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const
 {
     if( flyable && !rotors.empty() && !vp.info().has_flag( "SIMPLE_PART" ) ) {
-        return !pc.has_proficiency( proficiency_aircraft_mechanic );
+        return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
     } else {
         return false;
     }
@@ -6481,7 +6481,8 @@ void vehicle::shift_parts( const point &delta )
     pivot_anchor[0] -= delta;
     refresh();
     //Need to also update the map after this
-    get_map().reset_vehicle_cache( sm_pos.z );
+    get_map().clear_all_vehicle_caches( sm_pos.z );
+    get_map().build_all_vehicle_caches( sm_pos.z );
 }
 
 /**

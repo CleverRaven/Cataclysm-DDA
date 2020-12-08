@@ -188,6 +188,7 @@ class avatar : public player
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
         void identify( const item &item ) override;
+        void clear_identified();
 
         void wake_up();
         // Grab furniture / vehicle

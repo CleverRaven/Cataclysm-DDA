@@ -1795,12 +1795,12 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
                 m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.xy(), loc.xy(), 1, true );
             }
-            point pos;
-            do {
-                pos = p + point( rng( -5, 5 ), rng( -5, 5 ) );
-            } while( pos.x >= 1 && pos.y >= 1 && pos.x < SEEX * 2 - 1 && pos.y < SEEY * 2 - 1 );
-            circle( &m, ter_id( "t_wall_resin" ), pos, 6 );
-            rough_circle( &m, ter_id( "t_floor_resin" ), pos, 5 );
+            const int radius = 6;
+            const point pos = point( rng( std::max( p.x - radius, radius ),
+                                          SEEX * 2 - std::min( SEEX * 2 - p.x, SEEX - radius ) ),
+                                     rng( std::max( p.y - radius, radius ), SEEY * 2 - std::min( SEEY * 2 - p.y, SEEY - radius ) ) );
+            circle( &m, ter_id( "t_wall_resin" ), pos, radius );
+            rough_circle( &m, ter_id( "t_floor_resin" ), pos, radius - 1 );
             break;
         }
         //Anomaly caused by the portal and spawned an artifact

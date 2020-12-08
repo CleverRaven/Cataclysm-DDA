@@ -3594,6 +3594,13 @@ void game::draw()
     wnoutrefresh( w_terrain );
 
     draw_panels( true );
+
+    // Ensure that the cursor lands on the character when everything is drawn.
+    // This allows screen readers to describe the area around the player, making it
+    // much easier to play with them
+    // (e.g. for blind players)
+    wmove( w_terrain, -u.view_offset.xy() + point{POSX, POSY} );
+    wnoutrefresh( w_terrain );
 }
 
 void game::draw_panels( bool force_draw )
@@ -3730,8 +3737,6 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_veh_dir_indicator( false );
         draw_veh_dir_indicator( true );
     }
-    // Place the cursor over the player as is expected by screen readers.
-    wmove( w_terrain, -center.xy() + get_player_character().pos().xy() + point( POSX, POSY ) );
 }
 
 cata::optional<tripoint> game::get_veh_dir_indicator_location( bool next ) const
@@ -4656,6 +4661,7 @@ void game::overmap_npc_move()
             travelling_npcs.push_back( npc_to_add );
         }
     }
+    bool npcs_need_reload = false;
     for( auto &elem : travelling_npcs ) {
         if( elem->has_omt_destination() ) {
             if( !elem->omt_path.empty() && rl_dist( elem->omt_path.back(), elem->global_omt_location() ) > 2 ) {
@@ -4664,6 +4670,9 @@ void game::overmap_npc_move()
             }
             if( elem->omt_path.empty() ) {
                 elem->omt_path = overmap_buffer.get_npc_path( elem->global_omt_location(), elem->goal );
+                if( elem->omt_path.empty() ) { // goal is unreachable, reset it
+                    elem->goal = npc::no_goal_point;
+                }
             } else {
                 if( elem->omt_path.back() == elem->global_omt_location() ) {
                     elem->omt_path.pop_back();
@@ -4671,9 +4680,15 @@ void game::overmap_npc_move()
                 // TODO: fix point types
                 elem->travel_overmap(
                     project_to<coords::sm>( elem->omt_path.back() ).raw() );
+                npcs_need_reload = true;
             }
-            reload_npcs();
+        } else if( calendar::once_every( 1_hours ) && one_in( 3 ) ) {
+            // travelling destination is reached/not set, try different one
+            elem -> set_omt_destination();
         }
+    }
+    if( npcs_need_reload ) {
+        reload_npcs();
     }
 }
 
@@ -10135,10 +10150,11 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest )
     }
     const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : m.get_abs_sub().z;
     const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : m.get_abs_sub().z;
+    m.clear_all_vehicle_caches( m.get_abs_sub().z );
     for( int z = minz; z <= maxz; z++ ) {
-        m.clear_vehicle_cache( z );
         m.clear_vehicle_list( z );
     }
+    m.build_all_vehicle_caches( m.get_abs_sub().z );
     m.access_cache( m.get_abs_sub().z ).map_memory_seen_cache.reset();
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
@@ -11258,7 +11274,7 @@ void game::vertical_shift( const int z_after )
     const tripoint abs_sub = m.get_abs_sub();
     const int z_before = abs_sub.z;
     if( !m.has_zlevels() ) {
-        m.clear_vehicle_cache( z_before );
+        m.clear_all_vehicle_caches( z_before );
         m.access_cache( z_before ).vehicle_list.clear();
         m.access_cache( z_before ).zone_vehicles.clear();
         m.access_cache( z_before ).map_memory_seen_cache.reset();
@@ -11268,6 +11284,7 @@ void game::vertical_shift( const int z_after )
         m.load( tripoint_abs_sm( point_abs_sm( abs_sub.xy() ), z_after ), true );
         shift_monsters( tripoint( 0, 0, z_after - z_before ) );
         reload_npcs();
+        m.build_all_vehicle_caches( z_after );
     } else {
         // Shift the map itself
         m.vertical_shift( z_after );

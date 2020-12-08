@@ -654,9 +654,9 @@ void inventory_column::on_input( const inventory_input &input )
             move_selection( scroll_direction::FORWARD );
         } else if( input.action == "UP" ) {
             move_selection( scroll_direction::BACKWARD );
-        } else if( input.action == "NEXT_TAB" ) {
+        } else if( input.action == "PAGE_DOWN" ) {
             move_selection_page( scroll_direction::FORWARD );
-        } else if( input.action == "PREV_TAB" ) {
+        } else if( input.action == "PAGE_UP" ) {
             move_selection_page( scroll_direction::BACKWARD );
         } else if( input.action == "HOME" ) {
             select( 0, scroll_direction::FORWARD );
@@ -1869,14 +1869,14 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
 {
     ctxt.register_action( "DOWN", to_translation( "Next item" ) );
     ctxt.register_action( "UP", to_translation( "Previous item" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Page down" ) );
+    ctxt.register_action( "PAGE_UP", to_translation( "Page up" ) );
     ctxt.register_action( "RIGHT", to_translation( "Next column" ) );
     ctxt.register_action( "LEFT", to_translation( "Previous column" ) );
     ctxt.register_action( "CONFIRM", to_translation( "Confirm your selection" ) );
     ctxt.register_action( "QUIT", to_translation( "Cancel" ) );
-    ctxt.register_action( "CATEGORY_SELECTION", to_translation( "Switch selection mode" ) );
+    ctxt.register_action( "CATEGORY_SELECTION", to_translation( "Switch category selection mode" ) );
     ctxt.register_action( "TOGGLE_FAVORITE", to_translation( "Toggle favorite" ) );
-    ctxt.register_action( "NEXT_TAB", to_translation( "Page down" ) );
-    ctxt.register_action( "PREV_TAB", to_translation( "Page up" ) );
     ctxt.register_action( "HOME", to_translation( "Home" ) );
     ctxt.register_action( "END", to_translation( "End" ) );
     ctxt.register_action( "SELECT" );
