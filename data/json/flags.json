@@ -6,6 +6,12 @@
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
   },
   {
+    "id": "ALLOWS_TAIL",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This gear can be worn with a tail."
+  },
+  {
     "id": "EFFECT_INVISIBLE",
     "context": [  ],
     "type": "json_flag"

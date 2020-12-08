@@ -343,6 +343,12 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
         return false;
     }
 
+    for( auto allowed : allowed_items ) {
+        if( it.has_flag( allowed ) ) {
+            return false;
+        }
+    }
+
     for( const bodypart_str_id &bp : restricts_gear ) {
         if( it.covers( bp.id() ) ) {
             return true;

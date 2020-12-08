@@ -3438,6 +3438,7 @@
     "wet_protection": [ { "part": "leg_l", "good": 3 }, { "part": "leg_r", "good": 3 } ],
     "movecost_swim_modifier": 0.75,
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true
   },
   {
@@ -3453,6 +3454,7 @@
     "changes_to": [ "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE", "TAIL_RAT" ],
     "category": [ "FELINE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 2
   },
@@ -3468,6 +3470,7 @@
     "prereqs": [ "TAIL_LONG" ],
     "category": [ "CATTLE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 1
   },
@@ -3483,6 +3486,7 @@
     "prereqs": [ "TAIL_LONG", "TAIL_STUB" ],
     "category": [ "RAT", "MOUSE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 2
   },
@@ -3499,6 +3503,7 @@
     "changes_to": [ "TAIL_CLUB" ],
     "category": [ "LIZARD" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You whap %s with your tail",
@@ -3520,6 +3525,7 @@
     "prereqs": [ "TAIL_STUB" ],
     "category": [ "RAPTOR" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 3
   },
@@ -3534,6 +3540,7 @@
     "prereqs": [ "TAIL_LONG" ],
     "category": [ "BEAST", "LUPINE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "social_modifiers": { "lie": -20, "persuade": 10 },
     "dodge_modifier": 4
@@ -3549,6 +3556,7 @@
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_LONG" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You sting %s with your tail",
@@ -3569,6 +3577,7 @@
     "prereqs": [ "TAIL_THICK" ],
     "category": [ "CHIMERA" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You club %s with your tail",

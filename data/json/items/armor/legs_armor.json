@@ -20,7 +20,7 @@
     "encumbrance": 25,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
   },
   {
     "id": "bunker_pants",
@@ -161,7 +161,7 @@
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 30,
     "material_thickness": 5,
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_TAIL" ]
   },
   {
     "id": "legguard_bronze",
@@ -183,7 +183,7 @@
     "encumbrance": 10,
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "BELTED", "STURDY" ]
+    "flags": [ "BELTED", "STURDY", "ALLOWS_TAIL" ]
   },
   {
     "id": "xl_legguard_bronze",
@@ -215,7 +215,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
   },
   {
     "id": "legguard_lightplate",
@@ -237,7 +237,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "BELTED", "STURDY" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY", "ALLOWS_TAIL" ]
   },
   {
     "id": "xl_legguard_lightplate",
@@ -268,7 +268,7 @@
     "encumbrance": 6,
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
   },
   {
     "id": "xl_legguard_metal",
@@ -298,7 +298,7 @@
     "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "ALLOWS_TAIL" ]
   },
   {
     "id": "legguard_scrap",
@@ -322,7 +322,7 @@
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "ALLOWS_TAIL" ]
   },
   {
     "id": "xl_legguard_scrap",
