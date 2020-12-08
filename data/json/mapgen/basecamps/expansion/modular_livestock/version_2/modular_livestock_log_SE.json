@@ -1,0 +1,168 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_coop_log_SE",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "w     w ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "w,,,,,w ",
+        "wwwwwww "
+      ],
+      "palettes": [ "fbml_2_2_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_coop_log_SE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_2_coop_log_SE" ], "x": 4, "y": 16 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_shack_log_SE",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "ww+vw",
+        "w,,,v",
+        "v,,,+",
+        "w,,,w",
+        "wvwww"
+      ],
+      "palettes": [ "fbml_2_2_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_shack_log_SE",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbml_2_shack_log_SE" ], "x": 4, "y": 1 },
+        { "chunks": [ "fbml_2_shack_furniture_SE" ], "x": 5, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_1_log_SE",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwwwww",
+        ",, ,,w",
+        ",, ,,w",
+        ",, ,,w",
+        ",,wwww",
+        "      "
+      ],
+      "palettes": [ "fbml_2_2_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_1_log_SE",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbml_2_stall_1_log_SE" ], "x": 18, "y": 1 }, { "chunks": [ "fbml_2_stall_1_SE" ], "x": 18, "y": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_2_4_log_SE",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        ",, ,,w",
+        ",, ,,w",
+        ",, ,,w",
+        "w,wwww",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbml_2_2_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_2_log_SE",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbml_2_stall_2_4_log_SE" ], "x": 18, "y": 6 },
+        { "chunks": [ "fbml_2_stall_bench_SE" ], "x": 19, "y": 4 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_3_log_SE",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        ",, ,,w",
+        ",, ,,w",
+        ",, ,,w",
+        ",,wwww",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbml_2_2_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_3_log_SE",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbml_2_stall_3_log_SE" ], "x": 18, "y": 10 }, { "chunks": [ "fbml_2_stall_3_SE" ], "x": 20, "y": 10 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_4_log_SE",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbml_2_stall_2_4_log_SE" ], "x": 18, "y": 14 },
+        { "chunks": [ "fbml_2_stall_bench_SE" ], "x": 19, "y": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_5_log_SE",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        ",, ,,w",
+        ",, ,,w",
+        ",,wwww",
+        ",, ,,w",
+        ",, ,,w",
+        "wwwwww"
+      ],
+      "palettes": [ "fbml_2_2_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_stall_5_log_SE",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbml_2_stall_5_log_SE" ], "x": 18, "y": 18 }, { "chunks": [ "fbml_2_stall_5_SE" ], "x": 19, "y": 18 } ]
+    }
+  }
+]

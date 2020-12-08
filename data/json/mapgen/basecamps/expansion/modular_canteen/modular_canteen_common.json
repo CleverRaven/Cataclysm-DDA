@@ -1,0 +1,25 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_0",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbm_expansion_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_canteen_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_0" ], "x": 10, "y": 10 } ] }
+  }
+]

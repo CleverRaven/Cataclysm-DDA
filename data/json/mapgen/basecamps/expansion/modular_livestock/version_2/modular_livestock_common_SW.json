@@ -1,0 +1,185 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_SW",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        ";;;;;;;;;;;;;;;;;;;;;;; ",
+        ";;;;;;;;     ;    ;;;;; ",
+        ";;;;;;;;     ;    ;;;;; ",
+        ";;;;;;;;     ;    ;;;;; ",
+        ";;;;;;;;     ;    ;;;;; ",
+        ";;;;;;;;     ;        ; ",
+        ";;;;;;;;;;;;;;        ; ",
+        ";                     ; ",
+        ";                     ; ",
+        ";                     ; ",
+        ";                     ; ",
+        ";                     ; ",
+        ";                     ; ",
+        ";                     ; ",
+        ";;;;;;;;;;;;;;;;;;;;;;; ",
+        ";;;;;;;;;;;;;;;;;;;;;;; ",
+        ";;;;;;;;;;;;;;;;;;;;;;; ",
+        ";;;;;;;;;;;;;;;;;;;;;;; ",
+        ";;;;;;;;;;;;;;;;;;;;;;; ",
+        ";;;;;;;;;;;;;;;;;;;;;;; "
+      ],
+      "palettes": [ "fbml_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_2_SW" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_coop_yard_SW",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_chickenwire_fence", "x": 8, "x2": 13, "y": 10, "y2": 10 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 7, "y": 9 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 7, "y": 8 },
+        { "point": "terrain", "id": "t_chickenwire_gate_c", "x": 7, "y": 7 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 7, "y": 6 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 7, "y": 5 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 13, "y": 9 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 13, "y": 8 },
+        { "point": "terrain", "id": "t_chickenwire_gate_c", "x": 13, "y": 7 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 13, "y": 6 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 13, "y": 5 },
+        { "line": "terrain", "id": "t_chickenwire_fence", "x": 8, "x2": 13, "y": 4, "y2": 4 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_1_SW",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "  b",
+        "  b",
+        "FgF"
+      ],
+      "palettes": [ "fbml_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_bench_SW",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "  bbb",
+        "FgF  ",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "fbml_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_3_SW",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "FgF",
+        "   ",
+        "   "
+      ],
+      "palettes": [ "fbml_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_5_SW",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " bbb ",
+        "gF Fg",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "fbml_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_shack_furniture_SW",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "rtr",
+        "r  ",
+        "r  "
+      ],
+      "palettes": [ "fbml_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_remote_fence_SW",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 0, "y": 17 },
+        { "point": "terrain", "id": "t_splitrail_fencegate_c", "x": 0, "y": 16 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 0, "y": 15 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 0, "y": 14 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 0, "y": 13 },
+        { "point": "terrain", "id": "t_splitrail_fencegate_c", "x": 0, "y": 12 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 0, "y": 11 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_side_fence_SW",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 14, "y": 4 },
+        { "point": "terrain", "id": "t_splitrail_fencegate_c", "x": 15, "y": 4 },
+        { "point": "terrain", "id": "t_splitrail_fencegate_c", "x": 16, "y": 4 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 17, "y": 4 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_near_fence_SW",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 22, "y": 17 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 22, "y": 16 },
+        { "point": "terrain", "id": "t_splitrail_fencegate_c", "x": 22, "y": 15 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 22, "y": 14 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 22, "y": 13 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 22, "y": 12 },
+        { "point": "terrain", "id": "t_splitrail_fencegate_c", "x": 22, "y": 11 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 22, "y": 10 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 22, "y": 9 }
+      ]
+    }
+  }
+]

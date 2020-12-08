@@ -1,0 +1,14 @@
+[
+  {
+    "type": "palette",
+    "id": "fbml_2_common_palette",
+    "terrain": {
+      "F": "t_splitrail_fence",
+      "g": "t_splitrail_fencegate_c",
+      "d": "t_chickenwire_gate_c",
+      "f": "t_chickenwire_fence",
+      ";": "t_dirt"
+    },
+    "furniture": { "b": "f_bench", "t": "f_table", "r": "f_rack" }
+  }
+]

@@ -1,0 +1,288 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_2_1_metal_NE",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwwwww",
+        "v......",
+        "w......",
+        "w......",
+        "v......",
+        "+......",
+        "w......"
+      ],
+      "palettes": [ "fbms_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_1_metal_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_1_metal_NE" ], "x": 1, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_2_2_metal_NE",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "w......",
+        "v......",
+        "w......",
+        "w......",
+        "v......",
+        "w......",
+        "       "
+      ],
+      "palettes": [ "fbms_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_2_metal_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_2_metal_NE" ], "x": 1, "y": 7 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_2_3_metal_NE",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "w......",
+        "w......",
+        "v......",
+        "w......",
+        "+......",
+        "v......",
+        "wvwwwwv"
+      ],
+      "palettes": [ "fbms_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_3_metal_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_3_metal_NE" ], "x": 1, "y": 13 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_2_4_metal_NE",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwww  ",
+        "....w  ",
+        "....w  ",
+        "....w  ",
+        "....w  ",
+        "....+  ",
+        "....w  "
+      ],
+      "palettes": [ "fbms_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_4_metal_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_4_metal_NE" ], "x": 8, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_2_5_metal_NE",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "....w ",
+        "....w ",
+        "....w ",
+        "....w ",
+        "....w ",
+        "....w "
+      ],
+      "palettes": [ "fbms_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_5_metal_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_5_metal_NE" ], "x": 8, "y": 7 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_2_6_metal_NE",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "....w  ",
+        "....w  ",
+        "....w  ",
+        "....w  ",
+        "....+  ",
+        "....w  ",
+        "wwwww  "
+      ],
+      "palettes": [ "fbms_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_6_metal_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_6_metal_NE" ], "x": 8, "y": 13 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_2_7_metal_NE",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwwww ",
+        "...... ",
+        "...... ",
+        "...... ",
+        "...... ",
+        "...... ",
+        "...... "
+      ],
+      "palettes": [ "fbms_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_7_metal_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_7_metal_NE" ], "x": 13, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_2_8_metal_NE",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "......",
+        "......",
+        "......",
+        "......",
+        "......",
+        "......"
+      ],
+      "palettes": [ "fbms_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_8_metal_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_8_metal_NE" ], "x": 13, "y": 7 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_2_9_metal_NE",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "...... ",
+        "...... ",
+        "...... ",
+        "...... ",
+        "...... ",
+        "...... ",
+        "vwwwwv "
+      ],
+      "palettes": [ "fbms_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_9_metal_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_9_metal_NE" ], "x": 13, "y": 13 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_2_10_metal_NE",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwww  ",
+        "....w  ",
+        "....w  ",
+        "....w  ",
+        "....w  ",
+        "....w  ",
+        "....w  "
+      ],
+      "palettes": [ "fbms_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_10_metal_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_10_metal_NE" ], "x": 19, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_2_11_metal_NE",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "....w ",
+        "....w ",
+        "....w ",
+        "....w ",
+        "....w ",
+        "....w ",
+        "....w "
+      ],
+      "palettes": [ "fbms_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_11_metal_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_11_metal_NE" ], "x": 19, "y": 7 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_2_12_metal_NE",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "....w  ",
+        "....w  ",
+        "....w  ",
+        "....w  ",
+        "....w  ",
+        "....w  ",
+        "wwwww  "
+      ],
+      "palettes": [ "fbms_2_2_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_12_metal_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_12_metal_NE" ], "x": 19, "y": 13 } ] }
+  }
+]

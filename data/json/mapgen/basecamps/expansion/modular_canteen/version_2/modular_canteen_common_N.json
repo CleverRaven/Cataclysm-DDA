@@ -1,0 +1,311 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_N",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "    ;;; ;;; ;;; ;;; ;;; ",
+        "    ;;; ;;; ;;; ;;; ;;; ",
+        "                        ",
+        "    ;;; ;;; ;;; ;;; ;;; ",
+        "    ;;; ;;; ;;; ;;; ;;; ",
+        "                        ",
+        "    ;;; ;;; ;;; ;;; ;;; ",
+        "    ;;; ;;; ;;; ;;; ;;; ",
+        "                        ",
+        "    ;;; ;;;;;;;;;;;;;;;;",
+        "    ;;; ;;;;;;;;;;;;;;;;",
+        "        ;;;;;;;;;;;;;;;;",
+        "        ;;;;;;;;;;;;;;;;",
+        "       ;;;;;;;;;;;;;;;;;",
+        "    ;  ;;;;;;;;;;;;;;;;;",
+        "       ;;;;;;;;;;;;;;;;;",
+        "    ; ; ;;;;;;;;;;;;;;;;",
+        "        ;;;;;;;;;;;;;;;;",
+        "    ;;;;;;;;;;;;;;;;;;;;",
+        "    ;;;;;;;;;;;;;;;;;;;;",
+        "    ;;;;;;;;;;;;;;;;;;;;",
+        "    ;;;;;;;;;;;;;;;;;;;;",
+        "    ;;;;;;;;;;;;;;;;;;;;",
+        "                        "
+      ],
+      "palettes": [ "fbmk_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_N" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_fireplace_N",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_fireplace", "x": 12, "y": 10 },
+        { "point": "furniture", "id": "f_counter", "x": 13, "y": 10 },
+        { "point": "furniture", "id": "f_fireplace", "x": 10, "y": 10 },
+        { "point": "furniture", "id": "f_counter", "x": 9, "y": 10 }
+      ],
+      "place_loot": [ { "item": "pot", "x": 13, "y": 10 }, { "item": "pan", "x": 13, "y": 10 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_stove_N",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_woodstove", "x": 12, "y": 10 },
+        { "point": "furniture", "id": "f_counter", "x": 13, "y": 10 },
+        { "point": "furniture", "id": "f_woodstove", "x": 10, "y": 10 },
+        { "point": "furniture", "id": "f_counter", "x": 9, "y": 10 }
+      ],
+      "place_loot": [ { "item": "pot", "x": 13, "y": 10 }, { "item": "pan", "x": 13, "y": 10 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_well_N",
+    "method": "json",
+    "object": { "set": [ { "point": "terrain", "id": "t_water_pump", "x": 6, "y": 16 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_counters_N",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "     ",
+        "     ",
+        " ccc ",
+        "     ",
+        "rrr  "
+      ],
+      "palettes": [ "fbmk_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_counters_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_counters_N" ], "x": 9, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_smoking_kiln_N",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_smoking_rack", "x": 4, "y": 19 },
+        { "point": "furniture", "id": "f_smoking_rack", "x": 4, "y": 20 },
+        { "point": "furniture", "id": "f_smoking_rack", "x": 4, "y": 21 },
+        { "point": "furniture", "id": "f_kiln_empty", "x": 6, "y": 18 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_root_cellar_N",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_rootcellar", "x": 14, "y": 14 },
+        { "point": "terrain", "id": "t_rootcellar", "x": 12, "y": 14 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_pantry_N",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "furniture", "id": "f_rack_wood", "x": 22, "x2": 14, "y": 10, "y2": 10 },
+        { "line": "furniture", "id": "f_rack_wood", "x": 22, "x2": 16, "y": 12, "y2": 12 },
+        { "line": "furniture", "id": "f_rack_wood", "x": 22, "x2": 15, "y": 14, "y2": 14 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_butchery_N",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_butcher_rack", "x": 7, "y": 22 },
+        { "point": "furniture", "id": "f_table", "x": 6, "y": 22 }
+      ],
+      "place_loot": [ { "item": "knife_butcher", "x": 6, "y": 22 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_dining_furniture_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_dining_furniture_vertical" ], "x": 10, "y": 17 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_1_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 4, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_2_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 20, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_3_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 16, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_4_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 12, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_5_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 8, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_6_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 4, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_7_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 20, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_8_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 16, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_9_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 12, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_10_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 8, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_11_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 4, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_12_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 20, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_13_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 16, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_14_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 12, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_15_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 8, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_planters_16_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_planters_vertical" ], "x": 4, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_bench_bath_N",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_bench", "x": 7, "y": 13 },
+        { "point": "furniture", "id": "f_bench", "x": 7, "y": 14 },
+        { "point": "furniture", "id": "f_bench", "x": 7, "y": 15 },
+        { "point": "furniture", "id": "f_birdbath", "x": 4, "y": 14 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_tank_N",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_standing_tank", "x": 22, "y": 11 },
+        { "point": "furniture", "id": "f_standing_tank", "x": 22, "y": 13 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_display_N",
+    "method": "json",
+    "object": { "set": [ { "line": "furniture", "id": "f_rack", "x": 19, "x2": 21, "y": 16, "y2": 16 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_vat_N",
+    "method": "json",
+    "object": { "set": [ { "line": "furniture", "id": "f_fvat_empty", "x": 22, "x2": 22, "y": 16, "y2": 21 } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "fbmk_2_still_N",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "D  ",
+        "a  ",
+        "c s"
+      ],
+      "palettes": [ "fbmk_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_still_N",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_2_still_N" ], "x": 19, "y": 19 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_2_windmill_N",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_wind_mill", "x": 4, "y": 16 } ] }
+  }
+]

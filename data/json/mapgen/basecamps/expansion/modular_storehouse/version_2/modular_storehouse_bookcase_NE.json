@@ -1,0 +1,98 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_1_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_c" ], "x": 3, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_2_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_d" ], "x": 3, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_3_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_c" ], "x": 3, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_4_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_d" ], "x": 3, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_5_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_c" ], "x": 8, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_6_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_d" ], "x": 8, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_7_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_c" ], "x": 8, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_8_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_d" ], "x": 8, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_9_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_c" ], "x": 14, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_10_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_d" ], "x": 14, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_11_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_c" ], "x": 14, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_12_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_d" ], "x": 14, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_13_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_c" ], "x": 19, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_14_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_d" ], "x": 19, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_15_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_c" ], "x": 19, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_bookcase_16_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_bookcase_d" ], "x": 19, "y": 15 } ] }
+  }
+]

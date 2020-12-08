@@ -1,0 +1,249 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_1_wad_SW",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        ",,,,,, ",
+        ",,,,,, ",
+        ",,,,,, ",
+        ",,,,,, ",
+        "w,,,,,w",
+        "wwwwwww",
+        "       "
+      ],
+      "palettes": [ "fbmg_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_1_wad_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmg_2_1_wad_SW" ], "x": 16, "y": 18 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_2_wad_SW",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwvw+ww",
+        "w,,,,,w",
+        ",,,,,, ",
+        ",,,,,, ",
+        ",,,,,, ",
+        ",,,,,, ",
+        "       "
+      ],
+      "palettes": [ "fbmg_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_2_wad_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmg_2_2_wad_SW" ], "x": 16, "y": 4 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_wall_1_wad_SW",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "v    ",
+        "w    ",
+        "w    ",
+        "v    ",
+        "w    "
+      ],
+      "palettes": [ "fbmg_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_wall_2_wad_SW",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v     ",
+        "w     ",
+        "w     ",
+        "v     ",
+        "w     ",
+        "w     "
+      ],
+      "palettes": [ "fbmg_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_wall_3_wad_SW",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "+    ",
+        "w    ",
+        "v    ",
+        "w    ",
+        "w    "
+      ],
+      "palettes": [ "fbmg_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_wall_wad_SW",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmg_2_wall_1_wad_SW" ], "x": 22, "y": 17 },
+        { "chunks": [ "fbmg_2_wall_2_wad_SW" ], "x": 22, "y": 11 },
+        { "chunks": [ "fbmg_2_wall_3_wad_SW" ], "x": 22, "y": 6 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_4_wad_SW",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        " ,,,,,",
+        " ,,,,,",
+        " ,,,,,",
+        " ,,,,,",
+        " ,,,,,",
+        "wwwwww"
+      ],
+      "palettes": [ "fbmg_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_4_wad_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmg_2_4_wad_SW" ], "x": 10, "y": 18 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_5_wad_SW",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwvwwv",
+        " ,,,,,",
+        " ,,,,,",
+        " ,,,,,",
+        " ,,,,,",
+        " ,,,,,"
+      ],
+      "palettes": [ "fbmg_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_5_wad_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmg_2_5_wad_SW" ], "x": 10, "y": 4 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_7_wad_SW",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        " ,,,,,",
+        " ,,,,,",
+        " ,,,,,",
+        " ,,,,,",
+        " ,,,,w",
+        "wwwww "
+      ],
+      "palettes": [ "fbmg_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_7_wad_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmg_2_7_wad_SW" ], "x": 5, "y": 18 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_8_wad_SW",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wvwwv ",
+        " ,,,,w",
+        " ,,,,,",
+        " ,,,,,",
+        " ,,,,,",
+        " ,,,,,"
+      ],
+      "palettes": [ "fbmg_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_8_wad_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmg_2_8_wad_SW" ], "x": 5, "y": 4 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_10_wad_SW",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        " ,,,, ",
+        " ,,,, ",
+        " ,,,, ",
+        " ,,,, ",
+        " ,,,w ",
+        "wwww  "
+      ],
+      "palettes": [ "fbmg_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_10_wad_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmg_2_10_wad_SW" ], "x": 1, "y": 18 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_11_wad_SW",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwww  ",
+        " ,,,w ",
+        " ,,,, ",
+        " ,,,, ",
+        " ,,,, ",
+        " ,,,, "
+      ],
+      "palettes": [ "fbmg_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_11_wad_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmg_2_11_wad_SW" ], "x": 1, "y": 4 } ] }
+  }
+]

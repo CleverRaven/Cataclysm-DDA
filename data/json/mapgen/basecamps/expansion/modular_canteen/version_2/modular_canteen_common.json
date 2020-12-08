@@ -1,0 +1,66 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_dining_furniture_vertical",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "hth hth",
+        "hth hth",
+        "hth hth",
+        "hth hth",
+        "       ",
+        "       ",
+        "       "
+      ],
+      "palettes": [ "fbmk_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_dining_furniture_horizontal",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "hhhh   ",
+        "tttt   ",
+        "hhhh   ",
+        "       ",
+        "hhhh   ",
+        "tttt   ",
+        "hhhh   "
+      ],
+      "palettes": [ "fbmk_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_planters_vertical",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "ppp",
+        "ppp",
+        "   "
+      ],
+      "palettes": [ "fbmk_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_2_planters_horizontal",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "pp ",
+        "pp ",
+        "pp "
+      ],
+      "palettes": [ "fbmk_2_common_palette" ]
+    }
+  }
+]
