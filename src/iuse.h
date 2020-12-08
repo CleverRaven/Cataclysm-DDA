@@ -9,7 +9,7 @@
 
 #include "clone_ptr.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 class Character;
 class JsonObject;
@@ -172,7 +172,7 @@ int radio_on( player *, item *, bool, const tripoint & );
 int remove_all_mods( player *, item *, bool, const tripoint & );
 int rm13armor_off( player *, item *, bool, const tripoint & );
 int rm13armor_on( player *, item *, bool, const tripoint & );
-int robotcontrol( player *, item *, bool, const tripoint & );
+int robotcontrol( player *, item *, bool active, const tripoint & );
 int rpgdie( player *, item *, bool, const tripoint & );
 int seed( player *, item *, bool, const tripoint & );
 int shavekit( player *, item *, bool, const tripoint & );
@@ -220,12 +220,6 @@ int remoteveh( player *, item *, bool, const tripoint & );
 int craft( player *, item *, bool, const tripoint & );
 
 int disassemble( player *, item *, bool, const tripoint & );
-
-// ARTIFACTS
-/* This function is used when an artifact is activated.
-   It examines the item's artifact-specific properties.
-   See artifact.h for a list.                        */
-int artifact( player *, item *, bool, const tripoint & );
 
 // Helper functions for other iuse functions
 void cut_log_into_planks( Character & );

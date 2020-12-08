@@ -9,16 +9,20 @@
 #include <unordered_set>
 #include <vector>
 
+#include "calendar.h"
 #include "cata_variant.h"
 #include "event.h"
 #include "event_bus.h"
+#include "event_subscriber.h"
 #include "hash_utils.h"
+#include "optional.h"
 #include "string_id.h"
 
 class JsonIn;
 class JsonOut;
 class event_statistic;
 class event_transformation;
+
 enum class monotonically : int;
 class score;
 class stats_tracker;

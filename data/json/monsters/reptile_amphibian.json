@@ -35,6 +35,7 @@
     "armor_bash": 4,
     "harvest": "mutant_animal_large_noskin",
     "path_settings": { "max_dist": 5 },
+    "upgrades": { "half_life": 50, "into": "mon_frog_mother" },
     "special_attacks": [ { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 } ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
@@ -79,7 +80,7 @@
           { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
           { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
         ],
-        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "TORSO" } ],
+        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
         "no_infection_chance": 2
       }
     ],

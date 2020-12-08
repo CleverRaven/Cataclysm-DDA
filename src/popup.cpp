@@ -4,17 +4,15 @@
 #include <array>
 #include <memory>
 
+#include "cached_options.h"
 #include "catacharset.h"
-#include "ime.h"
 #include "input.h"
 #include "output.h"
 #include "ui_manager.h"
 
-extern bool test_mode;
-
 query_popup::query_popup()
     : cur( 0 ), default_text_color( c_white ), anykey( false ), cancel( false ), ontop( false ),
-      fullscr( false )
+      fullscr( false ), pref_kbd_mode( keyboard_mode::keycode )
 {
 }
 
@@ -83,12 +81,20 @@ query_popup &query_popup::default_color( const nc_color &d_color )
     return *this;
 }
 
+query_popup &query_popup::preferred_keyboard_mode( const keyboard_mode mode )
+{
+    invalidate_ui();
+    pref_kbd_mode = mode;
+    return *this;
+}
+
 std::vector<std::vector<std::string>> query_popup::fold_query(
                                        const std::string &category,
+                                       const keyboard_mode pref_kbd_mode,
                                        const std::vector<query_option> &options,
                                        const int max_width, const int horz_padding )
 {
-    input_context ctxt( category );
+    input_context ctxt( category, pref_kbd_mode );
 
     std::vector<std::vector<std::string>> folded_query;
     folded_query.emplace_back();
@@ -140,7 +146,7 @@ void query_popup::invalidate_ui() const
     }
 }
 
-constexpr int border_width = 1;
+static constexpr int border_width = 1;
 
 void query_popup::init() const
 {
@@ -152,7 +158,8 @@ void query_popup::init() const
     folded_msg = foldstring( text, max_line_width );
 
     // Fold query buttons
-    const auto &folded_query = fold_query( category, options, max_line_width, horz_padding );
+    const auto &folded_query = fold_query( category, pref_kbd_mode, options, max_line_width,
+                                           horz_padding );
 
     // Calculate size of message part
     int msg_width = 0;
@@ -269,7 +276,7 @@ query_popup::result query_popup::query_once()
 
     ui_manager::redraw();
 
-    input_context ctxt( category );
+    input_context ctxt( category, pref_kbd_mode );
     if( cancel || !options.empty() ) {
         ctxt.register_action( "HELP_KEYBINDINGS" );
     }
@@ -300,7 +307,7 @@ query_popup::result query_popup::query_once()
         // Always ignore mouse movement
         ( res.evt.type == input_event_t::mouse && res.evt.get_first_input() == MOUSE_MOVE ) ||
         // Ignore window losing focus in SDL
-        ( res.evt.type == input_event_t::keyboard && res.evt.sequence.empty() )
+        ( res.evt.type == input_event_t::keyboard_char && res.evt.sequence.empty() )
     );
 
     if( cancel && res.action == "QUIT" ) {
@@ -342,8 +349,6 @@ query_popup::result query_popup::query_once()
 
 query_popup::result query_popup::query()
 {
-    ime_sentry sentry( ime_sentry::disable );
-
     std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
 
     result res;

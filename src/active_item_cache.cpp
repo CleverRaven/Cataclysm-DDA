@@ -48,12 +48,9 @@ void active_item_cache::add( item &it, point location )
 
 bool active_item_cache::empty() const
 {
-    for( std::pair<int, std::list<item_reference>> active_queue : active_items ) {
-        if( !active_queue.second.empty() ) {
-            return false;
-        }
-    }
-    return true;
+    return std::all_of( active_items.begin(), active_items.end(), []( const auto & active_queue ) {
+        return active_queue.second.empty();
+    } );
 }
 
 std::vector<item_reference> active_item_cache::get()

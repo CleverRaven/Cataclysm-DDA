@@ -19,7 +19,7 @@
     "range": 1,
     "dispersion": 480,
     "durability": 7,
-    "min_cycle_recoil": 450,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "magazine_well": "250 ml",
@@ -38,6 +38,7 @@
     "reload_noise_volume": 10,
     "name": { "str_sp": "Glock 22" },
     "description": "A .40 S&W variant of the popular Glock 17 pistol.  The standard-issue firearm of the FBI and of countless other law enforcement agencies worldwide.",
+    "ascii_picture": "glock_17",
     "weight": "645 g",
     "volume": "433 ml",
     "longest_side": "234 mm",
@@ -100,7 +101,7 @@
     "range": 1,
     "dispersion": 480,
     "durability": 7,
-    "min_cycle_recoil": 450,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -119,8 +120,10 @@
     "type": "GUN",
     "name": { "str": "pipe rifle: .40 S&W", "str_pl": "pipe rifles: .40 S&W" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "ascii_picture": "ps_pipe_gun",
     "weight": "2114 g",
     "volume": "2 L",
+    "longest_side": "100 cm",
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -1,
@@ -158,6 +161,7 @@
     "reload_noise_volume": 10,
     "name": { "str_sp": "SIG Pro .40" },
     "description": "Originally marketed as a lightweight and compact alternative to older SIG handguns, the Pro .40 is popular among European police forces.",
+    "ascii_picture": "sig_pro_40",
     "weight": "822 g",
     "volume": "509 ml",
     "longest_side": "221 mm",
@@ -206,8 +210,9 @@
     "name": { "str": "Luty SMG: .40 S&W", "str_pl": "Luty SMGs: .40 S&W" },
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .40 S&W cartridges and accepts custom-made makeshift magazines.",
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game. No factory mags until UMP40, mp5/40, or other straight .40 mags are implemented.",
-    "weight": "3274 g",
-    "volume": "1750 ml",
+    "weight": "3520 g",
+    "volume": "1110 ml",
+    "longest_side": "538 mm",
     "price": 20000,
     "price_postapoc": 1500,
     "to_hit": -1,
@@ -287,41 +292,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 6 } } ]
   },
   {
-    "id": "sw_610",
-    "copy-from": "pistol_revolver",
-    "looks_like": "sw_619",
-    "type": "GUN",
-    "name": { "str_sp": "S&W 610" },
-    "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round.",
-    "weight": "1420 g",
-    "volume": "754 ml",
-    "longest_side": "332 mm",
-    "price": 74000,
-    "price_postapoc": 2250,
-    "to_hit": -2,
-    "bashing": 10,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "10mm", "40" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "dispersion": 320,
-    "durability": 8,
-    "blackpowder_tolerance": 56,
-    "clip_size": 6,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "10mm": 6, "40": 6 } } ]
-  },
-  {
     "id": "hi_power_40",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
@@ -340,6 +310,7 @@
     "ammo": [ "40" ],
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "magazine_well": "185 ml",
@@ -369,6 +340,7 @@
     "ammo": [ "40" ],
     "dispersion": 480,
     "durability": 9,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "magazine_well": "200 ml",
@@ -399,6 +371,7 @@
     "ammo": [ "40" ],
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 504,
     "pocket_data": [
       {
         "magazine_well": "312 ml",

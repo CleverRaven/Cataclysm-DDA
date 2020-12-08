@@ -1,11 +1,12 @@
 #include "scent_map.h"
 
 #include <algorithm>
-#include <cassert>
 #include <cstdlib>
+#include <cmath>
 
 #include "assign.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
@@ -13,6 +14,7 @@
 #include "generic_factory.h"
 #include "map.h"
 #include "output.h"
+#include "point.h"
 #include "string_id.h"
 
 static constexpr int SCENT_RADIUS = 40;
@@ -68,7 +70,7 @@ void scent_map::decay()
 
 void scent_map::draw( const catacurses::window &win, const int div, const tripoint &center ) const
 {
-    assert( div != 0 );
+    cata_assert( div != 0 );
     const point max( getmaxx( win ), getmaxy( win ) );
     for( int x = 0; x < max.x; ++x ) {
         for( int y = 0; y < max.y; ++y ) {
@@ -115,6 +117,11 @@ void scent_map::set_unsafe( const tripoint &p, int value, const scenttype_id &ty
 int scent_map::get_unsafe( const tripoint &p ) const
 {
     return grscent[p.x][p.y] - std::abs( get_map().get_abs_sub().z - p.z );
+}
+
+scenttype_id scent_map::get_type() const
+{
+    return typescent;
 }
 
 scenttype_id scent_map::get_type( const tripoint &p ) const

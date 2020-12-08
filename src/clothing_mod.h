@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+#include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -47,10 +49,10 @@ struct clothing_mod {
     clothing_mod_id id;
     bool was_loaded = false;
 
-    std::string flag;
+    flag_id flag;
     itype_id item_string;
-    std::string implement_prompt;
-    std::string destroy_prompt;
+    translation implement_prompt;
+    translation destroy_prompt;
     std::vector< mod_value > mod_values;
     bool restricted = false;
 

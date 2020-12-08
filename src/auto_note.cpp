@@ -1,7 +1,7 @@
 #include "auto_note.h"
 
+#include <algorithm>
 #include <iostream>
-#include <memory>
 
 #include "cata_utility.h"
 #include "color.h"
@@ -101,7 +101,7 @@ void auto_note_settings::default_initialize()
 {
     clear();
 
-    for( auto &extra : MapExtras::mapExtraFactory().get_all() ) {
+    for( const map_extra &extra : MapExtras::mapExtraFactory().get_all() ) {
         if( extra.autonote ) {
             autoNoteEnabled.insert( extra.id );
         }
@@ -147,7 +147,7 @@ auto_note_manager_gui::auto_note_manager_gui()
 {
     const auto_note_settings &settings = get_auto_notes_settings();
 
-    for( auto &extra : MapExtras::mapExtraFactory().get_all() ) {
+    for( const map_extra &extra : MapExtras::mapExtraFactory().get_all() ) {
         // Ignore all extras that have autonote disabled in the JSON.
         // This filters out lots of extras users shouldn't see (like "normal")
         if( !extra.autonote ) {
@@ -216,6 +216,8 @@ void auto_note_manager_gui::show()
 
     if( !emptyMode ) {
         ctx.register_cardinal();
+        ctx.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+        ctx.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
         ctx.register_action( "CONFIRM" );
         ctx.register_action( "QUIT" );
         ctx.register_action( "ENABLE_MAPEXTRA_NOTE" );
@@ -289,11 +291,11 @@ void auto_note_manager_gui::show()
                 const string_id<map_extra> &displayCacheEntry = displayCache[i];
                 const auto &cacheEntry = mapExtraCache[displayCacheEntry];
 
-                const auto lineColor = ( i == currentLine ) ? hilite( c_white ) : c_white;
-                const auto statusColor = cacheEntry.second ? c_green : c_red;
-                const auto statusString = cacheEntry.second ? _( "yes" ) : _( "no" );
-                const auto charColor = cacheEntry.first.color;
-                const auto displayChar = cacheEntry.first.get_symbol();
+                const nc_color lineColor = ( i == currentLine ) ? hilite( c_white ) : c_white;
+                const nc_color statusColor = cacheEntry.second ? c_green : c_red;
+                const std::string statusString = cacheEntry.second ? _( "yes" ) : _( "no" );
+                const nc_color charColor = cacheEntry.first.color;
+                const std::string displayChar = cacheEntry.first.get_symbol();
 
                 mvwprintz( w, point( 1, i - startPosition ), lineColor, "" );
 
@@ -343,6 +345,7 @@ void auto_note_manager_gui::show()
 
         const string_id<map_extra> &currentItem = displayCache[currentLine];
         std::pair<const map_extra, bool> &entry = mapExtraCache[currentItem];
+        const int scroll_rate = cacheSize > 20 ? 10 : 3;
 
         if( currentAction == "UP" ) {
             if( currentLine > 0 ) {
@@ -355,6 +358,22 @@ void auto_note_manager_gui::show()
                 currentLine = 0;
             } else {
                 ++currentLine;
+            }
+        } else if( currentAction == "PAGE_DOWN" ) {
+            if( currentLine == cacheSize - 1 ) {
+                currentLine = 0;
+            } else if( currentLine + scroll_rate >= cacheSize ) {
+                currentLine = cacheSize - 1;
+            } else {
+                currentLine += +scroll_rate;
+            }
+        } else if( currentAction == "PAGE_UP" ) {
+            if( currentLine == 0 ) {
+                currentLine = cacheSize - 1;
+            } else if( currentLine <= scroll_rate ) {
+                currentLine = 0;
+            } else {
+                currentLine += -scroll_rate;
             }
         }  else if( currentAction == "ENABLE_MAPEXTRA_NOTE" ) {
             entry.second = true;

@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "black_dragon_tanning_hide",
     "byproducts": [ [ "dragon_black_scale", 20 ] ],
     "category": "CC_ENCHANTED",
@@ -18,12 +19,14 @@
       { "id": "MANA_INFUSE", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
     "book_learn": [ [ "black_dragons", 2 ] ],
     "components": [ [ [ "dragon_essence", 1 ] ], [ [ "black_dragon_hide_raw", 1 ] ] ]
   },
   {
     "result": "suit_black_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -33,11 +36,13 @@
     "book_learn": [ [ "black_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 250 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "black_dragon_tanned_hide", 40 ] ], [ [ "dragon_black_scale", 150 ] ], [ [ "dragon_essence", 15 ] ] ]
   },
   {
     "result": "suit_black_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -46,12 +51,14 @@
     "time": "340 h",
     "book_learn": [ [ "black_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "using": [ [ "sewing_standard", 250 ], [ "welding_standard", 50 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 40 ] ], [ [ "dragon_black_scale", 1500 ] ], [ [ "dragon_essence", 15 ] ] ]
   },
   {
     "result": "boots_black_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -61,11 +68,17 @@
     "book_learn": [ [ "black_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 100 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "components": [ [ [ "black_dragon_tanned_hide", 4 ] ], [ [ "dragon_black_scale", 15 ] ], [ [ "dragon_essence", 2 ] ] ]
   },
   {
     "result": "boots_black_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -75,11 +88,17 @@
     "book_learn": [ [ "black_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 100 ], [ "welding_standard", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "components": [ [ [ "black_dragon_tanned_hide", 6 ] ], [ [ "dragon_black_scale", 75 ] ], [ [ "dragon_essence", 4 ] ] ]
   },
   {
     "result": "helmet_black_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -89,11 +108,13 @@
     "book_learn": [ [ "black_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 100 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "black_dragon_tanned_hide", 3 ] ], [ [ "dragon_black_scale", 8 ] ], [ [ "dragon_essence", 2 ] ] ]
   },
   {
     "result": "helmet_black_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -103,11 +124,13 @@
     "book_learn": [ [ "black_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 100 ], [ "welding_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "black_dragon_tanned_hide", 1 ] ], [ [ "dragon_black_scale", 90 ] ], [ [ "dragon_essence", 4 ] ] ]
   },
   {
     "result": "gloves_black_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -117,11 +140,17 @@
     "book_learn": [ [ "black_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 100 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "components": [ [ [ "black_dragon_tanned_hide", 3 ] ], [ [ "dragon_black_scale", 10 ] ], [ [ "dragon_essence", 3 ] ] ]
   },
   {
     "result": "gauntlets_black_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -131,11 +160,17 @@
     "book_learn": [ [ "black_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 100 ], [ "welding_standard", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "components": [ [ [ "black_dragon_tanned_hide", 4 ] ], [ [ "dragon_black_scale", 50 ] ], [ [ "dragon_essence", 5 ] ] ]
   },
   {
     "result": "suit_xlblack_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -145,11 +180,13 @@
     "book_learn": [ [ "black_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 350 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "black_dragon_tanned_hide", 60 ] ], [ [ "dragon_black_scale", 250 ] ], [ [ "dragon_essence", 20 ] ] ]
   },
   {
     "result": "suit_xlblack_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -159,11 +196,13 @@
     "book_learn": [ [ "black_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 350 ], [ "welding_standard", 100 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "black_dragon_tanned_hide", 60 ] ], [ [ "dragon_black_scale", 2250 ] ], [ [ "dragon_essence", 25 ] ] ]
   },
   {
     "result": "boots_xlblack_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -173,11 +212,17 @@
     "book_learn": [ [ "black_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "components": [ [ [ "black_dragon_tanned_hide", 6 ] ], [ [ "dragon_black_scale", 20 ] ], [ [ "dragon_essence", 3 ] ] ]
   },
   {
     "result": "boots_xlblack_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -187,11 +232,17 @@
     "book_learn": [ [ "black_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ], [ "welding_standard", 20 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "components": [ [ [ "black_dragon_tanned_hide", 8 ] ], [ [ "dragon_black_scale", 125 ] ], [ [ "dragon_essence", 6 ] ] ]
   },
   {
     "result": "helmet_xlblack_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -201,11 +252,13 @@
     "book_learn": [ [ "black_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "black_dragon_tanned_hide", 4 ] ], [ [ "dragon_black_scale", 12 ] ], [ [ "dragon_essence", 3 ] ] ]
   },
   {
     "result": "helmet_xlblack_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -215,11 +268,13 @@
     "book_learn": [ [ "black_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ], [ "welding_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "black_dragon_tanned_hide", 2 ] ], [ [ "dragon_black_scale", 140 ] ], [ [ "dragon_essence", 6 ] ] ]
   },
   {
     "result": "gloves_xlblack_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -229,11 +284,17 @@
     "book_learn": [ [ "black_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "components": [ [ [ "black_dragon_tanned_hide", 4 ] ], [ [ "dragon_black_scale", 15 ] ], [ [ "dragon_essence", 4 ] ] ]
   },
   {
     "result": "gauntlets_xlblack_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -243,6 +304,41 @@
     "book_learn": [ [ "black_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ], [ "welding_standard", 20 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "components": [ [ [ "black_dragon_tanned_hide", 6 ] ], [ [ "dragon_black_scale", 75 ] ], [ [ "dragon_essence", 7 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutagen_black_dragon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "chemistry",
+    "skills_required": [ "spellcraft", 6 ],
+    "difficulty": 4,
+    "time": "4 h",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "black_dragons_historical", 7 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "dragon_essence", 5 ] ], [ [ "potion_starter_superior", 1 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "result": "iv_black_dragon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "chemistry",
+    "skills_required": [ "spellcraft", 8 ],
+    "difficulty": 6,
+    "time": "8 h",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "black_dragons_historical", 8 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "dragon_essence", 5 ] ], [ [ "mutagen_black_dragon", 1 ] ], [ [ "manatouched_serum", 1 ] ] ],
+    "flags": [ "SECRET" ]
   }
 ]

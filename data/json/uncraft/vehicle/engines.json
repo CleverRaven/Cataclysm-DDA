@@ -1,6 +1,7 @@
 [
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "1cyl_combustion_large",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
@@ -21,6 +22,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "1cyl_combustion",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
@@ -41,6 +43,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "1cyl_combustion_small",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
@@ -61,6 +64,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "i4_combustion",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
@@ -81,6 +85,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "i6_diesel",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
@@ -103,6 +108,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "v2_combustion",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
@@ -123,6 +129,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "v6_combustion",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
@@ -143,6 +150,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "v6_diesel",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
@@ -165,6 +173,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "v8_combustion",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
@@ -185,6 +194,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "v8_diesel",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
@@ -207,6 +217,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "v12_combustion",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
@@ -227,6 +238,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "v12_diesel",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],

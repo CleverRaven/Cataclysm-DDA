@@ -50,13 +50,13 @@ all look identical.
 float octave_noise_2d( const float octaves, const float persistence, const float scale,
                        const float x, const float y )
 {
-    float total = 0;
+    float total = 0.0f;
     float frequency = scale;
-    float amplitude = 1;
+    float amplitude = 1.0f;
 
     // We have to keep track of the largest possible amplitude,
     // because each octave adds more, and we need a value in [-1, 1].
-    float maxAmplitude = 0;
+    float maxAmplitude = 0.0f;
 
     for( int i = 0; i < octaves; i++ ) {
         total += raw_noise_2d( x * frequency, y * frequency ) * amplitude;
@@ -76,13 +76,13 @@ float octave_noise_2d( const float octaves, const float persistence, const float
 float octave_noise_3d( const float octaves, const float persistence, const float scale,
                        const float x, const float y, const float z )
 {
-    float total = 0;
+    float total = 0.0f;
     float frequency = scale;
-    float amplitude = 1;
+    float amplitude = 1.0f;
 
     // We have to keep track of the largest possible amplitude,
     // because each octave adds more, and we need a value in [-1, 1].
-    float maxAmplitude = 0;
+    float maxAmplitude = 0.0f;
 
     for( int i = 0; i < octaves; i++ ) {
         total += raw_noise_3d( x * frequency, y * frequency, z * frequency ) * amplitude;
@@ -102,13 +102,13 @@ float octave_noise_3d( const float octaves, const float persistence, const float
 float octave_noise_4d( const float octaves, const float persistence, const float scale,
                        const float x, const float y, const float z, const float w )
 {
-    float total = 0;
+    float total = 0.0f;
     float frequency = scale;
-    float amplitude = 1;
+    float amplitude = 1.0f;
 
     // We have to keep track of the largest possible amplitude,
     // because each octave adds more, and we need a value in [-1, 1].
-    float maxAmplitude = 0;
+    float maxAmplitude = 0.0f;
 
     for( int i = 0; i < octaves; i++ ) {
         total += raw_noise_4d( x * frequency, y * frequency, z * frequency, w * frequency ) * amplitude;
@@ -182,9 +182,9 @@ float scaled_raw_noise_4d( const float loBound, const float hiBound, const float
 float raw_noise_2d( const float x, const float y )
 {
     // Noise contributions from the three corners
-    float n0 = 0;
-    float n1 = 0;
-    float n2 = 0;
+    float n0 = 0.0f;
+    float n1 = 0.0f;
+    float n2 = 0.0f;
 
     // Skew the input space to determine which simplex cell we're in
     static const float F2 = 0.5f * ( std::sqrt( 3.0f ) - 1.0f );

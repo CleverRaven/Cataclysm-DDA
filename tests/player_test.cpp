@@ -1,14 +1,12 @@
-#include <string>
-#include <array>
-#include <list>
-#include <memory>
-
 #include "catch/catch.hpp"
+
+#include <array>
+#include <string>
+
 #include "character.h"
-#include "weather.h"
-#include "bodypart.h"
-#include "calendar.h"
 #include "item.h"
+#include "type_id.h"
+#include "weather.h"
 
 // Set the stage for a particular ambient and target temperature and run update_bodytemp() until
 // core body temperature settles.
@@ -39,7 +37,7 @@ static void temperature_check( Character *p, const int ambient_temp, const int t
 
 static void equip_clothing( Character *p, const std::string &clothing )
 {
-    const item article( clothing, 0 );
+    const item article( clothing, calendar::turn_zero );
     p->wear_item( article );
 }
 

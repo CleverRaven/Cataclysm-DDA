@@ -12,18 +12,16 @@
 #include <utility>
 #include <vector>
 
-#include "auto_pickup.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "debug.h"
-#include "dialogue.h"
 #include "enum_conversions.h"
 #include "game.h"
 #include "item.h"
 #include "item_category.h"
 #include "json.h"
-#include "line.h"
 #include "map.h"
 #include "mapdata.h"
 #include "mission.h"
@@ -31,19 +29,18 @@
 #include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "pimpl.h"
-#include "player.h"
-#include "player_activity.h"
 #include "point.h"
 #include "recipe_groups.h"
 #include "string_id.h"
 #include "talker.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
 class basecamp;
 class recipe;
+struct dialogue;
 
 static const efftype_id effect_currently_busy( "currently_busy" );
 
@@ -157,10 +154,10 @@ void conditional_t<T>::set_npc_has_class( const JsonObject &jo )
 template<class T>
 void conditional_t<T>::set_u_has_mission( const JsonObject &jo )
 {
-    const std::string &mission = jo.get_string( "u_has_mission" );
-    condition = [mission]( const T & ) {
-        for( auto miss_it : get_avatar().get_active_missions() ) {
-            if( miss_it->mission_id() == mission_type_id( mission ) ) {
+    const std::string &u_mission = jo.get_string( "u_has_mission" );
+    condition = [u_mission]( const T & ) {
+        for( mission *miss_it : get_avatar().get_active_missions() ) {
+            if( miss_it->mission_id() == mission_type_id( u_mission ) ) {
                 return true;
             }
         }
@@ -263,7 +260,7 @@ void conditional_t<T>::set_has_item_category( const JsonObject &jo, const std::s
     condition = [category_id, count, is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
         const auto items_with = actor->items_with( [category_id]( const item & it ) {
-            return it.get_category().get_id() == category_id;
+            return it.get_category_shallow().get_id() == category_id;
         } );
         return items_with.size() >= count;
     };
@@ -322,7 +319,8 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
     const std::string &location = jo.get_string( member );
     condition = [location, is_npc]( const T & d ) {
         const tripoint_abs_omt omt_pos = d.actor( is_npc )->global_omt_location();
-        const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+        const oter_id &omt_ter = overmap_buffer.ter( omt_pos );
+        const std::string &omt_str = omt_ter.id().c_str();
 
         if( location == "FACTION_CAMP_ANY" ) {
             cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
@@ -330,13 +328,11 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
                 return true;
             }
             // legacy check
-            const std::string &omt_str = omt_ref.id().c_str();
             return omt_str.find( "faction_base_camp" ) != std::string::npos;
         } else if( location == "FACTION_CAMP_START" ) {
-            return !recipe_group::get_recipes_by_id( "all_faction_base_types",
-                    omt_ref.id().c_str() ).empty();
+            return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty();
         } else {
-            return omt_ref == oter_id( oter_no_dir( oter_id( location ) ) );
+            return oter_no_dir( omt_ter ) == location;
         }
     };
 }
@@ -534,7 +530,7 @@ void conditional_t<T>::set_days_since( const JsonObject &jo )
 {
     const unsigned int days = jo.get_int( "days_since_cataclysm" );
     condition = [days]( const T & ) {
-        return to_turn<int>( calendar::turn ) >= calendar::start_of_cataclysm + 1_days * days;
+        return calendar::turn >= calendar::start_of_cataclysm + 1_days * days;
     };
 }
 
@@ -543,7 +539,7 @@ void conditional_t<T>::set_is_season( const JsonObject &jo )
 {
     std::string season_name = jo.get_string( "is_season" );
     condition = [season_name]( const T & ) {
-        const auto season = season_of_year( calendar::turn );
+        const season_type season = season_of_year( calendar::turn );
         return ( season == SPRING && season_name == "spring" ) ||
                ( season == SUMMER && season_name == "summer" ) ||
                ( season == AUTUMN && season_name == "autumn" ) ||
@@ -699,7 +695,7 @@ template<class T>
 void conditional_t<T>::set_at_safe_space()
 {
     condition = []( const T & d ) {
-        return overmap_buffer.is_safe( d.beta->global_omt_location() );
+        return overmap_buffer.is_safe( d.beta->global_omt_location() ) && d.beta->is_safe();
     };
 }
 

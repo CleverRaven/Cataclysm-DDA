@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "gamemode.h"

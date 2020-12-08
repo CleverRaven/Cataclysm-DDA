@@ -1,17 +1,17 @@
 /* Entry point and main loop for Cataclysm
  */
 
+#include <algorithm>
+#include <array>
 #include <clocale>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <functional>
 #include <iostream>
 #include <locale>
 #include <map>
-#include <array>
-#include <exception>
-#include <functional>
 #include <memory>
 #include <string>
 #include <utility>
@@ -21,6 +21,7 @@
 #else
 #include <csignal>
 #endif
+#include "cached_options.h"
 #include "color.h"
 #include "crash.h"
 #include "cursesdef.h"
@@ -38,7 +39,8 @@
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui_manager.h"
+
+class ui_adaptor;
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -49,11 +51,11 @@
 #endif
 
 #if defined(__ANDROID__)
-#include <unistd.h>
-#include <SDL_system.h>
 #include <SDL_filesystem.h>
 #include <SDL_keyboard.h>
+#include <SDL_system.h>
 #include <android/log.h>
+#include <unistd.h>
 
 // Taken from: https://codelab.wordpress.com/2014/11/03/how-to-use-standard-output-streams-for-logging-in-android-apps/
 // Force Android standard output to adb logcat output
@@ -685,6 +687,7 @@ int main( int argc, const char *argv[] )
         set_language();
     }
 #endif
+    replay_buffered_debugmsg_prompts();
 
     while( true ) {
         if( !cli.world.empty() ) {

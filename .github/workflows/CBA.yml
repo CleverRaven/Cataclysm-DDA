@@ -29,7 +29,8 @@ jobs:
         cd build
         cmake -DCMAKE_BUILD_TYPE=RELEASE ..
         cmake --build . -- -j3
-        echo "::add-path::$PWD"
+        echo "${PWD}" >> $GITHUB_PATH
+    - uses: ammaraskar/gcc-problem-matcher@master
     - name: make
       run: |
         ClangBuildAnalyzer --start .

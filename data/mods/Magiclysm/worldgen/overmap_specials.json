@@ -13,6 +13,24 @@
   },
   {
     "type": "overmap_special",
+    "id": "attunement altar",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "attunement_altar_NW_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "attunement_altar_NE_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "attunement_altar_SW_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "attunement_altar_SE_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "attunement_altar_NW_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "attunement_altar_NE_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "attunement_altar_SW_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "attunement_altar_SE_roof_north" }
+    ],
+    "locations": [ "forest" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 2 ]
+  },
+  {
+    "type": "overmap_special",
     "id": "demon_spider_lair",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "demon_spider_lair_north" } ],
     "locations": [ "wilderness" ],

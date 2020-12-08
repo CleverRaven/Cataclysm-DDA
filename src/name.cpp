@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "cata_utility.h"
+#include "enum_traits.h"
 #include "json.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -73,7 +74,7 @@ static void load( JsonIn &jsin )
 
         // find group type and add name(s) to group
         if( jo.has_array( "name" ) ) {
-            for( const std::string &n : jo.get_array( "name" ) ) {
+            for( const std::string n : jo.get_array( "name" ) ) {
                 names[type].push_back( n );
             }
         } else {

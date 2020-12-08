@@ -10,6 +10,8 @@
 #include <vector>
 
 #include "pimpl.h"
+#include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 struct WORLD;
@@ -19,14 +21,14 @@ class JsonObject;
 class dependency_tree;
 class mod_manager;
 
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
+const std::vector<std::pair<std::string, translation>> &get_mod_list_categories();
+const std::vector<std::pair<std::string, translation>> &get_mod_list_tabs();
 const std::map<std::string, std::string> &get_mod_list_cat_tab();
 
 struct MOD_INFORMATION {
     private:
         friend mod_manager;
-        std::string name_;
+        translation name_;
 
     public:
         std::string name() const;
@@ -48,7 +50,7 @@ struct MOD_INFORMATION {
          */
         std::set<std::string> maintainers;
 
-        std::string description;
+        translation description;
         std::string version;
 
         /** What other mods must be loaded prior to this one? */
@@ -60,7 +62,7 @@ struct MOD_INFORMATION {
         /** Obsolete mods are loaded for legacy saves but cannot be used when starting new worlds */
         bool obsolete = false;
 
-        std::pair<int, std::string> category = { -1, "" };
+        std::pair<int, translation> category = { -1, translation() };
 };
 
 class mod_manager

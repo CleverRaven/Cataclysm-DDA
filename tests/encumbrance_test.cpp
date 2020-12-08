@@ -1,16 +1,13 @@
-#include <array>
+#include "catch/catch.hpp"
+
 #include <functional>
 #include <list>
-#include <memory>
 #include <string>
 #include <vector>
 
-#include "catch/catch.hpp"
 #include "bodypart.h"
 #include "character.h"
-#include "debug.h"
 #include "item.h"
-#include "material.h"
 #include "npc.h"
 #include "type_id.h"
 
@@ -116,7 +113,7 @@ TEST_CASE( "same_layer_encumbrance", "[encumbrance]" )
 TEST_CASE( "tiny_clothing", "[encumbrance]" )
 {
     item i( "longshirt" );
-    i.set_flag( "UNDERSIZE" );
+    i.set_flag( flag_id( "UNDERSIZE" ) );
     test_encumbrance_items( { i }, "torso", longshirt_e * 3 );
 }
 
@@ -127,7 +124,7 @@ TEST_CASE( "tiny_character", "[encumbrance]" )
         test_encumbrance_items( { i }, "torso", longshirt_e * 2, add_trait( "SMALL2" ) );
     }
     SECTION( "undersize shrt" ) {
-        i.set_flag( "UNDERSIZE" );
+        i.set_flag( flag_id( "UNDERSIZE" ) );
         test_encumbrance_items( { i }, "torso", longshirt_e, add_trait( "SMALL2" ) );
     }
 }

@@ -1,11 +1,19 @@
-#include "avatar.h"
-#include "game.h"
-#include "monster.h"
-#include "type_id.h"
-
 #include "catch/catch.hpp"
-#include "player_helpers.h"
+
+#include <list>
+#include <memory>
+
+#include "avatar.h"
+#include "calendar.h"
+#include "creature.h"
+#include "flag.h"
+#include "game.h"
+#include "item.h"
 #include "map_helpers.h"
+#include "monster.h"
+#include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 // The test cases below cover polymorphic functions related to melee hit and dodge rates
 // for the Character, player, and monster classes, including:
@@ -254,9 +262,9 @@ TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
         item blades( "roller_blades" );
         item heelys( "roller_shoes_on" );
 
-        REQUIRE( skates.has_flag( "ROLLER_QUAD" ) );
-        REQUIRE( blades.has_flag( "ROLLER_INLINE" ) );
-        REQUIRE( heelys.has_flag( "ROLLER_ONE" ) );
+        REQUIRE( skates.has_flag( flag_ROLLER_QUAD ) );
+        REQUIRE( blades.has_flag( flag_ROLLER_INLINE ) );
+        REQUIRE( heelys.has_flag( flag_ROLLER_ONE ) );
 
         SECTION( "amateur skater: 1/5 dodge" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_id( "PROF_SKATER" ) ) );
@@ -361,42 +369,42 @@ TEST_CASE( "player::get_dodge stamina effects", "[player][melee][dodge][stamina]
         const int stamina_max = dummy.get_stamina_max();
 
         SECTION( "100% stamina" ) {
-            CHECK( dummy.get_dodge() == 4.0f );
+            CHECK( dummy.get_dodge() == Approx( 4.0f ).margin( 0.001 ) );
         }
 
         SECTION( "75% stamina" ) {
             dummy.set_stamina( .75 * stamina_max );
-            CHECK( dummy.get_dodge() == 4.0f );
+            CHECK( dummy.get_dodge() == Approx( 4.0f ).margin( 0.001 ) );
         }
 
         SECTION( "50% stamina" ) {
             dummy.set_stamina( .5 * stamina_max );
-            CHECK( dummy.get_dodge() == 4.0f );
+            CHECK( dummy.get_dodge() == Approx( 4.0f ).margin( 0.001 ) );
         }
 
         SECTION( "40% stamina" ) {
             dummy.set_stamina( .4 * stamina_max );
-            CHECK( dummy.get_dodge() == 3.2f );
+            CHECK( dummy.get_dodge() == Approx( 3.2f ).margin( 0.001 ) );
         }
 
         SECTION( "30% stamina" ) {
             dummy.set_stamina( .3 * stamina_max );
-            CHECK( dummy.get_dodge() == 2.4f );
+            CHECK( dummy.get_dodge() == Approx( 2.4f ).margin( 0.001 ) );
         }
 
         SECTION( "20% stamina" ) {
             dummy.set_stamina( .2 * stamina_max );
-            CHECK( dummy.get_dodge() == 1.6f );
+            CHECK( dummy.get_dodge() == Approx( 1.6f ).margin( 0.001 ) );
         }
 
         SECTION( "10% stamina" ) {
             dummy.set_stamina( .1 * stamina_max );
-            CHECK( dummy.get_dodge() == 0.8f );
+            CHECK( dummy.get_dodge() == Approx( 0.8f ).margin( 0.001 ) );
         }
 
         SECTION( "0% stamina" ) {
             dummy.set_stamina( 0 );
-            CHECK( dummy.get_dodge() == 0.0f );
+            CHECK( dummy.get_dodge() == Approx( 0.0f ).margin( 0.001 ) );
         }
     }
 }

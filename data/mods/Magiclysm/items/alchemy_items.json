@@ -61,7 +61,7 @@
     "material": [ "copper", "wood" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 5,
     "encumbrance": 1,
     "warmth": 0,
@@ -169,7 +169,7 @@
     "description": "This is the magical essence from a dragon, distilled into a concentrated form.",
     "volume": "250 ml",
     "weight": "300 g",
-    "flags": [ "TRADER_AVOID", "INDEIBLE" ],
+    "flags": [ "TRADER_AVOID", "INEDIBLE" ],
     "container": "flask_glass",
     "charges": 1,
     "phase": "liquid",
@@ -248,10 +248,10 @@
     "phase": "solid",
     "volume": "250 ml",
     "weight": "11 g",
+    "material": [ "alumentum" ],
     "ammo_type": "alumentum",
     "count": 50,
-    "stack_size": 10,
-    "fuel": { "energy": 3 }
+    "stack_size": 10
   },
   {
     "id": "mana_dust",
@@ -261,6 +261,7 @@
     "name": "mana dust",
     "description": "Crystalized mana in powdered form.  It faintly pulses with arcane energy.",
     "material": [ "powder" ],
-    "volume": "100 ml"
+    "volume": "100 ml",
+    "flags": [ "ZERO_WEIGHT" ]
   }
 ]

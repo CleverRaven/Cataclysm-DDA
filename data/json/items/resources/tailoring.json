@@ -231,7 +231,7 @@
     "type": "TOOL",
     "category": "spare_parts",
     "name": "rigid kevlar plate",
-    "description": "This is a compressed panel of kevlar treated with epoxy or other adhesive.  It could be used to repair items made of Kevlar.",
+    "description": "This is a compressed panel of Kevlar treated with epoxy or other adhesive.  It could be used to repair items made of Kevlar.",
     "weight": "300 g",
     "volume": "250 ml",
     "price": 1000,

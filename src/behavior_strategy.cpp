@@ -1,5 +1,6 @@
 #include "behavior_strategy.h"
 
+#include <algorithm>
 #include <unordered_map>
 
 #include "behavior.h"

@@ -6,13 +6,18 @@
 #include <string>
 #include <vector>
 
-#include "event_bus.h"
+#include "calendar.h"
+#include "event_subscriber.h"
+#include "optional.h"
 #include "string_formatter.h"
+#include "type_id.h"
 
 namespace cata
 {
 class event;
 }  // namespace cata
+class JsonIn;
+class JsonOut;
 
 class memorial_log_entry
 {

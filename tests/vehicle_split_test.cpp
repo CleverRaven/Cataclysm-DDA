@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <set>
 #include <vector>
 
-#include "catch/catch.hpp"
 #include "character.h"
 #include "map.h"
 #include "vehicle.h"
@@ -13,7 +14,7 @@ TEST_CASE( "vehicle_split_section" )
 {
     map &here = get_map();
     Character &player_character = get_player_character();
-    for( int dir = 0; dir < 360; dir += 15 ) {
+    for( units::angle dir = 0_degrees; dir < 360_degrees; dir += 15_degrees ) {
         CHECK( !player_character.in_vehicle );
         const tripoint test_origin( 15, 15, 0 );
         player_character.setpos( test_origin );

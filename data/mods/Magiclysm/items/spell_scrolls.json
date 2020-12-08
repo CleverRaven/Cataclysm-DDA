@@ -768,15 +768,6 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_lava_bomb",
-    "//": "Earthshaper spell",
-    "name": { "str": "Scroll of Lava Bomb", "str_pl": "Scrolls of Lava Bomb" },
-    "description": "You tear up the ground beneath you to fire a lava bomb: a globe of lava surrounded by hot, solid rock.  It shatters upon impact, spraying shards of rock and lava everywhere.",
-    "use_action": { "type": "learn_spell", "spells": [ "lava_bomb_main" ] }
-  },
-  {
-    "type": "BOOK",
-    "copy-from": "spell_scroll",
     "id": "spell_scroll_acid_resistance",
     "//": "Classless spell, black dragon books",
     "name": { "str": "Scroll of Acid Resistance", "str_pl": "Scrolls of Acid Resistance" },
@@ -917,5 +908,69 @@
     "name": { "str": "Sappy Scroll" },
     "description": "This scroll is covered in sap and rose thorns.  You can still make out some of the writings, but it probably won't work the same.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_tornskin" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_feralform",
+    "name": { "str": "Scroll of Feral Form", "str_pl": "Scrolls of Feral Form" },
+    "description": "Unleash your inner beast by snapping a fur-covered bone, becoming beastly.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_feralform" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_flamesword",
+    "name": { "str": "Scroll of Flamesword", "str_pl": "Scrolls of Flamesword" },
+    "description": "Ignite a wooden sword to create a flaming saber.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_summon_flamesword" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_flamebreath",
+    "name": { "str": "Scroll of Flamebreath", "str_pl": "Scrolls of Flamebreath" },
+    "description": "A pocketful of combustible powder is ignited, creating a cone of flame with ashes that stick to those in its path.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_flamebreath" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_caustic_aura",
+    "name": { "str": "Scroll of Caustic Aura", "str_pl": "Scrolls of Caustic Aura" },
+    "description": "Animate a layer of acid around you, burning attackers and increasing your melee damage.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_caustic_aura" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_boneclub",
+    "name": { "str": "Scroll of Decaying Boneclub", "str_pl": "Scrolls of Decaying Boneclub" },
+    "description": "Link your live blood to dead blood and bones, creating a club eager to harvest the living.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_summon_decaying_boneclub" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_impactsling",
+    "name": { "str": "Scroll of Impact Sling", "str_pl": "Scrolls of Impact Sling" },
+    "description": "Infuse a sling with excess energy, delivering devasting throws before it tears itself apart.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_summon_impact_sling" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_knifeshot",
+    "name": { "str": "Scroll of Knifeshot", "str_pl": "Scrolls of Knifeshot" },
+    "description": "Emulate a railgun, launching a knife at high speed.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_knifeshot" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_magic_motorcycle",
+    "name": { "str": "MICE(R) blueprint" },
+    "description": "Manafied Infernal Combustion Engine (Rideable)\nDetailed schematics for a motorcycle, that are somehow simultaneously obviously impossible and yet intriguingly intuitive.\nIn one margin, the word 'Mojocycle' has been scrawled in a flowing hand.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_magic_motorcycle" ] }
   }
 ]

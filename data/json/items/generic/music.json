@@ -11,7 +11,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "cable_instrument",
+    "id": "cable_speaker",
     "name": { "str": "speaker cable" },
     "description": "This audio cable connects one speaker to a powered head, or one speaker to another.",
     "symbol": "o",

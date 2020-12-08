@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "Graphical_Overmap_More_Locations",
+    "id": "Graphical_Overmap_More_Locations",
     "name": "Graphical Overmap More Locations",
     "authors": [ "Kilvoctu" ],
     "maintainers": [ "Kilvoctu" ],

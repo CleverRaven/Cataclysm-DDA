@@ -21,10 +21,14 @@ then
     make -j "$num_jobs" style-json
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
+
+    tools/json_tools/generic_guns_validator.py
+
     # Also build chkjson (even though we're not using it), to catch any
     # compile errors there
     make -j "$num_jobs" chkjson
-elif [ -n "$JUST_JSON" ]
+# Skip the rest of the run if this change is pure json and this job doesn't test any extra mods
+elif [ -n "$JUST_JSON" -a -z "$MODS" ]
 then
     echo "Early exit on just-json change"
     exit 0
@@ -35,7 +39,7 @@ ccache --zero-stats
 ccache -M 2G
 ccache --show-stats
 
-if [ -n "$CMAKE" ]
+if [ "$CMAKE" = "1" ]
 then
     bin_path="./"
     if [ "$RELEASE" = "1" ]
@@ -174,7 +178,7 @@ else
         run_tests ./tests/cata_test &
         if [ -n "$MODS" ]
         then
-            run_tests ./tests/cata_test --user-dir=modded $MODS &
+            run_tests ./tests/cata_test --user-dir=modded $MODS 2>&1 | sed 's/^/MOD> /' &
             wait -n
         fi
         wait -n

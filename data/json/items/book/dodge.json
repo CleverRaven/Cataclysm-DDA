@@ -54,6 +54,6 @@
     "color": "blue",
     "required_level": 4,
     "max_level": 5,
-    "relative": { "price_post": 2000, "intelligence": 4, "time": "10 m" }
+    "relative": { "price_postapoc": 2000, "intelligence": 4, "time": "10 m" }
   }
 ]

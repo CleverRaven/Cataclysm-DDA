@@ -4,16 +4,17 @@
 #include <string>
 #include <vector>
 
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "optional.h"
 #include "output.h"
+#include "point.h"
 #include "rng.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "catacharset.h"
-#include "color.h"
-#include "optional.h"
-#include "point.h"
 
 void lightson_game::new_level()
 {

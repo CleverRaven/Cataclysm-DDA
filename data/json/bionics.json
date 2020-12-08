@@ -45,6 +45,7 @@
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ] ],
     "bash_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "cut_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
+    "bullet_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -56,6 +57,7 @@
     "env_protec": [ [ "eyes", 7 ] ],
     "bash_protec": [ [ "eyes", 3 ] ],
     "cut_protec": [ [ "eyes", 3 ] ],
+    "bullet_protec": [ [ "eyes", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -66,6 +68,7 @@
     "occupied_bodyparts": [ [ "head", 5 ], [ "mouth", 1 ] ],
     "bash_protec": [ [ "head", 3 ] ],
     "cut_protec": [ [ "head", 3 ] ],
+    "bullet_protec": [ [ "head", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -76,6 +79,7 @@
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ] ],
     "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -86,6 +90,7 @@
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "bash_protec": [ [ "torso", 3 ] ],
     "cut_protec": [ [ "torso", 3 ] ],
+    "bullet_protec": [ [ "torso", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -197,6 +202,18 @@
       [ "foot_l", 4 ],
       [ "foot_r", 4 ]
     ],
+    "bullet_protec": [
+      [ "torso", 4 ],
+      [ "head", 4 ],
+      [ "arm_l", 4 ],
+      [ "arm_r", 4 ],
+      [ "hand_l", 4 ],
+      [ "hand_r", 4 ],
+      [ "leg_l", 4 ],
+      [ "leg_r", 4 ],
+      [ "foot_l", 4 ],
+      [ "foot_r", 4 ]
+    ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -268,7 +285,7 @@
     "id": "bio_cqb",
     "type": "bionic",
     "name": { "str": "Close Quarters Battle" },
-    "description": "Bionic processors and databanks, loaded with martial arts combat programs, are surgically integrated into your nervous system.  Whilst active, the CQB module will improve your hand to hand combat skills, but prevents you from improving them through combat experience.",
+    "description": "Bionic processors and databanks, loaded with martial arts combat programs, are surgically integrated into your nervous system.  Whilst active, the CQB module will improve your hand-to-hand combat skills, but prevents you from improving them through combat experience.",
     "occupied_bodyparts": [ [ "head", 4 ] ],
     "act_cost": "20 J",
     "react_cost": "20 J",
@@ -366,7 +383,7 @@
     "name": { "str": "Ethanol Burner" },
     "description": "You burn alcohol as fuel in an extremely efficient reaction.",
     "occupied_bodyparts": [ [ "torso", 26 ] ],
-    "fuel_options": [ "chem_ethanol", "chem_methanol", "denat_alcohol" ],
+    "fuel_options": [ "alcohol" ],
     "fuel_capacity": 500,
     "fuel_efficiency": 0.5,
     "exothermic_power_gen": true,
@@ -408,7 +425,6 @@
       "BIRD_EYE",
       "COMPOUND_EYES",
       "LIZ_IR",
-      "EAGLEEYED",
       "CEPH_VISION",
       "CEPH_EYES",
       "ELFA_FNV",

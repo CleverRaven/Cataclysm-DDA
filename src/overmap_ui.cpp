@@ -20,24 +20,23 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
 #include "clzones.h"
 #include "color.h"
 #include "compatibility.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
-#include "ime.h"
 #include "input.h"
 #include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
-#include "memory_fast.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -48,6 +47,7 @@
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
+#include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "sounds.h"
@@ -64,6 +64,9 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "weather_type.h"
+
+class character_id;
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
@@ -164,9 +167,9 @@ static void update_note_preview( const std::string &note,
     const char symbol = std::get<0>( om_symbol );
     const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
 
-    auto w_preview       = std::get<0>( preview_windows );
-    auto w_preview_title = std::get<1>( preview_windows );
-    auto w_preview_map   = std::get<2>( preview_windows );
+    catacurses::window *w_preview = std::get<0>( preview_windows );
+    catacurses::window *w_preview_title = std::get<1>( preview_windows );
+    catacurses::window *w_preview_map   = std::get<2>( preview_windows );
 
     draw_border( *w_preview );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -223,7 +226,7 @@ static weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
 static bool get_scent_glyph( const tripoint_abs_omt &pos, nc_color &ter_color,
                              std::string &ter_sym )
 {
-    auto possible_scent = overmap_buffer.scent_at( pos );
+    scent_trace possible_scent = overmap_buffer.scent_at( pos );
     if( possible_scent.creation_time != calendar::before_time_starts ) {
         color_manager &color_list = get_all_colors();
         int i = 0;
@@ -431,14 +434,14 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
         nmenu.additional_actions.emplace_back( "DELETE_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "EDIT_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "MARK_DANGER", translation() );
-        const input_context ctxt( nmenu.input_category );
+        const input_context ctxt( nmenu.input_category, keyboard_mode::keycode );
         nmenu.text = string_format(
                          _( "<%s> - center on note, <%s> - edit note, <%s> - mark as dangerous, <%s> - delete note, <%s> - close window" ),
-                         colorize( "RETURN", c_yellow ),
-                         colorize( ctxt.key_bound_to( "EDIT_NOTE" ), c_yellow ),
-                         colorize( ctxt.key_bound_to( "MARK_DANGER" ), c_red ),
-                         colorize( ctxt.key_bound_to( "DELETE_NOTE" ), c_yellow ),
-                         colorize( "ESCAPE", c_yellow )
+                         colorize( ctxt.get_desc( "CONFIRM", 1 ), c_yellow ),
+                         colorize( ctxt.get_desc( "EDIT_NOTE", 1 ), c_yellow ),
+                         colorize( ctxt.get_desc( "MARK_DANGER", 1 ), c_red ),
+                         colorize( ctxt.get_desc( "DELETE_NOTE", 1 ), c_yellow ),
+                         colorize( ctxt.get_desc( "QUIT", 1 ), c_yellow )
                      );
         int row = 0;
         overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes( origin.z() );
@@ -631,7 +634,7 @@ void draw(
         }
         std::vector<npc *> followers;
         // get friendly followers
-        for( auto &elem : g->get_follower_list() ) {
+        for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
@@ -705,7 +708,7 @@ void draw(
             } else if( viewing_weather && ( data.debug_weather || los_sky ) ) {
                 const weather_type_id type = get_weather_at_point( omp );
                 ter_color = type->map_color;
-                ter_sym = type->glyph;
+                ter_sym = type->get_symbol();
             } else if( data.debug_scent && get_scent_glyph( omp, ter_color, ter_sym ) ) {
                 // get_scent_glyph has changed ter_color and ter_sym if omp has a scent
             } else if( blink && has_target && omp.xy() == target.xy() ) {
@@ -772,7 +775,7 @@ void draw(
                     ter_sym = "x";
                 } else {
                     const auto &groups = overmap_buffer.monsters_at( omp );
-                    for( auto &mgp : groups ) {
+                    for( const mongroup *mgp : groups ) {
                         if( mgp->type == GROUP_FOREST ) {
                             // Don't flood the map with forest creatures.
                             continue;
@@ -1095,19 +1098,27 @@ void draw(
 
 void create_note( const tripoint_abs_omt &curs )
 {
-    std::string color_notes = _( "Color codes: " );
-    for( const std::pair<std::string, std::string> &color_pair : get_note_color_names() ) {
+    std::string color_notes = string_format( "%s\n\n\n",
+                              _( "Add a note to the map.  "
+                                 "For a custom GLYPH or COLOR follow the examples below.  "
+                                 "Default GLYPH and COLOR looks like this: "
+                                 "<color_yellow>N</color>" ) );
+
+    color_notes += _( "Color codes: " );
+    for( const std::pair<const std::string, note_color> &color_pair : get_note_color_names() ) {
         // The color index is not translatable, but the name is.
-        color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
-                                      _( color_pair.second ), string_replace( color_pair.second, " ", "_" ) );
+        //~ %1$s: note color abbreviation, %2$s: note color name
+        color_notes += string_format( pgettext( "note color", "%1$s:%2$s, " ), color_pair.first,
+                                      colorize( color_pair.second.name, color_pair.second.color ) );
     }
 
-    std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",
-                              _( "Type GLYPH:TEXT to set a custom glyph." ),
-                              _( "Type COLOR;TEXT to set a custom color." ),
+    std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n\n",
+                              _( "Type GLYPH<color_yellow>:</color>TEXT to set a custom glyph." ),
+                              _( "Type COLOR<color_yellow>;</color>TEXT to set a custom color." ),
                               // NOLINTNEXTLINE(cata-text-style): literal exclaimation mark
                               _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
-    color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), helper_text );
+    color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(),
+                                       helper_text );
     std::string title = _( "Note:" );
 
     const std::string old_note = overmap_buffer.note( curs );
@@ -1138,9 +1149,6 @@ void create_note( const tripoint_abs_omt &curs )
         update_note_preview( new_note, map_around, preview_windows );
     } );
 
-    // this implies enable_ime() and ensures that ime mode is always restored on return
-    ime_sentry sentry;
-
     bool esc_pressed = false;
     string_input_popup input_popup;
     input_popup
@@ -1163,8 +1171,6 @@ void create_note( const tripoint_abs_omt &curs )
             break;
         }
     } while( true );
-
-    disable_ime();
 
     if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
         if( query_yn( _( "Really delete note?" ) ) ) {
@@ -1230,40 +1236,61 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
     catacurses::window w_search;
 
     ui_adaptor ui;
+    int search_width = OVERMAP_LEGEND_WIDTH - 1;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w_search = catacurses::newwin( 13, 27, point( TERMX - 27, 3 ) );
+        w_search = catacurses::newwin( 13, search_width, point( TERMX - search_width, 3 ) );
 
         ui.position_from_window( w_search );
     } );
     ui.mark_resize();
 
     input_context ctxt( "OVERMAP_SEARCH" );
-    ctxt.register_leftright();
-    ctxt.register_action( "NEXT_TAB", to_translation( "Next target" ) );
-    ctxt.register_action( "PREV_TAB", to_translation( "Previous target" ) );
-    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "NEXT_TAB", to_translation( "Next result" ) );
+    ctxt.register_action( "PREV_TAB", to_translation( "Previous result" ) );
     ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         //Draw search box
+
+        int a = utf8_width( _( "Search:" ) );
+        int b = utf8_width( _( "Result:" ) );
+        int c = utf8_width( _( "Results:" ) );
+        int d = utf8_width( _( "Direction:" ) );
+        int align_width = 0;
+        int align_w_value[4] = { a, b, c, d};
+        for( int n : align_w_value ) {
+            if( n > align_width ) {
+                align_width = n + 2;
+            }
+        }
+
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_search, point( 1, 1 ), c_light_blue, _( "Search:" ) );
-        mvwprintz( w_search, point( 10, 1 ), c_light_red, "%s", right_justify( term, 12 ) );
+        mvwprintz( w_search, point( align_width, 1 ), c_light_red, "%s", term );
 
-        mvwprintz( w_search, point( 1, 2 ), c_light_blue, _( "Result(s):" ) );
-        mvwprintz( w_search, point( 16, 2 ), c_light_red, "%*d/%d", 3, i + 1, locations.size() );
+        mvwprintz( w_search, point( 1, 2 ), c_light_blue,
+                   locations.size() == 1 ? _( "Result:" ) : _( "Results:" ) );
+        mvwprintz( w_search, point( align_width, 2 ), c_light_red, "%d/%d     ", i + 1,
+                   locations.size() );
 
         mvwprintz( w_search, point( 1, 3 ), c_light_blue, _( "Direction:" ) );
-        mvwprintz( w_search, point( 14, 3 ), c_white, "%*d %s",
-                   5, static_cast<int>( trig_dist( orig, tripoint_abs_omt( locations[i], orig.z() ) ) ),
-                   direction_name_short( direction_from( orig, tripoint_abs_omt( locations[i], orig.z() ) ) )
-                 );
+        mvwprintz( w_search, point( align_width, 3 ), c_light_red, "%d %s",
+                   static_cast<int>( trig_dist( orig, tripoint_abs_omt( locations[i], orig.z() ) ) ),
+                   direction_name_short( direction_from( orig, tripoint_abs_omt( locations[i], orig.z() ) ) ) );
 
-        mvwprintz( w_search, point( 1, 6 ), c_white, _( "'<-' '->' Cycle targets." ) );
-        mvwprintz( w_search, point( 1, 10 ), c_white, _( "Enter/Spacebar to select." ) );
-        mvwprintz( w_search, point( 1, 11 ), c_white, _( "q or ESC to return." ) );
+        if( locations.size() > 1 ) {
+            fold_and_print( w_search, point( 1, 6 ), search_width, c_white,
+                            _( "Press [<color_yellow>%s</color>] or [<color_yellow>%s</color>] "
+                               "to cycle through search results." ),
+                            ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+        }
+        fold_and_print( w_search, point( 1, 10 ), search_width, c_white,
+                        _( "Press [<color_yellow>%s</color>] to confirm." ), ctxt.get_desc( "CONFIRM" ) );
+        fold_and_print( w_search, point( 1, 11 ), search_width, c_white,
+                        _( "Press [<color_yellow>%s</color>] to quit." ), ctxt.get_desc( "QUIT" ) );
         draw_border( w_search );
         wnoutrefresh( w_search );
     } );
@@ -1278,9 +1305,9 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
         if( uistate.overmap_blinking ) {
             uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
         }
-        if( action == "NEXT_TAB" || action == "RIGHT" ) {
+        if( action == "NEXT_TAB" ) {
             i = ( i + 1 ) % locations.size();
-        } else if( action == "PREV_TAB" || action == "LEFT" ) {
+        } else if( action == "PREV_TAB" ) {
             i = ( i + locations.size() - 1 ) % locations.size();
         } else if( action == "QUIT" ) {
             curs = prev_curs;

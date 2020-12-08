@@ -10,11 +10,11 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "color.h"
 #include "compatibility.h"
-#include "coordinate_conversions.h"
 #include "debug.h"
 #include "faction_camp.h"
 #include "flat_set.h"
@@ -22,13 +22,13 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "npc.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
@@ -378,24 +378,24 @@ std::map<recipe_id, translation> basecamp::recipe_deck( const std::string &bldg 
     return recipes;
 }
 
-std::string basecamp::get_gatherlist() const
+item_group_id basecamp::get_gatherlist() const
 {
     const auto &e = expansions.find( base_camps::base_dir );
     if( e != expansions.end() ) {
-        const std::string gatherlist = "gathering_" +
-                                       base_camps::faction_encode_abs( e->second, 4 );
+        const item_group_id gatherlist(
+            "gathering_" + base_camps::faction_encode_abs( e->second, 4 ) );
         if( item_group::group_is_defined( gatherlist ) ) {
             return gatherlist;
         }
     }
-    return "forest";
+    return item_group_id( "forest" );
 }
 
 void basecamp::add_resource( const itype_id &camp_resource )
 {
     basecamp_resource bcp_r;
     bcp_r.fake_id = camp_resource;
-    item camp_item( bcp_r.fake_id, 0 );
+    item camp_item( bcp_r.fake_id, calendar::turn_zero );
     bcp_r.ammo_id = camp_item.ammo_default();
     resources.emplace_back( bcp_r );
     fuel_types.insert( bcp_r.ammo_id );
@@ -589,7 +589,7 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
     }
     for( basecamp_resource &bcp_r : resources ) {
         if( bcp_r.fake_id == fake_id ) {
-            item camp_item( bcp_r.fake_id, 0 );
+            item camp_item( bcp_r.fake_id, calendar::turn_zero );
             camp_item.charges = std::min( bcp_r.available, quantity );
             quantity -= camp_item.charges;
             bcp_r.available -= camp_item.charges;
@@ -646,8 +646,8 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
     for( basecamp_resource &bcp_r : resources ) {
         bcp_r.consumed = 0;
-        item camp_item( bcp_r.fake_id, 0 );
-        camp_item.item_tags.insert( "PSEUDO" );
+        item camp_item( bcp_r.fake_id, calendar::turn_zero );
+        camp_item.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
         if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {
@@ -736,7 +736,7 @@ bool basecamp_action_components::choose_components()
     // this may consume pseudo-resources from fake items
     for( const auto &it : req->get_tools() ) {
         comp_selection<tool_comp> ts =
-            player_character.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
+            player_character.select_tool_component( it, batch_size_, base_._inv, true,
                     !base_.by_radio );
         if( ts.use_from == usage_from::cancel ) {
             return false;

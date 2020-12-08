@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_workshop_room0_wad_northeast",
     "description": "We can use a wattle and daub workshop.  Let's start by building a spot to protect the workers from the rain.",
     "category": "CC_BUILDING",
@@ -32,6 +33,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_workshop_room3_wad_north",
     "description": "Let's extend the north wattle and daub wall to the west and add some storage space.",
     "category": "CC_BUILDING",
@@ -64,6 +66,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_workshop_room4_wad_east",
     "description": "Let's expand our production by adding another charcoal kiln.",
     "category": "CC_BUILDING",
@@ -80,12 +83,7 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [
-          [ { "id": "CUT" } ],
-          [ { "id": "DIG", "level": 2 } ],
-          [ { "id": "HAMMER", "level": 2 } ],
-          [ { "id": "SAW_W", "level": 2 } ]
-        ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 315 ] ],
           [ [ "cattail_stalk", 36 ], [ "dogbane", 36 ], [ "pine_bough", 36 ], [ "straw_pile", 36 ] ],
@@ -102,8 +100,9 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_workshop_room5_wad_center",
-    "description": "Let's expand work area with a wattle and daub wall, and add add a bookshelf for our reference books.",
+    "description": "Let's expand work area with a wattle and daub wall, and add a bookshelf for our reference books.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -134,6 +133,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_workshop_room6_wad_north",
     "description": "Let's expand our production by adding a wattle and daub walled pottery kiln area.",
     "category": "CC_BUILDING",
@@ -177,6 +177,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_workshop_room7to9_wad_northwest",
     "description": "Let's enclose this pottery with wattle and daub walls and get some more storage set up.",
     "category": "CC_BUILDING",
@@ -209,6 +210,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_workshop_room11to12_wad_southeast",
     "description": "Let's expand the workspace for larger projects and add a drop hammer for productivity.",
     "category": "CC_BUILDING",

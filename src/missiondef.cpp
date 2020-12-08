@@ -192,7 +192,7 @@ std::string enum_to_string<mission_goal>( mission_goal data )
 }
 } // namespace io
 
-generic_factory<mission_type> mission_type_factory( "mission_type" );
+static generic_factory<mission_type> mission_type_factory( "mission_type" );
 
 /** @relates string_id */
 template<>
@@ -245,7 +245,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "origins" ) ) {
         origins.clear();
-        for( auto &m : jo.get_tags( "origins" ) ) {
+        for( const std::string &m : jo.get_tags( "origins" ) ) {
             origins.emplace_back( io::string_to_enum<mission_origin>( m ) );
         }
     }
@@ -253,7 +253,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     if( std::any_of( origins.begin(), origins.end(), []( mission_origin origin ) {
     return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
 } ) ) {
-        auto djo = jo.get_object( "dialogue" );
+        JsonObject djo = jo.get_object( "dialogue" );
         // TODO: There should be a cleaner way to do it
         mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
         mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
@@ -463,7 +463,7 @@ mission_type_id mission_type::get_random_id( const mission_origin origin,
         const tripoint_abs_omt &p )
 {
     std::vector<mission_type_id> valid;
-    for( auto &t : get_all() ) {
+    for( const mission_type &t : get_all() ) {
         if( std::find( t.origins.begin(), t.origins.end(), origin ) == t.origins.end() ) {
             continue;
         }

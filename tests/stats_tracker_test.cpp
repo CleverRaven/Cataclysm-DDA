@@ -1,21 +1,29 @@
-#include <memory>
+#include "catch/catch.hpp"
+#include "stats_tracker.h"
+
+#include <algorithm>
+#include <functional>
+#include <map>
 #include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "achievement.h"
 #include "calendar.h"
 #include "cata_variant.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "character_id.h"
 #include "event.h"
 #include "event_bus.h"
 #include "event_statistics.h"
+#include "event_subscriber.h"
+#include "game_constants.h"
+#include "json.h"
 #include "optional.h"
-#include "stats_tracker.h"
-#include "string_id.h"
-#include "stringmaker.h"
-#include "type_id.h"
 #include "options_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 static const move_mode_id move_mode_walk( "walk" );
 static const move_mode_id move_mode_run( "run" );
@@ -82,7 +90,6 @@ TEST_CASE( "stats_tracker_minimum_events", "[stats]" )
     event_bus b;
     b.subscribe( &s );
 
-    const cata::event::data_type min_z_any {};
     const mtype_id no_monster;
     const ter_id t_null( "t_null" );
     constexpr event_type am = event_type::avatar_moves;
@@ -110,7 +117,6 @@ TEST_CASE( "stats_tracker_maximum_events", "[stats]" )
     event_bus b;
     b.subscribe( &s );
 
-    const cata::event::data_type max_z_any {};
     const mtype_id no_monster;
     const ter_id t_null( "t_null" );
     constexpr event_type am = event_type::avatar_moves;
@@ -337,6 +343,29 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
         CHECK( last_wielded->value( s ) == cata_variant( crowbar ) );
     }
+
+    SECTION( "invalid_values_filtered_out" ) {
+        const oter_id field( "field" );
+        const oter_type_str_id field_type( "field" );
+        const cata_variant invalid_oter_id =
+            cata_variant::from_string( cata_variant_type::oter_id, "XXXXXX" );
+        const string_id<event_statistic> last_entered( "last_oter_type_avatar_entered" );
+
+        send_game_start( b, u_id );
+        CHECK( last_entered->value( s ) == cata_variant() );
+
+        b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        CHECK( last_entered->value( s ) == cata_variant( field_type ) );
+
+        const cata::event invalid_event(
+            event_type::avatar_enters_omt, calendar::turn,
+        cata::event::data_type{
+            { "pos", cata_variant( tripoint_below ) },
+            { "oter_id", invalid_oter_id }
+        } );
+        b.send( invalid_event );
+        CHECK( last_entered->value( s ) == cata_variant( field_type ) );
+    }
 }
 
 struct watch_stat : stat_watcher {
@@ -527,7 +556,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
     },
     [&]( const achievement * a, bool /*achievements_enabled*/ ) {
         achievements_failed.emplace( a->id, a );
-    } );
+    }, true );
     b.subscribe( &a );
 
     const character_id u_id = get_player_character().getID();
@@ -867,6 +896,7 @@ struct test_subscriber : public event_subscriber {
 
 TEST_CASE( "achievements_tracker_in_game", "[stats]" )
 {
+    get_stats().clear();
     get_achievements().clear();
     test_subscriber sub;
     get_event_bus().subscribe( &sub );

@@ -2,6 +2,7 @@
   {
     "abstract": "helicopter_rotors",
     "type": "vehicle_part",
+    "categories": [ "movement" ],
     "location": "on_roof",
     "symbol": "X",
     "color": "light_blue",

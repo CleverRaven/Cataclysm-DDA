@@ -2,7 +2,9 @@
 #ifndef CATA_SRC_DIALOGUE_H
 #define CATA_SRC_DIALOGUE_H
 
+#include <algorithm>
 #include <functional>
+#include <memory>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -12,9 +14,11 @@
 #include "dialogue_win.h"
 #include "json.h"
 #include "npc.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
+struct input_event;
 class martialart;
 class mission;
 class talker;
@@ -207,11 +211,12 @@ struct talk_response {
     skill_id skill = skill_id();
     matype_id style = matype_id();
     spell_id dialogue_spell = spell_id();
+    proficiency_id proficiency = proficiency_id();
 
     talk_effect_t success;
     talk_effect_t failure;
 
-    talk_data create_option_line( const dialogue &d, char letter );
+    talk_data create_option_line( const dialogue &d, const input_event &hotkey );
     std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
 
     talk_response();
@@ -300,6 +305,13 @@ struct dialogue {
          * talked about skill to the given one.
          */
         talk_response &add_response( const std::string &text, const std::string &r, const skill_id &skill,
+                                     bool first = false );
+        /**
+         * Add a simple response that switches the topic to the new one and sets the currently
+         * talked about proficiency to the given one.
+         */
+        talk_response &add_response( const std::string &text, const std::string &r,
+                                     const proficiency_id &proficiency,
                                      bool first = false );
         /**
         * Add a simple response that switches the topic to the new one and sets the currently

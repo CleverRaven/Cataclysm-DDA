@@ -4,22 +4,24 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
+#include "string_id.h"
 #include "type_id.h"
 
-struct tripoint;
 class JsonObject;
 class nc_color;
+struct tripoint;
 
 struct shrapnel_data {
     int casing_mass = 0;
-    float fragment_mass = 0.005;
+    float fragment_mass = 0.005f;
     // Percentage
     int recovery        = 0;
     itype_id drop       = itype_id::NULL_ID();
 
     shrapnel_data() = default;
-    shrapnel_data( int casing_mass, float fragment_mass = 0.005, int recovery = 0,
+    shrapnel_data( int casing_mass, float fragment_mass = 0.005f, int recovery = 0,
                    itype_id drop = itype_id::NULL_ID() )
         : casing_mass( casing_mass )
         , fragment_mass( fragment_mass )
@@ -54,15 +56,20 @@ struct explosion_data {
 // handles explosion related functions
 namespace explosion_handler
 {
-/** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
+using queued_explosion = std::pair<tripoint, explosion_data>;
+static std::vector<queued_explosion> _explosions;
+
+/** Queue an explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
     Explosion intensity formula is roughly power*factor^distance.
-    If factor <= 0, no blast is produced */
+    If factor <= 0, no blast is produced
+    The explosion won't actually occur until process_explosions() */
 void explosion(
     const tripoint &p, float power, float factor = 0.8f,
     bool fire = false, int casing_mass = 0, float frag_mass = 0.05
 );
 
 void explosion( const tripoint &p, const explosion_data &ex );
+void _make_explosion( const tripoint &p, const explosion_data &ex );
 
 /** Triggers a flashbang explosion at p. */
 void flashbang( const tripoint &p, bool player_immune = false );
@@ -80,6 +87,8 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
 
 void draw_explosion( const tripoint &p, int radius, const nc_color &col );
 void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
+
+void process_explosions();
 } // namespace explosion_handler
 
 shrapnel_data load_shrapnel_data( const JsonObject &jo );

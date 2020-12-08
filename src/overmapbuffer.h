@@ -27,8 +27,12 @@ class character_id;
 class map_extra;
 class monster;
 class npc;
+class overmap;
+class overmap_special_batch;
 class vehicle;
 struct mongroup;
+struct om_vehicle;
+struct radio_tower;
 struct regional_settings;
 
 struct path_type {

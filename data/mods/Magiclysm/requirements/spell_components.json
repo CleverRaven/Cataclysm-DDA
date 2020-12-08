@@ -1,0 +1,70 @@
+[
+  {
+    "id": "spell_components_flamesword",
+    "type": "requirement",
+    "//": "Wooden swords usable for the Flamesword spell",
+    "components": [ [ [ "sword_wood", 1 ], [ "sword_nail", 1 ], [ "sword_crude", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_flamebreath",
+    "type": "requirement",
+    "//": "100ml portions of combustible dusts usable for the Flamebreath spell",
+    "components": [ [ [ "sugar", 28 ], [ "flour", 4 ], [ "tinder", 100 ], [ "cinnamon", 40 ], [ "chilly-p", 40 ] ] ]
+  },
+  {
+    "id": "spell_components_knifeshot",
+    "type": "requirement",
+    "//": "Iron or steel pointed knives suitable for the Knifeshot spell",
+    "components": [
+      [
+        [ "xacto", 1 ],
+        [ "diveknife", 1 ],
+        [ "knife_butcher", 1 ],
+        [ "knife_combat", 1 ],
+        [ "knife_chef", 1 ],
+        [ "knife_hunting", 1 ],
+        [ "knife_rambo", 1 ],
+        [ "knife_paring", 1 ],
+        [ "knife_steak", 1 ],
+        [ "throwing_knife", 1 ],
+        [ "knife_baselard", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "spell_components_decayingboneclub",
+    "type": "requirement",
+    "//": "Weapon materials and 1000 energy from blood suitable for the Decaying Boneclub spell",
+    "components": [
+      [ [ "bone", 3 ], [ "bone_demihuman", 3 ], [ "bone_human", 3 ], [ "bone_tainted", 6 ] ],
+      [ [ "blood", 4 ], [ "tainted_blood", 200 ], [ "dragon_blood", 20 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_feralform",
+    "type": "requirement",
+    "//": "Fur and bones suitable for the Feral Form spell",
+    "components": [
+      [ [ "fur", 3 ], [ "hairball", 2 ] ],
+      [ [ "bone", 1 ], [ "bone_demihuman", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_impactsling",
+    "type": "requirement",
+    "//": "Sling for the Impact Sling spell",
+    "components": [ [ [ "sling", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_causticaura",
+    "type": "requirement",
+    "//": "Strong acids suitable for the Caustic Aura spell",
+    "components": [ [ [ "acid", 2 ], [ "chem_sulphuric_acid", 2 ], [ "chem_muriatic_acid", 2 ], [ "chem_nitric_acid", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_shardspray",
+    "type": "requirement",
+    "//": "A kilo of metal fragments suitable for the Shardspray spell",
+    "components": [ [ [ "scrap", 40 ], [ "copper", 500 ], [ "gold", 200 ], [ "silver", 333 ], [ "lead", 333 ] ] ]
+  }
+]

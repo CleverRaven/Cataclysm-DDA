@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+
 #include "string_id.h"
 #include "type_id.h"
 
@@ -39,17 +40,21 @@ struct dialogue_chatbin {
     /**
      * The skill this dialogue offers to train.
      */
-    skill_id skill = skill_id::NULL_ID();
+    skill_id skill = skill_id();
     /**
      * The martial art style this dialogue offers to train.
      */
-    matype_id style;
+    matype_id style = matype_id();
     /**
      * The spell this dialogue offers to train
      */
     spell_id dialogue_spell;
+    /**
+     * The proficiency this dialogue offers to train
+     */
+    proficiency_id proficiency;
     void store_chosen_training( const skill_id &c_skill, const matype_id &c_style,
-                                const spell_id &c_spell );
+                                const spell_id &c_spell, const proficiency_id &c_proficiency );
     void clear_training();
     std::string first_topic = "TALK_NONE";
 

@@ -30,7 +30,7 @@
     "type": "GENERIC",
     "id": "motor_super",
     "name": { "str": "super electric motor" },
-    "description": "The most powerfull electric motor on the market.  Useful for crafting.",
+    "description": "The most powerful electric motor on the market.  Useful for crafting.",
     "weight": "125 kg",
     "volume": "25 L",
     "price": 80000,

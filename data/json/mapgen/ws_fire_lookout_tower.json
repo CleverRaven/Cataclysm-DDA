@@ -44,6 +44,7 @@
       [ "coffee", 20 ],
       [ "atomic_coffee", 20 ],
       [ "coffee_raw", 20 ],
+      [ "instant_coffee", 20 ],
       [ "coffee_syrup", 20 ],
       [ "water_mineral", 20 ]
     ]
@@ -93,15 +94,15 @@
     "id": "flt_loot_misc",
     "items": [
       { "group": "ammo_pocket_batteries_full", "prob": 20 },
-      [ "flashlight", 20 ],
-      [ "heavy_flashlight", 20 ],
+      { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
+      { "item": "heavy_flashlight", "prob": 20, "charges": [ 0, 300 ] },
       [ "crowbar", 20 ],
       [ "shovel", 20 ],
       [ "e_tool", 20 ],
-      [ "cell_phone", 20 ],
+      { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
       [ "radio", 20 ],
       [ "two_way_radio", 20 ],
-      [ "handflare", 20 ],
+      { "item": "handflare", "prob": 20, "charges": 300 },
       [ "signal_flare", 20 ],
       [ "flaregun", 20 ],
       [ "holster", 20 ],

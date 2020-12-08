@@ -10,10 +10,14 @@
 #include <utility>
 #include <vector>
 
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
+class butchery_requirements;
 class JsonObject;
+
+using butchery_requirements_id = string_id<butchery_requirements>;
 
 // Could be reused for butchery
 struct harvest_entry {
@@ -30,7 +34,7 @@ struct harvest_entry {
 
     static harvest_entry load( const JsonObject &jo, const std::string &src );
 
-    std::vector<std::string> flags;
+    std::vector<flag_id> flags;
     std::vector<fault_id> faults;
 };
 
@@ -38,6 +42,8 @@ class harvest_list
 {
     public:
         harvest_list();
+
+        itype_id leftovers = itype_id( "ruined_chunks" );
 
         const harvest_id &id() const;
 
@@ -53,12 +59,18 @@ class harvest_list
             return entries().empty();
         }
 
+        bool has_entry_type( std::string type ) const;
+
         /**
          * Returns a set of cached, translated names of the items this harvest entry could produce.
          * Filled in at finalization and not valid before that stage.
          */
         const std::set<std::string> &names() const {
             return names_;
+        }
+
+        const butchery_requirements &get_butchery_requirements() const {
+            return butchery_requirements_.obj();
         }
 
         std::string describe( int at_skill = -1 ) const;
@@ -88,6 +100,7 @@ class harvest_list
         std::list<harvest_entry> entries_;
         std::set<std::string> names_;
         translation message_;
+        butchery_requirements_id butchery_requirements_;
 
         void finalize();
 };

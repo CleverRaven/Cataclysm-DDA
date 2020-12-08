@@ -1,26 +1,16 @@
-#include "game.h"
-#include "game_constants.h"
-#include "messages.h"
-#include "monster.h"
-#include "mtype.h"
+#include <memory>
+
+#include "item.h"
+#include "magic.h"
 #include "npc.h"
-#include "npctrade.h"
-#include "output.h"
+#include "pimpl.h"
 #include "player.h"
+#include "player_activity.h"
+#include "point.h"
 #include "talker_character.h"
 #include "vehicle.h"
 
-static const efftype_id effect_pacified( "pacified" );
-static const efftype_id effect_pet( "pet" );
-
-static const skill_id skill_speech( "speech" );
-
-static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
-static const bionic_id bio_deformity( "bio_deformity" );
-static const bionic_id bio_face_mask( "bio_face_mask" );
-static const bionic_id bio_voice( "bio_voice" );
-
-static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+class time_duration;
 
 std::string talker_character::disp_name() const
 {
@@ -97,6 +87,11 @@ bool talker_character::is_deaf() const
     return me_chr->is_deaf();
 }
 
+bool talker_character::is_mute() const
+{
+    return me_chr->is_mute();
+}
+
 void talker_character::set_mutation( const trait_id &new_trait )
 {
     me_chr->set_mutation( new_trait );
@@ -134,12 +129,17 @@ bool talker_character::has_bionic( const bionic_id &bionics_id ) const
 
 bool talker_character::knows_spell( const spell_id &sp ) const
 {
-    return me_chr->magic.knows_spell( sp );
+    return me_chr->magic->knows_spell( sp );
 }
 
 int talker_character::get_skill_level( const skill_id &skill ) const
 {
     return me_chr->get_skill_level( skill );
+}
+
+bool talker_character::knows_proficiency( const proficiency_id &proficiency ) const
+{
+    return me_chr->has_proficiency( proficiency );
 }
 
 bool talker_character::has_effect( const efftype_id &effect_id ) const
@@ -150,12 +150,12 @@ bool talker_character::has_effect( const efftype_id &effect_id ) const
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
                                    bool permanent )
 {
-    me_chr->add_effect( new_effect, dur, num_bp, permanent );
+    me_chr->add_effect( new_effect, dur, permanent );
 }
 
 void talker_character::remove_effect( const efftype_id &old_effect )
 {
-    me_chr->remove_effect( old_effect, num_bp );
+    me_chr->remove_effect( old_effect );
 }
 
 std::string talker_character:: get_value( const std::string &var_name ) const

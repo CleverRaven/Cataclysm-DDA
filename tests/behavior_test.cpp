@@ -1,26 +1,30 @@
-#include <memory>
-#include <string>
-
-#include "behavior.h"
-#include "behavior_oracle.h"
-#include "behavior_strategy.h"
 #include "catch/catch.hpp"
+#include "behavior.h"
+
+#include <list>
+#include <string>
+#include <vector>
+
+#include "behavior_strategy.h"
 #include "character_oracle.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "map_iterator.h"
+#include "monster.h"
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
-#include "player.h"
-#include "map_helpers.h"
 #include "player_helpers.h"
-#include "string_id.h"
+#include "point.h"
+#include "type_id.h"
 #include "weather.h"
 
 namespace behavior
 {
+class oracle_t;
+
 extern sequential_t default_sequential;
 extern fallback_t default_fallback;
 extern sequential_until_done_t default_until_done;
@@ -148,34 +152,44 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
     behavior::character_oracle_t oracle( &test_npc );
     CHECK( npc_needs.tick( &oracle ) == "idle" );
     SECTION( "Freezing" ) {
-        get_weather().temperature = 0;
+        weather_manager &weather = get_weather();
+        weather.temperature = 0;
+        weather.clear_temp_cache();
+        REQUIRE( weather.get_temperature( test_npc.pos() ) == 0 );
         test_npc.update_bodytemp();
+        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         test_npc.worn.push_back( item( "backpack" ) );
         item &sweater = test_npc.i_add( item( itype_id( "sweater" ) ) );
+        CHECK( oracle.can_wear_warmer_clothes( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );
         item sweater_copy = test_npc.i_rem( &sweater );
         test_npc.wear_item( sweater_copy );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         test_npc.i_add( item( itype_id( "lighter" ) ) );
         test_npc.i_add( item( itype_id( "2x4" ) ) );
+        REQUIRE( oracle.can_make_fire( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "start_fire" );
     }
     SECTION( "Hungry" ) {
         test_npc.set_hunger( 500 );
         test_npc.set_stored_kcal( 1000 );
+        REQUIRE( oracle.needs_food_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         item &food = test_npc.i_add( item( itype_id( "sandwich_cheese_grilled" ) ) );
         item_location loc = item_location( test_npc, &food );
+        REQUIRE( oracle.has_food( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "eat_food" );
         loc.remove_item();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
     SECTION( "Thirsty" ) {
         test_npc.set_thirst( 700 );
+        REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         item &water = test_npc.i_add( item( itype_id( "water" ) ) );
         item_location loc = item_location( test_npc, &water );
+        REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "drink_water" );
         loc.remove_item();
         CHECK( npc_needs.tick( &oracle ) == "idle" );

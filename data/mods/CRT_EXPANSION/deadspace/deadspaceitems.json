@@ -4,9 +4,9 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": "CRIT S-I G.E.A.R",
-    "description": "C.R.I.T standard issue General Engineering Assistance Rig. Plugged into your spinal cord, this device improves your overall physique and provides basic information on your surroundings.",
+    "description": "C.R.I.T standard issue General Engineering Assistance Rig.  Plugged into your spinal cord, this device improves your overall physique and provides basic information on your surroundings.",
     "weight": "500 g",
-    "volume": "0 L",
+    "volume": "1 L",
     "price": 25000000,
     "to_hit": -3,
     "material": [ "plastic", "steel" ],
@@ -15,7 +15,21 @@
     "coverage": 0,
     "encumbrance": 0,
     "warmth": 0,
-    "artifact_data": { "charge_type": "ARTC_NULL", "effects_worn": [ "AEP_ALL_UP" ] },
+    "//": "Legacy artifact data is set for all stats +2",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "STRENGTH", "add": 2 },
+            { "value": "INTELLIGENCE", "add": 2 },
+            { "value": "PERCEPTION", "add": 2 },
+            { "value": "DEXTERITY", "add": 2 }
+          ]
+        }
+      ]
+    },
     "material_thickness": 10,
     "environmental_protection": 0,
     "flags": [ "ONLY_ONE", "TRADER_AVOID", "BELTED", "NO_TAKEOFF" ]
@@ -25,7 +39,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "CRIT Engineering Suit",
-    "description": "An airtight, flexible suit of woven composite fibers complete with segmented plates of armor. A complex system digitizes items in an individual pocket universe for storage while built in joint-torsion ratchets generate the neccessary energy required to power the interface.",
+    "description": "An airtight, flexible suit of woven composite fibers complete with segmented plates of armor.  A complex system digitizes items in an individual pocket universe for storage while built in joint-torsion ratchets generate the neccessary energy required to power the interface.",
     "weight": "13460 g",
     "volume": "14 L",
     "price": 900000000,
@@ -34,7 +48,7 @@
     "material": [ "superalloy", "nomex", "kevlar" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HEAD", "EYES", "MOUTH", "TORSO", "LEGS", "ARMS", "HANDS", "FEET" ],
+    "covers": [ "head", "eyes", "mouth", "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 15,

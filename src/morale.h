@@ -11,6 +11,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "morale_types.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;
@@ -68,7 +69,8 @@ class player_morale
         void on_item_takeoff( const item &it );
         void on_worn_item_transform( const item &old_it, const item &new_it );
         void on_worn_item_washed( const item &it );
-        void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
+        void on_effect_int_change( const efftype_id &eid, int intensity,
+                                   const bodypart_id &bp = bodypart_id( "bp_null" ) );
 
         void store( JsonOut &jsout ) const;
         void load( const JsonObject &jsin );
@@ -183,19 +185,17 @@ class player_morale
                 mutation_data() = default;
                 mutation_data( const mutation_handler &on_gain_and_loss ) :
                     on_gain( on_gain_and_loss ),
-                    on_loss( on_gain_and_loss ),
-                    active( false ) {}
+                    on_loss( on_gain_and_loss ) {}
                 mutation_data( const mutation_handler &on_gain, const mutation_handler &on_loss ) :
                     on_gain( on_gain ),
-                    on_loss( on_loss ),
-                    active( false ) {}
+                    on_loss( on_loss ) {}
                 void set_active( player_morale *sender, bool new_active );
                 bool get_active() const;
                 void clear();
             private:
                 mutation_handler on_gain;
                 mutation_handler on_loss;
-                bool active;
+                bool active = false;
         };
         std::map<trait_id, mutation_data> mutations;
 

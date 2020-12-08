@@ -19,6 +19,15 @@
     "flags": [ "SOURCE_FOOD" ]
   },
   {
+    "id": "afs_crashed_escape_pod",
+    "type": "overmap_terrain",
+    "name": "crashed escape pod",
+    "sym": "+",
+    "color": "i_red",
+    "see_cost": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_GUN", "SOURCE_AMMO" ]
+  },
+  {
     "id": "municipal_reactor_ware",
     "type": "overmap_terrain",
     "name": "warehouse",
@@ -76,6 +85,42 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "afs_augmentation_clinic_n1",
+      "afs_augmentation_clinic_n2",
+      "afs_augmentation_clinic_n3",
+      "afs_augmentation_clinic_n4"
+    ],
+    "name": "augmentation clinic",
+    "spawns": { "group": "AFS_GROUP_AUG_CLINIC", "population": [ 4, 10 ], "chance": 80 },
+    "sym": "A",
+    "color": "yellow",
+    "flags": [ "SIDEWALK" ],
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_urban_aquaponicsw_n1", "afs_urban_aquaponicsw_n2", "afs_urban_aquaponicsw_n3" ],
+    "name": "aquacultural farm",
+    "spawns": { "group": "AFS_GROUP_AUG_CLINIC", "population": [ 4, 10 ], "chance": 80 },
+    "sym": "Q",
+    "color": "cyan",
+    "flags": [ "SIDEWALK", "SOURCE_FOOD" ],
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_astrobiology_lab_n1", "afs_astrobiology_lab_n2" ],
+    "name": "astrobiology lab",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+    "sym": "L",
+    "color": "light_green",
+    "flags": [ "SIDEWALK", "SOURCE_FOOD" ],
+    "see_cost": 3,
+    "mondensity": 3
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mortuary_2story",
     "name": "county mortuary",
     "sym": "M",
@@ -106,5 +151,60 @@
     "sym": "M",
     "color": "light_green",
     "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "whately_lmoe",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "whately_lmoe_roof",
+    "name": "LMOE shelter",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "whately_lmoe_under_first_floor",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "whately_lmoe_under_second_floor",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "robot_dispatch_first",
+    "name": "robot dispatch center",
+    "sym": "R",
+    "color": "i_pink",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "robot_dispatch_second",
+    "name": "robot dispatch center",
+    "sym": "R",
+    "color": "i_pink",
+    "see_cost": 2,
+    "mondensity": 2
   }
 ]

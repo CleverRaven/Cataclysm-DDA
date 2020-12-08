@@ -12,7 +12,7 @@
         "afs_holo_fighter"
       ]
     },
-    "ident": "heli_crash"
+    "id": "heli_crash"
   },
   {
     "copy-from": "lab_staff",
@@ -20,13 +20,13 @@
     "type": "scenario",
     "allowed_locs": [ "sloc_lab_finale", "sloc_ice_lab_finale" ],
     "professions": [ "afs_planar_frontiersman" ],
-    "ident": "labFreeman"
+    "id": "labFreeman"
   },
   {
     "copy-from": "lab_chal",
     "type": "scenario",
     "extend": { "professions": [ "afs_vatgrown_bodyguard", "afs_cryosleep_survivor", "afs_holo_fighter", "afs_mastadon_swat" ] },
-    "ident": "lab_chal"
+    "id": "lab_chal"
   },
   {
     "copy-from": "lab_staff",
@@ -41,36 +41,57 @@
         "afs_mastadon_swat"
       ]
     },
-    "ident": "lab_staff"
+    "id": "lab_staff"
   },
   {
     "copy-from": "prisonbreak",
     "type": "scenario",
     "extend": { "professions": [ "afs_vatgrown_bodyguard", "afs_bio_operator", "afs_mastadon_swat" ] },
-    "ident": "prisonbreak"
+    "id": "prisonbreak"
   },
   {
     "copy-from": "alcatraz",
     "type": "scenario",
     "extend": { "professions": [ "afs_vatgrown_bodyguard", "afs_bio_operator", "afs_mastadon_swat" ] },
-    "ident": "alcatraz"
+    "id": "alcatraz"
   },
   {
     "copy-from": "mutant",
     "type": "scenario",
     "extend": { "professions": [ "afs_vatgrown_bodyguard" ] },
-    "ident": "mutant"
+    "id": "mutant"
   },
   {
     "copy-from": "overrun",
     "type": "scenario",
     "extend": { "professions": [ "afs_vatgrown_bodyguard", "afs_bio_operator", "afs_mastadon_swat" ] },
-    "ident": "overrun"
+    "id": "overrun"
   },
   {
     "copy-from": "presort",
     "type": "scenario",
     "extend": { "professions": [ "afs_affluent_executive", "afs_wraitheon_executive" ] },
-    "ident": "presort"
+    "id": "presort"
+  },
+  {
+    "type": "scenario",
+    "id": "robot_dispatch",
+    "name": "Robots",
+    "points": 1,
+    "description": "During the riots and chaos, you hid in a robot dispatch center hoping the robots would protect you, but they may prove more dangerous than the zombies.",
+    "allowed_locs": [ "sloc_robot_dispatch" ],
+    "flags": [ "CITY_START" ],
+    "start_name": "Robot Dispatch"
+  },
+  {
+    "type": "scenario",
+    "id": "escape_pod",
+    "name": "Stranded Spacer",
+    "points": 1,
+    "description": "What was to be a routine cargo transfer ended in tragedy when, in a brief moment of chaos, your space ship was intercepted and destroyed by a StO missile.  As soon as the MAW alarm flared to life, you scrambled to the nearest escape pod and barely managed reach the uncertain safety of the planet below.",
+    "allowed_locs": [ "sloc_escape_pod" ],
+    "professions": [ "afs_espatier", "afs_rating" ],
+    "flags": [ "LONE_START" ],
+    "start_name": "Escape Pod"
   }
 ]

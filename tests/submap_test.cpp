@@ -1,7 +1,7 @@
 #include "catch/catch.hpp"
 #include "submap.h"
+
 #include "game_constants.h"
-#include "int_id.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -9,14 +9,14 @@ TEST_CASE( "submap rotation", "[submap]" )
 {
     // Corners are labelled starting from the upper-left one, clockwise.
     constexpr point corner_1{};
-    constexpr auto corner_2 = point{ SEEX - 1, 0 };
-    constexpr auto corner_3 = point{ SEEX - 1, SEEY - 1 };
-    constexpr auto corner_4 = point{ 0, SEEY - 1 };
+    constexpr point corner_2 = point{ SEEX - 1, 0 };
+    constexpr point corner_3 = point{ SEEX - 1, SEEY - 1 };
+    constexpr point corner_4 = point{ 0, SEEY - 1 };
 
-    constexpr auto center_1 = point{ SEEX / 2 - 1, SEEY / 2 - 1 };
-    constexpr auto center_2 = point{ SEEX / 2, SEEY / 2 - 1 };
-    constexpr auto center_3 = point{ SEEX / 2, SEEY / 2 };
-    constexpr auto center_4 = point{ SEEX / 2 - 1, SEEY / 2 };
+    constexpr point center_1 = point{ SEEX / 2 - 1, SEEY / 2 - 1 };
+    constexpr point center_2 = point{ SEEX / 2, SEEY / 2 - 1 };
+    constexpr point center_3 = point{ SEEX / 2, SEEY / 2 };
+    constexpr point center_4 = point{ SEEX / 2 - 1, SEEY / 2 };
 
     GIVEN( "a submap with marks" ) {
         submap sm;

@@ -23,9 +23,11 @@ void DeterminismCheck::registerMatchers( MatchFinder *Finder )
         callExpr(
             callee(
                 functionDecl(
-                    anyOf( hasName( "::rand" ), hasName( "::random" ), hasName( "::drand48" ),
+                    anyOf( hasName( "::rand" ), hasName( "::srand" ), hasName( "::random" ),
+                           hasName( "::srandom" ), hasName( "::drand48" ),
                            hasName( "::erand48" ), hasName( "::lrand48" ), hasName( "::mrand48" ),
-                           hasName( "::nrand48" ), hasName( "::jrand48" ) )
+                           hasName( "::nrand48" ), hasName( "::jrand48" ), hasName( "::seed48" ),
+                           hasName( "::srand48" ) )
                 )
             )
         ).bind( "call" ), this );

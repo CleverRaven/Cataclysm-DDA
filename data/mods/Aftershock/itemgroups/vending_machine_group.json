@@ -11,6 +11,16 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
+    "id": "afs_vending_medicine",
+    "entries": [
+      { "group": "drugs_pharmacy", "count-min": 5, "count-max": 20 },
+      { "group": "drugs_soldier", "prob": 40, "count-min": 5, "count-max": 25 },
+      { "group": "harddrugs", "prob": 10, "count-min": 5, "count-max": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "afs_vending_false_meal_items",
     "items": [
       [ "afs_h2o", 90 ],

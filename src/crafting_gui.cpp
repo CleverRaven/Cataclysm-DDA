@@ -1,6 +1,7 @@
 #include "crafting_gui.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cstddef>
 #include <cstring>
 #include <iterator>
@@ -19,17 +20,17 @@
 #include "crafting.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "json.h"
+#include "optional.h"
 #include "output.h"
 #include "point.h"
-#include "proficiency.h"
+#include "popup.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
-#include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -50,9 +51,10 @@ enum TAB_MODE {
     BATCH
 };
 
-std::vector<std::string> craft_cat_list;
-std::map<std::string, std::vector<std::string> > craft_subcat_list;
-std::map<std::string, std::string> normalized_names;
+// TODO: Convert these globals to handling categories via generic_factory?
+static std::vector<std::string> craft_cat_list;
+static std::map<std::string, std::vector<std::string> > craft_subcat_list;
+static std::map<std::string, std::string> normalized_names;
 
 static bool query_is_yes( const std::string &query );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
@@ -63,10 +65,10 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
                                  const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode = NORMAL );
 
-std::string peek_related_recipe( const recipe *current, const recipe_subset &available );
-int related_menu_fill( uilist &rmenu,
-                       const std::vector<std::pair<itype_id, std::string>> &related_recipes,
-                       const recipe_subset &available );
+static std::string peek_related_recipe( const recipe *current, const recipe_subset &available );
+static int related_menu_fill( uilist &rmenu,
+                              const std::vector<std::pair<itype_id, std::string>> &related_recipes,
+                              const recipe_subset &available );
 
 static std::string get_cat_unprefixed( const std::string &prefixed_name )
 {
@@ -84,16 +86,16 @@ void load_recipe_category( const JsonObject &jsobj )
 
     if( !is_hidden ) {
         craft_cat_list.push_back( category );
+    }
 
-        const std::string cat_name = get_cat_unprefixed( category );
+    const std::string cat_name = get_cat_unprefixed( category );
 
-        craft_subcat_list[category].clear();
-        for( const std::string subcat_id : jsobj.get_array( "recipe_subcategories" ) ) {
-            if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
-                jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
-            }
-            craft_subcat_list[category].push_back( subcat_id );
+    craft_subcat_list[category].clear();
+    for( const std::string subcat_id : jsobj.get_array( "recipe_subcategories" ) ) {
+        if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
+            jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
         }
+        craft_subcat_list[category].push_back( subcat_id );
     }
 }
 
@@ -137,7 +139,7 @@ static int print_items( const recipe &r, const catacurses::window &w, point pos,
 
     mvwprintz( w, point( pos.x, pos.y++ ), col, _( "Byproducts:" ) );
     for( const auto &bp : r.byproducts ) {
-        const auto t = item::find_type( bp.first );
+        const itype *t = item::find_type( bp.first );
         int amount = bp.second * batch;
         std::string desc;
         if( t->count_by_charges() ) {
@@ -234,14 +236,14 @@ const recipe *select_crafting_recipe( int &batch_size )
     list_circularizer<std::string> tab( craft_cat_list );
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
     std::vector<const recipe *> current;
-
     struct availability {
         availability( const recipe *r, int batch_size = 1 ) {
-            const inventory &inv = get_player_character().crafting_inventory();
+            Character &player = get_player_character();
+            const inventory &inv = player.crafting_inventory();
             auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
             auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
             const deduped_requirement_data &req = r->deduped_requirements();
-            has_proficiencies = r->character_has_required_proficiencies( get_player_character() );
+            has_proficiencies = r->character_has_required_proficiencies( player );
             can_craft = req.can_make_with_inventory(
                             inv, all_items_filter, batch_size, craft_flags::start_only ) && has_proficiencies;
             can_craft_non_rotten = req.can_make_with_inventory(
@@ -249,23 +251,45 @@ const recipe *select_crafting_recipe( int &batch_size )
             const requirement_data &simple_req = r->simple_requirements();
             apparently_craftable = simple_req.can_make_with_inventory(
                                        inv, all_items_filter, batch_size, craft_flags::start_only );
-            proficiency_maluses = r->proficiency_maluses( get_player_character() );
+            proficiency_time_maluses = r->proficiency_time_maluses( player );
+            proficiency_failure_maluses = r->proficiency_failure_maluses( player );
+            has_all_skills = r->skill_used.is_null() ||
+                             player.get_skill_level( r->skill_used ) >= r->difficulty;
+            for( const std::pair<const skill_id, int> &e : r->required_skills ) {
+                if( player.get_skill_level( e.first ) < e.second ) {
+                    has_all_skills = false;
+                    break;
+                }
+            }
         }
         bool can_craft;
         bool can_craft_non_rotten;
         bool apparently_craftable;
         bool has_proficiencies;
-        float proficiency_maluses;
+        bool has_all_skills;
+        float proficiency_time_maluses;
+        float proficiency_failure_maluses;
 
         nc_color selected_color() const {
-            return can_craft ? can_craft_non_rotten ? h_white : h_brown : h_dark_gray;
+            if( !can_craft ) {
+                return h_dark_gray;
+            } else if( !can_craft_non_rotten ) {
+                return has_all_skills ? h_brown : h_red;
+            } else {
+                return has_all_skills ? h_white : h_yellow;
+            }
         }
 
-        nc_color color() const {
-            return can_craft ? can_craft_non_rotten ? c_white : c_brown : c_dark_gray;
+        nc_color color( bool ignore_missing_skills = false ) const {
+            if( !can_craft ) {
+                return c_dark_gray;
+            } else if( !can_craft_non_rotten ) {
+                return has_all_skills || ignore_missing_skills ? c_brown : c_red;
+            } else {
+                return has_all_skills || ignore_missing_skills ? c_white : c_yellow;
+            }
         }
     };
-
     std::vector<availability> available;
     //preserves component color printout between mode rotations
     nc_color rotated_color = c_white;
@@ -289,8 +313,10 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CYCLE_MODE" );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "FILTER" );
@@ -380,7 +406,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                     if( highlight ) {
                         cursor_pos = print_from;
                     }
-                    mvwprintz( w_data, print_from, col, utf8_truncate( tmp_name, 28 ) );
+                    mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, 27 ) );
                 }
             } else if( line >= recmax - dataHalfLines ) {
                 for( int i = recmax - dataLines; i < recmax; ++i ) {
@@ -396,7 +422,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                         cursor_pos = print_from;
                     }
                     mvwprintz( w_data, print_from, col,
-                               utf8_truncate( tmp_name, 28 ) );
+                               trim_by_length( tmp_name, 27 ) );
                 }
             } else {
                 for( int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i ) {
@@ -412,7 +438,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                         cursor_pos = print_from;
                     }
                     mvwprintz( w_data, print_from, col,
-                               utf8_truncate( tmp_name, 28 ) );
+                               trim_by_length( tmp_name, 27 ) );
                 }
             }
         } else {
@@ -427,14 +453,14 @@ const recipe *select_crafting_recipe( int &batch_size )
                 if( highlight ) {
                     cursor_pos = print_from;
                 }
-                mvwprintz( w_data, print_from, col, utf8_truncate( tmp_name, 28 ) );
+                mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, 27 ) );
             }
         }
 
         const int count = batch ? line + 1 : 1; // batch size
         if( !current.empty() ) {
             int pane = FULL_SCREEN_WIDTH - 30 - 1;
-            nc_color col = available[line].color();
+            nc_color col = available[line].color( true );
 
             const auto &req = current[line]->simple_requirements();
 
@@ -502,7 +528,18 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         current[line]->required_skills_string( &player_character, false, false ) );
 
                 ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Required: %s" ),
-                                        current[line]->required_proficiencies_string( get_player_character() ) );
+                                        current[line]->required_proficiencies_string( &get_player_character() ) );
+
+                std::string used_profs = current[line]->used_proficiencies_string( &get_player_character() );
+                if( !used_profs.empty() ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Used: %s" ),
+                                            used_profs );
+                }
+                std::string missing_profs = current[line]->missing_proficiencies_string( &get_player_character() );
+                if( !missing_profs.empty() ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Missing: %s" ),
+                                            missing_profs );
+                }
 
                 const int expected_turns = player_character.expected_time_to_craft( *current[line],
                                            count ) / to_moves<int>( 1_turns );
@@ -514,12 +551,34 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         _( "Batch time savings: <color_cyan>%s</color>" ),
                                         current[line]->batch_savings_string() );
 
+                const int makes = current[line]->makes_amount();
+                if( makes > 1 ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
+                                            _( "Recipe makes: <color_cyan>%d</color>" ),
+                                            makes );
+                }
+
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
                     string_format( _( "Dark craftable?  <color_cyan>%s</color>" ),
                                    current[line]->has_flag( flag_BLIND_EASY ) ? _( "Easy" ) :
                                    current[line]->has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                                    _( "Impossible" ) ) );
+
+                std::string nearby_string;
+                const int nearby_amount = crafting_inv.count_item( current[line]->result() );
+
+                if( nearby_amount == 0 ) {
+                    nearby_string = "<color_light_gray>0</color>";
+                } else if( nearby_amount > 9000 ) {
+                    // at some point you get too many to count at a glance and just know you have a lot
+                    nearby_string = _( "<color_red>It's Over 9000!!!</color>" );
+                } else {
+                    nearby_string = string_format( "<color_yellow>%d</color>", nearby_amount );
+                }
+                ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
+                                        _( "Nearby: %s" ), nearby_string );
+
                 const bool can_craft_this = available[line].can_craft;
                 if( can_craft_this && !available[line].can_craft_non_rotten ) {
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
@@ -538,10 +597,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 _( "<color_red>Cannot be crafted because the same item is needed "
                                    "for multiple components</color>" ) );
                 }
-                float maluses = available[line].proficiency_maluses;
-                if( maluses != 1.0 ) {
-                    std::string msg = string_format( _( "<color_yellow>This recipe will take %g%% more time "
-                                                        "because you lack some of the proficiencies used." ), maluses * 100 );
+                float time_maluses = available[line].proficiency_time_maluses;
+                float fail_maluses = available[line].proficiency_failure_maluses;
+                if( time_maluses != 1.0 || fail_maluses != 1.0 ) {
+                    std::string msg = string_format( _( "<color_yellow>This recipe will take %.1fx as long as normal, "
+                                                        "and be %.1fx more likely to incur failures, because you "
+                                                        "lack some of the proficiencies used." ), time_maluses, fail_maluses );
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, msg );
                 }
                 if( !can_craft_this && !available[line].has_proficiencies ) {
@@ -617,11 +678,28 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( batch ) {
                 current.clear();
-                for( int i = 1; i <= 20; i++ ) {
+                for( int i = 1; i <= 50; i++ ) {
                     current.push_back( chosen );
                     available.push_back( availability( chosen, i ) );
                 }
             } else {
+                static_popup popup;
+                auto last_update = std::chrono::steady_clock::now();
+                static constexpr std::chrono::milliseconds update_interval( 500 );
+
+                std::function<void( size_t, size_t )> progress_callback =
+                [&]( size_t at, size_t out_of ) {
+                    auto now = std::chrono::steady_clock::now();
+                    if( now - last_update < update_interval ) {
+                        return;
+                    }
+                    last_update = now;
+                    double percent = 100.0 * at / out_of;
+                    popup.message( _( "Searching… %3.0f%%\n" ), percent );
+                    ui_manager::redraw();
+                    refresh_display();
+                };
+
                 std::vector<const recipe *> picking;
                 if( !filterstring.empty() ) {
                     auto qry = trim( filterstring );
@@ -638,41 +716,41 @@ const recipe *select_crafting_recipe( int &batch_size )
                             switch( qry_filter_str[0] ) {
                                 case 't':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::tool );
+                                                       recipe_subset::search_type::tool, progress_callback );
                                     break;
 
                                 case 'c':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::component );
+                                                       recipe_subset::search_type::component, progress_callback );
                                     break;
 
                                 case 's':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::skill );
+                                                       recipe_subset::search_type::skill, progress_callback );
                                     break;
 
                                 case 'p':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::primary_skill );
+                                                       recipe_subset::search_type::primary_skill, progress_callback );
                                     break;
 
                                 case 'Q':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::quality );
+                                                       recipe_subset::search_type::quality, progress_callback );
                                     break;
 
                                 case 'q':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::quality_result );
+                                                       recipe_subset::search_type::quality_result, progress_callback );
                                     break;
 
                                 case 'd':
                                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                                       recipe_subset::search_type::description_result );
+                                                       recipe_subset::search_type::description_result, progress_callback );
                                     break;
 
                                 case 'm': {
-                                    auto &learned = player_character.get_learned_recipes();
+                                    const recipe_subset &learned = player_character.get_learned_recipes();
                                     recipe_subset temp_subset;
                                     if( query_is_yes( qry_filter_str ) ) {
                                         temp_subset = available_recipes.intersection( learned );
@@ -682,6 +760,11 @@ const recipe *select_crafting_recipe( int &batch_size )
                                     filtered_recipes = filtered_recipes.intersection( temp_subset );
                                     break;
                                 }
+
+                                case 'P':
+                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                                       recipe_subset::search_type::proficiency, progress_callback );
+                                    break;
 
                                 default:
                                     current.clear();
@@ -706,7 +789,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 if( !show_hidden ) {
                     current.clear();
-                    for( auto i : picking ) {
+                    for( const recipe *i : picking ) {
                         if( uistate.hidden_recipes.find( i->ident() ) == uistate.hidden_recipes.end() ) {
                             current.push_back( i );
                         }
@@ -717,7 +800,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 available.reserve( current.size() );
                 // cache recipe availability on first display
-                for( const auto e : current ) {
+                for( const recipe *e : current ) {
                     if( !availability_cache.count( e ) ) {
                         availability_cache.emplace( e, availability( e ) );
                     }
@@ -751,7 +834,10 @@ const recipe *select_crafting_recipe( int &batch_size )
         }
 
         ui_manager::redraw();
+        const int scroll_item_info_lines = catacurses::getmaxy( w_iteminfo ) - 4;
         const std::string action = ctxt.handle_input();
+        const int recmax = static_cast<int>( current.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "CYCLE_MODE" ) {
             display_mode = display_mode + 1;
             if( display_mode <= 0 ) {
@@ -764,10 +850,10 @@ const recipe *select_crafting_recipe( int &batch_size )
             } while( subtab.cur() != start && available_recipes.empty_category( tab.cur(),
                      subtab.cur() != "CSC_ALL" ? subtab.cur() : "" ) );
             recalc = true;
-        } else if( action == "SCROLL_UP" ) {
-            item_info_scroll--;
-        } else if( action == "SCROLL_DOWN" ) {
-            item_info_scroll++;
+        } else if( action == "SCROLL_ITEM_INFO_UP" ) {
+            item_info_scroll -= scroll_item_info_lines;
+        } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
+            item_info_scroll += scroll_item_info_lines;
         } else if( action == "PREV_TAB" ) {
             tab.prev();
             // Default ALL
@@ -789,6 +875,22 @@ const recipe *select_crafting_recipe( int &batch_size )
             line++;
         } else if( action == "UP" ) {
             line--;
+        } else if( action == "PAGE_DOWN" ) {
+            if( line == recmax - 1 ) {
+                line = 0;
+            } else if( line + scroll_rate >= recmax ) {
+                line = recmax - 1;
+            } else {
+                line += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( line == 0 ) {
+                line = recmax - 1;
+            } else if( line <= scroll_rate ) {
+                line = 0;
+            } else {
+                line += -scroll_rate;
+            }
         } else if( action == "CONFIRM" ) {
             if( available.empty() || !available[line].can_craft ) {
                 popup( _( "You can't do that!  Press [<color_yellow>ESC</color>]!" ) );
@@ -823,8 +925,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 std::string description;
             };
             std::vector<SearchPrefix> prefixes = {
-                { 'q', _( "metal sawing" ), _( "<color_cyan>quality</color> of resulting item" ) },
                 //~ Example result description search term
+                { 'q', _( "metal sawing" ), _( "<color_cyan>quality</color> of resulting item" ) },
                 { 'd', _( "reach attack" ), _( "<color_cyan>full description</color> of resulting item (slow)" ) },
                 { 'c', _( "two by four" ), _( "<color_cyan>component</color> required to craft" ) },
                 { 'p', _( "tailoring" ), _( "<color_cyan>primary skill</color> used to craft" ) },
@@ -832,6 +934,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 { 'Q', _( "fine bolt turning" ), _( "<color_cyan>quality</color> required to craft" ) },
                 { 't', _( "soldering iron" ), _( "<color_cyan>tool</color> required to craft" ) },
                 { 'm', _( "yes" ), _( "recipes which are <color_cyan>memorized</color> or not" ) },
+                { 'P', _( "Blacksmithing" ), _( "<color_cyan>proficiency</color> used to craft" ) },
             };
             int max_example_length = 0;
             for( const auto &prefix : prefixes ) {
@@ -841,14 +944,14 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             std::string description =
                 _( "The default is to search result names.  Some single-character prefixes "
-                   "can be used with a colon (:) to search in other ways.  Additional filters "
-                   "are separated by commas (,).\n"
-                   "\n"
+                   "can be used with a colon <color_red>:</color> to search in other ways.  Additional filters "
+                   "are separated by commas <color_red>,</color>.\n"
+                   "\n\n"
                    "<color_white>Examples:</color>\n" );
 
             {
                 std::string example_name = _( "shirt" );
-                auto padding = max_example_length - utf8_width( example_name );
+                int padding = max_example_length - utf8_width( example_name );
                 description += string_format(
                                    _( "  <color_white>%s</color>%.*s    %s\n" ),
                                    example_name, padding, spaces,
@@ -856,14 +959,15 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             for( const auto &prefix : prefixes ) {
-                auto padding = max_example_length - utf8_width( prefix.example );
+                int padding = max_example_length - utf8_width( prefix.example );
                 description += string_format(
                                    _( "  <color_yellow>%c</color><color_white>:%s</color>%.*s  %s\n" ),
                                    prefix.key, prefix.example, padding, spaces, prefix.description );
             }
 
             description +=
-                _( "\nYou can use <color_white>arrow keys</color> to go through search history\n\n" );
+                _( "\nUse <color_red>up/down arrow</color> to go through your search history." );
+            description += "\n\n\n";
 
             string_input_popup()
             .title( _( "Search:" ) )
@@ -1180,4 +1284,13 @@ bool lcmatch_any( const std::vector< std::vector<T> > &list_of_list, const std::
         }
     }
     return false;
+}
+
+const std::vector<std::string> *subcategories_for_category( const std::string &category )
+{
+    auto it = craft_subcat_list.find( category );
+    if( it != craft_subcat_list.end() ) {
+        return &it->second;
+    }
+    return nullptr;
 }

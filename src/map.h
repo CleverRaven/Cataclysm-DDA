@@ -26,6 +26,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_stack.h"
+#include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
 #include "lru_cache.h"
@@ -33,8 +34,10 @@
 #include "point.h"
 #include "rng.h"
 #include "shadowcasting.h"
+#include "string_id.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
+#include "reachability_cache.h"
 
 struct scent_block;
 template <typename T> class safe_reference;
@@ -59,8 +62,6 @@ class optional_vpart_position;
 class player;
 class relic_procgen_data;
 class submap;
-template<typename Tripoint>
-class tripoint_range;
 class vehicle;
 class zone_data;
 struct fragment_cloud;
@@ -69,13 +70,15 @@ struct partial_con;
 struct rl_vec2d;
 struct spawn_data;
 struct trap;
+template<typename Tripoint>
+class tripoint_range;
 
 enum class special_item_type : int;
 class npc_template;
 class tileray;
 class vpart_reference;
-struct mongroup;
 struct MonsterGroupResult;
+struct mongroup;
 struct projectile;
 struct veh_collision;
 template<typename T>
@@ -87,7 +90,6 @@ struct wrapped_vehicle {
 };
 
 using VehicleList = std::vector<wrapped_vehicle>;
-using items_location = std::string;
 class map;
 
 enum ter_bitflags : int;
@@ -123,6 +125,7 @@ struct visibility_variables {
     int g_light_level = 0;
     int u_clairvoyance = 0;
     float vision_threshold = 0.0f;
+    cata::optional<field_type_id> clairvoyance_field;
 };
 
 struct bash_params {
@@ -154,39 +157,6 @@ struct bash_params {
      * have a roof either.
     */
     bool bashing_from_above = false;
-};
-
-struct level_cache {
-    // Zeros all relevant values
-    level_cache();
-    level_cache( const level_cache &other ) = default;
-
-    bool transparency_cache_dirty = false;
-    bool outside_cache_dirty = false;
-    bool floor_cache_dirty = false;
-
-    four_quadrants lm[MAPSIZE_X][MAPSIZE_Y];
-    float sm[MAPSIZE_X][MAPSIZE_Y];
-    // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
-    // This is only valid for the duration of generate_lightmap
-    float light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
-    bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
-    bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
-    float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
-    float vision_transparency_cache[MAPSIZE_X][MAPSIZE_Y];
-    float seen_cache[MAPSIZE_X][MAPSIZE_Y];
-    float camera_cache[MAPSIZE_X][MAPSIZE_Y];
-    lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
-    std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
-    std::bitset<MAPSIZE *MAPSIZE> field_cache;
-
-    bool veh_in_active_range;
-    bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
-    std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
-    std::set<vehicle *> vehicle_list;
-    std::set<vehicle *> zone_vehicles;
-
-    int max_populated_zlev;
 };
 
 /**
@@ -233,7 +203,47 @@ class map
         /*@{*/
         void set_transparency_cache_dirty( const int zlev ) {
             if( inbounds_z( zlev ) ) {
-                get_cache( zlev ).transparency_cache_dirty = true;
+                get_cache( zlev ).transparency_cache_dirty.set();
+                get_cache( zlev ).r_hor_cache->invalidate();
+                get_cache( zlev ).r_up_cache->invalidate();
+            }
+        }
+
+        // more granular version of the transparency cache invalidation
+        // preferred over map::set_transparency_cache_dirty( const int zlev )
+        // p is in local coords ("ms")
+        // @param field denotes if change comes from the field
+        //      fields are not considered for some caches, such as reachability_caches
+        //      so passing field=true allows to skip rebuilding of such caches
+        void set_transparency_cache_dirty( const tripoint &p, bool field = false ) {
+            if( inbounds( p ) ) {
+                const tripoint smp = ms_to_sm_copy( p );
+                get_cache( smp.z ).transparency_cache_dirty.set( smp.x * MAPSIZE + smp.y );
+                if( !field ) {
+                    get_cache( smp.z ).r_hor_cache->invalidate( p.xy() );
+                    get_cache( smp.z ).r_up_cache->invalidate( p.xy() );
+                }
+            }
+        }
+
+        void set_seen_cache_dirty( const tripoint &change_location ) {
+            if( inbounds( change_location ) ) {
+                level_cache &cache = get_cache( change_location.z );
+                if( cache.seen_cache_dirty ) {
+                    return;
+                }
+                if( cache.seen_cache[change_location.x][change_location.y] != 0.0 ||
+                    cache.camera_cache[change_location.x][change_location.y] != 0.0 ) {
+                    cache.seen_cache_dirty = true;
+                }
+            }
+        }
+
+        // invalidates seen cache for the whole zlevel unconditionally
+        void set_seen_cache_dirty( const int zlevel ) {
+            if( inbounds_z( zlevel ) ) {
+                level_cache &cache = get_cache( zlevel );
+                cache.seen_cache_dirty = true;
             }
         }
 
@@ -263,8 +273,9 @@ class map
             if( inbounds_z( zlev ) ) {
                 level_cache &ch = get_cache( zlev );
                 ch.floor_cache_dirty = true;
-                ch.transparency_cache_dirty = true;
+                ch.seen_cache_dirty = true;
                 ch.outside_cache_dirty = true;
+                set_transparency_cache_dirty( zlev );
             }
         }
 
@@ -282,6 +293,31 @@ class map
             }
             return false;
         }
+
+        /**
+         * A pre-filter for bresenham LOS.
+         * true, if there might be is a potential bresenham path between two points.
+         * false, if such path definitely not possible.
+         */
+        bool has_potential_los( const tripoint &from, const tripoint &to,
+                                bool bounds_check = true ) const {
+            if( bounds_check && ( !inbounds( from ) || !inbounds( to ) ) ) {
+                return false;
+            }
+            if( from.z == to.z ) {
+                level_cache &cache = get_cache( from.z );
+                return cache.r_hor_cache->has_potential_los( from.xy(), to.xy(), cache ) &&
+                       cache.r_hor_cache->has_potential_los( to.xy(), from.xy(), cache ) ;
+            }
+            tripoint upper, lower;
+            std::tie( upper, lower ) = from.z > to.z ? std::make_pair( from, to ) : std::make_pair( to, from );
+            // z-bounds depend on the invariant that both points are inbounds and their z are different
+            return get_cache( lower.z ).r_up_cache->has_potential_los(
+                       lower.xy(), upper.xy(), get_cache( lower.z ), get_cache( lower.z + 1 ) );
+        }
+
+        int reachability_cache_value( const tripoint &p, bool vertical_cache,
+                                      reachability_cache_quadrant quadrant ) const;
 
         /**
          * Callback invoked when a vehicle has moved.
@@ -388,14 +424,15 @@ class map
         // Versions of the above that don't do bounds checks
         maptile maptile_at_internal( const tripoint &p ) const;
         maptile maptile_at_internal( const tripoint &p );
-        maptile maptile_has_bounds( const tripoint &p, bool bounds_checked );
-        std::array<maptile, 8> get_neighbors( const tripoint &p );
+        std::pair<tripoint, maptile> maptile_has_bounds( const tripoint &p, bool bounds_checked );
+        std::array<std::pair<tripoint, maptile>, 8> get_neighbors( const tripoint &p );
         void spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
-                         const time_duration &outdoor_age_speedup, scent_block &sblk );
+                         const time_duration &outdoor_age_speedup, scent_block &sblk,
+                         const oter_id &om_ter );
         void create_hot_air( const tripoint &p, int intensity );
         bool gas_can_spread_to( field_entry &cur, const maptile &dst );
-        void gas_spread_to( field_entry &cur, maptile &dst );
-        int burn_body_part( player &u, field_entry &cur, body_part bp, int scale );
+        void gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p );
+        int burn_body_part( player &u, field_entry &cur, const bodypart_id &bp, int scale );
     public:
 
         // Movement and LOS
@@ -549,9 +586,8 @@ class map
         VehicleList get_vehicles();
         void add_vehicle_to_cache( vehicle * );
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
-        void update_vehicle_cache( vehicle *, int old_zlevel );
-        void reset_vehicle_cache( int zlev );
-        void clear_vehicle_cache( int zlev );
+        void build_all_vehicle_caches( int zlev );
+        void clear_all_vehicle_caches( int zlev );
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( const submap *to, int zlev );
         //Returns true if vehicle zones are dirty and need to be recached
@@ -609,7 +645,7 @@ class map
                                          const std::vector<veh_collision> &collisions );
         // Throws vehicle passengers about the vehicle, possibly out of it
         // Returns change in vehicle orientation due to lost control
-        int shake_vehicle( vehicle &veh, int velocity_before, int direction );
+        units::angle shake_vehicle( vehicle &veh, int velocity_before, units::angle direction );
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions
@@ -664,6 +700,9 @@ class map
         // the map editor.
         uint8_t get_known_connections( const tripoint &p, int connect_group,
                                        const std::map<tripoint, ter_id> &override = {} ) const;
+        // as above, but for furniture
+        uint8_t get_known_connections_f( const tripoint &p, int connect_group,
+                                         const std::map<tripoint, furn_id> &override = {} ) const;
         /**
          * Returns the full harvest list, for spawning.
          */
@@ -1026,24 +1065,28 @@ class map
         void spawn_artifact( const tripoint &p, const relic_procgen_id &id );
         void spawn_item( const tripoint &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 );
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
+                         const std::set<flag_id> &flags = {} );
         void spawn_item( const point &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 ) {
-            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel );
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
+                         const std::set<flag_id> &flags = {} ) {
+            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags );
         }
 
         // FIXME: remove these overloads and require spawn_item to take an
         // itype_id
         void spawn_item( const tripoint &p, const std::string &type_id,
                          unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 ) {
-            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel );
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
+                         const std::set<flag_id> &flags = {} ) {
+            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel, flags );
         }
         void spawn_item( const point &p, const std::string &type_id,
                          unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 ) {
-            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel );
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
+                         const std::set<flag_id> &flags = {} ) {
+            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags );
         }
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
@@ -1058,7 +1101,7 @@ class map
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
-        item &add_item_or_charges( const point &p, item obj, bool overflow = true ) {
+        item &add_item_or_charges( const point &p, const item &obj, bool overflow = true ) {
             return add_item_or_charges( tripoint( p, abs_sub.z ), obj, overflow );
         }
 
@@ -1070,7 +1113,7 @@ class map
          * @returns The item that got added, or nulitem.
          */
         item &add_item( const tripoint &p, item new_item );
-        void add_item( const point &p, item new_item ) {
+        void add_item( const point &p, const item &new_item ) {
             add_item( tripoint( p, abs_sub.z ), new_item );
         }
 
@@ -1112,7 +1155,7 @@ class map
         * Place items from item group in the rectangle f - t. Several items may be spawned
         * on different places. Several items may spawn at once (at one place) when the item group says
         * so (uses @ref item_group::items_from which may return several items at once).
-        * @param loc Current location of items to be placed
+        * @param gp id of item group to spawn from
         * @param chance Chance for more items. A chance of 100 creates 1 item all the time, otherwise
         * it's the chance that more items will be created (place items until the random roll with that
         * chance fails). The chance is used for the first item as well, so it may not spawn an item at
@@ -1125,25 +1168,26 @@ class map
         * @param ammo percentage chance item will be filled with default ammo
         * @return vector containing all placed items
         */
-        std::vector<item *> place_items( const items_location &loc, int chance, const tripoint &p1,
-                                         const tripoint &p2, bool ongrass, const time_point &turn,
-                                         int magazine = 0, int ammo = 0 );
-        std::vector<item *> place_items( const items_location &loc, int chance, const point &p1,
-                                         const point &p2, bool ongrass, const time_point &turn,
-                                         int magazine = 0, int ammo = 0 ) {
-            return place_items( loc, chance, tripoint( p1, abs_sub.z ), tripoint( p2, abs_sub.z ), ongrass,
-                                turn, magazine, ammo );
+        std::vector<item *> place_items(
+            const item_group_id &group_id, int chance, const tripoint &p1, const tripoint &p2,
+            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0 );
+        std::vector<item *> place_items(
+            const item_group_id &group_id, int chance, const point &p1, const point &p2,
+            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0 ) {
+            return place_items( group_id, chance, tripoint( p1, abs_sub.z ),
+                                tripoint( p2, abs_sub.z ), ongrass, turn, magazine, ammo );
         }
         /**
         * Place items from an item group at p. Places as much items as the item group says.
         * (Most item groups are distributions and will only create one item.)
-        * @param loc Current location of items
+        * @param gp item group to spawn
         * @param p Destination of items
         * @param turn The birthday that the created items shall have.
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
-        std::vector<item *> put_items_from_loc( const items_location &loc, const tripoint &p,
-                                                const time_point &turn = calendar::start_of_cataclysm );
+        std::vector<item *> put_items_from_loc(
+            const item_group_id &group_id, const tripoint &p,
+            const time_point &turn = calendar::start_of_cataclysm );
 
         // Places a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
@@ -1169,6 +1213,7 @@ class map
 
         void remove_trap( const tripoint &p );
         const std::vector<tripoint> &get_furn_field_locations() const;
+        const std::vector<tripoint> &get_ter_field_locations() const;
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
 
         /**
@@ -1182,10 +1227,10 @@ class map
         // Spawns byproducts from items destroyed in fire.
         void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
         // See fields.cpp
-        bool process_fields();
-        bool process_fields_in_submap( submap *current_submap, const tripoint &submap_pos );
-        bool process_fire_field_in_submap( maptile &map_tile, const tripoint &p,
-                                           field_entry &cur, bool &dirty_transparency_cache );
+        void process_fields();
+        void process_fields_in_submap( submap *current_submap, const tripoint &submap_pos );
+        bool process_fire_field_in_submap( maptile &map_tile, const tripoint &p, field_entry &cur,
+                                           const oter_id &om_ter );
         /**
          * Apply field effects to the creature when it's on a square with fields.
          */
@@ -1256,6 +1301,10 @@ class map
          */
         int set_field_intensity( const tripoint &p, const field_type_id &type, int new_intensity,
                                  bool isoffset = false );
+
+        // returns true, if there **might** be a field at `p`
+        // if false, there's no fields at `p`
+        bool has_field_at( const tripoint &p, bool check_bounds = true );
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
@@ -1266,8 +1315,8 @@ class map
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
-        bool add_field( const tripoint &p, const field_type_id &type, int intensity = INT_MAX,
-                        const time_duration &age = 0_turns );
+        bool add_field( const tripoint &p, const field_type_id &type_id, int intensity = INT_MAX,
+                        const time_duration &age = 0_turns, bool hit_player = true );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */
@@ -1366,7 +1415,7 @@ class map
         }
         // 6 liters at 250 ml per charge
         void place_toilet( const point &p, int charges = 6 * 4 );
-        void place_vending( const point &p, const std::string &type, bool reinforced = false );
+        void place_vending( const point &p, const item_group_id &type, bool reinforced = false );
         // places an NPC, if static NPCs are enabled or if force is true
         character_id place_npc( const point &p, const string_id<npc_template> &type );
         void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );
@@ -1384,16 +1433,16 @@ class map
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
                                    fragment_cloud( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
 
-        vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, int dir,
+        vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vgroup_id &type, const point &p, int dir,
+        vehicle *add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vproto_id &type, const tripoint &p, int dir,
+        vehicle *add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vproto_id &type, const point &p, int dir,
+        vehicle *add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
         // Light/transparency
@@ -1497,11 +1546,11 @@ class map
 
     protected:
         void saven( const tripoint &grid );
-        void loadn( const tripoint &grid, bool update_vehicles );
-        void loadn( const point &grid, bool update_vehicles ) {
+        void loadn( const tripoint &grid, bool update_vehicles, bool _actualize = true );
+        void loadn( const point &grid, bool update_vehicles, bool _actualize = true ) {
             if( zlevels ) {
                 for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                    loadn( tripoint( grid, gridz ), update_vehicles );
+                    loadn( tripoint( grid, gridz ), update_vehicles, _actualize );
                 }
 
                 // Note: we want it in a separate loop! It is a post-load cleanup
@@ -1510,7 +1559,7 @@ class map
                     add_roofs( tripoint( grid, gridz ) );
                 }
             } else {
-                loadn( tripoint( grid, abs_sub.z ), update_vehicles );
+                loadn( tripoint( grid, abs_sub.z ), update_vehicles, _actualize );
             }
         }
         /**
@@ -1562,24 +1611,26 @@ class map
         void copy_grid( const tripoint &to, const tripoint &from );
         void draw_map( mapgendata &dat );
 
-        void draw_office_tower( mapgendata &dat );
         void draw_lab( mapgendata &dat );
-        void draw_temple( mapgendata &dat );
+        void draw_temple( const mapgendata &dat );
         void draw_mine( mapgendata &dat );
-        void draw_spiral( mapgendata &dat );
-        void draw_anthill( mapgendata &dat );
-        void draw_slimepit( mapgendata &dat );
-        void draw_spider_pit( mapgendata &dat );
-        void draw_triffid( mapgendata &dat );
-        void draw_connections( mapgendata &dat );
+        void draw_spiral( const mapgendata &dat );
+        void draw_anthill( const mapgendata &dat );
+        void draw_slimepit( const mapgendata &dat );
+        void draw_spider_pit( const mapgendata &dat );
+        void draw_triffid( const mapgendata &dat );
+        void draw_connections( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
         bool build_vision_transparency_cache( int zlev );
-        void build_sunlight_cache( int zlev );
+        // fills lm with sunlight. pzlev is current player's zlevel
+        void build_sunlight_cache( int pzlev );
     public:
         void build_outside_cache( int zlev );
+        // Get a bitmap indicating which layers are potentially visible from the target layer.
+        std::bitset<OVERMAP_LAYERS> get_inter_level_visibility( int origin_zlevel )const ;
         // Builds a floor cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_floor_cache( int zlev );
@@ -1619,6 +1670,10 @@ class map
          * Get the submap pointer containing the specified position within the reality bubble.
          * (p) must be a valid coordinate, check with @ref inbounds.
          */
+        inline submap *unsafe_get_submap_at( const tripoint &p ) const {
+            cata_assert( inbounds( p ) );
+            return get_submap_at_grid( { p.x / SEEX, p.y / SEEY, p.z } );
+        }
         submap *get_submap_at( const tripoint &p ) const;
         submap *get_submap_at( const point &p ) const {
             return get_submap_at( tripoint( p, abs_sub.z ) );
@@ -1628,7 +1683,16 @@ class map
          * The same as other get_submap_at, (p) must be valid (@ref inbounds).
          * Also writes the position within the submap to offset_p
          */
-        submap *get_submap_at( const tripoint &p, point &offset_p ) const;
+        submap *unsafe_get_submap_at( const tripoint &p, point &offset_p ) const {
+            offset_p.x = p.x % SEEX;
+            offset_p.y = p.y % SEEY;
+            return unsafe_get_submap_at( p );
+        }
+        submap *get_submap_at( const tripoint &p, point &offset_p ) const {
+            offset_p.x = p.x % SEEX;
+            offset_p.y = p.y % SEEY;
+            return get_submap_at( p );
+        }
         submap *get_submap_at( const point &p, point &offset_p ) const {
             return get_submap_at( { p, abs_sub.z }, offset_p );
         }
@@ -1658,13 +1722,23 @@ class map
          */
         void setsubmap( size_t grididx, submap *smap );
     private:
-        // Caclulate the greatest populated zlevel in the loaded submaps and save in the level cache.
-        void calc_max_populated_zlev();
+        /** Caclulate the greatest populated zlevel in the loaded submaps and save in the level cache.
+         * fills the map::max_populated_zlev and returns it
+         * @return max_populated_zlev value
+         */
+        int calc_max_populated_zlev();
+        /**
+         * Conditionally invalidates max_pupulated_zlev cache if the submap uniformity change occurs above current
+         *  max_pupulated_zlev value
+         * @param zlev zlevel where uniformity change occured
+         */
+        void invalidate_max_populated_zlev( int zlev );
+
         /**
          * Internal versions of public functions to avoid checking same variables multiple times.
          * They lack safety checks, because their callers already do those.
          */
-        int move_cost_internal( const furn_t &furniture, const ter_t &terrain,
+        int move_cost_internal( const furn_t &furniture, const ter_t &terrain, const field &field,
                                 const vehicle *veh, int vpart ) const;
         int bash_rating_internal( int str, const furn_t &furniture,
                                   const ter_t &terrain, bool allow_floor,
@@ -1698,7 +1772,8 @@ class map
         void add_light_source( const tripoint &p, float luminance );
         // Handle just cardinal directions and 45 deg angles.
         void apply_directional_light( const tripoint &p, int direction, float luminance );
-        void apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle = 30 );
+        void apply_light_arc( const tripoint &p, const units::angle &angle, float luminance,
+                              const units::angle &wideangle = 30_degrees );
         void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint &p, const item_stack::iterator &begin,
@@ -1764,6 +1839,10 @@ class map
          */
         std::vector<tripoint> field_furn_locs;
         /**
+         * Vector of tripoints containing active field-emitting terrain
+         */
+        std::vector<tripoint> field_ter_locs;
+        /**
          * Holds caches for visibility, light, transparency and vehicles
          */
         std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
@@ -1787,6 +1866,10 @@ class map
         pathfinding_cache &get_pathfinding_cache( int zlev ) const;
 
         visibility_variables visibility_variables_cache;
+
+        // caches the highest zlevel above which all zlevels are uniform
+        // !value || value->first != map::abs_sub means cache is invalid
+        cata::optional<std::pair<tripoint, int>> max_populated_zlev = cata::nullopt;
 
     public:
         const level_cache &get_cache_ref( int zlev ) const {

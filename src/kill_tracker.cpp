@@ -1,11 +1,12 @@
 #include "kill_tracker.h"
 
-#include <memory>
+#include <algorithm>
 #include <tuple>
 #include <utility>
 
 #include "avatar.h"
 #include "cata_variant.h"
+#include "character.h"
 #include "character_id.h"
 #include "color.h"
 #include "event.h"

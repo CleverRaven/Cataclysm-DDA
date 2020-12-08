@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_FACTION_H
 #define CATA_SRC_FACTION_H
 
+#include <algorithm>
 #include <bitset>
 #include <map>
 #include <set>
@@ -15,6 +16,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 // TODO: Redefine?
@@ -79,7 +81,7 @@ class faction_template
         int respects_u;
         bool known_by_u;
         faction_id id;
-        std::string desc;
+        translation desc;
         int size; // How big is our sphere of influence?
         int power; // General measure of our power
         int food_supply;  //Total nutritional value held
@@ -87,7 +89,7 @@ class faction_template
         bool lone_wolf_faction; // is this a faction for just one person?
         itype_id currency; // id of the faction currency
         std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
-        std::string mon_faction; // mon_faction_id of the monster faction; defaults to human
+        mfaction_str_id mon_faction; // mon_faction_id of the monster faction; defaults to human
         std::set<std::tuple<int, int, snippet_id>> epilogue_data;
 };
 

@@ -4,9 +4,7 @@
 
 #include "catacharset.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "ime.h"
 #include "input.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "translations.h"
@@ -87,7 +85,7 @@ void string_input_popup::create_window()
 
 void string_input_popup::create_context()
 {
-    ctxt_ptr = std::make_unique<input_context>( "STRING_INPUT" );
+    ctxt_ptr = std::make_unique<input_context>( "STRING_INPUT", keyboard_mode::keychar );
     ctxt = ctxt_ptr.get();
     ctxt->register_action( "ANY_INPUT" );
 }
@@ -139,7 +137,7 @@ void string_input_popup::show_history( utf8_wrapper &ret )
                 }
                 _position = ret.size();
                 finished = true;
-            } else if( hmenu.ret == UILIST_UNBOUND && hmenu.keypress == 'd' ) {
+            } else if( hmenu.ret == UILIST_UNBOUND && hmenu.ret_evt.get_first_input() == 'd' ) {
                 hist.clear();
                 finished = true;
             } else if( hmenu.ret != UILIST_UNBOUND ) {
@@ -299,10 +297,6 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         create_context();
     }
 
-    cata::optional<ime_sentry> sentry;
-    if( !draw_only && loop ) {
-        sentry.emplace();
-    }
     utf8_wrapper ret( _text );
     utf8_wrapper edit( ctxt->get_edittext() );
     if( _position == -1 ) {
@@ -371,7 +365,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
 
         const std::string action = ctxt->handle_input();
         const input_event ev = ctxt->get_raw_input();
-        ch = ev.type == input_event_t::keyboard ? ev.get_first_input() : 0;
+        ch = ev.type == input_event_t::keyboard_char ? ev.get_first_input() : 0;
+        _handled = true;
 
         if( callbacks[ch] ) {
             if( callbacks[ch]() ) {
@@ -379,10 +374,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             }
         }
 
-        // This class only registers the ANY_INPUT action by default. If the
-        // client provides their own input_context with registered actions
-        // besides ANY_INPUT, ignore those so that the client may handle them.
-        if( action != "ANY_INPUT" ) {
+        if( _ignore_custom_actions && action != "ANY_INPUT" ) {
+            _handled = false;
             continue;
         }
 
@@ -406,15 +399,25 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             }
             return _text;
         } else if( ch == KEY_UP ) {
-            if( _hist_use_uilist ) {
-                show_history( ret );
+            if( !_identifier.empty() ) {
+                if( _hist_use_uilist ) {
+                    show_history( ret );
+                } else {
+                    update_input_history( ret, true );
+                }
             } else {
-                update_input_history( ret, true );
+                _handled = false;
             }
-        } else if( ch == KEY_DOWN && !_hist_use_uilist ) {
-            update_input_history( ret, false );
+        } else if( ch == KEY_DOWN ) {
+            if( !_identifier.empty() ) {
+                if( !_hist_use_uilist ) {
+                    update_input_history( ret, false );
+                }
+            } else {
+                _handled = false;
+            }
         } else if( ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == 9 ) {
-            /* absolutely nothing */
+            _handled = false;
         } else if( ch == KEY_RIGHT ) {
             if( _position + 1 <= static_cast<int>( ret.size() ) ) {
                 _position++;
@@ -466,6 +469,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( ev.edit.empty() ) {
             edit.erase( 0 );
             ctxt->set_edittext( edit.c_str() );
+        } else {
+            _handled = false;
         }
     } while( loop );
     _text = ret.str();
@@ -528,7 +533,7 @@ void string_input_popup::edit( int &value )
 string_input_popup &string_input_popup::text( const std::string &value )
 {
     _text = value;
-    const auto u8size = utf8_wrapper( _text ).size();
+    const size_t u8size = utf8_wrapper( _text ).size();
     if( _position < 0 || static_cast<size_t>( _position ) > u8size ) {
         _position = u8size;
     }

@@ -156,7 +156,7 @@
     "type": "MONSTER",
     "name": { "str": "skeletal zombear" },
     "copy-from": "mon_zombear",
-    "description": "A monstrous overgrowth of ossified tissue has replaced this zombear's rotting skin with an organic armor of dense bone.  Large clumps of black goo seep from its joints as it shambles aimlessly, with sickening crackling sounds filling the air around it.",
+    "description": "A monstrous overgrowth of ossified tissue has replaced this zombear's rotting skin with an organic armor of dense bone.  Large clumps of black goo seep from its joints as it shambles aimlessly, with sickening crackling sounds filling the surrounding air.",
     "hp": 70,
     "speed": 100,
     "material": [ "bone" ],

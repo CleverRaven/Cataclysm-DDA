@@ -3,33 +3,45 @@
 #define CATA_SRC_AVATAR_H
 
 #include <cstddef>
+#include <list>
+#include <map>
+#include <memory>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "enums.h"
-#include "item.h"
+#include "game_constants.h"
 #include "magic_teleporter_list.h"
 #include "map_memory.h"
 #include "memory_fast.h"
 #include "player.h"
 #include "point.h"
-
-class faction;
-
-class advanced_inv_listitem;
-class advanced_inv_area;
-class advanced_inventory_pane;
+#include "string_id.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class advanced_inv_area;
+class advanced_inv_listitem;
+class advanced_inventory_pane;
+class faction;
+class item;
+class item_location;
 class mission;
 class monster;
+class nc_color;
 class npc;
 class talker;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
+enum class character_type : int;
 
 namespace debug_menu
 {
@@ -51,7 +63,7 @@ struct monster_visible_info {
     std::vector<const mtype *> unique_mons[9];
 
     // If the moster visible in this direction is dangerous
-    bool dangerous[8];
+    bool dangerous[8] = {};
 };
 
 class avatar : public player
@@ -145,6 +157,13 @@ class avatar : public player
                       bool radio_contact = false );
 
         /**
+         * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
+         * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
+         * @param target Target NPC to disarm
+         */
+        void disarm( npc &target );
+
+        /**
          * Helper function for player::read.
          *
          * @param book Book to read
@@ -168,6 +187,8 @@ class avatar : public player
         void do_read( item &book );
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
+        void identify( const item &item ) override;
+        void clear_identified();
 
         void wake_up();
         // Grab furniture / vehicle
@@ -175,7 +196,7 @@ class avatar : public player
         object_type get_grab_type() const;
         /** Handles player vomiting effects */
         void vomit();
-
+        void add_pain_msg( int val, const bodypart_id &bp ) const;
         /**
          * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
          * notices your steal attempt and getting angry with you, and you successfully stealing the item.
@@ -195,10 +216,16 @@ class avatar : public player
         int free_upgrade_points() const;
         // how much "kill xp" you have
         int kill_xp() const;
+        void power_bionics() override;
+        void power_mutations() override;
+        /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
+        bionic *bionic_by_invlet( int ch );
 
         faction *get_faction() const override;
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
+        // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
+        std::string preferred_aiming_mode;
 
         void set_movement_mode( const move_mode_id &mode ) override;
 
@@ -245,7 +272,7 @@ class avatar : public player
                 save_activity( json );
 
                 json.end_object();
-            };
+            }
             void deserialize( JsonIn &jsin ) {
                 JsonObject data = jsin.get_object();
 
@@ -254,12 +281,13 @@ class avatar : public player
                 if( data.has_member( "activity" ) ) {
                     read_activity( data );
                 }
-            };
+            }
 
             daily_calories() {
                 activity_levels.emplace( NO_EXERCISE, 0 );
                 activity_levels.emplace( LIGHT_EXERCISE, 0 );
                 activity_levels.emplace( MODERATE_EXERCISE, 0 );
+                activity_levels.emplace( BRISK_EXERCISE, 0 );
                 activity_levels.emplace( ACTIVE_EXERCISE, 0 );
                 activity_levels.emplace( EXTRA_EXERCISE, 0 );
             }

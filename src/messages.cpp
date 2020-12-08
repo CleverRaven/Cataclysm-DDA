@@ -1,5 +1,6 @@
 #include "messages.h"
 
+#include "cached_options.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
@@ -9,39 +10,32 @@
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
-#include "ime.h"
 #include "input.h"
 #include "json.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "viewer.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
-
-#include "options.h"
 #endif
+#include "options.h"
 
 #include <algorithm>
 #include <deque>
 #include <iterator>
 #include <memory>
 
-// sidebar messages flow direction
-extern bool log_from_top;
-extern int message_ttl;
-extern int message_cooldown;
-
 namespace
 {
 
 struct game_message : public JsonDeserializer, public JsonSerializer {
     std::string       message;
-    time_point timestamp_in_turns  = 0;
+    time_point timestamp_in_turns  = calendar::turn_zero;
     int               timestamp_in_user_actions = 0;
     int               count = 1;
     // number of times this message has been seen while it was in cooldown.
@@ -122,7 +116,7 @@ class messages_impl
     public:
         std::deque<game_message> messages;   // Messages to be printed
         std::vector<game_message> cooldown_templates; // Message cooldown
-        time_point curmes = 0; // The last-seen message.
+        time_point curmes = calendar::turn_zero; // The last-seen message.
         bool active = true;
 
         bool has_undisplayed_messages() const {
@@ -193,7 +187,8 @@ class messages_impl
                 return;
             }
 
-            while( messages.size() > 255 ) {
+            unsigned int message_limit = get_option<int>( "MESSAGE_LIMIT" );
+            while( messages.size() > message_limit ) {
                 messages.pop_front();
             }
 
@@ -206,7 +201,7 @@ class messages_impl
         void hide_message_in_cooldown( game_message &message ) {
             message.cooldown_hidden = false;
 
-            if( message_cooldown <= 0 || message.turn() <= 0 ) {
+            if( message_cooldown <= 0 || message.turn() <= calendar::turn_zero ) {
                 return;
             }
 
@@ -235,9 +230,9 @@ class messages_impl
             }
 
             // current message turn.
-            const auto cm_turn = to_turn<int>( message.turn() );
+            const int cm_turn = to_turn<int>( message.turn() );
             // maximum range of the cooldown timer.
-            const auto max_cooldown_range = to_turn<int>( cooldown_it->turn() ) + message_cooldown;
+            const int max_cooldown_range = to_turn<int>( cooldown_it->turn() ) + message_cooldown;
             // If the current message is in the cooldown range then hide it.
             if( cm_turn <= max_cooldown_range ) {
                 message.cooldown_hidden = true;
@@ -267,15 +262,15 @@ class messages_impl
          */
         void refresh_cooldown( const game_message &message, const game_message_flags flags ) {
             // is cooldown used? (also checks for messages arriving here at game initialization: we don't care about them).
-            if( message_cooldown <= 0 || message.turn() <= 0 ) {
+            if( message_cooldown <= 0 || message.turn() <= calendar::turn_zero ) {
                 return;
             }
 
             // housekeeping: remove any cooldown message with an expired cooldown time from the cooldown queue.
-            const auto now = calendar::turn;
+            const time_point now = calendar::turn;
             for( auto it = cooldown_templates.begin(); it != cooldown_templates.end(); ) {
                 // number of turns elapsed since the cooldown started.
-                const auto turns = to_turns<int>( now - it->turn() );
+                const int turns = to_turns<int>( now - it->turn() );
                 if( turns >= message_cooldown ) {
                     // time elapsed! remove it.
                     it = cooldown_templates.erase( it );
@@ -463,8 +458,6 @@ class dialog
 
         bool canceled = false;
         bool errored = false;
-
-        cata::optional<ime_sentry> filter_sentry;
 
         bool first_init = true;
 };
@@ -693,9 +686,6 @@ void Messages::dialog::input()
         filter.query( false );
         if( filter.confirmed() || filter.canceled() ) {
             filtering = false;
-            if( filter_sentry ) {
-                disable_ime();
-            }
         }
         if( !filter.canceled() ) {
             const std::string &new_filter_str = filter.text();
@@ -729,13 +719,6 @@ void Messages::dialog::input()
             }
         } else if( action == "FILTER" ) {
             filtering = true;
-            if( filter_sentry ) {
-                enable_ime();
-            } else {
-                // this implies enable_ime() and ensures that the ime mode is always
-                // restored when closing the dialog if at least filtered once
-                filter_sentry.emplace();
-            }
         } else if( action == "RESET_FILTER" ) {
             filter_str.clear();
             filter.text( filter_str );
@@ -892,4 +875,34 @@ void add_msg( std::string msg )
 void add_msg( const game_message_params &params, std::string msg )
 {
     Messages::add_msg( params, std::move( msg ) );
+}
+
+void add_msg_if_player_sees( const tripoint &target, std::string msg )
+{
+    if( get_player_view().sees( target ) ) {
+        Messages::add_msg( std::move( msg ) );
+    }
+}
+
+void add_msg_if_player_sees( const Creature &target, std::string msg )
+{
+    if( get_player_view().sees( target ) ) {
+        Messages::add_msg( std::move( msg ) );
+    }
+}
+
+void add_msg_if_player_sees( const tripoint &target, const game_message_params &params,
+                             std::string msg )
+{
+    if( get_player_view().sees( target ) ) {
+        Messages::add_msg( params, std::move( msg ) );
+    }
+}
+
+void add_msg_if_player_sees( const Creature &target, const game_message_params &params,
+                             std::string msg )
+{
+    if( get_player_view().sees( target ) ) {
+        Messages::add_msg( params, std::move( msg ) );
+    }
 }

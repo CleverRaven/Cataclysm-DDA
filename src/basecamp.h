@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 
+#include "coordinates.h"
 #include "craft_command.h"
 #include "inventory.h"
 #include "map.h"
@@ -37,13 +38,12 @@ struct expansion_data {
     std::map<std::string, int> in_progress;
     tripoint_abs_omt pos;
     // legacy camp level, replaced by provides map and set to -1
-    int cur_level;
+    int cur_level = 0;
 
 };
 
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
-using Group_tag = std::string;
 
 namespace catacurses
 {
@@ -207,7 +207,7 @@ class basecamp
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
         std::list<item> use_charges( const itype_id &fake_id, int &quantity );
-        std::string get_gatherlist() const;
+        item_group_id get_gatherlist() const;
         /**
          * spawn items or corpses based on search attempts
          * @param skill skill level of the search
@@ -216,7 +216,7 @@ class basecamp
          * @param difficulty a random number from 0 to difficulty is created for each attempt, and
          * if skill is higher, an item or corpse is spawned
          */
-        void search_results( int skill, const Group_tag &group_id, int attempts, int difficulty );
+        void search_results( int skill, const item_group_id &, int attempts, int difficulty );
         /**
          * spawn items or corpses based on search attempts
          * @param skill skill level of the search

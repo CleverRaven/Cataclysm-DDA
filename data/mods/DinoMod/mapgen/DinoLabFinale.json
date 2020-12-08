@@ -74,13 +74,13 @@
         }
       },
       "place_monster": [
-        { "monster": [ "mon_deino_bio_op" ], "x": [ 14, 16 ], "y": [ 1, 4 ], "chance": 90 },
-        { "monster": [ "mon_deino_bio_op" ], "x": [ 14, 16 ], "y": [ 6, 9 ], "chance": 90 },
-        { "monster": [ "mon_deino_bio_op" ], "x": [ 21, 22 ], "y": [ 1, 4 ], "chance": 90 },
-        { "monster": [ "mon_deino_bio_op" ], "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 },
-        { "monster": [ "mon_trice_bio_op" ], "x": [ 11, 13 ], "y": [ 13, 14 ], "chance": 100 },
-        { "monster": "mon_zeinonychus", "x": [ 15, 19 ], "y": 12, "chance": 90, "repeat": [ 1, 2 ] },
-        { "monster": "mon_zeinonychus", "x": [ 9, 10 ], "y": [ 12, 13 ] }
+        { "monster": [ "mon_zallimimus_bio_op" ], "x": [ 14, 16 ], "y": [ 1, 4 ], "chance": 90 },
+        { "monster": [ "mon_zachycephalosaurus_bio_op" ], "x": [ 14, 16 ], "y": [ 6, 9 ], "chance": 90 },
+        { "monster": [ "mon_zimorphodon_bio_op" ], "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 },
+        { "monster": [ "mon_zeinonychus_bio_op" ], "x": [ 15, 19 ], "y": 12, "chance": 90, "repeat": [ 1, 2 ] },
+        { "monster": [ "mon_gallimimus_bio_op" ], "x": [ 11 ], "y": 13 },
+        { "monster": [ "mon_pachycephalosaurus_bio_op" ], "x": [ 12 ], "y": 13, "chance": 50 },
+        { "monster": [ "mon_trice_bio_op" ], "x": [ 13 ], "y": 14, "chance": 25 }
       ]
     }
   }

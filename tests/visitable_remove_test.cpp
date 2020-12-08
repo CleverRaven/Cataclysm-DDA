@@ -1,12 +1,13 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <list>
 #include <memory>
-#include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
+#include "character.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -14,7 +15,7 @@
 #include "map.h"
 #include "map_selector.h"
 #include "optional.h"
-#include "character.h"
+#include "pimpl.h"
 #include "point.h"
 #include "rng.h"
 #include "type_id.h"
@@ -47,7 +48,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     Character &p = get_player_character();
     p.worn.clear();
     p.worn.push_back( item( "backpack" ) );
-    p.inv.clear();
+    p.inv->clear();
     p.remove_weapon();
     p.wear_item( item( "backpack" ) ); // so we don't drop anything
     map &here = get_map();
@@ -220,7 +221,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         WHEN( "a hip flask containing water is wielded" ) {
             item obj( worn_id );
             item liquid( liquid_id, calendar::turn );
-            liquid.charges -= obj.fill_with( *liquid.type, liquid.charges );
+            liquid.charges -= obj.fill_with( liquid, liquid.charges );
             p.wield( obj );
 
             REQUIRE( count_items( p, container_id ) == count );
@@ -415,7 +416,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         std::vector<tripoint> tiles = closest_points_first( p.pos(), 1 );
         tiles.erase( tiles.begin() ); // player tile
         tripoint veh = random_entry( tiles );
-        REQUIRE( here.add_vehicle( vproto_id( "shopping_cart" ), veh, 0, 0, 0 ) );
+        REQUIRE( here.add_vehicle( vproto_id( "shopping_cart" ), veh, 0_degrees, 0, 0 ) );
 
         REQUIRE( std::count_if( tiles.begin(), tiles.end(), [&here]( const tripoint & e ) {
             return static_cast<bool>( here.veh_at( e ) );

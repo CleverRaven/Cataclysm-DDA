@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <cassert>
 #include <functional>
 #include <memory>
 #include <string>
@@ -7,14 +6,15 @@
 #include <vector>
 
 #include "avatar.h"
-#include "coordinate_conversions.h"
+#include "cata_assert.h"
+#include "character.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "game.h"
 #include "json.h"
-#include "line.h"
 #include "map_iterator.h"
 #include "mapgen_functions.h"
 #include "messages.h"
@@ -24,7 +24,6 @@
 #include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "point.h"
 #include "rng.h"
 #include "talker.h"
 #include "translations.h"
@@ -351,7 +350,7 @@ tripoint_abs_omt mission_util::target_om_ter_random( const std::string &omter, i
         return player_character.global_omt_location();
     }
     const overmap *loc_om = overmap_buffer.get_existing_om_global( loc ).om;
-    assert( loc_om );
+    cata_assert( loc_om );
 
     std::vector<tripoint_abs_omt> places_om;
     for( auto &i : places ) {
@@ -540,7 +539,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
         for( const talk_effect_fun_t &effect : talk_effects.effects ) {
             effect( d );
         }
-        for( auto &mission_function : funcs ) {
+        for( const auto &mission_function : funcs ) {
             mission_function( miss );
         }
     };

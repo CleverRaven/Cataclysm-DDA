@@ -1,15 +1,12 @@
-#include "mod_manager.h" // IWYU pragma: associated
-
 #include <algorithm>
-#include <exception>
 
 #include "color.h"
 #include "debug.h"
 #include "dependency_tree.h"
+#include "mod_manager.h" // IWYU pragma: associated
 #include "output.h"
 #include "string_formatter.h"
 #include "string_id.h"
-#include "translations.h"
 
 mod_ui::mod_ui( mod_manager &mman )
     : active_manager( mman )
@@ -58,7 +55,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     }
 
     if( !mod->description.empty() ) {
-        info += _( mod->description ) + "\n";
+        info += mod->description + "\n";
     }
 
     std::string note = !mm_tree.is_available( mod->ident ) ? mm_tree.get_node(

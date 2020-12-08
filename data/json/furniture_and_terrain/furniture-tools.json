@@ -11,7 +11,7 @@
     "coverage": 50,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
-    "//connects_to": "COUNTER",
+    "connects_to": "COUNTER",
     "deconstruct": {
       "furn_set": "f_counter",
       "items": [
@@ -60,7 +60,7 @@
     "required_str": -1,
     "light_emitted": 10,
     "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
-    "//connects_to": "COUNTER",
+    "connects_to": "COUNTER",
     "deconstruct": {
       "furn_set": "f_counter",
       "items": [
@@ -853,6 +853,7 @@
         { "item": "motor", "count": 1 },
         { "item": "metal_tank", "count": 1 },
         { "item": "plastic_chunk", "count": [ 4, 6 ] },
+        { "item": "pipe_fittings", "count": [ 2, 4 ] },
         { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
@@ -1154,6 +1155,7 @@
         { "item": "scrap", "count": [ 2, 8 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "hose", "count": 1 },
+        { "item": "pipe_fittings", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
       ]
