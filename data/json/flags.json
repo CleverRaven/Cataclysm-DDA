@@ -8,8 +8,7 @@
   {
     "id": "ALLOWS_TAIL",
     "type": "json_flag",
-    "context": [  ],
-    "info": "This gear can be worn with a tail."
+    "context": [  ]
   },
   {
     "id": "EFFECT_INVISIBLE",
