@@ -592,17 +592,27 @@ void uilist::show()
     for( int fei = vshift, si = 0; si < vmax; fei++, si++ ) {
         if( fei < static_cast<int>( fentries.size() ) ) {
             int ei = fentries [ fei ];
-            nc_color co = ( ei == selected ?
-                            hilight_color :
-                            ( entries[ ei ].enabled || entries[ei].force_color ?
-                              entries[ ei ].text_color :
-                              disabled_color )
-                          );
+            nc_color co;
+            nc_color hk_co;
+            if( ei == selected ) {
+                if( entries[ei].override_hilite_color ) {
+                    co = entries[ei].hilite_color;
+                } else {
+                    co = hilight_color;
+                }
+                hk_co = co;
+            } else {
+                if( entries[ei].enabled || entries[ei].force_color ) {
+                    co = entries[ ei ].text_color;
+                } else {
+                    co = disabled_color;
+                }
+                hk_co = entries[ei].enabled ? hotkey_color : co;
+            }
 
             mvwprintz( window, point( pad_left + 1, estart + si ), co, padspaces );
             if( entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
-                const nc_color hotkey_co = ei == selected ? hilight_color : hotkey_color;
-                mvwprintz( window, point( pad_left + 2, estart + si ), entries[ ei ].enabled ? hotkey_co : co,
+                mvwprintz( window, point( pad_left + 2, estart + si ), hk_co,
                            "%c", entries[ ei ].hotkey );
             }
             if( pad_size > 3 ) {
