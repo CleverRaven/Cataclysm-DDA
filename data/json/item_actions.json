@@ -271,7 +271,7 @@
   },
   {
     "type": "item_action",
-    "id": "ARROW_FLAMMABLE",
+    "id": "ARROW_FLAMABLE",
     "name": { "str": "Light up" }
   },
   {

@@ -795,7 +795,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_flammable_arrow",
+          "id": "overlay_wielded_flamable_arrow",
           "fg": 106,
           "bg": 632,
           "rotates": false
@@ -19241,7 +19241,7 @@
           "rotates": false
         },
         {
-          "id": "flammable_arrow",
+          "id": "flamable_arrow",
           "fg": 106,
           "bg": 632,
           "rotates": false

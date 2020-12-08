@@ -190,7 +190,7 @@
     "color": "white"
   },
   {
-    "id": "flammable_arrow",
+    "id": "flamable_arrow",
     "type": "TOOL",
     "category": "ammo",
     "name": { "str": "flammable arrow" },
@@ -206,7 +206,7 @@
     "initial_charges": 5,
     "max_charges": 5,
     "charges_per_use": 1,
-    "use_action": [ "ARROW_FLAMMABLE" ]
+    "use_action": [ "ARROW_FLAMABLE" ]
   },
   {
     "id": "fur_rollmat",

@@ -1326,7 +1326,7 @@
         },
         { "id": "fish_bowl", "fg": 487, "rotates": false, "multitile": false },
         { "id": "fish_trap", "fg": 591, "rotates": false, "multitile": false },
-        { "id": "flammable_arrow", "fg": 636, "rotates": false, "multitile": false },
+        { "id": "flamable_arrow", "fg": 636, "rotates": false, "multitile": false },
         { "id": "flamethrower", "fg": 567, "rotates": false, "multitile": false },
         { "id": "flamethrower_crude", "fg": 568, "rotates": false, "multitile": false },
         { "id": "flamethrower_simple", "fg": 567, "rotates": false, "multitile": false },
