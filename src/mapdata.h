@@ -194,6 +194,7 @@ enum ter_bitflags : int {
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
     TFLAG_SHALLOW_WATER,
+    TFLAG_NO_SHOOT,
     TFLAG_CURRENT,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
@@ -275,6 +276,7 @@ struct map_data_common_t {
         int light_emitted = 0;
         // The amount of movement points required to pass this terrain by default.
         int movecost = 0;
+        int heat_radiation = 0;
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
         // Maximal volume of items that can be stored in/on this furniture
@@ -362,6 +364,8 @@ struct ter_t : map_data_common_t {
     ter_str_id roof;            // What will be the floor above this terrain
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
+
+    std::set<emit_id> emissions;
 
     ter_t();
 

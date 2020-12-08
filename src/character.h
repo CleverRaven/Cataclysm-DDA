@@ -356,6 +356,13 @@ class handle_contents_changed_helper
         item_pocket *pocket;
 };
 
+enum class book_mastery {
+    CANT_DETERMINE, // book not yet identified, so you don't know yet
+    CANT_UNDERSTAND, // does not have enough skill to read
+    LEARNING,
+    MASTERED // can no longer increase skill by reading
+};
+
 class Character : public Creature, public visitable<Character>
 {
     public:
@@ -464,8 +471,7 @@ class Character : public Creature, public visitable<Character>
         virtual int get_hunger() const;
         virtual int get_starvation() const;
         virtual int get_thirst() const;
-        /** Gets character's minimum hunger and thirst */
-        int stomach_capacity() const;
+
         std::pair<std::string, nc_color> get_thirst_description() const;
         std::pair<std::string, nc_color> get_hunger_description() const;
         std::pair<std::string, nc_color> get_fatigue_description() const;
@@ -516,6 +522,9 @@ class Character : public Creature, public visitable<Character>
         }
         void set_fac_id( const std::string &my_fac_id );
 
+        // Has item with mission_id
+        bool has_mission_item( int mission_id ) const;
+
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion ) const;
 
@@ -527,6 +536,13 @@ class Character : public Creature, public visitable<Character>
         double aim_speed_dex_modifier() const;
         double aim_speed_encumbrance_modifier() const;
         double aim_cap_from_volume( const item &gun ) const;
+
+        /* Gun stuff */
+        /**
+         * Check whether the player has a gun that uses the given type of ammo.
+         */
+        bool has_gun_for_ammo( const ammotype &at ) const;
+        bool has_magazine_for_ammo( const ammotype &at ) const;
 
         /* Calculate aim improvement per move spent aiming at a given @ref recoil */
         double aim_per_move( const item &gun, double recoil ) const;
@@ -951,6 +967,11 @@ class Character : public Creature, public visitable<Character>
         bool can_power_mutation( const trait_id &mut );
         /** Generates and handles the UI for player interaction with installed bionics */
         virtual void power_bionics() {}
+        /**
+        * Check whether player has a bionic power armor interface.
+        * @return true if player has an active bionic capable of powering armor, false otherwise.
+        */
+        bool can_interface_armor() const;
         // TODO: Implement NPCs activating mutations
         virtual void power_mutations() {}
 
@@ -1145,6 +1166,11 @@ class Character : public Creature, public visitable<Character>
         void mutation_loss_effect( const trait_id &mut );
 
         bool has_active_mutation( const trait_id &b ) const;
+
+        int get_cost_timer( const trait_id &mut_id ) const;
+        void set_cost_timer( const trait_id &mut, int set );
+        void mod_cost_timer( const trait_id &mut, int mod );
+
         /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
         void mutate();
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
@@ -1384,6 +1410,16 @@ class Character : public Creature, public visitable<Character>
          *  @param qty number of charges to consume which must be non-zero
          *  @return true if item was destroyed */
         bool consume_charges( item &used, int qty );
+        /**
+         * Remove charges from a specific item.
+         * The item must exist and it must be counted by charges.
+         * @param it A pointer to the item, it *must* exist.
+         * @param quantity The number of charges to remove, must not be larger than
+         * the current charges of the item.
+         * @return An item that contains the removed charges, it's effectively a
+         * copy of the item with the proper charges.
+         */
+        item reduce_charges( item *it, int quantity );
 
         /**
          * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
@@ -1429,6 +1465,9 @@ class Character : public Creature, public visitable<Character>
 
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
+
+        /** Returns the amount of software `type' that are in the inventory */
+        int count_softwares( const itype_id &id );
 
         /** Returns nearby items which match the provided predicate */
         std::vector<item_location> nearby( const std::function<bool( const item *, const item * )> &func,
@@ -1647,6 +1686,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
+        book_mastery get_book_mastery( const item &book ) const;
         virtual void identify( const item &item ) = 0;
         /** Calculates the total fun bonus relative to this character's traits and chapter progress */
         bool fun_to_read( const item &book ) const;
@@ -2522,6 +2562,7 @@ class Character : public Creature, public visitable<Character>
                                        const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
                                        const std::function<bool( const item & )> &filter = return_true<item> );
+        bool consume_software_container( const itype_id &software_id );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                bool can_cancel = false, bool player_inv = true,
@@ -2746,8 +2787,8 @@ class Character : public Creature, public visitable<Character>
         std::map<bodypart_id, float> bodypart_exposure();
     private:
         /** suffer() subcalls */
-        void suffer_water_damage( const mutation_branch &mdata );
-        void suffer_mutation_power( const mutation_branch &mdata, Character::trait_data &tdata );
+        void suffer_water_damage( const trait_id &mut_id );
+        void suffer_mutation_power( const trait_id &mut_id );
         void suffer_while_underwater();
         void suffer_from_addictions();
         void suffer_while_awake( int current_stim );

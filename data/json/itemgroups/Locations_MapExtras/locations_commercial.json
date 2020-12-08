@@ -126,6 +126,7 @@
     "type": "item_group",
     "items": [
       { "group": "candy_chocolate", "prob": 45 },
+      { "item": "licorice", "prob": 15 },
       { "group": "salty_snacks", "prob": 80 },
       [ "peanut_unshelled", 20 ],
       [ "almond_unshelled", 20 ],
@@ -152,6 +153,7 @@
     "id": "coffee_shop",
     "items": [
       { "group": "candy_chocolate", "prob": 530 },
+      { "item": "licorice", "prob": 15 },
       { "group": "softdrinks_canned", "prob": 470 },
       { "group": "snacks", "prob": 560 },
       [ "coffee_raw", 70 ],

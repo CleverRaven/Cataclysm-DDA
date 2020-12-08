@@ -478,8 +478,9 @@
       { "distribution": [ { "item": "coffeemaker", "prob": 90 }, { "item": "atomic_coffeepot", "prob": 10 } ], "prob": 75 },
       {
         "distribution": [
-          { "item": "coffee_raw", "prob": 50 },
-          { "item": "coffee_raw", "prob": 50, "charges": [ 1, 200 ], "container-item": "can_food_big" }
+          { "item": "coffee_raw", "prob": 30 },
+          { "item": "instant_coffee", "prob": 40, "count": [ 1, 5 ] },
+          { "item": "coffee_raw", "prob": 30, "charges": [ 1, 200 ], "container-item": "can_food_big" }
         ],
         "prob": 80
       },

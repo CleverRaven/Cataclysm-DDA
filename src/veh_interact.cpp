@@ -76,7 +76,7 @@ static const itype_id itype_plut_cell( "plut_cell" );
 
 static const skill_id skill_mechanics( "mechanics" );
 
-static const proficiency_id proficiency_aircraft_mechanic( "aircraft_mechanic" );
+static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
@@ -1206,7 +1206,7 @@ void veh_interact::do_repair()
 
         bool would_prevent_flying = veh->would_repair_prevent_flyable( pt, player_character );
         if( would_prevent_flying &&
-            !player_character.has_proficiency( proficiency_aircraft_mechanic ) ) {
+            !player_character.has_proficiency( proficiency_prof_aircraft_mechanic ) ) {
             nmsg += _( "\n<color_yellow>You require the Airframe and Powerplant Mechanics proficiency to repair this part safely!</color>\n\n" );
         }
 
@@ -2944,7 +2944,7 @@ void veh_interact::complete_vehicle( player &p )
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
         if( !p.activity.coord_set.empty() ) {
-            for( const tripoint pt : p.activity.coord_set ) {
+            for( const tripoint &pt : p.activity.coord_set ) {
                 vp = here.veh_at( here.getlocal( pt ) );
                 if( vp ) {
                     break;

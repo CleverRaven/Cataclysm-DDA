@@ -95,7 +95,7 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
-static const proficiency_id proficiency_aircraft_mechanic( "aircraft_mechanic" );
+static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
@@ -317,77 +317,6 @@ bool vehicle::remote_controlled( const Character &p ) const
     add_msg( m_bad, _( "Lost connection with the vehicle due to distance!" ) );
     g->setremoteveh( nullptr );
     return false;
-}
-
-/** Checks all parts to see if frames are missing (as they might be when
- * loading from a game saved before the vehicle construction rules overhaul). */
-void vehicle::add_missing_frames()
-{
-    static const vpart_id frame_id( "frame" );
-    //No need to check the same spot more than once
-    std::set<point> locations_checked;
-    for( vehicle_part &i : parts ) {
-        if( locations_checked.count( i.mount ) != 0 ) {
-            continue;
-        }
-        locations_checked.insert( i.mount );
-
-        bool found = false;
-        for( const int &elem : parts_at_relative( i.mount, false ) ) {
-            if( part_info( elem ).location == part_location_structure ) {
-                found = true;
-                break;
-            }
-        }
-        if( !found ) {
-            // Install missing frame
-            parts.emplace_back( frame_id, "vertical", i.mount, item( frame_id->base_item ) );
-        }
-    }
-}
-
-// Called when loading a vehicle that predates steerable wheels.
-// Tries to convert some wheels to steerable versions on the front axle.
-void vehicle::add_steerable_wheels()
-{
-    int axle = INT_MIN;
-    std::vector< std::pair<int, vpart_id> > wheels;
-
-    // Find wheels that have steerable versions.
-    // Convert the wheel(s) with the largest x value.
-    for( const vpart_reference &vp : get_all_parts() ) {
-        if( vp.has_feature( "STEERABLE" ) || vp.has_feature( "TRACKED" ) ) {
-            // Has a wheel that is inherently steerable
-            // (e.g. unicycle, casters), this vehicle doesn't
-            // need conversion.
-            return;
-        }
-
-        if( vp.mount().x < axle ) {
-            // there is another axle in front of this
-            continue;
-        }
-
-        if( vp.has_feature( VPFLAG_WHEEL ) ) {
-            vpart_id steerable_id( vp.info().get_id().str() + "_steerable" );
-            if( steerable_id.is_valid() ) {
-                // We can convert this.
-                if( vp.mount().x != axle ) {
-                    // Found a new axle further forward than the
-                    // existing one.
-                    wheels.clear();
-                    axle = vp.mount().x;
-                }
-
-                wheels.push_back( std::make_pair( static_cast<int>( vp.part_index() ), steerable_id ) );
-            }
-        }
-    }
-
-    // Now convert the wheels to their new types.
-    for( auto &wheel : wheels ) {
-        parts[ wheel.first ].id = wheel.second;
-    }
 }
 
 void vehicle::init_state( int init_veh_fuel, int init_veh_status )
@@ -4249,7 +4178,7 @@ bool vehicle::would_install_prevent_flyable( const vpart_info &vpinfo, Character
 {
     if( flyable && !rotors.empty() && !( vpinfo.has_flag( "SIMPLE_PART" ) ||
                                          vpinfo.has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) ) {
-        return !pc.has_proficiency( proficiency_aircraft_mechanic );
+        return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
     } else {
         return false;
     }
@@ -4264,7 +4193,7 @@ bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) co
                                                    index_of_part( const_cast<vehicle_part *>( &vp ) ) );
             return !vppos.is_inside();
         } else {
-            return !pc.has_proficiency( proficiency_aircraft_mechanic );
+            return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
         }
     } else {
         return false;
@@ -4274,7 +4203,7 @@ bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) co
 bool vehicle::would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const
 {
     if( flyable && !rotors.empty() && !vp.info().has_flag( "SIMPLE_PART" ) ) {
-        return !pc.has_proficiency( proficiency_aircraft_mechanic );
+        return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
     } else {
         return false;
     }
@@ -5805,7 +5734,7 @@ void vehicle::refresh()
         if( vpi.has_flag( "UNMOUNT_ON_MOVE" ) ) {
             loose_parts.push_back( p );
         }
-        if( vpi.has_flag( "EMITTER" ) ) {
+        if( !vpi.emissions.empty() || !vpi.exhaust.empty() ) {
             emitters.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
@@ -6552,7 +6481,8 @@ void vehicle::shift_parts( const point &delta )
     pivot_anchor[0] -= delta;
     refresh();
     //Need to also update the map after this
-    get_map().reset_vehicle_cache( sm_pos.z );
+    get_map().clear_all_vehicle_caches( sm_pos.z );
+    get_map().build_all_vehicle_caches( sm_pos.z );
 }
 
 /**

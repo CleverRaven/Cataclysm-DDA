@@ -81,6 +81,14 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
+    "id": "xl_coat_fur",
+    "type": "ARMOR",
+    "name": { "str": "xl fur coat" },
+    "copy-from": "coat_fur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
+  },
+  {
     "id": "coat_faux_fur",
     "type": "ARMOR",
     "copy-from": "coat_fur",
@@ -92,6 +100,14 @@
     "covers": [ "torso", "arm_l", "arm_r" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ],
     "warmth": 70
+  },
+  {
+    "id": "xl_coat_faux_fur",
+    "type": "ARMOR",
+    "name": { "str": "xl faux fur coat" },
+    "copy-from": "coat_faux_fur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE", "SUPER_FANCY" ]
   },
   {
     "id": "coat_fur_sf",
@@ -292,6 +308,22 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
+    "id": "xl_duster_fur",
+    "type": "ARMOR",
+    "name": { "str": "xl fur duster" },
+    "copy-from": "duster_fur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
+  },
+  {
+    "id": "xl_duster",
+    "type": "ARMOR",
+    "name": { "str": "xl duster" },
+    "copy-from": "duster",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "OVERSIZE" ]
+  },
+  {
     "id": "duster_faux_fur",
     "type": "ARMOR",
     "copy-from": "duster_fur",
@@ -302,6 +334,14 @@
     "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
     "warmth": 40
+  },
+  {
+    "id": "xl_duster_faux_fur",
+    "type": "ARMOR",
+    "name": { "str": "xl faux fur duster" },
+    "copy-from": "duster_faux_fur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "FANCY", "OVERSIZE" ]
   },
   {
     "id": "duster_leather",
@@ -336,6 +376,14 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
+    "id": "xl_duster_leather",
+    "type": "ARMOR",
+    "name": { "str": "xl leather duster" },
+    "copy-from": "duster_leather",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
+  },
+  {
     "id": "duster_survivor",
     "type": "ARMOR",
     "category": "armor",
@@ -367,6 +415,14 @@
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
+  },
+  {
+    "id": "xl_duster_survivor",
+    "type": "ARMOR",
+    "name": { "str": "xl survivor duster" },
+    "copy-from": "duster_survivor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER", "OVERSIZE" ]
   },
   {
     "id": "greatcoat",
@@ -645,6 +701,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "jacket_leather",
+    "repairs_like": "jacket_leather",
     "color": "red",
     "covers": [ "torso", "arm_l", "arm_r" ],
     "coverage": 90,

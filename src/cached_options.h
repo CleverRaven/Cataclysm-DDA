@@ -24,4 +24,6 @@ enum class test_mode_spilling_action_t {
 };
 extern test_mode_spilling_action_t test_mode_spilling_action;
 
+extern bool direct3d_mode;
+
 #endif // CATA_SRC_CACHED_OPTIONS_H

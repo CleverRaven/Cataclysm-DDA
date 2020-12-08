@@ -198,5 +198,12 @@
       [ [ "scrap", 8 ] ],
       [ [ "rope_6", 1 ] ]
     ]
+  },
+  {
+    "result": "afs_heat_2_salvage",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "afs_heat_2", 1 ] ] ]
   }
 ]

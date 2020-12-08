@@ -1649,7 +1649,7 @@ void Character::process_bionic( const int b )
     } else if( bio.id == bio_nanobots ) {
         if( get_power_level() >= 40_J ) {
             std::forward_list<bodypart_id> bleeding_bp_parts;
-            for( const bodypart_id bp : get_all_body_parts() ) {
+            for( const bodypart_id &bp : get_all_body_parts() ) {
                 if( has_effect( effect_bleed, bp.id() ) ) {
                     bleeding_bp_parts.push_front( bp );
                 }
@@ -2028,15 +2028,11 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
     // Medical residents have some idea what they're doing
     if( has_trait( trait_PROF_MED ) ) {
         pl_skill += 3;
-        add_msg_player_or_npc( m_neutral, _( "You prep to begin surgery." ),
-                               _( "<npcname> prepares for surgery." ) );
     }
 
     // People trained in bionics gain an additional advantage towards using it
     if( has_trait( trait_PROF_AUTODOC ) ) {
         pl_skill += 7;
-        add_msg( m_neutral, _( "A lifetime of augmentation has taught %s a thing or two…" ),
-                 disp_name() );
     }
     return pl_skill;
 }

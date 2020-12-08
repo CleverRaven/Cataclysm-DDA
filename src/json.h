@@ -884,6 +884,10 @@ class JsonObject
         bool empty() const;
 
         void allow_omitted_members() const;
+        // If we're making a copy of the JsonObject (because it is required) to pass to a function,
+        // use this to count the members visited on that one as visited on this one
+        // See item::deserialize for a use case
+        void copy_visited_members( const JsonObject &rhs ) const;
         bool has_member( const std::string &name ) const; // true iff named member exists
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( const std::string &err ) const;
