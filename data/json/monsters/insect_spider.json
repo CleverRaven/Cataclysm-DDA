@@ -414,6 +414,8 @@
     "aggression": 0,
 	"morale": 0,
 	"melee_skill": 5,
+	"melee_dice_sides": 3,
+	"melee_cut": 3,
     "special_attacks": [
       {
         "type": "bite",
@@ -454,16 +456,16 @@
     "speed": 125,
 	"attack_cost": 125,
     "aggression": 40,
-    "morale": 20,
+    "morale": 10,
     "melee_skill": 6,
     "melee_dice": 2,
-    "melee_dice_sides": 3,
-    "melee_cut": 6,
+    "melee_dice_sides": 6,
+    "melee_cut": 10,
 	"special_attacks": [ 
 	  [ "GRAB", 5 ],
 	  {
 	    "type": "bite",
-		"cooldown": 5,
+		"cooldown": 3,
 		"move_cost": 120,
 		"damage_max_instance": [
 		  { "damage_type": "stab", "amount": 10, "armor_penetration": 12 } 
@@ -474,13 +476,13 @@
 		"effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ]
 	  }
 	 ],
-    "//": "4 hits to max intensity, 5 hits to max duration",
+    "//": "10-20 dmg, 4 hits to max intensity, 5 hits to max duration",
     "dodge": 2,
-    "armor_bash": 4,
-    "armor_cut": 8,
-    "armor_bullet": 6,
-	"armor_stab": 6,
-    "vision_day": 12,
+    "armor_bash": 10,
+    "armor_cut": 16,
+    "armor_bullet": 8,
+	"armor_stab": 8,
+    "vision_day": 8,
     "vision_night": 5,
 	"anger_triggers": [ "STALK", "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ],
     "harvest": "arachnid_centipede",
@@ -578,8 +580,8 @@
 	"armor_stab": 20,
 	"vision_day": 8,
 	"vision_night": 5,
+	"harvest": "arachnid_centipede_mega",
     "flags": [ 
-	  "CLIMBS",
 	  "SEES", 
 	  "SMELLS", 
 	  "KEENNOSE", 
@@ -1579,7 +1581,7 @@
     "special_attacks": [ [ "ANTQUEEN", 1 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "harvest": "acidant_queen",
+    "harvest": "arachnid_acid_queen",
     "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "QUEEN", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
