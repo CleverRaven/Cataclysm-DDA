@@ -65,10 +65,10 @@
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 
-void create_advanced_inv()
+void create_advanced_inv( bool reset_focus )
 {
     advanced_inventory advinv;
-    advinv.display();
+    advinv.display( reset_focus );
 }
 
 // *INDENT-OFF*
@@ -1472,9 +1472,13 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
     }
 }
 
-void advanced_inventory::display()
+void advanced_inventory::display( bool reset_focus )
 {
     init();
+    if( reset_focus ) {
+        src = left;
+        dest = right;
+    }
 
     avatar &player_character = get_avatar();
     player_character.inv->restack( player_character );

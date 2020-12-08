@@ -17,7 +17,7 @@ class input_context;
 class item;
 struct advanced_inv_save_state;
 
-void create_advanced_inv();
+void create_advanced_inv( bool reset_focus );
 
 /**
  * Cancels ongoing move all action.
@@ -31,7 +31,7 @@ class advanced_inventory
         advanced_inventory();
         ~advanced_inventory();
 
-        void display();
+        void display( bool reset_focus );
 
         /**
          * Converts from screen relative location to game-space relative location
