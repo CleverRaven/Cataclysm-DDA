@@ -4656,6 +4656,7 @@ void game::overmap_npc_move()
             travelling_npcs.push_back( npc_to_add );
         }
     }
+    bool npcs_need_reload = false;
     for( auto &elem : travelling_npcs ) {
         if( elem->has_omt_destination() ) {
             if( !elem->omt_path.empty() && rl_dist( elem->omt_path.back(), elem->global_omt_location() ) > 2 ) {
@@ -4664,6 +4665,9 @@ void game::overmap_npc_move()
             }
             if( elem->omt_path.empty() ) {
                 elem->omt_path = overmap_buffer.get_npc_path( elem->global_omt_location(), elem->goal );
+                if( elem->omt_path.empty() ) { // goal is unreachable, reset it
+                    elem->goal = npc::no_goal_point;
+                }
             } else {
                 if( elem->omt_path.back() == elem->global_omt_location() ) {
                     elem->omt_path.pop_back();
@@ -4671,9 +4675,15 @@ void game::overmap_npc_move()
                 // TODO: fix point types
                 elem->travel_overmap(
                     project_to<coords::sm>( elem->omt_path.back() ).raw() );
+                npcs_need_reload = true;
             }
-            reload_npcs();
+        } else if( calendar::once_every( 1_hours ) && one_in( 3 ) ) {
+            // travelling destination is reached/not set, try different one
+            elem -> set_omt_destination();
         }
+    }
+    if( npcs_need_reload ) {
+        reload_npcs();
     }
 }
 
