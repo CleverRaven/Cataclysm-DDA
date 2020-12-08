@@ -1481,7 +1481,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
         response_hotkeys.clear();
         input_event evt = ctxt.first_unassigned_hotkey( queue );
         for( talk_response &response : responses ) {
-            const talk_data td = response.create_option_line( *this, evt );
+            const talk_data &td = response.create_option_line( *this, evt );
             response_lines.emplace_back( td );
             response_hotkeys.emplace_back( evt );
 #if defined(__ANDROID__)
