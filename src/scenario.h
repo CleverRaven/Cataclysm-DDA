@@ -50,10 +50,6 @@ class scenario
         std::vector<mission_type_id> _missions;
 
         bool _custom_initial_date = false;
-        bool _random_initial_hour = true;
-        bool _random_initial_day = true;
-        bool _random_initial_season = true;
-        bool _random_initial_year = true;
         int _initial_hour = 0;
         int _initial_day = 0;
         season_type _initial_season = SPRING;

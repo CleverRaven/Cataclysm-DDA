@@ -12051,41 +12051,13 @@ void game::autosave()
 
 void game::start_calendar()
 {
-    if( scen->custom_initial_date() ) {
-        // Configured starting date overridden by scenario, calendar::start is left as Spring 1
-        calendar::start_of_cataclysm = calendar::turn_zero + 1_hours * scen->initial_hour();
-        calendar::start_of_game = calendar::turn_zero + 1_hours * scen->initial_hour();
-        calendar::initial_season = scen->initial_season();
-        calendar::start_of_game += calendar::season_length() * (
-                                       static_cast<int>( scen->initial_season() ) +
-                                       static_cast<int>( season_type::NUM_SEASONS ) * scen->initial_year() );
-    } else {
-        // No scenario, so use the starting date+time configured in world options
-        int initial_days = get_option<int>( "INITIAL_DAY" );
-        if( initial_days == -1 ) {
-            // 0 - 363 for a 91 day season
-            initial_days = rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
-        }
-        calendar::start_of_cataclysm = calendar::turn_zero + 1_days * initial_days;
-
-        // Determine the season based off how long the seasons are set to be
-        // First take the number of season elapsed up to the starting date, then mod by 4 to get the season of the current year
-        const int season_number = ( initial_days / get_option<int>( "SEASON_LENGTH" ) ) % 4;
-        if( season_number == 0 ) {
-            calendar::initial_season = SPRING;
-        } else if( season_number == 1 ) {
-            calendar::initial_season = SUMMER;
-        } else if( season_number == 2 ) {
-            calendar::initial_season = AUTUMN;
-        } else {
-            calendar::initial_season = WINTER;
-        }
-
-        calendar::start_of_game = calendar::start_of_cataclysm
-                                  + 1_hours * get_option<int>( "INITIAL_TIME" )
-                                  + 1_days * get_option<int>( "SPAWN_DELAY" );
-    }
-
+    // Configured starting date overridden by scenario, calendar::start is left as Spring 1
+    calendar::start_of_cataclysm = calendar::turn_zero + 1_hours * scen->initial_hour();
+    calendar::start_of_game = calendar::turn_zero
+                              + 1_hours * scen->initial_hour()
+                              + 1_days * scen->initial_day()
+                              + get_option<int>( "SEASON_LENGTH" ) * 1_days * scen->initial_season()
+                              + 4 * get_option<int>( "SEASON_LENGTH" ) * 1_days * scen->initial_year();
     calendar::turn = calendar::start_of_game;
 }
 
