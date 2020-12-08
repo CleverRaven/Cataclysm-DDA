@@ -94,14 +94,17 @@ void scenario::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "map_extra", _map_extra, "mx_null" );
     optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
 
+    _initial_hour = get_option<int>( "INITIAL_TIME" );
+    _initial_day = get_option<int>( "INITIAL_DAY" );
+    _initial_season = SPRING;
+    _initial_year = 0;
+
     if( jo.has_member( "custom_initial_date" ) ) {
         JsonObject jocid = jo.get_member( "custom_initial_date" );
         _custom_initial_date = true;
         // hour
         if( jocid.has_member( "hour" ) ) {
             optional( jocid, was_loaded, "hour", _initial_hour );
-        } else {
-            _initial_hour = get_option<int>( "INITIAL_TIME" );
         }
         if( _initial_hour == -1 ) {
             _initial_hour = rng( 0, 23 );
@@ -109,12 +112,15 @@ void scenario::load( const JsonObject &jo, const std::string & )
         // day
         if( jocid.has_member( "day" ) ) {
             optional( jocid, was_loaded, "day", _initial_day );
+            if( _initial_day == -1 ) {
+                _initial_day = rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 );
+            }
         } else {
-            _initial_day = get_option<int>( "INITIAL_DAY" );
+            if( _initial_day == -1 ) {
+                _initial_day = rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
+            }
         }
-        if( _initial_day == -1 ) {
-            _initial_day = rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 );
-        }
+
         // season
         if( jocid.has_member( "season" ) ) {
             optional( jocid, was_loaded, "season", _initial_season );
@@ -123,7 +129,7 @@ void scenario::load( const JsonObject &jo, const std::string & )
         if( jocid.has_member( "year" ) ) {
             optional( jocid, was_loaded, "year", _initial_year );
             if( _initial_year == -1 ) {
-                _initial_year = rng( 0, 5 );
+                _initial_year = rng( 0, 10 );
             }
         }
     }
