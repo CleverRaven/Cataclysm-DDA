@@ -121,7 +121,7 @@
   {
     "id": "cryo_blast",
     "type": "SPELL",
-    "name": "{ "str": "cryokinetic blast" }",
+    "name": { "str": "cryokinetic blast" },
     "description": "The temperature drops dangerously where you concentrate.",
     "effect": "attack",
     "shape": "cone",
