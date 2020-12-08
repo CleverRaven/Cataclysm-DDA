@@ -1109,6 +1109,7 @@ input_context advanced_inventory::register_ctxt() const
     ctxt.register_action( "RIGHT" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "SWAP_TABS" );
     ctxt.register_action( "TOGGLE_TAB" );
     ctxt.register_action( "TOGGLE_VEH" );
     ctxt.register_action( "FILTER" );
@@ -1170,21 +1171,9 @@ void advanced_inventory::redraw_sidebar()
 void advanced_inventory::change_square( const aim_location changeSquare,
                                         advanced_inventory_pane &dpane, advanced_inventory_pane &spane )
 {
-    if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
-        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED ) {
-            // only deal with spane, as you can't _directly_ change dpane
-            if( dpane.get_area() == changeSquare ) {
-                spane.set_area( squares[changeSquare], !dpane.in_vehicle() );
-                spane.recalc = true;
-            } else if( spane.get_area() == dpane.get_area() ) {
-                // swap the `in_vehicle` element of each pane if "one in, one out"
-                spane.set_area( squares[spane.get_area()], !spane.in_vehicle() );
-                dpane.set_area( squares[dpane.get_area()], !dpane.in_vehicle() );
-                recalc = true;
-            }
-        } else {
-            swap_panes();
-        }
+    if( spane.get_area() == changeSquare && squares[changeSquare].can_store_in_vehicle() ) {
+        spane.set_area( squares[spane.get_area()], !spane.in_vehicle() );
+        recalc = true;
         // we need to check the original area if we can place items in vehicle storage
     } else if( squares[changeSquare].canputitems( spane.get_cur_item_ptr() ) ) {
         bool in_vehicle_cargo = false;
@@ -1681,6 +1670,8 @@ void advanced_inventory::display()
             src = right;
         } else if( action == "TOGGLE_TAB" ) {
             src = dest;
+        } else if( action == "SWAP_TABS" ) {
+            swap_panes();
         } else if( action == "TOGGLE_VEH" ) {
             if( squares[spane.get_area()].can_store_in_vehicle() ) {
                 // swap the panes if going vehicle will show the same tile
