@@ -1924,7 +1924,7 @@ bool game::handle_action()
                 } else if( u.has_effect( effect_incorporeal ) ) {
                     add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else {
-                    create_advanced_inv( true );
+                    create_advanced_inv();
                 }
                 break;
 
