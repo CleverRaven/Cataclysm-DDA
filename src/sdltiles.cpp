@@ -1978,29 +1978,21 @@ void draw_virtual_joystick()
 
 }
 
-float clmp( float value, float low, float high )
-{
-    return ( value < low ) ? low : ( ( value > high ) ? high : value );
-}
-float lerp( float t, float a, float b )
-{
-    return ( 1.0f - t ) * a + t * b;
-}
-
 void update_finger_repeat_delay()
 {
     float delta_x = finger_curr_x - finger_down_x;
     float delta_y = finger_curr_y - finger_down_y;
     float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y );
     float longest_window_edge = std::max( WindowWidth, WindowHeight );
-    float t = clmp( ( dist - ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) * longest_window_edge ) ) /
-                    std::max( 0.01f, ( get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge ),
-                    0.0f, 1.0f );
-    finger_repeat_delay = lerp( std::pow( t, get_option<float>( "ANDROID_SENSITIVITY_POWER" ) ),
-                                static_cast<uint32_t>( std::max( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ),
-                                        get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) ) ),
-                                static_cast<uint32_t>( std::min( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ),
-                                        get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) ) ) );
+    float t = clamp<float>( ( dist - ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) *
+                                       longest_window_edge ) ) /
+                            std::max( 0.01f, ( get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge ),
+                            0.0f, 1.0f );
+    finger_repeat_delay = lerp<float>( std::pow( t, get_option<float>( "ANDROID_SENSITIVITY_POWER" ) ),
+                                       static_cast<uint32_t>( std::max( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ),
+                                               get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) ) ),
+                                       static_cast<uint32_t>( std::min( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ),
+                                               get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) ) ) );
 }
 
 // TODO: Is there a better way to detect when string entry is allowed?
