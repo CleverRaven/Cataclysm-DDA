@@ -251,7 +251,7 @@
     "anger_triggers": [ "HURT" ],
     "death_function": [ "NORMAL" ],
     "harvest": "gummy_bear",
-    "reproduction": { "baby_egg": "candy3gator", "baby_count": 1, "baby_timer": 10 },
+    "reproduction": { "baby_egg": "candy3", "baby_count": 1, "baby_timer": 10 },
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON", "NO_BREATHE" ]
   },
   {
