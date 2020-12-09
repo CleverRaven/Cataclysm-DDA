@@ -165,6 +165,7 @@ class advuilist
         /// number of lines at the bottom of the window reserved for decorations
         int _footersize = 1;
         bool _exit = true;
+        bool _needsinit = true;
 
         input_context _ctxt;
         catacurses::window _w;
@@ -341,6 +342,9 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
     if( !_ui ) {
         initui();
     }
+    if( _needsinit ) {
+        rebuild();
+    }
 
     while( !_exit ) {
 
@@ -419,6 +423,7 @@ void advuilist<Container, T>::rebuild( Container *list )
     _sort( _csort );
     _setidx( _cidx );
     _cpage = _idxtopage( _cidx );
+    _needsinit = false;
 }
 
 template <class Container, typename T>
@@ -477,11 +482,9 @@ void advuilist<Container, T>::resize( point size, point origin, point reserved_r
               };
     _headersize = reserved_rows.x > 0 ? reserved_rows.x : _headersize;
     _footersize = reserved_rows.y > 0 ? reserved_rows.y : _footersize;
-    // leave space for decorations and column headers
-    _pagesize =
-        static_cast<std::size_t>( std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) );
 
     _innerw = _size.x - _firstcol * 2;
+    // leave space for decorations and column headers
     std::size_t const npagesize =
         static_cast<std::size_t>( std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) );
     if( npagesize != _pagesize ) {
