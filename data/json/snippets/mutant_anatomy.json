@@ -160,6 +160,26 @@
   },
   {
     "type": "snippet",
+	"category": "<bug_harvest_centipede_chitin>",
+	"text": [
+	  "The legs fall off easily, leaving the main body looking like an armored worm",
+	  "Each pair of legs is slightly different.  These end in hooks, the next in talons like a bird's, there's a pair of chitinous tentacles",
+	  "The mandibles keep snapping, and acrid-smelling venom wets the soil.  You decide to begin your work at its tail",
+	  "You're startled as its antenna whips out and coils on your arm, if only for a moment",
+	  "Underneath the surface, there are small plates of chitin dotted about, much harder than the rest",
+	  "On its tail end the segments get smaller and smaller, until they terminate in a small copy of the head, looking backwards",
+	  "The chitin of the head is caked in old blood and lymph of its previous meals"
+	 ]
+  },
+  {
+    "type": "snippet",
+	"category": "<bug_harvest_centipede_descriptive>",
+	"text": [
+	  "
+	 ]
+  },
+  {
+    "type": "snippet",
     "category": "<bug_harvest_flying_chitin>",
     "text": [
       "The wings of this creature break apart upon the slightest touch into myriad identical rainbow crystals",
@@ -233,6 +253,14 @@
       "<bug_harvest_general_chitin>.",
       "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.",
       "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.  <bug_harvest_general_descriptive>."
+    ]
+  },  {
+    "type": "snippet",
+    "category": "<centipede_harvest>",
+    "text": [
+      "<bug_harvest_centipede_chitin>.",
+      "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.",
+      "<bug_harvest_centipede_chitin>.  <bug_harvest_general_deeper>.  <bug_harvest_centipede_descriptive>."
     ]
   },
   {

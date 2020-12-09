@@ -481,7 +481,7 @@
     "armor_bash": 10,
     "armor_cut": 16,
     "armor_bullet": 8,
-	"armor_stab": 8,
+	"armor_stab": 5,
     "vision_day": 8,
     "vision_night": 5,
 	"anger_triggers": [ "STALK", "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ],
@@ -501,29 +501,36 @@
 	"hp": 600,
     "volume": "300 L",
     "weight": "400 kg",
-	"speed": 85,
-    "melee_skill": 4,
+	"speed": 60,
+	"aggression": 0,
+	"morale": 0,
+    "melee_skill": 3,
+	"melee_dice_sides": 5,
+	"melee_cut": 5,
 	"special_attacks": [ 
 	  [ "GRAB", 8 ],
 	  {
 	    "type": "bite",
-		"cooldown": 5,
 		"move_cost": 120,
+		"cooldown": 5,
 		"damage_max_instance": [
-		  { "damage_type": "cut", "amount": 12, "armor_penetration": 9 },
-		  { "damage_type": "stab", "amount": 12, "armor_penetration": 9 } 
+		  { "damage_type": "stab", "amount": 10, "armor_penetration": 12 } 
 		 ],
+		"min_mul": 1,
+		"max_mul": 2.1,
+		"no_infection_chance": 25,
 		"effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ]
 	  },
 	  {
 	    "type": "spell",
 		"spell_data": { "id": "centipede_mom_summon" },
 		"monster_message": "A small centipede is shaken off in the struggle!",
-		"cooldown": 10
+		"cooldown": 30
 	  }
 	 ],
     "dodge": 0,
 	"vision_day": 5,
+	"anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
 	"harvest": "arachnid_centipede_mom",
 	"reproduction": { "baby_monster": "mon_centipede_small", "baby_count": 3, "baby_timer": 5 },
 	"baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
