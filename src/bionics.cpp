@@ -1561,13 +1561,12 @@ float Character::get_effective_efficiency( int b, float fuel_efficiency )
  * @param p the player
  * @param bio the bionic that is meant to be recharged.
  * @param amount the amount of power that is to be spent recharging the bionic.
- * @param factor multiplies the power cost per turn.
  * @return indicates whether we successfully charged the bionic.
  */
-static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, int factor = 1 )
+static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount )
 {
     const bionic_data &info = bio.info();
-    units::energy power_cost = info.power_over_time * factor;
+    units::energy power_cost = info.power_over_time;
     bool recharged = false;
 
     if( power_cost > 0_kJ ) {
@@ -1579,7 +1578,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
             } );
             if( !powered_armor ) {
                 const units::energy armor_power_cost = 1_kJ;
-                power_cost -= armor_power_cost * factor;
+                power_cost -= armor_power_cost;
             }
         }
         if( p.get_power_level() >= power_cost ) {
@@ -1605,7 +1604,6 @@ void Character::process_bionic( const int b )
     }
 
     // These might be affected by environmental conditions, status effects, faulty bionics, etc.
-    int discharge_factor = 1;
     int discharge_rate = 1;
 
     bio.charge_timer = std::max( 0, bio.charge_timer - discharge_rate );
@@ -1619,7 +1617,7 @@ void Character::process_bionic( const int b )
             } else {
                 // Try to recharge our bionic if it is made for it
                 units::energy cost = 0_mJ;
-                bool recharged = attempt_recharge( *this, bio, cost, discharge_factor );
+                bool recharged = attempt_recharge( *this, bio, cost );
                 if( !recharged ) {
                     // No power to recharge, so deactivate
                     bio.powered = false;
