@@ -12057,6 +12057,7 @@ void game::start_calendar()
         initial_days = rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
     }
     calendar::start_of_cataclysm = calendar::turn_zero + 1_days * initial_days;
+    // Configured starting date overridden by scenario, calendar::start is left as Spring 1
     calendar::start_of_game = calendar::turn_zero
                               + 1_hours * scen->initial_hour()
                               + 1_days * scen->initial_day()
