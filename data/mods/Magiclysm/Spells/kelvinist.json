@@ -324,7 +324,7 @@
     "name": "Flamesword",
     "description": "This spell ignites a wooden sword, creating a flaming blade able to burn, bruise, and chop.",
     "valid_targets": [ "none" ],
-    "flags": [ "NO_LEGS" ],
+    "flags": [ "NO_LEGS", "NO_HANDS" ],
     "effect": "spawn_item",
     "effect_str": "flamesword",
     "shape": "blast",
