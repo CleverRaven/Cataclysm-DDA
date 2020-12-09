@@ -2139,7 +2139,7 @@ static hint_rating rate_action_wield( const avatar &you, const item &it )
 int game::inventory_item_menu( item_location locThisItem,
                                const std::function<int()> &iStartX,
                                const std::function<int()> &iWidth,
-                               const inventory_item_menu_positon position )
+                               const inventory_item_menu_position position )
 {
     int cMenu = static_cast<int>( '+' );
 
@@ -3594,6 +3594,13 @@ void game::draw()
     wnoutrefresh( w_terrain );
 
     draw_panels( true );
+
+    // Ensure that the cursor lands on the character when everything is drawn.
+    // This allows screen readers to describe the area around the player, making it
+    // much easier to play with them
+    // (e.g. for blind players)
+    wmove( w_terrain, -u.view_offset.xy() + point{POSX, POSY} );
+    wnoutrefresh( w_terrain );
 }
 
 void game::draw_panels( bool force_draw )
@@ -3730,8 +3737,6 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_veh_dir_indicator( false );
         draw_veh_dir_indicator( true );
     }
-    // Place the cursor over the player as is expected by screen readers.
-    wmove( w_terrain, -center.xy() + get_player_character().pos().xy() + point( POSX, POSY ) );
 }
 
 cata::optional<tripoint> game::get_veh_dir_indicator_location( bool next ) const
@@ -4656,6 +4661,7 @@ void game::overmap_npc_move()
             travelling_npcs.push_back( npc_to_add );
         }
     }
+    bool npcs_need_reload = false;
     for( auto &elem : travelling_npcs ) {
         if( elem->has_omt_destination() ) {
             if( !elem->omt_path.empty() && rl_dist( elem->omt_path.back(), elem->global_omt_location() ) > 2 ) {
@@ -4664,6 +4670,9 @@ void game::overmap_npc_move()
             }
             if( elem->omt_path.empty() ) {
                 elem->omt_path = overmap_buffer.get_npc_path( elem->global_omt_location(), elem->goal );
+                if( elem->omt_path.empty() ) { // goal is unreachable, reset it
+                    elem->goal = npc::no_goal_point;
+                }
             } else {
                 if( elem->omt_path.back() == elem->global_omt_location() ) {
                     elem->omt_path.pop_back();
@@ -4671,9 +4680,15 @@ void game::overmap_npc_move()
                 // TODO: fix point types
                 elem->travel_overmap(
                     project_to<coords::sm>( elem->omt_path.back() ).raw() );
+                npcs_need_reload = true;
             }
-            reload_npcs();
+        } else if( calendar::once_every( 1_hours ) && one_in( 3 ) ) {
+            // travelling destination is reached/not set, try different one
+            elem -> set_omt_destination();
         }
+    }
+    if( npcs_need_reload ) {
+        reload_npcs();
     }
 }
 
@@ -7217,7 +7232,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             }
         } else if( action == "display_reachability_zones" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_reahability_zones();
+                display_reachability_zones();
             }
         } else if( action == "debug_radiation" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
@@ -11944,8 +11959,8 @@ void game::display_transparency()
     }
 }
 
-// Debug menu: askes which reachability cache to display
-void game::display_reahability_zones()
+// Debug menu: asks which reachability cache to display
+void game::display_reachability_zones()
 {
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_REACHABILITY_ZONES );

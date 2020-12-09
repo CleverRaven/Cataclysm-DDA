@@ -65,7 +65,7 @@ static const int min_column_gap = 2;
 static const int normal_column_gap = 8;
 /**
  * The minimal occupancy ratio to align columns to the center
- * @see inventory_selector::get_columens_occupancy_ratio()
+ * @see inventory_selector::get_columns_occupancy_ratio()
  */
 static const double min_ratio_to_center = 0.85;
 

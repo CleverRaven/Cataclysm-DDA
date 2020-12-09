@@ -104,7 +104,7 @@ class activity_actor
         /**
          * Called every turn, in player_activity::do_turn
          * (with some indirection through player_activity::exertion_level)
-         * How strenous this acitivty level is
+         * How strenuous this activity level is
          */
         virtual float exertion_level() const {
             return get_type()->exertion_level();

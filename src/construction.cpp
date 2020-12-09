@@ -1788,7 +1788,7 @@ void finalize_constructions()
 
     for( construction &con : constructions ) {
         if( !con.group.is_valid() ) {
-            debugmsg( "Invalid construction group (%s) defiend for construction (%s)",
+            debugmsg( "Invalid construction group (%s) defined for construction (%s)",
                       con.group.str(), con.str_id.str() );
         }
         if( con.vehicle_start ) {

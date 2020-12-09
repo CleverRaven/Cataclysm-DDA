@@ -1898,7 +1898,7 @@ class vehicle
          * When the vehicle is really moved (by map::displace_vehicle), set_submap_moved
          * is called and updates these values, when the map is only shifted or when a submap
          * is loaded into the map the values are directly set. The vehicles position does
-         * not change therefor no call to set_submap_moved is required.
+         * not change therefore no call to set_submap_moved is required.
          */
         tripoint sm_pos;
 

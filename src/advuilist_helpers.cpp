@@ -931,7 +931,7 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
                 ui->otherpane()->hide();
 
                 std::pair<point, point> const dim = ui->otherpane()->get_size();
-                game::inventory_item_menu_positon const side =
+                game::inventory_item_menu_position const side =
                     ui->curpane() == ui->left() ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO;
                 g->inventory_item_menu(
                     entry.stack.front(), [ = ] { return dim.second.x; }, [ = ] { return dim.first.x; },

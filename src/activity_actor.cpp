@@ -1806,13 +1806,13 @@ void workout_activity_actor::start( player_activity &act, Character &who )
         _( "Physical effort determines workout efficiency, but also rate of exhaustion." );
     workout_query.title = _( "Choose training intensity:" );
     workout_query.addentry_desc( 1, true, 'l', pgettext( "training intensity", "Light" ),
-                                 _( "Light excercise comparable in intensity to walking, but more focused and methodical." ) );
+                                 _( "Light exercise comparable in intensity to walking, but more focused and methodical." ) );
     workout_query.addentry_desc( 2, true, 'm', pgettext( "training intensity", "Moderate" ),
-                                 _( "Moderate excercise without excessive exertion, but with enough effort to break a sweat." ) );
+                                 _( "Moderate exercise without excessive exertion, but with enough effort to break a sweat." ) );
     workout_query.addentry_desc( 3, true, 'a', pgettext( "training intensity", "Active" ),
-                                 _( "Active excercise with full involvement.  Strenuous, but in a controlled manner." ) );
+                                 _( "Active exercise with full involvement.  Strenuous, but in a controlled manner." ) );
     workout_query.addentry_desc( 4, true, 'h', pgettext( "training intensity", "High" ),
-                                 _( "High intensity excercise with maximum effort and full power.  Exhausting in the long run." ) );
+                                 _( "High intensity exercise with maximum effort and full power.  Exhausting in the long run." ) );
     workout_query.query();
     switch( workout_query.ret ) {
         case UILIST_CANCEL:
@@ -1875,7 +1875,7 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
             who.mod_thirst( 1 );
         }
         if( calendar::once_every( 16_minutes / intensity_modifier ) ) {
-            //~ heavy breathing when excercising
+            //~ heavy breathing when exercising
             std::string huff = _( "yourself huffing and puffing!" );
             sounds::sound( location + tripoint_east, 2 * intensity_modifier, sounds::sound_t::speech, huff,
                            true );

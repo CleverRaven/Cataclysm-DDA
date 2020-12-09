@@ -358,7 +358,7 @@ std::string obscure_message( const std::string &str, const std::function<char()>
  *
  * The functions here provide a way to (de)serialize objects without actually
  * including "json.h". The `*_wrapper` function create the JSON stream instances
- * and therefor require "json.h", but the caller doesn't. Callers should just
+ * and therefore require "json.h", but the caller doesn't. Callers should just
  * forward the stream reference to the actual (de)serialization function.
  *
  * The inline function do this by calling `T::(de)serialize` (which is assumed

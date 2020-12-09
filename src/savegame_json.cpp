@@ -298,14 +298,14 @@ void player_activity::deserialize( JsonIn &jsin )
     int tmppos = 0;
 
     bool is_obsolete = false;
-    std::set<std::string> obs_activites {
+    std::set<std::string> obs_activities {
         "ACT_MAKE_ZLAVE" // Remove after 0.F
     };
     if( !data.read( "type", tmptype ) ) {
         // Then it's a legacy save.
         int tmp_type_legacy = data.get_int( "type" );
         deserialize_legacy_type( tmp_type_legacy, type );
-    } else if( !obs_activites.count( tmptype ) ) {
+    } else if( !obs_activities.count( tmptype ) ) {
         type = activity_id( tmptype );
     } else {
         is_obsolete = true;

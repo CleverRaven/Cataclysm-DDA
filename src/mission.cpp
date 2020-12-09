@@ -550,7 +550,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
             }
         }
 
-        //recursivly check item contents for target
+        //recursively check item contents for target
         if( itm->is_container() && !itm->is_container_empty() ) {
             std::list<item *> content_list = itm->contents.all_items_top();
             std::vector<item *> content = std::vector<item *>();

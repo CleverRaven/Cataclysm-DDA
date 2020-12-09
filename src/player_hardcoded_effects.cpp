@@ -1008,10 +1008,10 @@ void Character::hardcoded_effects( effect &it )
         }
     } else if( id == effect_redcells_anemia ) {
         // Lack of iron impairs production of hemoglobin and therefore ability to carry
-        // oxygen by red blood cells. Alternatively hemorrage causes physical loss of red blood cells.
-        // This triggers veriety of symptoms, focusing on weakness,
-        // fatigue, cold limbs, later in dizzyness, soreness, breathlessness,
-        // and severe maiaise and lethargy.
+        // oxygen by red blood cells. Alternatively hemorrhage causes physical loss of red blood cells.
+        // This triggers variety of symptoms, focusing on weakness,
+        // fatigue, cold limbs, later in dizziness, soreness, breathlessness,
+        // and severe malaise and lethargy.
         // Base anemia symptoms: fatigue, loss of stamina, loss of strength, impact on health
         // are placed in effect JSON
 
@@ -1056,7 +1056,7 @@ void Character::hardcoded_effects( effect &it )
                 case 9:
                     break;
             }
-            // level 2 anemia introduces dizzynes, shakes, headaches, cravings for non-comestibles,
+            // level 2 anemia introduces dizziness, shakes, headaches, cravings for non-comestibles,
             // mouth and tongue soreness
             if( intense > 1 ) {
                 switch( dice( 1, 9 ) ) {
