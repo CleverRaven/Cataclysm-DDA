@@ -1647,40 +1647,41 @@ void Character::process_bionic( const int b )
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
-        if( get_power_level() >= 40_J ) {
-            std::forward_list<bodypart_id> bleeding_bp_parts;
-            for( const bodypart_id &bp : get_all_body_parts() ) {
-                if( has_effect( effect_bleed, bp.id() ) ) {
-                    bleeding_bp_parts.push_front( bp );
-                }
+        std::forward_list<bodypart_id> bleeding_bp_parts;
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            if( has_effect( effect_bleed, bp.id() ) ) {
+                bleeding_bp_parts.push_front( bp );
             }
-            std::vector<bodypart_id> damaged_hp_parts;
-            for( const std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
-                const int hp_cur = part.second.get_hp_cur();
-                if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
-                    damaged_hp_parts.push_back( part.first.id() );
-                }
+        }
+        std::vector<bodypart_id> damaged_hp_parts;
+        for( const std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
+            const int hp_cur = part.second.get_hp_cur();
+            if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
+                damaged_hp_parts.push_back( part.first.id() );
             }
-            for( const bodypart_id &i : bleeding_bp_parts ) {
-                // effectively reduces by 1 intensity level
-                if( get_stored_kcal() >= 15 ) {
-                    get_effect( effect_bleed, i ).mod_duration( -get_effect( effect_bleed, i ).get_int_dur_factor() );
-                    mod_stored_kcal( -15 );
-                } else {
-                    bleeding_bp_parts.clear();
-                    break;
-                }
+        }
+        for( const bodypart_id &i : bleeding_bp_parts ) {
+            // effectively reduces by 1 intensity level
+            if( get_stored_kcal() >= 15 ) {
+                get_effect( effect_bleed, i ).mod_duration( -get_effect( effect_bleed, i ).get_int_dur_factor() );
+                mod_stored_kcal( -15 );
+            } else {
+                bleeding_bp_parts.clear();
+                break;
             }
-            if( calendar::once_every( 60_turns ) ) {
-                if( get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
-                    const bodypart_id part_to_heal = damaged_hp_parts[ rng( 0, damaged_hp_parts.size() - 1 ) ];
-                    heal( part_to_heal, 1 );
-                    mod_stored_kcal( -5 );
-                }
+        }
+        if( calendar::once_every( 60_turns ) ) {
+            if( get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
+                const bodypart_id part_to_heal = damaged_hp_parts[ rng( 0, damaged_hp_parts.size() - 1 ) ];
+                heal( part_to_heal, 1 );
+                mod_stored_kcal( -5 );
             }
-            if( !damaged_hp_parts.empty() || !bleeding_bp_parts.empty() ) {
-                mod_power_level( -40_J );
-            }
+        }
+        if( damaged_hp_parts.empty() && bleeding_bp_parts.empty() ) {
+            // Nothing to heal. Return the consumed power
+            const bionic_data &info = bio.info();
+            units::energy power_cost = info.power_over_time;
+            mod_power_level( power_cost );
         }
     } else if( bio.id == bio_painkiller ) {
         const int pkill = get_painkiller();
