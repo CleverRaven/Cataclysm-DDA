@@ -12051,13 +12051,17 @@ void game::autosave()
 
 void game::start_calendar()
 {
-    // Configured starting date overridden by scenario, calendar::start is left as Spring 1
-    calendar::start_of_cataclysm = calendar::turn_zero + 1_hours * scen->initial_hour();
+    int initial_days = get_option<int>( "INITIAL_DAY" );
+    if( initial_days == -1 ) {
+        // 0 - 363 for a 91 day season
+        initial_days = rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
+    }
+    calendar::start_of_cataclysm = calendar::turn_zero + 1_days * initial_days;
     calendar::start_of_game = calendar::turn_zero
                               + 1_hours * scen->initial_hour()
                               + 1_days * scen->initial_day()
                               + get_option<int>( "SEASON_LENGTH" ) * 1_days * scen->initial_season()
-                              + 4 * get_option<int>( "SEASON_LENGTH" ) * 1_days * scen->initial_year()
+                              + 4 * get_option<int>( "SEASON_LENGTH" ) * 1_days * (scen->initial_year() - 1)
                               + 1_days * get_option<int>( "SPAWN_DELAY" );
     calendar::turn = calendar::start_of_game;
 }
