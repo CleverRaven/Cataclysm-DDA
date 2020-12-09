@@ -214,7 +214,8 @@
     "color": "light_green",
     "symbol": "o",
     "spoils_in": "2 days",
-    "rot_spawn": "GROUP_EGG_DRAGONFLY"
+    "rot_spawn": "GROUP_EGG_DRAGONFLY",
+	"rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -225,7 +226,8 @@
     "symbol": "o",
     "spoils_in": "1 day",
     "description": "The fist-sized egg of a mutant firefly.  Glows faintly in the dark.",
-    "rot_spawn": "GROUP_EGG_FIREFLY"
+    "rot_spawn": "GROUP_EGG_FIREFLY",
+	"rot_spawn_chance": 100
   },
   {
     "type": "COMESTIBLE",
@@ -236,7 +238,8 @@
     "symbol": "o",
     "spoils_in": "10 days",
     "description": "A large, soft egg you got from butchering a mutant centipede.  Inside, you can already see a bundle of spindly legs, twitching in anticipation.",
-    "rot_spawn": "GROUP_EGG_CENTIPEDE"
+    "rot_spawn": "GROUP_EGG_CENTIPEDE",
+	"rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",

@@ -135,6 +135,8 @@
     "type": "snippet",
     "category": "<bug_harvest_general_deeper>",
     "text": [
+      "Spaced evenly across the entire body you find small sacs of eggs in different stages of growth",
+      "Its intestines grew into a labyrinthe tangle, like so many worms devouring each other",
       "Inside, half-formed organs press against spongy meat that doesn't look anything like raw arthropod meat from normal creatures",
       "You find a collection of hooked spines beneath that seem to have been clasping it on somehow",
       "Inside is a complex, still-squirming mess of strange appendages and organs that bear only a passing resemblance to any natural creature",
@@ -162,6 +164,7 @@
     "type": "snippet",
 	"category": "<bug_harvest_centipede_chitin>",
 	"text": [
+	  "Its legs contain no flesh, just sinews hanging in yellow-green ichor",
 	  "The legs fall off easily, leaving the main body looking like an armored worm",
 	  "Each pair of legs is slightly different.  These end in hooks, the next in talons like a bird's, there's a pair of chitinous tentacles",
 	  "The mandibles keep snapping, and acrid-smelling venom wets the soil.  You decide to begin your work at its tail",
@@ -175,7 +178,7 @@
     "type": "snippet",
 	"category": "<bug_harvest_centipede_descriptive>",
 	"text": [
-	  "
+	  "DESCR"
 	 ]
   },
   {
@@ -195,8 +198,6 @@
     "type": "snippet",
     "category": "<bug_harvest_flying_deeper>",
     "text": [
-      "Spaced evenly across the entire body you find small sacs of eggs in different stages of growth",
-      "Its intestines grew into a labyrinthe tangle, like so many worms devouring each other",
       "The wings are held in place by stiff muscles, reaching into the deep",
       "Underneath the chitin you find bundles of small, floating pearls, each held in place by a single strand of sinew",
       "Near its wings you find a black, bubbling organ still periodically emitting a bundle of floating bubbles",
