@@ -1264,7 +1264,7 @@ item::sizing item::get_sizing( const Character &p ) const
         const bool big = p.get_size() == creature_size::huge;
 
         // due to the iterative nature of these features, something can fit and be undersized/oversized
-        // but that is fine because we have separate logic to adjust encumberance per each. One day we
+        // but that is fine because we have separate logic to adjust encumbrance per each. One day we
         // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
         // is a bit of cognitive dissonance when something 'fits' and is 'oversized' and the same time
         const bool undersize = has_flag( flag_UNDERSIZE );
@@ -5534,7 +5534,7 @@ int item::get_comestible_fun() const
     }
 
     if( has_flag( flag_MUSHY ) ) {
-        return std::min( -5, fun ); // defrosted MUSHY food is practicaly tastless or tastes off
+        return std::min( -5, fun ); // defrosted MUSHY food is practically tasteless or tastes off
     }
 
     return fun;

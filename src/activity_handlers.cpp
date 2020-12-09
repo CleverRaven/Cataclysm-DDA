@@ -2951,7 +2951,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
         survival_skill *= 2;
     }
     std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
-    // Fish are always there, even if it dosnt seem like they are visible!
+    // Fish are always there, even if it doesn't seem like they are visible!
     if( fishables.empty() ) {
         fish_chance += survival_skill / 2;
     } else {

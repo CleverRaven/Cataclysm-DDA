@@ -4098,7 +4098,7 @@ void npc::set_omt_destination()
 
     std::string dest_type;
     for( const auto &fulfill : needs ) {
-        // look for the closest occurence of any of that locations terrain types
+        // look for the closest occurrence of any of that locations terrain types
         omt_find_params find_params;
         for( const oter_type_str_id &elem : get_location_for( fulfill )->get_all_terrains() ) {
             std::pair<std::string, ot_match_type> temp_pair;

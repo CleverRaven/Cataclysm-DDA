@@ -3784,8 +3784,8 @@ int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) con
 {
     if( p.can_install_bionics( *it.type, p, false ) ) {
         if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
-            p.consume_installation_requirment( it.type->bionic->id );
-            p.consume_anesth_requirment( *it.type, p );
+            p.consume_installation_requirement( it.type->bionic->id );
+            p.consume_anesth_requirement( *it.type, p );
         }
         return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
     } else {

@@ -2139,7 +2139,7 @@ static hint_rating rate_action_wield( const avatar &you, const item &it )
 int game::inventory_item_menu( item_location locThisItem,
                                const std::function<int()> &iStartX,
                                const std::function<int()> &iWidth,
-                               const inventory_item_menu_positon position )
+                               const inventory_item_menu_position position )
 {
     int cMenu = static_cast<int>( '+' );
 
@@ -7232,7 +7232,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             }
         } else if( action == "display_reachability_zones" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_reahability_zones();
+                display_reachability_zones();
             }
         } else if( action == "debug_radiation" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
@@ -11959,8 +11959,8 @@ void game::display_transparency()
     }
 }
 
-// Debug menu: askes which reachability cache to display
-void game::display_reahability_zones()
+// Debug menu: asks which reachability cache to display
+void game::display_reachability_zones()
 {
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_REACHABILITY_ZONES );

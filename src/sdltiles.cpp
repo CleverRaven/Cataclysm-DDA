@@ -3352,7 +3352,7 @@ bool save_screenshot( const std::string &file_path )
     // Note: the viewport is returned by SDL and we don't have to manage its lifetime.
     SDL_Rect viewport;
 
-    // Get the viewport size (width and heigth of the screen)
+    // Get the viewport size (width and height of the screen)
     SDL_RenderGetViewport( renderer.get(), &viewport );
 
     // Create SDL_Surface with depth of 32 bits (note: using zeros for the RGB masks sets a default value, based on the depth; Alpha mask will be 0).

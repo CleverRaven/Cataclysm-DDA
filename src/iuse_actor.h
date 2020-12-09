@@ -264,7 +264,7 @@ class consume_drug_iuse : public iuse_actor
         /** Modify player vitamin_levels by random amount between min (first) and max (second) */
         std::map<vitamin_id, std::pair<int, int>> vitamins;
 
-        /**List of damage over time applyed by this drug, negative damage heals*/
+        /**List of damage over time applied by this drug, negative damage heals*/
         std::vector<damage_over_time_data> damage_over_time;
 
         /** How many move points this action takes. */

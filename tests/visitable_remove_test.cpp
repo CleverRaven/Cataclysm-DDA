@@ -241,7 +241,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                         } ) != VisitResponse::ABORT );
                     }
                 }
-                THEN( "the hip flask remains in the players posession" ) {
+                THEN( "the hip flask remains in the players possession" ) {
                     auto found = p.items_with( [&worn_id]( const item & e ) {
                         return e.typeId() == worn_id;
                     } );
@@ -277,7 +277,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                         REQUIRE( count_items( p, liquid_id ) == 0 );
                     }
 
-                    THEN( "the hip flask remains in the players posession" ) {
+                    THEN( "the hip flask remains in the players possession" ) {
                         auto found = p.items_with( [&worn_id]( const item & e ) {
                             return e.typeId() == worn_id;
                         } );

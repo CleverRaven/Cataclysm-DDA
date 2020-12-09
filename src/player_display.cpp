@@ -67,7 +67,7 @@ static bool should_combine_bps( const player &p, const bodypart_id &l, const bod
 
     return l != r && // are different parts
            l ==  r->opposite_part && r == l->opposite_part && // are complementary parts
-           // same encumberance & temperature
+           // same encumbrance & temperature
            enc_l == enc_r &&
            temperature_print_rescaling( p.get_part_temp_conv( l ) ) == temperature_print_rescaling(
                p.get_part_temp_conv( r ) ) &&

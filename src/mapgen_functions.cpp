@@ -2586,7 +2586,7 @@ void mapgen_forest( mapgendata &dat )
             // to specify biomes in the forest regional settings that are not
             // rendered by this forest map gen method, in order to control
             // how terrains are blended together (e.g. specify roads with an equal
-            // sparsness adjacency factor to forests so that forests don't fade out
+            // sparseness adjacency factor to forests so that forests don't fade out
             // as they transition to roads.
             return 0;
         }
@@ -2630,7 +2630,7 @@ void mapgen_forest( mapgendata &dat )
         return *max_element( std::begin( factors ), std::end( factors ) );
     };
 
-    // Get the sparesness factor for this terrain, and fill it.
+    // Get the sparseness factor for this terrain, and fill it.
     const int factor = get_sparseness_adjacency_factor( dat.terrain_type() );
     fill_adjacency_factor( factor );
 

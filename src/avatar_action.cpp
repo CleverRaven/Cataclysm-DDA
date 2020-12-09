@@ -889,7 +889,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     }
 
     // make a copy and get the original.
-    // the copy is thrown and has its and the originals charges set appropiately
+    // the copy is thrown and has its and the originals charges set appropriately
     // or deleted from inventory if its charges(1) or not stackable.
     item *orig = loc.get_item();
     item thrown = *orig;
