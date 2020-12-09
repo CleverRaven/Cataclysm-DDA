@@ -1944,8 +1944,11 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         }
         if( parts->test( iteminfo_parts::GUN_DISPERSION_TOTAL ) ) {
             info.push_back( iteminfo( "GUN", "sum_of_dispersion", _( " = <num>" ),
-                                      iteminfo::lower_is_better | iteminfo::no_name,
+                                      iteminfo::lower_is_better | iteminfo::no_name | iteminfo::no_newline,
                                       loaded_mod->gun_dispersion( true, false ) ) );
+            info.push_back( iteminfo( "GUN", "eff_dispersion", _( " (effective: <num>)" ),
+                                      iteminfo::lower_is_better | iteminfo::no_name,
+                                      static_cast<int>( g->u.get_weapon_dispersion( *this ).max() ) ) );
         }
     }
     info.back().bNewLine = true;
@@ -1972,35 +1975,49 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     bool bipod = mod->has_flag( flag_BIPOD );
 
-    if( loaded_mod->gun_recoil( g->u ) ) {
+    if( loaded_mod->gun_recoil() ) {
+        if( parts->test( iteminfo_parts::GUN_RECOIL_PERCENTAGE ) ) {
+            info.emplace_back( "GUN", _( "Recoil percentage: " ), "",
+                               iteminfo::no_newline | iteminfo::lower_is_better,
+                               std::ceil( 100 * loaded_mod->gun_recoil_multiplier() ) );
+        }
+        if( bipod && parts->test( iteminfo_parts::GUN_RECOIL_PERCENTAGE_BIPOD ) ) {
+            info.emplace_back( "GUN", "bipod_recoil_percentage", _( " (with bipod <num>)" ),
+                               iteminfo::lower_is_better | iteminfo::no_name,
+                               std::ceil( 100 * loaded_mod->gun_recoil_multiplier( true ) ) );
+        }
+        info.back().bNewLine = true;
+
         if( parts->test( iteminfo_parts::GUN_RECOIL ) ) {
             info.emplace_back( "GUN", _( "Effective recoil: " ), "",
                                iteminfo::no_newline | iteminfo::lower_is_better,
-                               loaded_mod->gun_recoil( g->u ) );
+                               loaded_mod->gun_recoil() );
         }
         if( bipod && parts->test( iteminfo_parts::GUN_RECOIL_BIPOD ) ) {
             info.emplace_back( "GUN", "bipod_recoil", _( " (with bipod <num>)" ),
                                iteminfo::lower_is_better | iteminfo::no_name,
-                               loaded_mod->gun_recoil( g->u, true ) );
+                               loaded_mod->gun_recoil( true ) );
         }
     }
     info.back().bNewLine = true;
 
     std::map<gun_mode_id, gun_mode> fire_modes = mod->gun_all_modes();
-    if( std::any_of( fire_modes.begin(), fire_modes.end(),
-    []( const std::pair<gun_mode_id, gun_mode> &e ) {
-    return e.second.qty > 1 && !e.second.melee();
-    } ) ) {
-        info.emplace_back( "GUN", _( "Burst fire penalty: " ), "",
-                           iteminfo::no_newline | iteminfo::lower_is_better,
-                           ranged::burst_penalty( g->u, *this, loaded_mod->gun_recoil( g->u ) ) );
-        if( bipod ) {
-            info.emplace_back( "GUN", "bipod_burst", _( " (with bipod <num>)" ),
-                               iteminfo::lower_is_better | iteminfo::no_name,
-                               ranged::burst_penalty( g->u, *this, loaded_mod->gun_recoil( g->u, true ) ) );
+    if( parts->test( iteminfo_parts::GUN_BURST_PENALTY ) ) {
+        if( std::any_of( fire_modes.begin(), fire_modes.end(),
+        []( const std::pair<gun_mode_id, gun_mode> &e ) {
+        return e.second.qty > 1 && !e.second.melee();
+        } ) ) {
+            info.emplace_back( "GUN", _( "Burst fire penalty: " ), "",
+                               iteminfo::no_newline | iteminfo::lower_is_better,
+                               ranged::burst_penalty( g->u, *this, loaded_mod->gun_recoil() ) );
+            if( bipod ) {
+                info.emplace_back( "GUN", "bipod_burst", _( " (with bipod <num>)" ),
+                                   iteminfo::lower_is_better | iteminfo::no_name,
+                                   ranged::burst_penalty( g->u, *this, loaded_mod->gun_recoil( true ) ) );
+            }
         }
+        info.back().bNewLine = true;
     }
-    info.back().bNewLine = true;
 
     if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
         info.emplace_back( "GUN", _( "Reload time: " ),
@@ -6743,12 +6760,8 @@ damage_instance item::gun_damage( bool with_ammo ) const
     return ret;
 }
 
-int item::gun_recoil( const Character &, bool bipod ) const
+double item::gun_recoil_multiplier( bool bipod ) const
 {
-    if( !is_gun() || ( ammo_required() && !ammo_remaining() ) ) {
-        return 0;
-    }
-
     double handling = type->gun->handling;
     for( const item *mod : gunmods() ) {
         if( bipod || !mod->has_flag( flag_BIPOD ) ) {
@@ -6756,21 +6769,29 @@ int item::gun_recoil( const Character &, bool bipod ) const
         }
     }
 
-    // rescale from JSON units which are intentionally specified as integral values
+    // Rescale from JSON units which are intentionally specified as integral values
     handling /= 10;
-    handling = std::pow( handling, 1.2 );
+
+    // Handling will almost always be above 1.0
+    if( handling > 1.0 ) {
+        return 1.0 / handling;
+    } else {
+        return 2.0 - handling;
+    }
+}
+
+int item::gun_recoil( bool bipod ) const
+{
+    if( !is_gun() || ( ammo_required() && !ammo_remaining() ) ) {
+        return 0;
+    }
 
     int qty = type->gun->recoil;
     if( ammo_data() ) {
         qty += ammo_data()->ammo->recoil;
     }
 
-    // handling could be either a bonus or penalty dependent upon installed mods
-    if( handling > 1.0 ) {
-        return qty / handling;
-    } else {
-        return qty * ( 1.0 + std::abs( handling ) );
-    }
+    return qty * gun_recoil_multiplier( bipod );
 }
 
 int item::gun_range( bool with_ammo ) const

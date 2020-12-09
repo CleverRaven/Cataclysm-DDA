@@ -6,7 +6,8 @@
     "name": { "str": "base gun" },
     "symbol": "(",
     "color": "light_gray",
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "handling": 30
   },
   {
     "abstract": "flamethrower_base",
@@ -38,6 +39,7 @@
     "type": "GUN",
     "name": { "str": "base pistol" },
     "skill": "pistol",
+    "handling": 15,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],

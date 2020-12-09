@@ -104,6 +104,9 @@ static projectile make_gun_projectile( const item &gun );
 int time_to_attack( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
 void make_gun_sound_effect( const player &p, bool burst, item *weapon );
+bool can_use_bipod( const map &m, const tripoint &pos );
+dispersion_sources calculate_dispersion( const map &m, const player &p, const item &gun,
+        int at_recoil, bool burst );
 
 bool targeting_data::is_valid() const
 {
@@ -410,7 +413,6 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
     }
 }
 
-bool can_use_bipod( const map &m, const tripoint &pos );
 bool can_use_bipod( const map &m, const tripoint &pos )
 {
     // usage of any attached bipod is dependent upon terrain
@@ -426,13 +428,11 @@ bool can_use_bipod( const map &m, const tripoint &pos )
 }
 
 dispersion_sources calculate_dispersion( const map &m, const player &p, const item &gun,
-        int at_recoil, bool burst );
-dispersion_sources calculate_dispersion( const map &m, const player &p, const item &gun,
         int at_recoil, bool burst )
 {
     bool bipod = can_use_bipod( m, p.pos() );
 
-    int gun_recoil = gun.gun_recoil( p, bipod );
+    int gun_recoil = gun.gun_recoil( bipod );
     int eff_recoil = at_recoil + ( burst ? ranged::burst_penalty( p, gun, gun_recoil ) : 0 );
     dispersion_sources dispersion( p.get_weapon_dispersion( gun ) );
     dispersion.add_range( eff_recoil );
@@ -539,7 +539,7 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
 
     // Now actually apply recoil for the future shots
     // But only for one shot, because bursts kinda suck
-    int gun_recoil = gun.gun_recoil( *this, can_use_bipod( g->m, pos() ) );
+    int gun_recoil = gun.gun_recoil( can_use_bipod( g->m, pos() ) );
     recoil += gun_recoil;
     if( is_mech_weapon ) {
         // mechs can handle recoil far better. they are built around their main gun.
@@ -2849,18 +2849,16 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
 
 int burst_penalty( const Character &p, const item &gun, int gun_recoil )
 {
+    ///\EFFECT_STR reduces burst penalty
+    float str_effect = p.get_str() / 2.0f;
+
     /** @EFFECT_PISTOL improves burst fire accuracy */
     /** @EFFECT_SMG improves burst fire accuracy */
     /** @EFFECT_RIFLE improves burst fire accuracy */
     /** @EFFECT_SHOTGUN improves burst fire accuracy */
-    double absorb = std::min( p.get_skill_level( gun.gun_skill() ),
-                              MAX_SKILL ) / double( MAX_SKILL * 2 );
+    int skill_lvl = std::min( p.get_skill_level( gun.gun_skill() ), MAX_SKILL );
 
-    int effective_recoil = gun_recoil * ( 1.0 - absorb );
-    ///\EFFECT_STR reduces burst penalty
-    int str_effect = p.get_str() * 20;
-
-    return std::max( 0, effective_recoil - str_effect );
+    return std::max( 0.0f, gun_recoil / std::max( skill_lvl + str_effect, 1.0f ) );
 }
 
 } // namespace ranged

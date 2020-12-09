@@ -221,12 +221,10 @@
     "location": "sights",
     "mod_targets": [ "rifle", "shotgun", "crossbow", "launcher" ],
     "install_time": "30 m",
-    "consume_chance": 1000,
-    "consume_divisor": 505,
     "sight_dispersion": 15,
     "aim_speed": 1,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
-    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "ZOOM" ]
+    "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   },
   {
     "id": "tele_sight_pistol",
@@ -244,9 +242,7 @@
     "mod_targets": [ "pistol", "smg" ],
     "sight_dispersion": 20,
     "aim_speed": 1,
-    "consume_chance": 1000,
-    "consume_divisor": 85,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
-    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "ZOOM" ]
+    "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   }
 ]

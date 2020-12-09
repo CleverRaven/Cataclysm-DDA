@@ -29,7 +29,7 @@
     "range": 110,
     "damage": { "damage_type": "stab", "amount": 131, "armor_penetration": 28 },
     "dispersion": 150,
-    "recoil": 26250,
+    "recoil": 5000,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {

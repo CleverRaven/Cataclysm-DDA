@@ -364,12 +364,12 @@ void Item_factory::finalize_pre( itype &obj )
 
         if( obj.gun->handling < 0 ) {
             // TODO: specify in JSON via classes
-            if( obj.gun->skill_used == skill_id( "rifle" ) ||
-                obj.gun->skill_used == skill_id( "smg" ) ||
-                obj.gun->skill_used == skill_id( "shotgun" ) ) {
+            if( obj.gun->skill_used == skill_id( "shotgun" ) ) {
+                obj.gun->handling = 30;
+            } else if( obj.gun->skill_used == skill_id( "rifle" ) ) {
                 obj.gun->handling = 20;
             } else {
-                obj.gun->handling = 10;
+                obj.gun->handling = 15;
             }
         }
 
