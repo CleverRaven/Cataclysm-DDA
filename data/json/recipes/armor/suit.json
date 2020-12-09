@@ -111,7 +111,7 @@
     "result": "xl_armor_chitin",
     "type": "recipe",
     "copy-from": "armor_chitin",
-    "time": "3 h",
+    "time": "7 h 30 m",
     "using": [ [ "cordage", 3 ] ],
     "components": [ [ [ "chitin_piece", 96 ] ] ]
   },
@@ -141,7 +141,7 @@
     "result": "xl_armor_acidchitin",
     "type": "recipe",
     "copy-from": "armor_acidchitin",
-    "time": "5 h",
+    "time": "9 h 20m",
     "using": [ [ "cordage", 3 ] ],
     "components": [ [ [ "acidchitin_piece", 96 ] ] ]
   },
@@ -164,7 +164,7 @@
     "result": "xl_armor_farmor",
     "type": "recipe",
     "copy-from": "armor_farmor",
-    "time": "5 h",
+    "time": "9 h",
     "using": [ [ "sewing_standard", 96 ] ],
     "components": [ [ [ "fur", 72 ], [ "tanned_pelt", 12 ] ] ]
   },
@@ -187,7 +187,7 @@
     "result": "xl_armor_larmor",
     "type": "recipe",
     "copy-from": "armor_larmor",
-    "time": "5 h",
+    "time": "9 h",
     "using": [ [ "sewing_standard", 76 ] ],
     "components": [ [ [ "leather", 42 ], [ "tanned_hide", 7 ], [ "fur", 42 ], [ "tanned_pelt", 7 ] ] ]
   },
@@ -218,7 +218,7 @@
     "result": "xl_armor_lightplate",
     "type": "recipe",
     "copy-from": "armor_lightplate",
-    "time": "14 h",
+    "time": "10 h 30 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "steel_standard", 32 ] ],
     "components": [ [ [ "fur", 32 ], [ "tanned_pelt", 5 ], [ "leather", 32 ], [ "tanned_hide", 5 ] ] ]
   },
@@ -277,7 +277,7 @@
     "result": "xl_armor_lorica",
     "type": "recipe",
     "copy-from": "armor_lorica",
-    "time": "10 h",
+    "time": "8 h 30 m",
     "using": [ [ "forging_standard", 7 ], [ "steel_standard", 7 ] ],
     "components": [ [ [ "fur", 18 ], [ "tanned_pelt", 3 ], [ "leather", 18 ], [ "tanned_hide", 3 ] ] ]
   },
@@ -359,7 +359,7 @@
     "result": "xl_armor_plarmor",
     "type": "recipe",
     "copy-from": "armor_plarmor",
-    "time": "3 h",
+    "time": "2 h 15 m",
     "using": [ [ "sewing_standard", 38 ] ],
     "components": [ [ [ "steel_chunk", 8 ], [ "scrap", 24 ] ], [ [ "xl_armor_larmor", 1 ] ], [ [ "xl_armguard_larmor", 1 ] ] ]
   },
@@ -390,7 +390,7 @@
     "result": "xl_armor_plate",
     "type": "recipe",
     "copy-from": "armor_plate",
-    "time": "3 h",
+    "time": "11 h 15 m",
     "using": [ [ "blacksmithing_standard", 160 ], [ "steel_standard", 45 ] ],
     "components": [ [ [ "fur", 24 ], [ "tanned_pelt", 5 ], [ "leather", 24 ], [ "tanned_hide", 5 ] ] ]
   },
@@ -499,7 +499,7 @@
     "result": "xl_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "chainmail_hauberk",
-    "time": "20 m",
+    "time": "1h 45m",
     "components": [
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
@@ -532,7 +532,7 @@
     "result": "xl_chainmail_suit",
     "type": "recipe",
     "copy-from": "chainmail_suit",
-    "time": "20 m",
+    "time": "1h 50m",
     "components": [
       [ [ "xl_chainmail_hood", 1 ] ],
       [ [ "xl_chainmail_vest", 1 ] ],
@@ -569,7 +569,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "2 m",
+    "time": "5 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -691,7 +691,7 @@
     "result": "xl_entry_suit",
     "type": "recipe",
     "copy-from": "entry_suit",
-    "time": "3 h",
+    "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 300 ] ],
     "tools": [ [ [ "welder", 45 ], [ "welder_crude", 90 ], [ "soldering_iron", 90 ], [ "toolset", 90 ] ] ],
     "components": [
@@ -744,7 +744,7 @@
     "result": "xl_fsurvivor_suit",
     "type": "recipe",
     "copy-from": "fsurvivor_suit",
-    "time": "3 h",
+    "time": "13 h 50 m",
     "using": [ [ "sewing_standard", 300 ] ],
     "tools": [ [ [ "welder", 45 ], [ "welder_crude", 90 ], [ "soldering_iron", 90 ], [ "toolset", 90 ] ] ],
     "components": [
@@ -784,7 +784,7 @@
     "result": "xl_gambeson",
     "type": "recipe",
     "copy-from": "gambeson",
-    "time": "2 h",
+    "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 45 ] ],
     "components": [ [ [ "rag", 62 ] ] ]
   },
@@ -889,7 +889,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": "1 h 26 m",
+    "time": "54 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 40 ] ],
     "components": [ [ [ "rag", 30 ] ] ]
@@ -962,7 +962,7 @@
     "result": "xl_lsurvivor_suit",
     "type": "recipe",
     "copy-from": "lsurvivor_suit",
-    "time": "5 h",
+    "time": "9 h",
     "using": [ [ "sewing_standard", 150 ] ],
     "tools": [ [ [ "welder", 36 ], [ "welder_crude", 58 ], [ "soldering_iron", 58 ], [ "toolset", 58 ] ] ],
     "components": [
@@ -1005,7 +1005,7 @@
     "result": "xl_nomex_suit",
     "copy-from": "nomex_suit",
     "type": "recipe",
-    "time": "2 h",
+    "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 80 ] ],
     "components": [ [ [ "nomex", 36 ] ] ]
   },
@@ -1234,7 +1234,7 @@
   {
     "result": "xl_wsurvivor_suit",
     "copy-from": "wsurvivor_suit",
-    "time": "8 h",
+    "time": "13 h 30 m",
     "type": "recipe",
     "using": [ [ "sewing_standard", 300 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 104 ], [ "soldering_iron", 104 ], [ "toolset", 104 ] ] ],
@@ -1267,7 +1267,7 @@
     "skill_used": "tailor",
     "difficulty": 8,
     "skills_required": [ "fabrication", 8 ],
-    "time": "15 h",
+    "time": "22 h 30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 200 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
@@ -1310,7 +1310,7 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 6 ],
-    "time": "13 h",
+    "time": "10 h 10 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 200 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
