@@ -121,8 +121,8 @@
   {
     "id": "cryo_blast",
     "type": "SPELL",
-    "name": { "str": "cryokinetic blast" },
-    "description": "The temperature drops dangerously where you concentrate.",
+    "name": "Cryokinetic blast",
+    "description": "You blast a cone of frigid air toward the target.",
     "effect": "attack",
     "shape": "cone",
     "valid_targets": [ "ally", "hostile", "ground" ],
@@ -137,6 +137,7 @@
     "min_range": 6,
     "max_range": 20,
     "range_increment": 1.0,
+    "spell_class": "KELVINIST",
     "base_casting_time": 200,
     "base_energy_cost": 350,
     "energy_source": "MANA",
