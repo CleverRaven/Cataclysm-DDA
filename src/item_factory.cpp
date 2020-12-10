@@ -2908,6 +2908,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         }
     }
 
+    if( jo.has_string( "nanofab_template_group" ) ) {
+        def.nanofab_template_group = item_group_id( jo.get_string( "nanofab_template_group" ) );
+    }
+
     JsonArray jarr = jo.get_array( "min_skills" );
     if( !jarr.empty() ) {
         def.min_skills.clear();

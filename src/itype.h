@@ -995,6 +995,9 @@ struct itype {
         // used for generic_factory for copy-from
         bool was_loaded = false;
 
+        // itemgroup used to generate the recipes within nanofabricator templates.
+        item_group_id nanofab_template_group;
+
     private:
         /** Can item be combined with other identical items? */
         bool stackable_ = false;
