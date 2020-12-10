@@ -3595,12 +3595,16 @@ void game::draw()
 
     draw_panels( true );
 
+    // This breaks stuff in the SDL port, see
+    // https://github.com/CleverRaven/Cataclysm-DDA/issues/45910
+#if !defined(TILES)
     // Ensure that the cursor lands on the character when everything is drawn.
     // This allows screen readers to describe the area around the player, making it
     // much easier to play with them
     // (e.g. for blind players)
     wmove( w_terrain, -u.view_offset.xy() + point{POSX, POSY} );
     wnoutrefresh( w_terrain );
+#endif
 }
 
 void game::draw_panels( bool force_draw )
