@@ -760,6 +760,8 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
             cpentries++;
         }
 
+        cpentries++;
+
         if( cpentries >= lpagesize ) {
             // avoid printing group headers on the last line of the page
             bool const shiftone = cpentries > lpagesize;
@@ -769,8 +771,6 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
             pbegin = ci;
             cpentries = shiftone ? 1 : 0;
         }
-
-        cpentries++;
     }
     if( gbegin != _list.end() ) {
         _groups.emplace_back( gbegin, _list.end() );
