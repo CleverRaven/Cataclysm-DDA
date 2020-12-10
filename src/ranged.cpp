@@ -2849,16 +2849,19 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
 
 int burst_penalty( const Character &p, const item &gun, int gun_recoil )
 {
-    ///\EFFECT_STR reduces burst penalty
-    float str_effect = p.get_str() / 2.0f;
+    ///\EFFECT_DEX reduces burst penalty by flat amount
+    int dex_effect = p.get_dex() * 10;
+    ///\EFFECT_STR reduces burst fire penalty
+    float str_effect = p.get_str() * 0.5f;
 
-    /** @EFFECT_PISTOL improves burst fire accuracy */
-    /** @EFFECT_SMG improves burst fire accuracy */
-    /** @EFFECT_RIFLE improves burst fire accuracy */
-    /** @EFFECT_SHOTGUN improves burst fire accuracy */
+    /** @EFFECT_PISTOL reduces burst fire penalty */
+    /** @EFFECT_SMG reduces burst fire penalty */
+    /** @EFFECT_RIFLE reduces burst fire penalty */
+    /** @EFFECT_SHOTGUN reduces burst fire penalty */
     int skill_lvl = std::min( p.get_skill_level( gun.gun_skill() ), MAX_SKILL );
 
-    return std::max( 0.0f, gun_recoil / std::max( skill_lvl + str_effect, 1.0f ) );
+    return std::max<int>( 0, 3 * ( gun_recoil - dex_effect ) / std::max( 1.0f,
+                          str_effect + skill_lvl ) );
 }
 
 } // namespace ranged

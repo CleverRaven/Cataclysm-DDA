@@ -232,6 +232,7 @@
     "ammo": "223",
     "dispersion": 200,
     "durability": 7,
+    "handling": 40,
     "min_cycle_recoil": 1350,
     "reload": 400,
     "modes": [ [ "DEFAULT", "burst", 4 ] ],

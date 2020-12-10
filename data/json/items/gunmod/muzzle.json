@@ -148,11 +148,8 @@
     "location": "muzzle",
     "mod_targets": [ "shotgun" ],
     "damage_modifier": -4,
-    "handling_modifier": 4,
-    "consume_chance": 5000,
-    "consume_divisor": 235,
-    "loudness_modifier": -30,
-    "flags": [ "CONSUMABLE" ]
+    "handling_modifier": 6,
+    "loudness_modifier": -30
   },
   {
     "id": "suppressor",
