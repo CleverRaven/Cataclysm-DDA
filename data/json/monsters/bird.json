@@ -147,7 +147,7 @@
     "dodge": 3,
     "harvest": "bird_small",
     "vision_day": 50,
-    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
+    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FIRE", "HURT" ],
     "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_turkey", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
