@@ -626,10 +626,7 @@
     "name": "Baseball Player",
     "description": "You were playing at the local team.  With no one left to play baseball, you can eventually use your best friend for another purpose.  Home run!",
     "points": 1,
-    "skills": [
-      { "level": 3, "name": "throw" },
-      { "level": 1, "name": "melee" }
-    ],
+    "skills": [ { "level": 3, "name": "throw" }, { "level": 1, "name": "melee" } ],
     "items": {
       "both": {
         "items": [ "baseball", "tshirt", "jacket_light", "jeans", "socks", "sneakers", "helmet_ball", "sports_drink" ],
