@@ -229,7 +229,7 @@
     "harvest": "bird_tiny",
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 14, "into": "mon_chicken" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BIRDFOOD" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BIRDFOOD", "FEATHER", "SWARMS" ]
   },
   {
     "id": "mon_grouse_chick",
