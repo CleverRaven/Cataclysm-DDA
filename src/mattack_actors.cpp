@@ -527,7 +527,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     gun.gun_set_mode( mode );
 
     itype_id ammo = ammo_type;
-    if( ammo_type == itype_id::NULL_ID() ) {
+    if( ammo.is_null() ) {
         if( gun.magazine_integral() ) {
             ammo = gun.ammo_default();
         } else {
