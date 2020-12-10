@@ -81,8 +81,8 @@
     "bodytype": "bird",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
-    "volume": "750 ml",
-    "weight": "1 kg",
+    "volume": "1500 ml",
+    "weight": "1500 g",
     "hp": 4,
     "speed": 140,
     "material": [ "flesh" ],
@@ -95,12 +95,12 @@
     "melee_cut": 0,
     "dodge": 4,
     "harvest": "bird_small",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
     "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_duck", "baby_count": 3, "baby_timer": 5 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 5 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "FEATHER", "SWARMS" ]
   },
   {
     "id": "mon_goose_canadian",
