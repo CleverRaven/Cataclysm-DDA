@@ -30,6 +30,7 @@
 #include "game_ui.h"
 #include "input.h"
 #include "loading_ui.h"
+#include "main.h"
 #include "main_menu.h"
 #include "mapsharing.h"
 #include "options.h"
@@ -102,7 +103,29 @@ int start_logger( const char *app_name )
 
 #endif //__ANDROID__
 
-void exit_handler( int s );
+#if !defined(_WIN32)
+#if defined(TILES)
+[[ noreturn ]]
+static void signal_handler( int )
+{
+    exit_handler( 0 );
+}
+#else
+static void signal_handler( int signal )
+{
+    if( signal == SIGINT ) {
+        const int old_timeout = inp_mngr.get_timeout();
+        inp_mngr.reset_timeout();
+        bool confirmed = query_yn( _( "Really Quit?  All unsaved changes will be lost." ) );
+        inp_mngr.set_timeout( old_timeout );
+        if( !confirmed ) {
+            return;
+        }
+    }
+    exit_handler( 0 );
+}
+#endif //defined(TILES)
+#endif //!defined(_WIN32)
 
 namespace
 {
@@ -653,7 +676,7 @@ int main( int argc, char *argv[] )
 
 #if !defined(_WIN32)
     struct sigaction sigIntHandler;
-    sigIntHandler.sa_handler = exit_handler;
+    sigIntHandler.sa_handler = signal_handler;
     sigemptyset( &sigIntHandler.sa_mask );
     sigIntHandler.sa_flags = 0;
     sigaction( SIGINT, &sigIntHandler, nullptr );
@@ -750,19 +773,10 @@ void printHelpMessage( const arg_handler *first_pass_arguments,
 }
 }  // namespace
 
-void exit_handler( int s )
+void exit_handler( int status )
 {
-    const int old_timeout = inp_mngr.get_timeout();
-    inp_mngr.reset_timeout();
-    if( s != 2 || query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
-        deinitDebug();
-
-        int exit_status = 0;
-        g.reset();
-
-        catacurses::endwin();
-
-        exit( exit_status );
-    }
-    inp_mngr.set_timeout( old_timeout );
+    deinitDebug();
+    g.reset();
+    catacurses::endwin();
+    exit( status );
 }
