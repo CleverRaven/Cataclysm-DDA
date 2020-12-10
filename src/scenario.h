@@ -88,9 +88,9 @@ class scenario
         int start_location_targets_count() const;
 
         bool custom_initial_date() const;
-        bool random_hour() const;
-        bool random_day() const;
-        bool random_year() const;
+        bool is_random_hour() const;
+        bool is_random_day() const;
+        bool is_random_year() const;
         int initial_hour() const;
         int initial_day() const;
         season_type initial_season() const;

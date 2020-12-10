@@ -441,17 +441,17 @@ bool scenario::custom_initial_date() const
     return _custom_initial_date;
 }
 
-bool scenario::random_hour() const
+bool scenario::is_random_hour() const
 {
     return _initial_hour == -1;
 }
 
-bool scenario::random_day() const
+bool scenario::is_random_day() const
 {
     return _initial_day == -1;
 }
 
-bool scenario::random_year() const
+bool scenario::is_random_year() const
 {
     return _initial_year == -1;
 }
