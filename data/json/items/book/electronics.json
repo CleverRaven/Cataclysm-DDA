@@ -215,6 +215,7 @@
     "type": "BOOK",
     "name": { "str_sp": "schematics" },
     "description": "seeing this is a bug",
+    "looks_like": "schematics_eyebot",
     "weight": "30 g",
     "volume": "250 ml",
     "price": 100000,
