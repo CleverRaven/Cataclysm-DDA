@@ -10,6 +10,7 @@
     "price_postapoc": 5000,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "pocket_firstaid",
     "color": "green",
     "skill": "traps",
     "max_level": 2,
