@@ -165,6 +165,9 @@
     "hp": 6,
     "speed": 130,
     "dodge": 4,
+    "aggression": -99,
+    "morale": -8,
+    "melee_cut": 0,
     "reproduction": { "baby_egg": "egg_pheasant", "baby_count": 5, "baby_timer": 8 },
     "baby_flags": [ "SPRING" ]
   },
