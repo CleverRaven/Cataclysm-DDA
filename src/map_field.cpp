@@ -908,7 +908,7 @@ void map::process_fields_in_submap( submap *const current_submap,
 bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p, field_entry &cur,
                                         const oter_id &om_ter )
 {
-    const field_type_id fd_fire( "fd_fire" );
+    const field_type_id fd_fire = ::fd_fire;
 
     bool breaks_loop = false;
     field_entry *tmpfld = nullptr;
