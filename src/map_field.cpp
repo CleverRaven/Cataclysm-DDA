@@ -1272,17 +1272,19 @@ bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p, fi
             // Allow weaker fires to spread occasionally
             const int power = cur.get_field_intensity() + one_in( 5 );
             if( can_spread && rng( 1, 100 ) < spread_chance &&
-                ( dster.is_flammable() || dsfrn.is_flammable() ) &&
+                ( dster.is_flammable()
+                  || dsfrn.is_flammable()
+                  || ( dst.get_item_count() > 0 &&
+                       flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
+                       one_in( 5 ) ) ) &&
                 ( in_pit == ( dster.id.id() == t_pit ) ) &&
                 (
                     ( power >= 3 && cur.get_field_age() < 0_turns && one_in( 20 ) ) ||
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
                     ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
-                    nearwebfld || ( dst.get_item_count() > 0 &&
-                                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
-                                    one_in( 5 ) )
-                ) ) {
+                    nearwebfld )
+              ) {
                 // Nearby open flammable ground? Set it on fire.
                 add_field( dst_p, fd_fire, 1, 0_turns, false );
                 tmpfld = dst.find_field( fd_fire );
@@ -1335,17 +1337,18 @@ bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p, fi
             // Allow weaker fires to spread occasionally
             const int power = cur.get_field_intensity() + one_in( 5 );
             if( can_spread && rng( 1, 100 - windpower ) < spread_chance &&
-                ( dster.is_flammable() || dsfrn.is_flammable() ) &&
+                ( dster.is_flammable() ||
+                  dsfrn.is_flammable() ||
+                  ( dst.get_item_count() > 0 &&
+                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
+                    one_in( 5 ) ) ) &&
                 ( in_pit == ( dster.id.id() == t_pit ) ) &&
                 (
                     ( power >= 3 && cur.get_field_age() < 0_turns && one_in( 20 ) ) ||
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
                     ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
-                    nearwebfld || ( dst.get_item_count() > 0 &&
-                                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
-                                    one_in( 5 ) )
-                ) ) {
+                    nearwebfld ) ) {
                 // Nearby open flammable ground? Set it on fire.
                 add_field( dst_p, fd_fire, 1, 0_turns, false );
                 tmpfld = dst.find_field( fd_fire );
