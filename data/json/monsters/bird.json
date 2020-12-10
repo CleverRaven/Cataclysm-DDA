@@ -36,6 +36,8 @@
     "copy-from": "mon_chicken",
     "name": { "str": "grouse" },
     "description": "A very common game bird, these creatures remind you of what a wild chicken must have been like.",
+    "volume": "2 L",
+    "weight": "1100 g",
     "hp": 5,
     "speed": 110,
     "color": "brown",
