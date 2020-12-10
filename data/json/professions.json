@@ -638,7 +638,7 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
     }
-  }, 
+  },
   {
     "type": "profession",
     "id": "basketball_player",
