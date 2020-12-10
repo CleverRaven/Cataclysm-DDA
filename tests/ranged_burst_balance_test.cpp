@@ -6,13 +6,23 @@
 #include "ranged.h"
 
 static constexpr tripoint shooter_pos( 60, 60, 0 );
+static const std::string flag_BIPOD( "BIPOD" );
 
-static void check_burst_penalty( const Character &shooter, item gun, int expected )
+static void check_burst_penalty( const Character &shooter, item gun, int expected,
+                                 bool bipod = false )
 {
     if( gun.ammo_required() && !gun.ammo_sufficient() && gun.ammo_default() != "NULL" ) {
         gun.ammo_set( gun.ammo_default(), -1 );
     }
-    int penalty = ranged::burst_penalty( shooter, gun, gun.gun_recoil() );
+    if( bipod ) {
+        const std::vector<item *> mods = gun.gunmods();
+        bool has_bipod = std::any_of( mods.begin(), mods.end(), []( const item * it ) {
+            return it->has_flag( flag_BIPOD );
+        } ) ;
+        REQUIRE( has_bipod );
+    }
+
+    int penalty = ranged::burst_penalty( shooter, gun, gun.gun_recoil( bipod ) );
     CAPTURE( gun.tname() );
     int dev = expected / 5;
     CHECK( penalty >= expected - dev );
@@ -20,7 +30,7 @@ static void check_burst_penalty( const Character &shooter, item gun, int expecte
 }
 
 static void check_burst_penalty( const Character &shooter, const itype_id &gun_type,
-                                 std::vector<itype_id> mods, int expected )
+                                 std::vector<itype_id> mods, int expected, bool bipod = false )
 {
     item gun( gun_type );
     for( const itype_id &mod_type : mods ) {
@@ -30,13 +40,13 @@ static void check_burst_penalty( const Character &shooter, const itype_id &gun_t
         REQUIRE( gun.is_gunmod_compatible( mod ).success() );
         gun.put_in( mod );
     }
-    check_burst_penalty( shooter, gun, expected );
+    check_burst_penalty( shooter, gun, expected, bipod );
 }
 
 static void check_burst_penalty( const Character &shooter, const itype_id &gun_type,
-                                 int expected )
+                                 int expected, bool bipod = false )
 {
-    check_burst_penalty( shooter, gun_type, {}, expected );
+    check_burst_penalty( shooter, gun_type, {}, expected, bipod );
 }
 
 TEST_CASE( "unskilled_burst_no_mods", "[ranged] [balance]" )
@@ -64,7 +74,7 @@ TEST_CASE( "average_burst_no_mods", "[ranged] [balance]" )
     check_burst_penalty( shooter, "m249", 90 );
     check_burst_penalty( shooter, "m4a1", 125 );
     check_burst_penalty( shooter, "ak47", 270 );
-    check_burst_penalty( shooter, "m2browning", {}, 375 );
+    check_burst_penalty( shooter, "m2browning", 375 );
 }
 
 // Near the best achievable by an unmodified human
@@ -77,6 +87,15 @@ TEST_CASE( "great_burst_no_mods", "[ranged] [balance]" )
     check_burst_penalty( shooter, "m4a1", 65 );
     check_burst_penalty( shooter, "ak47", 150 );
     check_burst_penalty( shooter, "m2browning", 225 );
+}
+
+TEST_CASE( "average_burst_bipod", "[ranged] [balance]" )
+{
+    standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
+    check_burst_penalty( shooter, "m249", {}, 37, true );
+    check_burst_penalty( shooter, "m240", {}, 92, true );
+    check_burst_penalty( shooter, "m2browning", {"underbarrel_mount", "bipod"}, 163, true );
+    check_burst_penalty( shooter, "m1918", {"bipod"}, 165, true );
 }
 
 TEST_CASE( "average_burst_modded", "[ranged] [balance]" )
