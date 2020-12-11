@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "clone_ptr.h"
 #include "color.h"
 #include "translations.h"
 #include "type_id.h"
@@ -23,6 +24,7 @@ using ter_str_id = string_id<ter_t>;
 
 class JsonObject;
 class player;
+struct iexamine_actor;
 struct furn_t;
 struct itype;
 struct tripoint;
@@ -237,6 +239,8 @@ enum ter_connects : int {
     TERCONN_CANVAS_WALL,
 };
 
+void init_mapdata();
+
 struct map_data_common_t {
         map_bash_info        bash;
         map_deconstruct_info deconstruct;
@@ -252,6 +256,8 @@ struct map_data_common_t {
 
         // Hardcoded examination function
         iexamine_function examine_func; // What happens when the terrain/furniture is examined
+        // Data-driven examine actor
+        cata::clone_ptr<iexamine_actor> examine_actor;
 
     private:
         std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
@@ -277,6 +283,7 @@ struct map_data_common_t {
 
         bool can_examine() const;
         bool has_examine( iexamine_function_ref func ) const;
+        bool has_examine( const std::string &action ) const;
         void set_examine( iexamine_function_ref func );
         void examine( player &, const tripoint & ) const;
 
