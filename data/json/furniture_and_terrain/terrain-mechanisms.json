@@ -249,7 +249,14 @@
     "color": "pink",
     "move_cost": 0,
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
-    "examine_action": "cardreader",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD" ],
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query_msg": "Swipe your ID card?",
+      "success_msg": "You insert your ID card.\n<color_light_green>The nearby doors unlock.</color>",
+      "redundant_msg": "The nearby doors are already opened."
+    },
     "bash": {
       "str_min": 18,
       "str_max": 180,
@@ -269,7 +276,14 @@
     "color": "pink",
     "move_cost": 0,
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
-    "examine_action": "cardreader",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "MILITARY_CARD" ],
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query_msg": "Swipe your ID card?",
+      "success_msg": "You insert your ID card.\n<color_light_green>The nearby doors unlock.</color>",
+      "redundant_msg": "The nearby doors are already opened."
+    },
     "bash": {
       "str_min": 18,
       "str_max": 180,
@@ -290,7 +304,14 @@
     "color": "pink",
     "move_cost": 0,
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
-    "examine_action": "cardreader",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "INDUSTRIAL_CARD" ],
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query_msg": "Swipe your ID card?",
+      "success_msg": "You insert your ID card.\n<color_light_green>The nearby doors unlock.</color>",
+      "redundant_msg": "The nearby doors are already opened."
+    },
     "bash": {
       "str_min": 18,
       "str_max": 180,
