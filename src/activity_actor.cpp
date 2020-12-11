@@ -756,8 +756,8 @@ static hack_type get_hack_type( const tripoint &examp )
     const ter_t &xter_t = here.ter( examp ).obj();
     if( xter_t.has_examine( iexamine::pay_gas ) || xfurn_t.has_examine( iexamine::pay_gas ) ) {
         type = hack_type::GAS;
-    } else if( xter_t.has_examine( iexamine::cardreader ) ||
-               xfurn_t.has_examine( iexamine::cardreader ) ) {
+    } else if( xter_t.has_examine( "cardreader" ) ||
+               xfurn_t.has_examine( "cardreader" ) ) {
         type = hack_type::DOOR;
     } else if( xter_t.has_examine( iexamine::gunsafe_el ) ||
                xfurn_t.has_examine( iexamine::gunsafe_el ) ) {
