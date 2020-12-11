@@ -23,7 +23,6 @@
     "melee_damage": [ { "damage_type": "cold", "amount": 4 } ],
     "melee_cut": 0,
     "dodge": 2,
-    "armor_cold": 50,
     "harvest": "human",
     "vision_day": 30,
     "vision_night": 3,
@@ -59,6 +58,13 @@
     "melee_damage": [ { "damage_type": "cold", "amount": 8 } ],
     "melee_cut": 0,
     "dodge": 3,
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "cryo_blast", "min_level": 5 }, "cooldown": 20, "monster_message": "A burst of frozen air explodes from their lungs!" } ]
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "cone_cold", "min_level": 5 },
+        "cooldown": 20,
+        "monster_message": "A burst of frozen air explodes from their lungs!"
+      }
+    ]
   }
 ]

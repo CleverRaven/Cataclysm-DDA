@@ -345,7 +345,6 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "nano_pseudo_forge",
-    "charges_per_use": 1,
     "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "LEAK_DAM" ],
     "deconstruct": { "items": [ { "item": "nano_forge", "count": 1 } ] },
     "examine_action": "reload_furniture",

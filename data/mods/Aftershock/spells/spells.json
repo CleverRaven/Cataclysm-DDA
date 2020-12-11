@@ -119,7 +119,7 @@
     "max_duration": 1000
   },
   {
-    "id": "cryo_blast",
+    "id": "cone_cold",
     "type": "SPELL",
     "name": "Cryokinetic blast",
     "description": "You blast a cone of frigid air toward the target.",
