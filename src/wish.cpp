@@ -67,8 +67,15 @@ class wish_mutate_callback: public uilist_callback
                     p->set_mutation( vTraits[ entnum ] );
                     p->toggle_trait( vTraits[ entnum ] );
                 }
-                menu->entries[ entnum ].text_color = p->has_trait( vTraits[ entnum ] ) ? c_green : menu->text_color;
-                menu->entries[ entnum ].extratxt.txt = p->has_base_trait( vTraits[ entnum ] ) ? "T" : "";
+                uilist_entry &entry = menu->entries[entnum];
+                if( p->has_trait( vTraits[ entnum ] ) ) {
+                    entry.text_color = c_green;
+                    entry.override_hilite_color = true;
+                } else {
+                    entry.text_color = menu->text_color;
+                    entry.override_hilite_color = false;
+                }
+                entry.extratxt.txt = p->has_base_trait( vTraits[ entnum ] ) ? "T" : "";
                 return true;
             }
             return false;
@@ -218,8 +225,10 @@ void debug_menu::wishmutate( player *p )
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt.clear();
         wmenu.entries[ c ].extratxt.color = c_light_green;
+        wmenu.entries[ c ].hilite_color = h_light_green;
         if( p->has_trait( traits_iter.id ) ) {
             wmenu.entries[ c ].text_color = c_green;
+            wmenu.entries[ c ].override_hilite_color = true;
             if( p->has_base_trait( traits_iter.id ) ) {
                 wmenu.entries[ c ].extratxt.txt = "T";
             }
@@ -277,12 +286,14 @@ void debug_menu::wishmutate( player *p )
                     entry.extratxt.txt.clear();
                     if( p->has_trait( cb.vTraits[ i ] ) ) {
                         entry.text_color = c_green;
+                        entry.override_hilite_color = true;
                         cb.pTraits[ cb.vTraits[ i ] ] = true;
                         if( p->has_base_trait( cb.vTraits[ i ] ) ) {
                             entry.extratxt.txt = "T";
                         }
                     } else {
                         entry.text_color = wmenu.text_color;
+                        entry.override_hilite_color = false;
                         cb.pTraits[ cb.vTraits[ i ] ] = false;
                     }
                 }

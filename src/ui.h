@@ -62,8 +62,10 @@ struct uilist_entry {
     nc_color hotkey_color;
     nc_color text_color;
     mvwzstr extratxt;
+    // Use 'hilite_color' when selected instead of uilist's 'hilight_color'
+    bool override_hilite_color = false;
+    nc_color hilite_color;
 
-    //std::string filtertxt; // possibly useful
     uilist_entry( std::string T ) : retval( -1 ), enabled( true ), hotkey( -1 ), txt( T ) {
         text_color = c_red_red;
     }
