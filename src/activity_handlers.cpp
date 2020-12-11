@@ -892,7 +892,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     int monster_weight = to_gram( mt.weight );
     monster_weight += std::round( monster_weight * rng_float( -0.1, 0.1 ) );
     if( corpse_item->has_flag( flag_QUARTERED ) ) {
-        monster_weight /= 4;
+        monster_weight *= 0.95;
     }
     if( corpse_item->has_flag( flag_GIBBED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
