@@ -143,6 +143,24 @@
     "context": [ "GENERIC" ]
   },
   {
+    "id": "SCIENCE_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure science facility."
+  },
+  {
+    "id": "MILITARY_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure military facility."
+  },
+  {
+    "id": "INDUSTRIAL_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure industrial facility."
+  },
+  {
     "id": "SKINNED",
     "type": "json_flag",
     "context": [ "GENERIC" ]
