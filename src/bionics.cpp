@@ -1681,7 +1681,6 @@ void Character::process_bionic( const int b )
                 mod_stored_kcal( -5 );
             }
         }
-
     } else if( bio.id == bio_painkiller ) {
         const int pkill = get_painkiller();
         const int pain = get_pain();
