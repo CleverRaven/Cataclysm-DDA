@@ -218,7 +218,7 @@
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ], [ "mutant_toxin", 5 ]]
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ], [ "mutant_toxin", 5 ] ]
   },
   {
     "id": "alien_meat_scrap_cooked",
@@ -253,7 +253,7 @@
     "id": "alien_stomach_large",
     "copy-from": "alien_stomach",
     "type": "COMESTIBLE",
-    "name": "large stomach",
+    "name": "large alien stomach",
     "description": "A balloon like organ of a large alien.  It is surprisingly durable.",
     "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
