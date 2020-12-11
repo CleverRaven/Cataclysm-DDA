@@ -48,6 +48,7 @@ struct advanced_inv_save_state {
         int aim_all_location = 1;
 
         bool active_left = true;
+        bool sticky_tabs = false;
         int last_popup_dest = 0;
 
         int saved_area = 11;
@@ -58,6 +59,7 @@ struct advanced_inv_save_state {
         template<typename JsonStream>
         void serialize( JsonStream &json, const std::string &prefix ) const {
             json.member( prefix + "active_left", active_left );
+            json.member( prefix + "sticky_tabs", sticky_tabs );
             json.member( prefix + "last_popup_dest", last_popup_dest );
 
             json.member( prefix + "saved_area", saved_area );

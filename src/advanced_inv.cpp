@@ -1123,6 +1123,7 @@ input_context advanced_inventory::register_ctxt() const
     ctxt.register_action( "MOVE_ITEM_STACK" );
     ctxt.register_action( "MOVE_ALL_ITEMS" );
     ctxt.register_action( "CATEGORY_SELECTION" );
+    ctxt.register_action( "STICKY_TABS" );
     ctxt.register_action( "ITEMS_NW" );
     ctxt.register_action( "ITEMS_N" );
     ctxt.register_action( "ITEMS_NE" );
@@ -1171,39 +1172,71 @@ void advanced_inventory::redraw_sidebar()
 void advanced_inventory::change_square( const aim_location changeSquare,
                                         advanced_inventory_pane &dpane, advanced_inventory_pane &spane )
 {
-    if( spane.get_area() == changeSquare && squares[changeSquare].can_store_in_vehicle() ) {
-        spane.set_area( squares[spane.get_area()], !spane.in_vehicle() );
-        recalc = true;
-        // we need to check the original area if we can place items in vehicle storage
-    } else if( squares[changeSquare].canputitems( spane.get_cur_item_ptr() ) ) {
-        bool in_vehicle_cargo = false;
-        if( changeSquare == AIM_CONTAINER ) {
-            squares[changeSquare].set_container( spane.get_cur_item_ptr() );
-        } else if( spane.get_area() == AIM_CONTAINER ) {
-            squares[changeSquare].set_container( nullptr );
-            // auto select vehicle if items exist at said square, or both are empty
-        } else if( squares[changeSquare].can_store_in_vehicle() && spane.get_area() != changeSquare ) {
-            if( changeSquare == AIM_DRAGGED ) {
-                in_vehicle_cargo = true;
-            } else {
-                // check item stacks in vehicle and map at said square
-                advanced_inv_area sq = squares[changeSquare];
-                map_stack map_stack = get_map().i_at( sq.pos );
-                vehicle_stack veh_stack = sq.veh->get_items( sq.vstor );
-                // auto switch to vehicle storage if vehicle items are there, or neither are there
-                if( !veh_stack.empty() || map_stack.empty() ) {
-                    in_vehicle_cargo = true;
-                }
+    if( save_state->sticky_tabs ) {
+        if( squares[changeSquare].canputitems( spane.get_cur_item_ptr() ) ) {
+            if( changeSquare == AIM_CONTAINER ) {
+                squares[changeSquare].set_container(
+                    spane.get_area() == AIM_CONTAINER ? nullptr : spane.get_cur_item_ptr() );
             }
-        }
-        spane.set_area( squares[changeSquare], in_vehicle_cargo );
-        spane.index = 0;
-        spane.recalc = true;
-        if( dpane.get_area() == AIM_ALL ) {
-            dpane.recalc = true;
+            bool in_vehicle_cargo = changeSquare == AIM_DRAGGED
+                                    || ( squares[changeSquare].can_store_in_vehicle() && changeSquare != spane.get_area() )
+                                    || ( changeSquare == spane.get_area() && !spane.in_vehicle() );
+            spane.set_area( squares[changeSquare], in_vehicle_cargo );
+            spane.index = 0;
+            spane.recalc = true;
+            if( dpane.get_area() == AIM_ALL ) {
+                dpane.recalc = true;
+            }
+        } else {
+            popup( _( "You can't put items there!" ) );
         }
     } else {
-        popup( _( "You can't put items there!" ) );
+        if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
+            if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED ) {
+                // only deal with spane, as you can't _directly_ change dpane
+                if( dpane.get_area() == changeSquare ) {
+                    spane.set_area( squares[changeSquare], !dpane.in_vehicle() );
+                    spane.recalc = true;
+                } else if( spane.get_area() == dpane.get_area() ) {
+                    // swap the `in_vehicle` element of each pane if "one in, one out"
+                    spane.set_area( squares[spane.get_area()], !spane.in_vehicle() );
+                    dpane.set_area( squares[dpane.get_area()], !dpane.in_vehicle() );
+                    recalc = true;
+                }
+            } else {
+                swap_panes();
+            }
+            // we need to check the original area if we can place items in vehicle storage
+        } else if( squares[changeSquare].canputitems( spane.get_cur_item_ptr() ) ) {
+            bool in_vehicle_cargo = false;
+            if( changeSquare == AIM_CONTAINER ) {
+                squares[changeSquare].set_container( spane.get_cur_item_ptr() );
+            } else if( spane.get_area() == AIM_CONTAINER ) {
+                squares[changeSquare].set_container( nullptr );
+                // auto select vehicle if items exist at said square, or both are empty
+            } else if( squares[changeSquare].can_store_in_vehicle() && spane.get_area() != changeSquare ) {
+                if( changeSquare == AIM_DRAGGED ) {
+                    in_vehicle_cargo = true;
+                } else {
+                    // check item stacks in vehicle and map at said square
+                    advanced_inv_area sq = squares[changeSquare];
+                    map_stack map_stack = get_map().i_at( sq.pos );
+                    vehicle_stack veh_stack = sq.veh->get_items( sq.vstor );
+                    // auto switch to vehicle storage if vehicle items are there, or neither are there
+                    if( !veh_stack.empty() || map_stack.empty() ) {
+                        in_vehicle_cargo = true;
+                    }
+                }
+            }
+            spane.set_area( squares[changeSquare], in_vehicle_cargo );
+            spane.index = 0;
+            spane.recalc = true;
+            if( dpane.get_area() == AIM_ALL ) {
+                dpane.recalc = true;
+            }
+        } else {
+            popup( _( "You can't put items there!" ) );
+        }
     }
 }
 
@@ -1672,6 +1705,8 @@ void advanced_inventory::display()
             src = dest;
         } else if( action == "SWAP_TABS" ) {
             swap_panes();
+        } else if( action == "STICKY_TABS" ) {
+            save_state->sticky_tabs = !save_state->sticky_tabs;
         } else if( action == "TOGGLE_VEH" ) {
             if( squares[spane.get_area()].can_store_in_vehicle() ) {
                 // swap the panes if going vehicle will show the same tile
