@@ -1736,6 +1736,14 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             here.add_item_or_charges( pos(), item( "gasoline" ) );
         }
     }
+    if( has_flag( MF_FEATHER ) ) {
+        // Sometimes drop feathers
+        if( one_in( 120 ) ) {
+            here.add_item_or_charges( pos(), item( "down_feather", calendar::turn, rng( 1, 3 ) ) );
+        } else if( one_in( 100 ) ) {
+            here.add_item_or_charges( pos(), item( "feather", calendar::turn, rng( 1, 3 ) ) );
+        }
+    }
     return true;
 }
 

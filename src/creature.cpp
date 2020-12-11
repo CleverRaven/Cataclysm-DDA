@@ -961,6 +961,15 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
             break;
     }
 
+    if( has_flag( MF_FEATHER ) && ( du.type == damage_type::BASH || du.type == damage_type::CUT ||
+                                    du.type == damage_type::STAB || du.type == damage_type::BULLET ) ) {
+        // Drop some feathers
+        int max_feathers = std::min( adjusted_damage, 50 );
+        get_map().add_item_or_charges( pos(), item( "down_feather", calendar::turn, rng( 0,
+                                       max_feathers / 2 ) ) );
+        get_map().add_item_or_charges( pos(), item( "feather", calendar::turn, rng( 1, max_feathers ) ) );
+    }
+
     on_damage_of_type( adjusted_damage, du.type, bp );
 
     damage += adjusted_damage;
