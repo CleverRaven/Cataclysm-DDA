@@ -533,7 +533,8 @@ static void draw_stats_info( const catacurses::window &w_info,
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         string_format( _( "Blood type: %s" ), io::enum_to_string( you.my_blood_type ) ) );
         fold_and_print( w_info, point( 1, 2 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        string_format( _( "Rh factor: %s" ), you.blood_rh_factor ? "positive (+)" : "negative (-)" ) );
+                        string_format( _( "Rh factor: %s" ),
+                                       you.blood_rh_factor ? _( "positive (+)" ) : _( "negative (-)" ) ) );
     }
     wnoutrefresh( w_info );
 }
