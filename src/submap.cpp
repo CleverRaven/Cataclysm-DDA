@@ -312,13 +312,13 @@ void submap::mirror( bool horizontally )
         }
 
         for( auto &elem : cosmetics ) {
-            elem.pos = { SEEX - 1 - elem.pos.x, elem.pos.y };
+            elem.pos = point( -elem.pos.x, elem.pos.y ) + point( SEEX - 1, 0 );
         }
 
         active_items.mirror( { SEEX, SEEY }, true );
 
         for( auto &elem : computers ) {
-            mirror_comp.emplace( point( SEEX - 1 - elem.first.x, elem.first.y ), elem.second );
+            mirror_comp.emplace( point( -elem.first.x, elem.first.y ) + point( SEEX - 1, 0 ), elem.second );
         }
         computers = mirror_comp;
     } else {
@@ -329,13 +329,13 @@ void submap::mirror( bool horizontally )
         }
 
         for( auto &elem : cosmetics ) {
-            elem.pos = { elem.pos.x, SEEY - 1 - elem.pos.y };
+            elem.pos = point( elem.pos.x, -elem.pos.y ) + point( 0, SEEY - 1 );
         }
 
         active_items.mirror( { SEEX, SEEY }, false );
 
         for( auto &elem : computers ) {
-            mirror_comp.emplace( point( elem.first.x, SEEY - 1 - elem.first.y ), elem.second );
+            mirror_comp.emplace( point( elem.first.x, -elem.first.y ) + point( 0, SEEY - 1 ), elem.second );
         }
         computers = mirror_comp;
     }

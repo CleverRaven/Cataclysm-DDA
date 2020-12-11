@@ -514,7 +514,7 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
     return avail;
 }
 
-bool extract_and_check_orientation_flags( const recipe_id recipe,
+static bool extract_and_check_orientation_flags( const recipe_id recipe,
         const point &dir,
         bool &mirror_horizontal,
         bool &mirror_vertical,
