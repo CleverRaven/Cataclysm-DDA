@@ -44,8 +44,10 @@ class ui_adaptor;
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #      include <SDL2/SDL_version.h>
+#      include <SDL2/SDL.h>
 #   else
 #      include <SDL_version.h>
+#      include <SDL.h>
 #   endif
 #endif
 
@@ -103,6 +105,28 @@ int start_logger( const char *app_name )
 #endif //__ANDROID__
 
 void exit_handler( int s );
+
+/**
+ * Report fatal error in a user-friendly way
+ * (stderr or a message box, depending on build.)
+ */
+static void report_fatal_error( const std::string &msg )
+{
+#if defined(TILES)
+    if( test_mode ) {
+#endif
+        std::cerr << "Cataclysm BN: Fatal error" << std::endl << msg << std::endl;
+#if defined(TILES)
+    } else {
+        SDL_ShowSimpleMessageBox(
+            SDL_MESSAGEBOX_ERROR,
+            "Cataclysm BN: Fatal error",
+            msg.c_str(),
+            nullptr
+        );
+    }
+#endif
+}
 
 namespace
 {
@@ -541,16 +565,39 @@ int main( int argc, char *argv[] )
     }
 
     if( !dir_exist( PATH_INFO::datadir() ) ) {
-        printf( "Fatal: Can't find directory \"%s\"\nPlease ensure the current working directory is correct.  Perhaps you meant to start \"cataclysm-launcher\"?\n",
-                PATH_INFO::datadir().c_str() );
+        std::string msg = string_format(
+                              "Can't find directory \"%s\"\n"
+                              "Please ensure the current working directory is correct.\n"
+                              "Perhaps you meant to start \"cataclysm-launcher\"?\n",
+                              PATH_INFO::datadir().c_str()
+                          );
+        report_fatal_error( msg );
         exit( 1 );
     }
 
-    if( !assure_dir_exist( PATH_INFO::user_dir() ) ) {
-        printf( "Can't open or create %s. Check permissions.\n",
-                PATH_INFO::user_dir().c_str() );
-        exit( 1 );
-    }
+    const auto check_dir_good = []( const std::string & dir ) {
+        if( !assure_dir_exist( dir ) ) {
+            std::string msg = string_format(
+                                  "Can't open or create \"%s\"\n"
+                                  "Please ensure you have write permission.\n",
+                                  dir.c_str()
+                              );
+            report_fatal_error( msg );
+            exit( 1 );
+        }
+        if( !can_write_to_dir( dir ) ) {
+            std::string msg = string_format(
+                                  "Can't write to \"%s\"\n"
+                                  "Please ensure you have write permission and free storage space.\n",
+                                  dir.c_str()
+                              );
+            report_fatal_error( msg );
+            exit( 1 );
+        }
+    };
+
+    check_dir_good( PATH_INFO::user_dir() );
+    check_dir_good( PATH_INFO::config_dir() );
 
     setupDebug( DebugOutput::file );
 
