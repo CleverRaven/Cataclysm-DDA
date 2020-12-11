@@ -522,6 +522,9 @@ class Character : public Creature, public visitable<Character>
         }
         void set_fac_id( const std::string &my_fac_id );
 
+        // Has item with mission_id
+        bool has_mission_item( int mission_id ) const;
+
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion ) const;
 
@@ -533,6 +536,13 @@ class Character : public Creature, public visitable<Character>
         double aim_speed_dex_modifier() const;
         double aim_speed_encumbrance_modifier() const;
         double aim_cap_from_volume( const item &gun ) const;
+
+        /* Gun stuff */
+        /**
+         * Check whether the player has a gun that uses the given type of ammo.
+         */
+        bool has_gun_for_ammo( const ammotype &at ) const;
+        bool has_magazine_for_ammo( const ammotype &at ) const;
 
         /* Calculate aim improvement per move spent aiming at a given @ref recoil */
         double aim_per_move( const item &gun, double recoil ) const;
@@ -957,6 +967,11 @@ class Character : public Creature, public visitable<Character>
         bool can_power_mutation( const trait_id &mut );
         /** Generates and handles the UI for player interaction with installed bionics */
         virtual void power_bionics() {}
+        /**
+        * Check whether player has a bionic power armor interface.
+        * @return true if player has an active bionic capable of powering armor, false otherwise.
+        */
+        bool can_interface_armor() const;
         // TODO: Implement NPCs activating mutations
         virtual void power_mutations() {}
 
@@ -1242,7 +1257,7 @@ class Character : public Creature, public visitable<Character>
         /** finds the index of the bionic that corresponds to the currently wielded fake item
          *  i.e. bionic is `BIONIC_WEAPON` and weapon.typeId() == bio.info().fake_item */
         cata::optional<int> active_bionic_weapon_index() const;
-        /** Checks if bionic can be deactivated (e.g. it's not incapacitaded and power level is sufficient)
+        /** Checks if bionic can be deactivated (e.g. it's not incapacitated and power level is sufficient)
          *  returns either success or failure with log message */
         ret_val<bool> can_deactivate_bionic( int b, bool eff_only = false ) const;
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
@@ -1261,10 +1276,10 @@ class Character : public Creature, public visitable<Character>
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype &cbm, player &patient );
         bool has_enough_anesth( const itype &cbm );
-        void consume_anesth_requirment( const itype &cbm, player &patient );
-        /**Has the required equipement for manual installation*/
-        bool has_installation_requirment( const bionic_id &bid );
-        void consume_installation_requirment( const bionic_id &bid );
+        void consume_anesth_requirement( const itype &cbm, player &patient );
+        /**Has the required equipment for manual installation*/
+        bool has_installation_requirement( const bionic_id &bid );
+        void consume_installation_requirement( const bionic_id &bid );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );
@@ -1298,7 +1313,7 @@ class Character : public Creature, public visitable<Character>
         /** Initialize all the values needed to start the operation player_activity */
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
-        /**Succes or failure of removal happens here*/
+        /**Success or failure of removal happens here*/
         void perform_uninstall( const bionic_id &bid, int difficulty, int success,
                                 const units::energy &power_lvl, int pl_skill );
         /**When a player fails the surgery*/
@@ -1395,6 +1410,16 @@ class Character : public Creature, public visitable<Character>
          *  @param qty number of charges to consume which must be non-zero
          *  @return true if item was destroyed */
         bool consume_charges( item &used, int qty );
+        /**
+         * Remove charges from a specific item.
+         * The item must exist and it must be counted by charges.
+         * @param it A pointer to the item, it *must* exist.
+         * @param quantity The number of charges to remove, must not be larger than
+         * the current charges of the item.
+         * @return An item that contains the removed charges, it's effectively a
+         * copy of the item with the proper charges.
+         */
+        item reduce_charges( item *it, int quantity );
 
         /**
          * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
@@ -1433,7 +1458,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
          * If interactive is false, don't alert the player or drain moves on completion.
-         * If do_calc_encumbrance is false, don't recalculat encumbrance, caller must call it eventually.
+         * If do_calc_encumbrance is false, don't recalculate encumbrance, caller must call it eventually.
          */
         cata::optional<std::list<item>::iterator>
         wear_item( const item &to_wear, bool interactive = true, bool do_calc_encumbrance = true );
@@ -1616,7 +1641,7 @@ class Character : public Creature, public visitable<Character>
         /// returning the largest weight liftable by an item in range.
         units::mass best_nearby_lifting_assist() const;
 
-        /// Alternate version if you need to specify a different orign point for nearby vehicle sources of lifting
+        /// Alternate version if you need to specify a different origin point for nearby vehicle sources of lifting
         /// used for operations on distant objects (e.g. vehicle installation/uninstallation)
         units::mass best_nearby_lifting_assist( const tripoint &world_pos ) const;
 
@@ -1631,7 +1656,7 @@ class Character : public Creature, public visitable<Character>
 
         /// Sometimes we need to calculate hypothetical volume or weight.  This
         /// struct offers two possible tweaks: a collection of items and
-        /// coutnts to remove, or an entire replacement inventory.
+        /// counts to remove, or an entire replacement inventory.
         struct item_tweaks {
             item_tweaks() = default;
             item_tweaks( const std::map<const item *, int> &w ) :
@@ -1707,7 +1732,7 @@ class Character : public Creature, public visitable<Character>
          */
         ret_val<bool> can_unwield( const item &it ) const;
         /**
-         * Check player capable of droping an item.
+         * Check player capable of dropping an item.
          * @param it Thing to be unwielded
          */
         ret_val<bool> can_drop( const item &it ) const;
@@ -1998,9 +2023,9 @@ class Character : public Creature, public visitable<Character>
         void use_fire( int quantity );
         void assign_stashed_activity();
         bool check_outbounds_activity( const player_activity &act, bool check_only = false );
-        /// @warning Legacy activity assignment, does not work for any activites using
+        /// @warning Legacy activity assignment, does not work for any activities using
         /// the new activity_actor class and may cause issues with resuming.
-        /// @todo delete this once migration of activites to the activity_actor system is complete
+        /// @todo delete this once migration of activities to the activity_actor system is complete
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
                               const std::string &name = "" );
@@ -2276,8 +2301,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
-        /** Can the food be [theoretically] eaten no matter the consequen
-        ces? */
+        /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
         /**
          * Same as @ref can_eat, but takes consequences into account.
@@ -2341,7 +2365,7 @@ class Character : public Creature, public visitable<Character>
         bool wearing_something_on( const bodypart_id &bp ) const;
         /** Returns true if the character is wearing something occupying the helmet slot */
         bool is_wearing_helmet() const;
-        /** Returns the total encumbrance of all SKINTIGHT and HELMET_COMPAT items coveringi
+        /** Returns the total encumbrance of all SKINTIGHT and HELMET_COMPAT items covering
          *  the head */
         int head_cloth_encumbrance() const;
         /** Same as footwear factor, but for arms */
@@ -2545,7 +2569,7 @@ class Character : public Creature, public visitable<Character>
             return i;
         } );
         /** Consume tools for the next multiplier * 5% progress of the craft */
-        bool craft_consume_tools( item &craft, int mulitplier, bool start_craft );
+        bool craft_consume_tools( item &craft, int multiplier, bool start_craft );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,

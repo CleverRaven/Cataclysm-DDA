@@ -174,7 +174,7 @@ Use the `Home` key to return to the top.
 - [Field types](#-field-types-)
 
 # Introduction
-This document describes the contents of the json files used in Cataclysm: Dark Days Ahead. You are probably reading this if you want to add or change content of Catacysm: Dark Days Ahead and need to learn more about what to find where and what each file and property does.
+This document describes the contents of the json files used in Cataclysm: Dark Days Ahead. You are probably reading this if you want to add or change content of Cataclysm: Dark Days Ahead and need to learn more about what to find where and what each file and property does.
 
 ## Overall structure
 The game data is distributed amongst many JSON files in `data`.  Most of the
@@ -578,11 +578,11 @@ For information about tools with option to export ASCII art in format ready to b
 | hot_morale_mod    | (_optional_) Mood effect of being too hot on this part. (default: `0`)
 | cold_morale_mod   | (_optional_) Mood effect of being too cold on this part. (default: `0`)
 | squeamish_penalty | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
-| stat_hp_mods      | (_optional_) Values modifiying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodifed value of the X stat and get_healthy() being the hidden health stat of the character.
+| stat_hp_mods      | (_optional_) Values modifying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodified value of the X stat and get_healthy() being the hidden health stat of the character.
 | bionic_slots      | (_optional_) How many bionic slots does this part have.
 | is_limb           | (_optional_) Is this bodypart a limb. (default: `false`)
 | smash_message      | (_optional_) The message displayed when using that part to smash something.
-| smash_efficiency  | (_optional_) Modifier applyed to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
+| smash_efficiency  | (_optional_) Modifier applied to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
 
 ```C++
   {
@@ -649,9 +649,9 @@ For information about tools with option to export ASCII art in format ready to b
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
 | enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)
 | learned_spells              | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
-| learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when unintalling
-| installation_requirement    | (_optional_) Requirment id pointing to a requirment defining the tools and componentsnt necessary to install this CBM.
-| vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorbtion, affects all vitamins. (default: `1.0`)
+| learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when uninstalling
+| installation_requirement    | (_optional_) Requirement id pointing to a requirement defining the tools and components necessary to install this CBM.
+| vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorption, affects all vitamins. (default: `1.0`)
 
 ```C++
 {
@@ -964,7 +964,7 @@ A Mutation Category identifies a set of interrelated mutations that as a whole e
 | `iv_sound_id`      | The id of a sound clip to play depicting the noise made by the character.
 | `iv_sound_variant` | The id of a variant clip to play depicting the noise made by the character.
 | `iv_noise`         | The volume of the noise the character makes.
-| `iv_sleep`         | A flag indicating that the player will involuntarally sleep after taking the matching mutation serum.
+| `iv_sleep`         | A flag indicating that the player will involuntarily sleep after taking the matching mutation serum.
 | `iv_sleep_message` | The message to display notifying the player that their character has fallen sleep.
 | `iv_sleep_dur`     | The duration of the involuntary sleep in seconds.
 | `memorial_message` | The memorial message to display when a character crosses the associated mutation threshold.
@@ -1414,7 +1414,7 @@ These overlap because both list the high-quality lens.
 A small amount of overlap (such as the above) can be handled, but if you have
 too many component lists which overlap in too many ways, then you may see an
 error during recipe finalization that your recipe is too complex.  In this
-case, the game may not be able to corectly predict whether it can be crafted.
+case, the game may not be able to correctly predict whether it can be crafted.
 
 To work around this issue, if you do not wish to simplify the recipe
 requirements, then you can split your recipe into multiple steps.  For
@@ -3844,13 +3844,13 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
     "bash": {
       "str_min": 1, // lower bracket of bashing damage required to bash
       "str_max": 3, // higher bracket
-      "sound_vol": 2, // noise made when succesfully bashing the field
+      "sound_vol": 2, // noise made when successfully bashing the field
       "sound_fail_vol": 2, // noise made when failing to bash the field
       "sound": "shwip", // sound on success
       "sound_fail": "shwomp", // sound on failure
       "msg_success": "You brush the gum web aside.", // message on success
-      "move_cost": 120, // how many moves it costs to succesfully bash that field (default: 100)
-      "items": [                                   // item dropped upon succesful bashing
+      "move_cost": 120, // how many moves it costs to successfully bash that field (default: 100)
+      "items": [                                   // item dropped upon successful bashing
         { "item": "2x4", "count": [ 5, 8 ] },
         { "item": "nail", "charges": [ 6, 8 ] },
         { "item": "splinter", "count": [ 3, 6 ] },

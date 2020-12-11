@@ -26,7 +26,7 @@ New field | Description
 `"blueprint_resources"` | array of `"itype_id"`s.  Items with those ids will be added to the camp inventory after the upgrade mission is completed and can be used for crafting or additional upgrade missions.
 
 ### blueprint requires, provides, and excludes
-blueprint requires, blueprint provides, and blueprint exlcudes are abstract concepts or flags that an upgrade mission requires to start, or that are provided by a previous upgrade mission to satisfy the blueprint requirements of a current upgrade mission, or that prevent an upgrade mission from being available.  Each one has an `"id"` and an `"amount"`.  Multiple requires, provides, or excludes with the same `"id"` sum their `"amount"` if they're on the same basecamp expansion.
+blueprint requires, blueprint provides, and blueprint excludes are abstract concepts or flags that an upgrade mission requires to start, or that are provided by a previous upgrade mission to satisfy the blueprint requirements of a current upgrade mission, or that prevent an upgrade mission from being available.  Each one has an `"id"` and an `"amount"`.  Multiple requires, provides, or excludes with the same `"id"` sum their `"amount"` if they're on the same basecamp expansion.
 
 Every upgrade mission has its recipe `"result"` as a blueprint_provides and a blueprint_excludes, so upgrade missions will automatically prevent themselves from being repeatable.
 

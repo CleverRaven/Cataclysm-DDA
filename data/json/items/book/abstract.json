@@ -341,6 +341,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
+    "looks_like": "manual_gun",
     "use_action": [ "MA_MANUAL" ],
     "intelligence": 9,
     "time": "10 m"

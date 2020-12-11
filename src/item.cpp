@@ -1264,7 +1264,7 @@ item::sizing item::get_sizing( const Character &p ) const
         const bool big = p.get_size() == creature_size::huge;
 
         // due to the iterative nature of these features, something can fit and be undersized/oversized
-        // but that is fine because we have separate logic to adjust encumberance per each. One day we
+        // but that is fine because we have separate logic to adjust encumbrance per each. One day we
         // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
         // is a bit of cognitive dissonance when something 'fits' and is 'oversized' and the same time
         const bool undersize = has_flag( flag_UNDERSIZE );
@@ -2775,7 +2775,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                   piece.second.portion.max_encumber ) );
 
                         info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
-                                                  iteminfo::lower_is_better,
+                                                  iteminfo::no_flags,
                                                   piece.second.portion.coverage ) );
                     }
                 }
@@ -5534,7 +5534,7 @@ int item::get_comestible_fun() const
     }
 
     if( has_flag( flag_MUSHY ) ) {
-        return std::min( -5, fun ); // defrosted MUSHY food is practicaly tastless or tastes off
+        return std::min( -5, fun ); // defrosted MUSHY food is practically tasteless or tastes off
     }
 
     return fun;
@@ -9711,6 +9711,7 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     bool submerged = false;
     bool precipitation = false;
     bool windtoostrong = false;
+    bool in_veh = carrier != nullptr && carrier->in_vehicle;
     w_point weatherPoint = *get_weather().weather_precise;
     int windpower = get_weather().windspeed;
     switch( get_weather().weather_id->precip ) {
@@ -9727,11 +9728,11 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
             break;
     }
     map &here = get_map();
-    if( in_inv && here.has_flag( flag_DEEP_WATER, pos ) ) {
+    if( in_inv && !in_veh && here.has_flag( flag_DEEP_WATER, pos ) ) {
         extinguish = true;
         submerged = true;
     }
-    if( ( !in_inv && here.has_flag( flag_LIQUID, pos ) ) ||
+    if( ( !in_inv && here.has_flag( flag_LIQUID, pos ) && !here.veh_at( pos ) ) ||
         ( precipitation && !g->is_sheltered( pos ) ) ) {
         extinguish = true;
     }

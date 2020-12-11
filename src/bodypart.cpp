@@ -189,7 +189,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
 
     mandatory( jo, was_loaded, "name", name );
-    // This is NOT the plural of `name`; it's a name refering to the pair of
+    // This is NOT the plural of `name`; it's a name referring to the pair of
     // bodyparts which this bodypart belongs to, and thus should not be implemented
     // using "ngettext" or "translation::make_plural". Otherwise, in languages
     // without plural forms, translation of this string would indicate it
@@ -450,7 +450,7 @@ int bodypart::get_wetness() const
     return wetness;
 }
 
-int bodypart::get_frotbite_timer() const
+int bodypart::get_frostbite_timer() const
 {
     return frostbite_timer;
 }

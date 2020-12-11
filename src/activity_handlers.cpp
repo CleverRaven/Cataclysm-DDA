@@ -785,7 +785,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     int monster_weight = to_gram( mt.weight );
     monster_weight += std::round( monster_weight * rng_float( -0.1, 0.1 ) );
     if( corpse_item->has_flag( flag_QUARTERED ) ) {
-        monster_weight /= 4;
+        monster_weight *= 0.95;
     }
     if( corpse_item->has_flag( flag_GIBBED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
@@ -2565,10 +2565,34 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             ammo_remaining = p->charges_of( itype_UPS );
         }
 
+        std::set<itype_id> valid_entries = actor->get_valid_repair_materials( fix );
+        const inventory &crafting_inv = p->crafting_inventory();
+        std::function<bool( const item & )> filter;
+        if( fix.is_filthy() ) {
+            filter = []( const item & component ) {
+                return component.allow_crafting_component();
+            };
+        } else {
+            filter = is_crafting_component;
+        }
+        std::vector<std::string> material_list;
+        for( const auto &component_id : valid_entries ) {
+            if( item::count_by_charges( component_id ) ) {
+                if( crafting_inv.has_charges( component_id, 1 ) ) {
+                    material_list.push_back( string_format( _( "%s (%d)" ), item::nname( component_id ),
+                                                            crafting_inv.charges_of( component_id ) ) );
+                }
+            } else if( crafting_inv.has_amount( component_id, 1, false, filter ) ) {
+                material_list.push_back( string_format( _( "%s (%d)" ), item::nname( component_id ),
+                                                        crafting_inv.amount_of( component_id, false ) ) );
+            }
+        }
+
         title += string_format( _( "Charges: <color_light_blue>%s/%s</color> %s (%s per use)\n" ),
                                 ammo_remaining, used_tool->ammo_capacity( current_ammo ),
                                 ammo_name,
                                 used_tool->ammo_required() );
+        title += string_format( _( "Materials available: %s\n" ), join( material_list, ", " ) );
         title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),
                                 actor->used_skill.obj().name(), level );
         title += string_format( _( "Success chance: <color_light_blue>%.1f</color>%%\n" ),
@@ -2951,7 +2975,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
         survival_skill *= 2;
     }
     std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
-    // Fish are always there, even if it dosnt seem like they are visible!
+    // Fish are always there, even if it doesn't seem like they are visible!
     if( fishables.empty() ) {
         fish_chance += survival_skill / 2;
     } else {

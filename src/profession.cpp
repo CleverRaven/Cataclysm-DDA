@@ -321,7 +321,7 @@ void profession::check_definition() const
     }
     for( const auto &elem : _starting_pets ) {
         if( !elem.is_valid() ) {
-            debugmsg( "startng pet %s for profession %s does not exist", elem.c_str(), id.c_str() );
+            debugmsg( "starting pet %s for profession %s does not exist", elem.c_str(), id.c_str() );
         }
     }
     for( const auto &elem : _starting_skills ) {

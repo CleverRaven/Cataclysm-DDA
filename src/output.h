@@ -156,7 +156,7 @@ nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
  * @anchor color_tags
  * @name color tags
  *
- * Most print function have only one color parameter (or none at all), therefor they would
+ * Most print function have only one color parameter (or none at all), therefore they would
  * print the whole text in one color. To print some parts of a text in a different color,
  * one would have to write separate calls to the print functions.
  *
@@ -274,7 +274,7 @@ inline int fold_and_print( const catacurses::window &w, const point &begin,
 /**
  * Like @ref fold_and_print, but starts the output with the N-th line of the folded string.
  * This can be used for scrolling large texts. Parameters have the same meaning as for
- * @ref fold_and_print, the function therefor handles @ref color_tags correctly.
+ * @ref fold_and_print, the function therefore handles @ref color_tags correctly.
  *
  * @param w Window we are printing in
  * @param begin The (row,column) index on which to start.
@@ -921,7 +921,7 @@ class scrollingcombattext
                 }
                 int getPosX() const;
                 int getPosY() const;
-                direction getDirecton() const {
+                direction getDirection() const {
                     return oDir;
                 }
                 int getInitPosX() const {

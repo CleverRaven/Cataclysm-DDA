@@ -1145,7 +1145,7 @@ bool Character::check_mount_is_spooked()
     }
     // chance to spook per monster nearby:
     // base 1% per turn.
-    // + 1% per square closer than 15 distanace. (1% - 15%)
+    // + 1% per square closer than 15 distance. (1% - 15%)
     // * 2 if hostile monster is bigger than or same size as mounted creature.
     // -0.25% per point of dexterity (low -1%, average -2%, high -3%, extreme -3.5%)
     // -0.1% per point of strength ( low -0.4%, average -0.8%, high -1.2%, extreme -1.4% )
@@ -3970,8 +3970,9 @@ std::vector<std::string> Character::get_overlay_ids() const
     }
 
     if( !is_walking() ) {
-        rval.push_back( move_mode->name() );
+        rval.push_back( move_mode.str() );
     }
+
     return rval;
 }
 
@@ -5961,6 +5962,54 @@ needs_rates Character::calc_needs_rates() const
     return rates;
 }
 
+item Character::reduce_charges( item *it, int quantity )
+{
+    if( !has_item( *it ) ) {
+        debugmsg( "invalid item (name %s) for reduce_charges", it->tname() );
+        return item();
+    }
+    if( it->charges <= quantity ) {
+        return i_rem( it );
+    }
+    it->mod_charges( -quantity );
+    item result( *it );
+    result.charges = quantity;
+    return result;
+}
+
+bool Character::can_interface_armor() const
+{
+    bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
+    []( const bionic & b ) {
+        return b.powered && b.info().has_flag( "BIONIC_ARMOR_INTERFACE" );
+    } );
+    return okay;
+}
+
+bool Character::has_mission_item( int mission_id ) const
+{
+    return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
+}
+
+bool Character::has_gun_for_ammo( const ammotype &at ) const
+{
+    return has_item_with( [at]( const item & it ) {
+        // item::ammo_type considers the active gunmod.
+        return it.is_gun() && it.ammo_types().count( at );
+    } );
+}
+
+bool Character::has_magazine_for_ammo( const ammotype &at ) const
+{
+    return has_item_with( [&at]( const item & it ) {
+        return !it.has_flag( flag_NO_RELOAD ) &&
+               ( ( it.is_magazine() && it.ammo_types().count( at ) ) ||
+                 ( it.is_gun() && it.magazine_integral() && it.ammo_types().count( at ) ) ||
+                 ( it.is_gun() && it.magazine_current() != nullptr &&
+                   it.magazine_current()->ammo_types().count( at ) ) );
+    } );
+}
+
 void Character::check_needs_extremes()
 {
     // Check if we've overdosed... in any deadly way.
@@ -6347,9 +6396,9 @@ void Character::update_bodytemp()
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
                                     get_part_temp_cur( bp ) );
         // Produces a smooth curve between 30.0 and 60.0.
-        double homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
-        int clothing_warmth_adjustement = static_cast<int>( homeostasis_adjustement * warmth( bp ) );
-        int clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustement * bonus_item_warmth(
+        double homeostasis_adjustment = 30.0 * ( 1.0 + scaled_temperature );
+        int clothing_warmth_adjustment = static_cast<int>( homeostasis_adjustment * warmth( bp ) );
+        int clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustment * bonus_item_warmth(
                 bp ) );
         // WINDCHILL
 
@@ -6378,7 +6427,7 @@ void Character::update_bodytemp()
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         set_part_temp_conv( bp, BODYTEMP_NORM + adjusted_temp + windchill * 100 +
-                            clothing_warmth_adjustement );
+                            clothing_warmth_adjustment );
         // HUNGER / STARVATION
         mod_part_temp_conv( bp, hunger_warmth );
         // FATIGUE
@@ -8690,7 +8739,17 @@ bool Character::consume_charges( item &used, int qty )
 
     // Tools which don't require ammo are instead destroyed
     if( used.is_tool() && !used.ammo_required() ) {
-        i_rem( &used );
+        if( has_item( used ) ) {
+            i_rem( &used );
+        } else {
+            map_stack items = get_map().i_at( pos() );
+            for( item_stack::iterator iter = items.begin(); iter != items.end(); iter++ ) {
+                if( &( *iter ) == &used ) {
+                    iter = items.erase( iter );
+                    break;
+                }
+            }
+        }
         return true;
     }
 
@@ -11204,7 +11263,7 @@ int Character::heartrate_bpm() const
         temperature_modifier = 0.005f;
     }
     average_heartbeat *= 1 + ( ( player_local_temp - 65 ) * temperature_modifier );
-    //Limit avg from below with 20, arbitary
+    //Limit avg from below with 20, arbitrary
     average_heartbeat = std::max( 20, average_heartbeat );
     const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
     float stamina_effect = 0.0f;
@@ -11243,10 +11302,10 @@ int Character::heartrate_bpm() const
     //health effect that can make things better or worse is applied in the end.
     //Based on get_max_healthy that already has bmi factored
     const int healthy = get_max_healthy();
-    //a bit arbitary formula that can use some love
+    //a bit arbitrary formula that can use some love
     float healthy_modifier = -0.05f * std::round( healthy / 20.0f );
     heartbeat += average_heartbeat * healthy_modifier;
-    //Pain simply adds 2% per point after it reaches 5 (that's arbitary)
+    //Pain simply adds 2% per point after it reaches 5 (that's arbitrary)
     const int cur_pain = get_perceived_pain();
     float pain_modifier = 0.0f;
     if( cur_pain > 5 ) {
@@ -12278,6 +12337,9 @@ bool Character::sees( const Creature &critter ) const
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
     const int dist = rl_dist( pos(), critter.pos() );
     if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
+        return true;
+    }
+    if( dist < MAX_CLAIRVOYANCE && dist < clairvoyance() ) {
         return true;
     }
     if( field_fd_clairvoyant.is_valid() &&

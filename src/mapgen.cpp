@@ -318,7 +318,7 @@ class mapgen_factory
             for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
                 omw.second.setup();
             }
-            // Dummy entry, overmap terrain null should never appear and is therefor never generated.
+            // Dummy entry, overmap terrain null should never appear and is therefore never generated.
             mapgens_.erase( "null" );
         }
         void check_consistency() {
@@ -819,13 +819,13 @@ map_key::map_key( const JsonMember &member ) : str( member.name() )
  * it at random.
  */
 template<typename PieceType>
-class jmapgen_alternativly : public jmapgen_piece
+class jmapgen_alternatively : public jmapgen_piece
 {
     public:
         // Note: this bypasses virtual function system, all items in this vector are of type
         // PieceType, they *can not* be of any other type.
         std::vector<PieceType> alternatives;
-        jmapgen_alternativly() = default;
+        jmapgen_alternatively() = default;
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             if( const auto chosen = random_entry_opt( alternatives ) ) {
@@ -1325,7 +1325,7 @@ class jmapgen_monster : public jmapgen_piece
             int raw_odds = chance.get();
 
             // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
-            // Instead, apply a multipler to the number of monsters for really high densities.
+            // Instead, apply a multiplier to the number of monsters for really high densities.
             // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
             int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" );
             int max_odds = ( 100 + raw_odds ) / 2;
@@ -2074,7 +2074,7 @@ void load_place_mapings_string(
 }
 /*
 This function is like load_place_mapings_string, except if the input is an array it will create an
-instance of jmapgen_alternativly which will chose the mapgen piece to apply to the map randomly.
+instance of jmapgen_alternatively which will chose the mapgen piece to apply to the map randomly.
 Use this with terrain or traps or other things that can not be applied twice to the same place.
 */
 template<typename PieceType>
@@ -2085,7 +2085,7 @@ void load_place_mapings_alternatively(
     if( !value.test_array() ) {
         load_place_mapings_string<PieceType>( value, vect, context );
     } else {
-        auto alter = make_shared_fast< jmapgen_alternativly<PieceType> >();
+        auto alter = make_shared_fast< jmapgen_alternatively<PieceType> >();
         for( const JsonValue entry : value.get_array() ) {
             if( entry.test_string() ) {
                 try {
@@ -5622,7 +5622,7 @@ void map::rotate( int turns, const bool setpos_safe )
         }
     }
 
-    clear_vehicle_cache( abs_sub.z );
+    clear_all_vehicle_caches( abs_sub.z );
     clear_vehicle_list( abs_sub.z );
 
     submap *pz = get_submap_at_grid( point_zero );
@@ -5676,7 +5676,7 @@ void map::rotate( int turns, const bool setpos_safe )
             update_vehicle_list( sm, abs_sub.z );
         }
     }
-    reset_vehicle_cache( abs_sub.z );
+    build_all_vehicle_caches( abs_sub.z );
 
     // rotate zones
     zone_manager &mgr = zone_manager::get_manager();

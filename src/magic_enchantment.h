@@ -172,7 +172,7 @@ class enchantment
             return mutations;
         }
 
-        friend bool operator==( const enchantment &source_enchantement,
+        friend bool operator==( const enchantment &source_enchantment,
                                 const enchantment &target_enchantment );
     private:
         std::set<trait_id> mutations;

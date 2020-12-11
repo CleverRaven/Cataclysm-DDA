@@ -6717,7 +6717,7 @@ static const std::unordered_map<description_affix, std::string> description_affi
     { description_affix::DESCRIPTION_AFFIX_COVERED_IN, translate_marker( " covered in %s" ) },
     { description_affix::DESCRIPTION_AFFIX_ON, translate_marker( " on %s" ) },
     { description_affix::DESCRIPTION_AFFIX_UNDER, translate_marker( " under %s" ) },
-    { description_affix::DESCRIPTION_AFFIX_ILLUMINTED_BY, translate_marker( " in %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_ILLUMINATED_BY, translate_marker( " in %s" ) },
 };
 
 static std::string colorized_field_description_at( const tripoint &point )
