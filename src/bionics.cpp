@@ -1606,6 +1606,8 @@ void Character::process_bionic( const int b )
     // These might be affected by environmental conditions, status effects, faulty bionics, etc.
     int discharge_rate = 1;
 
+    units::energy cost = 0_mJ;
+
     bio.charge_timer = std::max( 0, bio.charge_timer - discharge_rate );
     if( bio.charge_timer <= 0 ) {
         if( bio.info().charge_time > 0 ) {
@@ -1616,7 +1618,6 @@ void Character::process_bionic( const int b )
                 bio.charge_timer = bio.info().charge_time;
             } else {
                 // Try to recharge our bionic if it is made for it
-                units::energy cost = 0_mJ;
                 bool recharged = attempt_recharge( *this, bio, cost );
                 if( !recharged ) {
                     // No power to recharge, so deactivate
@@ -1658,6 +1659,11 @@ void Character::process_bionic( const int b )
                 damaged_hp_parts.push_back( part.first.id() );
             }
         }
+        if( damaged_hp_parts.empty() && bleeding_bp_parts.empty() ) {
+            // Nothing to heal. Return the consumed power and exit early
+            mod_power_level( cost );
+            return;
+        }
         for( const bodypart_id &i : bleeding_bp_parts ) {
             // effectively reduces by 1 intensity level
             if( get_stored_kcal() >= 15 ) {
@@ -1675,12 +1681,7 @@ void Character::process_bionic( const int b )
                 mod_stored_kcal( -5 );
             }
         }
-        if( damaged_hp_parts.empty() && bleeding_bp_parts.empty() ) {
-            // Nothing to heal. Return the consumed power
-            const bionic_data &info = bio.info();
-            units::energy power_cost = info.power_over_time;
-            mod_power_level( power_cost );
-        }
+
     } else if( bio.id == bio_painkiller ) {
         const int pkill = get_painkiller();
         const int pain = get_pain();
