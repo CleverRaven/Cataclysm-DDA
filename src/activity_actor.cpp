@@ -676,11 +676,13 @@ static hack_type get_hack_type( const tripoint &examp )
     map &here = get_map();
     const furn_t &xfurn_t = here.furn( examp ).obj();
     const ter_t &xter_t = here.ter( examp ).obj();
-    if( xter_t.examine == &iexamine::pay_gas || xfurn_t.examine == &iexamine::pay_gas ) {
+    if( xter_t.has_examine( iexamine::pay_gas ) || xfurn_t.has_examine( iexamine::pay_gas ) ) {
         type = hack_type::GAS;
-    } else if( xter_t.examine == &iexamine::cardreader || xfurn_t.examine == &iexamine::cardreader ) {
+    } else if( xter_t.has_examine( iexamine::cardreader ) ||
+               xfurn_t.has_examine( iexamine::cardreader ) ) {
         type = hack_type::DOOR;
-    } else if( xter_t.examine == &iexamine::gunsafe_el || xfurn_t.examine == &iexamine::gunsafe_el ) {
+    } else if( xter_t.has_examine( iexamine::gunsafe_el ) ||
+               xfurn_t.has_examine( iexamine::gunsafe_el ) ) {
         type = hack_type::SAFE;
     }
     return type;
