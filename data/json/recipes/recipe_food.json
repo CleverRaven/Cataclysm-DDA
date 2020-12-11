@@ -186,6 +186,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "bacon",
+    "id_suffix": "hand_smoked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -196,12 +197,13 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 15 ] ], [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "raw_cured_meat", 1 ] ] ]
+    "components": [ [ [ "raw_cured_fatty_meat", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "bacon",
+    "id_suffix": "from_uncut_bacon",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
