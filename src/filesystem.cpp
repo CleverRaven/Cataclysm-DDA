@@ -425,3 +425,29 @@ std::string ensure_valid_file_name( const std::string &file_name )
 
     return new_file_name;
 }
+
+// This string is 'CataclysmBrightNights' encoded as base64
+const char *CBN = "Q2F0YWNseXNtQnJpZ2h0TmlnaHRz";
+
+bool can_write_to_dir( const std::string &dir_path )
+{
+    // TODO: remove this hack once c++17 is a thing
+
+    std::string dummy_file = dir_path + CBN;
+    if( file_exist( dummy_file ) ) {
+        if( !remove_file( dummy_file ) ) {
+            return false;
+        }
+    }
+
+    const auto writer = []( std::ostream & s ) {
+        // Write at least something to check if there is free space on disk
+        s << CBN << std::endl;
+    };
+
+    if( !write_to_file( dummy_file, writer, nullptr ) ) {
+        return false;
+    }
+
+    return remove_file( dummy_file );
+}
