@@ -147,6 +147,7 @@ enum debug_menu_index {
     DEBUG_SHOW_MUT_CHANCES,
     DEBUG_OM_EDITOR,
     DEBUG_BENCHMARK,
+    DEBUG_BENCHMARK_FPS,
     DEBUG_OM_TELEPORT,
     DEBUG_OM_TELEPORT_COORDINATES,
     DEBUG_TRAIT_GROUP,
@@ -234,7 +235,8 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( DEBUG_SHOW_MUT_CHANCES, true, 'u', _( "Show mutation trait chances" ) ) },
-            { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
+            { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark" ) ) },
+            { uilist_entry( DEBUG_BENCHMARK_FPS, true, 'B', _( "FPS benchmark" ) ) },
             { uilist_entry( DEBUG_HOUR_TIMER, true, 'E', _( "Toggle hour timer" ) ) },
             { uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
             { uilist_entry( DEBUG_SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
@@ -1149,16 +1151,29 @@ void mission_debug::edit_mission( mission &m )
     }
 }
 
-void draw_benchmark( const int max_difference )
+void benchmark( const int max_difference, bench_kind kind )
 {
-    // call the draw procedure as many times as possible in max_difference milliseconds
-    auto start_tick = std::chrono::steady_clock::now();
-    auto end_tick = std::chrono::steady_clock::now();
-    int64_t difference = 0;
-    int draw_counter = 0;
+    std::string bench_name;
+    switch( kind ) {
+        case bench_kind::FPS:
+            bench_name = _( "FPS benchmark" );
+            break;
+        case bench_kind::DRAW:
+            bench_name = _( "Draw benchmark" );
+            break;
+    }
 
     static_popup popup;
-    popup.on_top( true ).message( "%s", _( "Benchmark in progress…" ) );
+    //~ %s is benchmark name
+    popup.on_top( true ).message( _( "%s in progress…" ), bench_name );
+    ui_manager::redraw();
+    refresh_display(); // Show the popup
+
+    // call the draw procedure as many times as possible in max_difference milliseconds
+    auto start_tick = std::chrono::steady_clock::now();
+    auto end_tick = start_tick;
+    int64_t difference = 0;
+    int draw_counter = 0;
 
     while( true ) {
         end_tick = std::chrono::steady_clock::now();
@@ -1168,11 +1183,13 @@ void draw_benchmark( const int max_difference )
         }
         g->invalidate_main_ui_adaptor();
         ui_manager::redraw_invalidated();
-        refresh_display();
+        if( kind == bench_kind::FPS ) {
+            refresh_display();
+        }
         draw_counter++;
     }
 
-    DebugLog( D_INFO, DC_ALL ) << "Draw benchmark:\n" <<
+    DebugLog( D_INFO, DC_ALL ) << bench_name << ":\n" <<
                                "\n| USE_TILES |  RENDERER | FRAMEBUFFER_ACCEL | USE_COLOR_MODULATED_TEXTURES | FPS |" <<
                                "\n|:---:|:---:|:---:|:---:|:---:|\n| " <<
                                get_option<bool>( "USE_TILES" ) << " | " <<
@@ -1185,7 +1202,16 @@ void draw_benchmark( const int max_difference )
                                get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) << " | " <<
                                static_cast<int>( 1000.0 * draw_counter / static_cast<double>( difference ) ) << " |\n";
 
-    add_msg( m_info, _( "Drew %d times in %.3f seconds.  (%.3f fps average)" ), draw_counter,
+    std::string msg_txt;
+    switch( kind ) {
+        case bench_kind::FPS:
+            msg_txt = _( "Refreshed %d times in %.3f seconds.  (%.3f fps average)" );
+            break;
+        case bench_kind::DRAW:
+            msg_txt = _( "Drew %d times in %.3f seconds.  (%.3f per second average)" );
+            break;
+    }
+    add_msg( m_info, msg_txt, draw_counter,
              difference / 1000.0, 1000.0 * draw_counter / static_cast<double>( difference ) );
 }
 
@@ -1670,13 +1696,26 @@ void debug()
             ui::omap::display_editor();
             break;
 
-        case DEBUG_BENCHMARK: {
+        case DEBUG_BENCHMARK:
+        case DEBUG_BENCHMARK_FPS: {
+            bench_kind kind;
+            switch( action ) {
+                case DEBUG_BENCHMARK:
+                    kind = bench_kind::DRAW;
+                    break;
+                case DEBUG_BENCHMARK_FPS:
+                    kind = bench_kind::FPS;
+                    break;
+                default:
+                    debugmsg( "Not implemented" );
+                    return;
+            }
             const int ms = string_input_popup()
                            .title( _( "Enter benchmark length (in milliseconds):" ) )
                            .width( 20 )
                            .text( "5000" )
                            .query_int();
-            debug_menu::draw_benchmark( ms );
+            debug_menu::benchmark( ms, kind );
         }
         break;
 
