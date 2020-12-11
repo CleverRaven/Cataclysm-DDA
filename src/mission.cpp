@@ -297,7 +297,6 @@ void mission::wrap_up()
     status = mission_status::success;
     player_character.on_mission_finished( *this );
     std::vector<item_comp> comps;
-    const item item_sought( type->item_id );
     switch( type->goal ) {
         case MGOAL_FIND_ITEM_GROUP: {
             inventory tmp_inv = player_character.crafting_inventory();
@@ -334,7 +333,8 @@ void mission::wrap_up()
         }
         break;
 
-        case MGOAL_FIND_ITEM:
+        case MGOAL_FIND_ITEM: {
+            const item item_sought( type->item_id );
             if( item_sought.is_software() ) {
                 int consumed = 0;
                 while( consumed < item_count ) {
@@ -349,7 +349,8 @@ void mission::wrap_up()
                 comps.push_back( item_comp( type->item_id, item_count ) );
                 player_character.consume_items( comps );
             }
-            break;
+        }
+        break;
         case MGOAL_FIND_ANY_ITEM:
             player_character.remove_mission_items( uid );
             break;
