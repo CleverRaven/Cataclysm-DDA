@@ -602,7 +602,7 @@ static bool extract_and_check_orientation_flags( const recipe_id recipe,
     }
 
     return true;
-};
+}
 
 static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_type = "default" )
 {
