@@ -6327,7 +6327,7 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
             }
         }
     }
-};
+}
 
 // Hideous function, I admit...
 bool connects_to( const oter_id &there, int dir )
