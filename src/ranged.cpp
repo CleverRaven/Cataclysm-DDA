@@ -2594,7 +2594,7 @@ std::vector<weak_ptr_fast<Creature>> target_ui::list_friendlies_in_lof()
     for( const tripoint &p : traj ) {
         if( p != dst && p != src ) {
             Creature *cr = g->critter_at( p, true );
-            if( cr && pl_sees( *cr ) ) {
+            if( cr && you->sees( *cr ) ) {
                 Creature::Attitude a = cr->attitude_to( *this->you );
                 if(
                     ( cr->is_npc() && a != Creature::Attitude::HOSTILE ) ||
@@ -3291,13 +3291,28 @@ void target_ui::panel_target_info( int &text_y, bool fill_with_blank_if_no_targe
 {
     int max_lines = 4;
     if( dst_critter ) {
-        // FIXME: print_info doesn't really care about line limit
-        //        and can always occupy up to 4 of them (or even more?).
-        //        To make things consistent, we ask it for 2 lines
-        //        and somewhat reliably get 4.
-        int fix_for_print_info = max_lines - 2;
-        dst_critter->print_info( w_target, text_y, fix_for_print_info, 1 );
-        text_y += max_lines;
+        if( you->sees( *dst_critter ) ) {
+            // FIXME: print_info doesn't really care about line limit
+            //        and can always occupy up to 4 of them (or even more?).
+            //        To make things consistent, we ask it for 2 lines
+            //        and somewhat reliably get 4.
+            int fix_for_print_info = max_lines - 2;
+            dst_critter->print_info( w_target, text_y, fix_for_print_info, 1 );
+            text_y += max_lines;
+        } else {
+            std::vector<std::string> buf;
+            if( you->sees_with_infrared( *dst_critter ) ) {
+                dst_critter->describe_infrared( buf );
+            } else if( you->sees_with_specials( *dst_critter ) ) {
+                dst_critter->describe_specials( buf );
+            }
+            for( size_t i = 0; i < static_cast<size_t>( max_lines ); i++, text_y++ ) {
+                if( i >= buf.size() ) {
+                    continue;
+                }
+                mvwprintw( w_target, point( 1, text_y ), buf[i] );
+            }
+        }
     } else if( fill_with_blank_if_no_target ) {
         // Fill with blank lines to prevent other panels from jumping around
         // when the cursor moves.

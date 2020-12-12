@@ -787,6 +787,12 @@ class Creature : public location, public viewer
          */
         virtual int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const = 0;
 
+        /** Describe this creature as seen by the avatar via infrared vision. */
+        void describe_infrared( std::vector<std::string> &buf ) const;
+
+        /** Describe this creature as detected by the avatar's special senses. */
+        void describe_specials( std::vector<std::string> &buf ) const;
+
         // Message related stuff
         virtual void add_msg_if_player( const std::string &/*msg*/ ) const {}
         virtual void add_msg_if_player( const game_message_params &/*params*/,

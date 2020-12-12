@@ -6179,34 +6179,14 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             print_visibility_info( w_look, column, line, visibility );
 
             if( creature != nullptr ) {
+                std::vector<std::string> buf;
                 if( u.sees_with_infrared( *creature ) ) {
-                    std::string size_str;
-                    switch( creature->get_size() ) {
-                        case creature_size::tiny:
-                            size_str = pgettext( "infrared size", "tiny" );
-                            break;
-                        case creature_size::small:
-                            size_str = pgettext( "infrared size", "small" );
-                            break;
-                        case creature_size::medium:
-                            size_str = pgettext( "infrared size", "medium" );
-                            break;
-                        case creature_size::large:
-                            size_str = pgettext( "infrared size", "large" );
-                            break;
-                        case creature_size::huge:
-                            size_str = pgettext( "infrared size", "huge" );
-                            break;
-                        case creature_size::num_sizes:
-                            debugmsg( "Creature has invalid size class." );
-                            size_str = "invalid";
-                            break;
-                    }
-                    mvwprintw( w_look, point( 1, ++line ), _( "You see a figure radiating heat." ) );
-                    mvwprintw( w_look, point( 1, ++line ), _( "It is %s in size." ),
-                               size_str );
+                    creature->describe_infrared( buf );
                 } else if( u.sees_with_specials( *creature ) ) {
-                    mvwprintw( w_look, point( 1, ++line ), _( "You sense a creature here." ) );
+                    creature->describe_specials( buf );
+                }
+                for( const std::string &s : buf ) {
+                    mvwprintw( w_look, point( 1, ++line ), s );
                 }
             }
             break;
