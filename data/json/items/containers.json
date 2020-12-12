@@ -1663,7 +1663,7 @@
     "id": "1st_aid_box",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "first aid kit box", "str_sp": "first aid kit boxes" },
+    "name": { "str": "first aid kit box", "str_pl": "first aid kit boxes" },
     "looks_like": "1st_aid",
     "description": "A plastic box that used to contain a first aid kit.",
     "weight": "50 g",
