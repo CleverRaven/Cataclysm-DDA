@@ -24,7 +24,8 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "friendly": [ "slime", "cult", "zombie_aquatic" ],
-    "neutral": [ "small_animal", "fish" ]
+    "neutral": [ "small_animal", "fish", "insect" ],
+	"by_mood": [ "bee", "wasp" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -299,7 +300,7 @@
     "name": "centipede",
     "base_faction": "insect",
     "neutral": [ "spider", "bee", "wasp" ],
-    "hate": [ "insect", "animal", "zombie" ]
+    "hate": [ "insect", "animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -310,7 +311,7 @@
     "type": "MONSTER_FACTION",
     "name": "spider",
     "base_faction": "insect",
-    "neutral": [ "centipede", "bee" ],
+    "neutral": [ "centipede", "bee", "wasp", "zombie" ],
     "hate": [ "insect", "animal" ]
   },
   {
