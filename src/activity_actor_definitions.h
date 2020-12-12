@@ -42,6 +42,7 @@ class aim_activity_actor : public activity_actor
         bool first_turn = true;
         std::string action = "";
         int aif_duration = 0; // Counts aim-and-fire duration
+        bool aiming_at_critter = false; // Whether aiming at critter or a tile
         bool snap_to_target = false;
         bool shifting_view = false;
         tripoint initial_view_offset;

@@ -271,12 +271,16 @@ class target_ui
         // Updates 'targets' for current range
         void update_target_list();
 
-        // Tries to find something to aim at.
-        // reentered - true if UI was re-entered (e.g. during multi-turn aiming)
-        // Validates pc.last_target and pc.last_target_pos.
-        // Sets 'new_dst' as the initial aiming point.
-        // Returns 'true' if we can proceed with aim-and-shoot.
-        bool choose_initial_target( bool reentered, tripoint &new_dst );
+        // Choose where to position the cursor when opening the ui
+        tripoint choose_initial_target();
+
+        /**
+         * Try to re-acquire target for aim-and-fire.
+         * @param critter whether were aiming at a critter, or a tile
+         * @param new_dst where to move aim cursor (if e.g. critter moved)
+         * @returns true on success
+         */
+        bool try_reacquire_target( bool critter, tripoint &new_dst );
 
         // Update 'status' variable
         void update_status();
@@ -1950,6 +1954,7 @@ target_handler::trajectory target_ui::run()
     std::string action;
     bool attack_was_confirmed = false;
     bool reentered = false;
+    bool resume_critter = false;
     if( mode == TargetMode::Fire && !activity->first_turn ) {
         // We were in this UI during previous turn...
         reentered = true;
@@ -1965,24 +1970,28 @@ target_handler::trajectory target_ui::run()
         // Load state to keep the ui consistent across turns
         snap_to_target = activity->snap_to_target;
         shifting_view = activity->shifting_view;
+        resume_critter = activity->aiming_at_critter;
     }
 
     // Initialize cursor position
     src = you->pos();
-    tripoint initial_dst = src;
     update_target_list();
-    if( !choose_initial_target( reentered, initial_dst ) ) {
-        // We've lost our target from previous turn
-        action.clear();
-        attack_was_confirmed = false;
-        you->last_target.reset();
+
+    tripoint initial_dst = src;
+    if( reentered ) {
+        if( !try_reacquire_target( resume_critter, initial_dst ) ) {
+            // Target lost
+            action.clear();
+            attack_was_confirmed = false;
+        }
+    } else {
+        initial_dst = choose_initial_target();
     }
     set_cursor_pos( initial_dst );
     if( dst != initial_dst ) {
         // Our target moved out of range
         action.clear();
         attack_was_confirmed = false;
-        you->last_target.reset();
     }
     if( mode == TargetMode::Fire ) {
         if( activity->aif_duration > AIF_DURATION_LIMIT ) {
@@ -2119,6 +2128,7 @@ target_handler::trajectory target_ui::run()
             activity->action = timed_out_action;
             activity->snap_to_target = snap_to_target;
             activity->shifting_view = shifting_view;
+            activity->aiming_at_critter = !!dst_critter;
             break;
         }
         case ExitCode::Reload: {
@@ -2423,64 +2433,59 @@ void target_ui::update_target_list()
     } );
 }
 
-bool target_ui::choose_initial_target( bool reentered, tripoint &new_dst )
+tripoint target_ui::choose_initial_target()
 {
+    // Try previously targeted creature
+    shared_ptr_fast<Creature> cr = you->last_target.lock();
+    if( cr && pl_can_target( &*cr ) && dist_fn( cr->pos() ) <= range ) {
+        return cr->pos();
+    }
+
+    // Try closest creature
+    if( !targets.empty() ) {
+        return targets[0]->pos();
+    }
+
+    // Try closest practice target
     map &here = get_map();
-    // Determine if we had a target and it is still visible
-    if( !you->last_target.expired() ) {
-        Creature *cr = you->last_target.lock().get();
-        if( pl_can_target( cr ) ) {
-            // There it is!
+    const std::vector<tripoint> nearby = closest_points_first( src, range );
+    const auto target_spot = std::find_if( nearby.begin(), nearby.end(),
+    [this, &here]( const tripoint & pt ) {
+        return here.tr_at( pt ).id == tr_practice_target && this->you->sees( pt );
+    } );
+    if( target_spot != nearby.end() ) {
+        return *target_spot;
+    }
+
+    // We've got nothing.
+    return src;
+}
+
+bool target_ui::try_reacquire_target( bool critter, tripoint &new_dst )
+{
+    if( critter ) {
+        // Try to re-acquire the creature
+        shared_ptr_fast<Creature> cr = you->last_target.lock();
+        if( cr && pl_can_target( &*cr ) && dist_fn( cr->pos() ) <= range ) {
             new_dst = cr->pos();
-            you->last_target_pos = here.getabs( new_dst );
             return true;
         }
     }
 
-    // Check if we were aiming at a tile or a (now missing) creature in a tile
-    // and still can aim at that tile.
-    cata::optional<tripoint> local_last_tgt_pos = cata::nullopt;
-    if( you->last_target_pos ) {
-        tripoint local = here.getlocal( *you->last_target_pos );
-        if( dist_fn( local ) > range ) {
-            // No luck
-            you->last_target_pos = cata::nullopt;
-        } else if( reentered ) {
-            local_last_tgt_pos = local;
-        }
-    }
-    if( mode == TargetMode::Fire && you->recoil == MAX_RECOIL ) {
-        // We've either moved away, used a bow or a gun with MASSIVE recoil. It doesn't really matter
-        // where we were aiming at, might as well start from scratch.
-        you->last_target_pos = cata::nullopt;
-        local_last_tgt_pos = cata::nullopt;
-    }
-    if( local_last_tgt_pos ) {
-        new_dst = *local_last_tgt_pos;
+    if( !you->last_target_pos.has_value() ) {
+        // This shouldn't happen
         return false;
     }
 
-    // Try to find at least something
-    if( targets.empty() ) {
-        // The closest practice target
-        const std::vector<tripoint> nearby = closest_points_first( src, range );
-        const auto target_spot = std::find_if( nearby.begin(), nearby.end(),
-        [this, &here]( const tripoint & pt ) {
-            return here.tr_at( pt ).id == tr_practice_target && this->you->sees( pt );
-        } );
-
-        if( target_spot != nearby.end() ) {
-            new_dst = *target_spot;
-            return false;
-        }
-    } else {
-        // The closest living target
-        new_dst = targets[0]->pos();
-        return false;
+    // Try to re-acquire target tile or tile where the target creature used to be
+    tripoint local_lt = get_map().getlocal( *you->last_target_pos );
+    if( dist_fn( local_lt ) <= range ) {
+        new_dst = local_lt;
+        // Abort aiming if a creature moved in
+        return !critter && !g->critter_at( local_lt, true );
     }
 
-    // We've got nothing.
-    new_dst = src;
+    // We moved out of range
     return false;
 }
 
