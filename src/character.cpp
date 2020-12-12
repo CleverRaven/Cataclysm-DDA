@@ -9043,7 +9043,7 @@ void Character::vomit()
                 stomach.contains() ) / 21, dummy_nausea.get_int_dur_factor() ) );
     }
 
-    moves -= 100;
+    mod_moves( -100 );
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
