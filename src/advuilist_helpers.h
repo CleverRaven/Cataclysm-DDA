@@ -79,6 +79,8 @@ constexpr char const SOURCE_VEHICLE_i = 'V';
 using pane_mutex_t = std::array<bool, aim_nsources * 2>;
 std::size_t idxtovehidx( std::size_t idx );
 void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex );
+void set_mutex( pane_mutex_t *mutex, aim_advuilist_sourced_t::slotidx_t slot,
+                aim_advuilist_sourced_t::icon_t icon, bool val );
 
 using filoc_t = std::function<item_location( item * )>;
 item_location iloc_map_cursor( map_cursor const &cursor, item *it );

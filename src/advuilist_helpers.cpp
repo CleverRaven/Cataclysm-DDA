@@ -461,14 +461,12 @@ void swap_panes_maybe( aim_transaction_ui_t *ui, std::string const &action, pane
         // also swap panes if the current source is re-selected since people have grown accustomed
         // to this behaviour (see discussion in #45900)
         if( rslot == oslot or rslot == cslot ) {
-            slotidx_t const cslotm = is_vehicle( cicon ) ? idxtovehidx( cslot ) : cslot;
-            slotidx_t const oslotm = is_vehicle( oicon ) ? idxtovehidx( oslot ) : oslot;
-            mutex->at( cslotm ) = false;
+            set_mutex( mutex, cslot, cicon, false );
             ui->otherpane()->setSource( cslot, cicon );
-            mutex->at( cslotm ) = true;
-            mutex->at( oslotm ) = false;
+            set_mutex( mutex, cslot, cicon, true );
+            set_mutex( mutex, oslot, oicon, false );
             ui->curpane()->setSource( oslot, oicon );
-            mutex->at( oslotm ) = true;
+            set_mutex( mutex, oslot, oicon, true );
             ui->otherpane()->get_ui()->invalidate_ui();
         }
     }
@@ -484,6 +482,23 @@ std::size_t idxtovehidx( std::size_t idx )
     return idx + aim_nsources;
 }
 
+void set_mutex( pane_mutex_t *mutex, aim_advuilist_sourced_t::slotidx_t slot,
+                aim_advuilist_sourced_t::icon_t icon, bool val )
+{
+    mutex->at( icon == SOURCE_VEHICLE_i ? idxtovehidx( slot ) : slot ) = val;
+    // dragged vehicle needs more checks...
+    if( source_player_dragged_avail() ) {
+        tripoint const off = get_avatar().grab_point;
+        if( slot == DRAGGED_IDX ) {
+            std::size_t const idx = offset_to_slotidx( off );
+            mutex->at( idxtovehidx( idx ) ) = val;
+        }
+        if( ( off == slotidx_to_offset( slot ) and is_vehicle( icon ) ) ) {
+            mutex->at( DRAGGED_IDX ) = val;
+        }
+    }
+}
+
 void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
 {
     using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
@@ -496,20 +511,8 @@ void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
     std::tie( lsrc, licon ) = ui->left()->getSource();
     std::tie( rsrc, ricon ) = ui->right()->getSource();
     mutex->fill( false );
-    mutex->at( licon == SOURCE_VEHICLE_i ? idxtovehidx( lsrc ) : lsrc ) = true;
-    mutex->at( ricon == SOURCE_VEHICLE_i ? idxtovehidx( rsrc ) : rsrc ) = true;
-    // dragged vehicle needs more checks...
-    if( source_player_dragged_avail() ) {
-        tripoint const off = get_avatar().grab_point;
-        if( lsrc == DRAGGED_IDX or rsrc == DRAGGED_IDX ) {
-            std::size_t const idx = offset_to_slotidx( off );
-            mutex->at( idxtovehidx( idx ) ) = true;
-        }
-        if( ( off == slotidx_to_offset( lsrc ) and is_vehicle( licon ) ) or
-            ( off == slotidx_to_offset( rsrc ) and is_vehicle( ricon ) ) ) {
-            mutex->at( DRAGGED_IDX ) = true;
-        }
-    }
+    set_mutex( mutex, lsrc, licon, true );
+    set_mutex( mutex, rsrc, ricon, true );
 }
 
 item_location iloc_map_cursor( map_cursor const &cursor, item *it )
