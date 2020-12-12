@@ -2,7 +2,7 @@
   {
     "id": "yum_lichen",
     "type": "COMESTIBLE",
-    "name": "clump of lichen",
+    "name": { "str": "clump of lichen", "str_pl": "clumps of lichen" },
     "weight": "10 g",
     "color": "red",
     "use_action": [ "BLECH" ],
@@ -21,7 +21,7 @@
   {
     "id": "yum_lichen_extra",
     "type": "COMESTIBLE",
-    "name": "clump of processed lichen",
+    "name": { "str": "clump of processed lichen", "str_pl": "clumps of processed lichen" },
     "weight": "10 g",
     "color": "red",
     "comestible_type": "FOOD",

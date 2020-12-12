@@ -228,7 +228,7 @@
   {
     "id": "mon_zombie_upliftedoctopus",
     "type": "MONSTER",
-    "name": { "str": "Dead Sea Witch" },
+    "name": { "str": "Dead Sea Witch", "str_pl": "Dead Sea Witches" },
     "description": "There is driftwood coming out of oozing wounds.  It moves towards you on a mass of writhing tentacles, black eyes like the deepest trench of the sea.",
     "default_faction": "zombie",
     "bodytype": "human",
