@@ -312,6 +312,7 @@
     "type": "BOOK",
     "name": "News Magazine Template",
     "description": "template for news magazine",
+    "looks_like": "flyer",
     "copy-from": "book_nonf_zine",
     "time": "11 m",
     "relative": { "intelligence": 1 }
