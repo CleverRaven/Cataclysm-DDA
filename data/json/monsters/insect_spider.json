@@ -532,7 +532,7 @@
 	"vision_day": 5,
 	"anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
 	"harvest": "arachnid_centipede_mom",
-	"reproduction": { "baby_monster": "mon_centipede_small", "baby_count": 3, "baby_timer": 5 },
+	"reproduction": { "baby_monster": "mon_centipede_small", "baby_count": 2, "baby_timer": 10 },
 	"baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
 	"upgrades": { "age_grow": 15, "into_group": "GROUP_CENTIPEDE_MOM" },
     "delete": { "flags": [ "KEENNOSE", "GOODHEARING" ] }
@@ -553,7 +553,6 @@
 	"hp": 850,
 	"speed": 100,
 	"aggression": 80,
-	"morale": 0,
 	"regen_morale": true,
 	"melee_skill": 7,
     "melee_dice": 3,
