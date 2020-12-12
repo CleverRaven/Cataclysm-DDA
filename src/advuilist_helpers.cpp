@@ -439,6 +439,39 @@ void aim_ground_veh_stats( aim_advuilist_sourced_t *ui, aim_stats_t *stats )
                                 volume_cap, volume_units_abbr() ) );
 }
 
+void swap_panes_maybe( aim_transaction_ui_t *ui, std::string const &action, pane_mutex_t *mutex )
+{
+    if( !ui->curpane()->setSourceSuccess() ) {
+        using namespace advuilist_literals;
+        using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
+        using icon_t = aim_advuilist_sourced_t::icon_t;
+
+        slotidx_t cslot = 0;
+        slotidx_t oslot = 0;
+        icon_t cicon = 0;
+        icon_t oicon = 0;
+        std::tie( cslot, cicon ) = ui->curpane()->getSource();
+        std::tie( oslot, oicon ) = ui->otherpane()->getSource();
+        // requested slot
+        slotidx_t const rslot =
+            action == ACTION_CYCLE_SOURCES
+            ? cslot
+            : std::stoul( action.substr( ACTION_SOURCE_PRFX_len, action.size() ) );
+        // swap panes if the requested source is already selected in the other pane
+        if( rslot == oslot ) {
+            slotidx_t const cslotm = is_vehicle( cicon ) ? idxtovehidx( cslot ) : cslot;
+            slotidx_t const oslotm = is_vehicle( oicon ) ? idxtovehidx( oslot ) : oslot;
+            mutex->at( cslotm ) = false;
+            ui->otherpane()->setSource( cslot, cicon );
+            mutex->at( cslotm ) = true;
+            mutex->at( oslotm ) = false;
+            ui->curpane()->setSource( oslot, oicon );
+            mutex->at( oslotm ) = true;
+            ui->otherpane()->get_ui()->invalidate_ui();
+        }
+    }
+}
+
 } // namespace
 
 namespace advuilist_helpers
@@ -907,6 +940,9 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
     // reset pane mutex on any source change
     if( action == ACTION_CYCLE_SOURCES or
         action.substr( 0, ACTION_SOURCE_PRFX_len ) == ACTION_SOURCE_PRFX ) {
+
+        swap_panes_maybe( ui, action, mutex );
+
         change_columns( ui->curpane() );
         reset_mutex( ui, mutex );
         // rebuild other pane if it's set to the ALL source
