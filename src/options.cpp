@@ -1428,6 +1428,12 @@ void options_manager::add_options_interface()
          false
        );
 
+    add( "AUTOSWAP_ADV_INV", "interface",
+         to_translation( "Swap advanced inventory panels on reselect" ),
+         to_translation( "Swap source and target locations in advanced inventory when a location is reselected" ),
+         true
+       );
+
     add( "INV_USE_ACTION_NAMES", "interface", to_translation( "Display actions in Use Item menu" ),
          to_translation(
              R"(If true, actions ( like "Read", "Smoke", "Wrap tighter" ) will be displayed next to the corresponding items.)" ),

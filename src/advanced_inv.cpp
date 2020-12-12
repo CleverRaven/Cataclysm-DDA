@@ -1123,7 +1123,6 @@ input_context advanced_inventory::register_ctxt() const
     ctxt.register_action( "MOVE_ITEM_STACK" );
     ctxt.register_action( "MOVE_ALL_ITEMS" );
     ctxt.register_action( "CATEGORY_SELECTION" );
-    ctxt.register_action( "STICKY_TABS" );
     ctxt.register_action( "ITEMS_NW" );
     ctxt.register_action( "ITEMS_N" );
     ctxt.register_action( "ITEMS_NE" );
@@ -1172,7 +1171,7 @@ void advanced_inventory::redraw_sidebar()
 void advanced_inventory::change_square( const aim_location changeSquare,
                                         advanced_inventory_pane &dpane, advanced_inventory_pane &spane )
 {
-    if( save_state->sticky_tabs ) {
+    if( !get_option<bool>( "AUTOSWAP_ADV_INV" ) ) {
         if( squares[changeSquare].canputitems( spane.get_cur_item_ptr() ) ) {
             if( changeSquare == AIM_CONTAINER ) {
                 squares[changeSquare].set_container(
@@ -1705,8 +1704,6 @@ void advanced_inventory::display()
             src = dest;
         } else if( action == "SWAP_TABS" ) {
             swap_panes();
-        } else if( action == "STICKY_TABS" ) {
-            save_state->sticky_tabs = !save_state->sticky_tabs;
         } else if( action == "TOGGLE_VEH" ) {
             if( squares[spane.get_area()].can_store_in_vehicle() ) {
                 // swap the panes if going vehicle will show the same tile
