@@ -129,7 +129,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lodge_basement_laboratory_entrance" ],
-    "weight": 100,
+    "//": "doesn't work rebuild later",
     "object": {
       "fill_ter": "t_rock",
       "rotation": [ 0, 3 ],
