@@ -654,6 +654,7 @@
     "melee_cut": 2,
     "dodge": 1,
     "vision_day": 15,
+    "regenerates": 10,
     "harvest": "alien_moxphore",
     "special_attacks": [ [ "ACID", 20 ], { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 6 } ] } ],
     "death_function": [ "ACID", "NORMAL" ],
