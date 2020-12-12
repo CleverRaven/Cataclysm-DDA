@@ -7670,6 +7670,31 @@ itype_id item::ammo_current() const
     return itype_id::NULL_ID();
 }
 
+const item &item::loaded_ammo() const
+{
+    const item *mag = magazine_current();
+    if( mag ) {
+        return mag->loaded_ammo();
+    }
+
+    if( is_magazine() ) {
+        return !contents.empty() ? contents.first_ammo() : null_item_reference();
+    }
+
+    auto mods = is_gun() ? gunmods() : toolmods();
+    for( const item *e : mods ) {
+        const item &mod_ammo = e->loaded_ammo();
+        if( !mod_ammo.is_null() ) {
+            return mod_ammo;
+        }
+    }
+
+    if( is_gun() && ammo_remaining() != 0 ) {
+        return contents.first_ammo();
+    }
+    return null_item_reference();
+}
+
 std::set<ammotype> item::ammo_types( bool conversion ) const
 {
     if( conversion ) {
