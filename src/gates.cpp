@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "character.h"
 #include "colony.h"

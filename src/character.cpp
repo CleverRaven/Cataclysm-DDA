@@ -15,6 +15,7 @@
 #include <type_traits>
 
 #include "action.h"
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "anatomy.h"
@@ -3970,8 +3971,9 @@ std::vector<std::string> Character::get_overlay_ids() const
     }
 
     if( !is_walking() ) {
-        rval.push_back( move_mode->name() );
+        rval.push_back( move_mode.str() );
     }
+
     return rval;
 }
 
