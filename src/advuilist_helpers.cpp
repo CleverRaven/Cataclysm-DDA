@@ -458,7 +458,9 @@ void swap_panes_maybe( aim_transaction_ui_t *ui, std::string const &action, pane
                 ? cslot
                 : std::stoul( action.substr( ACTION_SOURCE_PRFX_len, action.size() ) );
         // swap panes if the requested source is already selected in the other pane
-        if( rslot == oslot ) {
+        // also swap panes if the current source is re-selected since people have grown accustomed
+        // to this behaviour (see discussion in #45900)
+        if( rslot == oslot or rslot == cslot) {
             slotidx_t const cslotm = is_vehicle( cicon ) ? idxtovehidx( cslot ) : cslot;
             slotidx_t const oslotm = is_vehicle( oicon ) ? idxtovehidx( oslot ) : oslot;
             mutex->at( cslotm ) = false;
