@@ -11,5 +11,31 @@
     "avoidance": 99,
     "difficulty": 99,
     "spell_data": { "id": "bear_trap" }
+  },
+  {
+    "type": "trap",
+    "id": "tr_forge_vault1",
+    "name": "trapped floor",
+    "color": "brown",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "forge_trap1",
+    "benign": false
+  },
+  {
+    "type": "trap",
+    "id": "tr_forge_vault2",
+    "name": "trapped floor",
+    "color": "brown",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "forge_trap2",
+    "benign": false
   }
 ]
