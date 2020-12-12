@@ -11149,7 +11149,7 @@ bool Character::has_fire( const int quantity ) const
     } else if( has_item_with_flag( flag_FIRESTARTER ) ) {
         auto firestarters = all_items_with_flag( flag_FIRESTARTER );
         for( auto &i : firestarters ) {
-            if( has_charges( i->typeId(), quantity ) ) {
+            if( !i->typeId()->can_have_charges() || has_charges( i->typeId(), quantity ) ) {
                 return true;
             }
         }
