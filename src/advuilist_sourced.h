@@ -50,8 +50,11 @@ class advuilist_sourced : public advuilist<Container, T>
         ///@param slot
         ///@param icon
         ///@param fallthrough used internally by rebuild() to ensure that the internal list is valid
-        void setSource( slotidx_t slot, icon_t icon = 0, bool fallthrough = false );
+        bool setSource( slotidx_t slot, icon_t icon = 0, bool fallthrough = false );
         getsource_t getSource();
+        /// returns true if last call to setSource was successful. meant to be called from the
+        /// external ctxt handler added by setctxthandler()
+        bool setSourceSuccess();
 
         select_t select();
         void rebuild();
@@ -80,6 +83,7 @@ class advuilist_sourced : public advuilist<Container, T>
         point _origin, _oorigin;
         point _map_size;
         slotidx_t _cslot = 0;
+        bool _setsourcestat = false;
         bool needsinit = true;
 
         catacurses::window _w;
@@ -142,7 +146,7 @@ void advuilist_sourced<Container, T>::addSource( slotidx_t slot, source_t const 
 }
 
 template <class Container, typename T>
-void advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bool fallthrough )
+bool advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bool fallthrough )
 {
     slot_t &_slot = _sources[slot];
     slotcont_t &slotcont = std::get<slotcont_t>( _slot );
@@ -157,23 +161,35 @@ void advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bo
         if( _mapui ) {
             _mapui->invalidate_ui();
         }
-    } else {
-        // if requested icon is not valid, set the first available one
-        icon_t next = _cycleslot( slot, slotcont.begin()->first );
-        if( next != 0 ) {
-            setSource( slot, next, fallthrough );
-        } else if( fallthrough ) {
-            // if we still don't have a valid source on rebuild(), empty the internal container
-            _container.clear();
-            advuilist<Container, T>::rebuild();
-        }
+        return true;
     }
+
+    // if requested icon is not valid, set the first available one
+    icon_t next = _cycleslot( slot, slotcont.begin()->first );
+    if( next != 0 ) {
+        setSource( slot, next, fallthrough );
+        return true;
+    } 
+
+    if( fallthrough ) {
+        // if we still don't have a valid source on rebuild(), empty the internal container
+        _container.clear();
+        advuilist<Container, T>::rebuild();
+    }
+
+    return false;
 }
 
 template <class Container, typename T>
 typename advuilist_sourced<Container, T>::getsource_t advuilist_sourced<Container, T>::getSource()
 {
     return { _cslot, std::get<icon_t>( _sources[_cslot] ) };
+}
+
+template <class Container, typename T>
+bool advuilist_sourced<Container, T>::setSourceSuccess()
+{
+    return _setsourcestat;
 }
 
 template <class Container, typename T>
@@ -292,11 +308,13 @@ void advuilist_sourced<Container, T>::_ctxthandler( advuilist<Container, T> * /*
     // where is c++20 when you need it?
     if( action.substr( 0, ACTION_SOURCE_PRFX_len ) == ACTION_SOURCE_PRFX ) {
         slotidx_t slotidx = std::stoul( action.substr( ACTION_SOURCE_PRFX_len, action.size() ) );
-        setSource( slotidx );
+        _setsourcestat = setSource( slotidx );
     } else if( action == ACTION_CYCLE_SOURCES ) {
         icon_t const next = _cycleslot( _cslot );
         if( next != 0 ) {
-            setSource( _cslot, next );
+            _setsourcestat = setSource( _cslot, next );
+        } else {
+            _setsourcestat = false;
         }
     } else if( action == ACTION_NEXT_SLOT ) {
         setSource( _cslot == _sources.size() - 1 ? 0 : _cslot + 1 );
