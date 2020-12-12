@@ -169,7 +169,7 @@ bool advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bo
     if( next != 0 ) {
         setSource( slot, next, fallthrough );
         return true;
-    } 
+    }
 
     if( fallthrough ) {
         // if we still don't have a valid source on rebuild(), empty the internal container
