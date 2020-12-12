@@ -12,41 +12,41 @@
 #include <utility>       // for move, get, pair
 #include <vector>        // for vector
 
-#include "activity_actor.h"    // for drop_or_stash_item_info, drop_act...
-#include "activity_type.h"     // for activity_id
-#include "advuilist_const.h"   // for ACTION_EXAMINE, TOGGLE_AUTO_PICKUP
-#include "advuilist_sourced.h" // for advuilist_sourced
-#include "auto_pickup.h"       // for get_auto_pickup
-#include "avatar.h"            // for avatar, get_avatar
-#include "character.h"         // for Character
-#include "color.h"             // for get_all_colors, color_manager
-#include "enums.h"             // for object_type, object_type::VEHICLE
-#include "game.h"              // for g, inventory_item_menu
-#include "input.h"             // for input_event
-#include "item.h"              // for item, iteminfo
-#include "item_category.h"     // for item_category
-#include "item_contents.h"     // for item_contents
-#include "item_location.h"     // for item_location
-#include "item_pocket.h"       // for item_pocket, item_pocket::pocket_...
-#include "item_search.h"       // for item_filter_from_string
-#include "map.h"               // for get_map, map, map_stack
-#include "map_selector.h"      // for map_cursor, map_selector
-#include "optional.h"          // for optional
-#include "options.h"           // for get_option
-#include "output.h"            // for format_volume, draw_item_info
-#include "player_activity.h"   // for player_activity
-#include "point.h"             // for tripoint
-#include "string_formatter.h"  // for string_format
-#include "transaction_ui.h"    // for transaction_ui<>::advuilist_t
-#include "translations.h"      // for _, localized_comparator, localize...
-#include "type_id.h"           // for hash, itype_id
-#include "ui.h"                // for uilist, MENU_AUTOASSIGN
-#include "ui_manager.h"        // for ui_adaptor
-#include "units.h"             // for quantity, operator""_kilogram
-#include "units_utility.h"     // for convert_weight, volume_units_abbr
-#include "vehicle.h"           // for vehicle
-#include "vehicle_selector.h"  // for vehicle_cursor
-#include "vpart_position.h"    // for vpart_reference, optional_vpart_p...
+#include "activity_actor_definitions.h"  // for drop_or_stash_item_info, dro...
+#include "activity_type.h"               // for activity_id
+#include "advuilist_const.h"             // for ACTION_CYCLE_SOURCES, ACTION...
+#include "advuilist_sourced.h"           // for advuilist_sourced
+#include "auto_pickup.h"                 // for get_auto_pickup, player_sett...
+#include "avatar.h"                      // for get_avatar, avatar
+#include "character.h"                   // for Character
+#include "color.h"                       // for colorize, color_manager, c_l...
+#include "enums.h"                       // for object_type, object_type::VE...
+#include "game.h"                        // for game, g, game::LEFT_OF_INFO
+#include "input.h"                       // for input_context, input_event
+#include "item.h"                        // for item, iteminfo
+#include "item_category.h"               // for item_category
+#include "item_contents.h"               // for item_contents
+#include "item_location.h"               // for item_location
+#include "item_pocket.h"                 // for item_pocket, item_pocket::po...
+#include "item_search.h"                 // for item_filter_from_string
+#include "map.h"                         // for get_map, map, map_stack
+#include "map_selector.h"                // for map_cursor
+#include "optional.h"                    // for optional, nullopt
+#include "options.h"                     // for get_option
+#include "output.h"                      // for format_volume, right_print
+#include "player_activity.h"             // for player_activity
+#include "point.h"                       // for tripoint, point, tripoint_zero
+#include "string_formatter.h"            // for string_format
+#include "transaction_ui.h"              // for transaction_ui<>::advuilist_t
+#include "translations.h"                // for _, localized_comparator, loc...
+#include "type_id.h"                     // for itype_id, hash
+#include "ui.h"                          // for uilist, MENU_AUTOASSIGN
+#include "ui_manager.h"                  // for ui_adaptor
+#include "units.h"                       // for volume, operator""_liter
+#include "units_utility.h"               // for convert_weight, volume_units...
+#include "vehicle.h"                     // for vehicle, vehicle_stack
+#include "vehicle_selector.h"            // for vehicle_cursor
+#include "vpart_position.h"              // for vpart_reference, optional_vp...
 
 namespace catacurses
 {
@@ -445,7 +445,7 @@ void swap_panes_maybe( aim_transaction_ui_t *ui, std::string const &action, pane
         using namespace advuilist_literals;
         using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
         using icon_t = aim_advuilist_sourced_t::icon_t;
-
+        
         slotidx_t cslot = 0;
         slotidx_t oslot = 0;
         icon_t cicon = 0;
@@ -455,8 +455,8 @@ void swap_panes_maybe( aim_transaction_ui_t *ui, std::string const &action, pane
         // requested slot
         slotidx_t const rslot =
             action == ACTION_CYCLE_SOURCES
-            ? cslot
-            : std::stoul( action.substr( ACTION_SOURCE_PRFX_len, action.size() ) );
+                ? cslot
+                : std::stoul( action.substr( ACTION_SOURCE_PRFX_len, action.size() ) );
         // swap panes if the requested source is already selected in the other pane
         if( rslot == oslot ) {
             slotidx_t const cslotm = is_vehicle( cicon ) ? idxtovehidx( cslot ) : cslot;
