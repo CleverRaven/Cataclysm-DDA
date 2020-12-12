@@ -37,5 +37,23 @@
     "action": "map_regen",
     "map_regen": "forge_trap2",
     "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "forge_trap2",
+    "method": "json",
+    "object": {
+      "place_terrain": [ { "ter": "t_lava", "x": 12, "y": 6 } ],
+      "place_monsters": [ { "furn": "f_beaded_door", "x": 12, "y": 6 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "forge_trap1",
+    "method": "json",
+    "object": {
+      "place_terrain": [ { "ter": "t_lava", "x": 12, "y": 6 } ],
+      "place_monsters": [ { "furn": "f_beaded_door", "x": 12, "y": 6 } ]
+    }
   }
 ]
