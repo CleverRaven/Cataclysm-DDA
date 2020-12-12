@@ -12,6 +12,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "ammo.h"
 #include "avatar.h"

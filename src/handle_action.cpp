@@ -8,6 +8,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "advanced_inv.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
