@@ -59,7 +59,7 @@
     "id": "frost_human_cooked",
     "copy-from": "frost_human_flesh",
     "type": "COMESTIBLE",
-    "name": "cooked frostburnd human meat",
+    "name": "cooked frostburned human meat",
     "description": "A freshly cooked slice of human meat, it has severe frostburn.",
     "proportional": { "price": 1.5 },
     "parasites": 0,
