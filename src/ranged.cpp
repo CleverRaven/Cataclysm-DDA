@@ -112,6 +112,9 @@ static const std::string flag_MOUNTABLE( "MOUNTABLE" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
+// Maximum duration of aim-and-fire loop, in turns
+static constexpr int AIF_DURATION_LIMIT = 10;
+
 static projectile make_gun_projectile( const item &gun );
 static int time_to_attack( const Character &p, const itype &firing );
 /**
@@ -1982,6 +1985,13 @@ target_handler::trajectory target_ui::run()
         you->last_target.reset();
     }
     if( mode == TargetMode::Fire ) {
+        if( activity->aif_duration > AIF_DURATION_LIMIT ) {
+            // Break long (potentially infinite) aim-and-fire loop.
+            // May happen if e.g. avatar tries to get 'precise' shot while being
+            // attacked by multiple zombies, which triggers dodges and corresponding aim loss.
+            action.clear();
+            attack_was_confirmed = false;
+        }
         if( !activity->first_turn && !action.empty() && !prompt_friendlies_in_lof() ) {
             // A friendly creature moved into line of fire during aim-and-shoot,
             // and player decided to stop aiming
@@ -1989,6 +1999,11 @@ target_handler::trajectory target_ui::run()
             attack_was_confirmed = false;
         }
         activity->acceptable_losses.clear();
+        if( action.empty() ) {
+            activity->aif_duration = 0;
+        } else {
+            activity->aif_duration += 1;
+        }
     }
 
     // Event loop!

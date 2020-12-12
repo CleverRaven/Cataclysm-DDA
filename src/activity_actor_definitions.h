@@ -41,6 +41,7 @@ class aim_activity_actor : public activity_actor
     public:
         bool first_turn = true;
         std::string action = "";
+        int aif_duration = 0; // Counts aim-and-fire duration
         bool snap_to_target = false;
         bool shifting_view = false;
         tripoint initial_view_offset;
