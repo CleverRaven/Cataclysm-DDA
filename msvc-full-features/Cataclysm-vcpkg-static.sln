@@ -13,15 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		vcpkg.json = vcpkg.json
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-vcpkg-static", "..\msvc-full-features\Cataclysm-vcpkg-static.vcxproj", "{19F0BE17-3DAF-40E8-A9D2-904A56382E54}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-vcpkg-static", "Cataclysm-vcpkg-static.vcxproj", "{19F0BE17-3DAF-40E8-A9D2-904A56382E54}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-test-vcpkg-static", "..\msvc-full-features\Cataclysm-test-vcpkg-static.vcxproj", "{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-test-vcpkg-static", "Cataclysm-test-vcpkg-static.vcxproj", "{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-lib-vcpkg-static", "..\msvc-full-features\Cataclysm-lib-vcpkg-static.vcxproj", "{0009BB11-11AD-4C14-A5FC-D882A942C00B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-lib-vcpkg-static", "Cataclysm-lib-vcpkg-static.vcxproj", "{0009BB11-11AD-4C14-A5FC-D882A942C00B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter-vcpkg-static", "..\msvc-full-features\JsonFormatter-vcpkg-static.vcxproj", "{35D74C75-FC4A-442F-AF44-43BC9D845BAF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter-vcpkg-static", "JsonFormatter-vcpkg-static.vcxproj", "{35D74C75-FC4A-442F-AF44-43BC9D845BAF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter-lib-vcpkg-static", "..\msvc-full-features\JsonFormatter-lib-vcpkg-static.vcxproj", "{534A4E38-96A1-40E4-BDA7-8D17607F0270}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter-lib-vcpkg-static", "JsonFormatter-lib-vcpkg-static.vcxproj", "{534A4E38-96A1-40E4-BDA7-8D17607F0270}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,7 +44,6 @@ Global
 		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Debug|x86.ActiveCfg = Debug|Win32
 		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Debug|x86.Build.0 = Debug|Win32
 		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release|x64.ActiveCfg = Release|x64
-		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release|x64.Build.0 = Release|x64
 		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release|x86.ActiveCfg = Release|Win32
 		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release|x86.Build.0 = Release|Win32
 		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Debug|x64.ActiveCfg = Debug|x64
@@ -60,7 +59,6 @@ Global
 		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x86.ActiveCfg = Debug|Win32
 		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x86.Build.0 = Debug|Win32
 		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x64.ActiveCfg = Release|x64
-		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x64.Build.0 = Release|x64
 		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x86.ActiveCfg = Release|Win32
 		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x86.Build.0 = Release|Win32
 		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Debug|x64.ActiveCfg = Debug|x64
@@ -68,7 +66,6 @@ Global
 		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Debug|x86.ActiveCfg = Debug|Win32
 		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Debug|x86.Build.0 = Debug|Win32
 		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Release|x64.ActiveCfg = Release|x64
-		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Release|x64.Build.0 = Release|x64
 		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Release|x86.ActiveCfg = Release|Win32
 		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection

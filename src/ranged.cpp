@@ -649,6 +649,7 @@ bool player::handle_gun_damage( item &it )
         }
         // These are the dirtying/fouling mechanics
         if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( flag_NON_FOULING ) ) {
+			debugmsg( _( "FOULING" ), it.tname() );
             if( dirt < static_cast<int>( dirt_max_dbl ) ) {
                 dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - firing.blackpowder_tolerance *
                             2 );
