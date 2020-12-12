@@ -565,23 +565,6 @@ float player::stability_roll() const
     return get_melee() + get_str() + ( get_per() / 3.0f ) + ( get_dex() / 4.0f );
 }
 
-double player::recoil_vehicle() const
-{
-    // TODO: vary penalty dependent upon vehicle part on which player is boarded
-
-    if( in_vehicle ) {
-        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
-            return static_cast<double>( std::abs( vp->vehicle().velocity ) ) * 3 / 100;
-        }
-    }
-    return 0;
-}
-
-double player::recoil_total() const
-{
-    return recoil + recoil_vehicle();
-}
-
 bool player::is_hallucination() const
 {
     return false;

@@ -32,7 +32,6 @@
     "location": "stabilizer",
     "mod_targets": [ "bow" ],
     "dispersion_modifier": -100,
-    "handling_modifier": 3,
     "min_skills": [ [ "archery", 1 ] ]
   },
   {
@@ -50,7 +49,6 @@
     "location": "stabilizer",
     "mod_targets": [ "bow" ],
     "dispersion_modifier": -150,
-    "handling_modifier": 6,
     "min_skills": [ [ "archery", 2 ] ],
     "flags": [ "NEEDS_UNFOLD" ]
   },
@@ -70,7 +68,6 @@
     "mod_targets": [ "bow" ],
     "dispersion_modifier": -50,
     "loudness_modifier": -8,
-    "handling_modifier": 1,
     "min_skills": [ [ "weapon", 2 ] ]
   },
   {

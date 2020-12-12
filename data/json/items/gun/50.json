@@ -44,6 +44,7 @@
     "range": 110,
     "dispersion": 250,
     "durability": 8,
+    "handling": 40,
     "reload": 400,
     "barrel_length": "1250 ml",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],

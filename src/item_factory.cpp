@@ -363,13 +363,18 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         if( obj.gun->handling < 0 ) {
+            bool burst_only = std::all_of( obj.gun->modes.begin(), obj.gun->modes.end(),
+            []( const std::pair<gun_mode_id, gun_modifier_data> &pr ) {
+                return pr.second.qty() > 1 || pr.second.flags().count( "MELEE" ) > 0;
+            } );
             // TODO: specify in JSON via classes
-            if( obj.gun->skill_used == skill_id( "rifle" ) ||
-                obj.gun->skill_used == skill_id( "smg" ) ||
-                obj.gun->skill_used == skill_id( "shotgun" ) ) {
-                obj.gun->handling = 20;
+            if( obj.gun->skill_used == skill_id( "shotgun" ) ) {
+                obj.gun->handling = 30;
+            } else if( obj.gun->skill_used == skill_id( "rifle" ) ||
+                       obj.gun->skill_used == skill_id( "smg" ) ) {
+                obj.gun->handling = burst_only ? 40 : 20;
             } else {
-                obj.gun->handling = 10;
+                obj.gun->handling = burst_only ? 25 : 15;
             }
         }
 

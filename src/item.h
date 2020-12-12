@@ -1812,12 +1812,18 @@ class item : public visitable<item>
         int gun_range( bool with_ammo = true ) const;
 
         /**
+         * Get multiplier on recoil considering handling and attached gunmods.
+         * @param bipod whether any bipods should be considered
+         * @return multiplier on recoil applied to shots fired from this gun
+         */
+        double gun_recoil_multiplier( bool bipod = false ) const;
+
+        /**
          *  Get effective recoil considering handling, loaded ammo and effects of attached gunmods
-         *  @param p player stats such as STR can alter effective recoil
          *  @param bipod whether any bipods should be considered
          *  @return effective recoil (per shot) or zero if gun uses ammo and none is loaded
          */
-        int gun_recoil( const player &p, bool bipod = false ) const;
+        int gun_recoil( bool bipod = false ) const;
 
         /**
          * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.

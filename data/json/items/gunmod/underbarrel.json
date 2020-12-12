@@ -15,7 +15,7 @@
     "color": "brown",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "launcher" ],
-    "handling_modifier": 18,
+    "handling_modifier": 40,
     "min_skills": [ [ "weapon", 2 ] ],
     "flags": [ "BIPOD", "SLOW_WIELD" ]
   },
@@ -79,7 +79,7 @@
     "color": "brown",
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
-    "handling_modifier": 6,
+    "handling_modifier": 10,
     "min_skills": [ [ "weapon", 2 ] ],
     "flags": [ "PUMP_RAIL_COMPATIBLE" ]
   },

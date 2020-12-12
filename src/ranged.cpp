@@ -104,6 +104,9 @@ static projectile make_gun_projectile( const item &gun );
 int time_to_attack( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
 void make_gun_sound_effect( const player &p, bool burst, item *weapon );
+bool can_use_bipod( const map &m, const tripoint &pos );
+dispersion_sources calculate_dispersion( const map &m, const player &p, const item &gun,
+        int at_recoil, bool burst );
 
 bool targeting_data::is_valid() const
 {
@@ -410,12 +413,38 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
     }
 }
 
+bool can_use_bipod( const map &m, const tripoint &pos )
+{
+    // usage of any attached bipod is dependent upon terrain
+    if( m.has_flag_ter_or_furn( "MOUNTABLE", pos ) ) {
+        return true;
+    }
+
+    if( const optional_vpart_position vp = m.veh_at( pos ) ) {
+        return vp->vehicle().has_part( pos, "MOUNTABLE" );
+    }
+
+    return false;
+}
+
+dispersion_sources calculate_dispersion( const map &m, const player &p, const item &gun,
+        int at_recoil, bool burst )
+{
+    bool bipod = can_use_bipod( m, p.pos() );
+
+    int gun_recoil = gun.gun_recoil( bipod );
+    int eff_recoil = at_recoil + ( burst ? ranged::burst_penalty( p, gun, gun_recoil ) : 0 );
+    dispersion_sources dispersion( p.get_weapon_dispersion( gun ) );
+    dispersion.add_range( eff_recoil );
+    return dispersion;
+}
+
 int player::fire_gun( const tripoint &target, int shots )
 {
     return fire_gun( target, shots, weapon );
 }
 
-int player::fire_gun( const tripoint &target, int shots, item &gun )
+int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
 {
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", name, gun.tname() );
@@ -426,6 +455,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
         is_mech_weapon = true;
     }
+
+    int shots = max_shots;
     // Number of shots to fire is limited by the amount of remaining ammo
     if( gun.ammo_required() ) {
         shots = std::min( shots, static_cast<int>( gun.ammo_remaining() / gun.ammo_required() ) );
@@ -440,25 +471,13 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
     }
 
-    // usage of any attached bipod is dependent upon terrain
-    bool bipod = g->m.has_flag_ter_or_furn( "MOUNTABLE", pos() );
-    if( !bipod ) {
-        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
-            bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" );
-        }
-    }
-
-    // Up to 50% of recoil can be delayed until end of burst dependent upon relevant skill
-    /** @EFFECT_PISTOL delays effects of recoil during automatic fire */
-    /** @EFFECT_SMG delays effects of recoil during automatic fire */
-    /** @EFFECT_RIFLE delays effects of recoil during automatic fire */
-    /** @EFFECT_SHOTGUN delays effects of recoil during automatic fire */
-    double absorb = std::min( get_skill_level( gun.gun_skill() ), MAX_SKILL ) / double( MAX_SKILL * 2 );
+    // Penalty is (intentionally) based off mode shots, not ammo-limited.
+    dispersion_sources dispersion = calculate_dispersion( g->m, *this, gun, recoil_total(),
+                                    max_shots > 1 );
 
     tripoint aim = target;
     int curshot = 0;
     int hits = 0; // total shots on target
-    int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
         if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
             moves -= 50;
@@ -470,9 +489,6 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-        dispersion_sources dispersion = get_weapon_dispersion( gun );
-        dispersion.add_range( recoil_total() );
-
         // If this is a vehicle mounted turret, which vehicle is it mounted on?
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( g->m.veh_at(
                                     pos() ) ) : nullptr;
@@ -482,11 +498,6 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
         auto shot = projectile_attack( projectile, pos(), aim, dispersion, this, in_veh );
         curshot++;
-
-        int qty = gun.gun_recoil( *this, bipod );
-        delay  += qty * absorb;
-        // Temporarily scale by 5x as we adjust MAX_RECOIL.
-        recoil += 5.0 * ( qty * ( 1.0 - absorb ) );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
@@ -525,13 +536,11 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
             continue; // skip retargeting for launchers
         }
     }
-    // apply shot counter to gun and its mods.
-    gun.set_var( "shot_counter", gun.get_var( "shot_counter", 0 ) + curshot );
-    for( item *mod : gun.gunmods() ) {
-        mod->set_var( "shot_counter", mod->get_var( "shot_counter", 0 ) + curshot );
-    }
-    // apply delayed recoil
-    recoil += delay;
+
+    // Now actually apply recoil for the future shots
+    // But only for one shot, because bursts kinda suck
+    int gun_recoil = gun.gun_recoil( can_use_bipod( g->m, pos() ) );
+    recoil += gun_recoil;
     if( is_mech_weapon ) {
         // mechs can handle recoil far better. they are built around their main gun.
         recoil = recoil / 2;
@@ -558,7 +567,6 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     return curshot;
 }
 
-// TODO: Method
 // Silence warning about missing prototype.
 int throw_cost( const player &c, const item &to_throw );
 int throw_cost( const player &c, const item &to_throw )
@@ -1020,8 +1028,7 @@ static double confidence_estimate( int range, double target_size,
                                    const dispersion_sources &dispersion )
 {
     // This is a rough estimate of accuracy based on a linear distribution across min and max
-    // dispersion.  It is highly inaccurate probability-wise, but this is intentional, the player
-    // is not doing Gaussian integration in their head while aiming.  The result gives the player
+    // dispersion.  It is highly inaccurate probability-wise.  The result gives the player
     // correct relative measures of chance to hit, and corresponds with the actual distribution at
     // min, max, and mean.
     if( range == 0 ) {
@@ -1073,10 +1080,13 @@ static std::string get_colored_bar( const double val, const int width, const std
     return result;
 }
 
-static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number,
-                                target_mode mode, input_context &ctxt, const item &ranged_weapon,
-                                const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config,
-                                double range, double target_size, int recoil = 0 )
+static int print_ranged_chance( const player &, const catacurses::window &w, int line_number,
+                                input_context &ctxt, const item &,
+                                const std::vector<aim_type> &aim_types,
+                                const std::function<dispersion_sources( const aim_type & )> &dispersion_fun,
+                                const std::function<int( const aim_type & )> &cost_fun,
+                                const std::vector<confidence_rating> &confidence_config,
+                                double range, double target_size )
 {
     int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
@@ -1087,13 +1097,6 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     }
 
     nc_color col = c_dark_gray;
-
-    std::vector<aim_type> aim_types;
-    if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
-        aim_types = get_default_aim_type();
-    } else {
-        aim_types = p.get_aim_types( ranged_weapon );
-    }
 
     if( display_type != "numbers" ) {
         std::string symbols;
@@ -1124,25 +1127,14 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     };
 
     for( const aim_type &type : aim_types ) {
-        dispersion_sources current_dispersion = dispersion;
-        int threshold = MAX_RECOIL;
+        dispersion_sources current_dispersion = dispersion_fun( type );
         std::string label = _( "Current" );
         std::string aim_l = _( "Aim" );
         if( type.has_threshold ) {
             label = type.name;
-            threshold = type.threshold;
-            current_dispersion.add_range( threshold );
-        } else {
-            current_dispersion.add_range( recoil );
         }
 
-        int moves_to_fire;
-        if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
-            moves_to_fire = throw_cost( p, ranged_weapon );
-        } else {
-            moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_attack( p,
-                            *ranged_weapon.type );
-        }
+        int moves_to_fire = cost_fun( type );
 
         auto hotkey = front_or( type.action.empty() ? "FIRE" : type.action, ' ' );
         if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
@@ -1206,7 +1198,7 @@ static double calculate_aim_cap( const player &p, const tripoint &target )
 }
 
 static int print_aim( const player &p, const catacurses::window &w, int line_number,
-                      input_context &ctxt, item *weapon,
+                      input_context &ctxt, const item &weapon,
                       const double target_size, const tripoint &pos, double predicted_recoil )
 {
     // This is absolute accuracy for the player.
@@ -1214,7 +1206,7 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
     // Creature::projectile_attack() into shared methods.
     // Dodge doesn't affect gun attacks
 
-    dispersion_sources dispersion = p.get_weapon_dispersion( *weapon );
+    dispersion_sources dispersion = p.get_weapon_dispersion( weapon );
     dispersion.add_range( p.recoil_vehicle() );
 
     const double min_recoil = calculate_aim_cap( p, pos );
@@ -1235,11 +1227,22 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
         }
     };
 
+    int shots = std::max( 1, weapon.gun_current_mode().qty );
+    const auto dispersion_fun = [&]( const aim_type & at ) {
+        int at_recoil = at.has_threshold ? at.threshold : static_cast<int>( predicted_recoil );
+        return calculate_dispersion( g->m, p, weapon, at_recoil, shots > 1 );
+    };
+    const auto cost_fun = [&]( const aim_type & at ) {
+        int at_recoil = at.has_threshold ? at.threshold : static_cast<int>( predicted_recoil );
+        return p.gun_engagement_moves( weapon, at_recoil, p.recoil ) + time_to_attack( p,
+                *weapon.type );
+    };
     const double range = rl_dist( p.pos(), pos );
     line_number = print_steadiness( w, line_number, steadiness );
-    return print_ranged_chance( p, w, line_number, TARGET_MODE_FIRE, ctxt, *weapon, dispersion,
+    return print_ranged_chance( p, w, line_number, ctxt, weapon, p.get_aim_types( weapon ),
+                                dispersion_fun, cost_fun,
                                 confidence_config,
-                                range, target_size, predicted_recoil );
+                                range, target_size );
 }
 
 static int list_turrets_in_range( vehicle *veh, const std::vector<vehicle_part *> &turrets,
@@ -1288,9 +1291,14 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
     const auto &confidence_config = target != nullptr ?
                                     confidence_config_critter : confidence_config_object;
 
-    const target_mode throwing_target_mode = is_blind_throw ? TARGET_MODE_THROW_BLIND :
-            TARGET_MODE_THROW;
-    return print_ranged_chance( p, w, line_number, throwing_target_mode, ctxt, weapon, dispersion,
+    const auto dispersion_fun = [&]( const aim_type & ) {
+        return dispersion;
+    };
+    const auto cost_fun = [&]( const aim_type & ) {
+        return throw_cost( p, weapon );
+    };
+    return print_ranged_chance( p, w, line_number, ctxt,  weapon, get_default_aim_type(),
+                                dispersion_fun, cost_fun,
                                 confidence_config,
                                 range, target_size );
 }
@@ -1710,7 +1718,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 const double target_size = critter != nullptr ? critter->ranged_target_size() :
                                            occupied_tile_fraction( MS_MEDIUM );
 
-                line_number = print_aim( pc, w_target, line_number, ctxt, &*relevant->gun_current_mode(),
+                line_number = print_aim( pc, w_target, line_number, ctxt, *relevant->gun_current_mode(),
                                          target_size, dst, predicted_recoil );
 
                 if( aim_mode->has_threshold ) {
@@ -2767,6 +2775,23 @@ double player::gun_value( const item &weap, int ammo ) const
     return std::max( 0.0, gun_value );
 }
 
+double Character::recoil_vehicle() const
+{
+    // TODO: vary penalty dependent upon vehicle part on which player is boarded
+
+    if( in_vehicle ) {
+        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+            return static_cast<double>( std::abs( vp->vehicle().velocity ) ) * 3 / 100;
+        }
+    }
+    return 0;
+}
+
+double Character::recoil_total() const
+{
+    return recoil + recoil_vehicle();
+}
+
 namespace ranged
 {
 
@@ -2820,6 +2845,23 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
 
         return true;
     } );
+}
+
+int burst_penalty( const Character &p, const item &gun, int gun_recoil )
+{
+    ///\EFFECT_DEX reduces burst penalty by flat amount
+    int dex_effect = p.get_dex() * 10;
+    ///\EFFECT_STR reduces burst fire penalty
+    float str_effect = p.get_str() * 0.5f;
+
+    /** @EFFECT_PISTOL reduces burst fire penalty */
+    /** @EFFECT_SMG reduces burst fire penalty */
+    /** @EFFECT_RIFLE reduces burst fire penalty */
+    /** @EFFECT_SHOTGUN reduces burst fire penalty */
+    int skill_lvl = std::min( p.get_skill_level( gun.gun_skill() ), MAX_SKILL );
+
+    return std::max<int>( 0, 3 * ( gun_recoil - dex_effect ) / std::max( 1.0f,
+                          str_effect + skill_lvl ) );
 }
 
 } // namespace ranged

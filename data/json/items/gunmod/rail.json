@@ -114,7 +114,7 @@
     "location": "rail",
     "mod_targets": [ "smg", "rifle", "crossbow" ],
     "dispersion_modifier": -1,
-    "handling_modifier": 6,
+    "handling_modifier": 10,
     "min_skills": [ [ "weapon", 6 ] ]
   },
   {

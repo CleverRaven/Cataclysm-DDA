@@ -23,7 +23,7 @@
     "id": "dias",
     "type": "GUNMOD",
     "name": { "str": "drop-in auto sear" },
-    "description": "This is a vaguely 'U' shaped piece of metal with a vaguely 'T' shaped flapper on a pin.  Once tucked into an AR-15's lower receiver, the rifle will become selective fire-capable.  The handcrafted-sear surface isn't as good as actual full-auto parts, so precision and reliability suffer slightly.",
+    "description": "This is a vaguely 'U' shaped piece of metal with a vaguely 'T' shaped flapper on a pin.  Once tucked into an AR-15's lower receiver, the rifle will become selective fire-capable.  The handcrafted-sear surface isn't as good as actual full-auto parts, so precision suffers slightly.",
     "weight": "113 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
@@ -35,10 +35,8 @@
     "color": "red",
     "location": "mechanism",
     "mod_targets": [ "ar15" ],
-    "//": "Install time short since it drops in, hinging open the AR being all the 'skill' necessary. Precision drop marginal since it'd change how semi and FA trigger pulls feel.",
     "install_time": "5 m",
     "dispersion_modifier": 10,
-    "//durability_modifier": -1,
     "mode_modifier": [ [ "AUTO", "auto", 4 ] ],
     "min_skills": [ [ "rifle", 2 ] ]
   },
@@ -57,15 +55,11 @@
     "color": "red",
     "location": "mechanism",
     "mod_targets": [ "ar15" ],
-    "//": "Sort of long install time. Gotta grind down the carrier trip to SP1-ish length. Unfortunately, since you're sort of guessing how long that is, the AR's timing with this installed will be borked.(disco might be disengaged at non-ideal times).",
     "install_time": "25 m",
     "dispersion_modifier": 40,
-    "consume_chance": 300,
-    "consume_divisor": 110,
-    "//durability_modifier": -3,
-    "mode_modifier": [ [ "DEFAULT", "auto", 14 ] ],
+    "mode_modifier": [ [ "DEFAULT", "auto", 6 ] ],
     "min_skills": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
-    "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
+    "flags": [ "INSTALL_DIFFICULT" ]
   },
   {
     "id": "waterproof_gunmod",
