@@ -61,7 +61,7 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "cone_cold", "min_level": 5 },
+        "spell_data": { "id": "cryo_blast", "min_level": 5 },
         "cooldown": 20,
         "monster_message": "A burst of frozen air explodes from their lungs!"
       }

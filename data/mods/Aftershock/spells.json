@@ -119,7 +119,7 @@
     "max_duration": 1000
   },
   {
-    "id": "cone_cold",
+    "id": "cryo_blast",
     "type": "SPELL",
     "name": "Cryokinetic blast",
     "description": "You blast a cone of frigid air toward the target.",
@@ -137,7 +137,6 @@
     "min_range": 6,
     "max_range": 20,
     "range_increment": 1.0,
-    "spell_class": "KELVINIST",
     "base_casting_time": 200,
     "base_energy_cost": 350,
     "energy_source": "MANA",
