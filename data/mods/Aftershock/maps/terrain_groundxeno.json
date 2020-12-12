@@ -417,13 +417,13 @@
     "type": "terrain",
     "id": "t_moxfloor",
     "name": "moxian floor",
-    "description": "The ground here is strangely furry here, covered in hairs and chitin and strangely warm to the touch.",
+    "description": "The ground here is riddled with small outgrowths of white coral, and what is left of the ground is covered in black veins.",
     "symbol": ".",
     "looks_like": "t_fungus",
     "color": "light_red",
-    "move_cost": 2,
+    "move_cost": 3,
     "coverage": 40,
-    "flags": [ "DIGGABLE", "FLAT", "FLAMMABLE_ASH", "TRANSPARENT" ],
+    "flags": [ "DIGGABLE", "FLAT", "ROUGH", "FLAMMABLE_ASH", "TRANSPARENT" ],
     "bash": { "str_min": 4, "str_max": 30, "sound": "splosh.", "sound_fail": "brush.", "ter_set": "t_deaddirt" }
   }
 ]
