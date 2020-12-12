@@ -373,7 +373,8 @@ if __name__ == '__main__':
             tmp_merged_pngs = ts_data.walk_dirs(refs)
 
             if not tmp_merged_pngs:
-                # no images in the tilesheet
+                # no images in the tilesheet, revert pngnum
+                refs.pngnum -= 1
                 continue
 
             ts_data.finalize_merges(tmp_merged_pngs)
