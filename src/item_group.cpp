@@ -360,9 +360,9 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     }
 
     new_item.set_damage( rng( damage.first, damage.second ) );
-    // no need for dirt if it's a bow
-    if( new_item.is_gun() && !new_item.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) &&
-        !new_item.has_flag( flag_NON_FOULING ) ) {
+    // Dirt for guns. No need for dirt if it's a bow or non-fouling
+    if( new_item.is_gun() && ( !new_item.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ||
+                               !new_item.has_flag( flag_NON_FOULING ) ) ) {
         int random_dirt = rng( dirt.first, dirt.second );
         // if gun RNG is dirty, must add dirt fault to allow cleaning
         if( random_dirt > 0 ) {
