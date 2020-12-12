@@ -2055,7 +2055,7 @@ class Character : public Creature, public visitable<Character>
         // gets the string that describes your weight
         std::string get_weight_string() const;
         // gets the description, printed in player_display, related to your current bmi
-        std::string get_weight_description() const;
+        std::string get_weight_long_description() const;
         // calculates the BMI
         float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors

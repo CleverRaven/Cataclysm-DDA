@@ -8058,7 +8058,7 @@ std::string Character::get_weight_string() const
     }
 }
 
-std::string Character::get_weight_description() const
+std::string Character::get_weight_long_description() const
 {
     const float bmi = get_bmi();
     if( bmi > character_weight_category::morbidly_obese ) {
