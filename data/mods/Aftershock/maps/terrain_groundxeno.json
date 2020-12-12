@@ -123,7 +123,7 @@
     "coverage": 80,
     "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND", "EMITTER" ],
     "emissions": [ "emit_smoke_plume", "emit_hot_air_migo_seep" ],
-    "bash": { "str_min": 45, "str_max": 140, "sound": "smash!", "sound_fail": "thump." }
+    "bash": { "str_min": 45, "str_max": 140, "sound": "smash!", "sound_fail": "thump.", "ter_set": "t_fumarole" }
   },
   {
     "type": "terrain",
@@ -135,7 +135,7 @@
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
-    "bash": { "str_min": 45, "str_max": 140, "sound": "smash!", "sound_fail": "thump." }
+    "bash": { "str_min": 45, "str_max": 140, "sound": "smash!", "sound_fail": "thump.", "ter_set": "t_fumarole" }
   },
   {
     "type": "terrain",
@@ -144,7 +144,7 @@
     "description": "A hole in the ground in which steam and other gases are escaping from.",
     "symbol": ".",
     "color": "white",
-    "move_cost_mod": 10,
+    "move_cost": 10,
     "flags": [ "TRANSPARENT", "FLAT", "ROUGH", "EMITTER" ],
     "emissions": [ "emit_smoke_plume", "emit_hot_air_migo_seep" ]
   },

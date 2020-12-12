@@ -333,7 +333,7 @@
     "type": "COMESTIBLE",
     "copy-from": "alien_brain",
     "looks_like": "offal_cooked",
-    "name": { "str_sp": "cooked brains" },
+    "name": { "str_sp": "cooked alien brains" },
     "description": "Fried and scrambled, this doesn't look the most appetizing, but its edible.",
     "price_postapoc": 25,
     "parasites": 0,
