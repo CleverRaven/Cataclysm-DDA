@@ -1620,7 +1620,7 @@ inventory_selector::stat display_stat( const std::string &caption, int cur_value
 {
     const nc_color color = cur_value > max_value ? c_red : c_light_gray;
     return {{
-            caption,
+            caption, " ",
             colorize( disp_func( cur_value ), color ), "/",
             colorize( disp_func( max_value ), c_light_gray )
         }};
@@ -1628,32 +1628,52 @@ inventory_selector::stat display_stat( const std::string &caption, int cur_value
 
 inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
     units::mass weight_carried, units::mass weight_capacity,
-    const units::volume &volume_carried, const units::volume &volume_capacity,
-    const units::length &longest_length, const units::volume &largest_free_volume )
+    units::volume volume_carried,  units::volume volume_capacity,
+    units::length longest_length,  units::volume largest_free_volume )
 {
-    // This is a bit of a hack, we're prepending two entries to the weight and length stat blocks.
-    std::string length_weight_caption = string_format( _( "Longest Length (%s): %s Weight (%s):" ),
-                                        length_units( longest_length ),
-                                        colorize( to_string( convert_length( longest_length ) ), c_light_gray ), weight_units() );
-    std::string volume_caption = string_format( _( "Free Volume (%s): %s Volume (%s):" ),
-                                 volume_units_abbr(),
-                                 colorize( format_volume( largest_free_volume ), c_light_gray ),
-                                 volume_units_abbr() );
+
+    std::vector<std::string> first_row{
+        string_format( _( "Longest Length (%s):" ), length_units( longest_length ) ),
+        " ",
+        colorize( to_string( convert_length( longest_length ) ), c_light_gray ),
+        " "
+    };
+
+    const std::vector<std::string> weight_stat = display_stat( string_format( _( "Weight (%s):" ),
+            weight_units() ),
+            to_gram( weight_carried ),
+    to_gram( weight_capacity ), []( int w ) {
+        return string_format( "%.1f", round_up( convert_weight( units::from_gram( w ) ), 1 ) );
+    } );
+
+    first_row.insert(
+        first_row.end(),
+        std::make_move_iterator( weight_stat.begin() ),
+        std::make_move_iterator( weight_stat.end() )
+    );
+
+    std::vector<std::string> second_row{
+        string_format( _( "Free Volume (%s):" ), volume_units_abbr() ),
+        " ",
+        colorize( format_volume( largest_free_volume ), c_light_gray ),
+        " "};
+
+    const std::vector<std::string> volume_stat = display_stat( string_format( _( "Volume (%s):" ),
+            volume_units_abbr() ),
+            units::to_milliliter( volume_carried ),
+    units::to_milliliter( volume_capacity ), []( int v ) {
+        return format_volume( units::from_milliliter( v ) );
+    } );
+
+    second_row.insert(
+        second_row.end(),
+        std::make_move_iterator( volume_stat.begin() ),
+        std::make_move_iterator( volume_stat.end() )
+    );
+
     return {
-        {
-            display_stat( length_weight_caption,
-                          to_gram( weight_carried ),
-                          to_gram( weight_capacity ), []( int w )
-            {
-                return string_format( "%.1f", round_up( convert_weight( units::from_gram( w ) ), 1 ) );
-            } ),
-            display_stat( volume_caption,
-                          units::to_milliliter( volume_carried ),
-                          units::to_milliliter( volume_capacity ), []( int v )
-            {
-                return format_volume( units::from_milliliter( v ) );
-            } )
-        }
+        std::move( first_row ),
+        std::move( second_row )
     };
 }
 
@@ -1664,33 +1684,57 @@ inventory_selector::stats inventory_selector::get_raw_stats() const
                                         u.max_single_item_length(), u.max_single_item_volume() );
 }
 
+std::vector<alignment> inventory_selector::get_stats_alignment() const
+{
+    return {alignment::RIGHT,   // Caption
+            alignment::LEFT,    // ' '
+            alignment::RIGHT,   // Units
+            alignment::LEFT,    // ' '
+            alignment::RIGHT,   // 'Caption'
+            alignment::LEFT,    // ' '
+            alignment::RIGHT,   // Units
+            alignment::LEFT,    // '/'
+            alignment::LEFT};   // 'Units'
+}
+
 std::vector<std::string> inventory_selector::get_stats() const
 {
-    // Stats consist of arrays of cells.
+    // Stats consist of vector of cells.
     const size_t num_stats = 2;
     const std::array<stat, num_stats> stats = get_raw_stats();
+    const std::vector<alignment> alignments = get_stats_alignment();
     // Streams for every stat.
     std::array<std::string, num_stats> lines;
     std::array<size_t, num_stats> widths;
-    // Add first cells and spaces after them.
-    for( size_t i = 0; i < stats.size(); ++i ) {
-        lines[i] += string_format( "%s", stats[i][0] ) + " ";
+
+    if( stats.front().size() != stats.back().size() ) {
+        debugmsg( "Stats first and second row have different amount of cells" );
     }
-    // Now add the rest of the cells and align them to the right.
-    for( size_t j = 1; j < stats.front().size(); ++j ) {
+
+    // We assume all lines have the same number of cells
+    for( size_t stat_column = 0; stat_column < stats.front().size(); ++stat_column ) {
         // Calculate actual cell width for each stat.
         std::transform( stats.begin(), stats.end(), widths.begin(),
-        [j]( const stat & elem ) {
-            return utf8_width( elem[j], true );
+        [stat_column]( const stat & elem ) {
+            return utf8_width( elem[stat_column], true );
         } );
         // Determine the max width.
-        const size_t max_w = *std::max_element( widths.begin(), widths.end() );
+        const size_t column_max_w = *std::max_element( widths.begin(), widths.end() );
+        const alignment column_alignment = alignments.size() > stat_column ? alignments[stat_column] :
+                                           alignment::LEFT;
+
         // Align all stats in this cell with spaces.
-        for( size_t i = 0; i < stats.size(); ++i ) {
-            if( max_w > widths[i] ) {
-                lines[i] += std::string( max_w - widths[i], ' ' );
+        for( size_t stat_row = 0; stat_row < stats.size(); ++stat_row ) {
+            const size_t pad_size = column_max_w - widths.at( stat_row );
+            if( pad_size && column_alignment == alignment::RIGHT ) {
+                lines[stat_row] += std::string( pad_size, ' ' );
             }
-            lines[i] += string_format( "%s", stats[i][j] );
+
+            lines[stat_row] += string_format( "%s", stats[stat_row][stat_column] );
+
+            if( pad_size && column_alignment == alignment::LEFT ) {
+                lines[stat_row] += std::string( pad_size, ' ' );
+            }
         }
     }
     // Construct the final result.
@@ -2400,6 +2444,15 @@ inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
     return stats{{ stat{{ "", "", "", "" }}, stat{{ "", "", "", "" }} }};
 }
 
+std::vector<alignment> inventory_iuse_selector::get_stats_aligment() const
+{
+    return {alignment::RIGHT,   // 'Caption'
+            alignment::LEFT,    // ' '
+            alignment::RIGHT,   // Units
+            alignment::LEFT,    // '/'
+            alignment::LEFT};   // 'Units'
+}
+
 inventory_drop_selector::inventory_drop_selector( Character &p,
         const inventory_selector_preset &preset, const std::string &selection_column_title ) :
     inventory_multiselector( p, preset, selection_column_title ),
@@ -2633,10 +2686,54 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
 
 inventory_selector::stats inventory_drop_selector::get_raw_stats() const
 {
-    return get_weight_and_volume_stats(
-               u.weight_carried_with_tweaks( dropping ),
-               u.weight_capacity(),
-               u.volume_carried_with_tweaks( dropping ),
-               u.volume_capacity_with_tweaks( dropping ),
-               u.max_single_item_length(), u.max_single_item_volume() );
+    stats drop_stats = get_weight_and_volume_stats(
+                           u.weight_carried_with_tweaks( dropping ),
+                           u.weight_capacity(),
+                           u.volume_carried_with_tweaks( dropping ),
+                           u.volume_capacity_with_tweaks( dropping ),
+                           u.max_single_item_length(), u.max_single_item_volume() );
+
+    std::pair<units::mass, units::volume> drop_weight_volume = get_drop_weight_volume();
+
+    stat &weight_stats = drop_stats.front();
+    weight_stats.push_back( " -> " );
+    weight_stats.push_back( colorize( string_format( "%.1f",
+                                      round_up( convert_weight( drop_weight_volume.first ), 1 ) ), c_light_gray ) );
+
+    stat &volume_stats = drop_stats.back();
+    volume_stats.push_back( " -> " );
+    volume_stats.push_back( colorize( format_volume( drop_weight_volume.second ), c_light_gray ) );
+
+    return drop_stats;
+}
+
+std::vector<alignment> inventory_drop_selector::get_stats_alignment() const
+{
+    // <Caption>," ",<Units>,"/",<Units>," -> ",<Units>
+    return {alignment::RIGHT,   // Caption
+            alignment::LEFT,    // ' '
+            alignment::RIGHT,   // Units
+            alignment::LEFT,    // ' '
+            alignment::RIGHT,
+            alignment::LEFT,
+            alignment::RIGHT,
+            alignment::LEFT,
+            alignment::LEFT,
+            alignment::LEFT,
+            alignment::RIGHT};
+}
+
+std::pair<units::mass, units::volume> inventory_drop_selector::get_drop_weight_volume() const
+{
+    units::mass drop_mass = 0_gram;
+    units::volume drop_volume = 0_ml;
+    for( const std::pair<item_location, int> &loc_pair : dropping ) {
+        const item *dropped_item = loc_pair.first.get_item();
+        if( dropped_item ) {
+            drop_mass += dropped_item->weight() * loc_pair.second;
+            drop_volume += dropped_item->volume() * loc_pair.second;
+        }
+    }
+
+    return {drop_mass, drop_volume};
 }

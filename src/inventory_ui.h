@@ -49,6 +49,11 @@ enum class scroll_direction : int {
     BACKWARD = -1
 };
 
+enum class alignment : int {
+    LEFT = 0,
+    RIGHT
+};
+
 struct inventory_input;
 struct navigation_mode_data;
 
@@ -526,8 +531,8 @@ class inventory_selector
         /** Get last filter string set by set_filter or entered by player */
         std::string get_filter() const;
 
-        // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
-        using stat = std::array<std::string, 4>;
+        // A vector of cells for the stat lines. Example: ["Weight (kg)", " ", "10", "/", "20"].
+        using stat = std::vector<std::string>;
         using stats = std::array<stat, 2>;
 
     protected:
@@ -574,13 +579,16 @@ class inventory_selector
 
         static stats get_weight_and_volume_stats(
             units::mass weight_carried, units::mass weight_capacity,
-            const units::volume &volume_carried, const units::volume &volume_capacity,
-            const units::length &longest_length, const units::volume &largest_free_volume );
+            units::volume volume_carried, units::volume volume_capacity,
+            units::length longest_length, units::volume largest_free_volume );
 
         /** Get stats to display in top right.
          *
          * By default, computes volume/weight numbers for @c u */
         virtual stats get_raw_stats() const;
+
+        /** Get aligments that stat columns will respect */
+        virtual std::vector<alignment> get_stats_alignment() const;
 
         std::vector<std::string> get_stats() const;
         std::pair<std::string, nc_color> get_footer( navigation_mode m ) const;
@@ -763,6 +771,8 @@ class inventory_iuse_selector : public inventory_multiselector
 
     protected:
         stats get_raw_stats() const override;
+        std::vector<alignment> get_stats_aligment() const ;
+
         void set_chosen_count( inventory_entry &entry, size_t count );
 
     private:
@@ -780,6 +790,9 @@ class inventory_drop_selector : public inventory_multiselector
         drop_locations execute();
     protected:
         stats get_raw_stats() const override;
+        std::vector<alignment> get_stats_alignment() const override;
+        std::pair<units::mass, units::volume> get_drop_weight_volume() const;
+
         /** Toggle item dropping */
         void set_chosen_count( inventory_entry &entry, size_t count );
         void process_selected( int &count, const std::vector<inventory_entry *> &selected );
