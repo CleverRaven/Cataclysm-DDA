@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_modular_hub_field_version_1_0",
+    "result": "faction_base_modular_hub_field_0",
     "description": "We should survey the base site and set up a bulletin board.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",

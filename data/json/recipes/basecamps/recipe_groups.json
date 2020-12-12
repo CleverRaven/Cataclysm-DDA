@@ -5,7 +5,7 @@
     "building_type": "NONE",
     "recipes": [
       {
-        "id": "faction_base_modular_hub_field_version_1_0",
+        "id": "faction_base_modular_hub_field_0",
         "description": "Modular Field Camp version 1",
         "om_terrains": [ "field" ]
       },
