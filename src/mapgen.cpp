@@ -5622,7 +5622,7 @@ void map::rotate( int turns, const bool setpos_safe )
         }
     }
 
-    clear_all_vehicle_caches( abs_sub.z );
+    clear_vehicle_level_caches();
     clear_vehicle_list( abs_sub.z );
 
     submap *pz = get_submap_at_grid( point_zero );
@@ -5676,7 +5676,7 @@ void map::rotate( int turns, const bool setpos_safe )
             update_vehicle_list( sm, abs_sub.z );
         }
     }
-    build_all_vehicle_caches( abs_sub.z );
+    rebuild_vehicle_level_caches();
 
     // rotate zones
     zone_manager &mgr = zone_manager::get_manager();

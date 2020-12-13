@@ -6481,8 +6481,7 @@ void vehicle::shift_parts( const point &delta )
     pivot_anchor[0] -= delta;
     refresh();
     //Need to also update the map after this
-    get_map().clear_all_vehicle_caches( sm_pos.z );
-    get_map().build_all_vehicle_caches( sm_pos.z );
+    get_map().rebuild_vehicle_level_caches();
 }
 
 /**

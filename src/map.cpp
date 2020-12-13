@@ -212,15 +212,14 @@ VehicleList map::get_vehicles()
                          tripoint( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, OVERMAP_HEIGHT ) );
 }
 
-void map::build_all_vehicle_caches( const int zlev )
+void map::rebuild_vehicle_level_caches()
 {
-    int minz = zlevels ? -OVERMAP_DEPTH : zlev;
-    int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    clear_vehicle_level_caches();
 
-    for( int gridz = minz; gridz <= maxz; gridz++ ) {
+    for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
         // Cache all vehicles
         level_cache &ch = get_cache( gridz );
-        //ch.set_veh_in_active_range( false );
+
         for( const auto &elem : ch.vehicle_list ) {
             add_vehicle_to_cache( elem );
         }
@@ -241,7 +240,6 @@ void map::add_vehicle_to_cache( vehicle *veh )
         }
         const tripoint p = veh->global_part_pos3( vpr.part() );
         level_cache &ch = get_cache( p.z );
-        ch.set_veh_in_active_range( true );
         ch.set_veh_cached_parts( p, *veh, static_cast<int>( vpr.part_index() ) );
         if( inbounds( p ) ) {
             ch.set_veh_exists_at( p, true );
@@ -263,11 +261,9 @@ void map::clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt )
     ch.clear_veh_from_veh_cached_parts( pt, veh );
 }
 
-void map::clear_all_vehicle_caches( const int zlev )
+void map::clear_vehicle_level_caches( )
 {
-    int minz = zlevels ? -OVERMAP_DEPTH : zlev;
-    int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
-    for( int gridz = minz; gridz <= maxz; gridz++ ) {
+    for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
         level_cache &ch = get_cache( gridz );
         ch.clear_vehicle_cache();
     }
@@ -333,8 +329,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
                 overmap_buffer.remove_vehicle( veh );
             }
             dirty_vehicle_list.erase( veh );
-            clear_all_vehicle_caches( z );
-            build_all_vehicle_caches( z );
+            rebuild_vehicle_level_caches();
             return result;
         }
     }
@@ -440,16 +435,6 @@ bool map::vehproceed( VehicleList &vehicle_list )
     cur_veh->v = cur_veh->v->act_on_map();
     if( cur_veh->v == nullptr ) {
         vehicle_list = get_vehicles();
-    }
-
-    // confirm that veh_in_active_range is still correct for each z-level
-    int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
-    int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int zlev = minz; zlev <= maxz; ++zlev ) {
-        level_cache &cache = get_cache( zlev );
-
-        // Check if any vehicles exist in the active range for this z-level
-        cache.verify_vehicle_cache();
     }
 
     return true;
@@ -6569,13 +6554,13 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
     submaps_with_active_items.clear();
     // TODO: fix point types
     set_abs_sub( w.raw() );
-    clear_all_vehicle_caches( 0 );
+    clear_vehicle_level_caches();
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             loadn( point( gridx, gridy ), update_vehicle, false );
         }
     }
-    build_all_vehicle_caches( 0 );
+    rebuild_vehicle_level_caches();
 
     // actualize after loading all submaps to prevent errors
     // with entities at the edges
@@ -6695,7 +6680,7 @@ void map::shift( const point &sp )
     // Shift the map sx submaps to the right and sy submaps down.
     // sx and sy should never be bigger than +/-1.
     // absx and absy are our position in the world, for saving/loading purposes.
-    clear_all_vehicle_caches( abs.z );
+    clear_vehicle_level_caches();
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         // Clear vehicle list and rebuild after shift
         // mlangsdorf 2020 - this is kind of insane, building the cache is not free, why are
@@ -6790,7 +6775,7 @@ void map::shift( const point &sp )
         }
 
     }
-    build_all_vehicle_caches( abs.z );
+    rebuild_vehicle_level_caches();
 
     g->setremoteveh( remoteveh );
 
