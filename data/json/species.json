@@ -76,7 +76,7 @@
     "type": "SPECIES",
     "id": "CENTIPEDE",
     "description": "a centipede",
-	"footsteps": "skittering.",
+    "footsteps": "skittering.",
     "fear_triggers": [ "FIRE" ]
   },
   {

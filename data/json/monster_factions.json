@@ -25,7 +25,7 @@
     "name": "zombie",
     "friendly": [ "slime", "cult", "zombie_aquatic" ],
     "neutral": [ "small_animal", "fish", "insect" ],
-	"by_mood": [ "bee", "wasp" ]
+    "by_mood": [ "bee", "wasp" ]
   },
   {
     "type": "MONSTER_FACTION",
