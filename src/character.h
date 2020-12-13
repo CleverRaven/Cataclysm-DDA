@@ -1048,13 +1048,6 @@ class Character : public Creature, public visitable<Character>
         bool made_of( const material_id &m ) const override;
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
-        // Drench cache
-        enum water_tolerance {
-            WT_IGNORED = 0,
-            WT_NEUTRAL,
-            WT_GOOD,
-            NUM_WATER_TOLERANCE
-        };
         inline int posx() const override {
             return position.x;
         }
@@ -1120,8 +1113,6 @@ class Character : public Creature, public visitable<Character>
          * If new_item is not null, then calculate under the asumption that it
          * is added to existing work items. */
         void item_encumb( std::map<bodypart_id, encumbrance_data> &vals, const item &new_item ) const;
-
-        std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
 
     public:
         /** Recalculate encumbrance for all body parts. */
