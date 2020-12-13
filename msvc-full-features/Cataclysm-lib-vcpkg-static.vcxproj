@@ -75,10 +75,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <CompileAsManaged>false</CompileAsManaged>
       <DisableSpecificWarnings>4819;4146;26495;26444;26451;4068;6319;6237</DisableSpecificWarnings>
-      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;_CONSOLE;SDL_SOUND;TILES;SDL_BUILDING_LIBRARY;LOCALIZE;USE_VCPKG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -127,13 +125,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\*.h" Exclude="..src\message.h" />
-    <ClInclude Include="..\msvc-full-features\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\*.cpp" Exclude="..\src\main.cpp;..\src\messages.cpp" />
-    <ClCompile Include="..\msvc-full-features\stdafx.cpp">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
