@@ -798,8 +798,16 @@ bool tool_comp::has(
     } else {
         int charges_required = count * batch * item::find_type( type )->charge_factor();
 
-        if( ( flags & craft_flags::start_only ) != craft_flags::none ) {
-            charges_required = charges_required / 20 + charges_required % 20;
+        // The `type->tool` check excludes items counted by charge used as tools,
+        // such as water purification tablets.
+        if( ( flags & craft_flags::start_only ) != craft_flags::none && type->tool ) {
+            // See Character::craft_consume_tools. In theory only
+            // `charges_required / 20 + charges_required % 20` charges are
+            // consumed during the first 5% progress, however that equation
+            // sometimes decreases when the batch size increases, so we take
+            // the largest remainder value 19 to make this function return
+            // false consistently for large batch sizes.
+            charges_required = std::min( charges_required, charges_required / 20 + 19 );
         }
 
         int charges_found = crafting_inv.charges_of( type, charges_required, filter, visitor );
