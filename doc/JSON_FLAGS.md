@@ -203,6 +203,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```STREAM``` Leaves a trail of fire fields.
 - ```TRAIL``` Creates a trail of smoke.
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
+- ```NON_FOULING``` This ammo does not cause dirtying or blackpowder fouling on the gun when fired.
 
 
 ## Armor
@@ -740,6 +741,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```STR_RELOAD``` Reload speed is affected by strength.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
+- ```NON_FOULING``` Gun does not become dirty or blackpowder fouled.
 
 ### Firing modes
 
