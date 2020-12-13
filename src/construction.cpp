@@ -346,8 +346,8 @@ construction_id construction_menu( const bool blueprint )
     ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
     ctxt.register_action( "RIGHT", to_translation( "Move tab right" ) );
     ctxt.register_action( "LEFT", to_translation( "Move tab left" ) );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "SCROLL_STAGE_UP" );
     ctxt.register_action( "SCROLL_STAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
@@ -709,8 +709,8 @@ construction_id construction_menu( const bool blueprint )
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
-        int recmax = static_cast<int>( constructs.size() );
-        int scroll_rate = recmax > 20 ? 10 : 3;
+        const int recmax = static_cast<int>( constructs.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "FILTER" ) {
             string_input_popup popup;
             popup
@@ -1788,7 +1788,7 @@ void finalize_constructions()
 
     for( construction &con : constructions ) {
         if( !con.group.is_valid() ) {
-            debugmsg( "Invalid construction group (%s) defiend for construction (%s)",
+            debugmsg( "Invalid construction group (%s) defined for construction (%s)",
                       con.group.str(), con.str_id.str() );
         }
         if( con.vehicle_start ) {

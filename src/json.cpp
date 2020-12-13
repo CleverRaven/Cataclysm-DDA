@@ -150,6 +150,15 @@ void JsonObject::allow_omitted_members() const
 #endif
 }
 
+void JsonObject::copy_visited_members( const JsonObject &rhs ) const
+{
+#ifndef CATA_IN_TOOL
+    visited_members = rhs.visited_members;
+#else
+    static_cast<void>( rhs );
+#endif
+}
+
 int JsonObject::verify_position( const std::string &name,
                                  const bool throw_exception ) const
 {
@@ -1855,7 +1864,7 @@ void JsonOut::write_separator()
     }
     stream->put( ',' );
     if( pretty_print ) {
-        // Wrap after seperator between objects and between members of top-level objects.
+        // Wrap after separator between objects and between members of top-level objects.
         if( indent_level < 2 || need_wrap.back() ) {
             stream->put( '\n' );
             write_indent();

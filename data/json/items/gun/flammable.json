@@ -58,7 +58,7 @@
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "extend": { "flags": [ "FIRE_20", "MODE_BURST", "NON-FOULING" ] },
+    "extend": { "flags": [ "FIRE_20", "MODE_BURST", "NON_FOULING" ] },
     "delete": { "flags": [ "FIRE_100" ] },
     "pocket_data": [
       {

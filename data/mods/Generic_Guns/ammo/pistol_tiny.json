@@ -6,7 +6,7 @@
     "name": { "str_sp": "tiny pistol ammo, ball" },
     "ammo_type": "ammo_pistol_tiny",
     "casing": "pistol_tiny_casing",
-    "description": "Miniscule pistol and rifle ammunition, for target practice or turn of the century sidearms.  Sold in great quantities preceding the riots.  'Ball' is an old term for full metal jacketed bullets which offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.",
+    "description": "Minuscule pistol and rifle ammunition, for target practice or turn of the century sidearms.  Sold in great quantities preceding the riots.  'Ball' is an old term for full metal jacketed bullets which offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -2, "armor_penetration": 3 } }
   },
   {
@@ -14,7 +14,7 @@
     "type": "AMMO",
     "copy-from": "tiny_pistol_ball",
     "name": { "str_sp": "tiny pistol ammo, JHP" },
-    "description": "Miniscule pistol and rifle ammunition, for target practice or turn of the century sidearms.  Sold in great quantities preceding the riots.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.",
+    "description": "Minuscule pistol and rifle ammunition, for target practice or turn of the century sidearms.  Sold in great quantities preceding the riots.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -3 } }
   },
   {

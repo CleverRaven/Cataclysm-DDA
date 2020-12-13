@@ -80,7 +80,6 @@ static const ammotype ammo_plutonium( "plutonium" );
 static const skill_id skill_firstaid( "firstaid" );
 
 static const bionic_id bio_ads( "bio_ads" );
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_blade( "bio_blade" );
 static const bionic_id bio_claws( "bio_claws" );
 static const bionic_id bio_faraday( "bio_faraday" );
@@ -95,7 +94,6 @@ static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_plutfilter( "bio_plutfilter" );
 static const bionic_id bio_radscrubber( "bio_radscrubber" );
-static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_soporific( "bio_soporific" );
 
@@ -159,11 +157,6 @@ enum npc_action : int {
 
 namespace
 {
-const std::vector<bionic_id> power_cbms = { {
-        bio_advreactor,
-        bio_reactor,
-    }
-};
 const std::vector<bionic_id> defense_cbms = { {
         bio_ads,
         bio_faraday,
@@ -751,7 +744,6 @@ void npc::move()
         set_attitude( NPCATT_NULL );
     }
     regen_ai_cache();
-    adjust_power_cbms();
     // NPCs under operation should just stay still
     if( activity.id() == ACT_OPERATION ) {
         execute_action( npc_player_activity );
@@ -1595,16 +1587,6 @@ item_location npc::find_usable_ammo( const item &weap ) const
     return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
 
-void npc::adjust_power_cbms()
-{
-    if( !is_player_ally() || wants_to_recharge_cbm() ) {
-        return;
-    }
-    for( const bionic_id &cbm_id : power_cbms ) {
-        deactivate_bionic_by_id( cbm_id );
-    }
-}
-
 void npc::activate_combat_cbms()
 {
     for( const bionic_id &cbm_id : defense_cbms ) {
@@ -1759,18 +1741,6 @@ bool npc::recharge_cbm()
                     complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
                 }
             }
-        }
-    }
-
-    if( use_bionic_by_id( bio_reactor ) || use_bionic_by_id( bio_advreactor ) ) {
-        const std::function<bool( const item & )> reactor_filter = []( const item & it ) {
-            return it.is_ammo() && ( it.ammo_type() == ammo_plutonium ||
-                                     it.ammo_type() == ammo_reactor_slurry );
-        };
-        if( consume_cbm_items( reactor_filter ) ) {
-            return true;
-        } else {
-            complain_about( "need_radioactives", 3_hours, "<need_radioactives>", false );
         }
     }
 
@@ -4114,40 +4084,40 @@ void npc::set_omt_destination()
     // We need that, otherwise find_closest won't work properly
     surface_omt_loc.z() = 0;
 
-    // also, don't bother looking if the CITY_SIZE is 0, just go somewhere at random
-    const int city_size = get_option<int>( "CITY_SIZE" );
-    if( city_size == 0 ) {
-        goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
-        return;
-    }
-
     decide_needs();
     if( needs.empty() ) { // We don't need anything in particular.
         needs.push_back( need_none );
+
+        // also, don't bother looking if the CITY_SIZE is 0, just go somewhere at random
+        const int city_size = get_option<int>( "CITY_SIZE" );
+        if( city_size == 0 ) {
+            goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
+            return;
+        }
     }
 
     std::string dest_type;
     for( const auto &fulfill : needs ) {
-        // look for the closest occurence of any of that locations terrain types
-        std::vector<oter_type_id> loc_list = get_location_for( fulfill )->get_all_terrains();
-        std::shuffle( loc_list.begin(), loc_list.end(), rng_get_engine() );
+        // look for the closest occurrence of any of that locations terrain types
         omt_find_params find_params;
-        std::vector<std::pair<std::string, ot_match_type>> temp_types;
-        for( const oter_type_id &elem : loc_list ) {
+        for( const oter_type_str_id &elem : get_location_for( fulfill )->get_all_terrains() ) {
             std::pair<std::string, ot_match_type> temp_pair;
-            temp_pair.first = elem.id().str();
+            temp_pair.first = elem.str();
             temp_pair.second = ot_match_type::type;
-            temp_types.push_back( temp_pair );
+            find_params.types.push_back( temp_pair );
         }
+        // note: no shuffle of `find_params.types` is needed, because `find_closest`
+        // disregards `types` order anyway, and already returns random result among
+        // those having equal minimal distance
         find_params.search_range = 75;
-        find_params.types = temp_types;
         find_params.existing_only = false;
         goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
-        omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+        omt_path.clear();
         if( goal != overmap::invalid_tripoint ) {
             omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
         }
         if( !omt_path.empty() ) {
+            dest_type = overmap_buffer.ter( goal )->get_type_id().str();
             break;
         }
     }

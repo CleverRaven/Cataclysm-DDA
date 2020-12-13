@@ -108,10 +108,9 @@
     "type": "COMESTIBLE",
     "id": "cow_candy",
     "name": "candy cattle",
-    "comestible_type": "FOOD",
     "description": "A handful of chocolate candies shaped like cows.  They're really warm, enough to make you wonder how they haven't melted.",
     "symbol": "*",
-    "copy-from": "candy2",
+    "copy-from": "cow_candy",
     "color": "brown",
     "rot_spawn": "GROUP_EGG_CHOC_COW",
     "rot_spawn_chance": 100,
@@ -151,5 +150,17 @@
     "calories": 152,
     "description": "Dehydrated chocolate milk powder.  Mix with water to make drinkable milk.",
     "fun": -1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "licorice",
+    "name": "licorice",
+    "symbol": "%",
+    "copy-from": "licorice",
+    "rot_spawn": "GROUP_EGG_LICORICE",
+    "rot_spawn_chance": 100,
+    "container": "null",
+    "color": "red",
+    "description": "A swirly confectionary treat in strings of sweet tasting candy.  You think you've seen them wriggle a bit.  How strange…"
   }
 ]

@@ -9,6 +9,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "avatar.h"
 #include "character.h"
@@ -1942,7 +1943,7 @@ void vehicle::use_bike_rack( int part )
     if( success ) {
         map &here = get_map();
         here.invalidate_map_cache( here.get_abs_sub().z );
-        here.reset_vehicle_cache( here.get_abs_sub().z );
+        here.rebuild_vehicle_level_caches();
     }
 }
 
@@ -2225,9 +2226,10 @@ void vehicle::interact_with( const vpart_position &vp )
             item::reload_option opt = player_character.select_ammo( *turret.base(), true );
             std::vector<item_location> targets;
             if( opt ) {
+                const int moves = opt.moves();
                 targets.emplace_back( turret.base() );
                 targets.push_back( std::move( opt.ammo ) );
-                player_character.assign_activity( player_activity( reload_activity_actor( opt.moves(), opt.qty(),
+                player_character.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(),
                                                   targets ) ) );
             }
             return;

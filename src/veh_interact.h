@@ -230,7 +230,7 @@ class veh_interact
         /** Returns the index of the part that needs repair the most.
          * This may not be mostDamagedPart since not all parts can be repaired
          * If there are no damaged parts this returns -1 */
-        vehicle_part *get_most_repariable_part() const;
+        vehicle_part *get_most_repairable_part() const;
 
         //do_remove supporting operation, writes requirements to ui
         bool can_remove_part( int idx, const player &p );

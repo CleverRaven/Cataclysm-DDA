@@ -492,7 +492,7 @@
         "event_statistic": "avatar_last_crosses_mutation_threshold",
         "is": "==",
         "target": [ "mutation_category_id", "CEPHALOPOD" ],
-        "description": "crossed cephalapod mutation threshold",
+        "description": "crossed cephalopod mutation threshold",
         "visible": "when_achievement_completed"
       }
     ]

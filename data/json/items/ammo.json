@@ -376,7 +376,7 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_80" ],
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -397,7 +397,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 10,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -460,7 +460,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 50,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -481,7 +481,7 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -1250,5 +1250,74 @@
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
     "ammo_type": "glowstick_juice"
+  },
+  {
+    "type": "AMMO",
+    "id": "graphite",
+    "name": { "str_sp": "graphite" },
+    "symbol": "!",
+    "description": "Graphite powder mixed with a clay binder.  Produces grey or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation and natural aging.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "dark_gray",
+    "looks_like": "charcoal",
+    "flags": [ "TRADER_AVOID" ],
+    "ammo_type": "graphite"
+  },
+  {
+    "type": "AMMO",
+    "id": "black_pen_ink",
+    "name": { "str_sp": "black pen ink" },
+    "symbol": "~",
+    "description": "Carbon black pigment infused with polymers, stabilizers and water to help the ink flow properly.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "dark_gray",
+    "looks_like": "permanent_ink",
+    "flags": [ "TRADER_AVOID" ],
+    "phase": "liquid",
+    "ammo_type": "black_pen_ink"
+  },
+  {
+    "type": "AMMO",
+    "id": "blue_pen_ink",
+    "name": { "str_sp": "blue pen ink" },
+    "symbol": "~",
+    "description": "Prussian blue, crystal violet and phthalocyanine blue pigments infused with polymers, stabilizers and water to help the ink flow properly.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "blue",
+    "looks_like": "permanent_ink",
+    "flags": [ "TRADER_AVOID" ],
+    "phase": "liquid",
+    "ammo_type": "blue_pen_ink"
+  },
+  {
+    "type": "AMMO",
+    "id": "green_pen_ink",
+    "name": { "str_sp": "green pen ink" },
+    "symbol": "~",
+    "description": "Chlorophyll pigment infused with polymers, stabilizers and water to help the ink flow properly.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "green",
+    "looks_like": "permanent_ink",
+    "flags": [ "TRADER_AVOID" ],
+    "phase": "liquid",
+    "ammo_type": "green_pen_ink"
+  },
+  {
+    "type": "AMMO",
+    "id": "red_pen_ink",
+    "name": { "str_sp": "red pen ink" },
+    "symbol": "~",
+    "description": "Eosin dye infused with polymers, stabilizers and water to help the ink flow properly.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "red",
+    "looks_like": "permanent_ink",
+    "flags": [ "TRADER_AVOID" ],
+    "phase": "liquid",
+    "ammo_type": "red_pen_ink"
   }
 ]

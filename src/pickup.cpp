@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "auto_pickup.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -644,8 +645,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         input_context ctxt( "PICKUP", keyboard_mode::keychar );
         ctxt.register_action( "UP" );
         ctxt.register_action( "DOWN" );
-        ctxt.register_action( "PAGE_UP" );
-        ctxt.register_action( "PAGE_DOWN" );
+        ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+        ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
         ctxt.register_action( "RIGHT" );
         ctxt.register_action( "LEFT" );
         ctxt.register_action( "NEXT_TAB", to_translation( "Next page" ) );
@@ -844,8 +845,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             // -2 lines for border, -2 to preserve a line at top/bottom for context
             const int scroll_lines = catacurses::getmaxy( w_item_info ) - 4;
             int idx = -1;
-            int recmax = static_cast<int>( matches.size() );
-            int scroll_rate = recmax > 20 ? 10 : 3;
+            const int recmax = static_cast<int>( matches.size() );
+            const int scroll_rate = recmax > 20 ? 10 : 3;
 
             if( action == "ANY_INPUT" &&
                 raw_input_char >= '0' && raw_input_char <= '9' ) {

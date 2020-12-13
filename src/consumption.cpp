@@ -57,9 +57,7 @@ static const skill_id skill_survival( "survival" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_digestion( "bio_digestion" );
-static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
@@ -144,23 +142,6 @@ static const std::map<itype_id, int> plut_charges = {
     { itype_id( "plut_slurry_dense" ), PLUTONIUM_CHARGES },
     { itype_id( "plut_slurry" ),       PLUTONIUM_CHARGES / 2 }
 };
-
-int Character::stomach_capacity() const
-{
-    if( has_trait( trait_GIZZARD ) ) {
-        return 0;
-    }
-
-    if( has_active_mutation( trait_HIBERNATE ) ) {
-        return -620;
-    }
-
-    if( has_trait( trait_GOURMAND ) || has_trait( trait_HIBERNATE ) ) {
-        return -60;
-    }
-
-    return -20;
-}
 
 // TODO: Move pizza scraping here.
 static int compute_default_effective_kcal( const item &comest, const Character &you,
@@ -612,11 +593,10 @@ morale_type Character::allergy_type( const item &food ) const
 
 ret_val<edible_rating> Character::can_eat( const item &food ) const
 {
-
-    const rechargeable_cbm cbm = get_cbm_rechargeable_with( food );
-    if( !food.is_comestible() && cbm == rechargeable_cbm::none ) {
+    bool can_fuel_cbm = can_fuel_bionic_with( food );
+    if( !food.is_comestible() && !can_fuel_cbm ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
-    } else if( cbm != rechargeable_cbm::none ) {
+    } else if( can_fuel_cbm ) {
         std::string item_name = food.tname();
         material_id mat_type = food.get_base_material().id;
         if( food.type->magazine ) {
@@ -1161,6 +1141,35 @@ void Character::modify_morale( item &food, const int nutr )
         }
     }
 
+    // While raw flesh usually means negative morale, carnivores and cullers get a small bonus.
+    // Hunters, predators, and apex predators don't mind raw flesh at all, maybe even like it.
+    // Cooked flesh is unaffected, because people with these traits *prefer* it raw. Fat is unaffected.
+    // Organs are still usually negative due to fun values as low as -35.
+    // The PREDATOR_FUN flag shouldn't be on human flesh, to not interfere with sapiovores/cannibalism.
+    if( food.has_flag( flag_PREDATOR_FUN ) ) {
+        const bool carnivore = has_trait( trait_CARNIVORE );
+        const bool culler = has_trait_flag( "PRED1" );
+        const bool hunter = has_trait_flag( "PRED2" );
+        const bool predator = has_trait_flag( "PRED3" );
+        const bool apex_predator = has_trait_flag( "PRED4" );
+        if( apex_predator ) {
+            // Largest bonus, balances out to around +5 or +10. Some organs may still be negative.
+            add_morale( MORALE_MEATARIAN, 20, 10 );
+            add_msg_if_player( m_good,
+                               _( "As you tear into the raw flesh, you feel satisfied with your meal." ) );
+        } else if( predator || hunter ) {
+            // Should approximately balance the fun to 0 for normal meat.
+            add_morale( MORALE_MEATARIAN, 15, 5 );
+            add_msg_if_player( m_good,
+                               _( "Raw flesh doesn't taste all that bad, actually." ) );
+        } else if( carnivore || culler ) {
+            // Only a small bonus (+5), still negative fun.
+            add_morale( MORALE_MEATARIAN, 5, 0 );
+            add_msg_if_player( m_bad,
+                               _( "This doesn't taste very good, but meat is meat." ) );
+        }
+    }
+
     // Allergy check for food that is ingested (not gum)
     if( !food.has_flag( flag_NO_INGEST ) ) {
         const auto allergy = allergy_type( food );
@@ -1345,8 +1354,6 @@ bool Character::consume_effects( item &food )
             mod_fatigue( nutr );
         }
     }
-    // TODO: remove this
-    int capacity = stomach_capacity();
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( trait_SLIMESPAWNER ) &&
@@ -1366,24 +1373,6 @@ bool Character::consume_effects( item &food )
         //~ slimespawns have *small voices* which may be the Nice equivalent
         //~ of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
         add_msg_if_player( m_good, _( "hey, you look like me!  let's work together!" ) );
-    }
-
-    // Last thing that happens before capping hunger
-    if( get_hunger() < capacity && has_trait( trait_EATHEALTH ) ) {
-        int excess_food = capacity - get_hunger();
-        add_msg_player_or_npc( _( "You feel the %s filling you out." ),
-                               _( "<npcname> looks better after eating the %s." ),
-                               food.tname() );
-        // Guaranteed 1 HP healing, no matter what.  You're welcome.  ;-)
-        if( excess_food <= 5 ) {
-            healall( 1 );
-        } else {
-            // Straight conversion, except it's divided amongst all your body parts.
-            healall( excess_food /= 5 );
-        }
-
-        // Note: We want this here to prevent "you can't finish this" messages
-        set_hunger( capacity );
     }
 
     nutrients food_nutrients = compute_effective_nutrients( food );
@@ -1413,53 +1402,6 @@ bool Character::consume_effects( item &food )
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
-    return true;
-}
-
-bool Character::can_feed_reactor_with( const item &it ) const
-{
-    static const std::set<ammotype> acceptable = {{
-            ammotype( "reactor_slurry" ),
-            ammotype( "plutonium" )
-        }
-    };
-
-    if( !it.is_ammo() ) {
-        return false;
-    }
-
-    if( !has_active_bionic( bio_reactor ) && !has_active_bionic( bio_advreactor ) ) {
-        return false;
-    }
-
-    return std::any_of( acceptable.begin(), acceptable.end(), [ &it ]( const ammotype & elem ) {
-        return it.ammo_type() == elem;
-    } );
-}
-
-bool Character::feed_reactor_with( item &it )
-{
-    if( !can_feed_reactor_with( it ) ) {
-        return false;
-    }
-
-    const auto iter = plut_charges.find( it.typeId() );
-    const int max_amount = iter != plut_charges.end() ? iter->second : 0;
-    const int amount = std::min( get_acquirable_energy( it, rechargeable_cbm::reactor ), max_amount );
-
-    if( amount >= PLUTONIUM_CHARGES * 10 &&
-        !query_yn( _( "That is a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
-        return false;
-    }
-
-    add_msg_player_or_npc( _( "You add your %s to your reactor's tank." ),
-                           _( "<npcname> pours %s into their reactor's tank." ),
-                           it.tname() );
-
-    // TODO: Encapsulate
-    tank_plut += amount;
-    it.charges -= 1;
-    mod_moves( -250 );
     return true;
 }
 
@@ -1518,56 +1460,27 @@ bool Character::fuel_bionic_with( item &it )
     return !is_magazine;
 }
 
-rechargeable_cbm Character::get_cbm_rechargeable_with( const item &it ) const
-{
-    if( can_feed_reactor_with( it ) ) {
-        return rechargeable_cbm::reactor;
-    }
-
-    if( can_fuel_bionic_with( it ) ) {
-        return rechargeable_cbm::other;
-    }
-
-    return rechargeable_cbm::none;
-}
-
-int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
-{
-    switch( cbm ) {
-        case rechargeable_cbm::none:
-            break;
-
-        case rechargeable_cbm::reactor:
-            if( it.charges > 0 ) {
-                const auto iter = plut_charges.find( it.typeId() );
-                return iter != plut_charges.end() ? it.charges * iter->second : 0;
-            }
-
-            break;
-        case rechargeable_cbm::other:
-            const bionic_id &bid = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
-            int to_consume;
-            int to_charge;
-            if( it.type->magazine ) {
-                item ammo = item( it.ammo_current() );
-                to_consume = std::min( it.ammo_remaining(), bid->fuel_capacity );
-                to_charge = ammo.fuel_energy() * to_consume * bid->fuel_efficiency;
-            } else if( it.flammable() ) {
-                to_consume = std::min( units::to_milliliter( it.volume() ), bid->fuel_capacity );
-                to_charge = it.get_base_material().id->get_fuel_data().energy * to_consume * bid->fuel_efficiency;
-            } else {
-                to_consume = std::min( it.charges, bid->fuel_capacity );
-                to_charge = it.fuel_energy() * to_consume * bid->fuel_efficiency;
-            }
-            return to_charge;
-    }
-
-    return 0;
-}
-
 int Character::get_acquirable_energy( const item &it ) const
 {
-    return get_acquirable_energy( it, get_cbm_rechargeable_with( it ) );
+    const std::vector<bionic_id> &bids = get_bionic_fueled_with( it );
+    if( bids.empty() ) {
+        return 0;
+    }
+    const bionic_id &bid = get_most_efficient_bionic( bids );
+    int to_consume;
+    int to_charge = 0;
+    if( it.type->magazine ) {
+        item ammo = item( it.ammo_current() );
+        to_consume = std::min( it.ammo_remaining(), bid->fuel_capacity );
+        to_charge = ammo.fuel_energy() * to_consume * bid->fuel_efficiency;
+    } else if( it.flammable() ) {
+        to_consume = std::min( units::to_milliliter( it.volume() ), bid->fuel_capacity );
+        to_charge = it.get_base_material().id->get_fuel_data().energy * to_consume * bid->fuel_efficiency;
+    } else {
+        to_consume = std::min( it.charges, bid->fuel_capacity );
+        to_charge = it.fuel_energy() * to_consume * bid->fuel_efficiency;
+    }
+    return to_charge;
 }
 
 bool Character::can_estimate_rot() const
@@ -1577,12 +1490,7 @@ bool Character::can_estimate_rot() const
 
 bool Character::can_consume_as_is( const item &it ) const
 {
-    return it.is_comestible() || can_consume_for_bionic( it );
-}
-
-bool Character::can_consume_for_bionic( const item &it ) const
-{
-    return get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
+    return it.is_comestible() || can_fuel_bionic_with( it );
 }
 
 bool Character::can_consume( const item &it ) const
@@ -1776,7 +1684,6 @@ trinary player::consume( item &target, bool force )
     }
     if( consume_med( target, *this ) ||
         eat( target, *this, force ) ||
-        feed_reactor_with( target ) ||
         fuel_bionic_with( target ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );

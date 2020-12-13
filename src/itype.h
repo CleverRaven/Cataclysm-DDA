@@ -253,7 +253,7 @@ struct islot_armor {
      */
     int warmth = 0;
     /**
-    * Factor modifiying weight capacity
+    * Factor modifying weight capacity
     */
     float weight_capacity_modifier = 1.0f;
     /**

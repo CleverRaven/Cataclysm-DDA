@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
@@ -669,7 +670,7 @@ static item *set_item_inventory( Character &p, item &newit )
 
 /**
  * Helper for @ref set_item_map_or_vehicle
- * This is needed to still get a vaild item_location if overflow occurs
+ * This is needed to still get a valid item_location if overflow occurs
  */
 static item_location set_item_map( const tripoint &loc, item &newit )
 {
@@ -1521,7 +1522,11 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             // Can't use pseudo items as components
             if( player_inv ) {
                 bool found = false;
-                if( has_amount( type, count, false, filter ) ) {
+                const item item_sought( type );
+                if( item_sought.is_software() && count_softwares( type ) > 0 ) {
+                    player_has.push_back( component );
+                    found = true;
+                } else if( has_amount( type, count, false, filter ) ) {
                     player_has.push_back( component );
                     found = true;
                 }
@@ -1732,6 +1737,24 @@ std::list<item> Character::consume_items( const std::vector<item_comp> &componen
                           filter );
 }
 
+bool Character::consume_software_container( const itype_id &software_id )
+{
+    for( item_location it : all_items_loc() ) {
+        if( !it.get_item() ) {
+            continue;
+        }
+        if( it.get_item()->is_software_storage() ) {
+            for( const item *soft : it.get_item()->softwares() ) {
+                if( soft->typeId() == software_id ) {
+                    it.remove_item();
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 comp_selection<tool_comp>
 Character::select_tool_component( const std::vector<tool_comp> &tools, int batch,
                                   inventory &map_inv, bool can_cancel, bool player_inv,
@@ -1848,7 +1871,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
     return selected;
 }
 
-bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_craft )
+bool Character::craft_consume_tools( item &craft, int multiplier, bool start_craft )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_consume_tools() called on non-craft '%s.' Aborting.", craft.tname() );
@@ -1858,7 +1881,7 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
         return true;
     }
 
-    const auto calc_charges = [&craft, &start_craft, &mulitplier]( int charges ) {
+    const auto calc_charges = [&craft, &start_craft, &multiplier]( int charges ) {
         int ret = charges;
 
         if( ret <= 0 ) {
@@ -1872,7 +1895,7 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
         ret /= 20;
 
         // In case more than 5% progress was accomplished in one turn
-        ret *= mulitplier;
+        ret *= multiplier;
 
         // If just starting consume the remainder as well
         if( start_craft ) {

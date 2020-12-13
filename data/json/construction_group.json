@@ -1108,5 +1108,10 @@
     "type": "construction_group",
     "id": "wax_floor",
     "name": "Wax Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_gravel",
+    "name": "Remove Gravel"
   }
 ]

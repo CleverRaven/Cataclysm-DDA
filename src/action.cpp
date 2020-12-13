@@ -653,9 +653,9 @@ bool can_examine_at( const tripoint &p )
     const furn_t &xfurn_t = here.furn( p ).obj();
     const ter_t &xter_t = here.ter( p ).obj();
 
-    if( here.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
+    if( here.has_furn( p ) && xfurn_t.can_examine() ) {
         return true;
-    } else if( xter_t.examine != &iexamine::none ) {
+    } else if( xter_t.can_examine() ) {
         return true;
     }
 

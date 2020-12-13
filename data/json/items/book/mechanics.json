@@ -104,6 +104,7 @@
     "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "textbook_mechanics",
     "color": "blue",
     "skill": "mechanics",
     "required_level": 7,

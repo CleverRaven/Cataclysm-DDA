@@ -528,12 +528,15 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
 }
 
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
-                               const damage_instance &dam, dealt_damage_instance &dealt_dam )
+                               damage_instance dam, dealt_damage_instance &dealt_dam )
 {
     if( source == nullptr || source->is_hallucination() ) {
         dealt_dam.bp_hit = anatomy_id( "human_anatomy" )->random_body_part();
         return;
     }
+
+    dam = source->modify_damage_dealt_with_enchantments( dam );
+
     // If carrying a rider, there is a chance the hits may hit rider instead.
     // melee attack will start off as targeted at mount
     if( has_effect( effect_ridden ) ) {
@@ -1676,7 +1679,7 @@ int Creature::get_part_temp_conv( const bodypart_id &id ) const
 
 int Creature::get_part_frostbite_timer( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, &bodypart::get_frotbite_timer );
+    return get_part_helper( *this, id, &bodypart::get_frostbite_timer );
 }
 
 float Creature::get_part_wetness_percentage( const bodypart_id &id ) const

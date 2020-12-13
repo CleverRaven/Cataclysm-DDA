@@ -1,7 +1,6 @@
 #include "scenario.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
 
 #include "debug.h"
@@ -10,6 +9,7 @@
 #include "map_extras.h"
 #include "mission.h"
 #include "mutation.h"
+#include "options.h"
 #include "profession.h"
 #include "rng.h"
 #include "start_location.h"
@@ -92,6 +92,31 @@ void scenario::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
     optional( jo, was_loaded, "map_extra", _map_extra, "mx_null" );
     optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
+
+    if( !was_loaded ) {
+        if( jo.has_member( "custom_initial_date" ) ) {
+            _custom_initial_date = true;
+
+            JsonObject jocid = jo.get_member( "custom_initial_date" );
+            if( jocid.has_member( "hour" ) ) {
+                optional( jocid, was_loaded, "hour", _initial_hour );
+            }
+            if( jocid.has_member( "day" ) ) {
+                optional( jocid, was_loaded, "day", _initial_day );
+            }
+            if( jocid.has_member( "season" ) ) {
+                optional( jocid, was_loaded, "season", _initial_season );
+            }
+            if( jocid.has_member( "year" ) ) {
+                optional( jocid, was_loaded, "year", _initial_year );
+            }
+        } else {
+            _initial_hour = get_option<int>( "INITIAL_TIME" );
+            _initial_day = get_option<int>( "INITIAL_DAY" );
+            _initial_season = SPRING;
+            _initial_year = 1;
+        }
+    }
 
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
@@ -262,7 +287,7 @@ void scen_blacklist::load( const JsonObject &jo, const std::string & )
         jo.throw_error( "Blacklist subtype is not a valid subtype." );
     }
 
-    for( const std::string &line : jo.get_array( "scenarios" ) ) {
+    for( const std::string line : jo.get_array( "scenarios" ) ) {
         scenarios.emplace( line );
     }
 }
@@ -409,6 +434,53 @@ int scenario::start_location_targets_count() const
         cnt += sloc.obj().targets_count();
     }
     return cnt;
+}
+
+bool scenario::custom_initial_date() const
+{
+    return _custom_initial_date;
+}
+
+bool scenario::is_random_hour() const
+{
+    return _initial_hour == -1;
+}
+
+bool scenario::is_random_day() const
+{
+    return _initial_day == -1;
+}
+
+bool scenario::is_random_year() const
+{
+    return _initial_year == -1;
+}
+
+int scenario::initial_hour() const
+{
+    return _initial_hour == -1 ? rng( 0, 23 ) : _initial_hour;
+}
+
+int scenario::initial_day() const
+{
+    if( _initial_day == -1 ) {
+        // with custom initial date day is only rolled for the season instead of the year
+        return _custom_initial_date
+               ? rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 )
+               : rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
+    } else {
+        return _initial_day;
+    }
+}
+
+season_type scenario::initial_season() const
+{
+    return _initial_season;
+}
+
+int scenario::initial_year() const
+{
+    return _initial_year == -1 ? rng( 1, 11 ) : _initial_year;
 }
 
 vproto_id scenario::vehicle() const

@@ -171,6 +171,7 @@
       [ "water_clean", 50 ],
       [ "granola", 60 ],
       [ "fruit_leather", 50 ],
+      { "item": "licorice", "prob": 15 },
       { "group": "salty_snacks", "prob": 130 },
       [ "aspirin", 80 ],
       { "item": "inhaler", "prob": 30, "charges-min": 0 },

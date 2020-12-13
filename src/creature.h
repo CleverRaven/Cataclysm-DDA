@@ -358,7 +358,7 @@ class Creature : public location, public viewer
         /**
          * For fake-players (turrets, mounted turrets) this functions
          * chooses a target. This is for creatures that are friendly towards
-         * the player and therefor choose a target that is hostile
+         * the player and therefore choose a target that is hostile
          * to the player.
          *
          * @param range The maximal range to look for monsters, anything
@@ -392,10 +392,13 @@ class Creature : public location, public viewer
         // returns hit - dodge (>=0 = hit, <0 = miss)
         virtual int deal_melee_attack( Creature *source, int hitroll );
 
+        // modifies the damage dealt based on the creature's enchantments
+        // since creatures currently don't have enchantments, this is just virtual
+        virtual damage_instance modify_damage_dealt_with_enchantments( const damage_instance &dam ) const;
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
         virtual void deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
-                                     const damage_instance &dam, dealt_damage_instance &dealt_dam );
+                                     damage_instance dam, dealt_damage_instance &dealt_dam );
 
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.

@@ -1,0 +1,137 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_tree_worm",
+    "name": "leviathan annelids",
+    "description": "Several massive protusions emerge from the ground, coiled together into a tower.  At the top, blue and purple tentacles sway in the wind.",
+    "symbol": "I",
+    "color": "magenta",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT" ],
+    "//": [
+      "possibly in the future add that smashing this drops shells and tube worm flesh? maybe even an ability to cut it down for food"
+    ],
+    "bash": { "str_min": 80, "str_max": 180, "sound": "crunch!", "sound_fail": "whack!", "ter_set": "t_deaddirt" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_lichen",
+    "name": "lichen tree",
+    "description": "A massive corrugated body sprouts from the lichen here, branching out into mushroom-like limbs, dust filling the air as the wind meets it.",
+    "symbol": "7",
+    "color": "light_red",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "squish!",
+      "ter_set": "t_lichendirt",
+      "items": [ { "item": "yum_lichen", "count": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_xeno",
+    "name": "fossilized conifer",
+    "description": "A long dead tree standing on spindly legs similar to a Cypress which tapers into a point until spreading out in a hollow dodecahedron.",
+    "symbol": "7",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_deaddirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_xenoinfested",
+    "name": "infested fossilized conifer",
+    "description": "A long dead tree standing on spindly legs similar to a Cypress which tapers into a point until spreading out in a hollow dodecahedron.  The trunk seems to be splitting as tendrils of mold dig into it, clinging onto the tree like a frame.",
+    "symbol": "7",
+    "color": "light_cyan",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_deaddirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_lichenyum",
+    "name": "lichen shrub",
+    "description": "A small mound of lichen grows here, noticeably bigger than the lichen and moss around it.",
+    "symbol": "i",
+    "color": "red",
+    "move_cost": 3,
+    "coverage": 20,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE" ],
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [
+      { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "yum_lichen", "base_num": [ 1, 4 ] } ] }
+    ],
+    "transforms_into": "t_lichen_harvested",
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "squish.",
+      "ter_set": "t_lichendirt",
+      "items": [ { "item": "yum_lichen", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_lichen_harvested",
+    "name": "lichen shrub",
+    "description": "A small mound of lichen grows here, noticeably bigger than the lichen and moss around it.  A few clumps have been removed.",
+    "symbol": "i",
+    "color": "light_red",
+    "move_cost": 3,
+    "coverage": 20,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE" ],
+    "transforms_into": "t_lichenyum",
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "squish.",
+      "ter_set": "t_lichendirt",
+      "items": [ { "item": "yum_lichen", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shrub_moss",
+    "name": "moss bush",
+    "description": "A mound of moss, with large colorful stems protruding out of it.",
+    "symbol": "#",
+    "color": "magenta",
+    "move_cost_mod": 8,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHORT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 61,
+      "sound": "crunch.",
+      "sound_fail": "squish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  }
+]

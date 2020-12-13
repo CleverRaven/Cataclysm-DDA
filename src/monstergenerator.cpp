@@ -374,7 +374,7 @@ void MonsterGenerator::finalize_mtypes()
         }
 
         apply_species_attributes( mon );
-        set_species_ids( mon );
+        validate_species_ids( mon );
         mon.size = volume_to_size( mon.volume );
 
         // adjust for worldgen difficulty parameters
@@ -662,12 +662,10 @@ void MonsterGenerator::init_defense()
     defense_map["RETURN_FIRE"] = &mdefense::return_fire;
 }
 
-void MonsterGenerator::set_species_ids( mtype &mon )
+void MonsterGenerator::validate_species_ids( mtype &mon )
 {
     for( const auto &s : mon.species ) {
-        if( s.is_valid() ) {
-            mon.species_ptrs.insert( &s.obj() );
-        } else {
+        if( !s.is_valid() ) {
             debugmsg( "Tried to assign species %s to monster %s, but no entry for the species exists",
                       s.c_str(), mon.id.c_str() );
         }

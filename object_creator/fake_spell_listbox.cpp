@@ -15,7 +15,6 @@ creator::fake_spell_listbox::fake_spell_listbox( QWidget *parent )
     int row = 0;
     int col = 0;
     int max_row = 0;
-    int max_col = 0;
 
     QListWidget::resize( QSize( default_text_box_width * 2, default_text_box_height * 4 ) );
 

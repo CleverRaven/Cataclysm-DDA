@@ -401,7 +401,7 @@ int player_morale::get_total_negative_value() const
     return std::sqrt( sum );
 }
 
-int player_morale::get_percieved_pain() const
+int player_morale::get_perceived_pain() const
 {
     return perceived_pain;
 }

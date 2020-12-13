@@ -11,6 +11,7 @@
 #include "advanced_inv_pane.h"
 #include "avatar.h"
 #include "cata_assert.h"
+#include "flag.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_search.h"
@@ -39,7 +40,8 @@ void advanced_inventory_pane::save_settings()
 void advanced_inventory_pane::load_settings( int saved_area_idx,
         const std::array<advanced_inv_area, NUM_AIM_LOCATIONS> &squares, bool is_re_enter )
 {
-    const int i_location = ( get_option<bool>( "OPEN_DEFAULT_ADV_INV" ) ) ? saved_area_idx :
+    const int i_location = ( get_option<bool>( "OPEN_DEFAULT_ADV_INV" ) &&
+                             !is_re_enter ) ? saved_area_idx :
                            save_state->area_idx;
     const aim_location location = static_cast<aim_location>( i_location );
     const advanced_inv_area square = squares[location];
@@ -82,7 +84,7 @@ bool advanced_inventory_pane::is_filtered( const item &it ) const
     return !filtercache[str]( it );
 }
 
-/** converts a raw list of items to "stacks" - itms that are not count_by_charges that otherwise stack go into one stack */
+/** converts a raw list of items to "stacks" - items that are not count_by_charges that otherwise stack go into one stack */
 static std::vector<std::vector<item *>> item_list_to_stack( std::list<item *> item_list )
 {
     std::vector<std::vector<item *>> ret;
@@ -109,7 +111,7 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
 
     int worn_index = -2;
     for( item &worn_item : worn ) {
-        if( worn_item.contents.empty() ) {
+        if( worn_item.contents.empty() || worn_item.has_flag( flag_NO_UNLOAD ) ) {
             continue;
         }
         for( const std::vector<item *> &it_stack : item_list_to_stack(

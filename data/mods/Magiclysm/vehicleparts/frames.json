@@ -1,5 +1,24 @@
 [
   {
+    "id": "light_orichalcum_frame",
+    "copy-from": "orichalcum_frame",
+    "looks_like": "orichalcum_frame",
+    "type": "vehicle_part",
+    "name": "light orichalcum frame",
+    "item": "light_orichalcum_frame",
+    "standard_symbols": true,
+    "durability": 600,
+    "description": "A slimmed magical metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "breaks_into": "light_orichalcum_frame_break",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "17 m", "using": [ [ "welding_standard", 8 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "4 m", "using": [ [ "welding_standard", 4 ] ] }
+    },
+    "flags": [ "INITIAL_PART", "MOUNTABLE" ],
+    "damage_reduction": { "all": 58 }
+  },
+  {
     "id": "folding_orichalcum_frame",
     "type": "vehicle_part",
     "name": "foldable orichalcum frame",

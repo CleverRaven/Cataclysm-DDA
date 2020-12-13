@@ -143,6 +143,17 @@
     ]
   },
   {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "afs_radiobeacon",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "15 m",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "afs_energy_storage_2", 1 ] ], [ [ "antenna", 1 ] ], [ [ "afs_material_1", 2 ] ], [ [ "afs_circuitry_1", 1 ] ] ]
+  },
+  {
     "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "q_solarpack",
     "type": "uncraft",
@@ -187,5 +198,12 @@
       [ [ "scrap", 8 ] ],
       [ [ "rope_6", 1 ] ]
     ]
+  },
+  {
+    "result": "afs_heat_2_salvage",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "afs_heat_2", 1 ] ] ]
   }
 ]

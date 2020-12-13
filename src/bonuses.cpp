@@ -117,7 +117,7 @@ void bonus_container::load( const JsonObject &jo )
 
 void bonus_container::load( const JsonArray &jarr, const bool mult )
 {
-    for( const JsonObject &qualifiers : jarr ) {
+    for( const JsonObject qualifiers : jarr ) {
         const affected_stat as = affected_stat_from_string( qualifiers.get_string( "stat" ) );
         if( as == affected_stat::NONE ) {
             qualifiers.throw_error( "Invalid affected stat", "stat" );

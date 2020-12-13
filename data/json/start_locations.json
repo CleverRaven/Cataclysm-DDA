@@ -241,6 +241,13 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_river",
+    "name": "River",
+    "terrain": [ "river" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_bridge",
     "name": "Bridge",
     "terrain": [ "bridgehead_ground" ],
@@ -437,6 +444,12 @@
     "id": "sloc_cabin_lake",
     "name": "Lake Cabin",
     "terrain": [ "cabin_lake" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_freshwater_research_station",
+    "name": "Freshwater Research Station",
+    "terrain": [ "sealab_small_surface" ]
   },
   {
     "type": "start_location",
