@@ -475,6 +475,7 @@ class Character : public Creature, public visitable<Character>
         std::pair<std::string, nc_color> get_thirst_description() const;
         std::pair<std::string, nc_color> get_hunger_description() const;
         std::pair<std::string, nc_color> get_fatigue_description() const;
+        std::pair<std::string, nc_color> get_weight_description() const;
         int get_fatigue() const;
         int get_sleep_deprivation() const;
 
@@ -2055,7 +2056,7 @@ class Character : public Creature, public visitable<Character>
         // gets the string that describes your weight
         std::string get_weight_string() const;
         // gets the description, printed in player_display, related to your current bmi
-        std::string get_weight_description() const;
+        std::string get_weight_long_description() const;
         // calculates the BMI
         float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors
