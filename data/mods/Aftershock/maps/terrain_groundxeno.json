@@ -417,7 +417,7 @@
     "type": "terrain",
     "id": "t_moxfloor",
     "name": "moxian floor",
-    "description": "The ground here is riddled with small outgrowths of white coral, and what is left of the ground is covered in black veins.",
+    "description": "Small outgrowths of white coral spring from a underlying lattice of black pulsating veins.",
     "symbol": ".",
     "looks_like": "t_fungus",
     "color": "light_red",
