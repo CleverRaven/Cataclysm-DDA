@@ -4772,7 +4772,10 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
 
     const itype *itt = f.crafting_pseudo_item_type();
     if( itt != nullptr && itt->item_tags.count( flag_USES_GRID_POWER ) > 0 ) {
-        quantity = m->distribution_grid_at( p ).mod_resource( -quantity );
+        item furn_item( itt, -1, m->distribution_grid_at( p ).get_resource() );
+        if( filter( furn_item ) ) {
+            quantity = m->distribution_grid_at( p ).mod_resource( -quantity );
+        }
     } else if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
         const itype_id ammo = ammotype( *itt->tool->ammo_id.begin() )->default_ammotype();
         auto stack = m->i_at( p );
