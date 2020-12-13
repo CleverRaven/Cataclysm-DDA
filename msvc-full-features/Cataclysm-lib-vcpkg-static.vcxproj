@@ -81,9 +81,6 @@
       <Command>..\msvc-full-features\prebuild.cmd</Command>
       <Message>Get version string</Message>
     </PreBuildEvent>
-    <ProjectReference>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
