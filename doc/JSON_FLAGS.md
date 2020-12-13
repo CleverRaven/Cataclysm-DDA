@@ -855,7 +855,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```FRIEND_ATTACKED``` A monster of the same type was attacked.
 - ```FRIEND_DIED``` A monster of the same type died.
 - ```HURT``` The monster is hurt.
-- ```MEAT``` Meat or a corpse is nearby.
+- ```MEAT``` Meat or a corpse is nearby. - Currently nonfunctional!
 - ```NULL``` Source use only?
 - ```PLAYER_CLOSE``` The player gets within a few tiles distance.
 - ```PLAYER_WEAK``` The player is hurt.
@@ -927,7 +927,7 @@ Other monster flags.
 - ```CBM_SUBS``` May produce a CBM or two from bionics_subs and a power CBM when butchered.
 - ```CBM_TECH``` May produce a CBM or two from 'bionics_tech' item group and a power CBM when butchered.
 - ```CHITIN``` May produce chitin when butchered.
-- ```CLIMBS``` Can climb.
+- ```CLIMBS``` Can climb over fences or similar obstacles quickly.
 - ```COLDROOF``` Immune to cold damage.
 - ```CURRENT``` this water is flowing.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
@@ -1060,7 +1060,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```FUNGUS``` Releases fungal spores and attempts to infect the player.
 - ```GENERATOR``` Regenerates health.
 - ```GENE_STING``` Shoot a dart at the player that causes a mutation if it connects.
-- ```GRAB``` GRAB the target, and drag it around.
+- ```GRAB_DRAG``` GRAB the target, and drag it around.
 - ```GRAB``` Grabs the player, slowing on hit, making movement and dodging impossible and blocking harder.
 - ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`.
 - ```GROW_VINE``` Grows creeper vines.
