@@ -120,7 +120,7 @@
   {
     "id": "mon_large_cockroach",
     "type": "MONSTER",
-    "name": { "str": "huge cockroach" },
+    "name": { "str": "huge cockroach", "str_pl": "huge cockroaches" },
     "description": "A mutant cockroach the size of a small dog.",
     "copy-from": "mon_giant_cockroach",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -594,7 +594,7 @@
   {
     "id": "mon_fly_small",
     "type": "MONSTER",
-    "name": { "str": "huge fly" },
+    "name": { "str": "huge fly", "str_pl": "huge flies" },
     "description": "A mutant housefly the size of a small dog.  Its buzzing is high-pitched and somehow sad.",
     "copy-from": "mon_fly",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
