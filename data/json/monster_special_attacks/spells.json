@@ -248,7 +248,6 @@
     "max_damage": 1,
     "min_aoe": 1,
     "max_aoe": 1,
-    "hit_self": false,
     "shape": "line",
     "effect": "summon",
     "effect_str": "mon_centipede_small"
