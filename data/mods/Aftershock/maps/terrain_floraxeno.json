@@ -138,7 +138,7 @@
     "type": "furniture",
     "id": "f_geo_mox",
     "name": "geothermal bladder",
-    "description": "A large white coral like object grows around the rim of the geothermal vent, pulsating black veins riddle its skin, and shoot out from it.  While above it, red and purple tentacles caress a balloon-shaped organ as it breaths.",
+    "description": "Black veins support a large formation of bleached coral as it grows around the rim of this geothermal vent.   Above it, red and purple tentacles caress a balloon-shaped organ as it breathes.",
     "symbol": "^",
     "color": "light_gray",
     "move_cost_mod": -1,
