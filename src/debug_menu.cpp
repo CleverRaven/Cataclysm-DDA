@@ -2426,43 +2426,20 @@ void debug()
 
         // Damage Self
         case debug_menu_index::DAMAGE_SELF: {
-            const int torso_hp = player_character.get_part_hp_cur( bodypart_id( "torso" ) );
-            const int head_hp = player_character.get_part_hp_cur( bodypart_id( "head" ) );
-            const int arm_l_hp = player_character.get_part_hp_cur( bodypart_id( "arm_l" ) );
-            const int arm_r_hp = player_character.get_part_hp_cur( bodypart_id( "arm_r" ) );
-            const int leg_l_hp = player_character.get_part_hp_cur( bodypart_id( "leg_l" ) );
-            const int leg_r_hp = player_character.get_part_hp_cur( bodypart_id( "leg_r" ) );
+            const std::vector<bodypart_id> parts = player_character.get_all_body_parts(
+                    get_body_part_flags::only_main );
             uilist smenu;
-            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
-            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
-            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), arm_l_hp );
-            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
-            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
-            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
+            int i = 0;
+            for( const bodypart_id &part : parts ) {
+                smenu.addentry( i, true, ' ', "%s: %d",
+                                part->name.translated(), player_character.get_part_hp_cur( part ) );
+                i++;
+            }
             smenu.query();
             bodypart_id part;
             int dbg_damage;
-            switch( smenu.ret ) {
-                case 0:
-                    part = bodypart_id( "torso" );
-                    break;
-                case 1:
-                    part = bodypart_id( "head" );
-                    break;
-                case 2:
-                    part = bodypart_id( "arm_l" );
-                    break;
-                case 3:
-                    part = bodypart_id( "arm_r" );
-                    break;
-                case 4:
-                    part = bodypart_id( "leg_l" );
-                    break;
-                case 5:
-                    part = bodypart_id( "leg_r" );
-                    break;
-                default:
-                    break;
+            if( smenu.ret >= 0 && static_cast<std::size_t>( smenu.ret ) <= parts.size() ) {
+                part = parts.at( smenu.ret );
             }
             if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
                 player_character.apply_damage( nullptr, part, dbg_damage );
