@@ -111,7 +111,7 @@
     "type": "TOOL",
     "name": { "str": "clay kiln" },
     "copy-from": "brick_kiln",
-	"sub": "brick_kiln",
+    "sub": "brick_kiln",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 40000 } } ]
   },
   {
