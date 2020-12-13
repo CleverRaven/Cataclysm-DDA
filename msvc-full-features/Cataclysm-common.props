@@ -6,6 +6,8 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>Level1</WarningLevel>
+      <SDLCheck>false</SDLCheck>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
