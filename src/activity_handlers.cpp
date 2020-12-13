@@ -1787,7 +1787,6 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 {
     map &here = get_map();
     const tripoint pos( here.getlocal( act->placement ) );
-    item &it = *act->targets.front();
     // Invalidate the activity early to prevent a query from mod_pain()
     act->set_to_null();
     if( p->is_avatar() ) {
@@ -1817,9 +1816,11 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
                               _( "You finish digging." ),
                               _( "<npcname> finishes digging." ) );
     here.destroy( pos, true );
-    it.charges = std::max( 0, it.charges - it.type->charges_to_use() );
-    if( it.charges == 0 && it.destroyed_at_zero_charges() ) {
-        p->i_rem( &it );
+    if( !act->targets.empty() ) {
+        item &it = *act->targets.front();
+        p->consume_charges( it, it.ammo_required() );
+    } else {
+        debugmsg( "pickaxe activity targets empty" );
     }
     if( resume_for_multi_activities( *p ) ) {
         for( item &elem : here.i_at( pos ) ) {
@@ -3839,6 +3840,12 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
                               _( "You finish drilling." ),
                               _( "<npcname> finishes drilling." ) );
     act->set_to_null();
+    if( !act->targets.empty() ) {
+        item &it = *act->targets.front();
+        p->consume_charges( it, it.ammo_required() );
+    } else {
+        debugmsg( "jackhammer activity targets empty" );
+    }
     if( resume_for_multi_activities( *p ) ) {
         for( item &elem : here.i_at( pos ) ) {
             elem.set_var( "activity_var", p->name );
