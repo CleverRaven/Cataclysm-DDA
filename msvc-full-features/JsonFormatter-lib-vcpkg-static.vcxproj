@@ -75,10 +75,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <CompileAsManaged>false</CompileAsManaged>
       <DisableSpecificWarnings>4819;4146;26495;26444;26451;4068</DisableSpecificWarnings>
-      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;_CONSOLE;LOCALIZE;USE_VCPKG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -124,14 +122,10 @@
   <ItemGroup>
     <ClInclude Include="..\src\messages.h" />
     <ClInclude Include="..\tools\format\*.h" />
-    <ClInclude Include="..\msvc-full-features\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\messages.cpp" />
     <ClCompile Include="..\tools\format\*.cpp" Exclude="..\tools\format\format_main.cpp" />
-    <ClCompile Include="..\msvc-full-features\stdafx.cpp">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\msvc-full-features\Cataclysm-lib-vcpkg-static.vcxproj">
