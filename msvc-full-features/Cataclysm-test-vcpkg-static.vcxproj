@@ -75,7 +75,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;_CONSOLE;SDL_SOUND;TILES;SDL_MAIN_HANDLED;LOCALIZE;USE_VCPKG;CATCH_CONFIG_ENABLE_BENCHMARKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CONSOLE;SDL_SOUND;TILES;SDL_MAIN_HANDLED;CATCH_CONFIG_ENABLE_BENCHMARKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
