@@ -41,6 +41,7 @@ cataclysmdda-*
 chkjson*
 debug.log
 logg.txt
+json_formatter
 
 # Visual Studio files
 *.code-workspace
