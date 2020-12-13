@@ -1943,8 +1943,7 @@ void vehicle::use_bike_rack( int part )
     if( success ) {
         map &here = get_map();
         here.invalidate_map_cache( here.get_abs_sub().z );
-        here.clear_all_vehicle_caches( here.get_abs_sub().z );
-        here.build_all_vehicle_caches( here.get_abs_sub().z );
+        here.rebuild_vehicle_level_caches();
     }
 }
 

@@ -586,8 +586,10 @@ class map
         VehicleList get_vehicles();
         void add_vehicle_to_cache( vehicle * );
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
-        void build_all_vehicle_caches( int zlev );
-        void clear_all_vehicle_caches( int zlev );
+        // clears all vehicle level caches
+        void clear_vehicle_level_caches();
+        // clears and build vehicle level caches
+        void rebuild_vehicle_level_caches();
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( const submap *to, int zlev );
         //Returns true if vehicle zones are dirty and need to be recached
