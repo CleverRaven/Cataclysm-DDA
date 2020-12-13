@@ -574,7 +574,8 @@ class inventory_selector
 
         static stats get_weight_and_volume_stats(
             units::mass weight_carried, units::mass weight_capacity,
-            const units::volume &volume_carried, const units::volume &volume_capacity );
+            const units::volume &volume_carried, const units::volume &volume_capacity,
+            const units::length &longest_length, const units::volume &largest_free_volume );
 
         /** Get stats to display in top right.
          *
