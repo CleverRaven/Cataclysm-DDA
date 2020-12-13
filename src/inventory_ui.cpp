@@ -2731,7 +2731,11 @@ std::pair<units::mass, units::volume> inventory_drop_selector::get_drop_weight_v
         const item *dropped_item = loc_pair.first.get_item();
         if( dropped_item ) {
             drop_mass += dropped_item->weight() * loc_pair.second;
-            drop_volume += dropped_item->volume() * loc_pair.second;
+            if( dropped_item->count_by_charges() ) {
+                drop_volume += dropped_item->get_selected_stack_volume( {{dropped_item, loc_pair.second}} );
+            }  else {
+                drop_volume += dropped_item->volume() * loc_pair.second;
+            }
         }
     }
 
