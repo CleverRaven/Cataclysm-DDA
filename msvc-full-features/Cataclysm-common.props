@@ -11,6 +11,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAsManaged>false</CompileAsManaged>
       <AdditionalOptions>/bigobj /utf-8 /permissive- %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <AdditionalIncludeDirectories>..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
