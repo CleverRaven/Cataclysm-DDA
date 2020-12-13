@@ -1682,6 +1682,11 @@ int Creature::get_part_frostbite_timer( const bodypart_id &id ) const
     return get_part_helper( *this, id, &bodypart::get_frostbite_timer );
 }
 
+std::array<int, NUM_WATER_TOLERANCE> Creature::get_part_mut_drench( const bodypart_id &id ) const
+{
+    return get_part_helper( *this, id, &bodypart::get_mut_drench );
+}
+
 float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
 {
     return get_part_helper( *this, id, &bodypart::get_wetness_percentage );
@@ -1735,6 +1740,11 @@ void Creature::set_part_temp_conv( const bodypart_id &id, int set )
 void Creature::set_part_frostbite_timer( const bodypart_id &id, int set )
 {
     set_part_helper( *this, id, &bodypart::set_frostbite_timer, set );
+}
+
+void Creature::set_part_mut_drench( const bodypart_id &id, std::pair<water_tolerance, int> set )
+{
+    set_part_helper( *this, id, &bodypart::set_mut_drench, set );
 }
 
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )

@@ -673,6 +673,8 @@ class Creature : public location, public viewer
         int get_part_temp_conv( const bodypart_id &id ) const;
         int get_part_frostbite_timer( const bodypart_id &id )const;
 
+        std::array<int, NUM_WATER_TOLERANCE> get_part_mut_drench( const bodypart_id &id ) const;
+
         float get_part_wetness_percentage( const bodypart_id &id ) const;
 
         const encumbrance_data &get_part_encumbrance_data( const bodypart_id &id )const;
@@ -689,6 +691,8 @@ class Creature : public location, public viewer
         void set_part_temp_cur( const bodypart_id &id, int set );
         void set_part_temp_conv( const bodypart_id &id, int set );
         void set_part_frostbite_timer( const bodypart_id &id, int set );
+
+        void set_part_mut_drench( const bodypart_id &id, std::pair<water_tolerance, int> set );
 
         void mod_part_hp_cur( const bodypart_id &id, int mod );
         void mod_part_hp_max( const bodypart_id &id, int mod );
