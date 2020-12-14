@@ -306,14 +306,20 @@ class map
             }
             if( from.z == to.z ) {
                 level_cache &cache = get_cache( from.z );
-                return cache.r_hor_cache->has_potential_los( from.xy(), to.xy(), cache ) &&
-                       cache.r_hor_cache->has_potential_los( to.xy(), from.xy(), cache ) ;
+                bool transparent = cache.transparent_cache_wo_fields[from.x][from.y] &&
+                                   cache.transparent_cache_wo_fields[to.x][to.y];
+                return !transparent ||
+                       ( cache.r_hor_cache->has_potential_los( from.xy(), to.xy(), cache ) &&
+                         cache.r_hor_cache->has_potential_los( to.xy(), from.xy(), cache ) );
             }
             tripoint upper, lower;
             std::tie( upper, lower ) = from.z > to.z ? std::make_pair( from, to ) : std::make_pair( to, from );
             // z-bounds depend on the invariant that both points are inbounds and their z are different
-            return get_cache( lower.z ).r_up_cache->has_potential_los(
-                       lower.xy(), upper.xy(), get_cache( lower.z ), get_cache( lower.z + 1 ) );
+            level_cache &lower_cache = get_cache( lower.z );
+            bool transparent = lower_cache.transparent_cache_wo_fields[lower.x][lower.y] &&
+                               get_cache( upper.z ).transparent_cache_wo_fields[upper.x][upper.y];
+            return !transparent || lower_cache.r_up_cache->has_potential_los(
+                       lower.xy(), upper.xy(), lower_cache, get_cache( lower.z + 1 ) );
         }
 
         int reachability_cache_value( const tripoint &p, bool vertical_cache,

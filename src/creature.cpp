@@ -211,6 +211,7 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     map &here = get_map();
+    // Assumptions of has_potential_los() are invalidated if viewer occupies an opaque tile.
     if( !here.has_potential_los( pos(), critter.pos() ) ) {
         return false;
     }
