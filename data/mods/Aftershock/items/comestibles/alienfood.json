@@ -496,7 +496,7 @@
     "quench": -2,
     "healthy": -1,
     "calories": 270,
-    "description": "Bits of alien fat and skin that have been fried until they are crispy and delicious; you hope at least.",
+    "description": "Bits of alien fat and skin that have been fried until they are crispy and delicious (at least, you hope they are).",
     "price": 170,
     "volume": "100 ml",
     "vitamins": [ [ "mutant_toxin", 25 ] ],
