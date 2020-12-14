@@ -293,7 +293,7 @@
     "base_faction": "insect",
     "by_mood": [ "centipede", "spider" ],
     "hate": [ "insect", "small_animal" ],
-    "neutral": [ "dragonfly" ]
+    "neutral": [ "dragonfly", "aquatic_predator" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -373,7 +373,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "aquatic_predator",
-    "neutral": "bot",
+    "neutral": [ "bot", "dragonfly" ],
     "hate": "fish"
   }
 ]
