@@ -544,7 +544,7 @@
     "weight": "2500 kg",
     "hp": 850,
     "speed": 110,
-	"attack_cost": 110,
+    "attack_cost": 110,
     "aggression": 100,
     "regen_morale": true,
     "melee_skill": 6,
