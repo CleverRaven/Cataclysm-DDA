@@ -2119,7 +2119,7 @@
     "type": "profession",
     "id": "bhikkhu",
     "name": { "male": "Bhikkhu", "female": "Bhikkhuni" },
-    "description": "Your life was simple at the Vihara, doing household chores and meditating. Your Sangha wanted to attain liberation from suffering, now their rotting corpses will suffer forever.",
+    "description": "Your life was simple at the Vihara, doing household chores and meditating.  Your Sangha wanted to attain liberation from suffering, now their rotting corpses will suffer forever.",
     "points": 0,
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
