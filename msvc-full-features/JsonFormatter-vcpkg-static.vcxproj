@@ -62,10 +62,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <TargetName>$(ProjectName)-$(Configuration)-$(Platform)</TargetName>
     <TargetExt>.exe</TargetExt>
     <OutDir>$(SolutionDir)..\tools\format\</OutDir>
-    <IntDir>$(SolutionDir)$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <LinkIncremental>true</LinkIncremental>
