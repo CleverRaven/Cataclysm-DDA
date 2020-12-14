@@ -2117,6 +2117,22 @@
   },
   {
     "type": "profession",
+    "id": "bhikkhu",
+    "name": { "male": "Bhikkhu", "female": "Bhikkhuni" },
+    "description": "Your life was simple at the Vihara, doing household chores and meditating. Your Sangha wanted to attain liberation from suffering, now their rotting corpses will suffer forever.",
+    "points": 0,
+    "skills": [ { "level": 3, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [ "kasaya", "pants", "flip_flops", "holy_symbol", "holybook_sutras" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "imam",
     "name": { "male": "Imam", "female": "Mourchida" },
     "description": "You spent much of your time prior to the apocalypse at the local mosque, studying the words of the Prophet and the Quran and guiding your community in prayer.  Back then they came from far and wide to listen to you; now they come to eat your brains.",
