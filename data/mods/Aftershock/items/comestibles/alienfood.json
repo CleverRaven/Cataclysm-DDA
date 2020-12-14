@@ -200,7 +200,7 @@
     "volume": "250 ml",
     "spoils_in": "1 day",
     "type": "COMESTIBLE",
-    "name": "cooked alien flesh",
+    "name": { "str_sp": "cooked alien flesh" },
     "description": "This is a chunk of freshly cooked alien meat.  It's filling and nutritious, but you have worries.",
     "price": 750,
     "price_postapoc": 100,
