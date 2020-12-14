@@ -141,7 +141,7 @@
     "type": "terrain",
     "id": "t_fumarole",
     "name": "fumarole",
-    "description": "A hole in the ground from which steam and other gases are escaping from.",
+    "description": "A hole in the ground from which steam and other gases are escaping.",
     "symbol": ".",
     "color": "white",
     "move_cost": 10,
