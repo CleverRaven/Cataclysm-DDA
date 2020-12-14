@@ -112,6 +112,8 @@
     "type": "GENERIC",
     "copy-from": "flask_hip",
     "category": "clothing",
+    "charges_per_use": 1,
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "use_action": {
       "target": "whiskey",
       "msg": "You open the flask and discover it full of sweet, sweet, whiskey!",
