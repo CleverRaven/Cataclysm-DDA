@@ -524,7 +524,7 @@
     "volume": "100 ml",
     "vitamins": [ [ "mutant_toxin", 25 ] ],
     "price_postapoc": 500,
-    "material": [ "flesh" ],
+    "material": [ "hflesh" ],
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": -4
