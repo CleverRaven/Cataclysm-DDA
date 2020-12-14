@@ -147,7 +147,7 @@
   {
     "type": "COMESTIBLE",
     "id": "frost_human_lard",
-    "name": "frostburned human lard",
+    "name": { "str_sp": "frostburned human lard" },
     "copy-from": "frost_human_tallow",
     "description": "A smooth light green block of dry-rendered human fat.  It's very frostburnt,  and while it will remain edible for a very long time, its not the most appetizing."
   },
