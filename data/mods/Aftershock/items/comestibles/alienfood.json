@@ -305,7 +305,7 @@
     "copy-from": "alien_liver",
     "looks_like": "meat_cooked",
     "name": "cooked alien liver",
-    "description": "After some time cooking, the pores of the organ have shrunk, and its much more softer - almost yogurt-like in its consistency.  It still smells awful.",
+    "description": "After some time cooking, the pores of the organ have shrunk, and it's much, much softer - almost yogurt-like in its consistency.  It still smells awful.",
     "parasites": 0,
     "price_postapoc": 50,
     "fun": -2,
