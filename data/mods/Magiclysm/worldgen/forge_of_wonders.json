@@ -128,9 +128,9 @@
       "2": "f_everburning_candelabra"
     },
     "set": [
-        { "point": "trap", "id": "tr_forge_vault1", "x": [ 95, 105 ], "y": [ 7, 15 ], "repeat": [ 8, 12 ] },
-        { "point": "trap", "id": "tr_forge_vault1", "x": [ 78, 94 ], "y": [ 7, 15 ], "y": 2, "repeat": [ 8, 12 ] }
-      ],
+      { "point": "trap", "id": "tr_forge_vault1", "x": [ 95, 105 ], "y": [ 7, 15 ], "repeat": [ 8, 12 ] },
+      { "point": "trap", "id": "tr_forge_vault1", "x": [ 78, 94 ], "y": [ 7, 15 ], "y": 2, "repeat": [ 8, 12 ] }
+    ],
     "items": {
       "!": { "item": "magic_smith", "chance": 40, "repeat": [ 1, 2 ] },
       "8": { "item": "NC_FORGE_LORD_STORE", "chance": 100, "repeat": [ 5, 8 ] },
