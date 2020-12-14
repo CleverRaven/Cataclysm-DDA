@@ -361,7 +361,7 @@
     "copy-from": "alien_kidney",
     "looks_like": "offal_cooked",
     "name": "cooked alien kidney",
-    "description": "It smells not only like ammonia now, but rancid.  You hope its safe to eat.",
+    "description": "It smells not only like ammonia now, but rancid.  You hope it's safe to eat.",
     "healthy": -2,
     "price_postapoc": 25,
     "quench": -2,
