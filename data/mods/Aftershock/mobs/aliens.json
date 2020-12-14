@@ -28,7 +28,7 @@
   {
     "id": "afs_runner",
     "type": "MONSTER",
-    "name": { "str_sp": "runner" },
+    "name": { "str": "runner" },
     "description": "A large fluffy three-legged herbivore, extremely fast and cowardly.  It usually grazes alone, and relies on its keen senses to stay safe.",
     "default_faction": "herbivore",
     "bodytype": "horse",
