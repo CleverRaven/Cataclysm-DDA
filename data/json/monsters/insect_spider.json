@@ -501,7 +501,6 @@
     "morale": 10,
     "melee_skill": 3,
     "melee_dice_sides": 5,
-    "melee_cut": 5,
     "special_attacks": [
       [ "GRAB", 8 ],
       {
@@ -517,12 +516,13 @@
       {
         "type": "spell",
         "spell_data": { "id": "centipede_mom_summon" },
+		"move_cost": 60,
         "monster_message": "A small centipede is shaken off in the struggle!",
-        "cooldown": 25
+        "cooldown": 20
       }
     ],
     "dodge": 0,
-    "vision_day": 6,
+    "proportional": { "vision_day": 0.5, "vision_night": 0.5 },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "harvest": "arachnid_centipede_mom",
     "reproduction": { "baby_monster": "mon_centipede_small", "baby_count": 2, "baby_timer": 10 },
