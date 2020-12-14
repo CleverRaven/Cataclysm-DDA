@@ -898,11 +898,11 @@
     "pocket_data": [ { "max_contains_volume": "2400 ml", "max_contains_weight": "10 kg", "rigid": true } ]
   },
   {
-    "id": "toolbox_workshop",
+    "id": "toolbox_workshop_empty",
     "type": "TOOL",
     "name": { "str": "workshop toolbox", "str_pl": "workshop toolboxes" },
     "description": "This is a stout metal box for containing tools.  It is much bigger than a regular tool box and could be used to store more tools than usual.",
-    "looks_like": "toolbox",
+    "looks_like": "toolbox_empty",
     "weight": "3994 g",
     "volume": "3100 ml",
     "price": 14099,

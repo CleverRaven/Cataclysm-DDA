@@ -1419,7 +1419,7 @@
   {
     "type": "recipe",
     "activity_level": "fake",
-    "result": "toolbox_workshop",
+    "result": "toolbox_workshop_empty",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
