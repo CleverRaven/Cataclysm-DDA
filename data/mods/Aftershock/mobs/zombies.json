@@ -523,7 +523,7 @@
     "id": "mon_moxie_elder",
     "type": "MONSTER",
     "name": { "str": "MoxPhore Elder" },
-    "description": "Numerous claw-like limbs closely wrap around this alien arachnid's head and thorax, forming a protective barrier.  It's antennae twitch and writhe, and it seems to grope wildly toward threats",
+    "description": "Numerous claw-like limbs closely wrap around this alien arachnid's head and thorax, forming a protective barrier.  Its antennae twitch and writhe, and it seems to grope wildly toward threats",
     "default_faction": "moxie",
     "bodytype": "human",
     "species": [ "MOXIE" ],
