@@ -99,7 +99,7 @@
     "type": "item_group",
     "//": "A typical toolbox filled with tools.",
     "subtype": "collection",
-    "container-item": "toolbox_empty",
+    "container-item": "toolbox_workshop",
     "on_overflow": "discard",
     "items": [
       [ "hammer", 80 ],
