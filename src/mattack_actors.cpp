@@ -44,16 +44,6 @@ static const efftype_id effect_was_laserlocked( "was_laserlocked" );
 
 static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
 
-// Simplified version of the function in monattack.cpp
-static bool is_adjacent( const monster &z, const Creature &target )
-{
-    if( rl_dist( z.pos(), target.pos() ) != 1 ) {
-        return false;
-    }
-
-    return z.posz() == target.posz();
-}
-
 void leap_actor::load_internal( const JsonObject &obj, const std::string & )
 {
     // Mandatory:
@@ -265,7 +255,7 @@ Creature *melee_actor::find_target( monster &z ) const
     }
 
     Creature *target = z.attack_target();
-    if( target == nullptr || !is_adjacent( z, *target ) ) {
+    if( target == nullptr || !z.is_adjacent( target, false ) ) {
         return nullptr;
     }
 
