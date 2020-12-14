@@ -59,7 +59,7 @@
   {
     "id": "afs_grazer",
     "type": "MONSTER",
-    "name": { "str_sp": "grazer" },
+    "name": { "str": "grazer" },
     "description": "A large furred herbivore, with its heavy head constantly against the ground.  It uses it clawed hooves to shovel up the snow to reach any dead plant life to eat.",
     "default_faction": "herbivore",
     "bodytype": "horse",
