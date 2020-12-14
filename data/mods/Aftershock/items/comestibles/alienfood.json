@@ -125,7 +125,7 @@
   {
     "type": "COMESTIBLE",
     "id": "frost_human_tallow",
-    "name": "frostburned human tallow",
+    "name": { "str_sp": "frostburned human tallow" },
     "weight": "220 g",
     "color": "pink",
     "spoils_in": "60 days",
